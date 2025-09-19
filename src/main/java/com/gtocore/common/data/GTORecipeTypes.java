@@ -968,7 +968,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType ELF_EXCHANGE_RECIPES = register("elf_exchange", "ELF Exchange", "精灵交易", MAGIC)
             .setMANAIO(IO.IN)
-            .setMaxIOSize(1, 1, 0, 0)
+            .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.REPLICATOR);
 

@@ -399,7 +399,7 @@ public final class MagicRecipesA {
                     .inputItems(ItemsRegistry.ABJURATION_ESSENCE)
                     .inputItems(ItemsRegistry.CONJURATION_ESSENCE)
                     .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
-                    .inputFluids(WildenEssence.getFluid(LIQUID, 500))
+                    .inputFluids(FlowingCiphers.getFluid(LIQUID, 500))
                     .inputFluids(Aether.getFluid(LIQUID, 100))
                     .chancedOutput(HerosSplendor.getFluid(2000), 10, 0)
                     .addData("param1", 60)

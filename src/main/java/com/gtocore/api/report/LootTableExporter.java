@@ -30,22 +30,28 @@ import java.util.stream.Collectors;
 
 public class LootTableExporter {
 
-    // 日期格式化器 - 使用ThreadLocal确保线程安全
     private static final ThreadLocal<SimpleDateFormat> DATE_FORMATTER = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
     private static final ThreadLocal<SimpleDateFormat> TIMESTAMP_FORMATTER = ThreadLocal.withInitial(
             () -> new SimpleDateFormat("yyyyMMdd-HHmmss"));
 
-    // 数字格式化器 - 避免重复创建
     private static final DecimalFormat PERCENT_FORMAT = new DecimalFormat("#.##%");
     private static final DecimalFormat NUMBER_FORMAT = new DecimalFormat("#.##");
 
     /**
+     * 导出所有命名空间下的所有战利品表到Markdown文件
+     */
+    public static void exportAllLootTables() {
+        List<String> allLootTables = getAllLootTableLocations();
+        exportLootTables(allLootTables);
+    }
+
+    /**
      * 导出指定的战利品表列表到Markdown文件
      */
-    public static void exportAllLootTables(List<String> lootTables) {
+    public static void exportLootTables(List<String> lootTables) {
         if (lootTables == null || lootTables.isEmpty()) {
-            GTOCore.LOGGER.warn("没有指定要导出的战利品表");
+            GTOCore.LOGGER.warn("没有指定要导出的战利品表或没有找到任何战利品表");
             return;
         }
 
@@ -54,7 +60,31 @@ public class LootTableExporter {
         long endTime = System.nanoTime();
 
         long durationMs = TimeUnit.NANOSECONDS.toMillis(endTime - startTime);
-        GTOCore.LOGGER.info("战利品表导出完成，耗时 {} ms", durationMs);
+        GTOCore.LOGGER.info("战利品表导出完成，共处理 {} 个战利品表，耗时 {} ms", lootTables.size(), durationMs);
+    }
+
+    /**
+     * 获取所有可用的战利品表位置（所有命名空间）
+     */
+    public static List<String> getAllLootTableLocations() {
+        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        if (server == null) {
+            GTOCore.LOGGER.error("无法获取服务器实例 - 可能不在服务端环境或服务器未启动");
+            return Collections.emptyList();
+        }
+
+        ResourceManager resourceManager = server.getResourceManager();
+        Set<ResourceLocation> allResources = resourceManager.listResources("loot_tables",
+                path -> path.toString().endsWith(".json")).keySet();
+
+        return allResources.stream()
+                .map(location -> {
+                    String path = location.getPath();
+                    String lootTablePath = path.substring("loot_tables/".length(), path.length() - ".json".length());
+                    return location.getNamespace() + ":" + lootTablePath;
+                })
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**
@@ -70,84 +100,29 @@ public class LootTableExporter {
         try {
             Map<String, LootTableAnalysis> allLootTables = new LinkedHashMap<>();
 
-            for (String tableName : lootTables) {
-                if (!ResourceLocation.isValidResourceLocation(tableName)) {
-                    GTOCore.LOGGER.error("无效的战利品表名称格式: {}", tableName);
-                    continue;
-                }
+            Map<String, List<String>> lootTablesByNamespace = lootTables.stream()
+                    .collect(Collectors.groupingBy(
+                            tableName -> new ResourceLocation(tableName).getNamespace(),
+                            TreeMap::new, Collectors.toList()));
 
-                ResourceLocation lootTableLocation = new ResourceLocation(tableName);
-                LootTableAnalysis analysis = new LootTableAnalysis(tableName);
+            for (Map.Entry<String, List<String>> entry : lootTablesByNamespace.entrySet()) {
+                String namespace = entry.getKey();
+                List<String> namespaceTables = entry.getValue();
 
-                try {
-                    ResourceManager resourceManager = server.getResourceManager();
-                    ResourceLocation jsonLocation = new ResourceLocation(
-                            lootTableLocation.getNamespace(),
-                            "loot_tables/" + lootTableLocation.getPath() + ".json");
+                GTOCore.LOGGER.info("正在处理命名空间 {} 下的 {} 个战利品表", namespace, namespaceTables.size());
 
-                    Optional<Resource> resourceOpt = resourceManager.getResource(jsonLocation);
-                    if (resourceOpt.isEmpty()) {
-                        GTOCore.LOGGER.error("找不到战利品表JSON: {}", jsonLocation);
-                        analysis.setError("找不到战利品表JSON资源");
-                        allLootTables.put(tableName, analysis);
-                        continue;
-                    }
-
-                    Resource resource = resourceOpt.get();
-                    String jsonText;
-                    try (InputStream inputStream = resource.open()) {
-                        jsonText = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-                    }
-
-                    JsonElement jsonElement = JsonParser.parseString(jsonText);
-                    if (!jsonElement.isJsonObject()) {
-                        GTOCore.LOGGER.error("战利品表JSON不是有效的对象: {}", jsonLocation);
-                        analysis.setError("战利品表JSON格式错误");
-                        allLootTables.put(tableName, analysis);
-                        continue;
-                    }
-
-                    JsonObject lootTableJson = jsonElement.getAsJsonObject();
-                    analysis.setType(lootTableJson.has("type") ? lootTableJson.get("type").getAsString() : "通用");
-
-                    List<String> globalConditions = new ArrayList<>();
-                    if (lootTableJson.has("conditions") && lootTableJson.get("conditions").isJsonArray()) {
-                        for (JsonElement condElem : lootTableJson.getAsJsonArray("conditions")) {
-                            if (condElem.isJsonObject()) {
-                                globalConditions.add(parseCondition(condElem.getAsJsonObject()));
-                            } else {
-                                GTOCore.LOGGER.warn("战利品表{}中发现非对象类型的条件", tableName);
-                            }
-                        }
-                    }
-                    analysis.setGlobalConditions(globalConditions);
-
-                    List<LootPool> lootPools = processLootTable(lootTableJson);
-                    analysis.setLootPools(lootPools);
-
-                    allLootTables.put(tableName, analysis);
-
-                } catch (IOException e) {
-                    String errorMsg = "处理战利品表 " + tableName + " 时出错: " + e.getMessage();
-                    GTOCore.LOGGER.error(errorMsg, e);
-                    analysis.setError(errorMsg);
-                    allLootTables.put(tableName, analysis);
-                } catch (Exception e) {
-                    String errorMsg = "分析战利品表 " + tableName + " 时发生意外错误: " + e.getMessage();
-                    GTOCore.LOGGER.error(errorMsg, e);
-                    analysis.setError(errorMsg);
-                    allLootTables.put(tableName, analysis);
+                for (String tableName : namespaceTables) {
+                    processLootTable(server, tableName, allLootTables);
                 }
             }
 
-            String markdown = generateCompleteMarkdown(allLootTables);
+            String markdown = generateCompleteMarkdown(allLootTables, lootTablesByNamespace);
             Path logDir = Paths.get("logs", "report");
-            // 确保目录存在
             Files.createDirectories(logDir);
 
             String timestamp = TIMESTAMP_FORMATTER.get().format(new Date());
-            String randomNumber = String.format("%08d", (int)(Math.random() * 100000000));
-            Path reportPath = logDir.resolve("loottable_analysis_" + timestamp +"_"+ randomNumber +".md");
+            String randomNumber = String.format("%08d", (int) (Math.random() * 100000000));
+            Path reportPath = logDir.resolve("loottable_analysis_" + timestamp + "_" + randomNumber + ".md");
 
             try (BufferedWriter writer = Files.newBufferedWriter(reportPath)) {
                 writer.write(markdown);
@@ -156,6 +131,79 @@ public class LootTableExporter {
 
         } catch (IOException e) {
             GTOCore.LOGGER.error("导出战利品表时出错: {}", e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 处理单个战利品表
+     */
+    private static void processLootTable(MinecraftServer server, String tableName,
+                                         Map<String, LootTableAnalysis> allLootTables) {
+        if (!ResourceLocation.isValidResourceLocation(tableName)) {
+            GTOCore.LOGGER.error("无效的战利品表名称格式: {}", tableName);
+            return;
+        }
+
+        ResourceLocation lootTableLocation = new ResourceLocation(tableName);
+        LootTableAnalysis analysis = new LootTableAnalysis(tableName);
+
+        try {
+            ResourceManager resourceManager = server.getResourceManager();
+            ResourceLocation jsonLocation = new ResourceLocation(
+                    lootTableLocation.getNamespace(),
+                    "loot_tables/" + lootTableLocation.getPath() + ".json");
+
+            Optional<Resource> resourceOpt = resourceManager.getResource(jsonLocation);
+            if (resourceOpt.isEmpty()) {
+                GTOCore.LOGGER.error("找不到战利品表JSON: {}", jsonLocation);
+                analysis.setError("找不到战利品表JSON资源");
+                allLootTables.put(tableName, analysis);
+                return;
+            }
+
+            Resource resource = resourceOpt.get();
+            String jsonText;
+            try (InputStream inputStream = resource.open()) {
+                jsonText = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+            }
+
+            JsonElement jsonElement = JsonParser.parseString(jsonText);
+            if (!jsonElement.isJsonObject()) {
+                GTOCore.LOGGER.error("战利品表JSON不是有效的对象: {}", jsonLocation);
+                analysis.setError("战利品表JSON格式错误");
+                allLootTables.put(tableName, analysis);
+            }
+
+            JsonObject lootTableJson = jsonElement.getAsJsonObject();
+            analysis.setType(lootTableJson.has("type") ? lootTableJson.get("type").getAsString() : "通用");
+
+            List<String> globalConditions = new ArrayList<>();
+            if (lootTableJson.has("conditions") && lootTableJson.get("conditions").isJsonArray()) {
+                for (JsonElement condElem : lootTableJson.getAsJsonArray("conditions")) {
+                    if (condElem.isJsonObject()) {
+                        globalConditions.add(parseCondition(condElem.getAsJsonObject()));
+                    } else {
+                        GTOCore.LOGGER.warn("战利品表{}中发现非对象类型的条件", tableName);
+                    }
+                }
+            }
+            analysis.setGlobalConditions(globalConditions);
+
+            List<LootPool> lootPools = processLootTable(lootTableJson);
+            analysis.setLootPools(lootPools);
+
+            allLootTables.put(tableName, analysis);
+
+        } catch (IOException e) {
+            String errorMsg = "处理战利品表 " + tableName + " 时出错: " + e.getMessage();
+            GTOCore.LOGGER.error(errorMsg, e);
+            analysis.setError(errorMsg);
+            allLootTables.put(tableName, analysis);
+        } catch (Exception e) {
+            String errorMsg = "分析战利品表 " + tableName + " 时发生意外错误: " + e.getMessage();
+            GTOCore.LOGGER.error(errorMsg, e);
+            analysis.setError(errorMsg);
+            allLootTables.put(tableName, analysis);
         }
     }
 
@@ -221,7 +269,6 @@ public class LootTableExporter {
                     }
                 }
 
-                // 将池级别的函数应用到所有物品条目
                 applyPoolFunctionsToItems(lootPool);
 
                 calculatePoolStats(lootPool);
@@ -239,14 +286,13 @@ public class LootTableExporter {
      * 将池级别的函数应用到所有物品条目
      */
     private static void applyPoolFunctionsToItems(LootPool lootPool) {
-        // 避免空指针异常
         if (lootPool.lootItems == null || lootPool.functions == null) {
             return;
         }
 
         for (LootItem item : lootPool.lootItems) {
             for (JsonObject function : lootPool.functions) {
-                processFunction(function, item, true); // 第三个参数标记为池级函数
+                processFunction(function, item, true);
             }
         }
     }
@@ -311,17 +357,15 @@ public class LootTableExporter {
             for (JsonElement condElem : entry.getAsJsonArray("conditions")) {
                 if (condElem.isJsonObject()) {
                     lootItem.conditions.add(parseCondition(condElem.getAsJsonObject()));
-                    // 改进条件因子计算，使用更合理的概率计算方式
-                    lootItem.conditionFactor *= 0.7; // 每个条件降低30%概率，而非50%
+                    lootItem.conditionFactor *= 0.7;
                 }
             }
         }
 
-        // 处理条目级别的函数
         if (entry.has("functions") && entry.get("functions").isJsonArray()) {
             for (JsonElement functionElement : entry.getAsJsonArray("functions")) {
                 if (functionElement.isJsonObject()) {
-                    processFunction(functionElement.getAsJsonObject(), lootItem, false); // 条目级函数
+                    processFunction(functionElement.getAsJsonObject(), lootItem, false);
                 }
             }
         }
@@ -341,7 +385,6 @@ public class LootTableExporter {
         String functionSource = isPoolFunction ? "池级别" : "条目级别";
         lootItem.functions.add(functionSource + ":" + functionType);
 
-        // 处理数量设置函数
         if ("minecraft:set_count".equals(functionType)) {
             boolean isAdd = function.has("add") && function.get("add").getAsBoolean();
             lootItem.countOperation = isAdd ? "添加" : "设置";
@@ -359,9 +402,7 @@ public class LootTableExporter {
                 lootItem.displayName += (isPoolFunction ? " (池" : " (") + lootItem.countOperation +
                         "数量: " + countInfo.detail + ")";
             }
-        }
-        // 处理数量添加函数
-        else if ("minecraft:add_count".equals(functionType)) {
+        } else if ("minecraft:add_count".equals(functionType)) {
             lootItem.countOperation = "添加";
             if (function.has("count")) {
                 ValueInfo countInfo = getValueInfo(function.get("count"));
@@ -369,9 +410,7 @@ public class LootTableExporter {
                 lootItem.countDetail = (lootItem.countDetail != null ? lootItem.countDetail + "+" : "") + countInfo.detail;
                 lootItem.displayName += (isPoolFunction ? " (池添加数量: " : " (添加数量: ") + countInfo.detail + ")";
             }
-        }
-        // 处理掠夺附魔影响函数
-        else if ("minecraft:looting_enchant".equals(functionType)) {
+        } else if ("minecraft:looting_enchant".equals(functionType)) {
             lootItem.lootingAffected = true;
             if (function.has("count")) {
                 ValueInfo countInfo = getValueInfo(function.get("count"));
@@ -382,9 +421,7 @@ public class LootTableExporter {
                 lootItem.lootingLimit = function.get("limit").getAsInt();
                 lootItem.displayName += " (上限: " + lootItem.lootingLimit + ")";
             }
-        }
-        // 处理随机附魔函数
-        else if ("minecraft:enchant_randomly".equals(functionType)) {
+        } else if ("minecraft:enchant_randomly".equals(functionType)) {
             lootItem.enchanted = true;
             if (function.has("enchantments")) {
                 lootItem.enchantments = function.getAsJsonArray("enchantments").toString()
@@ -393,9 +430,7 @@ public class LootTableExporter {
             } else {
                 lootItem.displayName += (isPoolFunction ? " (池随机附魔)" : " (随机附魔)");
             }
-        }
-        // 处理指定等级附魔函数
-        else if ("minecraft:enchant_with_levels".equals(functionType)) {
+        } else if ("minecraft:enchant_with_levels".equals(functionType)) {
             lootItem.enchanted = true;
             lootItem.enchantWithLevels = true;
             if (function.has("levels")) {
@@ -406,9 +441,7 @@ public class LootTableExporter {
                 lootItem.treasureEnchant = true;
                 lootItem.displayName += " (包含宝藏附魔)";
             }
-        }
-        // 处理药水效果函数
-        else if ("minecraft:potion".equals(functionType)) {
+        } else if ("minecraft:potion".equals(functionType)) {
             lootItem.hasPotion = true;
             if (function.has("potion")) {
                 lootItem.potionType = function.get("potion").getAsString();
@@ -416,38 +449,26 @@ public class LootTableExporter {
             } else {
                 lootItem.displayName += (isPoolFunction ? " (池随机药水)" : " (随机药水)");
             }
-        }
-        // 处理冶炼函数
-        else if ("minecraft:smelt".equals(functionType)) {
+        } else if ("minecraft:smelt".equals(functionType)) {
             lootItem.smelted = true;
             lootItem.displayName += (isPoolFunction ? " (池已冶炼)" : " (已冶炼)");
-        }
-        // 处理设置损伤函数
-        else if ("minecraft:set_damage".equals(functionType)) {
+        } else if ("minecraft:set_damage".equals(functionType)) {
             lootItem.hasDamage = true;
             if (function.has("damage")) {
                 ValueInfo damageInfo = getValueInfo(function.get("damage"));
                 lootItem.damage = damageInfo.average;
                 lootItem.displayName += (isPoolFunction ? " (池损伤: " : " (损伤: ") + damageInfo.detail + ")";
             }
-        }
-        // 处理设置NBT函数
-        else if ("minecraft:set_nbt".equals(functionType)) {
+        } else if ("minecraft:set_nbt".equals(functionType)) {
             lootItem.hasNbt = true;
             lootItem.displayName += (isPoolFunction ? " (池有NBT数据)" : " (有NBT数据)");
-        }
-        // 新增：处理填充方块状态函数
-        else if ("minecraft:fill_player_head".equals(functionType)) {
+        } else if ("minecraft:fill_player_head".equals(functionType)) {
             lootItem.hasPlayerHeadData = true;
             lootItem.displayName += (isPoolFunction ? " (池填充玩家头颅数据)" : " (填充玩家头颅数据)");
-        }
-        // 新增：处理实体装备函数
-        else if ("minecraft:entity装备".equals(functionType)) {
+        } else if ("minecraft:entity装备".equals(functionType)) {
             lootItem.isEntityEquipment = true;
             lootItem.displayName += (isPoolFunction ? " (池实体装备)" : " (实体装备)");
-        }
-        // 其他已有函数处理保持不变...
-        else if ("minecraft:copy_name".equals(functionType)) {
+        } else if ("minecraft:copy_name".equals(functionType)) {
             lootItem.copyName = true;
             String source = function.has("source") ? function.get("source").getAsString() : "实体";
             lootItem.displayName += (isPoolFunction ? " (池复制" : " (复制") + source + "名称)";
@@ -475,15 +496,12 @@ public class LootTableExporter {
         } else if ("minecraft:explosion_decay".equals(functionType)) {
             lootItem.explosionDecay = true;
             lootItem.displayName += (isPoolFunction ? " (池爆炸衰减)" : " (爆炸衰减)");
-        }
-        // 处理其他未明确的函数类型
-        else {
+        } else {
             GTOCore.LOGGER.debug("未处理的{}函数类型: {}", functionSource, functionType);
             lootItem.otherFunctions.add(functionSource + ":" + functionType);
         }
     }
 
-    // 其他方法保持不变，但添加了空值检查
     private static void processTagEntry(JsonObject entry, LootPool lootPool) {
         if (entry == null || lootPool == null) {
             GTOCore.LOGGER.warn("处理空的标签条目或奖励池");
@@ -509,7 +527,7 @@ public class LootTableExporter {
             for (JsonElement condElem : entry.getAsJsonArray("conditions")) {
                 if (condElem.isJsonObject()) {
                     lootItem.conditions.add(parseCondition(condElem.getAsJsonObject()));
-                    lootItem.conditionFactor *= 0.7; // 调整条件因子计算
+                    lootItem.conditionFactor *= 0.7;
                 }
             }
         }
@@ -542,7 +560,7 @@ public class LootTableExporter {
             for (JsonElement condElem : entry.getAsJsonArray("conditions")) {
                 if (condElem.isJsonObject()) {
                     lootItem.conditions.add(parseCondition(condElem.getAsJsonObject()));
-                    lootItem.conditionFactor *= 0.7; // 调整条件因子计算
+                    lootItem.conditionFactor *= 0.7;
                 }
             }
         }
@@ -582,7 +600,7 @@ public class LootTableExporter {
             for (JsonElement condElem : entry.getAsJsonArray("conditions")) {
                 if (condElem.isJsonObject()) {
                     lootItem.conditions.add(parseCondition(condElem.getAsJsonObject()));
-                    lootItem.conditionFactor *= 0.7; // 调整条件因子计算
+                    lootItem.conditionFactor *= 0.7;
                 }
             }
         }
@@ -644,7 +662,6 @@ public class LootTableExporter {
             case "minecraft:weather_check":
                 sb.append("天气检查条件");
                 break;
-            // 新增更多条件类型解析
             case "minecraft:time_check":
                 sb.append("时间检查条件");
                 break;
@@ -791,7 +808,7 @@ public class LootTableExporter {
             Item item = RegistriesUtils.getItem(itemId);
             if (item != null) {
                 String translation = item.getDescription().getString();
-                if (translation == null || translation.isEmpty()) {
+                if (translation.isEmpty()) {
                     return itemId;
                 }
                 return translation + " (`" + itemId + "`)";
@@ -804,9 +821,10 @@ public class LootTableExporter {
     }
 
     /**
-     * 生成完整的Markdown文档
+     * 生成完整的Markdown文档，包含命名空间统计
      */
-    private static String generateCompleteMarkdown(Map<String, LootTableAnalysis> allLootTables) {
+    private static String generateCompleteMarkdown(Map<String, LootTableAnalysis> allLootTables,
+                                                   Map<String, List<String>> lootTablesByNamespace) {
         if (allLootTables == null || allLootTables.isEmpty()) {
             return "# 战利品表分析报告\n\n没有可分析的战利品表数据。";
         }
@@ -817,173 +835,192 @@ public class LootTableExporter {
         markdown.append("生成时间: ").append(DATE_FORMATTER.get().format(new Date())).append("\n\n");
         markdown.append("## 摘要\n");
         markdown.append("- 分析的战利品表总数: ").append(allLootTables.size()).append("\n");
+        markdown.append("- 涉及的命名空间数量: ").append(lootTablesByNamespace.size()).append("\n");
+
+        // 按命名空间统计
+        markdown.append("\n### 命名空间分布\n");
+        for (Map.Entry<String, List<String>> entry : lootTablesByNamespace.entrySet()) {
+            markdown.append("- ").append(entry.getKey()).append(": ").append(entry.getValue().size()).append(" 个战利品表\n");
+        }
 
         long errorCount = allLootTables.values().stream().filter(a -> a.getError() != null).count();
-        markdown.append("- 分析失败的战利品表: ").append(errorCount).append("\n\n");
+        markdown.append("\n- 分析失败的战利品表: ").append(errorCount).append("\n\n");
 
-        for (String tableName : allLootTables.keySet()) {
-            LootTableAnalysis analysis = allLootTables.get(tableName);
-            if (analysis == null) {
-                continue;
-            }
+        // 按命名空间分组展示
+        for (Map.Entry<String, List<String>> namespaceEntry : lootTablesByNamespace.entrySet()) {
+            String namespace = namespaceEntry.getKey();
+            List<String> namespaceTables = namespaceEntry.getValue();
 
-            markdown.append("## ").append(tableName).append("\n\n");
+            markdown.append("## 命名空间: ").append(namespace).append("\n");
+            markdown.append("**包含战利品表数量:** ").append(namespaceTables.size()).append("\n\n");
 
-            if (analysis.getError() != null) {
-                markdown.append("> **错误**: ").append(analysis.getError()).append("\n\n");
-                continue;
-            }
-
-            markdown.append("**类型**: ").append(analysis.getType()).append("\n");
-
-            if (!analysis.getGlobalConditions().isEmpty()) {
-                markdown.append("**全局条件**: \n");
-                for (String cond : analysis.getGlobalConditions()) {
-                    markdown.append("- ").append(cond).append("\n");
-                }
-                markdown.append("\n");
-            }
-
-            for (LootPool pool : analysis.getLootPools()) {
-                if (pool == null) {
+            for (String tableName : namespaceTables) {
+                LootTableAnalysis analysis = allLootTables.get(tableName);
+                if (analysis == null) {
                     continue;
                 }
 
-                markdown.append("### 奖励池 ").append(pool.poolIndex)
-                        .append(pool.name != null ? " (" + pool.name + ")" : "").append("\n\n");
+                markdown.append("### 战利品表: ").append(tableName).append("\n\n");
 
-                // 显示池级函数信息
-                if (!pool.functions.isEmpty()) {
-                    markdown.append("**池级函数:**\n");
-                    for (JsonObject func : pool.functions) {
-                        if (func == null || !func.has("function")) {
-                            continue;
-                        }
+                if (analysis.getError() != null) {
+                    markdown.append("> **错误**: ").append(analysis.getError()).append("\n\n");
+                    continue;
+                }
 
-                        String funcName = func.get("function").getAsString();
-                        markdown.append("- ").append(funcName);
-                        if (func.has("count")) {
-                            markdown.append(" (数量: ").append(getValueInfo(func.get("count")).detail).append(")");
-                        } else if (func.has("levels")) {
-                            markdown.append(" (等级: ").append(getValueInfo(func.get("levels")).detail).append(")");
-                        } else if (func.has("limit")) {
-                            markdown.append(" (上限: ").append(func.get("limit").getAsInt()).append(")");
-                        }
-                        markdown.append("\n");
+                markdown.append("**类型**: ").append(analysis.getType()).append("\n");
+
+                if (!analysis.getGlobalConditions().isEmpty()) {
+                    markdown.append("**全局条件**: \n");
+                    for (String cond : analysis.getGlobalConditions()) {
+                        markdown.append("- ").append(cond).append("\n");
                     }
                     markdown.append("\n");
                 }
 
-                markdown.append("**池信息:**\n");
-                markdown.append("- 抽取次数: ").append(pool.rolls != null ? pool.rolls.detail : "1")
-                        .append(" (平均: ").append(pool.rolls != null ? NUMBER_FORMAT.format(pool.rolls.average) : "1").append(")\n");
-
-                if (pool.bonusRolls != null) {
-                    markdown.append("- 额外抽取次数: ").append(pool.bonusRolls.detail)
-                            .append(" (平均: ").append(NUMBER_FORMAT.format(pool.bonusRolls.average)).append(")\n");
-                }
-
-                markdown.append("- 总平均抽取次数: ").append(NUMBER_FORMAT.format(pool.totalRollsAverage)).append("\n");
-                markdown.append("- 物品条目总数: ").append(pool.lootItems.size()).append("\n");
-                markdown.append("- 总权重: ").append(NUMBER_FORMAT.format(pool.totalWeight)).append("\n");
-                markdown.append("- 总期望值: ").append(NUMBER_FORMAT.format(pool.totalExpectedValue)).append("\n");
-
-                if (!pool.conditions.isEmpty()) {
-                    markdown.append("- 池条件: \n");
-                    for (String cond : pool.conditions) {
-                        markdown.append("  - ").append(cond).append("\n");
-                    }
-                }
-
-                markdown.append("\n");
-
-                markdown.append("| 类型 | 物品 | 数量 | 权重 | 概率 | 期望 | 特殊属性 |\n");
-                markdown.append("|------|------|------|------|------|------|----------|\n");
-
-                for (LootItem item : pool.lootItems) {
-                    if (item == null) {
+                for (LootPool pool : analysis.getLootPools()) {
+                    if (pool == null) {
                         continue;
                     }
 
-                    List<String> attributes = new ArrayList<>();
-                    if (item.enchanted) attributes.add("已附魔");
-                    if (item.enchantWithLevels) attributes.add("等级附魔");
-                    if (item.treasureEnchant) attributes.add("宝藏附魔");
-                    if (item.smelted) attributes.add("已冶炼");
-                    if (item.hasNbt) attributes.add("有NBT");
-                    if (item.copyNbt) attributes.add("复制NBT");
-                    if (item.lootingAffected) attributes.add("受掠夺影响");
-                    if (item.hasDamage) attributes.add("有损耗");
-                    if (item.hasPotion) attributes.add("有药水效果");
-                    if (item.copyName) attributes.add("复制名称");
-                    if (item.limitCount) attributes.add("数量有限制");
-                    if (item.hasAttributes) attributes.add("有属性");
-                    if (item.hasBookContents) attributes.add("有书本内容");
-                    if (item.hasLore) attributes.add("有Lore");
-                    if (item.hasCustomName) attributes.add("有自定义名称");
-                    if (item.explosionDecay) attributes.add("爆炸衰减");
-                    if (item.hasPlayerHeadData) attributes.add("玩家头颅数据");
-                    if (item.isEntityEquipment) attributes.add("实体装备");
-                    if (!item.otherFunctions.isEmpty()) {
-                        attributes.add("其他函数: " + String.join(",", item.otherFunctions));
+                    markdown.append("#### 奖励池 ").append(pool.poolIndex)
+                            .append(pool.name != null ? " (" + pool.name + ")" : "").append("\n\n");
+
+                    // 显示池级函数信息
+                    if (!pool.functions.isEmpty()) {
+                        markdown.append("**池级函数:**\n");
+                        for (JsonObject func : pool.functions) {
+                            if (func == null || !func.has("function")) {
+                                continue;
+                            }
+
+                            String funcName = func.get("function").getAsString();
+                            markdown.append("- ").append(funcName);
+                            if (func.has("count")) {
+                                markdown.append(" (数量: ").append(getValueInfo(func.get("count")).detail).append(")");
+                            } else if (func.has("levels")) {
+                                markdown.append(" (等级: ").append(getValueInfo(func.get("levels")).detail).append(")");
+                            } else if (func.has("limit")) {
+                                markdown.append(" (上限: ").append(func.get("limit").getAsInt()).append(")");
+                            }
+                            markdown.append("\n");
+                        }
+                        markdown.append("\n");
                     }
 
-                    String attrStr = attributes.isEmpty() ? "-" : String.join(", ", attributes);
-                    String displayName = item.displayName != null ? item.displayName : "未知";
-                    String countDetail = item.countDetail != null ? item.countDetail : NUMBER_FORMAT.format(item.count);
-                    String countOp = item.countOperation != null ? item.countOperation + " " : "";
+                    markdown.append("**池信息:**\n");
+                    markdown.append("- 抽取次数: ").append(pool.rolls != null ? pool.rolls.detail : "1")
+                            .append(" (平均: ").append(pool.rolls != null ? NUMBER_FORMAT.format(pool.rolls.average) : "1").append(")\n");
 
-                    markdown.append("| ")
-                            .append(item.type)
-                            .append(" | ")
-                            .append(displayName)
-                            .append(" | ")
-                            .append(countOp).append(countDetail)
-                            .append(" | ")
-                            .append(NUMBER_FORMAT.format(item.weight))
-                            .append(" | ")
-                            .append(PERCENT_FORMAT.format(item.probability))
-                            .append(" | ")
-                            .append(NUMBER_FORMAT.format(item.expectedValue))
-                            .append(" | ")
-                            .append(attrStr)
-                            .append(" |\n");
-                }
+                    if (pool.bonusRolls != null) {
+                        markdown.append("- 额外抽取次数: ").append(pool.bonusRolls.detail)
+                                .append(" (平均: ").append(NUMBER_FORMAT.format(pool.bonusRolls.average)).append(")\n");
+                    }
 
-                List<LootItem> itemsWithConditions = pool.lootItems.stream()
-                        .filter(item -> item != null && !item.conditions.isEmpty())
-                        .collect(Collectors.toList());
+                    markdown.append("- 总平均抽取次数: ").append(NUMBER_FORMAT.format(pool.totalRollsAverage)).append("\n");
+                    markdown.append("- 物品条目总数: ").append(pool.lootItems.size()).append("\n");
+                    markdown.append("- 总权重: ").append(NUMBER_FORMAT.format(pool.totalWeight)).append("\n");
+                    markdown.append("- 总期望值: ").append(NUMBER_FORMAT.format(pool.totalExpectedValue)).append("\n");
 
-                if (!itemsWithConditions.isEmpty()) {
-                    markdown.append("\n**物品条件说明:**\n");
-                    for (LootItem item : itemsWithConditions) {
-                        markdown.append("- ").append(item.displayName).append(":\n");
-                        for (String cond : item.conditions) {
+                    if (!pool.conditions.isEmpty()) {
+                        markdown.append("- 池条件: \n");
+                        for (String cond : pool.conditions) {
                             markdown.append("  - ").append(cond).append("\n");
                         }
                     }
+
+                    markdown.append("\n");
+
+                    markdown.append("| 类型 | 物品 | 数量 | 权重 | 概率 | 期望 | 特殊属性 |\n");
+                    markdown.append("|------|------|------|------|------|------|----------|\n");
+
+                    for (LootItem item : pool.lootItems) {
+                        if (item == null) {
+                            continue;
+                        }
+
+                        List<String> attributes = new ArrayList<>();
+                        if (item.enchanted) attributes.add("已附魔");
+                        if (item.enchantWithLevels) attributes.add("等级附魔");
+                        if (item.treasureEnchant) attributes.add("宝藏附魔");
+                        if (item.smelted) attributes.add("已冶炼");
+                        if (item.hasNbt) attributes.add("有NBT");
+                        if (item.copyNbt) attributes.add("复制NBT");
+                        if (item.lootingAffected) attributes.add("受掠夺影响");
+                        if (item.hasDamage) attributes.add("有损耗");
+                        if (item.hasPotion) attributes.add("有药水效果");
+                        if (item.copyName) attributes.add("复制名称");
+                        if (item.limitCount) attributes.add("数量有限制");
+                        if (item.hasAttributes) attributes.add("有属性");
+                        if (item.hasBookContents) attributes.add("有书本内容");
+                        if (item.hasLore) attributes.add("有Lore");
+                        if (item.hasCustomName) attributes.add("有自定义名称");
+                        if (item.explosionDecay) attributes.add("爆炸衰减");
+                        if (item.hasPlayerHeadData) attributes.add("玩家头颅数据");
+                        if (item.isEntityEquipment) attributes.add("实体装备");
+                        if (!item.otherFunctions.isEmpty()) {
+                            attributes.add("其他函数: " + String.join(",", item.otherFunctions));
+                        }
+
+                        String attrStr = attributes.isEmpty() ? "-" : String.join(", ", attributes);
+                        String displayName = item.displayName != null ? item.displayName : "未知";
+                        String countDetail = item.countDetail != null ? item.countDetail : NUMBER_FORMAT.format(item.count);
+                        String countOp = item.countOperation != null ? item.countOperation + " " : "";
+
+                        markdown.append("| ")
+                                .append(item.type)
+                                .append(" | ")
+                                .append(displayName)
+                                .append(" | ")
+                                .append(countOp).append(countDetail)
+                                .append(" | ")
+                                .append(NUMBER_FORMAT.format(item.weight))
+                                .append(" | ")
+                                .append(PERCENT_FORMAT.format(item.probability))
+                                .append(" | ")
+                                .append(NUMBER_FORMAT.format(item.expectedValue))
+                                .append(" | ")
+                                .append(attrStr)
+                                .append(" |\n");
+                    }
+
+                    List<LootItem> itemsWithConditions = pool.lootItems.stream()
+                            .filter(item -> item != null && !item.conditions.isEmpty())
+                            .toList();
+
+                    if (!itemsWithConditions.isEmpty()) {
+                        markdown.append("\n**物品条件说明:**\n");
+                        for (LootItem item : itemsWithConditions) {
+                            markdown.append("- ").append(item.displayName).append(":\n");
+                            for (String cond : item.conditions) {
+                                markdown.append("  - ").append(cond).append("\n");
+                            }
+                        }
+                    }
+
+                    markdown.append("\n");
                 }
 
-                markdown.append("\n");
+                double tableTotalExpectedValue = analysis.getLootPools().stream()
+                        .filter(Objects::nonNull)
+                        .mapToDouble(pool -> pool.totalExpectedValue)
+                        .sum();
+
+                markdown.append("**战利品表总期望值:** ").append(NUMBER_FORMAT.format(tableTotalExpectedValue)).append("\n\n");
             }
-
-            double tableTotalExpectedValue = analysis.getLootPools().stream()
-                    .filter(Objects::nonNull)
-                    .mapToDouble(pool -> pool.totalExpectedValue)
-                    .sum();
-
-            markdown.append("**战利品表总期望值:** ").append(NUMBER_FORMAT.format(tableTotalExpectedValue)).append("\n\n");
         }
 
         markdown.append("## 战利品表汇总比较\n\n");
-        markdown.append("| 战利品表 | 类型 | 奖励池数量 | 总期望值 | 状态 |\n");
-        markdown.append("|----------|------|-----------|----------|------|\n");
+        markdown.append("| 命名空间 | 战利品表 | 类型 | 奖励池数量 | 总期望值 | 状态 |\n");
+        markdown.append("|----------|----------|------|-----------|----------|------|\n");
 
         for (String tableName : allLootTables.keySet()) {
             LootTableAnalysis analysis = allLootTables.get(tableName);
             if (analysis == null) {
                 continue;
             }
+
+            ResourceLocation loc = new ResourceLocation(tableName);
+            String namespace = loc.getNamespace();
 
             String status = analysis.getError() != null ? "错误" : "正常";
             double tableTotalExpectedValue = analysis.getLootPools().stream()
@@ -991,8 +1028,10 @@ public class LootTableExporter {
                     .mapToDouble(pool -> pool.totalExpectedValue)
                     .sum();
 
-            markdown.append("| `")
-                    .append(tableName)
+            markdown.append("| ")
+                    .append(namespace)
+                    .append(" | `")
+                    .append(loc.getPath())
                     .append("` | ")
                     .append(analysis.getType())
                     .append(" | ")
@@ -1125,7 +1164,7 @@ public class LootTableExporter {
         ValueInfo bonusRolls;
         List<LootItem> lootItems = new ArrayList<>();
         List<String> conditions = new ArrayList<>();
-        List<JsonObject> functions = new ArrayList<>(); // 存储池级别的函数
+        List<JsonObject> functions = new ArrayList<>();
         double totalWeight;
         double totalRollsAverage;
         double totalExpectedValue;
