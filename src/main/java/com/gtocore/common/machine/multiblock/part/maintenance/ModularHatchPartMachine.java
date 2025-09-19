@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -43,9 +42,9 @@ import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
 @DataGeneratorScanned
-public class ModularHatchPartMachine extends ACMHatchPartMachine implements IModularMaintenance, IMachineModifyDrops, IFancyTooltip {
+public class ModularHatchPartMachine extends ACMHatchPartMachine implements IModularMaintenance, IMachineModifyDrops {
 
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ModularHatchPartMachine.class, ACMHatchPartMachine.MANAGED_FIELD_HOLDER);
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ModularHatchPartMachine.class, ACMHatchPartMachine.MANAGED_FIELD_HOLDER);
 
     private TickableSubscription tickSubs;
 
@@ -108,13 +107,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, () -> {
-                /// from {@link com.gtolib.api.machine.feature.IReceiveHeatMachine}
-                tickUpdate();
-                /// from {@link com.gtolib.api.machine.feature.IVacuumMachine}
-                update();
-
-            });
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
         }
     }
 
@@ -193,8 +186,8 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                         () -> temperatureMode ?
                                 Component.translatable(TEMPERATURE_CONFIG) :
                                 Component.translatable(TOOLTIP_REQUIRED_KEY, Wrapper.TEMPERATURE_CHECK.getDefaultInstance().getDisplayName()),
-                        v -> setActiveTemperature(getActiveTemperature() + v),
-                        v -> setActiveTemperature(getActiveTemperature() - v),
+                        v -> setActiveTemperature(activeTemperature + v),
+                        v -> setActiveTemperature(activeTemperature - v),
                         () -> temperatureMode, MIN_TEMPERATURE, MAX_TEMPERATURE))
                 // Gravity
                 .addWidget(new SlotWidget(gravityModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
@@ -225,11 +218,11 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         return group;
     }
 
-    private ComponentPanelWidget getConfigPanel(int x, int y,
-                                                Supplier<Component> firstLine, Supplier<Component> secondLineTitle,
-                                                IntConsumer onAdd, IntConsumer onSub,
-                                                BooleanSupplier enableWrite,
-                                                float min, float max) {
+    private static ComponentPanelWidget getConfigPanel(int x, int y,
+                                                       Supplier<Component> firstLine, Supplier<Component> secondLineTitle,
+                                                       IntConsumer onAdd, IntConsumer onSub,
+                                                       BooleanSupplier enableWrite,
+                                                       float min, float max) {
         return new ComponentPanelWidget(x, y, list -> {
             list.add(firstLine.get());
             MutableComponent buttonText = secondLineTitle.get().copy();
@@ -266,11 +259,11 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         return Component.translatable(CLEANROOM_NOT_APPLICABLE).getString();
     }
 
-    public int getActiveTemperature() {
+    private int getActiveTemperature() {
         return activeTemperature;
     }
 
-    public void setActiveTemperature(int activeTemperature) {
+    private void setActiveTemperature(int activeTemperature) {
         this.activeTemperature = Mth.clamp(activeTemperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 

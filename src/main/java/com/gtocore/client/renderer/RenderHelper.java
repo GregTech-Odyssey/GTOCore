@@ -1,7 +1,10 @@
 package com.gtocore.client.renderer;
 
 import net.minecraft.client.Camera;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -12,6 +15,7 @@ import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
@@ -131,5 +135,57 @@ public final class RenderHelper {
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
         poseStack.popPose();
+    }
+
+    public static BufferBuilder openGUIBuffer() {
+        RenderSystem.disableDepthTest();
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        return buffer;
+    }
+
+    public static void closeAndDrawGUIBuffer(@NotNull BufferBuilder buffer) {
+        BufferUploader.drawWithShader(buffer.end());
+        RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
+    }
+
+    public static void drawInGUI(
+                                 GuiGraphics gui,
+                                 BufferBuilder buffer,
+                                 TextureAtlasSprite sprite,
+                                 int x,
+                                 int y,
+                                 float width,
+                                 float height,
+                                 int color) {
+        float x2 = x + width;
+        float y2 = y + height;
+        float z = 0F;
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
+
+        Matrix4f matrix4f = gui.pose().last().pose();
+        buffer.vertex(matrix4f, (float) x, (float) y, z)
+                .uv(u0, v0)
+                .color(color)
+                .endVertex();
+        buffer.vertex(matrix4f, (float) x, y2, z)
+                .uv(u0, v1)
+                .color(color)
+                .endVertex();
+        buffer.vertex(matrix4f, x2, y2, z)
+                .uv(u1, v1)
+                .color(color)
+                .endVertex();
+        buffer.vertex(matrix4f, x2, (float) y, z)
+                .uv(u1, v0)
+                .color(color)
+                .endVertex();
     }
 }

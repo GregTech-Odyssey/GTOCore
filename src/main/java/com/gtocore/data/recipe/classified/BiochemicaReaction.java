@@ -5,9 +5,11 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
@@ -319,6 +321,29 @@ final class BiochemicaReaction {
                 .EUt(7680)
                 .duration(500)
                 .addData("radioactivity", 240)
+                .save();
+
+        BIOCHEMICAL_REACTION_RECIPES.builder("zombie_electrode")
+                .inputItems("botania:virus_necrodermal", 4)
+                .inputItems(GTOItems.CEREBRUM.asStack(8))
+                .inputItems(TagPrefix.foil, GTMaterials.Tantalum, 16)
+                .outputItems("enderio:zombie_electrode")
+                .outputItems(new ItemStack(Items.ROTTEN_FLESH.asItem(), 4))
+                .inputFluids(GTOMaterials.Biotin, 100)
+                .inputFluids(GTOMaterials.EpidermalGrowthFactor, 100)
+                .inputFluids(GTMaterials.Tritanium, 10)
+                .EUt(8168)
+                .duration(500)
+                .save();
+
+        BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("alpha_lipoic_acid")
+                .inputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium, 8)
+                .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 4)
+                .inputFluids(GTMaterials.Biomass.getFluid(1000))
+                .outputFluids(GTOMaterials.LipoicAcid.getFluid(1000))
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .EUt(1920)
+                .duration(200)
                 .save();
     }
 }

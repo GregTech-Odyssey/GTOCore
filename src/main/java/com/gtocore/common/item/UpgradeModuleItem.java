@@ -10,6 +10,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
@@ -30,6 +31,13 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
 
     @RegisterLanguage(cn = "需要10级经验", en = "Requires 10 levels of experience")
     public static final String experience_not_enough = "gtocore.machine.upgrade.experience_not_enough";
+
+    static {
+        if (GTCEu.isDataGen()) {
+            GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(0D, 0D).getArray();
+            GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0D, 0D).getArray();
+        }
+    }
 
     public UpgradeModuleItem(Properties properties) {
         super(properties);
@@ -119,8 +127,14 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
                 }
             }
         } else {
-            for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0d, 0d).getArray()) {
-                tooltips.add(new GTOComponentTooltipComponent(component));
+            if (this == GTOItems.SPEED_UPGRADE_MODULE.get()) {
+                for (Component component : GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(0d, 0d).getArray())
+                    tooltips.add(new GTOComponentTooltipComponent(component));
+            } else {
+                for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0d, 0d).getArray()) {
+                    tooltips.add(new GTOComponentTooltipComponent(component));
+                }
+
             }
         }
     }

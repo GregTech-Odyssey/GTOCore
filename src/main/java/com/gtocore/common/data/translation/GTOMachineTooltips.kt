@@ -150,15 +150,6 @@ object GTOMachineTooltips {
         info(ComponentSlang.Capacity(72.toString()))
     }
 
-    // ME可编程样板总成
-    val MeProgrammablePatternBufferTooltips = ComponentListSupplier {
-        setTranslationPrefix("me_programmable_pattern_buffer")
-
-        section(ComponentSlang.MainFunction)
-        function("可以使用虚拟物品提供器进行编程" translatedTo "Can be programmed using virtual item provider")
-        content("一台机器，一个总成搞定所有样板" translatedTo "One machine, one pattern hatch ,finished.")
-    }
-
     // ME样板总成
     val MePatternHatchTooltips = { capacity: Int ->
         ComponentListSupplier {
@@ -226,7 +217,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("performance_monitor_machine")
 
         section(ComponentSlang.MainFunction)
-        function("能监测全部机器2秒内的平均延迟" translatedTo "Can monitor all machines' average delay within 2 seconds and support highlighting")
+        function("能监测全部机器或AE网络3.2秒内的平均延迟" translatedTo "Can monitor all machines or AE grids' average delay within 3.2 seconds and support highlighting")
         guide("右键点击机器以打开性能监测界面" translatedTo "Right click on the machine to open performance monitoring interface")
     }
 
@@ -428,13 +419,13 @@ object GTOMachineTooltips {
 
         // Tier 2 组件支持
         section("Tier 2 : 支持NICH系列组件" translatedTo "Tier 2 : Supports NICH Series Components", { blue() })
-        content("槽位需求: 放入§a生物主机" translatedTo "Slot requirement: Place §abiological host")
+        content(("槽位需求: 放入" translatedTo "Slot requirement: Place ") + ("生物活性主机" translatedTo "Biological Mainframe").scrollBioware())
         content("结构材料需求: 安普洛强化硼玻璃 + 生物计算机外壳 + 相变计算机散热口" translatedTo "Structure material requirements: Neutronium Borosilicate Glass + Biocomputer Casing + Phase Change Biocomputer Cooling Vents")
         content("使用冷却剂: 液态氦(会输出气态氦)" translatedTo "Coolant: Liquid helium (will output gaseous helium)")
 
         // Tier 3 组件支持
         section("Tier 3 : 支持GWCA系列组件" translatedTo "Tier 3 : Supports GWCA Series Components", { blue() })
-        content("槽位需求: 放入§5超因果主机" translatedTo "Slot requirement: Place §5Hyper-Causal Host")
+        content(("槽位需求: 放入" translatedTo "Slot requirement: Place ") + ("超因果主机" translatedTo "Supracausal Mainframe").rainbowGradient())
         content("结构材料需求: 塔兰强化硼玻璃 + 引力子计算机外壳 + 逆熵计算机冷凝矩阵" translatedTo "Structure material requirements: Taranium Borosilicate Glass + Graviton Computer Casing + Anti Entropy Computer Condensation Matrix")
         content("使用冷却剂: 液态氦(会输出气态氦)" translatedTo "Coolant: Liquid helium (will output gaseous helium)")
         ok("自带跨维度桥接功能" translatedTo "Built-in cross-dimensional bridging capability")
@@ -1501,12 +1492,12 @@ object GTOMachineTooltips {
         command("中子通量越高，堆升温速率越大" translatedTo "The higher the neutron flux, the faster the pile heats up")
         info("输入石墨粉可吸收中子通量" translatedTo "Inputting Graphite Dust can absorb neutron flux")
         info("输入冷却剂可降低温度" translatedTo "Inputting coolant can lower the temperature")
-        error("温度超过1800K时配方失败，输出(一点可怜的)核废料，燃料组件方块全部融毁" translatedTo "If the temperature exceeds 1800K, the recipe fails, outputs waste, and all fuel component blocks melt.")
+        error("温度超过2098K时配方失败，输出(一点可怜的)核废料，燃料组件方块全部融毁" translatedTo "If the temperature exceeds 2098K, the recipe fails, outputs waste, and all fuel component blocks melt.")
 
         section("配方相关" translatedTo "Recipe Related")
         command("输入：增殖棒与对应元素粉，不同配方需不同中子通量" translatedTo "Input: Breeding Rods and corresponding Element Dust, different recipes require different neutron flux")
         content("输出：枯竭增殖棒" translatedTo "Output: Depleted Breeding Rods")
-        info("实际并行越大，运行时间越短，公式：T = t * (0.9)^0.5" translatedTo "The larger the actual parallelism, the shorter the running time, formula: T = t * (0.9)^0.5")
+        info("实际并行越大，运行时间越短，公式：T = t * (0.9 - (当前中子通量 - 需要的中子通量) / 10MeV)^0.5" translatedTo "The larger the actual parallelism, the shorter the running time, formula: T = t * (0.9 - (current neutron flux - required neutron flux) / 10MeV)^0.5")
 
         section("数值机制" translatedTo "Numerical Mechanism")
         function("消耗中子源提供初始通量：锑-铍10keV，钚-铍100keV，锎-252 1MeV" translatedTo "Consume neutron sources to provide initial flux: Sb-Be 10keV, Pu-Be 100keV, Cf-252 1MeV")
@@ -1514,8 +1505,8 @@ object GTOMachineTooltips {
         function("小撮/小堆/石墨粉分别降低0.1/0.25/1MeV" translatedTo "Small Pile/Big Pile/Graphite Dust reduce by 0.1/0.25/1MeV respectively")
         function("中子通量为E（keV）时，在主机内放入N个铱中子反射板后，中子通量每秒增加 (EN)^0.5 keV" translatedTo "When neutron flux is E (keV), after placing N Iridium Neutron Reflectors in the mainframe, neutron flux increases by (EN)^0.5 keV per second")
         info("初始温度298K，临界点2098K" translatedTo "Initial temperature 298K, critical point 2098K")
-        error("经过计算，当中子动能在4.5MeV以上时，堆温每秒将上升超过1800K，足以在一秒内达到临界点" translatedTo "According to calculations, when neutron kinetic energy is above 4.5keV, the pile temperature will rise by 1800K per second, enough to reach the critical point in one second")
-        function("每秒产热公式：H=K×0.127×(E×10)^1.88，结果向上取整" translatedTo "Heat generation formula per second: H=K×0.127×(E×10)^1.88, result rounded up")
+        error("经过计算，当中子动能在7MeV以上时，堆温每秒将上升超过1800K，足以在一秒内达到临界点" translatedTo "According to calculations, when neutron kinetic energy is above 4.5keV, the pile temperature will rise by 1800K per second, enough to reach the critical point in one second")
+        function("每秒产热公式：H=K×1.27×(E×10)^1.88，结果向上取整" translatedTo "Heat generation formula per second: H=K×1.27×(E×10)^1.88, result rounded up")
         function("冷却液系数(K/mB/s)：蒸馏水1，液氮4，液氦80" translatedTo "Coolant coefficients(K/mB/s): Distilled Water 1, Liquid Nitrogen 4, Liquid Helium 80")
         content("冷却后分别输出蒸汽、气态氮、气态氦" translatedTo "Outputs Steam, Gaseous Nitrogen, Gaseous Helium respectively after cooling")
         command("每秒将消耗全部输入的中子调节剂/冷却剂" translatedTo "Will consume all neutron moderators/coolants input per second")

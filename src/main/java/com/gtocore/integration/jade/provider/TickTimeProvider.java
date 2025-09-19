@@ -1,6 +1,8 @@
 package com.gtocore.integration.jade.provider;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
@@ -18,7 +20,11 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+@DataGeneratorScanned
 public class TickTimeProvider extends CapabilityBlockProvider<MetaMachine> {
+
+    @RegisterLanguage(cn = "延迟：%s", en = "Latency: %s")
+    public static final String LATENCY = "gtocore.jade.latency";
 
     public TickTimeProvider() {
         super(GTOCore.id("tick_time_provider"));
@@ -37,13 +43,13 @@ public class TickTimeProvider extends CapabilityBlockProvider<MetaMachine> {
 
     @Override
     protected void write(CompoundTag data, MetaMachine capability) {
-        if (capability != null) data.putInt("tick_time", capability.getTickTime());
+        if (capability != null) data.putInt("latency", capability.getTickTime());
     }
 
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
-        long time = capData.getInt("tick_time");
-        if (time == 0) return;
-        tooltip.add(Component.translatable("tooltip.jade.delay", time).append(" μs"));
+        long latency = capData.getInt("latency");
+        if (latency == 0) return;
+        tooltip.add(Component.translatable(LATENCY, latency).append(" μs"));
     }
 }

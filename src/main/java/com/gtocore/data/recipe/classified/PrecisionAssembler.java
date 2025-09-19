@@ -590,5 +590,16 @@ final class PrecisionAssembler {
                 .duration(200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
+        PRECISION_ASSEMBLER_RECIPES.builder("z_logic_controller")
+                .inputItems("enderio:zombie_electrode", 4)
+                .inputItems("enderio:prescient_crystal", 2)
+                .inputItems(GTItems.SENSOR_IV.asStack())
+                .inputItems(GTItems.ADVANCED_SMD_DIODE.asStack(8))
+                .outputItems("enderio:z_logic_controller")
+                .inputFluids(GTOMaterials.TriniumTitanium, 400)
+                .inputFluids(GTOMaterials.HastelloyN, 400)
+                .EUt(7680)
+                .duration(300)
+                .save();
     }
 }

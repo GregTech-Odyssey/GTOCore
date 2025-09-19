@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gtolib.IItem;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
@@ -30,6 +31,7 @@ import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
 
@@ -335,14 +337,14 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                             BlockState state = chunkCache.getBlockState(blockPos);
                             if (!isInMultiblock(blockPos) &&
                                     state.getBlock() != Blocks.AIR &&
-                                    chunkCache.getBlockEntity(blockPos) == null &&
+                                    (!state.hasBlockEntity() || (itemFilter != null && itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack()))) &&
                                     state.getBlock().defaultDestroyTime() >= 0) {
                                 if (state.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore && itemFilter == null) {
                                     if (fluidFilter == null || fluidFilter.test(new FluidStack(liq.getFluidState(state).getType(), 1))) {
                                         blocks.addLast(blockPos);
                                     }
                                 } else if (fluidFilter == null) {
-                                    if (itemFilter == null || itemFilter.test(state.getBlock().asItem().getDefaultInstance())) {
+                                    if (itemFilter == null || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
                                         blocks.addLast(blockPos);
                                     }
                                 }
@@ -418,9 +420,8 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     protected void getRegularBlockDrops(NonNullList<ItemStack> blockDrops, BlockState blockState, BlockPos blockPos) {
-        blockDrops.addAll(
-                lootCache.computeIfAbsent(blockState, state -> Block.getDrops(state, (ServerLevel) getMachine().getLevel(),
-                        blockPos, null).stream().map(ItemStack::copy).toList()));
+        Function<BlockState, List<ItemStack>> mappingFunction = state -> Block.getDrops(state, (ServerLevel) getMachine().getLevel(), blockPos, null).stream().map(ItemStack::copy).toList();
+        blockDrops.addAll(blockState.hasBlockEntity() ? mappingFunction.apply(blockState) : lootCache.computeIfAbsent(blockState, mappingFunction));
     }
 
     protected static void getSilkTouchDrops(NonNullList<ItemStack> blockDrops, BlockState blockState) {

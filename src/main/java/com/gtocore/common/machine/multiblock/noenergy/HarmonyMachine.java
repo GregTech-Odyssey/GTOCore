@@ -7,7 +7,6 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -33,7 +32,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     private static final BigInteger BASE = BigInteger.valueOf(5277655810867200L);
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HarmonyMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HarmonyMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final Fluid HYDROGEN = GTMaterials.Hydrogen.getFluid();
     private static final Fluid HELIUM = GTMaterials.Helium.getFluid();
     private WirelessEnergyContainer WirelessEnergyContainerCache;

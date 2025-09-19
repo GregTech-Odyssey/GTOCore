@@ -56,7 +56,6 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
                     }
                 }
             }
-            if (getMachine().isEmpty() || !getMachine().canRunnable()) return;
             var match = getFluidDrillRecipe();
             if (match != null) {
                 if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
@@ -68,6 +67,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
 
     @Nullable
     private Recipe getFluidDrillRecipe() {
+        if (getMachine().isEmpty() || !getMachine().canRunnable()) return null;
         if (!veinFluids.isEmpty()) {
             var recipe = gtolib$getRecipeBuilder().duration(MAX_PROGRESS).EUt(20000).outputFluids(veinFluids.object2IntEntrySet().stream().map(entry -> new FluidStack(entry.getKey(), entry.getIntValue())).toArray(FluidStack[]::new)).buildRawRecipe();
             recipe.modifier(new ContentModifier(getParallel() * efficiency(getMachine().getRate() * 500), 0), true);

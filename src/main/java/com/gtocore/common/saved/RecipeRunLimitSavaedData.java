@@ -63,6 +63,7 @@ public class RecipeRunLimitSavaedData extends SavedData {
             CompoundTag uuidTag = new CompoundTag();
             uuidTag.putUUID("u", uuidEntry.getKey());
             uuidTag.put("r", list);
+            uuid.add(uuidTag);
         }
         compoundTag.put("l", uuid);
         return compoundTag;

@@ -7,7 +7,6 @@ import com.gtolib.api.recipe.Recipe;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
-import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 
 import net.minecraft.network.chat.Component;
 
@@ -36,13 +35,11 @@ public final class RunLimitCondition extends AbstractRecipeCondition {
     @Override
     public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
-        MachineOwner owner = machine.getOwner();
+        UUID owner = machine.getOwnerUUID();
         if (owner == null) return false;
-        UUID uuid = owner.getUUID();
-        if (uuid == null) return false;
-        int runLimit = RecipeRunLimitSavaedData.get(uuid, recipe.id);
+        int runLimit = RecipeRunLimitSavaedData.get(owner, recipe.id);
         if (runLimit < count) {
-            RecipeRunLimitSavaedData.set(uuid, recipe.id, runLimit + 1);
+            RecipeRunLimitSavaedData.set(owner, recipe.id, runLimit + 1);
             return true;
         }
         return false;

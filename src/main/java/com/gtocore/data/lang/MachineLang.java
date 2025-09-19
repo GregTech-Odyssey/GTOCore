@@ -11,7 +11,9 @@ import static com.gtocore.data.lang.LangHandler.addCNEN;
 
 final class MachineLang {
 
-    public static void init() {
+    static void init() {
+        addCNEN("gui.tooltips.redstone_mode.enabled", "启用红石模式，机器接收红石信号", "Enable redstone mode, the machine will receive redstone signals");
+        addCNEN("gui.tooltips.redstone_mode.disabled", "禁用红石模式，机器无视红石信号", "Disable redstone mode, the machine will ignore redstone signals");
         addCNEN("gtocore.machine.programmablec_hatch.tooltip", "通过虚拟物品提供器来设置电路槽物品", "Set the circuit slot items through a virtual item provider");
         addCNEN("gtocore.machine.energy_loss", "能量损失：%s", "Energy loss: %s");
         addCNEN("gtocore.machine.highlight_module", "高亮显示模块位置", "Highlight module position.");

@@ -493,6 +493,18 @@ public final class MaterialA {
                 .cableProperties(Integer.MAX_VALUE, 8192, 0, true)
                 .buildAndRegister();
 
+        BlazeCube = material("blazecube", "炽骨立方")
+                .ingot()
+                .fluid()
+                .plasma()
+                .blastTemp(11000, HIGHER)
+                .element(GTOElements.BLAZECUBE)
+                .color(0xff6600)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_BOLT_SCREW)
+                .cableProperties(GTValues.V[GTValues.IV], 128, 32)
+                .buildAndRegister();
+
         Adamantine = material("adamantine", "精金")
                 .ingot()
                 .fluid()
@@ -784,7 +796,7 @@ public final class MaterialA {
                 .color(0x000000)
                 .blastTemp(32000, HIGHEST)
                 .element(GTOElements.INFINITY)
-                .iconSet(CHAOS_INFINITY)
+                .iconSet(INFINITY_CHAOS)
                 .flags(GENERATE_FRAME, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .buildAndRegister()
                 .setFormula("§8§kc§r§8∞§r§8§kc", false);

@@ -5,7 +5,6 @@ import com.gtocore.api.gui.ktflexible.progressBar
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.FLUID
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.ITEM
-import com.gtocore.mixin.ae2.GridAccessor
 
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
@@ -27,6 +26,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
+import com.gtolib.api.ae2.IExpandedGrid
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.button
@@ -123,7 +123,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
             grid.getActiveMachines(PatternProviderBlockEntity::class.java).forEach {
                 runnable.add { it.logic.updatePatterns() }
             }
-            if (grid is Grid && grid is GridAccessor) {
+            if (grid is Grid && grid is IExpandedGrid) {
                 val machinesPart = mutableListOf<MEPatternPartMachineKt<*>>()
                 grid.machines.forEach { _, node ->
                     if (node.isActive) {

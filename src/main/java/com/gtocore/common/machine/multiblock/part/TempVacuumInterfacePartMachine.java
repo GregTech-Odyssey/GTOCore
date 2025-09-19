@@ -32,10 +32,7 @@ public class TempVacuumInterfacePartMachine extends TieredPartMachine implements
     @Override
     public void onLoad() {
         super.onLoad();
-        tickableSubscription = subscribeServerTick(tickableSubscription, () -> {
-            this.update();
-            this.tickUpdate();
-        });
+        tickableSubscription = subscribeServerTick(tickableSubscription, this::tickUpdate);
     }
 
     @Override

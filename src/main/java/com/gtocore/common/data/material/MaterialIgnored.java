@@ -145,6 +145,7 @@ public final class MaterialIgnored {
         TagPrefix.dust.setIgnored(Cobalt, () -> EIOItems.POWDERED_COBALT);
         TagPrefix.dust.setIgnored(Lapis, () -> EIOItems.POWDERED_LAPIS_LAZULI);
         TagPrefix.dust.setIgnored(Soularium, () -> EIOItems.SOUL_POWDER);
+        TagPrefix.dust.setIgnored(NetherQuartz, () -> EIOItems.POWDERED_QUARTZ);
 
         TagPrefix.ingot.setIgnored(CopperAlloy, () -> EIOItems.COPPER_ALLOY_INGOT);
         TagPrefix.nugget.setIgnored(CopperAlloy, () -> EIOItems.COPPER_ALLOY_NUGGET);
@@ -183,12 +184,63 @@ public final class MaterialIgnored {
         TagPrefix.block.setIgnored(EndSteel, () -> EIOBlocks.END_STEEL_BLOCK);
 
         TagPrefix.ingot.setIgnored(CrystalMatrix, crystal_matrix_ingot);
+        /// to be added in future from {@link committee.nova.mods.avaritia_integration.init.registry.CoreReg }
+        // TagPrefix.nugget.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_nugget);
+        // plateDense.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_dense_plate);
+        // plate.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_plate);
+        // plateDouble.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_double_plate);
+        // rod.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_rod);
+        // rodLong.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_long_rod);
+        // gear.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_gear);
+        // ring.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_ring);
+        // spring.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_spring);
+        // screw.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_screw);
+        // dust.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_dust);
+        // bolt.setIgnored(CrystalMatrix, CoreReg.crystal_matrix_bolt);
+        //
+        ingot.setIgnored(BlazeCube, blaze_cube);
+        // nugget.setIgnored(BlazeCube, CoreReg.blaze_cube_nugget);
+        // block.setIgnored(BlazeCube, blaze_cube_block);
+        // plateDense.setIgnored(BlazeCube, CoreReg.blaze_cube_dense_plate);
+        // plate.setIgnored(BlazeCube, CoreReg.blaze_cube_plate);
+        // plateDouble.setIgnored(BlazeCube, CoreReg.blaze_cube_double_plate);
+        // rod.setIgnored(BlazeCube, CoreReg.blaze_cube_rod);
+        // rodLong.setIgnored(BlazeCube, CoreReg.blaze_cube_long_rod);
+        // gear.setIgnored(BlazeCube, CoreReg.blaze_cube_gear);
+        // ring.setIgnored(BlazeCube, CoreReg.blaze_cube_ring);
+        // spring.setIgnored(BlazeCube, CoreReg.blaze_cube_spring);
+        // screw.setIgnored(BlazeCube, CoreReg.blaze_cube_screw);
+        // dust.setIgnored(BlazeCube, CoreReg.blaze_cube_dust);
+        // bolt.setIgnored(BlazeCube, CoreReg.blaze_cube_bolt);
+
         TagPrefix.ingot.setIgnored(Infinity, infinity_ingot);
         TagPrefix.nugget.setIgnored(Infinity, infinity_nugget);
         TagPrefix.block.setIgnored(Infinity, infinity);
-        TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
-        TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
+        // plateDense.setIgnored(Infinity, CoreReg.infinity_dense_plate);
+        // plate.setIgnored(Infinity, CoreReg.infinity_plate);
+        // plateDouble.setIgnored(Infinity, CoreReg.infinity_double_plate);
+        // rod.setIgnored(Infinity, CoreReg.infinity_rod);
+        // rodLong.setIgnored(Infinity, CoreReg.infinity_long_rod);
+        // gear.setIgnored(Infinity, CoreReg.infinity_gear);
+        // ring.setIgnored(Infinity, CoreReg.infinity_ring);
+        // spring.setIgnored(Infinity, CoreReg.infinity_spring);
+        // screw.setIgnored(Infinity, CoreReg.infinity_screw);
+        // dust.setIgnored(Infinity, CoreReg.infinity_dust);
+
         TagPrefix.block.setIgnored(Neutron, committee.nova.mods.avaritia.init.registry.ModBlocks.neutron);
+        // TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
+        // TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
+        // bolt.setIgnored(Neutron, CoreReg.neutron_bolt);
+        // plateDense.setIgnored(Neutron, CoreReg.neutron_dense_plate);
+        // plate.setIgnored(Neutron, CoreReg.neutron_plate);
+        // plateDouble.setIgnored(Neutron, CoreReg.neutron_double_plate);
+        // rod.setIgnored(Neutron, CoreReg.neutron_rod);
+        // rodLong.setIgnored(Neutron, CoreReg.neutron_long_rod);
+        gear.setIgnored(Neutron, neutron_gear);
+        // dust.setIgnored(Neutron, CoreReg.neutron_dust);
+        // ring.setIgnored(Neutron, CoreReg.neutron_ring);
+        // spring.setIgnored(Neutron, CoreReg.neutron_spring);
+        // screw.setIgnored(Neutron, CoreReg.neutron_screw);
 
         if (GTCEu.isProd()) {
             TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);

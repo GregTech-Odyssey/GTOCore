@@ -147,11 +147,9 @@ public final class ForgeClientEvent {
                 } else if (StructureDetectBehavior.isItem(itemStack)) {
                     poses = StructureDetectBehavior.getPos(itemStack);
                     if (poses != null && poses.length >= 1) {
-                        if (poses[0] != null) {
-                            RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses[0], poses[0]);
-                        }
-                        if (poses.length == 2 && poses[1] != null) {
-                            RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses[1], poses[1]);
+                        for (var pos : poses) {
+                            if (pos == null) continue;
+                            RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, pos, pos);
                         }
                     }
                 } else if (Highlighting.HIGHLIGHTING_ITEM.contains(item)) {

@@ -287,6 +287,30 @@ public final class MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        LipoicAcid = material("lipoic_acid", "硫辛酸")
+                .liquid()
+                .color(0x7b717f)
+                .components(Carbon, 8, Hydrogen, 14, Oxygen, 2, Sulfur, 2)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        ChloroauricAcid = material("chloroauric_acid", "氯金酸")
+                .liquid()
+                .color(0xffd700)
+                .components(Gold, 1, Hydrogen, 1, Chlorine, 4)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        NHydroxysuccinimideLipoicEster = material("n_hydroxysuccinimide_lipoic_ester", "硫辛酸N-羟基琥珀酰亚胺酯")
+                .dust()
+                .color(0x7b717f)
+                .components(Carbon, 12, Hydrogen, 17, Nitrogen, 1, Oxygen, 5, Sulfur, 2)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         SuccinicAnhydride = material("succinic_anhydride", "丁二酸酐")
                 .dust()
                 .color(0x401116)

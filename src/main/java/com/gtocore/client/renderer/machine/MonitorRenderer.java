@@ -117,6 +117,12 @@ public class MonitorRenderer extends MachineRenderer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
+    public int getViewDistance() {
+        return 16;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof MetaMachineBlockEntity holder && holder.getMetaMachine() instanceof IMonitor monitor && monitor.getLevel() != null) {
             Manager.GridNetwork network = Manager.GridNetwork.fromClientBlock(

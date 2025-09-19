@@ -37,6 +37,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.core.Direction;
@@ -75,6 +76,7 @@ public final class MultiBlockA {
                     .aisle(" Z ", "ZZZ", " Z ")
                     .where('S', controller(blocks(definition.getBlock())))
                     .where('Y', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get())
+                            .or(Predicates.blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(INPUT_ENERGY).setMinGlobalLimited(1)
                                     .setMaxGlobalLimited(2))
                             .or(abilities(IMPORT_FLUIDS).setExactLimit(1))

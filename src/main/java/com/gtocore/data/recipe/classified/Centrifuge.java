@@ -533,5 +533,11 @@ final class Centrifuge {
                 .EUt(491520)
                 .duration(320)
                 .save();
+        CENTRIFUGE_RECIPES.builder("recycle_basic_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.InvalidationCascadeMFPC)
+                .outputItems(TagPrefix.dust, GTOMaterials.RecycleBasicMFPC)
+                .EUt(1200)
+                .duration(1200)
+                .save();
     }
 }

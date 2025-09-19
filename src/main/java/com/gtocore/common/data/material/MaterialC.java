@@ -399,7 +399,46 @@ public final class MaterialC {
                 .iconSet(DULL)
                 // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
                 .buildAndRegister();
-
+        ImpregnatedAlkaneFilledMFPC = material("impregnated_alkane_filled_mfpc", "浸渍烷烃填充MFPC")
+                .dust()
+                .color(0xB2B0B0)
+                .iconSet(DULL)
+                .buildAndRegister();
+        HighPressureStaticAdsorptionMFPC = material("high_pressure_static_adsorption_mfpc", "高压静态吸附MFPC")
+                .dust()
+                .color(0xA4A0A0)
+                .iconSet(DULL)
+                .buildAndRegister();
+        SolGelQDInterfaceModifiedMFPC = material("sol_gel_qd_interface_modified_mfpc", "溶胶-凝胶量子点界面改性MFPC")
+                .dust()
+                .color(0x868080)
+                .iconSet(DULL)
+                .buildAndRegister();
+        InterfaceSupramolecularSelfAssemblyMFPC = material("interface_supramolecular_self_assembly_mfpc", "界面超分子自组装MFPC")
+                .dust()
+                .color(0x646260)
+                .iconSet(DULL)
+                .buildAndRegister();
+        ExtremeTemperatureInterfaceStabilizedMFPC = material("extreme_temperature_interface_stabilized_mfpc", "极端温度界面稳定MFPC")
+                .dust()
+                .color(0x404042)
+                .iconSet(DULL)
+                .buildAndRegister();
+        EtchedCarbonNanotube = material("etched_carbon_nanotube", "蚀刻碳纳米管")
+                .dust()
+                .color(0x303030)
+                .iconSet(DULL)
+                .buildAndRegister();
+        NanoGoldDepositedCarbonNanotube = material("nano_gold_deposited_carbon_nanotube", "纳米金沉积碳纳米管")
+                .dust()
+                .color(0x3cada8)
+                .iconSet(DULL)
+                .buildAndRegister();
+        NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot = material("nano_gold_deposited_carbon_nanotube_modified_nhs_lipoic_ester_q_dot", "纳米金沉积碳纳米管修饰的NHS-脂肪酰基酯量子点")
+                .dust()
+                .color(0x57acad)
+                .iconSet(DULL)
+                .buildAndRegister();
         RecycleBasicMFPC = material("recycle_basic_mfpc", "回收的多功能相变(MFPC)")
                 .dust()
                 .color(0xC0C0C0)
@@ -502,6 +541,20 @@ public final class MaterialC {
                 .iconSet(DULL)
                 .color(0xffffff)
                 .buildAndRegister().setFormula("(CH₃)₆OSi₂", false);
+
+        Hexamethyldisilazane = material("hexamethyldisilazane", "六甲基二硅氨烷")
+                .fluid()
+                .iconSet(DULL)
+                .color(0xe0e0e0)
+                .buildAndRegister().setFormula("(CH₃)₆NHSi₂", false);
+
+        LiquidAmmonia = material("liquid_ammonia", "液态氨")
+                .liquid(new FluidBuilder().temperature(240))
+                .color(0x4fc4a2)
+                .components(Ammonia, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(FLUID)
+                .buildAndRegister();
 
         Triethoxysilane = material("triethoxysilane", "三乙氧基氢硅烷")
                 .fluid()
