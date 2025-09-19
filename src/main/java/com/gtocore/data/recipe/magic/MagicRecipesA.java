@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
@@ -33,6 +32,7 @@ import net.minecraftforge.fluids.FluidStack;
 import com.enderio.base.common.init.EIOFluids;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -414,7 +414,7 @@ public final class MagicRecipesA {
                     .notConsumable(ExtraBotanyItems.voidArchives)
                     .inputItems(GTOItems.HEROS_SOUL, 4)
                     .inputItems(GTOItems.GOLD_MEDAL)
-                    .inputItems(Adventure.Items.MYTHIC_MATERIAL.get(),4)
+                    .inputItems(Adventure.Items.MYTHIC_MATERIAL.get(), 4)
                     .inputFluids(HerosBrawlers.getFluid(1000))
                     .inputFluids(HerosBreach.getFluid(1000))
                     .inputFluids(HerosSplendor.getFluid(1000))

@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
@@ -51,7 +52,17 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
             } else if ("ore_reporter".equals(componentData)) {
                 OreReport.generateOreReport();
             } else if ("export_all_loot_tables".equals(componentData)) {
-                LootTableExporter.exportAllLootTables();
+                List<String> LOOT_TABLES = Arrays.asList(
+                        "extrabotany:reward_bags/eins",
+                        "extrabotany:reward_bags/zwei",
+                        "extrabotany:reward_bags/drei",
+                        "extrabotany:reward_bags/vier",
+                        "extrabotany:reward_bags/nine_and_three_quarters",
+                        "extrabotany:reward_bags/pandoras_box",
+                        "minecraft:loot_tables/gameplay/fishing/fish.json",
+                        "minecraft:loot_tables/gameplay/fishing/treasure.json",
+                        "minecraft:loot_tables/gameplay/fishing/junk.json");
+                LootTableExporter.exportAllLootTables(LOOT_TABLES);
             }
         }
     }
