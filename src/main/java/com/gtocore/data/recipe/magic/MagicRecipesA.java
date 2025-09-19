@@ -25,6 +25,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
@@ -66,7 +67,7 @@ public final class MagicRecipesA {
                     'A', ManaCasing[i], 'B', new MaterialEntry(plate, ManaSteels[i]), 'C', new MaterialEntry(rod, ManaSteels[i]));
         }
 
-        // 炼金锅
+        // 炼金锅1
         {
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("fractal_petal_solvent_slow")
                     .inputItems(COLORFUL_MYSTICAL_FLOWER)
@@ -158,7 +159,7 @@ public final class MagicRecipesA {
                         .save();
 
                 ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_" + names[i] + 4 + "_gas")
-                        .circuitMeta(i + 5)
+                        .circuitMeta(i + 6)
                         .inputItems(dust, Crystals[i], 8)
                         .inputFluids(CycleofBlossomsSolvent.getFluid(1000))
                         .chancedOutput(Elements[i].getFluid(GAS, 8 * L), 10, 0)
@@ -173,7 +174,7 @@ public final class MagicRecipesA {
             }
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_aether_1_gas")
-                    .circuitMeta(1)
+                    .circuitMeta(5)
                     .inputItems(dust, PerditioCrystal, 8)
                     .inputFluids(FractalPetalSolvent.getFluid(1000))
                     .chancedOutput(Aether.getFluid(GAS, 2 * L), 1, 0)
@@ -186,7 +187,7 @@ public final class MagicRecipesA {
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_aether_2_gas")
-                    .circuitMeta(1)
+                    .circuitMeta(10)
                     .inputItems(dust, PerditioCrystal, 8)
                     .inputFluids(CycleofBlossomsSolvent.getFluid(1000))
                     .chancedOutput(Aether.getFluid(GAS, 4 * L), 1, 0)
@@ -197,73 +198,6 @@ public final class MagicRecipesA {
                     .addData("param1", 140)
                     .addData("param2", 140)
                     .addData("param3", 140)
-                    .save();
-
-            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_brawlers")
-                    .chancedInput(getGem(5, "apotheosis:core/brawlers"), 5, 0)
-                    .inputItems(Tags.ENCHANTMENT_ESSENCE)
-                    .inputItems(GTOItems.HEROS_SOUL)
-                    .inputItems(ItemsRegistry.EARTH_ESSENCE)
-                    .inputItems(ItemsRegistry.AIR_ESSENCE)
-                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
-                    .inputFluids(Gnome.getFluid(LIQUID, 100))
-                    .inputFluids(Sylph.getFluid(LIQUID, 100))
-                    .chancedOutput(HerosBrawlers.getFluid(2000), 10, 0)
-                    .addData("param1", 40)
-                    .addData("param2", 40)
-                    .addData("param3", 160)
-                    .duration(200)
-                    .MANAt(32)
-                    .temperature(1600)
-                    .save();
-
-            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_breach")
-                    .chancedInput(getGem(5, "apotheosis:core/breach"), 5, 0)
-                    .inputItems(Tags.AFFIX_ESSENCE)
-                    .inputItems(GTOItems.HEROS_SOUL)
-                    .inputItems(ItemsRegistry.WATER_ESSENCE)
-                    .inputItems(ItemsRegistry.FIRE_ESSENCE)
-                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
-                    .inputFluids(Undine.getFluid(LIQUID, 100))
-                    .inputFluids(Salamander.getFluid(LIQUID, 100))
-                    .chancedOutput(HerosBreach.getFluid(2000), 10, 0)
-                    .addData("param1", 40)
-                    .addData("param2", 60)
-                    .addData("param3", 140)
-                    .duration(200)
-                    .MANAt(32)
-                    .temperature(1600)
-                    .save();
-
-            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_splendor")
-                    .chancedInput(getGem(5, "apotheosis:core/splendor"), 5, 0)
-                    .inputItems(ItemsRegistry.MANIPULATION_ESSENCE)
-                    .inputItems(ItemsRegistry.ABJURATION_ESSENCE)
-                    .inputItems(ItemsRegistry.CONJURATION_ESSENCE)
-                    .inputItems(GTOItems.HEROS_SOUL)
-                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
-                    .inputFluids(Aether.getFluid(LIQUID, 100))
-                    .chancedOutput(HerosSplendor.getFluid(2000), 10, 0)
-                    .addData("param1", 60)
-                    .addData("param2", 40)
-                    .addData("param3", 140)
-                    .duration(200)
-                    .MANAt(32)
-                    .temperature(1600)
-                    .save();
-
-            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("hero_medal")
-                    .notConsumable(BotaniaItems.flugelEye)
-                    .inputItems(GTOItems.GOLD_MEDAL)
-                    .inputItems(GTOItems.HEROS_SOUL, 4)
-
-                    .inputFluids(HerosBrawlers.getFluid(1000))
-                    .inputFluids(HerosBreach.getFluid(1000))
-                    .inputFluids(HerosSplendor.getFluid(1000))
-                    .outputItems(ExtraBotanyItems.heroMedal)
-                    .duration(200)
-                    .MANAt(32)
-                    .temperature(1600)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_ender_eye")
@@ -396,6 +330,102 @@ public final class MagicRecipesA {
                     .save();
         }
 
+        // 炼金锅2
+        {
+            String[] names = { "gnome", "sylph", "undine", "salamander", "aether" };
+            Material[] Elements = { Gnome, Sylph, Undine, Salamander, Aether };
+            for (int i = 0; i < 5; i++) {
+                ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_" + names[i] + "_fluid")
+                        .circuitMeta(i + 1)
+                        .inputFluids(Elements[i].getFluid(GAS, 1000))
+                        .outputFluids(Elements[i].getFluid(LIQUID, 30))
+                        .duration(1200)
+                        .MANAt(24)
+                        .temperature(1400)
+                        .save();
+
+                ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_" + names[i] + "_fluid_fust")
+                        .circuitMeta(i + 1)
+                        .inputItems(HELIO_COAL)
+                        .inputFluids(Elements[i].getFluid(GAS, 1000))
+                        .outputFluids(Elements[i].getFluid(LIQUID, 50))
+                        .duration(100)
+                        .MANAt(24)
+                        .temperature(1400)
+                        .save();
+
+            }
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_brawlers")
+                    .chancedInput(getGem(5, "apotheosis:core/brawlers"), 5, 0)
+                    .inputItems(GTOItems.HEROS_SOUL)
+                    .inputItems(Tags.ENCHANTMENT_ESSENCE)
+                    .inputItems(ItemsRegistry.EARTH_ESSENCE)
+                    .inputItems(ItemsRegistry.AIR_ESSENCE)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
+                    .inputFluids(Gnome.getFluid(LIQUID, 100))
+                    .inputFluids(Sylph.getFluid(LIQUID, 100))
+                    .chancedOutput(HerosBrawlers.getFluid(2000), 10, 0)
+                    .addData("param1", 40)
+                    .addData("param2", 40)
+                    .addData("param3", 160)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_breach")
+                    .chancedInput(getGem(5, "apotheosis:core/breach"), 5, 0)
+                    .inputItems(GTOItems.HEROS_SOUL)
+                    .inputItems(Tags.AFFIX_ESSENCE)
+                    .inputItems(ItemsRegistry.WATER_ESSENCE)
+                    .inputItems(ItemsRegistry.FIRE_ESSENCE)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
+                    .inputFluids(Undine.getFluid(LIQUID, 100))
+                    .inputFluids(Salamander.getFluid(LIQUID, 100))
+                    .chancedOutput(HerosBreach.getFluid(2000), 10, 0)
+                    .addData("param1", 40)
+                    .addData("param2", 60)
+                    .addData("param3", 140)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_splendor")
+                    .chancedInput(getGem(5, "apotheosis:core/splendor"), 5, 0)
+                    .inputItems(GTOItems.HEROS_SOUL)
+                    .inputItems(ItemsRegistry.MANIPULATION_ESSENCE)
+                    .inputItems(ItemsRegistry.ABJURATION_ESSENCE)
+                    .inputItems(ItemsRegistry.CONJURATION_ESSENCE)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
+                    .inputFluids(WildenEssence.getFluid(LIQUID, 500))
+                    .inputFluids(Aether.getFluid(LIQUID, 100))
+                    .chancedOutput(HerosSplendor.getFluid(2000), 10, 0)
+                    .addData("param1", 60)
+                    .addData("param2", 40)
+                    .addData("param3", 140)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("hero_medal")
+                    .notConsumable(ExtraBotanyItems.voidArchives)
+                    .inputItems(GTOItems.HEROS_SOUL, 4)
+                    .inputItems(GTOItems.GOLD_MEDAL)
+                    .inputItems(Adventure.Items.MYTHIC_MATERIAL.get(),4)
+                    .inputFluids(HerosBrawlers.getFluid(1000))
+                    .inputFluids(HerosBreach.getFluid(1000))
+                    .inputFluids(HerosSplendor.getFluid(1000))
+                    .outputItems(ExtraBotanyItems.heroMedal)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
+        }
+
         // 苍穹凝聚器
         {
             CELESTIAL_CONDENSER_RECIPES.recipeBuilder("astral_silver")
@@ -431,8 +461,8 @@ public final class MagicRecipesA {
                     .notConsumable(GTItems.SHAPE_MOLD_BALL.asStack())
                     .inputItems(GTOItems.RIBBON.asItem())
                     .inputItems("extrabotany:das_rheingold", 4)
-                    .inputItems(ingot, Laureril, 2)
-                    .inputItems(ingot, AstralSilver, 2)
+                    .inputItems(ingot, Laureril, 4)
+                    .inputItems(ingot, Quicksilver, 4)
                     .outputItems(GTOItems.GOLD_MEDAL.asItem())
                     .EUt(VA[LV])
                     .duration(20)
@@ -1195,11 +1225,11 @@ public final class MagicRecipesA {
                     "ABA", "CDC", "ABA",
                     'A', new ItemStack(Items.REPEATER.asItem()), 'B', GTBlocks.INDUSTRIAL_TNT.asStack(), 'C', GTOBlocks.NUKE_BOMB.asStack(), 'D', ManaMachine.MANA_HULL[GTValues.LuV].asStack());
 
-            VanillaRecipeHelper.addShapedRecipe( GTOCore.id("celestial_condenser"), ManaMachine.CELESTIAL_CONDENSER.asStack(),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("celestial_condenser"), ManaMachine.CELESTIAL_CONDENSER.asStack(),
                     "ABC", "DEF", "GHI",
-                    'A', new ItemStack(Items.YELLOW_STAINED_GLASS_PANE.asItem()),'B', new ItemStack(Items.WHITE_STAINED_GLASS_PANE.asItem()),'C', new ItemStack(Items.PINK_STAINED_GLASS_PANE.asItem()),
-                    'D', new ItemStack(Items.RED_STAINED_GLASS_PANE.asItem()),'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite),'F', new ItemStack(Items.MAGENTA_STAINED_GLASS_PANE.asItem()),
-                    'G', RegistriesUtils.getItemStack("botania:tornado_rod"),'H', new ItemStack(Items.CHISELED_DEEPSLATE.asItem()),'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
+                    'A', new ItemStack(Items.YELLOW_STAINED_GLASS_PANE.asItem()), 'B', new ItemStack(Items.WHITE_STAINED_GLASS_PANE.asItem()), 'C', new ItemStack(Items.PINK_STAINED_GLASS_PANE.asItem()),
+                    'D', new ItemStack(Items.RED_STAINED_GLASS_PANE.asItem()), 'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite), 'F', new ItemStack(Items.MAGENTA_STAINED_GLASS_PANE.asItem()),
+                    'G', RegistriesUtils.getItemStack("botania:tornado_rod"), 'H', new ItemStack(Items.CHISELED_DEEPSLATE.asItem()), 'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
         }
 
         // 工具配方

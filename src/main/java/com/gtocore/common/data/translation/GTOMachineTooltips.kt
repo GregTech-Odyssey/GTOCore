@@ -31,6 +31,7 @@ object GTOMachineTooltips {
         danger("一键清空方块！！！" translatedTo "One click to clear the blocks!!!")
         danger("无视一切条件！！！" translatedTo "Ignore all conditions!!!")
         danger("注意爆破安全！！！" translatedTo "Pay attention to blasting safety!!!")
+        highlight("多人游戏请务必提醒其他成员！" translatedTo "Be sure to remind other players in the multiplayer game! ")
 
         section("可用模式" translatedTo "Available Modes")
         function("向库存放入物品以切换模式" translatedTo "Add items to inventory to switch modes")
@@ -39,7 +40,6 @@ object GTOMachineTooltips {
         command("放入§b模具(块)§r为§6区块模式§r" translatedTo "Put §bCasting Mold (Block)§r for §6Chunk mode§r")
         command("放入§b奇点§r为§6指定区域模式§r" translatedTo "Put §bSingularity§r for §6Designated Area mode§r")
         info("此时用两个§9坐标信息卡§r来确定区域" translatedTo "Now use two §9Coordinate Cards§r to determine the area")
-        important("爆破时请保持机器加载" translatedTo "Keep the machine loaded while blasting")
 
         section("爆炸当量" translatedTo "Explosive Yield")
         increase("向库存添加以下物品以提高爆炸当量：" translatedTo "Add the following items to inventory to increase explosive yield:")
@@ -62,7 +62,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("输入魔力加热" translatedTo "Input mana to heat")
-        increase("如果输入§c火元素§r，则加热速度翻5倍" translatedTo "If §cfire element§r is input, the heating speed will be 5 times faster")
+        increase("如果输入§c火元素蒸汽§r，则加热速度翻5倍" translatedTo "If §cfire element gas§r is input, the heating speed will be 5 times faster")
         command(ComponentSlang.TemperatureMax(2400))
     }
 

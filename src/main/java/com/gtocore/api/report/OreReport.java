@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -373,10 +374,11 @@ public class OreReport {
             Path logDir = Paths.get("logs", "report");
             if (!Files.exists(logDir)) Files.createDirectories(logDir);
 
-            Path reportPath = logDir.resolve("ore_report.md");
-            Path reportPath_arrays = logDir.resolve("ore_report_arrays.txt");
-            Path reportPath_table = logDir.resolve("ore_report_table.csv");
-            Path reportPath_meteorite_recipe = logDir.resolve("ore_report_meteorite_recipe.txt");
+            String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
+            Path reportPath = logDir.resolve("ore_report_" + timestamp + ".md");
+            Path reportPath_arrays = logDir.resolve("ore_report_arrays_" + timestamp + ".txt");
+            Path reportPath_table = logDir.resolve("ore_report_table_" + timestamp + ".csv");
+            Path reportPath_meteorite_recipe = logDir.resolve("ore_report_meteorite_recipe_" + timestamp + ".txt");
 
             try (BufferedWriter writer = Files.newBufferedWriter(reportPath)) {
                 writer.write(report.toString());

@@ -315,7 +315,6 @@ public final class MagicMaterial {
         AstralSilver = magicMaterial("astral_silver", "星辰银")
                 .ingot()
                 .fluid()
-                .plasma()
                 .components(Silver, 2, Thaumium, 1)
                 .color(0xd9d9f1)
                 .iconSet(BRIGHT)

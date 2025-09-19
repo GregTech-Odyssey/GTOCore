@@ -1,9 +1,6 @@
 package com.gtocore.common.machine.electric;
 
-import com.gtocore.api.report.AffixReporter;
-import com.gtocore.api.report.DataCrystalReport;
-import com.gtocore.api.report.EnchantmentStorage;
-import com.gtocore.api.report.OreReport;
+import com.gtocore.api.report.*;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -40,6 +37,7 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [enchantment]"), "enchantment"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [affix_reporter]"), "affix_reporter"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [ore_reporter]"), "ore_reporter"));
+        textList.add(ComponentPanelWidget.withButton(Component.literal(" [export_all_loot_tables]"), "export_all_loot_tables"));
     }
 
     private void handleDisplayClick(String componentData, ClickData clickData) {
@@ -52,6 +50,8 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
                 AffixReporter.getAffixReporter();
             } else if ("ore_reporter".equals(componentData)) {
                 OreReport.generateOreReport();
+            } else if ("export_all_loot_tables".equals(componentData)) {
+                LootTableExporter.exportAllLootTables();
             }
         }
     }

@@ -88,14 +88,6 @@ final class Mixer {
                 .duration(800)
                 .save();
 
-        MIXER_RECIPES.recipeBuilder("astral_silver_dust")
-                .inputItems(TagPrefix.dust, GTMaterials.Silver, 2)
-                .inputItems(TagPrefix.dust, GTOMaterials.Thaumium)
-                .outputItems(TagPrefix.dust, GTOMaterials.AstralSilver, 3)
-                .EUt(1920)
-                .duration(400)
-                .save();
-
         MIXER_RECIPES.recipeBuilder("sunnarium")
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
