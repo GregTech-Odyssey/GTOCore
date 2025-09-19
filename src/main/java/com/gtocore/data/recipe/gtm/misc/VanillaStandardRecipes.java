@@ -209,8 +209,8 @@ public final class VanillaStandardRecipes {
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("form_glass").duration(80).EUt(VA[LV])
-                .inputItems(dust, Glass)
                 .notConsumable(SHAPE_MOLD_BLOCK)
+                .inputItems(dust, Glass)
                 .outputItems(new ItemStack(Blocks.GLASS)).save();
 
         ALLOY_SMELTER_RECIPES.recipeBuilder("glass_bottle").duration(64).EUt(4)

@@ -9,14 +9,12 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.GenericStack;
-import appeng.api.stacks.KeyCounter;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,33 +33,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     @Override
     public Object2LongOpenHashMap<FluidStack> getFluidMap() {
         if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
-        if (fluidMap == null) {
-            fluidMap = new O2LOpenCacheHashMap<>();
-        }
-        if (changed) {
-            changed = false;
-            fluidMap.clear();
-            var grid = machine.getMainNode().getGrid();
-            if (grid == null) return null;
-            KeyCounter counter = IExpandedStorageService.of(grid.getStorageService()).getLazyKeyCounter();
-            for (var i : inventory) {
-                if (i.config == null) continue;
-                var stock = i.stock;
-                if (stock == null) continue;
-                var amount = counter.get(stock.what());
-                if (amount < 1) {
-                    i.stock = null;
-                    continue;
-                } else {
-                    i.stock = ExportOnlyAESlot.copy(stock, amount);
-                }
-                var stack = i.getFluid();
-                if (stack.isEmpty()) continue;
-                fluidMap.addTo(stack, amount);
-            }
-            isEmpty = fluidMap.isEmpty();
-        }
-        return isEmpty ? null : fluidMap;
+        return super.getFluidMap();
     }
 
     @Override

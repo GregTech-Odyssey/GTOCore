@@ -221,6 +221,17 @@ public final class BotaniaRecipes {
 
         }
 
+        // 祭坛锻造
+        {
+            PedestalRecipeBuilder.builder("heros_soul")
+                    .input(ExtraBotanyItems.heroMedal)
+                    .output(GTOItems.HEROS_SOUL.asStack(4))
+                    .smashTools(ExtraBotanyTags.Items.HAMMERS)
+                    .strike(20)
+                    .exp(10)
+                    .save();
+        }
+
         // 精灵交易
         {
             ElfExchangeRecipe("elf_quartz", new ItemStack(Items.QUARTZ, 4), new ItemStack(BotaniaItems.elfQuartz, 4));
@@ -688,133 +699,148 @@ public final class BotaniaRecipes {
         {
             PedestalSmashRecipe(5, "gilded_potato_mashed", 180, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.gildedPotato, 16), new ItemStack(ExtraBotanyItems.gildedPotatoMashed, 16));
             PedestalSmashRecipe(5, "spirit_fragment", 180, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.spiritFuel, 16), new ItemStack(ExtraBotanyItems.spiritFragment, 16));
-
+            PedestalSmashRecipe(5, "heros_soul", 360, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.heroMedal, 16), new ItemStack(GTOItems.HEROS_SOUL, 64));
         }
 
-        // 魔力凝聚
+        // 多方块特供配方
+        {
+            // 魔力凝聚
+            {
+                String[] EndremEyes = {
+                        "black_eye", "cold_eye", "corrupted_eye", "lost_eye",
+                        "nether_eye", "old_eye", "rogue_eye", "cursed_eye",
+                        "guardian_eye", "magical_eye", "wither_eye"
+                };
+                String[] EndremEyes_input = {
+                        "minecraft:sculk_catalyst", "ad_astra:ice_shard", "enderio:plant_matter_brown", "enderio:redstone_alloy_grinding_ball",
+                        "botania:quartz_blaze", "botania:forest_eye", "botania:redstone_root", "botania:life_essence",
+                        "minecraft:prismarine_crystals", "botania:mana_bottle", "enderio:withering_powder"
+                };
 
-        String[] EndremEyes = {
-                "black_eye", "cold_eye", "corrupted_eye", "lost_eye",
-                "nether_eye", "old_eye", "rogue_eye", "cursed_eye",
-                "guardian_eye", "magical_eye", "wither_eye"
-        };
-        String[] EndremEyes_input = {
-                "minecraft:sculk_catalyst", "ad_astra:ice_shard", "enderio:plant_matter_brown", "enderio:redstone_alloy_grinding_ball",
-                "botania:quartz_blaze", "botania:forest_eye", "botania:redstone_root", "botania:life_essence",
-                "minecraft:prismarine_crystals", "botania:mana_bottle", "enderio:withering_powder"
-        };
+                for (int i = 0; i < EndremEyes.length; i++) {
+                    MANA_CONDENSER_RECIPES.builder(EndremEyes[i])
+                            .inputItems(GTItems.QUANTUM_EYE.asStack())
+                            .inputItems(EndremEyes_input[i])
+                            .outputItems("endrem:" + EndremEyes[i])
+                            .duration(200)
+                            .MANAt(128)
+                            .save();
+                }
 
-        for (int i = 0; i < EndremEyes.length; i++) {
-            MANA_CONDENSER_RECIPES.builder(EndremEyes[i])
-                    .inputItems(GTItems.QUANTUM_EYE.asStack())
-                    .inputItems(EndremEyes_input[i])
-                    .outputItems("endrem:" + EndremEyes[i])
-                    .duration(200)
-                    .MANAt(128)
-                    .save();
+                MANA_CONDENSER_RECIPES.builder("enriched_naquadah_trinium_europium_duranide")
+                        .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
+                        .outputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
+                        .inputFluids(GTOMaterials.Aether.getFluid(1000))
+                        .duration(80)
+                        .MANAt(2048)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("ruthenium_trinium_americium_neutronate")
+                        .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
+                        .outputItems(TagPrefix.wireGtSingle, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
+                        .inputFluids(GTOMaterials.Aether.getFluid(1000))
+                        .duration(80)
+                        .MANAt(8192)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("nether_star")
+                        .chancedInput("mythicbotany:helheim_rune", 9500, 100)
+                        .inputItems("botania:quartz_elven", 4)
+                        .inputItems(dust, GTMaterials.Iridium)
+                        .outputItems(gem, GTMaterials.NetherStar, 2)
+                        .inputFluids(GTMaterials.NetherAir, 4000)
+                        .duration(200)
+                        .MANAt(512)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("terrasteel_ingot")
+                        .inputItems(ingot, GTOMaterials.Manasteel)
+                        .inputItems("botania:mana_pearl")
+                        .inputItems(gem, GTOMaterials.ManaDiamond)
+                        .outputItems(ingot, GTOMaterials.Terrasteel, 3)
+                        .inputFluids(GTOMaterials.Terrasteel, 144)
+                        .MANAt(512)
+                        .duration(400)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("thaumium_ingot")
+                        .inputItems(ingot, Livingsteel)
+                        .inputItems(ItemsRegistry.SOURCE_GEM)
+                        .inputItems(ingot, OriginalBronze)
+                        .inputItems(ItemsRegistry.MANIPULATION_ESSENCE)
+                        .outputItems(ingot, GTOMaterials.Thaumium, 3)
+                        .inputFluids(GTOMaterials.Thaumium, 144)
+                        .MANAt(512)
+                        .duration(400)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("alfsteel_ingot")
+                        .inputItems(BotaniaItems.elementium)
+                        .inputItems(BotaniaItems.pixieDust)
+                        .inputItems(BotaniaItems.dragonstone)
+                        .outputItems(ingot, Alfsteel, 3)
+                        .inputFluids(GTOMaterials.Alfsteel, 144)
+                        .MANAt(1536)
+                        .duration(400)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("gaiasteel_ingot")
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:asgard_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:midgard_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune"))
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:helheim_rune"))
+                        .inputItems(ingot, Alfsteel, 3)
+                        .inputItems(ingot, Runerock, 3)
+                        .outputItems(ingot, Gaiasteel, 9)
+                        .inputFluids(GTOMaterials.Gaiasteel, 576)
+                        .MANAt(2560)
+                        .duration(400)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("gaia_ingot")
+                        .inputItems(ingot, Gaiasteel, 2)
+                        .inputItems(BotaniaItems.lifeEssence, 2)
+                        .outputItems(ingot, Gaia, 6)
+                        .inputFluids(GTOMaterials.Gaia, 288)
+                        .MANAt(5120)
+                        .duration(400)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("aerialite_ingot")
+                        .inputItems(BotaniaItems.enderAirBottle, 2)
+                        .inputItems(gem, Dragonstone, 2)
+                        .inputItems(Items.PHANTOM_MEMBRANE.asItem(), 2)
+                        .outputItems(ingot, Aerialite, 3)
+                        .MANAt(256)
+                        .duration(200)
+                        .save();
+
+                MANA_CONDENSER_RECIPES.builder("the_universe")
+                        .inputItems(ExtraBotanyItems.theChaos, 2)
+                        .inputItems(ExtraBotanyItems.theOrigin, 2)
+                        .inputItems(ExtraBotanyItems.theEnd, 2)
+                        .outputItems(ExtraBotanyItems.theUniverse, 3)
+                        .MANAt(512)
+                        .duration(200)
+                        .save();
+            }
+
+            // 精灵交易
+            {
+                ElfExchangeRecipe(1, "pandoras_box", 20000, 100, new ItemStack(ExtraBotanyItems.heroMedal, 2), new ItemStack(ExtraBotanyItems.pandorasBox));
+                ElfExchangeRecipe(2, "nine_and_three_quarters", 10000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.nineAndThreeQuartersRewardBag, 40));
+                // 价值 4000 100 1 10 80 80(大概？)
+                ElfExchangeRecipe(3, "eins", 2000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.einsRewardBag, 4000));
+                ElfExchangeRecipe(4, "zwei", 4000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.zweiRewardBag, 400));
+                ElfExchangeRecipe(5, "drei", 6000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.dreiRewardBag, 50));
+                ElfExchangeRecipe(6, "vier", 6000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.vierRewardBag, 50));
+            }
         }
-
-        MANA_CONDENSER_RECIPES.builder("enriched_naquadah_trinium_europium_duranide")
-                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
-                .outputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
-                .inputFluids(GTOMaterials.Aether.getFluid(1000))
-                .duration(80)
-                .MANAt(2048)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("ruthenium_trinium_americium_neutronate")
-                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
-                .outputItems(TagPrefix.wireGtSingle, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
-                .inputFluids(GTOMaterials.Aether.getFluid(1000))
-                .duration(80)
-                .MANAt(8192)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("nether_star")
-                .chancedInput("mythicbotany:helheim_rune", 9500, 100)
-                .inputItems("botania:quartz_elven", 4)
-                .inputItems(dust, GTMaterials.Iridium)
-                .outputItems(gem, GTMaterials.NetherStar, 2)
-                .inputFluids(GTMaterials.NetherAir, 4000)
-                .duration(200)
-                .MANAt(512)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("terrasteel_ingot")
-                .inputItems(ingot, GTOMaterials.Manasteel)
-                .inputItems("botania:mana_pearl")
-                .inputItems(gem, GTOMaterials.ManaDiamond)
-                .outputItems(ingot, GTOMaterials.Terrasteel, 3)
-                .inputFluids(GTOMaterials.Terrasteel, 144)
-                .MANAt(512)
-                .duration(400)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("thaumium_ingot")
-                .inputItems(ingot, Livingsteel)
-                .inputItems(ItemsRegistry.SOURCE_GEM)
-                .inputItems(ingot, OriginalBronze)
-                .inputItems(ItemsRegistry.MANIPULATION_ESSENCE)
-                .outputItems(ingot, GTOMaterials.Thaumium, 3)
-                .inputFluids(GTOMaterials.Thaumium, 144)
-                .MANAt(512)
-                .duration(400)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("alfsteel_ingot")
-                .inputItems(BotaniaItems.elementium)
-                .inputItems(BotaniaItems.pixieDust)
-                .inputItems(BotaniaItems.dragonstone)
-                .outputItems(ingot, Alfsteel, 3)
-                .inputFluids(GTOMaterials.Alfsteel, 144)
-                .MANAt(1536)
-                .duration(400)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("gaiasteel_ingot")
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:asgard_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:midgard_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune"))
-                .inputItems(RegistriesUtils.getItemStack("mythicbotany:helheim_rune"))
-                .inputItems(ingot, Alfsteel, 3)
-                .inputItems(ingot, Runerock, 3)
-                .outputItems(ingot, Gaiasteel, 9)
-                .inputFluids(GTOMaterials.Gaiasteel, 576)
-                .MANAt(2560)
-                .duration(400)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("gaia_ingot")
-                .inputItems(ingot, Gaiasteel, 2)
-                .inputItems(BotaniaItems.lifeEssence, 2)
-                .outputItems(ingot, Gaia, 6)
-                .inputFluids(GTOMaterials.Gaia, 288)
-                .MANAt(5120)
-                .duration(400)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("aerialite_ingot")
-                .inputItems(BotaniaItems.enderAirBottle, 2)
-                .inputItems(gem, Dragonstone, 2)
-                .inputItems(Items.PHANTOM_MEMBRANE.asItem(), 2)
-                .outputItems(ingot, Aerialite, 3)
-                .MANAt(256)
-                .duration(200)
-                .save();
-
-        MANA_CONDENSER_RECIPES.builder("the_universe")
-                .inputItems(ExtraBotanyItems.theChaos, 2)
-                .inputItems(ExtraBotanyItems.theOrigin, 2)
-                .inputItems(ExtraBotanyItems.theEnd, 2)
-                .outputItems(ExtraBotanyItems.theUniverse, 3)
-                .MANAt(512)
-                .duration(200)
-                .save();
     }
 
     private static void PureDaisyRecipe(
@@ -920,15 +946,27 @@ public final class BotaniaRecipes {
     }
 
     private static void ElfExchangeRecipe(
+                                          int circuitMeta,
+                                          String id,
+                                          int mana,
+                                          int duration,
+                                          ItemStack input,
+                                          ItemStack output) {
+        var build = ELF_EXCHANGE_RECIPES.builder(id);
+        if (circuitMeta != 0) build.circuitMeta(circuitMeta);
+        build
+                .inputItems(input)
+                .outputItems(output)
+                .duration(duration)
+                .MANAt(mana)
+                .save();
+    }
+
+    private static void ElfExchangeRecipe(
                                           String id,
                                           ItemStack input,
                                           ItemStack output) {
-        ELF_EXCHANGE_RECIPES.builder(id)
-                .inputItems(input)
-                .outputItems(output)
-                .duration(10)
-                .MANAt(8)
-                .save();
+        ElfExchangeRecipe(0, id, 8, 10, input, output);
     }
 
     private static void InfusionManaPoolRecipe(

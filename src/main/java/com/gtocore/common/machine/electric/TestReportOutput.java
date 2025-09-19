@@ -1,8 +1,6 @@
 package com.gtocore.common.machine.electric;
 
-import com.gtocore.api.report.AffixReporter;
-import com.gtocore.api.report.DataCrystalReport;
-import com.gtocore.api.report.EnchantmentStorage;
+import com.gtocore.api.report.*;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -14,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
@@ -38,6 +37,9 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [data_crystal]"), "data_crystal"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [enchantment]"), "enchantment"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [affix_reporter]"), "affix_reporter"));
+        textList.add(ComponentPanelWidget.withButton(Component.literal(" [ore_reporter]"), "ore_reporter"));
+        textList.add(ComponentPanelWidget.withButton(Component.literal(" [export_all_loot_tables]"), "export_all_loot_tables"));
+        textList.add(ComponentPanelWidget.withButton(Component.literal(" [export_loot_tables]"), "export_loot_tables"));
     }
 
     private void handleDisplayClick(String componentData, ClickData clickData) {
@@ -48,6 +50,19 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
                 EnchantmentStorage.getEnchantmentsReport();
             } else if ("affix_reporter".equals(componentData)) {
                 AffixReporter.getAffixReporter();
+            } else if ("ore_reporter".equals(componentData)) {
+                OreReport.generateOreReport();
+            } else if ("export_all_loot_tables".equals(componentData)) {
+                LootTableExporter.exportAllLootTables();
+            } else if ("export_loot_tables".equals(componentData)) {
+                List<String> LOOT_TABLES = Arrays.asList(
+                        "extrabotany:reward_bags/eins",
+                        "extrabotany:reward_bags/zwei",
+                        "extrabotany:reward_bags/drei",
+                        "extrabotany:reward_bags/vier",
+                        "extrabotany:reward_bags/nine_and_three_quarters",
+                        "extrabotany:reward_bags/pandoras_box");
+                LootTableExporter.exportLootTables(LOOT_TABLES);
             }
         }
     }

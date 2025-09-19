@@ -1,6 +1,5 @@
 package com.gtocore.data;
 
-import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeTypes;
@@ -49,6 +48,7 @@ import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Block;
 
 import com.google.common.collect.ImmutableSet;
@@ -59,6 +59,7 @@ import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import me.jellysquid.mods.sodium.mixin.core.render.MinecraftAccessor;
 
 import java.util.Collections;
 
@@ -199,7 +200,7 @@ public final class Data {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            CommonProxy.setException(e);
+            ((MinecraftAccessor) Minecraft.getInstance()).embeddium$getGameThread().interrupt();
         }
     }
 }

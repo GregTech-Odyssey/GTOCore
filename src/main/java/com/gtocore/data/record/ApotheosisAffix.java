@@ -1,6 +1,7 @@
 package com.gtocore.data.record;
 
 import com.gtocore.common.item.ApothItem;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 
@@ -169,6 +170,7 @@ public class ApotheosisAffix {
                     .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/apoth/fabric0"), GTOCore.id("item/apoth/fabric1")))
                     .lang(en)
                     .color(() -> ApothItem::color)
+                    .tag(Tags.AFFIX_ESSENCE)
                     .register();
         }
         return entries;

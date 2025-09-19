@@ -13,4 +13,11 @@ public interface ITempPartMachine extends IReceiveHeatMachine {
     default int getMaxTemperature() {
         return Integer.MAX_VALUE;
     }
+
+    @Override
+    default void tickUpdate() {
+        if (self().getOffsetTimer() % 20 != 0) return;
+        raiseTemperature(getHeatCapacity());
+        reduceTemperature(1);
+    }
 }

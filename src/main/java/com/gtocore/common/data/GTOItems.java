@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
@@ -44,6 +45,7 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
+import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
@@ -865,7 +867,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> HIGH_PURITY_SILICA_COLUMN = register("high_purity_silica_column", "高纯二氧化硅柱");
     public static final ItemEntry<Item> HIGH_PURITY_SILICA_TUBE = register("high_purity_silica_tube", "高纯二氧化硅管");
     public static final ItemEntry<Item> SIMPLE_OPTICAL_FIBER_PREFORM = item("simple_optical_fiber_preform", "简易光纤预制棒", Item::new)
-            .properties(p -> p.stacksTo(1).defaultDurability(1024)).register();
+            .properties(p -> p.stacksTo(1)).register();
     public static final ItemEntry<Item> SIMPLE_FIBER_OPTIC_ROUGH = register("simple_fiber_optic_rough", "简易光纤粗胚");
     public static final ItemEntry<Item> SIMPLE_FIBER_OPTIC = register("simple_fiber_optic", "简易光纤");
 
@@ -877,9 +879,22 @@ public final class GTOItems {
 
     public static final ItemEntry<Item> COLORFUL_MYSTICAL_FLOWER = register("colorful_mystical_flower", "多彩神秘花瓣");
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
-    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
-    public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
-    public static final ItemEntry<Item> PHILOSOPHERS_STONE = register("philosophers_stone", "贤者之石");
+    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = item("unstable_gaia_soul", "不稳定的盖亚之魂", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+    public static final ItemEntry<Item> WILDEN_SLATE = item("wilden_slate", "荒野石板", Item::new).properties(p -> p.rarity(Rarity.EPIC)).register();
+    public static final ItemEntry<Item> HELIO_COAL = register("helio_coal", "日耀煤");
+    public static final ItemEntry<Item> ENDER_DIAMOND = register("ender_diamond", "末影钻石");
+    public static final ItemEntry<Item> RIBBON = register("ribbon", "绶带");
+    public static final ItemEntry<Item> GOLD_MEDAL = item("gold_medal", "金制勋章", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+    public static final ItemEntry<Item> HEROS_SOUL = item("heros_soul", "英雄之魂", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+
+    @SuppressWarnings("unchecked")
+    public static final ItemEntry<Item> PHILOSOPHERS_STONE = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("philosophers_stone", "贤者之石", p -> new Item(p) {
+
+        @Override
+        public @NotNull Component getName(@NotNull ItemStack pStack) {
+            return Component.translatable(this.getDescriptionId(pStack)).withStyle(s -> s.withColor(new OffsetGradientColor(2f)));
+        }
+    }).register();
 
     // public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
 

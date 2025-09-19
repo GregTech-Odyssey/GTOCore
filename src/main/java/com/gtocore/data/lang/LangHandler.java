@@ -96,7 +96,7 @@ public final class LangHandler {
         addCNEN("selectWorld.dev_mode", "开发者模式已启用", "Developer Mode Enabled");
         addCNEN("selectWorld.gto_difficulty.current", "与当前游戏难度匹配", "Matches current game difficulty");
         addCNEN("selectWorld.gto_difficulty.not_current", "与当前游戏难度不匹配", "Does not match current game difficulty");
-        addCNEN("message.gtocore.difficulty_mismatch", "服务器难度与当前客户端不符，无法加入游戏！（当前：%s，服务器：%s）", "The server difficulty does not match the current client and cannot join the game! (Current: %s, Server: %s)");
+        addCNEN("message.gtocore.difficulty_mismatch", "服务器难度与当前客户端不符，无法加入游戏！（服务器：%s，当前：%s）", "The server difficulty does not match the current client and cannot join the game! (Server: %s, Current: %s)");
 
         addCNEN("selectWorld.gto_difficulty.tooltip.simple", "简单模式：游戏流程的各环节（资源获取，制作，自动化等）均有大量简化，游戏难度低。", "Simple Mode: All aspects of the game process (resource acquisition, crafting, automation, etc.) are greatly simplified, making the game easier. ");
         addCNEN("selectWorld.gto_difficulty.tooltip.normal", "普通模式：标准的GTO体验，机制玩法均为默认设定。", "Normal Mode: Standard GTO experience, with all mechanics and gameplay set to default. ");
@@ -189,6 +189,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
+        addCNEN("config.jade.plugin_gtocore.celestial_energy_provider", "[GTOCore] 天体能量", "[GTOCore] Celestial Energy");
 
         addCNEN("fluid.gtocore.gelid_cryotheum", "极寒之凛冰", "Gelid Cryotheum");
 
@@ -321,6 +322,10 @@ public final class LangHandler {
         addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
 
         addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
+
+        addCNEN("gtocore.celestial_condenser.solaris", "曦煌：%s", "Solaris: %s");
+        addCNEN("gtocore.celestial_condenser.lunara", "胧华：%s", "Lunara: %s");
+        addCNEN("gtocore.celestial_condenser.voidflux", "虚湮：%s", "Voidflux: %s");
     }
 
     public static void enInitialize(LanguageProvider provider) {

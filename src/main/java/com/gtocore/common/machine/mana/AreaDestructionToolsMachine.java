@@ -59,7 +59,7 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
             Level level = getLevel();
             if (level == null) return;
             model = 0;
-            int explosiveEnergy = 0;
+            long explosiveEnergy = 0;
             explosiveYield = 0;
             pos1 = null;
             pos2 = null;
@@ -71,11 +71,11 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
                 else if (item == GTItems.SHAPE_MOLD_CYLINDER.asItem()) model = 2;
                 else if (item == GTItems.SHAPE_MOLD_BLOCK.asItem()) model = 3;
                 else if (item == AEItems.SINGULARITY.asItem()) model = 4;
-                else if (item == GTBlocks.INDUSTRIAL_TNT.asItem()) explosiveEnergy += 30 * stack.getCount();
-                else if (item == GTOBlocks.NUKE_BOMB.asItem()) explosiveEnergy += 2048 * stack.getCount();
-                else if (item == GTOBlocks.NAQUADRIA_CHARGE.asItem()) explosiveEnergy += 3200 * stack.getCount();
-                else if (item == GTOBlocks.LEPTONIC_CHARGE.asItem()) explosiveEnergy += 2048000 * stack.getCount();
-                else if (item == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem()) explosiveEnergy += 32000000 * stack.getCount();
+                else if (item == GTBlocks.INDUSTRIAL_TNT.asItem()) explosiveEnergy += 30L * stack.getCount();
+                else if (item == GTOBlocks.NUKE_BOMB.asItem()) explosiveEnergy += 2048L * stack.getCount();
+                else if (item == GTOBlocks.NAQUADRIA_CHARGE.asItem()) explosiveEnergy += 3200L * stack.getCount();
+                else if (item == GTOBlocks.LEPTONIC_CHARGE.asItem()) explosiveEnergy += 2048000L * stack.getCount();
+                else if (item == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem()) explosiveEnergy += 32000000L * stack.getCount();
                 else if (item == GTOItems.COORDINATE_CARD.asItem()) {
                     if (pos1 == null) pos1 = getStoredCoordinates(stack);
                     else pos2 = getStoredCoordinates(stack);

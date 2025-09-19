@@ -254,8 +254,8 @@ public final class CircuitRecipes {
                 .duration(200).EUt(24).save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("press_glass_tube")
-                .inputItems(dust, Glass)
                 .notConsumable(SHAPE_MOLD_BALL)
+                .inputItems(dust, Glass)
                 .outputItems(GLASS_TUBE)
                 .duration(80).EUt(VA[ULV]).save();
 

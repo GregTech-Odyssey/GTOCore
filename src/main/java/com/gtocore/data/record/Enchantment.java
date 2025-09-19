@@ -1,6 +1,7 @@
 package com.gtocore.data.record;
 
 import com.gtocore.common.item.ApothItem;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 
@@ -194,6 +195,7 @@ public class Enchantment {
                     .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/apoth/orb0"), GTOCore.id("item/apoth/orb1")))
                     .lang(en)
                     .color(() -> ApothItem::color)
+                    .tag(Tags.ENCHANTMENT_ESSENCE)
                     .register();
         }
         return entries;

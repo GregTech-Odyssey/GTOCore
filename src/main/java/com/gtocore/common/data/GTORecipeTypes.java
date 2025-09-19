@@ -936,6 +936,20 @@ public final class GTORecipeTypes {
                 return "";
             });
 
+    public static final RecipeType CELESTIAL_CONDENSER_RECIPES = register("celestial_condenser", "苍穹凝聚", MAGIC)
+            .setMaxIOSize(1, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COOLING)
+            .addDataInfo(data -> {
+                int solaris = data.getInt("solaris");
+                int lunara = data.getInt("lunara");
+                int voidflux = data.getInt("voidflux");
+                if (solaris > 0) return I18n.get("gtocore.celestial_condenser.solaris", solaris);
+                if (lunara > 0) return I18n.get("gtocore.celestial_condenser.lunara", lunara);
+                if (voidflux > 0) return I18n.get("gtocore.celestial_condenser.voidflux", voidflux);
+                return "";
+            });
+
     public static final RecipeType MANA_HEATER_RECIPES = register("mana_heater", "魔力加热器", MAGIC)
             .setMaxIOSize(0, 0, 1, 0)
             .setSound(GTSoundEntries.FURNACE);
@@ -954,7 +968,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType ELF_EXCHANGE_RECIPES = register("elf_exchange", "ELF Exchange", "精灵交易", MAGIC)
             .setMANAIO(IO.IN)
-            .setMaxIOSize(1, 1, 0, 0)
+            .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.REPLICATOR);
 

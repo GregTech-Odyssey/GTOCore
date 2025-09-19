@@ -29,7 +29,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ExportOnlyAEItemList.class, NotifiableItemStackHandler.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    protected final ExportOnlyAEItemSlot[] inventory;
+    private final ExportOnlyAEItemSlot[] inventory;
 
     public ExportOnlyAEItemList(MetaMachine holder, int slots) {
         this(holder, slots, ExportOnlyAEItemSlot::new);

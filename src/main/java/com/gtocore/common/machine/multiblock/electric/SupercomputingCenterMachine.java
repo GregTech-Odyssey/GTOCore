@@ -128,6 +128,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             incompatible = true;
             return;
         }
+        if (machineTier == 3) canBridge = true;
         for (IMultiPart part : getParts()) {
             if (incompatible) return;
             if (part instanceof HPCAComponentPartMachine componentPartMachine) {

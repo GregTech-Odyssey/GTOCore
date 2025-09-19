@@ -7,8 +7,6 @@ import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -16,7 +14,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
-import appeng.api.stacks.KeyCounter;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,33 +32,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     @Override
     public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
         if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
-        if (itemMap == null) {
-            itemMap = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
-        }
-        if (changed) {
-            changed = false;
-            itemMap.clear();
-            var grid = machine.getMainNode().getGrid();
-            if (grid == null) return null;
-            KeyCounter counter = IExpandedStorageService.of(grid.getStorageService()).getLazyKeyCounter();
-            for (var i : inventory) {
-                if (i.config == null) continue;
-                var stock = i.stock;
-                if (stock == null) continue;
-                var amount = counter.get(stock.what());
-                if (amount < 1) {
-                    i.stock = null;
-                    continue;
-                } else {
-                    i.stock = ExportOnlyAESlot.copy(stock, amount);
-                }
-                var stack = i.getStack();
-                if (stack.isEmpty()) continue;
-                itemMap.addTo(stack, amount);
-            }
-            isEmpty = itemMap.isEmpty();
-        }
-        return isEmpty ? null : itemMap;
+        return super.getItemMap();
     }
 
     @Override
