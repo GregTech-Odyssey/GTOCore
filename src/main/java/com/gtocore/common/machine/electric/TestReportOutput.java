@@ -53,12 +53,12 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
                 OreReport.generateOreReport();
             } else if ("export_all_loot_tables".equals(componentData)) {
                 List<String> LOOT_TABLES = Arrays.asList(
-                        "extrabotany:reward_bags/eins",
-                        "extrabotany:reward_bags/zwei",
-                        "extrabotany:reward_bags/drei",
-                        "extrabotany:reward_bags/vier",
-                        "extrabotany:reward_bags/nine_and_three_quarters",
-                        "extrabotany:reward_bags/pandoras_box",
+                        "extrabotany:loot_tables/reward_bags/eins",
+                        "extrabotany:loot_tables/reward_bags/zwei",
+                        "extrabotany:loot_tables/reward_bags/drei",
+                        "extrabotany:loot_tables/reward_bags/vier",
+                        "extrabotany:loot_tables/reward_bags/nine_and_three_quarters",
+                        "extrabotany:loot_tables/reward_bags/pandoras_box",
                         "minecraft:loot_tables/gameplay/fishing/fish.json",
                         "minecraft:loot_tables/gameplay/fishing/treasure.json",
                         "minecraft:loot_tables/gameplay/fishing/junk.json");
