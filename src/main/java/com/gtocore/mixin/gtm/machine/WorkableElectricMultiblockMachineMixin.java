@@ -157,7 +157,7 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Overwrite(remap = false)
     public void addDisplayText(List<Component> textList) {
         MachineUtils.addMachineText(textList, this, t -> textList.add(Component.translatable("gtceu.gui.multiblock_no_voiding.0").append(": ")
-                .append(ComponentPanelWidget.withButton(Component.translatable(voidingMode.getSerializedName()), "voidingMode"))));
+                .append(ComponentPanelWidget.withButton(Component.translatable(voidingMode.ordinal() == 0 ? "gtceu.gui.multiblock_no_voiding.1" : voidingMode.getSerializedName()), "voidingMode"))));
         for (IMultiPart part : getParts()) {
             part.addMultiText(textList);
         }

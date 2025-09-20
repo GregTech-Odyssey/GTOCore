@@ -148,7 +148,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         if (!clickData.isRemote) {
             if ("spawn_switch".equals(componentData)) {
                 isSpawn = !isSpawn;
-            }
+            } else super.handleDisplayClick(componentData, clickData);
         }
     }
 

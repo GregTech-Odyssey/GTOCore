@@ -758,7 +758,7 @@ public final class GTOMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
-    public static final MachineDefinition MACHINE_ACCESS_TERMINAL = machine("machine_access_terminal", "机器访问终端", MachineAccessTerminalPartMachine::new)
+    public static final MachineDefinition MACHINE_ACCESS_TERMINAL = machine("machine_access_terminal", "机器访问终端", GTOMachineBuilder::encapsulatorPart)
             .tier(UEV)
             .allRotation()
             .notAllowSharedTooltips()

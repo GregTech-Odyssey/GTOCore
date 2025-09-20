@@ -6,7 +6,6 @@ import com.gtocore.data.loot.DungeonLoot;
 
 import com.gtolib.api.recipe.ingredient.CircuitIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-import com.gtolib.gtm.AdvancedTerminalBehavior;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
@@ -24,7 +23,6 @@ import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-import com.hepdd.gtmthings.data.CustomItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -62,8 +60,6 @@ public class CommonProxyMixin {
     @SubscribeEvent
     @Overwrite(remap = false)
     public void commonSetup(FMLCommonSetupEvent event) {
-        CustomItems.ADVANCED_TERMINAL.get().getComponents().clear();
-        CustomItems.ADVANCED_TERMINAL.get().getComponents().add(new AdvancedTerminalBehavior());
         event.enqueueWork(() -> {
             CraftingHelper.register(SizedIngredient.TYPE, FastSizedIngredient.SERIALIZER);
             CraftingHelper.register(IntCircuitIngredient.TYPE, CircuitIngredient.SERIALIZER);

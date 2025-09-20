@@ -55,7 +55,7 @@ public final class GTOCommands {
                             return 1;
                         })))))
                         .then(Commands.literal("dyson").then(Commands.literal("info").executes(ctx -> {
-                            DysonSphereSavaedData.INSTANCE.getDysonLaunchData().forEach((g, p) -> ctx.getSource().sendSuccess(() -> Component.literal("\nGalaxy: ").append(g).append("\nCount: " + p).append("\nDamage: " + DysonSphereSavaedData.INSTANCE.getDysonDamageData().getOrDefault(g, 0)).append("\nIn use: " + DysonSphereSavaedData.INSTANCE.getDysonUse().getOrDefault(g, false)), false));
+                            DysonSphereSavaedData.INSTANCE.getDysonLaunchData().forEach((g, p) -> ctx.getSource().sendSuccess(() -> Component.literal("\nGalaxy: ").append(g.name()).append("\nCount: " + p).append("\nDamage: " + DysonSphereSavaedData.INSTANCE.getDysonDamageData().getOrDefault(g, 0)).append("\nIn use: " + DysonSphereSavaedData.INSTANCE.getDysonUse().getOrDefault(g, false)), false));
                             return 1;
                         })).then(Commands.literal("clean").requires(source -> source.hasPermission(2)).executes(ctx -> {
                             DysonSphereSavaedData.INSTANCE.getDysonLaunchData().clear();
