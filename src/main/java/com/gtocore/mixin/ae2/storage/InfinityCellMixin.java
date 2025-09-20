@@ -8,7 +8,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(InfinityCell.class)
 public class InfinityCellMixin {
-    @Redirect(method = "getTooltipImage", at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/common/items/InfinityCell;getAsIntMax(Lappeng/api/stacks/AEKey;)J"),remap = false)
+
+    @Redirect(method = "getTooltipImage", at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/common/items/InfinityCell;getAsIntMax(Lappeng/api/stacks/AEKey;)J"), remap = false)
     private long getAsLongMax(AEKey key) {
         return 0x1fffffffffffffffL;
     }

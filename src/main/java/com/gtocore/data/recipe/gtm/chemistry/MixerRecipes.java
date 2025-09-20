@@ -1,10 +1,11 @@
 package com.gtocore.data.recipe.gtm.chemistry;
 
+import com.gtocore.common.data.GTOMaterials;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
-import com.gtocore.common.data.GTOMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
