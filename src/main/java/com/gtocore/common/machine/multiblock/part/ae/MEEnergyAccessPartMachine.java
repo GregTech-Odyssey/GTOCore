@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gtocore.common.machine.multiblock.noenergy.MEEnergySubstationMachine;
@@ -19,12 +18,12 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigInteger;
-
+import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static java.lang.Math.min;
 
 public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachineLife, IGridConnectedMachine, IAEPowerStorage {
 
+    double ratio=ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
     public MEEnergyAccessPartMachine(MetaMachineBlockEntity holder) {
         super(holder,IO.NONE);
         this.getMainNode().addService(IAEPowerStorage.class, this);
@@ -33,27 +32,37 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     @Override
     public void setOnline(boolean isOnline) {
         super.setOnline(isOnline);
+        postEnergyEvent();
     }
 
     private double EU2AE(long eu){
-        return PowerUnits.FE.convertTo(PowerUnits.AE, eu)* ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+        return PowerUnits.FE.convertTo(PowerUnits.AE, eu)* ratio;
     }
     private long AE2EU(double ae){
-        return (long) Math.ceil(PowerUnits.AE.convertTo(PowerUnits.FE, ae)/ConfigHolder.INSTANCE.compat.energy.euToFeRatio);
+        return (long) Math.ceil(PowerUnits.AE.convertTo(PowerUnits.FE, ae)/ratio);
     }
+
     private MEEnergySubstationMachine getController(){
         var ctrl=getControllers().isEmpty()?null:getControllers().first();
         return ctrl instanceof MEEnergySubstationMachine m?m:null;
     }
+
+    @Override
+    public void setWorkingEnabled(boolean workingEnabled) {
+        super.setWorkingEnabled(workingEnabled);
+        if(workingEnabled)postEnergyEvent();
+    }
+
     private void postEnergyEvent(){
+        if(getController()==null || getController().getEnergyContainer()==null)return;
+        this.ratio=ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+        this.ratio*=1+0.3* getController().getCasingTier(GLASS_TIER);
         if(this.getMainNode().getGrid()!=null){
             this.getMainNode().getGrid().postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER));
         }
     }
 
-    @Override
-    public void addedToController(@NotNull IMultiController controller) {
-        super.addedToController(controller);
+    public void onFormatted(MEEnergySubstationMachine controller){
         postEnergyEvent();
     }
 
@@ -75,10 +84,9 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
 
     @Override
     public double getAECurrentPower() {
-        if(getController()==null)return 0;
-        if(getController().getWirelessEnergyContainer()==null)return 0;
-        return EU2AE(getController().getWirelessEnergyContainer().getStorage()
-                .min(BigInteger.valueOf(getController().getWirelessEnergyContainer().getRate())).longValue());
+        if(getController()==null || getController().getEnergyContainer()==null)return 0;
+        if(!this.isWorkingEnabled())return 0;
+        return EU2AE(getController().getEnergyContainer().getEnergyStored());
     }
 
     @Override
@@ -96,13 +104,12 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
         return multiplier.divide(this.extractAEPower(multiplier.multiply(amt), mode));
     }
 
-
     public double extractAEPower(double amt, Actionable mode) {
-        if(getController()==null)return 0;
-        if(getController().getWirelessEnergyContainer()==null)return 0;
+        if(getController()==null || getController().getEnergyContainer()==null)return 0;
+        if(!this.isWorkingEnabled())return 0;
         double can_extract=min(getAECurrentPower(),amt);
         if(!mode.isSimulate()){
-            getController().getWirelessEnergyContainer().removeEnergy(AE2EU(can_extract),getController());
+            getController().getEnergyContainer().changeEnergy(-AE2EU(can_extract));
         }
         return can_extract;
     }
@@ -118,6 +125,5 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
         group.addWidget(new LabelWidget(5, 0, () -> this.getOnlineField() ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
         return group;
     }
-
 
 }

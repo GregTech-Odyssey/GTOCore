@@ -1,13 +1,28 @@
 package com.gtocore.common.data.machines;
 
+import com.enderio.EnderIO;
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.common.data.*;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gtocore.client.renderer.machine.CustomPartRenderer;
-import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.multiblock.electric.*;
+import com.gtocore.common.machine.multiblock.electric.ChiselMachine;
+import com.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
+import com.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
+import com.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
@@ -19,7 +34,6 @@ import com.gtocore.common.machine.multiblock.storage.MEStorageMachine;
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine;
 import com.gtocore.common.machine.multiblock.storage.WirelessDimensionRepeaterMachine;
 import com.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
-
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.ae2.machine.MECPUMachine;
@@ -30,23 +44,11 @@ import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
-
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.common.data.*;
-
+import earth.terrarium.adastra.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
-
-import com.enderio.EnderIO;
-import earth.terrarium.adastra.common.registry.ModBlocks;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -59,8 +61,6 @@ import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMult
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public final class MultiBlockG {
-
-    public static void init() {}
 
     public static final MultiblockMachineDefinition LARGE_COKE_OVEN = multiblock("large_coke_oven", "大型焦炉", LargeCokeOvenMachine::new)
             .nonYAxisRotation()
@@ -82,7 +82,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_coke_bricks"), GTCEu.id("block/multiblock/coke_oven"))
             .register();
-
     public static final MultiblockMachineDefinition CRYSTALLIZATION_CHAMBER = multiblock("crystallization_chamber", "结晶器", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getCrystallizationChamberTooltips().getSupplier())
@@ -128,7 +127,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/large_chemical_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition LARGE_CRYSTALLIZATION_CHAMBER = multiblock("large_crystallization_chamber", "大型结晶器", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.CRYSTALLIZATION_RECIPES)
@@ -176,7 +174,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"), GTCEu.id("block/multiblock/large_chemical_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition ALGAE_FARM = multiblock("algae_farm", "藻类农场", AlgaeFarmMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getAlgaeFarmTooltips().getSupplier())
@@ -209,7 +206,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/cleanroom/plascrete"), GTCEu.id("block/multiblock/large_chemical_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition POLYMERIZATION_REACTOR = multiblock("polymerization_reactor", "聚合反应器", CoilMultiblockMachine.createCoilMachine(false, false))
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES)
@@ -237,7 +233,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/large_chemical_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition SATELLITE_CONTROL_CENTER = multiblock("satellite_control_center", "卫星控制中心", SatelliteControlCenterMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getSatelliteControlCenterTooltips().getSupplier())
@@ -274,7 +269,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition ELECTRIC_COOKING = multiblock("electric_cooking", "电力烹饪锅", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.ELECTRIC_COOKING_RECIPES)
@@ -301,7 +295,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/large_miner"))
             .register();
-
     public static final MultiblockMachineDefinition TREE_GROWTH_SIMULATOR = multiblock("tree_growth_simulator", "原木拟生场", TreeGrowthSimulator::new)
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getTreeGrowthSimulatorTooltips().getSupplier())
@@ -322,7 +315,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/brass_reinforced_wooden_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition LARGE_GREENHOUSE = multiblock("large_greenhouse", "大型温室", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
@@ -356,7 +348,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition CARVING_CENTER = multiblock("carving_center", "雕刻中心", ChiselMachine::new)
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getCarvingCenterTooltips().getSupplier())
@@ -384,7 +375,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition ANCIENT_REACTOR_CORE = multiblock("ancient_reactor_core", "远古反应核", VoidTransporterMachine.create(1, 0, VoidTransporterMachine.teleportToDimension(GTODimensions.ANCIENT_WORLD, new BlockPos(0, 128, 0))))
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
@@ -400,7 +390,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(EnderIO.loc("block/reinforced_obsidian_block"), GTOCore.id("block/multiblock/ancient_reactor_core"))
             .register();
-
     public static final MultiblockMachineDefinition NETHER_REACTOR_CORE = multiblock("nether_reactor_core", "下界反应核", VoidTransporterMachine.create(2, 1920, VoidTransporterMachine.teleportToDimension(GTODimensions.THE_NETHER, new BlockPos(0, 128, 0))))
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
@@ -419,7 +408,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(EnderIO.loc("block/soularium_block"), GTOCore.id("block/multiblock/nether_reactor_core"))
             .register();
-
     public static final MultiblockMachineDefinition VOID_TRANSPORTER = multiblock("void_transporter", "虚空传送器", VoidTransporterMachine.create(0, 480))
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
@@ -438,7 +426,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(EnderIO.loc("block/reinforced_obsidian_block"), GTCEu.id("block/multiblock/implosion_compressor"))
             .register();
-
     public static final MultiblockMachineDefinition BOSS_SUMMONER = multiblock("boss_summoner", "BOSS召唤器", BossSummonerMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getBossSummonerTooltips().getSupplier())
@@ -459,7 +446,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/implosion_compressor"))
             .register();
-
     public static final MultiblockMachineDefinition DRILLING_CONTROL_CENTER = multiblock("drilling_control_center", "钻井控制中枢", DrillingControlCenterMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getDrillingControlCenterTooltips().getSupplier())
@@ -488,7 +474,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTOCore.id("block/multiblock/general0"))
             .register();
-
     public static final MultiblockMachineDefinition DRONE_CONTROL_CENTER = multiblock("drone_control_center", "无人机控制中心", DroneControlCenterMachine::new)
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
@@ -508,7 +493,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTOCore.id("block/multiblock/general0"))
             .register();
-
     public static final MultiblockMachineDefinition WIRELESS_ENERGY_SUBSTATION = multiblock("wireless_energy_substation", "无线能源塔", WirelessEnergySubstationMachine::new)
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
@@ -526,7 +510,6 @@ public final class MultiBlockG {
             .checkPriority(1000)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/power_substation"))
             .register();
-
     public static final MultiblockMachineDefinition WIRELESS_DIMENSION_REPEATER = multiblock("wireless_dimension_repeater", "无线电网维度中继器", WirelessDimensionRepeaterMachine::new)
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
@@ -561,7 +544,6 @@ public final class MultiBlockG {
             .checkPriority(1000)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_palladium_substation"), GTCEu.id("block/multiblock/power_substation"))
             .register();
-
     public static final MultiblockMachineDefinition[] PROCESSING_ARRAY = registerTieredMultis("processing_array", t -> GTOValues.VNFR[t] + "处理阵列",
             ProcessingArrayMachine::new, (tier, builder) -> builder
                     .langValue(VNF[tier] + " Processing Array")
@@ -596,7 +578,6 @@ public final class MultiBlockG {
                     .renderer(() -> new ArrayMachineRenderer(tier == IV ? GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel") : GTCEu.id("block/casings/solid/machine_casing_sturdy_hsse"), GTCEu.id("block/multiblock/gcym/large_assembler")))
                     .register(),
             IV, LuV);
-
     public static final MultiblockMachineDefinition SINTERING_FURNACE = multiblock("sintering_furnace", "烧结炉", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getSinteringFurnaceTooltips().getSupplier())
@@ -627,7 +608,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/blast_furnace"))
             .register();
-
     public static final MultiblockMachineDefinition ISOSTATIC_PRESS = multiblock("isostatic_press", "等静压成型", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getIsostaticPressMachineTooltips().getSupplier())
@@ -654,7 +634,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_stable_titanium"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
-
     public static final MultiblockMachineDefinition DRAWING_TOWER = multiblock("drawing_tower", "拉丝塔", DrawingTowerMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getDrawingTowerTooltips().getSupplier())
@@ -697,7 +676,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"), GTCEu.id("block/multiblock/large_miner"))
             .register();
-
     public static final MultiblockMachineDefinition ROCKET_ASSEMBLER = multiblock("rocket_assembler", "火箭装配机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES)
@@ -736,7 +714,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/gcym/large_assembler"))
             .register();
-
     public static final MultiblockMachineDefinition GAS_COMPRESSOR = multiblock("gas_compressor", "气体压缩机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.GAS_COMPRESSOR_RECIPES)
@@ -766,7 +743,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
-
     public static final MultiblockMachineDefinition SUPER_MOLECULAR_ASSEMBLER = multiblock("super_molecular_assembler", "超级分子装配室", SuperMolecularAssemblerMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
@@ -803,7 +779,6 @@ public final class MultiBlockG {
                     .build())
             .renderer(() -> new CustomPartRenderer(GTOCore.id("block/casings/oxidation_resistant_hastelloy_n_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"), GTOCore.id("block/zirconia_ceramic_high_strength_bending_resistance_mechanical_block")))
             .register();
-
     public static final MultiblockMachineDefinition RARITY_FORGE = multiblock("rarity_forge", "珍宝锻炉", ElectricMultiblockMachine::new)
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getRarityForgeTooltips().getSupplier())
@@ -822,7 +797,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTOCore.id("block/multiblock/general0"))
             .register();
-
     public static final MultiblockMachineDefinition ME_STORAGE = multiblock("me_storage", "ME存储器", MEStorageMachine::new)
             .langValue("ME Storage")
             .allRotation()
@@ -848,21 +822,58 @@ public final class MultiBlockG {
             .checkPriority(1000)
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition ME_ENERGY_SUBSTATION = multiblock("me_energy_substation", "ME能源塔", MEEnergySubstationMachine::new)
             .langValue("ME Energy")
             .allRotation()
             .recipeTypes(DUMMY_RECIPES)
-            .block(GTBlocks.HIGH_POWER_CASING)
-            .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)
-                    .aisle("BA")
-                    .where('A', blocks(GTAEMachines.ME_ENERGY_ACCESS_HATCH.get()))
-                    .where('B', controller(blocks(definition.get())))
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "ABBBA", "ABCBA", "ABBBA", "AAAAA")
+                    .aisle("ABBBA", "BDEDB", "BDFDB", "BDEDB", "ABBBA")
+                    .aisle("ABCBA", "BEFEB", "CFHFC", "BEFEB", "ABCBA")
+                    .aisle("ABBBA", "BDEDB", "BDFDB", "BDEDB", "ABBBA")
+                    .aisle("AAGAA", "ABBBA", "ABCBA", "ABBBA", "AAAAA")
+                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(blocks(GTAEMachines.ME_ENERGY_ACCESS_HATCH.get()).setExactLimit(1))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2)))
+                    .where('B', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('C', GTOPredicates.glass())
+                    .where('D', blocks(GTBlocks.BATTERY_LAPOTRONIC_IV.get()))
+                    .where('E', blocks(GTBlocks.BATTERY_EMPTY_TIER_II.get()))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
+                    .where('G', controller(blocks(definition.get())))
+                    .where('H', blocks(RegistriesUtils.getBlock("ae2:energy_acceptor")))
+                    .build())
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "AEEEA", "AEBEA", "AEEEA", "AAAAA", "DD DD", " D D ")
+                    .aisle("ABCBA", "BFDFB", "CDHDC", "BFDFB", "ABCBA", "     ", " D D ")
+                    .aisle("ABCBA", "BFDFB", "CDHDC", "BFDFB", "ABCBA", "     ", " D D ")
+                    .aisle("ABCBA", "BFDFB", "CDHDC", "BFDFB", "ABCBA", "     ", " D D ")
+                    .aisle("AACAA", "AFDFA", "CDIDC", "AFDFA", "AACAA", "DD DD", " D D ")
+                    .aisle("AACAA", "AFDFA", "CDIDC", "AFDFA", "AADAA", "DDDDD", " D D ")
+                    .aisle("ABCBA", "BFDFB", "CDHDC", "BFDFB", "ABCBA", "     ", " D D ")
+                    .aisle("ABCBA", "BFDFB", "CDHDC", "BFDFB", "ABCBA", "     ", " D D ")
+                    .aisle("ABCBA", "BFDFB", "CDHDC", "BFDFB", "ABCBA", "     ", " D D ")
+                    .aisle("AAAAA", "AEEEA", "AEBEA", "AEEEA", "AADAA", "DDDDD", " D D ")
+                    .aisle("     ", "     ", "     ", "     ", "     ", "DD DD", " D D ")
+                    .aisle("     ", "     ", "     ", "     ", "     ", "     ", " D D ")
+                    .aisle("     ", "     ", "     ", "     ", "     ", "     ", " D D ")
+                    .aisle("     ", "     ", "     ", "     ", "     ", "     ", " D D ")
+                    .aisle("  G  ", "     ", "     ", "     ", "     ", "DD DD", " D D ")
+                    .where('A', blocks(GTBlocks.COMPUTER_CASING.get()))
+                    .where('B', GTOPredicates.glass())
+                    .where('C', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
+                    .where('D', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
+                    .where('E', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('F', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('G', controller(blocks(definition.get())))
+                    .where('H', blocks(GTBlocks.BATTERY_LAPOTRONIC_ZPM.get()))
+                    .where('I', blocks(RegistriesUtils.getBlock("ae2:energy_acceptor")))
+                    .where(' ', any())
                     .build())
             .checkPriority(1000)
-            .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition WIRELESS_CHARGER = multiblock("wireless_charger", "无线充能器", WirelessChargerMachine::new)
             .allRotation()
             .addTooltipsFromClass(WirelessChargerMachine.class)
@@ -879,7 +890,6 @@ public final class MultiBlockG {
             .checkPriority(1000)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统",
             TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
@@ -925,7 +935,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
-
     public static final MultiblockMachineDefinition MULTIBLOCK_CRATE = multiblock("multiblock_crate", "多方块板条箱", MultiblockCrateMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
@@ -941,7 +950,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/multiblock_tank"))
             .register();
-
     public static final MultiblockMachineDefinition ME_CPU = multiblock("me_cpu", "ME超算核心", MECPUMachine::new)
             .langValue("ME Super Computer Core")
             .allRotation()
@@ -987,4 +995,7 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/nonconducting_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
+
+    public static void init() {
+    }
 }
