@@ -120,11 +120,10 @@ public class LootTableExporter {
                     .collect(Collectors.groupingBy(
                             LootTableAnalysis::getType,
                             TreeMap::new,
-                            Collectors.toList()
-                    ));
+                            Collectors.toList()));
 
             String timestamp = TIMESTAMP_FORMATTER.get().format(new Date());
-            String randomNumber = String.format("%08d", (int)(Math.random() * 100000000));
+            String randomNumber = String.format("%08d", (int) (Math.random() * 100000000));
             Path logDir = Paths.get("logs", "report", "loottable_analysis_" + timestamp + "_" + randomNumber);
 
             Files.createDirectories(logDir);
@@ -876,8 +875,7 @@ public class LootTableExporter {
                 .collect(Collectors.groupingBy(
                         analysis -> new ResourceLocation(analysis.getName()).getNamespace(),
                         TreeMap::new,
-                        Collectors.toList()
-                ));
+                        Collectors.toList()));
 
         for (Map.Entry<String, List<LootTableAnalysis>> namespaceEntry : byNamespace.entrySet()) {
             String namespace = namespaceEntry.getKey();

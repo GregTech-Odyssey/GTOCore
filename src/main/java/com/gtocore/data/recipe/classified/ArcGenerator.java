@@ -21,6 +21,8 @@ import com.enderio.base.common.init.EIOItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTORecipeTypes.ARC_GENERATOR_RECIPES;
 
 final class ArcGenerator {
@@ -301,6 +303,33 @@ final class ArcGenerator {
                 .inputFluids(GTOMaterials.Salamander, 10)
                 .EUt(1966080)
                 .duration(600)
+                .save();
+
+        ARC_GENERATOR_RECIPES.recipeBuilder("astral_silver")
+                .inputItems(TagPrefix.ingot, GTMaterials.Silver)
+                .inputItems(TagPrefix.gemExquisite, GTMaterials.Lapis)
+                .inputFluids(GTOMaterials.TheWaterFromTheWellOfWisdom.getFluid(1000))
+                .outputItems(TagPrefix.ingot, GTOMaterials.AstralSilver)
+                .EUt(VA[UV])
+                .duration(200)
+                .save();
+
+        ARC_GENERATOR_RECIPES.recipeBuilder("helio_coal")
+                .inputItems(Items.COAL)
+                .inputItems(TagPrefix.gemExquisite, GTMaterials.Lapis)
+                .inputFluids(GTOMaterials.TheWaterFromTheWellOfWisdom.getFluid(1000))
+                .outputItems(HELIO_COAL)
+                .EUt(VA[UV])
+                .duration(200)
+                .save();
+
+        ARC_GENERATOR_RECIPES.recipeBuilder("ender_diamond")
+                .inputItems(Items.DIAMOND)
+                .inputItems(TagPrefix.gemExquisite, GTMaterials.Lapis)
+                .inputFluids(GTOMaterials.TheWaterFromTheWellOfWisdom.getFluid(1000))
+                .outputItems(ENDER_DIAMOND)
+                .EUt(VA[UV])
+                .duration(200)
                 .save();
     }
 }

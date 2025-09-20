@@ -23,12 +23,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -63,6 +65,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     @Persisted
     private boolean isSpawn;
     private DamageSource damageSource;
+    private ItemStack activeWeapon = new ItemStack(Items.IRON_SWORD);
     private static final String[] mobList1 = {
             "minecraft:chicken",
             "minecraft:rabbit",
@@ -127,12 +130,25 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     public void onContentChanges(RecipeHandlerList handlerList) {
         if (handlerList.getHandlerIO() == IO.IN) {
             attackDamage = 1;
-            forEachInputItems(itemStack -> {
-                if (itemStack.getItem() instanceof SwordItem swordItem) {
-                    attackDamage += (int) swordItem.getDamage();
-                }
-                return false;
-            });
+            int c = checkingCircuit(false);
+            activeWeapon = ItemStack.EMPTY;
+
+            if (c == 3) {
+                forEachInputItems(itemStack -> {
+                    if (activeWeapon.isEmpty() && itemStack.getItem() instanceof SwordItem swordItem) {
+                        attackDamage += (int) swordItem.getDamage();
+                        if (attackDamage > 1) activeWeapon = itemStack.copy();
+                    }
+                    return false;
+                });
+            } else {
+                forEachInputItems(itemStack -> {
+                    if (itemStack.getItem() instanceof SwordItem swordItem) {
+                        attackDamage += (int) swordItem.getDamage();
+                    }
+                    return false;
+                });
+            }
         }
     }
 
@@ -140,7 +156,9 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
-        textList.add(Component.translatable("gtocore.machine.slaughterhouse.is_spawn").append(ComponentPanelWidget.withButton(Component.literal("[").append(isSpawn ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "spawn_switch")));
+        int c = checkingCircuit(false);
+        if (c == 3) textList.add(Component.translatable("gtocore.machine.slaughterhouse.active_weapon", activeWeapon.getDisplayName()));
+        else textList.add(Component.translatable("gtocore.machine.slaughterhouse.is_spawn").append(ComponentPanelWidget.withButton(Component.literal("[").append(isSpawn ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "spawn_switch")));
     }
 
     @Override
@@ -160,7 +178,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                 return null;
             }
             int c = checkingCircuit(false);
-            if (c == 0) {
+            if (c != 1 && c != 2 && c != 3) {
                 setIdleReason(IdleReason.SET_CIRCUIT);
                 return null;
             }
@@ -168,7 +186,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             BlockPos blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());
             ItemStack itemStack = getStorageStack();
             boolean isFixed = !itemStack.isEmpty();
-            String[] mobList = isFixed ? null : c == 1 ? mobList1 : mobList2;
+            String[] mobList = isFixed ? null : (c == 1 ? mobList1 : (c == 2 ? mobList2 : null));
             int parallel = Math.max(1, (getTier() - 2) << 3);
             int tierMultiplier = Math.min(16, parallel);
             int multiplier = parallel / tierMultiplier;
@@ -183,9 +201,33 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
 
             long xp = 0;
             for (Entity entity : entities) {
-                if (entity instanceof LivingEntity) {
+                if (entity instanceof LivingEntity livingEntity) {
                     if (CommonProxy.isBoss(entity)) continue;
-                    entity.hurt(getDamageSource(serverLevel), attackDamage);
+                    if (c == 3) {
+                        if (livingEntity.isAlive()) {
+                            Player fakePlayer = getFakePlayer(serverLevel);
+                            fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, activeWeapon.isEmpty() ? ItemStack.EMPTY : activeWeapon.copy());
+                            livingEntity.hurt(getDamageSource(serverLevel), attackDamage);
+                            if (!livingEntity.isAlive()) {
+                                String[] mobParts = StringUtils.decompose(EntityType.getKey(livingEntity.getType()).toString());
+                                if (mobParts.length >= 2) {
+                                    LootTable lootTable = serverLevel.getServer().getLootData()
+                                            .getLootTable(RLUtils.fromNamespaceAndPath(mobParts[0], "entities/" + mobParts[1]));
+                                    LootParams lootParams = new LootParams.Builder(serverLevel)
+                                            .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, fakePlayer)
+                                            .withParameter(LootContextParams.THIS_ENTITY, livingEntity)
+                                            .withParameter(LootContextParams.DAMAGE_SOURCE, getDamageSource(serverLevel))
+                                            .withParameter(LootContextParams.ORIGIN, blockPos.getCenter())
+                                            .withParameter(LootContextParams.TOOL, activeWeapon)
+                                            .create(lootTable.getParamSet());
+                                    lootTable.getRandomItems(lootParams).forEach(stack -> itemStacks.add(stack.copyWithCount(stack.getCount() * multiplier)));
+                                }
+                            }
+                            fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+                        }
+                    } else {
+                        livingEntity.hurt(getDamageSource(serverLevel), attackDamage);
+                    }
                 } else if (entity instanceof ItemEntity itemEntity) {
                     itemStacks.add(itemEntity.getItem());
                     itemEntity.discard();
@@ -197,38 +239,41 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
 
             if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp * ExperienceUtil.EXP_TO_FLUID);
 
-            for (int i = 0; i <= tierMultiplier; i++) {
-                String mob = isFixed ? itemStack.getOrCreateTag().getCompound("BlockEntityTag")
-                        .getCompound("EntityStorage").getCompound("Entity").getString("id") : mobList[GTValues.RNG.nextInt(mobList.length)];
-                Optional<EntityType<?>> entityType = EntityType.byString(mob);
-                if (entityType.isEmpty()) continue;
-                Entity entity = entityType.get().create(serverLevel);
-                if (!(entity instanceof Mob mob1)) continue;
-                if (CommonProxy.isBoss(entity)) continue;
-                if (isSpawn) {
-                    mob1.setPos(blockPos.getCenter());
-                    mob1.setNoAi(true);
-                    serverLevel.addFreshEntity(mob1);
-                } else {
-                    String[] mobParts = StringUtils.decompose(mob);
-                    if (mobParts.length < 2) continue;
-                    LootTable lootTable = serverLevel.getServer().getLootData()
-                            .getLootTable(RLUtils.fromNamespaceAndPath(mobParts[0], "entities/" + mobParts[1]));
-                    LootParams lootParams = new LootParams.Builder(serverLevel)
-                            .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, getFakePlayer(serverLevel))
-                            .withParameter(LootContextParams.THIS_ENTITY, entity)
-                            .withParameter(LootContextParams.DAMAGE_SOURCE, getDamageSource(serverLevel))
-                            .withParameter(LootContextParams.ORIGIN, blockPos.getCenter())
-                            .create(lootTable.getParamSet());
-
-                    lootTable.getRandomItems(lootParams).forEach(stack -> {
-                        int count = stack.getCount();
-                        itemStacks.add(isFixed ? stack.copyWithCount(parallel * count) : multiplier > 1 ? stack.copyWithCount(multiplier * count) : stack);
-                    });
-                    if (isFixed) break;
+            if (c != 3) {
+                for (int i = 0; i <= tierMultiplier; i++) {
+                    String mob = isFixed ? itemStack.getOrCreateTag().getCompound("BlockEntityTag")
+                            .getCompound("EntityStorage").getCompound("Entity").getString("id") : mobList[GTValues.RNG.nextInt(mobList.length)];
+                    Optional<EntityType<?>> entityType = EntityType.byString(mob);
+                    if (entityType.isEmpty()) continue;
+                    Entity entity = entityType.get().create(serverLevel);
+                    if (!(entity instanceof Mob mob1)) continue;
+                    if (CommonProxy.isBoss(entity)) continue;
+                    if (isSpawn) {
+                        mob1.setPos(blockPos.getCenter());
+                        mob1.setNoAi(true);
+                        serverLevel.addFreshEntity(mob1);
+                    } else {
+                        String[] mobParts = StringUtils.decompose(mob);
+                        if (mobParts.length < 2) continue;
+                        LootTable lootTable = serverLevel.getServer().getLootData()
+                                .getLootTable(RLUtils.fromNamespaceAndPath(mobParts[0], "entities/" + mobParts[1]));
+                        LootParams lootParams = new LootParams.Builder(serverLevel)
+                                .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, getFakePlayer(serverLevel))
+                                .withParameter(LootContextParams.THIS_ENTITY, entity)
+                                .withParameter(LootContextParams.DAMAGE_SOURCE, getDamageSource(serverLevel))
+                                .withParameter(LootContextParams.ORIGIN, blockPos.getCenter())
+                                .create(lootTable.getParamSet());
+                        lootTable.getRandomItems(lootParams).forEach(stack -> {
+                            int count = stack.getCount();
+                            itemStacks.add(isFixed ? stack.copyWithCount(parallel * count) : multiplier > 1 ? stack.copyWithCount(multiplier * count) : stack);
+                        });
+                        if (isFixed) break;
+                    }
                 }
             }
-            RecipeBuilder builder = getRecipeBuilder().duration(isSpawn ? 20 : Math.max(20, 200 - attackDamage)).EUt(getOverclockVoltage());
+
+            int duration = (c == 3) ? Math.max(20, 150 - attackDamage) : (isSpawn ? 20 : Math.max(20, 200 - attackDamage));
+            RecipeBuilder builder = getRecipeBuilder().duration(duration).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
             Recipe recipe = builder.buildRawRecipe();
             if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
