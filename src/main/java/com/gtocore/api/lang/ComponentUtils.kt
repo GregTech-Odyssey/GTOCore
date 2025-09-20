@@ -176,15 +176,15 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
     }
 
     fun rainbowGradient(): ComponentSupplier = operatorComponent {
-        withStyle { it.withColor(GradientColor(GradientColor.RAINBOW_GRADIENT, "rainbow")) }
+        withStyle { it.withColor(GradientColor.RAINBOW) }
     }
 
     fun rainbowGradient(float: Float, int: Int, boolean: Boolean): ComponentSupplier = operatorComponent {
-        withStyle { it.withColor(OffsetGradientColor(OffsetGradientColor.RAINBOW_GRADIENT, "rainbow", float, int, boolean)) }
+        withStyle { it.withColor(OffsetGradientColor(float, int, boolean)) }
     }
 
     fun rainbowGradient(int: Int): ComponentSupplier = operatorComponent {
-        withStyle { it.withColor(OffsetGradientColor(OffsetGradientColor.RAINBOW_GRADIENT, "rainbow", int)) }
+        withStyle { it.withColor(OffsetGradientColor(1f, int)) }
     }
 
     // ////////////////////////////////

@@ -63,6 +63,7 @@ public final class GTOElements {
     public static final Element CALORITE = new Element(300, 400, -1, null, "calorite", "Ci", false);
     public static final Element CHROMATICGLASS = new Element(300, 400, -1, null, "chromatic_glass", "⌘☯☯⌘", false);
     public static final Element BEDROCKIUM = new Element(1000, 1000, -1, null, "bedrockium", "?", false);
+    public static final Element BLAZECUBE = new Element(500, 500, -1, null, "blazecube", "Bc", false);
 
     public static final Element MANASTEEL = new Element(26, 30, -1, null, "manasteel", "*Ma*", false);
     public static final Element TERRASTEEL = new Element(56, 66, -1, null, "terrasteel", "*Tr*", false);

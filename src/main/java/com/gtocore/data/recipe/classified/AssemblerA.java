@@ -32,6 +32,16 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 final class AssemblerA {
 
     public static void init() {
+        ASSEMBLER_RECIPES.builder("control_hatch")
+                .inputItems(GTMachines.HULL[GTValues.MV].asStack())
+                .inputItems(GTItems.COVER_MACHINE_CONTROLLER.asStack())
+                .inputItems("enderio:redstone_sensor_filter")
+                .inputFluids(GTMaterials.RedAlloy, 288)
+                .outputItems(GTMachines.CONTROL_HATCH.getItem())
+                .EUt(30)
+                .duration(200)
+                .save();
+
         ASSEMBLER_RECIPES.builder("heat_vacuum_interface")
                 .inputItems(GTMachines.HULL[GTValues.LV].asStack())
                 .inputItems(GTOItems.AIR_VENT)
@@ -361,6 +371,17 @@ final class AssemblerA {
                 .outputItems(GTOBlocks.ENGINEERING_MECHANICAL_CASING.asStack())
                 .inputFluids(GTMaterials.ReinforcedEpoxyResin, 2000)
                 .EUt(480)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("transcendentally_amplified_magnetic_confinement_casing")
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Laurenium)
+                .inputItems(GTOBlocks.ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING.asStack(4))
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Ostrum, 8)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Vibranium, 8)
+                .outputItems(GTOBlocks.TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING.asStack())
+                .circuitMeta(6)
+                .EUt(122800)
                 .duration(200)
                 .save();
     }

@@ -72,17 +72,22 @@ public final class MiscRecipe {
                     .duration(2400)
                     .save();
 
-            Item globe = layer.getPath().equals("overworld") ? ModItems.EARTH_GLOBE.get() :
-                    RegistriesUtils.getItem("ad_astra:" + layer.getPath() + "_globe");
-            if (globe != Items.BARRIER) {
+        }
+        int i1 = 0;
+        for (ResourceLocation hasGlobe : Arrays.stream(Dimension.values()).filter(d -> d.canGenerate() && d.isWithinGalaxy()).map(Dimension::getLocation).toList()) {
 
-                WORLD_DATA_SCANNER_RECIPES.recipeBuilder(layer.withSuffix("_globe").getPath())
+            Item globe = hasGlobe.getPath().equals("overworld") ? ModItems.EARTH_GLOBE.get() :
+                    RegistriesUtils.getItem("ad_astra:" + hasGlobe.getPath() + "_globe");
+            ItemStack stack = GTOItems.DIMENSION_DATA.get().getDimensionData(hasGlobe);
+            int tier = DimensionDataItem.getDimensionMarker(stack).tier + 1;
+            if (globe != Items.BARRIER) {
+                WORLD_DATA_SCANNER_RECIPES.recipeBuilder(hasGlobe.withSuffix("_globe").getPath())
                         .inputItems(PLANET_DATA_CHIP.asItem())
                         .inputItems(frameGt, Steel)
                         .inputFluids(PolyvinylButyral.getFluid(576))
-                        .inputFluids(CHEMICAL_DYES[i - 1].getFluid(72))
+                        .inputFluids(CHEMICAL_DYES[i1++].getFluid(72))
                         .outputItems(globe)
-                        .dimension(layer)
+                        .dimension(hasGlobe)
                         .EUt(VA[tier])
                         .duration(2400)
                         .save();

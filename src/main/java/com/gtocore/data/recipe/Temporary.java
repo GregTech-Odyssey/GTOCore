@@ -24,7 +24,7 @@ public final class Temporary {
 
     public static void init() {
         FUSION_RECIPES.builder("quicksilver")
-                .inputFluids(GTMaterials.Silver.getFluid(FluidStorageKeys.PLASMA, 576))
+                .inputFluids(GTOMaterials.AstralSilver.getFluid(576))
                 .inputFluids(GTOMaterials.Gaia, 144)
                 .outputFluids(GTOMaterials.Quicksilver, 288)
                 .duration(640)

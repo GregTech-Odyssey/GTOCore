@@ -27,7 +27,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ExportOnlyAEFluidList.class, NotifiableFluidTank.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    protected ExportOnlyAEFluidSlot[] inventory;
+    private final ExportOnlyAEFluidSlot[] inventory;
 
     public ExportOnlyAEFluidList(MetaMachine machine, int slots) {
         this(machine, slots, ExportOnlyAEFluidSlot::new);

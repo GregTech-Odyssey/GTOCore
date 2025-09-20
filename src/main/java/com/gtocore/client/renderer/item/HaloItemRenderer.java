@@ -31,7 +31,9 @@ import org.joml.Matrix4f;
 
 import java.util.function.IntSupplier;
 
-public final class HaloItemRenderer implements IRenderer {
+public record HaloItemRenderer(float pulse, IntSupplier colour, IntSupplier size,
+                               ResourceLocation texture)
+        implements IRenderer {
 
     public static final HaloItemRenderer WHITE_HALO = HaloItemRenderer.create(0, 0xFFFFFFFF, 4, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer QUANTUM_CHROMO_DYNAMICALLY_HALO = HaloItemRenderer.create(0, () -> com.gtolib.utils.ColorUtils.createARGBColor(MaterialsColorMap.quantumColor.getAsInt(), 150), () -> GTValues.RNG.nextInt(4) + 2, RLUtils.avaritia("misc/halo"));
@@ -52,18 +54,6 @@ public final class HaloItemRenderer implements IRenderer {
 
     private static HaloItemRenderer create(float pulse, IntSupplier colour, IntSupplier size, ResourceLocation textures) {
         return GTCEu.isClientSide() ? new HaloItemRenderer(pulse, colour, size, textures) : null;
-    }
-
-    private final float pulse;
-    private final IntSupplier colour;
-    private final IntSupplier size;
-    private final ResourceLocation texture;
-
-    private HaloItemRenderer(float pulse, IntSupplier colour, IntSupplier size, ResourceLocation texture) {
-        this.pulse = pulse;
-        this.colour = colour;
-        this.size = size;
-        this.texture = texture;
     }
 
     @Override

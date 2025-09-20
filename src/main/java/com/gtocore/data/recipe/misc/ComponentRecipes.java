@@ -821,7 +821,7 @@ public final class ComponentRecipes {
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("field_generator_%s", VN[tier].toLowerCase()))
                 .circuitMeta(8)
                 .inputItems(emitter.copyWithCount(24))
-                .inputItems(emitter_gem.copyWithCount(24))
+                .inputItems(emitter_gem.copyWithCount(12))
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asStack(24))
                 .inputItems(cableGtSingle, material[2], 48)
                 .inputFluids(material[0], L * 96)

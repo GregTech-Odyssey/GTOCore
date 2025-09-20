@@ -64,8 +64,6 @@ import static de.mari_023.ae2wtlib.wut.WUTHandler.wirelessTerminals;
 
 public class CommonProxy {
 
-    private static Throwable exception;
-
     public CommonProxy() {
         init();
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -143,9 +141,6 @@ public class CommonProxy {
     }
 
     public static void afterStartup() {
-        if (exception != null) {
-            throw new RuntimeException(exception);
-        }
         ScanningClass.VALUES = null;
         ModList.get().getAllScanData().clear();
         if (GTOConfig.INSTANCE.startSpark == SparkRange.MAIN_MENU) {
@@ -171,9 +166,5 @@ public class CommonProxy {
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1").toString(), Me2in1Menu.TYPE);
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1wireless").toString(), Wireless.TYPE);
         }
-    }
-
-    public static void setException(Exception e) {
-        exception = e;
     }
 }

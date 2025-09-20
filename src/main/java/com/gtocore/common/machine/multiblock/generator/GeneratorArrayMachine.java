@@ -213,7 +213,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
                 isw = !isw;
                 eut = 0;
                 getRecipeLogic().markLastRecipeDirty();
-            }
+            } else super.handleDisplayClick(componentData, clickData);
         }
     }
 

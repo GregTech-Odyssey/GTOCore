@@ -2994,5 +2994,51 @@ final class ChemicaRreactor {
                 .EUt(480)
                 .duration(200)
                 .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("n_hydroxysuccinimide_lipoic_ester_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.NHydroxysuccinimide)
+                .outputItems(TagPrefix.dust, GTOMaterials.NHydroxysuccinimideLipoicEster)
+                .inputFluids(GTOMaterials.LipoicAcid, 1000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .EUt(1666)
+                .duration(1666)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("nano_gold_deposited_carbon_nanotube_modified_nhs_lipoic_ester_q_dot_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.NanoGoldDepositedCarbonNanotube)
+                .inputItems(TagPrefix.dust, GTOMaterials.NHydroxysuccinimideLipoicEster)
+                .outputItems(TagPrefix.dust, GTOMaterials.NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot)
+                .notConsumableFluid(GTMaterials.Cyclohexane, 3000)
+                .notConsumableFluid(GTOMaterials.Pyridine, 1000)
+                .EUt(1638)
+                .duration(1222)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("interface_supramolecular_self_assembly_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.SolGelQDInterfaceModifiedMFPC)
+                .notConsumable(GTItems.BLACKLIGHT.asStack())
+                .outputItems(TagPrefix.dust, GTOMaterials.InterfaceSupramolecularSelfAssemblyMFPC)
+                .inputFluids(GTOMaterials.PolyurethaneResin, 1000)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .outputFluids(GTMaterials.DilutedSulfuricAcid, 1000)
+                .EUt(1638)
+                .duration(1222)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("ammonia")
+                .inputFluids(GTOMaterials.LiquidAmmonia, 1000)
+                .inputFluids(GTOMaterials.Trimethylchlorosilane, 4000)
+                .outputFluids(GTMaterials.Ammonia, 3000)
+                .outputFluids(GTOMaterials.Hexamethyldisilazane, 1000)
+                .EUt(1200)
+                .duration(1200)
+                .save();
+
+        CHEMICAL_RECIPES.builder("chloroauric_acid")
+                .inputItems(TagPrefix.ingot, GTMaterials.Gold)
+                .inputFluids(GTMaterials.AquaRegia, 4000)
+                .outputFluids(GTOMaterials.ChloroauricAcid, 4000)
+                .outputFluids(GTMaterials.NitrogenDioxide, 1000)
+                .EUt(120)
+                .duration(200)
+                .save();
     }
 }

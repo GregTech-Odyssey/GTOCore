@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.multiblock.part.ae.slots.MECircuitHandler;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
@@ -33,8 +31,10 @@ import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CircuitFancyConfigura
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.FancyInvConfigurator;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.FancyTankConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -209,7 +209,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     @Override
     public void onPatternChange(int index) {
-        getInternalInventory()[index].setLock(false);
+        var slot = getInternalInventory()[index];
+        if (slot.lock) {
+            slot.circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
+            for (int i = 0; i < 9; i++) {
+                slot.shareInventory.setStackInSlot(i, ItemStack.EMPTY);
+            }
+        }
+        slot.setLock(false);
         super.onPatternChange(index);
     }
 
@@ -227,25 +234,28 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     public IPatternDetails convertPattern(IPatternDetails pattern, int index) {
         if (pattern instanceof AEProcessingPattern processingPattern) {
-            getInternalInventory()[index].circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
             var sparseInput = processingPattern.getSparseInputs();
             var input = new ObjectArrayList<GenericStack>(sparseInput.length);
+            var in = 0;
+            var slot = getInternalInventory()[index];
             for (var stack : sparseInput) {
                 if (stack != null && stack.what() instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
                     ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
                     if (virtualItem.isEmpty()) continue;
                     if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
-                        getInternalInventory()[index].circuitInventory.storage.setStackInSlot(0, virtualItem);
+                        slot.circuitInventory.storage.setStackInSlot(0, virtualItem);
                     } else {
                         var grid = getGrid();
                         if (grid != null && grid.getStorageService().getInventory().extract(what, 1, Actionable.SIMULATE, getActionSource()) == 1) {
-                            getInternalInventory()[index].setLock(true);
-                            var storage = getInternalInventory()[index].shareInventory.storage;
-                            var slot = storage.getStackInSlot(0);
-                            if (!slot.isEmpty()) {
-                                grid.getStorageService().getInventory().insert(AEItemKey.of(slot), slot.getCount(), Actionable.MODULATE, getActionSource());
+                            slot.setLock(true);
+                            var storage = slot.shareInventory.storage;
+                            var inSlot = storage.getStackInSlot(in);
+                            if (!inSlot.isEmpty()) {
+                                storage.setStackInSlot(in, ItemStack.EMPTY);
+                                grid.getStorageService().getInventory().insert(AEItemKey.of(inSlot), inSlot.getCount(), Actionable.MODULATE, getActionSource());
                             }
-                            storage.setStackInSlot(0, virtualItem);
+                            storage.setStackInSlot(in, virtualItem);
+                            in++;
                         }
                     }
                     continue;
@@ -289,8 +299,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (isFormed()) {
             IMultiController controller = getControllers().first();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
-            GTRecipeType rt=controller instanceof IRecipeLogicMachine rlm?rlm.getRecipeType():null;
-            String lid=rt!=null?rt.registryName.toLanguageKey():controllerDefinition.getDescriptionId();
+            GTRecipeType rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
+            String lid = rt != null ? rt.registryName.toLanguageKey() : controllerDefinition.getDescriptionId();
 
             if (!getCustomName().isEmpty()) {
                 return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), Component.literal(getCustomName()), Collections.emptyList());
@@ -394,9 +404,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
 
         public void setLock(boolean lock) {
-            if (this.lock) {
-                shareInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
-            }
             this.lock = lock;
             lockableInventory.setLock(lock);
         }

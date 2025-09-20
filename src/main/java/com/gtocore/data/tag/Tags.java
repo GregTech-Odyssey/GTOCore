@@ -25,6 +25,11 @@ public final class Tags {
 
     public static final TagKey<Block> ARCHWOOD_LOG = TagUtil.createBlockTag("logs/archwood_logs");
 
+    public static final TagKey<Item> TAROT_ARCANUM = TagUtils.createTag(GTOCore.id("tarot_arcanum"));
+
+    public static final TagKey<Item> ENCHANTMENT_ESSENCE = TagUtils.createTag(GTOCore.id("enchantment_essence"));
+    public static final TagKey<Item> AFFIX_ESSENCE = TagUtils.createTag(GTOCore.id("affix_essence"));
+
     static {
         ImmutableMap.Builder<TagKey<Item>, Integer> circuits_array = ImmutableMap.builder();
         for (int i = 0; i < 15; i++) {

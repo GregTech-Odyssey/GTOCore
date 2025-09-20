@@ -32,6 +32,8 @@ final class BlockLang {
         addCNEN("block.gtceu.max_4096a_laser_source_hatch", "4096§e安§r§c§lMAX§r激光源仓", "4096A §c§lMAX§r Laser Source Hatch");
         addCNEN("block.gtceu.max_4096a_laser_target_hatch", "4096§e安§r§c§lMAX§r激光靶仓", "4096A §c§lMAX§r Laser Target Hatch");
 
+        addCNEN("block.gtceu.control_hatch", "机器控制仓", "Machine Control Hatch");
+
         for (Dimension dim : new Dimension[] {
                 Dimension.CERES, Dimension.IO, Dimension.GANYMEDE, Dimension.BARNARDA_C, Dimension.ENCELADUS, Dimension.TITAN, Dimension.PLUTO
         }) {

@@ -9,11 +9,15 @@ import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.*;
+
+import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
@@ -21,9 +25,15 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.api.parts.PartModels;
 import appeng.init.client.InitScreens;
+import com.google.common.collect.Iterables;
+import com.lowdragmc.shimmer.client.light.ColorPointLight;
+import com.lowdragmc.shimmer.client.light.LightManager;
+import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
+import com.lowdragmc.shimmer.forge.event.ForgeShimmerReloadEvent;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy extends CommonProxy {
@@ -40,6 +50,7 @@ public final class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(GTOComponentHandler.class);
         MinecraftForge.EVENT_BUS.register(GTORender.class);
         registerAEModels();
+        if (GTCEu.Mods.isShimmerLoaded()) eventBus.addListener(ClientProxy::registerLights);
     }
 
     private static void init() {
@@ -50,6 +61,17 @@ public final class ClientProxy extends CommonProxy {
     private static void clientSetup(FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(GTOFluids.GELID_CRYOTHEUM.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GTOFluids.FLOWING_GELID_CRYOTHEUM.get(), RenderType.translucent());
+    }
+
+    public static void registerLights(ForgeShimmerReloadEvent e) {
+        if (e.event.getReloadType() == ReloadType.COLORED_LIGHT) {
+            GTOCore.LOGGER.info("registering dynamic lights");
+            var lightColor = new ColorPointLight.Template(7, 1, 1, 1, 1);
+            for (var item : Iterables.filter(ForgeRegistries.ITEMS,
+                    item -> item instanceof BlockItem blockItem && blockItem.getBlock().defaultBlockState().getLightEmission() > 0)) {
+                LightManager.INSTANCE.registerItemLight(item, itemStack -> lightColor);
+            }
+        }
     }
 
     public static void registerItemDeco(RegisterItemDecorationsEvent event) {

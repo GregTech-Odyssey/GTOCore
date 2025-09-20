@@ -21,6 +21,18 @@ public class OffsetGradientColor extends GradientColor {
         this(gradient, id, 1, offset, false);
     }
 
+    public OffsetGradientColor(float speed, int offset, boolean reverse) {
+        this(RAINBOW_GRADIENT, "rainbow", speed, offset, reverse);
+    }
+
+    public OffsetGradientColor(float speed, int offset) {
+        this(RAINBOW_GRADIENT, "rainbow", speed, offset, false);
+    }
+
+    public OffsetGradientColor(float speed) {
+        this(RAINBOW_GRADIENT, "rainbow", speed, 0, false);
+    }
+
     @Override
     public int getValue() {
         if (FMLEnvironment.dist == Dist.CLIENT) {

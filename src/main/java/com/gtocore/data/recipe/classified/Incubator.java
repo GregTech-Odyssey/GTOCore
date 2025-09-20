@@ -717,5 +717,16 @@ final class Incubator {
                 .duration(200)
                 .addData("filter_casing", 2)
                 .save();
+        INCUBATOR_RECIPES.builder("spider_eye")
+                .chancedInput(new ItemStack(Items.SPIDER_EYE.asItem()), 4000, 100)
+                .inputItems(GTItems.STEM_CELLS.asStack())
+                .inputItems("botania:mutated_seeds", 4)
+                .outputItems(new ItemStack(Items.SPIDER_EYE.asItem(), 64))
+                .inputFluids(GTOMaterials.BiohmediumSterilized, 50)
+                .inputFluids(GTOMaterials.BloodCells, 100)
+                .outputFluids(GTOMaterials.AnimalCells, 400)
+                .EUt(1920)
+                .duration(400)
+                .save();
     }
 }

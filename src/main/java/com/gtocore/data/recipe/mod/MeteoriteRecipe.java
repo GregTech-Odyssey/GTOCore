@@ -7,7 +7,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.recipe.builder.ars.MeteoriteRegistryHelper;
 
 import com.gtolib.api.data.chemical.GTOChemicalHelper;
-import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -16,146 +15,19 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import com.kyanite.deeperdarker.content.DDBlocks;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 
 public final class MeteoriteRecipe {
 
     public static void init() {
-        {
-            // 主世界
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Steel),
-                    1,
-                    GTOItems.COLORFUL_MYSTICAL_FLOWER.asItem(),
-                    new Block[] { Blocks.STONE, Blocks.DEEPSLATE },
-                    new int[] { 200, 50 },
-                    TagPrefix.ore,
-                    new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Coal, GTOMaterials.GnomeCrystal, GTMaterials.Mica, GTMaterials.Cobaltite, GTMaterials.GreenSapphire, GTMaterials.YellowLimonite, GTMaterials.Bentonite, GTMaterials.GarnetRed, GTMaterials.RockSalt, GTMaterials.Pyrochlore, GTMaterials.Talc, GTMaterials.Realgar, GTMaterials.Lepidolite, GTMaterials.Ruby, GTMaterials.BasalticMineralSand, GTMaterials.Malachite, GTMaterials.Salt, GTMaterials.Chalcopyrite, GTMaterials.Goethite, GTMaterials.Gold, GTMaterials.Redstone, GTMaterials.Pyrolusite, GTMaterials.GlauconiteSand, GTMaterials.Nickel, GTMaterials.Iron, GTMaterials.Silver, GTMaterials.Spodumene, GTMaterials.Graphite, GTMaterials.Kyanite, GTMaterials.Opal, GTMaterials.Lapis, GTMaterials.Magnetite, GTMaterials.Spessartine, GTMaterials.Amethyst, GTMaterials.Cinnabar, GTOMaterials.PerditioCrystal, GTMaterials.Galena, GTMaterials.Soapstone, GTMaterials.Pentlandite, GTMaterials.Sapphire, GTMaterials.Grossular, GTMaterials.Asbestos, GTMaterials.GraniticMineralSand, GTOMaterials.UndineCrystal, GTMaterials.Pollucite, GTMaterials.FullersEarth, GTMaterials.Almandine, GTMaterials.Oilsands, GTOMaterials.SylphCrystal, GTMaterials.CassiteriteSand, GTMaterials.Cassiterite, GTMaterials.VanadiumMagnetite, GTMaterials.Copper, GTMaterials.Pyrite, GTMaterials.Calcite, GTMaterials.Hematite, GTMaterials.Pyrope, GTMaterials.Tin, GTMaterials.Zeolite, GTMaterials.Diatomite, GTMaterials.Gypsum, GTMaterials.Olivine, GTMaterials.Apatite, GTMaterials.Diamond, GTMaterials.GarnetSand, GTMaterials.Sodalite, GTMaterials.Tantalite, GTOMaterials.SalamanderCrystal, GTMaterials.Garnierite, GTMaterials.Lead, GTMaterials.Lazurite },
-                    new int[] { 333, 750, 2090, 474, 166, 250, 214, 2400, 187, 1125, 428, 166, 250, 500, 142, 400, 600, 1200, 285, 6136, 6000, 200, 600, 375, 312, 250, 1454, 333, 142, 544, 250, 375, 750, 725, 375, 750, 200, 1896, 500, 375, 250, 214, 562, 800, 400, 474, 83, 400, 642, 600, 474, 1200, 3666, 400, 1454, 1454, 375, 2400, 428, 5333, 1000, 400, 200, 125, 500, 272, 800, 750, 187, 474, 375, 166, 1125 });
-
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Manasteel),
-                    5,
-                    GTOItems.COLORFUL_MYSTICAL_FLOWER.asItem(),
-                    new Block[] { Blocks.STONE, Blocks.DEEPSLATE },
-                    new int[] { 200, 50 },
-                    TagPrefix.ore,
-                    new Material[] { GTOMaterials.PerditioCrystal, GTMaterials.GarnetYellow, GTMaterials.Coal, GTOMaterials.GnomeCrystal, GTMaterials.Mica, GTMaterials.Pentlandite, GTMaterials.Cobaltite, GTMaterials.Grossular, GTOMaterials.SylphCrystal, GTMaterials.Bentonite, GTMaterials.Pollucite, GTMaterials.GarnetRed, GTOMaterials.UndineCrystal, GTMaterials.Oilsands, GTMaterials.RockSalt, GTMaterials.Pyrochlore, GTMaterials.Realgar, GTMaterials.Lepidolite, GTMaterials.Talc, GTMaterials.Chalcopyrite, GTMaterials.Salt, GTMaterials.Cassiterite, GTMaterials.Calcite, GTMaterials.Spodumene, GTMaterials.Sodalite, GTMaterials.Zeolite, GTMaterials.Pyrolusite, GTMaterials.Nickel, GTMaterials.Lazurite, GTMaterials.Diamond, GTMaterials.GlauconiteSand, GTMaterials.Silver, GTMaterials.Soapstone, GTMaterials.TricalciumPhosphate, GTMaterials.Olivine, GTMaterials.Graphite, GTMaterials.Lapis, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Apatite, GTMaterials.Tantalite, GTMaterials.Garnierite, GTMaterials.Magnetite, GTOMaterials.SalamanderCrystal, GTMaterials.Spessartine, GTMaterials.Amethyst, GTMaterials.Lead, GTMaterials.Galena },
-                    new int[] { 1896, 750, 90, 474, 166, 250, 250, 562, 474, 187, 83, 1125, 474, 600, 428, 166, 500, 142, 250, 2500, 285, 1000, 375, 142, 750, 1000, 375, 250, 1125, 272, 312, 333, 375, 333, 125, 544, 750, 375, 250, 500, 187, 375, 125, 474, 375, 750, 166, 500 });
-
-            // 远古世界
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTOItems.ULV_ROBOT_ARM.asItem(),
-                    2,
-                    GTOItems.PRECISION_STEAM_MECHANISM.asItem(),
-                    new Block[] { Blocks.DEEPSLATE, Blocks.CLAY },
-                    new int[] { 200, 50 },
-                    TagPrefix.ore,
-                    new Material[] { GTMaterials.Tantalite, GTMaterials.Garnierite, GTMaterials.Alunite, GTMaterials.Sapphire, GTMaterials.Pentlandite, GTMaterials.Cobaltite, GTMaterials.Electrotine, GTMaterials.Barite, GTMaterials.Molybdenite, GTMaterials.GreenSapphire, GTMaterials.Grossular, GTMaterials.NetherQuartz, GTMaterials.Almandine, GTMaterials.CertusQuartz, GTMaterials.Beryllium, GTMaterials.RockSalt, GTMaterials.Lepidolite, GTMaterials.Saltpeter, GTMaterials.Pyrite, GTMaterials.Bornite, GTMaterials.Sulfur, GTMaterials.Wulfenite, GTMaterials.Salt, GTMaterials.Chalcopyrite, GTMaterials.Sphalerite, GTMaterials.Copper, GTMaterials.Emerald, GTMaterials.Quartzite, GTMaterials.Calcite, GTMaterials.Tetrahedrite, GTMaterials.BlueTopaz, GTMaterials.Pyrope, GTMaterials.Molybdenum, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Nickel, GTMaterials.Iron, GTMaterials.Spodumene, GTMaterials.Chalcocite, GTMaterials.Stibnite, GTMaterials.Lapis, GTMaterials.Powellite, GTMaterials.Sodalite, GTMaterials.Spessartine, GTMaterials.Lazurite, GTMaterials.Topaz },
-                    new int[] { 187, 375, 125, 214, 125, 250, 250, 166, 35, 214, 562, 1200, 642, 333, 964, 428, 142, 375, 2120, 218, 1000, 53, 285, 3636, 333, 3453, 1284, 900, 375, 3999, 656, 428, 17, 375, 250, 250, 1454, 142, 437, 999, 750, 17, 750, 375, 1125, 437 });
-
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTOItems.ULV_FLUID_REGULATOR.asItem(),
-                    10,
-                    GTOItems.PRECISION_STEAM_MECHANISM.asItem(),
-                    new Block[] { Blocks.DEEPSLATE, Blocks.CLAY },
-                    new int[] { 200, 50 },
-                    TagPrefix.oreDeepslate,
-                    new Material[] { GTMaterials.Tantalite, GTMaterials.Garnierite, GTMaterials.Alunite, GTMaterials.Pentlandite, GTMaterials.Barite, GTMaterials.Molybdenite, GTMaterials.Cobaltite, GTMaterials.Electrotine, GTMaterials.Grossular, GTMaterials.Beryllium, GTMaterials.CertusQuartz, GTMaterials.RockSalt, GTMaterials.Lepidolite, GTMaterials.Saltpeter, GTMaterials.Wulfenite, GTMaterials.Salt, GTMaterials.Quartzite, GTMaterials.Calcite, GTMaterials.Emerald, GTMaterials.Molybdenum, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Nickel, GTMaterials.Spodumene, GTMaterials.Lapis, GTMaterials.Powellite, GTMaterials.Sodalite, GTMaterials.Spessartine, GTMaterials.Lazurite },
-                    new int[] { 187, 375, 125, 125, 166, 35, 250, 250, 562, 964, 333, 428, 142, 375, 53, 285, 500, 375, 1284, 17, 375, 250, 250, 142, 750, 17, 750, 375, 1125 });
-
-            // 地狱
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE,
-                    5,
-                    Items.WITHER_SKELETON_SKULL,
-                    new Block[] { Blocks.NETHERRACK, Blocks.BASALT },
-                    new int[] { 200, 50 },
-                    TagPrefix.oreNetherrack,
-                    new Material[] { GTMaterials.Tantalite, GTMaterials.Alunite, GTMaterials.Barite, GTMaterials.Molybdenite, GTMaterials.YellowLimonite, GTMaterials.Electrotine, GTMaterials.NetherQuartz, GTMaterials.Grossular, GTMaterials.CertusQuartz, GTMaterials.Beryllium, GTMaterials.Pyrite, GTMaterials.Saltpeter, GTMaterials.Ruby, GTMaterials.Sphalerite, GTMaterials.Sulfur, GTMaterials.Wulfenite, GTMaterials.Bornite, GTMaterials.Hematite, GTMaterials.Copper, GTMaterials.Goethite, GTMaterials.Quartzite, GTMaterials.Tetrahedrite, GTMaterials.Emerald, GTMaterials.Gold, GTMaterials.BlueTopaz, GTMaterials.Molybdenum, GTMaterials.Redstone, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Chalcocite, GTMaterials.Stibnite, GTMaterials.Powellite, GTMaterials.Spessartine, GTMaterials.Cinnabar, GTMaterials.Topaz },
-                    new int[] { 187, 125, 166, 35, 750, 250, 1200, 562, 333, 964, 666, 375, 400, 333, 1000, 53, 218, 750, 1999, 1125, 900, 3999, 1284, 375, 656, 17, 600, 375, 250, 437, 999, 17, 375, 200, 437 });
-
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    Items.NETHERITE_INGOT,
-                    50,
-                    Items.WITHER_SKELETON_SKULL,
-                    new Block[] { Blocks.NETHERRACK, Blocks.BASALT },
-                    new int[] { 200, 50 },
-                    TagPrefix.oreNetherrack,
-                    new Material[] { GTMaterials.Tantalite, GTMaterials.Molybdenum, GTMaterials.Alunite, GTMaterials.Barite, GTMaterials.Molybdenite, GTMaterials.Diatomite, GTMaterials.Pyrolusite, GTMaterials.YellowLimonite, GTMaterials.Electrotine, GTMaterials.Grossular, GTMaterials.CertusQuartz, GTMaterials.Beryllium, GTMaterials.Saltpeter, GTMaterials.Wulfenite, GTMaterials.Powellite, GTMaterials.Gold, GTMaterials.Spessartine, GTMaterials.Goethite, GTMaterials.Emerald, GTMaterials.Quartzite, GTMaterials.Hematite },
-                    new int[] { 187, 17, 125, 166, 35, 250, 375, 750, 250, 562, 333, 964, 375, 53, 17, 375, 375, 1125, 1284, 500, 750 });
-
-            // 月球
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTItems.ROBOT_ARM_EV.asItem(),
-                    20,
-                    GTItems.FIELD_GENERATOR_EV.asItem(),
-                    new Block[] { ModBlocks.MOON_STONE.get(), ModBlocks.MOON_SAND.get(), ModBlocks.MOON_CHEESE_ORE.get() },
-                    new int[] { 200, 50, 20 },
-                    GTOTagPrefix.MOON_STONE,
-                    new Material[] { GTMaterials.Gold, GTMaterials.Ilmenite, GTMaterials.Soapstone, GTMaterials.Tin, GTMaterials.Pentlandite, GTMaterials.Pitchblende, GTMaterials.Uraninite, GTMaterials.Bauxite, GTMaterials.Neodymium, GTMaterials.Diatomite, GTMaterials.Asbestos, GTMaterials.GlauconiteSand, GTMaterials.Aluminium, GTMaterials.CassiteriteSand, GTMaterials.Talc, GTMaterials.Bastnasite, GTMaterials.Cassiterite, GTMaterials.Monazite, GTMaterials.GarnetSand, GTMaterials.Magnetite, GTMaterials.VanadiumMagnetite },
-                    new int[] { 200, 300, 375, 5333, 125, 561, 93, 600, 150, 400, 800, 250, 300, 1200, 250, 450, 2666, 150, 800, 600, 400 });
-
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTItems.FLUID_REGULATOR_EV.asItem(),
-                    100,
-                    GTItems.FIELD_GENERATOR_EV.asItem(),
-                    new Block[] { ModBlocks.MOON_STONE.get(), ModBlocks.MOON_SAND.get(), ModBlocks.MOON_CHEESE_ORE.get() },
-                    new int[] { 200, 50, 20 },
-                    GTOTagPrefix.MOON_STONE,
-                    new Material[] { GTMaterials.Ilmenite, GTMaterials.Soapstone, GTMaterials.Pentlandite, GTMaterials.Pitchblende, GTMaterials.Uraninite, GTMaterials.Bauxite, GTMaterials.Neodymium, GTMaterials.GlauconiteSand, GTMaterials.Aluminium, GTMaterials.Bastnasite, GTMaterials.Talc, GTMaterials.Monazite },
-                    new int[] { 300, 375, 125, 561, 93, 600, 150, 250, 300, 450, 250, 150 });
-
-            // 火星
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.TungstenSteel),
-                    30,
-                    GTItems.NANO_PROCESSOR_ASSEMBLY_EV.asItem(),
-                    new Block[] { ModBlocks.MARS_STONE.get(), ModBlocks.MARS_SAND.get(), ModBlocks.MARS_ICE_SHARD_ORE.get() },
-                    new int[] { 200, 50, 20 },
-                    GTOTagPrefix.MARS_STONE,
-                    new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Alunite, GTMaterials.Mica, GTMaterials.Electrotine, GTMaterials.Palladium, GTMaterials.FullersEarth, GTMaterials.GraniticMineralSand, GTMaterials.YellowLimonite, GTMaterials.Pollucite, GTMaterials.GarnetRed, GTMaterials.Pyrite, GTMaterials.Pyrochlore, GTMaterials.Saltpeter, GTMaterials.Platinum, GTMaterials.BasalticMineralSand, GTMaterials.Malachite, GTMaterials.Bornite, GTMaterials.Goethite, GTMaterials.Chalcopyrite, GTMaterials.Copper, GTMaterials.VanadiumMagnetite, GTMaterials.Hematite, GTMaterials.Gold, GTMaterials.Tetrahedrite, GTMaterials.Tungstate, GTMaterials.Diatomite, GTMaterials.Cooperite, GTMaterials.Iron, GTMaterials.Lithium, GTMaterials.Stibnite, GTMaterials.Gypsum, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Apatite, GTMaterials.Scheelite, GTMaterials.Magnetite, GTMaterials.Amethyst },
-                    new int[] { 333, 750, 125, 166, 250, 25, 400, 400, 2400, 83, 1125, 1454, 166, 375, 50, 600, 1200, 75, 6000, 3636, 3453, 400, 2400, 200, 3999, 466, 250, 50, 1454, 233, 999, 200, 375, 250, 500, 699, 600, 750 });
-
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RTMAlloy),
-                    150,
-                    GTItems.NANO_PROCESSOR_ASSEMBLY_EV.asItem(),
-                    new Block[] { ModBlocks.MARS_STONE.get(), ModBlocks.MARS_SAND.get(), ModBlocks.MARS_ICE_SHARD_ORE.get() },
-                    new int[] { 200, 50, 20 },
-                    GTOTagPrefix.MARS_STONE,
-                    new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Tungstate, GTMaterials.Alunite, GTMaterials.Mica, GTMaterials.Lithium, GTMaterials.Palladium, GTMaterials.Electrotine, GTMaterials.Diatomite, GTMaterials.Pollucite, GTMaterials.GarnetRed, GTMaterials.Cooperite, GTMaterials.Pyrochlore, GTMaterials.Platinum, GTMaterials.Saltpeter, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Apatite, GTMaterials.Bornite, GTMaterials.Scheelite, GTMaterials.Amethyst },
-                    new int[] { 333, 750, 466, 125, 166, 233, 25, 250, 250, 83, 1125, 50, 166, 50, 375, 375, 250, 500, 75, 699, 750 });
-
-            // 金星
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Desh),
-                    30,
-                    GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Desh),
-                    new Block[] { ModBlocks.MARS_STONE.get(), ModBlocks.MARS_SAND.get(), ModBlocks.MARS_ICE_SHARD_ORE.get() },
-                    new int[] { 200, 50, 20 },
-                    GTOTagPrefix.MARS_STONE,
-                    new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Alunite, GTMaterials.Mica, GTMaterials.Electrotine, GTMaterials.Palladium, GTMaterials.FullersEarth, GTMaterials.GraniticMineralSand, GTMaterials.YellowLimonite, GTMaterials.Pollucite, GTMaterials.GarnetRed, GTMaterials.Pyrite, GTMaterials.Pyrochlore, GTMaterials.Saltpeter, GTMaterials.Platinum, GTMaterials.BasalticMineralSand, GTMaterials.Malachite, GTMaterials.Bornite, GTMaterials.Goethite, GTMaterials.Chalcopyrite, GTMaterials.Copper, GTMaterials.VanadiumMagnetite, GTMaterials.Hematite, GTMaterials.Gold, GTMaterials.Tetrahedrite, GTMaterials.Tungstate, GTMaterials.Diatomite, GTMaterials.Cooperite, GTMaterials.Iron, GTMaterials.Lithium, GTMaterials.Stibnite, GTMaterials.Gypsum, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Apatite, GTMaterials.Scheelite, GTMaterials.Magnetite, GTMaterials.Amethyst },
-                    new int[] { 333, 750, 125, 166, 250, 25, 400, 400, 2400, 83, 1125, 1454, 166, 375, 50, 600, 1200, 75, 6000, 3636, 3453, 400, 2400, 200, 3999, 466, 250, 50, 1454, 233, 999, 200, 375, 250, 500, 699, 600, 750 });
-
-            MeteoriteRegistryHelper.registerMeteoriteType(
-                    RegistriesUtils.getItem("ad_astra:tier_1_rover"),
-                    150,
-                    GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Desh),
-                    new Block[] { ModBlocks.MARS_STONE.get(), ModBlocks.MARS_SAND.get(), ModBlocks.MARS_ICE_SHARD_ORE.get() },
-                    new int[] { 200, 50, 20 },
-                    GTOTagPrefix.MARS_STONE,
-                    new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Tungstate, GTMaterials.Alunite, GTMaterials.Mica, GTMaterials.Lithium, GTMaterials.Palladium, GTMaterials.Electrotine, GTMaterials.Diatomite, GTMaterials.Pollucite, GTMaterials.GarnetRed, GTMaterials.Cooperite, GTMaterials.Pyrochlore, GTMaterials.Platinum, GTMaterials.Saltpeter, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Apatite, GTMaterials.Bornite, GTMaterials.Scheelite, GTMaterials.Amethyst },
-                    new int[] { 333, 750, 466, 125, 166, 233, 25, 250, 250, 83, 1125, 50, 166, 50, 375, 375, 250, 500, 75, 699, 750 });
-
-        }
-
         MeteoriteRegistryHelper.registerMeteoriteType(
                 Items.AIR, 1, 0, ItemsRegistry.SOURCE_GEM.get().asItem(),
                 new Block[] {
@@ -537,5 +409,331 @@ public final class MeteoriteRecipe {
                         Blocks.REDSTONE_BLOCK,
                 },
                 new int[] { 100, 80, 80, 1, 5 });
+
+        {
+            // Material组
+            Material[][] materials = new Material[][] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    new Material[] { GTMaterials.Iron, GTMaterials.CassiteriteSand, GTMaterials.Galena, GTMaterials.GarnetRed, GTMaterials.Goethite, GTMaterials.Magnetite, GTMaterials.Gypsum, GTMaterials.Hematite, GTMaterials.Spessartine, GTMaterials.Silver, GTMaterials.Tin, GTMaterials.Gold, GTMaterials.Mica, GTMaterials.Lazurite, GTMaterials.Graphite, GTMaterials.TricalciumPhosphate, GTMaterials.Sodalite, GTMaterials.Kyanite, GTMaterials.Tantalite, GTMaterials.FullersEarth, GTMaterials.GarnetSand, GTMaterials.Cobaltite, GTMaterials.Diamond, GTMaterials.Ruby, GTMaterials.Apatite, GTMaterials.Garnierite, GTOMaterials.SalamanderCrystal, GTMaterials.Almandine, GTMaterials.Olivine, GTMaterials.Pyrochlore, GTMaterials.Realgar, GTMaterials.RockSalt, GTMaterials.Cassiterite, GTMaterials.Grossular, GTMaterials.Sapphire, GTMaterials.Coal, GTMaterials.Cinnabar, GTMaterials.Chalcopyrite, GTMaterials.YellowLimonite, GTMaterials.Lepidolite, GTOMaterials.PerditioCrystal, GTMaterials.Zeolite, GTMaterials.Redstone, GTMaterials.Pyrite, GTOMaterials.GnomeCrystal, GTMaterials.VanadiumMagnetite, GTMaterials.Pentlandite, GTMaterials.Amethyst, GTMaterials.Lapis, GTOMaterials.SylphCrystal, GTMaterials.GreenSapphire, GTMaterials.Soapstone, GTMaterials.Pyrope, GTMaterials.Bentonite, GTMaterials.Pollucite, GTMaterials.Talc, GTMaterials.Salt, GTMaterials.GarnetYellow, GTOMaterials.UndineCrystal, GTMaterials.Calcite, GTMaterials.Oilsands, GTMaterials.GraniticMineralSand, GTMaterials.Malachite, GTMaterials.Pyrolusite, GTMaterials.Opal, GTMaterials.Diatomite, GTMaterials.Asbestos, GTMaterials.BasalticMineralSand, GTMaterials.Nickel, GTMaterials.Spodumene, GTMaterials.GlauconiteSand, GTMaterials.Copper, GTMaterials.Lead },
+                    new Material[] { GTMaterials.Lepidolite, GTMaterials.Gypsum, GTMaterials.Spessartine, GTMaterials.Silver, GTMaterials.Gold, GTMaterials.Mica, GTMaterials.TricalciumPhosphate, GTMaterials.Kyanite, GTMaterials.Tantalite, GTMaterials.FullersEarth, GTMaterials.VanadiumMagnetite, GTMaterials.Pentlandite, GTMaterials.GraniticMineralSand, GTMaterials.Salt, GTMaterials.Diamond, GTMaterials.Cobaltite, GTMaterials.GreenSapphire, GTMaterials.Bentonite, GTMaterials.Pollucite, GTMaterials.Talc, GTMaterials.Garnierite, GTMaterials.Ruby, GTMaterials.Pyrochlore, GTMaterials.Olivine, GTMaterials.Soapstone, GTMaterials.Calcite, GTMaterials.Opal, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Nickel, GTMaterials.Sapphire, GTMaterials.Spodumene, GTMaterials.Cinnabar, GTMaterials.GlauconiteSand, GTMaterials.Lead },
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    new Material[] { GTMaterials.Barite, GTMaterials.Iron, GTMaterials.Lepidolite, GTMaterials.CertusQuartz, GTMaterials.Chalcocite, GTMaterials.Tetrahedrite, GTMaterials.Spessartine, GTMaterials.Bornite, GTMaterials.Sphalerite, GTMaterials.Alunite, GTMaterials.Topaz, GTMaterials.Powellite, GTMaterials.Lazurite, GTMaterials.NetherQuartz, GTMaterials.Stibnite, GTMaterials.Sodalite, GTMaterials.Tantalite, GTMaterials.Pyrite, GTMaterials.Saltpeter, GTMaterials.Pentlandite, GTMaterials.Lapis, GTMaterials.GreenSapphire, GTMaterials.Cobaltite, GTMaterials.Wulfenite, GTMaterials.Pyrope, GTMaterials.Garnierite, GTMaterials.Salt, GTMaterials.Quartzite, GTMaterials.Beryllium, GTMaterials.Almandine, GTMaterials.Calcite, GTMaterials.RockSalt, GTMaterials.Electrotine, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Molybdenum, GTMaterials.BlueTopaz, GTMaterials.Grossular, GTMaterials.Nickel, GTMaterials.Sapphire, GTMaterials.Molybdenite, GTMaterials.Spodumene, GTMaterials.Emerald, GTMaterials.Sulfur, GTMaterials.Copper, GTMaterials.Chalcopyrite },
+                    new Material[] { GTMaterials.Barite, GTMaterials.Wulfenite, GTMaterials.Cobaltite, GTMaterials.GreenSapphire, GTMaterials.Lepidolite, GTMaterials.CertusQuartz, GTMaterials.Salt, GTMaterials.Bornite, GTMaterials.Alunite, GTMaterials.Powellite, GTMaterials.Sphalerite, GTMaterials.Diatomite, GTMaterials.Electrotine, GTMaterials.Spodumene, GTMaterials.Molybdenite, GTMaterials.Nickel, GTMaterials.Sapphire, GTMaterials.Molybdenum, GTMaterials.Tantalite, GTMaterials.Pentlandite },
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    new Material[] { GTMaterials.Barite, GTMaterials.Sulfur, GTMaterials.YellowLimonite, GTMaterials.CertusQuartz, GTMaterials.Chalcocite, GTMaterials.Tetrahedrite, GTMaterials.Spessartine, GTMaterials.Hematite, GTMaterials.Goethite, GTMaterials.Bornite, GTMaterials.Sphalerite, GTMaterials.Powellite, GTMaterials.Alunite, GTMaterials.Redstone, GTMaterials.Gold, GTMaterials.Topaz, GTMaterials.NetherQuartz, GTMaterials.Stibnite, GTMaterials.Tantalite, GTMaterials.Pyrite, GTMaterials.Saltpeter, GTMaterials.Wulfenite, GTMaterials.Ruby, GTMaterials.Quartzite, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Electrotine, GTMaterials.Grossular, GTMaterials.Beryllium, GTMaterials.BlueTopaz, GTMaterials.Molybdenum, GTMaterials.Molybdenite, GTMaterials.Emerald, GTMaterials.Cinnabar, GTMaterials.Copper },
+                    new Material[] { GTMaterials.Barite, GTMaterials.Wulfenite, GTMaterials.CertusQuartz, GTMaterials.Bornite, GTMaterials.Spessartine, GTMaterials.Gold, GTMaterials.Alunite, GTMaterials.Powellite, GTMaterials.Sphalerite, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Electrotine, GTMaterials.Molybdenite, GTMaterials.Molybdenum, GTMaterials.Tantalite, GTMaterials.Cinnabar, GTMaterials.Saltpeter },
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    new Material[] { GTMaterials.GarnetSand, GTMaterials.Uraninite, GTMaterials.Monazite, GTMaterials.Ilmenite, GTMaterials.CassiteriteSand, GTMaterials.Magnetite, GTMaterials.Aluminium, GTMaterials.Talc, GTMaterials.Tin, GTMaterials.Soapstone, GTMaterials.Gold, GTMaterials.Bauxite, GTMaterials.Diatomite, GTMaterials.Cassiterite, GTMaterials.Asbestos, GTMaterials.Neodymium, GTMaterials.Pitchblende, GTMaterials.Pentlandite, GTMaterials.VanadiumMagnetite, GTMaterials.Bastnasite, GTMaterials.GlauconiteSand },
+                    new Material[] { GTMaterials.Uraninite, GTMaterials.Monazite, GTMaterials.Talc, GTMaterials.Aluminium, GTMaterials.Ilmenite, GTMaterials.Soapstone, GTMaterials.Gold, GTMaterials.Neodymium, GTMaterials.GlauconiteSand, GTMaterials.Pentlandite },
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    new Material[] { GTMaterials.Iron, GTMaterials.YellowLimonite, GTMaterials.Tetrahedrite, GTMaterials.GarnetRed, GTMaterials.Goethite, GTMaterials.Magnetite, GTMaterials.Gypsum, GTMaterials.Hematite, GTMaterials.Bornite, GTMaterials.Palladium, GTMaterials.Alunite, GTMaterials.Gold, GTMaterials.Mica, GTMaterials.Stibnite, GTMaterials.TricalciumPhosphate, GTMaterials.Kyanite, GTMaterials.Pyrite, GTMaterials.Scheelite, GTMaterials.FullersEarth, GTMaterials.VanadiumMagnetite, GTMaterials.Saltpeter, GTMaterials.Amethyst, GTMaterials.Lithium, GTMaterials.Platinum, GTMaterials.Tungstate, GTMaterials.Pollucite, GTMaterials.GarnetYellow, GTMaterials.Cooperite, GTMaterials.Apatite, GTMaterials.Pyrochlore, GTMaterials.GraniticMineralSand, GTMaterials.Opal, GTMaterials.Malachite, GTMaterials.Diatomite, GTMaterials.Electrotine, GTMaterials.BasalticMineralSand, GTMaterials.Copper, GTMaterials.Chalcopyrite },
+                    new Material[] { GTMaterials.Lithium, GTMaterials.Platinum, GTMaterials.Pollucite, GTMaterials.Gypsum, GTMaterials.Bornite, GTMaterials.Cooperite, GTMaterials.Palladium, GTMaterials.Pyrochlore, GTMaterials.Alunite, GTMaterials.Opal, GTMaterials.Gold, GTMaterials.Mica, GTMaterials.Diatomite, GTMaterials.Electrotine, GTMaterials.TricalciumPhosphate, GTMaterials.Kyanite, GTMaterials.Saltpeter },
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    new Material[] { GTOMaterials.Desh, GTMaterials.Sulfur, GTMaterials.YellowLimonite, GTMaterials.Galena, GTMaterials.Magnetite, GTMaterials.Hematite, GTMaterials.Goethite, GTMaterials.Silver, GTMaterials.Powellite, GTMaterials.Sphalerite, GTMaterials.Gold, GTMaterials.Chromite, GTMaterials.Graphite, GTMaterials.Pyrite, GTMaterials.VanadiumMagnetite, GTMaterials.Wulfenite, GTMaterials.Diamond, GTMaterials.Bentonite, GTMaterials.Olivine, GTMaterials.Molybdenite, GTMaterials.Magnesite, GTMaterials.Molybdenum, GTMaterials.Coal, GTMaterials.GlauconiteSand, GTMaterials.Lead },
+                    new Material[] { GTOMaterials.Desh, GTMaterials.Wulfenite, GTMaterials.Bentonite, GTMaterials.Olivine, GTMaterials.Powellite, GTMaterials.Molybdenum, GTMaterials.Magnesite, GTMaterials.Molybdenite, GTMaterials.Coal, GTMaterials.VanadiumMagnetite, GTMaterials.GlauconiteSand, GTMaterials.Lead },
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    new Material[] { GTMaterials.Chalcocite, GTMaterials.Spessartine, GTOMaterials.Calorite, GTMaterials.Bornite, GTMaterials.Palladium, GTMaterials.Zeolite, GTMaterials.Alunite, GTMaterials.Topaz, GTMaterials.Tantalite, GTMaterials.Saltpeter, GTMaterials.Pentlandite, GTMaterials.Platinum, GTMaterials.Cobaltite, GTMaterials.Garnierite, GTMaterials.Cooperite, GTMaterials.Pyrochlore, GTMaterials.Realgar, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Electrotine, GTMaterials.Cassiterite, GTMaterials.Grossular, GTMaterials.Nickel, GTMaterials.BlueTopaz, GTMaterials.Cobalt, GTMaterials.Chalcopyrite },
+                    new Material[] { GTMaterials.Platinum, GTMaterials.Cobaltite, GTMaterials.Bornite, GTOMaterials.Calorite, GTMaterials.Cooperite, GTMaterials.Palladium, GTMaterials.Pyrochlore, GTMaterials.Alunite, GTMaterials.Diatomite, GTMaterials.Electrotine, GTMaterials.Nickel, GTMaterials.Tantalite, GTMaterials.Pentlandite },
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    new Material[] { GTMaterials.Monazite, GTMaterials.YellowLimonite, GTMaterials.Magnetite, GTMaterials.Hematite, GTMaterials.Goethite, GTMaterials.Spessartine, GTMaterials.Zeolite, GTMaterials.Gold, GTMaterials.Neodymium, GTMaterials.Tantalite, GTMaterials.Scheelite, GTMaterials.Bastnasite, GTMaterials.Pentlandite, GTMaterials.Lithium, GTMaterials.Tungstate, GTMaterials.Bentonite, GTMaterials.Talc, GTMaterials.Olivine, GTMaterials.Soapstone, GTMaterials.Realgar, GTMaterials.Malachite, GTMaterials.Pyrolusite, GTOMaterials.Ostrum, GTMaterials.Cassiterite, GTMaterials.Grossular, GTMaterials.GlauconiteSand, GTMaterials.Chalcopyrite },
+                    new Material[] { GTMaterials.Lithium, GTMaterials.Monazite, GTMaterials.Bentonite, GTMaterials.Magnetite, GTMaterials.Talc, GTMaterials.Olivine, GTMaterials.Gold, GTOMaterials.Ostrum, GTMaterials.Neodymium, GTMaterials.Tantalite, GTMaterials.GlauconiteSand, GTMaterials.Pentlandite },
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    new Material[] { GTMaterials.Sulfur, GTMaterials.YellowLimonite, GTMaterials.Naquadah, GTMaterials.Hematite, GTMaterials.Plutonium239, GTMaterials.Magnetite, GTMaterials.Gypsum, GTMaterials.Goethite, GTMaterials.Sphalerite, GTMaterials.Powellite, GTMaterials.Graphite, GTMaterials.Pyrite, GTMaterials.FullersEarth, GTMaterials.Diamond, GTOMaterials.Celestine, GTMaterials.Wulfenite, GTMaterials.Bentonite, GTMaterials.Cooperite, GTMaterials.Olivine, GTMaterials.GraniticMineralSand, GTMaterials.Malachite, GTMaterials.BasalticMineralSand, GTMaterials.Molybdenite, GTMaterials.Molybdenum, GTMaterials.Coal, GTMaterials.Trona, GTMaterials.GlauconiteSand },
+                    new Material[] { GTMaterials.Bentonite, GTMaterials.Wulfenite, GTOMaterials.Celestine, GTMaterials.Plutonium239, GTMaterials.Magnetite, GTMaterials.Gypsum, GTMaterials.Cooperite, GTMaterials.Olivine, GTMaterials.Powellite, GTMaterials.Molybdenum, GTMaterials.Molybdenite, GTMaterials.Coal, GTMaterials.GlauconiteSand },
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    new Material[] { GTMaterials.Cobaltite, GTMaterials.Ilmenite, GTMaterials.Pollucite, GTMaterials.Aluminium, GTMaterials.Talc, GTMaterials.Garnierite, GTMaterials.Zeolite, GTMaterials.Tin, GTMaterials.Soapstone, GTMaterials.Realgar, GTMaterials.Bauxite, GTMaterials.Mica, GTMaterials.Cassiterite, GTMaterials.Kyanite, GTMaterials.Nickel, GTMaterials.Beryllium, GTMaterials.Emerald, GTMaterials.Pentlandite, GTMaterials.GlauconiteSand, GTMaterials.Chalcopyrite },
+                    new Material[] { GTMaterials.Cobaltite, GTMaterials.Talc, GTMaterials.Pollucite, GTMaterials.Aluminium, GTMaterials.Ilmenite, GTMaterials.Mica, GTMaterials.Nickel, GTMaterials.Kyanite, GTMaterials.GlauconiteSand, GTMaterials.Pentlandite },
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    new Material[] { GTMaterials.Ruby, GTMaterials.Iron, GTMaterials.Platinum, GTMaterials.Galena, GTMaterials.Wulfenite, GTMaterials.Titanium, GTMaterials.Chalcocite, GTMaterials.Palladium, GTMaterials.Ilmenite, GTMaterials.Bornite, GTMaterials.Cooperite, GTMaterials.Silver, GTMaterials.Redstone, GTMaterials.Powellite, GTMaterials.Topaz, GTMaterials.BlueTopaz, GTMaterials.Molybdenum, GTMaterials.Molybdenite, GTMaterials.Pyrite, GTMaterials.Cinnabar, GTMaterials.Lead, GTMaterials.Copper, GTMaterials.Chalcopyrite },
+                    new Material[] { GTMaterials.Platinum, GTMaterials.Wulfenite, GTMaterials.Titanium, GTMaterials.Ilmenite, GTMaterials.Cooperite, GTMaterials.Palladium, GTMaterials.Powellite, GTMaterials.Molybdenite, GTMaterials.Molybdenum, GTMaterials.Cinnabar, GTMaterials.Lead },
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    new Material[] { GTMaterials.Uraninite, GTOMaterials.Desh, GTMaterials.YellowLimonite, GTMaterials.Magnetite, GTMaterials.CassiteriteSand, GTMaterials.Hematite, GTMaterials.Goethite, GTMaterials.Tetrahedrite, GTMaterials.Chromite, GTMaterials.Stibnite, GTMaterials.TricalciumPhosphate, GTMaterials.VanadiumMagnetite, GTMaterials.GarnetSand, GTMaterials.GreenSapphire, GTMaterials.Pyrope, GTMaterials.Pyrochlore, GTMaterials.Apatite, GTMaterials.Almandine, GTMaterials.Malachite, GTMaterials.Diatomite, GTMaterials.Asbestos, GTMaterials.Sapphire, GTMaterials.Magnesite, GTMaterials.Pitchblende, GTMaterials.Copper },
+                    new Material[] { GTOMaterials.Desh, GTMaterials.Uraninite, GTMaterials.GreenSapphire, GTMaterials.Pyrope, GTMaterials.Magnetite, GTMaterials.Pyrochlore, GTMaterials.Diatomite, GTMaterials.Chromite, GTMaterials.TricalciumPhosphate, GTMaterials.Sapphire, GTMaterials.Magnesite, GTMaterials.VanadiumMagnetite },
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    new Material[] { GTMaterials.Amethyst, GTMaterials.Uraninite, GTMaterials.Naquadah, GTMaterials.GarnetRed, GTMaterials.Galena, GTMaterials.Plutonium239, GTMaterials.Pollucite, GTMaterials.Apatite, GTMaterials.Quartzite, GTMaterials.GarnetYellow, GTMaterials.Tungsten, GTMaterials.Silver, GTMaterials.Pyrochlore, GTMaterials.Mica, GTMaterials.Opal, GTMaterials.Pyrolusite, GTMaterials.TricalciumPhosphate, GTMaterials.Kyanite, GTMaterials.Tantalite, GTMaterials.Pitchblende, GTMaterials.CertusQuartz, GTMaterials.Barite, GTOMaterials.Zircon, GTMaterials.Lead },
+                    new Material[] { GTMaterials.Barite, GTMaterials.Uraninite, GTMaterials.Plutonium239, GTMaterials.Pollucite, GTMaterials.Tungsten, GTMaterials.Pyrochlore, GTMaterials.Pyrolusite, GTMaterials.Mica, GTMaterials.Kyanite, GTMaterials.Tantalite, GTOMaterials.Zircon, GTMaterials.Lead },
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    new Material[] { GTMaterials.Monazite, GTMaterials.Lepidolite, GTMaterials.CassiteriteSand, GTMaterials.Bornite, GTMaterials.Tin, GTMaterials.Palladium, GTMaterials.Mica, GTMaterials.Gold, GTMaterials.Lazurite, GTMaterials.Kyanite, GTMaterials.Sodalite, GTMaterials.Neodymium, GTMaterials.Tantalite, GTMaterials.Scheelite, GTMaterials.Lithium, GTMaterials.Bastnasite, GTOMaterials.Zircon, GTMaterials.GarnetSand, GTMaterials.Lapis, GTMaterials.Platinum, GTOMaterials.Celestine, GTMaterials.Tungstate, GTMaterials.Pollucite, GTMaterials.Salt, GTMaterials.Cooperite, GTMaterials.Tungsten, GTMaterials.Oilsands, GTMaterials.Calcite, GTMaterials.RockSalt, GTOMaterials.Ostrum, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Cassiterite, GTMaterials.Asbestos, GTMaterials.Spodumene, GTMaterials.Coal, GTMaterials.Trona },
+                    new Material[] { GTMaterials.Lithium, GTMaterials.Platinum, GTMaterials.Monazite, GTOMaterials.Celestine, GTMaterials.Lepidolite, GTMaterials.Pollucite, GTMaterials.Tungsten, GTMaterials.Bornite, GTMaterials.Cooperite, GTMaterials.Palladium, GTMaterials.Pyrolusite, GTMaterials.Mica, GTOMaterials.Ostrum, GTMaterials.Kyanite, GTMaterials.Spodumene, GTMaterials.Neodymium, GTMaterials.Tantalite, GTOMaterials.Zircon },
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    new Material[] { GTMaterials.Ruby, GTOMaterials.Calorite, GTMaterials.Naquadah, GTMaterials.Galena, GTMaterials.Lepidolite, GTMaterials.Plutonium239, GTMaterials.RockSalt, GTMaterials.Gypsum, GTMaterials.Salt, GTMaterials.Apatite, GTMaterials.Pyrochlore, GTMaterials.Silver, GTMaterials.Oilsands, GTMaterials.GraniticMineralSand, GTMaterials.Redstone, GTMaterials.BasalticMineralSand, GTMaterials.TricalciumPhosphate, GTMaterials.Spodumene, GTMaterials.Cinnabar, GTMaterials.FullersEarth, GTMaterials.Coal, GTMaterials.Cobalt, GTMaterials.Lead },
+                    new Material[] { GTMaterials.Lepidolite, GTMaterials.Plutonium239, GTMaterials.Gypsum, GTMaterials.Salt, GTOMaterials.Calorite, GTMaterials.Pyrochlore, GTMaterials.Spodumene, GTMaterials.Cinnabar, GTMaterials.Cobalt, GTMaterials.Lead },
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+                    new Material[] { GTMaterials.Iron, GTOMaterials.Desh, GTMaterials.Spessartine, GTMaterials.Hematite, GTMaterials.Goethite, GTMaterials.Bornite, GTMaterials.Tin, GTMaterials.Alunite, GTMaterials.Mica, GTMaterials.Graphite, GTMaterials.TricalciumPhosphate, GTMaterials.Kyanite, GTMaterials.Neodymium, GTMaterials.Tantalite, GTMaterials.FullersEarth, GTMaterials.Scheelite, GTMaterials.Lithium, GTMaterials.Platinum, GTOMaterials.Celestine, GTMaterials.Ruby, GTMaterials.Olivine, GTMaterials.Almandine, GTMaterials.Electrotine, GTMaterials.Grossular, GTMaterials.BlueTopaz, GTMaterials.Molybdenite, GTMaterials.Beryllium, GTMaterials.Emerald, GTMaterials.Coal, GTMaterials.Chalcopyrite, GTMaterials.Monazite, GTMaterials.Chalcocite, GTMaterials.Naquadah, GTMaterials.Ilmenite, GTMaterials.Zeolite, GTMaterials.Chromite, GTMaterials.Stibnite, GTOMaterials.GnomeCrystal, GTMaterials.Lapis, GTMaterials.Bentonite, GTMaterials.Pyrope, GTMaterials.Pollucite, GTMaterials.Salt, GTMaterials.Soapstone, GTOMaterials.UndineCrystal, GTMaterials.Calcite, GTMaterials.Pyrolusite, GTMaterials.Opal, GTMaterials.Asbestos, GTMaterials.Nickel, GTMaterials.Magnesite, GTMaterials.Trona, GTMaterials.Pitchblende, GTMaterials.Copper, GTMaterials.Lead, GTMaterials.CertusQuartz, GTMaterials.Magnetite, GTMaterials.GarnetRed, GTMaterials.Galena, GTMaterials.Plutonium239, GTMaterials.CassiteriteSand, GTMaterials.Gypsum, GTMaterials.Aluminium, GTMaterials.Palladium, GTMaterials.Silver, GTMaterials.Topaz, GTMaterials.Gold, GTMaterials.Lazurite, GTMaterials.Sodalite, GTMaterials.Bastnasite, GTOMaterials.Zircon, GTMaterials.GarnetSand, GTMaterials.Wulfenite, GTMaterials.Cobaltite, GTMaterials.Tungstate, GTMaterials.Diamond, GTMaterials.Garnierite, GTMaterials.Cooperite, GTOMaterials.SalamanderCrystal, GTMaterials.Tungsten, GTMaterials.Apatite, GTMaterials.Pyrochlore, GTMaterials.Realgar, GTMaterials.RockSalt, GTMaterials.Cassiterite, GTMaterials.Sapphire, GTMaterials.Cinnabar, GTMaterials.Cobalt, GTMaterials.Barite, GTMaterials.Uraninite, GTMaterials.Sulfur, GTMaterials.YellowLimonite, GTMaterials.Lepidolite, GTMaterials.Titanium, GTMaterials.Tetrahedrite, GTOMaterials.Calorite, GTOMaterials.PerditioCrystal, GTMaterials.Powellite, GTMaterials.Redstone, GTMaterials.Sphalerite, GTMaterials.Bauxite, GTMaterials.NetherQuartz, GTMaterials.Pyrite, GTMaterials.Saltpeter, GTMaterials.VanadiumMagnetite, GTMaterials.Pentlandite, GTMaterials.Amethyst, GTMaterials.GreenSapphire, GTMaterials.Quartzite, GTMaterials.Talc, GTMaterials.GarnetYellow, GTOMaterials.SylphCrystal, GTMaterials.Oilsands, GTMaterials.GraniticMineralSand, GTMaterials.Diatomite, GTMaterials.Malachite, GTOMaterials.Ostrum, GTMaterials.BasalticMineralSand, GTMaterials.Molybdenum, GTMaterials.Spodumene, GTMaterials.GlauconiteSand },
+                    new Material[] { GTOMaterials.Desh, GTMaterials.CertusQuartz, GTMaterials.Plutonium239, GTMaterials.Bornite, GTMaterials.Gypsum, GTMaterials.Aluminium, GTMaterials.Spessartine, GTMaterials.Palladium, GTMaterials.Silver, GTMaterials.Alunite, GTMaterials.Mica, GTMaterials.TricalciumPhosphate, GTMaterials.Kyanite, GTMaterials.Neodymium, GTMaterials.Tantalite, GTOMaterials.Zircon, GTOMaterials.Celestine, GTMaterials.Lithium, GTMaterials.Wulfenite, GTMaterials.Platinum, GTMaterials.Cobaltite, GTMaterials.Diamond, GTMaterials.Garnierite, GTMaterials.Cooperite, GTMaterials.Tungsten, GTMaterials.Olivine, GTMaterials.Pyrochlore, GTMaterials.Electrotine, GTMaterials.Sapphire, GTMaterials.Molybdenite, GTMaterials.Cinnabar, GTMaterials.Cobalt, GTMaterials.Barite, GTMaterials.Uraninite, GTMaterials.Monazite, GTMaterials.Lepidolite, GTMaterials.Titanium, GTOMaterials.Calorite, GTMaterials.Sphalerite, GTMaterials.Powellite, GTMaterials.Chromite, GTMaterials.Pentlandite, GTMaterials.Saltpeter, GTMaterials.GreenSapphire, GTMaterials.Bentonite, GTMaterials.Pollucite, GTMaterials.Talc, GTMaterials.Salt, GTMaterials.Soapstone, GTMaterials.Calcite, GTMaterials.Opal, GTOMaterials.Ostrum, GTMaterials.Nickel, GTMaterials.Spodumene, GTMaterials.Magnesite, GTMaterials.Molybdenum, GTMaterials.Trona, GTMaterials.GlauconiteSand, GTMaterials.Lead },
+            };
+
+            // int组
+            int[][] material_weights = new int[][] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    new int[] { 1454, 1200, 500, 1125, 6000, 725, 200, 2400, 375, 333, 5333, 200, 166, 1125, 544, 333, 750, 250, 187, 400, 800, 250, 272, 400, 500, 375, 474, 642, 125, 166, 500, 428, 3666, 562, 214, 2090, 200, 6136, 2400, 142, 1896, 1000, 600, 1454, 474, 400, 250, 750, 750, 474, 214, 375, 428, 187, 83, 250, 285, 750, 474, 375, 600, 400, 1200, 375, 375, 400, 800, 600, 250, 142, 312, 1454, 166 },
+                    new int[] { 142, 200, 375, 333, 200, 166, 333, 250, 187, 400, 400, 250, 400, 285, 272, 250, 214, 187, 83, 250, 375, 400, 166, 125, 375, 375, 375, 375, 400, 250, 214, 142, 200, 312, 166 },
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    new int[] { 166, 1454, 142, 333, 437, 3999, 375, 218, 333, 125, 437, 17, 1125, 1200, 999, 750, 187, 2120, 375, 125, 750, 214, 250, 53, 428, 375, 285, 900, 964, 642, 375, 428, 250, 375, 250, 17, 656, 562, 250, 214, 35, 142, 1284, 1000, 3453, 3636 },
+                    new int[] { 166, 53, 250, 214, 142, 333, 285, 218, 125, 17, 333, 250, 250, 142, 35, 250, 214, 17, 187, 125 },
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    new int[] { 166, 1000, 750, 333, 437, 3999, 375, 750, 1125, 218, 333, 17, 125, 600, 375, 437, 1200, 999, 187, 666, 375, 53, 400, 900, 375, 250, 250, 562, 964, 656, 17, 35, 1284, 200, 1999 },
+                    new int[] { 166, 53, 333, 218, 375, 375, 125, 17, 333, 375, 250, 250, 35, 17, 187, 200, 375 },
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    new int[] { 800, 93, 150, 300, 1200, 600, 300, 250, 5333, 375, 200, 600, 400, 2666, 800, 150, 561, 125, 400, 450, 250 },
+                    new int[] { 93, 150, 250, 300, 300, 375, 200, 150, 250, 125 },
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    new int[] { 1454, 2400, 3999, 1125, 6000, 600, 200, 2400, 75, 25, 125, 200, 166, 999, 333, 250, 1454, 699, 400, 400, 375, 750, 233, 50, 466, 83, 750, 50, 500, 166, 400, 375, 1200, 250, 250, 600, 3453, 3636 },
+                    new int[] { 233, 50, 83, 200, 75, 50, 25, 166, 125, 375, 200, 166, 250, 250, 333, 250, 375 },
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    new int[] { 100, 1000, 750, 500, 293, 750, 1125, 333, 17, 333, 375, 225, 544, 666, 56, 53, 272, 187, 125, 35, 200, 17, 90, 62, 166 },
+                    new int[] { 100, 53, 187, 125, 17, 17, 200, 35, 90, 56, 62, 166 },
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    new int[] { 437, 375, 150, 293, 25, 1000, 125, 437, 187, 375, 125, 50, 250, 375, 50, 150, 500, 375, 250, 250, 1000, 562, 250, 656, 300, 2500 },
+                    new int[] { 50, 250, 293, 150, 50, 25, 150, 125, 250, 250, 250, 187, 125 },
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    new int[] { 150, 2400, 125, 2400, 6000, 375, 1000, 266, 150, 187, 699, 450, 125, 233, 466, 187, 250, 125, 375, 500, 1200, 375, 133, 1000, 562, 312, 2500 },
+                    new int[] { 233, 150, 187, 125, 250, 125, 266, 133, 150, 187, 312, 125 },
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    new int[] { 1000, 2400, 561, 2400, 93, 125, 200, 6000, 333, 17, 544, 666, 400, 272, 150, 53, 187, 150, 125, 400, 1200, 600, 35, 17, 90, 300, 62 },
+                    new int[] { 187, 53, 150, 93, 125, 200, 150, 125, 17, 17, 35, 90, 62 },
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    new int[] { 250, 300, 83, 300, 250, 375, 1000, 5333, 375, 500, 600, 166, 3666, 250, 250, 964, 1284, 250, 250, 2500 },
+                    new int[] { 250, 250, 83, 300, 300, 166, 250, 250, 250, 250 },
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    new int[] { 400, 1454, 50, 500, 53, 133, 437, 25, 266, 293, 50, 333, 600, 17, 437, 656, 17, 35, 1454, 200, 166, 1454, 3636 },
+                    new int[] { 50, 53, 133, 266, 50, 25, 17, 35, 17, 200, 166 },
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    new int[] { 93, 100, 2400, 168, 1200, 2400, 6000, 3999, 225, 999, 333, 56, 800, 214, 428, 166, 500, 642, 1200, 400, 800, 214, 200, 561, 1999 },
+                    new int[] { 100, 93, 214, 428, 168, 166, 400, 225, 333, 214, 200, 56 },
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    new int[] { 750, 93, 561, 1125, 500, 93, 83, 500, 500, 750, 200, 333, 166, 166, 375, 200, 333, 250, 200, 561, 333, 166, 200, 166 },
+                    new int[] { 166, 93, 93, 83, 200, 166, 200, 166, 250, 200, 200, 166 },
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    new int[] { 150, 142, 1200, 75, 5333, 25, 166, 266, 1125, 250, 750, 150, 200, 699, 233, 450, 200, 800, 750, 50, 150, 466, 83, 285, 200, 200, 600, 375, 428, 133, 200, 400, 2666, 800, 142, 2000, 300 },
+                    new int[] { 233, 50, 150, 150, 142, 83, 200, 75, 200, 25, 200, 166, 133, 250, 142, 150, 200, 200 },
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    new int[] { 400, 150, 561, 500, 142, 93, 428, 200, 285, 500, 316, 333, 600, 400, 600, 600, 333, 142, 200, 400, 2000, 300, 166 },
+                    new int[] { 142, 93, 200, 285, 150, 316, 142, 200, 300, 166 },
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+                    new int[] { 1454, 100, 375, 3150, 7125, 293, 5333, 125, 166, 544, 333, 250, 150, 387, 400, 699, 233, 50, 150, 400, 125, 642, 250, 562, 656, 35, 964, 1284, 2090, 6136, 150, 437, 561, 566, 1000, 225, 999, 474, 750, 187, 428, 83, 285, 375, 474, 375, 575, 375, 800, 250, 200, 300, 561, 3453, 166, 333, 893, 1125, 500, 93, 1200, 200, 300, 25, 333, 437, 841, 1125, 750, 450, 200, 800, 53, 250, 466, 272, 375, 200, 474, 200, 500, 316, 500, 428, 3666, 214, 200, 300, 166, 93, 1000, 3150, 142, 133, 3999, 150, 1896, 17, 600, 333, 600, 1200, 2120, 375, 456, 250, 750, 214, 900, 250, 750, 474, 600, 400, 650, 1200, 133, 600, 17, 142, 312 },
+                    new int[] { 100, 333, 93, 293, 200, 300, 375, 25, 333, 125, 166, 333, 250, 150, 387, 200, 150, 233, 53, 50, 250, 272, 375, 200, 200, 125, 316, 250, 214, 35, 200, 300, 166, 93, 150, 142, 133, 150, 333, 17, 225, 250, 375, 214, 187, 83, 250, 285, 375, 375, 375, 133, 250, 142, 200, 17, 300, 312, 166 },
+            };
+
+            Item[] inputItem = new Item[] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Steel), GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Manasteel),
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    GTOItems.ULV_ROBOT_ARM.asItem(), GTOItems.ULV_FLUID_REGULATOR.asItem(),
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, Items.NETHERITE_INGOT,
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    GTItems.ROBOT_ARM_EV.asItem(), GTItems.FLUID_REGULATOR_EV.asItem(),
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.TungstenSteel), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RTMAlloy),
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Desh), GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Desh),
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Calorite), GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Calorite),
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Ostrum), GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Ostrum),
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.NaquadahAlloy), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Naquadria),
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Naquadah), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Trinium),
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Tellurium), GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Rubidium),
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.HydroxyapatiteCeramic), GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Sunnarium),
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Darmstadtium), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Tritanium),
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+            };
+            int[] source = new int[] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    1, 5,
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    2, 10,
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    5, 50,
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    20, 100,
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    30, 150,
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    30, 150,
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    80, 400,
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    80, 400,
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    160, 800,
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    160, 800,
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    300, 1500,
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    300, 1500,
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    300, 1500,
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+            };
+            Item[] consumeitem = new Item[] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    GTOItems.COLORFUL_MYSTICAL_FLOWER.asItem(),
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    GTOItems.PRECISION_STEAM_MECHANISM.asItem(),
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    Items.WITHER_SKELETON_SKULL,
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    GTItems.FIELD_GENERATOR_EV.asItem(),
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    GTItems.NANO_PROCESSOR_ASSEMBLY_EV.asItem(),
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.UraniumTriplatinum),
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    GTOItems.GRAPHENE_IRON_PLATE.asItem(),
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Plutonium241),
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.SiliconNitrideCeramic),
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    GTItems.RAW_CRYSTAL_CHIP.asItem(),
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.UraniumRhodiumDinaquadide),
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    GTOItems.SUPER_CEREBRUM.asItem(),
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    GTItems.STEM_CELLS.asItem(),
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+            };
+            Block[][] stones = new Block[][] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    new Block[] { Blocks.STONE, Blocks.DEEPSLATE },
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    new Block[] { Blocks.DEEPSLATE, Blocks.CLAY },
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    new Block[] { Blocks.NETHERRACK, Blocks.BASALT },
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    new Block[] { ModBlocks.MOON_STONE.get(), ModBlocks.MOON_SAND.get(), ModBlocks.MOON_CHEESE_ORE.get() },
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    new Block[] { ModBlocks.MARS_STONE.get(), ModBlocks.MARS_SAND.get(), ModBlocks.MARS_ICE_SHARD_ORE.get() },
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    new Block[] { ModBlocks.VENUS_STONE.get(), ModBlocks.VENUS_SAND.get(), ModBlocks.VENUS_SANDSTONE.get() },
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    new Block[] { ModBlocks.MERCURY_STONE.get() },
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    new Block[] { GTOBlocks.CERES_STONE.get(), GTOBlocks.CERES_GRUNT.get() },
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    new Block[] { GTOBlocks.IO_STONE.get(), GTOBlocks.IO_ASH.get() },
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    new Block[] { GTOBlocks.GANYMEDE_STONE.get(), GTOBlocks.GANYMEDE_GRUNT.get() },
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    new Block[] { GTOBlocks.ENCELADUS_STONE.get() },
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    new Block[] { GTOBlocks.TITAN_STONE.get(), GTOBlocks.TITAN_GRUNT.get() },
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    new Block[] { GTOBlocks.PLUTO_STONE.get(), GTOBlocks.PLUTO_GRUNT.get() },
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    new Block[] { ModBlocks.GLACIO_STONE.get(), ModBlocks.GLACIO_ICE_SHARD_ORE.get() },
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    new Block[] { Blocks.STONE, Blocks.DEEPSLATE },
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+                    new Block[] { DDBlocks.SCULK_STONE.get(), DDBlocks.GLOOMSLATE.get() },
+            };
+            int[][] stonesWeights = new int[][] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    new int[] { 200, 50 },
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    new int[] { 200, 50 },
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    new int[] { 200, 50 },
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    new int[] { 200, 50, 20 },
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    new int[] { 200, 50, 20 },
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    new int[] { 200, 50, 20 },
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    new int[] { 200 },
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    new int[] { 200, 50 },
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    new int[] { 200, 50 },
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    new int[] { 200, 50 },
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    new int[] { 200 },
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    new int[] { 200, 50 },
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    new int[] { 200, 50 },
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    new int[] { 200, 20 },
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    new int[] { 200, 50 },
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+                    new int[] { 120, 120 },
+            };
+            TagPrefix[] tagPrefix = new TagPrefix[] {
+                    // 维度: Overworld (主世界)--ID: minecraft:overworld
+                    TagPrefix.ore,
+                    // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
+                    TagPrefix.oreDeepslate,
+                    // 维度: Nether (下界)--ID: minecraft:the_nether
+                    TagPrefix.oreNetherrack,
+                    // 维度: Moon (月球)--ID: ad_astra:moon
+                    GTOTagPrefix.MOON_STONE,
+                    // 维度: Mars (火星)--ID: ad_astra:mars
+                    GTOTagPrefix.MARS_STONE,
+                    // 维度: Venus (金星)--ID: ad_astra:venus
+                    GTOTagPrefix.VENUS_STONE,
+                    // 维度: Mercury (水星)--ID: ad_astra:mercury
+                    GTOTagPrefix.MERCURY_STONE,
+                    // 维度: Ceres (谷神星)--ID: gtocore:ceres
+                    GTOTagPrefix.CERES_STONE,
+                    // 维度: Io (木卫一)--ID: gtocore:io
+                    GTOTagPrefix.IO_STONE,
+                    // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
+                    GTOTagPrefix.GANYMEDE_STONE,
+                    // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
+                    GTOTagPrefix.ENCELADUS_STONE,
+                    // 维度: Titan (土卫六)--ID: gtocore:titan
+                    GTOTagPrefix.TITAN_STONE,
+                    // 维度: Pluto (冥王星)--ID: gtocore:pluto
+                    GTOTagPrefix.PLUTO_STONE,
+                    // 维度: Glacio (霜原星)--ID: ad_astra:glacio
+                    GTOTagPrefix.GLACIO_STONE,
+                    // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
+                    TagPrefix.ore,
+                    // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
+                    GTOTagPrefix.SCULK_STONE
+            };
+
+            for (int i = 0; i < consumeitem.length; i++) {
+                int m = i * 2;
+                MeteoriteRegistryHelper.registerMeteoriteType(
+                        inputItem[m],
+                        source[m],
+                        consumeitem[i],
+                        stones[i],
+                        stonesWeights[i],
+                        tagPrefix[i],
+                        materials[m],
+                        material_weights[m]);
+
+                m++;
+                MeteoriteRegistryHelper.registerMeteoriteType(
+                        inputItem[m],
+                        source[m],
+                        consumeitem[i],
+                        stones[i],
+                        stonesWeights[i],
+                        tagPrefix[i],
+                        materials[m],
+                        material_weights[m]);
+            }
+        }
     }
 }

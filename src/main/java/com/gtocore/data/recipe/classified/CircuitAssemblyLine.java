@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
 
 @Scanned
@@ -993,6 +994,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1017,6 +1019,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1041,6 +1044,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1065,6 +1069,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1089,6 +1094,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))

@@ -24,6 +24,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -46,11 +47,11 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     @Persisted
     private final NotifiableItemStackHandler machineStorage;
     @Persisted
-    private int temperature = 298;
+    private float temperature = 298;
     @Persisted
-    private long neutronFluxkeV = 0;
+    private double neutronFluxkeV = 0;
     @Persisted
-    private int recipeHeat = 0;
+    private double recipeHeat = 0;
     private SensorPartMachine sensorMachineTemp;
     private SensorPartMachine sensorNeutronFlux;
 
@@ -81,15 +82,14 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
         if (recipe.data.contains("neutron_flux")) {
-            var neededNeutronFlux = recipe.data.getInt("neutron_flux");
+            var neededNeutronFlux = recipe.data.getFloat("neutron_flux");
             if (neutronFluxkeV < neededNeutronFlux) {
                 ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtocore.idle_reason.neutron_kinetic_energy_not_satisfies"));
                 return null;
             }
-            Recipe recipe1 = (Recipe) getDefinition().getRecipeModifier().applyModifier(self(), recipe);
-            if (recipe1 == null) return null;
-            recipe1.parallels = Math.min(recipe1.parallels, 2048);
-            recipe1.duration = (int) (recipe1.duration * Math.pow(0.9, Math.sqrt(recipe1.parallels)));
+            recipe.parallels = Math.min(recipe.parallels, 2048);
+            recipe.duration = getRecipeDuration(recipe, neededNeutronFlux);
+            return recipe;
         }
         return super.getRealRecipe(recipe);
     }
@@ -101,7 +101,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     }
 
     @Override
-    public Widget createUIWidget() {
+    public @NotNull Widget createUIWidget() {
         return IStorageMultiblock.super.createUIWidget(super.createUIWidget());
     }
 
@@ -109,9 +109,9 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     public boolean onWorking() {
         if (getRecipeLogic().getLastRecipe() != null && getOffsetTimer() % 20 == 0) {
             var recipe = getRecipeLogic().getLastRecipe();
-            var change = recipe.data.getInt("neutron_flux_change");
+            var change = recipe.data.getFloat("neutron_flux_change");
             neutronFluxkeV = Math.max(0, neutronFluxkeV + change);
-            var neededNeutronFlux = recipe.data.getInt("neutron_flux");
+            var neededNeutronFlux = recipe.data.getFloat("neutron_flux");
             if (neutronFluxkeV < neededNeutronFlux) {
                 ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtocore.idle_reason.neutron_kinetic_energy_not_satisfies"));
                 return false;
@@ -167,16 +167,21 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("gtocore.machine.current_temperature", temperature));
-        textList.add(Component.translatable("gtocore.machine.neutron_flux", neutronFluxkeV));
-        textList.add(Component.translatable("gtocore.machine.temp.per_second", recipeHeat));
+        textList.add(Component.translatable("gtocore.machine.current_temperature", FormattingUtil.formatNumber2Places(temperature)));
+        textList.add(Component.translatable("gtocore.machine.neutron_flux", FormattingUtil.formatNumber2Places(neutronFluxkeV)));
+        textList.add(Component.translatable("gtocore.machine.temp.per_second", FormattingUtil.formatNumber2Places(recipeHeat)));
     }
 
-    private int getRecipeHeat(Recipe recipe) {
+    private double getRecipeHeat(Recipe recipe) {
         if (recipe.data.contains("heat")) {
-            return (int) (recipe.data.getInt("heat") * 1.27e-1 * Math.pow((double) neutronFluxkeV / 100d, 1.88));
+            return (recipe.data.getFloat("heat") * 1.27 * Math.pow(neutronFluxkeV / 100d, 1.88));
         }
         return 0;
+    }
+
+    private int getRecipeDuration(Recipe recipe, double neededNeutronFlux) {
+        double k = Math.max(0.9 - (neutronFluxkeV - neededNeutronFlux) / 1e5d, 0.1);
+        return (int) (recipe.duration * Math.pow(k, Math.sqrt(recipe.parallels)));
     }
 
     /**
@@ -202,7 +207,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
             if (reflectors > 0 && neutronFluxkeV > 0) {
                 neutronFluxkeV += (long) Math.sqrt(neutronFluxkeV * reflectors);
             }
-            temperature += recipeHeat;
+            temperature += (float) recipeHeat;
             MachineUtils.forEachInputFluids(this, (fluidStack) -> {
                 if (Wrapper.COOLANTS.containsKey(fluidStack.getFluid())) {
                     temperature -= Wrapper.COOLANTS.get(fluidStack.getFluid()) * fluidStack.getAmount();
@@ -218,7 +223,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
                 sensorMachineTemp.update(temperature);
             }
             if (sensorNeutronFlux != null) {
-                sensorNeutronFlux.update(neutronFluxkeV / 1000f); // MeV
+                sensorNeutronFlux.update((float) (neutronFluxkeV / 1000f)); // MeV
             }
 
         }

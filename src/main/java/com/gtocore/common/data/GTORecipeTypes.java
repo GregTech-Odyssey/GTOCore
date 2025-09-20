@@ -845,11 +845,11 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TURBINE)
             .addDataInfo(data -> {
-                var nFlux = data.getInt("neutron_flux");
-                return LocalizationUtils.format(nFlux > 1000 ? "gtocore.recipe.neutron_flux.m" : "gtocore.recipe.neutron_flux.k", FormattingUtil.formatNumbers(nFlux > 1000 ? nFlux / 1_000f : nFlux));
+                var nFlux = data.getFloat("neutron_flux");
+                return LocalizationUtils.format(nFlux > 1000 ? "gtocore.recipe.neutron_flux.m" : "gtocore.recipe.neutron_flux.k", FormattingUtil.formatNumber2Places(nFlux > 1000 ? nFlux / 1_000f : nFlux));
             })
-            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.neutron_flux.change", FormattingUtil.formatNumbers(data.getInt("neutron_flux_change"))))
-            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.heat.change", FormattingUtil.formatNumbers(data.getInt("heat"))));
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.neutron_flux.change", FormattingUtil.formatNumber2Places(data.getFloat("neutron_flux_change"))))
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.heat.change", FormattingUtil.formatNumber2Places(data.getFloat("heat"))));
 
     public static final RecipeType BIOCHEMICAL_REACTION_RECIPES = register("biochemical_reaction", "生化反应", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -936,6 +936,20 @@ public final class GTORecipeTypes {
                 return "";
             });
 
+    public static final RecipeType CELESTIAL_CONDENSER_RECIPES = register("celestial_condenser", "苍穹凝聚", MAGIC)
+            .setMaxIOSize(1, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COOLING)
+            .addDataInfo(data -> {
+                int solaris = data.getInt("solaris");
+                int lunara = data.getInt("lunara");
+                int voidflux = data.getInt("voidflux");
+                if (solaris > 0) return I18n.get("gtocore.celestial_condenser.solaris", solaris);
+                if (lunara > 0) return I18n.get("gtocore.celestial_condenser.lunara", lunara);
+                if (voidflux > 0) return I18n.get("gtocore.celestial_condenser.voidflux", voidflux);
+                return "";
+            });
+
     public static final RecipeType MANA_HEATER_RECIPES = register("mana_heater", "魔力加热器", MAGIC)
             .setMaxIOSize(0, 0, 1, 0)
             .setSound(GTSoundEntries.FURNACE);
@@ -954,7 +968,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType ELF_EXCHANGE_RECIPES = register("elf_exchange", "ELF Exchange", "精灵交易", MAGIC)
             .setMANAIO(IO.IN)
-            .setMaxIOSize(1, 1, 0, 0)
+            .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.REPLICATOR);
 

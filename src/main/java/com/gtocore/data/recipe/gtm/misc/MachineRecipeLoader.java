@@ -1175,7 +1175,7 @@ public final class MachineRecipeLoader {
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_closed_timelike_curve_guidance_unit", GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack(),
                 GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack());
 
-        //pattern_buffer
+        // pattern_buffer
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_PATTERN_BUFFER", GTAEMachines.ME_PATTERN_BUFFER.asStack(),
                 GTAEMachines.ME_PATTERN_BUFFER.asStack());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_EXTEND_PATTERN_BUFFER", GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asStack(),

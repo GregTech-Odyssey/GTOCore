@@ -96,7 +96,7 @@ public final class LangHandler {
         addCNEN("selectWorld.dev_mode", "开发者模式已启用", "Developer Mode Enabled");
         addCNEN("selectWorld.gto_difficulty.current", "与当前游戏难度匹配", "Matches current game difficulty");
         addCNEN("selectWorld.gto_difficulty.not_current", "与当前游戏难度不匹配", "Does not match current game difficulty");
-        addCNEN("message.gtocore.difficulty_mismatch", "服务器难度与当前客户端不符，无法加入游戏！（当前：%s，服务器：%s）", "The server difficulty does not match the current client and cannot join the game! (Current: %s, Server: %s)");
+        addCNEN("message.gtocore.difficulty_mismatch", "服务器难度与当前客户端不符，无法加入游戏！（服务器：%s，当前：%s）", "The server difficulty does not match the current client and cannot join the game! (Server: %s, Current: %s)");
 
         addCNEN("selectWorld.gto_difficulty.tooltip.simple", "简单模式：游戏流程的各环节（资源获取，制作，自动化等）均有大量简化，游戏难度低。", "Simple Mode: All aspects of the game process (resource acquisition, crafting, automation, etc.) are greatly simplified, making the game easier. ");
         addCNEN("selectWorld.gto_difficulty.tooltip.normal", "普通模式：标准的GTO体验，机制玩法均为默认设定。", "Normal Mode: Standard GTO experience, with all mechanics and gameplay set to default. ");
@@ -168,7 +168,7 @@ public final class LangHandler {
         addCNEN("gtocore.recipe.mana_efficiency", "总耗魔倍率：%s", "Total Mana Cost Multiplier: %s");
         addCNEN("gtocore.recipe.mana_efficiency.o", "总产魔倍率：%s", "Total Mana Cost Multiplier: %s");
         addCNEN("gtocore.recipe.time_cost_multiplier", "总耗时倍率：%s", "Total Time Cost Multiplier: %s");
-        addCNEN("gtceu.multiblock.batch_parallel_multiplier", "(批处理 %s)", "(Batch Processing %s)");
+        addCNEN("gtceu.multiblock.batch_parallel_multiplier", "(批处理/超频补偿 %s)", "(Batch/OC Compensation %s)");
         addCNEN("gtocore.condition.gravity", "需要强重力环境", "Requires Strong Gravity Environment");
         addCNEN("gtocore.condition.zero_gravity", "需要无重力环境", "Requires Zero Gravity Environment");
 
@@ -181,6 +181,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.mana_container_provider", "[GTOCore] 魔力容器", "[GTOCore] Mana Container");
         addCNEN("config.jade.plugin_gtocore.vacuum_tier_provider", "[GTOCore] 真空等级", "[GTOCore] Vacuum Tier");
         addCNEN("config.jade.plugin_gtocore.temperature_provider", "[GTOCore] 机器温度", "[GTOCore] Machine Temperature");
+        addCNEN("config.jade.plugin_gtocore.ae_grid_provider", "[GTOCore] AE网络信息", "[GTOCore] AE Grid Info");
         addCNEN("config.jade.plugin_gtocore.tick_time_provider", "[GTOCore] Tick时间", "[GTOCore] Tick Time");
         addCNEN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] 无线交互机器信息", "[GTOCore] Wireless Interactive Machine Info");
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
@@ -188,6 +189,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
+        addCNEN("config.jade.plugin_gtocore.celestial_energy_provider", "[GTOCore] 天体能量", "[GTOCore] Celestial Energy");
 
         addCNEN("fluid.gtocore.gelid_cryotheum", "极寒之凛冰", "Gelid Cryotheum");
 
@@ -303,6 +305,8 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its crafting tree that are not involved in other patterns");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge", "安装纠缠奇点", "Install Quantum Entangled Singularity");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "量子环已内置", "Quantum ring is built-in");
+        addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi", "收藏缺失", "Bookmark Missing");
+        addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi.desc", "将缺失的物品添加到EMI书签页", "Add missing items to EMI bookmark page");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");
@@ -318,6 +322,10 @@ public final class LangHandler {
         addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
 
         addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
+
+        addCNEN("gtocore.celestial_condenser.solaris", "曦煌：%s", "Solaris: %s");
+        addCNEN("gtocore.celestial_condenser.lunara", "胧华：%s", "Lunara: %s");
+        addCNEN("gtocore.celestial_condenser.voidflux", "虚湮：%s", "Voidflux: %s");
     }
 
     public static void enInitialize(LanguageProvider provider) {

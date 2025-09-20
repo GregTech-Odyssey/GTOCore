@@ -163,5 +163,34 @@ final class Autoclave {
                 .duration(100)
                 .addCondition(new VacuumCondition(2))
                 .save();
+        AUTOCLAVE_RECIPES.builder("impregnated_alkane_filled_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.BasicMFPC)
+                .inputItems(TagPrefix.dustSmall, GTOMaterials.Cetane)
+                .outputItems(TagPrefix.dust, GTOMaterials.ImpregnatedAlkaneFilledMFPC)
+                .inputFluids(GTOMaterials.LiquidNitrogen, 2000)
+                .outputFluids(GTMaterials.Nitrogen, 2000)
+                .EUt(9000)
+                .duration(1600)
+                .addCondition(new VacuumCondition(4))
+                .save();
+        AUTOCLAVE_RECIPES.builder("impregnated_alkane_filled_recycled_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.RecycleBasicMFPC)
+                .inputItems(TagPrefix.dustSmall, GTOMaterials.Cetane)
+                .outputItems(TagPrefix.dust, GTOMaterials.ImpregnatedAlkaneFilledMFPC)
+                .inputFluids(GTOMaterials.LiquidNitrogen, 2000)
+                .outputFluids(GTMaterials.Nitrogen, 2000)
+                .EUt(9000)
+                .duration(160)
+                .addCondition(new VacuumCondition(4))
+                .save();
+        AUTOCLAVE_RECIPES.builder("etched_carbon_nanotube_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.CarbonNanotubes)
+                .inputItems(TagPrefix.dustTiny, GTMaterials.RockSalt)
+                .outputItems(TagPrefix.dust, GTOMaterials.EtchedCarbonNanotube)
+                .inputFluids(GTOMaterials.SodiumHydroxideSolution, 1000)
+                .EUt(1222)
+                .duration(1222)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
     }
 }

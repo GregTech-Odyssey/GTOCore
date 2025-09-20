@@ -156,6 +156,24 @@ public final class MagicMaterial {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
+        HerosBrawlers = magicMaterial("heros_brawlers", "英雄之斗争")
+                .liquid(new FluidBuilder().temperature(375))
+                .color(0xfd4f7b)
+                .iconSet(LIMPID)
+                .buildAndRegister();
+
+        HerosBreach = magicMaterial("heros_breach", "英雄之突破")
+                .liquid(new FluidBuilder().temperature(375))
+                .color(0xc7e6ff)
+                .iconSet(LIMPID)
+                .buildAndRegister();
+
+        HerosSplendor = magicMaterial("heros_splendor", "英雄之辉煌")
+                .liquid(new FluidBuilder().temperature(375))
+                .color(0x1bbbb5)
+                .iconSet(LIMPID)
+                .buildAndRegister();
+
         Animium = magicMaterial("animium", "灵髓液")
                 .liquid(new FluidBuilder().temperature(237))
                 .color(0xfcd428)
@@ -463,21 +481,23 @@ public final class MagicMaterial {
                 .fluid()
                 .color(0xf5e2b3)
                 .blastTemp(1200, LOW)
-                .components(GTMaterials.Gold, 1)
+                .element(GTElements.Au)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .iconSet(METALLIC)
                 .buildAndRegister()
                 .setFormula("*La*", false);
 
         Quicksilver = magicMaterial("quicksilver", "银钻")
+                .rarity(Rarity.UNCOMMON)
                 .ingot()
                 .fluid()
                 .blastTemp(10100, HIGHEST)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .element(GTElements.Ag)
                 .color(0x58C8B6)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
-                .buildAndRegister().setFormula("Qs", false);
+                .buildAndRegister()
+                .setFormula("Qs", false);
 
         Ignatius = magicMaterial("ignatius", "伊格内休斯")
                 .ingot()

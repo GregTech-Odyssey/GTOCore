@@ -11,7 +11,9 @@ import static com.gtocore.data.lang.LangHandler.addCNEN;
 
 final class MachineLang {
 
-    public static void init() {
+    static void init() {
+        addCNEN("gui.tooltips.redstone_mode.enabled", "启用红石模式，机器接收红石信号", "Enable redstone mode, the machine will receive redstone signals");
+        addCNEN("gui.tooltips.redstone_mode.disabled", "禁用红石模式，机器无视红石信号", "Disable redstone mode, the machine will ignore redstone signals");
         addCNEN("gtocore.machine.programmablec_hatch.tooltip", "通过虚拟物品提供器来设置电路槽物品", "Set the circuit slot items through a virtual item provider");
         addCNEN("gtocore.machine.energy_loss", "能量损失：%s", "Energy loss: %s");
         addCNEN("gtocore.machine.highlight_module", "高亮显示模块位置", "Highlight module position.");
@@ -137,7 +139,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.analysis", "分析中...", "Analysing...");
         addCNEN("gtocore.machine.assembling", "装配中...", "Assembling...");
         addCNEN("gtocore.machine.wireless_mode", "无线模式", "Wireless Mode");
-        addCNEN("gtocore.machine.alchemical.chance_can_be_boosted", "该配方的概率可被提升", "The probability of this recipe can be boosted");
+        addCNEN("gtocore.machine.alchemical.chance_can_be_boosted", "该配方的概率会随运行次数提升", "The chance of this recipe increases with the number of attempts.");
         addCNEN("gtocore.machine.alchemical_device.1", "嬗变中", "Transmutation");
         addCNEN("gtocore.machine.alchemical_device.2", "完美嬗变中", "Perfect Transmutation");
         addCNEN("gtocore.machine.monitor.no_information", "没有可显示的信息", "No information to display");
