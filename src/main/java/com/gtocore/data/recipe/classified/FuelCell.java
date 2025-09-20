@@ -39,7 +39,7 @@ public class FuelCell {
 
         PowerlessJetpack.FUELS.forEach((fluidStack, duration) -> {
             Fluid fluid = fluidStack.getStacks()[0].getFluid();
-            long totalEu = (long) duration * fluidStack.getAmount() * 4;
+            long totalEu = (long) duration * 4;
             FUEL_CELL_ENERGY_ABSORPTION_RECIPES.recipeBuilder(BuiltInRegistries.FLUID.getResourceKey(fluid).map(k -> k.location().getPath()).orElseThrow() + "_absorption")
                     .notConsumable(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("gt", "membrane_electrodes")))
                     .inputFluids(Oxygen.getFluid(FluidStorageKeys.LIQUID), fluidStack.getAmount())
