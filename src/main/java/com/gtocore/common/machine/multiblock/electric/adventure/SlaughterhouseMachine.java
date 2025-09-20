@@ -61,7 +61,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SlaughterhouseMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    private int attackDamage;
+    private int attackDamage = 0;
     @Persisted
     private boolean isSpawn;
     private DamageSource damageSource;
@@ -137,7 +137,10 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                 forEachInputItems(itemStack -> {
                     if (activeWeapon.isEmpty() && itemStack.getItem() instanceof SwordItem swordItem) {
                         attackDamage += (int) swordItem.getDamage();
-                        if (attackDamage > 1) activeWeapon = itemStack.copy();
+                        if (attackDamage > 1) {
+                            activeWeapon = itemStack.copy();
+                            return true;
+                        }
                     }
                     return false;
                 });
@@ -204,7 +207,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             final int MAX_KILLS_PER_RUN = 20;
 
             for (Entity entity : entities) {
-                if (killedCount >= MAX_KILLS_PER_RUN && entity instanceof LivingEntity) continue;
+                if (killedCount >= MAX_KILLS_PER_RUN) continue;
                 if (entity instanceof LivingEntity livingEntity) {
                     if (c != 3 && CommonProxy.isBoss(entity)) continue;
                     if (c == 3) {
@@ -231,8 +234,8 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                             fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                         }
                     } else {
-                        livingEntity.hurt(getDamageSource(serverLevel), attackDamage);
-                        killedCount++;
+                        boolean isHurt = livingEntity.hurt(getDamageSource(serverLevel), attackDamage);
+                        if (isHurt && !livingEntity.isAlive()) killedCount++;
                     }
                 } else if (entity instanceof ItemEntity itemEntity) {
                     itemStacks.add(itemEntity.getItem());
