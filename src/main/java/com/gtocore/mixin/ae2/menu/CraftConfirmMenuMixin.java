@@ -144,7 +144,7 @@ public abstract class CraftConfirmMenuMixin extends AEBaseMenu implements IConfi
     @Unique
     private boolean gto$sent = false;
 
-    @Inject(method = "broadcastChanges", at = @At("RETURN"), remap = false)
+    @Inject(method = "broadcastChanges", at = @At("RETURN"))
     private void onBroadcastChanges(CallbackInfo ci) {
         if (!gto$sent) {
             var builder = MEInventoryUpdatePacket.builder(containerId, true);
