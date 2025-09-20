@@ -20,7 +20,6 @@ import com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCent
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gtocore.common.machine.multiblock.noenergy.AlgaeFarmMachine;
 import com.gtocore.common.machine.multiblock.noenergy.LargeCokeOvenMachine;
-import com.gtocore.common.machine.multiblock.storage.MEEnergySubstationMachine;
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine;
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine;
 import com.gtocore.common.machine.multiblock.storage.WirelessDimensionRepeaterMachine;
@@ -852,8 +851,8 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition ME_ENERGY_SUBSTATION = multiblock("me_energy_substation", "ME能源塔", MEEnergySubstationMachine::new)
-            .langValue("ME Energy")
+    public static final MultiblockMachineDefinition ME_ENERGY_SUBSTATION = multiblock("me_energy_substation", "ME能源塔", TierCasingMultiblockMachine.createMachine(GLASS_TIER))
+            .langValue("ME Energy Substation")
             .allRotation()
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)

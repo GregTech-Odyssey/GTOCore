@@ -1,13 +1,12 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gtocore.common.machine.multiblock.storage.MEEnergySubstationMachine;
+import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.config.ConfigHolder;
-import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
@@ -23,10 +22,10 @@ import org.jetbrains.annotations.NotNull;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static java.lang.Math.min;
 
-public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachineLife, IGridConnectedMachine, IAEPowerStorage {
+public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPowerStorage {
 
-    double ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
-    MEEnergySubstationMachine controller = null;
+    private double ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+    private TierCasingMultiblockMachine controller = null;
 
     public MEEnergyAccessPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.NONE);
@@ -44,12 +43,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     }
 
     private long AE2EU(double ae) {
-        return (long) Math.ceil(PowerUnits.AE.convertTo(PowerUnits.FE, ae) / ratio);
-    }
-
-    private MEEnergySubstationMachine getController() {
-        if (isFormed()) return controller;
-        return null;
+        return MathUtil.saturatedCast(PowerUnits.AE.convertTo(PowerUnits.FE, ae) / ratio);
     }
 
     @Override
@@ -59,18 +53,26 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     }
 
     private void postEnergyEvent() {
-        if (getController() == null) {
+        if (controller == null) {
             return;
         }
         this.ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
-        this.ratio *= 1 + 0.3 * getController().getCasingTier(GLASS_TIER);
+        this.ratio *= 1 + 0.3 * controller.getCasingTier(GLASS_TIER);
         if (this.getMainNode().getGrid() != null) {
             this.getMainNode().getGrid().postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER));
         }
     }
 
-    public void onFormatted(MEEnergySubstationMachine controller) {
-        this.controller = controller;
+    @Override
+    public void removedFromController(@NotNull IMultiController controller) {
+        super.removedFromController(controller);
+        this.controller = null;
+    }
+
+    @Override
+    public void addedToController(@NotNull IMultiController controller) {
+        super.addedToController(controller);
+        this.controller = (TierCasingMultiblockMachine) controller;
         postEnergyEvent();
     }
 
@@ -92,11 +94,11 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
 
     @Override
     public double getAECurrentPower() {
-        if (getController() == null) {
+        if (controller == null) {
             return 0;
         }
-        if (!this.isWorkingEnabled()) return 0;
-        return EU2AE(getController().getEnergyContainer().getEnergyStored());
+        if (!this.workingEnabled) return 0;
+        return EU2AE(controller.getEnergyContainer().getEnergyStored());
     }
 
     @Override
@@ -114,21 +116,16 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
         return multiplier.divide(this.extractAEPower(multiplier.multiply(amt), mode));
     }
 
-    public double extractAEPower(double amt, Actionable mode) {
-        if (getController() == null) {
+    private double extractAEPower(double amt, Actionable mode) {
+        if (controller == null) {
             return 0;
         }
-        if (!this.isWorkingEnabled()) return 0;
+        if (!this.workingEnabled) return 0;
         double can_extract = min(getAECurrentPower(), amt);
         if (!mode.isSimulate()) {
-            getController().getEnergyContainer().changeEnergy(-AE2EU(can_extract));
+            controller.getEnergyContainer().changeEnergy(-AE2EU(can_extract));
         }
         return can_extract;
-    }
-
-    @Override
-    public @NotNull MetaMachine self() {
-        return this;
     }
 
     @Override
