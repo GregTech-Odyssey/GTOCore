@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.multiblock.part.ae.slots.MECircuitHandler;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
@@ -287,12 +289,15 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (isFormed()) {
             IMultiController controller = getControllers().first();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
+            GTRecipeType rt=controller instanceof IRecipeLogicMachine rlm?rlm.getRecipeType():null;
+            String lid=rt!=null?rt.registryName.toLanguageKey():controllerDefinition.getDescriptionId();
+
             if (!getCustomName().isEmpty()) {
                 return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), Component.literal(getCustomName()), Collections.emptyList());
             } else {
                 ItemStack circuitStack = circuitInventorySimulated.storage.getStackInSlot(0);
                 int circuitConfiguration = circuitStack.isEmpty() ? -1 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
-                Component groupName = circuitConfiguration != -1 ? Component.translatable(controllerDefinition.getDescriptionId()).append(" - " + circuitConfiguration) : Component.translatable(controllerDefinition.getDescriptionId());
+                Component groupName = circuitConfiguration != -1 ? Component.translatable(lid).append(" - " + circuitConfiguration) : Component.translatable(lid);
                 return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), groupName, Collections.emptyList());
             }
         } else {
