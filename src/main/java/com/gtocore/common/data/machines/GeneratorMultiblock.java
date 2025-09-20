@@ -14,10 +14,7 @@ import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereLaunchSiloMachine;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereReceivingStationMcahine;
-import com.gtocore.common.machine.multiblock.generator.ChemicalEnergyDevourerMachine;
-import com.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
-import com.gtocore.common.machine.multiblock.generator.MagneticFluidGeneratorMachine;
-import com.gtocore.common.machine.multiblock.generator.PhotovoltaicPowerStationMachine;
+import com.gtocore.common.machine.multiblock.generator.*;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
@@ -911,5 +908,46 @@ public final class GeneratorMultiblock {
                     .build())
             .renderer(AnnihilateGeneratorRenderer::new)
             .hasTESR(true)
+            .register();
+
+    public static final MultiblockMachineDefinition FUEL_CELL_GENERATOR = multiblock("fuel_cell_generator", "燃料电池发电机", FullCellGenerator::new)
+            .nonYAxisRotation()
+            .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES)
+            .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES)
+            .generator()
+            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getFuelCellGeneratorTooltips().getSupplier())
+            .block(GTOBlocks.IRIDIUM_CASING)
+            .recipeModifier((machine, recipe) -> {
+                if (machine instanceof FullCellGenerator f && f.isGenerator())
+                    return RecipeModifierFunction.GENERATOR_OVERCLOCKING.apply(machine, recipe);
+                else return recipe;
+            })
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get())
+                            .or(abilities(OUTPUT_ENERGY).or(abilities(INPUT_ENERGY).or(abilities(OUTPUT_LASER))))
+                            .or(abilities(IMPORT_ITEMS))
+                            .or(abilities(IMPORT_FLUIDS))
+                            .or(abilities(EXPORT_ITEMS))
+                            .or(abilities(EXPORT_FLUIDS)))
+                    .where('B', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('C', controller(blocks(definition.get())))
+                    .where('D', blocks(GTOBlocks.FLOCCULATION_CASING.get()))
+                    .where('E', blocks(GTOBlocks.IRIDIUM_CASING.get()))
+                    .where('F', blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
+                    .where('G', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
+                    .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.HSSG)))
+                    .where('I', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
+                    .where('J', blocks(GTOBlocks.CALCIUM_OXIDE_CERAMIC_ANTI_METAL_CORROSION_MECHANICAL_BLOCK.get()))
+                    .where('K', blocks(GTBlocks.FILTER_CASING.get()))
+                    .where('L', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
+                    .where('M', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
+                    .where('N', blocks(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.get()))
+                    .where('O', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
+                    .where('P', blocks(GTBlocks.CASING_PTFE_INERT.get()))
+                    .where('Q', blocks(GTBlocks.BATTERY_EMPTY_TIER_II.get()))
+                    .where('R', blocks(GTBlocks.FUSION_GLASS.get()))
+                    .where(' ', any())
+                    .build())
+            .renderer(() -> new ArrayMachineRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/processing_array")))
             .register();
 }

@@ -21,7 +21,7 @@ final class FluidHeater {
                 .inputFluids(GTMaterials.CarbonDioxide.getFluid(1000))
                 .outputFluids(GTOMaterials.SupercriticalCarbonDioxide.getFluid(1000))
                 .EUt(480)
-                .duration(200)
+                .duration(40000)
                 .save();
 
         FLUID_HEATER_RECIPES.recipeBuilder("azafullerene")

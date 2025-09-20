@@ -128,5 +128,11 @@ final class MolecularTransformer {
                 .EUt(524288)
                 .duration(180)
                 .save();
+        MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder("etrium")
+                .inputItems(TagPrefix.dust, GTOMaterials.EnrichedLightEmittingChargedSuspiciousWaste)
+                .outputItems(TagPrefix.dust, GTOMaterials.Etrium)
+                .EUt(524288)
+                .duration(180)
+                .save();
     }
 }

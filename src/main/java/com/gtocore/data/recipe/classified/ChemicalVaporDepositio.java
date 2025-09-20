@@ -114,5 +114,27 @@ final class ChemicalVaporDepositio {
                 .EUt(2400)
                 .duration(1200)
                 .save();
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.builder("ce_ox_poly_dopamine_reinforced_polytetrafluoroethylene_foil")
+                .inputItems(TagPrefix.foil, GTOMaterials.PerfluorosulfonicAcidPolytetrafluoroethyleneCopolymer, 16)
+                .notConsumable(TagPrefix.plate, GTMaterials.Neutronium)
+                .outputItems(TagPrefix.foil, GTOMaterials.CeOxPolyDopamineReinforcedPolytetrafluoroethylene, 16)
+                .inputFluids(GTOMaterials.PolyDopamine, 1000)
+                .inputFluids(GTOMaterials.Cerium4Sulfate, 1000)
+                .inputFluids(GTMaterials.Hydrogen, 10000)
+                .outputFluids(GTMaterials.SulfurDioxide, 1000)
+                .EUt(320000)
+                .duration(1200)
+                .save();
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.builder("nanocrack_regulated_self_humidifying_composite_material_foil")
+                .inputItems(TagPrefix.dust, GTOMaterials.SulfonatedPolyAryleneEtherSulfoneRandomCopolymer)
+                .inputItems(TagPrefix.foil, GTOMaterials.PerfluorosulfonicAcidPolytetrafluoroethyleneCopolymer, 16)
+                .outputItems(TagPrefix.foil, GTOMaterials.NanocrackRegulatedSelfHumidifyingCompositeMaterial, 16)
+                .inputFluids(GTOMaterials.NMPyrolidone, 3000)
+                .inputFluids(GTMaterials.Titanium.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .inputFluids(GTOMaterials.ExtremeTemperatureWater, 1000)
+                .outputFluids(GTMaterials.Steam, 1000)
+                .EUt(320000)
+                .duration(1200)
+                .save();
     }
 }

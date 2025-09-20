@@ -106,7 +106,6 @@ public final class GTMaterialExtend {
         Cadmium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Iron.setProperty(PropertyKey.TOOL, ToolProperty.Builder.of(2.0F, 2.0F, 256, 2, GTToolType.MINING_HAMMER, GTToolType.SPADE, GTToolType.SAW, GTToolType.HARD_HAMMER, GTToolType.WRENCH, GTToolType.FILE, GTToolType.CROWBAR, GTToolType.SCREWDRIVER, GTToolType.WIRE_CUTTER, GTToolType.SCYTHE, GTToolType.BUTCHERY_KNIFE, GTToolType.DRILL_LV, GTToolType.DRILL_MV, GTToolType.DRILL_HV, GTToolType.DRILL_EV, GTToolType.DRILL_IV, GTToolType.CHAINSAW_LV, GTToolType.WRENCH_LV, GTToolType.WRENCH_HV, GTToolType.WRENCH_IV, GTToolType.BUZZSAW, GTToolType.SCREWDRIVER_LV, GTToolType.WIRE_CUTTER_LV, GTToolType.WIRE_CUTTER_HV, GTToolType.WIRE_CUTTER_IV).enchantability(14).addTypes(GTToolType.MORTAR).build());
         Platinum.setProperty(BLAST, new BlastProperty(1810, BlastProperty.GasTier.MID, 480, 820, 120, 110));
-        Platinum.addFlags(GTOMaterialFlags.GENERATE_ELECTRODE);
         Graphene.addFlags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE);
         RedAlloy.addFlags(GENERATE_SPRING_SMALL);
         Lead.addFlags(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET);
@@ -173,6 +172,7 @@ public final class GTMaterialExtend {
         Carbon.setProperty(INGOT, new IngotProperty());
         RadAway.addFlags(DISABLE_DECOMPOSITION);
         Platinum.addFlags(GENERATE_SPRING);
+        Polytetrafluoroethylene.addFlags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE);
         Chromium.addFlags(GENERATE_GEAR);
         Naquadah.addFlags(GTOMaterialFlags.GENERATE_NANITES, GENERATE_FRAME);
         NaquadahAlloy.addFlags(GENERATE_FINE_WIRE);

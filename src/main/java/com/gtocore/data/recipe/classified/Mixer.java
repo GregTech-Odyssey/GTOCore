@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
@@ -757,6 +758,23 @@ final class Mixer {
                 .EUt(7680)
                 .duration(200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+        MIXER_RECIPES.builder("iron_chromium_redox_flow_battery_electrolyte_energy_release_cathode")
+                .inputItems(TagPrefix.dust, GTOMaterials.IronSulfate, 4)
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumSulfate)
+                .inputFluids(GTMaterials.SulfuricAcid, 4000)
+                .inputFluids(GTMaterials.Oxygen, 1000)
+                .outputFluids(IronChromiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 16000))
+                .EUt(1920)
+                .duration(220)
+                .save();
+        MIXER_RECIPES.builder("cerium_4_sulfate")
+                .inputItems(TagPrefix.dust, GTMaterials.Cerium)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .inputFluids(GTMaterials.Oxygen, 2000)
+                .outputFluids(GTOMaterials.Cerium4Sulfate, 1000)
+                .EUt(30)
+                .duration(30)
                 .save();
     }
 }

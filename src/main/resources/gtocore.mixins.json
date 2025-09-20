@@ -21,11 +21,13 @@
     "ae2.screen.GuiTagStorageBusMixin",
     "ae2.screen.MEStorageScreenMixin",
     "ae2.screen.PatternProviderScreenMixin",
+    "gtm.TooltipsHandlerMixin",
     "gtm.api.recipe.ContentMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
+    "mc.OpenContainerMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
     "ae2.EnergyServiceMixin",
@@ -55,6 +57,7 @@
     "ae2.crafting.PatternProviderLogicMixin",
     "ae2.gui.ActionButtonMixin",
     "ae2.gui.ConfigManagerMixin",
+    "ae2.gui.CraftConfirmTableRendererMixin",
     "ae2.gui.RepoSlotMixin",
     "ae2.gui.SettingsMixin",
     "ae2.gui.StyleManagerMixin",

@@ -2,6 +2,7 @@ package com.gtocore.data.lang;
 
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
+import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.GTOCore;
@@ -53,6 +54,7 @@ public final class LangHandler {
         GTOBedrockFluids.LANG.forEach((k, v) -> addCNEN("gtceu.jei.bedrock_fluid." + k, v));
         ItemRegisterUtils.LANG.forEach((k, v) -> addCN("item.gtocore." + k, v));
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
+        GTOFluidStorageKey.initLang();
         GTOMachineBuilder.LANG.forEach(LangHandler::addCNEN);
         MultiblockBuilder.LANG.forEach(LangHandler::addCNEN);
         Tooltips.LANG.forEach(LangHandler::addCNEN);
@@ -220,6 +222,9 @@ public final class LangHandler {
         addCNEN("planet.gtocore.titan_orbit", "土卫六轨道", "Titan Orbit");
         addCNEN("gui.ad_astra.text.barnarda", "巴纳德", "Barnarda");
 
+        addCNEN("gtocore.tooltip.fluid.electrolyte_energy_density", "§d电解液能量密度：§r%s EU/mB", "§dElectrolyte Energy Density:§r %s EU/mB");
+        addCNEN("gtocore.tooltip.fluid.electrolyte_energy_density.va", "§d相当于：§r%s @ §b%s§rA/mB", "§dEquivalent to§r %s @ §b%sA§r/mB");
+
         addCNEN("key.ae2.me2in1_wireless_locating_service", "打开ME2合1无线终端", "Open ME2in1 Wireless Terminal");
 
         addCNEN("gtocore.player_exp_status.mysterious_boost_potion.success", "你似乎被赋予了某种神秘能力...", "You seem to be granted with some mysterious ability ......");
@@ -307,6 +312,9 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "量子环已内置", "Quantum ring is built-in");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi", "收藏缺失", "Bookmark Missing");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi.desc", "将缺失的物品添加到EMI书签页", "Add missing items to EMI bookmark page");
+        addCNEN("gtocore.ae.appeng.craft.missing_start", "缺失合成", "Missing Crafting");
+        addCNEN("gtocore.ae.appeng.craft.missing_start.desc", "在材料不足的情况下仍然开始合成，缺失的原料将被等待", "Start crafting even when materials are insufficient, missing ingredients will be waited for");
+        addCNEN("gtocore.ae.appeng.craft.used_percent", "已使用 %s%%", "Used %s%%");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");

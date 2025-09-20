@@ -1512,4 +1512,22 @@ object GTOMachineTooltips {
         command("每秒将消耗全部输入的中子调节剂/冷却剂" translatedTo "Will consume all neutron moderators/coolants input per second")
         function("每秒温度变化：ΔT=H-C×M，结果向下取整" translatedTo "Temperature change per second: ΔT=H-C×M, result rounded down")
     }
+
+    // 燃料电池发电机
+    val FuelCellGeneratorTooltips = ComponentListSupplier {
+        setTranslationPrefix("fuel_cell_generator")
+
+        info("将燃料在专用电解液中‘燃烧’以转移获取400%燃料效率级别的能量" translatedTo "‘Burn’ fuel in a special electrolyte to transfer and obtain energy at 400% fuel efficiency level")
+        info("或者将储存在电解液中的能量释放出来" translatedTo "Or release the energy stored in the electrolyte")
+
+        section("工作模式" translatedTo "Operating Modes")
+        function("模式一：输入燃料，消耗少量电能将释能电解液转化为同数量的储能电解液" translatedTo "Mode 1: Input fuel, consume a small amount of EU to convert Discharged Electrolyte into the same amount of Charged Electrolyte")
+        info("并行数 = min(输入的电解液数量, 当前燃料可转化的电解液数量)" translatedTo "Parallel = min(input electrolyte amount, amount of electrolyte convertible by current fuel)")
+        info("耗能 = 1EU × 并行数" translatedTo "EU cost = 1EU × parallel")
+        function("模式二：发电，将储能电解液转化为95%总量的释能电解液，并释放100%总量的能量" translatedTo "Mode 2: Power generation, convert Charged Electrolyte into 95% Discharged Electrolyte and release 100% of the energy")
+        info("最大并行数 = 50, 即每秒最多消耗1B储能电解液" translatedTo "Max parallel = 50, i.e. up to 1B Charged Electrolyte can be consumed per second")
+        info("每次发电输出的能量等于储能电解液储存的能量" translatedTo "Each operation outputs energy equal to the energy stored in the Charged Electrolyte")
+        command("两种模式均需要输入电极膜才可工作" translatedTo "Both modes require input of Electrode Membranes to operate")
+        command("且发电模式仅可使用特定电极膜" translatedTo "And the power generation mode can only use specific Electrode Membranes")
+    }
 }

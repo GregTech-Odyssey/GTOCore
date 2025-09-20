@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.monitor;
 
+import com.gtocore.api.gui.graphic.GTOToolTipComponent;
 import com.gtocore.api.gui.graphic.impl.GTOProgressClientComponent;
 import com.gtocore.api.gui.graphic.impl.GTOProgressToolTipComponent;
 import com.gtocore.api.gui.helper.GuiIn3DHelper;
@@ -83,7 +84,7 @@ public abstract class DisplayComponent implements IDisplayComponent {
     public static class ProgressBar extends DisplayComponent {
 
         private float progress; // 0.0 to 1.0
-        private int width;
+        private GTOToolTipComponent toolTipComponent;
         private String text = ""; // Optional text to display on the progress bar
         private ProgressBarColorStyle style = ProgressBarColorStyle.Companion.getDEFAULT_GREEN(); // Default style
 
@@ -95,28 +96,31 @@ public abstract class DisplayComponent implements IDisplayComponent {
         public IDisplayComponent setInformation(Object... information) {
             if (information.length >= 3 && information[0] instanceof Float progressValue && information[1] instanceof Integer widthValue && information[2] instanceof Integer heightValue) {
                 this.progress = progressValue;
-                this.width = widthValue;
+                // this.width = widthValue;
                 if (information.length >= 5 && information[3] instanceof String text0 &&
                         information[4] instanceof ProgressBarColorStyle style0) {
                     // Optionally handle text if needed, currently unused
                     this.text = text0;
                     this.style = style0;
                 }
+                toolTipComponent = new GTOProgressToolTipComponent(progress, text, style);
+                toolTipComponent.setWidth(widthValue);
+                toolTipComponent.setHeight(heightValue);
             } else {
                 this.progress = 0.0f; // Default to 0 if no valid values provided
-                this.width = 100; // Default width
+                // this.width = 100; // Default width
             }
             return this;
         }
 
         @Override
         public int getVisualWidth() {
-            return width;
+            return toolTipComponent.getWidth() + 4;
         }
 
         @Override
         public int getVisualHeight() {
-            return 16;
+            return toolTipComponent.getHeight() + 1;
         }
 
         @Override

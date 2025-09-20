@@ -36,5 +36,13 @@ final class ElectromagneticSeparator {
                 .EUt(7864320)
                 .duration(200)
                 .save();
+        ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("enrich_etrium_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.LightEmittingChargedSuspiciousWaste)
+                .chancedOutput(TagPrefix.dust, GTOMaterials.EnrichedLightEmittingChargedSuspiciousWaste, 9000, 0)
+                .chancedOutput(TagPrefix.dust, GTOMaterials.EnrichedLightEmittingChargedSuspiciousWaste, 1000, 0)
+                .chancedOutput(TagPrefix.dust, GTMaterials.Fermium, 4500, 0)
+                .EUt(122800)
+                .duration(200)
+                .save();
     }
 }

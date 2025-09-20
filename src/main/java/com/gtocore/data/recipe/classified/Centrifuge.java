@@ -495,6 +495,7 @@ final class Centrifuge {
                 .outputItems(TagPrefix.dust, GTMaterials.Plutonium239, 2)
                 .outputItems(TagPrefix.dust, GTMaterials.Americium, 9)
                 .outputItems(TagPrefix.dust, GTMaterials.Radium)
+                .chancedOutput(TagPrefix.dust, GTOMaterials.LightEmittingChargedSuspiciousWaste, 4, 2000, 0)
                 .EUt(122880)
                 .duration(320)
                 .save();
@@ -507,6 +508,7 @@ final class Centrifuge {
                 .outputItems(TagPrefix.dust, GTMaterials.Plutonium241, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Curium, 6)
                 .outputItems(TagPrefix.dust, GTMaterials.Radium)
+                .chancedOutput(TagPrefix.dust, GTOMaterials.LightEmittingChargedSuspiciousWaste, 4, 4000, 0)
                 .EUt(122880)
                 .duration(320)
                 .save();
@@ -519,6 +521,7 @@ final class Centrifuge {
                 .outputItems(TagPrefix.dust, GTMaterials.Astatine, 2)
                 .outputItems(TagPrefix.dust, GTMaterials.Radium)
                 .outputItems(TagPrefix.dust, GTMaterials.Actinium)
+                .chancedOutput(TagPrefix.dust, GTOMaterials.LightEmittingChargedSuspiciousWaste, 4, 6000, 0)
                 .EUt(122880)
                 .duration(320)
                 .save();
@@ -530,6 +533,7 @@ final class Centrifuge {
                 .outputItems(TagPrefix.dust, GTMaterials.Californium, 9)
                 .outputItems(TagPrefix.dust, GTOMaterials.Californium252Source, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Actinium)
+                .chancedOutput(TagPrefix.dust, GTOMaterials.LightEmittingChargedSuspiciousWaste, 4, 8000, 0)
                 .EUt(491520)
                 .duration(320)
                 .save();

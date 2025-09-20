@@ -15,20 +15,31 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.WidgetContainer;
 import appeng.client.gui.me.crafting.CraftConfirmScreen;
 import appeng.client.gui.style.ScreenStyle;
+import appeng.core.localization.GuiText;
 import appeng.menu.me.crafting.CraftConfirmMenu;
 import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiStackHelper;
 import dev.emi.emi.config.SidebarType;
 import dev.emi.emi.runtime.EmiFavorites;
 import dev.emi.emi.screen.EmiScreenManager;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.function.Consumer;
 
 @Mixin(CraftConfirmScreen.class)
 public class CraftConfirmScreenMixin extends AEBaseScreen<CraftConfirmMenu> {
 
+    @Shadow(remap = false)
+    @Final
+    private Button start;
+    // @Shadow(remap = false)
+    // @Final
+    // private CraftConfirmTableRenderer table;
     @Unique
     private Button gto$addMissing;
 
@@ -70,6 +81,8 @@ public class CraftConfirmScreenMixin extends AEBaseScreen<CraftConfirmMenu> {
                         return new Rect2i(0, 0, 0, 0);
                     }
                 });
+        // ((Repo)((IConfirmLongMenu.IConfirmLongStartMenu)
+        // menu).gtocore$getClientRepo()).setUpdateViewListener(table.);
     }
 
     @Unique
@@ -86,5 +99,12 @@ public class CraftConfirmScreenMixin extends AEBaseScreen<CraftConfirmMenu> {
                 EmiScreenManager.repopulatePanels(SidebarType.FAVORITES);
             }
         });
+    }
+
+    @Redirect(method = "updateBeforeRender", at = @At(value = "INVOKE", target = "Lappeng/menu/me/crafting/CraftingPlanSummary;isSimulation()Z", ordinal = 0), remap = false)
+    private boolean gto$ignoreUnstartable(appeng.menu.me.crafting.CraftingPlanSummary instance) {
+        start.setMessage(instance.isSimulation() ? Component.translatable("gtocore.ae.appeng.craft.missing_start") : GuiText.Start.text());
+        start.setTooltip(Tooltip.create(instance.isSimulation() ? Component.translatable("gtocore.ae.appeng.craft.missing_start.desc") : GuiText.Start.text()));
+        return false;
     }
 }

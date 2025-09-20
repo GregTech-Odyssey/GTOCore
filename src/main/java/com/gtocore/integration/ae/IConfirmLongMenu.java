@@ -6,6 +6,7 @@ import appeng.api.networking.crafting.CalculationStrategy;
 import appeng.api.stacks.AEKey;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuLocator;
+import appeng.menu.me.common.IClientRepo;
 import appeng.menu.me.crafting.CraftAmountMenu;
 
 public interface IConfirmLongMenu {
@@ -15,6 +16,8 @@ public interface IConfirmLongMenu {
     interface IConfirmLongStartMenu {
 
         boolean gtocore$planLongJob(AEKey what, long amount, CalculationStrategy strategy);
+
+        IClientRepo gtocore$getClientRepo();
     }
 
     static void open(ServerPlayer player, MenuLocator locator, AEKey whatToCraft, long initialAmount) {

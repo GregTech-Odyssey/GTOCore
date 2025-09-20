@@ -17,6 +17,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.programmablec_hatch.tooltip", "通过虚拟物品提供器来设置电路槽物品", "Set the circuit slot items through a virtual item provider");
         addCNEN("gtocore.machine.energy_loss", "能量损失：%s", "Energy loss: %s");
         addCNEN("gtocore.machine.highlight_module", "高亮显示模块位置", "Highlight module position.");
+        addCNEN("gtocore.machine.highlight_obstruction", "高亮显示会被阻挡的区域", "Highlight areas that will be obstructed.");
         addCNEN("gtocore.machine.structure_check", "更新结构检查(shift点击将重新检查结构)", "Update structure check (Clicking on Shift will recheck the structure).");
         addCNEN("gtocore.machine.overclock_configurator", "调整机器超频的最小时间", "Adjust the minimum time for machine overclocking.");
         addCNEN("gtocore.machine.thread", "同时处理至多 %s 种不同配方，每种配方至多 %s 个", "Processing up to %s different recipes simultaneously, with a maximum of %s for each recipe.");
@@ -106,6 +107,7 @@ final class MachineLang {
         addCNEN("gtocore.recipe.neutron_flux.m", "最小中子通量: %s MeV", "Minimum Neutron Flux: %s MeV");
         addCNEN("gtocore.recipe.neutron_flux.change", "每秒中子通量变化: %s keV", "Neutron Flux Change Per Second: %s keV");
         addCNEN("gtocore.recipe.heat.change", "配方基础产热: %sK/s", "Recipe Base Heat Production: %sK/s");
+        addCNEN("gtocore.recipe.fuelcell.converted_energy", "可转换的基础能量： %s EU", "Convertible Base Energy: %s EU");
         addCNEN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "流体: %s 产量: %s", "Fluid: %s Output: %s");
         addCNEN("gtocore.machine.steam.tooltip.1", "默认支持%s等级及以下的配方处理", "default can process &s-Tier recipes and below, processing time is 1.5 times");
         addCNEN("gtocore.machine.steam.tooltip.2", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function");
