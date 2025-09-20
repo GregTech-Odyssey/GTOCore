@@ -88,7 +88,7 @@ public class LootTableExporter {
     }
 
     /**
-     * 导出所有战利品表到Markdown文件
+     * 导出所有战利品表到Markdown文件，按类型分组
      */
     private static void exportAllLootTablesToMarkdown(List<String> lootTables) {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
@@ -116,17 +116,39 @@ public class LootTableExporter {
                 }
             }
 
-            String markdown = generateCompleteMarkdown(allLootTables, lootTablesByNamespace);
-            Path logDir = Paths.get("logs", "report");
-            Files.createDirectories(logDir);
+            Map<String, List<LootTableAnalysis>> lootTablesByType = allLootTables.values().stream()
+                    .collect(Collectors.groupingBy(
+                            LootTableAnalysis::getType,
+                            TreeMap::new,
+                            Collectors.toList()
+                    ));
 
             String timestamp = TIMESTAMP_FORMATTER.get().format(new Date());
-            String randomNumber = String.format("%08d", (int) (Math.random() * 100000000));
-            Path reportPath = logDir.resolve("loottable_analysis_" + timestamp + "_" + randomNumber + ".md");
+            String randomNumber = String.format("%08d", (int)(Math.random() * 100000000));
+            Path logDir = Paths.get("logs", "report", "loottable_analysis_" + timestamp + "_" + randomNumber);
 
-            try (BufferedWriter writer = Files.newBufferedWriter(reportPath)) {
-                writer.write(markdown);
-                GTOCore.LOGGER.info("战利品表分析已导出到: {}", reportPath.toAbsolutePath());
+            Files.createDirectories(logDir);
+
+            for (Map.Entry<String, List<LootTableAnalysis>> typeEntry : lootTablesByType.entrySet()) {
+                String type = typeEntry.getKey();
+                List<LootTableAnalysis> typeTables = typeEntry.getValue();
+
+                String markdown = generateTypeMarkdown(type, typeTables, lootTablesByNamespace);
+
+                String safeTypeName = type.replaceAll("[^a-zA-Z0-9_-]", "_");
+                Path reportPath = logDir.resolve("[" + safeTypeName + "].md");
+
+                try (BufferedWriter writer = Files.newBufferedWriter(reportPath)) {
+                    writer.write(markdown);
+                    GTOCore.LOGGER.info("类型为 {} 的战利品表已导出到: {}", type, reportPath.toAbsolutePath());
+                }
+            }
+
+            String summaryMarkdown = generateSummaryMarkdown(allLootTables, lootTablesByNamespace, lootTablesByType);
+            Path summaryPath = logDir.resolve("汇总.md");
+            try (BufferedWriter writer = Files.newBufferedWriter(summaryPath)) {
+                writer.write(summaryMarkdown);
+                GTOCore.LOGGER.info("战利品表汇总已导出到: {}", summaryPath.toAbsolutePath());
             }
 
         } catch (IOException e) {
@@ -821,44 +843,51 @@ public class LootTableExporter {
     }
 
     /**
-     * 生成完整的Markdown文档，包含命名空间统计
+     * 生成单个类型的Markdown文档
      */
-    private static String generateCompleteMarkdown(Map<String, LootTableAnalysis> allLootTables,
-                                                   Map<String, List<String>> lootTablesByNamespace) {
-        if (allLootTables == null || allLootTables.isEmpty()) {
-            return "# 战利品表分析报告\n\n没有可分析的战利品表数据。";
+    private static String generateTypeMarkdown(String type, List<LootTableAnalysis> typeTables,
+                                               Map<String, List<String>> lootTablesByNamespace) {
+        if (typeTables == null || typeTables.isEmpty()) {
+            return "# " + type + " 类型战利品表分析报告\n\n没有该类型的战利品表数据。";
         }
 
         StringBuilder markdown = new StringBuilder();
 
-        markdown.append("# Minecraft 战利品表分析报告\n\n");
+        markdown.append("# Minecraft 战利品表分析报告 - 类型: ").append(type).append("\n\n");
         markdown.append("生成时间: ").append(DATE_FORMATTER.get().format(new Date())).append("\n\n");
         markdown.append("## 摘要\n");
-        markdown.append("- 分析的战利品表总数: ").append(allLootTables.size()).append("\n");
-        markdown.append("- 涉及的命名空间数量: ").append(lootTablesByNamespace.size()).append("\n");
+        markdown.append("- 本类型战利品表数量: ").append(typeTables.size()).append("\n");
 
-        // 按命名空间统计
+        // 统计本类型在各命名空间的分布
+        Map<String, Long> namespaceCount = typeTables.stream()
+                .map(analysis -> new ResourceLocation(analysis.getName()).getNamespace())
+                .collect(Collectors.groupingBy(namespace -> namespace, Collectors.counting()));
+
         markdown.append("\n### 命名空间分布\n");
-        for (Map.Entry<String, List<String>> entry : lootTablesByNamespace.entrySet()) {
-            markdown.append("- ").append(entry.getKey()).append(": ").append(entry.getValue().size()).append(" 个战利品表\n");
+        for (Map.Entry<String, Long> entry : namespaceCount.entrySet()) {
+            markdown.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append(" 个战利品表\n");
         }
 
-        long errorCount = allLootTables.values().stream().filter(a -> a.getError() != null).count();
+        long errorCount = typeTables.stream().filter(a -> a.getError() != null).count();
         markdown.append("\n- 分析失败的战利品表: ").append(errorCount).append("\n\n");
 
         // 按命名空间分组展示
-        for (Map.Entry<String, List<String>> namespaceEntry : lootTablesByNamespace.entrySet()) {
+        Map<String, List<LootTableAnalysis>> byNamespace = typeTables.stream()
+                .collect(Collectors.groupingBy(
+                        analysis -> new ResourceLocation(analysis.getName()).getNamespace(),
+                        TreeMap::new,
+                        Collectors.toList()
+                ));
+
+        for (Map.Entry<String, List<LootTableAnalysis>> namespaceEntry : byNamespace.entrySet()) {
             String namespace = namespaceEntry.getKey();
-            List<String> namespaceTables = namespaceEntry.getValue();
+            List<LootTableAnalysis> namespaceTables = namespaceEntry.getValue();
 
             markdown.append("## 命名空间: ").append(namespace).append("\n");
-            markdown.append("**包含战利品表数量:** ").append(namespaceTables.size()).append("\n\n");
+            markdown.append("**包含本类型战利品表数量:** ").append(namespaceTables.size()).append("\n\n");
 
-            for (String tableName : namespaceTables) {
-                LootTableAnalysis analysis = allLootTables.get(tableName);
-                if (analysis == null) {
-                    continue;
-                }
+            for (LootTableAnalysis analysis : namespaceTables) {
+                String tableName = analysis.getName();
 
                 markdown.append("### 战利品表: ").append(tableName).append("\n\n");
 
@@ -1009,9 +1038,55 @@ public class LootTableExporter {
             }
         }
 
-        markdown.append("## 战利品表汇总比较\n\n");
-        markdown.append("| 命名空间 | 战利品表 | 类型 | 奖励池数量 | 总期望值 | 状态 |\n");
-        markdown.append("|----------|----------|------|-----------|----------|------|\n");
+        return markdown.toString();
+    }
+
+    /**
+     * 生成汇总Markdown文档
+     */
+    private static String generateSummaryMarkdown(Map<String, LootTableAnalysis> allLootTables,
+                                                  Map<String, List<String>> lootTablesByNamespace,
+                                                  Map<String, List<LootTableAnalysis>> lootTablesByType) {
+        if (allLootTables == null || allLootTables.isEmpty()) {
+            return "# 战利品表分析汇总报告\n\n没有可分析的战利品表数据。";
+        }
+
+        StringBuilder markdown = new StringBuilder();
+
+        markdown.append("# Minecraft 战利品表分析汇总报告\n\n");
+        markdown.append("生成时间: ").append(DATE_FORMATTER.get().format(new Date())).append("\n\n");
+        markdown.append("## 摘要\n");
+        markdown.append("- 分析的战利品表总数: ").append(allLootTables.size()).append("\n");
+        markdown.append("- 涉及的命名空间数量: ").append(lootTablesByNamespace.size()).append("\n");
+        markdown.append("- 战利品表类型数量: ").append(lootTablesByType.size()).append("\n\n");
+
+        // 按类型统计
+        markdown.append("### 类型分布\n");
+        for (Map.Entry<String, List<LootTableAnalysis>> entry : lootTablesByType.entrySet()) {
+            markdown.append("- ").append(entry.getKey()).append(": ").append(entry.getValue().size()).append(" 个战利品表\n");
+        }
+
+        // 按命名空间统计
+        markdown.append("\n### 命名空间分布\n");
+        for (Map.Entry<String, List<String>> entry : lootTablesByNamespace.entrySet()) {
+            markdown.append("- ").append(entry.getKey()).append(": ").append(entry.getValue().size()).append(" 个战利品表\n");
+        }
+
+        long errorCount = allLootTables.values().stream().filter(a -> a.getError() != null).count();
+        markdown.append("\n- 分析失败的战利品表: ").append(errorCount).append("\n\n");
+
+        // 所有类型链接
+        markdown.append("## 类型报告列表\n");
+        for (String type : lootTablesByType.keySet()) {
+            String safeTypeName = type.replaceAll("[^a-zA-Z0-9_-]", "_");
+            markdown.append("- [").append(type).append("](").append("[").append(safeTypeName).append("].md) - ")
+                    .append(lootTablesByType.get(type).size()).append(" 个战利品表\n");
+        }
+
+        // 战利品表汇总比较
+        markdown.append("\n## 战利品表汇总比较\n\n");
+        markdown.append("| 类型 | 命名空间 | 战利品表 | 奖励池数量 | 总期望值 | 状态 |\n");
+        markdown.append("|------|----------|----------|-----------|----------|------|\n");
 
         for (String tableName : allLootTables.keySet()) {
             LootTableAnalysis analysis = allLootTables.get(tableName);
@@ -1029,12 +1104,12 @@ public class LootTableExporter {
                     .sum();
 
             markdown.append("| ")
+                    .append(analysis.getType())
+                    .append(" | ")
                     .append(namespace)
                     .append(" | `")
                     .append(loc.getPath())
                     .append("` | ")
-                    .append(analysis.getType())
-                    .append(" | ")
                     .append(analysis.getLootPools().size())
                     .append(" | ")
                     .append(analysis.getError() != null ? "-" : NUMBER_FORMAT.format(tableTotalExpectedValue))
