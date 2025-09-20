@@ -670,7 +670,6 @@ object GTOMachineTooltips {
         command("此时将不会继续生成生物，你或许需要自己将生物送进去" translatedTo "No more creatures will be spawned at this time, you may need to send the creatures in yourself")
         content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
         info("每次最多能击杀20个生物" translatedTo "A maximum of 20 creatures can be killed each time")
-
     }
 
     // 溶解罐

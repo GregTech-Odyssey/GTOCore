@@ -131,7 +131,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         if (handlerList.getHandlerIO() == IO.IN) {
             attackDamage = 1;
             int c = checkingCircuit(false);
-            activeWeapon = ItemStack.EMPTY;
+            activeWeapon = new ItemStack(Items.IRON_SWORD);
 
             if (c == 3) {
                 forEachInputItems(itemStack -> {
@@ -207,7 +207,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             final int MAX_KILLS_PER_RUN = 20;
 
             for (Entity entity : entities) {
-                if (killedCount >= MAX_KILLS_PER_RUN) continue;
+                if (c == 3 && killedCount >= MAX_KILLS_PER_RUN) continue;
                 if (entity instanceof LivingEntity livingEntity) {
                     if (c != 3 && CommonProxy.isBoss(entity)) continue;
                     if (c == 3) {
@@ -234,8 +234,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                             fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                         }
                     } else {
-                        boolean isHurt = livingEntity.hurt(getDamageSource(serverLevel), attackDamage);
-                        if (isHurt && !livingEntity.isAlive()) killedCount++;
+                        livingEntity.hurt(getDamageSource(serverLevel), attackDamage);
                     }
                 } else if (entity instanceof ItemEntity itemEntity) {
                     itemStacks.add(itemEntity.getItem());
