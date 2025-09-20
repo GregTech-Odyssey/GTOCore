@@ -92,8 +92,15 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
         if (!inventory.list.isEmpty()) GTOCore.LOGGER.error("Crafting CPU inventory is not empty yet a job was submitted.");
 
-        var missingIng = CraftingCpuHelperExtended.tryExtractInitialItemsIgnoreMissing(plan, grid, inventory, src);
-        // if (missingIng != null) return CraftingSubmitResult.missingIng(missingIng);
+        KeyCounter missingIng;
+        if (src.player().isPresent()) {
+            missingIng = CraftingCpuHelperExtended.tryExtractInitialItemsIgnoreMissing(plan, grid, inventory, src);
+        } else {
+            var missingIngredient = CraftingCpuHelper.tryExtractInitialItems(plan, grid, inventory, src);
+            if (missingIngredient != null) return CraftingSubmitResult.missingIngredient(missingIngredient);
+            missingIng = new KeyCounter();
+        }
+
         var playerId = src.player()
                 .map(p -> p instanceof ServerPlayer serverPlayer ? IPlayerRegistry.getPlayerId(serverPlayer) : null)
                 .orElse(null);
