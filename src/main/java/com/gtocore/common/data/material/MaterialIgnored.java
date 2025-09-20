@@ -216,6 +216,8 @@ public final class MaterialIgnored {
         TagPrefix.ingot.setIgnored(Infinity, infinity_ingot);
         TagPrefix.nugget.setIgnored(Infinity, infinity_nugget);
         TagPrefix.block.setIgnored(Infinity, infinity);
+        TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
+        TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
         // plateDense.setIgnored(Infinity, CoreReg.infinity_dense_plate);
         // plate.setIgnored(Infinity, CoreReg.infinity_plate);
         // plateDouble.setIgnored(Infinity, CoreReg.infinity_double_plate);

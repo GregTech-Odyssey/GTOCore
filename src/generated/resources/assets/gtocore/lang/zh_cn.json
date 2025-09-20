@@ -729,6 +729,8 @@
   "block.gtocore.me_catalyst_pattern_buffer": "ME催化剂样板总成",
   "block.gtocore.me_cpu": "ME超算核心",
   "block.gtocore.me_craft_pattern_part_machine": "合成样板仓",
+  "block.gtocore.me_energy_access_hatch": "ME存储访问仓",
+  "block.gtocore.me_energy_substation": "ME能源塔",
   "block.gtocore.me_extend_pattern_buffer": "ME扩展样板总成",
   "block.gtocore.me_extend_pattern_buffer_ultra": "ME扩展样板总成 Ultra",
   "block.gtocore.me_io_storage_access_hatch": "ME IO端口仓",

@@ -729,6 +729,8 @@
   "block.gtocore.me_catalyst_pattern_buffer": "ME Catalyst Pattern Buffer",
   "block.gtocore.me_cpu": "ME Super Computer Core",
   "block.gtocore.me_craft_pattern_part_machine": "ME Craft Pattern Hatch",
+  "block.gtocore.me_energy_access_hatch": "ME Storage Access Hatch",
+  "block.gtocore.me_energy_substation": "ME Energy Substation",
   "block.gtocore.me_extend_pattern_buffer": "ME Extend Pattern Buffer",
   "block.gtocore.me_extend_pattern_buffer_ultra": "ME Extend Pattern Buffer Ultra",
   "block.gtocore.me_io_storage_access_hatch": "ME IO Port Hatch",

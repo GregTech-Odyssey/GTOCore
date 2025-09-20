@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public final class MECatalystPatternBufferPartMachine extends MEPatternBufferPartMachineKt {
 
     public MECatalystPatternBufferPartMachine(MetaMachineBlockEntity holder) {
-        super(holder, 36);
+        super(holder, 27);
     }
 
     @Override

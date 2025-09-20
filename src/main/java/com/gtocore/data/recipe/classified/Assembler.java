@@ -1,7 +1,10 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.*;
 
 import com.gtolib.api.machine.GTOCleanroomType;
@@ -3977,6 +3980,32 @@ final class Assembler {
                 .outputItems(GTAEMachines.ME_STORAGE_ACCESS_HATCH.asStack())
                 .inputFluids(GTMaterials.SolderingAlloy, 1000)
                 .EUt(1920)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("me_energy_substation")
+                .inputItems(GTBlocks.HIGH_POWER_CASING.asStack())
+                .inputItems(GTItems.SENSOR_EV.asStack(32))
+                .inputItems(GTItems.FIELD_GENERATOR_EV.asStack(16))
+                .inputItems(new ItemStack(AEBlocks.DENSE_ENERGY_CELL.block().asItem(), 64))
+                .inputItems(GTItems.HIGH_POWER_INTEGRATED_CIRCUIT.asStack(16))
+                .inputItems(CustomTags.LuV_CIRCUITS, 16)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Iridium, 64)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Iridium, 64)
+                .outputItems(MultiBlockG.ME_ENERGY_SUBSTATION.asStack())
+                .EUt(VA[EV])
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("me_energy_access_hatch")
+                .inputItems(GTMachines.SUBSTATION_ENERGY_OUTPUT_HATCH[GTValues.EV].asStack())
+                .inputItems(GTItems.FIELD_GENERATOR_EV.asStack(2))
+                .inputItems(GTItems.EMITTER_EV.asStack(16))
+                .inputItems(new ItemStack(AEBlocks.ENERGY_ACCEPTOR.block().asItem(), 16))
+                .inputItems("ae2:fluix_smart_dense_cable", 16)
+                .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
+                .outputItems(GTAEMachines.ME_ENERGY_ACCESS_HATCH.asStack())
+                .EUt(VA[EV])
                 .duration(400)
                 .save();
 

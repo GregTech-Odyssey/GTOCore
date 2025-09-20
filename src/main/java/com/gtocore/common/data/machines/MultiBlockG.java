@@ -4,10 +4,16 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gtocore.client.renderer.machine.CustomPartRenderer;
-import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.multiblock.electric.*;
+import com.gtocore.common.machine.multiblock.electric.ChiselMachine;
+import com.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
+import com.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
+import com.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
@@ -58,8 +64,6 @@ import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMult
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public final class MultiBlockG {
-
-    public static void init() {}
 
     public static final MultiblockMachineDefinition LARGE_COKE_OVEN = multiblock("large_coke_oven", "大型焦炉", LargeCokeOvenMachine::new)
             .nonYAxisRotation()
@@ -595,7 +599,6 @@ public final class MultiBlockG {
                     .renderer(() -> new ArrayMachineRenderer(tier == IV ? GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel") : GTCEu.id("block/casings/solid/machine_casing_sturdy_hsse"), GTCEu.id("block/multiblock/gcym/large_assembler")))
                     .register(),
             IV, LuV);
-
     public static final MultiblockMachineDefinition SINTERING_FURNACE = multiblock("sintering_furnace", "烧结炉", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getSinteringFurnaceTooltips().getSupplier())
@@ -848,6 +851,62 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
+    public static final MultiblockMachineDefinition ME_ENERGY_SUBSTATION = multiblock("me_energy_substation", "ME能源塔", TierCasingMultiblockMachine.createMachine(GLASS_TIER))
+            .langValue("ME Energy Substation")
+            .allRotation()
+            .recipeTypes(DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "ABBBA", "ABCBA", "ABBBA", "AAAAA")
+                    .aisle("ABBBA", "BDEDB", "BDFDB", "BDEDB", "ACCCA")
+                    .aisle("ABCBA", "BEFEB", "CFHFC", "BEFEB", "ACCCA")
+                    .aisle("ABBBA", "BDEDB", "BDFDB", "BDEDB", "ACCCA")
+                    .aisle("AAGAA", "ABBBA", "ABCBA", "ABBBA", "AAAAA")
+                    .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
+                            .or(blocks(GTAEMachines.ME_ENERGY_ACCESS_HATCH.get()).setExactLimit(1))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2)))
+                    .where('B', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('C', GTOPredicates.glass())
+                    .where('D', blocks(GTBlocks.BATTERY_LAPOTRONIC_IV.get()))
+                    .where('E', blocks(GTBlocks.BATTERY_EMPTY_TIER_II.get()))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
+                    .where('G', controller(blocks(definition.get())))
+                    .where('H', blocks(RegistriesUtils.getBlock("ae2:energy_acceptor")))
+                    .build())
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle(" BBBBB ", " BFFFB ", " BFCFB ", " BFFFB ", " BBBBB ", " EE EE ", "  E E  ")
+                    .aisle(" BCDCB ", " CGEGC ", " DEIED ", " CGEGC ", " BCDCB ", "       ", "  E E  ")
+                    .aisle(" BCDCB ", " CGEGC ", " DEIED ", " CGEGC ", " BCDCB ", "       ", "  E E  ")
+                    .aisle("ABCDCBA", " CGEGC ", " DEIED ", " CGEGC ", " BCDCB ", "       ", "  E E  ")
+                    .aisle("ABBDBBA", " BGEGB ", " DEJED ", " BGEGB ", " BBDBB ", " EE EE ", "  E E  ")
+                    .aisle("ABBDBBA", "ABGEGBA", "ADEJEDA", "ABGEGBA", "ABBEBBA", " EEEEE ", "  E E  ")
+                    .aisle("ABCDCBA", " CGEGC ", " DEIED ", " CGEGC ", " BCDCB ", "       ", "  E E  ")
+                    .aisle("ABCDCBA", " CGEGC ", " DEIED ", " CGEGC ", " BCDCB ", "       ", "  E E  ")
+                    .aisle("ABCDCBA", " CGEGC ", " DEIED ", " CGEGC ", " BCDCB ", "       ", "  E E  ")
+                    .aisle("ABBBBBA", "ABFFFBA", "ABFCFBA", "ABFFFBA", "ABBEBBA", " EEEEE ", "  E E  ")
+                    .aisle("A     A", "       ", "       ", "       ", "       ", " EE EE ", "  E E  ")
+                    .aisle("A     A", "       ", "       ", "       ", "       ", "       ", "  E E  ")
+                    .aisle("       ", "       ", "       ", "       ", "       ", "       ", "  E E  ")
+                    .aisle("       ", "       ", "       ", "       ", "       ", "       ", "  E E  ")
+                    .aisle("   H   ", "       ", "       ", "       ", "       ", " EE EE ", "  E E  ")
+                    .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
+                            .or(abilities(INPUT_LASER).setMaxGlobalLimited(4)))
+                    .where('B', blocks(GTBlocks.COMPUTER_CASING.get()))
+                    .where('C', GTOPredicates.glass())
+                    .where('D', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
+                    .where('E', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
+                    .where('F', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('G', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('H', controller(blocks(definition.get())))
+                    .where('I', blocks(GTBlocks.BATTERY_LAPOTRONIC_ZPM.get()))
+                    .where('J', blocks(RegistriesUtils.getBlock("ae2:energy_acceptor")))
+                    .where(' ', any())
+                    .build())
+            .checkPriority(1000)
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
     public static final MultiblockMachineDefinition WIRELESS_CHARGER = multiblock("wireless_charger", "无线充能器", WirelessChargerMachine::new)
             .allRotation()
             .addTooltipsFromClass(WirelessChargerMachine.class)
@@ -972,4 +1031,6 @@ public final class MultiBlockG {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/nonconducting_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
+
+    public static void init() {}
 }
