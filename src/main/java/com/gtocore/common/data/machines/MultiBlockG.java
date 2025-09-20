@@ -388,7 +388,7 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition ANCIENT_REACTOR_CORE = multiblock("ancient_reactor_core", "远古反应核", VoidTransporterMachine.create(1, 0, VoidTransporterMachine.teleportToDimension(GTODimensions.ANCIENT_WORLD, new BlockPos(0, 128, 0))))
+    public static final MultiblockMachineDefinition ANCIENT_REACTOR_CORE = multiblock("ancient_reactor_core", "远古反应核", VoidTransporterMachine.create(1, 0, VoidTransporterMachine.teleportToDimension(GTODimensions.ANCIENT_WORLD, new BlockPos(0, 63, 0))))
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
             .tooltipsText("右键核心传送到远古世界", "Right-click the core to send it to Ancient World.")
@@ -404,7 +404,7 @@ public final class MultiBlockG {
             .workableCasingRenderer(EnderIO.loc("block/reinforced_obsidian_block"), GTOCore.id("block/multiblock/ancient_reactor_core"))
             .register();
 
-    public static final MultiblockMachineDefinition NETHER_REACTOR_CORE = multiblock("nether_reactor_core", "下界反应核", VoidTransporterMachine.create(2, 1920, VoidTransporterMachine.teleportToDimension(GTODimensions.THE_NETHER, new BlockPos(0, 128, 0))))
+    public static final MultiblockMachineDefinition NETHER_REACTOR_CORE = multiblock("nether_reactor_core", "下界反应核", VoidTransporterMachine.create(2, 1920, VoidTransporterMachine.teleportToDimension(GTODimensions.THE_NETHER, new BlockPos(0, 63, 0))))
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
             .tooltipsKey("gtceu.universal.tooltip.voltage_in", VA[EV], VNF[EV])

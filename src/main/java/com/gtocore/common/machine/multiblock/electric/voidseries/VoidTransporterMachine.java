@@ -6,6 +6,7 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.EnergyContainerTrait;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
@@ -21,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -63,6 +65,30 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
             data.putDouble("pos_z_" + m.id, player.getZ());
             data.putString("dim_" + m.id, level.dimension().location().toString());
             serverLevel.setBlockAndUpdate(pos.offset(0, -1, 0), BlockRegisterUtils.REACTOR_CORE.get().defaultBlockState());
+            if (!m.setup) {
+                m.setup = true;
+                for (int x = -1; x <= 1; x++) {
+                    for (int y = 0; y <= 2; y++) {
+                        for (int z = -1; z <= 1; z++) {
+                            GTOUtils.fastRemoveBlock(serverLevel, pos.offset(x, y, z), true, false);
+                        }
+                    }
+                }
+                for (var x : new int[] { -1, 0, 1 }) {
+                    for (var z : new int[] { -1, 0, 1 }) {
+                        serverLevel.setBlockAndUpdate(pos.offset(x, 3, z), Blocks.GLASS.defaultBlockState());
+                        if (x != 0 || z != 0) {
+                            serverLevel.setBlockAndUpdate(pos.offset(x, -1, z), Blocks.GLASS.defaultBlockState());
+                        }
+                        for (var y = 0; y <= 2; y++) {
+                            if (x == 0 && z == 0) {
+                                continue;
+                            }
+                            serverLevel.setBlockAndUpdate(pos.offset(x, y, z), Blocks.GLASS_PANE.defaultBlockState());
+                        }
+                    }
+                }
+            }
             ServerUtils.teleportToDimension(serverLevel, player, pos.getCenter());
         };
     }
@@ -73,6 +99,8 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
     @Persisted
     private final EnergyContainerTrait energyContainer;
 
+    @Persisted
+    private boolean setup = false;
     private final BiConsumer<VoidTransporterMachine, Player> consumer;
 
     private VoidTransporterMachine(MetaMachineBlockEntity holder, int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
