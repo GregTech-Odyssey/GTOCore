@@ -1,7 +1,14 @@
 package com.gtocore.data.recipe.classified;
 
-import appeng.core.definitions.AEBlocks;
-import appeng.core.definitions.AEItems;
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.*;
+
+import com.gtolib.api.machine.GTOCleanroomType;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -9,18 +16,15 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
-import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.machines.*;
-import com.gtolib.api.machine.GTOCleanroomType;
-import com.kyanite.deeperdarker.content.DDItems;
-import earth.terrarium.adastra.common.registry.ModItems;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+
+import appeng.core.definitions.AEBlocks;
+import appeng.core.definitions.AEItems;
+import com.kyanite.deeperdarker.content.DDItems;
+import earth.terrarium.adastra.common.registry.ModItems;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;

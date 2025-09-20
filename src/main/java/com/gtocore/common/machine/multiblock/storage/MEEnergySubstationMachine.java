@@ -1,13 +1,16 @@
 package com.gtocore.common.machine.multiblock.storage;
 
+import com.gtocore.common.machine.multiblock.part.ae.MEEnergyAccessPartMachine;
+
+import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
-import com.gtocore.common.machine.multiblock.part.ae.MEEnergyAccessPartMachine;
-import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
+
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +19,7 @@ import java.util.List;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public class MEEnergySubstationMachine extends TierCasingMultiblockMachine {
+
     private EnergyContainerList inputHatches = null;
 
     public MEEnergySubstationMachine(MetaMachineBlockEntity holder) {
@@ -45,7 +49,6 @@ public class MEEnergySubstationMachine extends TierCasingMultiblockMachine {
         super.onStructureInvalid();
         this.inputHatches = null;
     }
-
 
     public @NotNull EnergyContainerList getEnergyContainer() {
         return inputHatches;

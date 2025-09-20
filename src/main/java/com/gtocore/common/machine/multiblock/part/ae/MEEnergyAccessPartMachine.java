@@ -1,18 +1,20 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import appeng.api.config.AccessRestriction;
-import appeng.api.config.Actionable;
-import appeng.api.config.PowerMultiplier;
-import appeng.api.config.PowerUnits;
-import appeng.api.networking.energy.IAEPowerStorage;
-import appeng.api.networking.events.GridPowerStorageStateChanged;
+import com.gtocore.common.machine.multiblock.storage.MEEnergySubstationMachine;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
-import com.gtocore.common.machine.multiblock.storage.MEEnergySubstationMachine;
+
+import appeng.api.config.AccessRestriction;
+import appeng.api.config.Actionable;
+import appeng.api.config.PowerMultiplier;
+import appeng.api.config.PowerUnits;
+import appeng.api.networking.energy.IAEPowerStorage;
+import appeng.api.networking.events.GridPowerStorageStateChanged;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -23,10 +25,11 @@ import static java.lang.Math.min;
 
 public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachineLife, IGridConnectedMachine, IAEPowerStorage {
 
-    double ratio=ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
-    MEEnergySubstationMachine controller=null;
+    double ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+    MEEnergySubstationMachine controller = null;
+
     public MEEnergyAccessPartMachine(MetaMachineBlockEntity holder) {
-        super(holder,IO.NONE);
+        super(holder, IO.NONE);
         this.getMainNode().addService(IAEPowerStorage.class, this);
     }
 
@@ -36,37 +39,38 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
         postEnergyEvent();
     }
 
-    private double EU2AE(long eu){
-        return PowerUnits.FE.convertTo(PowerUnits.AE, eu)* ratio;
-    }
-    private long AE2EU(double ae){
-        return (long) Math.ceil(PowerUnits.AE.convertTo(PowerUnits.FE, ae)/ratio);
+    private double EU2AE(long eu) {
+        return PowerUnits.FE.convertTo(PowerUnits.AE, eu) * ratio;
     }
 
-    private MEEnergySubstationMachine getController(){
-        if(isFormed())return controller;
+    private long AE2EU(double ae) {
+        return (long) Math.ceil(PowerUnits.AE.convertTo(PowerUnits.FE, ae) / ratio);
+    }
+
+    private MEEnergySubstationMachine getController() {
+        if (isFormed()) return controller;
         return null;
     }
 
     @Override
     public void setWorkingEnabled(boolean workingEnabled) {
         super.setWorkingEnabled(workingEnabled);
-        if(workingEnabled)postEnergyEvent();
+        if (workingEnabled) postEnergyEvent();
     }
 
-    private void postEnergyEvent(){
-        if(getController() == null) {
+    private void postEnergyEvent() {
+        if (getController() == null) {
             return;
         }
-        this.ratio=ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
-        this.ratio*=1+0.3* getController().getCasingTier(GLASS_TIER);
-        if(this.getMainNode().getGrid()!=null){
+        this.ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+        this.ratio *= 1 + 0.3 * getController().getCasingTier(GLASS_TIER);
+        if (this.getMainNode().getGrid() != null) {
             this.getMainNode().getGrid().postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER));
         }
     }
 
-    public void onFormatted(MEEnergySubstationMachine controller){
-        this.controller=controller;
+    public void onFormatted(MEEnergySubstationMachine controller) {
+        this.controller = controller;
         postEnergyEvent();
     }
 
@@ -88,10 +92,10 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
 
     @Override
     public double getAECurrentPower() {
-        if(getController() == null) {
+        if (getController() == null) {
             return 0;
         }
-        if(!this.isWorkingEnabled())return 0;
+        if (!this.isWorkingEnabled()) return 0;
         return EU2AE(getController().getEnergyContainer().getEnergyStored());
     }
 
@@ -111,12 +115,12 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     }
 
     public double extractAEPower(double amt, Actionable mode) {
-        if(getController() == null) {
+        if (getController() == null) {
             return 0;
         }
-        if(!this.isWorkingEnabled())return 0;
-        double can_extract=min(getAECurrentPower(),amt);
-        if(!mode.isSimulate()){
+        if (!this.isWorkingEnabled()) return 0;
+        double can_extract = min(getAECurrentPower(), amt);
+        if (!mode.isSimulate()) {
             getController().getEnergyContainer().changeEnergy(-AE2EU(can_extract));
         }
         return can_extract;
@@ -133,5 +137,4 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
         group.addWidget(new LabelWidget(5, 0, () -> this.getOnlineField() ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
         return group;
     }
-
 }
