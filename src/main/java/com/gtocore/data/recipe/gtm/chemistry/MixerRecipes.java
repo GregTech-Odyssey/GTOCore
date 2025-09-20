@@ -1,7 +1,10 @@
 package com.gtocore.data.recipe.gtm.chemistry;
 
+import com.gtocore.common.data.GTOMaterials;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -37,12 +40,14 @@ final class MixerRecipes {
                 .duration(40).EUt(VA[ULV]).save();
 
         MIXER_RECIPES.recipeBuilder("cetane_diesel_from_biodiesel")
+                .inputItems(TagPrefix.dustTiny, GTOMaterials.Cetane)
                 .inputFluids(BioDiesel.getFluid(1000))
                 .inputFluids(Tetranitromethane.getFluid(40))
                 .outputFluids(CetaneBoostedDiesel.getFluid(750))
                 .duration(20).EUt(VA[HV]).save();
 
         MIXER_RECIPES.recipeBuilder("cetane_diesel_from_diesel")
+                .inputItems(TagPrefix.dustTiny, GTOMaterials.Cetane)
                 .inputFluids(Diesel.getFluid(1000))
                 .inputFluids(Tetranitromethane.getFluid(20))
                 .outputFluids(CetaneBoostedDiesel.getFluid(1000))
