@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.gtm.misc;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.machines.GTAEMachines;
 
+import com.gtocore.common.data.machines.SimpleModeMachine;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -1173,6 +1174,18 @@ public final class MachineRecipeLoader {
                 GTOItems.MICROCOSM.asStack());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_closed_timelike_curve_guidance_unit", GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack(),
                 GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack());
+
+        //pattern_buffer
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_PATTERN_BUFFER", GTAEMachines.ME_PATTERN_BUFFER.asStack(),
+                GTAEMachines.ME_PATTERN_BUFFER.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_EXTEND_PATTERN_BUFFER", GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asStack(),
+                GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_EXTEND_PATTERN_BUFFER_ULTRA", GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asStack(),
+                GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_CATALYST_ME_PATTERN_BUFFER", GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asStack(),
+                GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_SIMPLE_PATTERN_BUFFER", SimpleModeMachine.ME_SIMPLE_PATTERN_BUFFER.asStack(),
+                SimpleModeMachine.ME_SIMPLE_PATTERN_BUFFER.asStack());
 
         // Jetpacks
         VanillaRecipeHelper.addShapelessRecipe("fluid_jetpack_clear", LIQUID_FUEL_JETPACK.asStack(),
