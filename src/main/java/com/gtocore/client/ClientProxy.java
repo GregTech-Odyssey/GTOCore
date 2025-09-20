@@ -12,6 +12,8 @@ import com.gtocore.common.machine.monitor.MonitorBlockItem;
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.*;
 
+import com.gregtechceu.gtceu.GTCEu;
+
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -43,12 +45,12 @@ public final class ClientProxy extends CommonProxy {
         eventBus.addListener(ClientProxy::clientSetup);
         eventBus.addListener(ClientProxy::registerItemDeco);
         eventBus.addListener(ClientProxy::registerMenuScreen);
-        eventBus.addListener(ClientProxy::registerLights);
         eventBus.register(GTOComponentRegistry.class);
         MinecraftForge.EVENT_BUS.register(ForgeClientEvent.class);
         MinecraftForge.EVENT_BUS.register(GTOComponentHandler.class);
         MinecraftForge.EVENT_BUS.register(GTORender.class);
         registerAEModels();
+        if (GTCEu.Mods.isShimmerLoaded()) eventBus.addListener(ClientProxy::registerLights);
     }
 
     private static void init() {
