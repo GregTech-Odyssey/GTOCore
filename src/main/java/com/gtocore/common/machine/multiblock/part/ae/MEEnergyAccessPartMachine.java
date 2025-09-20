@@ -70,9 +70,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
 
     @Override
     public double getAEMaxPower() {
-        if(getController()==null)return 0;
-        if(getController().getWirelessEnergyContainer()==null)return 0;
-        return EU2AE(getController().getWirelessEnergyContainer().getRate());
+        return Long.MAX_VALUE;
     }
 
     @Override
