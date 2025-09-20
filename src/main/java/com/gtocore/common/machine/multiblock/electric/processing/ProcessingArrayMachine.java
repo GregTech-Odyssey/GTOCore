@@ -107,7 +107,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     @Nullable
     public Recipe getRealRecipe(Recipe recipe) {
         if (!inventory.getStackInSlot(0).isEmpty()) {
-            return RecipeModifierFunction.laserLossOverclocking(this, ParallelLogic.accurateParallel(this, recipe, (int) getMaxParallel()));
+            return RecipeModifierFunction.laserLossOverclocking(this, ParallelLogic.accurateParallel(this, recipe, getMaxParallel()));
         }
         return null;
     }

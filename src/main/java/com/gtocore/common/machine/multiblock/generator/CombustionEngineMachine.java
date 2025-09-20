@@ -132,7 +132,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     protected Recipe getRealRecipe(Recipe recipe) {
         long EUt = recipe.getOutputEUt();
         if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
-            recipe = ParallelLogic.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
+            recipe = ParallelLogic.accurateParallel(this, recipe, getOverclockVoltage() / EUt);
             if (recipe == null) return null;
             if (isOxygenBoosted) {
                 recipe.setOutputEUt((long) (recipe.getOutputEUt() * (isExtreme() ? 2 : 1.5)));
