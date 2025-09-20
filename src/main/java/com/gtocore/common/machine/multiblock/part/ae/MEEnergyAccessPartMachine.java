@@ -24,6 +24,7 @@ import static java.lang.Math.min;
 public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachineLife, IGridConnectedMachine, IAEPowerStorage {
 
     double ratio=ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
+    MEEnergySubstationMachine controller=null;
     public MEEnergyAccessPartMachine(MetaMachineBlockEntity holder) {
         super(holder,IO.NONE);
         this.getMainNode().addService(IAEPowerStorage.class, this);
@@ -43,8 +44,8 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     }
 
     private MEEnergySubstationMachine getController(){
-        var ctrl=getControllers().isEmpty()?null:getControllers().first();
-        return ctrl instanceof MEEnergySubstationMachine m?m:null;
+        if(isFormed())return controller;
+        return null;
     }
 
     @Override
@@ -54,7 +55,9 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     }
 
     private void postEnergyEvent(){
-        if(getController()==null || getController().getEnergyContainer()==null)return;
+        if(getController() == null) {
+            return;
+        }
         this.ratio=ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
         this.ratio*=1+0.3* getController().getCasingTier(GLASS_TIER);
         if(this.getMainNode().getGrid()!=null){
@@ -63,6 +66,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     }
 
     public void onFormatted(MEEnergySubstationMachine controller){
+        this.controller=controller;
         postEnergyEvent();
     }
 
@@ -84,7 +88,9 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
 
     @Override
     public double getAECurrentPower() {
-        if(getController()==null || getController().getEnergyContainer()==null)return 0;
+        if(getController() == null) {
+            return 0;
+        }
         if(!this.isWorkingEnabled())return 0;
         return EU2AE(getController().getEnergyContainer().getEnergyStored());
     }
@@ -105,7 +111,9 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IMachine
     }
 
     public double extractAEPower(double amt, Actionable mode) {
-        if(getController()==null || getController().getEnergyContainer()==null)return 0;
+        if(getController() == null) {
+            return 0;
+        }
         if(!this.isWorkingEnabled())return 0;
         double can_extract=min(getAECurrentPower(),amt);
         if(!mode.isSimulate()){
