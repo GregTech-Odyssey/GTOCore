@@ -15,6 +15,8 @@ import net.minecraft.world.item.Rarity;
 
 import committee.nova.mods.avaritia.init.registry.ModRarities;
 
+import java.awt.*;
+
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -503,6 +505,16 @@ public final class MaterialA {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .cableProperties(GTValues.V[GTValues.IV], 128, 32)
+                .buildAndRegister();
+
+        Etrium = material("etrium", "埃忒恩")
+                .ingot()
+                .fluid()
+                .blastTemp(11800, HIGHER)
+                .element(GTOElements.ETRIUM)
+                .color(new Color(123, 252, 215).getRGB())
+                .iconSet(METALLIC)
+                .flags(GENERATE_FRAME, GENERATE_PLATE, GENERATE_FOIL, GENERATE_ROD)
                 .buildAndRegister();
 
         Adamantine = material("adamantine", "精金")

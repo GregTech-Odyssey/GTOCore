@@ -230,8 +230,8 @@ public final class MaterialIgnored {
         // dust.setIgnored(Infinity, CoreReg.infinity_dust);
 
         TagPrefix.block.setIgnored(Neutron, committee.nova.mods.avaritia.init.registry.ModBlocks.neutron);
-        // TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
-        // TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
+        TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
+        TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
         // bolt.setIgnored(Neutron, CoreReg.neutron_bolt);
         // plateDense.setIgnored(Neutron, CoreReg.neutron_dense_plate);
         // plate.setIgnored(Neutron, CoreReg.neutron_plate);
@@ -243,6 +243,12 @@ public final class MaterialIgnored {
         // ring.setIgnored(Neutron, CoreReg.neutron_ring);
         // spring.setIgnored(Neutron, CoreReg.neutron_spring);
         // screw.setIgnored(Neutron, CoreReg.neutron_screw);
+
+        ingot.setIgnored(Etrium, ModItems.ETRIUM_INGOT);
+        nugget.setIgnored(Etrium, ModItems.ETRIUM_NUGGET);
+        block.setIgnored(Etrium, ModBlocks.ETRIUM_BLOCK);
+        plate.setIgnored(Etrium, ModItems.ETRIUM_PLATE);
+        rod.setIgnored(Etrium, ModItems.ETRIUM_ROD);
 
         if (GTCEu.isProd()) {
             TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);

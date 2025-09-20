@@ -92,6 +92,7 @@ public final class GTOMaterials {
     public static Material SpaceTime;
     public static Material Infinity;
     public static Material BlazeCube;
+    public static Material Etrium;
 
     public static Material TriniumCompound;
     public static Material FumingNitricAcid;
@@ -157,6 +158,63 @@ public final class GTOMaterials {
     public static Material DiethyleneGlycol;
 
     public static Material MetallicHydrogen;
+    public static Material TrimethylBoron;
+    public static Material Phosphine;
+    public static Material BoronDopedDiamond;
+    public static Material PhosphorusDopedDiamond;
+    public static Material SiliconDopedDiamond;
+    public static Material WideBandgapSemiconductorGradeDiamond;
+
+    public static Material IronChromiumRedoxFlowBatteryElectrolyte;// iv 2a uev
+    public static Material VanadiumRedoxFlowBatteryElectrolyte;// luv 1a uxv
+    public static Material ZincIodideFlowBatteryElectrolyte;// zpm 2a opv
+    public static Material OrganicMoleculeRedoxFlowBatteryElectrolyte;// uv 4a max
+    // public static Material LithiumSulfurRedoxFlowBatteryElectrolyte;// 32a max
+    public static Material SuperconductingIonRedoxFlowBatteryElectrolyte;// uhv 32a max
+    public static Material AntimatterRedoxFlowBatteryElectrolyte;// uev 256a max
+
+    public static Material Tempo;
+    public static Material Tetramethylpiperidine;
+    public static Material ChromiumSulfate;
+    public static Material MercuryAcetate;
+    public static Material Polyvinylpyrrolidone;
+    public static Material PolousPolyolefinSulfonate;
+    public static Material AmmoniumBromide;
+    public static Material DitertButyl1MethoxyMethoxyethoxyBenzene;
+    public static Material TertButylChloride;
+    public static Material ParaBenzoquinone;
+    public static Material Chloroethoxyethane;
+    public static Material NMethylphthalimide;
+    public static Material LithiumBisTrifluoromethanesulfonylimide;
+    public static Material TetraethylammoniumTetrafluoroborate;
+    public static Material TrifluoromethanesulfonylChloride;
+    public static Material ChlorosulfonicAcid;
+    public static Material TrifluoromethanesulfonicAcid;
+    public static Material PhosphorusPentachloride;
+    public static Material SodiumAllylsulfonate;
+    public static Material PerfluorosulfonicAcidPolytetrafluoroethyleneCopolymer;
+    public static Material CeOxPolyDopamineReinforcedPolytetrafluoroethylene;
+    public static Material NanocrackRegulatedSelfHumidifyingCompositeMaterial;
+    public static Material PerfluorooctanesulfonicAcid;
+    public static Material Dopamine;
+    public static Material PolyDopamine;
+    public static Material Cerium4Sulfate;
+    public static Material SulfonatedPolyAryleneEtherSulfoneRandomCopolymer;
+    public static Material Dichlorodiphenylsulfone;
+    public static Material Difluorodiphenylsulfone;
+    public static Material Dihydroxybiphenyl;
+    public static Material TetramethylBisphenolA;
+    public static Material DisulfonateDichlorodiphenylsulfone;
+    public static Material Dimethylacetamide;
+    public static Material Tetrachloroethane;
+    public static Material BenzoylPeroxide;
+    public static Material BenzoicAcid;
+    public static Material BenzoicAnhydride;
+    public static Material BenzenesulfonicAcid;
+    public static Material PropyleneCarbonate;
+    public static Material UltraLowViscosityIonicCarrier;
+    public static Material LightEmittingChargedSuspiciousWaste;
+    public static Material EnrichedLightEmittingChargedSuspiciousWaste;
 
     public static Material DirtyHexafluorosilicicAcid;
     public static Material DiluteHexafluorosilicicAcid;

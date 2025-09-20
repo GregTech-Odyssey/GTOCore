@@ -673,6 +673,14 @@ public final class Manager {
                 broadcast(sp.getServer());
             }
         }
+
+        @SubscribeEvent
+        public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+            // 玩家重生时触发
+            if (event.getEntity() instanceof ServerPlayer sp) {
+                broadcast(sp.getServer());
+            }
+        }
     }
 
     public static void broadcast(MinecraftServer server) {

@@ -1,5 +1,7 @@
 package com.gtocore.mixin.ae2;
 
+import com.gtocore.integration.ae.IConfirmLongMenu;
+
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 
 import net.minecraft.world.entity.player.Player;
@@ -36,15 +38,26 @@ public class MEInventoryUpdatePacketMixin {
             remap = false,
             cancellable = true)
     private void clientPacketData(Player player, CallbackInfo ci) {
-        if (player.containerMenu.containerId == containerId && player.containerMenu instanceof Me2in1Menu meMenu) {
-            var clientRepo = meMenu.getEncoding().getClientRepo();
-            if (clientRepo == null) {
-                AELog.info("Ignoring ME inventory update packet because no client repo is available.");
-                return;
-            }
+        if (player.containerMenu.containerId == containerId) {
+            if (player.containerMenu instanceof Me2in1Menu meMenu) {
+                var clientRepo = meMenu.getEncoding().getClientRepo();
+                if (clientRepo == null) {
+                    AELog.info("Ignoring ME inventory update packet because no client repo is available.");
+                    return;
+                }
 
-            clientRepo.handleUpdate(fullUpdate, entries);
-            ci.cancel();
+                clientRepo.handleUpdate(fullUpdate, entries);
+                ci.cancel();
+            } else if (player.containerMenu instanceof IConfirmLongMenu.IConfirmLongStartMenu cc) {
+                var clientRepo = cc.gtocore$getClientRepo();
+                if (clientRepo == null) {
+                    AELog.info("Ignoring ME inventory update packet because no client repo is available.");
+                    return;
+                }
+
+                clientRepo.handleUpdate(fullUpdate, entries);
+                ci.cancel();
+            }
         }
     }
 }

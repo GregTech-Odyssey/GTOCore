@@ -5,8 +5,7 @@ import com.gtocore.common.data.GTOElements;
 
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_PLATE;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
@@ -3939,6 +3938,71 @@ public final class MaterialB {
                 .color(0x000791).iconSet(LIMPID)
                 .buildAndRegister().setFormula("(H2O)NaOH");
 
+        Tempo = material("tempo", "2,2,6,6-四甲基哌啶氧自由基")
+                .fluid()
+                .color(0xff0000).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C9H18NO");
+
+        ChromiumSulfate = material("chromium_sulfate", "硫酸铬")
+                .fluid()
+                .color(0x1f1f1f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("Cr2(SO4)3");
+
+        MercuryAcetate = material("mercury_acetate", "醋酸汞")
+                .fluid()
+                .color(0xdddd00).iconSet(LIMPID)
+                .buildAndRegister().setFormula("Hg(CH3COO)2");
+
+        Tetramethylpiperidine = material("tetramethylpiperidine", "2,2,6,6-四甲基哌啶")
+                .fluid()
+                .color(0xff00ff).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C9H19N");
+
+        Polyvinylpyrrolidone = material("polyvinylpyrrolidone", "聚乙烯吡咯烷酮")
+                .fluid()
+                .color(0xe0f2cf).iconSet(LIMPID)
+                .buildAndRegister().setFormula("(C6H9NO)n");
+
+        AmmoniumBromide = material("ammonium_bromide", "溴化铵")
+                .dust()
+                .components(Nitrogen, 1, Hydrogen, 4, Bromine, 1)
+                .color(0xff7700).iconSet(LIMPID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        DitertButyl1MethoxyMethoxyethoxyBenzene = material("ditert_butyl_1_methoxy_methoxyethoxy_benzene", "二叔丁基-1-甲氧基-甲氧基乙氧基苯")
+                .fluid()
+                .color(0xdeac34).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C15H24O3");
+
+        TertButylChloride = material("tert_butyl_chloride", "叔丁基氯")
+                .fluid()
+                .color(0xf3ecc0).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C4H9Cl");
+        ParaBenzoquinone = material("para_benzoquinone", "对苯醌")
+                .fluid()
+                .color(0xcf7ca0).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C6H4O2");
+        Chloroethoxyethane = material("chloroethoxyethane", "氯乙氧基乙烷")
+                .fluid()
+                .color(0xfdaac0).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C4H9ClO");
+        NMethylphthalimide = material("n_methylphthalimide", "N-甲基邻苯二甲酰亚胺")
+                .fluid()
+                .color(0xff7cc0).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C9H7NO2");
+        LithiumBisTrifluoromethanesulfonylimide = material("lithium_bis_trifluoromethanesulfonylimide", "双(三氟甲磺酰)亚胺锂")
+                .dust()
+                .components(Lithium, 1, Nitrogen, 1, Sulfur, 2, Carbon, 2, Fluorine, 6, Oxygen, 4)
+                .color(0x0ccfff).iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        TetraethylammoniumTetrafluoroborate = material("tetraethylammonium_tetrafluoroborate", "四乙基氟硼酸铵")
+                .dust()
+                .components(Nitrogen, 1, Carbon, 8, Hydrogen, 20, Boron, 1, Fluorine, 4)
+                .color(0x0cdddf).iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
         RedMud = material("red_mud", "赤泥")
                 .fluid()
                 .color(0x972903).iconSet(LIMPID)
@@ -3949,10 +4013,146 @@ public final class MaterialB {
                 .color(0x972903).iconSet(LIMPID)
                 .buildAndRegister().setFormula("Fe??", false);
 
+        ChlorosulfonicAcid = material("chlorosulfonic_acid", "氯磺酸")
+                .fluid()
+                .components(Hydrogen, 1, Sulfur, 1, Oxygen, 3, Chlorine, 1)
+                .color(0x682f0d).iconSet(LIMPID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        TrifluoromethanesulfonicAcid = material("trifluoromethanesulfonic_acid", "三氟甲磺酸")
+                .fluid()
+                .components(Hydrogen, 1, Carbon, 1, Sulfur, 1, Oxygen, 3, Fluorine, 3)
+                .color(0x68680d).iconSet(LIMPID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        PhosphorusPentachloride = material("phosphorus_pentachloride", "五氯化磷")
+                .fluid()
+                .components(Phosphorus, 1, Chlorine, 5)
+                .color(0xbe3f0d).iconSet(FLUID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        SodiumAllylsulfonate = material("sodium_allylsulfonate", "烯丙基磺酸钠")
+                .fluid()
+                .color(0x3f7f0d).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C3H5SO3Na");
+
+        PerfluorooctanesulfonicAcid = material("perfluorooctanesulfonic_acid", "全氟辛烷磺酸")
+                .fluid()
+                .color(0x0d7f7f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C8F17SO3H");
+
+        PolyDopamine = material("poly_dopamine", "聚多巴胺")
+                .polymer()
+                .fluid()
+                .flags(GENERATE_FOIL, GENERATE_PLATE)
+                .color(0x0d7f0d).iconSet(DULL)
+                .buildAndRegister().setFormula("(C8H11NO2)n");
+
+        Dopamine = material("dopamine", "多巴胺")
+                .fluid()
+                .color(0x0d7f0d).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C8H11NO2");
+
+        Cerium4Sulfate = material("cerium_4_sulfate", "硫酸铈(IV)溶液")
+                .fluid()
+                .color(0x0d7f7f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("Ce(SO4)2");
+
+        SulfonatedPolyAryleneEtherSulfoneRandomCopolymer = material("sulfonated_poly_arylene_ether_sulfone_random_copolymer", "磺化聚芳醚砜随机共聚物")
+                .dust()
+                .color(0x7f7f7f).iconSet(DULL)
+                .buildAndRegister().setFormula("(C18H12O3S)n");
+
+        Dichlorodiphenylsulfone = material("dichlorodiphenylsulfone", "4,4'-二氯二苯砜")
+                .fluid()
+                .color(0x7acf7f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C12H8Cl2O2S");
+        Difluorodiphenylsulfone = material("difluorodiphenylsulfone", "4,4'-二氟二苯砜")
+                .fluid()
+                .color(0xcf04df).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C12H8F2O2S");
+        Dihydroxybiphenyl = material("dihydroxybiphenyl", "二羟基联苯")
+                .fluid()
+                .color(0x7f04df).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C12H10O2");
+        TetramethylBisphenolA = material("tetramethyl_bisphenol_a", "四甲基双酚A")
+                .fluid()
+                .color(0x7f04af).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C17H20O2");
+        DisulfonateDichlorodiphenylsulfone = material("disulfonate_dichlorodiphenylsulfone", "3,3′-二磺酸-4,4′-二氯二苯砜")
+                .fluid()
+                .color(0x7f7f4f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C12H6Cl2O6S3");
+        Dimethylacetamide = material("dimethylacetamide", "二甲基乙酰胺")
+                .fluid()
+                .color(0x7f7f0f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C4H9NO");
+        Tetrachloroethane = material("tetrachloroethane", "1,1,2,2-四氯乙烷")
+                .fluid()
+                .color(0x3f7f0f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C2H2Cl4");
+        BenzoylPeroxide = material("benzoyl_peroxide", "过氧化苯甲酰")
+                .dust()
+                .color(0x3f7f7f).iconSet(DULL)
+                .buildAndRegister().setFormula("C14H10O4");
+        BenzoicAnhydride = material("benzoic_anhydride", "苯甲酸酐")
+                .fluid()
+                .color(0x3f4f7f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C14H10O3");
+        BenzoicAcid = material("benzoic_acid", "苯甲酸")
+                .fluid()
+                .color(0x3f0f7f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C7H6O2");
+        BenzenesulfonicAcid = material("benzenesulfonic_acid", "苯磺酸")
+                .fluid()
+                .color(0x7f0f7f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C6H5SO3H");
+        PropyleneCarbonate = material("propylene_carbonate", "碳酸丙烯酯")
+                .fluid()
+                .color(0xbf0f7f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C4H6O3");
+        UltraLowViscosityIonicCarrier = material("ultra_low_viscosity_ionic_carrier", "超低粘度离子载体")
+                .liquid(new FluidBuilder().temperature(7000))
+                .color(0x3c8d4f).iconSet(LIMPID)
+                .buildAndRegister();
+
         RedSlurry = material("red_slurry", "赤泥浆液")
                 .fluid()
                 .color(0x982902).iconSet(LIMPID)
                 .buildAndRegister().setFormula("TiO2?");
+
+        TrifluoromethanesulfonylChloride = material("trifluoromethanesulfonyl_chloride", "三氟甲磺酰氯")
+                .fluid()
+                .color(0x68680d).iconSet(LIMPID)
+                .buildAndRegister().setFormula("CF3SO2Cl");
+
+        PolousPolyolefinSulfonate = material("polous_polyolefin_sulfonate", "多孔聚烯烃磺酸盐")
+                .polymer()
+                .flags(GENERATE_FOIL, GENERATE_PLATE)
+                .flags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE)
+                .color(0xffff00).iconSet(DULL)
+                .buildAndRegister().setFormula("C3H6SO3Na");
+
+        PerfluorosulfonicAcidPolytetrafluoroethyleneCopolymer = material("perfluorosulfonic_acid_polytetrafluoroethylene_copolymer", "全氟磺酸-聚四氟乙烯共聚物")
+                .polymer()
+                .flags(GENERATE_FOIL, GENERATE_PLATE)
+                .flags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE)
+                .color(0xfd0ddf).iconSet(DULL)
+                .buildAndRegister().setFormula("(C2F4)n(CF2SO3H)m");
+
+        CeOxPolyDopamineReinforcedPolytetrafluoroethylene = material("ce_ox_poly_dopamine_reinforced_polytetrafluoroethylene", "氧化铈-聚多巴胺增强聚四氟乙烯")
+                .polymer()
+                .flags(GENERATE_FOIL, GENERATE_PLATE)
+                .flags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE)
+                .color(0x0d7f7f).iconSet(DULL)
+                .buildAndRegister().setFormula("(C2F4)n(C8H11NO2)mCeOx");
+
+        NanocrackRegulatedSelfHumidifyingCompositeMaterial = material("nanocrack_regulated_self_humidifying_composite_material", "纳米裂纹调节自加湿复合材料")
+                .polymer()
+                .flags(GENERATE_FOIL, GENERATE_PLATE)
+                .flags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE)
+                .color(0x0d7f0d).iconSet(DULL)
+                .buildAndRegister().setFormula("(C2F4)n(C8H11NO2)mCeOx?");
 
         FerricReeChloride = material("ferric_ree_chloride", "含稀土氯化铁")
                 .fluid()
@@ -4896,6 +5096,18 @@ public final class MaterialB {
         AlgaeExtract = material("algae_extract", "藻类提取物")
                 .dust()
                 .color(0xA3CA00)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        LightEmittingChargedSuspiciousWaste = material("light_emitting_charged_suspicious_waste", "发光充能可疑废料")
+                .dust()
+                .color(0x39ccF4)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        EnrichedLightEmittingChargedSuspiciousWaste = material("enriched_light_emitting_charged_suspicious_waste", "富集发光充能可疑废料")
+                .dust()
+                .color(0x79EcF4)
                 .iconSet(DULL)
                 .buildAndRegister();
 

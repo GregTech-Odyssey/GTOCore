@@ -16,6 +16,7 @@ import appeng.api.networking.IGrid;
 import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
+import appeng.api.stacks.KeyCounter;
 import appeng.crafting.CraftingLink;
 import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.crafting.inv.ListCraftingInventory;
@@ -45,6 +46,15 @@ class ExecutingCraftingJob {
     GenericStack finalOutput;
     long remainingAmount;
     Integer playerId;
+
+    ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId, KeyCounter missingIng) {
+        this(plan, changeListener, link, playerId);
+        for (var what : missingIng.keySet()) {
+            long amount = missingIng.get(what);
+            waitingFor.insert(what, amount, Actionable.MODULATE);
+            tt.gtolib$addMaxItems(amount, what.getType());
+        }
+    }
 
     ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
         this.finalOutput = plan.finalOutput();

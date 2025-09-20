@@ -59,6 +59,6 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
         if (outputTier < 1) return null;
-        return RecipeModifierFunction.generatorOverclocking(this, ParallelLogic.accurateParallel(this, recipe, laser ? (int) Math.pow(base, outputTier - 1) : 1));
+        return RecipeModifierFunction.generatorOverclocking(this, ParallelLogic.accurateParallel(this, recipe, laser ? (long) Math.pow(base, outputTier - 1) : 1));
     }
 }

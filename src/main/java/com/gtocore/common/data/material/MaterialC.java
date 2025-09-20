@@ -1,8 +1,10 @@
 package com.gtocore.common.data.material;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
+import com.gtocore.common.data.GTOFluidStorageKey;
 
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
+import com.gregtechceu.gtceu.api.fluids.FluidState;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_FOIL;
@@ -618,5 +620,54 @@ public final class MaterialC {
                 .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
                 .color(0xA85A12).iconSet(RADIOACTIVE).radioactiveHazard(75)
                 .buildAndRegister().setFormula("Cf²⁵²", false);
+
+        IronChromiumRedoxFlowBatteryElectrolyte = material("iron_chromium", "铁铬液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0xB7410E)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        VanadiumRedoxFlowBatteryElectrolyte = material("all_vanadium", "全钒液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0xFF4D00)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        ZincIodideFlowBatteryElectrolyte = material("zinc_iodide", "锌碘液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0xFFFF00)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        OrganicMoleculeRedoxFlowBatteryElectrolyte = material("organic_molecule", "有机液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0x00FF00)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        SuperconductingIonRedoxFlowBatteryElectrolyte = material("superconducting_ion", "超导液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0x0000FF)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        AntimatterRedoxFlowBatteryElectrolyte = material("antimatter-ion", "反电荷载电")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0x8B00FF)
+                .iconSet(FLUID)
+                .buildAndRegister();
     }
 }

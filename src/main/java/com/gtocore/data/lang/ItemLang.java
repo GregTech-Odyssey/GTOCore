@@ -70,6 +70,7 @@ final class ItemLang {
         addCNEN("tagprefix.depleted_breeder_rod", "枯竭%s增殖棒", "%s Depleted Breeder Rod");
         addCNEN("tagprefix.turbine_rotor", "%s涡轮转子", "%s Turbine Rotor");
         addCNEN("tagprefix.turbine_rotor_coated", "%s涡轮转子", "%s Turbine Rotor");
+        addCNEN("tagprefix.membrane_electrode", "%s膜电极", "%s Membrane Electrode");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");

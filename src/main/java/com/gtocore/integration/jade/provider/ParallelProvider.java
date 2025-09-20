@@ -73,6 +73,7 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
                     }
                 }
             }
+            if (originParallel < 1) originParallel = 1L;
             if (parallel > 1) compoundTag.putLong("parallel", parallel);
             else if (originParallel > 1) compoundTag.putLong("parallel", originParallel);
             if (batchParallel > 1) compoundTag.putLong("batch_parallel", batchParallel);

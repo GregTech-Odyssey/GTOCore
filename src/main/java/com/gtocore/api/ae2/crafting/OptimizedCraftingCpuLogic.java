@@ -1,6 +1,7 @@
 package com.gtocore.api.ae2.crafting;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.integration.ae.CraftingCpuHelperExtended;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatternProviderLogic;
@@ -91,14 +92,14 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
         if (!inventory.list.isEmpty()) GTOCore.LOGGER.error("Crafting CPU inventory is not empty yet a job was submitted.");
 
-        var missingIngredient = CraftingCpuHelper.tryExtractInitialItems(plan, grid, inventory, src);
-        if (missingIngredient != null) return CraftingSubmitResult.missingIngredient(missingIngredient);
+        var missingIng = CraftingCpuHelperExtended.tryExtractInitialItemsIgnoreMissing(plan, grid, inventory, src);
+        // if (missingIng != null) return CraftingSubmitResult.missingIng(missingIng);
         var playerId = src.player()
                 .map(p -> p instanceof ServerPlayer serverPlayer ? IPlayerRegistry.getPlayerId(serverPlayer) : null)
                 .orElse(null);
         var craftId = UUID.randomUUID();
         var linkCpu = new CraftingLink(CraftingCpuHelper.generateLinkData(craftId, requester == null, false), cluster);
-        this.job = new ExecutingCraftingJob(plan, changeListener, linkCpu, playerId);
+        this.job = new ExecutingCraftingJob(plan, changeListener, linkCpu, playerId, missingIng);
         cluster.updateOutput(plan.finalOutput());
         cluster.markDirty();
         notifyJobOwner(job, CraftingJobStatusPacket.Status.STARTED);

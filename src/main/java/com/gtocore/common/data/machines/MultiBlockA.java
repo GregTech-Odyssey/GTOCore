@@ -382,7 +382,7 @@ public final class MultiBlockA {
             .tooltips(GTOMachineTooltips.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
             .recipeModifier((machine, recipe) -> {
                 if (((ElectricMultiblockMachine) machine).getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) {
-                    return RecipeModifierFunction.overclocking(machine, ParallelLogic.accurateParallel(machine, recipe, 1 << ((((ElectricMultiblockMachine) machine).getTier() - GTValues.ZPM) << 1)));
+                    return RecipeModifierFunction.overclocking(machine, ParallelLogic.accurateParallel(machine, recipe, 1L << ((((ElectricMultiblockMachine) machine).getTier() - GTValues.ZPM) << 1)));
                 }
                 return RecipeModifierFunction.overclocking(machine, recipe);
             })

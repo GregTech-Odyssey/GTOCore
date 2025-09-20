@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -727,6 +728,18 @@ final class Incubator {
                 .outputFluids(GTOMaterials.AnimalCells, 400)
                 .EUt(1920)
                 .duration(400)
+                .save();
+        INCUBATOR_RECIPES.builder("dopamine")
+                .chancedInput(GTOItems.CEREBRUM.asStack(32), 2000, 100)
+                .chancedInput(RegistriesUtils.getItemStack("enderio:zombie_electrode", 32), 100, 0)
+                .inputItems(TagPrefix.dustTiny, GTMaterials.RockSalt)
+                .inputItems(TagPrefix.dustTiny, GTMaterials.Salt)
+                .chancedInput(GTOMaterials.Perfluorobenzene.getFluid(1000), 1000, 0)
+                .inputFluids(GTOMaterials.BiohmediumSterilized, 400)
+                .outputFluids(GTOMaterials.Dopamine, 1000)
+                .EUt(7200)
+                .duration(1440)
+                .addData("filter_casing", 2)
                 .save();
     }
 }

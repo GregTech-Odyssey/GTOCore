@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -717,6 +718,36 @@ final class ReactionFurnace {
                 .EUt(480)
                 .blastFurnaceTemp(800)
                 .duration(120)
+                .save();
+        REACTION_FURNACE_RECIPES.builder("trifluoromethanesulfonic_acid")
+                .inputFluids(GTMaterials.Chloroform, 1000)
+                .inputFluids(GTMaterials.HydrofluoricAcid, 3000)
+                .inputFluids(GTOMaterials.ChlorosulfonicAcid, 1000)
+                .outputFluids(GTOMaterials.TrifluoromethanesulfonicAcid, 1000)
+                .outputFluids(GTMaterials.HydrochloricAcid, 4000)
+                .EUt(1920)
+                .blastFurnaceTemp(800)
+                .duration(1200)
+                .save();
+        REACTION_FURNACE_RECIPES.builder("hydrofluoric_acidperfluorooctanesulfonic_acid")
+                .inputFluids(GTMaterials.Octane, 1000)
+                .inputFluids(GTMaterials.Fluorine, 36000)
+                .inputFluids(GTOMaterials.ChlorosulfonicAcid, 1000)
+                .outputFluids(GTMaterials.HydrofluoricAcid, 72000)
+                .outputFluids(GTOMaterials.PerfluorooctanesulfonicAcid, 1000)
+                .outputFluids(GTMaterials.HydrochloricAcid, 1000)
+                .EUt(3600)
+                .blastFurnaceTemp(6000)
+                .duration(1200)
+                .save();
+        REACTION_FURNACE_RECIPES.builder("ultra_low_viscosity_ionic_carrier")
+                .inputFluids(GTMaterials.Silver.getFluid(FluidStorageKeys.PLASMA, 4000))
+                .inputFluids(GTOMaterials.FullereneDopedNanotubes, 3000)
+                .inputFluids(GTOMaterials.SupercriticalCarbonDioxide, 4000)
+                .outputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 10000)
+                .EUt(140000)
+                .blastFurnaceTemp(7900)
+                .duration(1200)
                 .save();
     }
 }

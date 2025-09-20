@@ -122,5 +122,6 @@ public final class $ClassifiedRecipe {
         LaserWelder.init();
         FastNeutronBreeder.init();
         ElectroPlating.init();
+        FuelCell.init();
     }
 }

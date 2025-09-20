@@ -1,7 +1,9 @@
 package com.gtocore.common.machine.multiblock.generator;
 
+import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 
+import com.gtolib.api.machine.feature.multiblock.IHighlightMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
@@ -11,6 +13,8 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
@@ -19,6 +23,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -26,6 +31,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +42,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachine {
+public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachine implements IHighlightMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ChemicalEnergyDevourerMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final FluidStack DINITROGEN_TETROXIDE_STACK = GTMaterials.DinitrogenTetroxide.getFluid(480);
@@ -48,6 +54,10 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     @Persisted
     private final NotifiableFluidTank tank;
     private final ConditionalSubscriptionHandler tankSubs;
+    @DescSynced
+    private BlockPos highlightStartPos = BlockPos.ZERO;
+    @DescSynced
+    private BlockPos highlightEndPos = BlockPos.ZERO;
 
     public ChemicalEnergyDevourerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -103,12 +113,14 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
         int directionStep = facing.getAxisDirection().getStep();
         int x = isFlipped() ? 22 : -22;
         x *= directionStep;
-        for (int z = -10; z < 1; z++) {
-            for (int y = -1; y < 10; y++) {
+        for (int z = -11; z < 0; z++) {
+            for (int y = 0; y < 9; y++) {
                 if (!getLevel().getBlockState(getPos().relative(facing).offset(permuteXZ ? x : z * directionStep, y, permuteXZ ? z * directionStep : x)).isAir())
                     return true;
             }
         }
+        highlightStartPos = getPos().relative(facing).offset(permuteXZ ? x : -11 * directionStep, 0, permuteXZ ? -11 * directionStep : x);
+        highlightEndPos = getPos().relative(facing).offset(permuteXZ ? x : -directionStep, 8, permuteXZ ? -directionStep : x);
         return false;
     }
 
@@ -131,7 +143,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     protected Recipe getRealRecipe(Recipe recipe) {
         var EUt = recipe.getOutputEUt();
         if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
-            recipe = ParallelLogic.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
+            recipe = ParallelLogic.accurateParallel(this, recipe, getOverclockVoltage() / EUt);
             if (recipe == null) return null;
             if (isOxygenBoosted && isDinitrogenTetroxideBoosted) {
                 recipe.setOutputEUt(EUt * recipe.parallels * 4);
@@ -139,7 +151,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
                 recipe.setOutputEUt(EUt * recipe.parallels * 2);
             }
             return recipe;
-        }
+        } else requestSync();
         return null;
     }
 
@@ -186,7 +198,32 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     }
 
     @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+        attachHighlightConfigurators(configuratorPanel);
+    }
+
+    @Override
     public int getTier() {
         return tier;
+    }
+
+    @Override
+    public List<BlockPos> getHighlightPos() {
+        return List.of();
+    }
+
+    @Override
+    public void attachHighlightConfigurators(ConfiguratorPanel configuratorPanel) {
+        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
+                GuiTextures.LIGHT_ON, GuiTextures.LIGHT_ON, () -> false,
+                (clickData, pressed) -> {
+                    if (clickData.isRemote && this.isFormed() && this.self().getLevel() != null) {
+                        ForgeClientEvent.CUstomHighlightNeeds.computeIfAbsent(
+                                new ForgeClientEvent.HighlightNeed(highlightStartPos, highlightEndPos, ChatFormatting.GOLD.getColor()),
+                                k -> 400);
+                    }
+                })
+                .setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.highlight_obstruction"))));
     }
 }

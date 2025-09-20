@@ -205,5 +205,39 @@ final class PolymerizationReactor {
                 .EUt(480)
                 .duration(420)
                 .save();
+        POLYMERIZATION_REACTOR_RECIPES.builder("polyvinylpyrrolidone")
+                .inputItems(TagPrefix.dust, GTMaterials.Sodium, 2)
+                .inputFluids(GTOMaterials.GammaButyrolactone, 1000)
+                .inputFluids(GTOMaterials.Acetaldehyde, 1000)
+                .inputFluids(GTMaterials.Ammonia, 1000)
+                .outputFluids(GTOMaterials.Polyvinylpyrrolidone, 3000)
+                .EUt(19200)
+                .duration(1220)
+                .save();
+        POLYMERIZATION_REACTOR_RECIPES.builder("polous_polyolefin_sulfonate_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumHydride)
+                .outputItems(TagPrefix.dust, GTOMaterials.PolousPolyolefinSulfonate, 8)
+                .inputFluids(GTOMaterials.SodiumAllylsulfonate, 10000)
+                .inputFluids(GTMaterials.Acetone, 1000)
+                .EUt(19200)
+                .duration(1200)
+                .save();
+        POLYMERIZATION_REACTOR_RECIPES.builder("poly_dopamine")
+                .inputItems(TagPrefix.dust, GTOMaterials.BenzoylPeroxide)
+                .inputItems(TagPrefix.dust, GTOMaterials.BromoSuccinamide)
+                .inputFluids(GTOMaterials.Dopamine, 8000)
+                .outputFluids(GTOMaterials.PolyDopamine, 6000)
+                .EUt(1200)
+                .duration(1200)
+                .save();
+        POLYMERIZATION_REACTOR_RECIPES.builder("perfluorosulfonic_acid_polytetrafluoroethylene_copolymer_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.BenzoylPeroxide)
+                .inputItems(TagPrefix.dust, GTOMaterials.BromoSuccinamide)
+                .outputItems(TagPrefix.dust, GTOMaterials.PerfluorosulfonicAcidPolytetrafluoroethyleneCopolymer, 10)
+                .inputFluids(GTMaterials.Tetrafluoroethylene, 6000)
+                .inputFluids(GTOMaterials.PerfluorooctanesulfonicAcid, 4000)
+                .EUt(72000)
+                .duration(1200)
+                .save();
     }
 }

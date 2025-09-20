@@ -3163,7 +3163,7 @@ final class Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder("smd_capacitor_bioware")
                 .inputItems(TagPrefix.wireFine, GTMaterials.NaquadahAlloy, 8)
-                .inputItems(TagPrefix.foil, GTMaterials.Silicon, 8)
+                .inputItems(TagPrefix.foil, GTOMaterials.PolyDopamine, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Pedot, 8)
                 .inputFluids(GTOMaterials.Polyimide.getFluid(288))
                 .outputItems(GTOItems.SMD_CAPACITOR_BIOWARE.asStack(16))
