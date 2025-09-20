@@ -724,6 +724,7 @@ public final class VanillaStandardRecipes {
         if (!ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes) {
             CUTTER_RECIPES.recipeBuilder("stone_pressure_plate")
                     .inputItems(new ItemStack(Blocks.STONE_SLAB))
+                    .circuitMeta(26)
                     .outputItems(new ItemStack(Blocks.STONE_PRESSURE_PLATE, 8))
                     .duration(250).EUt(VA[ULV]).save();
 
