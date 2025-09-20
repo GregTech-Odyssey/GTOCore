@@ -59,6 +59,8 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
 
     public MonitorAEThroughput(MetaMachineBlockEntity holder) {
         super(holder);
+        aeItem.addChangedListener(() -> onFilterChanged(0));
+        aeFluid.addChangedListener(() -> onFilterChanged(1));
     }
 
     public MonitorAEThroughput(Object o) {
@@ -211,6 +213,10 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
                 .setCenter(true)
                 .setClientSideWidget();
         return (new WidgetGroup(0, 0, 200, 216)).addWidget(superWidget).addWidget(itemWidget).addWidget(fluidWidget).addWidget(panel);
+    }
+
+    private void onFilterChanged(int slot) {
+        stats[slot] = null;
     }
 
     private class AEItem extends ExportOnlyAEItemList implements CurrentGettable {
