@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.multiblock.noenergy;
+package com.gtocore.common.machine.multiblock.storage;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
