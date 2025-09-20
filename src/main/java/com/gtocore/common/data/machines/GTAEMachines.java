@@ -67,7 +67,6 @@ public final class GTAEMachines {
 
     public static final MachineDefinition ME_ENERGY_ACCESS_HATCH = machine("me_energy_access_hatch", "ME存储访问仓", MEEnergyAccessPartMachine::new)
             .langValue("ME Storage Access Hatch")
-            .notAllowSharedTooltips()
             .tier(EV)
             .allRotation()
             .notAllowSharedTooltips()
