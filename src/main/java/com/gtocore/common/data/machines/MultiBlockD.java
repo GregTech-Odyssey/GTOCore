@@ -874,8 +874,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition SLAUGHTERHOUSE = multiblock("slaughterhouse", "工业屠宰场", SlaughterhouseMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getSlaughterhouseTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSlaughterhouseTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineStories.INSTANCE.getSlaughterhouseTooltips().getSupplier())
+            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getSlaughterhouseTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition)

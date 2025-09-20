@@ -256,6 +256,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("可惜Mojang的代码并不允许这么做，厂内时常陷入凋灵骷髅头急缺" translatedTo "Unfortunately Mojang's code doesn't allow this, often causing Wither Skeleton skull shortages")
         story("更严重的是因凋零笼故障，去年厂房遭到了凋零的大规模破坏" translatedTo "Worse, last year a faulty Wither cage caused massive facility damage from escaped Withers")
         story("为此，这款自动屠宰场作为黑客出现，它成功绕过了游戏的玩家检查" translatedTo "Thus this automated slaughterhouse emerged as a hack successfully bypassing game player checks")
+        story("某些时候它甚至能盗用玩家身份来进行更加专业的工作" translatedTo "Sometimes it can even steal the player's identity to perform more professional work")
     }
 
     // 大型方块转换室

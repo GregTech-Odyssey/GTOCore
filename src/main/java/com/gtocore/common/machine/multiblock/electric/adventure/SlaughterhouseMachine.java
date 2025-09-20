@@ -200,9 +200,13 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                     blockPos.getZ() + 3));
 
             long xp = 0;
+            int killedCount = 0;
+            final int MAX_KILLS_PER_RUN = 20;
+
             for (Entity entity : entities) {
+                if (killedCount >= MAX_KILLS_PER_RUN && entity instanceof LivingEntity) continue;
                 if (entity instanceof LivingEntity livingEntity) {
-                    if (CommonProxy.isBoss(entity)) continue;
+                    if (c != 3 && CommonProxy.isBoss(entity)) continue;
                     if (c == 3) {
                         if (livingEntity.isAlive()) {
                             Player fakePlayer = getFakePlayer(serverLevel);
@@ -222,11 +226,13 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                                             .create(lootTable.getParamSet());
                                     lootTable.getRandomItems(lootParams).forEach(stack -> itemStacks.add(stack.copyWithCount(stack.getCount() * multiplier)));
                                 }
+                                killedCount++;
                             }
                             fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                         }
                     } else {
                         livingEntity.hurt(getDamageSource(serverLevel), attackDamage);
+                        killedCount++;
                     }
                 } else if (entity instanceof ItemEntity itemEntity) {
                     itemStacks.add(itemEntity.getItem());
