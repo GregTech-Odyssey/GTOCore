@@ -100,7 +100,7 @@ public final class GTAEMachines {
     public static final MachineDefinition ME_CATALYST_ME_PATTERN_BUFFER = machine("me_catalyst_pattern_buffer", "ME催化剂样板总成", MECatalystPatternBufferPartMachine::new)
             .langValue("ME Catalyst Pattern Buffer")
             .tooltips(GTOMachineTooltips.INSTANCE.getMeCatalystPatternBufferTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(27).getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(36).getSupplier())
             .tier(ZPM)
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
@@ -108,10 +108,10 @@ public final class GTAEMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
-    public static final MachineDefinition ME_EXTEND_PATTERN_BUFFER = machine("me_extend_pattern_buffer", "ME扩展样板总成", h -> new MEPatternBufferPartMachineKt(h, 81))
+    public static final MachineDefinition ME_EXTEND_PATTERN_BUFFER = machine("me_extend_pattern_buffer", "ME扩展样板总成", h -> new MEPatternBufferPartMachineKt(h, 108))
             .langValue("ME Extend Pattern Buffer")
             .tier(UV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(81).getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(108).getSupplier())
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
             .tooltipsKey("gtceu.part_sharing.enabled")
@@ -217,7 +217,7 @@ public final class GTAEMachines {
             .register();
 
     public static final MachineDefinition ME_PATTERN_BUFFER = GTM
-            .machine("me_pattern_buffer", h -> new MEPatternBufferPartMachineKt(h, 27))
+            .machine("me_pattern_buffer", h -> new MEPatternBufferPartMachineKt(h, 36))
             .tier(LuV)
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
