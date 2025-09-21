@@ -88,6 +88,11 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIFRPlugin());
         list.add(new JEIArsNouveauPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
+        list.add(new dev.xkmc.cuisinedelight.compat.JEICompat());
+        list.add(new alabaster.crabbersdelight.integration.jei.JEIPlugin());
+        list.add(new net.ribs.vintagedelight.compat.JEIVintagePlugin());
+        list.add(new net.mcreator.manors_bounty.init.ManorsBountyModJeiPlugin());
+        list.add(new io.github.tt432.kitchenkarrot.dependencies.jei.JeiPlugin());
     }
 
     public static void addEMIPlugin(List<EmiPluginContainer> list) {

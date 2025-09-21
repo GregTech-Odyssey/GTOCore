@@ -539,7 +539,7 @@ public final class MeteoriteRecipe {
                     // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
                     GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Tellurium), GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Rubidium),
                     // 维度: Titan (土卫六)--ID: gtocore:titan
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.HydroxyapatiteCeramic), GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Sunnarium),
+                    GTOChemicalHelper.getItem(GTOTagPrefix.FLAKES, GTOMaterials.HydroxyapatiteCeramic), GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Sunnarium),
                     // 维度: Pluto (冥王星)--ID: gtocore:pluto
                     GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Darmstadtium), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Tritanium),
                     // 维度: Glacio (霜原星)--ID: ad_astra:glacio
@@ -595,7 +595,7 @@ public final class MeteoriteRecipe {
                     // 维度: Ceres (谷神星)--ID: gtocore:ceres
                     GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Plutonium241),
                     // 维度: Io (木卫一)--ID: gtocore:io
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.SiliconNitrideCeramic),
+                    GTOChemicalHelper.getItem(GTOTagPrefix.FLAKES, GTOMaterials.SiliconNitrideCeramic),
                     // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
                     GTItems.RAW_CRYSTAL_CHIP.asItem(),
                     // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
