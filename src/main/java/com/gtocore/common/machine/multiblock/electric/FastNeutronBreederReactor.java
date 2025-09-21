@@ -97,6 +97,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     @Override
     public boolean beforeWorking(@Nullable Recipe recipe) {
         if (recipe == null) return true;
+        recipeHeat = getRecipeHeat(recipe);
         return super.beforeWorking(recipe);
     }
 
@@ -181,7 +182,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
 
     private int getRecipeDuration(Recipe recipe, double neededNeutronFlux) {
         double k = Math.max(0.9 - (neutronFluxkeV - neededNeutronFlux) / 1e5d, 0.1);
-        return (int) (recipe.duration * Math.pow(k, Math.sqrt(recipe.parallels)));
+        return Math.max((int) (recipe.duration * Math.pow(k, Math.sqrt(recipe.parallels))), 1);
     }
 
     /**
