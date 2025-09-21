@@ -78,11 +78,10 @@ dependencies {
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 
-    modImplementation("curse.maven:farmers-delight-398521:6154802")
+    modImplementation("curse.maven:farmers-delight-398521:6917255")// 农夫乐事
+    modImplementation("curse.maven:farmers-respite-551453:5543547")// 农夫暇事
 
-    modImplementation("curse.maven:farmers-respite-551453:5543547")
-
-     modImplementation("curse.maven:spark-361579:4738952")
+    modImplementation("curse.maven:spark-361579:4738952")
 
     modCompileOnly("curse.maven:libx-412525:5207625")
 

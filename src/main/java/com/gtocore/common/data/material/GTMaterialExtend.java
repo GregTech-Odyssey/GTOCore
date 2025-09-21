@@ -313,7 +313,7 @@ public final class GTMaterialExtend {
         Cupronickel.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t1 白铜币
         Silver.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN); // coin t2 银币
         Gold.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN); // coin t3 金币
-        Osmium.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN); // coin t4 锇币
+        Osmium.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN, GENERATE_FRAME); // coin t4 锇币
         Naquadah.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t5 硅岩币
         // Amprosium.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t6 安普洛币
         // Adamantine.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t7 精金币
@@ -331,6 +331,9 @@ public final class GTMaterialExtend {
         Sphalerite.addFlags(GTOMaterialFlags.GENERATE_MILLED);
         Monazite.addFlags(GTOMaterialFlags.GENERATE_MILLED);
         Redstone.addFlags(GTOMaterialFlags.GENERATE_MILLED);
+        NiobiumTitanium.addFlags(GENERATE_FRAME);
+        RhodiumPlatedPalladium.addFlags(GENERATE_FRAME);
+        TitaniumCarbide.addFlags(GENERATE_FRAME);
         NaquadahEnriched.addFlags(GTOMaterialFlags.GENERATE_MILLED);
         Titanium.addFlags(GENERATE_FINE_WIRE);
         Titanium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));

@@ -30,7 +30,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -61,11 +60,11 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SlaughterhouseMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    private int attackDamage = 0;
+    private int attackDamage;
     @Persisted
     private boolean isSpawn;
     private DamageSource damageSource;
-    private ItemStack activeWeapon = new ItemStack(Items.IRON_SWORD);
+    private ItemStack activeWeapon = ItemStack.EMPTY;
     private static final String[] mobList1 = {
             "minecraft:chicken",
             "minecraft:rabbit",
@@ -131,15 +130,15 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         if (handlerList.getHandlerIO() == IO.IN) {
             attackDamage = 1;
             int c = checkingCircuit(false);
-            activeWeapon = new ItemStack(Items.IRON_SWORD);
+            activeWeapon = ItemStack.EMPTY;
 
             if (c == 3) {
                 forEachInputItems(itemStack -> {
                     if (activeWeapon.isEmpty() && itemStack.getItem() instanceof SwordItem swordItem) {
-                        attackDamage += (int) swordItem.getDamage();
-                        if (attackDamage > 1) {
+                        int attack = (int) swordItem.getDamage();
+                        if (attackDamage < attack) {
+                            attackDamage = attack;
                             activeWeapon = itemStack.copy();
-                            return true;
                         }
                     }
                     return false;

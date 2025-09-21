@@ -2,11 +2,13 @@ package com.gtocore.integration.ae
 
 import com.gtocore.api.gui.ktflexible.InitFancyMachineUIWidget
 
+import net.minecraft.core.Direction
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 
 import appeng.api.networking.IManagedGridNode
+import appeng.api.util.AECableType
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.MetaMachine
@@ -44,6 +46,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     override fun getFieldHolder() = manager
     override fun isOnline(): Boolean = isGridOnline
+    override fun getCableConnectionType(dir: Direction): AECableType = AECableType.DENSE_SMART
 
     override fun setOnline(p0: Boolean) {
         isGridOnline = p0

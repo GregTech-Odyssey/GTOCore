@@ -131,7 +131,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         if (!outputsItems.isEmpty()) {
             inputsItems.forEach(disassembleRecipeBuilder::inputItems);
             outputsItems.forEach(disassembleRecipeBuilder::outputItems);
-            disassembleRecipeBuilder.duration(20 * count.value);
+            disassembleRecipeBuilder.duration(count.value);
             return disassembleRecipeBuilder.buildRawRecipe();
         }
         return null;
@@ -415,7 +415,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             enchantmentsLoadRecipeBuilder.inputItems(Items.BOOK);
             enchantmentsLoadRecipeBuilder.inputItems(essence.value, 1 << (lvl - 1));
             enchantmentsLoadRecipeBuilder.outputItems(Enchantment.getEnchantedBookByEnchantmentId(enchantment, (short) lvl));
-            enchantmentsLoadRecipeBuilder.duration(5 * lvl);
+            enchantmentsLoadRecipeBuilder.duration(lvl);
             enchantmentsLoadRecipeBuilder.MANAt(256);
             return enchantmentsLoadRecipeBuilder.buildRawRecipe();
         }
@@ -535,7 +535,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             mergeRecipeBuilder.inputItems(Items.BOOK, -remainingBooks);
         }
 
-        mergeRecipeBuilder.duration(5 * totalBooks.value);
+        mergeRecipeBuilder.duration(totalBooks.value);
         mergeRecipeBuilder.MANAt(512);
 
         return mergeRecipeBuilder.buildRawRecipe();
@@ -569,7 +569,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         affixCanvasLoadRecipeBuilder.inputItems(GTOItems.AFFIX_CANVAS);
         affixCanvasLoadRecipeBuilder.outputItems(affixCanvas);
-        affixCanvasLoadRecipeBuilder.duration(5 * uniqueItems.size());
+        affixCanvasLoadRecipeBuilder.duration(uniqueItems.size());
         affixCanvasLoadRecipeBuilder.MANAt(512);
 
         return affixCanvasLoadRecipeBuilder.buildRawRecipe();
@@ -667,7 +667,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 GemSynthesisRecipeBuilder.outputItems(upgradedGem, count);
             }
         }
-        GemSynthesisRecipeBuilder.duration(5 * timeMultiplier);
+        GemSynthesisRecipeBuilder.duration(timeMultiplier);
         return GemSynthesisRecipeBuilder.buildRawRecipe();
     }
 
@@ -720,7 +720,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         forcedEnchantmentRecipeBuilder.outputItems(inputItem, 1);
         forcedEnchantmentRecipeBuilder.outputItems(Items.BOOK);
-        forcedEnchantmentRecipeBuilder.duration(20);
+        forcedEnchantmentRecipeBuilder.duration(5);
         forcedEnchantmentRecipeBuilder.MANAt(512);
 
         return forcedEnchantmentRecipeBuilder.buildRawRecipe();
@@ -783,7 +783,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         forcedAffixRecipeBuilder.outputItems(inputItem, 1);
         forcedAffixRecipeBuilder.outputItems(GTOItems.AFFIX_CANVAS);
-        forcedAffixRecipeBuilder.duration(20);
+        forcedAffixRecipeBuilder.duration(5);
         forcedAffixRecipeBuilder.MANAt(512);
 
         return forcedAffixRecipeBuilder.buildRawRecipe();
@@ -829,7 +829,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         affixData.putString("rarity", rarity);
 
         ForcedRarityUpRecipeBuilder.outputItems(inputRarityUpItem, 1);
-        ForcedRarityUpRecipeBuilder.duration(20);
+        ForcedRarityUpRecipeBuilder.duration(5);
         ForcedRarityUpRecipeBuilder.MANAt(512);
 
         return ForcedRarityUpRecipeBuilder.buildRawRecipe();
@@ -874,7 +874,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         ForcedAddSocketRecipeBuilder.inputItems(Adventure.Items.SIGIL_OF_SOCKETING.get(), costSigil);
         ForcedAddSocketRecipeBuilder.outputItems(inputAddSocketItem, 1);
-        ForcedAddSocketRecipeBuilder.duration(10 * costSigil);
+        ForcedAddSocketRecipeBuilder.duration(costSigil);
         ForcedAddSocketRecipeBuilder.MANAt(512);
 
         return ForcedAddSocketRecipeBuilder.buildRawRecipe();
@@ -953,7 +953,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         for (ItemStack inputGemItem : inputGemItems) ForcedMosaicGemRecipeBuilder.inputItems(inputGemItem, 1);
 
         ForcedMosaicGemRecipeBuilder.outputItems(inputAddGemItem, 1);
-        ForcedMosaicGemRecipeBuilder.duration(10 * inputGemItems.size());
+        ForcedMosaicGemRecipeBuilder.duration(inputGemItems.size());
         ForcedMosaicGemRecipeBuilder.MANAt(512);
 
         return ForcedMosaicGemRecipeBuilder.buildRawRecipe();

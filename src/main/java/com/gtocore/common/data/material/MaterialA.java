@@ -79,7 +79,7 @@ public final class MaterialA {
                 .ingot()
                 .color(0xffb545)
                 .iconSet(SHINY)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .blastTemp(1650, LOW, GTValues.VA[GTValues.MV], 700)
                 .components(Redstone, 1, Gold, 1, Glowstone, 1)
                 .cableProperties(128, 1, 0, true)
@@ -90,7 +90,7 @@ public final class MaterialA {
                 .fluid()
                 .color(0xa4ff70)
                 .iconSet(METALLIC)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .blastTemp(2450, LOW, GTValues.VA[GTValues.MV], 900)
                 .components(EnergeticAlloy, 1, EnderPearl, 1)
                 .cableProperties(512, 1, 0, true)
@@ -101,7 +101,7 @@ public final class MaterialA {
                 .fluid()
                 .color(0xf66565)
                 .iconSet(SHINY)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .components(Redstone, 1, Silicon, 1)
                 .buildAndRegister();
 
@@ -120,7 +120,7 @@ public final class MaterialA {
                 .fluid()
                 .color(0x6ae26e)
                 .iconSet(SHINY)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .components(Iron, 1, EnderPearl, 1)
                 .cableProperties(8, 1, 0, true)
                 .buildAndRegister();
@@ -399,7 +399,7 @@ public final class MaterialA {
                 .element(GTOElements.TARANIUM)
                 .color(0x000033)
                 .iconSet(RADIOACTIVE)
-                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL)
+                .flags(GENERATE_SPRING, GENERATE_SPRING_SMALL, GENERATE_FRAME)
                 .cableProperties(GTValues.V[GTValues.UXV], 2, 64)
                 .buildAndRegister();
 
@@ -833,7 +833,7 @@ public final class MaterialA {
                 .components(Naquadria, 1, Taranium, 1)
                 .color(0x000d1a)
                 .iconSet(RADIOACTIVE)
-                .flags(GENERATE_ROD, GENERATE_FINE_WIRE, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_ROD, GENERATE_FINE_WIRE, DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .cableProperties(GTValues.V[GTValues.UXV], 4, 128)
                 .buildAndRegister();
 
@@ -976,7 +976,7 @@ public final class MaterialA {
                         Antimony, 2, Platinum, 2, Ytterbium, 1, TungstenSteel, 4)
                 .color(0x244780)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .buildAndRegister();
 
         HastelloyN = material("hastelloy_n", "哈斯特洛依合金-N")
@@ -1049,7 +1049,7 @@ public final class MaterialA {
                         Palladium, 5, Germanium, 5, SiliconCarbide, 5)
                 .color(0x0d0d0d)
                 .iconSet(METALLIC)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_FOIL)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FOIL, GENERATE_FRAME)
                 .buildAndRegister();
 
         FluxedElectrum = material("fluxed_electrum", "通流琥珀金")
@@ -1166,7 +1166,7 @@ public final class MaterialA {
                         Tungsten, 13, Nickel, 18)
                 .color(0x515151)
                 .iconSet(METALLIC)
-                .flags(GENERATE_GEAR, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_GEAR, DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .buildAndRegister();
 
         Tantalloy61 = material("tantalloy_61", "钽钨合金-61")

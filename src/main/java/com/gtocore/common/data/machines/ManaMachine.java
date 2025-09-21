@@ -171,7 +171,7 @@ public final class ManaMachine {
 
     public static final MachineDefinition AREA_DESTRUCTION_TOOLS = manaMachine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
             .tier(LuV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAreaDestructionToolsTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getAreaDestructionToolsTooltips().apply(list))
             .nonYAxisRotation()
             .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();

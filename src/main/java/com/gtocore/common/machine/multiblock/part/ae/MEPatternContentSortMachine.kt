@@ -244,6 +244,21 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
 
     override fun onLoad() {
         super.onLoad()
+        // Wire content-changed hooks so any ghost insert/remove persists immediately.
+        if (itemTransferList is MyItemTransferList) {
+            (itemTransferList as MyItemTransferList).onContentsChanged = Runnable {
+                externalLogic.fullyRefresh()
+                if (!isRemote) requestSync() else freshUI.run()
+            }
+        }
+        itemTransferList.transfers.forEach { t ->
+            if (t is MyItemStackTransfer) {
+                t.onContentsChanged = Runnable {
+                    externalLogic.fullyRefresh()
+                    if (!isRemote) requestSync() else freshUI.run()
+                }
+            }
+        }
         tickableSubscription = subscribeServerTick(tickableSubscription, {
             if (!isRemote && !isInitialize && offsetTimer % 20 == 0L && gridNodeHolder.mainNode.isActive) {
                 level?.server?.tell(
@@ -277,7 +292,21 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
     @Persisted
     @DescSynced
     var itemTransferList: ItemTransferList = MyItemTransferList(*Array(10) { MyItemStackTransfer(10) })
-    private class MyItemStackTransfer(size: Int, var mode: MODE = ITEM) : ItemStackTransfer(size)
+    private inner class MyItemStackTransfer(size: Int, var mode: MODE = ITEM) :
+        ItemStackTransfer(size),
+        IContentChangeAware {
+        private var change: Runnable? = null
+        override fun setOnContentsChanged(a: Runnable?) {
+            change = a
+        }
+        override fun getOnContentsChanged(): Runnable? = change
+        override fun onContentsChanged(slot: Int) {
+            super.onContentsChanged(slot)
+            externalLogic.fullyRefresh()
+            if (!isRemote) requestSync() else freshUI.run()
+            change?.run()
+        }
+    }
     private class MyItemTransferList(vararg transfers: MyItemStackTransfer) :
         ItemTransferList(*transfers),
         IContentChangeAware {
@@ -334,6 +363,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
                                     PhantomSlotWidget(transfer, slotIndexInHandler, 0, 0).apply {
                                         setChangeListener {
                                             externalLogic.fullyRefresh()
+                                            if (!isRemote) requestSync()
                                             if (isRemote) freshUI.run()
                                         }
                                     },
