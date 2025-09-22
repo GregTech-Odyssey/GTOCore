@@ -478,6 +478,14 @@ public final class NewResearchSystem {
                         .save();
             }
 
+            LOOM_RECIPES.recipeBuilder("drawing_simple_fiber_optic")
+                    .inputItems(MultiStepItemHelper.locateStep(stack1, 4))
+                    .inputItems(SPOOLS_JUMBO)
+                    .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, 16384)
+                    .duration(1200)
+                    .EUt(VA[UIV])
+                    .save();
+
             LAMINATOR_RECIPES.recipeBuilder("make_simple_fiber_optic")
                     .inputItems(SIMPLE_FIBER_OPTIC_ROUGH)
                     .inputFluids(EthylAcrylate.getFluid(18))

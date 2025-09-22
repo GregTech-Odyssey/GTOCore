@@ -175,6 +175,9 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             find = true;
         }
 
+        // 电路4强行粉碎
+        if (circuit == 4) find = true;
+
         return generateMaterials(nbt, outputsItems) || find;
     }
 

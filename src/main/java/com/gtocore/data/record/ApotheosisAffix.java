@@ -68,13 +68,18 @@ public class ApotheosisAffix {
     // 根据serialNumber获取apotheosisAffixId
     public static String getApotheosisAffixIdBySerialNumber(int serialNumber) {
         ApotheosisAffixRecord record = findBySerialNumber(serialNumber);
-        return record != null ? record.affixId() : "error";
+        return record != null ? record.affixId() : "original";
+    }
+
+    // 根据精粹数量
+    public static int getAffixSize() {
+        return initializeApotheosisAffixRecords().size();
     }
 
     public static List<ApotheosisAffixRecord> initializeApotheosisAffixRecords() {
         List<ApotheosisAffixRecord> records = new ArrayList<>();
 
-        records.add(ApotheosisAffixRecord.create(0, "error", "error", "错误"));
+        records.add(ApotheosisAffixRecord.create(0, "original", "original", "原始"));
         records.add(ApotheosisAffixRecord.create(1, "apotheosis:armor/attribute/ironforged", "Ironforged · of Iron", "铁铸 · 铁"));
         records.add(ApotheosisAffixRecord.create(2, "apotheosis:sword/attribute/vampiric", "Vampiric · of Bloodletting", "吸血 · 放血"));
         records.add(ApotheosisAffixRecord.create(3, "apotheosis:sword/special/festive", "Festive · of Partying", "节庆 · 派对"));
@@ -161,7 +166,7 @@ public class ApotheosisAffix {
 
     public static ItemEntry<ApothItem>[] registerAffixEssence() {
         List<ApotheosisAffixRecord> records = initializeApotheosisAffixRecords();
-        ItemEntry<ApothItem>[] entries = new ItemEntry[records.size()];
+        ItemEntry<ApothItem>[] entries = new ItemEntry[getAffixSize()];
         for (ApotheosisAffixRecord record : records) {
             String id = record.affixId().substring(record.affixId().indexOf(':') + 1).replace("/", "_");
             String cn = "刻印精粹 " + "(" + record.cnId() + ")";

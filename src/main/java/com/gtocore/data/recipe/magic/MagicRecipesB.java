@@ -9,8 +9,9 @@ import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
 import static com.gtocore.common.data.GTOMaterials.*;
-import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.RUNE_ENGRAVING_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.data.record.ApotheosisAffix.getAffixSize;
+import static com.gtocore.data.record.Enchantment.getEnchantmentSize;
 
 public class MagicRecipesB {
 
@@ -72,6 +73,31 @@ public class MagicRecipesB {
                     .MANAt(1024)
                     .save();
 
+        }
+
+        // 精粹回收
+        {
+            for (int i = 1; i < getEnchantmentSize(); i++) {
+                CHEMICAL_BATH_RECIPES.builder("enchantment_essence_recovery_" + i)
+                        .inputItems(GTOItems.ENCHANTMENT_ESSENCE[i])
+                        .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
+                        .outputItems(GTOItems.ENCHANTMENT_ESSENCE[0])
+                        .addData("essence_recovery", true)
+                        .duration(20)
+                        .EUt(8)
+                        .save();
+            }
+
+            for (int i = 1; i < getAffixSize(); i++) {
+                CHEMICAL_BATH_RECIPES.builder("affix_essence_recovery_" + i)
+                        .inputItems(GTOItems.AFFIX_ESSENCE[i])
+                        .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
+                        .outputItems(GTOItems.AFFIX_ESSENCE[0])
+                        .addData("essence_recovery", true)
+                        .duration(20)
+                        .EUt(8)
+                        .save();
+            }
         }
     }
 }

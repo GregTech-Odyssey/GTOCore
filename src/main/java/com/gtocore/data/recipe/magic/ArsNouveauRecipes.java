@@ -372,19 +372,19 @@ public final class ArsNouveauRecipes {
         // 多方块特供配方
         {
             MultiblockImbuementRecipe2(5, true, "enchanting_earth_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.EARTH_ESSENCE, 64), 4000,
-                    new Ingredient[] { Ingredient.of(Items.IRON_INGOT), Ingredient.of(ItemTags.DIRT), Ingredient.of(ForgeTags.SEEDS) }, new FluidStack[] { Gnome.getFluid(LIQUID, 100) });
+                    new Ingredient[] { Ingredient.of(Items.IRON_INGOT), Ingredient.of(ItemTags.DIRT), Ingredient.of(ForgeTags.SEEDS) }, new FluidStack[] { Gnome.getFluid(LIQUID, 500) });
             MultiblockImbuementRecipe2(5, true, "enchanting_air_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.AIR_ESSENCE, 64), 4000,
-                    new Ingredient[] { Ingredient.of(Items.FEATHER), Ingredient.of(ItemTags.ARROWS), Ingredient.of(ItemsRegistry.WILDEN_WING) }, new FluidStack[] { Sylph.getFluid(LIQUID, 100) });
+                    new Ingredient[] { Ingredient.of(Items.FEATHER), Ingredient.of(ItemTags.ARROWS), Ingredient.of(ItemsRegistry.WILDEN_WING) }, new FluidStack[] { Sylph.getFluid(LIQUID, 500) });
             MultiblockImbuementRecipe2(5, true, "enchanting_water_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.WATER_ESSENCE, 64), 4000,
-                    new Ingredient[] { Ingredient.of(Items.KELP), Ingredient.of(Items.SNOW_BLOCK) }, new FluidStack[] { Undine.getFluid(LIQUID, 100), Water.getFluid(1000) });
+                    new Ingredient[] { Ingredient.of(Items.KELP), Ingredient.of(Items.SNOW_BLOCK) }, new FluidStack[] { Undine.getFluid(LIQUID, 500), Water.getFluid(1000) });
             MultiblockImbuementRecipe2(5, true, "enchanting_fire_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.FIRE_ESSENCE, 64), 4000,
-                    new Ingredient[] { Ingredient.of(Items.FLINT_AND_STEEL), Ingredient.of(Items.GUNPOWDER), Ingredient.of(Items.TORCH) }, new FluidStack[] { Salamander.getFluid(LIQUID, 100) });
+                    new Ingredient[] { Ingredient.of(Items.FLINT_AND_STEEL), Ingredient.of(Items.GUNPOWDER), Ingredient.of(Items.TORCH) }, new FluidStack[] { Salamander.getFluid(LIQUID, 500) });
             MultiblockImbuementRecipe2(5, true, "enchanting_manipulation_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.MANIPULATION_ESSENCE, 64), 4000,
-                    new Ingredient[] { Ingredient.of(Items.STONE_BUTTON), Ingredient.of(Items.REDSTONE), Ingredient.of(Items.CLOCK) }, new FluidStack[] { Aether.getFluid(LIQUID, 100) });
+                    new Ingredient[] { Ingredient.of(Items.STONE_BUTTON), Ingredient.of(Items.REDSTONE), Ingredient.of(Items.CLOCK) }, new FluidStack[] { Aether.getFluid(LIQUID, 500) });
             MultiblockImbuementRecipe2(5, true, "enchanting_abjuration_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.ABJURATION_ESSENCE, 64), 4000,
-                    new Ingredient[] { Ingredient.of(Items.SUGAR), Ingredient.of(Items.FERMENTED_SPIDER_EYE) }, new FluidStack[] { Aether.getFluid(LIQUID, 100), Milk.getFluid(1000) });
+                    new Ingredient[] { Ingredient.of(Items.SUGAR), Ingredient.of(Items.FERMENTED_SPIDER_EYE) }, new FluidStack[] { Aether.getFluid(LIQUID, 500), Milk.getFluid(1000) });
             MultiblockImbuementRecipe2(5, true, "enchanting_conjuration_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.CONJURATION_ESSENCE, 64), 4000,
-                    new Ingredient[] { Ingredient.of(Items.BOOK), Ingredient.of(ItemsRegistry.WILDEN_HORN), Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD) }, new FluidStack[] { Aether.getFluid(LIQUID, 100) });
+                    new Ingredient[] { Ingredient.of(Items.BOOK), Ingredient.of(ItemsRegistry.WILDEN_HORN), Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD) }, new FluidStack[] { Aether.getFluid(LIQUID, 500) });
 
         }
 
