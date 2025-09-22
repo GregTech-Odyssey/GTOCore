@@ -91,6 +91,7 @@ public final class GTOConfig {
                 ConfigHolder.INSTANCE.machines.replaceMinedBlocksWith = "minecraft:cobblestone";
                 ConfigHolder.INSTANCE.machines.enableResearch = true;
                 ConfigHolder.INSTANCE.machines.enableMaintenance = difficulty > 1;
+                ConfigHolder.INSTANCE.machines.dualChamberPressurizationMode=difficulty==3?3:1;
                 ConfigHolder.INSTANCE.machines.enableWorldAccelerators = true;
                 ConfigHolder.INSTANCE.machines.gt6StylePipesCables = true;
                 ConfigHolder.INSTANCE.machines.doBedrockOres = true;
