@@ -113,6 +113,7 @@
     "botania.OrechidIgnemBlockEntityMixin",
     "botania.RunicAltarBlockEntityMixin",
     "eae.TileAssemblerMatrixBaseMixin",
+    "endremastered.EREnderEyeMixin",
     "ftbq.FTBQuestsCommandsMixin",
     "ftbq.ToggleEditingModeMessageMixin",
     "ftbu.FTBUltimineMixin",

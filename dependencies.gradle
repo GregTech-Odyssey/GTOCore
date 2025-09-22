@@ -87,6 +87,8 @@ dependencies {
     modImplementation("curse.maven:manors-bounty-1164929:6763171")
     modImplementation("curse.maven:kitchen-karrot-880555:6563401")
 
+    modImplementation("curse.maven:endremastered-404183:5598990")
+
     modImplementation("curse.maven:spark-361579:4738952")
 
     modCompileOnly("curse.maven:libx-412525:5207625")
