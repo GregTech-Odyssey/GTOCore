@@ -1468,6 +1468,7 @@ final class ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("sodium_azanide_dust")
+                .circuitMeta(1)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium)
                 .inputFluids(GTMaterials.Ammonia.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumAzanide, 4)
