@@ -51,7 +51,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.*
-import com.gtolib.syncdata.SyncManagedFieldHolder
+import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware

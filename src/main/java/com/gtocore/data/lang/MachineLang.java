@@ -66,6 +66,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.oc_amount", "超频次数: %s", "Overclocking Times: %s");
         addCNEN("gtocore.machine.off", "关闭", "Off");
         addCNEN("gtocore.machine.on", "打开", "On");
+        addCNEN("gtocore.machine.muffler.config", "设置消声仓运行时产灰被阻止的概率", "Set the probability of ash being blocked when the muffler hatch is running");
+        addCNEN("gtocore.machine.muffler.config.desc", "每次产灰判定时有 %s%% 的概率被取消", "There is a %s%% chance of being canceled each time ash is produced");
         addCNEN("gtocore.machine.pattern.error.tier", "§c必须使用同种等级方块§r", "§cMust use blocks of the same tier§r");
         addCNEN("gtocore.machine.primitive_magic_energy.tooltip.0", "无尽地吸收机器上方末地水晶的能量，如果能量已满，机器将会爆炸", "Endlessly absorbs the energy from ender crystals above the machine, if the energy capacity is full, the machine will explode.");
         addCNEN("gtocore.machine.primitive_magic_energy.tooltip.1", "每秒需输入同电压x电流的魔力，否则爆炸", "Requires a constant mana input of [X] EU/s (Voltage × Current). Failure cause an explosion.");

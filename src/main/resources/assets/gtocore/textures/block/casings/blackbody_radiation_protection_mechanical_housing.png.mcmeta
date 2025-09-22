@@ -1,0 +1,9 @@
+{
+  "animation": {
+    "interpolate": true,
+    "frametime": 2
+  },
+    "ldlib": {
+        "connection": "gtocore:block/casings/blackbody_radiation_protection_mechanical_housing_ctm"
+    }
+}

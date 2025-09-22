@@ -12,12 +12,15 @@ import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -29,14 +32,19 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
-import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.PRIMITIVE_BLAST_FURNACE;
 import static com.gtocore.common.data.GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH;
 
 public final class GTMachineModify {
@@ -53,8 +61,10 @@ public final class GTMachineModify {
         GTMultiMachines.LARGE_BOILER_TUNGSTENSTEEL.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::ebfOverclock));
         GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::pyrolyseOvenOverclock));
+        GTMultiMachines.PYROLYSE_OVEN.setRecoveryItems(GTMachineModify::tinydustFromDustOutput);
         GTMultiMachines.CRACKER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::crackerOverclock));
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
+        GTMultiMachines.IMPLOSION_COMPRESSOR.setRecoveryItems((a, b) -> ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Saltpeter));
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
         GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
@@ -128,6 +138,7 @@ public final class GTMachineModify {
                     .where('#', Predicates.air())
                     .build();
         });
+        // GTMultiMachines.DISTILLATION_TOWER.setRecoveryItems(GTMachineModify::tinydustFromDustOutput);
 
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setSubPatternFactory(List.of(definition -> FactoryBlockPattern.start(definition)
                 .aisle("AAAAA", " DBD ", " DBD ", " CCC ")
@@ -171,5 +182,30 @@ public final class GTMachineModify {
                 });
             }
         }
+    }
+
+    private static ItemStack ash;
+
+    static ItemStack tinydustFromDustOutput(MetaMachine machine, @Nullable GTRecipe gtRecipe) {
+        final ItemStack ash;
+        if (GTMachineModify.ash == null) {
+            ash = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
+            GTMachineModify.ash = ash;
+        } else {
+            ash = GTMachineModify.ash;
+        }
+        if (machine.getLevel() == null) return ash;
+        RandomSource random = machine.getLevel().getRandom();
+        if (gtRecipe != null && gtRecipe.outputs.get(ItemRecipeCapability.CAP) != null) {
+            var pool = gtRecipe.outputs.get(ItemRecipeCapability.CAP)
+                    .stream().flatMap(ing -> Stream.of(((Ingredient) ing.content).getItems()))
+                    .filter(i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.dust)
+                    .map(i -> ChemicalHelper.get(TagPrefix.dustTiny, ChemicalHelper.getMaterialStack(i).material()))
+                    .toList();
+            if (!pool.isEmpty()) {
+                return pool.get(random.nextInt(pool.size()));
+            }
+        }
+        return ash;
     }
 }

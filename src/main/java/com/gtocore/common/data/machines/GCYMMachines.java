@@ -664,6 +664,7 @@ public final class GCYMMachines {
             })
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/watertight_casing"),
                     GTCEu.id("block/multiblock/gcym/large_distillery"))
+            .recoveryStacks(GTMachineModify::tinydustFromDustOutput)
             .register();
 
     public static final MultiblockMachineDefinition LARGE_EXTRACTOR = GTM

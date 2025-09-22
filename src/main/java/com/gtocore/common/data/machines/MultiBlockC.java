@@ -500,6 +500,7 @@ public final class MultiBlockC {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/cracking_unit"))
+            .recoveryStacks(GTMachineModify::tinydustFromDustOutput)
             .register();
 
     public static final MultiblockMachineDefinition CHEMICAL_VAPOR_DEPOSITION = multiblock("chemical_vapor_deposition", "化学气相沉积系统",

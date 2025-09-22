@@ -34,7 +34,7 @@ import com.gtolib.api.annotation.SyncedManager
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.machine.feature.IMEPartMachine
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
-import com.gtolib.syncdata.SyncManagedFieldHolder
+import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted

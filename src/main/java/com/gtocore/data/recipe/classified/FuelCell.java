@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -13,6 +14,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
+
+import com.google.common.collect.ImmutableMap;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen;
 import static com.gtocore.common.data.GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES;
@@ -26,8 +29,9 @@ public class FuelCell {
         for (var materialSet : FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.entrySet()) {
             var material = materialSet.getKey();
             var euPerMb = materialSet.getValue();
+            var membrane = ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, MEMBRANE_MATS.get(i++));
             FUEL_CELL_ENERGY_RELEASE_RECIPES.recipeBuilder(material.getName() + "_release")
-                    .notConsumable(ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, MEMBRANE_MATS.get(i++)))
+                    .notConsumable(membrane.copy())
                     .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), 20)
                     .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), 20)
                     .outputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), 19)
@@ -35,6 +39,28 @@ public class FuelCell {
                     .EUt(-euPerMb * 5)
                     .duration(20)
                     .save();
+            for (var materialSet2 : ImmutableMap.copyOf(FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET).entrySet()) {
+                var material2 = materialSet2.getKey();
+                var euPerMb2 = materialSet2.getValue();
+                long partialEuPerMb1 = euPerMb >> 8;
+                long partialEuPerMb2 = euPerMb2 >> 8;
+                if (material == material2) continue;
+                FUEL_CELL_ENERGY_ABSORPTION_RECIPES.recipeBuilder(material.getName() + "_to_" + material2.getName() + "_absorption")
+                        .notConsumable(membrane.copyWithCount(2))
+                        .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), 20 * partialEuPerMb2)
+                        .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), 20 * partialEuPerMb2)
+                        .inputFluids(material2.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), 19 * partialEuPerMb1)
+                        .inputFluids(material2.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), 19 * partialEuPerMb1)
+                        .outputFluids(material2.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), 19 * partialEuPerMb1)
+                        .outputFluids(material2.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), 19 * partialEuPerMb1)
+                        .outputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), 19 * partialEuPerMb2)
+                        .outputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), 19 * partialEuPerMb2)
+                        .EUt(1)
+                        .duration(20)
+                        .addData("efficiency", (float) partialEuPerMb1 / partialEuPerMb2 * euPerMb2 / euPerMb * 0.95f)
+                        .category(GTORecipeCategories.ELECTROLYTE_TRANSFER)
+                        .save();
+            }
         }
 
         PowerlessJetpack.FUELS.forEach((fluidStack, duration) -> {

@@ -865,14 +865,17 @@ public final class GTORecipeTypes {
 
     public static final RecipeType FUEL_CELL_ENERGY_ABSORPTION_RECIPES = register("fuel_cell_energy_absorption", "燃料电池液能量吸收", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 1, 3, 3)
+            .setMaxIOSize(1, 1, 4, 4)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.fuelcell.converted_energy", data.getLong("convertedEnergy")))
+            .addDataInfo(data -> {
+                if (data.contains("convertedEnergy")) return LocalizationUtils.format("gtocore.recipe.fuelcell.converted_energy", data.getLong("convertedEnergy"));;
+                return data.contains("efficiency") ? LocalizationUtils.format("gtceu.multiblock.large_boiler.efficiency", FormattingUtil.formatNumber2Places(data.getFloat("efficiency") * 100) + "%") : "";
+            })
             .setSound(GTSoundEntries.CHEMICAL);
 
     public static final RecipeType FUEL_CELL_ENERGY_RELEASE_RECIPES = register("fuel_cell_energy_release", "燃料电池液能量释放", MULTIBLOCK)
             .setEUIO(IO.OUT)
-            .setMaxIOSize(1, 1, 3, 3)
+            .setMaxIOSize(1, 1, 2, 2)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 

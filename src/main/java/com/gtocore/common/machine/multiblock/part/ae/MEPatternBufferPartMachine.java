@@ -12,11 +12,11 @@ import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
+import com.gtolib.api.network.SyncManagedFieldHolder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-import com.gtolib.syncdata.SyncManagedFieldHolder;
 import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.RLUtils;
 

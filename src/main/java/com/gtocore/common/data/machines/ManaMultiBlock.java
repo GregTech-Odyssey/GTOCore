@@ -29,6 +29,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -46,6 +47,8 @@ import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 public final class ManaMultiBlock {
 
     public static void init() {}
+
+    private static ItemStack[] manaAlloyRewardPool;
 
     public static final MultiblockMachineDefinition MANA_ALLOY_BLAST_SMELTER = multiblock("mana_alloy_blast_smelter", "魔力合金炉", ManaAlloyBlastSmelterMachine::new)
             .nonYAxisRotation()
@@ -89,6 +92,21 @@ public final class ManaMultiBlock {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/blast_alloy_smelter"))
+            .recoveryStacks((m, r) -> {
+                if (manaAlloyRewardPool == null) {
+                    manaAlloyRewardPool = new ItemStack[] {
+                            ChemicalHelper.get(TagPrefix.dustTiny, GTOMaterials.Salamander),
+                            ChemicalHelper.get(TagPrefix.dustTiny, GTOMaterials.Undine),
+                            ChemicalHelper.get(TagPrefix.dustTiny, GTOMaterials.Sylph),
+                            ChemicalHelper.get(TagPrefix.dustTiny, GTOMaterials.Gnome),
+                            ChemicalHelper.get(TagPrefix.dustTiny, Runerock)
+                    };
+                }
+                if (m.getLevel() != null) {
+                    return manaAlloyRewardPool[m.getLevel().random.nextInt(manaAlloyRewardPool.length)];
+                }
+                return manaAlloyRewardPool[0];
+            })
             .register();
 
     public static final MultiblockMachineDefinition BASE_MANA_DISTRIBUTOR = multiblock("base_mana_distributor", "基础魔力分配器", ManaDistributorMachine.create(16, 32))

@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.generator;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
@@ -9,19 +10,24 @@ import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectImmutableList;
@@ -38,6 +44,8 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
     @DescSynced
     private boolean isGenerator = false;
+    @Persisted
+    private double bonusEfficiency = 1.0f;
     private static final int MaxCanReleaseParallel = 50;
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -66,6 +74,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
+        bonusEfficiency = 1.0d;
     }
 
     @Override
@@ -85,7 +94,21 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
     private Recipe getAbsorptionRecipe(Recipe recipe) {
         var fuelEnergyPerUnit = recipe.data.getLong("convertedEnergy");
-        if (fuelEnergyPerUnit <= 0) return null;
+        if (fuelEnergyPerUnit <= 0) return getElectrolyteTransferRecipe(recipe);
+
+        // membrane bonus
+        int membraneTier;
+        for (membraneTier = Wrapper.MEMBRANE_MATS.size() - 1; membraneTier >= 0; membraneTier--) {
+            if (MachineUtils.notConsumableItem(this, ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, Wrapper.MEMBRANE_MATS.get(membraneTier)))) {
+                break;
+            }
+        }
+        if (membraneTier < 0) {
+            IdleReason.setIdleReason(this, IdleReason.INVALID_INPUT);
+            return null;
+        }
+        bonusEfficiency = Math.pow(1.25d, membraneTier);
+        fuelEnergyPerUnit = (long) (fuelEnergyPerUnit * bonusEfficiency);
 
         // find existing electrolytes
         Material electrolytesExisting = null;
@@ -146,6 +169,29 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
             }
         }
         return result;
+    }
+
+    private Recipe getElectrolyteTransferRecipe(Recipe recipe) {
+        if (recipe.data.getFloat("efficiency") <= 0) {
+            return null;
+        }
+        bonusEfficiency = recipe.data.getFloat("efficiency") * 0.25d;
+        return ParallelLogic.accurateParallel(this, recipe, Long.MAX_VALUE);
+    }
+
+    @Override
+    public void customText(@NotNull List<Component> textList) {
+        super.customText(textList);
+        if (!isGenerator) {
+            textList.add(
+                    Component.translatable("tooltip.enderio.capacitor.fuel_efficiency", FormattingUtil.formatNumber2Places(bonusEfficiency * 400) + "%"));
+        }
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+        bonusEfficiency = 1.0d;
     }
 
     private Recipe getReleaseRecipe(Recipe recipe) {

@@ -38,6 +38,7 @@ import com.gtolib.utils.*;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -55,14 +56,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+
+import earth.terrarium.adastra.common.registry.ModItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -398,6 +403,9 @@ public final class MultiBlockD {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/cold_ice_casing"), GTCEu.id("block/multiblock/vacuum_freezer"))
+            .recoveryStacks((machine, recipe) -> machine.getLevel() instanceof ServerLevel l && l.random.nextFloat() < 0.1f ?
+                    ModItems.ICE_SHARD.get().getDefaultInstance() :
+                    ChemicalHelper.get(TagPrefix.dust, GTMaterials.Ice))
             .register();
 
     public static final MultiblockMachineDefinition DOOR_OF_CREATE = multiblock("door_of_create", "创造之门", ElectricMultiblockMachine::new)
@@ -687,6 +695,10 @@ public final class MultiBlockD {
                     .where('D', blocks(GTOMachines.GRIND_BALL_HATCH.getBlock()))
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/inconel_625_casing"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
+            .recoveryStacks((m, r) -> {
+                if (r == null) return ItemStack.EMPTY;
+                return ((Ingredient) r.outputs.get(ItemRecipeCapability.CAP).get(0).content).getItems()[0].copyWithCount(1);
+            })
             .register();
 
     public static final MultiblockMachineDefinition NEUTRON_ACTIVATOR = multiblock("neutron_activator", "中子活化器", NeutronActivatorMachine::new)

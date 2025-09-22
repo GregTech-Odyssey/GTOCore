@@ -602,6 +602,20 @@ final class GTOPartsRecipeHandler {
                 .EUt(400)
                 .save();
 
+        MACERATOR_RECIPES.recipeBuilder("crush_" + material.getName() + "_turbine_blade")
+                .inputItems(turbineRotor, material)
+                .outputItems(dustSmall, material, 2)
+                .duration(mass << 4)
+                .EUt(30)
+                .save();
+
+        MACERATOR_RECIPES.recipeBuilder("crush_" + material.getName() + "_turbine_blade_coated")
+                .inputItems(turbineRotorCoated, material)
+                .outputItems(dustSmall, material, 2)
+                .duration(mass << 4)
+                .EUt(30)
+                .save();
+
         FORMING_PRESS_RECIPES.recipeBuilder("press_" + material.getName() + "_turbine_rotor")
                 .inputItems(plateDouble, material, 5)
                 .inputItems(screw, material, 2)

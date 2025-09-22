@@ -17,7 +17,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.gtolib.api.annotation.SyncedManager
 import com.gtolib.api.capability.ISync
-import com.gtolib.syncdata.SyncManagedFieldHolder
+import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted

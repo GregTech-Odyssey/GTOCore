@@ -781,6 +781,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .recoveryStacks(GTMachineModify::tinydustFromDustOutput)
             .register();
 
     public static final MultiblockMachineDefinition MOLECULAR_OSCILLATION_DEHYDRATOR = multiblock("molecular_oscillation_dehydrator", "分子震荡脱水装置", CoilCrossRecipeMultiblockMachine::createCoilParallel)

@@ -59,16 +59,16 @@ final class KeyMessage {
     }
 
     private static void toggleNightVision(Player player) {
-            CompoundTag data = player.getPersistentData();
-            boolean nightVisionEnabled = data.getBoolean("night_vision");
-            data.putBoolean("night_vision", !nightVisionEnabled);
+        CompoundTag data = player.getPersistentData();
+        boolean nightVisionEnabled = data.getBoolean("night_vision");
+        data.putBoolean("night_vision", !nightVisionEnabled);
 
-            if (nightVisionEnabled) {
-                player.removeEffect(MobEffects.NIGHT_VISION);
-                player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.disabled"), true);
-            } else {
-                player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.enabled"), true);
-            }
+        if (nightVisionEnabled) {
+            player.removeEffect(MobEffects.NIGHT_VISION);
+            player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.disabled"), true);
+        } else {
+            player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.enabled"), true);
+        }
     }
 
     private static void upgradeToolSpeed(Player player) {

@@ -1528,6 +1528,7 @@ object GTOMachineTooltips {
         section("工作模式" translatedTo "Operating Modes")
         function("模式一：输入燃料，消耗少量电能将释能电解液转化为同数量的储能电解液" translatedTo "Mode 1: Input fuel, consume a small amount of EU to convert Discharged Electrolyte into the same amount of Charged Electrolyte")
         command("需要等量的阴极液与阳极液来吸收燃料中的能量" translatedTo "Requires equal amounts of Catholyte and Anolyte to absorb the energy from the fuel")
+        ok("使用的电极膜每高一级，燃料效率额外×1.25" translatedTo "Each higher tier of Electrode Membrane used multiplies fuel efficiency by an additional ×1.25")
         info("并行数 = min(输入的电解液数量, 当前燃料可转化的电解液数量)" translatedTo "Parallel = min(input electrolyte amount, amount of electrolyte convertible by current fuel)")
         info("耗能 = 1EU × 并行数" translatedTo "EU cost = 1EU × parallel")
         error("在该模式下， 不能安装动力仓" translatedTo "In this mode, Energy Output Hatches cannot be installed")

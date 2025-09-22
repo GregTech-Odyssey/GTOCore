@@ -93,6 +93,16 @@ public final class GTOMaterials {
     public static Material Infinity;
     public static Material BlazeCube;
     public static Material Etrium;
+    public static Material StainlessSteelJbk75;
+    public static Material Inconel242;
+    public static Material PlatinumRhodiumAlloy;
+    public static Material ScalmAlloyS;
+    public static Material Grcop84;
+    public static Material ThermalConductiveAlloy;
+    public static Material Titanium5553;
+    public static Material UltraLightweightCompositeSteel;
+    public static Material BerylliumAluminiumAlloy;
+    public static Material MoonGoddessTitanium;
 
     public static Material TriniumCompound;
     public static Material FumingNitricAcid;

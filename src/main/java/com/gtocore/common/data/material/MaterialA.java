@@ -21,6 +21,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_CRYSTAL_SEED;
+import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_CURVED_PLATE;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -513,8 +514,140 @@ public final class MaterialA {
                 .blastTemp(11800, HIGHER)
                 .element(GTOElements.ETRIUM)
                 .color(new Color(123, 252, 215).getRGB())
-                .iconSet(METALLIC)
+                .iconSet(SHINY)
                 .flags(GENERATE_FRAME, GENERATE_PLATE, GENERATE_FOIL, GENERATE_ROD)
+                .buildAndRegister();
+
+        StainlessSteelJbk75 = material("stainless_steel_jbk75", "不锈钢-JBK75")
+                .ingot()
+                .fluid()
+                .color(0xf7faff)
+                .secondaryColor(0x9fa1a3)
+                .blastTemp(5450, HIGH, GTValues.VA[GTValues.LuV], 600)
+                .components(Steel, 25, Chromium, 8, Nickel, 16, Niobium, 1, Titanium, 2, Molybdenum, 3)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_GEAR,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .fluidPipeProperties(3500, 3500, true, true, true)
+                .buildAndRegister();
+
+        Inconel242 = material("inconel_242", "镍铬基合金-242")
+                .ingot()
+                .fluid()
+                .color(0x575762)
+                .secondaryColor(0x2e2e38)
+                .blastTemp(4450, HIGH, GTValues.VA[GTValues.LuV], 600)
+                .components(Nickel, 16, Chromium, 10, Naquadah, 2, Cobalt, 1, Molybdenum, 3)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        PlatinumRhodiumAlloy = material("platinum_rhodium_alloy", "铂铑合金")
+                .ingot()
+                .fluid()
+                .color(0xedefe7)
+                .secondaryColor(0xe4e4e4)
+                .blastTemp(4440, HIGH, GTValues.VA[GTValues.LuV], 600)
+                .components(Platinum, 9, Rhodium, 10)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        ScalmAlloyS = material("scalm_alloy_s", "斯卡马洛伊-S合金")
+                .ingot()
+                .fluid()
+                .color(0xd7fcfe)
+                .secondaryColor(0x9ef1f5)
+                .blastTemp(5580, HIGH, GTValues.VA[GTValues.IV], 600)
+                .components(Aluminium, 45, Silicon, 7, Magnesium, 8, Scandium, 4, Zirconium, 4, Manganese, 5)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        Grcop84 = material("grcop84", "GRCop-84合金")
+                .ingot()
+                .fluid()
+                .color(0xe5d8aa)
+                .secondaryColor(0xb7a97d)
+                .blastTemp(5875, HIGH, GTValues.VA[GTValues.IV], 400)
+                .components(Copper, 21, Nickel, 2, Niobium, 2)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        ThermalConductiveAlloy = material("thermal_conductive_alloy", "高热导合金")
+                .ingot()
+                .fluid()
+                .color(0xffe278)
+                .secondaryColor(0xc2a664)
+                .blastTemp(8964, HIGHER, GTValues.VA[GTValues.ZPM], 400)
+                .components(Copper, 57, Silver, 40, Zirconium, 27)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        Titanium5553 = material("titanium_5553", "钛合金-5553")
+                .ingot()
+                .fluid()
+                .color(0xc380c6)
+                .secondaryColor(0x8b5e8b)
+                .blastTemp(8660, HIGHER, GTValues.VA[GTValues.LuV], 900)
+                .components(Titanium, 82, Aluminium, 5, Vanadium, 5, Molybdenum, 5, Chromium, 3)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        UltraLightweightCompositeSteel = material("ultra_lightweight_composite_steel", "超轻复合钢")
+                .ingot()
+                .fluid()
+                .color(0x8b8b8b)
+                .secondaryColor(0x4c4c4c)
+                .blastTemp(10450, HIGHER, GTValues.VA[GTValues.IV], 600)
+                .components(Steel, 56, Manganese, 29, Aluminium, 12, Silicon, 1, Chromium, 5)
+                .iconSet(SHINY)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        BerylliumAluminiumAlloy = material("beryllium_aluminium_alloy", "特种铍铝合金")
+                .ingot()
+                .fluid()
+                .color(0x689d79)
+                .secondaryColor(0x4b6f58)
+                .components(Aluminium, 3, Beryllium, 6)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                .buildAndRegister();
+        MoonGoddessTitanium = material("moon_goddess_titanium", "月神钛")
+                .ingot()
+                .fluid()
+                .color(0xd3b8d2)
+                .secondaryColor(0xa899a8)
+                .blastTemp(11660, HIGHER, GTValues.VA[GTValues.UHV], 900)
+                .components(Titanium, 25, Aluminium, 1, Vanadium, 5, Tin, 1, Chromium, 1, AstralSilver, 3, Etrium, 6)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
+                        GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING)
                 .buildAndRegister();
 
         Adamantine = material("adamantine", "精金")

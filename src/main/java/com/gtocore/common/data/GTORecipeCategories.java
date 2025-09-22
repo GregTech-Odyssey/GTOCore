@@ -14,4 +14,5 @@ public final class GTORecipeCategories {
     public static final GTRecipeCategory MANA_ASSEMBLER = GTRecipeCategories.register("mana_assembler", GTRecipeTypes.ASSEMBLER_RECIPES);
     public static final GTRecipeCategory ROTOR_PLATING = GTRecipeCategories.register("rotor_plating", GTORecipeTypes.ELECTROPLATING_RECIPES)
             .setIcon(GTOGuiTextures.HIGH_SPEED_MODE.getSubTexture(0, 0.5, 1, 0.5));
+    public static final GTRecipeCategory ELECTROLYTE_TRANSFER = GTRecipeCategories.register("electrolyte_transfer", GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES);
 }

@@ -463,4 +463,10 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> MULTI_WIRE_PROPORTIONAL_CHAMBER_DETECTOR_BLOCK = createCasingBlock("multi_wire_proportional_chamber_detector_block", "多丝正比室探测器方块", GTOCore.id("block/casings/vacuum_chamber/multi_wire_proportional_chamber_detector_block"));
     // 太阳能集热管道机械方块
     public static final BlockEntry<Block> SOLAR_HEAT_COLLECTOR_PIPE_CASING = createCasingBlock("solar_heat_collector_pipe_casing", "太阳能集热管道机械方块", GTOCore.id("block/casings/solar_heat_collector_pipe_casing"));
+    // 复合装甲防护层
+    public static final BlockEntry<Block> COMPOSITE_ARMOR_PROTECTIVE_LAYER = createCasingBlock("composite_armor_protective_layer", "复合装甲防护层", GTOCore.id("block/casings/composite_armor_protective_layer"));
+    // 光学动态镀膜仪器防护罩玻璃
+    public static final BlockEntry<Block> OPTICAL_DYNAMIC_COATING_INSTRUMENT_PROTECTIVE_SHIELD_GLASS = createGlassCasingBlock("optical_dynamic_coating_instrument_protective_shield_glass", "光学动态镀膜仪器防护罩玻璃", GTOCore.id("block/casings/optical_dynamic_coating_instrument_protective_shield_glass"));
+    // 黑体辐射防护机械外壳
+    public static final BlockEntry<Block> BLACKBODY_RADIATION_PROTECTION_MECHANICAL_HOUSING = createCasingBlock("blackbody_radiation_protection_mechanical_housing", "黑体防护机械外壳", GTOCore.id("block/casings/blackbody_radiation_protection_mechanical_housing"));
 }
