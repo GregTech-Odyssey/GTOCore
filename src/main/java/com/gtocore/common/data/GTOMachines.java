@@ -889,28 +889,28 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getBasicMonitorTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getBasicMonitorTooltips().apply(list))
             .register();
     public static final MachineDefinition MONITOR_MACHINE_ELECTRICITY = registerMonitor("monitor_electricity", "监控器电网组件", MonitorEU::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorPowerComponentTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getMonitorPowerComponentTooltips().apply(list))
             .register();
     public static final MachineDefinition MONITOR_MACHINE_MANA = registerMonitor("monitor_mana", "监控器魔力网络组件", MonitorMana::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorManaComponentTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getMonitorManaComponentTooltips().apply(list))
             .register();
     public static final MachineDefinition MONITOR_MACHINE_CWU = registerMonitor("monitor_cwu", "监控器算力网络组件", MonitorCWU::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorComputingComponentTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getMonitorComputingComponentTooltips().apply(list))
             .register();
     public static final MachineDefinition MONITOR_MACHINE_CUSTOM = registerMonitor("monitor_custom", "监控器自定义文本组件", MonitorCustomInfo::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorCustomTextComponentTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getMonitorCustomTextComponentTooltips().apply(list))
             .register();
     public static final MachineDefinition MONITOR_AE_THROUGHPUT = registerMonitor("monitor_ae_throughput", "监控器ME网络吞吐量组件", MonitorAEThroughput::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorMEThroughputComponentTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getMonitorMEThroughputComponentTooltips().apply(list))
             .register();
     public static final MachineDefinition MONITOR_AE_CPU = registerMonitor("monitor_ae_cpu", "监控器ME合成处理单元组件", MonitorAECPU::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorCraftingComponentTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getMonitorCraftingComponentTooltips().apply(list))
             .register();
     public static final MachineDefinition MONITOR_MACHINE = registerMonitor("monitor_machine", "监控器通用机器组件", MonitorMachine::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorMachineComponentTooltips().getSupplier())
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getMonitorMachineComponentTooltips().apply(list))
             .register();
 
     private static GTOMachineBuilder registerMonitor(String id, String cn, Function<MetaMachineBlockEntity, MetaMachine> monitorConstructor) {
