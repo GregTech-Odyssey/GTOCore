@@ -60,6 +60,7 @@ object GTOOrganItems {
         cn = "翅膀 电动机械之翼",
         itemFactory = { properties, organType -> OrganItem(properties, organType) },
         onRegister = attach(
+            TooltipBehavior(OrganTranslation.flightInfo2::apply),
             ElectricStats.createElectricItem(
                 GTValues.V[GTValues.EV] * (32.hours.inWholeSeconds.toInt()),
                 GTValues.EV,
