@@ -648,7 +648,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 Item materialType = RARITY_MATERIAL_MAP.getOrDefault(RARITIES[i], RARITY_MATERIAL_MAP.get("default"));
                 GemSynthesisRecipeBuilder.inputItems(gem);
                 GemSynthesisRecipeBuilder.inputItems(materialType, count * 3);
-                GemSynthesisRecipeBuilder.inputItems(Adventure.Items.GEM_DUST.get(), count * 7);
+                GemSynthesisRecipeBuilder.inputItems(Adventure.Items.GEM_DUST.get(), count * (i * 2 + 1));
 
                 String originalRarity = getGemRarity(gem);
                 int currentIndex = -1;

@@ -104,6 +104,7 @@
     "ae2.storage.StorageServiceMixin",
     "ae2.wtlib.ItemWTMixin",
     "ae2.wtlib.WirelessTerminalMenuHostMixin",
+    "apotheosis.AdventureEventsMixin",
     "botania.ContributorListMixin",
     "botania.DandelifeonBlockEntityMixin",
     "botania.GaiaGuardianEntityMixin",
