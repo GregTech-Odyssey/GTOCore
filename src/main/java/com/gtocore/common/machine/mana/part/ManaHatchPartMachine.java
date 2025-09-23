@@ -13,14 +13,18 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
+import com.hollingsworth.arsnouveau.api.util.SourceUtil;
+import com.hollingsworth.arsnouveau.common.block.tile.SourceJarTile;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Math;
 import vazkii.botania.api.mana.ManaCollector;
 import vazkii.botania.api.mana.ManaPool;
 import vazkii.botania.api.mana.ManaReceiver;
@@ -79,7 +83,11 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
 
     void tickUpdate() {
         if (getOffsetTimer() % 20 != 0) return;
-        ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(getLevel(), getPos().relative(getFrontFacing()), null);
+        BlockPos frontPos = getPos().relative(getFrontFacing());
+        Level level = getLevel();
+        if (level == null) return;
+
+        ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(level, frontPos, null);
         if (receiver != null && !receiver.isFull()) {
             int mana = MathUtil.saturatedCast(manaContainer.getCurrentMana());
             if (receiver instanceof ManaCollector collector) {
@@ -91,6 +99,24 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
             if (change > 0) {
                 receiver.receiveMana(change);
                 manaContainer.notifyListeners();
+            }
+        }
+
+        for (ISpecialSourceProvider provider : SourceUtil.canGiveSource(frontPos, level, 0)) {
+            if (provider.getSource() instanceof SourceJarTile jarTile) {
+                if (!jarTile.canAcceptSource()) return;
+                int availableSpace = jarTile.getMaxSource() - jarTile.getSource();
+                if (availableSpace > 0) {
+                    int sourceToAdd = Math.min((int) (manaContainer.getCurrentMana() * 4), availableSpace);
+                    if (sourceToAdd > 0) {
+                        long removedMana = manaContainer.removeMana((sourceToAdd + 3) / 4, 20, false);
+                        if (removedMana > 0) {
+                            jarTile.addSource((int) (removedMana * 4));
+                            manaContainer.notifyListeners();
+                        }
+                    }
+                }
+                break;
             }
         }
     }

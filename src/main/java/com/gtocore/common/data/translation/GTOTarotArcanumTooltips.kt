@@ -20,7 +20,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     val GTOTarotArcanum = ("⭐ 永恒塔罗牌" translatedTo "⭐ Eternal Tarot").scrollFullColor().initialize()
 
     val TarotArcanum_0 = ComponentListSupplier {
-        setTranslationPrefix("The Tree of Life")
+        setTranslationPrefix("Tarot-The Tree of Life")
         add(("根生虚无间，十源耀大千" translatedTo "Rooted in Ein Sof, ten shine through realms")) { rainbowGradient(2f, 224, true) }
         add(("三柱承天序，慈悲严正衡" translatedTo "Three pillars hold, love and justice balance")) { rainbowGradient(2f, 192, true) }
         add(("四界递流转，造化各有司" translatedTo "Four worlds flow, each shapes creation")) { rainbowGradient(2f, 160, true) }
@@ -37,7 +37,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_1 = ComponentListSupplier {
-        setTranslationPrefix("The Magician")
+        setTranslationPrefix("Tarot-The Magician")
         add(PandS("(神圣)原人。宝剑，意志之力。" translatedTo "Man. Sword, willpower."))
         add(Sephirah("王冠 (Kether)" translatedTo "Kether"))
         add(Letter("阿列夫 (Aleph - א)" translatedTo "Aleph (א)"))
@@ -48,7 +48,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_2 = ComponentListSupplier {
-        setTranslationPrefix("The Priestess")
+        setTranslationPrefix("Tarot-The Priestess")
         add(PandS("魔术师之配偶。秘传科学。吉兆。" translatedTo "The wife of The Magician. Occult science. Favorable."))
         add(Sephirah("智慧 (Chokmah)" translatedTo "Chokmah"))
         add(Letter("贝特 (Beth - ב)" translatedTo "Beth (ב)"))
@@ -59,7 +59,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_3 = ComponentListSupplier {
-        setTranslationPrefix("The Empress")
+        setTranslationPrefix("Tarot-The Empress")
         add(PandS("神圣母亲。物质与灵性的生产与丰饶。" translatedTo "The Divine Mother. Material and spiritual production."))
         add(Sephirah("理解 (Binah)" translatedTo "Binah"))
         add(Letter("吉梅尔 (Gimel - ג)" translatedTo "Gimel (ג)"))
@@ -70,7 +70,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_4 = ComponentListSupplier {
-        setTranslationPrefix("The Emperor")
+        setTranslationPrefix("Tarot-The Emperor")
         add(PandS("统御，进展，成功，仁慈。" translatedTo "Command, progress, success, mercy."))
         add(Sephirah("慈悲 (Chesed)" translatedTo "Chesed"))
         add(Letter("达列特 (Daleth - ד)" translatedTo "Daleth (ד)"))
@@ -81,7 +81,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_5 = ComponentListSupplier {
-        setTranslationPrefix("The Hierarch")
+        setTranslationPrefix("Tarot-The Hierarch")
         add(PandS("严苛，律法。业力，火星，战争。" translatedTo "Rigor, the law. Karma, Mars, war."))
         add(Sephirah("力量 (Geburah)" translatedTo "Geburah"))
         add(Letter("赫 (Hei - ה)" translatedTo "Hei (ה)"))
@@ -92,7 +92,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_6 = ComponentListSupplier {
-        setTranslationPrefix("Indecision")
+        setTranslationPrefix("Tarot-Indecision")
         add(PandS("恋人。胜利，好运。" translatedTo "The Lover. Victory, good luck."))
         add(Sephirah("美丽 (Tiphereth)" translatedTo "Tiphereth"))
         add(Letter("瓦夫 (Vav - ו)" translatedTo "Vav (ו)"))
@@ -103,7 +103,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_7 = ComponentListSupplier {
-        setTranslationPrefix("Triumph")
+        setTranslationPrefix("Tarot-Triumph")
         add(PandS("战争之车。战争，挣扎，赎罪，痛苦，苦涩。" translatedTo "The Chariot of War. Wars, struggles, atonement, pain, bitterness."))
         add(Sephirah("胜利 (Netzach)" translatedTo "Netzach"))
         add(Letter("扎因 (Zayin - ז)" translatedTo "Zayin (ז)"))
@@ -114,7 +114,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_8 = ComponentListSupplier {
-        setTranslationPrefix("Justice")
+        setTranslationPrefix("Tarot-Justice")
         add(PandS("约伯的奥秘。苦难，考验，痛苦。" translatedTo "The arcanum of Job. Sufferings, tests, pains."))
         add(Sephirah("荣耀 (Hod)" translatedTo "Hod"))
         add(Letter("赫特 (Chet - ח)" translatedTo "Chet (ח)"))
@@ -125,7 +125,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_9 = ComponentListSupplier {
-        setTranslationPrefix("The Hermit")
+        setTranslationPrefix("Tarot-The Hermit")
         add(PandS("入门/启蒙。独处，苦修。" translatedTo "Initiation. Solitude, sufferings."))
         add(Sephirah("基础 (Yesod)" translatedTo "Yesod"))
         add(Letter("泰特 (Teth - ט)" translatedTo "Teth (ט)"))
@@ -136,7 +136,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_10 = ComponentListSupplier {
-        setTranslationPrefix("Retribution")
+        setTranslationPrefix("Tarot-Retribution")
         add(PandS("命运之轮。好交易，变迁。" translatedTo "The Wheel of Fortune. Good business, changes."))
         add(Sephirah("王国 (Malkuth)" translatedTo "Malkuth"))
         add(Letter("尤德 (Iod - י)" translatedTo "Iod (י)"))
@@ -149,7 +149,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_11 = ComponentListSupplier {
-        setTranslationPrefix("Persuasion")
+        setTranslationPrefix("Tarot-Persuasion")
         add(PandS("被驯服的狮子。律法的恩宠。无所畏惧。火星。" translatedTo "The tame lion. Favor of the law. Let there be no fear. Mars."))
         add(Letter("卡夫 (Kaf - כ)" translatedTo "Kaf (כ)"))
         add(Timetable("阿波罗尼乌斯第二时：“火之深渊与星光美德，绕巨龙与火焰(神秘力量之研究)成一圆环”" translatedTo "Second Hour of Apollonius: “The abysses of the fire and the astral virtues form a circle through (around) the dragons and the fire (studies of the occult forces).”"))
@@ -160,7 +160,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_12 = ComponentListSupplier {
-        setTranslationPrefix("The Apostolate")
+        setTranslationPrefix("Tarot-The Apostolate")
         add(PandS("牺牲。考验与苦痛。A.Z.F.奥秘将吾等带离苦痛。" translatedTo "Sacrifice. Tests and pains. The Arcanum A.Z.F. takes us out of pain."))
         add(Letter("拉梅德 (Lamed - ל)" translatedTo "Lamed (ל)"))
         add(Timetable("阿波罗尼乌斯第三时：“巨蛇、猎犬与火焰(性魔法，昆达里尼之修习)”" translatedTo "Third Hour of Apollonius: “The serpents, the dogs, and the fire (Sexual Magic, work with the Kundalini).”"))
@@ -171,7 +171,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_13 = ComponentListSupplier {
-        setTranslationPrefix("Immortality")
+        setTranslationPrefix("Tarot-Immortality")
         add(PandS("死亡与复活。转化，预示着彻底的转变。" translatedTo "Death and resurrection. Transformations, indicates total change."))
         add(Letter("梅姆 (Mem - מ)" translatedTo "Mem (מ)"))
         add(Timetable("阿波罗尼乌斯第四时：“新手将夜中游荡于坟墓之间，亲历幻视之恐怖，并受制于魔法与戈提亚术(此指修行者将见自身于星光层面遭数百万黑魔法师攻击，彼等幽暗魔法师试图将其驱离光明之道)”" translatedTo "Fourth Hour of Apollonius: “The neophyte will wander at night among the sepulchers, will experience the horror of visions, and will be submitted to magic and goethia (this means that the disciple will see that he is being attacked by millions of black magicians within the astral plane. Those tenebrous magicians attempt to drive the disciple away from the luminous path).”"))
@@ -182,7 +182,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_14 = ComponentListSupplier {
-        setTranslationPrefix("Temperance")
+        setTranslationPrefix("Tarot-Temperance")
         add(PandS("结合，联盟。长寿，稳定，恒常不变。" translatedTo "Marriage, association. Longevity, stability, no change."))
         add(Letter("农 (Nun - נ)" translatedTo "Nun (נ)"))
         add(Timetable("阿波罗尼乌斯第五时：“天界之上水(此阶段修行者习得纯净与贞洁，因领悟自身精液之价值)”" translatedTo "Fifth Hour of Apollonius: “The superior waters of heaven (during this time the disciple learns to be pure and chaste because he comprehends the value of his seminal liquor).”"))
@@ -193,7 +193,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_15 = ComponentListSupplier {
-        setTranslationPrefix("Passion")
+        setTranslationPrefix("Tarot-Passion")
         add(PandS("堤丰·巴风特。爱情中的挫败。预示危险。" translatedTo "Typhon Baphomet. Failure in love. Announces dangers."))
         add(Letter("萨梅赫 (Samech - ס)" translatedTo "Samech (ס)"))
         add(Timetable("阿波罗尼乌斯第六时：“此处因恐惧需保持静默、静止(此象征门槛守护者之可怖试炼，需莫大勇气方能战胜之)”" translatedTo "Sixth Hour of Apollonius: “Here it is necessary to remain quiet, still, due to fear (this signifies the terrible ordeal of the Guardian of the Threshold, before whom a lot of courage is needed in order to overcome him).”"))
@@ -204,7 +204,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_16 = ComponentListSupplier {
-        setTranslationPrefix("Fragility")
+        setTranslationPrefix("Tarot-Fragility")
         add(PandS("被雷霆击碎之塔。惩罚，可怕的坠落。避开此日期。" translatedTo "The Fulminated Tower. Punishment, terrible fall. Avoid this date."))
         add(Letter("阿因 (Ayin - ﬠ)" translatedTo "Ayin (ﬠ)"))
         add(Timetable("阿波罗尼乌斯第七时：“火可慰藉无生之物，若有祭司 —— 足够纯净之人 —— 取火而施，将其与圣油相混并祝圣，仅需敷于患处，即可治愈一切疾病(此处修行者将见自身物质财富受威胁，事业受挫)”" translatedTo "Seventh Hour of Apollonius: “Fire comforts inanimate beings, and if any priest, a sufficiently purified man, steals the fire and then projects it, if he mixes this fire with sacred oil and consecrates it, then he will achieve the healing of all sicknesses by simply applying it to the afflicted areas (here the initiate sees that his material wealth is threatened and his business fails).”"))
@@ -215,7 +215,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_17 = ComponentListSupplier {
-        setTranslationPrefix("Hope")
+        setTranslationPrefix("Tarot-Hope")
         add(PandS("希望之星。寓意怀抱希望并耐心等待。" translatedTo "The Star of Hope. Signifies to hope and wait."))
         add(Letter("佩 (Peh - פ)" translatedTo "Peh (פ)"))
         add(Timetable("阿波罗尼乌斯第八时：“诸元素之星光美德，各类种子之星光美德”" translatedTo "Eighth Hour of Apollonius: “The astral virtues of the elements, of the seeds of every genre.”"))
@@ -226,7 +226,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_18 = ComponentListSupplier {
-        setTranslationPrefix("Twilight")
+        setTranslationPrefix("Tarot-Twilight")
         add(PandS("隐秘的敌人。隐藏的敌人随时可能跳出。疾病，事业停滞。" translatedTo "Occult enemies. Hidden enemies jump out at any moment. Illnesses, no business."))
         add(Letter("萨迪 (Tzadi - צ)" translatedTo "Tzadi (צ)"))
         add(Timetable("阿波罗尼乌斯第九时：“此处诸事未竟。修行者拓展感知，直至超越太阳系之限、黄道之外，抵达无限之门槛，触及可知世界之边界。神圣之光向其显现，与此同时，新的恐惧与危险亦随之而来(此为小奥秘之研习，即修行者需攀登之九座拱廊)”" translatedTo "Ninth Hour of Apollonius: “Here nothing is finished yet. The initiate increases his perception until he surpasses the limits of the solar system, beyond the zodiac. He arrives at the threshold of the infinite. He reaches the limits of the intelligible world. The Divine Light is revealed unto him and with all of this, new fears and dangers also appear (it is the study of the Minor Mysteries, the nine arcades on which the student must ascend).”"))
@@ -237,7 +237,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_19 = ComponentListSupplier {
-        setTranslationPrefix("Inspiration")
+        setTranslationPrefix("Tarot-Inspiration")
         add(PandS("璀璨的太阳。成功，好运，哲学石。" translatedTo "The radiant Sun. Success, good luck, the Philosophical Stone."))
         add(Letter("库夫 (Kuf - ק)" translatedTo "Kuf (ק)"))
         add(Timetable("阿波罗尼乌斯第十时：“天门敞开，人自昏沉中觉醒(此为大奥秘第二次重大启蒙之第十阶段，使修行者得以以太体游历，此乃施洗约翰之智慧)”" translatedTo "Tenth Hour of Apollonius: “The doors of heaven open and man comes out of his lethargy (this is the number ten of the second great Initiation of Major Mysteries, that allows the initiate to travel in the ethereal body. This is the wisdom of John the Baptist)."))
@@ -248,7 +248,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_20 = ComponentListSupplier {
-        setTranslationPrefix("Resurrection")
+        setTranslationPrefix("Tarot-Resurrection")
         add(PandS("死者的复活。有利的转变，善加利用。终结弱点。" translatedTo "The resurrection of the dead. Favorable changes, take advantage of them. Put an end to weaknesses."))
         add(Letter("雷什 (Resh - ר)" translatedTo "Resh (ר)"))
         add(Timetable("阿波罗尼乌斯第十一时：“天使、基路伯与撒拉弗振翅飞旋；天界欢欣；自亚当而生之大地与太阳觉醒(此过程属大奥秘之重大启蒙，唯律法之威在此统御)”" translatedTo "Eleventh Hour of Apollonius: “The Angels, Cherubim, and Seraphim fly with the sound of whirring wings; there is rejoicing in heaven; the earth and the sun which surge from Adam awaken (this process belongs to the great Initiations of Major Mysteries, where only the terror of the Law reigns).”"))
@@ -259,7 +259,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_21 = ComponentListSupplier {
-        setTranslationPrefix("Transmutation")
+        setTranslationPrefix("Tarot-Transmutation")
         add(PandS("愚人，疯狂。向邪恶的彻底堕落。魔法钥匙，Olin如尼文。对立面，希兰·阿比夫的敌人。" translatedTo "The Fool, madness. Total demoralization towards evil. The magic key, the rune Olin. Antithesis, enemies of Hiram Abiff."))
         add(Letter("辛 (Shin - ש)" translatedTo "Shin (ש)"))
         add(Timetable("阿波罗尼乌斯第十二时：“火之高塔震动(此为大师凯旋进入涅槃之无限极乐，或更确切言，大师为爱人道而舍弃涅槃极乐，遂化为慈悲之菩萨)”" translatedTo "Twelfth Hour of Apollonius: “The towers of fire disturb (this is the triumphant entrance of the master into the limitless bliss of Nirvana, or better, the master’s renunciation of the bliss of Nirvana for the love of humanity, where then he is converted into a Bodhisattva of compassion).”"))
@@ -270,7 +270,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
     }
 
     val TarotArcanum_22 = ComponentListSupplier {
-        setTranslationPrefix("The Return")
+        setTranslationPrefix("Tarot-The Return")
         add(PandS("真理，生命之冠。凯旋。一切圆满。力量，强力，好运。" translatedTo "The truth, the Crown of Life. Triumph. Everything comes out well. Power, strength, good luck."))
         add(Letter("塔夫 (Tav - ת)" translatedTo "Tav (ת)"))
         add(Timetable("“有第十三时，此乃解脱之时”" translatedTo "“There is a thirteenth hour; this is the hour of liberation.”"))
@@ -282,7 +282,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_23 = ComponentListSupplier {
         // 耕者
-        setTranslationPrefix("The Plower")
+        setTranslationPrefix("Tarot-The Plower")
         add(Description("耕者正耕耘土地与自身意识，象征人类自我实现之美德。" translatedTo "The plower is in the act of cultivating the earth and his consciousness. Symbolizes the virtue of a human’s self-realization."))
         add(Modulating("关联于水星的运行、字母 T 及数字 5，代表元素智慧在习得收获经验之果过程中的作用。" translatedTo "It is associated to the action of the planet Mercury, the letter T, the number 5. It represents the elemental intelligence in its labor of knowing how to harvest the fruits of experience."))
         add(Transcendental("“吾之磨坊，为吾磨粉，亦为邻人磨粉”" translatedTo "“My mill is grinding flour for me and flour for my neighbor.”"))
@@ -293,7 +293,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_24 = ComponentListSupplier {
         // 织者
-        setTranslationPrefix("The Weaver")
+        setTranslationPrefix("Tarot-The Weaver")
         add(Description("织者正培育家庭美德，象征身为家庭与荣誉守护者的勤勉女性。" translatedTo "The weaver in the act of cultivating domestic virtues. Symbolizes the diligent woman as keeper of home and honor."))
         add(Modulating("关联于金星的运行、字母U及数字6，代表元素智慧在将努力运用于所学之物成果过程中的作用。" translatedTo "It is associated with the action of the planet Venus, the letter U, and the number 6. It represents the elemental intelligence in its labor of applying exertion to the fruits of learned things."))
         add(Transcendental("“吾之织机，织网不绝；一布为吾之荣誉，一布为致敬之礼。”" translatedTo "“My loom is weaving net after net; a cloth for my honor and cloth to honor.”"))
@@ -304,7 +304,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_25 = ComponentListSupplier {
         // 阿尔戈英雄
-        setTranslationPrefix("The Argonaut")
+        setTranslationPrefix("Tarot-The Argonaut")
         add(Description("阿尔戈英雄正航行探索未知之地，象征人类凭借自身灵感所具之美德。" translatedTo "The argonaut in the act of sailing in search of the unknown. Symbolizes the virtue of a human’s own inspiration."))
         add(Modulating("关联于海王星、字母V及数字7，代表勇敢面对未知危险的人。" translatedTo "It is associated to the planet Neptune, the letter V, and the number 7. It represents the valiant man who confronts the dangers of the unknown."))
         add(Transcendental("“吾之航船，持续航行；昼亦航行，夜亦航行。”" translatedTo "“My boat is sailing, sailing persistently; sailing by night, sailing by day.”"))
@@ -315,7 +315,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_26 = ComponentListSupplier {
         // 奇能者
-        setTranslationPrefix("The Prodigy")
+        setTranslationPrefix("Tarot-The Prodigy")
         add(Description("奇能者正完成创举，象征人类创造惊人之物、探寻奇妙之境所具之美德。" translatedTo "The prodigy in the act of consummation. Symbolizes the human virtue of creating what is astounding and which searches the marvelous."))
         add(Modulating("关联于土星、字母X及数字8，代表时间作为正义与显化之力的作用。" translatedTo "It is associated to the planet Saturn, the letter X, and the number 8. It represents the action of time as justice and power of manifestation."))
         add(Transcendental("“时有撕裂，时有缝补；时有缄默，时有言说。”" translatedTo "“A time to rend, and a time to sew; a time to keep silence, and a time to speak.”"))
@@ -326,7 +326,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_27 = ComponentListSupplier {
         // 意外者
-        setTranslationPrefix("The Unexpected")
+        setTranslationPrefix("Tarot-The Unexpected")
         add(Description("意外者正显现身形，象征人类潜意识运作过程所具之美德。" translatedTo "The unexpected in the act of becoming manifested. Symbolizes the virtue of subconscious human processes."))
         add(Modulating("关联于火星、字母Y及数字9，代表内在生命作为外在世界决定因素的存在。" translatedTo "It is associated to the planet Mars, the letter Y, and the number 9. It represents inner life as a determining cause of the outer."))
         add(Transcendental("“勿以过多蜜糖增甜，勿以虚妄荣耀立身。”" translatedTo "“Neither excess honey to sweeten, nor vainglory to thrive.”"))
@@ -337,7 +337,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_28 = ComponentListSupplier {
         // 犹疑者
-        setTranslationPrefix("Uncertainty")
+        setTranslationPrefix("Tarot-Uncertainty")
         add(Description("犹疑者处于斟酌权衡之中，象征人类自主决断所具之美德。" translatedTo "Uncertainty in the act of deliberation. Symbolizes the virtue of a human’s own determination."))
         add(Modulating("关联于冥王星、字母Z及数字1，代表判断力作为行为决定因素的作用。" translatedTo "It is associated to the planet Pluto, the letter Z, and the number 1. It represents judgment as a determinant cause of acts."))
         add(Transcendental("“勿于他人处寻汝自身所有，亦勿于自身处寻他人所有。”" translatedTo "“Do not seek in others for what is in thee; neither seek in thee for what is in others.”"))
@@ -348,7 +348,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_29 = ComponentListSupplier {
         // 居家者
-        setTranslationPrefix("Domesticity")
+        setTranslationPrefix("Tarot-Domesticity")
         add(Description("居家者处于和睦共处之中，象征人类借由劝服实现掌控所具之美德。" translatedTo "Domesticity as an act of concord. Symbolizes the virtue of human domination by means of persuasion."))
         add(Modulating("关联于月亮、字母B及数字2，代表自然之安宁、元素之平衡、田园之喜乐。" translatedTo "It is associated to the Moon, the letter B, and the number 2. It represents Nature’s peace, equilibrium of elements, pastoral joy."))
         add(Transcendental("“愿汝之眼眸化为青春之眸，愿汝之言语化为长者之智。”" translatedTo "“Let your eyes become youthful eyes, and let thy word become an elder’s prudence.”"))
@@ -359,7 +359,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_30 = ComponentListSupplier {
         // 交易者
-        setTranslationPrefix("Exchange")
+        setTranslationPrefix("Tarot-Exchange")
         add(Description("交易者处于互惠互利之中，象征人类社会生活所具之美德。" translatedTo "Exchange as an act of reciprocal convenience. Symbolizes the virtue of human life in society."))
         add(Modulating("关联于木星、字母C及数字3，代表借由商业往来实现的个体拓展。" translatedTo "It is associated to the planet Jupiter, the letter C, and the number 3. It represents individual expansion by means of commercial conviviality."))
         add(Transcendental("“悉心耕种汝之土地，勿以贪婪收取汝之物产。”" translatedTo "“Reap thy land carefully, but do not harvest your goods with avarice.”"))
@@ -370,7 +370,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_31 = ComponentListSupplier {
         // 阻碍者
-        setTranslationPrefix("Impediments")
+        setTranslationPrefix("Tarot-Impediments")
         add(Description("阻碍者成为提升自身效能的动力，象征人类对抗阻力时所具之反应美德。" translatedTo "Impediments as incentives for the developing of one’s own efficiency. Symbolizes the virtue of human reaction against the opposition."))
         add(Modulating("关联于天王星、字母CH及数字4，代表净化原则作为进步要素的作用。" translatedTo "It is associated to the planet Uranus, the letters CH, and the number 4. It represents the principle of depuration as an element of progress."))
         add(Transcendental("“勿行无情之评判，亦勿为无断之宽恕。”" translatedTo "“Do not pass merciless judgment, neither have mercy without judgment.”"))
@@ -381,7 +381,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_32 = ComponentListSupplier {
         // 盛显者
-        setTranslationPrefix("Magnificence")
+        setTranslationPrefix("Tarot-Magnificence")
         add(Description("盛显者处于物质共享之中，象征人类彰显自身价值所具之美德。" translatedTo "Magnificence as an act of material communion. Symbolizes the virtue of evidencing a human’s own value."))
         add(Modulating("关联于水星、字母D及数字5，代表炫耀原则作为引发争议原因的作用。" translatedTo "It is associated to the planet Mercury, the letter D, and the number 5. It represents the principle of ostentation as a cause of discussion."))
         add(Transcendental("“竭尽汝之才智，勿竭汝之善心。”" translatedTo "“Exhaust the resources of thine intelligence, but do not exhaust those of thine heart.”"))
@@ -392,7 +392,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_33 = ComponentListSupplier {
         // 同盟者
-        setTranslationPrefix("Alliance")
+        setTranslationPrefix("Tarot-Alliance")
         add(Description("同盟者处于平等共融之中，象征人类借由同一性实现亲和所具之美德。" translatedTo "Alliance as an act of communion between equals. Symbolizes the virtue of human affinity through identity."))
         add(Modulating("关联于金星、字母E及数字6，代表借由联合实现自我成就的原则。" translatedTo "It is associated to the planet Venus, the letter E, and the number 6. It represents the principle of one’s own realization by means of association."))
         add(Transcendental("“为青春之爱喜悦，更为成熟之爱欢欣。”" translatedTo "“Rejoice with the love of thy youth, and rejoice even more with the love of thine maturity.”"))
@@ -403,7 +403,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_34 = ComponentListSupplier {
         // 革新者
-        setTranslationPrefix("Innovation")
+        setTranslationPrefix("Tarot-Innovation")
         add(Description("革新者作为进化的要素，象征人类坚定不移努力所具之美德。" translatedTo "Innovation as an element of evolution. Symbolizes the virtue of undeviating human effort."))
         add(Modulating("关联于海王星、字母F及数字7，代表以自我启发为行动指引的原则。" translatedTo "It is associated to the planet Neptune, the letter F, and the number 7. It represents the principle of self-inspiration as guidance for activities."))
         add(Transcendental("“长寿在汝右手，功业荣誉在汝左手。”" translatedTo "“Length of days upon thy right hand and works and honor upon thy left.”"))
@@ -414,7 +414,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_35 = ComponentListSupplier {
         // 悲戚者
-        setTranslationPrefix("Grief")
+        setTranslationPrefix("Tarot-Grief")
         add(Description("悲戚者作为道德苦楚的表现，象征人类苦难在净化作用中所具之美德。" translatedTo "Grief as an act of moral affliction. Symbolizes the virtue of human tribulation in its depurating action."))
         add(Modulating("关联于土星、字母G及数字8，代表认知自身不足的原则。" translatedTo "It is associated to the planet Saturn, the letter G, and the number 8. It represents the principle of the knowledge of one’s own insufficiency."))
         add(Transcendental("“当下之物源于过往，过往之物即为当下。”" translatedTo "“That which is now comes from that which has been, and what has been is what shall be now.”"))
@@ -425,7 +425,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_36 = ComponentListSupplier {
         // 启蒙者
-        setTranslationPrefix("Initiation")
+        setTranslationPrefix("Tarot-Initiation")
         add(Description("启蒙者作为焕发生机的行为，象征人类力量逐步实现所具之美德。" translatedTo "Initiation as a revivifying act. Symbolizes the virtue of progressive actualization of human powers."))
         add(Modulating("关联于火星、字母H及数字9，代表培养自身美德的原则。" translatedTo "It is associated to the planet Mars, the letter H, and the number 9. It represents the principle of developing one’s own virtues."))
         add(Transcendental("“研习可乐，歌唱可乐，聆听可乐。”" translatedTo "“Pleasant is the studio, pleasant it is to sing, pleasant it is to listen.”"))
@@ -436,7 +436,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_37 = ComponentListSupplier {
         // 艺智者
-        setTranslationPrefix("Art and Science")
+        setTranslationPrefix("Tarot-Art and Science")
         add(Description("艺智者作为个体进化的要素，象征人类借由自律推动进步所具之美德。" translatedTo "Art and science as factors of individual evolution. Symbolizes the virtue of a human’s own discipline as an element of progress."))
         add(Modulating("关联于太阳、字母I及数字1，代表借由应用知识实现创造的原则。" translatedTo "It is associated to the Sun, the letter I, and the number 1. It represents the principle of creation by means of applied knowledge."))
         add(Transcendental("“应许之地在吾眼前，愿吾双足助吾抵达。”" translatedTo "“Behold the Promised Land before mine eyes; help me, oh foot, to arrive there.”"))
@@ -447,7 +447,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_38 = ComponentListSupplier {
         // 双态者
-        setTranslationPrefix("Biplicity")
+        setTranslationPrefix("Tarot-Biplicity")
         add(Description("双态者作为聪慧的表现，象征人类主动获取知识所具之美德。" translatedTo "Biplicity as an act of sagacity. Symbolizes the human virtue of knowledge voluntarily induced."))
         add(Modulating("关联于月亮、字母J及数字2，代表以对立事物为比较与选择要素的原则。" translatedTo "It is associated to the Moon, the letter J, and the number 2. It represents the principle of the antonymous as an element of comparison and selection."))
         add(Transcendental("“贤德女子，见汝行事者，未必皆见汝美德。”" translatedTo "“Virtuous woman, not all of those who see thy works can see thy virtues.”"))
@@ -458,7 +458,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_39 = ComponentListSupplier {
         // 见证者
-        setTranslationPrefix("Testimony")
+        setTranslationPrefix("Tarot-Testimony")
         add(Description("见证者作为无可辩驳的证据，象征人类借由验证获取证明所具之美德。" translatedTo "Testimony as an irrecusable evidence. Symbolizes the human virtue of verification for proof."))
         add(Modulating("关联于木星、字母K及数字3，代表以论证为信服要素的原则。" translatedTo "It is associated to the planet Jupiter, the letter K, and the number 3. It represents the principle of demonstration as an element of conviction."))
         add(Transcendental("“让汝之意图在自身面前作证，让汝之行事在他人面前作证。”" translatedTo "“Place thy intentions as witnesses before thyself; however, place thy works as witnesses before others.”"))
@@ -469,7 +469,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_40 = ComponentListSupplier {
         // 预感者
-        setTranslationPrefix("Presentiment")
+        setTranslationPrefix("Tarot-Presentiment")
         add(Description("预感者作为本能的认知，象征人类预先知晓未来之事所具之美德。" translatedTo "Presentiment as an instinctual knowledge. Symbolizes the human virtue of anticipated knowledge of what shall occur."))
         add(Modulating("关联于天王星、字母L及数字4，代表以预知为自然能力的原则。" translatedTo "It is associated to the planet Uranus, the letter L, and the number 4. It represents the principle of prescience as a natural faculty."))
         add(Transcendental("“勿做眼目贪吝之男，勿做耳根谄媚之女。”" translatedTo "“Do not be a man with open eyes to covetousness, nor a woman with open ears to flattery.”"))
@@ -480,7 +480,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_41 = ComponentListSupplier {
         // 不安者
-        setTranslationPrefix("Uneasiness")
+        setTranslationPrefix("Tarot-Uneasiness")
         add(Description("不安者作为沮丧的态度，象征人类始终追求至善所具之美德。" translatedTo "Uneasiness as an act of disheartened attitude. Symbolizes the human virtue of always seeking for the best."))
         add(Modulating("关联于水星、字母LL及数字5，代表城市生活的原则。" translatedTo "It is associated to the planet Mercury, the letters LL, and the number 5. It represents the principle of urban life."))
         add(Transcendental("“强者之弓已断，弱者之弓得力。”" translatedTo "“The bows of the mighty ones were broken, and the bows of the weak were fitted with strength.”"))
@@ -491,7 +491,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_42 = ComponentListSupplier {
         // 卓越者
-        setTranslationPrefix("Preeminence")
+        setTranslationPrefix("Tarot-Preeminence")
         add(Description("卓越者作为对优越性的认可，象征人类接纳等级秩序所具之美德。" translatedTo "Preeminence as acknowledgment of superiority. Symbolizes the human virtue of acceptation of hierarchical order."))
         add(Modulating("关联于金星、字母M及数字6，代表权力与自愿服从的原则。" translatedTo "It is associated to the planet Venus, the letter M, and the number 6. It represents the principle of power and voluntary obedience."))
         add(Transcendental("“若身处至尊之位、手握至强之权，当配至优之德。”" translatedTo "“If utmost in dignity and power, be then utmost in thy merits.”"))
@@ -502,7 +502,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_43 = ComponentListSupplier {
         // 想象者
-        setTranslationPrefix("Imagination")
+        setTranslationPrefix("Tarot-Imagination")
         add(Description("想象者作为愉悦的欣喜之举，象征人类表达满足所具之美德。" translatedTo "Imagination as a heartened rejoicing act. Symbolizes the human virtue of the expression of contentment."))
         add(Modulating("关联于海王星、字母N及数字7，代表由诱发思想构成的创造原则。" translatedTo "It is associated to the planet Neptune, the letter N, and the number 7. It represents the creative principle of induced ideas."))
         add(Transcendental("“吾心之喜乐，饰吾之容颜。”" translatedTo "“Joyfulness of my heart, beautify my face.”"))
@@ -513,7 +513,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_44 = ComponentListSupplier {
         // 思想者
-        setTranslationPrefix("Thought")
+        setTranslationPrefix("Tarot-Thought")
         add(Description("思想作为创造的要素，象征人类为可理解之物赋予可感知形态所具之美德。" translatedTo "Thought as a creative element. Symbolizes the human virtue of giving sensible shape to that whose shape is intelligible."))
         add(Modulating("关联于土星、字母Ñ（涅）及数字8，代表自我塑造的创造原则。" translatedTo "It is associated to the planet Saturn, the letter Ñ, and the number 8. It represents the creative principle of self-edification."))
         add(Transcendental("“以智克疑，怀望享己之所有。”" translatedTo "“Overcome suspicion wisely, and enjoy what is yours in hope.”"))
@@ -524,7 +524,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_45 = ComponentListSupplier {
         // 重生者
-        setTranslationPrefix("Regeneration")
+        setTranslationPrefix("Tarot-Regeneration")
         add(Description("重生作为反复之举，象征人类铭记过往、预判未来所具之美德。" translatedTo "Regeneration as a reiterative act. Symbolizes the human virtue of remembering the past and preventing the future."))
         add(Modulating("关联于火星、字母O及数字9，代表记忆与具象化的原则。" translatedTo "It is associated to the planet Mars, the letter O, and the number 9. It represents the principle of memorization and visualization."))
         add(Transcendental("“万物适时则美，熟透则香。”" translatedTo "“Everything is beautiful in its time, and everything is flavorful in its ripeness.”"))
@@ -535,7 +535,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_46 = ComponentListSupplier {
         // 遗产者
-        setTranslationPrefix("Patrimony")
+        setTranslationPrefix("Tarot-Patrimony")
         add(Description("遗产作为延续之举，象征人类借由继承获得所有所具之美德。" translatedTo "Patrimony as an act of continuity. Symbolizes the human virtue of possession by inheritance."))
         add(Modulating("关联于太阳、字母P及数字1，代表自然延续的原则。" translatedTo "It is associated to the Sun, the letter P, and the number 1. It represents the principle of natural prosecution."))
         add(Transcendental("“安于小者，自启丰裕之门。”" translatedTo "“The one who is content in the little will open the doors of plethora.”"))
@@ -546,7 +546,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_47 = ComponentListSupplier {
         // 演绎者
-        setTranslationPrefix("Deduction")
+        setTranslationPrefix("Tarot-Deduction")
         add(Description("演绎作为认知之举，象征人类借由自身灵感获得认知所具之美德。" translatedTo "Deduction as an act of knowledge. Symbolizes the human virtue of knowing by means of one’s own inspiration."))
         add(Modulating("关联于月亮、字母Q及数字2，代表作为启迪要素的演绎原则。" translatedTo "It is associated to the Moon, the letter Q, and the number 2. It represents the principle of deduction as an element of illumination."))
         add(Transcendental("“于光中闪耀、于火中承热，此乃汝今时及往后之使命。”" translatedTo "“To be resplendent in the light and the heat in the fire is now thy mission, and from now on.”"))
@@ -557,7 +557,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_48 = ComponentListSupplier {
         // 圆满者
-        setTranslationPrefix("Consummation")
+        setTranslationPrefix("Tarot-Consummation")
         add(Description("圆满作为圆满之举，象征人类自身确信所具之美德。" translatedTo "The consummation as an act of plenitude. Symbolizes the human virtue of one’s own conviction."))
         add(Modulating("关联于木星、字母R及数字3，代表行为决断的原则。" translatedTo "It is associated to the planet Jupiter, the letter R, and the number 3. It represents the principle of determination of conduct."))
         add(Transcendental("“饮汝蓄水池之滴，或汝泉眼之流。”" translatedTo "“Drink the drops of thy cistern or the flowing of thy well.”"))
@@ -568,7 +568,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_49 = ComponentListSupplier {
         // 多能者
-        setTranslationPrefix("Versatility")
+        setTranslationPrefix("Tarot-Versatility")
         add(Description("多能作为互惠之举，象征人类等价对应所具之美德。" translatedTo "Versatility as an act of reciprocity. It symbolizes the human virtue of correspondence in equivalents."))
         add(Modulating("关联于天王星、字母S及数字4，代表作为繁荣要素的置换原则。" translatedTo "It is associated to the planet Uranus, the letter S, and the number 4. It represents the principle of permutation as element of prosperity."))
         add(Transcendental("“欣然劳作之人，其劳作可乐；应得闲暇者，其闲暇可乐。”" translatedTo "“Pleasant is the work to whom labors with contentment, and pleasant is the leisure to the one who deserves it.”"))
@@ -579,7 +579,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_50 = ComponentListSupplier {
         // 亲和者
-        setTranslationPrefix("Affinity")
+        setTranslationPrefix("Tarot-Affinity")
         add(Description("亲和作为唤醒情感的有效动因，象征人类个人吸引力所具之美德。" translatedTo "Affinity as an efficient cause for the awakening of emotions. Symbolizes the human virtue of personal attractiveness."))
         add(Modulating("关联于水星、字母T及数字5，代表作为行为调节力量的自然诱因原则。" translatedTo "It is associated to the planet Mercury, the letter T, and the number 5. It represents the principle of natural incentive as a modulating power of actions."))
         add(Transcendental("“女子啊，汝乃火中之烬；男子啊，汝乃燃烬之风。”" translatedTo "“Woman, thou art an ember in the fire; and thou, man, the wind that livens it.”"))
@@ -590,7 +590,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_51 = ComponentListSupplier {
         // 献策者
-        setTranslationPrefix("Counseling")
+        setTranslationPrefix("Tarot-Counseling")
         add(Description("献策作为审慎建议之举，象征人类尊崇知识、对所知负责所具之美德。" translatedTo "Counseling as an act of prudent advice. Symbolizes the human virtue of reverence to knowledge and responsibility of what one knows."))
         add(Modulating("关联于金星、字母U及数字6，代表对既定秩序尊崇的原则。" translatedTo "It is associated to the planet Venus, the letter U, and the number 6. It represents the principle of respect to established order."))
         add(Transcendental("“智者之言可比白银，而听从践行者可比黄金。”" translatedTo "“Unto silver is likened the word uttered by the sage, yet unto gold is likened the one who listens and follows him.”"))
@@ -601,7 +601,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_52 = ComponentListSupplier {
         // 谋算者
-        setTranslationPrefix("Premeditation")
+        setTranslationPrefix("Tarot-Premeditation")
         add(Description("谋算作为谋划之举，象征人类预先构想渴望结果所具之美德。" translatedTo "Premeditation as an act of calculation. Symbolizes the human virtue that preconceives the longed-for results."))
         add(Modulating("关联于海王星、字母V及数字7，代表要素评估的原则。" translatedTo "It is associated to the planet Neptune, the letter V, and the number 7. It represents the principle of evaluation of factors."))
         add(Transcendental("“汝之一言一语皆当用心，然勿将所有言语皆藏于心。”" translatedTo "“Place thine heart in all thy words, but do not place all the words within thine heart.”"))
@@ -612,7 +612,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_53 = ComponentListSupplier {
         // 怨恨者
-        setTranslationPrefix("Resentment")
+        setTranslationPrefix("Tarot-Resentment")
         add(Description("怨恨作为心碎之举，象征人类自我防卫所具之美德。" translatedTo "Resentment as a wounded heartened act. Symbolizes the human virtue of one’s own defense."))
         add(Modulating("关联于土星、字母X及数字8，代表报复原则。" translatedTo "It is associated to the planet Saturn, the letter X, and the number 8. It represents the reprisal principle."))
         add(Transcendental("“勿挥复仇之剑，亦勿惧惩戒之剑。”" translatedTo "“Do not swing a revengeful sword, neither fear the corrective sword.”"))
@@ -623,7 +623,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_54 = ComponentListSupplier {
         // 审视者
-        setTranslationPrefix("Examination")
+        setTranslationPrefix("Tarot-Examination")
         add(Description("审视作为关乎结果的振奋性斟酌，象征人类秉持正义行事所具之美德。" translatedTo "Examination as a heartening deliberation upon conclusion. Symbolizes the human virtue of proceeding with justice."))
         add(Modulating("关联于火星、字母Y及数字9，代表自由探讨的原则。" translatedTo "It is associated to the planet Mars, the letter Y, and the number 9. It represents the principle of free debate."))
         add(Transcendental("“遍历汝乡，拾取遗穗，然勿寻怨，亦勿积过。”" translatedTo "“Search around thy village and harvest the fallen grains, but do not search for resentments, neither collect misdemeanors.”"))
@@ -634,7 +634,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_55 = ComponentListSupplier {
         // 悔悟者
-        setTranslationPrefix("Contrition")
+        setTranslationPrefix("Tarot-Contrition")
         add(Description("悔悟作为忏悔之举，象征人类承认自身过错所具之美德。" translatedTo "Contrition as an act of repentance. Symbolizes the human virtue of recognizing one’s own error."))
         add(Modulating("关联于冥王星、字母A及数字1，代表主动弥补的原则。" translatedTo "It is associated to the planet Pluto, the letter A, and the number 1. It represents the principle of voluntary repair."))
         add(Transcendental("“勿在汝果园播杂种，亦勿在汝心收获之。”" translatedTo "“Do not sow an assortment of seeds in thine orchard, neither harvest them within thine heart.”"))
@@ -645,7 +645,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_56 = ComponentListSupplier {
         // 朝圣者
-        setTranslationPrefix("Pilgrimage")
+        setTranslationPrefix("Tarot-Pilgrimage")
         add(Description("朝圣作为内在净化之举，象征人类承受苦难所具之美德。" translatedTo "Pilgrimage as an act of interior purification. Symbolizes the human virtue of affliction."))
         add(Modulating("关联于月亮、字母B及数字2，代表自我救赎的原则。" translatedTo "It is associated to the Moon, the letter B, and the number 2. It represents the principle of one’s own redemption."))
         add(Transcendental("“慰藉受苦者，振奋其心；处自身患难，亦当保持热忱。”" translatedTo "“Hearten and comfort the afflicted one, and keep thyself enthused within thine own tribulations.”"))
@@ -656,7 +656,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_57 = ComponentListSupplier {
         // 竞争者
-        setTranslationPrefix("Rivalry")
+        setTranslationPrefix("Tarot-Rivalry")
         add(Description("竞争作为对手间的较量之举，象征人类自我尊重所具之美德。" translatedTo "Rivalry as a proof of competition between opponents. Symbolizes the human virtue of one’s own esteem."))
         add(Modulating("关联于木星、字母C及数字3，代表技艺能力的原则。" translatedTo "It is associated to the planet Jupiter, the letter C, and the number 3. It represents the principle of skill."))
         add(Transcendental("“义人虽七次跌倒，若其真为义人，必七次兴起。”" translatedTo "“For a just man falls seven times, and if he indeed is just, seven times he rises up again.”"))
@@ -667,7 +667,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_58 = ComponentListSupplier {
         // 重整者
-        setTranslationPrefix("Requalification")
+        setTranslationPrefix("Tarot-Requalification")
         add(Description("重整作为重新考量事实之举，象征人类权衡对立双方所具之美德。" translatedTo "Requalification as an act of reconsideration of facts. Symbolizes the human virtue of evaluation of opposites."))
         add(Modulating("关联于天王星、字母CH及数字4，代表通过检验推测的原则。" translatedTo "It is associated to the planet Uranus, the letters CH, and the number 4. It represents the principle of conjecturing by exam."))
         add(Transcendental("“若邻人令汝困惑，当与己心商讨此事。”" translatedTo "“If thy neighbor leaves thee confused, consult the case with thine own heart.”"))
@@ -678,7 +678,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_59 = ComponentListSupplier {
         // 启示者
-        setTranslationPrefix("Revelation")
+        setTranslationPrefix("Tarot-Revelation")
         add(Description("启示作为揭露隐秘之举，象征人类使不可理解之物变得可理解所具之美德。" translatedTo "Revelation as an act of unveiling the hidden. Symbolizes the human virtue of making intelligible that which was unintelligible."))
         add(Modulating("关联于水星、字母D及数字5，代表显化呈现的原则。" translatedTo "It is associated to the planet Mercury, the letter D, and the number 5. It represents the principle of manifestation."))
         add(Transcendental("“金属经火试炼，人值亦经赞誉或指责者之口试炼。”" translatedTo "“As the metals are tested in the fire, likewise the value of a man is tested in the mouth of who praises or censures him.”"))
@@ -689,7 +689,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_60 = ComponentListSupplier {
         // 进化者
-        setTranslationPrefix("Evolution")
+        setTranslationPrefix("Tarot-Evolution")
         add(Description("进化作为转变的过程，象征人类意识逐步觉醒所具之美德。" translatedTo "Evolution as a process of transformation. Symbolizes the human virtue of the successive awakening of the consciousness."))
         add(Modulating("关联于金星、字母E及数字6，代表形态转变的原则。" translatedTo "It is associated to the planet Venus, the letter E, and the number 6. It represents the principle of metamorphosis."))
         add(Transcendental("“播种者与浇灌者，于种子而言无别。”" translatedTo "“The one who sows and the one who waters the sown are the same to the seed.”"))
@@ -700,7 +700,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_61 = ComponentListSupplier {
         // 独处者
-        setTranslationPrefix("Solitude")
+        setTranslationPrefix("Tarot-Solitude")
         add(Description("独处作为振奋性专注之举，象征人类内在沉思所具之美德。" translatedTo "Solitude as an act of heartening concentration. Symbolizes the human virtue of interior contemplation."))
         add(Modulating("关联于海王星、字母F及数字7，代表隔绝独处的原则。" translatedTo "It is associated to the planet Neptune, the letter F, and the number 7. It represents the principle of isolation."))
         add(Transcendental("“清偿汝所欠；向征税者缴税，向敬拜者致敬，向尊贵者献礼。”" translatedTo "“Pay what thou owe; pay tax to the tax collector, pay worship to the worshiper, and pay honors to the honorable.”"))
@@ -711,7 +711,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_62 = ComponentListSupplier {
         // 放逐者
-        setTranslationPrefix("Proscription")
+        setTranslationPrefix("Tarot-Proscription")
         add(Description("放逐作为驱散之举，象征人类抵制并排斥有害之物所具之美德。" translatedTo "Proscription as an act of dispersion. Symbolizes the human virtue of counteracting and pushing away the harmful."))
         add(Modulating("关联于土星、字母G及数字8，代表互斥不相容的原则。" translatedTo "It is associated to the planet Saturn, the letter G, and the number 8. It represents the principle of incompatibility."))
         add(Transcendental("“守口者，自守其魂。”" translatedTo "“The one who guards his tongue guards his soul.”"))
@@ -722,7 +722,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_63 = ComponentListSupplier {
         // 共融者
-        setTranslationPrefix("Communion")
+        setTranslationPrefix("Tarot-Communion")
         add(Description("共融作为伙伴联结与认可之举，象征人类分享所具之美德。" translatedTo "Communion as an act of partnership and recognition. Symbolizes the human virtue of sharing."))
         add(Modulating("关联于火星、字母H及数字9，代表多样性中的统一原则。" translatedTo "It is associated to the planet Mars, the letter H, and the number 9. It represents the principle of unity within diversity."))
         add(Transcendental("“予欲播种而无种者以种子，予欲成功而无方者以忠告。”" translatedTo "“Give a seed to the one who wants to sow and does not have it, and advice to the one who wants to succeed and does not know how.”"))
@@ -733,7 +733,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_64 = ComponentListSupplier {
         // 热忱者
-        setTranslationPrefix("Zeal")
+        setTranslationPrefix("Tarot-Zeal")
         add(Description("热忱作为振奋昂扬的表达，象征人类热切渴望所具之美德。" translatedTo "Zeal as an heartening, exalted expression. Symbolizes the human virtue of a fervent longing."))
         add(Modulating("关联于太阳、字母A及数字1，代表内在火焰原则。" translatedTo "It is associated to the Sun, the letter A, and the number 1. It represents the inner fire principle."))
         add(Transcendental("“坚毅即智慧，动力乃推动其之渴望。”" translatedTo "“Fortitude is wisdom, and power the longing that moves it.”"))
@@ -744,7 +744,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_65 = ComponentListSupplier {
         // 求知者
-        setTranslationPrefix("Learning")
+        setTranslationPrefix("Tarot-Learning")
         add(Description("求知作为教诲与警示之举，象征人类借由经验获取知识所具之美德。" translatedTo "Learning as a teaching and warning. Symbolizes the human virtue of knowledge through experience."))
         add(Modulating("关联于月亮、字母J及数字2，代表自我约束原则。" translatedTo "It is associated to the Moon, the letter J, and the number 2. It represents the principle of one’s own discipline."))
         add(Transcendental("“无论昼夜，为己增识者，亦增其忧。”" translatedTo "“Day or night the one who increases knowledge for his own good also increases his sorrow.”"))
@@ -755,7 +755,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_66 = ComponentListSupplier {
         // 困惑者
-        setTranslationPrefix("Perplexity")
+        setTranslationPrefix("Tarot-Perplexity")
         add(Description("困惑作为抉择时的犹豫之举，象征人类抉择所具之美德。" translatedTo "Perplexity as an act of indecision when choosing. Symbolizes the human virtue of selection."))
         add(Modulating("关联于木星、字母K及数字3，代表决议中的评估原则。" translatedTo "It is associated to the planet Jupiter, the letter K, and the number 3. It represents the principle of appraisal in resolutions."))
         add(Transcendental("“搬石者必为石伤，劈木者必为木危。”" translatedTo "“Whosoever removes stones shall be hurt therewith, and he that cleaves wood shall be endangered thereby.”"))
@@ -766,7 +766,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_67 = ComponentListSupplier {
         // 友善者
-        setTranslationPrefix("Friendship")
+        setTranslationPrefix("Tarot-Friendship")
         add(Description("友善作为情感中奉献的行动，象征人类尊崇所具之美德。" translatedTo "Friendship as an action of devotion in affection. Symbolizes the human virtue of veneration."))
         add(Modulating("关联于天王星、字母L及数字4，代表纯粹之爱原则。" translatedTo "It is associated to the planet Uranus, the letter L, and the number 4. It represents the principle of pure love."))
         add(Transcendental("“援手施与快，践诺脚步疾，携此二者，吾可处山丘亦可处幽谷。”" translatedTo "“A quick hand to give and a fast foot to fulfill, with you, both, I am on the hill or in the valley.”"))
@@ -777,7 +777,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_68 = ComponentListSupplier {
         // 思辨者
-        setTranslationPrefix("Speculation")
+        setTranslationPrefix("Tarot-Speculation")
         add(Description("思辨作为价值评估之举，象征人类推理所具之美德。" translatedTo "Speculation as an act of appraisal for value. Symbolizes the human virtue of reasoning."))
         add(Modulating("关联于水星、字母LL及数字5，代表定向勤勉原则。" translatedTo "It is associated to the planet Mercury, the letters LL, and the number 5. It represents the principle of directed diligence."))
         add(Transcendental("“愿汝目视无惧，汝手行有爱。”" translatedTo "“May thine eyes see without fear and thine hands with love.”"))
@@ -788,7 +788,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_69 = ComponentListSupplier {
         // 机遇者
-        setTranslationPrefix("Chance")
+        setTranslationPrefix("Tarot-Chance")
         add(Description("机遇作为本能可知的法则，象征人类超验认知所具之美德。" translatedTo "Chance as a law known by the instinct. Symbolizes the human virtue of transcendental knowledge."))
         add(Modulating("关联于金星、字母M及数字6，代表以基础能力为人生指引的原则。" translatedTo "It is associated to the planet Venus, the letter M, and the number 6. It represents the principle of the primary faculties as guidance in the way of life."))
         add(Transcendental("“凡劳作皆有其果，凡果实皆有其劳。”" translatedTo "“There is a fruit in any labor, and there is a labor in any fruit.”"))
@@ -799,7 +799,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_70 = ComponentListSupplier {
         // 合作者
-        setTranslationPrefix("Cooperation")
+        setTranslationPrefix("Tarot-Cooperation")
         add(Description("合作作为共同努力的协作之举，象征人类懂得互补所具之美德。" translatedTo "Cooperation as an act of collaboration in effort. Symbolizes the human virtue of knowing how to complement each other."))
         add(Modulating("关联于海王星、字母N及数字7，代表互惠原则。" translatedTo "It is associated to the planet Neptune, the letter N, and the number 7. It represents the principle of reciprocity."))
         add(Transcendental("“无人无学识，无学识无人。”" translatedTo "“There is no man without science, neither science without man.”"))
@@ -810,7 +810,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_71 = ComponentListSupplier {
         // 贪婪者
-        setTranslationPrefix("Avarice")
+        setTranslationPrefix("Tarot-Avarice")
         add(Description("贪婪作为算计性的自私之举，象征人类对权力渴望所具的扭曲美德。" translatedTo "Avarice as a calculative selfish act. Symbolizes a twisted human virtue of the longing for power."))
         add(Modulating("关联于土星、字母S及数字8，代表预防原则。" translatedTo "It is associated to the planet Saturn, the letter S, and the number 8. It represents the principle of prevention."))
         add(Transcendental("“贪婪本贪婪，以苦难解渴，虽丰却不悦。”" translatedTo "“Greedy is greed, quenched with miseries and unpleasantly abundant.”"))
@@ -821,7 +821,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_72 = ComponentListSupplier {
         // 净化者
-        setTranslationPrefix("Purification")
+        setTranslationPrefix("Tarot-Purification")
         add(Description("净化作为净化之举，象征人类自我塑造所具之美德。" translatedTo "Purification as a depurative act. Symbolizes the human virtue of self-edification."))
         add(Modulating("关联于火星、字母O及数字9，代表自我解放原则。" translatedTo "It is associated to the planet Mars, the letter O, and the number 9. It represents the principle of one’s own liberation."))
         add(Transcendental("“听父之教诲，守母之训诫。”" translatedTo "“Listen to the doctrine of thy father and forsake not the law of thy mother.”"))
@@ -832,7 +832,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_73 = ComponentListSupplier {
         // 爱欲者
-        setTranslationPrefix("Love and Desire")
+        setTranslationPrefix("Tarot-Love and Desire")
         add(Description("爱与欲望作为自然的驱动力，象征人类拥有带来愉悦之物所具之美德。" translatedTo "Love and desire as natural stimuli. Symbolizes the human virtue of possessing the elements that provide delight."))
         add(Modulating("关联于太阳、字母P及数字1，代表自然科学原则。" translatedTo "It is associated to the Sun, the letter P, and the number 1. It represents the principle of natural science."))
         add(Transcendental("“吾织机之梭，织就吾衣之布。”" translatedTo "“Shuttle of my loom, weaving the cloth that shall become my coat.”"))
@@ -843,7 +843,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_74 = ComponentListSupplier {
         // 奉献者
-        setTranslationPrefix("Offering")
+        setTranslationPrefix("Tarot-Offering")
         add(Description("奉献作为祈福之举，象征人类向至高者致敬所具之美德。" translatedTo "The offering as a propitiatory act. Symbolizes the human virtue of rendering cult to the highest."))
         add(Modulating("关联于月亮、字母Q及数字2，代表崇敬之爱原则。" translatedTo "It is associated to the Moon, the letter Q, and the number 2. It represents the reverent love principle."))
         add(Transcendental("“汝予受苦者之物，当如精面置于汝佳盘。”" translatedTo "“Like an offering of flour on the best of thy plates must be thy giving to the afflicted heart.”"))
@@ -854,7 +854,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_75 = ComponentListSupplier {
         // 慷慨者
-        setTranslationPrefix("Generosity")
+        setTranslationPrefix("Tarot-Generosity")
         add(Description("慷慨作为高尚之举，象征人类大方所具之美德。" translatedTo "Generosity as a high-minded act. Symbolizes the human virtue of liberality."))
         add(Modulating("关联于木星、字母R及数字3，代表无私原则。" translatedTo "It is associated to the planet Jupiter, the letter R, and the number 3. It represents the principle of abnegation."))
         add(Transcendental("“果实悦口，无论收受，皆甘甜。”" translatedTo "“Fruits pleasant to the palate, so sweet when receiving or giving them.”"))
@@ -865,7 +865,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_76 = ComponentListSupplier {
         // 施予者
-        setTranslationPrefix("The Dispenser")
+        setTranslationPrefix("Tarot-The Dispenser")
         add(Description("施予者正施行恩惠，象征人类仁慈所具之美德。" translatedTo "The dispenser in the act of distributing grace. Symbolizes the human virtue of mercy."))
         add(Modulating("关联于天王星、字母S及数字4，代表人类眷顾原则。" translatedTo "It is associated to the planet Uranus, the letter S, and the number 4. It represents the principle of human providence."))
         add(Transcendental("“异乡人啊，请来吾处，食吾之饼，享吾族之羹。”" translatedTo "“Approach us, foreigner, and eat thereof from our bread and from the sauce of my people.”"))
@@ -876,7 +876,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_77 = ComponentListSupplier {
         // 迷失者
-        setTranslationPrefix("Disorientation")
+        setTranslationPrefix("Tarot-Disorientation")
         add(Description("迷失作为忍耐之举，象征人类认知与反思所具之美德。" translatedTo "Disorientation as an act of forbearance. Symbolizes the human virtue of acknowledgement and reflection."))
         add(Modulating("关联于水星、字母T及数字5，代表观念联想原则。" translatedTo "It is associated to the planet Mercury, the letter T, and the number 5. It represents the principle of association of ideas."))
         add(Transcendental("“勤勉之足需路径，辛劳之手需工具。”" translatedTo "“Paths are requested for a diligent foot, and tools for a laborious hand.”"))
@@ -887,7 +887,7 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
 
     val TarotArcanum_78 = ComponentListSupplier {
         // 复兴者
-        setTranslationPrefix("Renaissance")
+        setTranslationPrefix("Tarot-Renaissance")
         add(Description("复兴作为启蒙之举，象征人类实现接连卓越所具之美德。" translatedTo "Renaissance as an act of initiation. Symbolizes the human virtue of attaining successive pre-eminences."))
         add(Modulating("关联于金星、字母U及数字6，代表自然进化原则。" translatedTo "It is associated to the planet Venus, the letter U, and the number 6. It represents the principle of natural evolution."))
         add(Transcendental("“正午之阳，午夜之月，无论吉凶，皆当感恩。”" translatedTo "“Sun of midday, moon of midnight, thank goodness for good or bad fortune.”"))
