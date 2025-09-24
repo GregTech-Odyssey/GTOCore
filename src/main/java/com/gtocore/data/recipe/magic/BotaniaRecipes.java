@@ -768,7 +768,7 @@ public final class BotaniaRecipes {
                         .inputItems("botania:mana_pearl", 2)
                         .inputItems(gem, GTOMaterials.ManaDiamond, 2)
                         .outputItems(ingot, GTOMaterials.Terrasteel, 3)
-                        // .inputFluids(GTOMaterials.Terrasteel, 144)
+                        .notConsumableFluid(GTOMaterials.Terrasteel, 144)
                         .MANAt(512)
                         .duration(400)
                         .save();
@@ -779,7 +779,7 @@ public final class BotaniaRecipes {
                         .inputItems(ingot, OriginalBronze, 2)
                         .inputItems(ItemsRegistry.MANIPULATION_ESSENCE, 2)
                         .outputItems(ingot, GTOMaterials.Thaumium, 3)
-                        // .inputFluids(GTOMaterials.Thaumium, 144)
+                        .notConsumableFluid(GTOMaterials.Thaumium, 144)
                         .MANAt(512)
                         .duration(400)
                         .save();
@@ -789,7 +789,7 @@ public final class BotaniaRecipes {
                         .inputItems(BotaniaItems.pixieDust, 2)
                         .inputItems(BotaniaItems.dragonstone, 2)
                         .outputItems(ingot, Alfsteel, 3)
-                        // .inputFluids(GTOMaterials.Alfsteel, 144)
+                        .notConsumableFluid(GTOMaterials.Alfsteel, 144)
                         .MANAt(1536)
                         .duration(400)
                         .save();
@@ -807,7 +807,7 @@ public final class BotaniaRecipes {
                         .inputItems(ingot, Alfsteel, 6)
                         .inputItems(ingot, Runerock, 6)
                         .outputItems(ingot, Gaiasteel, 9)
-                        // .inputFluids(GTOMaterials.Gaiasteel, 576)
+                        .notConsumableFluid(GTOMaterials.Gaiasteel, 576)
                         .MANAt(2560)
                         .duration(400)
                         .save();
@@ -816,7 +816,7 @@ public final class BotaniaRecipes {
                         .inputItems(ingot, Gaiasteel, 4)
                         .inputItems(BotaniaItems.lifeEssence, 4)
                         .outputItems(ingot, Gaia, 6)
-                        // .inputFluids(GTOMaterials.Gaia, 288)
+                        .notConsumableFluid(GTOMaterials.Gaia, 288)
                         .MANAt(5120)
                         .duration(400)
                         .save();
@@ -825,7 +825,7 @@ public final class BotaniaRecipes {
                         .inputItems(BotaniaItems.enderAirBottle, 2)
                         .inputItems(gem, Dragonstone, 2)
                         .inputItems(Items.PHANTOM_MEMBRANE.asItem(), 2)
-                        // .inputFluids(GTOMaterials.Aerialite, 144)
+                        .notConsumableFluid(GTOMaterials.Aerialite, 144)
                         .outputItems(ingot, Aerialite, 3)
                         .MANAt(256)
                         .duration(200)
