@@ -1,7 +1,7 @@
 package com.gtocore.common.network;
 
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
-import com.gtocore.integration.ae.IConfirmLongMenu;
+import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
 
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.player.IEnhancedPlayer;

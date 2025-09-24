@@ -1,6 +1,6 @@
-package com.gtocore.mixin.ae2.gui;
+package com.gtocore.mixin.ae2.screen;
 
-import com.gtocore.integration.ae.IConfirmLongMenu;
+import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;

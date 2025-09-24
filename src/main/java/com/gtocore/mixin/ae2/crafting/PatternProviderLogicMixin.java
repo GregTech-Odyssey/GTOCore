@@ -41,7 +41,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
-import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 @Mixin(value = PatternProviderLogic.class, remap = false)
 public abstract class PatternProviderLogicMixin implements IPatternProviderLogic {
@@ -116,14 +116,13 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         }
     }
 
-    /// -1 means the provider doesn't contain this pattern or is not active.
-    /// -2 means the provider contains this pattern, but for some reason it can't push it now.
     @Override
-    public int gtolib$pushPattern(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, IntSupplier pushPatternSuccess) {
-        if (!this.mainNode.isActive() || !this.patterns.contains(patternDetails)) return -1;
+    public PushResult gtolib$pushPattern(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess) {
+        if (!this.mainNode.isActive()) return PushResult.GRID_NODE_MISSING;
+        if (!this.patterns.contains(patternDetails)) return PushResult.PATTERN_DOES_NOT_EXIST;
         var be = host.getBlockEntity();
         var cache = IDirectionCacheBlockEntity.getBlockEntityDirectionCache(be);
-        if (cache == null) return -2;
+        if (cache == null) return PushResult.REJECTED;
         var setting = configManager.getSetting(GTOSettings.BLOCKING_TYPE);
         if (setting == BlockingType.ALL || setting == BlockingType.CONTAIN) {
             pushedCount = 1;
@@ -131,7 +130,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
             pushedCount = 1024;
         }
         BooleanSupplier canPush = () -> getCraftingLockedReason() == LockCraftingMode.NONE && sendList.isEmpty();
-        if (!canPush.getAsBoolean()) return -2;
+        if (!canPush.getAsBoolean()) return PushResult.PATTERN_PROVIDER_LOCKED;
 
         gtolib$currentPattern = patternDetails;
 
@@ -146,7 +145,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                 var craftingMachine = ICraftingMachine.of(level, pos.relative(direction), adjBeSide, adjBe);
                 if (craftingMachine != null) {
                     var result = gtolib$pushCraftingMachine(craftingMachine, patternDetails, inputHolder, pushPatternSuccess, adjBeSide);
-                    if (result > 0) return result;
+                    if (result.needBreak()) return result;
                 }
             } else {
                 if (adjBe instanceof MetaMachineBlockEntity machineBlockEntity) {
@@ -166,8 +165,8 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                             for (var target : targets) {
                                 if (target.containsPatternInput(patternInputs)) continue;
                                 var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, false);
-                                if (result > 0) return result;
-                                if (result == 0) done = false;
+                                if (result.needBreak()) return result;
+                                if (result == PushResult.SUCCESS) done = false;
                             }
                             if (done) break;
                         }
@@ -175,17 +174,17 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                         var target = PatternProviderTargetCache.find(adjBe, this, adjBeSide, actionSource, 0);
                         if (target == null || target.containsPatternInput(patternInputs)) continue;
                         var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
-                        if (result > 0) return result;
+                        if (result.needBreak()) return result;
                     }
                 } else {
                     var target = findAdapter(direction);
                     if (target == null || target.containsPatternInput(patternInputs)) continue;
                     var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
-                    if (result > 0) return result;
+                    if (result.needBreak()) return result;
                 }
             }
         }
-        return -2;
+        return PushResult.NOWHERE_TO_PUSH;
     }
 
     /**
@@ -198,20 +197,20 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     }
 
     @Unique
-    private int gtolib$pushCraftingMachine(ICraftingMachine craftingMachine, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, IntSupplier pushPatternSuccess, Direction adjBeSide) {
+    private PushResult gtolib$pushCraftingMachine(ICraftingMachine craftingMachine, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, Direction adjBeSide) {
         while (true) {
             if (inputHolder.value != null && craftingMachine.acceptsPlans() && craftingMachine.pushPattern(patternDetails, inputHolder.value, adjBeSide)) {
                 onPushPatternSuccess(patternDetails);
-                var result = pushPatternSuccess.getAsInt();
-                if (result > 0) return result;
+                var result = pushPatternSuccess.get();
+                if (result.needBreak()) return result;
                 continue;
             }
-            return -1;
+            return PushResult.REJECTED;
         }
     }
 
     @Unique
-    private int gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, IntSupplier pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
+    private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
         int count = this.pushedCount;
         while (count > 0) {
             count--;
@@ -228,16 +227,16 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                 }
                 onPushPatternSuccess(patternDetails);
                 this.sendDirection = direction;
-                var result = pushPatternSuccess.getAsInt();
-                if (result > 0) return result;
+                var result = pushPatternSuccess.get();
+                if (result.needBreak()) return result;
                 if (canPush.getAsBoolean()) {
                     if (continuous) continue;
-                    return 0;
+                    return PushResult.SUCCESS;
                 }
             }
-            return -1;
+            return PushResult.REJECTED;
         }
-        return -1;
+        return PushResult.REJECTED;
     }
 
     /**

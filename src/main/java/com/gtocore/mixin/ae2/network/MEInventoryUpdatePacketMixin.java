@@ -1,6 +1,6 @@
-package com.gtocore.mixin.ae2;
+package com.gtocore.mixin.ae2.network;
 
-import com.gtocore.integration.ae.IConfirmLongMenu;
+import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
 
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 

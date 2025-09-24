@@ -1,4 +1,4 @@
-package com.gtocore.mixin.ae2;
+package com.gtocore.mixin.ae2.network;
 
 import com.gtocore.config.GTOConfig;
 

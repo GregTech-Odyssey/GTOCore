@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.menu;
 
-import com.gtocore.integration.ae.IConfirmLongMenu;
+import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;

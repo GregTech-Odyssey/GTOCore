@@ -1,4 +1,4 @@
-package com.gtocore.integration.ae;
+package com.gtocore.integration.ae.hooks;
 
 import net.minecraft.server.level.ServerPlayer;
 

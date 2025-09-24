@@ -3,6 +3,7 @@ package com.gtocore.common.network;
 import com.gtocore.client.ClientCache;
 import com.gtocore.common.machine.monitor.Manager;
 import com.gtocore.config.GTOConfig;
+import com.gtocore.integration.ae.hooks.IPushResultsHandler;
 import com.gtocore.integration.emi.EmiPersist;
 
 import com.gtolib.GTOCore;
@@ -76,6 +77,11 @@ public final class ServerMessage {
                 var monitorData = data.readNbt();
                 if (monitorData != null && player.level().isClientSide) {
                     Manager.onClientReceived(monitorData);
+                }
+            }
+            case "craftMenuPushResults" -> {
+                if (player.containerMenu.containerId == data.readInt() && player.containerMenu instanceof IPushResultsHandler handler) {
+                    handler.gtocore$syncCraftingResults(data);
                 }
             }
         }

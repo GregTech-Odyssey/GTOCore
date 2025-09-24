@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.gui;
 
-import com.gtocore.integration.ae.IConfirmLongMenu;
+import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
