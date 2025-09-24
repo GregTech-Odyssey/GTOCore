@@ -568,13 +568,39 @@ public final class MultiBlockH {
             .shapeInfos((controller) -> {
                 List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
                 MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
-                        .aisle("aaaaa").aisle("abbba").aisle("abbba").aisle("abbba").aisle("ac~da")
+                        .aisle("ac~da")
+                        .aisle("abbba")
+                        .aisle("abbba")
+                        .aisle("abbba")
+                        .aisle("aaaaa")
                         .where('a', GTBlocks.STEEL_HULL)
                         .where('b', GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING)
-                        .where('~', MultiBlockH.LARGE_STEAM_SOLAR_BOILER, Direction.SOUTH)
-                        .where('c', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.SOUTH)
-                        .where('d', GTMachines.FLUID_EXPORT_HATCH[GTValues.LV], Direction.SOUTH);
+                        .where('~', MultiBlockH.LARGE_STEAM_SOLAR_BOILER, Direction.NORTH)
+                        .where('c', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.NORTH)
+                        .where('d', GTMachines.FLUID_EXPORT_HATCH[GTValues.LV], Direction.NORTH);
                 shapeInfos.add(builder.build());
+                MultiblockShapeInfo.ShapeInfoBuilder builder2 = MultiblockShapeInfo.builder()
+                        .aisle("aaaaaac~daaaaaa")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("abbbbbbbbbbbbba")
+                        .aisle("aaaaaaaaaaaaaaa")
+                        .where('a', GTBlocks.STEEL_HULL)
+                        .where('b', GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING)
+                        .where('~', MultiBlockH.LARGE_STEAM_SOLAR_BOILER, Direction.NORTH)
+                        .where('c', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.NORTH)
+                        .where('d', GTMachines.FLUID_EXPORT_HATCH[GTValues.LV], Direction.NORTH);
+                shapeInfos.add(builder2.build());
                 return shapeInfos;
             })
             .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/multiblock_tank"))

@@ -120,6 +120,9 @@ public final class BotaniaRecipes {
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")) });
 
+            RunicAltarRecipe("transmutation_catalyst", 10000000, new ItemStack(GTOBlocks.TRANSMUTATION_CATALYST), false,
+                    new Ingredient[] { Ingredient.of(GTOItems.PHILOSOPHERS_STONE), Ingredient.of(GTOItems.PHILOSOPHERS_STONE), Ingredient.of(GTOItems.PHILOSOPHERS_STONE),
+                            Ingredient.of(GTOItems.PHILOSOPHERS_STONE), Ingredient.of(GTOItems.PHILOSOPHERS_STONE), Ingredient.of(GTOItems.PHILOSOPHERS_STONE) });
         }
 
         // 泰拉凝聚板
@@ -591,6 +594,13 @@ public final class BotaniaRecipes {
                     .inputItems("mythicbotany:helheim_rune", 4)
                     .save();
 
+            INDUSTRIAL_ALTAR_RECIPES.builder("transmutation_catalyst")
+                    .inputItems(BotaniaBlocks.livingrock.asItem())
+                    .outputItems(GTOBlocks.TRANSMUTATION_CATALYST)
+                    .duration(1200)
+                    .MANAt(40000)
+                    .inputItems(GTOItems.PHILOSOPHERS_STONE, 6)
+                    .save();
         }
 
         // 工业祭坛 - 花药台
@@ -754,59 +764,59 @@ public final class BotaniaRecipes {
                         .save();
 
                 MANA_CONDENSER_RECIPES.builder("terrasteel_ingot")
-                        .inputItems(ingot, GTOMaterials.Manasteel)
-                        .inputItems("botania:mana_pearl")
-                        .inputItems(gem, GTOMaterials.ManaDiamond)
+                        .inputItems(ingot, GTOMaterials.Manasteel, 2)
+                        .inputItems("botania:mana_pearl", 2)
+                        .inputItems(gem, GTOMaterials.ManaDiamond, 2)
                         .outputItems(ingot, GTOMaterials.Terrasteel, 3)
-                        .inputFluids(GTOMaterials.Terrasteel, 144)
+                        // .inputFluids(GTOMaterials.Terrasteel, 144)
                         .MANAt(512)
                         .duration(400)
                         .save();
 
                 MANA_CONDENSER_RECIPES.builder("thaumium_ingot")
-                        .inputItems(ingot, Livingsteel)
-                        .inputItems(ItemsRegistry.SOURCE_GEM)
-                        .inputItems(ingot, OriginalBronze)
-                        .inputItems(ItemsRegistry.MANIPULATION_ESSENCE)
+                        .inputItems(ingot, Livingsteel, 2)
+                        .inputItems(ItemsRegistry.SOURCE_GEM, 2)
+                        .inputItems(ingot, OriginalBronze, 2)
+                        .inputItems(ItemsRegistry.MANIPULATION_ESSENCE, 2)
                         .outputItems(ingot, GTOMaterials.Thaumium, 3)
-                        .inputFluids(GTOMaterials.Thaumium, 144)
+                        // .inputFluids(GTOMaterials.Thaumium, 144)
                         .MANAt(512)
                         .duration(400)
                         .save();
 
                 MANA_CONDENSER_RECIPES.builder("alfsteel_ingot")
-                        .inputItems(BotaniaItems.elementium)
-                        .inputItems(BotaniaItems.pixieDust)
-                        .inputItems(BotaniaItems.dragonstone)
+                        .inputItems(BotaniaItems.elementium, 2)
+                        .inputItems(BotaniaItems.pixieDust, 2)
+                        .inputItems(BotaniaItems.dragonstone, 2)
                         .outputItems(ingot, Alfsteel, 3)
-                        .inputFluids(GTOMaterials.Alfsteel, 144)
+                        // .inputFluids(GTOMaterials.Alfsteel, 144)
                         .MANAt(1536)
                         .duration(400)
                         .save();
 
                 MANA_CONDENSER_RECIPES.builder("gaiasteel_ingot")
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:asgard_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:midgard_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune"))
-                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:helheim_rune"))
-                        .inputItems(ingot, Alfsteel, 3)
-                        .inputItems(ingot, Runerock, 3)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:asgard_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:midgard_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune"), 2)
+                        .inputItems(RegistriesUtils.getItemStack("mythicbotany:helheim_rune"), 2)
+                        .inputItems(ingot, Alfsteel, 6)
+                        .inputItems(ingot, Runerock, 6)
                         .outputItems(ingot, Gaiasteel, 9)
-                        .inputFluids(GTOMaterials.Gaiasteel, 576)
+                        // .inputFluids(GTOMaterials.Gaiasteel, 576)
                         .MANAt(2560)
                         .duration(400)
                         .save();
 
                 MANA_CONDENSER_RECIPES.builder("gaia_ingot")
-                        .inputItems(ingot, Gaiasteel, 2)
-                        .inputItems(BotaniaItems.lifeEssence, 2)
+                        .inputItems(ingot, Gaiasteel, 4)
+                        .inputItems(BotaniaItems.lifeEssence, 4)
                         .outputItems(ingot, Gaia, 6)
-                        .inputFluids(GTOMaterials.Gaia, 288)
+                        // .inputFluids(GTOMaterials.Gaia, 288)
                         .MANAt(5120)
                         .duration(400)
                         .save();
@@ -815,6 +825,7 @@ public final class BotaniaRecipes {
                         .inputItems(BotaniaItems.enderAirBottle, 2)
                         .inputItems(gem, Dragonstone, 2)
                         .inputItems(Items.PHANTOM_MEMBRANE.asItem(), 2)
+                        // .inputFluids(GTOMaterials.Aerialite, 144)
                         .outputItems(ingot, Aerialite, 3)
                         .MANAt(256)
                         .duration(200)
@@ -839,6 +850,8 @@ public final class BotaniaRecipes {
                 ElfExchangeRecipe(4, "zwei", 4000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.zweiRewardBag, 400));
                 ElfExchangeRecipe(5, "drei", 6000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.dreiRewardBag, 50));
                 ElfExchangeRecipe(6, "vier", 6000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.vierRewardBag, 50));
+
+                ElfExchangeRecipe(7, "philosophers_stone", 20000, 600, new ItemStack(ExtraBotanyItems.heroMedal, 64), new ItemStack(GTOItems.PHILOSOPHERS_STONE));
             }
         }
     }

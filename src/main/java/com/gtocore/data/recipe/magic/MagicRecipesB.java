@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.magic;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeCategories;
 
 import net.minecraft.world.item.Item;
 
@@ -82,7 +83,7 @@ public class MagicRecipesB {
                         .inputItems(GTOItems.ENCHANTMENT_ESSENCE[i])
                         .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
                         .outputItems(GTOItems.ENCHANTMENT_ESSENCE[0])
-                        .addData("essence_recovery", true)
+                        .category(GTORecipeCategories.ESSENCE_RECOVERY)
                         .duration(20)
                         .EUt(8)
                         .save();
@@ -93,7 +94,7 @@ public class MagicRecipesB {
                         .inputItems(GTOItems.AFFIX_ESSENCE[i])
                         .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
                         .outputItems(GTOItems.AFFIX_ESSENCE[0])
-                        .addData("essence_recovery", true)
+                        .category(GTORecipeCategories.ESSENCE_RECOVERY)
                         .duration(20)
                         .EUt(8)
                         .save();
