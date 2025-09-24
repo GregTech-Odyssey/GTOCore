@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.generated;
 
+import com.gtocore.common.data.GTORecipeCategories;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -49,6 +50,7 @@ final class GTODisposableToolHandler {
                     .inputFluids(fluidStack)
                     .outputItems(tool.item, durability / tool.consume)
                     .EUt(30)
+                    .category(GTORecipeCategories.THREE_DIMENSIONAL_PRINTER_RECIPES_DISPOSABLE)
                     .duration((int) material.getMass()).EUt(VA[ULV])
                     .save();
         }
