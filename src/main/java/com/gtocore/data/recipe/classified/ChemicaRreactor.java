@@ -1618,6 +1618,7 @@ final class ChemicaRreactor {
                 .duration(120)
                 .save();
         CHEMICAL_RECIPES.builder("ammonium_bromide_dust")
+                .circuitMeta(1)
                 .outputItems(TagPrefix.dust, GTOMaterials.AmmoniumBromide, 6)
                 .inputFluids(GTOMaterials.HydrobromicAcid, 1000)
                 .inputFluids(GTMaterials.Ammonia, 1000)
