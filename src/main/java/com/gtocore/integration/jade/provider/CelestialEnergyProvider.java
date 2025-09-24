@@ -52,16 +52,14 @@ public final class CelestialEnergyProvider extends CapabilityBlockProvider<Celes
         int voidflux = capData.getInt("voidflux");
         int maxCapacity = capData.getInt("max_capacity");
 
-        if (solaris > 0 || lunara > 0 || voidflux > 0) {
-            if (solaris > 0) {
-                tooltip.add(Component.translatable("gtocore.celestial_condenser.solaris", (solaris + "/" + maxCapacity)));
-            }
-            if (lunara > 0) {
-                tooltip.add(Component.translatable("gtocore.celestial_condenser.lunara", (lunara + "/" + maxCapacity)));
-            }
-            if (voidflux > 0) {
-                tooltip.add(Component.translatable("gtocore.celestial_condenser.voidflux", (voidflux + "/" + maxCapacity)));
-            }
+        if (solaris > 0) {
+            tooltip.add(Component.translatable("gtocore.celestial_condenser.solaris", (solaris + "/" + maxCapacity)));
+        }
+        if (lunara > 0) {
+            tooltip.add(Component.translatable("gtocore.celestial_condenser.lunara", (lunara + "/" + maxCapacity)));
+        }
+        if (voidflux > 0) {
+            tooltip.add(Component.translatable("gtocore.celestial_condenser.voidflux", (voidflux + "/" + maxCapacity)));
         }
     }
 }

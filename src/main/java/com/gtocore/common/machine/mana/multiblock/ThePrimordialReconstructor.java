@@ -175,6 +175,9 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             find = true;
         }
 
+        // 电路4强行粉碎
+        if (circuit == 4) find = true;
+
         return generateMaterials(nbt, outputsItems) || find;
     }
 
@@ -645,7 +648,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 Item materialType = RARITY_MATERIAL_MAP.getOrDefault(RARITIES[i], RARITY_MATERIAL_MAP.get("default"));
                 GemSynthesisRecipeBuilder.inputItems(gem);
                 GemSynthesisRecipeBuilder.inputItems(materialType, count * 3);
-                GemSynthesisRecipeBuilder.inputItems(Adventure.Items.GEM_DUST.get(), count * 7);
+                GemSynthesisRecipeBuilder.inputItems(Adventure.Items.GEM_DUST.get(), count * (i * 2 + 1));
 
                 String originalRarity = getGemRarity(gem);
                 int currentIndex = -1;

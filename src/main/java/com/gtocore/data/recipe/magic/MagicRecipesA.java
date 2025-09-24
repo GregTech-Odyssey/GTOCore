@@ -599,8 +599,23 @@ public final class MagicRecipesA {
                     .inputItems(Enchantment.getEnchantedBookBySerialNumber(40, 1))
                     .inputItems(Enchantment.getEnchantedBookBySerialNumber(76, 1))
                     .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
-                    .inputFluids(Aether.getFluid(GAS, 1000))
-                    .circuitMeta(6)
+                    .inputFluids(Aether.getFluid(LIQUID, 1000))
+                    .duration(200)
+                    .MANAt(32)
+                    .save();
+
+            ASSEMBLER_RECIPES.builder("heretical_mechanical_casing_2")
+                    .inputItems(ENCHANTMENT_ESSENCE[2])
+                    .inputItems(ENCHANTMENT_ESSENCE[9])
+                    .inputItems(ENCHANTMENT_ESSENCE[14])
+                    .inputItems(ENCHANTMENT_ESSENCE[34])
+                    .inputItems(GTOBlocks.ORIGINAL_BRONZE_CASING, 4)
+                    .inputItems(ENCHANTMENT_ESSENCE[35])
+                    .inputItems(ENCHANTMENT_ESSENCE[37])
+                    .inputItems(ENCHANTMENT_ESSENCE[40])
+                    .inputItems(ENCHANTMENT_ESSENCE[76])
+                    .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
+                    .inputFluids(Aether.getFluid(LIQUID, 1000))
                     .duration(200)
                     .MANAt(32)
                     .save();
@@ -622,7 +637,7 @@ public final class MagicRecipesA {
                     .save();
 
             ASSEMBLER_RECIPES.builder("mana_condenser")
-                    .inputItems(ManaMachine.MANA_HULL[GTValues.EV].asStack())
+                    .inputItems(ManaMachine.MANA_HULL[GTValues.IV].asStack())
                     .inputItems(GTItems.FIELD_GENERATOR_HV.asStack(2))
                     .inputItems(CustomTags.HV_CIRCUITS)
                     .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
@@ -691,7 +706,7 @@ public final class MagicRecipesA {
                     .inputItems("botania:agricarnation", 32)
                     .inputItems("botania:hopperhock", 16)
                     .inputItems("botania:rune_spring", 4)
-                    .inputItems(TagPrefix.gear, GTOMaterials.Gaia, 8)
+                    .inputItems(TagPrefix.gear, GTOMaterials.Elementium, 8)
                     .inputItems(TagPrefix.gemExquisite, GTOMaterials.Dragonstone, 16)
                     .inputItems("botania:fertilizer", 64)
                     .outputItems(ManaMultiBlock.MANA_GREENHOUSE.asStack())

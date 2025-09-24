@@ -1,25 +1,18 @@
 package com.gtocore.common.machine.mana.multiblock;
 
-import com.gtocore.common.data.GTOItems;
-
-import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +21,7 @@ import java.util.List;
 import static com.gtolib.utils.MachineUtils.getHatchParallel;
 import static com.lowdragmc.lowdraglib.LDLib.random;
 
-public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine implements IStorageMultiblock {
+public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
 
     @Persisted
     private final int[] probabilityParams = { 10000, 10000, 10000 };
@@ -37,24 +30,17 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine im
 
     private boolean perfectProbability = false;
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(LargeAlchemicalDeviceMachine.class, ManaMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Persisted
-    private final NotifiableItemStackHandler machineStorage;
-
     private double timeReduction = 0.4;
 
     public LargeAlchemicalDeviceMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        machineStorage = createMachineStorage(stack -> stack.getItem() == GTOItems.BIOWARE_MAINFRAME.asItem());
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("transmutation_catalyst");
-        if (container != null) if (container.getValue() == 7) perfectProbability = true;
-        onMachineChanged();
+        perfectProbability = (getSubFormedAmount() == 1);
+        timeReduction = (getSubFormedAmount() == 1) ? 0.01 : 0.4;
     }
 
     @Override
@@ -152,31 +138,6 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine im
                     Math.round(probabilityParams[i] * 0.66f + targetParams[i] * 0.34f),
                     0, 20000);
         }
-    }
-
-    @Override
-    public int getSlotLimit() {
-        return 1;
-    }
-
-    @Override
-    public @NotNull Widget createUIWidget() {
-        return createUIWidget(super.createUIWidget());
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
-    public NotifiableItemStackHandler getMachineStorage() {
-        return this.machineStorage;
-    }
-
-    @Override
-    public void onMachineChanged() {
-        timeReduction = getStorageStack().getItem() == GTOItems.BIOWARE_MAINFRAME.asItem() ? 0.01 : 0.4;
     }
 
     @Override

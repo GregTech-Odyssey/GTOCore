@@ -7,9 +7,10 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BiomeTags;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -85,15 +86,15 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
             } else {
                 timing--;
             }
-            if (clearSky) increase(world, pos);
+            if (clearSky) increase(world);
         }
     }
 
-    private void increase(Level world, BlockPos pos) {
+    private void increase(Level world) {
         int sky = 0;
-        if (world.getBiome(pos.above()).is(BiomeTags.IS_END)) sky = 3;
+        if (world.dimension().equals(Level.END)) sky = 3;
         else if (world.isDay()) sky = 1;
-        else if (!world.isDay()) sky = 2;
+        else if (world.isNight()) sky = 2;
         switch (sky) {
             case 1 -> solaris = Math.min(max_capacity, solaris + 10);
             case 2 -> lunara = Math.min(max_capacity, lunara + 10);
@@ -103,10 +104,21 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
 
     private static boolean hasClearSky(Level world, BlockPos pos) {
         BlockPos checkPos = pos.above();
-        if (!world.canSeeSky(checkPos)) return false;
+        if (!canSeeSky(world, pos)) return false;
+        if (world.dimension().equals(Level.END)) return true;
         Biome biome = world.getBiome(checkPos).value();
         boolean hasPrecipitation = world.isRaining() && (biome.warmEnoughToRain(checkPos) || biome.coldEnoughToSnow(checkPos));
         return !hasPrecipitation;
+    }
+
+    private static boolean canSeeSky(Level world, BlockPos blockPos) {
+        int maxY = world.getMaxBuildHeight();
+        BlockPos.MutableBlockPos checkPos = blockPos.mutable().move(Direction.UP);
+        while (checkPos.getY() < maxY) {
+            if (!world.getBlockState(checkPos).getBlock().equals(Blocks.AIR)) return false;
+            checkPos.move(Direction.UP);
+        }
+        return true;
     }
 
     public int getSolaris() {

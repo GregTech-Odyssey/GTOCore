@@ -1481,9 +1481,9 @@ object GTOMachineTooltips {
     val LargeAlchemicalDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("large_alchemical_device")
 
-        section("结构中的密封机械方块可以被嬗变催化剂替代" translatedTo "The sealed mechanical blocks in the structure can be replaced by transmutation catalysts")
-        content("当安装7个嬗变催化剂时，机器将激活完美嬗变模式" translatedTo "When 7 transmutation catalysts are installed, the machine will activate perfect transmutation mode")
-        command(("当安装" translatedTo "When installed").gold() + ("生物活性主机" translatedTo "Bioware Processor Mainframe").scrollBioware() + ("时，机器将获得0.01x耗时减免" translatedTo " the machine will gain 0.01x Duration reduction").gold())
+        section(ComponentSlang.AfterModuleInstallation)
+        increase("激活完美嬗变模式" translatedTo "Activate perfect transmutation mode")
+        increase("获得0.01x耗时减免" translatedTo "Gain 0.01x Duration reduction")
     }
 
     // 快中子增殖堆

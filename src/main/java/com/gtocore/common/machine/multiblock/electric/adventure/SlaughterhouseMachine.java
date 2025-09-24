@@ -134,7 +134,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
 
             if (c == 3) {
                 forEachInputItems(itemStack -> {
-                    if (activeWeapon.isEmpty() && itemStack.getItem() instanceof SwordItem swordItem) {
+                    if (itemStack.getItem() instanceof SwordItem swordItem) {
                         int attack = (int) swordItem.getDamage();
                         if (attackDamage < attack) {
                             attackDamage = attack;

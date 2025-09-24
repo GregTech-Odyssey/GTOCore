@@ -77,7 +77,12 @@ public class Enchantment {
     // 根据serialNumber获取enchantmentId
     public static String getEnchantmentIdBySerialNumber(int serialNumber) {
         EnchantmentRecord record = findBySerialNumber(serialNumber);
-        return record != null ? record.enchantmentId() : "null";
+        return record != null ? record.enchantmentId() : "original";
+    }
+
+    // 根据精粹数量
+    public static int getEnchantmentSize() {
+        return initializeEnchantmentRecords().size();
     }
 
     // 获取附魔书
@@ -103,7 +108,7 @@ public class Enchantment {
     public static List<EnchantmentRecord> initializeEnchantmentRecords() {
         List<EnchantmentRecord> records = new ArrayList<>();
 
-        records.add(EnchantmentRecord.create(0, "error", 0, "错误", "error"));
+        records.add(EnchantmentRecord.create(0, "original", 0, "原始", "original"));
         records.add(EnchantmentRecord.create(1, "apotheosis:bane_of_illagers", 5, "灾厄村民杀手", "enchantment.apotheosis.bane_of_illagers"));
         records.add(EnchantmentRecord.create(2, "apotheosis:berserkers_fury", 3, "狂战士之怒", "enchantment.apotheosis.berserkers_fury"));
         records.add(EnchantmentRecord.create(3, "apotheosis:capturing", 5, "捕捉", "enchantment.apotheosis.capturing"));
@@ -186,7 +191,7 @@ public class Enchantment {
 
     public static ItemEntry<ApothItem>[] registerEnchantmentEssence() {
         List<EnchantmentRecord> records = initializeEnchantmentRecords();
-        ItemEntry<ApothItem>[] entries = new ItemEntry[records.size()];
+        ItemEntry<ApothItem>[] entries = new ItemEntry[getEnchantmentSize()];
         for (EnchantmentRecord record : records) {
             String id = record.enchantmentId().substring(record.enchantmentId().indexOf(':') + 1);
             String cn = "附魔精粹 " + "(" + record.simplifiedId() + ")";
