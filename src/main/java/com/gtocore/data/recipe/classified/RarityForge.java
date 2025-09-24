@@ -8,11 +8,15 @@ import com.gtolib.utils.TagUtils;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEItems;
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
 
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.RARITY_FORGE_RECIPES;
+import static com.gtocore.common.machine.mana.multiblock.ThePrimordialReconstructor.*;
 
 final class RarityForge {
 
@@ -94,5 +98,49 @@ final class RarityForge {
                 .EUt(32)
                 .duration(400)
                 .save();
+
+        String[] gem = {
+                "apotheosis:core/guardian",
+                "apotheosis:core/ballast",
+                "apotheosis:core/solar",
+                "apotheosis:core/lunar",
+                "apotheosis:core/samurai",
+                "apotheosis:core/warlord",
+                "apotheosis:core/splendor",
+                "apotheosis:core/tyrannical",
+                "apotheosis:core/breach",
+                "apotheosis:core/lightning",
+                "apotheosis:core/slipstream",
+                "apotheosis:core/brawlers",
+                "apotheosis:core/combatant",
+                "apotheosis:overworld/earth",
+                "apotheosis:overworld/royalty",
+                "apotheosis:the_nether/inferno",
+                "apotheosis:the_nether/blood_lord",
+                "apotheosis:the_end/endersurge",
+                "apotheosis:the_end/mageslayer",
+        };
+
+        Item[] MATERIAL = {
+                Adventure.Items.COMMON_MATERIAL.get(),
+                Adventure.Items.UNCOMMON_MATERIAL.get(),
+                Adventure.Items.RARE_MATERIAL.get(),
+                Adventure.Items.EPIC_MATERIAL.get(),
+                Adventure.Items.MYTHIC_MATERIAL.get(),
+                Adventure.Items.ANCIENT_MATERIAL.get(),
+        };
+
+        for (int i = 0; i < 5; i++) {
+            for (String s : gem) {
+                RARITY_FORGE_RECIPES.builder("merge_gem_" + s + "_" + i)
+                        .inputItems(getGem(i, s), 2)
+                        .inputItems(Adventure.Items.GEM_DUST, i * 2 + 1)
+                        .inputItems(MATERIAL[i], 3)
+                        .outputItems(getGem(i + 1, s))
+                        .EUt(VA[i + 3])
+                        .duration(200)
+                        .save();
+            }
+        }
     }
 }
