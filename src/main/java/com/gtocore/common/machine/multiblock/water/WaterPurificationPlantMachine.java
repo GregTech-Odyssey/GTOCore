@@ -52,6 +52,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     static final Fluid GradePurifiedWater6 = GTOMaterials.ElectricEquilibriumWater.getFluid();
     static final Fluid GradePurifiedWater7 = GTOMaterials.DegassedWater.getFluid();
     static final Fluid GradePurifiedWater8 = GTOMaterials.BaryonicPerfectionWater.getFluid();
+    public static final Fluid[] GradePurifiedWater ={GradePurifiedWater1,GradePurifiedWater2,GradePurifiedWater3,GradePurifiedWater4,GradePurifiedWater5,GradePurifiedWater6,GradePurifiedWater7,GradePurifiedWater8};
 
     long availableEu;
 
