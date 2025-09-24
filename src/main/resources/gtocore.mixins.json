@@ -8,7 +8,6 @@
     "adastra.AdAstraOverlayScreenMixin",
     "adastra.PlanetsScreenMixin",
     "ae2.gui.CraftConfirmTableRendererMixin",
-    "ae2.gui.MERequesterNumberFieldMixin",
     "ae2.gui.ProcessingEncodingPanelMixin",
     "ae2.gui.ScreenStyleMixin",
     "ae2.gui.SettingToggleButtonMixin",
@@ -27,6 +26,7 @@
     "gtm.api.recipe.ContentMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
     "mc.OpenContainerMixin",
+    "merequester.NumberFieldMixin",
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
@@ -201,7 +201,8 @@
     "mc.LanguageMixin",
     "mc.SharedConstantsMixin",
     "mc.mob.AbstractSkeletonMixin",
-    "mc.mob.MobMixin"
+    "mc.mob.MobMixin",
+    "merequester.RequestMixin"
   ],
   "injectors": {
     "defaultRequire": 1,

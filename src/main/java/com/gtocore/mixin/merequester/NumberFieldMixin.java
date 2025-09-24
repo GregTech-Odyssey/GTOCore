@@ -1,4 +1,4 @@
-package com.gtocore.mixin.ae2.gui;
+package com.gtocore.mixin.merequester;
 
 import net.minecraft.client.gui.Font;
 
@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.function.Consumer;
 
 @Mixin(NumberField.class)
-public abstract class MERequesterNumberFieldMixin extends ConfirmableTextField {
+public abstract class NumberFieldMixin extends ConfirmableTextField {
 
-    public MERequesterNumberFieldMixin(ScreenStyle style, Font fontRenderer, int x, int y, int width, int height) {
+    public NumberFieldMixin(ScreenStyle style, Font fontRenderer, int x, int y, int width, int height) {
         super(style, fontRenderer, x, y, width, height);
     }
 
