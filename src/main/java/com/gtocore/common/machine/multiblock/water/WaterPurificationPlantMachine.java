@@ -31,9 +31,11 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -189,11 +191,12 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
 
     @Nullable
     private Recipe getRecipe() {
-        long eut = 0;
+        AtomicLong eut = new AtomicLong();
         if (getEnergyContainer().getEnergyStored() < 1000) return null;
         availableEu = getOverclockVoltage();
-        for (ObjectIterator<Object2BooleanMap.Entry<WaterPurificationUnitMachine>> it = waterPurificationUnitMachineMap.object2BooleanEntrySet().fastIterator(); it.hasNext();) {
-            var entry = it.next();
+        waterPurificationUnitMachineMap.object2BooleanEntrySet().stream()
+                .sorted(Comparator.comparingLong(a -> -a.getKey().multiple))
+                .forEach((entry)->{
             var machine = entry.getKey();
             if (machine.isFormed() && !machine.isInValid()) {
                 if (machine.getRecipeLogic().isIdle()) {
@@ -201,15 +204,15 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
                     if (eu > 0) {
                         entry.setValue(true);
                         availableEu -= eu;
-                        eut += eu;
+                        eut.addAndGet(eu);
                     }
                 }
             } else {
-                it.remove();
+                waterPurificationUnitMachineMap.removeBoolean(entry.getKey());
             }
-        }
-        if (eut > 0) {
-            Recipe recipe = getRecipeBuilder().duration(DURATION).EUt(eut).buildRawRecipe();
+        });
+        if (eut.get() > 0) {
+            Recipe recipe = getRecipeBuilder().duration(DURATION).EUt(eut.get()).buildRawRecipe();
             if (RecipeRunner.matchTickRecipe(this, recipe)) {
                 return recipe;
             }

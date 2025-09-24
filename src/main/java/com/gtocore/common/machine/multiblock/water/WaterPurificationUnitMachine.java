@@ -36,7 +36,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     Recipe recipe;
     @Persisted
     long eut;
-    private final long multiple;
+    public final long multiple;
     private final ConditionalSubscriptionHandler tickSubs;
 
     WaterPurificationUnitMachine(MetaMachineBlockEntity holder, long multiple) {
@@ -60,7 +60,8 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     long parallel() {
         WaterPurificationPlantMachine machine = getNetMachine();
         if (machine != null) {
-            return Math.min(super.getParallelLong(), (machine.availableEu << 1) / multiple);
+            var p=Math.min(super.getParallelLong(), (machine.availableEu << 1) / multiple);
+            return p>=1000?p:0;
         }
         return 0;
     }
