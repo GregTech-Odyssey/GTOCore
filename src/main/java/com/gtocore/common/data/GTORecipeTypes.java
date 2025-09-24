@@ -893,7 +893,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType RARITY_FORGE_RECIPES = register("rarity_forge", "珍宝锻炉", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(3, 1, 0, 0)
+            .setMaxIOSize(4, 1, 0, 0)
             .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 

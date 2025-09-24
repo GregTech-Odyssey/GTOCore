@@ -100,25 +100,25 @@ final class RarityForge {
                 .save();
 
         String[] gem = {
-                "apotheosis:core/guardian",
-                "apotheosis:core/ballast",
-                "apotheosis:core/solar",
-                "apotheosis:core/lunar",
-                "apotheosis:core/samurai",
-                "apotheosis:core/warlord",
-                "apotheosis:core/splendor",
-                "apotheosis:core/tyrannical",
-                "apotheosis:core/breach",
-                "apotheosis:core/lightning",
-                "apotheosis:core/slipstream",
-                "apotheosis:core/brawlers",
-                "apotheosis:core/combatant",
-                "apotheosis:overworld/earth",
-                "apotheosis:overworld/royalty",
-                "apotheosis:the_nether/inferno",
-                "apotheosis:the_nether/blood_lord",
-                "apotheosis:the_end/endersurge",
-                "apotheosis:the_end/mageslayer",
+                "core/guardian",
+                "core/ballast",
+                "core/solar",
+                "core/lunar",
+                "core/samurai",
+                "core/warlord",
+                "core/splendor",
+                "core/tyrannical",
+                "core/breach",
+                "core/lightning",
+                "core/slipstream",
+                "core/brawlers",
+                "core/combatant",
+                "overworld/earth",
+                "overworld/royalty",
+                "the_nether/inferno",
+                "the_nether/blood_lord",
+                "the_end/endersurge",
+                "the_end/mageslayer",
         };
 
         Item[] MATERIAL = {
@@ -131,12 +131,13 @@ final class RarityForge {
         };
 
         for (int i = 0; i < 5; i++) {
-            for (String s : gem) {
-                RARITY_FORGE_RECIPES.builder("merge_gem_" + s + "_" + i)
-                        .inputItems(getGem(i, s), 2)
+            for (int j = 0; j < gem.length; j++) {
+                RARITY_FORGE_RECIPES.builder("merge_gem_" + gem[j].replace('/', '_') + "_" + i)
+                        .inputItems(getGem(i, "apotheosis:" + gem[j]), 2)
                         .inputItems(Adventure.Items.GEM_DUST, i * 2 + 1)
                         .inputItems(MATERIAL[i], 3)
-                        .outputItems(getGem(i + 1, s))
+                        .outputItems(getGem(i + 1, "apotheosis:" + gem[j]))
+                        .circuitMeta(j + 1)
                         .EUt(VA[i + 3])
                         .duration(200)
                         .save();

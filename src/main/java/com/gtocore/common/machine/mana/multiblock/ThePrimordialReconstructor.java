@@ -106,15 +106,15 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         forEachInputItems(stack -> {
             CompoundTag nbt = stack.getTag();
             if (nbt != null) {
-                if (circuit == 4 && nbt.contains("Damage"))
+                if (nbt.contains("affix_data") || nbt.contains("Enchantments")) {
                     if (disassembleEquipment(nbt, inputsItems, outputsItems)) {
                         inputsItems.add(stack);
                         count.value++;
-                    } else if (nbt.contains("affix_data") || nbt.contains("Enchantments"))
-                        if (disassembleEquipment(nbt, inputsItems, outputsItems)) {
-                            inputsItems.add(stack);
-                            count.value++;
-                        }
+                    }
+                } else if (circuit == 4 && nbt.contains("Damage")) {
+                    inputsItems.add(stack);
+                    count.value++;
+                }
                 if (circuit == 2 || circuit == 4)
                     if (stack.getItem().equals(Items.ENCHANTED_BOOK.asItem()))
                         if (disassembleEnchantments(nbt, outputsItems)) {
@@ -132,7 +132,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             }
             return false;
         });
-        if (!outputsItems.isEmpty()) {
+        if (!inputsItems.isEmpty() || !outputsItems.isEmpty()) {
             inputsItems.forEach(disassembleRecipeBuilder::inputItems);
             outputsItems.forEach(disassembleRecipeBuilder::outputItems);
             disassembleRecipeBuilder.duration(count.value);
