@@ -44,7 +44,7 @@ public final class ManaMachine {
         ManaMultiBlock.init();
     }
 
-    public static final MachineDefinition[] MANA_HULL = registerTieredManaMachines("mana_machine_hull", tier -> "%s%s".formatted(MANACN[tier], "魔法机器外壳"),
+    public static final MachineDefinition[] MANA_HULL = registerTieredMachines("mana_machine_hull", tier -> "%s%s".formatted(MANACN[tier], "魔法机器外壳"),
             HullMachine::new,
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Machine Hull")
