@@ -33,7 +33,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -77,8 +76,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     @Override
     public void onStructureInvalid() {
         IIWirelessInteractor.removeFromNet(NETWORK, this);
-        for (ObjectIterator<Object2BooleanMap.Entry<WaterPurificationUnitMachine>> it = waterPurificationUnitMachineMap.object2BooleanEntrySet().iterator(); it.hasNext();) {
-            var entry = it.next();
+        for (var entry : waterPurificationUnitMachineMap.object2BooleanEntrySet()) {
             if (entry.getBooleanValue()) {
                 entry.getKey().getRecipeLogic().resetRecipeLogic();
                 entry.setValue(false);
@@ -183,7 +181,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
 
     @Nullable
     private Recipe getRecipe() {
-        AtomicLong eut = new AtomicLong();
+        long eut = 0;
         if (getEnergyContainer().getEnergyStored() < 1000) return null;
         availableEu = getOverclockVoltage();
         for(var it=waterPurificationUnitMachineMap.object2BooleanEntrySet().iterator();it.hasNext();){
@@ -195,15 +193,15 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
                     if (eu > 0) {
                         entry.setValue(true);
                         availableEu -= eu;
-                        eut.addAndGet(eu);
+                        eut += eu;
                     }
                 }
             } else {
                 it.remove();
             }
         }
-        if (eut.get() > 0) {
-            Recipe recipe = getRecipeBuilder().duration(DURATION).EUt(eut.get()).buildRawRecipe();
+        if (eut > 0) {
+            Recipe recipe = getRecipeBuilder().duration(DURATION).EUt(eut).buildRawRecipe();
             if (RecipeRunner.matchTickRecipe(this, recipe)) {
                 return recipe;
             }
