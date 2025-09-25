@@ -17,12 +17,10 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
@@ -35,7 +33,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.electric.AirScrubberMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
 
-import com.lowdragmc.lowdraglib.utils.Position;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -50,11 +47,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.utils.Position;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -239,7 +236,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Override
     public boolean beforeWorking(IWorkableMultiController controller) {
         if (gtolib$invalid()) return true;
-        gtolib$isAshFull = false;
         if (gto$checkAshFull()) {
             for (var c : getControllers()) {
                 if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
@@ -253,6 +249,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     private boolean gto$checkAshFull() {
+        gtolib$isAshFull = false;
         var stack = inventory.getStackInSlot(inventory.getSlots() - 1);
         if (stack.getCount() > 63 || (!stack.isEmpty() && gtocore$lastAsh != null && !stack.is(gtocore$lastAsh.getItem()))) {
             gtolib$isAshFull = true;
@@ -263,7 +260,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     private void gtolib$insertAsh(IWorkableMultiController controller) {
-
         if (gtolib$ASH == null) {
             gtolib$ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
         }
