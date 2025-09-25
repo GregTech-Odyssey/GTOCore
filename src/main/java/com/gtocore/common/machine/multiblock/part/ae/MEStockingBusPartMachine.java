@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
@@ -237,7 +238,10 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
         // if in auto-pull, no need to write actual configured slots, but still need to write the ghost circuit
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("AutoPull", true);
-        tag.putByte("GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.getStackInSlot(0)));
+        tag.putBoolean("DistinctBuses", isDistinct());
+        if (!circuitInventory.storage.getStackInSlot(0).isEmpty()) {
+            tag.putByte("GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0)));
+        }
         return tag;
     }
 
@@ -246,7 +250,14 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
         if (tag.getBoolean("AutoPull")) {
             // if being set to auto-pull, no need to read the configured slots
             this.setAutoPull(true);
-            circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit")));
+            if (tag.contains("DistinctBuses")) {
+                setDistinct(tag.getBoolean("DistinctBuses"));
+            }
+            if (tag.contains("GhostCircuit")) {
+                circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit")));
+            } else {
+                circuitInventory.setStackInSlot(0, ItemStack.EMPTY);
+            }
             return;
         }
         // set auto pull first to avoid issues with clearing the config after reading from the data stick

@@ -56,6 +56,17 @@ public final class AE2 {
                 .duration(200)
                 .save();
 
+        ASSEMBLER_RECIPES.builder("annihilation_core_a")
+                .inputItems(TagPrefix.plate, GTMaterials.Steel, 4)
+                .inputItems(AEItems.LOGIC_PROCESSOR.asItem(), 4)
+                .inputItems(CustomTags.LV_CIRCUITS, 4)
+                .inputItems(TagPrefix.dust, GTMaterials.NetherQuartz, 8)
+                .outputItems(AEItems.ANNIHILATION_CORE.asItem(), 4)
+                .inputFluids(GTMaterials.SolderingAlloy, 72)
+                .EUt(480)
+                .duration(200)
+                .save();
+
         ASSEMBLER_RECIPES.builder("formation_core")
                 .inputItems(GTOTagPrefix.FIELD_GENERATOR_CASING, GTMaterials.Steel)
                 .inputItems(AEItems.LOGIC_PROCESSOR.asItem())
@@ -64,6 +75,17 @@ public final class AE2 {
                 .outputItems(AEItems.FORMATION_CORE.asItem())
                 .inputFluids(GTMaterials.SolderingAlloy, 72)
                 .EUt(30)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("formation_core_a")
+                .inputItems(TagPrefix.plate, GTMaterials.Steel, 4)
+                .inputItems(AEItems.LOGIC_PROCESSOR.asItem(), 4)
+                .inputItems(CustomTags.LV_CIRCUITS, 4)
+                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 8)
+                .outputItems(AEItems.FORMATION_CORE.asItem(), 4)
+                .inputFluids(GTMaterials.SolderingAlloy, 72)
+                .EUt(480)
                 .duration(200)
                 .save();
 

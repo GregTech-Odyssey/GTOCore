@@ -137,11 +137,6 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
             it.setTooltips(PatternModifierTooltips)
         }
 
-//        EPPItemAndBlock.WIRELESS_CONNECTOR.asItem().setTooltips(ComponentListSupplier {
-//            add(ComponentSlang.RecommendedToUse("ME连接器" translatedTo "ME Connector"))
-//            add("支持一对多连接，并支持ME舱室自动连接" translatedTo "Supports one-to-many connections and automatic connection to ME Hatch") { aqua() }
-//        })  一取消注释打开创造物品栏就崩，原理不明，等待有缘人修复
-
         listOf(
             AEItems.ITEM_CELL_1K.asItem(),
             AEItems.ITEM_CELL_4K.asItem(),
@@ -169,7 +164,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     highlight("存储容量最高是原来的二倍" translatedTo "Storage capacity is doubled compared to the original")
                     content("你走到了单个存储元件的尽头" translatedTo "You've reached the end of a single storage cell")
                     increase(ComponentSlang.RecommendedToUse("ME存储器 (多方块结构)" translatedTo "ME Storage (MultiBlock)"))
-                    increase("他甚至可以不限类型地最高无限存储" translatedTo "It can even store unlimited amounts of items and fluids without type limit")
+                    increase("他最高可以实现不限类型的无限存储" translatedTo "It can even store unlimited amounts of items and fluids without type limit")
                 }.editionByGTONormal(),
             )
         }

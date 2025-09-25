@@ -219,6 +219,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.11", "工作模式：强行修改物品稀有度", "Working Mode: Forcefully modify item rarity");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式：强行添加镶孔", "Working Mode: Forced addition of sockets");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式：强行镶嵌宝石", "Working Mode: Forced gem inlay");
+        addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
 
         addSingleMachineTooltips();
 

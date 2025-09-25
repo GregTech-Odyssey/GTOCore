@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
@@ -45,8 +44,7 @@ public class METagFilterStockHatchPartMachine extends MEStockingHatchPartMachine
 
     @Override
     protected CompoundTag writeConfigToTag() {
-        CompoundTag tag = new CompoundTag();
-        tag.putByte("GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.getStackInSlot(0)));
+        CompoundTag tag = super.writeConfigToTag();
         tag.putString("TagWhite", tagWhite);
         tag.putString("TagBlack", tagBlack);
         return tag;
@@ -54,9 +52,7 @@ public class METagFilterStockHatchPartMachine extends MEStockingHatchPartMachine
 
     @Override
     protected void readConfigFromTag(CompoundTag tag) {
-        if (tag.contains("GhostCircuit")) {
-            circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit")));
-        }
+        super.readConfigFromTag(tag);
         if (tag.contains("TagWhite")) {
             setTagWhite(tag.getString("TagWhite"));
         }

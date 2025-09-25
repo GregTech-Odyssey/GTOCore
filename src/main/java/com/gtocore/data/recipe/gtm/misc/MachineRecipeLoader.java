@@ -234,6 +234,8 @@ public final class MachineRecipeLoader {
                 .outputFluids(Creosote.getFluid(500)).duration(900).save();
         COKE_OVEN_RECIPES.recipeBuilder("coal_to_coke_block").inputItems(block, Coal).outputItems(block, Coke)
                 .outputFluids(Creosote.getFluid(4500)).duration(8100).save();
+        COKE_OVEN_RECIPES.recipeBuilder("coal_to_coke_dust").inputItems(dust, Coal).outputItems(dust, Coke)
+                .outputFluids(Creosote.getFluid(500)).duration(900).save();
     }
 
     private static void registerStoneBricksRecipes() {
