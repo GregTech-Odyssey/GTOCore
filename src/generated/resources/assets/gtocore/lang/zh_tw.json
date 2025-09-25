@@ -232,6 +232,7 @@
   "gtceu.loom": "織布機",
   "gtceu.machine.available_recipe_map_5.tooltip": "可用配方類型：%s，%s，%s，%s，%s",
   "gtceu.machine.available_recipe_map_6.tooltip": "可用配方類型：%s，%s，%s，%s，%s，%s",
+  "gtceu.machine.me.import_part.data_stick.name": "§o %s配置數據",
   "gtceu.machine.opv_alloy_smelter.tooltip": "§7納米級材料融合裝置",
   "gtceu.machine.opv_arc_furnace.tooltip": "§7宙斯之怒",
   "gtceu.machine.opv_assembler.tooltip": "§7自我複製的納米機器人集群",

@@ -1654,6 +1654,7 @@
   "gtceu.loom": "Loom",
   "gtceu.machine.available_recipe_map_5.tooltip": "Available Recipe Types: %s, %s, %s, %s, %s",
   "gtceu.machine.available_recipe_map_6.tooltip": "Available Recipe Types: %s, %s, %s, %s, %s, %s",
+  "gtceu.machine.me.import_part.data_stick.name": "§o %s Configuration Data",
   "gtceu.machine.opv_alloy_smelter.tooltip": "§7Nanoscale Material Fusion Device",
   "gtceu.machine.opv_arc_furnace.tooltip": "§7Wrath of Zeus",
   "gtceu.machine.opv_assembler.tooltip": "§7Self-replicating Nanobot Swarm",
