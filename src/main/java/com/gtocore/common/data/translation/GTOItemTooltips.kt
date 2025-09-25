@@ -137,11 +137,6 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
             it.setTooltips(PatternModifierTooltips)
         }
 
-//        EPPItemAndBlock.WIRELESS_CONNECTOR.asItem().setTooltips(ComponentListSupplier {
-//            add(ComponentSlang.RecommendedToUse("ME连接器" translatedTo "ME Connector"))
-//            add("支持一对多连接，并支持ME舱室自动连接" translatedTo "Supports one-to-many connections and automatic connection to ME Hatch") { aqua() }
-//        })  一取消注释打开创造物品栏就崩，原理不明，等待有缘人修复
-
         listOf(
             AEItems.ITEM_CELL_1K.asItem(),
             AEItems.ITEM_CELL_4K.asItem(),
