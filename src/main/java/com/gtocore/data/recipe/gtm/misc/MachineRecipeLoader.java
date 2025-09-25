@@ -667,8 +667,8 @@ public final class MachineRecipeLoader {
                 .inputItems(ELECTRIC_MOTOR_MV)
                 .inputItems(rotor, Steel)
                 .outputItems(GTBlocks.CASING_GRATE, ConfigHolder.INSTANCE.recipes.casingsPerCraft)
-                .duration(800)
-                .EUt(VA[IV])
+                .duration(200)
+                .EUt(VA[HV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("assembly_line_casing")

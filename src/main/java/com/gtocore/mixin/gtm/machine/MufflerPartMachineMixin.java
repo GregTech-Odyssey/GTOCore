@@ -17,12 +17,10 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
@@ -49,11 +47,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.utils.Position;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -69,10 +67,6 @@ import java.util.List;
 
 @Mixin(MufflerPartMachine.class)
 public abstract class MufflerPartMachineMixin extends TieredPartMachine implements IMufflerMachine, IDroneInteractionMachine, IAirScrubberInteractor {
-
-    @Shadow(remap = false)
-    @SuppressWarnings("all")
-    protected abstract boolean calculateChance();
 
     @Shadow(remap = false)
     @Final
@@ -137,7 +131,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     private boolean gtolib$invalid() {
-        return GTOConfig.INSTANCE.disableMufflerPart || getTier() > GTValues.UHV;
+        return GTOConfig.INSTANCE.disableMufflerPart || gto$chanceOfNotProduceAsh == 100;
     }
 
     @Unique
@@ -145,9 +139,16 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
         if (getOffsetTimer() % 40 == 0) {
             DroneControlCenterMachine centerMachine = getNetMachine();
             if (centerMachine != null) {
+                boolean last3SlotsHaveSomething = false;
+                for (int i = inventory.getSlots() - 3; i < inventory.getSlots(); i++) {
+                    if (!inventory.getStackInSlot(i).isEmpty()) {
+                        last3SlotsHaveSomething = true;
+                        break;
+                    }
+                }
                 for (int i = 0; i < inventory.getSlots(); i++) {
                     ItemStack stack = inventory.getStackInSlot(i);
-                    if (stack.getCount() > 32) {
+                    if (stack.getCount() > 32 || last3SlotsHaveSomething) {
                         Drone drone = getFirstUsableDrone();
                         if (drone != null && drone.start(4, stack.getCount() << 2, GTOValues.REMOVING_ASH)) {
                             inventory.setStackInSlot(i, ItemStack.EMPTY);
@@ -225,7 +226,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
                 e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 2));
                 e.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 1));
             });
-            if (!calculateChance()) {
+            if (GTValues.RNG.nextInt(100) >= gto$chanceOfNotProduceAsh && (GTOCore.isExpert() || GTValues.RNG.nextBoolean())) {
                 gtolib$insertAsh(controller);
             }
         }
@@ -235,7 +236,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Override
     public boolean beforeWorking(IWorkableMultiController controller) {
         if (gtolib$invalid()) return true;
-        gtolib$isAshFull = false;
         if (gto$checkAshFull()) {
             for (var c : getControllers()) {
                 if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
@@ -249,6 +249,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     private boolean gto$checkAshFull() {
+        gtolib$isAshFull = false;
         var stack = inventory.getStackInSlot(inventory.getSlots() - 1);
         if (stack.getCount() > 63 || (!stack.isEmpty() && gtocore$lastAsh != null && !stack.is(gtocore$lastAsh.getItem()))) {
             gtolib$isAshFull = true;
@@ -259,10 +260,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     private void gtolib$insertAsh(IWorkableMultiController controller) {
-        if (GTOCore.isNormal() && GTValues.RNG.nextBoolean()) return;
-        AirScrubberMachine machine = getAirScrubberMachine();
-        if (machine != null && GTValues.RNG.nextInt(100) < gto$chanceOfNotProduceAsh) return;
-
         if (gtolib$ASH == null) {
             gtolib$ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
         }
@@ -280,6 +277,12 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
             }
             gtocore$lastAsh = ash;
         }
+
+        AirScrubberMachine machine = getAirScrubberMachine();
+        if (machine != null && GTValues.RNG.nextInt(machine.getTier() << 1 + 1) > 1) {
+            MachineUtils.outputItem(machine, ash);
+            return;
+        }
         CustomItemStackHandler.insertItemStackedFast(inventory, ash);
     }
 
@@ -295,27 +298,13 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
         });
     }
 
-    @Inject(method = "createUI", at = @At("HEAD"), remap = false, cancellable = true)
+    @Inject(method = "createUI", at = @At("RETURN"), remap = false, cancellable = true)
     private void gtolib$createUI(Player entityPlayer, CallbackInfoReturnable<ModularUI> cir) {
-        int rowSize = Math.min((int) Math.sqrt(inventory.getSlots()), 9);
-        int w = 184, h = 18 + 18 * rowSize + 94;
-        var modular = new DraggableScrollableWidgetGroup(4, 4, w - 8, 104 - 4).setBackground(GuiTextures.BACKGROUND)
-                .setXBarStyle(GuiTextures.BACKGROUND_INVERSE, GuiTextures.BUTTON)
-                .setYBarStyle(GuiTextures.BACKGROUND_INVERSE, GuiTextures.BUTTON)
-        // .setXScrollBarHeight(3)
-        // .setYScrollBarWidth(3)
-        // .addWidget(new LabelWidget(10, 5, getBlockState().getBlock().getDescriptionId()))
-        // .addWidget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7 + xOffset, 18 + 18
-        // * rowSize + 12, true))
-        ;
-        for (int index = 0; index < inventory.getSlots(); index++) {
-            int x = index % rowSize * 18;
-            int y = index / rowSize * 18;
-            modular.addWidget(new SlotWidget(inventory, index, (88 - rowSize * 9 + x), y + 20 - rowSize, true, false).setBackgroundTexture(GuiTextures.SLOT));
-        }
-        cir.setReturnValue(new ModularUI(w, h, this, entityPlayer)
-                .background(GuiTextures.BACKGROUND)
-                .widget(new FancyMachineUIWidget(this, w, h).addWidget(modular)));
+        ConfiguratorPanel configuratorPanel;
+        var originUI = cir.getReturnValue();
+        cir.setReturnValue(originUI.widget(configuratorPanel = new ConfiguratorPanel(-(24 + 2), originUI.getHeight())));
+        attachConfigurators(configuratorPanel);
+        configuratorPanel.setSelfPosition(new Position(-24 - 2, originUI.getHeight() - configuratorPanel.getSize().height - 4));
     }
 
     @Override

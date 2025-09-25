@@ -201,6 +201,7 @@
     "mc.LanguageMixin",
     "mc.SharedConstantsMixin",
     "mc.mob.AbstractSkeletonMixin",
+    "mc.mob.LivingEntityMixin",
     "mc.mob.MobMixin",
     "merequester.RequestMixin"
   ],
