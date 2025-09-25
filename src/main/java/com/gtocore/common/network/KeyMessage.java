@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 
 final class KeyMessage {
 
-    public static void pressAction(ServerPlayer player, int type) {
+    static void pressAction(ServerPlayer player, int type) {
         Level level = player.level();
         if (!level.hasChunkAt(player.blockPosition())) {
             return;
@@ -29,15 +29,8 @@ final class KeyMessage {
     }
 
     private static void handleFlightSpeed(Player player) {
-        float speed;
-        String armorSlots = player.getArmorSlots().toString();
-        if (armorSlots.contains("warden_")) {
-            speed = 0.2F;
-        } else if (armorSlots.contains("infinity_")) {
-            speed = 0.3F;
-        } else {
-            return;
-        }
+        float speed = IEnhancedPlayer.of(player).getPlayerData().flySpeedAble;
+        if (speed == 0F) return;
         CompoundTag data = player.getPersistentData();
         int speedFactor = data.getInt("fly_speed");
         if (player.isShiftKeyDown()) {

@@ -179,9 +179,9 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     public final InteractionResult onDataStickShiftUse(Player player, ItemStack dataStick) {
         if (!isRemote()) {
             CompoundTag tag = new CompoundTag();
-            tag.put("MEInputHatch", writeConfigToTag());
+            tag.put(this.getConfigKey(), writeConfigToTag());
             dataStick.setTag(tag);
-            dataStick.setHoverName(Component.translatable("gtceu.machine.me.fluid_import.data_stick.name"));
+            dataStick.setHoverName(Component.translatable("gtceu.machine.me.import_part.data_stick.name", Component.translatable(this.getDefinition().getDescriptionId())));
             player.sendSystemMessage(Component.translatable("gtceu.machine.me.import_copy_settings"));
         }
         return InteractionResult.SUCCESS;
@@ -190,12 +190,12 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     @Override
     public final InteractionResult onDataStickUse(Player player, ItemStack dataStick) {
         CompoundTag tag = dataStick.getTag();
-        if (tag == null || !tag.contains("MEInputHatch")) {
+        if (tag == null || !tag.contains(this.getConfigKey())) {
             return InteractionResult.PASS;
         }
 
         if (!isRemote()) {
-            readConfigFromTag(tag.getCompound("MEInputHatch"));
+            readConfigFromTag(tag.getCompound(this.getConfigKey()));
             this.updateTankSubscription();
             player.sendSystemMessage(Component.translatable("gtceu.machine.me.import_paste_settings"));
         }
@@ -209,6 +209,10 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     CompoundTag writeConfigToTag() {
         CompoundTag tag = new CompoundTag();
         CompoundTag configStacks = new CompoundTag();
+        tag.putBoolean("DistinctBuses", isDistinct());
+        if (!circuitInventory.storage.getStackInSlot(0).isEmpty()) {
+            tag.putByte("GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0)));
+        }
         tag.put("ConfigStacks", configStacks);
         for (int i = 0; i < CONFIG_SIZE; i++) {
             var slot = this.aeFluidHandler.getInventory()[i];
@@ -219,12 +223,18 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
             CompoundTag stackTag = GenericStack.writeTag(config);
             configStacks.put(Integer.toString(i), stackTag);
         }
-        tag.putByte("GhostCircuit",
-                (byte) IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.getStackInSlot(0)));
         return tag;
     }
 
     void readConfigFromTag(CompoundTag tag) {
+        if (tag.contains("DistinctBuses")) {
+            setDistinct(tag.getBoolean("DistinctBuses"));
+        }
+        if (tag.contains("GhostCircuit")) {
+            circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit")));
+        } else {
+            circuitInventory.setStackInSlot(0, ItemStack.EMPTY);
+        }
         if (tag.contains("ConfigStacks")) {
             CompoundTag configStacks = tag.getCompound("ConfigStacks");
             for (int i = 0; i < CONFIG_SIZE; i++) {
@@ -237,8 +247,9 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
                 }
             }
         }
-        if (tag.contains("GhostCircuit")) {
-            circuitInventory.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getByte("GhostCircuit")));
-        }
+    }
+
+    private String getConfigKey() {
+        return this.getDefinition().getId().getPath();
     }
 }

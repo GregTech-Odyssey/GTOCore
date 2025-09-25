@@ -20,7 +20,9 @@ dependencies {
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
 
     modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}") { transitive false }
-    modImplementation("org.appliedenergistics:guideme:20.1.7")
+    modImplementation("org.appliedenergistics:guideme:20.1.13")
+    modImplementation("curse.maven:applied-energistics-2-wireless-terminals-459929:7014805")
+    modRuntimeOnly("curse.maven:applied-botanics-addon-610632:7024180")
 
     modImplementation("dev.architectury:architectury-forge:${project.architectury_version}")
 
@@ -59,14 +61,12 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:6714970")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:6975234")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7005572")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 
     modImplementation("curse.maven:functional-storage-556861:5650296")
     modImplementation("curse.maven:titanium-287342:5468426")
-
-    modImplementation("curse.maven:ae2wtlib-459929:5217955")
 
     modImplementation("curse.maven:deeperdarker-659011:5906086")
 
@@ -136,7 +136,6 @@ dependencies {
     modRuntimeOnly("curse.maven:more-red-387638:4691333")
 
 //    modRuntimeOnly("curse.maven:worldedit-225608:4586218")
-    modRuntimeOnly("curse.maven:applied-botanics-addon-610632:4904185")
 
     modImplementation("curse.maven:ars-energistique-905641:5504444")
 

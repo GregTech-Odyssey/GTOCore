@@ -36,7 +36,6 @@ interface IOrganService {
 }
 class OrganService : IOrganService {
     override fun tick(player: ServerPlayer) {
-        if (player.tickCount % 20 != 0) return
         val playerData = IEnhancedPlayer.of(player).playerData
         playerData.wingState = false
         // Movement Speed
@@ -143,6 +142,7 @@ class OrganService : IOrganService {
         val item = GTCapabilityHelper.getElectricItem(stack) ?: return false
         if (item.charge <= 0) return false
         playerData?.wingState = true
+        playerData?.flySpeedAble = 0.25f
         IWirelessChargerInteraction.charge(playerData?.getNetMachine(), stack)
         if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
             item.discharge(GTValues.V[GTValues.EV], item.tier, true, false, false)
@@ -167,6 +167,7 @@ class OrganService : IOrganService {
                     }
                 }
                 playerData?.wingState = true
+                playerData?.flySpeedAble = 0.15f
                 return true
             }
         }
