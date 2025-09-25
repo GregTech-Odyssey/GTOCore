@@ -101,7 +101,6 @@ dependencies {
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
 
     modCompileOnly("curse.maven:ftb-ultimine-forge-386134:5363345")
-    modRuntimeOnly("curse.maven:ftb-ultimine-forge-386134:5363345")
 
     modCompileOnly("curse.maven:ftb-essentials-410811:4896152")
 
@@ -142,7 +141,7 @@ dependencies {
 
     modImplementation("curse.maven:embeddium-908741:5681725")
 
-     modRuntimeOnly("curse.maven:modern-ui-352491:5977000")
+    // modRuntimeOnly("curse.maven:modern-ui-352491:5977000")
 
     jarJar(modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version"))
 
