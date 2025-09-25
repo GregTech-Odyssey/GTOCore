@@ -140,6 +140,7 @@ final class RarityForge {
                         .circuitMeta(j + 1)
                         .EUt(VA[i + 3])
                         .duration(200)
+                        .supportFast(false)
                         .save();
             }
         }
