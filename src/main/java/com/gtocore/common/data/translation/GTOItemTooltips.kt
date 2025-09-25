@@ -169,7 +169,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     highlight("存储容量最高是原来的二倍" translatedTo "Storage capacity is doubled compared to the original")
                     content("你走到了单个存储元件的尽头" translatedTo "You've reached the end of a single storage cell")
                     increase(ComponentSlang.RecommendedToUse("ME存储器 (多方块结构)" translatedTo "ME Storage (MultiBlock)"))
-                    increase("他甚至可以不限类型地最高无限存储" translatedTo "It can even store unlimited amounts of items and fluids without type limit")
+                    increase("他最高可以实现不限类型的无限存储" translatedTo "It can even store unlimited amounts of items and fluids without type limit")
                 }.editionByGTONormal(),
             )
         }
