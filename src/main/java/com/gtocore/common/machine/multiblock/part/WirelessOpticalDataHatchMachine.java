@@ -3,21 +3,17 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IDataAccessHatch;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
-import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.OpticalDataHatchMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.api.capability.IGTMTJadeIF;
 import com.hepdd.gtmthings.api.misc.CleanableReferenceSupplier;
@@ -29,7 +25,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachine implements IInteractedMachine, IGTMTJadeIF {
+public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachine implements IDataStickInteractable, IGTMTJadeIF {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WirelessOpticalDataHatchMachine.class, OpticalDataHatchMachine.MANAGED_FIELD_HOLDER);
@@ -43,6 +39,9 @@ public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachi
     private BlockPos transmitterPos;
     @Persisted
     private BlockPos receiverPos;
+
+    private static final String KEY_TRANSMITTER = "wireless_data_transmitter";
+    private static final String KEY_RECEIVER = "wireless_data_receiver";
 
     private final CleanableReferenceSupplier<MetaMachine> transmitterMachine = new CleanableReferenceSupplier<>(() -> MetaMachine.getMachine(getLevel(), transmitterPos), MetaMachine::isInValid);
 
@@ -70,81 +69,6 @@ public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachi
 
     private static BlockPos getPos(CompoundTag tag) {
         return new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
-    }
-
-    @Override
-    public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        ItemStack is = player.getItemInHand(hand);
-        if (is.isEmpty()) return InteractionResult.PASS;
-        if (is.is(GTItems.TOOL_DATA_STICK.asItem())) {
-            Level level = getLevel();
-            if (level == null) return InteractionResult.PASS;
-            if (isTransmitter()) {
-                var tag = is.getTag();
-                if (transmitterPos == null) transmitterPos = pos;
-                if (tag != null) {
-                    tag.put("transmitterPos", createPos(pos));
-                    var bindPos = (CompoundTag) tag.get("receiverPos");
-                    if (bindPos != null) {
-                        BlockPos recPos = getPos(bindPos);
-                        if (getMachine(level, recPos) instanceof WirelessOpticalDataHatchMachine wod && !wod.isTransmitter()) {
-                            wod.setTransmitterPos(transmitterPos);
-                            receiverPos = pos;
-                            tag.remove("transmitterPos");
-                            tag.remove("receiverPos");
-                            if (level.isClientSide()) {
-                                player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_hatch.bind"));
-                            }
-                        }
-                    } else {
-                        if (level.isClientSide()) {
-                            player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_transmitter_hatch.to_bind"));
-                        }
-                    }
-                    is.setTag(tag);
-                } else {
-                    tag = new CompoundTag();
-                    tag.put("transmitterPos", createPos(transmitterPos));
-                    is.setTag(tag);
-                    if (level.isClientSide()) {
-                        player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_transmitter_hatch.to_bind"));
-                    }
-                }
-            } else {
-                if (receiverPos == null) receiverPos = pos;
-                var tag = is.getTag();
-                if (tag != null) {
-                    tag.put("receiverPos", createPos(pos));
-                    var bindPos = (CompoundTag) tag.get("transmitterPos");
-                    if (bindPos != null) {
-                        BlockPos tranPos = new BlockPos(bindPos.getInt("x"), bindPos.getInt("y"), bindPos.getInt("z"));
-                        if (getMachine(level, tranPos) instanceof WirelessOpticalDataHatchMachine wod && wod.isTransmitter()) {
-                            wod.setReceiverPos(receiverPos);
-                            transmitterPos = tranPos;
-                            tag.remove("transmitterPos");
-                            tag.remove("receiverPos");
-                            if (level.isClientSide()) {
-                                player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_hatch.bind"));
-                            }
-                        }
-                    } else {
-                        if (level.isClientSide()) {
-                            player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_receiver_hatch.to_bind"));
-                        }
-                    }
-                    is.setTag(tag);
-                } else {
-                    tag = new CompoundTag();
-                    tag.put("receiverPos", createPos(receiverPos));
-                    is.setTag(tag);
-                    if (level.isClientSide()) {
-                        player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_receiver_hatch.to_bind"));
-                    }
-                }
-            }
-            return InteractionResult.SUCCESS;
-        }
-        return InteractionResult.PASS;
     }
 
     private void setTransmitterPos(BlockPos pos) {
@@ -184,5 +108,67 @@ public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachi
             return transmitterPos.toShortString();
         }
         return "";
+    }
+
+    @Override
+    public InteractionResult onDataStickShiftUse(Player player, ItemStack dataStick) {
+        if (isRemote()) return InteractionResult.SUCCESS;
+
+        CompoundTag tag = dataStick.getOrCreateTag();
+        BlockPos currentPos = getPos();
+        if (isTransmitter()) {
+            tag.put(KEY_TRANSMITTER, createPos(currentPos));
+            player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_transmitter_hatch.to_bind"));
+        } else {
+            tag.put(KEY_RECEIVER, createPos(currentPos));
+            player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_receiver_hatch.to_bind"));
+        }
+        dataStick.setHoverName(Component.translatable("gtceu.machine.me.import_part.data_stick.name", Component.translatable(this.getDefinition().getDescriptionId())));
+        return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public InteractionResult onDataStickUse(Player player, ItemStack dataStick) {
+        if (isRemote()) return InteractionResult.sidedSuccess(true);
+
+        CompoundTag tag = dataStick.getTag();
+        if (tag == null) return InteractionResult.PASS;
+
+        if (isTransmitter() && tag.contains(KEY_RECEIVER, 10)) {
+            BlockPos otherPos = getPos(tag.getCompound(KEY_RECEIVER));
+            if (bindWith(otherPos, player)) {
+                return InteractionResult.SUCCESS;
+            }
+        } else if (!isTransmitter() && tag.contains(KEY_TRANSMITTER, 10)) {
+            BlockPos otherPos = getPos(tag.getCompound(KEY_TRANSMITTER));
+            if (bindWith(otherPos, player)) {
+                return InteractionResult.SUCCESS;
+            }
+        }
+
+        return InteractionResult.PASS;
+    }
+
+    private boolean bindWith(BlockPos otherPos, Player player) {
+        Level level = getLevel();
+        if (level == null) return false;
+
+        MetaMachine otherMachine = MetaMachine.getMachine(level, otherPos);
+        if (otherMachine instanceof WirelessOpticalDataHatchMachine otherWodh) {
+            if (this.isTransmitter() == otherWodh.isTransmitter()) {
+                return false;
+            }
+            if (isTransmitter()) {
+                this.setReceiverPos(otherPos);
+                otherWodh.setTransmitterPos(this.getPos());
+            } else {
+                this.setTransmitterPos(otherPos);
+                otherWodh.setReceiverPos(this.getPos());
+            }
+
+            player.sendSystemMessage(Component.translatable("gtocore.machine.wireless_data_hatch.bind"));
+            return true;
+        }
+        return false;
     }
 }
