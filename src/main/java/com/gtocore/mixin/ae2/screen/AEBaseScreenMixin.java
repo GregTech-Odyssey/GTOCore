@@ -1,9 +1,11 @@
 package com.gtocore.mixin.ae2.screen;
 
+import com.gtocore.client.renderer.RenderUtil;
 import com.gtolib.api.ae2.gui.hooks.IAEBaseScreenLifecycle;
 import com.gtolib.api.ae2.gui.hooks.IconSlot;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.world.inventory.Slot;
 
 import appeng.client.gui.AEBaseScreen;
@@ -46,6 +48,14 @@ public class AEBaseScreenMixin {
                         .blit(guiGraphics);
                 ci.cancel();
             }
+        }
+    }
+
+    @Inject(method = "fillRect", at = @At("HEAD"), remap = false, cancellable = true)
+    private void gtolib$fillRect(GuiGraphics guiGraphics, Rect2i rect, int color, CallbackInfo ci) {
+        if (color == 0x8A00FF00) {
+            RenderUtil.drawRainbowBorder(guiGraphics, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), 300, 1.0f);
+            ci.cancel();
         }
     }
 }

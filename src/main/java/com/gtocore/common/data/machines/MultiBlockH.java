@@ -447,7 +447,7 @@ public final class MultiBlockH {
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.ABS_GREEN_CASING.get()))
                     .where('B', blocks(GTOBlocks.IRIDIUM_CASING.get()))
-                    .where('C', blocks(GTOBlocks.ABS_RAD_CASING.get()))
+                    .where('C', blocks(GTOBlocks.ABS_RED_CASING.get()))
                     .where('D', blocks(GTOBlocks.TITANIUM_NITRIDE_CERAMIC_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
                     .where('E', blocks(GTOBlocks.ENGINEERING_MECHANICAL_CASING.get()))
                     .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))

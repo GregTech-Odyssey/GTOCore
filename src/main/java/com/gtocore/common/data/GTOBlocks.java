@@ -376,7 +376,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> ABS_GREY_CASING = createCasingBlock("abs_grey_casing", "灰色ABS塑料机械外壳", GTOCore.id("block/casings/abs_grey_casing"));
     public static final BlockEntry<Block> ABS_LIME_CASING = createCasingBlock("abs_lime_casing", "黄绿色ABS塑料机械外壳", GTOCore.id("block/casings/abs_lime_casing"));
     public static final BlockEntry<Block> ABS_ORANGE_CASING = createCasingBlock("abs_orange_casing", "橙色ABS塑料机械外壳", GTOCore.id("block/casings/abs_orange_casing"));
-    public static final BlockEntry<Block> ABS_RAD_CASING = createCasingBlock("abs_rad_casing", "红色ABS塑料机械外壳", GTOCore.id("block/casings/abs_rad_casing"));
+    public static final BlockEntry<Block> ABS_RED_CASING = createCasingBlock("abs_red_casing", "红色ABS塑料机械外壳", GTOCore.id("block/casings/abs_red_casing"));
     public static final BlockEntry<Block> ABS_WHITE_CASING = createCasingBlock("abs_white_casing", "白色ABS塑料机械外壳", GTOCore.id("block/casings/abs_white_casing"));
     public static final BlockEntry<Block> ABS_YELLOW_CASING = createCasingBlock("abs_yellow_casing", "黄色ABS塑料机械外壳", GTOCore.id("block/casings/abs_yellow_casing"));
     public static final BlockEntry<Block> ABS_CYAN_CASING = createCasingBlock("abs_cyan_casing", "青色ABS塑料机械外壳", GTOCore.id("block/casings/abs_cyan_casing"));
