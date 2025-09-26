@@ -28,8 +28,8 @@ class TierData {
             "战术级" to "Tactical",
             "原型级" to "Prototype",
         )
-        val MovementSpeedFunction: (Int) -> Double = { tier -> 0.1 * 0.1 * tier * 1.5 }
-        const val BlockReachFunction = 2
+        val MovementSpeedFunction: (Int) -> Double = { tier -> 0.1 * 0.1 * tier * 1.8 }
+        const val BlockReachFunction = 4
     }
 }
 enum class OrganType(val key: String, val cn: String, val slotCount: Int = 1) {
@@ -84,7 +84,14 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
             if (tier >= 1) {
                 tooltipComponents.add(OrganTranslation.speedBoostInfo((1..tier).sumOf { TierData.MovementSpeedFunction(it) * 10 }.toFloat()).get())
             }
-            if (tier >= 2) tooltipComponents.add(OrganTranslation.blockReachInfo(2).get())
+            if (tier >= 1) {
+                tooltipComponents.add(OrganTranslation.armor(tier * 5).get())
+                tooltipComponents.add(OrganTranslation.armor_toughness(tier * 5).get())
+            }
+            if (tier >= 2) tooltipComponents.add(OrganTranslation.blockReachInfo(4).get())
+            if (tier >= 3) tooltipComponents.add(OrganTranslation.alwaysSaturation.get())
+            if (tier >= 2 && organType == OrganType.Liver) tooltipComponents.add(OrganTranslation.noPoisonAndWither.get())
+            if (tier >= 2 && organType == OrganType.Lung) tooltipComponents.add(OrganTranslation.breathUnderWater.get())
             if (tier >= 4) tooltipComponents.add(OrganTranslation.flightInfo.get())
 
             super.appendHoverText(stack, level, tooltipComponents, isAdvanced)

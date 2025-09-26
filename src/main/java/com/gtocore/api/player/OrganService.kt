@@ -75,7 +75,7 @@ class OrganService : IOrganService {
             }
         }
         // Fly
-        when (playerData.getSetOrganTier() > 3) { // 四级器官创造飞
+        when (playerData.getSetOrganTier() >= 4) { // 四级器官创造飞
             true -> run {
                 playerData.wingState = true
             }
@@ -133,6 +133,73 @@ class OrganService : IOrganService {
                     cache.floatCache.put("try_attack_count", 0.0f)
                 } else {
                     cache.floatCache["try_attack_count"] = currentCount
+                }
+            }
+        }
+        // t3+ 永久饱和（不显示图标）
+        run {
+            val needsFood = playerData.getSetOrganTier() >= 3
+            when (needsFood) {
+                true -> {
+                    player.getFoodData().foodLevel = 20
+                    player.getFoodData().setSaturation(20.0f)
+                    player.getFoodData().setExhaustion(0.0f)
+                }
+                false -> {}
+            }
+        }
+        // t2+的肺部屏蔽中毒Effect效果
+        run {
+            val needsRemove = playerData.organTierCache.getInt(OrganType.Liver) >= 2
+            when (needsRemove) {
+                true -> {
+                    if (player.hasEffect(net.minecraft.world.effect.MobEffects.POISON)) {
+                        player.removeEffect(net.minecraft.world.effect.MobEffects.POISON)
+                    }
+                    if (player.hasEffect(net.minecraft.world.effect.MobEffects.WITHER)) {
+                        player.removeEffect(net.minecraft.world.effect.MobEffects.WITHER)
+                    }
+                }
+                false -> {}
+            }
+        }
+        // t2+的肺部将提供水下无限氧气
+        run {
+            val needsWaterBreath = (playerData.organTierCache.getInt(OrganType.Lung) >= 2) && player.isInWater
+            when (needsWaterBreath) {
+                true -> player.airSupply = 300
+                false -> {}
+            }
+        }
+        // Tn提供5n护甲，5n韧性
+        run {
+            (1..4).forEach { tier ->
+                val armorModifierNAME = "gtocore:organ_armor_tier_$tier"
+                val armorModifierUUID = UUID.nameUUIDFromBytes(armorModifierNAME.toByteArray())
+                val toughnessModifierNAME = "gtocore:organ_toughness_tier_$tier"
+                val toughnessModifierUUID = UUID.nameUUIDFromBytes(toughnessModifierNAME.toByteArray())
+                when (playerData.getSetOrganTier() == tier) {
+                    true -> run {
+                        val armorAmplify = 5.0 * (tier)
+                        val toughnessAmplify = 5.0 * (tier)
+                        val shouldAddArmor = player.getAttribute(Attributes.ARMOR)?.modifiers?.all { it.name != armorModifierNAME } ?: true
+                        if (shouldAddArmor) {
+                            player.getAttribute(Attributes.ARMOR)?.addPermanentModifier(
+                                AttributeModifier(armorModifierUUID, armorModifierNAME, armorAmplify, AttributeModifier.Operation.ADDITION),
+                            )
+                        }
+                        val shouldAddToughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS)?.modifiers?.all { it.name != toughnessModifierNAME } ?: true
+                        if (shouldAddToughness) {
+                            player.getAttribute(Attributes.ARMOR_TOUGHNESS)
+                                ?.addPermanentModifier(
+                                    AttributeModifier(toughnessModifierUUID, toughnessModifierNAME, toughnessAmplify, AttributeModifier.Operation.ADDITION),
+                                )
+                        }
+                    }
+                    false -> run {
+                        player.getAttribute(Attributes.ARMOR)?.removeModifier(armorModifierUUID)
+                        player.getAttribute(Attributes.ARMOR_TOUGHNESS)?.removeModifier(toughnessModifierUUID)
+                    }
                 }
             }
         }
