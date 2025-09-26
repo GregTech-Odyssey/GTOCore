@@ -194,12 +194,12 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             int multiplier = parallel / tierMultiplier;
 
             List<Entity> entities = serverLevel.getEntitiesOfClass(Entity.class, new AABB(
-                    blockPos.getX() - 3,
+                    blockPos.getX() - 4,
                     blockPos.getY() - 1,
-                    blockPos.getZ() - 3,
-                    blockPos.getX() + 3,
+                    blockPos.getZ() - 4,
+                    blockPos.getX() + 4,
                     blockPos.getY() + 6,
-                    blockPos.getZ() + 3));
+                    blockPos.getZ() + 4));
 
             long xp = 0;
             int killedCount = 0;
