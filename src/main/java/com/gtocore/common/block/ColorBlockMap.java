@@ -21,7 +21,7 @@ public final class ColorBlockMap {
         ABSBuilder.put(DyeColor.GRAY, GTOBlocks.ABS_GREY_CASING.get());
         ABSBuilder.put(DyeColor.LIME, GTOBlocks.ABS_LIME_CASING.get());
         ABSBuilder.put(DyeColor.ORANGE, GTOBlocks.ABS_ORANGE_CASING.get());
-        ABSBuilder.put(DyeColor.RED, GTOBlocks.ABS_RAD_CASING.get());
+        ABSBuilder.put(DyeColor.RED, GTOBlocks.ABS_RED_CASING.get());
         ABSBuilder.put(DyeColor.WHITE, GTOBlocks.ABS_WHITE_CASING.get());
         ABSBuilder.put(DyeColor.YELLOW, GTOBlocks.ABS_YELLOW_CASING.get());
         ABSBuilder.put(DyeColor.CYAN, GTOBlocks.ABS_CYAN_CASING.get());

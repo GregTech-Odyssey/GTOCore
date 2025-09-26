@@ -37,6 +37,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -70,6 +71,7 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.registries.MissingMappingsEvent;
 
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -349,6 +351,20 @@ public final class ForgeCommonEvent {
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
             if (Objects.equals(GTOStartupConfig.serverLang, "en_us")) return;
             ServerLangHook.gto$loadLanguage(GTOStartupConfig.serverLang, event.getServer());
+        });
+    }
+
+    @SubscribeEvent
+    public static void remapIds(MissingMappingsEvent event) {
+        event.getMappings(Registries.BLOCK, GTOCore.MOD_ID).forEach(mapping -> {
+            if (mapping.getKey().equals(GTOCore.id("abs_rad_casing"))) {
+                mapping.remap(GTOBlocks.ABS_RED_CASING.get());
+            }
+        });
+        event.getMappings(Registries.ITEM, GTOCore.MOD_ID).forEach(mapping -> {
+            if (mapping.getKey().equals(GTOCore.id("abs_rad_casing"))) {
+                mapping.remap(GTOBlocks.ABS_RED_CASING.asItem());
+            }
         });
     }
 }
