@@ -20,6 +20,7 @@ import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfigurableSlotList {
@@ -119,6 +120,19 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
             if (maxDrain <= 0) break;
         }
         return totalDrained == null ? FluidStack.EMPTY : totalDrained;
+    }
+
+    @Override
+    public boolean forEachInputFluids(Predicate<FluidStack> function) {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            var stack = i.getFluid();
+            if (stack.isEmpty()) continue;
+            if (function.test(stack)) return true;
+        }
+        return false;
     }
 
     @Override

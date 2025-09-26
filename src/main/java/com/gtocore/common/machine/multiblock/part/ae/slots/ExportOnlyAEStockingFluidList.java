@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
 
@@ -37,10 +38,9 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    @NotNull
-    public Object[] getContents() {
-        if (machine.isWorkingEnabled()) return super.getContents();
-        return new Object[0];
+    public boolean forEachInputFluids(Predicate<FluidStack> function) {
+        if (machine.isWorkingEnabled()) return super.forEachInputFluids(function);
+        return false;
     }
 
     @Override

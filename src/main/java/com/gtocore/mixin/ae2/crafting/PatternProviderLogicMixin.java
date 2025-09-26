@@ -136,6 +136,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
         var level = be.getLevel();
         var pos = be.getBlockPos();
+        boolean success = false;
         boolean molecular = !patternDetails.supportsPushInputsToExternalInventory();
         for (var direction : getActiveSides()) {
             var adjBe = cache.getAdjacentBlockEntity(level, pos, direction);
@@ -145,6 +146,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                 var craftingMachine = ICraftingMachine.of(level, pos.relative(direction), adjBeSide, adjBe);
                 if (craftingMachine != null) {
                     var result = gtolib$pushCraftingMachine(craftingMachine, patternDetails, inputHolder, pushPatternSuccess, adjBeSide);
+                    if (result.success()) success = true;
                     if (result.needBreak()) return result;
                 }
             } else {
@@ -165,6 +167,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                             for (var target : targets) {
                                 if (target.containsPatternInput(patternInputs)) continue;
                                 var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, false);
+                                if (result.success()) success = true;
                                 if (result.needBreak()) return result;
                                 if (result == PushResult.SUCCESS) done = false;
                             }
@@ -174,17 +177,19 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                         var target = PatternProviderTargetCache.find(adjBe, this, adjBeSide, actionSource, 0);
                         if (target == null || target.containsPatternInput(patternInputs)) continue;
                         var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
+                        if (result.success()) success = true;
                         if (result.needBreak()) return result;
                     }
                 } else {
                     var target = findAdapter(direction);
                     if (target == null || target.containsPatternInput(patternInputs)) continue;
                     var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
+                    if (result.success()) success = true;
                     if (result.needBreak()) return result;
                 }
             }
         }
-        return PushResult.NOWHERE_TO_PUSH;
+        return success ? PushResult.SUCCESS : PushResult.NOWHERE_TO_PUSH;
     }
 
     /**
@@ -198,20 +203,23 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
     @Unique
     private PushResult gtolib$pushCraftingMachine(ICraftingMachine craftingMachine, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, Direction adjBeSide) {
+        boolean success = false;
         while (true) {
             if (inputHolder.value != null && craftingMachine.acceptsPlans() && craftingMachine.pushPattern(patternDetails, inputHolder.value, adjBeSide)) {
                 onPushPatternSuccess(patternDetails);
+                success = true;
                 var result = pushPatternSuccess.get();
                 if (result.needBreak()) return result;
                 continue;
             }
-            return PushResult.REJECTED;
+            return success ? PushResult.SUCCESS : PushResult.REJECTED;
         }
     }
 
     @Unique
     private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
         int count = this.pushedCount;
+        boolean success = false;
         while (count > 0) {
             count--;
             if (inputHolder.value != null && this.adapterAcceptsAll(adapter, inputHolder.value)) {
@@ -226,6 +234,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                     else gtolib$cachePatternDir.put(storage.dir(), patternDetails);
                 }
                 onPushPatternSuccess(patternDetails);
+                success = true;
                 this.sendDirection = direction;
                 var result = pushPatternSuccess.get();
                 if (result.needBreak()) return result;
@@ -234,9 +243,9 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                     return PushResult.SUCCESS;
                 }
             }
-            return PushResult.REJECTED;
+            break;
         }
-        return PushResult.REJECTED;
+        return success ? PushResult.SUCCESS : PushResult.REJECTED;
     }
 
     /**

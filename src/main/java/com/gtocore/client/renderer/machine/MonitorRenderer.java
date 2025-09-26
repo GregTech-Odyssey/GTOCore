@@ -1,6 +1,9 @@
 package com.gtocore.client.renderer.machine;
 
-import com.gtocore.common.machine.monitor.*;
+import com.gtocore.common.machine.monitor.DisplayComponent;
+import com.gtocore.common.machine.monitor.IDisplayComponent;
+import com.gtocore.common.machine.monitor.IMonitor;
+import com.gtocore.common.machine.monitor.Manager;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
@@ -15,7 +18,10 @@ import com.gregtechceu.gtceu.client.util.StaticFaceBakery;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.BlockFaceUV;
@@ -35,12 +41,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 

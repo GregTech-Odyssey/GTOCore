@@ -156,6 +156,7 @@ public final class GTMachineModify {
                 .where('E', controller(blocks(definition.getBlock())))
                 .where(' ', any())
                 .build()));
+        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setAdditionalDisplay((m, l) -> {});
 
         for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
             GTMachines.MACERATOR[tier].setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);

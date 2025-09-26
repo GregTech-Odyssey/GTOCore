@@ -23,10 +23,10 @@ import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
 
@@ -78,11 +78,6 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
         }
 
         @Override
-        public @NotNull Object[] getContents() {
-            return new Object[] { WATER };
-        }
-
-        @Override
         public double getTotalContentAmount() {
             return Integer.MAX_VALUE;
         }
@@ -106,6 +101,11 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
 
         static {
             MAP.put(WATER, Long.MAX_VALUE);
+        }
+
+        @Override
+        public boolean forEachInputFluids(Predicate<FluidStack> function) {
+            return function.test(WATER);
         }
 
         @Override

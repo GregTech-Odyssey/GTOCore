@@ -50,6 +50,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -193,6 +194,11 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         @Override
         public ItemStack getStackInSlot(int i) {
             return ((HugeCustomItemStackHandler) storage).stack;
+        }
+
+        @Override
+        public boolean forEachInputItems(Predicate<ItemStack> function) {
+            return function.test(getStackInSlot(0));
         }
 
         @Override

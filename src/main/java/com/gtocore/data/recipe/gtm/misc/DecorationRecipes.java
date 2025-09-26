@@ -7,9 +7,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
-import static com.gregtechceu.gtceu.api.GTValues.L;
-import static com.gregtechceu.gtceu.api.GTValues.ULV;
-import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.block;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.plate;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;

@@ -1,8 +1,6 @@
 package com.gtocore.integration.jade;
 
 import com.gtocore.integration.jade.provider.*;
-import com.gtocore.integration.jade.provider.MEPatternBufferProvider;
-import com.gtocore.integration.jade.provider.MEPatternBufferProxyProvider;
 import com.gtocore.integration.jade.provider.MultiblockStructureProvider;
 import com.gtocore.integration.jade.provider.ParallelProvider;
 import com.gtocore.integration.jade.provider.RecipeLogicProvider;

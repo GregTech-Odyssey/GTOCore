@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
 
 @Scanned

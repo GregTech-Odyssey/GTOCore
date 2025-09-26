@@ -16,7 +16,7 @@ import dev.shadowsoffire.apotheosis.adventure.Adventure;
 
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.RARITY_FORGE_RECIPES;
-import static com.gtocore.common.machine.mana.multiblock.ThePrimordialReconstructor.*;
+import static com.gtocore.common.machine.mana.multiblock.ThePrimordialReconstructor.getGem;
 
 final class RarityForge {
 

@@ -23,9 +23,6 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
-import static com.gtolib.utils.RegistriesUtils.getItem;
-
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class ScanningStationMachine extends ElectricMultiblockMachine {

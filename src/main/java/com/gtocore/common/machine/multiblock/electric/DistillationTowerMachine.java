@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
 import com.gtolib.api.recipe.AsyncRecipeOutputTask;
 import com.gtolib.api.recipe.Recipe;
@@ -92,7 +93,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
         super.onStructureInvalid();
     }
 
-    private static final class DistillationTowerLogic extends RecipeLogic {
+    private static final class DistillationTowerLogic extends RecipeLogic implements IEnhancedRecipeLogic {
 
         @Persisted
         private GTRecipe workingRecipe = null;

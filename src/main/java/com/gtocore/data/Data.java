@@ -14,12 +14,16 @@ import com.gtocore.data.recipe.magic.ArsNouveauRecipes;
 import com.gtocore.data.recipe.magic.BotaniaRecipes;
 import com.gtocore.data.recipe.magic.MagicRecipesA;
 import com.gtocore.data.recipe.magic.MagicRecipesB;
-import com.gtocore.data.recipe.misc.*;
+import com.gtocore.data.recipe.misc.Ae2wtlibRecipes;
+import com.gtocore.data.recipe.misc.ComponentRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.mod.MeteoriteRecipe;
 import com.gtocore.data.recipe.processing.*;
-import com.gtocore.data.recipe.research.*;
+import com.gtocore.data.recipe.research.AnalyzeData;
+import com.gtocore.data.recipe.research.AnalyzeRecipes;
+import com.gtocore.data.recipe.research.DataGenerateRecipe;
+import com.gtocore.data.recipe.research.ScanningRecipes;
 import com.gtocore.integration.emi.GTEMIRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 

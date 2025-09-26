@@ -747,7 +747,7 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType THREE_DIMENSIONAL_PRINTER_RECIPES = register("three_dimensional_printer", "3D Printer", "3D打印", MULTIBLOCK)
-            .setMaxIOSize(1, 1, 1, 0)
+            .setMaxIOSize(3, 1, 3, 0)
             .setEUIO(IO.IN)
             .setMaxTooltips(4)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
@@ -755,7 +755,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType SINTERING_FURNACE_RECIPES = register("sintering_furnace", "烧结炉", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 1, 0, 0)
+            .setMaxIOSize(4, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE)
             .addDataInfo(TEMPERATURE)

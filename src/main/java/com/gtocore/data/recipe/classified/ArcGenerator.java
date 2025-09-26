@@ -21,8 +21,10 @@ import com.enderio.base.common.init.EIOItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gtocore.common.data.GTOItems.*;
+import static com.gregtechceu.gtceu.api.GTValues.UV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gtocore.common.data.GTOItems.ENDER_DIAMOND;
+import static com.gtocore.common.data.GTOItems.HELIO_COAL;
 import static com.gtocore.common.data.GTORecipeTypes.ARC_GENERATOR_RECIPES;
 
 final class ArcGenerator {

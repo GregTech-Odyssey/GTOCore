@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack
 
 import com.gtolib.api.player.PlayerData
 
-import kotlin.collections.filter
 import kotlin.math.min
 
 fun PlayerData.ktGetOrganStack(): Map<OrganType, List<ItemStack>> = this.organItemStacks

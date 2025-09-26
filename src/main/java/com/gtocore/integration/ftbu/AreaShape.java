@@ -12,11 +12,7 @@ import dev.ftb.mods.ftbultimine.shape.ShapeRegistry;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class AreaShape implements Shape {
 

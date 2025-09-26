@@ -7,10 +7,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.plateDouble;
 import static com.gregtechceu.gtceu.common.data.GTItems.NEUTRON_REFLECTOR;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.TinAlloy;
 import static com.gtocore.common.data.GTORecipeTypes.ELECTROPLATING_RECIPES;
 
 public class ElectroPlating {

@@ -33,7 +33,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.EXPORT_FLUIDS_1X;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.IMPORT_FLUIDS_1X;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Steam;
 

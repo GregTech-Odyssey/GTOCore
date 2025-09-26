@@ -31,7 +31,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

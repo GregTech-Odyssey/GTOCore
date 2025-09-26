@@ -6,7 +6,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.capability.recipe.*;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
@@ -30,7 +30,9 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {

@@ -93,7 +93,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Override
     public void onMachineUnLoad() {
-        AsyncRecipeOutputTask.removeAsyncLogic(getLogic());
+        AsyncRecipeOutputTask.removeAsyncLogic(this);
     }
 
     @Override
@@ -182,7 +182,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
         if (io == IO.OUT && machine instanceof IExtendedRecipeCapabilityHolder outputMachine && outputMachine.isDualMEOutput(recipe)) {
             var contents = new RecipeCapabilityMap<>(recipe.outputs);
-            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> RecipeRunner.handleRecipe(machine, (Recipe) recipe, IO.OUT, contents, getChanceCaches(), false));
+            AsyncRecipeOutputTask.addAsyncLogic(this, () -> RecipeRunner.handleRecipe(machine, (Recipe) recipe, IO.OUT, contents, getChanceCaches(), false));
             return true;
         }
         return RecipeRunner.handleRecipeIO(machine, (Recipe) recipe, io, chanceCaches);

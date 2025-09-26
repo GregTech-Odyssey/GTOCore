@@ -9,7 +9,8 @@ import net.minecraft.world.item.Item;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
-import static com.gtocore.common.data.GTOMaterials.*;
+import static com.gtocore.common.data.GTOMaterials.Animium;
+import static com.gtocore.common.data.GTOMaterials.TheWaterFromTheWellOfWisdom;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.record.ApotheosisAffix.getAffixSize;
 import static com.gtocore.data.record.Enchantment.getEnchantmentSize;

@@ -25,7 +25,8 @@ import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2BooleanRBTreeMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanSortedMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

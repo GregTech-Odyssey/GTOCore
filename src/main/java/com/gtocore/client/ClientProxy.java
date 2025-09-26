@@ -10,7 +10,10 @@ import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.ae2.me2in1.*;
+import com.gtolib.api.ae2.me2in1.Me2in1Menu;
+import com.gtolib.api.ae2.me2in1.Me2in1Screen;
+import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart;
+import com.gtolib.api.ae2.me2in1.Wireless;
 
 import com.gregtechceu.gtceu.GTCEu;
 

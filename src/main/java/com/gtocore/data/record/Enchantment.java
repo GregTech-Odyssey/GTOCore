@@ -14,7 +14,8 @@ import net.minecraft.world.item.Items;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.gtolib.utils.register.ItemRegisterUtils.item;
 import static net.minecraft.nbt.Tag.TAG_COMPOUND;

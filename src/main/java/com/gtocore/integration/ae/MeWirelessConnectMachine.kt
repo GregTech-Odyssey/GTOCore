@@ -23,8 +23,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
-import java.util.*
-
 class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
     WirelessMachine,

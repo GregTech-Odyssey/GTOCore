@@ -121,7 +121,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         var modularUI = new ModularUI(xOffset + 19, 244, this, entityPlayer)
                 .background(GuiTextures.BACKGROUND)
                 .widget(new LabelWidget(5, 5, () -> Component.translatable(getBlockState().getBlock().getDescriptionId()).getString() +
-                        "(" + Stream.of(inventory.getContents()).filter(i -> !((ItemStack) i).isEmpty()).count() + "/" + 288 + ")"))
+                        "(" + Stream.of(inventory.storage.stacks).filter(i -> !i.isEmpty()).count() + "/" + 288 + ")"))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 162, true));
 
         var innerContainer = new DraggableScrollableWidgetGroup(4, 4, xOffset + 6, 130)

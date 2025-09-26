@@ -29,7 +29,7 @@ import com.gtolib.api.player.PlayerData
 import earth.terrarium.adastra.api.planets.Planet
 import earth.terrarium.adastra.api.planets.PlanetApi
 
-import java.util.UUID
+import java.util.*
 
 interface IOrganService {
     fun tick(player: ServerPlayer)

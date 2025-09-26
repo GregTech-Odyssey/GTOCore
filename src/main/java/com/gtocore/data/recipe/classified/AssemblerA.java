@@ -27,7 +27,6 @@ import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Osmiridium;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 final class AssemblerA {

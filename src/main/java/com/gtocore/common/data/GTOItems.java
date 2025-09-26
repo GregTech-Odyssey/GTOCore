@@ -48,7 +48,6 @@ import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
-import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.gtocore.data.record.ApotheosisAffix.registerAffixEssence;
 import static com.gtocore.data.record.Enchantment.registerEnchantmentEssence;
 import static com.gtolib.api.registries.GTORegistration.GTM;

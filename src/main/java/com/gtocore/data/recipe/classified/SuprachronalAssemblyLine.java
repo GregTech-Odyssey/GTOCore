@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gtocore.common.data.GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES;
 
 final class SuprachronalAssemblyLine {

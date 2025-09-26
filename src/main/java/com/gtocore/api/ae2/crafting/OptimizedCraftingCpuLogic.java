@@ -53,12 +53,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static com.gtolib.api.ae2.IPatternProviderLogic.PushResult.*;
-
 public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
-
-    // private final static int BREAK = 1;
-    // private final static int BREAK_TASK_LOOP = 2;
 
     final CraftingCPUCluster cluster;
 
@@ -217,20 +212,20 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                 progress.value -= finalParallelValue;
                 if (progress.value <= 0) {
                     it.remove();
-                    return BREAK;
+                    return IPatternProviderLogic.PushResult.BREAK;
                 }
 
                 if (pushedPatterns.value > maxPatterns) {
-                    return BREAK_TASK_LOOP;
+                    return IPatternProviderLogic.PushResult.BREAK_TASK_LOOP;
                 }
 
                 expectedOutputs.reset();
                 craftingContainer.value = extractPatternInputs(details, inventory, expectedOutputs);
-                return SUCCESS;
+                return IPatternProviderLogic.PushResult.SUCCESS;
             };
             var targetOutput = details.getPrimaryOutput().what();
             if (!providerIterable.hasNext()) {
-                craftingResults.put(targetOutput, PATTERN_DOES_NOT_EXIST);
+                craftingResults.put(targetOutput, IPatternProviderLogic.PushResult.PATTERN_DOES_NOT_EXIST);
             }
             while (providerIterable.hasNext()) {
                 if (craftingContainer.value == null) break;

@@ -6,6 +6,7 @@ import com.gtocore.common.machine.multiblock.steam.SteamMultiblockMachine;
 
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.lang.CNEN;
+import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
 import com.gtolib.api.registries.GTORegistration;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -22,6 +23,11 @@ import java.util.function.Function;
 
 @Mixin(GTMultiMachines.class)
 public class GTMultiMachinesMixin {
+
+    @Redirect(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;multiblock(Ljava/lang/String;Ljava/util/function/Function;)Lcom/gregtechceu/gtceu/api/registry/registrate/MultiblockMachineBuilder;", ordinal = 2), remap = false)
+    private static MultiblockMachineBuilder electric_blast_furnace(GTRegistrate instance, String name, Function<MetaMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
+        return GTORegistration.GTM.multiblock(name, CoilMultiblockMachine.createCoilMachine(true, false)).moduleTooltips();
+    }
 
     @Redirect(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;multiblock(Ljava/lang/String;Ljava/util/function/Function;)Lcom/gregtechceu/gtceu/api/registry/registrate/MultiblockMachineBuilder;", ordinal = 3), remap = false)
     private static MultiblockMachineBuilder large_chemical_reactor(GTRegistrate instance, String name, Function<MetaMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {

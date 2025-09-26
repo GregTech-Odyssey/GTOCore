@@ -17,7 +17,6 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -42,6 +41,7 @@ import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -83,7 +83,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -380,12 +379,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         private Recipe recipe;
         private final MEPatternBufferPartMachine machine;
         public final int index;
-        final InputSink inputSink;
+        private final InputSink inputSink;
         private Runnable onContentsChanged = () -> {};
         public final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
         public final Object2LongOpenHashMap<FluidStack> fluidInventory = new O2LOpenCacheHashMap<>();
-        private Object[] itemStacks = null;
-        private Object[] fluidStacks = null;
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
@@ -415,36 +412,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         public boolean isEmpty() {
             return itemInventory.isEmpty() && fluidInventory.isEmpty();
-        }
-
-        private void onContentsChanged() {
-            itemStacks = null;
-            fluidStacks = null;
-            onContentsChanged.run();
-        }
-
-        public Object[] getItems() {
-            if (itemStacks == null) {
-                List<ItemStack> stacks = new ObjectArrayList<>(itemInventory.size());
-                itemInventory.object2LongEntrySet().fastForEach(e -> {
-                    e.getKey().setCount(MathUtil.saturatedCast(e.getLongValue()));
-                    stacks.add(e.getKey());
-                });
-                itemStacks = stacks.toArray();
-            }
-            return itemStacks;
-        }
-
-        public Object[] getFluids() {
-            if (fluidStacks == null) {
-                List<FluidStack> stacks = new ObjectArrayList<>(fluidInventory.size());
-                fluidInventory.object2LongEntrySet().fastForEach(e -> {
-                    e.getKey().setAmount(MathUtil.saturatedCast(e.getLongValue()));
-                    stacks.add(e.getKey());
-                });
-                fluidStacks = stacks.toArray();
-            }
-            return fluidStacks;
         }
 
         private void refund() {
@@ -486,12 +453,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                         else entry.setValue(amount);
                     }
                 }
-                onContentsChanged();
+                onContentsChanged.run();
             }
         }
 
         @Override
         public void onPatternChange() {
+            inputSink.fluids.clear();
+            inputSink.items.clear();
             setRecipe(null);
             refund();
         }
@@ -514,7 +483,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     }
                 }
             }
-            onContentsChanged();
+            onContentsChanged.run();
             return true;
         }
 
@@ -549,8 +518,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 }
             }
             if (changed) {
-                itemStacks = null;
-                fluidStacks = null;
+                onContentsChanged.run();
             }
             return left.isEmpty() ? null : left;
         }
@@ -584,8 +552,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 }
             }
             if (changed) {
-                itemStacks = null;
-                fluidStacks = null;
+                onContentsChanged.run();
             }
             return left.isEmpty() ? null : left;
         }
@@ -674,30 +641,24 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
     }
 
-    public static final class InputSink implements IPatternDetails.PatternInputSink {
+    private static final class InputSink implements IPatternDetails.PatternInputSink {
 
         private final InternalSlot slot;
-        private Predicate<ItemStack> itemCallback = i -> false;
+        private final O2OOpenCacheHashMap<AEItemKey, ItemStack> items = new O2OOpenCacheHashMap<>();
+        private final O2OOpenCacheHashMap<AEFluidKey, FluidStack> fluids = new O2OOpenCacheHashMap<>();
 
         private InputSink(InternalSlot slot) {
             this.slot = slot;
         }
 
         @Override
-        public void pushInput(AEKey key, long amount) {}
-
-        public void pushInput(@Nullable Object stack, long amount) {
-            if (amount <= 0L) return;
-            if (stack instanceof ItemStack itemStack) {
-                if (itemCallback.test(itemStack)) return;
-                slot.itemInventory.addTo(itemStack, amount);
-            } else if (stack instanceof FluidStack fluidStack) {
-                slot.fluidInventory.addTo(fluidStack, amount);
+        public void pushInput(AEKey key, long amount) {
+            if (amount < 1) return;
+            if (key instanceof AEItemKey itemKey) {
+                slot.itemInventory.addTo(items.computeIfAbsent(itemKey, k -> itemKey.toStack(1)), amount);
+            } else if (key instanceof AEFluidKey fluidKey) {
+                slot.fluidInventory.addTo(fluids.computeIfAbsent(fluidKey, k -> fluidKey.toStack(1)), amount);
             }
-        }
-
-        void setItemCallback(final Predicate<ItemStack> itemCallback) {
-            this.itemCallback = itemCallback;
         }
     }
 }

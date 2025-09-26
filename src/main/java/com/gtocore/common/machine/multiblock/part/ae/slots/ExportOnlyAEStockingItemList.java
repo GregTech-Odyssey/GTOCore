@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
 
@@ -36,10 +37,9 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    @NotNull
-    public Object[] getContents() {
-        if (machine.isWorkingEnabled()) return super.getContents();
-        return new Object[0];
+    public boolean forEachInputItems(Predicate<ItemStack> function) {
+        if (machine.isWorkingEnabled()) return super.forEachInputItems(function);
+        return false;
     }
 
     @Override

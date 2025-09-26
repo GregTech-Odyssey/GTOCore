@@ -17,9 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
-import static com.gtocore.data.recipe.builder.research.ExResearchManager.AnalyzeMap;
-import static com.gtocore.data.recipe.builder.research.ExResearchManager.ExtractDataCrystal;
-import static com.gtocore.data.recipe.builder.research.ExResearchManager.ExtractDataTier;
 import static com.gtolib.utils.RegistriesUtils.getItem;
 
 public class DataCrystalReport {

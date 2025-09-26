@@ -22,6 +22,7 @@ import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements IConfigurableSlotList {
@@ -132,6 +133,19 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
             }
         }
         return left.isEmpty() ? null : left;
+    }
+
+    @Override
+    public boolean forEachInputItems(Predicate<ItemStack> function) {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            var stack = i.getStack();
+            if (stack.isEmpty()) continue;
+            if (function.test(stack)) return true;
+        }
+        return false;
     }
 
     @Override

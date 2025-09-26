@@ -5,6 +5,7 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeCapabilityMap;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public final class InternalSlotRecipeHandler {
 
@@ -164,8 +166,19 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public Object[] getContents() {
-            return slot.getItems();
+        public boolean forEachInputItems(Predicate<ItemStack> function) {
+            for (ObjectIterator<Object2LongMap.Entry<ItemStack>> it = slot.itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+                var e = it.next();
+                var a = e.getLongValue();
+                if (a < 1) {
+                    it.remove();
+                    continue;
+                }
+                var stack = e.getKey();
+                stack.setCount(MathUtil.saturatedCast(a));
+                if (function.test(stack)) return true;
+            }
+            return false;
         }
 
         @Override
@@ -235,8 +248,19 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public Object[] getContents() {
-            return slot.getFluids();
+        public boolean forEachInputFluids(Predicate<FluidStack> function) {
+            for (ObjectIterator<Object2LongMap.Entry<FluidStack>> it = slot.fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+                var e = it.next();
+                var a = e.getLongValue();
+                if (a < 1) {
+                    it.remove();
+                    continue;
+                }
+                var stack = e.getKey();
+                stack.setAmount(MathUtil.saturatedCast(a));
+                if (function.test(stack)) return true;
+            }
+            return false;
         }
 
         @Override
