@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.screen;
 
-import com.gtocore.utils.RenderUtil;
+import com.gtocore.client.renderer.RenderUtil;
 import com.gtolib.api.ae2.gui.hooks.IAEBaseScreenLifecycle;
 import com.gtolib.api.ae2.gui.hooks.IconSlot;
 
