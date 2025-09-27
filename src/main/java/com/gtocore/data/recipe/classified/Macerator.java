@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.TagUtils;
@@ -154,6 +155,13 @@ final class Macerator {
                 .chancedOutput(TagPrefix.dust, GTOMaterials.Yeast, 500, 500)
                 .EUt(30)
                 .duration(50)
+                .save();
+
+        MACERATOR_RECIPES.builder("star_stone_dust")
+                .inputItems(Tags.STAR_STONE)
+                .outputItems(TagPrefix.dust, GTOMaterials.StarStone)
+                .EUt(30)
+                .duration(150)
                 .save();
     }
 }

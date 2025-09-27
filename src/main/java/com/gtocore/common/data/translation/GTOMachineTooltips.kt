@@ -66,6 +66,19 @@ object GTOMachineTooltips {
         command(ComponentSlang.TemperatureMax(2400))
     }
 
+    // 苍穹凝聚器
+    val CelestialCondenserTooltips = ComponentListSupplier {
+        setTranslationPrefix("celestial_condenser")
+
+        content("凝聚苍穹之上的能量" translatedTo "Condenses the energy from beyond the firmament")
+        section(ComponentSlang.RunningRequirements)
+        command("暴露于天空之下，不可有遮挡" translatedTo "Must be exposed directly to the sky with no obstructions")
+        increase("在主世界白天可以凝聚 - 曦煌" translatedTo "Can be condensed in the Overworld during daytime - Solaris")
+        increase("在主世界夜晚可以凝聚 - 胧华" translatedTo "Can be condensed in the Overworld during nighttime - Lunara")
+        increase("在末地可以凝聚 - 虚湮" translatedTo "Can be condensed in the End - Voidflux")
+        command("运行配方时需要消耗这些能量" translatedTo "This energy is consumed when running recipes")
+    }
+
     // 转子仓
     val RotorHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("rotor_hatch")

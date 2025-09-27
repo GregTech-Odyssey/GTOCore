@@ -29,6 +29,12 @@ object GTOTarotArcanumTooltips : AutoInitialize<GTOTarotArcanumTooltips>() {
         add(("王冠王国环，流溢永不断" translatedTo "Crown to Kingdom cycles, light flows endlessly")) { rainbowGradient(2f, 64, true) }
         add(("爱化万形影，合一返本源" translatedTo "Love shapes all forms; unite to return")) { rainbowGradient(2f, 32, true) }
         add(("圣文藏秘钥，神显驻世间" translatedTo "Holy Script holds the key; Divine Presence dwells")) { rainbowGradient(2f, 0, true) }
+
+        add(GTOTarotArcanum)
+    }
+
+    val TarotArcanum_0_Shift = ComponentListSupplier {
+        setTranslationPrefix("Tarot-The Tree of Life-Shift")
         add("本整合包并未使用韦特或者托特塔罗牌，" translatedTo "This modpack does not use the Waite or Thoth Tarot decks,") { gray() }
         add("而是使用了一种自构建牌组，" translatedTo "but instead employs a self-constructed deck,") { gray() }
         add("可能与常见体系有极大的区别。" translatedTo "which may differ significantly from conventional systems.") { gray() }

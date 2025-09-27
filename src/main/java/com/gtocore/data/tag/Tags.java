@@ -27,6 +27,7 @@ public final class Tags {
 
     public static final TagKey<Item> TAROT_ARCANUM = TagUtils.createTag(GTOCore.id("tarot_arcanum"));
 
+    public static final TagKey<Item> STAR_STONE = TagUtils.createTag(GTOCore.id("star_stone"));
     public static final TagKey<Item> ENCHANTMENT_ESSENCE = TagUtils.createTag(GTOCore.id("enchantment_essence"));
     public static final TagKey<Item> AFFIX_ESSENCE = TagUtils.createTag(GTOCore.id("affix_essence"));
 

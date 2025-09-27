@@ -426,30 +426,6 @@ public final class MagicRecipesA {
 
         }
 
-        // 苍穹凝聚器
-        {
-            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("astral_silver")
-                    .inputItems(ingot, Silver)
-                    .outputItems(ingot, AstralSilver)
-                    .addData("lunara", 1000)
-                    .duration(10)
-                    .save();
-
-            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("helio_coal")
-                    .inputItems(Items.COAL)
-                    .outputItems(HELIO_COAL)
-                    .addData("solaris", 1000)
-                    .duration(10)
-                    .save();
-
-            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("ender_diamond")
-                    .inputItems(Items.DIAMOND)
-                    .outputItems(ENDER_DIAMOND)
-                    .addData("voidflux", 1000)
-                    .duration(10)
-                    .save();
-        }
-
         // 产线的各种配方
         {
 
@@ -707,7 +683,7 @@ public final class MagicRecipesA {
                     .inputItems("botania:hopperhock", 16)
                     .inputItems("botania:rune_spring", 4)
                     .inputItems(TagPrefix.gear, GTOMaterials.Elementium, 8)
-                    .inputItems(TagPrefix.gemExquisite, GTOMaterials.Dragonstone, 16)
+                    .inputItems(TagPrefix.gemExquisite, GTOMaterials.Aerialite, 16)
                     .inputItems("botania:fertilizer", 64)
                     .outputItems(ManaMultiBlock.MANA_GREENHOUSE.asStack())
                     .inputFluids(GTOMaterials.Mana, 4608)

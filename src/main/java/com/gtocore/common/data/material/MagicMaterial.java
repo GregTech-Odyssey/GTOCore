@@ -271,6 +271,11 @@ public final class MagicMaterial {
                 .toolStats(ToolProperty.Builder.of(4.0F, 3, 4500, 0, new GTToolType[] { GTToolType.MORTAR }).build())
                 .buildAndRegister();
 
+        StarStone = magicMaterial("star_stone", "星辰石")
+                .dust()
+                .iconSet(FINE)
+                .buildAndRegister();
+
         ManaGlass = magicMaterial("mana_glass", "魔力玻璃")
                 .dust()
                 .fluid()

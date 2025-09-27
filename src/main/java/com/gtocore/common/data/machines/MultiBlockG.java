@@ -680,7 +680,7 @@ public final class MultiBlockG {
                     .aisle("   DDEDD", "   DDEDD", "   EEEEE", "   DDEDD", "   DDEDD")
                     .aisle("   AAAAA", "   AAAAA", "   AAMAA", "   AAAAA", "   AAAAA")
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
-                    .where('M', (abilities(IMPORT_ITEMS).setExactLimit(1)))
+                    .where('M', abilities(IMPORT_ITEMS).setExactLimit(1))
                     .where('N', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                             .or(abilities(EXPORT_ITEMS))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))

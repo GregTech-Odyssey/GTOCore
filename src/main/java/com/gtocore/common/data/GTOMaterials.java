@@ -1076,6 +1076,7 @@ public final class GTOMaterials {
     public static Material Livingrock;
     public static Material Runerock;
     public static Material Shimmerrock;
+    public static Material StarStone;
     public static Material ManaGlass;
     public static Material ElfGlass;
     public static Material BifrostPerm;

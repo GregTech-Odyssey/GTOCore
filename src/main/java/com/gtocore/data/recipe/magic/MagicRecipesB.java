@@ -1,16 +1,22 @@
 package com.gtocore.data.recipe.magic;
 
+import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
-import static com.gtocore.common.data.GTOMaterials.Animium;
-import static com.gtocore.common.data.GTOMaterials.TheWaterFromTheWellOfWisdom;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Ethanol;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Silver;
+import static com.gtocore.common.data.GTOItems.*;
+import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.record.ApotheosisAffix.getAffixSize;
 import static com.gtocore.data.record.Enchantment.getEnchantmentSize;
@@ -18,6 +24,84 @@ import static com.gtocore.data.record.Enchantment.getEnchantmentSize;
 public class MagicRecipesB {
 
     public static void init() {
+        // 炼金锅3
+        {
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("cycle_of_blossoms_solvent_fust")
+                    .inputItems(COLORFUL_MYSTICAL_FLOWER, 32)
+                    .inputItems(dust, StarStone, 4)
+                    .inputFluids(FractalPetalSolvent.getFluid(2000))
+                    .inputFluids(Ethanol.getFluid(1000))
+                    .chancedOutput(CycleofBlossomsSolvent.getFluid(1500), 10, 0)
+                    .chancedOutput(FractalPetalSolvent.getFluid(250), 1, 0)
+                    .duration(240)
+                    .temperature(1200)
+                    .addData("param1", 20)
+                    .addData("param2", 20)
+                    .addData("param3", 20)
+                    .save();
+        }
+
+        // 魔力组装的各种配方
+        {
+            // 铭刻之布
+            ASSEMBLER_RECIPES.builder("affix_canvas")
+                    .notConsumable("ars_nouveau:wilden_tribute")
+                    .notConsumable("botania:life_essence")
+                    .notConsumable("extrabotany:hero_medal")
+                    .inputItems("botania:manaweave_cloth", 16)
+                    .inputItems("apotheosis:uncommon_material", 8)
+                    .inputItems("apotheosis:epic_material", 4)
+                    .inputItems("apotheosis:mythic_material", 2)
+                    .inputItems("apotheosis:infused_breath", 2)
+                    .inputItems("apotheosis:gem_dust", 64)
+                    .outputItems(GTOItems.AFFIX_CANVAS.asStack(16))
+                    .inputFluids(GTOMaterials.Animium, 1000)
+                    .duration(20)
+                    .MANAt(1024)
+                    .save();
+
+        }
+
+        // 苍穹凝聚器
+        {
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("astral_silver")
+                    .inputItems(ingot, Silver)
+                    .outputItems(ingot, AstralSilver)
+                    .addData("lunara", 1000)
+                    .duration(10)
+                    .save();
+
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("helio_coal")
+                    .inputItems(Items.COAL)
+                    .outputItems(HELIO_COAL)
+                    .addData("solaris", 1000)
+                    .duration(10)
+                    .save();
+
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("ender_diamond")
+                    .inputItems(Items.DIAMOND)
+                    .outputItems(ENDER_DIAMOND)
+                    .addData("voidflux", 1000)
+                    .duration(10)
+                    .save();
+
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("star_stone_0")
+                    .inputItems(BotaniaBlocks.shimmerrock.asItem())
+                    .outputItems(GTOBlocks.STAR_STONE[0].asItem())
+                    .addData("any", 2000)
+                    .duration(10)
+                    .save();
+
+            for (int i = 0; i < 11; i++) {
+                CELESTIAL_CONDENSER_RECIPES.recipeBuilder("star_stone_" + (i + 1))
+                        .inputItems(GTOBlocks.STAR_STONE[i].asItem())
+                        .outputItems(GTOBlocks.STAR_STONE[i + 1].asItem())
+                        .addData("any", 2000 * (i + 2))
+                        .duration(10)
+                        .save();
+            }
+        }
+
         // 符文铭刻
         {
             Item[] runeItem = {
@@ -54,27 +138,6 @@ public class MagicRecipesB {
                         .duration(200)
                         .save();
             }
-        }
-
-        // 魔力组装的各种配方
-        {
-            // 铭刻之布
-            ASSEMBLER_RECIPES.builder("affix_canvas")
-                    .notConsumable("ars_nouveau:wilden_tribute")
-                    .notConsumable("botania:life_essence")
-                    .notConsumable("extrabotany:hero_medal")
-                    .inputItems("botania:manaweave_cloth", 16)
-                    .inputItems("apotheosis:uncommon_material", 8)
-                    .inputItems("apotheosis:epic_material", 4)
-                    .inputItems("apotheosis:mythic_material", 2)
-                    .inputItems("apotheosis:infused_breath", 2)
-                    .inputItems("apotheosis:gem_dust", 64)
-                    .outputItems(GTOItems.AFFIX_CANVAS.asStack(16))
-                    .inputFluids(GTOMaterials.Animium, 1000)
-                    .duration(20)
-                    .MANAt(1024)
-                    .save();
-
         }
 
         // 精粹回收
