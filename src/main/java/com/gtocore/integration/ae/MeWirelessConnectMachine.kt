@@ -53,6 +53,10 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     }
     override fun getMainNode(): IManagedGridNode? = gridHolder.mainNode
 
+    init {
+        this.getMainNode()?.setFlags()
+    }
+
     @DescSynced
     @Persisted
     override var wirelessMachinePersisted = createWirelessMachinePersisted()
