@@ -74,7 +74,9 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     public void onRecipeFinish() {
         super.onRecipeFinish();
         outputFluid(FlocculationWasteSolution, outputCount);
-        if (Math.random() * 100 <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, inputCount * 9 / 10);
+        long outputCount = inputCount * 9 / 10;
+        if (Math.random() * 100 <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, outputCount);
+        else outputFluid(WaterPurificationPlantMachine.GradePurifiedWater2, outputCount);
     }
 
     @Override

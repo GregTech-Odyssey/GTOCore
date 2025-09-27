@@ -72,4 +72,11 @@ repositories {
     maven {
         url "https://maven.enjarai.dev/mirrors"
     }
+    maven {
+        url "https://maven.twelveiterations.com/repository/maven-public/"
+
+        content {
+            includeGroup "net.blay09.mods"
+        }
+    }
 }

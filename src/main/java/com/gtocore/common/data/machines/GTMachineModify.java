@@ -165,14 +165,14 @@ public final class GTMachineModify {
             if (tier > GTValues.LV) {
                 GTMachines.SCANNER[tier].setOnWorking(machine -> {
                     if (machine.getProgress() == machine.getMaxProgress() - 1) {
-                        MachineUtils.forEachInputItems(machine, itemStack -> {
-                            CompoundTag tag = itemStack.getTag();
+                        MachineUtils.forEachInputItems(machine, (stack, amount) -> {
+                            CompoundTag tag = stack.getTag();
                             if (tag != null) {
                                 String planet = tag.getString("planet");
                                 if (!planet.isEmpty()) {
                                     UUID uuid = tag.getUUID("uuid");
                                     PlanetManagement.unlock(uuid, RLUtils.parse(planet));
-                                    itemStack.setCount(0);
+                                    stack.setCount(0);
                                     return true;
                                 }
                             }

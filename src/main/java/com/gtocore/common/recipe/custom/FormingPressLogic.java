@@ -4,6 +4,7 @@ import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
@@ -74,6 +75,8 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
     }
 
     private static Recipe collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeCapabilityHolder h) {
+        ObjectHolder<Recipe> recipeObjectHolder = new ObjectHolder<>(null);
+        l:
         for (var rhl : rhls) {
             data.mold = ItemStack.EMPTY;
             data.item = ItemStack.EMPTY;
@@ -81,27 +84,28 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
             if (handlers.isEmpty()) continue;
             for (var handler : handlers) {
                 if (!handler.shouldSearchContent()) continue;
-                var items = handler.getItemMap();
-                if (items != null) {
-                    for (var stack : items.keySet()) {
-                        boolean isMold = GTItems.SHAPE_MOLD_NAME.isIn(stack);
-                        if (isMold && data.mold.isEmpty() && stack.hasCustomHoverName()) {
-                            data.mold = stack;
-                        } else if (!isMold && data.item.isEmpty() && !stack.hasCustomHoverName()) {
-                            data.item = stack;
-                        }
-                        if (data.found()) {
-                            var recipe = data.buildRecipe();
-                            if (recipe != null) {
-                                h.setCurrentHandlerList(rhl, null);
-                                return recipe;
-                            }
+                if (handler.forEachItems((stack, amount) -> {
+                    boolean isMold = GTItems.SHAPE_MOLD_NAME.isIn(stack);
+                    if (isMold && data.mold.isEmpty() && stack.hasCustomHoverName()) {
+                        data.mold = stack;
+                    } else if (!isMold && data.item.isEmpty() && !stack.hasCustomHoverName()) {
+                        data.item = stack;
+                    }
+                    if (data.found()) {
+                        var recipe = data.buildRecipe();
+                        if (recipe != null) {
+                            h.setCurrentHandlerList(rhl, null);
+                            recipeObjectHolder.value = recipe;
+                            return true;
                         }
                     }
+                    return false;
+                })) {
+                    break l;
                 }
             }
         }
-        return null;
+        return recipeObjectHolder.value;
     }
 
     @Override

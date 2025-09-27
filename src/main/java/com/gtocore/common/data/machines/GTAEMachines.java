@@ -78,6 +78,7 @@ public final class GTAEMachines {
             .abilities(PartAbility.IMPORT_ITEMS)
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .tooltips(Component.translatable("gtceu.machine.item_bus.import.tooltip"),
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
@@ -89,6 +90,7 @@ public final class GTAEMachines {
             .abilities(PartAbility.IMPORT_FLUIDS)
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_fluid_hatch.import")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .tooltips(Component.translatable("gtceu.machine.fluid_hatch.import.tooltip"),
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),

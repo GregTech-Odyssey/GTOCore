@@ -93,17 +93,15 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
         if (!super.onWorking()) return false;
         if (!failed && getOffsetTimer() % 20 == 0) {
             IntHolder nonEmpty = new IntHolder(0);
-            forEachInputFluids(stack -> {
-                if (stack.getAmount() > 0) {
-                    if (stack.getFluid() == WaterPurificationPlantMachine.GradePurifiedWater6) return false;
-                    nonEmpty.value++;
-                    if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= stack.getAmount()) {
-                        successful = true;
-                    } else {
-                        failed = true;
-                    }
-                    inputFluid(stack);
+            forEachInputFluids((stack, amount) -> {
+                if (stack.getFluid() == WaterPurificationPlantMachine.GradePurifiedWater6) return false;
+                nonEmpty.value++;
+                if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= amount) {
+                    successful = true;
+                } else {
+                    failed = true;
                 }
+                inputFluid(stack.getFluid(), amount);
                 return false;
             });
             if (fluidStack.isEmpty() && nonEmpty.value == 0) successful = true;

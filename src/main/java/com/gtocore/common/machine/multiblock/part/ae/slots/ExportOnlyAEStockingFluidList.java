@@ -6,8 +6,11 @@ import com.gtolib.api.ae2.IExpandedStorageService;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -15,12 +18,10 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.GenericStack;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
 
@@ -32,15 +33,20 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    public Object2LongOpenHashMap<FluidStack> getFluidMap() {
-        if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
-        return super.getFluidMap();
+    public boolean forEachFluids(FluidPredicate function) {
+        if (machine.isWorkingEnabled()) return super.forEachFluids(function);
+        return false;
     }
 
     @Override
-    public boolean forEachInputFluids(Predicate<FluidStack> function) {
-        if (machine.isWorkingEnabled()) return super.forEachInputFluids(function);
-        return false;
+    public void fastForEachFluids(FluidConsumer function) {
+        if (machine.isWorkingEnabled()) super.fastForEachFluids(function);
+    }
+
+    @Override
+    public IntIngredientMap getIngredientMap() {
+        if (machine.isWorkingEnabled()) return super.getIngredientMap();
+        return IntIngredientMap.EMPTY;
     }
 
     @Override

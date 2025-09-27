@@ -150,4 +150,11 @@ dependencies {
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 
     modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
+
+//    modRuntimeOnly("curse.maven:mouse-tweaks-60089:4581240")
+//    modRuntimeOnly("curse.maven:inventory-essentials-368825:6977231")
+//    modRuntimeOnly("curse.maven:balm-531761:6978679")
+//    modCompileOnly("curse.maven:mouse-tweaks-60089:4581240")
+    modCompileOnly("curse.maven:inventory-essentials-368825:6977231")
+    modCompileOnly("curse.maven:balm-531761:6978679")
 }

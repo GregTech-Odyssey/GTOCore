@@ -7,12 +7,14 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidPredicate;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -21,12 +23,10 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
 
@@ -78,11 +78,6 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
         }
 
         @Override
-        public double getTotalContentAmount() {
-            return Integer.MAX_VALUE;
-        }
-
-        @Override
         public RecipeCapability<FluidIngredient> getCapability() {
             return FluidRecipeCapability.CAP;
         }
@@ -97,19 +92,24 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
             return IO.IN;
         }
 
-        private static final Object2LongOpenHashMap<FluidStack> MAP = new O2LOpenCacheHashMap<>(2, 0.99F);
+        private static final IntIngredientMap MAP = new IntIngredientMap();
 
         static {
-            MAP.put(WATER, Long.MAX_VALUE);
+            IntIngredientMap.FLUID_CONVERSION.convert(WATER, Long.MAX_VALUE, MAP);
         }
 
         @Override
-        public boolean forEachInputFluids(Predicate<FluidStack> function) {
-            return function.test(WATER);
+        public boolean forEachFluids(FluidPredicate function) {
+            return function.test(WATER, Long.MAX_VALUE);
         }
 
         @Override
-        public Object2LongOpenHashMap<FluidStack> getFluidMap() {
+        public void fastForEachFluids(FluidConsumer function) {
+            function.accept(WATER, Long.MAX_VALUE);
+        }
+
+        @Override
+        public IntIngredientMap getIngredientMap() {
             return MAP;
         }
     }

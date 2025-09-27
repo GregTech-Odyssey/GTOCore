@@ -195,10 +195,10 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     private void tick() {
         if (isFormed() && getOffsetTimer() % 20 == 0) {
 
-            MachineUtils.forEachInputItems(this, (stack) -> {
+            MachineUtils.forEachInputItems(this, (stack, amount) -> {
                 if (Wrapper.NEUTRON_SOURCES.containsKey(stack.getItem())) {
-                    neutronFluxkeV += (long) Wrapper.NEUTRON_SOURCES.get(stack.getItem()) * stack.getCount();
-                    stack.setCount(0);
+                    neutronFluxkeV += (long) Wrapper.NEUTRON_SOURCES.get(stack.getItem()) * amount;
+                    inputItem(stack.copyWithCount((int) amount));
                 }
                 return false;
             });
@@ -209,10 +209,12 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
                 neutronFluxkeV += (long) Math.sqrt(neutronFluxkeV * reflectors);
             }
             temperature += (float) recipeHeat;
-            MachineUtils.forEachInputFluids(this, (fluidStack) -> {
-                if (Wrapper.COOLANTS.containsKey(fluidStack.getFluid())) {
-                    temperature -= Wrapper.COOLANTS.get(fluidStack.getFluid()) * fluidStack.getAmount();
-                    fluidStack.setAmount(0);
+            MachineUtils.forEachInputFluids(this, (stack, amount) -> {
+                if (Wrapper.COOLANTS.containsKey(stack.getFluid())) {
+                    temperature -= Wrapper.COOLANTS.get(stack.getFluid()) * amount;
+                    var copy = stack.copy();
+                    copy.setAmount((int) amount);
+                    inputFluid(copy);
                 }
                 return false;
             });

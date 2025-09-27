@@ -32,11 +32,11 @@ public final class ChiselMachine extends CustomParallelMultiblockMachine {
     private Recipe getRecipe() {
         AtomicInteger c = new AtomicInteger();
         AtomicReference<Item> item = new AtomicReference<>();
-        forEachInputItems(itemStack -> {
-            if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
-                c.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(itemStack));
+        forEachInputItems((stack, amount) -> {
+            if (stack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+                c.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(stack));
             } else {
-                item.set(itemStack.getItem());
+                item.set(stack.getItem());
             }
             return false;
         });

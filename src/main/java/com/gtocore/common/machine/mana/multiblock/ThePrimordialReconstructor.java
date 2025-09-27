@@ -103,7 +103,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         List<ItemStack> inputsItems = new ObjectArrayList<>();
         List<ItemStack> outputsItems = new ObjectArrayList<>();
         IntHolder count = new IntHolder(0);
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             CompoundTag nbt = stack.getTag();
             if (nbt != null) {
                 if (nbt.contains("affix_data") || nbt.contains("Enchantments")) {
@@ -405,13 +405,13 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         ObjectHolder<Item> essence = new ObjectHolder<>(null);
         LongHolder count = new LongHolder(0);
 
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (essence.value == null)
                 if (getPrefix(stackItem.toString()).equals("enchantment_essence"))
                     essence.value = stackItem;
             if (essence.value != null && essence.value.equals(stackItem))
-                count.value += stack.getCount();
+                count.value += amount;
             return false;
         });
 
@@ -439,7 +439,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         List<Object2IntMap.Entry<String>> allEnchantments = new ArrayList<>();
         IntHolder totalBooks = new IntHolder(0);
         // 遍历输入物品，收集所有附魔书中的附魔信息
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             if (stack.getItem() == Items.ENCHANTED_BOOK) {
                 totalBooks.value++;
                 CompoundTag tag = stack.getTag();
@@ -555,7 +555,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         RecipeBuilder affixCanvasLoadRecipeBuilder = getRecipeBuilder();
 
         Set<Item> uniqueItems = new HashSet<>();
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (getPrefix(stackItem.toString()).equals("affix_essence")) uniqueItems.add(stackItem);
             return false;
@@ -589,7 +589,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         RecipeBuilder GemSynthesisRecipeBuilder = getRecipeBuilder();
 
         ObjectArrayList<ItemStack> inputsGems = new ObjectArrayList<>();
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             if (stack.getItem() == Adventure.Items.GEM.get()) {
                 inputsGems.add(stack);
             }
@@ -686,7 +686,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         ObjectHolder<ItemStack> EnchantedBook = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> NonEnchantedItem = new ObjectHolder<>(null);
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
             if (EnchantedBook.value == null && stackItem == Items.ENCHANTED_BOOK) {
@@ -741,7 +741,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         ObjectHolder<ItemStack> affixCanvas = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> NonAffixItem = new ObjectHolder<>(null);
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
             if (affixCanvas.value == null && stackItem == GTOItems.AFFIX_CANVAS.asItem()) {
@@ -804,7 +804,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         ObjectHolder<ItemStack> rarityUpItem = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> materialItem = new ObjectHolder<>(null);
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem() || stackItem == Adventure.Items.SIGIL_OF_REBIRTH.get()) return false;
             if (rarityUpItem.value == null)
@@ -850,11 +850,11 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         ObjectHolder<ItemStack> addSocketItem = new ObjectHolder<>(null);
         IntHolder sigilCount = new IntHolder(0);
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
             if (stackItem == Adventure.Items.SIGIL_OF_SOCKETING.get()) {
-                sigilCount.value += stack.getCount();
+                sigilCount.value += amount;
                 return false;
             }
             if (addSocketItem.value == null)
@@ -895,7 +895,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         ObjectHolder<ItemStack> addGemItem = new ObjectHolder<>(null);
         List<ItemStack> gemItems = new ObjectArrayList<>();
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
             if (addGemItem.value == null && stackItem != Adventure.Items.GEM.get())

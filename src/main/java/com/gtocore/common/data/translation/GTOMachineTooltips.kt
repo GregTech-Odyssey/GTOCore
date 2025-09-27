@@ -1290,8 +1290,8 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.OutputProbability)
         info("基础概率: 70%" translatedTo "Base probability: 70%")
-        increase("同等级净化水可提升15%" translatedTo "Same-tier purified water can improve 15%")
-        increase("更高等级每级额外增加5%，最高4级达到100%" translatedTo "Higher levels increase by an additional 5% per level, reaching 100% at the maximum of 4 levels")
+        increase("输入少量同等级净化水可提升15%" translatedTo "Adding a small amount of purified water of the same grade increases probability by 15%")
+        increase("输入更高等级净化水每级额外增加5%，最高4级达到100%" translatedTo "Each higher grade of purified water adds 5% per level, up to 4 levels maximum for 100% probability")
     }
 
     // 臭氧净化装置
@@ -1301,13 +1301,13 @@ object GTOMachineTooltips {
         highlight(ComponentSlang.PurifyLevel(2))
 
         section(ComponentSlang.RunningRequirements)
-        content("臭氧消耗量=输入水量/10000mB" translatedTo "Ozone consumption = input water amount / 10000mB")
-        error(("如果输入口含有超过1024B的臭氧气体，将发生" translatedTo "If the inlet contains more than 1024B of Ozone Gas, there will occur an ") + ComponentSlang.Explosion)
+        content("臭氧消耗量=输入水量/10000mB" translatedTo "Ozone consumption = input water amount / 10,000mB")
+        error(("如果输入口含有超过1024B的臭氧气体，将发生" translatedTo "If the input contains more than 1,024B of ozone gas, it will cause an ") + ComponentSlang.Explosion)
 
         section(ComponentSlang.OutputProbability)
-        info("臭氧气体在0-1024B范围内的产出概率为0-80%" translatedTo "The output probability of Ozone Gas in the range of 0-1024B is 0-80%")
-        increase("输入少量同等级水可提升15%" translatedTo "Inputting a small amount of the same level water can increase it by 15%")
-        increase("更高一级额外提升5%" translatedTo "Higher levels increase by an additional 5%")
+        info("臭氧气体在0-1024B范围内的产出概率为0-80%" translatedTo "Output probability ranges from 0-80% based on ozone gas amount (0-1,024B)")
+        increase("输入少量同等级净化水可提升15%" translatedTo "Adding a small amount of purified water of the same grade increases probability by 15%")
+        increase("输入更高一级净化水可额外提升5%" translatedTo "Adding a higher grade of purified water provides an additional 5% increase")
     }
 
     // 絮凝净化装置

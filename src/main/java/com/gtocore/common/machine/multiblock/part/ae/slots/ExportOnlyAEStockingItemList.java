@@ -6,7 +6,10 @@ import com.gtolib.api.ae2.IExpandedStorageService;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -14,12 +17,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
 
@@ -31,15 +32,20 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
-        if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
-        return super.getItemMap();
+    public boolean forEachItems(ItemPredicate function) {
+        if (machine.isWorkingEnabled()) return super.forEachItems(function);
+        return false;
     }
 
     @Override
-    public boolean forEachInputItems(Predicate<ItemStack> function) {
-        if (machine.isWorkingEnabled()) return super.forEachInputItems(function);
-        return false;
+    public void fastForEachItems(ItemConsumer function) {
+        if (machine.isWorkingEnabled()) super.fastForEachItems(function);
+    }
+
+    @Override
+    public IntIngredientMap getIngredientMap() {
+        if (machine.isWorkingEnabled()) return super.getIngredientMap();
+        return IntIngredientMap.EMPTY;
     }
 
     @Override

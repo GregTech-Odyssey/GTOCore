@@ -5,18 +5,22 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeCapabilityMap;
-import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidPredicate;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemPredicate;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public final class InternalSlotRecipeHandler {
 
@@ -137,15 +140,6 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public double getTotalContentAmount() {
-            double a = 0;
-            for (ObjectIterator<Object2LongMap.Entry<ItemStack>> it = slot.itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
-                a += it.next().getLongValue();
-            }
-            return a;
-        }
-
-        @Override
         public int getSize() {
             return 81;
         }
@@ -166,7 +160,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public boolean forEachInputItems(Predicate<ItemStack> function) {
+        public boolean forEachItems(ItemPredicate function) {
             for (ObjectIterator<Object2LongMap.Entry<ItemStack>> it = slot.itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var e = it.next();
                 var a = e.getLongValue();
@@ -174,16 +168,32 @@ public final class InternalSlotRecipeHandler {
                     it.remove();
                     continue;
                 }
-                var stack = e.getKey();
-                stack.setCount(MathUtil.saturatedCast(a));
-                if (function.test(stack)) return true;
+                if (function.test(e.getKey(), a)) return true;
             }
             return false;
         }
 
         @Override
-        public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
-            return slot.itemInventory.isEmpty() ? null : slot.itemInventory;
+        public void fastForEachItems(ItemConsumer function) {
+            slot.itemInventory.object2LongEntrySet().fastForEach(e -> {
+                var a = e.getLongValue();
+                if (a < 1) return;
+                function.accept(e.getKey(), a);
+            });
+        }
+
+        @Override
+        public IntIngredientMap getIngredientMap() {
+            if (slot.itemChanged) {
+                slot.itemChanged = false;
+                slot.itemIngredientMap.clear();
+                slot.itemInventory.object2LongEntrySet().fastForEach(e -> {
+                    var a = e.getLongValue();
+                    if (a < 1) return;
+                    IntIngredientMap.ITEM_CONVERSION.convert(e.getKey(), a, slot.itemIngredientMap);
+                });
+            }
+            return slot.itemIngredientMap;
         }
 
         @Override
@@ -219,15 +229,6 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public double getTotalContentAmount() {
-            double a = 0;
-            for (ObjectIterator<Object2LongMap.Entry<FluidStack>> it = slot.fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
-                a += it.next().getLongValue();
-            }
-            return a;
-        }
-
-        @Override
         public int getSize() {
             return 81;
         }
@@ -248,7 +249,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public boolean forEachInputFluids(Predicate<FluidStack> function) {
+        public boolean forEachFluids(FluidPredicate function) {
             for (ObjectIterator<Object2LongMap.Entry<FluidStack>> it = slot.fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var e = it.next();
                 var a = e.getLongValue();
@@ -256,16 +257,32 @@ public final class InternalSlotRecipeHandler {
                     it.remove();
                     continue;
                 }
-                var stack = e.getKey();
-                stack.setAmount(MathUtil.saturatedCast(a));
-                if (function.test(stack)) return true;
+                if (function.test(e.getKey(), a)) return true;
             }
             return false;
         }
 
         @Override
-        public Object2LongOpenHashMap<FluidStack> getFluidMap() {
-            return slot.fluidInventory.isEmpty() ? null : slot.fluidInventory;
+        public void fastForEachFluids(FluidConsumer function) {
+            slot.fluidInventory.object2LongEntrySet().fastForEach(e -> {
+                var a = e.getLongValue();
+                if (a < 1) return;
+                function.accept(e.getKey(), a);
+            });
+        }
+
+        @Override
+        public IntIngredientMap getIngredientMap() {
+            if (slot.fluidChanged) {
+                slot.fluidChanged = false;
+                slot.fluidIngredientMap.clear();
+                slot.fluidInventory.object2LongEntrySet().fastForEach(e -> {
+                    var a = e.getLongValue();
+                    if (a < 1) return;
+                    IntIngredientMap.FLUID_CONVERSION.convert(e.getKey(), a, slot.fluidIngredientMap);
+                });
+            }
+            return slot.fluidIngredientMap;
         }
 
         @Override

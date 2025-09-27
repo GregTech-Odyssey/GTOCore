@@ -7,6 +7,8 @@ import com.gtolib.utils.NumberUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemPredicate;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -15,9 +17,8 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -45,12 +46,10 @@ import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -197,24 +196,33 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         }
 
         @Override
-        public boolean forEachInputItems(Predicate<ItemStack> function) {
-            return function.test(getStackInSlot(0));
+        public boolean forEachItems(ItemPredicate function) {
+            var amount = ((HugeCustomItemStackHandler) storage).count;
+            if (amount > 0) {
+                return function.test(getStackInSlot(0), amount);
+            }
+            return false;
         }
 
         @Override
-        @Nullable
-        public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
-            long c = getCount();
-            if (c < 1) return null;
-            if (itemMap == null) {
-                itemMap = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
+        public void fastForEachItems(ItemConsumer function) {
+            var amount = ((HugeCustomItemStackHandler) storage).count;
+            if (amount > 0) {
+                function.accept(getStackInSlot(0), amount);
             }
+        }
+
+        @Override
+        public IntIngredientMap getIngredientMap() {
             if (changed) {
                 changed = false;
-                itemMap.clear();
-                itemMap.put(getStackInSlot(0), getCount());
+                intIngredientMap.clear();
+                var amount = ((HugeCustomItemStackHandler) storage).count;
+                if (amount > 0) {
+                    IntIngredientMap.ITEM_CONVERSION.convert(getStackInSlot(0), amount, intIngredientMap);
+                }
             }
-            return itemMap;
+            return intIngredientMap;
         }
 
         @Override

@@ -57,9 +57,9 @@ public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine {
         amount = amount + GTValues.RNG.nextInt(9 * amount);
         AtomicReference<Recipe> recipe = new AtomicReference<>();
         int finalAmount = amount;
-        forEachInputItems(stack -> {
+        forEachInputItems((stack, a) -> {
             if (ALGAES.contains(stack.getItem())) {
-                recipe.set(getRecipe(stack.copyWithCount(finalAmount * Math.max(1, stack.getCount() / 4))));
+                recipe.set(getRecipe(stack.copyWithCount((int) (finalAmount * Math.max(1, a / 4)))));
                 return true;
             }
             return false;

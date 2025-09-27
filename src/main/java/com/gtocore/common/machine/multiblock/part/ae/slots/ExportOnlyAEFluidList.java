@@ -3,24 +3,24 @@ package com.gtocore.common.machine.multiblock.part.ae.slots;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.FluidPredicate;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfigurableSlotList {
@@ -46,8 +46,29 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
 
     @Override
     public boolean isEmpty() {
-        return getFluidMap() == null;
+        if (isEmpty == null) {
+            isEmpty = true;
+            for (var i : inventory) {
+                if (i.config == null) continue;
+                var stock = i.stock;
+                if (stock == null || stock.amount() == 0) continue;
+                var stack = i.getFluid();
+                if (stack.isEmpty()) continue;
+                isEmpty = false;
+                break;
+            }
+        }
+        return isEmpty;
     }
+
+    @NotNull
+    @Override
+    public FluidStack getFluidInTank(int tank) {
+        return inventory[tank].getFluid();
+    }
+
+    @Override
+    public void setFluidInTank(int tank, @NotNull FluidStack fluidStack) {}
 
     @Override
     public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
@@ -123,37 +144,45 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     }
 
     @Override
-    public boolean forEachInputFluids(Predicate<FluidStack> function) {
+    public boolean forEachFluids(FluidPredicate function) {
         for (var i : inventory) {
             if (i.config == null) continue;
             var stock = i.stock;
             if (stock == null || stock.amount() == 0) continue;
             var stack = i.getFluid();
             if (stack.isEmpty()) continue;
-            if (function.test(stack)) return true;
+            if (function.test(stack, stock.amount())) return true;
         }
         return false;
     }
 
     @Override
-    public Object2LongOpenHashMap<FluidStack> getFluidMap() {
-        if (fluidMap == null) {
-            fluidMap = new O2LOpenCacheHashMap<>();
+    public void fastForEachFluids(FluidConsumer function) {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            var stack = i.getFluid();
+            if (stack.isEmpty()) continue;
+            function.accept(stack, stock.amount());
         }
+    }
+
+    @Override
+    public IntIngredientMap getIngredientMap() {
         if (changed) {
             changed = false;
-            fluidMap.clear();
+            intIngredientMap.clear();
             for (var i : inventory) {
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
                 var stack = i.getFluid();
                 if (stack.isEmpty()) continue;
-                fluidMap.addTo(stack, stock.amount());
+                IntIngredientMap.FLUID_CONVERSION.convert(stack, stock.amount(), intIngredientMap);
             }
-            isEmpty = fluidMap.isEmpty();
         }
-        return isEmpty ? null : fluidMap;
+        return intIngredientMap;
     }
 
     @Override
@@ -184,7 +213,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
         private final ExportOnlyAEFluidSlot fluid;
 
         FluidStorageDelegate(ExportOnlyAEFluidSlot fluid) {
-            super(0);
+            super(Integer.MAX_VALUE);
             this.fluid = fluid;
         }
 

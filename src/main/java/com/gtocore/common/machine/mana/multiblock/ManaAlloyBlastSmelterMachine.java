@@ -84,8 +84,8 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
                 if (signal > 0) {
                     Item item = RUNES.get(signal);
                     AtomicBoolean success = new AtomicBoolean(false);
-                    forEachInputItems(stack -> {
-                        if (stack.is(item) && inputItem(item.getDefaultInstance())) {
+                    forEachInputItems((stack, amount) -> {
+                        if (stack.is(item) && inputItem(stack)) {
                             success.set(true);
                             return true;
                         }

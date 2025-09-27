@@ -78,11 +78,11 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     private boolean input(FluidStack stack) {
         AtomicBoolean success = new AtomicBoolean(false);
         AtomicBoolean failed = new AtomicBoolean(false);
-        forEachInputFluids(fluidStack -> {
+        forEachInputFluids((fluidStack, amount) -> {
             var fluid = fluidStack.getFluid();
             if (FLUIDS.contains(fluid)) {
                 if (fluid == stack.getFluid()) {
-                    if (fluidStack.getAmount() >= stack.getAmount()) {
+                    if (amount >= stack.getAmount()) {
                         inputFluid(stack);
                         success.set(true);
                     }

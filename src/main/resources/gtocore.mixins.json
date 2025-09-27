@@ -25,11 +25,13 @@
     "gtm.TooltipsHandlerMixin",
     "gtm.api.recipe.ContentMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
+    "inventoryessentials.ClientOnlyInventoryControlsMixin",
     "mc.OpenContainerMixin",
     "merequester.NumberFieldMixin",
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
+    "GameRendererMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
     "ae2.EnergyServiceMixin",
@@ -78,6 +80,7 @@
     "ae2.menu.PatternProviderMenuMixin",
     "ae2.network.GuiDataSyncPacketMixin",
     "ae2.pattern.AECraftingPatternMixin",
+    "ae2.pattern.AEPatternHelperMixin",
     "ae2.pattern.AEProcessingPatternMixin",
     "ae2.pattern.AESmithingTablePatternMixin",
     "ae2.pattern.AEStonecuttingPatternMixin",

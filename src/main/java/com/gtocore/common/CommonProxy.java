@@ -97,7 +97,11 @@ public class CommonProxy {
     private static void commonSetup(FMLCommonSetupEvent event) {
         BlockMap.build();
         GTOPartAbility.init();
-        if (GTOCore.isExpert()) AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
+        if (GTOCore.isExpert()) {
+            AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
+        } else {
+            AEConfig.instance().setChannelModel(ChannelMode.INFINITE);
+        }
 
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (MKIV)");
         FusionReactorMachine.registerFusionTier(GTValues.UEV, " (MKV)");

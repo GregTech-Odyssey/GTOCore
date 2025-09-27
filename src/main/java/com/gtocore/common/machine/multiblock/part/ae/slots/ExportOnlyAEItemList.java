@@ -3,14 +3,15 @@ package com.gtocore.common.machine.multiblock.part.ae.slots;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemConsumer;
+import com.gregtechceu.gtceu.api.capability.recipe.function.ItemPredicate;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
-import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -18,11 +19,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements IConfigurableSlotList {
@@ -54,7 +53,19 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
 
     @Override
     public boolean isEmpty() {
-        return getItemMap() == null;
+        if (isEmpty == null) {
+            isEmpty = true;
+            for (var i : inventory) {
+                if (i.config == null) continue;
+                var stock = i.stock;
+                if (stock == null || stock.amount() == 0) continue;
+                var stack = i.getStack();
+                if (stack.isEmpty()) continue;
+                isEmpty = false;
+                break;
+            }
+        }
+        return isEmpty;
     }
 
     @Override
@@ -136,37 +147,45 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     @Override
-    public boolean forEachInputItems(Predicate<ItemStack> function) {
+    public boolean forEachItems(ItemPredicate function) {
         for (var i : inventory) {
             if (i.config == null) continue;
             var stock = i.stock;
             if (stock == null || stock.amount() == 0) continue;
             var stack = i.getStack();
             if (stack.isEmpty()) continue;
-            if (function.test(stack)) return true;
+            if (function.test(stack, stock.amount())) return true;
         }
         return false;
     }
 
     @Override
-    public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
-        if (itemMap == null) {
-            itemMap = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
+    public void fastForEachItems(ItemConsumer function) {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            var stack = i.getStack();
+            if (stack.isEmpty()) continue;
+            function.accept(stack, stock.amount());
         }
+    }
+
+    @Override
+    public IntIngredientMap getIngredientMap() {
         if (changed) {
             changed = false;
-            itemMap.clear();
+            intIngredientMap.clear();
             for (var i : inventory) {
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
                 var stack = i.getStack();
                 if (stack.isEmpty()) continue;
-                itemMap.addTo(stack, stock.amount());
+                IntIngredientMap.ITEM_CONVERSION.convert(stack, stock.amount(), intIngredientMap);
             }
-            isEmpty = itemMap.isEmpty();
         }
-        return isEmpty ? null : itemMap;
+        return intIngredientMap;
     }
 
     @Override

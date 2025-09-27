@@ -35,6 +35,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -381,6 +382,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public final int index;
         private final InputSink inputSink;
         private Runnable onContentsChanged = () -> {};
+        public boolean itemChanged = true;
+        public boolean fluidChanged = true;
+        public final IntIngredientMap itemIngredientMap = new IntIngredientMap();
+        public final IntIngredientMap fluidIngredientMap = new IntIngredientMap();
         public final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
         public final Object2LongOpenHashMap<FluidStack> fluidInventory = new O2LOpenCacheHashMap<>();
 
@@ -453,6 +458,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                         else entry.setValue(amount);
                     }
                 }
+                itemChanged = true;
+                fluidChanged = true;
                 onContentsChanged.run();
             }
         }
@@ -483,6 +490,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     }
                 }
             }
+            itemChanged = true;
+            fluidChanged = true;
             onContentsChanged.run();
             return true;
         }
@@ -518,6 +527,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 }
             }
             if (changed) {
+                itemChanged = true;
+                fluidChanged = true;
                 onContentsChanged.run();
             }
             return left.isEmpty() ? null : left;
@@ -552,6 +563,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 }
             }
             if (changed) {
+                itemChanged = true;
+                fluidChanged = true;
                 onContentsChanged.run();
             }
             return left.isEmpty() ? null : left;
