@@ -4482,6 +4482,7 @@
   "gtocore.recipe.ev_min": "Minimum Neutron Energy: %s MeV",
   "gtocore.recipe.evt": "Energy Consumption per Tick: %s KeV",
   "gtocore.recipe.frheat": "Heating per Second: %s K",
+  "gtocore.recipe.fuelcell.converted_efficiency": "Efficiency: %s%%%%",
   "gtocore.recipe.fuelcell.converted_energy": "Convertible Base Energy: %s EU",
   "gtocore.recipe.grindball": "macerator Ball Material: %s",
   "gtocore.recipe.heat.change": "Recipe Base Heat Production: %sK/s",

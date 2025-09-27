@@ -3060,6 +3060,7 @@
   "gtocore.recipe.ev_min": "最小中子動能：%s MeV",
   "gtocore.recipe.evt": "每刻中子動能消耗：%s KeV",
   "gtocore.recipe.frheat": "每秒升溫：%s K",
+  "gtocore.recipe.fuelcell.converted_efficiency": "效率: %s%%%%",
   "gtocore.recipe.fuelcell.converted_energy": "可轉換的基礎能量： %s EU",
   "gtocore.recipe.grindball": "研磨球材質：%s",
   "gtocore.recipe.heat.change": "配方基礎產熱: %sK/s",

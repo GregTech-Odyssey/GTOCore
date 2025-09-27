@@ -869,7 +869,7 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .addDataInfo(data -> {
                 if (data.contains("convertedEnergy")) return LocalizationUtils.format("gtocore.recipe.fuelcell.converted_energy", data.getLong("convertedEnergy"));;
-                return data.contains("efficiency") ? LocalizationUtils.format("gtceu.multiblock.large_boiler.efficiency", FormattingUtil.formatNumber2Places(data.getFloat("efficiency") * 100) + "%") : "";
+                return data.contains("efficiency") ? LocalizationUtils.format("gtocore.recipe.fuelcell.converted_efficiency", FormattingUtil.formatNumber2Places(data.getFloat("efficiency") * 100)) : "";
             })
             .setSound(GTSoundEntries.CHEMICAL);
 
