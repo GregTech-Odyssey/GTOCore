@@ -1301,11 +1301,11 @@ object GTOMachineTooltips {
         highlight(ComponentSlang.PurifyLevel(2))
 
         section(ComponentSlang.RunningRequirements)
-        content("臭氧消耗量=输入水量/10000mB" translatedTo "Ozone consumption = input water amount / 10,000mB")
-        error(("如果输入口含有超过1024B的臭氧气体，将发生" translatedTo "If the input contains more than 1,024B of ozone gas, it will cause an ") + ComponentSlang.Explosion)
+        content("臭氧消耗量=输入水量/10,000mB" translatedTo "Ozone consumption = input water amount / 10,000mB")
+        error(("如果输入口含有超过1,024B的臭氧气体，将发生" translatedTo "If the input contains more than 1,024B of ozone gas, it will cause an ") + ComponentSlang.Explosion)
 
         section(ComponentSlang.OutputProbability)
-        info("臭氧气体在0-1024B范围内的产出概率为0-80%" translatedTo "Output probability ranges from 0-80% based on ozone gas amount (0-1,024B)")
+        info("臭氧气体在0-1,024B范围内的产出概率为0-80%" translatedTo "Output probability ranges from 0-80% based on ozone gas amount (0-1,024B)")
         increase("输入少量同等级净化水可提升15%" translatedTo "Adding a small amount of purified water of the same grade increases probability by 15%")
         increase("输入更高一级净化水可额外提升5%" translatedTo "Adding a higher grade of purified water provides an additional 5% increase")
     }
@@ -1322,8 +1322,8 @@ object GTOMachineTooltips {
         content("在操作过程中，将消耗输入仓中的所有聚合氯化铝" translatedTo "During operation, all Polymeric Aluminum Chloride in the input chamber will be consumed.")
 
         section(ComponentSlang.OutputProbability)
-        increase("每消耗100000mB聚合氯化铝，成功率额外增加10.0%" translatedTo "For every 100000mB of Polymeric Aluminum Chloride consumed, success rate increases by 10.0%.")
-        decrease("如果提供的液体总量不是100000mB的倍数，则应用成功率惩罚：" translatedTo "If total liquid provided is not a multiple of 100000mB, apply success rate penalty:")
+        increase("每消耗100,000mB聚合氯化铝，成功率额外增加10.0%" translatedTo "For every 100,000mB of Polymeric Aluminum Chloride consumed, success rate increases by 10.0%.")
+        decrease("如果提供的液体总量不是100,000mB的倍数，则应用成功率惩罚：" translatedTo "If total liquid provided is not a multiple of 100,000mB, apply success rate penalty:")
         info("成功率 = 成功率 * 2 ^ (-10 * 溢出比率)" translatedTo "Success Rate = Success Rate * 2 ^ (-10 * Overflow Ratio)")
     }
 
@@ -1354,7 +1354,7 @@ object GTOMachineTooltips {
         highlight(ComponentSlang.PurifyLevel(5))
 
         section(ComponentSlang.RunningRequirements)
-        command("完成加热周期：先加热水至10000K以上，再冷却至10K以下" translatedTo "Complete heating cycle: first heat Water above 10000K, then cool below 10K.")
+        command("完成加热周期：先加热水至10,000K以上，再冷却至10K以下" translatedTo "Complete heating cycle: first heat Water above 10,000K, then cool below 10K.")
         content("配方开始时初始温度重置为298K" translatedTo "Initial temperature reset to 298K at recipe start.")
         content("每秒最多消耗10mB氦等离子体和100mB液氦" translatedTo "Consumes up to 10mB Helium Plasma and 100mB Liquid Helium per second.")
 
@@ -1364,7 +1364,7 @@ object GTOMachineTooltips {
         section("温度调节" translatedTo "Temperature Regulation Mechanism")
         command("每消耗1mB氦等离子体：温度升高80-120K" translatedTo "Each 1mB Helium Plasma consumed: temperature +80-120K")
         command("每消耗1mB液氦：温度降低4-6K" translatedTo "Each 1mB Liquid Helium consumed: temperature -4-6K")
-        error("温度达到12500K：配方失败并输出超临界蒸汽" translatedTo "If temperature reaches 12500K: recipe fails and outputs Supercritical Steam")
+        error("温度达到12,500K：配方失败并输出超临界蒸汽" translatedTo "If temperature reaches 12,500K: recipe fails and outputs Supercritical Steam")
     }
 
     // 高能激光净化装置
@@ -1398,16 +1398,16 @@ object GTOMachineTooltips {
 
         section("信号需求" translatedTo "Signal Requirement")
         command("1, 3, 5, 7, 9：通过惰性气体进行臭氧曝气" translatedTo "1, 3, 5, 7, 9: Ozone aeration via Inert Gases")
-        info("对应 10000mB氦气 / 8000mB氖气 / 6000mB氩气 / 4000mB氪气 / 2000mB氙气" translatedTo "Which is 10000mB Helium / 8000mB Neon / 6000mB Argon / 4000mB Krypton / 2000mB Xenon")
+        info("对应 10,000mB氦气 / 8,000mB氖气 / 6,000mB氩气 / 4,000mB氪气 / 2,000mB氙气" translatedTo "Which is 10,000mB Helium / 8,000mB Neon / 6,000mB Argon / 4,000mB Krypton / 2,000mB Xenon")
         command("2, 4, 6, 8, 10：超导去离子" translatedTo "2, 4, 6, 8, 10: Superconductive deionization")
-        info("需要输入1000mB对应IV，LuV，ZPM，UV，UHV的液态超导" translatedTo "Needs input of 1000mB of liquid superconductors corresponding to IV, LuV, ZPM, UV, UHV.")
+        info("需要输入1,000mB对应IV，LuV，ZPM，UV，UHV的液态超导" translatedTo "Needs input of 1,000mB of liquid superconductors corresponding to IV, LuV, ZPM, UV, UHV.")
         command("11, 13, 15：引力生成差异真空提取" translatedTo "11, 13, 15: Gravitational Differential Vacuum Extraction")
-        info("需要输入2000mB液态安普洛" translatedTo "Requires input of 2000mB Liquid Amprosiums.")
+        info("需要输入2,000mB液态安普洛" translatedTo "Requires input of 2,000mB Liquid Amprosiums.")
         command("12, 14：塞尔多尼安沉淀过程" translatedTo "12, 14: Seldenian precipitation process")
         info("不输入任何东西" translatedTo "Do not input anything.")
         command("0：机器过载" translatedTo "0: Machine overload")
         info("在罕见情况下，机器可能会过载并且不会输出任何控制信号" translatedTo "In rare situations, the machine may overload and not output any control signals.")
-        info("为防止机器损坏，输入10000mB液氦" translatedTo "To prevent machine damage, input 10000mB Liquid Helium.")
+        info("为防止机器损坏，输入10,000mB液氦" translatedTo "To prevent machine damage, input 10,000mB Liquid Helium.")
         error("输入信号未请求的任何流体将始终导致配方失败" translatedTo "Any liquid not requested by the input signal will always cause the recipe to fail.")
     }
 
