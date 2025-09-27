@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 
+import appeng.api.networking.GridFlags
 import appeng.api.networking.IManagedGridNode
 import appeng.api.util.AECableType
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
@@ -54,7 +55,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     override fun getMainNode(): IManagedGridNode? = gridHolder.mainNode
 
     init {
-        this.getMainNode()?.setFlags()
+        this.getMainNode()?.setFlags(GridFlags.DENSE_CAPACITY)
     }
 
     @DescSynced
