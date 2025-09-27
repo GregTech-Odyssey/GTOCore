@@ -23,6 +23,7 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 
 import static com.gtocore.common.block.BlockMap.*;
+import static com.gtocore.common.block.GlowingBlock.createStarStone;
 import static com.gtolib.utils.register.BlockRegisterUtils.*;
 
 public final class GTOBlocks {
@@ -407,6 +408,8 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> GAIASTEEL_CASING = createCasingBlock("gaiasteel_casing", "盖亚钢外壳", GTOCore.id("block/casings/gaiasteel_casing"));
     public static final BlockEntry<Block> ORICHALCOS_CASING = createCasingBlock("orichalcos_casing", "奥利哈钢外壳", GTOCore.id("block/casings/orichalcos_casing"));
     public static final BlockEntry<Block> HERETICAL_MECHANICAL_CASING = createCasingBlock("heretical_mechanical_casing", "邪术机械方块", GTOCore.id("block/casings/heretical_mechanical_casing"));
+
+    public static final BlockEntry<GlowingBlock>[] STAR_STONE = createStarStone();
 
     public static final BlockEntry<Block> ACCELERATOR_PARTICLE_CONSTRAINED_CASING = createCasingBlock("accelerator_particle_constrained_casing", "加速器粒子约束机械方块", GTOCore.id("block/casings/accelerator/accelerator_particle_constrained_casing"));
     public static final BlockEntry<Block> ACCELERATOR_PROTECTION_CASING = createCasingBlock("accelerator_protection_casing", "加速器防护机械方块", GTOCore.id("block/casings/accelerator/accelerator_protection_casing"));

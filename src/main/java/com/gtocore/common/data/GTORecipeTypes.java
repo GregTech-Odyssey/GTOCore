@@ -965,9 +965,11 @@ public final class GTORecipeTypes {
                 int solaris = data.getInt("solaris");
                 int lunara = data.getInt("lunara");
                 int voidflux = data.getInt("voidflux");
+                int any = data.getInt("any");
                 if (solaris > 0) return I18n.get("gtocore.celestial_condenser.solaris", solaris);
                 if (lunara > 0) return I18n.get("gtocore.celestial_condenser.lunara", lunara);
                 if (voidflux > 0) return I18n.get("gtocore.celestial_condenser.voidflux", voidflux);
+                if (any > 0) return I18n.get("gtocore.celestial_condenser.any", any);
                 return "";
             });
 

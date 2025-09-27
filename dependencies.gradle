@@ -81,11 +81,6 @@ dependencies {
     modImplementation("curse.maven:farmers-delight-398521:6917255")
     modImplementation("curse.maven:farmers-respite-551453:5543547")
 
-    modImplementation("curse.maven:cuisine-delight-893541:6677944")
-    modImplementation("curse.maven:crabbers-delight-892827:6994635")
-    modImplementation("curse.maven:vintage-delight-949719:5847856")
-    modImplementation("curse.maven:kitchen-karrot-880555:6563401")
-
     modImplementation("curse.maven:endremastered-404183:5598990")
 
     modImplementation("curse.maven:spark-361579:4738952")

@@ -60,7 +60,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
         }
     };
 
-    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "30", normalValue = "18", expertValue = "10", cn = "基础蒸汽产率 : %s / t", en = "Basic steam production : %s / t")
+    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "30", normalValue = "18", expertValue = "12", cn = "基础蒸汽产率 : %s / t", en = "Basic steam production : %s / t")
     private static int basicSteamProduction = 10;
 
     private static final int MAX_LR_DIST = 5, MAX_B_DIST = 11;

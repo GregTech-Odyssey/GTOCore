@@ -337,6 +337,9 @@ public final class LangHandler {
         addCNEN("gtocore.celestial_condenser.solaris", "曦煌：%s", "Solaris: %s");
         addCNEN("gtocore.celestial_condenser.lunara", "胧华：%s", "Lunara: %s");
         addCNEN("gtocore.celestial_condenser.voidflux", "虚湮：%s", "Voidflux: %s");
+        addCNEN("gtocore.celestial_condenser.any", "任意：%s", "Any: %s");
+
+        addCNEN("tooltip.gtocore.hold_for_more", "§1按住 %s 显示更多信息。§r", "§1Hold %s for more info.§r");
     }
 
     public static void enInitialize(LanguageProvider provider) {

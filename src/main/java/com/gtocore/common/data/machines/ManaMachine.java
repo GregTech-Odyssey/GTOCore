@@ -153,6 +153,7 @@ public final class ManaMachine {
             .tier(HV)
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("celestial_condenser"), GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES))
             .recipeType(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
+            .tooltips(GTOMachineTooltips.INSTANCE.getCelestialCondenserTooltips().getSupplier())
             .nonYAxisRotation()
             .renderer(CelestialCondenserRenderer::new)
             .hasTESR(true)

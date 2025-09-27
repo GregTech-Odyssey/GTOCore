@@ -48,6 +48,7 @@ import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
 import static com.gtocore.data.record.ApotheosisAffix.registerAffixEssence;
 import static com.gtocore.data.record.Enchantment.registerEnchantmentEssence;
 import static com.gtolib.api.registries.GTORegistration.GTM;
@@ -895,7 +896,8 @@ public final class GTOItems {
         }
     }).register();
 
-    // public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
+    @SuppressWarnings("rawtypes")
+    public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
 
     public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
     public static final ItemEntry<ApothItem>[] ENCHANTMENT_ESSENCE = registerEnchantmentEssence();

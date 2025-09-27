@@ -40,11 +40,23 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
         int solarisCost = recipe.data.contains("solaris") ? recipe.data.getInt("solaris") : 0;
         int lunaraCost = recipe.data.contains("lunara") ? recipe.data.getInt("lunara") : 0;
         int voidfluxCost = recipe.data.contains("voidflux") ? recipe.data.getInt("voidflux") : 0;
-        if (solarisCost > this.solaris || lunaraCost > this.lunara || voidfluxCost > this.voidflux) return false;
+        int anyCost = recipe.data.contains("any") ? recipe.data.getInt("any") : 0;
+        if (solarisCost > 0) if (solarisCost > this.solaris) return false;
+        else if (lunaraCost > 0) if (lunaraCost > this.lunara) return false;
+        else if (voidfluxCost > 0) if (voidfluxCost > this.voidflux) return false;
+        else if (anyCost > 0) if (this.solaris < anyCost && this.lunara < anyCost && this.voidflux < anyCost) return false;
+
         if (!super.beforeWorking(recipe)) return false;
-        this.solaris -= solarisCost;
-        this.lunara -= lunaraCost;
-        this.voidflux -= voidfluxCost;
+
+        if (solarisCost > 0) this.solaris -= solarisCost;
+        else if (lunaraCost > 0) this.lunara -= lunaraCost;
+        else if (voidfluxCost > 0) this.voidflux -= voidfluxCost;
+        else if (anyCost > 0) {
+            if (this.solaris >= anyCost) this.solaris -= anyCost;
+            else if (this.lunara >= anyCost) this.lunara -= anyCost;
+            else this.voidflux -= anyCost;
+        }
+
         return true;
     }
 
