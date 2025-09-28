@@ -17,6 +17,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
+import com.gtolib.utils.ExpandedO2LMap;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -39,10 +40,6 @@ import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
-import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -56,7 +53,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
@@ -362,11 +358,11 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         return InteractionResult.SUCCESS;
     }
 
-    public record BufferData(Object2LongMap<ItemStack> items, Object2LongMap<FluidStack> fluids) {}
+    public record BufferData(Object2LongMap<AEItemKey> items, Object2LongMap<AEFluidKey> fluids) {}
 
     public BufferData mergeInternalSlots() {
-        var items = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM_AND_TAG);
-        var fluids = new O2LOpenCacheHashMap<FluidStack>();
+        var items = new ExpandedO2LMap<AEItemKey>();
+        var fluids = new ExpandedO2LMap<AEFluidKey>();
         for (InternalSlot slot : getInternalInventory()) {
             slot.itemInventory.object2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
             slot.fluidInventory.object2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
@@ -386,8 +382,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public boolean fluidChanged = true;
         public final IntIngredientMap itemIngredientMap = new IntIngredientMap();
         public final IntIngredientMap fluidIngredientMap = new IntIngredientMap();
-        public final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
-        public final Object2LongOpenHashMap<FluidStack> fluidInventory = new O2LOpenCacheHashMap<>();
+        public final Object2LongOpenHashMap<AEItemKey> itemInventory = new ExpandedO2LMap<>();
+        public final Object2LongOpenHashMap<AEFluidKey> fluidInventory = new ExpandedO2LMap<>();
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
@@ -426,13 +422,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 var energy = network.getEnergyService();
                 for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
-                    var stack = entry.getKey();
+
                     var count = entry.getLongValue();
-                    if (stack.isEmpty() || count == 0) {
+                    if (count == 0) {
                         it.remove();
                         continue;
                     }
-                    var key = AEItemKey.of(stack);
+                    var key = entry.getKey();
                     if (key == null) continue;
                     long inserted = StorageHelper.poweredInsert(energy, networkInv, key, count, machine.getActionSourceField());
                     if (inserted > 0) {
@@ -443,13 +439,12 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 }
                 for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
-                    var stack = entry.getKey();
                     var amount = entry.getLongValue();
-                    if (stack.isEmpty() || amount == 0) {
+                    if (amount == 0) {
                         it.remove();
                         continue;
                     }
-                    var key = AEFluidKey.of(stack);
+                    var key = entry.getKey();
                     if (key == null) continue;
                     long inserted = StorageHelper.poweredInsert(energy, networkInv, key, amount, machine.getActionSourceField());
                     if (inserted > 0) {
@@ -466,8 +461,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         @Override
         public void onPatternChange() {
-            inputSink.fluids.clear();
-            inputSink.items.clear();
             setRecipe(null);
             refund();
         }
@@ -510,7 +503,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 else amount = 1;
                 for (var it2 = itemInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!ingredient.test(entry.getKey())) continue;
+                    if (!ingredient.test(entry.getKey().getReadOnlyStack())) continue;
                     var count = entry.getLongValue();
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {
@@ -546,7 +539,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 long amount = FastFluidIngredient.getAmount(ingredient);
                 for (var it2 = fluidInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!ingredient.test(entry.getKey())) continue;
+                    if (!FastFluidIngredient.testAeKay(ingredient, entry.getKey())) continue;
                     var count = entry.getLongValue();
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {
@@ -577,17 +570,17 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 tag.put("recipe", recipe.serializeNBT());
             }
             ListTag itemsTag = new ListTag();
-            for (ObjectIterator<Object2LongMap.Entry<ItemStack>> it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+            for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
-                var ct = entry.getKey().serializeNBT();
+                var ct = entry.getKey().toTag();
                 ct.putLong("real", entry.getLongValue());
                 itemsTag.add(ct);
             }
             if (!itemsTag.isEmpty()) tag.put("inventory", itemsTag);
             ListTag fluidsTag = new ListTag();
-            for (ObjectIterator<Object2LongMap.Entry<FluidStack>> it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+            for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
-                var ct = entry.getKey().writeToNBT(new CompoundTag());
+                var ct = entry.getKey().toTag();
                 ct.putLong("real", entry.getLongValue());
                 fluidsTag.add(ct);
             }
@@ -613,18 +606,20 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag ct)) continue;
-                var stack = ItemStack.of(ct);
-                var count = ct.getLong("real");
-                if (!stack.isEmpty() && count > 0) {
-                    itemInventory.put(stack, count);
+                var stack = AEItemKey.fromTag(ct);
+                if (stack == null) continue;
+                var amount = ct.getLong("real");
+                if (amount > 0) {
+                    itemInventory.put(stack, amount);
                 }
             }
             ListTag fluids = tag.getList("fluidInventory", Tag.TAG_COMPOUND);
             for (Tag t : fluids) {
                 if (!(t instanceof CompoundTag ct)) continue;
-                var stack = FluidStack.loadFluidStackFromNBT(ct);
+                var stack = AEFluidKey.fromTag(ct);
+                if (stack == null) continue;
                 var amount = ct.getLong("real");
-                if (!stack.isEmpty() && amount > 0) {
+                if (amount > 0) {
                     fluidInventory.put(stack, amount);
                 }
             }
@@ -657,8 +652,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private static final class InputSink implements IPatternDetails.PatternInputSink {
 
         private final InternalSlot slot;
-        private final O2OOpenCacheHashMap<AEItemKey, ItemStack> items = new O2OOpenCacheHashMap<>();
-        private final O2OOpenCacheHashMap<AEFluidKey, FluidStack> fluids = new O2OOpenCacheHashMap<>();
 
         private InputSink(InternalSlot slot) {
             this.slot = slot;
@@ -668,9 +661,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public void pushInput(AEKey key, long amount) {
             if (amount < 1) return;
             if (key instanceof AEItemKey itemKey) {
-                slot.itemInventory.addTo(items.computeIfAbsent(itemKey, k -> itemKey.toStack(1)), amount);
+                slot.itemInventory.addTo(itemKey, amount);
             } else if (key instanceof AEFluidKey fluidKey) {
-                slot.fluidInventory.addTo(fluids.computeIfAbsent(fluidKey, k -> fluidKey.toStack(1)), amount);
+                slot.fluidInventory.addTo(fluidKey, amount);
             }
         }
     }

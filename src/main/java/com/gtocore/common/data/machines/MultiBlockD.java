@@ -1,5 +1,20 @@
 package com.gtocore.common.data.machines;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.client.renderer.machine.FusionReactorRenderer;
+import com.gregtechceu.gtceu.common.data.*;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.*;
@@ -25,7 +40,6 @@ import com.gtocore.common.machine.multiblock.noenergy.GodForgeMachine;
 import com.gtocore.common.machine.multiblock.noenergy.HarmonyMachine;
 import com.gtocore.common.machine.multiblock.noenergy.HeatExchangerMachine;
 import com.gtocore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
-
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
@@ -35,23 +49,7 @@ import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.*;
-
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.client.renderer.machine.FusionReactorRenderer;
-import com.gregtechceu.gtceu.common.data.*;
-import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
-
+import earth.terrarium.adastra.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -66,8 +64,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
-
-import earth.terrarium.adastra.common.registry.ModItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -383,11 +379,11 @@ public final class MultiBlockD {
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("AAAAA", " BBB ", " BGB ", " BBB ", "AAAAA")
                     .aisle("AAAAA", "BE EB", "BE EB", "BE EB", "AAAAA")
-                    .aisle("AAAAA", " F F ", " F F ", " F F ", "ABHBA")
+                    .aisle("AAAAA", " F F ", " F F ", " F F ", "ACHCA")
                     .aisle("AAAAA", "BE EB", "BE EB", "BE EB", "ACCCA")
                     .aisle("AAAAA", "D   D", "D   D", "D   D", "ACCCA")
-                    .aisle("AAAAA", "CE EC", "CE EC", "CE EC", "ACCCA")
-                    .aisle("AAAAA", " F F ", " F F ", " F F ", "ABHBA")
+                    .aisle("AAAAA", "BE EB", "BE EB", "BE EB", "ACCCA")
+                    .aisle("AAAAA", " F F ", " F F ", " F F ", "ACHCA")
                     .aisle("AAAAA", "BE EB", "BE EB", "BE EB", "AAAAA")
                     .aisle("AAAAA", " BBB ", " BBB ", " BBB ", "AAAAA")
                     .where('A', blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get()))

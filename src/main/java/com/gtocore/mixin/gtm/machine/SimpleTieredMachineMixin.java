@@ -22,6 +22,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.nbt.CompoundTag;
 
+import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.data.CustomItems;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +38,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Mixin(SimpleTieredMachine.class)
-public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine implements IUpgradeMachine, IPowerAmplifierMachine, IFancyUIMachine, IWirelessChargerInteraction {
+public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine implements IUpgradeMachine, IPowerAmplifierMachine, IFancyUIMachine, IWirelessChargerInteraction, IProgrammableMachine {
 
     @Unique
     private double gtolib$speed;
@@ -47,17 +48,19 @@ public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine imp
     private double gtolib$powerAmplifier;
     @Unique
     private boolean gtolib$hasPowerAmplifier;
-    @SuppressWarnings("all")
-    private WirelessChargerMachine netMachineCache;
+    @Unique
+    private WirelessChargerMachine gtolib$netMachineCache;
     @Unique
     private TickableSubscription gtolib$tickSubs;
+    @Unique
+    private boolean gtolib$isProgrammable;
 
     protected SimpleTieredMachineMixin(MetaMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
     }
 
     @Inject(method = "createCircuitItemHandler", at = @At("HEAD"), remap = false, cancellable = true)
-    protected void createCircuitItemHandler(Object[] args, CallbackInfoReturnable<NotifiableItemStackHandler> cir) {
+    private void createCircuitItemHandler(Object[] args, CallbackInfoReturnable<NotifiableItemStackHandler> cir) {
         cir.setReturnValue(new ProgrammableHatchPartMachine.ProgrammableCircuitHandler(this));
     }
 
@@ -169,13 +172,23 @@ public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine imp
         return getOwnerUUID();
     }
 
-    @SuppressWarnings("all")
+    @Override
     public void setNetMachineCache(final WirelessChargerMachine netMachineCache) {
-        this.netMachineCache = netMachineCache;
+        this.gtolib$netMachineCache = netMachineCache;
     }
 
-    @SuppressWarnings("all")
+    @Override
     public WirelessChargerMachine getNetMachineCache() {
-        return this.netMachineCache;
+        return this.gtolib$netMachineCache;
+    }
+
+    @Override
+    public boolean isProgrammable() {
+        return gtolib$isProgrammable;
+    }
+
+    @Override
+    public void setProgrammable() {
+        gtolib$isProgrammable = true;
     }
 }

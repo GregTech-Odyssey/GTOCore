@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
+import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -16,6 +17,7 @@ import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.api.stacks.AEFluidKey;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
@@ -52,8 +54,6 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
-                var stack = i.getFluid();
-                if (stack.isEmpty()) continue;
                 isEmpty = false;
                 break;
             }
@@ -86,7 +86,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                     if (stored == null) continue;
                     long amount = stored.amount();
                     if (amount == 0) continue;
-                    if (ingredient.test(i.getFluid())) {
+                    if (stored.what() instanceof AEFluidKey fluidKey && FastFluidIngredient.testAeKay(ingredient, fluidKey)) {
                         var drained = i.drain(a, simulate, false);
                         if (drained > 0) {
                             changed = true;
@@ -149,9 +149,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
             if (i.config == null) continue;
             var stock = i.stock;
             if (stock == null || stock.amount() == 0) continue;
-            var stack = i.getFluid();
-            if (stack.isEmpty()) continue;
-            if (function.test(stack, stock.amount())) return true;
+            if (function.test(i.getReadOnlyStack(), stock.amount())) return true;
         }
         return false;
     }
@@ -162,9 +160,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
             if (i.config == null) continue;
             var stock = i.stock;
             if (stock == null || stock.amount() == 0) continue;
-            var stack = i.getFluid();
-            if (stack.isEmpty()) continue;
-            function.accept(stack, stock.amount());
+            function.accept(i.getReadOnlyStack(), stock.amount());
         }
     }
 
@@ -177,9 +173,9 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
-                var stack = i.getFluid();
-                if (stack.isEmpty()) continue;
-                IntIngredientMap.FLUID_CONVERSION.convert(stack, stock.amount(), intIngredientMap);
+                if (stock.what() instanceof AEFluidKey fluidKey) {
+                    ((IAEFluidKey) (Object) fluidKey).gtolib$convert(stock.amount(), intIngredientMap);
+                }
             }
         }
         return intIngredientMap;

@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
+import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -16,6 +17,7 @@ import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -59,8 +61,6 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
-                var stack = i.getStack();
-                if (stack.isEmpty()) continue;
                 isEmpty = false;
                 break;
             }
@@ -121,7 +121,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                     if (stored == null) continue;
                     long count = stored.amount();
                     if (count == 0) continue;
-                    if (ingredient.test(i.getStack())) {
+                    if (ingredient.test(i.getReadOnlyStack())) {
                         var extracted = i.extractItem(Math.min(count, amount), simulate, false);
                         if (extracted > 0) {
                             changed = true;
@@ -152,9 +152,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
             if (i.config == null) continue;
             var stock = i.stock;
             if (stock == null || stock.amount() == 0) continue;
-            var stack = i.getStack();
-            if (stack.isEmpty()) continue;
-            if (function.test(stack, stock.amount())) return true;
+            if (function.test(i.getReadOnlyStack(), stock.amount())) return true;
         }
         return false;
     }
@@ -165,9 +163,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
             if (i.config == null) continue;
             var stock = i.stock;
             if (stock == null || stock.amount() == 0) continue;
-            var stack = i.getStack();
-            if (stack.isEmpty()) continue;
-            function.accept(stack, stock.amount());
+            function.accept(i.getReadOnlyStack(), stock.amount());
         }
     }
 
@@ -180,9 +176,9 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
-                var stack = i.getStack();
-                if (stack.isEmpty()) continue;
-                IntIngredientMap.ITEM_CONVERSION.convert(stack, stock.amount(), intIngredientMap);
+                if (stock.what() instanceof AEItemKey itemKey) {
+                    ((IAEItemKey) (Object) itemKey).gtolib$convert(stock.amount(), intIngredientMap);
+                }
             }
         }
         return intIngredientMap;

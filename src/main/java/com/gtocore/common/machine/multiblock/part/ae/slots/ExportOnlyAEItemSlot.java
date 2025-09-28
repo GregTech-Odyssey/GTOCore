@@ -55,6 +55,13 @@ public class ExportOnlyAEItemSlot extends ExportOnlyAESlot {
         onContentsChanged();
     }
 
+    public ItemStack getReadOnlyStack() {
+        if (this.stock != null && this.stock.what() instanceof AEItemKey itemKey) {
+            return itemKey.getReadOnlyStack();
+        }
+        return ItemStack.EMPTY;
+    }
+
     public ItemStack getStack() {
         if (this.stock != null) {
             if (stack == null) stack = this.stock.what() instanceof AEItemKey itemKey ? itemKey.toStack(GTMath.saturatedCast(this.stock.amount())) : ItemStack.EMPTY;

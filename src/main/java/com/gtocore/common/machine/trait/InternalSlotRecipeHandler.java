@@ -2,6 +2,8 @@ package com.gtocore.common.machine.trait;
 
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
+import com.gtolib.api.ae2.stacks.IAEFluidKey;
+import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeCapabilityMap;
@@ -23,9 +25,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
@@ -161,14 +161,14 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public boolean forEachItems(ItemPredicate function) {
-            for (ObjectIterator<Object2LongMap.Entry<ItemStack>> it = slot.itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+            for (var it = slot.itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var e = it.next();
                 var a = e.getLongValue();
                 if (a < 1) {
                     it.remove();
                     continue;
                 }
-                if (function.test(e.getKey(), a)) return true;
+                if (function.test(e.getKey().getReadOnlyStack(), a)) return true;
             }
             return false;
         }
@@ -178,7 +178,7 @@ public final class InternalSlotRecipeHandler {
             slot.itemInventory.object2LongEntrySet().fastForEach(e -> {
                 var a = e.getLongValue();
                 if (a < 1) return;
-                function.accept(e.getKey(), a);
+                function.accept(e.getKey().getReadOnlyStack(), a);
             });
         }
 
@@ -190,7 +190,7 @@ public final class InternalSlotRecipeHandler {
                 slot.itemInventory.object2LongEntrySet().fastForEach(e -> {
                     var a = e.getLongValue();
                     if (a < 1) return;
-                    IntIngredientMap.ITEM_CONVERSION.convert(e.getKey(), a, slot.itemIngredientMap);
+                    ((IAEItemKey) (Object) e.getKey()).gtolib$convert(a, slot.itemIngredientMap);
                 });
             }
             return slot.itemIngredientMap;
@@ -250,14 +250,14 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public boolean forEachFluids(FluidPredicate function) {
-            for (ObjectIterator<Object2LongMap.Entry<FluidStack>> it = slot.fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+            for (var it = slot.fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var e = it.next();
                 var a = e.getLongValue();
                 if (a < 1) {
                     it.remove();
                     continue;
                 }
-                if (function.test(e.getKey(), a)) return true;
+                if (function.test(((IAEFluidKey) (Object) e.getKey()).gtolib$getReadOnlyStack(), a)) return true;
             }
             return false;
         }
@@ -267,7 +267,7 @@ public final class InternalSlotRecipeHandler {
             slot.fluidInventory.object2LongEntrySet().fastForEach(e -> {
                 var a = e.getLongValue();
                 if (a < 1) return;
-                function.accept(e.getKey(), a);
+                function.accept(((IAEFluidKey) (Object) e.getKey()).gtolib$getReadOnlyStack(), a);
             });
         }
 
@@ -279,7 +279,7 @@ public final class InternalSlotRecipeHandler {
                 slot.fluidInventory.object2LongEntrySet().fastForEach(e -> {
                     var a = e.getLongValue();
                     if (a < 1) return;
-                    IntIngredientMap.FLUID_CONVERSION.convert(e.getKey(), a, slot.fluidIngredientMap);
+                    ((IAEFluidKey) (Object) e.getKey()).gtolib$convert(a, slot.fluidIngredientMap);
                 });
             }
             return slot.fluidIngredientMap;

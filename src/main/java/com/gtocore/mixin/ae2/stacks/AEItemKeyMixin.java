@@ -5,6 +5,8 @@ import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.misc.IMapValueCache;
 import com.gtolib.utils.RLUtils;
 
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
+
 import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -18,10 +20,7 @@ import net.minecraft.world.level.ItemLike;
 import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
@@ -43,6 +42,9 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
 
     @Shadow(remap = false)
     private @Nullable ItemStack readOnlyStack;
+
+    @Unique
+    private int[] gtocore$is;
 
     /**
      * @author .
@@ -168,5 +170,17 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     @Override
     public void gtolib$setReadOnlyStack(ItemStack stack) {
         readOnlyStack = stack;
+    }
+
+    @Override
+    public void gtolib$convert(long amount, IntIngredientMap map) {
+        if (gtocore$is == null) {
+            var m = new IntIngredientMap();
+            IntIngredientMap.ITEM_CONVERSION.convert(getReadOnlyStack(), 1, m);
+            gtocore$is = m.toIntArray();
+        }
+        for (var i : gtocore$is) {
+            map.add(i, amount);
+        }
     }
 }

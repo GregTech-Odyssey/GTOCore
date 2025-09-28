@@ -2,16 +2,14 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
 import net.minecraft.world.item.ItemStack;
 
-import com.hepdd.gtmthings.common.cover.ProgrammableCover;
+import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import org.jetbrains.annotations.NotNull;
@@ -56,14 +54,8 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine {
             public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 if (stack.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())) {
                     boolean allow = true;
-                    if (machine instanceof SimpleTieredMachine tieredMachine) {
-                        allow = false;
-                        for (CoverBehavior cover : tieredMachine.getCoverContainer().getCovers()) {
-                            if (cover instanceof ProgrammableCover) {
-                                allow = true;
-                                break;
-                            }
-                        }
+                    if (machine instanceof IProgrammableMachine programmableMachine) {
+                        allow = programmableMachine.isProgrammable();
                     }
                     if (allow) {
                         setStackInSlot(slot, VirtualItemProviderBehavior.getVirtualItem(stack));
