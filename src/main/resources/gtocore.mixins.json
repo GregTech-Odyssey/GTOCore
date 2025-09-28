@@ -54,6 +54,7 @@
     "ae2.crafting.CPUSelectionListMixin",
     "ae2.crafting.CraftingCPUClusterMixin",
     "ae2.crafting.CraftingCpuLogicMixin",
+    "ae2.crafting.CraftingPlanMixin",
     "ae2.crafting.CraftingServiceMixin",
     "ae2.crafting.CraftingStatusEntryMixin",
     "ae2.crafting.ElapsedTimeTrackerMixin",

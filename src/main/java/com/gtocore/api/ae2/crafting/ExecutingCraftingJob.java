@@ -15,6 +15,7 @@ import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.CraftingLink;
@@ -47,6 +48,8 @@ class ExecutingCraftingJob {
     long remainingAmount;
     Integer playerId;
 
+    final Object2ObjectOpenHashMap<appeng.api.stacks.AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations = new Object2ObjectOpenHashMap<>();
+
     ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId, KeyCounter missingIng) {
         this(plan, changeListener, link, playerId);
         for (var what : missingIng.keySet()) {
@@ -60,6 +63,22 @@ class ExecutingCraftingJob {
         this.finalOutput = plan.finalOutput();
         this.remainingAmount = this.finalOutput.amount();
         this.waitingFor = new ListCraftingInventory(changeListener);
+
+        if (plan instanceof ICraftingPlanAllocationAccessor accessor) {
+            var src = accessor.getGtocore$allocations();
+            if (src != null && !src.isEmpty()) {
+                for (var e : src.object2ObjectEntrySet()) {
+                    var map = new Object2LongOpenHashMap<IPatternDetails>();
+                    var inner = e.getValue();
+                    if (inner != null && !inner.isEmpty()) {
+                        for (var innerE : inner.object2LongEntrySet()) {
+                            map.put(innerE.getKey(), innerE.getLongValue());
+                        }
+                    }
+                    this.allocations.put(e.getKey(), map);
+                }
+            }
+        }
 
         // Fill waiting for and tasks
         this.timeTracker = new ElapsedTimeTracker();
@@ -115,6 +134,29 @@ class ExecutingCraftingJob {
                 this.tasks.put(details, tp);
             }
         }
+
+        if (data.contains("allocations", Tag.TAG_LIST)) {
+            ListTag allocs = data.getList("allocations", Tag.TAG_COMPOUND);
+            for (int i = 0; i < allocs.size(); i++) {
+                CompoundTag alloc = allocs.getCompound(i);
+                AEKey itemKey = AEKey.fromTagGeneric(alloc.getCompound("item"));
+                if (itemKey == null) continue;
+                Object2LongOpenHashMap<IPatternDetails> patMap = new Object2LongOpenHashMap<>();
+                ListTag pats = alloc.getList("patterns", Tag.TAG_COMPOUND);
+                for (int j = 0; j < pats.size(); j++) {
+                    CompoundTag p = pats.getCompound(j);
+                    long quota = p.getLong("quota");
+                    var pdKey = AEItemKey.fromTag(p);
+                    var det = PatternDetailsHelper.decodePattern(pdKey, cpu.cluster.getLevel());
+                    if (det != null) {
+                        patMap.put(det, quota);
+                    }
+                }
+                if (!patMap.isEmpty()) {
+                    this.allocations.put(itemKey, patMap);
+                }
+            }
+        }
     }
 
     CompoundTag writeToNBT() {
@@ -141,6 +183,23 @@ class ExecutingCraftingJob {
             list.add(item);
         }
         data.put(NBT_TASKS, list);
+
+        ListTag allocs = new ListTag();
+        for (var e : this.allocations.object2ObjectEntrySet()) {
+            CompoundTag alloc = new CompoundTag();
+            alloc.put("item", e.getKey().toTagGeneric());
+            ListTag pats = new ListTag();
+            var map = e.getValue();
+            for (var pe : map.object2LongEntrySet()) {
+                var details = pe.getKey();
+                var ptag = details.getDefinition().toTag();
+                ptag.putLong("quota", pe.getLongValue());
+                pats.add(ptag);
+            }
+            alloc.put("patterns", pats);
+            allocs.add(alloc);
+        }
+        data.put("allocations", allocs);
 
         data.putLong(NBT_REMAINING_AMOUNT, remainingAmount);
         if (this.playerId != null) {
