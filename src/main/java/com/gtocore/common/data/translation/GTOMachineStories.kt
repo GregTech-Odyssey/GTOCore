@@ -19,6 +19,37 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 尽量使用**灰色**
     // 类GCYM机器(如大热解/裂化/电弧)不要写
 
+    // 热压成型机
+    var thermoPressTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("thermo_press")
+        story("为了将金属，陶瓷，塑料以及胶水粘到一起而开发的机器" translatedTo "A machine developed to bond metals, ceramics, plastics, and adhesives together")
+    }
+
+    // 电镀槽
+    val electroplatingBathTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("electroplating_bath")
+        story("掌握了铂系金属处理的技术后" translatedTo "After mastering platinum group metal processing technology")
+        story("GTO集团的工程师们开始尝试着这个材料混那个，那个材料混这个" translatedTo "GTO Group engineers began experimenting mixing this material with that")
+        story("最开始他们只是在合金冶炼炉里混合" translatedTo "Initially they just alloyed in smelters")
+        story("但他们想要的§6§l镀§r铑钯锭怎么可能在那里诞生呢" translatedTo "But how could they get rhodium §6§lPLATED§r palladium ingots there")
+    }
+
+    // 雾化冷凝器
+    val atomizingCondenserTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("atomizing_condenser")
+        story("GTO集团的一名员工在合金冶炼炉前正等待着大锅的熔融合金出锅。" translatedTo "An employee of GTO Group was waiting in front of the alloy smelter for the molten alloy to be ready.")
+        story("他是这台机器的操纵员，负责将金属粉末原料送入冶炼炉，再将熔融的合金倒入模具送入真空冷冻机。" translatedTo "He is the operator of this machine, responsible for feeding metal powder raw materials into the smelter, then pouring the molten alloy into molds and sending them to the vacuum freezer.")
+        story("这是一项需要高度专注的工作，因为任何失误都可能导致合金质量不达标。" translatedTo "This is a task that requires high concentration, as any mistake could lead to substandard alloy quality.")
+        story("一天，当他正忙着操作机器时，突然听到一声巨响。" translatedTo "One day, while he was busy operating the machine, he suddenly heard a loud bang.")
+        story("他迅速转身，看到冶炼炉的盖子被炸飞了，熔融的合金喷涌而出。" translatedTo "He quickly turned around and saw the lid of the smelter blown off, with molten alloy spewing out.")
+        story("这意味着这锅合金算是白炖了，而且可能遭到经理的一顿痛骂。" translatedTo "This meant that the alloy was wasted, and he might face a severe scolding from the manager.")
+        story("他赶紧检查并收拾了现场，结果发现合金并没有完全浪费。" translatedTo "He quickly checked and cleaned up the scene, and found that the alloy was not completely wasted.")
+        story("保护气带着熔融合金喷涌而出的时候，部分合金被冷却成了小颗粒。" translatedTo "When the protective gas sprayed out with the molten alloy, some of the alloy was cooled into small particles.")
+        story("他小心翼翼地收集了这些颗粒，发现它们的质量和正常铸造出来的合金磨成粉以外没有什么区别。" translatedTo "He carefully collected these particles and found that their quality was no different from alloy ground into powder.")
+        story("经理听说后，不但没有责骂，还记录下了这个意外的过程，并据此研发出了这台专门用于从熔融的流体生产金属粉末的机器" translatedTo "The manager, upon hearing this, not only did not scold him but also documented the unexpected process and developed this machine specifically for producing metal powders from molten fluids.")
+        story("只不过生产出来的金属粉末还得重新送回高炉才能变回可加工的金属锭。" translatedTo "However, the produced metal powder still needs to be sent back to the blast furnace to be turned back into workable metal ingots.")
+    }
+
     // 大型蒸汽电路组装机
     val LargeSteamCircuitAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_circuit_assembler")

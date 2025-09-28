@@ -3,6 +3,7 @@ package com.gtocore.common.data.machines;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
+import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
@@ -17,6 +18,7 @@ import com.gtocore.common.machine.multiblock.steam.LargeSteamSolarBoilerMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.api.registries.GTOMachineBuilder;
@@ -43,6 +45,8 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gtocore.api.pattern.GTOPredicates.autoGCYMAbilities;
+import static com.gtocore.api.pattern.GTOPredicates.hermeticCasing;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
@@ -873,6 +877,7 @@ public final class MultiBlockH {
             .nonYAxisRotation()
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.ELECTROPLATING_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getElectroplatingBathTooltips().getSupplier())
             .block(GTBlocks.CASING_PTFE_INERT)
             .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -882,7 +887,7 @@ public final class MultiBlockH {
                     .aisle("ADDDDDA", "A     A", "BEEEEEB", "C     C", "BFFFFFB")
                     .aisle("AAAHAAA", "AAAAAAA", "BBBBBBB", "B     B", "BBBBBBB")
                     .where('A', blocks(GTBlocks.CASING_PTFE_INERT.get())
-                            .or(GTOPredicates.autoGCYMAbilities(definition.getRecipeTypes()))
+                            .or(autoGCYMAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH))
                             .or(autoAbilities(true, false, true)))
                     .where('B', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
@@ -927,5 +932,70 @@ public final class MultiBlockH {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/space_elevator_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
+            .register();
+
+    // 雾化冷凝器
+    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getCasingTier(BlockMap.hermetic_casing) - 1)), true, BlockMap.hermetic_casing))
+            .nonYAxisRotation()
+            .specialParallelizableTooltips()
+            .tooltips(GTOMachineStories.INSTANCE.getAtomizingCondenserTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
+            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
+            .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^(密封机械方块等级-1)", "4^(Hermetic Mechanical Casing tier-1)")))
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle(" AAA ", " EBE ", " BBB ", " BBB ", " BBB ", " BBB ", " AAA ")
+                    .aisle("AA AA", "ABBBA", "ABDBA", "ABDBA", "ABDBA", "ABHBA", "AAHAA")
+                    .aisle(" AAA ", " BCB ", " BBB ", " BBB ", " BBB ", " BBB ", " AAA ")
+                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('B', blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
+                            .or(autoGCYMAbilities(definition.getRecipeTypes()))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('C', controller(blocks(definition.get())))
+                    .where('D', hermeticCasing())
+                    .where('E', abilities(MUFFLER))
+                    .where('H', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_frost_proof"), GTCEu.id("block/multiblock/vacuum_freezer"))
+            .register();
+
+    // 热压成型机
+    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", TierCasingMultiblockMachine.createMachine(BlockMap.hermetic_casing))
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .tooltips(GTOMachineStories.INSTANCE.getThermoPressTooltips().getSupplier())
+            .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(h -> h.addLines("0.9^(密封机械方块等级)", "0.9^(Hermetic Mechanical Casing tier)")))
+            .recipeTypes(GTORecipeTypes.THERMO_PRESSING_RECIPES)
+            .recipeModifier((m, r) -> {
+                if (m instanceof ITierCasingMachine tm) {
+                    r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(BlockMap.hermetic_casing)), 1);
+                }
+                return r;
+            })
+            .block(GTOBlocks.COMPRESSOR_CONTROLLER_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "ABBBA", "ABBBA", "ABBBA", "ACCCA")
+                    .aisle(" BBB ", "BDDDB", "BDEDB", "BDDDB", " BBB ")
+                    .aisle(" BBB ", "B   B", "B   B", "B   B", " BBB ")
+                    .aisle(" BBB ", "B   B", "B   B", "B   B", " BBB ")
+                    .aisle(" BBB ", "B   B", "B   B", "B   B", " BBB ")
+                    .aisle(" BBB ", "BDDDB", "BDEDB", "BDDDB", " BBB ")
+                    .aisle("AAAAA", "ABBBA", "ABEBA", "ABBBA", "AAAAA")
+                    .aisle(" FEF ", " FEF ", " FEF ", " FFF ", "     ")
+                    .aisle(" FFF ", " FGF ", " FFF ", " FFF ", "     ")
+                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
+                    .where('B', blocks(GTBlocks.CASING_TITANIUM_STABLE.get()))
+                    .where('C', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
+                    .where('D', hermeticCasing())
+                    .where('E', blocks(GTOBlocks.COMPRESSOR_CONTROLLER_CASING.get()))
+                    .where('F', blocks(GTOBlocks.COMPRESSOR_CONTROLLER_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('G', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/compressor_controller_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }

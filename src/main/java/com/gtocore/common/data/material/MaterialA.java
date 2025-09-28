@@ -1288,7 +1288,7 @@ public final class MaterialA {
                 .components(Zirconium, 1, Carbon, 1)
                 .color(0xd2bfaa)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GTOMaterialFlags.GENERATE_TARGET_BASE)
+                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GTOMaterialFlags.GENERATE_TARGET_BASE, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister();
 
         MarM200Steel = material("mar_m_200_steel", "MAR-M200特种钢")

@@ -148,7 +148,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
                 }
                 for (int i = 0; i < inventory.getSlots(); i++) {
                     ItemStack stack = inventory.getStackInSlot(i);
-                    if (stack.getCount() > 32 || last3SlotsHaveSomething) {
+                    if (stack.getCount() > 32 || last3SlotsHaveSomething || getOffsetTimer() % 400 == 0) {
                         Drone drone = getFirstUsableDrone();
                         if (drone != null && drone.start(4, stack.getCount() << 2, GTOValues.REMOVING_ASH)) {
                             inventory.setStackInSlot(i, ItemStack.EMPTY);

@@ -69,6 +69,9 @@ final class ItemLang {
         addCNEN("tagprefix.excited_zirconium_carbide_target", "活化%s-碳化锆靶", "Excited %s Zirconium Carbide Target");
         addCNEN("tagprefix.depleted_breeder_rod", "枯竭%s增殖棒", "%s Depleted Breeder Rod");
         addCNEN("tagprefix.membrane_electrode", "%s膜电极", "%s Membrane Electrode");
+        addCNEN("tagprefix.mxene", "%s二维纳米层", "%s MXene");
+        addCNEN("tagprefix.mborene", "%s二维纳米层", "%s MBorene");
+        addCNEN("tagprefix.aluminium_contained_mxene_precursor", "MAXene%s二维纳米层前驱体", "A-Contained %s MXene Precursor");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");

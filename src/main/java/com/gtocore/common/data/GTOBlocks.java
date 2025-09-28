@@ -472,4 +472,38 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> OPTICAL_DYNAMIC_COATING_INSTRUMENT_PROTECTIVE_SHIELD_GLASS = createGlassCasingBlock("optical_dynamic_coating_instrument_protective_shield_glass", "光学动态镀膜仪器防护罩玻璃", GTOCore.id("block/casings/optical_dynamic_coating_instrument_protective_shield_glass"));
     // 黑体辐射防护机械外壳
     public static final BlockEntry<Block> BLACKBODY_RADIATION_PROTECTION_MECHANICAL_HOUSING = createCasingBlock("blackbody_radiation_protection_mechanical_housing", "黑体防护机械外壳", GTOCore.id("block/casings/blackbody_radiation_protection_mechanical_housing"));
+    // 铝合金-2090蒙皮机械方块
+    public static final BlockEntry<Block> ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK = createCasingBlock("aluminum_alloy_2090_leather_covered_mechanical_block", "铝合金-2090蒙皮机械方块", GTOCore.id("block/casings/aluminum_alloy_2090_leather_covered_mechanical_block"));
+    // 钛合金-TB6机械方块
+    public static final BlockEntry<Block> TITANIUM_ALLOY_TB6_MECHANICAL_BLOCK = createCasingBlock("titanium_alloy_tb6_mechanical_block", "钛合金-TB6机械方块", GTOCore.id("block/casings/titanium_alloy_tb6_mechanical_block"));
+    // 铝合金-8090蒙皮机械方块
+    public static final BlockEntry<Block> ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK = createCasingBlock("aluminum_alloy_8090_leather_covered_mechanical_block", "铝合金-8090蒙皮机械方块", GTOCore.id("block/casings/aluminum_alloy_8090_leather_covered_mechanical_block"));
+    // 低温燃料管道机械方块
+    public static final BlockEntry<Block> LOW_TEMPERATURE_FUEL_PIPE_CASING = createCasingBlock("low_temperature_fuel_pip", "低温燃料管道机械方块", GTOCore.id("block/casings/low_temperature_fuel_pip"));
+    // 散热管道机械方块
+    public static final BlockEntry<Block> HEAT_INSULATION_TILE_CASING = createCasingBlock("heat_insulation_tile_casing", "隔热瓦机械方块", GTOCore.id("block/casings/heat_insulation_tile_casing"));
+    // 低温燃料储罐机械方块
+    public static final BlockEntry<Block> LOW_TEMPERATURE_FUEL_TANK_CASING = createCasingBlock("low_temperature_fuel_tank_casing", "低温燃料储罐机械方块", GTOCore.id("block/casings/low_temperature_fuel_tank_casing"));
+    // 隔热瓦机械方块
+    public static final BlockEntry<Block> INSULATION_TILE_MECHANICAL_BLOCK = createCasingBlock("insulation_tile_mechanical_block", "散热管道机械方块", GTOCore.id("block/casings/insulation_tile_mechanical_block"));
+    // 铝合金-7050支撑机械方块
+    public static final BlockEntry<Block> ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK = createCasingBlock("aluminum_alloy_7050_support_casing", "铝合金-7050支撑机械方块", GTOCore.id("block/casings/aluminum_alloy_7050_support_casing"));
+    // 耐压壳机械方块
+    public static final BlockEntry<Block> PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK = createCasingBlock("pressure_resistant_housing_mechanical_block", "耐压壳机械方块", GTOCore.id("block/casings/pressure_resistant_housing_mechanical_block"));
+    // 钛合金内部框架
+    public static final BlockEntry<Block> TITANIUM_ALLOY_INTERNAL_FRAME = createCasingBlock("titanium_alloy_internal_frame", "钛合金内部框架", GTOCore.id("block/casings/titanium_alloy_internal_frame"));
+    // 航天器密封机械方块
+    public static final BlockEntry<Block> SPACECRAFT_SEALING_MECHANICAL_BLOCK = createCasingBlock("spacecraft_sealing_casing", "航天器密封机械方块", GTOCore.id("block/casings/spacecraft_sealing_casing"));
+    // 钨合金抗冲击机械方块
+    public static final BlockEntry<Block> TUNGSTEN_ALLOY_IMPACT_RESISTANT_MECHANICAL_BLOCK = createCasingBlock("tungsten_alloy_impact_resistant_casing", "钨合金抗冲击机械方块", GTOCore.id("block/casings/tungsten_alloy_impact_resistant_casing"));
+    // 承重结构钢机械方块
+    public static final BlockEntry<Block> LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK = createCasingBlock("load_bearing_structural_steel_casing", "承重结构钢机械方块", GTOCore.id("block/casings/load_bearing_structural_steel_casing"));
+    // 钛合金防护机械方块
+    public static final BlockEntry<Block> TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK = createCasingBlock("titanium_alloy_protective_mechanical_block", "钛合金防护机械方块", GTOCore.id("block/casings/titanium_alloy_protective_mechanical_block"));
+    // 三防计算机外壳
+    public static final BlockEntry<Block> THREE_PROOF_COMPUTER_CASING = createCasingBlock("three_proof_computer_casing", "三防计算机外壳", GTOCore.id("block/casings/three_proof_computer_casing"));
+    // 钨合金辐射屏蔽机械方块
+    public static final BlockEntry<Block> TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK = createCasingBlock("tungsten_alloy_radiation_shielding_mechanical_block", "钨合金辐射屏蔽机械方块", GTOCore.id("block/casings/tungsten_alloy_radiation_shielding_mechanical_block"));
+    // 冷却液管道机械方块
+    public static final BlockEntry<Block> COOLANT_PIPE_CASING = createCasingBlock("coolant_pip_casing", "冷却液管道机械方块", GTOCore.id("block/casings/coolant_pip_casing"));
 }

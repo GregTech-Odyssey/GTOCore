@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOEffects;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.ItemMap;
+import com.gtocore.common.machine.multiblock.electric.adventure.SlaughterhouseMachine;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gtocore.common.network.ServerMessage;
 import com.gtocore.common.saved.DysonSphereSavaedData;
@@ -46,6 +47,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -59,6 +61,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -69,6 +72,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.MissingMappingsEvent;
@@ -366,5 +370,14 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.ABS_RED_CASING.asItem());
             }
         });
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void teleportEvent(EntityTeleportEvent event) {
+        if (event.getEntity().getCommandSenderWorld().isClientSide || event instanceof EntityTeleportEvent.TeleportCommand || event instanceof EntityTeleportEvent.SpreadPlayersCommand)
+            return;
+        if (event.getEntity() instanceof LivingEntity entity && SlaughterhouseMachine.isEntityInAnySlaughterhouse(entity)) {
+            event.setCanceled(true);
+        }
     }
 }

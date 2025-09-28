@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.crafting;
 
 import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
+import com.gtocore.integration.eio.ITravelHandlerHook;
 
 import com.gtolib.api.ae2.*;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
@@ -11,6 +12,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 import appeng.api.config.Actionable;
 import appeng.api.config.LockCraftingMode;
@@ -29,6 +31,7 @@ import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import appeng.helpers.patternprovider.PatternProviderTarget;
 import appeng.util.ConfigManager;
 import appeng.util.inv.AppEngInternalInventory;
+import com.enderio.base.common.travel.TravelSavedData;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -113,6 +116,22 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         if (!this.isBlocking()) {
             configManager.putSetting(GTOSettings.BLOCKING_TYPE, BlockingType.NONE);
             configManager.putSetting(Settings.BLOCKING_MODE, YesNo.YES);
+        }
+    }
+
+    @Inject(method = "saveChanges", at = @At("TAIL"), remap = false)
+    private void onSave(CallbackInfo ci) {
+        Level level = host.getBlockEntity().getLevel();
+        if (level != null) {
+            ITravelHandlerHook.requireResync(level);
+        }
+    }
+
+    @Inject(method = "addDrops", at = @At("TAIL"), remap = false)
+    private void onRemove(CallbackInfo ci) {
+        Level level = host.getBlockEntity().getLevel();
+        if (level != null) {
+            TravelSavedData.getTravelData(level).removeTravelTargetAt(level, host.getBlockEntity().getBlockPos());
         }
     }
 
@@ -303,6 +322,12 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         }
 
         ICraftingProvider.requestUpdate(mainNode);
+
+        // onAddToWorld
+        Level level = host.getBlockEntity().getLevel();
+        if (level != null) {
+            ITravelHandlerHook.removeAndReadd(level, host);
+        }
     }
 
     @Override
