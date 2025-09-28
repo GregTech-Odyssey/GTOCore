@@ -1,17 +1,6 @@
 package com.gtocore.common.machine.multiblock.generator;
 
-import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOFluidStorageKey;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.GTORecipeTypes;
-
-import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.recipe.IdleReason;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.MachineUtils;
-
+import com.google.common.collect.ImmutableMap;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -21,17 +10,24 @@ import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.material.Fluid;
-
-import com.google.common.collect.ImmutableMap;
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeTypes;
+import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gtolib.api.recipe.IdleReason;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
+import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtolib.utils.MachineUtils;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectImmutableList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,7 +81,15 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
     @Override
     protected @Nullable Recipe getRealRecipe(Recipe recipe) {
-        return isGenerator ? getReleaseRecipe(recipe) : getAbsorptionRecipe(recipe);
+        var activeType = getRecipeTypes()[getActiveRecipeType()];
+        if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES) {
+            return getReleaseRecipe(recipe);
+        } else if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES) {
+            return getAbsorptionRecipe(recipe);
+        } else if (activeType == GTORecipeTypes.FUEL_CELL_ENERGY_TRANSFER_RECIPES) {
+            return getElectrolyteTransferRecipe(recipe);
+        }
+        return null;
     }
 
     @Override
@@ -95,7 +99,6 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
 
     private Recipe getAbsorptionRecipe(Recipe recipe) {
         var fuelEnergyPerUnit = recipe.data.getLong("convertedEnergy");
-        if (fuelEnergyPerUnit <= 0) return getElectrolyteTransferRecipe(recipe);
 
         // membrane bonus
         int membraneTier;

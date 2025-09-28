@@ -15,7 +15,7 @@
 .aisle(" GMG   GMG ", " GGG   GGG ", " GGG   GGG ", " GGG   GGG ", " GGG   GGG ", " GMG   GMG ", " GGG   GGG ", " GGG   GGG ", " GGG   GGG ", " NNN   NNN ", " GGG   GGG ")
 .aisle("  M     M  ", "  M     M  ", "  MM   MM  ", "           ", "   M   M   ", "  MM   MM  ", "           ", "           ", "           ", "           ", "           ")
 .aisle("  EBBBBBE  ", "  EEEEEEE  ", "  EMDDDME  ", "  EDDDDDE  ", "  EMDDDME  ", "  EEEEEEE  ", "           ", "           ", "           ", "           ", "           ")
-.aisle(" EEEEEEEEA ", " FE GGG EF ", " FHIGGGIHF ", " FH     HF ", " FHIGGGIHF ", " FE GGG EF ", " EEEEEEEEE ", "           ", "           ", "           ", "           ")
+.aisle(" EEEEEEEEE ", " FE GGG EF ", " FHIGGGIHF ", " FH     HF ", " FHIGGGIHF ", " FE GGG EF ", " EEEEEEEEE ", "           ", "           ", "           ", "           ")
 .aisle("AEJJJJJJJEA", "AE  GGG  EA", "AH IGGGI HA", "AH       HA", "AH IGGGI HA", "AE  GGG  EA", " EEKEKEKEE ", "           ", "           ", "           ", "           ")
 .aisle("BEJJJJJJJEB", "AL  GGG  LA", "D  IGGGI  D", "D         D", "D  IGGGI  D", "AL  GGG  LA", " EEKEKEKEE ", "           ", "           ", "           ", "           ")
 .aisle("BEJJJJJJJEB", "AL  GGG  LA", "DL IGGGI LD", "DL       LD", "DL IGGGI LD", "AL  GGG  LA", " EEKEKEKEE ", "           ", "           ", "           ", "           ")

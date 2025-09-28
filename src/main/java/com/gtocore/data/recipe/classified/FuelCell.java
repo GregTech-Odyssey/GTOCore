@@ -1,25 +1,20 @@
 package com.gtocore.data.recipe.classified;
 
-import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOFluidStorageKey;
-import com.gtocore.common.data.GTORecipeCategories;
-import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
-
+import com.google.common.collect.ImmutableMap;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
-
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 
-import com.google.common.collect.ImmutableMap;
-
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen;
-import static com.gtocore.common.data.GTORecipeTypes.FUEL_CELL_ENERGY_ABSORPTION_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.common.machine.multiblock.generator.FullCellGenerator.Wrapper.MEMBRANE_MATS;
 
 public class FuelCell {
@@ -45,7 +40,7 @@ public class FuelCell {
                 long partialEuPerMb1 = euPerMb >> 8;
                 long partialEuPerMb2 = euPerMb2 >> 8;
                 if (material == material2) continue;
-                FUEL_CELL_ENERGY_ABSORPTION_RECIPES.recipeBuilder(material.getName() + "_to_" + material2.getName() + "_absorption")
+                FUEL_CELL_ENERGY_TRANSFER_RECIPES.recipeBuilder(material.getName() + "_to_" + material2.getName() + "_absorption")
                         .notConsumable(membrane.copyWithCount(2))
                         .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), 20 * partialEuPerMb2)
                         .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), 20 * partialEuPerMb2)
@@ -58,7 +53,6 @@ public class FuelCell {
                         .EUt(1)
                         .duration(20)
                         .addData("efficiency", (float) partialEuPerMb1 / partialEuPerMb2 * euPerMb2 / euPerMb * 0.95f)
-                        .category(GTORecipeCategories.ELECTROLYTE_TRANSFER)
                         .save();
             }
         }

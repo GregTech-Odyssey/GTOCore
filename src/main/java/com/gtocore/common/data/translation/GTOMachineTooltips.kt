@@ -1,5 +1,7 @@
 package com.gtocore.common.data.translation
 
+import com.google.common.collect.ImmutableMap
+import com.gregtechceu.gtceu.api.GTValues
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
@@ -8,13 +10,9 @@ import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
 import com.gtocore.common.machine.noenergy.HeaterMachine
-
-import net.minecraft.network.chat.Component
-
-import com.google.common.collect.ImmutableMap
-import com.gregtechceu.gtceu.api.GTValues
 import com.gtolib.utils.NumberUtils
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
+import net.minecraft.network.chat.Component
 
 /**
  * 用于收纳机器相关用法
@@ -1544,12 +1542,16 @@ object GTOMachineTooltips {
         ok("使用的电极膜每高一级，燃料效率额外×1.25" translatedTo "Each higher tier of Electrode Membrane used multiplies fuel efficiency by an additional ×1.25")
         info("并行数 = min(输入的电解液数量, 当前燃料可转化的电解液数量)" translatedTo "Parallel = min(input electrolyte amount, amount of electrolyte convertible by current fuel)")
         info("耗能 = 1EU × 并行数" translatedTo "EU cost = 1EU × parallel")
-        error("在该模式下， 不能安装动力仓" translatedTo "In this mode, Energy Output Hatches cannot be installed")
-        function("模式二：发电，将储能电解液转化为95%总量的释能电解液，并释放100%总量的能量" translatedTo "Mode 2: Power generation, convert Charged Electrolyte into 95% Discharged Electrolyte and release 100% of the energy")
+        function("模式二：能量交换，将A类储能电解液的能量转移给B类释能电解液" translatedTo "Mode 2: Energy Exchange, transfers the energy from Type A Charged Electrolyte to Type B Discharged Electrolyte")
+        command("对于输入的两种电解液，均需要等量的阴极液与阳极液" translatedTo "Both input electrolytes require equal amounts of Catholyte and Anolyte")
+        info("产物为两种电解液交换能量状态后的结果" translatedTo "The output is the result of the two electrolytes swapping their energy states")
+        info("并行数仅受限于输入流体的最低储量" translatedTo "Parallelism is only limited by the lowest amount of input fluid")
+        info("此过程有能量损耗，具体效率由配方决定" translatedTo "This process involves energy loss; the specific efficiency is determined by the recipe")
+        function("模式三：发电，将储能电解液转化为95%总量的释能电解液，并释放100%总量的能量" translatedTo "Mode 3: Power generation, convert Charged Electrolyte into 95% Discharged Electrolyte and release 100% of the energy")
         info("最大并行数 = 50, 即每秒最多消耗1B储能电解液" translatedTo "Max parallel = 50, i.e. up to 1B Charged Electrolyte can be consumed per second")
         info("每次发电输出的能量等于储能电解液储存的能量" translatedTo "Each operation outputs energy equal to the energy stored in the Charged Electrolyte")
         error("在该模式下， 不能安装能源仓" translatedTo "In this mode, Energy Input Hatches cannot be installed")
-        command("两种模式均需要输入电极膜才可工作" translatedTo "Both modes require input of Electrode Membranes to operate")
+        command("所有工作模式均需要输入电极膜才可工作" translatedTo "All operating modes require input of Electrode Membranes to operate")
         command("且发电模式仅可使用特定电极膜" translatedTo "And the power generation mode can only use specific Electrode Membranes")
     }
 }

@@ -1,18 +1,5 @@
 package com.gtocore.common.data;
 
-import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
-import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
-import com.gtocore.common.recipe.RecipeTypeModify;
-import com.gtocore.common.recipe.custom.RecyclerLogic;
-import com.gtocore.data.recipe.generated.GenerateDisassembly;
-
-import com.gtolib.GTOCore;
-import com.gtolib.api.gui.GTOGuiTextures;
-import com.gtolib.api.lang.CNEN;
-import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.CombinedRecipeType;
-import com.gtolib.api.recipe.RecipeType;
-
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
@@ -26,15 +13,24 @@ import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
+import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
+import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
+import com.gtocore.common.recipe.RecipeTypeModify;
+import com.gtocore.common.recipe.custom.RecyclerLogic;
+import com.gtocore.data.recipe.generated.GenerateDisassembly;
+import com.gtolib.GTOCore;
+import com.gtolib.api.gui.GTOGuiTextures;
+import com.gtolib.api.lang.CNEN;
+import com.gtolib.api.machine.trait.TierCasingTrait;
+import com.gtolib.api.recipe.CombinedRecipeType;
+import com.gtolib.api.recipe.RecipeType;
+import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
+import com.lowdragmc.lowdraglib.utils.CycleItemStackHandler;
+import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
-
-import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
-import com.lowdragmc.lowdraglib.utils.CycleItemStackHandler;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +39,8 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.SPOOL;
 import static com.gtolib.api.GTOValues.*;
-import static com.gtolib.utils.register.RecipeTypeRegisterUtils.*;
 import static com.gtolib.utils.register.RecipeTypeRegisterUtils.register;
+import static com.gtolib.utils.register.RecipeTypeRegisterUtils.*;
 import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.LEFT_TO_RIGHT;
 import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.UP_TO_DOWN;
 
@@ -865,12 +861,16 @@ public final class GTORecipeTypes {
 
     public static final RecipeType FUEL_CELL_ENERGY_ABSORPTION_RECIPES = register("fuel_cell_energy_absorption", "燃料电池液能量吸收", MULTIBLOCK)
             .setEUIO(IO.IN)
+            .setMaxIOSize(1, 0, 2, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.fuelcell.converted_energy", data.getLong("convertedEnergy")))
+            .setSound(GTSoundEntries.CHEMICAL);
+
+    public static final RecipeType FUEL_CELL_ENERGY_TRANSFER_RECIPES = register("fuel_cell_energy_transfer", "燃料电池液能量交换", MULTIBLOCK)
+            .setEUIO(IO.IN)
             .setMaxIOSize(1, 1, 4, 4)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .addDataInfo(data -> {
-                if (data.contains("convertedEnergy")) return LocalizationUtils.format("gtocore.recipe.fuelcell.converted_energy", data.getLong("convertedEnergy"));;
-                return data.contains("efficiency") ? LocalizationUtils.format("gtocore.recipe.fuelcell.converted_efficiency", FormattingUtil.formatNumber2Places(data.getFloat("efficiency") * 100)) : "";
-            })
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.fuelcell.converted_efficiency", FormattingUtil.formatNumber2Places(data.getFloat("efficiency") * 100)))
             .setSound(GTSoundEntries.CHEMICAL);
 
     public static final RecipeType FUEL_CELL_ENERGY_RELEASE_RECIPES = register("fuel_cell_energy_release", "燃料电池液能量释放", MULTIBLOCK)
