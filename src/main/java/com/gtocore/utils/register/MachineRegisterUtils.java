@@ -1,26 +1,5 @@
 package com.gtocore.utils.register;
 
-import com.gtocore.api.pattern.GTOPredicates;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.machines.MultiBlockA;
-import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.mana.SimpleWorkManaMachine;
-import com.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
-import com.gtocore.common.machine.multiblock.generator.TurbineMachine;
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
-
-import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.blockentity.ManaMachineBlockEntity;
-import com.gtolib.api.machine.SimpleNoEnergyMachine;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.api.registries.GTOMachineBuilder;
-import com.gtolib.api.registries.GTORegistration;
-import com.gtolib.api.registries.MultiblockBuilder;
-import com.gtolib.utils.GTOUtils;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -48,7 +27,29 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.machines.MultiBlockA;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.machine.mana.SimpleWorkManaMachine;
+import com.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
+import com.gtocore.common.machine.multiblock.generator.TurbineMachine;
+import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
+import com.gtolib.GTOCore;
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.blockentity.ManaMachineBlockEntity;
+import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.registries.GTOMachineBuilder;
+import com.gtolib.api.registries.GTORegistration;
+import com.gtolib.api.registries.MultiblockBuilder;
+import com.gtolib.utils.GTOUtils;
+import com.hepdd.gtmthings.GTMThings;
+import it.unimi.dsi.fastutil.Pair;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -56,11 +57,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import com.hepdd.gtmthings.GTMThings;
-import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.ints.Int2IntFunction;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.List;
@@ -122,7 +118,7 @@ public final class MachineRegisterUtils {
         else if (amperage > 64) t = IV;
         return registerTieredMachines("wireless_" + id + "_hatch" + (amperage > 2 ? "_" + amperage + "a" : ""), tier -> (amperage > 2 ? amperage + (amperage > 64 ? "§e安§r" : "安") : "") + GTOValues.VNFR[tier] + "无线" + (io == IO.IN ? "能源" : "动力") + "仓",
                 (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, amperage), (tier, builder) -> builder
-                        .langValue(VNF[tier] + " " + (amperage > 2 ? FormattingUtil.formatNumbers(amperage) + "A " : "") + "Wireless " + (io == IO.IN ? "Energy" : "Dynamo") + " Hatch")
+                        .langValue(GTOValues.VNFR[tier] + " " + (amperage > 2 ? FormattingUtil.formatNumbers(amperage) + (amperage > 64 ? "§eA§r " : "A ") : "") + "Wireless " + (io == IO.IN ? "Energy" : "Dynamo") + " Hatch")
                         .allRotation()
                         .abilities(ability)
                         .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_" + iao, FormattingUtil.formatNumbers(V[tier]), VNF[tier]),
@@ -138,7 +134,7 @@ public final class MachineRegisterUtils {
         String name = io == IO.IN ? "target" : "source";
         return registerTieredMachines(amperage + "a_laser_" + name + "_hatch", tier -> amperage + "§e安§r" + GTOValues.VNFR[tier] + "激光" + (io == IO.IN ? "靶" : "源") + "仓",
                 (holder, tier) -> new LaserHatchPartMachine(holder, io, tier, amperage), (tier, builder) -> builder
-                        .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Laser " + FormattingUtil.toEnglishName(name) + " Hatch")
+                        .langValue(GTOValues.VNFR[tier] + " " + FormattingUtil.formatNumbers(amperage) + "§eA§r Laser " + FormattingUtil.toEnglishName(name) + " Hatch")
                         .allRotation()
                         .tooltips(Component.translatable("gtceu.machine.laser_hatch." + name + ".tooltip"),
                                 Component.translatable("gtceu.machine.laser_hatch.both.tooltip"))
