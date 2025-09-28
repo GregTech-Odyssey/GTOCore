@@ -27,7 +27,7 @@ public final class GTORecipeCategories {
     public static final GTRecipeCategory MANA_ASSEMBLER = register("mana_assembler", "魔力组装", GTRecipeTypes.ASSEMBLER_RECIPES);
     public static final GTRecipeCategory ROTOR_PLATING = register("rotor_plating", "转子镀膜", GTORecipeTypes.ELECTROPLATING_RECIPES)
             .setIcon(GTOGuiTextures.HIGH_SPEED_MODE.getSubTexture(0, 0.5, 1, 0.5));
-    public static final GTRecipeCategory ESSENCE_RECOVERY = GTRecipeCategories.register("essence_recovery", GTRecipeTypes.CHEMICAL_BATH_RECIPES)
+    public static final GTRecipeCategory ESSENCE_RECOVERY = register("essence_recovery", "精粹回收", GTRecipeTypes.CHEMICAL_BATH_RECIPES)
             .setIcon(GuiTextures.PROGRESS_BAR_BATH.getSubTexture(0, 0.5, 1, 0.5));
     public static final GTRecipeCategory THREE_DIMENSIONAL_PRINTER_RECIPES_DISPOSABLE = register("three_dimensional_printer_recipes_disposable", new CNEN("3D打印：一次性工具", "3D Printer: Disposable"), GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES);
 
@@ -42,7 +42,7 @@ public final class GTORecipeCategories {
             .setIcon(new ResourceTexture(GTOCore.id("textures/gui/condense_from_molten.png")));
 
     private static GTRecipeCategory register(String name, String cn, GTRecipeType type) {
-        return register(name, new CNEN(FormattingUtil.toEnglishName(name), cn), type);
+        return register(name, new CNEN(cn, FormattingUtil.toEnglishName(name)), type);
     }
 
     private static GTRecipeCategory register(String name, CNEN cnen, GTRecipeType type) {
