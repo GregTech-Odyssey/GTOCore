@@ -1,5 +1,26 @@
 package com.gtocore.utils.register;
 
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.machines.MultiBlockA;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.machine.mana.SimpleWorkManaMachine;
+import com.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
+import com.gtocore.common.machine.multiblock.generator.TurbineMachine;
+import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
+
+import com.gtolib.GTOCore;
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.blockentity.ManaMachineBlockEntity;
+import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.registries.GTOMachineBuilder;
+import com.gtolib.api.registries.GTORegistration;
+import com.gtolib.api.registries.MultiblockBuilder;
+import com.gtolib.utils.GTOUtils;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -27,29 +48,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gtocore.api.pattern.GTOPredicates;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.machines.MultiBlockA;
-import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.mana.SimpleWorkManaMachine;
-import com.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
-import com.gtocore.common.machine.multiblock.generator.TurbineMachine;
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
-import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.blockentity.ManaMachineBlockEntity;
-import com.gtolib.api.machine.SimpleNoEnergyMachine;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.api.registries.GTOMachineBuilder;
-import com.gtolib.api.registries.GTORegistration;
-import com.gtolib.api.registries.MultiblockBuilder;
-import com.gtolib.utils.GTOUtils;
-import com.hepdd.gtmthings.GTMThings;
-import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.ints.Int2IntFunction;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -57,6 +56,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+
+import com.hepdd.gtmthings.GTMThings;
+import it.unimi.dsi.fastutil.Pair;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.List;
