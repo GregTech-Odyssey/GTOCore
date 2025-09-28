@@ -1543,6 +1543,7 @@
   "config.gtocore.option.gameDifficulty": "游戏难度",
   "config.gtocore.option.lightningRodEffect": "引雷针特效",
   "config.gtocore.option.maxMonitorSize": "监控器最大尺寸",
+  "config.gtocore.option.nightVision": "内置夜视",
   "config.gtocore.option.recipeCheck": "[调试] 配方冲突检查",
   "config.gtocore.option.recipeSearchMaxInterval": "配方搜索最大间隔",
   "config.gtocore.option.renamePatternDefaultString": "重命名样板的默认值",
