@@ -46,19 +46,14 @@ final class MinerModule {
     private static void buildMinerModule(int circuit, int minDroneTire, ItemStack[] blocks) {
         for (int i = minDroneTire - 1; i < 6; i++) {
             for (int j = 0; j < fuels[minDroneTire - 1].length; j++) {
-                MINER_MODULE_RECIPES.recipeBuilder("space_ore_" + circuit + "_" + i + "_" + j)
+                var build = MINER_MODULE_RECIPES.recipeBuilder("space_ore_" + circuit + "_" + i + "_" + j)
                         .notConsumable(drones[i])
                         .circuitMeta(circuit)
                         .inputFluids(fuels[minDroneTire - 1][j])
-                        .outputItems(blocks[0])
-                        .outputItems(blocks[1])
-                        .outputItems(blocks[2])
-                        .outputItems(blocks[3])
-                        .outputItems(blocks[4])
-                        .outputItems(blocks[5])
                         .EUt(VA[8 + i])
-                        .duration(baseTime[j] << i)
-                        .save();
+                        .duration(baseTime[j] << i);
+                for (ItemStack block : blocks) build.outputItems(block);
+                build.save();
             }
         }
     }
