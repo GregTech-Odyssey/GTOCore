@@ -1,21 +1,22 @@
 package com.gtocore.integration.eio;
 
+import appeng.blockentity.AEBaseBlockEntity;
+import appeng.helpers.patternprovider.PatternProviderLogicHost;
+import com.enderio.core.CoreNBTKeys;
+import com.enderio.machines.common.travel.AnchorTravelTarget;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt;
-
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import appeng.api.stacks.AEItemKey;
-import appeng.helpers.patternprovider.PatternProviderLogicHost;
-import com.enderio.core.CoreNBTKeys;
-import com.enderio.machines.common.travel.AnchorTravelTarget;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -38,8 +39,8 @@ public class PatternTravelTarget extends AnchorTravelTarget {
 
     public PatternTravelTarget(PatternProviderLogicHost host) {
         super(host.getBlockEntity().getBlockPos(),
-                host.getLogic().getTerminalGroup().name().getString(),
-                host.getTerminalIcon().getItem(),
+                getPlayerCustomName(host),
+                getAdjacentMachineIcon(),
                 host.isVisibleInTerminal());
         this.patternProviderLogicHost = host;
         this.patternBufferHost = null;
@@ -49,13 +50,32 @@ public class PatternTravelTarget extends AnchorTravelTarget {
 
     public PatternTravelTarget(MEPatternPartMachineKt<?> host) {
         super(host.getHolder().getBlockPos(),
-                host.getTerminalGroup().name().getString(),
-                Optional.ofNullable(host.getTerminalGroup().icon()).map(AEItemKey::getItem).orElse(host.getHolder().definition.getItem()),
+                getPlayerCustomName(host),
+                getAdjacentMachineIcon(),
                 host.isVisibleInTerminal());
         this.patternBufferHost = host;
         this.patternProviderLogicHost = null;
         this.isClient = !(host.getHolder().getLevel() instanceof ServerLevel);
         this.dimension = Optional.ofNullable(host.getHolder().getLevel()).map(Level::dimension).orElse(null);
+    }
+
+    private static String getPlayerCustomName(Object host) {
+        if (host instanceof PatternProviderLogicHost logicHost) {
+            BlockEntity be = logicHost.getBlockEntity();
+            if (be instanceof AEBaseBlockEntity aeBe) {
+                Component customNameComponent = aeBe.getCustomName();
+                if (customNameComponent != null) {
+                    return customNameComponent.getString();
+                }
+            }
+        } else if (host instanceof MEPatternPartMachineKt<?> partHost) {
+            return partHost.getCustomName();
+        }
+        return "";
+    }
+
+    private static Item getAdjacentMachineIcon() {
+        return Items.AIR;
     }
 
     @Override
@@ -80,8 +100,8 @@ public class PatternTravelTarget extends AnchorTravelTarget {
             // so we fall back to the name stored in the parent class
             return super.getName();
         }
-        return patternBufferHost != null ? patternBufferHost.getTerminalGroup().name().getString() :
-                patternProviderLogicHost.getLogic().getTerminalGroup().name().getString();
+        return patternBufferHost != null ? getPlayerCustomName(patternBufferHost) :
+                getPlayerCustomName(patternProviderLogicHost);
     }
 
     @Override
@@ -98,8 +118,7 @@ public class PatternTravelTarget extends AnchorTravelTarget {
         if (isClient || (dimension != null && !Objects.requireNonNull(getServer().getLevel(dimension)).isLoaded(getPos()))) {
             return super.getIcon();
         }
-        return patternBufferHost != null ? Optional.ofNullable(patternBufferHost.getTerminalGroup().icon()).map(AEItemKey::getItem).orElse(patternBufferHost.getHolder().definition.getItem()) :
-                patternProviderLogicHost.getTerminalIcon().getItem();
+        return getAdjacentMachineIcon();
     }
 
     @Override
