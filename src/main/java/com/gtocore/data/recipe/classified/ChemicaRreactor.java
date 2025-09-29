@@ -1,17 +1,15 @@
 package com.gtocore.data.recipe.classified;
 
-import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOFluidStorageKey;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
-
-import com.gtolib.api.machine.GTOCleanroomType;
-
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtolib.api.machine.GTOCleanroomType;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -3371,5 +3369,15 @@ final class ChemicaRreactor {
                 .EUt(30)
                 .duration(200)
                 .save();
+
+        CHEMICAL_RECIPES.builder("benzaldehyde")
+                .inputFluids(GTMaterials.Toluene, 1000)
+                .inputFluids(GTMaterials.Oxygen, 2000)
+                .outputFluids(GTOMaterials.Benzaldehyde, 1000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .EUt(480)
+                .duration(600)
+                .save();
+
     }
 }
