@@ -2159,7 +2159,6 @@ public final class MaterialB {
                 .liquid()
                 .color(0xd5d54b)
                 .components(Hydrogen, 1, Phosphorus, 1, Fluorine, 6)
-                .flags(DISABLE_DECOMPOSITION)
                 .iconSet(DULL)
                 .buildAndRegister();
 

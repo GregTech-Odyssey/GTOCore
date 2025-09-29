@@ -935,7 +935,7 @@ public final class MultiBlockH {
             .register();
 
     // 雾化冷凝器
-    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getCasingTier(BlockMap.hermetic_casing) - 1)), true, BlockMap.hermetic_casing))
+    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getCasingTier(BlockMap.hermetic_casing) - 1)), false, BlockMap.hermetic_casing))
             .nonYAxisRotation()
             .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getAtomizingCondenserTooltips().getSupplier())

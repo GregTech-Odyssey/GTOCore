@@ -178,7 +178,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             long EUt = recipe.getOutputEUt();
             if (EUt > 0) {
                 recipe.outputs.clear();
-                recipe = ParallelLogic.accurateParallel(this, recipe, (long) (multiply * GTValues.V[getOverclockTier()] * a * GTOUtils.getGeneratorAmperage(getTier()) / EUt));
+                recipe = ParallelLogic.accurateContentParallel(this, recipe, (long) (multiply * GTValues.V[getOverclockTier()] * a * GTOUtils.getGeneratorAmperage(getTier()) / EUt));
                 if (recipe == null) return null;
                 recipe.duration = recipe.duration * GTOUtils.getGeneratorEfficiency(getRecipeType(), getTier()) / 100;
                 if (isw) {
