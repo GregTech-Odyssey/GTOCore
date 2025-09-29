@@ -1,13 +1,13 @@
 package com.gtocore.mixin.mc.mob;
 
 import com.gtocore.config.GTOConfig;
-import com.gtocore.utils.ClientUtil;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "hasEffect", at = @At("HEAD"), cancellable = true)
     private void gto$hasEffectInject(MobEffect effect, CallbackInfoReturnable<Boolean> cir) {
-        if (effect == MobEffects.NIGHT_VISION && level().isClientSide() && ClientUtil.isClientPlayer(this) && GTOConfig.INSTANCE.nightVision) {
+        if (effect == MobEffects.NIGHT_VISION && level().isClientSide() && (Object) this instanceof Player && GTOConfig.INSTANCE.nightVision) {
             cir.setReturnValue(true);
         }
     }

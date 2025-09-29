@@ -3,7 +3,6 @@ package com.gtocore.data.recipe.generated;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
 
-import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
 
@@ -396,19 +395,6 @@ final class GTOMaterialRecipeHandler {
                             .outputFluids(GTMaterials.Helium.getFluid(250));
                 }
                 b.save();
-            }
-
-            Fluid plasma = material.getFluid(FluidStorageKeys.PLASMA);
-            if (plasma != null) {
-                int shift = GTOCore.difficulty * 2;
-                ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_dust_from_plasma")
-                        .inputFluids(plasma, (long) L << shift)
-                        .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000 << shift))
-                        .outputItems(dustStack, 1 << shift)
-                        .outputFluids(GTMaterials.Helium.getFluid(100000 << shift))
-                        .duration(37).EUt((long) VA[UIV] << shift)
-                        .category(GTORecipeCategories.CONDENSE_PLASMA_TO_DUST)
-                        .save();
             }
         }
 
