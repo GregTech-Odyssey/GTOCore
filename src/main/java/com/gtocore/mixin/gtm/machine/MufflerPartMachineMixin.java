@@ -138,12 +138,12 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     private void gtolib$tick() {
         if (getOffsetTimer() % 40 == 0) {
             DroneControlCenterMachine centerMachine = getNetMachine();
-            if (centerMachine != null) {
+            if (centerMachine != null && !inventory.stacks[inventory.size - 3].isEmpty()) {
                 Drone drone = null;
                 boolean available = false;
                 for (int i = 0; i < inventory.size; i++) {
-                    ItemStack stack = inventory.getStackInSlot(i);
-                    if (stack.getCount() > 32) {
+                    ItemStack stack = inventory.stacks[i];
+                    if (stack.getCount() > 1) {
                         if (drone == null) {
                             drone = getFirstUsableDrone();
                             if (drone != null) {
