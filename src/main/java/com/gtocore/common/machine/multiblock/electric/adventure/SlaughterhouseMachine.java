@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.electric.adventure;
 
 import com.gtocore.data.IdleReason;
 
+import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.item.ItemStackSet;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -17,11 +18,13 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -44,14 +47,15 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.util.CommonProxy;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -62,7 +66,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SlaughterhouseMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    private static final ObjectList<SlaughterhouseMachine> MACHINES = new ObjectArrayList<>();
+    private static final Object2ObjectOpenHashMap<ResourceLocation, Set<SlaughterhouseMachine>> MACHINES = new O2OOpenCacheHashMap<>();
 
     private int attackDamage;
     @Persisted
@@ -311,21 +315,26 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
-        if (!MACHINES.contains(this)) MACHINES.add(this);
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        IIWirelessInteractor.addToNet(MACHINES, this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        MACHINES.remove(this);
+        IIWirelessInteractor.removeFromNet(MACHINES, this);
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        IIWirelessInteractor.removeFromNet(MACHINES, this);
     }
 
     public static boolean isEntityInAnySlaughterhouse(Entity entity) {
         if (MACHINES.isEmpty()) return false;
-        for (SlaughterhouseMachine machine : MACHINES) {
-            if (machine.getLevel() != entity.level()) continue;
+        for (SlaughterhouseMachine machine : MACHINES.getOrDefault(entity.level().dimension().location(), Collections.emptySet())) {
             BlockPos blockPos = MachineUtils.getOffsetPos(3, 1, machine.getFrontFacing(), machine.getPos());
             AABB aabb = new AABB(
                     blockPos.getX() - 4,
