@@ -176,12 +176,9 @@ public final class GTOConfig {
     public String renamePatternDefaultString = "";
 
     @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Language on Server", cn = "服务器语言")
-    @Configurable.Comment({ "游玩服务器时发送到客户端的部分文本的语言，若解析失败则使用en_us",
-            "仅在专用服务器环境下生效！",
-            "The language for some texts sent to the client when playing on a server, if parsing fails, en_us will be used",
-            "Only effective in dedicated server environments!" })
-    public String serverLanguage = "en_us";
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Allow Missing Crafting Jobs", cn = "允许下单缺少材料的合成任务")
+    @Configurable.Comment({ "允许在 AE2 中下单缺少原料的任务", "缺少的原料将以“正在合成”的状态被等待接收", "Allow placing orders for tasks that are missing ingredients in AE2", "Missing ingredients will be in a 'crafting' state waiting to be received" })
+    public boolean allowMissingCraftingJobs = true;
 
     // 性能优化设置
     @Configurable
