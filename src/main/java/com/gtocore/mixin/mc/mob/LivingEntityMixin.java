@@ -1,9 +1,8 @@
 package com.gtocore.mixin.mc.mob;
 
 import com.gtocore.config.GTOConfig;
-
 import com.gtocore.utils.ClientUtil;
-import net.minecraft.client.player.AbstractClientPlayer;
+
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;

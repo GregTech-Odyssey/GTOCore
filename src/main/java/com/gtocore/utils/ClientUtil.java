@@ -6,8 +6,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ClientUtil {
+
     @OnlyIn(Dist.CLIENT)
-   public static boolean isClientPlayer(Entity entity) {
-       return entity instanceof AbstractClientPlayer;
-   }
+    public static boolean isClientPlayer(Entity entity) {
+        return entity instanceof AbstractClientPlayer;
+    }
 }
