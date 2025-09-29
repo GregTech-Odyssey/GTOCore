@@ -2,6 +2,7 @@ package com.gtocore.mixin.mc.mob;
 
 import com.gtocore.config.GTOConfig;
 
+import com.gtocore.utils.ClientUtil;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
@@ -29,7 +30,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Inject(method = "hasEffect", at = @At("HEAD"), cancellable = true)
     private void gto$hasEffectInject(MobEffect effect, CallbackInfoReturnable<Boolean> cir) {
-        if (effect == MobEffects.NIGHT_VISION && (Object) this instanceof AbstractClientPlayer && GTOConfig.INSTANCE.nightVision) {
+        if (effect == MobEffects.NIGHT_VISION && level().isClientSide() && ClientUtil.isClientPlayer(this) && GTOConfig.INSTANCE.nightVision) {
             cir.setReturnValue(true);
         }
     }
