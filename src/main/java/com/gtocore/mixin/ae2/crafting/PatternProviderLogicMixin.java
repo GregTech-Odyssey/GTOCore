@@ -31,7 +31,6 @@ import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import appeng.helpers.patternprovider.PatternProviderTarget;
 import appeng.util.ConfigManager;
 import appeng.util.inv.AppEngInternalInventory;
-import com.enderio.base.common.travel.TravelSavedData;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -77,7 +76,8 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     @Shadow
     @Final
     private List<GenericStack> sendList;
-    private int pushedCount = 1024;
+    @Unique
+    private int gtocore$pushedCount = 1024;
     @Shadow
     private Direction sendDirection;
     @Unique
@@ -119,19 +119,11 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         }
     }
 
-    @Inject(method = "saveChanges", at = @At("TAIL"), remap = false)
+    @Inject(method = "configChanged", at = @At("TAIL"), remap = false)
     private void onSave(CallbackInfo ci) {
         Level level = host.getBlockEntity().getLevel();
         if (level != null) {
             ITravelHandlerHook.requireResync(level);
-        }
-    }
-
-    @Inject(method = "addDrops", at = @At("TAIL"), remap = false)
-    private void onRemove(CallbackInfo ci) {
-        Level level = host.getBlockEntity().getLevel();
-        if (level != null) {
-            TravelSavedData.getTravelData(level).removeTravelTargetAt(level, host.getBlockEntity().getBlockPos());
         }
     }
 
@@ -144,9 +136,9 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         if (cache == null) return PushResult.REJECTED;
         var setting = configManager.getSetting(GTOSettings.BLOCKING_TYPE);
         if (setting == BlockingType.ALL || setting == BlockingType.CONTAIN) {
-            pushedCount = 1;
+            gtocore$pushedCount = 1;
         } else {
-            pushedCount = 1024;
+            gtocore$pushedCount = 1024;
         }
         BooleanSupplier canPush = () -> getCraftingLockedReason() == LockCraftingMode.NONE && sendList.isEmpty();
         if (!canPush.getAsBoolean()) return PushResult.PATTERN_PROVIDER_LOCKED;
@@ -237,7 +229,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
     @Unique
     private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
-        int count = this.pushedCount;
+        int count = this.gtocore$pushedCount;
         boolean success = false;
         while (count > 0) {
             count--;
@@ -322,12 +314,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         }
 
         ICraftingProvider.requestUpdate(mainNode);
-
-        // onAddToWorld
-        Level level = host.getBlockEntity().getLevel();
-        if (level != null) {
-            ITravelHandlerHook.removeAndReadd(level, host);
-        }
     }
 
     @Override
