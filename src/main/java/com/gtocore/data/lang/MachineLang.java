@@ -222,6 +222,22 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式：强行镶嵌宝石", "Working Mode: Forced gem inlay");
         addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
 
+        addCNEN("gtocore.machine.previous_page", "上一页", "Previous Page");
+        addCNEN("gtocore.machine.next_page", "下一页", "Next Page");
+
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.0", "简介", "Introduction");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.1", "第一步：基础单元设置", "Step 1: Base Unit Settings");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.2", "选择块间道路", "Select the rode between blocks");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.3", "选择层数及层间隔", "Select the number of layers and the interval between layers");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.4", "选择层间连接柱", "Select inter-layer connecting columns");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.5", "选择层中心偏移", "Select layer center offset");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.6", "选择单元拓展数量", "Select the number of units to expand");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.7", "选择区域清空范围", "Select the area to clear");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.8", "选择区域填充范围", "Select the area to fill");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.9", "平台确认", "Confirm platform");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.10", "材料输入", "Input materials");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.11", "运行中", "In progress");
+
         addSingleMachineTooltips();
 
         DisplayRegistry.registerLanguage();

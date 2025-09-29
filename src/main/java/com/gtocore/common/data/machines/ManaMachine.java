@@ -7,10 +7,7 @@ import com.gtocore.client.renderer.machine.OverlayManaTieredMachineRenderer;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
-import com.gtocore.common.machine.mana.AlchemyCauldron;
-import com.gtocore.common.machine.mana.AreaDestructionToolsMachine;
-import com.gtocore.common.machine.mana.CelestialCondenser;
-import com.gtocore.common.machine.mana.ManaHeaterMachine;
+import com.gtocore.common.machine.mana.*;
 import com.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
 import com.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
 import com.gtocore.common.machine.mana.part.ManaHatchPartMachine;
@@ -171,9 +168,15 @@ public final class ManaMachine {
             .register();
 
     public static final MachineDefinition AREA_DESTRUCTION_TOOLS = manaMachine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
-            .tier(LuV)
+            .tier(EV)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getAreaDestructionToolsTooltips().apply(list))
             .nonYAxisRotation()
-            .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/area_destruction_tools"))
+            .workableManaTieredHullRenderer(4, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();
+
+    public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = GTCEu.isDev() ? manaMachine("industrial_platform_deployment_tools", "工业平台展开工具", IndustrialPlatformDeploymentToolsMachine::new)
+            .tier(LV)
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
+            .nonYAxisRotation()
+            .register() : null;
 }
