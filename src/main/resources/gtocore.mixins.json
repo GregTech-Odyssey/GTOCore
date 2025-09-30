@@ -27,6 +27,7 @@
     "gtm.api.recipe.ContentMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
     "inventoryessentials.ClientOnlyInventoryControlsMixin",
+    "mc.GuiGraphicsMixin",
     "mc.OpenContainerMixin",
     "merequester.NumberFieldMixin",
     "sodium.SodiumWorldRendererMixin"
