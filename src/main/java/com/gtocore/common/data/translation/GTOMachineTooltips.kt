@@ -52,63 +52,82 @@ object GTOMachineTooltips {
     val IndustrialPlatformDeploymentToolsTooltips = ComponentListSupplier {
         setTranslationPrefix("industrial_platform_deployment_tools")
 
-        story("在过去，工业平台展开工具曾是工程师们建造巨型工厂的神器，" +
-                "只需几个指令就能生成复杂的多层工业设施。" translatedTo
-                "In the past, the Industrial Platform Deployment Tool was a神器 for engineers building giant factories, " +
-                "capable of generating complex multi-layer industrial facilities with just a few commands.")
-
-        story("然而，由于能源危机和安全管制，新版的工业平台展开工具功能被大幅削弱，" +
-                "如今它只能根据预设蓝图放置一些简单的平台结构。" translatedTo
-                "However, due to the energy crisis and safety regulations, the new version has been significantly nerfed. " +
-                "Now it can only place simple platform structures based on preset blueprints.")
-
-        story("尽管如此，对于快速搭建基础工业基地，它依然是不可或缺的好帮手。" translatedTo
-                "Nevertheless, it remains an indispensable tool for quickly setting up basic industrial bases.")
+        story(
+            "在过去，工业平台展开工具曾是工程师建造巨型工厂的神器" translatedTo
+                "In the past, the Industrial Platform Deployment Tool was a revered tool for engineers to build massive factories.",
+        )
+        story(
+            "只需几条指令就能生成复杂的多层工业设施" translatedTo
+                "With just a few commands, it could generate complex multi-layer industrial facilities.",
+        )
+        story(
+            "然而，受能源危机与安全管制影响，新版工具的功能被大幅削弱" translatedTo
+                "However, due to the energy crisis and safety regulations, the capabilities of the new version have been significantly reduced.",
+        )
+        story(
+            "如今它只能根据预设蓝图放置一些简单的平台结构" translatedTo
+                "Now it can only place simple platform structure based on preset blueprints.",
+        )
+        story(
+            "尽管如此，对于快速搭建基础工业基地，它依然是不可或缺的好帮手。" translatedTo
+                "Nevertheless, it remains an indispensable assistant for quickly setting up basic industrial bases.",
+        )
 
         miraculousTools("工业平台展开工具" translatedTo "Industrial Platform Deployment Tools")
 
-        section("只能使用预设蓝图，无法自定义复杂结构" translatedTo "• Can only use preset blueprints, no complex customization")
-        section("平台结构不支持自动延拓，只能手动逐块的放置" translatedTo
-                "Platform structures are relatively simple, no support for complex roads, connecting pillars, etc.")
-        section("必须使用指定的压缩工业平台组件作为材料" translatedTo
-                "Must use specified compressed industrial platform components as materials")
-        highlight("尽管如此它依旧是专业的基地平台展开工具" translatedTo "Professional base platform deployment tool") { rainbowSlow() }
+        section("只能使用预设蓝图，无法自定义复杂结构" translatedTo "• Only preset blueprints are supported; complex customization is not available")
+        section(
+            "平台结构相对简单，不支持自动扩展、道路或连接柱等复杂设施" translatedTo
+                "Platform structure is relatively simple; automatic expansion, road placement, or connecting pillars are not supported.",
+        )
+        section(
+            "必须使用指定的压缩工业平台组件作为材料" translatedTo
+                "Must use specified compressed industrial platform component as material.",
+        )
 
-        guide("详细操作请查看机器内简介" translatedTo "For more information, please see the introduction of the machine")
+        highlight("尽管如此它依旧是专业的基地平台展开工具" translatedTo "It remains a professional base platform deployment tool") { rainbowSlow() }
+
+        guide("详细操作请查看机器内简介" translatedTo "For detailed instruction, see the in-machine introduction")
     }
 
+    // 工业平台展开工具 — 详细介绍
     val IndustrialPlatformDeploymentToolsIntroduction = ComponentListSupplier {
         setTranslationPrefix("industrial_platform_deployment_tools.introduction")
 
-        highlight("快速部署基础工业平台" translatedTo "Simplified tool for quickly deploying basic industrial platforms") { rainbowSlow() }
+        highlight("快速部署基础工业平台" translatedTo "Quickly deploy basic industrial platform") { rainbowSlow() }
 
         section("基本功能" translatedTo "Basic Functions")
-        content("本工具可以根据预设蓝图快速放置简单的工业平台结构，" +
-                "适用于快速搭建基础生产基地。" translatedTo
-                "This tool can quickly place simple industrial platform structures based on preset blueprints, " +
-                "ideal for quickly setting up basic production bases.")
+        content(
+            "本工具可根据预设蓝图快速放置简单的工业平台结构" translatedTo
+                "This tool can quickly place simple industrial platform structures based on preset blueprints,",
+        )
+        content(
+            "适用于快速搭建基础生产基地" translatedTo
+                "making it ideal for rapidly establishing basic production bases.",
+        )
 
         section("使用流程" translatedTo "Usage Process")
-        content("第一步：选择预设蓝图" translatedTo "• Step 1: Select a preset blueprint")
-        content("第二步：设置平台放置的偏移位置（X、Z方向区块偏移，Y方向高度偏移），并查看四角坐标" translatedTo
-                "Step 2: Set platform placement offset (X and Z chunk offsets, Y height offset), and view corner coordinates")
-        content("第三步：投入所需材料（高级/中级/初级/基础压缩工业平台组件）" translatedTo
-                "Step 3: Input required materials (Advanced/Intermediate/Basic Compressed Industrial Platform Components)")
-        content("第四步：确认放置，消耗材料并开启放置任务" translatedTo
-                "Step 4: Confirm placement, consume materials, and start placement task")
-        content("第五步：完成后可返回第一步重新开始" translatedTo
-                "Step 5: Return to Step 1 to start over after completion")
+        content("第一步：选择预设蓝图" translatedTo "1. Select a preset blueprint")
+        content("第二步：设置平台放置的偏移位置，确定材料消耗" translatedTo "2. Set the placement offset and confirm material consumption")
+        content("第三步：开启放置任务" translatedTo "3. Start the placement task")
+        content("任务完成后自动返回第一步" translatedTo "4. Automatically return to the first step upon task completion")
 
         section("材料需求" translatedTo "Material Requirements")
-        content("根据选择的预设蓝图，系统会自动计算所需的压缩工业平台组件等级，类型和数量" translatedTo
-                "The system will automatically calculate the required grade and quantity of compressed industrial platform components based on the selected blueprint")
+        content(
+            "根据选择的预设蓝图，系统会自动计算所需的材料" translatedTo
+                "The system will automatically calculate the required materials based on the selected blueprint.",
+        )
 
         section("注意事项" translatedTo "Notes")
-        content("放置任务开始后无法取消，请确认位置无误" translatedTo
-                "Placement tasks cannot be canceled once started, please confirm position and materials are correct")
+        content(
+            "放置任务开始后无法取消，请确认位置和材料无误" translatedTo
+                "Once started, placement task cannot be canceled. Please confirm position and materials are correct.",
+        )
 
-        guide("请按照步骤操作，完成后点击确认按钮开始放置" translatedTo
-                "Please follow the steps and click the confirm button to start placement")
+        guide(
+            "请按照步骤操作，完成后点击确认按钮开始放置" translatedTo
+                "Please follow the steps and click the confirm button to start placement.",
+        )
     }
 
     // 魔力增幅仓
