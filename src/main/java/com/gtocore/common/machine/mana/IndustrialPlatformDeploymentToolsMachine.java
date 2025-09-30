@@ -22,8 +22,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
@@ -31,8 +29,6 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
-import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -48,11 +44,13 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
-    private final List<PlatformPreset> presets = new ArrayList<>();
+    private final Map<String, PlatformBlockType.PlatformPreset> presetMap = new HashMap<>();
+    private final List<String> presetNames = new ArrayList<>();
 
     public IndustrialPlatformDeploymentToolsMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 9, IO.NONE, IO.BOTH);
+        initializePresets();
     }
 
     @Override
@@ -65,15 +63,32 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     public void onLoad() {
         super.onLoad();
         inventory.notifyListeners();
-        if (presets.isEmpty()) {
-            initializePresets();
-        }
         BlockPos pos = getPos();
         Level level = getLevel();
         if (level != null) {
             centerX = pos.getX() >> 4;
             centerZ = pos.getZ() >> 4;
             centerY = pos.getY();
+        }
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        presetMap.clear();
+    }
+
+    /**
+     * 初始化预设模板
+     */
+    private void initializePresets() {
+        List<PlatformBlockType.PlatformPreset> presets = PlatformTemplateStorage.initializePresets();
+        for (PlatformBlockType.PlatformPreset preset : presets) {
+            presetMap.put(preset.getName(), preset);
+        }
+        presetNames.addAll(presetMap.keySet());
+        if (!presetNames.isEmpty()) {
+            currentPresetName = presetNames.get(0);
         }
     }
 
@@ -105,8 +120,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     // 是否已完成预设选择
     @Persisted
     private boolean presetConfirm = false;
-    // 显示的预设组编号（0表示未选择，1+表示不同的预设组）
-    private int checkGroup = 0;
+    @Persisted
+    private String currentPresetName = null;
     // 显示的预设编号
     private int checkId = 0;
     // 保存的预设组编号（0表示未选择，1+表示不同的预设组）
@@ -241,32 +256,52 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     // 预设组控制工具
     private void addDisplayTextPage(List<Component> textList) {
         if (step == PresetSelection && ensurePresetsReady()) {
-            textList.add(createPageNavigation(langWidth, createPageNavigation(langWidth - 80, Component.literal("<" + (checkGroup + 1) + "/" + presets.size() + ">"), "group"), "group_plas"));
-            textList.add(createPageNavigation(langWidth, Component.literal("<" + (checkId + 1) + "/" + presets.get(checkGroup).structures().size() + ">"), "id"));
+            int currentIndex = presetNames.indexOf(currentPresetName);
+            int totalGroups = presetNames.size();
+
+            textList.add(createPageNavigation(
+                    langWidth,
+                    createPageNavigation(langWidth - 80,
+                            Component.literal("<" + (currentIndex + 1) + "/" + totalGroups + ">"),
+                            "group"),
+                    "group_plas"));
+
+            PlatformBlockType.PlatformPreset currentPreset = presetMap.get(currentPresetName);
+            textList.add(createPageNavigation(
+                    langWidth,
+                    Component.literal("<" + (checkId + 1) + "/" + currentPreset.getStructures().size() + ">"),
+                    "id"));
         }
     }
 
     private void handleDisplayClickPage(String componentData, ClickData clickData) {
         if (!ensurePresetsReady()) return;
 
-        int maxGroup = presets.size() - 1;
-        int maxId = presets.get(checkGroup).structures().size() - 1;
+        int currentIndex = presetNames.indexOf(currentPresetName);
+        int maxGroup = presetNames.size() - 1;
+
+        PlatformBlockType.PlatformPreset currentPreset = presetMap.get(currentPresetName);
+        int maxId = currentPreset.getStructures().size() - 1;
 
         switch (componentData) {
             case "next_group" -> {
-                checkGroup = Mth.clamp(checkGroup + 1, 0, maxGroup);
+                currentIndex = (currentIndex + 1) % (maxGroup + 1);
+                currentPresetName = presetNames.get(currentIndex);
                 checkId = 0;
             }
             case "previous_group" -> {
-                checkGroup = Mth.clamp(checkGroup - 1, 0, maxGroup);
+                currentIndex = (currentIndex - 1 + (maxGroup + 1)) % (maxGroup + 1);
+                currentPresetName = presetNames.get(currentIndex);
                 checkId = 0;
             }
             case "next_group_plas" -> {
-                checkGroup = Mth.clamp(checkGroup + 10, 0, maxGroup);
+                currentIndex = Math.min(currentIndex + 10, maxGroup);
+                currentPresetName = presetNames.get(currentIndex);
                 checkId = 0;
             }
             case "previous_group_plas" -> {
-                checkGroup = Mth.clamp(checkGroup - 10, 0, maxGroup);
+                currentIndex = Math.max(currentIndex - 10, 0);
+                currentPresetName = presetNames.get(currentIndex);
                 checkId = 0;
             }
             case "next_id" -> checkId = Mth.clamp(checkId + 1, 0, maxId);
@@ -275,22 +310,25 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     }
 
     private boolean ensurePresetsReady() {
-        if (presets.isEmpty()) return false;
-        checkGroup = Mth.clamp(checkGroup, 0, presets.size() - 1);
+        if (presetMap.isEmpty()) return false;
 
-        PlatformPreset preset = presets.get(checkGroup);
-        if (preset == null || preset.structures().isEmpty()) {
+        if (currentPresetName == null || !presetMap.containsKey(currentPresetName)) {
+            currentPresetName = presetNames.get(0);
+        }
+
+        PlatformBlockType.PlatformPreset preset = presetMap.get(currentPresetName);
+        if (preset == null || preset.getStructures().isEmpty()) {
             return false;
         }
 
-        checkId = Mth.clamp(checkId, 0, preset.structures().size() - 1);
+        checkId = Mth.clamp(checkId, 0, preset.getStructures().size() - 1);
         return true;
     }
 
     // 获得图片
     private IGuiTexture getIGuiTexture() {
-        if (step == PresetSelection && checkGroup != 0) {
-            String pngs = "template_" + checkGroup + "_" + checkId + ".png";
+        if (step == PresetSelection && currentPresetName != null) {
+            String pngs = currentPresetName + ".png";
             ResourceLocation imageLocation = GTOCore.id("textures/gui/industrial_platform_deployment_tools/" + pngs);
             return new ResourceTexture(imageLocation);
         }
@@ -388,7 +426,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     private void handleDisplayClickText(String componentData, ClickData clickData) {
         switch (componentData) {
             case "choose_this" -> {
-                saveGroup = checkGroup;
+                saveGroup = presetNames.indexOf(currentPresetName);
                 saveId = checkId;
                 presetConfirm = true;
             }
@@ -499,262 +537,6 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     /////////////////////////////////////
     // ******** 模板存储验证工具 ******** //
     /////////////////////////////////////
-
-    /**
-     * 表示结构块的类型
-     */
-    public enum BlockType {
-        CORE,      // 核心块
-        ROAD_X,    // X方向道路
-        ROAD_Z,    // Z方向道路
-        ROAD_CROSS // 道路交叉点
-    }
-
-    /**
-     * 单个平台结构块的信息
-     * 参考 FactoryBlockPattern 的存储方式
-     */
-    public record PlatformBlockStructure(
-                                         BlockType type,              // 块类型
-                                         List<String[]> depth,        // 多层结构（z 方向），每个 String[] 是 y 方向一层
-                                         Char2ObjectMap<Block> blockMapping, // 字符 -> 方块映射
-                                         int[] materials,             // 整个结构需要的材料数量
-                                         int xSize,                   // x 方向大小（水平）
-                                         int ySize,                   // y 方向大小（高度）
-                                         int zSize                    // z 方向大小（水平）
-    ) {
-
-        /**
-         * 构造方法 - 自动计算尺寸并校验
-         */
-        public PlatformBlockStructure(
-                                      BlockType type,
-                                      List<String[]> depth,
-                                      Map<Character, Block> blockMapping,
-                                      int[] materials) {
-            this(
-                    type,
-                    depth,
-                    new Char2ObjectOpenHashMap<>(blockMapping),
-                    materials,
-                    depth.get(0)[0].length(), // x 大小
-                    depth.get(0).length,      // y 大小
-                    depth.size()              // z 大小
-            );
-
-            // 校验结构
-            validateStructure(depth);
-
-            // 校验方块数量在 1~100 之间
-            if (blockMapping.isEmpty() || blockMapping.size() > 100) {
-                throw new IllegalArgumentException("A structure must contain between 1 and 100 different blocks");
-            }
-        }
-
-        /**
-         * 校验结构合法性
-         */
-        private static void validateStructure(List<String[]> depth) {
-            if (depth.isEmpty()) throw new IllegalArgumentException("Depth cannot be empty");
-
-            int ySize = depth.get(0).length;
-            int xSize = depth.get(0)[0].length();
-            int zSize = depth.size();
-
-            // 检查所有层高度一致
-            for (String[] layer : depth) {
-                if (layer.length != ySize) {
-                    throw new IllegalArgumentException("All layers must have the same height (y size)");
-                }
-                // 检查所有行长度一致
-                for (String row : layer) {
-                    if (row.length() != xSize) {
-                        throw new IllegalArgumentException("All rows must have the same width (x size)");
-                    }
-                }
-            }
-
-            // 检查 x/z 必须是 16 的倍数
-            if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
-            if (zSize % 16 != 0) throw new IllegalArgumentException("Z size must be multiple of 16");
-
-            // 检查 x % z == 0 或 z % x == 0
-            if (xSize % zSize != 0 && zSize % xSize != 0) {
-                throw new IllegalArgumentException("Either X size must be multiple of Z size or vice versa");
-            }
-        }
-
-        /**
-         * 根据相对坐标获取方块
-         *
-         * @param x 水平方向 X
-         * @param y 高度方向 Y
-         * @param z 水平方向 Z
-         * @return 方块
-         */
-        public Block getBlockAt(int x, int y, int z) {
-            if (z < 0 || z >= zSize) throw new IndexOutOfBoundsException("Z index out of bounds");
-            if (y < 0 || y >= ySize) throw new IndexOutOfBoundsException("Y index out of bounds");
-            if (x < 0 || x >= xSize) throw new IndexOutOfBoundsException("X index out of bounds");
-
-            char symbol = depth.get(z)[y].charAt(x);
-            return blockMapping.get(symbol);
-        }
-    }
-
-    /**
-     * 平台预设（组信息）
-     */
-    public record PlatformPreset(
-                                 int id,
-                                 String name,
-                                 String description,
-                                 List<PlatformBlockStructure> structures) {
-
-        public PlatformPreset {
-            // 提取所有类型
-            Set<BlockType> types = structures.stream()
-                    .map(PlatformBlockStructure::type)
-                    .collect(java.util.stream.Collectors.toSet());
-
-            // 检查数量和类型
-            switch (structures.size()) {
-                case 1 -> {
-                    if (!types.contains(BlockType.CORE)) {
-                        throw new IllegalArgumentException("1 structure must be CORE type");
-                    }
-                }
-                case 3 -> {
-                    if (!types.equals(Set.of(BlockType.ROAD_X, BlockType.ROAD_Z, BlockType.ROAD_CROSS))) {
-                        throw new IllegalArgumentException("3 structures must be ROAD_X, ROAD_Z, ROAD_CROSS");
-                    }
-                }
-                case 4 -> {
-                    if (!types.equals(Set.of(BlockType.CORE, BlockType.ROAD_X, BlockType.ROAD_Z, BlockType.ROAD_CROSS))) {
-                        throw new IllegalArgumentException("4 structures must be CORE, ROAD_X, ROAD_Z, ROAD_CROSS");
-                    }
-                }
-                default -> throw new IllegalArgumentException("Preset must contain exactly 1, 3, or 4 structures");
-            }
-        }
-
-        /**
-         * 根据类型获取结构
-         */
-        public PlatformBlockStructure getStructure(BlockType type) {
-            for (PlatformBlockStructure s : structures) {
-                if (s.type() == type) return s;
-            }
-            return null;
-        }
-    }
-
-    /////////////////////////////////////
-    // *********** 预设模板 *********** //
-    /////////////////////////////////////
-
-    /**
-     * 初始化所有预设（一次性加入到机器的 presets 列表）
-     */
-    private void initializePresets() {
-        presets.addAll(List.of(
-                PRESET_COBBLESTONE_SINGLE,
-                PRESET_COBBLESTONE_ROADS,
-                PRESET_COBBLESTONE_FULL));
-    }
-
-    // ========== 结构常量 ==========
-    private static final PlatformBlockStructure COBBLESTONE_CORE_16x16x1;
-    private static final PlatformBlockStructure COBBLESTONE_ROAD_X_16x16x1;
-    private static final PlatformBlockStructure COBBLESTONE_ROAD_Z_16x16x1;
-    private static final PlatformBlockStructure COBBLESTONE_ROAD_CROSS_16x16x1;
-
-    // ========== 预设常量 ==========
-    private static final PlatformPreset PRESET_COBBLESTONE_SINGLE;
-    private static final PlatformPreset PRESET_COBBLESTONE_ROADS;
-    private static final PlatformPreset PRESET_COBBLESTONE_FULL;
-
-    // 静态代码块初始化所有结构和预设
-    static {
-        // --- 1. 创建圆石核心平台 (16x16x1) ---
-        List<String[]> coreDepth = new ArrayList<>();
-        String coreRow = "CCCCCCCCCCCCCCCC";
-        for (int z = 0; z < 16; z++) {
-            coreDepth.add(new String[] { coreRow });
-        }
-        Map<Character, Block> coreMapping = new HashMap<>();
-        coreMapping.put('C', Blocks.COBBLESTONE);
-        int[] coreMaterials = new int[] { 256 }; // 16*16*1
-        COBBLESTONE_CORE_16x16x1 = new PlatformBlockStructure(
-                BlockType.CORE,
-                coreDepth,
-                coreMapping,
-                coreMaterials);
-
-        // --- 2. 创建X方向道路 (16x16x1) ---
-        List<String[]> roadXDepth = new ArrayList<>();
-        String roadXRow = "CCCCCCCCCCCCCCCC";
-        for (int z = 0; z < 16; z++) {
-            roadXDepth.add(new String[] { roadXRow });
-        }
-        Map<Character, Block> roadXMapping = new HashMap<>();
-        roadXMapping.put('C', Blocks.COBBLESTONE);
-        int[] roadXMaterials = new int[] { 256 };
-        COBBLESTONE_ROAD_X_16x16x1 = new PlatformBlockStructure(
-                BlockType.ROAD_X,
-                roadXDepth,
-                roadXMapping,
-                roadXMaterials);
-
-        // --- 3. 创建Z方向道路 (16x16x1) ---
-        List<String[]> roadZDepth = new ArrayList<>();
-        String roadZRow = "CCCCCCCCCCCCCCCC";
-        for (int z = 0; z < 16; z++) {
-            roadZDepth.add(new String[] { roadZRow });
-        }
-        Map<Character, Block> roadZMapping = new HashMap<>();
-        roadZMapping.put('C', Blocks.COBBLESTONE);
-        int[] roadZMaterials = new int[] { 256 };
-        COBBLESTONE_ROAD_Z_16x16x1 = new PlatformBlockStructure(
-                BlockType.ROAD_Z,
-                roadZDepth,
-                roadZMapping,
-                roadZMaterials);
-
-        // --- 4. 创建十字路口 (16x16x1) ---
-        List<String[]> crossDepth = new ArrayList<>();
-        String crossRow = "CCCCCCCCCCCCCCCC";
-        for (int z = 0; z < 16; z++) {
-            crossDepth.add(new String[] { crossRow });
-        }
-        Map<Character, Block> crossMapping = new HashMap<>();
-        crossMapping.put('C', Blocks.COBBLESTONE);
-        int[] crossMaterials = new int[] { 256 };
-        COBBLESTONE_ROAD_CROSS_16x16x1 = new PlatformBlockStructure(
-                BlockType.ROAD_CROSS,
-                crossDepth,
-                crossMapping,
-                crossMaterials);
-
-        // --- 5. 创建预设 ---
-        PRESET_COBBLESTONE_SINGLE = new PlatformPreset(
-                1,
-                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_single.name",
-                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_single.desc",
-                List.of(COBBLESTONE_CORE_16x16x1));
-
-        PRESET_COBBLESTONE_ROADS = new PlatformPreset(
-                2,
-                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_roads.name",
-                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_roads.desc",
-                List.of(COBBLESTONE_ROAD_X_16x16x1, COBBLESTONE_ROAD_Z_16x16x1, COBBLESTONE_ROAD_CROSS_16x16x1));
-
-        PRESET_COBBLESTONE_FULL = new PlatformPreset(
-                3,
-                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_full.name",
-                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_full.desc",
-                List.of(COBBLESTONE_CORE_16x16x1, COBBLESTONE_ROAD_X_16x16x1, COBBLESTONE_ROAD_Z_16x16x1, COBBLESTONE_ROAD_CROSS_16x16x1));
-    }
 
     /////////////////////////////////////
     // ********* 平台生成主方法 ********* //
