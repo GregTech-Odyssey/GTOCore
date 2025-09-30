@@ -4,6 +4,7 @@ import net.minecraft.world.level.block.Block;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -22,21 +23,25 @@ public final class PlatformBlockType {
     }
 
     // ===================================================================
-    // 单个平台结构
+    // 单个平台结构（链式构建）
     // ===================================================================
     public static final class PlatformBlockStructure {
 
         private final BlockType type;
         private final List<String[]> depth; // Z -> Y -> X
         private final Char2ObjectMap<Block> blockMapping;
-        private final int[] materials;
+        private final int materials;
         private final int xSize;
         private final int ySize;
         private final int zSize;
 
-        private PlatformBlockStructure(BlockType type, List<String[]> depth,
-                                       Char2ObjectMap<Block> blockMapping, int[] materials,
-                                       int xSize, int ySize, int zSize) {
+        private PlatformBlockStructure(BlockType type,
+                                       List<String[]> depth,
+                                       Char2ObjectMap<Block> blockMapping,
+                                       int materials,
+                                       int xSize,
+                                       int ySize,
+                                       int zSize) {
             this.type = type;
             this.depth = depth;
             this.blockMapping = blockMapping;
@@ -46,57 +51,8 @@ public final class PlatformBlockType {
             this.zSize = zSize;
         }
 
-        /**
-         * 直接输入完整的三维结构数据
-         */
-        public static PlatformBlockStructure ofFull(BlockType type,
-                                                    List<String[]> depth, // Z -> Y -> X
-                                                    Map<Character, Block> blockMapping,
-                                                    int[] materials) {
-            validateStructure(depth);
-            if (blockMapping == null || blockMapping.isEmpty() || blockMapping.size() > 100) {
-                throw new IllegalArgumentException("A structure must contain between 1 and 100 different blocks");
-            }
-            int xSize = depth.get(0)[0].length();
-            int ySize = depth.get(0).length;
-            int zSize = depth.size();
-            return new PlatformBlockStructure(
-                    type,
-                    depth,
-                    new Char2ObjectOpenHashMap<>(blockMapping),
-                    materials,
-                    xSize,
-                    ySize,
-                    zSize);
-        }
-
-        /**
-         * 校验结构尺寸和格式
-         */
-        private static void validateStructure(List<String[]> depth) {
-            if (depth == null || depth.isEmpty()) throw new IllegalArgumentException("Depth cannot be empty");
-
-            int ySize = depth.get(0).length;
-            int xSize = depth.get(0)[0].length();
-            int zSize = depth.size();
-
-            for (String[] layer : depth) {
-                if (layer == null || layer.length != ySize) {
-                    throw new IllegalArgumentException("All layers must have the same height (y size)");
-                }
-                for (String row : layer) {
-                    if (row == null || row.length() != xSize) {
-                        throw new IllegalArgumentException("All rows must have the same width (x size)");
-                    }
-                }
-            }
-
-            if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
-            if (zSize % 16 != 0) throw new IllegalArgumentException("Z size must be multiple of 16");
-
-            if (xSize % zSize != 0 && zSize % xSize != 0) {
-                throw new IllegalArgumentException("Either X size must be multiple of Z size or vice versa");
-            }
+        public static Builder structure(BlockType type) {
+            return new Builder(type);
         }
 
         public BlockType getType() {
@@ -111,7 +67,7 @@ public final class PlatformBlockType {
             return blockMapping;
         }
 
-        public int[] getMaterials() {
+        public int getMaterials() {
             return materials;
         }
 
@@ -135,86 +91,52 @@ public final class PlatformBlockType {
             return blockMapping.get(symbol);
         }
 
-        // 保留原有的建造者模式（兼容旧代码）
-        public static StructureBuilder builder(BlockType type) {
-            return new StructureBuilder(type);
-        }
-
-        public static final class StructureBuilder {
+        // 链式构建器
+        public static final class Builder {
 
             private final BlockType type;
             private final List<String[]> depth = new ArrayList<>();
-            private final List<int[]> aisleRepetitions = new ArrayList<>();
-            private final Char2ObjectMap<Block> symbolMap = new Char2ObjectOpenHashMap<>();
-            private int[] materials = new int[0];
-            private int aisleHeight = -1;
-            private int rowWidth = -1;
+            private final Map<Character, Block> symbolMap = new HashMap<>();
+            private int materials = 0;
 
-            private StructureBuilder(BlockType type) {
+            public Builder(BlockType type) {
                 this.type = type;
             }
 
-            public StructureBuilder aisle(String... rows) {
-                return aisleRepeatable(1, 1, rows);
-            }
-
-            public StructureBuilder aisleRepeatable(int minRepeat, int maxRepeat, String... rows) {
-                if (rows == null || rows.length == 0 || rows[0].isEmpty()) {
-                    throw new IllegalArgumentException("Empty pattern for aisle");
+            // 添加一层（Z方向），每个字符串是一个Y层的行（X方向）
+            public Builder addLayer(String... rows) {
+                if (rows == null || rows.length == 0) {
+                    throw new IllegalArgumentException("Layer cannot be empty");
                 }
-                if (depth.isEmpty()) {
-                    this.aisleHeight = rows.length;
-                    this.rowWidth = rows[0].length();
-                }
-                if (rows.length != this.aisleHeight) {
-                    throw new IllegalArgumentException("Aisle height mismatch");
-                }
-                for (String row : rows) {
-                    if (row.length() != this.rowWidth) {
-                        throw new IllegalArgumentException("Row length mismatch");
-                    }
-                }
-                if (minRepeat < 1 || maxRepeat < minRepeat) {
-                    throw new IllegalArgumentException("Invalid repeat counts");
-                }
-                depth.add(rows);
-                aisleRepetitions.add(new int[] { minRepeat, maxRepeat });
+                depth.add(rows.clone());
                 return this;
             }
 
-            public StructureBuilder where(char symbol, Block block) {
+            // 添加字符到方块的映射
+            public Builder where(char symbol, @NotNull Block block) {
                 symbolMap.put(symbol, block);
                 return this;
             }
 
-            public StructureBuilder materials(int... counts) {
-                this.materials = counts;
+            // 设置材料数量
+            public Builder materials(int count) {
+                this.materials = count;
                 return this;
             }
 
+            // 构建结构对象
             public PlatformBlockStructure build() {
-                if (depth.isEmpty()) throw new IllegalStateException("No aisles defined");
-                if (symbolMap.isEmpty()) throw new IllegalStateException("No block mappings defined");
-
-                int xSize = rowWidth;
-                int ySize = aisleHeight;
-                int zSize = 0;
-                List<String[]> expandedDepth = new ArrayList<>();
-                for (int i = 0; i < depth.size(); i++) {
-                    String[] aisle = depth.get(i);
-                    int repeat = aisleRepetitions.get(i)[1];
-                    for (int r = 0; r < repeat; r++) {
-                        expandedDepth.add(aisle);
-                    }
-                    zSize += repeat;
+                validateStructure(depth);
+                if (symbolMap.isEmpty()) {
+                    throw new IllegalStateException("No block mappings defined");
                 }
-
-                validateStructure(expandedDepth);
-
+                int xSize = depth.get(0)[0].length();
+                int ySize = depth.get(0).length;
+                int zSize = depth.size();
                 return new PlatformBlockStructure(
                         type,
-                        expandedDepth,
-                        symbolMap,
+                        depth,
+                        new Char2ObjectOpenHashMap<>(symbolMap),
                         materials,
                         xSize,
                         ySize,
@@ -224,15 +146,15 @@ public final class PlatformBlockType {
     }
 
     // ===================================================================
-    // 平台预设组
+    // 平台预设组（链式构建）
     // ===================================================================
     public static final class PlatformPreset {
 
-        private final String name;             // 唯一标识符（必填）
-        private final String displayName;      // 显示名（可选）
-        private final String description;      // 描述（可选）
-        private final String source;           // 来源（可选）
-        private final List<PlatformBlockStructure> structures; // 必须非空
+        private final String name;
+        private final String displayName;
+        private final String description;
+        private final String source;
+        private final List<PlatformBlockStructure> structures;
 
         private PlatformPreset(String name,
                                @Nullable String displayName,
@@ -244,6 +166,10 @@ public final class PlatformBlockType {
             this.description = description;
             this.source = source;
             this.structures = structures;
+        }
+
+        public static PresetBuilder preset(String name) {
+            return new PresetBuilder(name);
         }
 
         public String getName() {
@@ -276,10 +202,6 @@ public final class PlatformBlockType {
             return null;
         }
 
-        public static PresetBuilder builder(String name) {
-            return new PresetBuilder(name);
-        }
-
         public static final class PresetBuilder {
 
             private final String name;
@@ -288,7 +210,7 @@ public final class PlatformBlockType {
             private String source;
             private final List<PlatformBlockStructure> structures = new ArrayList<>();
 
-            private PresetBuilder(String name) {
+            public PresetBuilder(String name) {
                 this.name = name;
             }
 
@@ -344,6 +266,35 @@ public final class PlatformBlockType {
                     default -> throw new IllegalArgumentException("Preset must contain exactly 1, 3, or 4 structures");
                 }
             }
+        }
+    }
+
+    // ===================================================================
+    // 结构校验工具
+    // ===================================================================
+    private static void validateStructure(List<String[]> depth) {
+        if (depth == null || depth.isEmpty()) throw new IllegalArgumentException("Depth cannot be empty");
+
+        int ySize = depth.get(0).length;
+        int xSize = depth.get(0)[0].length();
+        int zSize = depth.size();
+
+        for (String[] layer : depth) {
+            if (layer == null || layer.length != ySize) {
+                throw new IllegalArgumentException("All layers must have the same height (y size)");
+            }
+            for (String row : layer) {
+                if (row == null || row.length() != xSize) {
+                    throw new IllegalArgumentException("All rows must have the same width (x size)");
+                }
+            }
+        }
+
+        if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
+        if (zSize % 16 != 0) throw new IllegalArgumentException("Z size must be multiple of 16");
+
+        if (xSize % zSize != 0 && zSize % xSize != 0) {
+            throw new IllegalArgumentException("Either X size must be multiple of Z size or vice versa");
         }
     }
 }
