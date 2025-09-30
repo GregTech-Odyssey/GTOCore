@@ -228,6 +228,27 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.3", "确认放置", "Confirm Placement");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.4", "运行中", "In Progress");
 
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.choose_this", "选这个：", "Choose this: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.unselected", "未选择...", "Unselected...");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.selected", "已选择：%s - %s", "Selected: %s - %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.name", "名称：%s", "Name: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.source", "来源：%s", "Source: %s");
+
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset", "X Y Z方向的偏移(X Z方向单位为区块，Y方块单位为块)", "X, Y, Z offsets (X Z units are blocks, Y units are blocks)");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.x", "X：%s", "X: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.z", "Z：%s", "Z: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.y", "Y：%s", "Y: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.coordinate", "四角坐标：", "Corner Coordinates: ");
+
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "存储", "Reserves");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.cost", "消耗", "Cost");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.adequate", "原料充足", "Material adequate");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.insufficient", "原料不足", "Material insufficient");
+
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "开始建造任务", "Start Construction Task");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "建造任务运行中...", "Construction Task in Progress...");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.finish", "无建造任务", "No Construction Task");
+
         addSingleMachineTooltips();
 
         DisplayRegistry.registerLanguage();

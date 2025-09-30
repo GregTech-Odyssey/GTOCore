@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
 import com.gtolib.GTOCore;
@@ -15,11 +16,14 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
@@ -31,10 +35,7 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -46,6 +47,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
     @Persisted
     private final NotifiableItemStackHandler inventory;
+
+    private final List<PlatformPreset> presets = new ArrayList<>();
 
     public IndustrialPlatformDeploymentToolsMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -62,6 +65,16 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     public void onLoad() {
         super.onLoad();
         inventory.notifyListeners();
+        if (presets.isEmpty()) {
+            initializePresets();
+        }
+        BlockPos pos = getPos();
+        Level level = getLevel();
+        if (level != null) {
+            centerX = pos.getX() >> 4;
+            centerZ = pos.getZ() >> 4;
+            centerY = pos.getY();
+        }
     }
 
     /////////////////////////////////////
@@ -107,6 +120,16 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     // 是否已完成偏移配置
     @Persisted
     private boolean offsetConfirm = false;
+    // X中心区块坐标
+    @Persisted
+    private int centerX = 0;
+    // Z中心区块坐标
+    @Persisted
+    private int centerZ = 0;
+    // Y中心坐标
+    @Persisted
+    private int centerY = 0;
+
     // X方向区块偏移
     @Persisted
     private int offsetX = 0;
@@ -117,10 +140,20 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     @Persisted
     private int offsetY = -1;
 
+    // X方向区块偏移修改大小
+    @Persisted
+    private int adjustX = 0;
+    // Z方向区块偏移修改大小
+    @Persisted
+    private int adjustZ = 0;
+    // Y方向偏移修改大小
+    @Persisted
+    private int adjustY = 0;
+
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
     @Persisted
-    private int[] materialInventory = new int[4];
+    private int[] materialInventory = new int[8];
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
@@ -158,6 +191,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
         // 页面主文本
         group_1.addWidget(new ComponentPanelWidget(4, 29, this::addDisplayText)
+                .clickHandler(this::handleDisplayClickText)
                 .setMaxWidthLimit(langWidth));
 
         group.addWidget(group_1);
@@ -206,30 +240,56 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
     // 预设组控制工具
     private void addDisplayTextPage(List<Component> textList) {
-        if (step == PresetSelection) {
-            textList.add(createPageNavigation(langWidth, "<" + (checkGroup + 1) + "/" + (checkGroup + 1 + 10) + ">", "group"));
-            textList.add(createPageNavigation(langWidth, "<" + (checkId + 1) + "/" + (checkId + 1 + 10) + ">", "id"));
+        if (step == PresetSelection && ensurePresetsReady()) {
+            textList.add(createPageNavigation(langWidth, createPageNavigation(langWidth - 80, Component.literal("<" + (checkGroup + 1) + "/" + presets.size() + ">"), "group"), "group_plas"));
+            textList.add(createPageNavigation(langWidth, Component.literal("<" + (checkId + 1) + "/" + presets.get(checkGroup).structures().size() + ">"), "id"));
         }
     }
 
     private void handleDisplayClickPage(String componentData, ClickData clickData) {
+        if (!ensurePresetsReady()) return;
+
+        int maxGroup = presets.size() - 1;
+        int maxId = presets.get(checkGroup).structures().size() - 1;
+
         switch (componentData) {
             case "next_group" -> {
-                checkGroup = Mth.clamp(checkGroup + 1, 0, checkGroup + 1 + 10);
+                checkGroup = Mth.clamp(checkGroup + 1, 0, maxGroup);
                 checkId = 0;
             }
             case "previous_group" -> {
-                checkGroup = Mth.clamp(checkGroup - 1, 0, checkGroup + 1 + 10);
+                checkGroup = Mth.clamp(checkGroup - 1, 0, maxGroup);
                 checkId = 0;
             }
-            case "next_id" -> checkId = Mth.clamp(checkId + 1, 0, checkId + 1 + 10);
-            case "previous_id" -> checkId = Mth.clamp(checkId - 1, 0, checkId + 1 + 10);
+            case "next_group_plas" -> {
+                checkGroup = Mth.clamp(checkGroup + 10, 0, maxGroup);
+                checkId = 0;
+            }
+            case "previous_group_plas" -> {
+                checkGroup = Mth.clamp(checkGroup - 10, 0, maxGroup);
+                checkId = 0;
+            }
+            case "next_id" -> checkId = Mth.clamp(checkId + 1, 0, maxId);
+            case "previous_id" -> checkId = Mth.clamp(checkId - 1, 0, maxId);
         }
+    }
+
+    private boolean ensurePresetsReady() {
+        if (presets.isEmpty()) return false;
+        checkGroup = Mth.clamp(checkGroup, 0, presets.size() - 1);
+
+        PlatformPreset preset = presets.get(checkGroup);
+        if (preset == null || preset.structures().isEmpty()) {
+            return false;
+        }
+
+        checkId = Mth.clamp(checkId, 0, preset.structures().size() - 1);
+        return true;
     }
 
     // 获得图片
     private IGuiTexture getIGuiTexture() {
-        if (step == Introduction && checkGroup != 0) {
+        if (step == PresetSelection && checkGroup != 0) {
             String pngs = "template_" + checkGroup + "_" + checkId + ".png";
             ResourceLocation imageLocation = GTOCore.id("textures/gui/industrial_platform_deployment_tools/" + pngs);
             return new ResourceTexture(imageLocation);
@@ -243,31 +303,129 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
             textList.add(Component.literal(""));
             textList.add(Component.literal(""));
         }
-        textList.add(Component.literal("步骤" + step));
         switch (step) {
-            case 0 -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsIntroduction().apply(textList);
-            case 1 -> {
-                textList.add(Component.literal("步骤" + step));
-                textList.add(Component.literal("步骤" + step));
+            case Introduction -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsIntroduction().apply(textList);
+            case PresetSelection -> {
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.choose_this")
+                        .append(ComponentPanelWidget.withButton(Component.literal("[⭕]").withStyle(s -> s.withColor(new OffsetGradientColor(0.5f))), "choose_this")));
+                if (presetConfirm) {
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.selected", saveGroup + 1, saveId + 1));
+                } else {
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
+                }
+            }
+            case OffsetConfiguration -> {
+                Component empty = Component.empty();
+
+                Component X_change_1 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "x_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "x_add"));
+                Component Z_change_1 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "z_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "z_add"));
+                Component Y_change_1 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "y_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "y_add"));
+
+                Component X_change_2 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_x_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustX + "]"), "x_minus_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustX + "]"), "x_add_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_x_add"));
+
+                Component Z_change_2 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_z_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustZ + "]"), "z_minus_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustZ + "]"), "z_add_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_z_add"));
+
+                Component Y_change_2 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_y_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustY + "]"), "y_minus_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustY + "]"), "y_add_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_y_add"));
+
+                Component x_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", offsetX);
+                Component z_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", offsetZ);
+                Component y_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", offsetY);
+
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset"));
+                textList.add(createEqualColumns(langWidth - 20, x_offset, X_change_1, X_change_2));
+                textList.add(createEqualColumns(langWidth - 20, z_offset, Z_change_1, Z_change_2));
+                textList.add(createEqualColumns(langWidth - 20, y_offset, Y_change_1, Y_change_2));
+
+                textList.add(empty);
+
+                if (presetConfirm) {
+                    int maxChunkX = centerX + offsetX;
+                    int maxChunkZ = centerZ + offsetZ;
+                    int minChunkX = maxChunkX - 3;
+                    int minChunkZ = maxChunkZ - 3;
+
+                    int minX = minChunkX << 4;
+                    int maxX = (maxChunkX << 4) + 15;
+                    int minZ = minChunkZ << 4;
+                    int maxZ = (maxChunkZ << 4) + 15;
+
+                    Component coordinate_1 = Component.literal("(" + minX + "," + (centerY + offsetY) + "," + maxZ + ")");
+                    Component coordinate_2 = Component.literal("(" + maxX + "," + (centerY + offsetY) + "," + maxZ + ")");
+                    Component coordinate_3 = Component.literal("(" + minX + "," + (centerY + offsetY) + "," + minZ + ")");
+                    Component coordinate_4 = Component.literal("(" + maxX + "," + (centerY + offsetY) + "," + minZ + ")");
+
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.coordinate"));
+                    textList.add(createEqualColumns(langWidth, coordinate_1, coordinate_2));
+                    textList.add(createEqualColumns(langWidth, coordinate_3, coordinate_4));
+                } else {
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
+                }
+            }
+            case ConfirmPlacement -> {
+                textList.add(Component.translatable("步骤" + step));
             }
         }
     }
 
-    private void handleDisplayClickText(String componentData, ClickData clickData) {}
+    private void handleDisplayClickText(String componentData, ClickData clickData) {
+        switch (componentData) {
+            case "choose_this" -> {
+                saveGroup = checkGroup;
+                saveId = checkId;
+                presetConfirm = true;
+            }
+            case "x_add" -> offsetX++;
+            case "x_minus" -> offsetX--;
+            case "z_add" -> offsetZ++;
+            case "z_minus" -> offsetZ--;
+            case "y_add" -> offsetY++;
+            case "y_minus" -> offsetY--;
+
+            case "x_add_plas" -> offsetX += adjustX;
+            case "x_minus_plas" -> offsetX -= adjustX;
+            case "adjust_x_add" -> adjustX = Math.max(0, adjustX + 1);
+            case "adjust_x_minus" -> adjustX = Math.max(0, adjustX - 1);
+
+            case "z_add_plas" -> offsetZ += adjustZ;
+            case "z_minus_plas" -> offsetZ -= adjustZ;
+            case "adjust_z_add" -> adjustZ = Math.max(0, adjustZ + 1);
+            case "adjust_z_minus" -> adjustZ = Math.max(0, adjustZ - 1);
+
+            case "y_add_plas" -> offsetY += adjustY;
+            case "y_minus_plas" -> offsetY -= adjustY;
+            case "adjust_y_add" -> adjustY = Math.max(0, adjustY + 1);
+            case "adjust_y_minus" -> adjustY = Math.max(0, adjustY - 1);
+        }
+    }
 
     /////////////////////////////////////
     // ********** UI布局工具 ********** //
-
-    /// //////////////////////////////////
+    /////////////////////////////////////
 
     // 翻页与页标题
-    private static Component createPageNavigation(int totalWidth, String title, String string) {
+    private static Component createPageNavigation(int totalWidth, Component titleComp, String string) {
         Font font = Minecraft.getInstance().font;
 
         Component leftBtn = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_" + string);
         Component rightBtn = ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_" + string);
-
-        Component titleComp = Component.translatable(title);
 
         int leftBtnWidth = font.width(leftBtn);
         int rightBtnWidth = font.width(rightBtn);
@@ -360,7 +518,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
                                          BlockType type,              // 块类型
                                          List<String[]> depth,        // 多层结构（z 方向），每个 String[] 是 y 方向一层
                                          Char2ObjectMap<Block> blockMapping, // 字符 -> 方块映射
-                                         int[] materials,             // 整个结构需要的材料数量（顺序与 blockMapping.keySet() 一致）
+                                         int[] materials,             // 整个结构需要的材料数量
                                          int xSize,                   // x 方向大小（水平）
                                          int ySize,                   // y 方向大小（高度）
                                          int zSize                    // z 方向大小（水平）
@@ -387,9 +545,9 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
             // 校验结构
             validateStructure(depth);
 
-            // 校验方块数量在 2~20 之间
-            if (blockMapping.size() < 2 || blockMapping.size() > 20) {
-                throw new IllegalArgumentException("A structure must contain between 2 and 20 different blocks");
+            // 校验方块数量在 1~100 之间
+            if (blockMapping.isEmpty() || blockMapping.size() > 100) {
+                throw new IllegalArgumentException("A structure must contain between 1 and 100 different blocks");
             }
         }
 
@@ -494,6 +652,109 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     /////////////////////////////////////
     // *********** 预设模板 *********** //
     /////////////////////////////////////
+
+    /**
+     * 初始化所有预设（一次性加入到机器的 presets 列表）
+     */
+    private void initializePresets() {
+        presets.addAll(List.of(
+                PRESET_COBBLESTONE_SINGLE,
+                PRESET_COBBLESTONE_ROADS,
+                PRESET_COBBLESTONE_FULL));
+    }
+
+    // ========== 结构常量 ==========
+    private static final PlatformBlockStructure COBBLESTONE_CORE_16x16x1;
+    private static final PlatformBlockStructure COBBLESTONE_ROAD_X_16x16x1;
+    private static final PlatformBlockStructure COBBLESTONE_ROAD_Z_16x16x1;
+    private static final PlatformBlockStructure COBBLESTONE_ROAD_CROSS_16x16x1;
+
+    // ========== 预设常量 ==========
+    private static final PlatformPreset PRESET_COBBLESTONE_SINGLE;
+    private static final PlatformPreset PRESET_COBBLESTONE_ROADS;
+    private static final PlatformPreset PRESET_COBBLESTONE_FULL;
+
+    // 静态代码块初始化所有结构和预设
+    static {
+        // --- 1. 创建圆石核心平台 (16x16x1) ---
+        List<String[]> coreDepth = new ArrayList<>();
+        String coreRow = "CCCCCCCCCCCCCCCC";
+        for (int z = 0; z < 16; z++) {
+            coreDepth.add(new String[] { coreRow });
+        }
+        Map<Character, Block> coreMapping = new HashMap<>();
+        coreMapping.put('C', Blocks.COBBLESTONE);
+        int[] coreMaterials = new int[] { 256 }; // 16*16*1
+        COBBLESTONE_CORE_16x16x1 = new PlatformBlockStructure(
+                BlockType.CORE,
+                coreDepth,
+                coreMapping,
+                coreMaterials);
+
+        // --- 2. 创建X方向道路 (16x16x1) ---
+        List<String[]> roadXDepth = new ArrayList<>();
+        String roadXRow = "CCCCCCCCCCCCCCCC";
+        for (int z = 0; z < 16; z++) {
+            roadXDepth.add(new String[] { roadXRow });
+        }
+        Map<Character, Block> roadXMapping = new HashMap<>();
+        roadXMapping.put('C', Blocks.COBBLESTONE);
+        int[] roadXMaterials = new int[] { 256 };
+        COBBLESTONE_ROAD_X_16x16x1 = new PlatformBlockStructure(
+                BlockType.ROAD_X,
+                roadXDepth,
+                roadXMapping,
+                roadXMaterials);
+
+        // --- 3. 创建Z方向道路 (16x16x1) ---
+        List<String[]> roadZDepth = new ArrayList<>();
+        String roadZRow = "CCCCCCCCCCCCCCCC";
+        for (int z = 0; z < 16; z++) {
+            roadZDepth.add(new String[] { roadZRow });
+        }
+        Map<Character, Block> roadZMapping = new HashMap<>();
+        roadZMapping.put('C', Blocks.COBBLESTONE);
+        int[] roadZMaterials = new int[] { 256 };
+        COBBLESTONE_ROAD_Z_16x16x1 = new PlatformBlockStructure(
+                BlockType.ROAD_Z,
+                roadZDepth,
+                roadZMapping,
+                roadZMaterials);
+
+        // --- 4. 创建十字路口 (16x16x1) ---
+        List<String[]> crossDepth = new ArrayList<>();
+        String crossRow = "CCCCCCCCCCCCCCCC";
+        for (int z = 0; z < 16; z++) {
+            crossDepth.add(new String[] { crossRow });
+        }
+        Map<Character, Block> crossMapping = new HashMap<>();
+        crossMapping.put('C', Blocks.COBBLESTONE);
+        int[] crossMaterials = new int[] { 256 };
+        COBBLESTONE_ROAD_CROSS_16x16x1 = new PlatformBlockStructure(
+                BlockType.ROAD_CROSS,
+                crossDepth,
+                crossMapping,
+                crossMaterials);
+
+        // --- 5. 创建预设 ---
+        PRESET_COBBLESTONE_SINGLE = new PlatformPreset(
+                1,
+                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_single.name",
+                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_single.desc",
+                List.of(COBBLESTONE_CORE_16x16x1));
+
+        PRESET_COBBLESTONE_ROADS = new PlatformPreset(
+                2,
+                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_roads.name",
+                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_roads.desc",
+                List.of(COBBLESTONE_ROAD_X_16x16x1, COBBLESTONE_ROAD_Z_16x16x1, COBBLESTONE_ROAD_CROSS_16x16x1));
+
+        PRESET_COBBLESTONE_FULL = new PlatformPreset(
+                3,
+                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_full.name",
+                "gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_full.desc",
+                List.of(COBBLESTONE_CORE_16x16x1, COBBLESTONE_ROAD_X_16x16x1, COBBLESTONE_ROAD_Z_16x16x1, COBBLESTONE_ROAD_CROSS_16x16x1));
+    }
 
     /////////////////////////////////////
     // ********* 平台生成主方法 ********* //
