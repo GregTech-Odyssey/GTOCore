@@ -479,7 +479,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         textList.add(createEqualColumns(46, input, output));
 
         if (presetConfirm) {
-            int costMaterial = presetMap.get(presetNames.get(saveGroup)).getStructures().get(saveId).getMaterials();
+            int costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
             if (materialInventory > costMaterial) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
             else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
         }
@@ -600,6 +600,14 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     /////////////////////////////////////
     // ********* 辅助获取方法 ********* //
     /////////////////////////////////////
+
+    private PlatformBlockType.PlatformPreset getPlatformPreset(int group) {
+        return presetMap.get(presetNames.get(group));
+    }
+
+    private PlatformBlockType.PlatformBlockStructure getPlatformBlockStructure(int group, int id) {
+        return getPlatformPreset(group).getStructures().get(id);
+    }
 
     /////////////////////////////////////
     // ********* 平台生成主方法 ********* //

@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public final class PlatformBlockType {
 
@@ -274,33 +273,7 @@ public final class PlatformBlockType {
                 if (structures.isEmpty()) {
                     throw new IllegalStateException("Preset must contain at least one structure");
                 }
-                validatePreset(structures);
                 return new PlatformPreset(name, displayName, description, source, structures);
-            }
-
-            private static void validatePreset(List<PlatformBlockStructure> structures) {
-                Set<BlockType> types = structures.stream()
-                        .map(PlatformBlockStructure::getType)
-                        .collect(Collectors.toSet());
-
-                switch (structures.size()) {
-                    case 1 -> {
-                        if (!types.contains(BlockType.CORE)) {
-                            throw new IllegalArgumentException("1 structure must be CORE type");
-                        }
-                    }
-                    case 3 -> {
-                        if (!types.equals(Set.of(BlockType.ROAD_X, BlockType.ROAD_Z, BlockType.ROAD_CROSS))) {
-                            throw new IllegalArgumentException("3 structures must be ROAD_X, ROAD_Z, ROAD_CROSS");
-                        }
-                    }
-                    case 4 -> {
-                        if (!types.equals(Set.of(BlockType.CORE, BlockType.ROAD_X, BlockType.ROAD_Z, BlockType.ROAD_CROSS))) {
-                            throw new IllegalArgumentException("4 structures must be CORE, ROAD_X, ROAD_Z, ROAD_CROSS");
-                        }
-                    }
-                    default -> throw new IllegalArgumentException("Preset must contain exactly 1, 3, or 4 structures");
-                }
             }
         }
     }
