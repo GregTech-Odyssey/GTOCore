@@ -209,14 +209,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     @Override
     public void onPatternChange(int index) {
-        var slot = getInternalInventory()[index];
-        if (slot.lock) {
-            slot.circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
-            for (int i = 0; i < 9; i++) {
-                slot.shareInventory.setStackInSlot(i, ItemStack.EMPTY);
-            }
-        }
-        slot.setLock(false);
+        getInternalInventory()[index].setLock(false);
         super.onPatternChange(index);
     }
 
@@ -406,6 +399,12 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
 
         public void setLock(boolean lock) {
+            if (this.lock) {
+                circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
+                for (int i = 0; i < 9; i++) {
+                    shareInventory.setStackInSlot(i, ItemStack.EMPTY);
+                }
+            }
             this.lock = lock;
             lockableInventory.setLock(lock);
         }
@@ -598,9 +597,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     } else tanks.add(tank.serializeNBT());
                 }
                 tag.put("tank", tanks);
+
             }
-            var c = IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0));
-            if (c > 0) tag.putInt("c", c);
+            if (!lock) {
+                var c = IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0));
+                if (c > 0) tag.putInt("c", c);
+            }
+            tag.putBoolean("l", lock);
             return tag;
         }
 
@@ -640,6 +643,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             }
             var c = tag.getInt("c");
             if (c > 0) circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(c));
+            setLock(tag.getBoolean("l"));
         }
 
         @Override

@@ -1060,6 +1060,7 @@ public final class MultiBlockD {
                                 .where('B', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                                 .where('C', frames(GTMaterials.Tungsten))
                                 .where('D', casing.or(abilities(IMPORT_FLUIDS).setPreviewCount(16))
+                                        .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
                                         .or(abilities(EXPORT_FLUIDS).setPreviewCount(16))
                                         .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                                         .or(abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
