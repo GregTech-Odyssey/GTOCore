@@ -41,29 +41,31 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.Steam;
 @Scanned
 public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine implements IExplosionMachine, IDisplayUIMachine, IEnhancedRecipeLogicMachine {
 
-    private static final TraceabilityPredicate INNER_PREDICATE = new TraceabilityPredicate(
-            blockWorldState -> true, null, null) {
-
-        @Override
-        public boolean testOnly() {
-            return true;
-        }
-
-        @Override
-        public boolean isAny() {
-            return false;
-        }
-
-        @Override
-        public boolean isAir() {
-            return false;
-        }
-    };
+    private static final int MAX_LR_DIST = 6, MAX_B_DIST = 13;
 
     @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "30", normalValue = "18", expertValue = "12", cn = "基础蒸汽产率 : %s / t", en = "Basic steam production : %s / t")
     private static int basicSteamProduction = 10;
 
-    private static final int MAX_LR_DIST = 5, MAX_B_DIST = 11;
+    static {
+        new TraceabilityPredicate(
+                blockWorldState -> true, null, null) {
+
+            @Override
+            public boolean testOnly() {
+                return true;
+            }
+
+            @Override
+            public boolean isAny() {
+                return false;
+            }
+
+            @Override
+            public boolean isAir() {
+                return false;
+            }
+        };
+    }
     private static final int MIN_LR_DIST = 1, MIN_B_DIST = 3;
     private static final int STEAM_GENERATION_INTERVAL = 20;
 
@@ -161,7 +163,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
                 .aisle(controllerRow)
                 .where('a', blocks(GTBlocks.STEEL_HULL.get()).or(abilities(EXPORT_FLUIDS_1X)).or(abilities(IMPORT_FLUIDS_1X)))
                 .where('b', blocks(GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get()))
-                .where('~', controller(INNER_PREDICATE))
+                .where('~', controller(blocks(this.getDefinition().get())))
                 .build();
     }
 
