@@ -62,6 +62,10 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         widget = () -> new GTRecipeWidget(recipe);
     }
 
+    public int getTier() {
+        return recipe.tier;
+    }
+
     public RecipeType<?> getRecipeType() {
         return recipe.recipeType;
     }
