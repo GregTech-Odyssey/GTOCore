@@ -1,20 +1,23 @@
 package com.gtocore.common.machine.monitor;
 
-import com.google.common.collect.ImmutableBiMap;
+import com.gtocore.api.gui.helper.ProgressBarColorStyle;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gtocore.api.gui.helper.ProgressBarColorStyle;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
+
+import com.google.common.collect.ImmutableBiMap;
 import com.hepdd.gtmthings.api.misc.EnergyStat;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.common.item.IWirelessMonitor;
 import com.hepdd.gtmthings.utils.FormatUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
