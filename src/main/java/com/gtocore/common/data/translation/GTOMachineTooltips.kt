@@ -1,5 +1,7 @@
 package com.gtocore.common.data.translation
 
+import com.google.common.collect.ImmutableMap
+import com.gregtechceu.gtceu.api.GTValues
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
@@ -8,13 +10,9 @@ import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
 import com.gtocore.common.machine.noenergy.HeaterMachine
-
-import net.minecraft.network.chat.Component
-
-import com.google.common.collect.ImmutableMap
-import com.gregtechceu.gtceu.api.GTValues
 import com.gtolib.utils.NumberUtils
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
+import net.minecraft.network.chat.Component
 
 /**
  * 用于收纳机器相关用法
@@ -1170,7 +1168,7 @@ object GTOMachineTooltips {
 
         section("可用大小" translatedTo "Usable Size")
         command("最小：5x5" translatedTo "Minimum: 5x5")
-        command("最大：15x15" translatedTo "Maximum: 15x15")
+        command("最大：127x127" translatedTo "Maximum: 127x127")
     }
 
     // 部件组装机
