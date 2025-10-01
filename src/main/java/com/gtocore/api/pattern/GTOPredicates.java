@@ -64,6 +64,10 @@ public final class GTOPredicates {
         return Predicates.blocks(LIGHT);
     }
 
+    public static TraceabilityPredicate hermeticCasing() {
+        return tierBlock(HERMETIC_CASING, hermetic_casing);
+    }
+
     public static TraceabilityPredicate autoIOAbilities(GTRecipeType... recipeType) {
         return Predicates.autoAbilities(recipeType, false, false, true, true, true, true);
     }

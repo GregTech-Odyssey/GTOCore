@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/material_sets/dull/mxene_precursor",
+    "layer1": "gtocore:item/material_sets/dull/mxene_precursor_secondary",
+    "layer2": "gtocore:item/material_sets/dull/mxene_precursor_overlay"
+  }
+}

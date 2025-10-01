@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidList;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidSlot;
-import com.gtocore.common.machine.multiblock.part.ae.slots.MECircuitHandler;
 import com.gtocore.common.machine.multiblock.part.ae.widget.AEFluidConfigWidget;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -11,6 +10,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CircuitFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
+import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
@@ -55,7 +55,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     public MEInputHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.IN);
         aeFluidHandler = createTank();
-        circuitInventory = new MECircuitHandler(this);
+        circuitInventory = CircuitHandler.create(this);
     }
 
     /////////////////////////////////

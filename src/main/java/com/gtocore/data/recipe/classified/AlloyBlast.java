@@ -24,9 +24,9 @@ final class AlloyBlast {
                 .circuitMeta(2)
                 .inputItems(TagPrefix.dust, GTOMaterials.SuperheavyLAlloy)
                 .inputItems(TagPrefix.dust, GTOMaterials.SuperheavyHAlloy)
-                .outputFluids(GTOMaterials.SuperheavyMix.getFluid(144))
+                .outputFluids(GTOMaterials.SuperheavyMix.getFluid(288))
                 .EUt(100000000)
-                .duration(40)
+                .duration(80)
                 .blastFurnaceTemp(12880)
                 .save();
 

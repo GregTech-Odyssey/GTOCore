@@ -23,6 +23,7 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
 
@@ -2072,7 +2073,7 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", TierCasingMultiblockMachine.createMachine(COMPONENT_ASSEMBLY_CASING_TIER))
+    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", TierCasingCrossRecipeMultiblockMachine.createParallel(MachineUtils::getHatchParallelLong, COMPONENT_ASSEMBLY_CASING_TIER))
             .allRotation()
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblyLineTooltips().getSupplier())

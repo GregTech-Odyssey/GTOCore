@@ -336,6 +336,9 @@ public final class GTMaterialExtend {
         TitaniumCarbide.addFlags(GENERATE_FRAME);
         NaquadahEnriched.addFlags(GTOMaterialFlags.GENERATE_MILLED);
         Titanium.addFlags(GENERATE_FINE_WIRE);
+        TantalumCarbide.addFlags(GTOMaterialFlags.GENERATE_MXene);
+        TungstenCarbide.addFlags(GTOMaterialFlags.GENERATE_MXene);
+        NiobiumNitride.addFlags(GTOMaterialFlags.GENERATE_MXene);
         Titanium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Boron.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Boron.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));

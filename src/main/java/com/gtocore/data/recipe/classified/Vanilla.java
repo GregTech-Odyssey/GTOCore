@@ -959,5 +959,10 @@ final class Vanilla {
                 "CDC",
                 "EFE",
                 'A', GCYMBlocks.ELECTROLYTIC_CELL.asStack(), 'B', CustomTags.IV_CIRCUITS, 'C', GTOBlocks.CHEMICAL_GRADE_GLASS.asStack(), 'D', GTBlocks.HERMETIC_CASING_IV.asStack(), 'E', GTItems.ELECTRIC_PUMP_IV.asStack(), 'F', GTItems.ELECTRIC_MOTOR_IV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("atomizing_condenser"), MultiBlockH.ATOMIZING_CONDENSER.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'A', CustomTags.IV_CIRCUITS, 'B', GTItems.ELECTRIC_PUMP_EV.asStack(), 'C', new MaterialEntry(TagPrefix.wireGtDouble, GTMaterials.TungstenSteel), 'D', GTItems.FLUID_REGULATOR_EV.asStack(), 'E', GTBlocks.CASING_ALUMINIUM_FROSTPROOF.asStack(), 'F', new MaterialEntry(TagPrefix.ring, GTMaterials.TungstenSteel));
     }
 }

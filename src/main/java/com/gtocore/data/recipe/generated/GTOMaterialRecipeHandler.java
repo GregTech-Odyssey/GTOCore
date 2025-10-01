@@ -1,5 +1,8 @@
 package com.gtocore.data.recipe.generated;
 
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeCategories;
+
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
 
@@ -22,6 +25,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.Arrays;
 import java.util.List;
@@ -365,6 +369,35 @@ final class GTOMaterialRecipeHandler {
         String id = "%s_%s_".formatted(FormattingUtil.toLowerCaseUnderscore(TagPrefix.dust.name),
                 material.getName().toLowerCase(Locale.ROOT));
         OreProperty oreProperty = material.hasProperty(PropertyKey.ORE) ? material.getProperty(PropertyKey.ORE) : null;
+        int mass = (int) material.getMass();
+
+        if (material.hasFluid()) {
+            ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_dust")
+                    .inputFluids(material.getFluid(L))
+                    .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(mass * 7 / 2))
+                    .outputItems(dustStack)
+                    .outputFluids(Nitrogen.getFluid(mass * 3))
+                    .duration(mass / 2 + 1).EUt(VA[LV] / 2)
+                    .category(GTORecipeCategories.CONDENSE_FLUID_TO_DUST)
+                    .save();
+            Fluid molten = material.getFluid(FluidStorageKeys.MOLTEN);
+            if (molten != null) {
+                boolean needLiquidHelium = material.getProperty(PropertyKey.ALLOY_BLAST).getTemperature() >= 5000;
+                var b = ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_dust_from_molten")
+                        .inputFluids(molten, L)
+                        .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(mass * 7 / 2))
+                        .outputItems(dustStack)
+                        .outputFluids(Nitrogen.getFluid(mass * 3))
+                        .duration((int) (mass * 1.5f)).EUt(GTOUtils.getVoltageMultiplier(material))
+                        .category(GTORecipeCategories.CONDENSE_MOLTEN_TO_DUST);
+                if (needLiquidHelium) {
+                    b.inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 500))
+                            .outputFluids(GTMaterials.Helium.getFluid(250));
+                }
+                b.save();
+            }
+        }
+
         if (material.hasProperty(PropertyKey.GEM)) {
             ItemStack gemStack = ChemicalHelper.get(gem, material);
 

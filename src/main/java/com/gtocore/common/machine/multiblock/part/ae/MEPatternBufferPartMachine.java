@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.common.data.machines.GTAEMachines;
-import com.gtocore.common.machine.multiblock.part.ae.slots.MECircuitHandler;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
@@ -33,6 +32,8 @@ import com.gregtechceu.gtceu.api.machine.fancyconfigurator.FancyTankConfigurator
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
@@ -62,6 +63,7 @@ import appeng.api.stacks.*;
 import appeng.api.storage.MEStorage;
 import appeng.api.storage.StorageHelper;
 import appeng.crafting.pattern.AEProcessingPattern;
+import appeng.crafting.pattern.EncodedPatternItem;
 import appeng.crafting.pattern.ProcessingPatternItem;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
@@ -106,7 +108,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Persisted
     public final NotifiableNotConsumableFluidHandler shareTank;
     @Persisted
-    public final MECircuitHandler circuitInventorySimulated;
+    public final NotifiableItemStackHandler circuitInventorySimulated;
 
     @Persisted
     private final Set<BlockPos> proxies = new OpenCacheHashSet<>();
@@ -145,12 +147,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         this.caches = new boolean[maxPatternCount];
         this.shareInventory = createShareInventory();
         this.shareTank = new NotifiableNotConsumableFluidHandler(this, 9, 64000);
-        this.circuitInventorySimulated = new MECircuitHandler(this);
+        this.circuitInventorySimulated = CircuitHandler.create(this);
         this.internalRecipeHandler = new InternalSlotRecipeHandler(this, getInternalInventory());
     }
 
     NotifiableNotConsumableItemHandler createShareInventory() {
-        return new NotifiableNotConsumableItemHandler(this, 9, IO.NONE);
+        var h = new NotifiableNotConsumableItemHandler(this, 9, IO.NONE);
+        h.setFilter(stack -> !(stack.getItem() instanceof EncodedPatternItem));
+        return h;
     }
 
     @Override
@@ -387,7 +391,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
-        public final MECircuitHandler circuitInventory;
+        public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
         private boolean lock;
 
@@ -396,7 +400,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             this.index = index;
             this.shareInventory = machine.createShareInventory();
             this.shareTank = new NotifiableNotConsumableFluidHandler(machine, 9, 64000);
-            this.circuitInventory = new MECircuitHandler(machine);
+            this.circuitInventory = CircuitHandler.create(machine);
             this.inputSink = new InputSink(this);
             this.lockableInventory = new LockableItemStackHandler(shareInventory.storage);
         }
@@ -649,13 +653,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
     }
 
-    private static final class InputSink implements IPatternDetails.PatternInputSink {
-
-        private final InternalSlot slot;
-
-        private InputSink(InternalSlot slot) {
-            this.slot = slot;
-        }
+    private record InputSink(InternalSlot slot) implements IPatternDetails.PatternInputSink {
 
         @Override
         public void pushInput(AEKey key, long amount) {

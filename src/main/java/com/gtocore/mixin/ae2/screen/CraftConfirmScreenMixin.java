@@ -1,5 +1,7 @@
 package com.gtocore.mixin.ae2.screen;
 
+import com.gtocore.config.GTOConfig;
+
 import com.gtolib.api.ae2.gui.hooks.IStylelessCompositeWidget;
 
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -37,9 +39,6 @@ public class CraftConfirmScreenMixin extends AEBaseScreen<CraftConfirmMenu> {
     @Shadow(remap = false)
     @Final
     private Button start;
-    // @Shadow(remap = false)
-    // @Final
-    // private CraftConfirmTableRenderer table;
     @Unique
     private Button gto$addMissing;
 
@@ -81,8 +80,6 @@ public class CraftConfirmScreenMixin extends AEBaseScreen<CraftConfirmMenu> {
                         return new Rect2i(0, 0, 0, 0);
                     }
                 });
-        // ((Repo)((IConfirmLongMenu.IConfirmLongStartMenu)
-        // menu).gtocore$getClientRepo()).setUpdateViewListener(table.);
     }
 
     @Unique
@@ -103,8 +100,8 @@ public class CraftConfirmScreenMixin extends AEBaseScreen<CraftConfirmMenu> {
 
     @Redirect(method = "updateBeforeRender", at = @At(value = "INVOKE", target = "Lappeng/menu/me/crafting/CraftingPlanSummary;isSimulation()Z", ordinal = 0), remap = false)
     private boolean gto$ignoreUnstartable(appeng.menu.me.crafting.CraftingPlanSummary instance) {
-        start.setMessage(instance.isSimulation() ? Component.translatable("gtocore.ae.appeng.craft.missing_start") : GuiText.Start.text());
-        start.setTooltip(Tooltip.create(instance.isSimulation() ? Component.translatable("gtocore.ae.appeng.craft.missing_start.desc") : GuiText.Start.text()));
-        return false;
+        start.setMessage((GTOConfig.INSTANCE.allowMissingCraftingJobs && instance.isSimulation()) ? Component.translatable("gtocore.ae.appeng.craft.missing_start") : GuiText.Start.text());
+        start.setTooltip(Tooltip.create((GTOConfig.INSTANCE.allowMissingCraftingJobs && instance.isSimulation()) ? Component.translatable("gtocore.ae.appeng.craft.missing_start.desc") : GuiText.Start.text()));
+        return !GTOConfig.INSTANCE.allowMissingCraftingJobs;
     }
 }

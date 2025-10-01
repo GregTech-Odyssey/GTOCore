@@ -923,7 +923,7 @@ public final class MultiBlockG {
             .register();
 
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统",
-            TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * (m.getTier() - 1)), GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
