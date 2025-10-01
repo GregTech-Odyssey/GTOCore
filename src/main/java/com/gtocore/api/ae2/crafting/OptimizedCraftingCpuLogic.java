@@ -280,6 +280,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
                     if (allocKey == null) {
                         this.craftingResults.put(targetOutputKey, IPatternProviderLogic.PushResult.INSUFFICIENT_PRIORITY);
+
                         CraftingCpuHelper.reinjectPatternInputs(inventory, craftingContainer.value);
                         continue taskLoop;
                     }
@@ -296,6 +297,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                 if (minAllowedUnits != Long.MAX_VALUE) {
                     if (minAllowedUnits <= 0) {
                         this.craftingResults.put(targetOutputKey, IPatternProviderLogic.PushResult.INSUFFICIENT_PRIORITY);
+
                         CraftingCpuHelper.reinjectPatternInputs(inventory, craftingContainer.value);
                         continue;
                     }
