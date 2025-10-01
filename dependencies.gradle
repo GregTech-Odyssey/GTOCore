@@ -26,6 +26,8 @@ dependencies {
 
     modImplementation("dev.architectury:architectury-forge:${project.architectury_version}")
 
+    modImplementation("curse.maven:building-gadgets-298187:6850495")
+
     modImplementation("curse.maven:configuration-444699:4710266")
 
     modImplementation("com.teamresourceful:yabn:1.0.3")

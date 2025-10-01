@@ -120,6 +120,8 @@
     "botania.OrechidBlockEntityMixin",
     "botania.OrechidIgnemBlockEntityMixin",
     "botania.RunicAltarBlockEntityMixin",
+    "buildinggadgets2.PacketUpdateTemplateManagerMixin",
+    "buildinggadgets2.TemplateManagerHandlerMixin",
     "eae.TileAssemblerMatrixBaseMixin",
     "eio.TravelHandlerMixin",
     "endremastered.EREnderEyeMixin",
