@@ -45,8 +45,7 @@ import static com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.S
 import static com.gtolib.api.GTOValues.*;
 import static com.gtolib.utils.register.RecipeTypeRegisterUtils.*;
 import static com.gtolib.utils.register.RecipeTypeRegisterUtils.register;
-import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.LEFT_TO_RIGHT;
-import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.UP_TO_DOWN;
+import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.*;
 
 public final class GTORecipeTypes {
 
@@ -900,6 +899,21 @@ public final class GTORecipeTypes {
             .setMaxIOSize(4, 1, 0, 0)
             .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
+
+    public static final RecipeType THERMO_PRESSING_RECIPES = register("thermo_pressing", "热压成型", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(3, 1, 3, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL)
+            .addDataInfo(TEMPERATURE)
+            .addDataInfo(COIL)
+            .setUiBuilder(COIL_UI);
+
+    public static final RecipeType ATOMIZATION_CONDENSATION_RECIPES = register("atomization_condensation", "雾化冷凝", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 2, 3, 3)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, UP_TO_DOWN)
+            .setSound(GTSoundEntries.COOLING);
 
     // TODO 添加用途
     public static final RecipeType PLASMA_CENTRIFUGE_RECIPES = register("plasma_centrifuge", "等离子体离心", MULTIBLOCK)

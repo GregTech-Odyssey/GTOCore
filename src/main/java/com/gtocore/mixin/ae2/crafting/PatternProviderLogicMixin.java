@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.crafting;
 
 import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
+import com.gtocore.integration.eio.ITravelHandlerHook;
 
 import com.gtolib.api.ae2.*;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
@@ -11,6 +12,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 import appeng.api.config.Actionable;
 import appeng.api.config.LockCraftingMode;
@@ -74,7 +76,8 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     @Shadow
     @Final
     private List<GenericStack> sendList;
-    private int pushedCount = 1024;
+    @Unique
+    private int gtocore$pushedCount = 1024;
     @Shadow
     private Direction sendDirection;
     @Unique
@@ -116,6 +119,14 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         }
     }
 
+    @Inject(method = "configChanged", at = @At("TAIL"), remap = false)
+    private void onSave(CallbackInfo ci) {
+        Level level = host.getBlockEntity().getLevel();
+        if (level != null) {
+            ITravelHandlerHook.requireResync(level);
+        }
+    }
+
     @Override
     public PushResult gtolib$pushPattern(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess) {
         if (!this.mainNode.isActive()) return PushResult.GRID_NODE_MISSING;
@@ -125,9 +136,9 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         if (cache == null) return PushResult.REJECTED;
         var setting = configManager.getSetting(GTOSettings.BLOCKING_TYPE);
         if (setting == BlockingType.ALL || setting == BlockingType.CONTAIN) {
-            pushedCount = 1;
+            gtocore$pushedCount = 1;
         } else {
-            pushedCount = 1024;
+            gtocore$pushedCount = 1024;
         }
         BooleanSupplier canPush = () -> getCraftingLockedReason() == LockCraftingMode.NONE && sendList.isEmpty();
         if (!canPush.getAsBoolean()) return PushResult.PATTERN_PROVIDER_LOCKED;
@@ -218,7 +229,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
     @Unique
     private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
-        int count = this.pushedCount;
+        int count = this.gtocore$pushedCount;
         boolean success = false;
         while (count > 0) {
             count--;

@@ -143,7 +143,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     protected Recipe getRealRecipe(Recipe recipe) {
         var EUt = recipe.getOutputEUt();
         if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
-            recipe = ParallelLogic.accurateParallel(this, recipe, getOverclockVoltage() / EUt);
+            recipe = ParallelLogic.accurateContentParallel(this, recipe, getOverclockVoltage() / EUt);
             if (recipe == null) return null;
             if (isOxygenBoosted && isDinitrogenTetroxideBoosted) {
                 recipe.setOutputEUt(EUt * recipe.parallels * 4);

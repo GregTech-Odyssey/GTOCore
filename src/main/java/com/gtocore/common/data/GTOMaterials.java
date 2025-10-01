@@ -1054,6 +1054,7 @@ public final class GTOMaterials {
     public static Material Triethoxysilane;
     public static Material Chloropropyltriethoxysilane;
     public static Material KH550SilaneCouplingAgent;
+    public static Material Titanium3Carbide;
 
     public static Material AlphaParticleSource;
     public static Material Calcium48Source;

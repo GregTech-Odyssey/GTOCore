@@ -3371,5 +3371,14 @@ final class ChemicaRreactor {
                 .EUt(30)
                 .duration(200)
                 .save();
+
+        CHEMICAL_RECIPES.builder("benzaldehyde")
+                .inputFluids(GTMaterials.Toluene, 1000)
+                .inputFluids(GTMaterials.Oxygen, 2000)
+                .outputFluids(GTOMaterials.Benzaldehyde, 1000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .EUt(480)
+                .duration(600)
+                .save();
     }
 }

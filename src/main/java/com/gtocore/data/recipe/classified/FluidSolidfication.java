@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeCategories;
 
 import com.gtolib.utils.ItemUtils;
 
@@ -19,7 +20,9 @@ import net.minecraft.world.item.Items;
 
 import java.util.Map;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Nitrogen;
 import static com.gtocore.common.data.GTOItems.*;
+import static com.gtocore.common.data.GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES;
 
 final class FluidSolidfication {
@@ -74,11 +77,14 @@ final class FluidSolidfication {
                 .duration(400)
                 .save();
 
-        FLUID_SOLIDFICATION_RECIPES.recipeBuilder("superheavy_mix")
+        ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("superheavy_mix")
                 .outputItems(TagPrefix.dust, GTOMaterials.SuperheavyMix)
+                .outputFluids(Nitrogen.getFluid(144 * 857))
+                .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(144 * 1000))
                 .inputFluids(GTOMaterials.SuperheavyMix.getFluid(144))
                 .EUt(122880)
                 .duration(800)
+                .category(GTORecipeCategories.CONDENSE_FLUID_TO_DUST)
                 .save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("honey_block")

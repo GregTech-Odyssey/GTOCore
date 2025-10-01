@@ -138,22 +138,22 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     private void gtolib$tick() {
         if (getOffsetTimer() % 40 == 0) {
             DroneControlCenterMachine centerMachine = getNetMachine();
-            if (centerMachine != null) {
-                boolean last3SlotsHaveSomething = false;
-                for (int i = inventory.getSlots() - 3; i < inventory.getSlots(); i++) {
-                    if (!inventory.getStackInSlot(i).isEmpty()) {
-                        last3SlotsHaveSomething = true;
-                        break;
-                    }
-                }
-                for (int i = 0; i < inventory.getSlots(); i++) {
-                    ItemStack stack = inventory.getStackInSlot(i);
-                    if (stack.getCount() > 32 || last3SlotsHaveSomething) {
-                        Drone drone = getFirstUsableDrone();
-                        if (drone != null && drone.start(4, stack.getCount() << 2, GTOValues.REMOVING_ASH)) {
+            if (centerMachine != null && !inventory.stacks[inventory.size - 3].isEmpty()) {
+                Drone drone = null;
+                boolean available = false;
+                for (int i = 0; i < inventory.size; i++) {
+                    ItemStack stack = inventory.stacks[i];
+                    if (stack.getCount() > 1) {
+                        if (drone == null) {
+                            drone = getFirstUsableDrone();
+                            if (drone != null) {
+                                available = drone.start(4, inventory.size << 4, GTOValues.REMOVING_ASH);
+                            }
+                        }
+                        if (available) {
                             inventory.setStackInSlot(i, ItemStack.EMPTY);
                             MachineUtils.outputItem(centerMachine, stack);
-                        }
+                        } else break;
                     }
                 }
             }

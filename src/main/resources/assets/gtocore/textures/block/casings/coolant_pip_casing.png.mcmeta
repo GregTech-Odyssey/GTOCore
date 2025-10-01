@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/coolant_pip_casing_ctm"
+    }
+}

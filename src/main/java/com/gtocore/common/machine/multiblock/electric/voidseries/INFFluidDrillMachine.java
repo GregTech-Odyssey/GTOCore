@@ -6,13 +6,8 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -29,12 +24,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
 
-    private final int tier;
+    private final int t;
     private final int basis;
 
     public INFFluidDrillMachine(MetaMachineBlockEntity holder, int tier, int basis) {
         super(holder);
-        this.tier = tier;
+        this.t = tier;
         this.basis = basis;
     }
 
@@ -49,10 +44,7 @@ public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
     }
 
     public int getEnergyTier() {
-        var energyContainer = getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP);
-        if (energyContainer.isEmpty()) return tier;
-        var energyCont = new EnergyContainerList(energyContainer.stream().filter(IEnergyContainer.class::isInstance).map(IEnergyContainer.class::cast).toList());
-        return Math.min(tier + 1, Math.max(tier, GTUtil.getFloorTierByVoltage(energyCont.getInputVoltage())));
+        return Math.min(t + 1, tier);
     }
 
     @Override
@@ -82,7 +74,7 @@ public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
 
     @Override
     public int getTier() {
-        return this.tier;
+        return this.t;
     }
 
     public int getBasis() {

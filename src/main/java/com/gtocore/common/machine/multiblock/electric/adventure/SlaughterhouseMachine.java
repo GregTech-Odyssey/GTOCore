@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.electric.adventure;
 
 import com.gtocore.data.IdleReason;
 
+import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.item.ItemStackSet;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -17,11 +18,13 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -44,12 +47,15 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.util.CommonProxy;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -60,9 +66,15 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SlaughterhouseMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
+    private static final Object2ObjectOpenHashMap<ResourceLocation, Set<SlaughterhouseMachine>> MACHINES = new O2OOpenCacheHashMap<>();
+
     private int attackDamage;
     @Persisted
     private boolean isSpawn;
+    @Persisted
+    private boolean noAI;
+    @Persisted
+    private boolean muffled;
     private DamageSource damageSource;
     private ItemStack activeWeapon = ItemStack.EMPTY;
     private static final String[] mobList1 = {
@@ -161,14 +173,19 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         int c = checkingCircuit(false);
         if (c == 3) textList.add(Component.translatable("gtocore.machine.slaughterhouse.active_weapon", activeWeapon.getDisplayName()));
         else textList.add(Component.translatable("gtocore.machine.slaughterhouse.is_spawn").append(ComponentPanelWidget.withButton(Component.literal("[").append(isSpawn ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "spawn_switch")));
+        textList.add(Component.translatable("stat.apotheosis.no_ai").append(ComponentPanelWidget.withButton(Component.literal("[").append(noAI ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "noai_switch")));
+        textList.add(Component.translatable("stat.apotheosis.silent").append(ComponentPanelWidget.withButton(Component.literal("[").append(muffled ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "muffle_switch")));
     }
 
     @Override
     public void handleDisplayClick(String componentData, ClickData clickData) {
         if (!clickData.isRemote) {
-            if ("spawn_switch".equals(componentData)) {
-                isSpawn = !isSpawn;
-            } else super.handleDisplayClick(componentData, clickData);
+            switch (componentData) {
+                case "spawn_switch" -> isSpawn = !isSpawn;
+                case "noai_switch" -> noAI = !noAI;
+                case "muffle_switch" -> muffled = !muffled;
+                default -> super.handleDisplayClick(componentData, clickData);
+            }
         }
     }
 
@@ -206,6 +223,10 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             final int MAX_KILLS_PER_RUN = 20;
 
             for (Entity entity : entities) {
+                entity.getSelfAndPassengers().filter(e -> !(e instanceof Player)).filter(Mob.class::isInstance).map(Mob.class::cast).forEach(mob -> {
+                    mob.setNoAi(noAI);
+                    mob.setSilent(muffled);
+                });
                 if (c == 3 && killedCount >= MAX_KILLS_PER_RUN) continue;
                 if (entity instanceof LivingEntity livingEntity) {
                     if (c != 3 && CommonProxy.isBoss(entity)) continue;
@@ -291,5 +312,39 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     @Override
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        IIWirelessInteractor.addToNet(MACHINES, this);
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        IIWirelessInteractor.removeFromNet(MACHINES, this);
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        IIWirelessInteractor.removeFromNet(MACHINES, this);
+    }
+
+    public static boolean isEntityInAnySlaughterhouse(Entity entity) {
+        if (MACHINES.isEmpty()) return false;
+        for (SlaughterhouseMachine machine : MACHINES.getOrDefault(entity.level().dimension().location(), Collections.emptySet())) {
+            BlockPos blockPos = MachineUtils.getOffsetPos(3, 1, machine.getFrontFacing(), machine.getPos());
+            AABB aabb = new AABB(
+                    blockPos.getX() - 4,
+                    blockPos.getY() - 1,
+                    blockPos.getZ() - 4,
+                    blockPos.getX() + 4,
+                    blockPos.getY() + 6,
+                    blockPos.getZ() + 4);
+            if (aabb.contains(entity.position())) return true;
+        }
+        return false;
     }
 }

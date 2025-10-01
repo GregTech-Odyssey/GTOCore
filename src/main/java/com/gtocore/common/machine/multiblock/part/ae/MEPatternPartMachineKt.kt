@@ -5,6 +5,7 @@ import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
 import com.gtocore.integration.ae.WirelessMachine
+import com.gtocore.integration.eio.ITravelHandlerHook
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.core.BlockPos
@@ -33,6 +34,7 @@ import appeng.api.stacks.AEItemKey
 import appeng.api.stacks.KeyCounter
 import appeng.crafting.pattern.EncodedPatternItem
 import appeng.helpers.patternprovider.PatternContainer
+import com.enderio.base.common.travel.TravelSavedData
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
@@ -43,6 +45,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gtolib.api.ae2.MyPatternDetailsHelper
@@ -182,12 +185,23 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         super<MEPartMachine>.onMachinePlaced(player, stack)
     }
 
+    override fun onLoad() {
+        super.onLoad()
+        level?.let { ITravelHandlerHook.removeAndReadd(it, this) }
+    }
+
     override fun onUnload() {
         super.onUnload()
+        level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }
 
     override fun clientTick() {
         super.clientTick()
+    }
+
+    override fun addedToController(controller: IMultiController) {
+        super.addedToController(controller)
+        ITravelHandlerHook.requireResync(level!!)
     }
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
@@ -279,7 +293,10 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                     textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
                         Component.translatable(AE_NAME)
                     })
-                    field(height = 12, getter = { customName }, setter = { customName = it })
+                    field(height = 12, getter = { customName }, setter = {
+                        customName = it
+                        ITravelHandlerHook.requireResync(level!!)
+                    })
                 }
                 val height1 = this@rootFresh.availableHeight - 24 - 16
                 val pageWidget =

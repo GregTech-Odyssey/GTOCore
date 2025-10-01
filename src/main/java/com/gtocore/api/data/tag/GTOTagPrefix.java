@@ -15,25 +15,33 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
 import com.kyanite.deeperdarker.DeeperDarker;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import earth.terrarium.adastra.common.registry.ModBlocks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.BotaniaBlocks;
 
+import java.util.regex.Pattern;
+
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.hasOreProperty;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Boron;
 
 @SuppressWarnings("unused")
 public final class GTOTagPrefix extends TagPrefix {
+
+    private static final Pattern BoronFormula = Pattern.compile("^[A-Za-z0-9]+B[0-9]*$");
 
     private ICustomRenderer customRenderer;
 
@@ -114,7 +122,19 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix BREEDER_ROD = new GTOTagPrefix("breeder_rod").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_breeder_rod").defaultTagPath("breeder_rod/%s").unformattedTagPath("breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
     public static final TagPrefix DEPLETED_BREEDER_ROD = new GTOTagPrefix("depleted_breeder_rod").idPattern("%s_depleted_breeder_rod").defaultTagPath("depleted_breeder_rod/%s").unformattedTagPath("depleted_breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
 
-    public static final TagPrefix MXene = new GTOTagPrefix("mxene").idPattern("%s_mxene").defaultTagPath("mxenes/%s").unformattedTagPath("mxenes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("mxene")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MXene));
+    public static final TagPrefix MXene = new GTOTagPrefix("mxene").idPattern("%s_mxene").defaultTagPath("mxenes/%s").unformattedTagPath("mxenes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("mxene")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MXene)).itemConstructor(
+            (p, t, m) -> new TagPrefixItem(p, t, m) {
+
+                @Override
+                public @NotNull Component getName(@NotNull ItemStack stack) {
+                    return BoronFormula.matcher(m.getChemicalFormula()).matches() ||
+                            m.getMaterialComponents().stream().anyMatch(ms -> ms.material() == Boron) ?
+                                    Component.translatable("tagprefix.mborene", m) :
+                                    super.getName(stack);
+                }
+            });
+    public static final TagPrefix AluminumContainedMXenePrecursor = new GTOTagPrefix("aluminium_contained_mxene_precursor").idPattern("aluminium_contained_%s_mxene_precursor").defaultTagPath("aluminium_contained_mxene_precursors/%s").unformattedTagPath("aluminium_contained_mxene_precursors").materialAmount(GTValues.M).materialIconType(new MaterialIconType("mxene_precursor")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MXene));
+
     public static final TagPrefix MEMBRANE_ELECTRODE = new GTOTagPrefix("membrane_electrode").idPattern("%s_membrane_electrode").defaultTagPath("membrane_electrodes/%s").unformattedTagPath("membrane_electrodes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("membrane_electrode")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE));
 
     private GTOTagPrefix useRenderer(final ICustomRenderer renderer) {

@@ -3,6 +3,7 @@ package com.gtocore.data.lang;
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.GTOCore;
@@ -54,6 +55,7 @@ public final class LangHandler {
         GTOBedrockFluids.LANG.forEach((k, v) -> addCNEN("gtceu.jei.bedrock_fluid." + k, v));
         ItemRegisterUtils.LANG.forEach((k, v) -> addCN("item.gtocore." + k, v));
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
+        GTORecipeCategories.LANG.forEach((k, v) -> addCNEN("gtceu.recipe.category." + k, v));
         GTOFluidStorageKey.initLang();
         GTOMachineBuilder.LANG.forEach(LangHandler::addCNEN);
         MultiblockBuilder.LANG.forEach(LangHandler::addCNEN);
@@ -177,6 +179,7 @@ public final class LangHandler {
         addCNEN("gtocore.tier.advanced", "高级", "Advanced");
         addCNEN("gtocore.tier.base", "基础", "Basic");
         addCNEN("gtocore.tier.ultimate", "终极", "Ultimate");
+        addCNEN("gtocore.tier.hermetic_casing", "密封机械方块等级：%s", "Hermetic Casing Tier: %s");
 
         addCNEN("config.jade.plugin_gtocore.accelerate_provider", "[GTOCore] 加速条", "[GTOCore] Accelerated Bar");
         addCNEN("config.jade.plugin_gtocore.wireless_data_hatch_provider", "[GTOCore] 无线数据", "[GTOCore] Wireless Data");
@@ -266,11 +269,6 @@ public final class LangHandler {
 
         addCNEN("gtocore.not_safe", "现在不安全", "It's not safe now");
 
-        addCNEN("gtceu.recipe.category.mana_assembler", "魔力组装", "Mana Assembler");
-        addCNEN("gtceu.recipe.category.rotor_plating", "转子镀膜", "Rotor Plating");
-        addCNEN("gtceu.recipe.category.electrolyte_transfer", "电解液能量交换", "Electrolyte Energy Transfer");
-        addCNEN("gtceu.recipe.category.essence_recovery", "精粹回收", "Essence Recovery");
-        addCNEN("gtceu.recipe.category.three_dimensional_printer_recipes_disposable", "3D打印：一次性工具", "3D Printer:Disposable");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.main", "检测到循环依赖，自动合成无法进行", "Cyclic dependency detected, automatic crafting cannot proceed");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.count", "\n发现 %s 个环:", "\nFound %s cycles:");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.more_cycles", "\n    ... 还有 %s 个环未显示", "\n    ... and %s more cycles not shown");
