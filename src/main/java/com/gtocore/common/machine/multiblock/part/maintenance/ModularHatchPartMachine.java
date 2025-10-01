@@ -59,9 +59,9 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @Persisted
     private final NotifiableItemStackHandler cleanroomModuleInv;
     @Persisted
-    private int temperature = 298;
+    private int temperature = 293;
     @Persisted
-    private int activeTemperature = 298;
+    private int activeTemperature = 293;
     @Persisted
     @DescSynced
     private int currentGravity = 0;

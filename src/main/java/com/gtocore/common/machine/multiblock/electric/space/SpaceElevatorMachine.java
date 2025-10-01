@@ -103,8 +103,8 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
             for (BlockPos blockPoss : poss) {
                 MetaMachine metaMachine = getMachine(level, blockPoss);
                 if (metaMachine instanceof SpaceElevatorModuleMachine moduleMachine && moduleMachine.isFormed()) {
+                    if (moduleMachine.spaceElevatorMachine != this) moduleMachine.getRecipeLogic().updateTickSubscription();
                     moduleMachine.spaceElevatorMachine = this;
-                    if (promptly) moduleMachine.getRecipeLogic().updateTickSubscription();
                     moduleCount++;
                 }
             }
