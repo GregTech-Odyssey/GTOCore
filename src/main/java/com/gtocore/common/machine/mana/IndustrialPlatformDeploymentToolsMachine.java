@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.mana;
 
 import com.gtocore.api.lang.OffsetGradientColor;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
 import com.gtolib.GTOCore;
@@ -21,6 +22,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -168,7 +171,18 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
     @Persisted
-    private int[] materialInventory = new int[8];
+    private int materialInventory = 0;
+
+    // 定义物品与价值的映射关系
+    private static final Map<Item, Integer> ITEM_VALUE_MAP;
+
+    static {
+        ITEM_VALUE_MAP = new LinkedHashMap<>();
+        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_MAINFRAME.asItem(), 5000);
+        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_COMPUTER.asItem(), 2000);
+        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_ASSEMBLY.asItem(), 500);
+        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_PROCESSOR.asItem(), 200);
+    }
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
@@ -221,9 +235,12 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         }
         group.addWidget(group_2);
 
-        // 存储信息表
+        // 原料信息表
         WidgetGroup group_3 = new DraggableScrollableWidgetGroup(271, 58, 54, 107)
                 .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
+        group_3.addWidget(new ComponentPanelWidget(4, 4, this::addDisplayTextMaterial)
+                .clickHandler(this::handleDisplayClickMaterial)
+                .setMaxWidthLimit(46));
         group.addWidget(group_3);
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -454,6 +471,52 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         }
     }
 
+    // 原料控制工具
+    private void addDisplayTextMaterial(List<Component> textList) {
+        Component input = ComponentPanelWidget.withButton(Component.literal(" [ ↓ ] "), "input");
+        Component output = ComponentPanelWidget.withButton(Component.literal(" [ ↑ ] "), "output");
+
+        textList.add(createEqualColumns(46, input, output));
+
+        if (presetConfirm) {
+            int costMaterial = presetMap.get(presetNames.get(saveGroup)).getStructures().get(saveId).getMaterials();
+            if (materialInventory > costMaterial) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
+            else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
+        }
+
+        Component materialReserves = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves", materialInventory);
+
+        textList.add(materialReserves);
+    }
+
+    private void handleDisplayClickMaterial(String componentData, ClickData clickData) {
+        if (Objects.equals(componentData, "input")) {
+            for (int i = 0; i < inventory.getSlots(); i++) {
+                ItemStack stack = inventory.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    Integer value = ITEM_VALUE_MAP.get(stack.getItem());
+                    if (value != null) {
+                        materialInventory += value * stack.getCount();
+                        inventory.setStackInSlot(i, ItemStack.EMPTY);
+                    }
+                }
+            }
+        } else if (Objects.equals(componentData, "output")) {
+            for (int i = 0; i < inventory.getSlots(); i++) {
+                if (inventory.getStackInSlot(i).isEmpty()) {
+                    for (Map.Entry<Item, Integer> entry : ITEM_VALUE_MAP.entrySet()) {
+                        int count = Math.min(materialInventory / entry.getValue(), 64);
+                        if (count > 0) {
+                            inventory.setStackInSlot(i, new ItemStack(entry.getKey(), count));
+                            materialInventory -= entry.getValue() * count;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /////////////////////////////////////
     // ********** UI布局工具 ********** //
     /////////////////////////////////////
@@ -535,7 +598,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     }
 
     /////////////////////////////////////
-    // ******** 模板存储验证工具 ******** //
+    // ********* 辅助获取方法 ********* //
     /////////////////////////////////////
 
     /////////////////////////////////////

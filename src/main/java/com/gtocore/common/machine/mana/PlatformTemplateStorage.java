@@ -9,11 +9,9 @@ import java.util.List;
 
 public class PlatformTemplateStorage {
 
-    // 存储所有预设
     private static final List<PlatformPreset> presets = new ArrayList<>();
 
     static {
-        // 1. 圆石核心平台 (16x16x1)
         PlatformBlockStructure core = PlatformBlockStructure.structure(BlockType.CORE)
                 .addLayer("CCCCCCCCCCCCCCCC")
                 .addLayer("CCCCCCCCCCCCCCCC")
@@ -35,69 +33,27 @@ public class PlatformTemplateStorage {
                 .materials(256)
                 .build();
 
-        // 2. X方向道路 (16x16x1)
+        // 从文件加载X方向道路
         PlatformBlockStructure roadX = PlatformBlockStructure.structure(BlockType.ROAD_X)
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .where('C', Blocks.COBBLESTONE)
+                .addLayersFromResource("assets/gtocore/platforms/road_x.txt")
+                .where('A', Blocks.COBBLESTONE)
+                .where('~', Blocks.AIR)
                 .materials(256)
                 .build();
 
-        // 3. Z方向道路 (16x16x1)
+        // 从文件加载Z方向道路
         PlatformBlockStructure roadZ = PlatformBlockStructure.structure(BlockType.ROAD_Z)
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .where('C', Blocks.COBBLESTONE)
+                .addLayersFromResource("assets/gtocore/platforms/road_z.txt")
+                .where('A', Blocks.COBBLESTONE)
+                .where('~', Blocks.AIR)
                 .materials(256)
                 .build();
 
-        // 4. 十字路口 (16x16x1)
+        // 从文件加载十字路口
         PlatformBlockStructure cross = PlatformBlockStructure.structure(BlockType.ROAD_CROSS)
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .where('C', Blocks.COBBLESTONE)
+                .addLayersFromResource("assets/gtocore/platforms/cross.txt")
+                .where('A', Blocks.COBBLESTONE)
+                .where('~', Blocks.AIR)
                 .materials(256)
                 .build();
 
@@ -132,9 +88,6 @@ public class PlatformTemplateStorage {
                         .build());
     }
 
-    /**
-     * 获取所有预设模板
-     */
     public static List<PlatformPreset> initializePresets() {
         return List.copyOf(presets);
     }

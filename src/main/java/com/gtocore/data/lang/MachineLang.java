@@ -240,7 +240,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.y", "Y：%s", "Y: %s");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.coordinate", "四角坐标：", "Corner Coordinates: ");
 
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "存储", "Reserves");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "储量：%s", "Reserves: %s");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.cost", "消耗", "Cost");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.adequate", "原料充足", "Material adequate");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.insufficient", "原料不足", "Material insufficient");

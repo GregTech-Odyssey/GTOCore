@@ -7,7 +7,13 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public final class PlatformBlockType {
@@ -16,10 +22,10 @@ public final class PlatformBlockType {
      * 结构块类型
      */
     public enum BlockType {
-        CORE,      // 核心块
-        ROAD_X,    // X方向道路
-        ROAD_Z,    // Z方向道路
-        ROAD_CROSS // 道路交叉点
+        CORE,
+        ROAD_X,
+        ROAD_Z,
+        ROAD_CROSS
     }
 
     // ===================================================================
@@ -91,7 +97,6 @@ public final class PlatformBlockType {
             return blockMapping.get(symbol);
         }
 
-        // 链式构建器
         public static final class Builder {
 
             private final BlockType type;
@@ -103,7 +108,6 @@ public final class PlatformBlockType {
                 this.type = type;
             }
 
-            // 添加一层（Z方向），每个字符串是一个Y层的行（X方向）
             public Builder addLayer(String... rows) {
                 if (rows == null || rows.length == 0) {
                     throw new IllegalArgumentException("Layer cannot be empty");
@@ -112,19 +116,51 @@ public final class PlatformBlockType {
                 return this;
             }
 
-            // 添加字符到方块的映射
+            /**
+             * 从资源文件读取 .aisle(...) 格式的结构
+             */
+            public Builder addLayersFromResource(String resourcePath) {
+                try (InputStream is = PlatformBlockType.class.getClassLoader().getResourceAsStream(resourcePath)) {
+                    if (is == null) {
+                        throw new IllegalArgumentException("Resource not found: " + resourcePath);
+                    }
+                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
+                    Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
+                    while ((line = br.readLine()) != null) {
+                        line = line.trim();
+                        if (line.startsWith(".aisle(")) {
+                            Matcher aisleMatcher = aislePattern.matcher(line);
+                            if (aisleMatcher.find()) {
+                                String content = aisleMatcher.group(1);
+                                Matcher stringMatcher = stringPattern.matcher(content);
+                                List<String> rows = new ArrayList<>();
+                                while (stringMatcher.find()) {
+                                    rows.add(stringMatcher.group(1));
+                                }
+                                if (!rows.isEmpty()) {
+                                    addLayer(rows.toArray(new String[0]));
+                                }
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to load structure from resource: " + resourcePath, e);
+                }
+                return this;
+            }
+
             public Builder where(char symbol, @NotNull Block block) {
                 symbolMap.put(symbol, block);
                 return this;
             }
 
-            // 设置材料数量
             public Builder materials(int count) {
                 this.materials = count;
                 return this;
             }
 
-            // 构建结构对象
             public PlatformBlockStructure build() {
                 validateStructure(depth);
                 if (symbolMap.isEmpty()) {
@@ -269,9 +305,6 @@ public final class PlatformBlockType {
         }
     }
 
-    // ===================================================================
-    // 结构校验工具
-    // ===================================================================
     private static void validateStructure(List<String[]> depth) {
         if (depth == null || depth.isEmpty()) throw new IllegalArgumentException("Depth cannot be empty");
 
