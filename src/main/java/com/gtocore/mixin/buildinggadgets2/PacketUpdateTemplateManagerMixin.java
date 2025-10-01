@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,6 +31,11 @@ import java.util.function.Supplier;
 
 @Mixin(value = PacketUpdateTemplateManager.class, remap = false)
 public abstract class PacketUpdateTemplateManagerMixin {
+
+    @Unique
+    private static final Item ENCODED_PATTERN = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("ae2", "processing_pattern"));
+    @Unique
+    private static final Item BLANK_PATTERN = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("ae2", "blank_pattern"));
 
     @Inject(
             method = "handle",
@@ -53,24 +59,21 @@ public abstract class PacketUpdateTemplateManagerMixin {
 
         ItemStack templateStack = container.getSlot(1).getItem();
 
-        Item blank_Pattern = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("ae2", "blank_pattern"));
-        Item encoded_Pattern = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath("ae2", "processing_pattern"));
-
-        if (blank_Pattern == null || (!templateStack.is(blank_Pattern) && !templateStack.is(encoded_Pattern))) return;
+        if (BLANK_PATTERN == null || (!templateStack.is(BLANK_PATTERN) && !templateStack.is(ENCODED_PATTERN))) return;
         ItemStack gadgetStack = container.getSlot(0).getItem();
         UUID sourceUUID = GadgetNBT.getUUID(gadgetStack);
         BG2Data bg2Data = BG2Data.get(Objects.requireNonNull(sender.getServer()).overworld());
         ArrayList<StatePos> buildList = bg2Data.getCopyPasteList(sourceUUID, false);
 
         if (buildList == null || buildList.isEmpty()) {
-            MiscHelpers.playSound(sender, Holder.direct(SoundEvent.createVariableRangeEvent(new ResourceLocation(SoundEvents.WAXED_SIGN_INTERACT_FAIL.getLocation().toString()))));
+            MiscHelpers.playSound(sender, Holder.direct(SoundEvent.createVariableRangeEvent(SoundEvents.WAXED_SIGN_INTERACT_FAIL.getLocation())));
             ci.cancel();
             return;
         }
 
         ItemStack encodedPattern = CreateEncodedPattern.FromBuildList(buildList, templateName);
         container.setItem(1, container.getStateId(), encodedPattern);
-        MiscHelpers.playSound(sender, Holder.direct(SoundEvent.createVariableRangeEvent(new ResourceLocation(SoundEvents.ENCHANTMENT_TABLE_USE.getLocation().toString()))));
+        MiscHelpers.playSound(sender, Holder.direct(SoundEvent.createVariableRangeEvent(SoundEvents.ENCHANTMENT_TABLE_USE.getLocation())));
         ci.cancel();
     }
 
