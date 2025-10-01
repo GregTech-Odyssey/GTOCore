@@ -30,7 +30,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ExportOnlyAEFluidList.class, NotifiableFluidTank.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    private final ExportOnlyAEFluidSlot[] inventory;
+    final ExportOnlyAEFluidSlot[] inventory;
 
     public ExportOnlyAEFluidList(MetaMachine machine, int slots) {
         this(machine, slots, ExportOnlyAEFluidSlot::new);
@@ -81,6 +81,10 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                     continue;
                 }
                 long a = FastFluidIngredient.getAmount(ingredient);
+                if (a < 1) {
+                    it.remove();
+                    continue;
+                }
                 for (var i : inventory) {
                     var stored = i.stock;
                     if (stored == null) continue;

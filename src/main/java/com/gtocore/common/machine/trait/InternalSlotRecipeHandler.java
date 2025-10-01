@@ -62,7 +62,7 @@ public final class InternalSlotRecipeHandler {
 
         private Reference2LongOpenHashMap<Fluid> getFluidMap(ParallelCache parallelCache) {
             var ingredientStacks = parallelCache.getFluidIngredientMap();
-            for (var container : getCapability(ItemRecipeCapability.CAP)) {
+            for (var container : getCapability(FluidRecipeCapability.CAP)) {
                 if (container.isNotConsumable() || container instanceof NonStandardHandler) continue;
                 container.fastForEachFluids((a, b) -> ingredientStacks.addTo(a.getFluid(), b));
             }
