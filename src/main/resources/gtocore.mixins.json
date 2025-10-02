@@ -27,6 +27,7 @@
     "gtm.api.recipe.ContentMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
     "inventoryessentials.ClientOnlyInventoryControlsMixin",
+    "mc.GuiGraphicsMixin",
     "mc.OpenContainerMixin",
     "merequester.NumberFieldMixin",
     "sodium.SodiumWorldRendererMixin"
@@ -121,6 +122,8 @@
     "botania.OrechidBlockEntityMixin",
     "botania.OrechidIgnemBlockEntityMixin",
     "botania.RunicAltarBlockEntityMixin",
+    "buildinggadgets2.PacketUpdateTemplateManagerMixin",
+    "buildinggadgets2.TemplateManagerHandlerMixin",
     "eae.TileAssemblerMatrixBaseMixin",
     "eio.TravelHandlerMixin",
     "endremastered.EREnderEyeMixin",

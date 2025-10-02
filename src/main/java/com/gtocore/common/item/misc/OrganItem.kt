@@ -28,7 +28,7 @@ class TierData {
             "战术级" to "Tactical",
             "原型级" to "Prototype",
         )
-        val MovementSpeedFunction: (Int) -> Double = { tier -> 0.1 * 0.1 * tier * 1.8 }
+        val MovementSpeedFunction: (Int) -> Double = { tier -> 0.1 * 0.1 * tier * 2.3 }
         const val BlockReachFunction = 4
     }
 }
