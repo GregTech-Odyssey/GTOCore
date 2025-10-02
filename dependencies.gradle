@@ -74,7 +74,7 @@ dependencies {
 
     modImplementation("curse.maven:modernfix-790626:6719008")
 
-    modImplementation("curse.maven:re-avaritia-623969:6958116")
+    modImplementation("curse.maven:re-avaritia-623969:7044775")
 //    modImplementation("curse.maven:render-blender-1346485:6993848")
 //    modImplementation("curse.maven:avaritia-integration-1347675:7001596")
 
