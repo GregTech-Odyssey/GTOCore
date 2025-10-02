@@ -23,9 +23,7 @@ import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.jetbrains.annotations.Nullable;
 
 class ExecutingCraftingJob {
@@ -67,16 +65,14 @@ class ExecutingCraftingJob {
         if (plan instanceof ICraftingPlanAllocationAccessor accessor) {
             var src = accessor.getGtocore$allocations();
             if (src != null && !src.isEmpty()) {
-                for (var e : src.object2ObjectEntrySet()) {
+                src.object2ObjectEntrySet().fastForEach(e -> {
                     var map = new Object2LongOpenHashMap<IPatternDetails>();
                     var inner = e.getValue();
                     if (inner != null && !inner.isEmpty()) {
-                        for (var innerE : inner.object2LongEntrySet()) {
-                            map.put(innerE.getKey(), innerE.getLongValue());
-                        }
+                        map.putAll(inner);
                     }
                     this.allocations.put(e.getKey(), map);
-                }
+                });
             }
         }
 
@@ -87,8 +83,7 @@ class ExecutingCraftingJob {
             waitingFor.insert(entry.getKey(), entry.getLongValue(), Actionable.MODULATE);
             tt.gtolib$addMaxItems(entry.getLongValue(), entry.getKey().getType());
         }
-        for (var it = ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastIterator(); it.hasNext();) {
-            var entry = it.next();
+        ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastForEach(entry -> {
             var key = entry.getKey();
             long value = entry.getLongValue();
             tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
@@ -96,7 +91,7 @@ class ExecutingCraftingJob {
                 var amount = output.amount() * value * output.what().getAmountPerUnit();
                 tt.gtolib$addMaxItems(amount, output.what().getType());
             }
-        }
+        });
         this.link = link;
         this.playerId = playerId;
     }
@@ -172,8 +167,7 @@ class ExecutingCraftingJob {
         data.put(NBT_TIME_TRACKER, timeTracker.writeToNBT());
 
         final ListTag list = new ListTag();
-        for (ObjectIterator<Object2ObjectMap.Entry<IPatternDetails, LongHolder>> it = this.tasks.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
-            var e = it.next();
+        this.tasks.object2ObjectEntrySet().fastForEach(e -> {
             var details = e.getKey();
             var item = details.getDefinition().toTag();
             item.putLong(NBT_CRAFTING_PROGRESS, e.getValue().value);
@@ -181,24 +175,24 @@ class ExecutingCraftingJob {
                 item.putLong("parallel", parallelPatternDetails.getParallel());
             }
             list.add(item);
-        }
+        });
         data.put(NBT_TASKS, list);
 
         ListTag allocs = new ListTag();
-        for (var e : this.allocations.object2ObjectEntrySet()) {
+        this.allocations.object2ObjectEntrySet().fastForEach(e -> {
             CompoundTag alloc = new CompoundTag();
             alloc.put("item", e.getKey().toTagGeneric());
             ListTag pats = new ListTag();
             var map = e.getValue();
-            for (var pe : map.object2LongEntrySet()) {
+            map.object2LongEntrySet().fastForEach(pe -> {
                 var details = pe.getKey();
                 var ptag = details.getDefinition().toTag();
                 ptag.putLong("quota", pe.getLongValue());
                 pats.add(ptag);
-            }
+            });
             alloc.put("patterns", pats);
             allocs.add(alloc);
-        }
+        });
         data.put("allocations", allocs);
 
         data.putLong(NBT_REMAINING_AMOUNT, remainingAmount);
