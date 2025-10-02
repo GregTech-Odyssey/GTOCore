@@ -46,8 +46,7 @@ import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.objects.*;
 
 import java.util.Set;
 import java.util.UUID;
@@ -158,6 +157,27 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         }
     }
 
+    private static void purgePatternEverywhere(Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations, Object patternDefinition) {
+        if (allocations == null || allocations.isEmpty() || patternDefinition == null) return;
+        for (var outIt = allocations.reference2ObjectEntrySet().fastIterator(); outIt.hasNext();) {
+            var out = outIt.next();
+            var inner = out.getValue();
+            if (inner == null || inner.isEmpty()) {
+                outIt.remove();
+                continue;
+            }
+            for (var inIt = inner.object2LongEntrySet().fastIterator(); inIt.hasNext();) {
+                var pe = inIt.next();
+                if (pe.getKey().getDefinition().equals(patternDefinition)) {
+                    inIt.remove();
+                }
+            }
+            if (inner.isEmpty()) {
+                outIt.remove();
+            }
+        }
+    }
+
     @Override
     public int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService, Level level) {
         var job = this.job;
@@ -166,8 +186,6 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         IntHolder pushedPatterns = new IntHolder(0);
 
         var it = job.tasks.object2ObjectEntrySet().fastIterator();
-
-        var expectedOutputs = new KeyCounter();
 
         taskLoop:
         while (it.hasNext()) {
@@ -178,71 +196,212 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                 continue;
             }
 
+            // 寻找样板和对应的可用优先物品名额
+            if (!job.allocations.isEmpty()) {
+                job.defsToPurge.clear();
+                for (var outerIt = job.allocations.reference2ObjectEntrySet().fastIterator(); outerIt.hasNext();) {
+                    var outer = outerIt.next();
+                    var inner = outer.getValue();
+                    if (inner == null || inner.isEmpty()) continue;
+                    for (var peIt = inner.object2LongEntrySet().fastIterator(); peIt.hasNext();) {
+                        var pe = peIt.next();
+                        if (pe.getLongValue() <= 0) {
+                            job.defsToPurge.add(pe.getKey().getDefinition());
+                        }
+                    }
+                }
+                for (var def : job.defsToPurge) {
+                    purgePatternEverywhere(job.allocations, def);
+                }
+            }
+
             var tmp_details = task.getKey();
-            expectedOutputs.clear();
+            boolean isParallel = tmp_details instanceof IParallelPatternDetails;
+            job.expectedOutputs.clear();
             ObjectHolder<KeyCounter[]> craftingContainer = new ObjectHolder<>(null);
             long parallelValue = 1;
-            if (progress.value > 1 && tmp_details instanceof IParallelPatternDetails pd) {
-                var parallel = getMaxParallel(progress.value, pd, inventory);
+            if (isParallel && progress.value > 1) {
+                var parallel = getMaxParallel(progress.value, tmp_details, IKeyCounter.of(inventory.list).gtolib$getMap());
                 if (parallel == 0) continue;
                 if (parallel > 1) {
-                    var parallelPatternDetails = pd.getCopy();
+                    var parallelPatternDetails = ((IParallelPatternDetails) tmp_details).getCopy();
                     parallelPatternDetails.parallel(parallel);
-                    if ((craftingContainer.value = extractPatternInputs(parallelPatternDetails, inventory, expectedOutputs)) == null) {
+                    if ((craftingContainer.value = extractPatternInputs(parallelPatternDetails, inventory, job.expectedOutputs)) == null) {
                         continue;
                     } else {
                         parallelValue = parallel;
                         tmp_details = parallelPatternDetails;
                     }
                 }
-            }
-            if (craftingContainer.value == null) {
-                if ((craftingContainer.value = extractPatternInputs(tmp_details, inventory, expectedOutputs)) == null) continue;
+            } else {
+                if ((craftingContainer.value = extractPatternInputs(tmp_details, inventory, job.expectedOutputs)) == null) continue;
             }
             var details = tmp_details;
-            var providerIterable = craftingService.getProviders(details).iterator();
-            long finalParallelValue = parallelValue;
-            Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess = () -> {
-                energyService.extractAEPower(CraftingCpuHelper.calculatePatternPower(craftingContainer.value) * finalParallelValue, Actionable.MODULATE, PowerMultiplier.CONFIG);
-                pushedPatterns.value++;
 
-                for (var expectedOutput : expectedOutputs) {
-                    job.waitingFor.insert(expectedOutput.getKey(), expectedOutput.getLongValue(), Actionable.MODULATE);
-                }
+            // 查找优先物品数量和识别可用并行
+            var targetOutputKey = details.getPrimaryOutput().what();
+            boolean allocationLimited = false;
+            long cappedParallel = parallelValue;
 
-                progress.value -= finalParallelValue;
-                if (progress.value <= 0) {
-                    it.remove();
-                    return IPatternProviderLogic.PushResult.BREAK;
-                }
-
-                if (pushedPatterns.value > maxPatterns) {
-                    return IPatternProviderLogic.PushResult.BREAK_TASK_LOOP;
-                }
-
-                expectedOutputs.reset();
-                craftingContainer.value = extractPatternInputs(details, inventory, expectedOutputs);
-                return IPatternProviderLogic.PushResult.SUCCESS;
-            };
-            var targetOutput = details.getPrimaryOutput().what();
-            if (!providerIterable.hasNext()) {
-                craftingResults.put(targetOutput, IPatternProviderLogic.PushResult.PATTERN_DOES_NOT_EXIST);
-            }
-            while (providerIterable.hasNext()) {
-                if (craftingContainer.value == null) break;
-                ICraftingProvider provider = providerIterable.next();
-                if (provider.isBusy()) continue;
-                if (provider instanceof IPatternProviderLogic logic) {
-                    var result = logic.gtolib$pushPattern(details, craftingContainer, pushPatternSuccess);
-                    if (result != IPatternProviderLogic.PushResult.PATTERN_DOES_NOT_EXIST) {
-                        this.pendingRequests.put(targetOutput, logic.gto$getPos());
+            if (!job.allocations.isEmpty()) {
+                job.totalConsumed.clear();
+                for (var kc : craftingContainer.value) {
+                    if (kc == null) continue;
+                    for (var entry : kc) {
+                        job.totalConsumed.addTo(entry.getKey(), entry.getLongValue());
                     }
-                    if (!result.success()) {
-                        this.craftingResults.put(targetOutput, result);
+                }
+                long minAllowedUnits = Long.MAX_VALUE;
+                var patternDefinition = details.getDefinition();
+                for (var eIt = job.totalConsumed.reference2LongEntrySet().fastIterator(); eIt.hasNext();) {
+                    var e = eIt.next();
+                    var consumedKey = e.getKey();
+                    long consumedTotal = e.getLongValue();
+                    var allocMap = job.allocations.get(consumedKey);
+                    if (allocMap == null || allocMap.isEmpty()) {
                         continue;
                     }
-                    this.craftingResults.removeAll(targetOutput);
-                    this.craftingResults.put(targetOutput, result);
+                    IPatternDetails allocKey = null;
+                    for (var aeIt = allocMap.object2LongEntrySet().fastIterator(); aeIt.hasNext();) {
+                        var ae = aeIt.next();
+                        if (ae.getKey().getDefinition().equals(patternDefinition)) {
+                            allocKey = ae.getKey();
+                            break;
+                        }
+                    }
+
+                    if (allocKey == null) {
+                        this.craftingResults.put(targetOutputKey, IPatternProviderLogic.PushResult.INSUFFICIENT_PRIORITY);
+
+                        CraftingCpuHelper.reinjectPatternInputs(inventory, craftingContainer.value);
+                        continue taskLoop;
+                    }
+                    long quota = allocMap.getLong(allocKey);
+                    long perUnit = Math.max(1, consumedTotal / parallelValue);
+                    long allowedUnits = quota / perUnit;
+                    if (allowedUnits < minAllowedUnits) {
+                        minAllowedUnits = allowedUnits;
+                        if (minAllowedUnits == 0) {
+                            break;
+                        }
+                    }
+                }
+                if (minAllowedUnits != Long.MAX_VALUE) {
+                    if (minAllowedUnits <= 0) {
+                        this.craftingResults.put(targetOutputKey, IPatternProviderLogic.PushResult.INSUFFICIENT_PRIORITY);
+
+                        CraftingCpuHelper.reinjectPatternInputs(inventory, craftingContainer.value);
+                        continue;
+                    }
+                    if (minAllowedUnits < parallelValue) {
+                        if (details instanceof IParallelPatternDetails parDetails && parDetails.getParallel() > 1) {
+                            CraftingCpuHelper.reinjectPatternInputs(inventory, craftingContainer.value);
+                            parDetails.parallel(minAllowedUnits);
+                            job.expectedOutputs.reset();
+                            craftingContainer.value = extractPatternInputs(details, inventory, job.expectedOutputs);
+                            if (craftingContainer.value == null) {
+                                continue;
+                            }
+                            cappedParallel = minAllowedUnits;
+                            allocationLimited = true;
+                        } else {
+                            this.craftingResults.put(targetOutputKey, IPatternProviderLogic.PushResult.INSUFFICIENT_PRIORITY);
+                            CraftingCpuHelper.reinjectPatternInputs(inventory, craftingContainer.value);
+                            continue;
+                        }
+                    }
+                }
+            }
+
+            for (ICraftingProvider iCraftingProvider : craftingService.getProviders(details)) {
+                if (craftingContainer.value == null) break;
+                if (iCraftingProvider.isBusy()) continue;
+
+                job.currentConsumed.clear();
+                for (var kc : craftingContainer.value) {
+                    if (kc == null) continue;
+                    for (var entry : kc) {
+                        job.currentConsumed.addTo(entry.getKey(), entry.getLongValue());
+                    }
+                }
+                long finalParallelValue = cappedParallel;
+                boolean finalAllocationLimited = allocationLimited;
+                double powerNeeded = 0.0;
+                var kcArrPre = craftingContainer.value;
+                if (kcArrPre != null) {
+                    powerNeeded = CraftingCpuHelper.calculatePatternPower(kcArrPre) * finalParallelValue;
+                }
+                final double powerNeededFinal = powerNeeded;
+                Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess = () -> {
+                    if (powerNeededFinal > 0) {
+                        energyService.extractAEPower(powerNeededFinal, Actionable.MODULATE, PowerMultiplier.CONFIG);
+                    }
+                    pushedPatterns.value++;
+
+                    for (var expectedOutput : job.expectedOutputs) {
+                        job.waitingFor.insert(expectedOutput.getKey(), expectedOutput.getLongValue(), Actionable.MODULATE);
+                    }
+
+                    job.purgeDefsLocal.clear();
+                    for (var ceIt = job.currentConsumed.reference2LongEntrySet().fastIterator(); ceIt.hasNext();) {
+                        var ce = ceIt.next();
+                        var key = ce.getKey();
+                        var map = job.allocations.get(key);
+                        if (map == null || map.isEmpty()) continue;
+                        IPatternDetails matchedKey = null;
+                        var detailsDef = details.getDefinition();
+                        for (var aeIt = map.object2LongEntrySet().fastIterator(); aeIt.hasNext();) {
+                            var ae = aeIt.next();
+                            if (ae.getKey().getDefinition().equals(detailsDef)) {
+                                matchedKey = ae.getKey();
+                                break;
+                            }
+                        }
+                        if (matchedKey != null) {
+                            long q = map.getLong(matchedKey);
+                            long newQ = q - ce.getLongValue();
+                            if (newQ <= 0) {
+                                job.purgeDefsLocal.add(detailsDef);
+                            } else {
+                                map.put(matchedKey, newQ);
+                            }
+                        }
+                    }
+                    // Perform global purge once per definition if any reached <= 0
+                    for (var def : job.purgeDefsLocal) {
+                        purgePatternEverywhere(job.allocations, def);
+                    }
+
+                    progress.value -= finalParallelValue;
+                    if (progress.value <= 0) {
+                        it.remove();
+                        return IPatternProviderLogic.PushResult.BREAK;
+                    }
+
+                    if (pushedPatterns.value > maxPatterns) {
+                        return IPatternProviderLogic.PushResult.BREAK_TASK_LOOP;
+                    }
+
+                    if (isParallel || finalAllocationLimited) {
+                        return IPatternProviderLogic.PushResult.BREAK;
+                    }
+
+                    job.expectedOutputs.reset();
+                    craftingContainer.value = extractPatternInputs(details, inventory, job.expectedOutputs);
+                    return IPatternProviderLogic.PushResult.SUCCESS;
+                };
+
+                if (iCraftingProvider instanceof IPatternProviderLogic logic) {
+                    var result = logic.gtolib$pushPattern(details, craftingContainer, pushPatternSuccess);
+                    if (result != IPatternProviderLogic.PushResult.PATTERN_DOES_NOT_EXIST) {
+                        this.pendingRequests.put(targetOutputKey, logic.gto$getPos());
+                    }
+                    if (!result.success()) {
+                        this.craftingResults.put(targetOutputKey, result);
+                        continue;
+                    }
+                    this.craftingResults.removeAll(targetOutputKey);
+                    this.craftingResults.put(targetOutputKey, result);
                     cluster.markDirty();
                     switch (result) {
                         case BREAK:
@@ -250,19 +409,19 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                         case BREAK_TASK_LOOP:
                             break taskLoop;
                     }
-                } else if (provider.pushPattern(details, craftingContainer.value)) {
+                } else if (iCraftingProvider.pushPattern(details, craftingContainer.value)) {
                     var result = pushPatternSuccess.get();
                     if (!result.success()) {
-                        this.craftingResults.put(targetOutput, result);
+                        this.craftingResults.put(targetOutputKey, result);
                         continue;
                     }
-                    this.craftingResults.removeAll(targetOutput);
-                    this.craftingResults.put(targetOutput, result);
+                    this.craftingResults.removeAll(targetOutputKey);
+                    this.craftingResults.put(targetOutputKey, result);
                     cluster.markDirty();
-                    if (provider instanceof BlockEntity be) {
-                        this.pendingRequests.put(targetOutput, GlobalPos.of(level.dimension(), be.getBlockPos()));
-                    } else if (provider instanceof MetaMachine mm) {
-                        this.pendingRequests.put(targetOutput, GlobalPos.of(level.dimension(), mm.getPos()));
+                    if (iCraftingProvider instanceof BlockEntity be) {
+                        this.pendingRequests.put(targetOutputKey, GlobalPos.of(level.dimension(), be.getBlockPos()));
+                    } else if (iCraftingProvider instanceof MetaMachine mm) {
+                        this.pendingRequests.put(targetOutputKey, GlobalPos.of(level.dimension(), mm.getPos()));
                     }
                     switch (result) {
                         case BREAK:
@@ -573,11 +732,12 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         return inputHolder;
     }
 
-    private static long getMaxParallel(long maxParallel, IPatternDetails details, ListCraftingInventory sourceInv) {
+    private static long getMaxParallel(long maxParallel, IPatternDetails details, Object2LongOpenHashMap<AEKey> sourceInv) {
+        if (sourceInv == null) return 0;
         for (IPatternDetails.IInput input : details.getInputs()) {
             long extracted = 0;
             for (var stack : input.getPossibleInputs()) {
-                extracted += (sourceInv.list.get(stack.what()) / stack.amount());
+                extracted += (sourceInv.getLong(stack.what()) / stack.amount());
             }
             maxParallel = Math.min(maxParallel, extracted / input.getMultiplier());
             if (maxParallel < 1) {

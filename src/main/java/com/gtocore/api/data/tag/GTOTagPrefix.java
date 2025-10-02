@@ -5,6 +5,8 @@ import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.chemical.material.GTOMaterialBuilder;
 import com.gtolib.utils.RLUtils;
 
@@ -38,8 +40,12 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.hasOreProperty;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Boron;
 
+@DataGeneratorScanned
 @SuppressWarnings("unused")
 public final class GTOTagPrefix extends TagPrefix {
+
+    @RegisterLanguage(cn = "使用扳手shift右键以设置§e自动抽取§r和§e限制传输方向§r", en = "Use wrench press and hold shift while right clicking to set §eAuto Pull§r and §eRestrict Flow Direction§r")
+    public static final String PIPE_TOOLTIP = "metaitem.pipe.tooltip";
 
     private static final Pattern BoronFormula = Pattern.compile("^[A-Za-z0-9]+B[0-9]*$");
 

@@ -32,11 +32,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.api.parts.PartModels;
 import appeng.init.client.InitScreens;
-import com.google.common.collect.Iterables;
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
 import com.lowdragmc.shimmer.client.light.LightManager;
 import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
 import com.lowdragmc.shimmer.forge.event.ForgeShimmerReloadEvent;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy extends CommonProxy {
@@ -66,18 +66,23 @@ public final class ClientProxy extends CommonProxy {
         ItemBlockRenderTypes.setRenderLayer(GTOFluids.FLOWING_GELID_CRYOTHEUM.get(), RenderType.translucent());
     }
 
-    public static void registerLights(ForgeShimmerReloadEvent e) {
+    private static void registerLights(ForgeShimmerReloadEvent e) {
         if (e.event.getReloadType() == ReloadType.COLORED_LIGHT) {
             GTOCore.LOGGER.info("registering dynamic lights");
-            var lightColor = new ColorPointLight.Template(7, 1, 1, 1, 1);
-            for (var item : Iterables.filter(ForgeRegistries.ITEMS,
-                    item -> item instanceof BlockItem blockItem && blockItem.getBlock().defaultBlockState().getLightEmission() > 0)) {
-                LightManager.INSTANCE.registerItemLight(item, itemStack -> lightColor);
+            var lights = new Int2ObjectOpenHashMap<ColorPointLight.Template>();
+            for (var item : ForgeRegistries.ITEMS) {
+                if (item instanceof BlockItem blockItem) {
+                    var emission = blockItem.getBlock().defaultBlockState().getLightEmission();
+                    if (emission > 0) {
+                        var light = lights.computeIfAbsent(emission, k -> new ColorPointLight.Template(emission, 1, 1, 1, 1));
+                        LightManager.INSTANCE.registerItemLight(item, itemStack -> light);
+                    }
+                }
             }
         }
     }
 
-    public static void registerItemDeco(RegisterItemDecorationsEvent event) {
+    private static void registerItemDeco(RegisterItemDecorationsEvent event) {
         MonitorBlockItem.getItemList().forEach(item -> {
             if (item != null) {
                 event.register(BuiltInRegistries.BLOCK.get(item), MonitorItemDecorations.DECORATOR);
