@@ -13,29 +13,14 @@ public class PlatformTemplateStorage {
 
     static {
         PlatformBlockStructure core = PlatformBlockStructure.structure(BlockType.CORE)
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
-                .addLayer("CCCCCCCCCCCCCCCC")
+                .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('C', Blocks.COBBLESTONE)
                 .materials(256)
                 .build();
 
         // 从文件加载X方向道路
         PlatformBlockStructure roadX = PlatformBlockStructure.structure(BlockType.ROAD_X)
-                .addLayersFromResource("assets/gtocore/platforms/road_x.txt")
+                .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(256)
@@ -43,7 +28,7 @@ public class PlatformTemplateStorage {
 
         // 从文件加载Z方向道路
         PlatformBlockStructure roadZ = PlatformBlockStructure.structure(BlockType.ROAD_Z)
-                .addLayersFromResource("assets/gtocore/platforms/road_z.txt")
+                .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(256)
@@ -51,7 +36,7 @@ public class PlatformTemplateStorage {
 
         // 从文件加载十字路口
         PlatformBlockStructure cross = PlatformBlockStructure.structure(BlockType.ROAD_CROSS)
-                .addLayersFromResource("assets/gtocore/platforms/cross.txt")
+                .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(256)

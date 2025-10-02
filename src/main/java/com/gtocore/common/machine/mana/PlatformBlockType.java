@@ -107,9 +107,9 @@ public final class PlatformBlockType {
                 this.type = type;
             }
 
-            public Builder addLayer(String... rows) {
+            public Builder aisle(String... rows) {
                 if (rows == null || rows.length == 0) {
-                    throw new IllegalArgumentException("Layer cannot be empty");
+                    throw new IllegalArgumentException("aisle cannot be empty");
                 }
                 depth.add(rows.clone());
                 return this;
@@ -118,7 +118,7 @@ public final class PlatformBlockType {
             /**
              * 从资源文件读取 .aisle(...) 格式的结构
              */
-            public Builder addLayersFromResource(String resourcePath) {
+            public Builder addAisleFromResource(String resourcePath) {
                 try (InputStream is = PlatformBlockType.class.getClassLoader().getResourceAsStream(resourcePath)) {
                     if (is == null) {
                         throw new IllegalArgumentException("Resource not found: " + resourcePath);
@@ -139,7 +139,7 @@ public final class PlatformBlockType {
                                     rows.add(stringMatcher.group(1));
                                 }
                                 if (!rows.isEmpty()) {
-                                    addLayer(rows.toArray(new String[0]));
+                                    aisle(rows.toArray(new String[0]));
                                 }
                             }
                         }
@@ -285,11 +285,11 @@ public final class PlatformBlockType {
         int xSize = depth.get(0)[0].length();
         int zSize = depth.size();
 
-        for (String[] layer : depth) {
-            if (layer == null || layer.length != ySize) {
-                throw new IllegalArgumentException("All layers must have the same height (y size)");
+        for (String[] Aisle : depth) {
+            if (Aisle == null || Aisle.length != ySize) {
+                throw new IllegalArgumentException("All aisles must have the same height (y size)");
             }
-            for (String row : layer) {
+            for (String row : Aisle) {
                 if (row == null || row.length() != xSize) {
                     throw new IllegalArgumentException("All rows must have the same width (x size)");
                 }
