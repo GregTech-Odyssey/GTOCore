@@ -137,7 +137,7 @@ public abstract class CraftingServiceMixin {
         if (level == null || simRequester == null) {
             throw new IllegalArgumentException("Invalid Crafting Job Request");
         }
-        return CRAFTING_POOL.submit(() -> OptimizedCalculation.execute(grid, simRequester, what, amount, strategy));
+        return CRAFTING_POOL.submit(() -> OptimizedCalculation.executeV2(grid, simRequester, what, amount, strategy));
     }
 
     @Redirect(method = "submitJob", at = @At(value = "INVOKE", target = "Lappeng/api/networking/crafting/ICraftingPlan;simulation()Z"), remap = false)

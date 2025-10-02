@@ -22,8 +22,7 @@ import appeng.crafting.CraftingLink;
 import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 
 class ExecutingCraftingJob {
@@ -46,7 +45,13 @@ class ExecutingCraftingJob {
     long remainingAmount;
     Integer playerId;
 
-    final Object2ObjectOpenHashMap<appeng.api.stacks.AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations = new Object2ObjectOpenHashMap<>();
+    final KeyCounter expectedOutputs = new KeyCounter();
+    final ReferenceOpenHashSet<AEKey> defsToPurge = new ReferenceOpenHashSet<>();
+    final Reference2LongOpenHashMap<AEKey> totalConsumed = new Reference2LongOpenHashMap<>();
+    final Reference2LongOpenHashMap<AEKey> currentConsumed = new Reference2LongOpenHashMap<>();
+    final ReferenceOpenHashSet<AEKey> purgeDefsLocal = new ReferenceOpenHashSet<>();
+
+    final Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations = new Reference2ObjectOpenHashMap<>();
 
     ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId, KeyCounter missingIng) {
         this(plan, changeListener, link, playerId);
@@ -57,7 +62,7 @@ class ExecutingCraftingJob {
         }
     }
 
-    ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
+    private ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
         this.finalOutput = plan.finalOutput();
         this.remainingAmount = this.finalOutput.amount();
         this.waitingFor = new ListCraftingInventory(changeListener);
@@ -65,7 +70,7 @@ class ExecutingCraftingJob {
         if (plan instanceof ICraftingPlanAllocationAccessor accessor) {
             var src = accessor.getGtocore$allocations();
             if (src != null && !src.isEmpty()) {
-                src.object2ObjectEntrySet().fastForEach(e -> {
+                src.reference2ObjectEntrySet().fastForEach(e -> {
                     var map = new Object2LongOpenHashMap<IPatternDetails>();
                     var inner = e.getValue();
                     if (inner != null && !inner.isEmpty()) {
@@ -179,7 +184,7 @@ class ExecutingCraftingJob {
         data.put(NBT_TASKS, list);
 
         ListTag allocs = new ListTag();
-        this.allocations.object2ObjectEntrySet().fastForEach(e -> {
+        this.allocations.reference2ObjectEntrySet().fastForEach(e -> {
             CompoundTag alloc = new CompoundTag();
             alloc.put("item", e.getKey().toTagGeneric());
             ListTag pats = new ListTag();

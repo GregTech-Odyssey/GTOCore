@@ -6,7 +6,7 @@ import appeng.api.crafting.IPatternDetails;
 import appeng.api.stacks.AEKey;
 import appeng.crafting.CraftingPlan;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
@@ -21,7 +21,7 @@ public class CraftingPlanMixin implements ICraftingPlanAllocationAccessor {
     private long gtocore$primaryOutputThreatAccumulateThreshold = 0; // 发送次数
 
     @Unique
-    private Object2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> gtocore$allocations = new Object2ObjectOpenHashMap<>(); // 某个物品对某些样板优先输出的次数
+    private Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> gtocore$allocations; // 某个物品对某些样板优先输出的次数
     // 表示某个AEKey的优先样板列表，key为样板，value为此样板可用的优先数量
     // 如果AEKey对应的优先样板列表为空，则表示此物品所有样板都可以使用
     // 如果AEKey对应的优先样板列表不为空或者Object2LongOpenHashMap<IPatternDetails>每个项目都<=0，则表示此物品只能优先用于这些样板，可优先发配数量为value
@@ -30,12 +30,12 @@ public class CraftingPlanMixin implements ICraftingPlanAllocationAccessor {
 
     @Unique
     @Override
-    public Object2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> getGtocore$allocations() {
+    public Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> getGtocore$allocations() {
         return gtocore$allocations;
     }
 
     @Unique
-    public void setGtocore$allocations(Object2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations) {
+    public void setGtocore$allocations(Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations) {
         this.gtocore$allocations = allocations;
     }
 
