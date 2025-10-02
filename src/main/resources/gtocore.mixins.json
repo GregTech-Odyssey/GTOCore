@@ -42,6 +42,7 @@
     "ae2.GridMixin",
     "ae2.IncrementalUpdateHelperMixin",
     "ae2.InterfaceLogicMixin",
+    "ae2.QuartzCuttingKnifeItemMixin",
     "ae2.TickManagerServiceMixin",
     "ae2.blockentity.AEBaseBlockEntityMixin",
     "ae2.blockentity.AEBaseEntityBlockMixin",
