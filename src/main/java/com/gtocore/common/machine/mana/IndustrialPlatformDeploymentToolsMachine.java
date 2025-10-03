@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -136,15 +135,27 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
     @Persisted
-    private int[] materialInventory = new int[] { 0, 0, 0, 0, 0, 0 };
+    private int[] materialInventory = new int[] { 0, 0, 0 };
+    // 库存是否充足
+    @Persisted
+    private boolean insufficient = true;
 
-    private static final String[] RARITIES = { "common", "uncommon", "rare", "epic", "mythic", "ancient" };
-
-    private static final Map<Item, Integer> ITEM_VALUE_MAP = Map.of(
-            GTOItems.BIOWARE_MAINFRAME.asItem(), 5000,
-            GTOItems.BIOWARE_COMPUTER.asItem(), 2000,
-            GTOItems.BIOWARE_ASSEMBLY.asItem(), 500,
-            GTOItems.BIOWARE_PROCESSOR.asItem(), 200);
+    private static final List<Map<Item, Integer>> ITEM_VALUE_MAP = List.of(
+            new LinkedHashMap<>(Map.of(
+                    GTOItems.BIOWARE_MAINFRAME.asItem(), 5000,
+                    GTOItems.BIOWARE_COMPUTER.asItem(), 2000,
+                    GTOItems.BIOWARE_ASSEMBLY.asItem(), 500,
+                    GTOItems.BIOWARE_PROCESSOR.asItem(), 200)),
+            new LinkedHashMap<>(Map.of(
+                    GTOItems.OPTICAL_MAINFRAME.asItem(), 5000,
+                    GTOItems.OPTICAL_COMPUTER.asItem(), 2000,
+                    GTOItems.OPTICAL_ASSEMBLY.asItem(), 500,
+                    GTOItems.OPTICAL_PROCESSOR.asItem(), 200)),
+            new LinkedHashMap<>(Map.of(
+                    GTOItems.EXOTIC_MAINFRAME.asItem(), 5000,
+                    GTOItems.EXOTIC_COMPUTER.asItem(), 2000,
+                    GTOItems.EXOTIC_ASSEMBLY.asItem(), 500,
+                    GTOItems.EXOTIC_PROCESSOR.asItem(), 200)));
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
@@ -314,6 +325,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
                 saveGroup = checkGroup;
                 saveId = checkId;
                 presetConfirm = true;
+                examineMaterial();
             }
         }
     }
@@ -344,12 +356,19 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         textList.add(createEqualColumns(langWidth,
                 ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.loading"), "loading"),
                 ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.unloading"), "unloading")));
-        textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves", materialInventory[0]).withStyle(ChatFormatting.AQUA));
+
+        textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves"));
+        for (int i = 0; i < materialInventory.length; i++) {
+            if (materialInventory[i] != 0) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material." + i, materialInventory[i]));
+        }
 
         if (presetConfirm) {
-            int costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials().getInt("common");
-            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand", materialInventory[0]));
-            if (materialInventory[0] >= costMaterial) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
+            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand"));
+            int[] costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
+            for (int i = 0; i < costMaterial.length; i++) {
+                if (costMaterial[i] != 0) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material." + i, costMaterial[i]));
+            }
+            if (insufficient) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
             else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
         } else {
             textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
@@ -360,8 +379,10 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         if (step != ConfirmConsumables) return;
         if (Objects.equals(componentData, "loading")) {
             loadingMaterial();
+            examineMaterial();
         } else if (Objects.equals(componentData, "unloading")) {
             unloadingMaterial();
+            examineMaterial();
         }
     }
 
@@ -411,10 +432,10 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
         if (presetConfirm) {
             BlockPos pos = getPos();
-            int maxChunkX = pos.getX() >> 4 + offsetX;
-            int maxChunkZ = pos.getZ() >> 4 + offsetZ;
-            int minChunkX = maxChunkX - getPlatformBlockStructure(saveGroup, saveId).getXSize();
-            int minChunkZ = maxChunkZ - getPlatformBlockStructure(saveGroup, saveId).getZSize();
+            int maxChunkX = (pos.getX() >> 4) + offsetX;
+            int maxChunkZ = (pos.getZ() >> 4) + offsetZ;
+            int minChunkX = maxChunkX - getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16;
+            int minChunkZ = maxChunkZ - getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16;
 
             int minX = minChunkX << 4;
             int maxX = (maxChunkX << 4) + 15;
@@ -426,13 +447,15 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
             textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.boundary"));
 
-            Component x_max = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", maxX);
-            Component z_max = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", maxZ);
-            Component y_max = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", maxY);
-
-            textList.add(createEqualColumns(langWidth, x_max, Component.literal(String.valueOf(minX))));
-            textList.add(createEqualColumns(langWidth, y_max, Component.literal(String.valueOf(minY))));
-            textList.add(createEqualColumns(langWidth, z_max, Component.literal(String.valueOf(minZ))));
+            textList.add(createEqualColumns(langWidth,
+                    Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", maxX),
+                    Component.literal(String.valueOf(minX))));
+            textList.add(createEqualColumns(langWidth,
+                    Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", maxY),
+                    Component.literal(String.valueOf(minY))));
+            textList.add(createEqualColumns(langWidth,
+                    Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", maxZ),
+                    Component.literal(String.valueOf(minZ))));
         } else {
             textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
         }
@@ -537,11 +560,13 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     private void loadingMaterial() {
         for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
-            if (!stack.isEmpty()) {
-                Integer value = ITEM_VALUE_MAP.get(stack.getItem());
+            if (stack.isEmpty()) continue;
+            for (int k = 0; k < ITEM_VALUE_MAP.size(); k++) {
+                Integer value = ITEM_VALUE_MAP.get(k).get(stack.getItem());
                 if (value != null) {
-                    materialInventory[0] += value * stack.getCount();
+                    materialInventory[k] += value * stack.getCount();
                     inventory.setStackInSlot(i, ItemStack.EMPTY);
+                    break;
                 }
             }
         }
@@ -549,15 +574,30 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
     private void unloadingMaterial() {
         for (int i = 0; i < inventory.getSlots(); i++) {
-            if (inventory.getStackInSlot(i).isEmpty()) {
-                for (Map.Entry<Item, Integer> entry : ITEM_VALUE_MAP.entrySet()) {
-                    int count = Math.min(materialInventory[1] / entry.getValue(), 64);
+            ItemStack stack = inventory.getStackInSlot(i);
+            if (!stack.isEmpty()) continue;
+            boolean filled = false;
+            for (int k = 0; k < ITEM_VALUE_MAP.size() && !filled; k++) {
+                for (Map.Entry<Item, Integer> entry : ITEM_VALUE_MAP.get(k).entrySet()) {
+                    int count = Math.min(materialInventory[k] / entry.getValue(), 64);
                     if (count > 0) {
                         inventory.setStackInSlot(i, new ItemStack(entry.getKey(), count));
-                        materialInventory[0] -= entry.getValue() * count;
+                        materialInventory[k] -= entry.getValue() * count;
+                        filled = true;
                         break;
                     }
                 }
+            }
+        }
+    }
+
+    private void examineMaterial() {
+        int[] costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
+        insufficient = true;
+        for (int i = 0; i < materialInventory.length; i++) {
+            if (materialInventory[i] < costMaterial[i]) {
+                insufficient = false;
+                break;
             }
         }
     }

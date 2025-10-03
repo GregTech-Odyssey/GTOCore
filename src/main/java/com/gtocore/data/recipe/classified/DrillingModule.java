@@ -41,7 +41,7 @@ final class DrillingModule {
                         .inputFluids(fuels[minDroneTire - 1][j])
                         .outputFluids(fluidStack)
                         .EUt(VA[8 + i])
-                        .duration(baseTime[j] << i)
+                        .duration(baseTime[j] >> i)
                         .save();
             }
         }

@@ -20,7 +20,9 @@ public class PlatformTemplateStorage {
                 .preview(true)
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('C', Blocks.COBBLESTONE)
-                .materials("common", 256)
+                .materials(0, 256)
+                .materials(1, 256)
+                .materials(2, 256)
                 .build();
 
         // 从文件加载X方向道路
@@ -29,7 +31,10 @@ public class PlatformTemplateStorage {
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
-                .materials("common", 256)
+                .materials(0, 256)
+                .xSize(16)
+                .ySize(1)
+                .zSize(16)
                 .build();
 
         // 从文件加载Z方向道路
@@ -38,7 +43,10 @@ public class PlatformTemplateStorage {
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
-                .materials("common", 256)
+                .materials(0, 256)
+                .xSize(16)
+                .ySize(1)
+                .zSize(16)
                 .build();
 
         // 从文件加载十字路口
@@ -47,7 +55,7 @@ public class PlatformTemplateStorage {
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
-                .materials("common", 256)
+                .materials(0, 256)
                 .build();
 
         // 注册预设

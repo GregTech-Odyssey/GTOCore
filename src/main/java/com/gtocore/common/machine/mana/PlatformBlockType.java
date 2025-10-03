@@ -4,8 +4,6 @@ import net.minecraft.world.level.block.Block;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,7 +33,7 @@ public final class PlatformBlockType {
         private final boolean preview;
         private final List<String[]> depth; // Z -> Y -> X
         private final Char2ObjectMap<Block> blockMapping;
-        private final Object2IntMap<String> materials;
+        private final int[] materials;
         private final int xSize;
         private final int ySize;
         private final int zSize;
@@ -48,7 +46,7 @@ public final class PlatformBlockType {
                                        boolean preview,
                                        List<String[]> depth,
                                        Char2ObjectMap<Block> blockMapping,
-                                       Object2IntMap<String> materials,
+                                       int[] materials,
                                        int xSize,
                                        int ySize,
                                        int zSize) {
@@ -105,7 +103,7 @@ public final class PlatformBlockType {
             return blockMapping;
         }
 
-        public Object2IntMap<String> getMaterials() {
+        public int[] getMaterials() {
             return materials;
         }
 
@@ -139,7 +137,10 @@ public final class PlatformBlockType {
             private boolean preview = false;
             private final List<String[]> depth = new ArrayList<>();
             private final Map<Character, Block> symbolMap = new HashMap<>();
-            private final Object2IntMap<String> materials = new Object2IntOpenHashMap<>();
+            private final int[] materials = new int[] { 0, 0, 0 };
+            private int xSize;
+            private int ySize;
+            private int zSize;
 
             public Builder(String name) {
                 this.name = name;
@@ -218,8 +219,23 @@ public final class PlatformBlockType {
                 return this;
             }
 
-            public Builder materials(String material, int count) {
-                this.materials.put(material, count);
+            public Builder materials(int material, int count) {
+                this.materials[material] = count;
+                return this;
+            }
+
+            public Builder xSize(int xSize) {
+                this.xSize = xSize;
+                return this;
+            }
+
+            public Builder ySize(int ySize) {
+                this.ySize = ySize;
+                return this;
+            }
+
+            public Builder zSize(int zSize) {
+                this.zSize = zSize;
                 return this;
             }
 
@@ -231,9 +247,6 @@ public final class PlatformBlockType {
                 if (symbolMap.isEmpty()) {
                     throw new IllegalStateException("No block mappings defined");
                 }
-                int xSize = depth.get(0)[0].length();
-                int ySize = depth.get(0).length;
-                int zSize = depth.size();
                 return new PlatformBlockStructure(
                         name,
                         type,
@@ -362,9 +375,5 @@ public final class PlatformBlockType {
 
         if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
         if (zSize % 16 != 0) throw new IllegalArgumentException("Z size must be multiple of 16");
-
-        if (xSize % zSize != 0 && zSize % xSize != 0) {
-            throw new IllegalArgumentException("Either X size must be multiple of Z size or vice versa");
-        }
     }
 }

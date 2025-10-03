@@ -238,8 +238,11 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.y", "Y: %s", "Y: %s");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.boundary", "边界范围: ", "Boundary Range: ");
 
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "储量: %s", "Reserves: %s");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.demand", "需求: %s", "Demand: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "储量: ", "Reserves: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.demand", "需求: ", "Demand: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.0", "基础: %s", "Basic: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.1", "扩展: %s", "Extended: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.2", "特种: %s", "Specialized: %s");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.loading", "§3[ 材料装载 ]§r", "§3[ Material Loading ]§r");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.unloading", "§3[ 材料卸载 ]§r", "§3[ Material Unloading ]§r");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.adequate", "材料充足", "Material adequate");
