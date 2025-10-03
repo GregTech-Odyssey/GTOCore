@@ -99,7 +99,7 @@ final class BiochemicalExtraction {
                 .save();
 
         BIOCHEMICAL_EXTRACTION_RECIPES.builder("feather")
-                .inputItems(Items.PARROT_SPAWN_EGG.asItem())
+                .notConsumable(Items.PARROT_SPAWN_EGG.asItem())
                 .outputItems(Items.FEATHER.asItem(), 4)
                 .EUt(30)
                 .duration(200)

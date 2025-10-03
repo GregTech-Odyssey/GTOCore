@@ -76,11 +76,13 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
 
     @Inject(method = "broadcastChanges", at = @At(value = "INVOKE", target = "Lappeng/menu/me/crafting/CraftingCPUMenu;sendPacketToClient(Lappeng/core/sync/BasePacket;)V", shift = At.Shift.AFTER, remap = false))
     private void gto$onBroadcastChanges(CallbackInfo ci) {
-        gto$lastCraftingResults = HashMultimap.create(((OptimizedCraftingCpuLogic) cpu.craftingLogic).getCraftingResults());
+        var logic = (OptimizedCraftingCpuLogic) cpu.craftingLogic;
+        gto$lastCraftingResults = HashMultimap.create(logic.getCraftingResults());
         ServerPlayer player = (ServerPlayer) getPlayer();
         MinecraftServer server = Objects.requireNonNull(player.getServer());
         ServerMessage.send(server, player, "craftMenuPushResults", (buf -> {
             buf.writeInt(containerId);
+            // results map
             buf.writeInt(gto$lastCraftingResults.keySet().size());
             gto$lastCraftingResults.asMap().forEach((key, results) -> {
                 AEKey.writeKey(buf, key);

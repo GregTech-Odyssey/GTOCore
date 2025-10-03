@@ -40,7 +40,6 @@ import com.gregtechceu.gtceu.common.data.*;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -574,8 +573,7 @@ public final class MultiBlockH {
                     .where('~', controller(blocks(definition.get())))
                     .build())
             .shapeInfos((controller) -> {
-                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
-                MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
+                var minBuilder = MultiblockShapeInfo.builder()
                         .aisle("ac~da")
                         .aisle("abbba")
                         .aisle("abbba")
@@ -586,30 +584,28 @@ public final class MultiBlockH {
                         .where('~', MultiBlockH.LARGE_STEAM_SOLAR_BOILER, Direction.NORTH)
                         .where('c', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.NORTH)
                         .where('d', GTMachines.FLUID_EXPORT_HATCH[GTValues.LV], Direction.NORTH);
-                shapeInfos.add(builder.build());
-                MultiblockShapeInfo.ShapeInfoBuilder builder2 = MultiblockShapeInfo.builder()
-                        .aisle("aaaaaac~daaaaaa")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("abbbbbbbbbbbbba")
-                        .aisle("aaaaaaaaaaaaaaa")
-                        .where('a', GTBlocks.STEEL_HULL)
-                        .where('b', GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING)
-                        .where('~', MultiBlockH.LARGE_STEAM_SOLAR_BOILER, Direction.NORTH)
-                        .where('c', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.NORTH)
-                        .where('d', GTMachines.FLUID_EXPORT_HATCH[GTValues.LV], Direction.NORTH);
-                shapeInfos.add(builder2.build());
-                return shapeInfos;
+                MultiblockShapeInfo minShape = minBuilder.build();
+                final int maxL = 63, maxR = 63, maxB = 125;
+                final int width = maxL + maxR + 1;
+                String controllerRowBuilder = "a".repeat(maxL) +
+                        '~' +
+                        "a".repeat(maxR);
+                StringBuilder middleRowBuilder = new StringBuilder(width);
+                middleRowBuilder.append('a');
+                middleRowBuilder.append("b".repeat(width - 2));
+                middleRowBuilder.append('a');
+                String boundaryRow = String.valueOf('a').repeat(width);
+                var maxBuilder = MultiblockShapeInfo.builder()
+                        .aisle(controllerRowBuilder);
+                for (int i = 0; i < maxB; i++) {
+                    maxBuilder.aisle(middleRowBuilder.toString());
+                }
+                maxBuilder.aisle(boundaryRow)
+                        .where('~', controller.getBlock())
+                        .where('a', GTBlocks.STEEL_HULL.get())
+                        .where('b', GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get());
+                MultiblockShapeInfo maxShape = maxBuilder.build();
+                return List.of(minShape, maxShape);
             })
             .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/multiblock_tank"))
             .register();

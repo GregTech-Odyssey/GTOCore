@@ -15,16 +15,14 @@ import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.CraftingLink;
 import appeng.crafting.execution.ElapsedTimeTracker;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 
 class ExecutingCraftingJob {
@@ -47,6 +45,14 @@ class ExecutingCraftingJob {
     long remainingAmount;
     Integer playerId;
 
+    final KeyCounter expectedOutputs = new KeyCounter();
+    final ReferenceOpenHashSet<AEKey> defsToPurge = new ReferenceOpenHashSet<>();
+    final Reference2LongOpenHashMap<AEKey> totalConsumed = new Reference2LongOpenHashMap<>();
+    final Reference2LongOpenHashMap<AEKey> currentConsumed = new Reference2LongOpenHashMap<>();
+    final ReferenceOpenHashSet<AEKey> purgeDefsLocal = new ReferenceOpenHashSet<>();
+
+    final Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations = new Reference2ObjectOpenHashMap<>();
+
     ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId, KeyCounter missingIng) {
         this(plan, changeListener, link, playerId);
         for (var what : missingIng.keySet()) {
@@ -56,10 +62,24 @@ class ExecutingCraftingJob {
         }
     }
 
-    ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
+    private ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
         this.finalOutput = plan.finalOutput();
         this.remainingAmount = this.finalOutput.amount();
         this.waitingFor = new ListCraftingInventory(changeListener);
+
+        if (plan instanceof ICraftingPlanAllocationAccessor accessor) {
+            var src = accessor.getGtocore$allocations();
+            if (src != null && !src.isEmpty()) {
+                src.reference2ObjectEntrySet().fastForEach(e -> {
+                    var map = new Object2LongOpenHashMap<IPatternDetails>();
+                    var inner = e.getValue();
+                    if (inner != null && !inner.isEmpty()) {
+                        map.putAll(inner);
+                    }
+                    this.allocations.put(e.getKey(), map);
+                });
+            }
+        }
 
         // Fill waiting for and tasks
         this.timeTracker = new ElapsedTimeTracker();
@@ -68,8 +88,7 @@ class ExecutingCraftingJob {
             waitingFor.insert(entry.getKey(), entry.getLongValue(), Actionable.MODULATE);
             tt.gtolib$addMaxItems(entry.getLongValue(), entry.getKey().getType());
         }
-        for (var it = ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastIterator(); it.hasNext();) {
-            var entry = it.next();
+        ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastForEach(entry -> {
             var key = entry.getKey();
             long value = entry.getLongValue();
             tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
@@ -77,7 +96,7 @@ class ExecutingCraftingJob {
                 var amount = output.amount() * value * output.what().getAmountPerUnit();
                 tt.gtolib$addMaxItems(amount, output.what().getType());
             }
-        }
+        });
         this.link = link;
         this.playerId = playerId;
     }
@@ -115,6 +134,29 @@ class ExecutingCraftingJob {
                 this.tasks.put(details, tp);
             }
         }
+
+        if (data.contains("allocations", Tag.TAG_LIST)) {
+            ListTag allocs = data.getList("allocations", Tag.TAG_COMPOUND);
+            for (int i = 0; i < allocs.size(); i++) {
+                CompoundTag alloc = allocs.getCompound(i);
+                AEKey itemKey = AEKey.fromTagGeneric(alloc.getCompound("item"));
+                if (itemKey == null) continue;
+                Object2LongOpenHashMap<IPatternDetails> patMap = new Object2LongOpenHashMap<>();
+                ListTag pats = alloc.getList("patterns", Tag.TAG_COMPOUND);
+                for (int j = 0; j < pats.size(); j++) {
+                    CompoundTag p = pats.getCompound(j);
+                    long quota = p.getLong("quota");
+                    var pdKey = AEItemKey.fromTag(p);
+                    var det = PatternDetailsHelper.decodePattern(pdKey, cpu.cluster.getLevel());
+                    if (det != null) {
+                        patMap.put(det, quota);
+                    }
+                }
+                if (!patMap.isEmpty()) {
+                    this.allocations.put(itemKey, patMap);
+                }
+            }
+        }
     }
 
     CompoundTag writeToNBT() {
@@ -130,8 +172,7 @@ class ExecutingCraftingJob {
         data.put(NBT_TIME_TRACKER, timeTracker.writeToNBT());
 
         final ListTag list = new ListTag();
-        for (ObjectIterator<Object2ObjectMap.Entry<IPatternDetails, LongHolder>> it = this.tasks.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
-            var e = it.next();
+        this.tasks.object2ObjectEntrySet().fastForEach(e -> {
             var details = e.getKey();
             var item = details.getDefinition().toTag();
             item.putLong(NBT_CRAFTING_PROGRESS, e.getValue().value);
@@ -139,8 +180,25 @@ class ExecutingCraftingJob {
                 item.putLong("parallel", parallelPatternDetails.getParallel());
             }
             list.add(item);
-        }
+        });
         data.put(NBT_TASKS, list);
+
+        ListTag allocs = new ListTag();
+        this.allocations.reference2ObjectEntrySet().fastForEach(e -> {
+            CompoundTag alloc = new CompoundTag();
+            alloc.put("item", e.getKey().toTagGeneric());
+            ListTag pats = new ListTag();
+            var map = e.getValue();
+            map.object2LongEntrySet().fastForEach(pe -> {
+                var details = pe.getKey();
+                var ptag = details.getDefinition().toTag();
+                ptag.putLong("quota", pe.getLongValue());
+                pats.add(ptag);
+            });
+            alloc.put("patterns", pats);
+            allocs.add(alloc);
+        });
+        data.put("allocations", allocs);
 
         data.putLong(NBT_REMAINING_AMOUNT, remainingAmount);
         if (this.playerId != null) {
