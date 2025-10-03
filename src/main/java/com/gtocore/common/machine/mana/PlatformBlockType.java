@@ -4,6 +4,8 @@ import net.minecraft.world.level.block.Block;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,37 +19,45 @@ import java.util.regex.Pattern;
 
 public final class PlatformBlockType {
 
-    /**
-     * 结构块类型
-     */
-    public enum BlockType {
-        CORE,
-        ROAD_X,
-        ROAD_Z,
-        ROAD_CROSS
-    }
-
     // ===================================================================
     // 单个平台结构（链式构建）
     // ===================================================================
     public static final class PlatformBlockStructure {
 
-        private final BlockType type;
+        private final String name; // 主键
+        private final String type;
+        @Nullable
+        private final String displayName;
+        @Nullable
+        private final String description;
+        @Nullable
+        private final String source;
+        private final boolean preview;
         private final List<String[]> depth; // Z -> Y -> X
         private final Char2ObjectMap<Block> blockMapping;
-        private final int materials;
+        private final Object2IntMap<String> materials;
         private final int xSize;
         private final int ySize;
         private final int zSize;
 
-        private PlatformBlockStructure(BlockType type,
+        private PlatformBlockStructure(String name,
+                                       String type,
+                                       @Nullable String displayName,
+                                       @Nullable String description,
+                                       @Nullable String source,
+                                       boolean preview,
                                        List<String[]> depth,
                                        Char2ObjectMap<Block> blockMapping,
-                                       int materials,
+                                       Object2IntMap<String> materials,
                                        int xSize,
                                        int ySize,
                                        int zSize) {
+            this.name = name;
             this.type = type;
+            this.displayName = displayName;
+            this.description = description;
+            this.source = source;
+            this.preview = preview;
             this.depth = depth;
             this.blockMapping = blockMapping;
             this.materials = materials;
@@ -56,12 +66,35 @@ public final class PlatformBlockType {
             this.zSize = zSize;
         }
 
-        public static Builder structure(BlockType type) {
-            return new Builder(type);
+        public static Builder structure(String name) {
+            return new Builder(name);
         }
 
-        public BlockType getType() {
+        public String getType() {
             return type;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        @Nullable
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        @Nullable
+        public String getDescription() {
+            return description;
+        }
+
+        @Nullable
+        public String getSource() {
+            return source;
+        }
+
+        public boolean getPreview() {
+            return preview;
         }
 
         public List<String[]> getDepth() {
@@ -72,7 +105,7 @@ public final class PlatformBlockType {
             return blockMapping;
         }
 
-        public int getMaterials() {
+        public Object2IntMap<String> getMaterials() {
             return materials;
         }
 
@@ -98,13 +131,43 @@ public final class PlatformBlockType {
 
         public static final class Builder {
 
-            private final BlockType type;
+            private final String name;
+            private String type;
+            private String displayName;
+            private String description;
+            private String source;
+            private boolean preview = false;
             private final List<String[]> depth = new ArrayList<>();
             private final Map<Character, Block> symbolMap = new HashMap<>();
-            private int materials = 0;
+            private final Object2IntMap<String> materials = new Object2IntOpenHashMap<>();
 
-            public Builder(BlockType type) {
+            public Builder(String name) {
+                this.name = name;
+            }
+
+            public Builder type(String type) {
                 this.type = type;
+                return this;
+            }
+
+            public Builder displayName(@Nullable String displayName) {
+                this.displayName = displayName;
+                return this;
+            }
+
+            public Builder description(@Nullable String description) {
+                this.description = description;
+                return this;
+            }
+
+            public Builder source(@Nullable String source) {
+                this.source = source;
+                return this;
+            }
+
+            public Builder preview(boolean preview) {
+                this.preview = preview;
+                return this;
             }
 
             public Builder aisle(String... rows) {
@@ -155,12 +218,15 @@ public final class PlatformBlockType {
                 return this;
             }
 
-            public Builder materials(int count) {
-                this.materials = count;
+            public Builder materials(String material, int count) {
+                this.materials.put(material, count);
                 return this;
             }
 
             public PlatformBlockStructure build() {
+                if (name == null || name.isEmpty()) {
+                    throw new IllegalStateException("Structure name must be defined (as primary key)");
+                }
                 validateStructure(depth);
                 if (symbolMap.isEmpty()) {
                     throw new IllegalStateException("No block mappings defined");
@@ -169,7 +235,12 @@ public final class PlatformBlockType {
                 int ySize = depth.get(0).length;
                 int zSize = depth.size();
                 return new PlatformBlockStructure(
+                        name,
                         type,
+                        displayName,
+                        description,
+                        source,
+                        preview,
                         depth,
                         new Char2ObjectOpenHashMap<>(symbolMap),
                         materials,
@@ -181,7 +252,7 @@ public final class PlatformBlockType {
     }
 
     // ===================================================================
-    // 平台预设组（链式构建）
+    // 平台预设组（按 name 主键管理）
     // ===================================================================
     public static final class PlatformPreset {
 
@@ -228,13 +299,6 @@ public final class PlatformBlockType {
 
         public List<PlatformBlockStructure> getStructures() {
             return structures;
-        }
-
-        public PlatformBlockStructure getStructure(BlockType type) {
-            for (PlatformBlockStructure s : structures) {
-                if (s.getType() == type) return s;
-            }
-            return null;
         }
 
         public static final class PresetBuilder {
@@ -285,11 +349,11 @@ public final class PlatformBlockType {
         int xSize = depth.get(0)[0].length();
         int zSize = depth.size();
 
-        for (String[] Aisle : depth) {
-            if (Aisle == null || Aisle.length != ySize) {
+        for (String[] aisle : depth) {
+            if (aisle == null || aisle.length != ySize) {
                 throw new IllegalArgumentException("All aisles must have the same height (y size)");
             }
-            for (String row : Aisle) {
+            for (String row : aisle) {
                 if (row == null || row.length() != xSize) {
                     throw new IllegalArgumentException("All rows must have the same width (x size)");
                 }

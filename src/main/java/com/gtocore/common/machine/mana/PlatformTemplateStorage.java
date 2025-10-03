@@ -12,42 +12,50 @@ public class PlatformTemplateStorage {
     private static final List<PlatformPreset> presets = new ArrayList<>();
 
     static {
-        PlatformBlockStructure core = PlatformBlockStructure.structure(BlockType.CORE)
+        PlatformBlockStructure core = PlatformBlockStructure.structure("core")
+                .type("方块")
+                .displayName("一个方块")
+                .description("这是一个方块")
+                .source("maple")
+                .preview(true)
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('C', Blocks.COBBLESTONE)
-                .materials(256)
+                .materials("common", 256)
                 .build();
 
         // 从文件加载X方向道路
-        PlatformBlockStructure roadX = PlatformBlockStructure.structure(BlockType.ROAD_X)
+        PlatformBlockStructure roadX = PlatformBlockStructure.structure("roadX")
+                .preview(true)
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
-                .materials(256)
+                .materials("common", 256)
                 .build();
 
         // 从文件加载Z方向道路
-        PlatformBlockStructure roadZ = PlatformBlockStructure.structure(BlockType.ROAD_Z)
+        PlatformBlockStructure roadZ = PlatformBlockStructure.structure("roadZ")
+                .preview(true)
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
-                .materials(256)
+                .materials("common", 256)
                 .build();
 
         // 从文件加载十字路口
-        PlatformBlockStructure cross = PlatformBlockStructure.structure(BlockType.ROAD_CROSS)
+        PlatformBlockStructure cross = PlatformBlockStructure.structure("cross")
+                .preview(false)
                 .addAisleFromResource("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
-                .materials(256)
+                .materials("common", 256)
                 .build();
 
         // 注册预设
         presets.add(
                 PlatformPreset.preset("cobblestone_single")
-                        .displayName("gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_single.name")
-                        .description("gtocore.machine.industrial_platform_deployment_tools.preset.cobblestone_single.desc")
-                        .source("vanilla")
+                        .displayName("一些方块")
+                        .description("这是一些方块")
+                        .source("maple")
                         .addStructure(core)
                         .build());
 

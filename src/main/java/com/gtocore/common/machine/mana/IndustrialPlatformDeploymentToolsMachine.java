@@ -24,7 +24,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
@@ -47,13 +46,13 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
-    private final Map<String, PlatformBlockType.PlatformPreset> presetMap = new HashMap<>();
-    private final List<String> presetNames = new ArrayList<>();
+    private final List<PlatformBlockType.PlatformPreset> presets = PlatformTemplateStorage.initializePresets();
+    private final int maxGroup;
 
     public IndustrialPlatformDeploymentToolsMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 9, IO.NONE, IO.BOTH);
-        initializePresets();
+        maxGroup = presets.size();
     }
 
     @Override
@@ -66,33 +65,11 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     public void onLoad() {
         super.onLoad();
         inventory.notifyListeners();
-        BlockPos pos = getPos();
-        Level level = getLevel();
-        if (level != null) {
-            centerX = pos.getX() >> 4;
-            centerZ = pos.getZ() >> 4;
-            centerY = pos.getY();
-        }
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        presetMap.clear();
-    }
-
-    /**
-     * 初始化预设模板
-     */
-    private void initializePresets() {
-        List<PlatformBlockType.PlatformPreset> presets = PlatformTemplateStorage.initializePresets();
-        for (PlatformBlockType.PlatformPreset preset : presets) {
-            presetMap.put(preset.getName(), preset);
-        }
-        presetNames.addAll(presetMap.keySet());
-        if (!presetNames.isEmpty()) {
-            checkGroup = 0;
-        }
     }
 
     /////////////////////////////////////
@@ -136,19 +113,6 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     private int saveId = 0;
 
     // ------------------- 第二步：选择偏移 -------------------
-    // 是否已完成偏移配置
-    @Persisted
-    private boolean offsetConfirm = false;
-    // X中心区块坐标
-    @Persisted
-    private int centerX = 0;
-    // Z中心区块坐标
-    @Persisted
-    private int centerZ = 0;
-    // Y中心坐标
-    @Persisted
-    private int centerY = 0;
-
     // X方向区块偏移
     @Persisted
     private int offsetX = 0;
@@ -172,18 +136,15 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
     @Persisted
-    private int materialInventory = 0;
+    private int[] materialInventory = new int[] { 0, 0, 0, 0, 0, 0 };
 
-    // 定义物品与价值的映射关系
-    private static final Map<Item, Integer> ITEM_VALUE_MAP;
+    private static final String[] RARITIES = { "common", "uncommon", "rare", "epic", "mythic", "ancient" };
 
-    static {
-        ITEM_VALUE_MAP = new LinkedHashMap<>();
-        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_MAINFRAME.asItem(), 5000);
-        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_COMPUTER.asItem(), 2000);
-        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_ASSEMBLY.asItem(), 500);
-        ITEM_VALUE_MAP.put(GTOItems.BIOWARE_PROCESSOR.asItem(), 200);
-    }
+    private static final Map<Item, Integer> ITEM_VALUE_MAP = Map.of(
+            GTOItems.BIOWARE_MAINFRAME.asItem(), 5000,
+            GTOItems.BIOWARE_COMPUTER.asItem(), 2000,
+            GTOItems.BIOWARE_ASSEMBLY.asItem(), 500,
+            GTOItems.BIOWARE_PROCESSOR.asItem(), 200);
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
@@ -207,30 +168,28 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
             WidgetGroup group_title = new DraggableScrollableWidgetGroup(4, 4, totalLangWidth, 160)
                     .setBackground(GuiTextures.DISPLAY);
             group_title.addWidget(new ComponentPanelWidget(4, 5, this::addDisplayTextTitle));
-            group_title.addWidget(new ComponentPanelWidget(235, 17, this::addDisplayTextStep)
-                    .clickHandler(this::handleDisplayClickStep));
             group.addWidget(group_title);
         }
 
         // 主页
         {
-            WidgetGroup group_Text2 = new DraggableScrollableWidgetGroup(4, 30, totalLangWidth, 134);
+            WidgetGroup group_Text2 = new DraggableScrollableWidgetGroup(4, 18, totalLangWidth, 146);
             group_Text2.addWidget(new ComponentPanelWidget(4, 0, this::addDisplayText2)
                     .clickHandler(this::handleDisplayClickText2)
                     .setMaxWidthLimit(langWidth));
             group.addWidget(group_Text2);
 
-            WidgetGroup group_1 = new DraggableScrollableWidgetGroup(4, 30, totalLangWidth, 134);
+            WidgetGroup group_1 = new DraggableScrollableWidgetGroup(4, 18, totalLangWidth, 146);
             group_1.addWidget(new ComponentPanelWidget(4, 0, this::addDisplayText1)
                     .clickHandler(this::handleDisplayClick1)
                     .setMaxWidthLimit(langWidth));
             group.addWidget(group_1);
 
-            WidgetGroup group_Text0 = new DraggableScrollableWidgetGroup(4, 30, totalLangWidth, 134);
+            WidgetGroup group_Text0 = new DraggableScrollableWidgetGroup(4, 18, totalLangWidth, 146);
             group_Text0.addWidget(new ComponentPanelWidget(4, 0, this::addDisplayText0)
                     .clickHandler(this::handleDisplayClickText1)
                     .setMaxWidthLimit(langWidth));
-            group_Text0.addWidget(new ImageWidget(166, 34, 100, 100, this::getIGuiTexture));
+            group_Text0.addWidget(new ImageWidget(166, 46, 100, 100, this::getIGuiTexture));
             group.addWidget(group_Text0);
         }
 
@@ -238,7 +197,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         {
             WidgetGroup group_start = new DraggableScrollableWidgetGroup(271, 4, 54, 105)
                     .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
-
+            group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
+                    .clickHandler(this::handleDisplayClickStep));
             group.addWidget(group_start);
         }
 
@@ -270,7 +230,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         for (int i = 0; i <= totalStep; i++) {
             if (step == i)
                 result.append(ComponentPanelWidget.withButton(Component.literal("§b⭕§r"), "step_" + i));
-            else result.append(ComponentPanelWidget.withButton(Component.literal("⭕"), "step_" + i));
+            else result.append(ComponentPanelWidget.withButton(Component.literal("§1⭕§r"), "step_" + i));
         }
         textList.add(result);
     }
@@ -287,9 +247,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         if (step == Introduction) GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsIntroduction().apply(textList);
 
         if (step != PresetSelection) return;
-        int totalGroups = presetNames.size();
         textList.add(createPageNavigation(langWidth,
-                createPageNavigation(langWidth - 60, Component.literal("<" + (checkGroup + 1) + "/" + totalGroups + ">"), "group"),
+                createPageNavigation(langWidth - 60, Component.literal("<" + (checkGroup + 1) + "/" + maxGroup + ">"), "group"),
                 "group_plas"));
 
         int totalIds = getPlatformPreset(checkGroup).getStructures().size();
@@ -302,30 +261,47 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
                 presetConfirm ?
                         Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.selected", saveGroup + 1, saveId + 1) :
                         Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+        {
+            String displayName = getPlatformPreset(checkGroup).getDisplayName();
+            String description = getPlatformPreset(checkGroup).getDescription();
+            String source = getPlatformPreset(checkGroup).getSource();
+            if (displayName != null) textList.add(Component.translatable(displayName));
+            if (description != null) textList.add(Component.translatable(description));
+            if (source != null) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.source", source));
+        }
+        {
+            String displayName = getPlatformBlockStructure(checkGroup, checkId).getDisplayName();
+            String type = getPlatformBlockStructure(checkGroup, checkId).getType();
+            String description = getPlatformBlockStructure(checkGroup, checkId).getDescription();
+            String source = getPlatformBlockStructure(checkGroup, checkId).getSource();
+            if (displayName != null) textList.add(Component.translatable(displayName));
+            if (type != null) textList.add(Component.translatable(type));
+            if (description != null) textList.add(Component.translatable(description));
+            if (source != null) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.source", source));
+        }
     }
 
     private void handleDisplayClickText1(String componentData, ClickData clickData) {
         if (step != PresetSelection) return;
         if (!ensurePresetsReady()) return;
 
-        int maxGroup = presetNames.size() - 1;
         int maxId = getPlatformPreset(checkGroup).getStructures().size() - 1;
 
         switch (componentData) {
             case "next_group" -> {
-                checkGroup = Mth.clamp(checkGroup + 1, 0, maxGroup);
+                checkGroup = Mth.clamp(checkGroup + 1, 0, maxGroup - 1);
                 checkId = 0;
             }
             case "previous_group" -> {
-                checkGroup = Mth.clamp(checkGroup - 1, 0, maxGroup);
+                checkGroup = Mth.clamp(checkGroup - 1, 0, maxGroup - 1);
                 checkId = 0;
             }
             case "next_group_plas" -> {
-                checkGroup = Mth.clamp(checkGroup + 10, 0, maxGroup);
+                checkGroup = Mth.clamp(checkGroup + 10, 0, maxGroup - 1);
                 checkId = 0;
             }
             case "previous_group_plas" -> {
-                checkGroup = Mth.clamp(checkGroup - 10, 0, maxGroup);
+                checkGroup = Mth.clamp(checkGroup - 10, 0, maxGroup - 1);
                 checkId = 0;
             }
 
@@ -344,7 +320,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
     private IGuiTexture getIGuiTexture() {
         if (step == PresetSelection && ensurePresetsReady()) {
-            String pngs = presetNames.get(checkGroup) + "_" + checkId + ".png";
+            if (!getPlatformBlockStructure(checkGroup, checkId).getPreview()) return IGuiTexture.EMPTY;
+            String pngs = getPlatformPreset(checkGroup).getName() + "/" + getPlatformBlockStructure(checkGroup, checkId).getName() + ".png";
             ResourceLocation imageLocation = GTOCore.id("textures/gui/industrial_platform_deployment_tools/" + pngs);
             return new ResourceTexture(imageLocation);
         }
@@ -352,8 +329,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     }
 
     private boolean ensurePresetsReady() {
-        if (presetMap.isEmpty() || presetNames.isEmpty()) return false;
-        checkGroup = Mth.clamp(checkGroup, 0, presetNames.size() - 1);
+        if (maxGroup == 0) return false;
+        checkGroup = Mth.clamp(checkGroup, 0, maxGroup - 1);
         PlatformBlockType.PlatformPreset preset = getPlatformPreset(checkGroup);
         if (preset.getStructures().isEmpty()) return false;
         checkId = Mth.clamp(checkId, 0, preset.getStructures().size() - 1);
@@ -367,12 +344,12 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         textList.add(createEqualColumns(langWidth,
                 ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.loading"), "loading"),
                 ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.unloading"), "unloading")));
-        textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves", materialInventory).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves", materialInventory[0]).withStyle(ChatFormatting.AQUA));
 
         if (presetConfirm) {
-            int costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
-            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand", materialInventory));
-            if (materialInventory > costMaterial) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
+            int costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials().getInt("common");
+            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand", materialInventory[0]));
+            if (materialInventory[0] >= costMaterial) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
             else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
         } else {
             textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
@@ -433,24 +410,29 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         textList.add(empty);
 
         if (presetConfirm) {
-            int maxChunkX = centerX + offsetX;
-            int maxChunkZ = centerZ + offsetZ;
-            int minChunkX = maxChunkX - 3;
-            int minChunkZ = maxChunkZ - 3;
+            BlockPos pos = getPos();
+            int maxChunkX = pos.getX() >> 4 + offsetX;
+            int maxChunkZ = pos.getZ() >> 4 + offsetZ;
+            int minChunkX = maxChunkX - getPlatformBlockStructure(saveGroup, saveId).getXSize();
+            int minChunkZ = maxChunkZ - getPlatformBlockStructure(saveGroup, saveId).getZSize();
 
             int minX = minChunkX << 4;
             int maxX = (maxChunkX << 4) + 15;
             int minZ = minChunkZ << 4;
             int maxZ = (maxChunkZ << 4) + 15;
 
-            Component coordinate_1 = Component.literal("(" + minX + "," + (centerY + offsetY) + "," + maxZ + ")");
-            Component coordinate_2 = Component.literal("(" + maxX + "," + (centerY + offsetY) + "," + maxZ + ")");
-            Component coordinate_3 = Component.literal("(" + minX + "," + (centerY + offsetY) + "," + minZ + ")");
-            Component coordinate_4 = Component.literal("(" + maxX + "," + (centerY + offsetY) + "," + minZ + ")");
+            int minY = pos.getY() + offsetY;
+            int maxY = minY + getPlatformBlockStructure(saveGroup, saveId).getYSize();
 
-            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.coordinate"));
-            textList.add(createEqualColumns(langWidth, coordinate_1, coordinate_2));
-            textList.add(createEqualColumns(langWidth, coordinate_3, coordinate_4));
+            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.boundary"));
+
+            Component x_max = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", maxX);
+            Component z_max = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", maxZ);
+            Component y_max = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", maxY);
+
+            textList.add(createEqualColumns(langWidth, x_max, Component.literal(String.valueOf(minX))));
+            textList.add(createEqualColumns(langWidth, y_max, Component.literal(String.valueOf(minY))));
+            textList.add(createEqualColumns(langWidth, z_max, Component.literal(String.valueOf(minZ))));
         } else {
             textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
         }
@@ -545,7 +527,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     /////////////////////////////////////
 
     private PlatformBlockType.PlatformPreset getPlatformPreset(int group) {
-        return presetMap.get(presetNames.get(group));
+        return presets.get(group);
     }
 
     private PlatformBlockType.PlatformBlockStructure getPlatformBlockStructure(int group, int id) {
@@ -558,7 +540,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
             if (!stack.isEmpty()) {
                 Integer value = ITEM_VALUE_MAP.get(stack.getItem());
                 if (value != null) {
-                    materialInventory += value * stack.getCount();
+                    materialInventory[0] += value * stack.getCount();
                     inventory.setStackInSlot(i, ItemStack.EMPTY);
                 }
             }
@@ -569,10 +551,10 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         for (int i = 0; i < inventory.getSlots(); i++) {
             if (inventory.getStackInSlot(i).isEmpty()) {
                 for (Map.Entry<Item, Integer> entry : ITEM_VALUE_MAP.entrySet()) {
-                    int count = Math.min(materialInventory / entry.getValue(), 64);
+                    int count = Math.min(materialInventory[1] / entry.getValue(), 64);
                     if (count > 0) {
                         inventory.setStackInSlot(i, new ItemStack(entry.getKey(), count));
-                        materialInventory -= entry.getValue() * count;
+                        materialInventory[0] -= entry.getValue() * count;
                         break;
                     }
                 }
