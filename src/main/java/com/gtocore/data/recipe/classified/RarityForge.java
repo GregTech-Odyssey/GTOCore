@@ -3,12 +3,18 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gtocore.common.data.GTORecipeCategories;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.Gem;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemItem;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
+import dev.shadowsoffire.placebo.reload.DynamicHolder;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEItems;
@@ -140,6 +146,7 @@ final class RarityForge {
                         .circuitMeta(j + 1)
                         .EUt(VA[i + 3])
                         .duration(200)
+                        .category(GTORecipeCategories.RARITY_FORGE_RECIPES_GEM_UPGRADE)
                         .supportFast(false)
                         .save();
             }
