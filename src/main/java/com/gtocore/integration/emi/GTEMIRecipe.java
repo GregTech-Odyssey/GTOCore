@@ -1,13 +1,12 @@
 package com.gtocore.integration.emi;
 
-import com.gtocore.common.data.GTORecipes;
-
 import com.gtolib.api.recipe.ContentBuilder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
@@ -40,21 +39,25 @@ import dev.emi.emi.api.stack.TagEmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.IntSupplier;
 
 public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
+
+    private static final Map<GTRecipeType, Widget> EMI_RECIPE_WIDGETS = new Reference2ReferenceOpenHashMap<>();
 
     private final EmiRecipeCategory category;
     private final Recipe recipe;
     public final IntSupplier displayPriority;
 
     public GTEMIRecipe(Recipe recipe, EmiRecipeCategory category) {
-        super(() -> GTORecipes.EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, type.getRecipeUI().getJEISize().height)));
+        super(() -> EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, type.getRecipeUI().getJEISize().height)));
         this.recipe = recipe;
         this.category = category;
         displayPriority = () -> recipe.displayPriority;

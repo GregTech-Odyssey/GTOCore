@@ -21,7 +21,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
@@ -35,8 +34,8 @@ final class PrecisionAssembler {
     public static void init() {
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("dyson_receiver_casing")
                 .inputItems("gtceu:uiv_charger_4x")
-                .inputItems(GTOItems.PM_CHIP.asStack(2))
-                .inputItems(GTOItems.UIV_VOLTAGE_COIL.asStack(4))
+                .inputItems(GTOItems.PM_CHIP.asItem(), 2)
+                .inputItems(GTOItems.UIV_VOLTAGE_COIL.asItem(), 4)
                 .inputItems(TagPrefix.wireGtQuadruple, GTOMaterials.Echoite)
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(1296))
                 .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), 576))
@@ -50,8 +49,8 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("reinforced_echo_shard")
                 .inputItems(TagPrefix.plate, GTMaterials.EchoShard, 4)
-                .inputItems(new ItemStack(DDItems.SCULK_BONE.get(), 4))
-                .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem(), 2))
+                .inputItems(DDItems.SCULK_BONE.get(), 4)
+                .inputItems(Items.NETHERITE_SCRAP.asItem(), 2)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Echoite)
                 .inputFluids(GTOMaterials.LiquidHydrogen.getFluid(8000))
                 .inputFluids(GTOMaterials.Echoite.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -62,9 +61,9 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("power_core")
-                .inputItems(GTOBlocks.SPACE_ELEVATOR_POWER_MODULE_1.asStack(4))
-                .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(8))
-                .inputItems(GTItems.GRAVITATION_ENGINE.asStack(64))
+                .inputItems(GTOBlocks.SPACE_ELEVATOR_POWER_MODULE_1.asItem(), 4)
+                .inputItems(GTItems.FIELD_GENERATOR_UV.asItem(), 8)
+                .inputItems(GTItems.GRAVITATION_ENGINE.asItem(), 64)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Naquadria, 16)
                 .inputFluids(GTMaterials.Rhodium.getFluid(2880))
                 .inputFluids(GTMaterials.Americium.getFluid(2880))
@@ -89,9 +88,9 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("infinity_antimatter_fuel_rod")
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
                 .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asItem())
                 .inputFluids(GTOMaterials.LiquidHydrogen.getFluid(200000))
                 .inputFluids(GTOMaterials.HeavyQuarkDegenerateMatter.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -104,15 +103,15 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("uv_kuangbiao_one_giant_nuclear_fusion_reactor")
-                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.UV].getItem(), 16)
+                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.UV].asItem(), 16)
                 .inputItems(GTOBlocks.ADVANCED_COMPRESSED_FUSION_COIL.asItem())
-                .inputItems(GTOItems.HUI_CIRCUIT_3.asStack(16))
+                .inputItems(GTOItems.HUI_CIRCUIT_3.asItem(), 16)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Americium, 16)
                 .inputFluids(GTMaterials.YttriumBariumCuprate.getFluid(864))
                 .inputFluids(GTOMaterials.Indalloy140.getFluid(1152))
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(2304))
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
-                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV].getItem())
+                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV].asItem())
                 .EUt(491520)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -120,7 +119,7 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("bedrock_drill")
                 .inputItems(DDItems.REINFORCED_ECHO_SHARD.get())
-                .inputItems(new ItemStack(Blocks.BEDROCK.asItem()))
+                .inputItems(Blocks.BEDROCK.asItem())
                 .inputItems(TagPrefix.toolHeadBuzzSaw, GTMaterials.Neutronium)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Neutronium, 4)
                 .inputFluids(GTMaterials.Rhodium.getFluid(576))
@@ -135,38 +134,38 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("dyson_swarm_module")
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched, 16)
-                .inputItems(GTItems.COVER_SOLAR_PANEL.asStack(64))
+                .inputItems(GTItems.COVER_SOLAR_PANEL.asItem(), 64)
                 .inputItems(GTItems.SENSOR_UEV.asItem())
                 .inputItems(GTItems.EMITTER_UEV.asItem())
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(20000))
                 .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), 20000))
                 .inputFluids(GTMaterials.Neutronium.getFluid(18432))
                 .inputFluids(GTOMaterials.Orichalcum.getFluid(18432))
-                .outputItems(GTOItems.DYSON_SWARM_MODULE.asStack(64))
+                .outputItems(GTOItems.DYSON_SWARM_MODULE.asItem(), 64)
                 .EUt(31457280)
                 .duration(800)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("luv_kuangbiao_one_giant_nuclear_fusion_reactor")
-                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getItem(), 16)
+                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].asItem(), 16)
                 .inputItems(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.asItem())
-                .inputItems(GTOItems.HUI_CIRCUIT_1.asStack(16))
+                .inputItems(GTOItems.HUI_CIRCUIT_1.asItem(), 16)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Osmiridium, 16)
                 .inputFluids(GTMaterials.NiobiumTitanium.getFluid(864))
                 .inputFluids(GTOMaterials.Indalloy140.getFluid(1152))
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(2304))
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
-                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getItem())
+                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].asItem())
                 .EUt(30720)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("cosmic_neutronium_antimatter_fuel_rod")
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
                 .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asItem())
                 .inputFluids(GTOMaterials.LiquidHydrogen.getFluid(200000))
                 .inputFluids(GTOMaterials.Radox.getFluid(100))
@@ -195,7 +194,7 @@ final class PrecisionAssembler {
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("hui_circuit_2")
                 .inputItems(GTOItems.HUI_CIRCUIT_1.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.BlueTopaz, 8)
-                .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(16))
+                .inputItems(GTItems.NAND_MEMORY_CHIP.asItem(), 16)
                 .inputItems(TagPrefix.wireGtSingle, GTMaterials.Platinum, 8)
                 .inputFluids(GTMaterials.Polyethylene.getFluid(288))
                 .inputFluids(GTMaterials.Vanadium.getFluid(288))
@@ -225,7 +224,7 @@ final class PrecisionAssembler {
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("hui_circuit_4")
                 .inputItems(GTOItems.HUI_CIRCUIT_3.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.GarnetRed, 8)
-                .inputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT.asStack(16))
+                .inputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT.asItem(), 16)
                 .inputItems(TagPrefix.wireGtSingle, GTMaterials.VanadiumGallium, 8)
                 .inputFluids(GTMaterials.Polytetrafluoroethylene.getFluid(288))
                 .inputFluids(GTMaterials.Lutetium.getFluid(288))
@@ -238,7 +237,7 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("topological_manipulator_unit")
-                .inputItems(GTOItems.QUANTUMCHROMODYNAMIC_PROTECTIVE_PLATING.asStack(2))
+                .inputItems(GTOItems.QUANTUMCHROMODYNAMIC_PROTECTIVE_PLATING.asItem(), 2)
                 .inputItems(GTOItems.CONTAINED_KERR_NEWMANN_SINGULARITY.asItem())
                 .inputItems(GTOItems.MICROWORMHOLE_GENERATOR.asItem())
                 .inputItems(GTItems.FIELD_GENERATOR_UHV.asItem())
@@ -268,15 +267,15 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("uev_kuangbiao_one_giant_nuclear_fusion_reactor")
-                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UEV].getItem(), 16)
+                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UEV].asItem(), 16)
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2.asItem())
-                .inputItems(GTOItems.HUI_CIRCUIT_5.asStack(16))
+                .inputItems(GTOItems.HUI_CIRCUIT_5.asItem(), 16)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Seaborgium, 16)
                 .inputFluids(GTOMaterials.Mithril.getFluid(864))
                 .inputFluids(GTOMaterials.Indalloy140.getFluid(1152))
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(2304))
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
-                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV].getItem())
+                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV].asItem())
                 .EUt(7864320)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -298,15 +297,15 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("uhv_kuangbiao_one_giant_nuclear_fusion_reactor")
-                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UHV].getItem(), 16)
+                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UHV].asItem(), 16)
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2_PROTOTYPE.asItem())
-                .inputItems(GTOItems.HUI_CIRCUIT_4.asStack(16))
+                .inputItems(GTOItems.HUI_CIRCUIT_4.asItem(), 16)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Orichalcum, 16)
                 .inputFluids(GTMaterials.Europium.getFluid(864))
                 .inputFluids(GTOMaterials.Indalloy140.getFluid(1152))
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(2304))
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
-                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV].getItem())
+                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV].asItem())
                 .EUt(1966080)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -369,7 +368,7 @@ final class PrecisionAssembler {
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("improved_superconductor_coil")
                 .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asItem())
                 .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.Duranium, 2)
-                .inputItems(GTOItems.SPECIAL_CERAMICS.asStack(2))
+                .inputItems(GTOItems.SPECIAL_CERAMICS.asItem(), 2)
                 .inputItems(GTOItems.HUI_CIRCUIT_1.asItem())
                 .inputFluids(GTOMaterials.MarM200Steel.getFluid(1152))
                 .inputFluids(GTMaterials.Europium.getFluid(144))
@@ -381,7 +380,7 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("cosmic_processing_unit_core")
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HeavyQuarkDegenerateMatter, 6)
-                .inputItems(GTOItems.SIMPLE_COSMIC_SOC.asStack(4))
+                .inputItems(GTOItems.SIMPLE_COSMIC_SOC.asItem(), 4)
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium, 3)
                 .inputItems(GTOItems.EMPTY_LASER_COOLING_CONTAINER.asItem())
                 .inputFluids(GTOMaterials.CosmicComputingMixture.getFluid(1000))
@@ -396,7 +395,7 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("annihilation_constrainer")
                 .inputItems(GTOItems.HYPERCUBE.asItem())
-                .inputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asStack(8))
+                .inputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asItem(), 8)
                 .inputItems(CustomTags.UXV_CIRCUITS, 4)
                 .inputItems(TagPrefix.foil, GTOMaterials.CosmicNeutronium, 16)
                 .inputFluids(GTOMaterials.Cinobite.getFluid(1152))
@@ -409,8 +408,8 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("machine_casing_grinding_head")
                 .inputItems(TagPrefix.frameGt, GTMaterials.Europium)
-                .inputItems(new ItemStack(DDItems.REINFORCED_ECHO_SHARD.get(), 8))
-                .inputItems(GTItems.COMPONENT_GRINDER_TUNGSTEN.asStack(6))
+                .inputItems(DDItems.REINFORCED_ECHO_SHARD.get(), 8)
+                .inputItems(GTItems.COMPONENT_GRINDER_TUNGSTEN.asItem(), 6)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HSSE, 36)
                 .inputFluids(GTMaterials.AnnealedCopper.getFluid(1440))
                 .inputFluids(GTMaterials.Invar.getFluid(1440))
@@ -423,8 +422,8 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("draconium_antimatter_fuel_rod")
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
                 .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asItem())
                 .inputFluids(GTOMaterials.LiquidHydrogen.getFluid(200000))
                 .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp.getFluid(100))
@@ -436,22 +435,22 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("zpm_kuangbiao_one_giant_nuclear_fusion_reactor")
-                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.ZPM].getItem(), 16)
+                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.ZPM].asItem(), 16)
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL.asItem())
-                .inputItems(GTOItems.HUI_CIRCUIT_2.asStack(16))
+                .inputItems(GTOItems.HUI_CIRCUIT_2.asItem(), 16)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Europium, 16)
                 .inputFluids(GTMaterials.VanadiumGallium.getFluid(864))
                 .inputFluids(GTOMaterials.Indalloy140.getFluid(1152))
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(2304))
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
-                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM].getItem())
+                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM].asItem())
                 .EUt(122880)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("neutronium_antimatter_fuel_rod")
-                .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
+                .inputItems(GTOItems.PELLET_ANTIMATTER.asItem(), 64)
                 .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asItem())
                 .inputFluids(GTOMaterials.LiquidHydrogen.getFluid(200000))
                 .inputFluids(GTOMaterials.Zylon.getFluid(100))
@@ -476,7 +475,7 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("closed_timelike_curve_guidance_unit")
-                .inputItems(GTOItems.COSMIC_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.COSMIC_RAM_CHIP.asItem(), 64)
                 .inputItems(GTOItems.SUPRACAUSAL_PROCESSING_CORE.asItem())
                 .inputItems(GTOItems.OBSIDIAN_MATRIX.asItem())
                 .inputItems(GTOItems.NUCLEAR_CLOCK.asItem())
@@ -492,7 +491,7 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("bioware_boule")
                 .inputItems(GTItems.NEUTRONIUM_WAFER.asItem())
-                .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(16))
+                .inputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 16)
                 .inputItems(TagPrefix.dustSmall, GTMaterials.Actinium)
                 .inputItems(TagPrefix.dustSmall, GTMaterials.Strontium)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
@@ -517,11 +516,11 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("magnetic_fluid_generator")
-                .inputItems(GTOBlocks.PLASMA_HEATER_CASING.asStack(32))
-                .inputItems(GTMachines.POLARIZER[GTValues.LuV].asStack(8))
+                .inputItems(GTOBlocks.PLASMA_HEATER_CASING.asItem(), 32)
+                .inputItems(GTMachines.POLARIZER[GTValues.LuV].asItem(), 8)
                 .inputItems(TagPrefix.wireGtOctal, GTMaterials.SamariumIronArsenicOxide, 32)
                 .inputItems(TagPrefix.rodLong, GTMaterials.RhodiumPlatedPalladium, 16)
-                .outputItems(GeneratorMultiblock.MAGNETIC_FLUID_GENERATOR.getItem())
+                .outputItems(GeneratorMultiblock.MAGNETIC_FLUID_GENERATOR.asItem())
                 .inputFluids(GTMaterials.Trinium.getFluid(2304))
                 .inputFluids(GTMaterials.RedSteel.getFluid(2304))
                 .inputFluids(GTMaterials.Praseodymium.getFluid(2304))
@@ -531,8 +530,8 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("guardian_diode")
-                .inputItems(new ItemStack(Items.PRISMARINE_CRYSTALS.asItem(), 4))
-                .inputItems(GTItems.SMD_DIODE.asStack(4))
+                .inputItems(Items.PRISMARINE_CRYSTALS.asItem(), 4)
+                .inputItems(GTItems.SMD_DIODE.asItem(), 4)
                 .inputItems(TagPrefix.wireGtSingle, GTOMaterials.EnergeticAlloy, 2)
                 .inputItems(TagPrefix.wireFine, GTMaterials.TungstenSteel, 8)
                 .outputItems("enderio:guardian_diode")
@@ -543,7 +542,7 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("wetware_soc")
-                .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack())
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asItem())
                 .inputItems(GTOItems.SUPER_CEREBRUM.asItem())
                 .inputItems(TagPrefix.dust, GTOMaterials.Shewanella, 2)
                 .inputItems(TagPrefix.foil, GTMaterials.Tritanium, 4)
@@ -593,8 +592,8 @@ final class PrecisionAssembler {
         PRECISION_ASSEMBLER_RECIPES.builder("z_logic_controller")
                 .inputItems("enderio:zombie_electrode", 4)
                 .inputItems("enderio:prescient_crystal", 2)
-                .inputItems(GTItems.SENSOR_IV.asStack())
-                .inputItems(GTItems.ADVANCED_SMD_DIODE.asStack(8))
+                .inputItems(GTItems.SENSOR_IV.asItem())
+                .inputItems(GTItems.ADVANCED_SMD_DIODE.asItem(), 8)
                 .outputItems("enderio:z_logic_controller")
                 .inputFluids(GTOMaterials.TriniumTitanium, 400)
                 .inputFluids(GTOMaterials.HastelloyN, 400)

@@ -144,7 +144,7 @@ final class ChemicaRreactor {
 
         CHEMICAL_RECIPES.recipeBuilder("coated_board")
                 .inputItems(TagPrefix.plate, GTMaterials.Wood)
-                .inputItems(GTItems.STICKY_RESIN.asStack(2))
+                .inputItems(GTItems.STICKY_RESIN.asItem(), 2)
                 .outputItems(GTItems.COATED_BOARD.asItem())
                 .inputFluids(GTMaterials.Oxygen.getFluid(100))
                 .EUt(7)
@@ -1672,7 +1672,7 @@ final class ChemicaRreactor {
                 .duration(120)
                 .save();
         LARGE_CHEMICAL_RECIPES.builder("superconducting_ion_energy_release_cathode")
-                .inputItems(GTOItems.AEROGRAPHENE.asStack())
+                .inputItems(GTOItems.AEROGRAPHENE.asItem())
                 .inputFluids(GTOMaterials.PhantomicElectrolyteBuffer, 10000)
                 .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 10000)
                 .inputFluids(GTOMaterials.PropyleneCarbonate, 2000)
@@ -2134,7 +2134,7 @@ final class ChemicaRreactor {
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder("mutated_living_solder")
                 .notConsumable(GTItems.GRAVI_STAR.asItem())
-                .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(16))
+                .inputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 16)
                 .inputItems(GTItems.QUANTUM_STAR.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(FluidStorageKeys.PLASMA, 2000))
@@ -3245,7 +3245,7 @@ final class ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.builder("ethylenedioxythiophene")
-                .notConsumable(GTItems.GELLED_TOLUENE.asStack())
+                .notConsumable(GTItems.GELLED_TOLUENE.asItem())
                 .inputFluids(GTOMaterials.Dietoxythiophene, 1000)
                 .inputFluids(GTOMaterials.EthyleneGlycol, 1000)
                 .outputFluids(GTOMaterials.Ethylenedioxythiophene, 1000)
@@ -3337,7 +3337,7 @@ final class ChemicaRreactor {
                 .save();
         LARGE_CHEMICAL_RECIPES.builder("interface_supramolecular_self_assembly_mfpc_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.SolGelQDInterfaceModifiedMFPC)
-                .notConsumable(GTItems.BLACKLIGHT.asStack())
+                .notConsumable(GTItems.BLACKLIGHT.asItem())
                 .outputItems(TagPrefix.dust, GTOMaterials.InterfaceSupramolecularSelfAssemblyMFPC)
                 .inputFluids(GTOMaterials.PolyurethaneResin, 1000)
                 .inputFluids(GTMaterials.SulfuricAcid, 1000)

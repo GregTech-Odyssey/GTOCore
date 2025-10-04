@@ -337,13 +337,13 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private static class Wrapper {
 
-        private static final Item VACUUM_CHECK = GTOMachines.VACUUM_CONFIGURATION_HATCH.getItem();
-        private static final Item GRAVITY_CHECK = GTOMachines.GRAVITY_CONFIGURATION_HATCH.getItem();
-        private static final Item TEMPERATURE_CHECK = GTOMachines.ELECTRIC_HEATER.getItem();
+        private static final Item VACUUM_CHECK = GTOMachines.VACUUM_CONFIGURATION_HATCH.asItem();
+        private static final Item GRAVITY_CHECK = GTOMachines.GRAVITY_CONFIGURATION_HATCH.asItem();
+        private static final Item TEMPERATURE_CHECK = GTOMachines.ELECTRIC_HEATER.asItem();
         private static final Map<Item, ICleanroomProvider> CLEAN_CHECK = Map.of(
-                GTOMachines.CLEANING_CONFIGURATION_MAINTENANCE_HATCH.getItem(), CMHatchPartMachine.DUMMY_CLEANROOM,
-                GTOMachines.STERILE_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.getItem(), CMHatchPartMachine.STERILE_DUMMY_CLEANROOM,
-                GTOMachines.LAW_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.getItem(), CMHatchPartMachine.LAW_DUMMY_CLEANROOM);
+                GTOMachines.CLEANING_CONFIGURATION_MAINTENANCE_HATCH.asItem(), CMHatchPartMachine.DUMMY_CLEANROOM,
+                GTOMachines.STERILE_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.asItem(), CMHatchPartMachine.STERILE_DUMMY_CLEANROOM,
+                GTOMachines.LAW_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.asItem(), CMHatchPartMachine.LAW_DUMMY_CLEANROOM);
     }
 
     @RegisterLanguage(cn = "在槽位放入%s以启用%s功能", en = "Place %s in the corresponding slot to enable %s functionality")

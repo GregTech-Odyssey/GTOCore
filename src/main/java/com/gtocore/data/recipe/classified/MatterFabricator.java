@@ -3,8 +3,6 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
-import net.minecraft.world.item.ItemStack;
-
 import appeng.core.definitions.AEItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.MATTER_FABRICATOR_RECIPES;
@@ -23,7 +21,7 @@ final class MatterFabricator {
         MATTER_FABRICATOR_RECIPES.recipeBuilder("uu_amplifier_1")
                 .inputItems(GTOItems.SCRAP.asItem())
                 .circuitMeta(2)
-                .outputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 64))
+                .outputItems(AEItems.MATTER_BALL.asItem(), 64)
                 .EUt(491520)
                 .duration(1)
                 .save();
@@ -31,7 +29,7 @@ final class MatterFabricator {
         MATTER_FABRICATOR_RECIPES.recipeBuilder("uu_amplifier_2")
                 .inputItems(GTOItems.SCRAP_BOX.asItem())
                 .circuitMeta(2)
-                .outputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 576))
+                .outputItems(AEItems.MATTER_BALL.asItem(), 576)
                 .EUt(1966080)
                 .duration(1)
                 .save();

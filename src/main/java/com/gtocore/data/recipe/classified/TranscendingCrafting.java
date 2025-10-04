@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -51,8 +50,8 @@ final class TranscendingCrafting {
                 .save();
 
         TRANSCENDING_CRAFTING_RECIPES.recipeBuilder("liquid_starlight")
-                .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem(), 64))
-                .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem(), 64))
+                .inputItems(Blocks.BLUE_ICE.asItem(), 64)
+                .inputItems(Blocks.BLUE_ICE.asItem(), 64)
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.Starlight.getFluid(10000))
                 .outputFluids(GTOMaterials.LiquidStarlight.getFluid(10000))
@@ -129,10 +128,10 @@ final class TranscendingCrafting {
                 .save();
 
         TRANSCENDING_CRAFTING_RECIPES.recipeBuilder("sculk_catalyst")
-                .inputItems(new ItemStack(Blocks.TERRACOTTA.asItem()))
+                .inputItems(Blocks.TERRACOTTA.asItem())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTMaterials.EchoShard.getFluid(100))
-                .outputItems(new ItemStack(Blocks.SCULK_CATALYST.asItem()))
+                .outputItems(Blocks.SCULK_CATALYST.asItem())
                 .EUt(7864320)
                 .duration(20)
                 .save();
@@ -246,11 +245,11 @@ final class TranscendingCrafting {
                 .save();
 
         TRANSCENDING_CRAFTING_RECIPES.recipeBuilder("dragon_breath")
-                .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
-                .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem()))
+                .inputItems(Items.GLASS_BOTTLE.asItem())
+                .inputItems(Blocks.DRAGON_EGG.asItem())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.DragonBlood.getFluid(10))
-                .outputItems(new ItemStack(Items.DRAGON_BREATH.asItem()))
+                .outputItems(Items.DRAGON_BREATH.asItem())
                 .EUt(31457280)
                 .duration(80)
                 .save();
@@ -269,10 +268,10 @@ final class TranscendingCrafting {
         TRANSCENDING_CRAFTING_RECIPES.recipeBuilder("dust_blizz")
                 .inputItems(TagPrefix.dust, GTMaterials.Blaze)
                 .inputItems(TagPrefix.dust, GTMaterials.AluminiumSulfite)
-                .inputItems(new ItemStack(Items.SNOWBALL.asItem(), 16))
+                .inputItems(Items.SNOWBALL.asItem(), 16)
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTMaterials.Ice.getFluid(1000))
-                .outputItems(GTOItems.DUST_BLIZZ.asStack(2))
+                .outputItems(GTOItems.DUST_BLIZZ.asItem(), 2)
                 .EUt(7864320)
                 .duration(200)
                 .save();

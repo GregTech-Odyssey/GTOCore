@@ -288,7 +288,7 @@ final class ReactionFurnace {
         REACTION_FURNACE_RECIPES.recipeBuilder("dust_cryotheum")
                 .inputItems(GTOItems.DUST_BLIZZ.asItem())
                 .inputItems(TagPrefix.dust, GTOMaterials.Enderium)
-                .outputItems(GTOItems.DUST_CRYOTHEUM.asStack(2))
+                .outputItems(GTOItems.DUST_CRYOTHEUM.asItem(), 2)
                 .EUt(7864320)
                 .duration(160)
                 .blastFurnaceTemp(8300)
@@ -488,8 +488,8 @@ final class ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder("dragon_strength_tritanium_casing")
-                .inputItems(GTOBlocks.EXTREME_STRENGTH_TRITANIUM_CASING.asStack(16))
-                .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asStack(16))
+                .inputItems(GTOBlocks.EXTREME_STRENGTH_TRITANIUM_CASING.asItem(), 16)
+                .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asItem(), 16)
                 .outputItems(GTOBlocks.DRAGON_STRENGTH_TRITANIUM_CASING.asItem())
                 .EUt(7864320)
                 .duration(2000)

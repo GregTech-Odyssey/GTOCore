@@ -14,9 +14,9 @@ final class Scanner {
     public static void init() {
         SCANNER_RECIPES.recipeBuilder("nether_reactor_core")
                 .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_NETHER))
-                .inputItems(MultiBlockG.ANCIENT_REACTOR_CORE.getItem())
+                .inputItems(MultiBlockG.ANCIENT_REACTOR_CORE.asItem())
                 .inputFluids(GTMaterials.Wax.getFluid(2304))
-                .outputItems(MultiBlockG.NETHER_REACTOR_CORE.getItem())
+                .outputItems(MultiBlockG.NETHER_REACTOR_CORE.asItem())
                 .EUt(120)
                 .duration(1200)
                 .save();

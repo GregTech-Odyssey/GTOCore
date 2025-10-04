@@ -82,7 +82,7 @@ public final class ImmersiveAircraft {
                     "AhA",
                     "A A",
                     "CwC",
-                    'A', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Invar), 'C', GTItems.STEEL_MINECART_WHEELS.asStack());
+                    'A', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Invar), 'C', GTItems.STEEL_MINECART_WHEELS.asItem());
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_rotary_cannon"), RegistriesUtils.getItemStack("immersive_aircraft:rotary_cannon"),
                     "ABA",

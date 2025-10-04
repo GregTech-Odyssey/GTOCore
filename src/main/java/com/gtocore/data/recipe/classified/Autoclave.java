@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import com.enderio.base.common.init.EIOItems;
@@ -50,10 +49,10 @@ final class Autoclave {
 
         AUTOCLAVE_RECIPES.recipeBuilder("soul_soil")
                 .inputItems(EIOItems.FILLED_SOUL_VIAL.asItem())
-                .inputItems(new ItemStack(Blocks.ROOTED_DIRT.asItem()))
+                .inputItems(Blocks.ROOTED_DIRT.asItem())
                 .inputFluids(GTMaterials.LiquidNetherAir.getFluid(100))
                 .outputItems(EIOItems.EMPTY_SOUL_VIAL.asItem())
-                .outputItems(new ItemStack(Blocks.SOUL_SOIL.asItem()))
+                .outputItems(Blocks.SOUL_SOIL.asItem())
                 .EUt(480)
                 .duration(240)
                 .save();
@@ -99,8 +98,8 @@ final class Autoclave {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("super_mutated_living_solder")
-                .inputItems(GTOItems.SPACE_ESSENCE.asStack(64))
-                .inputItems(GTOItems.DRACONIUM_DIRT.asStack(64))
+                .inputItems(GTOItems.SPACE_ESSENCE.asItem(), 64)
+                .inputItems(GTOItems.DRACONIUM_DIRT.asItem(), 64)
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(10000))
                 .outputItems(GTOBlocks.ESSENCE_BLOCK.asItem())
                 .outputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(10000))

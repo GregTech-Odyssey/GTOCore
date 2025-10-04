@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
@@ -266,8 +265,8 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("biomediumraw")
-                .inputItems(GTItems.STEM_CELLS.asStack(64))
-                .inputItems(GTOItems.TCETIESEAWEEDEXTRACT.asStack(16))
+                .inputItems(GTItems.STEM_CELLS.asItem(), 64)
+                .inputItems(GTOItems.TCETIESEAWEEDEXTRACT.asItem(), 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Tritanium)
                 .inputFluids(GTMaterials.RawGrowthMedium.getFluid(1000))
                 .outputFluids(GTOMaterials.BiomediumRaw.getFluid(1000))
@@ -280,7 +279,7 @@ final class BiochemicaReaction {
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("stem_cells")
                 .circuitMeta(1)
                 .inputItems(GTOItems.STERILIZED_PETRI_DISH.asItem())
-                .outputItems(GTItems.STEM_CELLS.asStack())
+                .outputItems(GTItems.STEM_CELLS.asItem())
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.PluripotencyInductionGeneTherapyFluid.getFluid(1000))
                 .inputFluids(GTOMaterials.AnimalCells.getFluid(1000))
@@ -292,11 +291,11 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("biological_cells")
                 .inputItems(GTOItems.STERILIZED_PETRI_DISH.asItem())
-                .inputItems(GTItems.STEM_CELLS.asStack(1))
+                .inputItems(GTItems.STEM_CELLS.asItem(), 1)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Mutagen.getFluid(1000))
-                .outputItems(GTOItems.BIOLOGICAL_CELLS.asStack(1))
+                .outputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 1)
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .EUt(122880)
                 .duration(400)
@@ -304,11 +303,11 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("dragon_cells")
-                .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(1))
+                .inputItems(GTOItems.DRAGON_STEM_CELLS.asItem(), 1)
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 16)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(10000))
                 .inputFluids(GTMaterials.Mutagen.getFluid(10000))
-                .outputItems(GTOItems.DRAGON_CELLS.asStack(1))
+                .outputItems(GTOItems.DRAGON_CELLS.asItem(), 1)
                 .EUt(491520)
                 .duration(800)
                 .addData("radioactivity", 560)
@@ -325,10 +324,10 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.builder("zombie_electrode")
                 .inputItems("botania:virus_necrodermal", 4)
-                .inputItems(GTOItems.CEREBRUM.asStack(8))
+                .inputItems(GTOItems.CEREBRUM.asItem(), 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Tantalum, 16)
                 .outputItems("enderio:zombie_electrode")
-                .outputItems(new ItemStack(Items.ROTTEN_FLESH.asItem(), 4))
+                .outputItems(Items.ROTTEN_FLESH.asItem(), 4)
                 .inputFluids(GTOMaterials.Biotin, 100)
                 .inputFluids(GTOMaterials.EpidermalGrowthFactor, 100)
                 .inputFluids(GTMaterials.Tritanium, 10)

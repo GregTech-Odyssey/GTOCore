@@ -5,7 +5,7 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.fluids.FluidStack;
 
 import earth.terrarium.adastra.common.registry.ModFluids;
@@ -18,9 +18,9 @@ import static com.gtocore.common.data.GTORecipeTypes.DRILLING_MODULE_RECIPES;
 
 final class DrillingModule {
 
-    private static final ItemStack[] drones = {
-            GTOItems.SPACE_DRONE_MK1.asStack(16), GTOItems.SPACE_DRONE_MK2.asStack(16), GTOItems.SPACE_DRONE_MK3.asStack(16),
-            GTOItems.SPACE_DRONE_MK4.asStack(16), GTOItems.SPACE_DRONE_MK5.asStack(16), GTOItems.SPACE_DRONE_MK6.asStack(16)
+    private static final Item[] drones = {
+            GTOItems.SPACE_DRONE_MK1.asItem(), GTOItems.SPACE_DRONE_MK2.asItem(), GTOItems.SPACE_DRONE_MK3.asItem(),
+            GTOItems.SPACE_DRONE_MK4.asItem(), GTOItems.SPACE_DRONE_MK5.asItem(), GTOItems.SPACE_DRONE_MK6.asItem()
     };
     private static final FluidStack[][] fuels = {
             { GTMaterials.RocketFuel.getFluid(10000), GTOMaterials.RocketFuelRp1.getFluid(6000) },
@@ -36,12 +36,12 @@ final class DrillingModule {
         for (int i = minDroneTire - 1; i < 6; i++) {
             for (int j = 0; j < fuels[minDroneTire - 1].length; j++) {
                 DRILLING_MODULE_RECIPES.recipeBuilder("space_fluid_" + circuit + "_" + i + "_" + j)
-                        .notConsumable(drones[i])
+                        .notConsumable(drones[i], 16)
                         .circuitMeta(circuit)
                         .inputFluids(fuels[minDroneTire - 1][j])
                         .outputFluids(fluidStack)
                         .EUt(VA[8 + i])
-                        .duration(baseTime[j] << i)
+                        .duration(baseTime[j] >> i)
                         .save();
             }
         }
@@ -78,7 +78,7 @@ final class DrillingModule {
         buildDrillingModule(28, 3, BarnardaAir.getFluid(1000000));
 
         DRILLING_MODULE_RECIPES.recipeBuilder("space_fluid_29")
-                .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(64))
+                .notConsumable(GTOItems.SPACE_DRONE_MK6.asItem(), 64)
                 .circuitMeta(29)
                 .inputFluids(GTOMaterials.StellarEnergyRocketFuel.getFluid(10000))
                 .outputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(100000))
@@ -87,7 +87,7 @@ final class DrillingModule {
                 .save();
 
         DRILLING_MODULE_RECIPES.recipeBuilder("space_fluid_30")
-                .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(64))
+                .notConsumable(GTOItems.SPACE_DRONE_MK6.asItem(), 64)
                 .circuitMeta(30)
                 .inputFluids(GTOMaterials.StellarEnergyRocketFuel.getFluid(10000))
                 .outputFluids(GTOMaterials.BlackDwarfMatter.getFluid(100000))

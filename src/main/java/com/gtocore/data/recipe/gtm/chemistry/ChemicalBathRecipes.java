@@ -53,13 +53,13 @@ final class ChemicalBathRecipes {
         CHEMICAL_BATH_RECIPES.recipeBuilder("treated_planks")
                 .inputItems(ItemTags.PLANKS)
                 .inputFluids(Creosote.getFluid(100))
-                .outputItems(GTBlocks.TREATED_WOOD_PLANK.asStack())
+                .outputItems(GTBlocks.TREATED_WOOD_PLANK.asItem())
                 .duration(100).EUt(VA[ULV]).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("light_to_dark_concrete")
-                .inputItems(GTBlocks.LIGHT_CONCRETE.asStack())
+                .inputItems(GTBlocks.LIGHT_CONCRETE.asItem())
                 .inputFluids(Water.getFluid(100))
-                .outputItems(GTBlocks.DARK_CONCRETE.asStack())
+                .outputItems(GTBlocks.DARK_CONCRETE.asItem())
                 .duration(100).EUt(VA[ULV]).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("tungstic_acid_from_scheelite")

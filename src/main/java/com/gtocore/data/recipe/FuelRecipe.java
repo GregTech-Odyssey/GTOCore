@@ -721,7 +721,7 @@ public final class FuelRecipe {
                 .save();
 
         DYSON_SPHERE_RECIPES.recipeBuilder("a")
-                .inputItems(GTOItems.DYSON_SWARM_MODULE.asStack(64))
+                .inputItems(GTOItems.DYSON_SWARM_MODULE.asItem(), 64)
                 .CWUt(512)
                 .duration(200)
                 .EUt(VA[UIV])

@@ -108,20 +108,20 @@ public final class MiscRecipe {
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("hot_iron_ingot"), MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 1, 2));
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wrought_iron_ingot"), ChemicalHelper.get(ingot, WroughtIron), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2));
 
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("raw_vacuum_tube"), GTOItems.RAW_VACUUM_TUBE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("raw_vacuum_tube"), GTOItems.RAW_VACUUM_TUBE.asItem(),
                 "PTP", "WWW",
                 'P', new MaterialEntry(bolt, Steel),
-                'T', GLASS_TUBE.asStack(),
+                'T', GLASS_TUBE.asItem(),
                 'W', new MaterialEntry(wireGtSingle, Copper));
 
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("air_vent"), GTOItems.AIR_VENT.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("air_vent"), GTOItems.AIR_VENT.asItem(),
                 "RRR", "ROR", "RRR",
                 'R', new MaterialEntry(rod, Steel),
                 'O', new MaterialEntry(rotor, Iron));
 
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("hv_vajra"), Ingredient.of(POWER_UNIT_HV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.DarkSteel, GTOToolType.VAJRA_HV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_HV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_HV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.DarkSteel), 'R', new MaterialEntry(plateDense, Steel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_HV.asItem());
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("ev_vajra"), Ingredient.of(POWER_UNIT_EV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Ostrum, GTOToolType.VAJRA_EV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_EV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_EV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Ostrum), 'R', new MaterialEntry(plateDense, TungstenSteel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_EV.asItem());
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("iv_vajra"), Ingredient.of(POWER_UNIT_IV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Enderium, GTOToolType.VAJRA_IV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_IV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_IV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Enderium), 'R', new MaterialEntry(plateDense, NaquadahAlloy), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_IV.asItem());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("hv_vajra"), Ingredient.of(POWER_UNIT_HV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.DarkSteel, GTOToolType.VAJRA_HV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_HV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asItem(), 'F', FIELD_GENERATOR_HV.asItem(), 'P', new MaterialEntry(plateDouble, GTOMaterials.DarkSteel), 'R', new MaterialEntry(plateDense, Steel), 'C', CARBON_FIBER_PLATE.asItem(), 'U', POWER_UNIT_HV.asItem());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("ev_vajra"), Ingredient.of(POWER_UNIT_EV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Ostrum, GTOToolType.VAJRA_EV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_EV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asItem(), 'F', FIELD_GENERATOR_EV.asItem(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Ostrum), 'R', new MaterialEntry(plateDense, TungstenSteel), 'C', CARBON_FIBER_PLATE.asItem(), 'U', POWER_UNIT_EV.asItem());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("iv_vajra"), Ingredient.of(POWER_UNIT_IV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Enderium, GTOToolType.VAJRA_IV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_IV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asItem(), 'F', FIELD_GENERATOR_IV.asItem(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Enderium), 'R', new MaterialEntry(plateDense, NaquadahAlloy), 'C', CARBON_FIBER_PLATE.asItem(), 'U', POWER_UNIT_IV.asItem());
         VanillaRecipeHelper.addShapedFluidContainerRecipe("bucket_of_concrete", new ItemStack(Concrete.getBucket()),
                 "CBS", "CWQ", " L ",
                 'C', new MaterialEntry(dust, Calcite),
@@ -197,7 +197,7 @@ public final class MiscRecipe {
 
         WOOD_DISTILLATION_RECIPES.builder("muhuasanhaodianlu")
                 .inputItems(ItemTags.LOGS, 16)
-                .outputItems(GTItems.FERTILIZER.asStack(6))
+                .outputItems(GTItems.FERTILIZER.asItem(), 6)
                 .inputFluids(GTMaterials.Water, 6000)
                 .outputFluids(GTMaterials.Methane, 3300)
                 .outputFluids(GTMaterials.CarbonDioxide, 2200)
@@ -212,7 +212,7 @@ public final class MiscRecipe {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("water_agar_mix").EUt(VA[HV]).duration(600)
-                .chancedInput(GTOItems.RED_ALGAE_FIBER.asStack(), 1000, 0)
+                .chancedInput(GTOItems.RED_ALGAE_FIBER.asItem(), 1000, 0)
                 .inputItems(dust, Gelatin)
                 .inputFluids(DistilledWater.getFluid(1000))
                 .outputFluids(GTOMaterials.WaterAgarMix.getFluid(1000))
@@ -227,45 +227,45 @@ public final class MiscRecipe {
                 .save();
 
         UNPACKER_RECIPES.recipeBuilder("unpackage_ev_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_EV.asStack(1))
-                .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asStack(1))
+                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_EV.asItem(), 1)
+                .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asItem(), 1)
                 .outputItems(LAPOTRON_CRYSTAL)
                 .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder("unpackage_iv_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_IV.asStack(1))
+                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_IV.asItem(), 1)
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I)
                 .outputItems(ENERGY_LAPOTRONIC_ORB)
                 .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder("unpackage_luv_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_LuV.asStack(1))
+                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_LuV.asItem(), 1)
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_II)
                 .outputItems(ENERGY_LAPOTRONIC_ORB_CLUSTER)
                 .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder("unpackage_zpm_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_ZPM.asStack(1))
+                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_ZPM.asItem(), 1)
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_II)
                 .outputItems(ENERGY_MODULE)
                 .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder("unpackage_uv_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_UV.asStack(1))
+                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_UV.asItem(), 1)
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_III)
                 .outputItems(ENERGY_CLUSTER)
                 .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder("unpackage_uhv_ultimate_battery")
-                .inputItems(GTBlocks.BATTERY_ULTIMATE_UHV.asStack(1))
+                .inputItems(GTBlocks.BATTERY_ULTIMATE_UHV.asItem(), 1)
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_III)
                 .outputItems(ULTIMATE_BATTERY)
                 .duration(200).EUt(VA[LV]).save();
 
         LOOM_RECIPES.recipeBuilder("wool_from_string")
-                .inputItems(new ItemStack(Items.STRING, 4))
+                .inputItems(Items.STRING, 4)
                 .circuitMeta(4)
-                .outputItems(new ItemStack(Blocks.WHITE_WOOL))
+                .outputItems(Blocks.WHITE_WOOL)
                 .duration(100).EUt(4).save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("overworld_scrubber")
@@ -321,14 +321,14 @@ public final class MiscRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hopper_iron").EUt(2).inputItems(Tags.Items.CHESTS_WOODEN)
-                .inputItems(plate, Iron, 5).circuitMeta(4).outputItems(new ItemStack(Blocks.HOPPER)).duration(800)
+                .inputItems(plate, Iron, 5).circuitMeta(4).outputItems(Blocks.HOPPER).duration(800)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("minecart")
                 .inputItems(plate, Iron, 3)
                 .inputItems(ring, Iron, 4)
                 .circuitMeta(10)
-                .outputItems(new ItemStack(Items.MINECART))
+                .outputItems(Items.MINECART)
                 .duration(100).EUt(4).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("iron_minecart_wheels")
@@ -348,8 +348,8 @@ public final class MiscRecipe {
 
         ASSEMBLER_RECIPES.recipeBuilder("stonecutter")
                 .inputItems(toolHeadBuzzSaw, Iron)
-                .inputItems(new ItemStack(Blocks.STONE_SLAB))
-                .outputItems(new ItemStack(Blocks.STONECUTTER))
+                .inputItems(Blocks.STONE_SLAB)
+                .outputItems(Blocks.STONECUTTER)
                 .circuitMeta(10)
                 .duration(80).EUt(6).save();
 
@@ -659,10 +659,10 @@ public final class MiscRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.builder("casing_stainless_evaporation")
-                .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asStack(1))
+                .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asItem(), 1)
                 .inputItems(wireGtDouble, AnnealedCopper, 4)
                 .inputFluids(PolyvinylChloride, L << 1)
-                .outputItems(GTOBlocks.STAINLESS_EVAPORATION_CASING.asStack())
+                .outputItems(GTOBlocks.STAINLESS_EVAPORATION_CASING.asItem())
                 .duration(30).EUt(VA[HV]).save();
 
         ASSEMBLER_RECIPES.builder("cover_advanced_item_detector")

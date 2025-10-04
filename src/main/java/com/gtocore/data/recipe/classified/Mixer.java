@@ -32,7 +32,7 @@ final class Mixer {
         MIXER_RECIPES.builder("mica_based_pulp")
                 .inputItems(TagPrefix.dust, GTMaterials.Mica, 3)
                 .inputItems(TagPrefix.dust, GTMaterials.RawRubber, 2)
-                .outputItems(GTOItems.MICA_BASED_PULP.asStack(5))
+                .outputItems(GTOItems.MICA_BASED_PULP.asItem(), 5)
                 .EUt(8)
                 .duration(300)
                 .save();
@@ -210,7 +210,7 @@ final class Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder("filled_soul_vial")
-                .notConsumable(new ItemStack(Blocks.SOUL_CAMPFIRE.asItem()))
+                .notConsumable(Blocks.SOUL_CAMPFIRE.asItem())
                 .inputItems(EIOItems.EMPTY_SOUL_VIAL.asItem())
                 .outputItems(EIOItems.FILLED_SOUL_VIAL.asItem())
                 .EUt(2)
@@ -219,8 +219,8 @@ final class Mixer {
 
         MIXER_RECIPES.recipeBuilder("fertilizer_")
                 .inputItems(GTItems.FERTILIZER.asItem())
-                .inputItems(GTOItems.SCRAP.asStack(2))
-                .outputItems(GTItems.FERTILIZER.asStack(2))
+                .inputItems(GTOItems.SCRAP.asItem(), 2)
+                .outputItems(GTItems.FERTILIZER.asItem(), 2)
                 .EUt(480)
                 .duration(40)
                 .save();
@@ -260,11 +260,11 @@ final class Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder("essence_seed")
-                .inputItems(new ItemStack(Blocks.BEETROOTS.asItem(), 16))
+                .inputItems(Blocks.BEETROOTS.asItem(), 16)
                 .inputItems(GTOItems.ESSENCE.asItem())
                 .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
                 .inputFluids(GTMaterials.CarbonDioxide.getFluid(1000))
-                .outputItems(GTOItems.ESSENCE_SEED.asStack(16))
+                .outputItems(GTOItems.ESSENCE_SEED.asItem(), 16)
                 .EUt(120)
                 .duration(400)
                 .save();
@@ -289,7 +289,7 @@ final class Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder("kelp_slurry")
-                .inputItems(new ItemStack(Items.DRIED_KELP.asItem(), 8))
+                .inputItems(Items.DRIED_KELP.asItem(), 8)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputFluids(GTOMaterials.KelpSlurry.getFluid(1000))
                 .EUt(30)
@@ -334,8 +334,8 @@ final class Mixer {
 
         MIXER_RECIPES.recipeBuilder("rooted_dirt")
                 .chancedInput(new ItemStack(Blocks.MOSS_CARPET.asItem()), 1000, 0)
-                .inputItems(new ItemStack(Blocks.DIRT.asItem()))
-                .outputItems(new ItemStack(Blocks.ROOTED_DIRT.asItem()))
+                .inputItems(Blocks.DIRT.asItem())
+                .outputItems(Blocks.ROOTED_DIRT.asItem())
                 .EUt(16)
                 .duration(200)
                 .save();
@@ -466,9 +466,9 @@ final class Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder("grass_block")
-                .inputItems(new ItemStack(Blocks.DIRT.asItem()))
-                .inputItems(new ItemStack(Blocks.GRASS.asItem()))
-                .outputItems(new ItemStack(Blocks.GRASS_BLOCK.asItem()))
+                .inputItems(Blocks.DIRT.asItem())
+                .inputItems(Blocks.GRASS.asItem())
+                .outputItems(Blocks.GRASS_BLOCK.asItem())
                 .EUt(16)
                 .duration(200)
                 .save();
@@ -582,8 +582,8 @@ final class Mixer {
 
         MIXER_RECIPES.recipeBuilder("explosivehydrazine")
                 .notConsumable(GTItems.FIELD_GENERATOR_LuV.asItem())
-                .inputItems(GTItems.GELLED_TOLUENE.asStack(16))
-                .inputItems(new ItemStack(Items.FIRE_CHARGE.asItem(), 8))
+                .inputItems(GTItems.GELLED_TOLUENE.asItem(), 16)
+                .inputItems(Items.FIRE_CHARGE.asItem(), 8)
                 .inputFluids(GTMaterials.GlycerylTrinitrate.getFluid(1000))
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(3000))
                 .outputFluids(GTOMaterials.ExplosiveHydrazine.getFluid(4000))
@@ -677,8 +677,8 @@ final class Mixer {
 
         MIXER_RECIPES.recipeBuilder("dew_of_the_void")
                 .inputItems("enderio:pulsating_powder")
-                .inputItems(GTOItems.GREEN_ALGAE.asStack(8))
-                .inputItems(GTOItems.BROWN_ALGAE.asStack(8))
+                .inputItems(GTOItems.GREEN_ALGAE.asItem(), 8)
+                .inputItems(GTOItems.BROWN_ALGAE.asItem(), 8)
                 .inputFluids(new FluidStack(EIOFluids.NUTRIENT_DISTILLATION.getSource(), 4000))
                 .outputFluids(new FluidStack(EIOFluids.DEW_OF_THE_VOID.getSource(), 4000))
                 .EUt(120)

@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -17,7 +16,7 @@ final class FuelRefining {
 
     public static void init() {
         FUEL_REFINING_RECIPES.recipeBuilder("stellar_energy_rocket_fuel")
-                .inputItems(new ItemStack(Items.FIRE_CHARGE.asItem(), 64))
+                .inputItems(Items.FIRE_CHARGE.asItem(), 64)
                 .inputItems(TagPrefix.dust, GTOMaterials.HmxExplosive, 8)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 4)
                 .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(8000))

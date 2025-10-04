@@ -112,9 +112,9 @@ final class Blast {
                 .save();
 
         BLAST_RECIPES.recipeBuilder("giga_chad")
-                .inputItems(GTItems.FIELD_GENERATOR_UIV.asStack(64))
-                .inputItems(GTItems.FIELD_GENERATOR_UXV.asStack(64))
-                .inputItems(GTItems.FIELD_GENERATOR_OpV.asStack(64))
+                .inputItems(GTItems.FIELD_GENERATOR_UIV.asItem(), 64)
+                .inputItems(GTItems.FIELD_GENERATOR_UXV.asItem(), 64)
+                .inputItems(GTItems.FIELD_GENERATOR_OpV.asItem(), 64)
                 .inputFluids(GTOMaterials.ExcitedDtec.getFluid(10000000))
                 .outputItems(GTOItems.GIGA_CHAD.asItem())
                 .EUt(2013265920)

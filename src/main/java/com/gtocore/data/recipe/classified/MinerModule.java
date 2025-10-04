@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
@@ -22,9 +23,9 @@ import static com.gtocore.common.data.GTORecipeTypes.MINER_MODULE_RECIPES;
 
 final class MinerModule {
 
-    private static final ItemStack[] drones = {
-            GTOItems.SPACE_DRONE_MK1.asStack(16), GTOItems.SPACE_DRONE_MK2.asStack(16), GTOItems.SPACE_DRONE_MK3.asStack(16),
-            GTOItems.SPACE_DRONE_MK4.asStack(16), GTOItems.SPACE_DRONE_MK5.asStack(16), GTOItems.SPACE_DRONE_MK6.asStack(16)
+    private static final Item[] drones = {
+            GTOItems.SPACE_DRONE_MK1.asItem(), GTOItems.SPACE_DRONE_MK2.asItem(), GTOItems.SPACE_DRONE_MK3.asItem(),
+            GTOItems.SPACE_DRONE_MK4.asItem(), GTOItems.SPACE_DRONE_MK5.asItem(), GTOItems.SPACE_DRONE_MK6.asItem()
     };
     private static final FluidStack[][] fuels = {
             { GTMaterials.RocketFuel.getFluid(10000), GTOMaterials.RocketFuelRp1.getFluid(6000) },
@@ -47,11 +48,11 @@ final class MinerModule {
         for (int i = minDroneTire - 1; i < 6; i++) {
             for (int j = 0; j < fuels[minDroneTire - 1].length; j++) {
                 var build = MINER_MODULE_RECIPES.recipeBuilder("space_ore_" + circuit + "_" + i + "_" + j)
-                        .notConsumable(drones[i])
+                        .notConsumable(drones[i], 16)
                         .circuitMeta(circuit)
                         .inputFluids(fuels[minDroneTire - 1][j])
                         .EUt(VA[8 + i])
-                        .duration(baseTime[j] << i);
+                        .duration(baseTime[j] >> i);
                 for (ItemStack block : blocks) build.outputItems(block);
                 build.save();
             }

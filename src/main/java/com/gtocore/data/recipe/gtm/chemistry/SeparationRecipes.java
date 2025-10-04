@@ -80,14 +80,14 @@ final class SeparationRecipes {
         CENTRIFUGE_RECIPES.recipeBuilder("sticky_resin_separation").duration(400).EUt(5)
                 .inputItems(STICKY_RESIN)
                 .outputItems(dust, RawRubber, 3)
-                .chancedOutput(PLANT_BALL.asStack(), 1000, 850)
+                .chancedOutput(PLANT_BALL.asItem(), 1000, 850)
                 .outputFluids(Glue.getFluid(100))
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("rubber_log_separation").duration(200).EUt(20)
-                .inputItems(GTBlocks.RUBBER_LOG.asStack())
-                .chancedOutput(STICKY_RESIN.asStack(), 5000, 1200)
-                .chancedOutput(PLANT_BALL.asStack(), 3750, 900)
+                .inputItems(GTBlocks.RUBBER_LOG.asItem())
+                .chancedOutput(STICKY_RESIN.asItem(), 5000, 1200)
+                .chancedOutput(PLANT_BALL.asItem(), 3750, 900)
                 .chancedOutput(dust, Carbon, 2500, 600)
                 .chancedOutput(dust, Wood, 2500, 700)
                 .outputFluids(Methane.getFluid(60))
@@ -96,20 +96,20 @@ final class SeparationRecipes {
         // TODO Other kinds of dirt?
         CENTRIFUGE_RECIPES.recipeBuilder("dirt_separation").duration(250).EUt(VA[LV])
                 .inputItems(Blocks.DIRT.asItem())
-                .chancedOutput(PLANT_BALL.asStack(), 1250, 700)
+                .chancedOutput(PLANT_BALL.asItem(), 1250, 700)
                 .chancedOutput(new ItemStack(Blocks.SAND), 5000, 1200)
                 .chancedOutput(dust, Clay, 450, 100)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("grass_block_separation").duration(250).EUt(VA[LV])
                 .inputItems(Blocks.GRASS_BLOCK.asItem())
-                .chancedOutput(PLANT_BALL.asStack(), 3000, 1200)
+                .chancedOutput(PLANT_BALL.asItem(), 3000, 1200)
                 .chancedOutput(new ItemStack(Blocks.SAND), 5000, 1200)
                 .chancedOutput(dust, Clay, 450, 100)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("mycelium_separation").duration(650).EUt(VA[LV])
-                .inputItems(new ItemStack(Blocks.MYCELIUM))
+                .inputItems(Blocks.MYCELIUM)
                 .chancedOutput(new ItemStack(Blocks.RED_MUSHROOM), 2500, 900)
                 .chancedOutput(new ItemStack(Blocks.BROWN_MUSHROOM), 2500, 900)
                 .chancedOutput(new ItemStack(Blocks.SAND), 5000, 1200)
@@ -281,9 +281,9 @@ final class SeparationRecipes {
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("muddy_mangrove_roots")
-                .inputItems(new ItemStack(Blocks.MUDDY_MANGROVE_ROOTS))
-                .outputItems(new ItemStack(Blocks.MANGROVE_ROOTS))
-                .outputItems(new ItemStack(Blocks.MUD))
+                .inputItems(Blocks.MUDDY_MANGROVE_ROOTS)
+                .outputItems(Blocks.MANGROVE_ROOTS)
+                .outputItems(Blocks.MUD)
                 .duration(20).EUt(1).save();
 
         // Electrolyzer
@@ -432,27 +432,27 @@ final class SeparationRecipes {
 
         EXTRACTOR_RECIPES.recipeBuilder("seed_oil_from_wheat_seeds")
                 .duration(32).EUt(2)
-                .inputItems(new ItemStack(Items.WHEAT_SEEDS))
+                .inputItems(Items.WHEAT_SEEDS)
                 .outputFluids(SeedOil.getFluid(10))
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("seed_oil_from_beetroot").duration(32).EUt(2)
-                .inputItems(new ItemStack(Items.BEETROOT_SEEDS))
+                .inputItems(Items.BEETROOT_SEEDS)
                 .outputFluids(SeedOil.getFluid(10))
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("seed_oil_from_melon").duration(32).EUt(2)
-                .inputItems(new ItemStack(Items.MELON_SEEDS, 1))
+                .inputItems(Items.MELON_SEEDS, 1)
                 .outputFluids(SeedOil.getFluid(3))
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("seed_oil_from_pumpkin").duration(32).EUt(2)
-                .inputItems(new ItemStack(Items.PUMPKIN_SEEDS, 1))
+                .inputItems(Items.PUMPKIN_SEEDS, 1)
                 .outputFluids(SeedOil.getFluid(6))
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("seed_oil_from_torchflower").duration(32).EUt(2)
-                .inputItems(new ItemStack(Items.TORCHFLOWER_SEEDS, 1))
+                .inputItems(Items.TORCHFLOWER_SEEDS, 1)
                 .outputFluids(SeedOil.getFluid(8))
                 .save();
 
@@ -488,7 +488,7 @@ final class SeparationRecipes {
 
         EXTRACTOR_RECIPES.recipeBuilder("wood_dust_extraction").duration(16).EUt(4)
                 .inputItems(dust, Wood)
-                .chancedOutput(PLANT_BALL.asStack(), 200, 30)
+                .chancedOutput(PLANT_BALL.asItem(), 200, 30)
                 .outputFluids(Creosote.getFluid(5))
                 .save();
 

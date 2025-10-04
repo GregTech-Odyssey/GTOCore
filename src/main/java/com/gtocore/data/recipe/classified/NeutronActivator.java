@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -30,8 +29,8 @@ final class NeutronActivator {
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("quantanium")
-                .inputItems(GTItems.QUANTUM_STAR.asStack(4))
-                .inputItems(GTItems.QUANTUM_EYE.asStack(8))
+                .inputItems(GTItems.QUANTUM_STAR.asItem(), 4)
+                .inputItems(GTItems.QUANTUM_EYE.asItem(), 8)
                 .inputItems(TagPrefix.dust, GTOMaterials.Mithril, 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Gadolinium, 16)
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.Fluix, 16)
@@ -46,11 +45,11 @@ final class NeutronActivator {
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("draconium_dust")
                 .notConsumable(TagPrefix.plate, GTOMaterials.DegenerateRhenium)
-                .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem()))
+                .inputItems(Blocks.DRAGON_EGG.asItem())
                 .inputFluids(GTOMaterials.UuAmplifier.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.EnderEye, 8)
                 .outputItems(TagPrefix.dust, GTMaterials.EnderPearl, 4)
-                .chancedOutput(GTOItems.DRACONIUM_DIRT.asStack(), 4000, 0)
+                .chancedOutput(GTOItems.DRACONIUM_DIRT.asItem(), 4000, 0)
                 .duration(800)
                 .addData("ev_min", 800)
                 .addData("ev_max", 900)
@@ -68,7 +67,7 @@ final class NeutronActivator {
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("netherite")
-                .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem(), 4))
+                .inputItems(Items.NETHERITE_SCRAP.asItem(), 4)
                 .outputItems(TagPrefix.dust, GTMaterials.Netherite)
                 .inputFluids(GTMaterials.Gold.getFluid(576))
                 .duration(600)

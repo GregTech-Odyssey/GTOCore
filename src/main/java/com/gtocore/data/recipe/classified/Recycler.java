@@ -18,7 +18,7 @@ final class Recycler {
 
         RECYCLER_RECIPES.recipeBuilder("recycler_b")
                 .inputItems(TagUtils.createTGTag("storage_blocks"))
-                .outputItems(GTOItems.SCRAP.asStack(9))
+                .outputItems(GTOItems.SCRAP.asItem(), 9)
                 .EUt(120)
                 .duration(200)
                 .save();

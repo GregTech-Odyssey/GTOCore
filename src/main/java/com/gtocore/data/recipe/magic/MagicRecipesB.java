@@ -54,7 +54,7 @@ public class MagicRecipesB {
                     .inputItems("apotheosis:mythic_material", 2)
                     .inputItems("apotheosis:infused_breath", 2)
                     .inputItems("apotheosis:gem_dust", 64)
-                    .outputItems(GTOItems.AFFIX_CANVAS.asStack(16))
+                    .outputItems(GTOItems.AFFIX_CANVAS.asItem(), 16)
                     .inputFluids(GTOMaterials.Animium, 1000)
                     .duration(20)
                     .MANAt(1024)

@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
@@ -92,7 +91,7 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("end_stone")
-                .inputItems(new ItemStack(Blocks.ANDESITE.asItem()))
+                .inputItems(Blocks.ANDESITE.asItem())
                 .inputFluids(GTMaterials.LiquidEnderAir.getFluid(1000))
                 .outputItems(TagPrefix.rock, GTMaterials.Endstone)
                 .EUt(480)
@@ -141,9 +140,9 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("sculk_vein")
-                .inputItems(new ItemStack(Blocks.VINE.asItem()))
+                .inputItems(Blocks.VINE.asItem())
                 .inputFluids(GTMaterials.EchoShard.getFluid(10))
-                .outputItems(new ItemStack(Blocks.SCULK_VEIN.asItem()))
+                .outputItems(Blocks.SCULK_VEIN.asItem())
                 .EUt(120)
                 .duration(200)
                 .save();
@@ -158,7 +157,7 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("netherrack")
-                .inputItems(new ItemStack(Blocks.GRANITE.asItem()))
+                .inputItems(Blocks.GRANITE.asItem())
                 .inputFluids(GTMaterials.LiquidNetherAir.getFluid(1000))
                 .outputItems(TagPrefix.rock, GTMaterials.Netherrack)
                 .EUt(120)
@@ -175,9 +174,9 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("black_candle")
-                .inputItems(new ItemStack(Blocks.TRIPWIRE.asItem()))
+                .inputItems(Blocks.TRIPWIRE.asItem())
                 .inputFluids(GTMaterials.Oil.getFluid(100))
-                .outputItems(new ItemStack(Blocks.BLACK_CANDLE.asItem()))
+                .outputItems(Blocks.BLACK_CANDLE.asItem())
                 .EUt(120)
                 .duration(200)
                 .save();
@@ -216,9 +215,9 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("flawless_budding_quartz")
-                .inputItems(new ItemStack(AEBlocks.FLAWED_BUDDING_QUARTZ.block().asItem()))
+                .inputItems(AEBlocks.FLAWED_BUDDING_QUARTZ.block().asItem())
                 .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(AEBlocks.FLAWLESS_BUDDING_QUARTZ.block().asItem()))
+                .outputItems(AEBlocks.FLAWLESS_BUDDING_QUARTZ.block().asItem())
                 .EUt(30)
                 .duration(400)
                 .save();

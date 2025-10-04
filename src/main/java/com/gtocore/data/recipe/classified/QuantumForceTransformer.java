@@ -23,7 +23,7 @@ final class QuantumForceTransformer {
                 .inputItems(TagPrefix.dust, GTMaterials.Bismuth, 64)
                 .inputFluids(GTMaterials.Oxygen.getFluid(20000))
                 .inputFluids(GTMaterials.Hydrogen.getFluid(20000))
-                .chancedOutput(GTOItems.HYPER_STABLE_SELF_HEALING_ADHESIVE.asStack(), 2000, 0)
+                .chancedOutput(GTOItems.HYPER_STABLE_SELF_HEALING_ADHESIVE.asItem(), 2000, 0)
                 .EUt(8053063680L)
                 .duration(20)
                 .save();
@@ -109,7 +109,7 @@ final class QuantumForceTransformer {
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder("cosmic_ingot")
                 .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.CosmicNeutronium)
-                .chancedInput(GTOItems.COSMIC_SINGULARITY.asStack(), 1000, 0)
+                .chancedInput(GTOItems.COSMIC_SINGULARITY.asItem(), 1000, 0)
                 .inputItems(GTOItems.HYPERCUBE.asItem())
                 .inputItems(TagPrefix.ingot, GTOMaterials.Infinity)
                 .inputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(576))
@@ -125,7 +125,7 @@ final class QuantumForceTransformer {
                 .inputItems(GTOItems.ENTANGLED_SINGULARITY.asItem())
                 .inputFluids(GTMaterials.Duranium.getFluid(144))
                 .inputFluids(GTOMaterials.ExcitedDtec.getFluid(100))
-                .chancedOutput(GTOItems.QUANTUM_ANOMALY.asStack(), 1000, 0)
+                .chancedOutput(GTOItems.QUANTUM_ANOMALY.asItem(), 1000, 0)
                 .EUt(2013265920)
                 .duration(400)
                 .save();
@@ -136,7 +136,7 @@ final class QuantumForceTransformer {
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesium, 64)
                 .inputFluids(GTMaterials.PhosphoricAcid.getFluid(20000))
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(20000))
-                .chancedOutput(GTOItems.BLACK_BODY_NAQUADRIA_SUPERSOLID.asStack(), 2000, 0)
+                .chancedOutput(GTOItems.BLACK_BODY_NAQUADRIA_SUPERSOLID.asItem(), 2000, 0)
                 .EUt(8053063680L)
                 .duration(20)
                 .save();
@@ -203,7 +203,7 @@ final class QuantumForceTransformer {
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder("radox_gas")
                 .notConsumable(GTOItems.QUANTUM_ANOMALY.asItem())
-                .inputItems(GTOBlocks.VARIATION_WOOD.asStack(64))
+                .inputItems(GTOBlocks.VARIATION_WOOD.asItem(), 64)
                 .inputFluids(GTOMaterials.Xenoxene.getFluid(10000))
                 .inputFluids(GTOMaterials.UnknowWater.getFluid(90000))
                 .inputFluids(GTOMaterials.TemporalFluid.getFluid(100))
@@ -257,7 +257,7 @@ final class QuantumForceTransformer {
                 .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.BlackDwarfMatter)
                 .chancedInput(ChemicalHelper.get(TagPrefix.wireGtHex, GTOMaterials.SpaceTime), 1, 0)
                 .inputFluids(GTOMaterials.CosmicElement.getFluid(100))
-                .chancedOutput(GTOItems.TIMEPIECE.asStack(), 2500, 0)
+                .chancedOutput(GTOItems.TIMEPIECE.asItem(), 2500, 0)
                 .EUt(2013265920)
                 .duration(200)
                 .save();

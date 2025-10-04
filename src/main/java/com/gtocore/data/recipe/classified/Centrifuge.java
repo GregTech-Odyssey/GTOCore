@@ -22,17 +22,17 @@ final class Centrifuge {
                 .inputItems(GTOItems.DEPLETED_REACTOR_THORIUM_SIMPLE.asItem())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.Uranium238, 4, 4000, 500)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(2), 1600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 2, 1600, 500)
                 .EUt(480)
                 .duration(40)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_uranium_dual")
                 .inputItems(GTOItems.DEPLETED_REACTOR_URANIUM_DUAL.asItem())
-                .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(2))
+                .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem(), 2)
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 4)
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 12, 2500, 100)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(4), 3600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 4, 3600, 500)
                 .EUt(480)
                 .duration(80)
                 .save();
@@ -48,18 +48,18 @@ final class Centrifuge {
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_mox_simple")
                 .inputItems(GTOItems.DEPLETED_REACTOR_MOX_SIMPLE.asItem())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem())
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(8), 2000, 1000)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(2), 1600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 8, 2000, 1000)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 2, 1600, 500)
                 .EUt(480)
                 .duration(40)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_naquadah_quad")
                 .inputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_QUAD.asItem())
-                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asStack(4))
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem(), 4)
                 .outputItems(TagPrefix.rod, GTMaterials.TungstenCarbide, 12)
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 8, 8000, 200)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(8), 8000, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 8, 8000, 500)
                 .EUt(480)
                 .duration(160)
                 .save();
@@ -75,20 +75,20 @@ final class Centrifuge {
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_uranium_quad")
                 .inputItems(GTOItems.DEPLETED_REACTOR_URANIUM_QUAD.asItem())
-                .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(4))
+                .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem(), 4)
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 12)
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 24, 2500, 100)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(8), 8000, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 8, 8000, 500)
                 .EUt(480)
                 .duration(160)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_naquadah_dual")
                 .inputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_DUAL.asItem())
-                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asStack(2))
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem(), 2)
                 .outputItems(TagPrefix.rod, GTMaterials.TungstenCarbide, 4)
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 4, 8000, 200)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(4), 3600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 4, 3600, 500)
                 .EUt(480)
                 .duration(80)
                 .save();
@@ -104,7 +104,7 @@ final class Centrifuge {
                 .inputItems(GTOItems.DEPLETED_REACTOR_URANIUM_SIMPLE.asItem())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 6, 2500, 100)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(2), 1600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 2, 1600, 500)
                 .EUt(480)
                 .duration(40)
                 .save();
@@ -121,7 +121,7 @@ final class Centrifuge {
 
         CENTRIFUGE_RECIPES.recipeBuilder("tcetiedandelions")
                 .inputFluids(GTOMaterials.SeaweedBroth.getFluid(1000))
-                .outputItems(GTOItems.TCETIEDANDELIONS.asStack(64))
+                .outputItems(GTOItems.TCETIEDANDELIONS.asItem(), 64)
                 .EUt(120)
                 .duration(200)
                 .addCondition(new GravityCondition(false))
@@ -183,10 +183,10 @@ final class Centrifuge {
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_mox_dual")
                 .inputItems(GTOItems.DEPLETED_REACTOR_MOX_DUAL.asItem())
-                .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(2))
+                .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem(), 2)
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 4)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(16), 2000, 1000)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(4), 3600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 16, 2000, 1000)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 4, 3600, 500)
                 .EUt(480)
                 .duration(80)
                 .save();
@@ -242,20 +242,20 @@ final class Centrifuge {
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_mox_quad")
                 .inputItems(GTOItems.DEPLETED_REACTOR_MOX_QUAD.asItem())
-                .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(4))
+                .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem(), 4)
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 12)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(32), 2000, 1000)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(8), 8000, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 32, 2000, 1000)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 8, 8000, 500)
                 .EUt(480)
                 .duration(160)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_thorium_quad")
                 .inputItems(GTOItems.DEPLETED_REACTOR_THORIUM_QUAD.asItem())
-                .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(4))
+                .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem(), 4)
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 12)
                 .chancedOutput(TagPrefix.dust, GTMaterials.Uranium238, 16, 4000, 500)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(8), 8000, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 8, 8000, 500)
                 .EUt(480)
                 .duration(160)
                 .save();
@@ -264,7 +264,7 @@ final class Centrifuge {
                 .inputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_SIMPLE.asItem())
                 .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 2, 8000, 200)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(2), 1600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 2, 1600, 500)
                 .EUt(480)
                 .duration(40)
                 .save();
@@ -279,10 +279,10 @@ final class Centrifuge {
 
         CENTRIFUGE_RECIPES.recipeBuilder("depleted_reactor_thorium_dual")
                 .inputItems(GTOItems.DEPLETED_REACTOR_THORIUM_DUAL.asItem())
-                .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(2))
+                .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem(), 2)
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 4)
                 .chancedOutput(TagPrefix.dust, GTMaterials.Uranium238, 8, 4000, 500)
-                .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(4), 3600, 500)
+                .chancedOutput(GTOItems.NUCLEAR_WASTE.asItem(), 4, 3600, 500)
                 .EUt(480)
                 .duration(80)
                 .save();

@@ -252,11 +252,11 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                     }
             }
             else -> {
-                AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.item) to
+                AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()) to
                     if (customName.isNotEmpty()) {
                         Component.literal(customName)
                     } else {
-                        GTAEMachines.ME_PATTERN_BUFFER.get().definition.item.description
+                        GTAEMachines.ME_PATTERN_BUFFER.get().definition.asItem().description
                     }
             }
         }

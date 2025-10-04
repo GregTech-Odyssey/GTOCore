@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -44,9 +43,9 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("contained_reissner_nordstrom_singularity")
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
-                .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asStack(64))
-                .inputItems(GTOItems.CHARGED_TRIPLET_NEUTRONIUM_SPHERE.asStack(64))
-                .outputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asStack(64))
+                .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asItem(), 64)
+                .inputItems(GTOItems.CHARGED_TRIPLET_NEUTRONIUM_SPHERE.asItem(), 64)
+                .outputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asItem(), 64)
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
@@ -111,8 +110,8 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("recursively_folded_negative_space")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
-                .inputItems(GTOItems.MACROWORMHOLE_GENERATOR.asStack(2))
-                .inputItems(GTOItems.TEMPORAL_MATTER.asStack(2))
+                .inputItems(GTOItems.MACROWORMHOLE_GENERATOR.asItem(), 2)
+                .inputItems(GTOItems.TEMPORAL_MATTER.asItem(), 2)
                 .outputItems(GTOItems.RECURSIVELY_FOLDED_NEGATIVE_SPACE.asItem())
                 .EUt(503316480)
                 .duration(200)
@@ -134,7 +133,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("quantum_chromo_dynamically_confined_matter_plasma")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
-                .inputItems(GTOItems.QUANTUMCHROMODYNAMIC_PROTECTIVE_PLATING.asStack(20))
+                .inputItems(GTOItems.QUANTUMCHROMODYNAMIC_PROTECTIVE_PLATING.asItem(), 20)
                 .outputFluids(GTOMaterials.QuantumChromoDynamicallyConfinedMatter.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .EUt(503316480)
                 .duration(200)
@@ -144,7 +143,7 @@ final class StellarForge {
         STELLAR_FORGE_RECIPES.recipeBuilder("chaos_shard")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
                 .inputItems(GTOBlocks.INFUSED_OBSIDIAN.asItem())
-                .inputItems(new ItemStack(Blocks.BEDROCK.asItem()))
+                .inputItems(Blocks.BEDROCK.asItem())
                 .inputFluids(GTOMaterials.Radox.getFluid(1000))
                 .outputItems(GTOItems.CHAOS_SHARD.asItem())
                 .EUt(503316480)
@@ -154,9 +153,9 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("contained_kerr_newmann_singularity")
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asItem())
-                .inputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asStack(64))
+                .inputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asItem(), 64)
                 .outputItems(GTOItems.CONTAINED_KERR_NEWMANN_SINGULARITY.asItem())
-                .outputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asStack(63))
+                .outputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asItem(), 63)
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
@@ -213,7 +212,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("starmetal_plasma")
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asItem())
-                .inputItems(GTOItems.RESONATING_GEM.asStack(10))
+                .inputItems(GTOItems.RESONATING_GEM.asItem(), 10)
                 .inputFluids(GTOMaterials.FreeProtonGas.getFluid(1000))
                 .inputFluids(GTOMaterials.FreeElectronGas.getFluid(1000))
                 .outputFluids(GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -233,7 +232,7 @@ final class StellarForge {
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("eternity_dust")
-                .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack(4))
+                .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem(), 4)
                 .inputItems(ModItems.eternal_singularity.get())
                 .inputFluids(GTOMaterials.PrimordialMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
@@ -246,7 +245,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("extremely_durable_plasma_cell")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
-                .inputItems(GTOItems.DENSE_NEUTRON_PLASMA_CELL.asStack(2))
+                .inputItems(GTOItems.DENSE_NEUTRON_PLASMA_CELL.asItem(), 2)
                 .outputItems(GTOItems.COSMIC_NEUTRON_PLASMA_CELL.asItem())
                 .outputItems(GTOItems.EXTREMELY_DURABLE_PLASMA_CELL.asItem())
                 .EUt(503316480)
@@ -294,7 +293,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("dragon_heart")
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
-                .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem(), 64))
+                .inputItems(Blocks.DRAGON_EGG.asItem(), 64)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.AwakenedDraconium)
                 .outputItems(GTOItems.DRAGON_HEART.asItem())
                 .EUt(31457280)
@@ -322,7 +321,7 @@ final class StellarForge {
                 .save();
 
         STELLAR_FORGE_RECIPES.recipeBuilder("temporalfluid")
-                .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack(4))
+                .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem(), 4)
                 .inputItems(GTOItems.HYPERCUBE.asItem())
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(1000))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(100))
@@ -350,7 +349,7 @@ final class StellarForge {
         STELLAR_FORGE_RECIPES.recipeBuilder("crystal_matrix_plasma")
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asItem())
                 .inputItems(ModBlocks.crystal_matrix.get().asItem())
-                .inputItems(GTOItems.CORPOREAL_MATTER.asStack(16))
+                .inputItems(GTOItems.CORPOREAL_MATTER.asItem(), 16)
                 .inputFluids(GTOMaterials.FreeProtonGas.getFluid(20000))
                 .outputFluids(GTOMaterials.CrystalMatrix.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(125829120)
@@ -370,8 +369,8 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("infuscolium_plasma")
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
-                .inputItems(new ItemStack(Items.END_CRYSTAL.asItem(), 16))
-                .inputItems(new ItemStack(Items.POPPED_CHORUS_FRUIT.asItem(), 16))
+                .inputItems(Items.END_CRYSTAL.asItem(), 16)
+                .inputItems(Items.POPPED_CHORUS_FRUIT.asItem(), 16)
                 .inputFluids(GTOMaterials.Adamantine.getFluid(2304))
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .outputFluids(GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA, 2304))

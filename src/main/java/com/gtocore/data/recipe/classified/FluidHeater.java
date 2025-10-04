@@ -64,7 +64,7 @@ final class FluidHeater {
                 .save();
 
         FLUID_HEATER_RECIPES.recipeBuilder("cloud_seed")
-                .inputItems(GTOItems.GOLD_ALGAE.asStack(4))
+                .inputItems(GTOItems.GOLD_ALGAE.asItem(), 4)
                 .inputFluids(GTOMaterials.CoolantLiquid.getFluid(1000))
                 .outputFluids(new FluidStack(EIOFluids.CLOUD_SEED.getSource(), 1000))
                 .EUt(30)

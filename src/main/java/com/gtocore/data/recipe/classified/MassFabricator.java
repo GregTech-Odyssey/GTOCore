@@ -6,8 +6,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
-
 import appeng.core.definitions.AEItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.MASS_FABRICATOR_RECIPES;
@@ -16,7 +14,7 @@ final class MassFabricator {
 
     public static void init() {
         MASS_FABRICATOR_RECIPES.recipeBuilder("uu_matter")
-                .inputItems(new ItemStack(AEItems.MATTER_BALL.asItem()))
+                .inputItems(AEItems.MATTER_BALL.asItem())
                 .inputFluids(GTOMaterials.UuAmplifier.getFluid(10))
                 .outputFluids(GTMaterials.UUMatter.getFluid(10))
                 .EUt(31457280)

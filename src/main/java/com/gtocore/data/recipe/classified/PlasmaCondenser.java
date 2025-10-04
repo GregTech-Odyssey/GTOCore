@@ -107,7 +107,7 @@ final class PlasmaCondenser {
                 .notConsumable(GTOItems.BALL_FIELD_SHAPE.asItem())
                 .inputItems(GTOItems.NEUTRON_PLASMA_CONTAINMENT_CELL.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 32000))
-                .outputItems(GTOItems.NEUTRONIUM_SPHERE.asStack(4))
+                .outputItems(GTOItems.NEUTRONIUM_SPHERE.asItem(), 4)
                 .outputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asItem())
                 .outputFluids(GTMaterials.Helium.getFluid(32000))
                 .EUt(1966080)

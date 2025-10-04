@@ -167,7 +167,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
 
     @Override
     public Component getDescription() {
-        return getDefinition().getItem().getDescription();
+        return getDefinition().asItem().getDescription();
     }
 
     @Override

@@ -372,7 +372,7 @@ public final class MachineRegisterUtils {
 
     public static MultiblockMachineDefinition registerLargeTurbine(GTORegistration registrate, String name, String cn, int tier, boolean special, GTRecipeType recipeType, Supplier<? extends Block> casing, Supplier<? extends Block> gear, ResourceLocation casingTexture, ResourceLocation overlayModel, boolean isGTM) {
         if (Objects.equals(name, "plasma_large_turbine")) {
-            DUMMY_MULTIBLOCK.setItemSupplier(MultiBlockA.VOID_MINER::getItem);
+            DUMMY_MULTIBLOCK.setItemSupplier(MultiBlockA.VOID_MINER::asItem);
             return DUMMY_MULTIBLOCK;
         }
         if (!isGTM) addLang(name, cn);

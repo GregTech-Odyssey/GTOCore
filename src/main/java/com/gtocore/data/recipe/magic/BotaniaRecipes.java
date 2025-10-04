@@ -771,7 +771,7 @@ public final class BotaniaRecipes {
 
                 for (int i = 0; i < EndremEyes.length; i++) {
                     MANA_CONDENSER_RECIPES.builder(EndremEyes[i])
-                            .inputItems(GTItems.QUANTUM_EYE.asStack())
+                            .inputItems(GTItems.QUANTUM_EYE.asItem())
                             .inputItems(EndremEyes_input[i])
                             .outputItems("endrem:" + EndremEyes[i])
                             .duration(200)
