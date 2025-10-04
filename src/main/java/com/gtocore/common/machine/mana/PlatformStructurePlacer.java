@@ -3,6 +3,7 @@ package com.gtocore.common.machine.mana;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.FullChunkStatus;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -23,89 +24,56 @@ import java.util.regex.Pattern;
 
 public final class PlatformStructurePlacer {
 
-    private final ServerLevel level;
+    private final ServerLevel serverLevel;
     private final BlockIterator blockIterator;
-    private final int totalBlocks;
     private final int perTick;
     private final boolean breakBlocks;
     private final boolean updateLight;
     private final Consumer<Integer> onBatch;
     private final Runnable onFinished;
 
-    private int placedCount = 0;
     private ISubscription subscription;
 
-    private PlatformStructurePlacer(ServerLevel level,
+    private PlatformStructurePlacer(ServerLevel serverLevel,
                                     BlockIterator blockIterator,
-                                    int totalBlocks,
                                     int perTick,
                                     boolean breakBlocks,
                                     boolean updateLight,
                                     Consumer<Integer> onBatch,
                                     Runnable onFinished) {
-        this.level = level;
+        this.serverLevel = serverLevel;
         this.blockIterator = blockIterator;
-        this.totalBlocks = totalBlocks;
         this.perTick = perTick;
         this.breakBlocks = breakBlocks;
         this.updateLight = updateLight;
         this.onBatch = onBatch;
         this.onFinished = onFinished;
 
-        this.subscription = TaskHandler.enqueueServerTick(level, this::placeBatch, this::onComplete, 0)::unsubscribe;
+        this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, this::onComplete, 0)::unsubscribe;
     }
 
     /**
-     * 外部调用入口
+     * 外部调用入口（直接接收 PlatformBlockStructure 对象）
      */
     public static void placeStructureAsync(Level level,
                                            BlockPos startPos,
-                                           String resourcePath,
-                                           Map<Character, BlockState> blockMapping,
+                                           PlatformBlockType.PlatformBlockStructure structure,
                                            int perTick,
                                            boolean breakBlocks,
                                            boolean updateLight,
                                            Consumer<Integer> onBatch,
                                            Runnable onFinished) throws IOException {
-        try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
-            if (input == null) throw new FileNotFoundException("Structure file not found: " + resourcePath);
-
-            int totalBlocks = countTotalBlocks(input, blockMapping);
-            input.reset();
-
-            BlockIterator iterator = new BlockIterator(input, startPos, blockMapping);
-
-            if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, totalBlocks, perTick, breakBlocks, updateLight, onBatch, onFinished);
+        if (!(level instanceof ServerLevel serverLevel)) {
+            throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
         }
-    }
 
-    /**
-     * 预计算总方块数（用于进度计算）
-     */
-    private static int countTotalBlocks(InputStream input, Map<Character, BlockState> blockMapping) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
-            Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
-            Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
-
-            int count = 0;
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                if (line.startsWith(".aisle(")) {
-                    Matcher aisleMatcher = aislePattern.matcher(line);
-                    if (aisleMatcher.find()) {
-                        String content = aisleMatcher.group(1);
-                        Matcher stringMatcher = stringPattern.matcher(content);
-                        while (stringMatcher.find()) {
-                            String row = stringMatcher.group(1);
-                            for (char c : row.toCharArray()) {
-                                if (blockMapping.containsKey(c)) count++;
-                            }
-                        }
-                    }
-                }
+        try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(structure.getResourcePath())) {
+            if (input == null) {
+                throw new FileNotFoundException("Structure file not found: " + structure.getResourcePath());
             }
-            return count;
+
+            BlockIterator iterator = new BlockIterator(input, startPos, structure.getBlockMapping(), structure.getResourcePath());
+            new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, updateLight, onBatch, onFinished);
         }
     }
 
@@ -113,25 +81,20 @@ public final class PlatformStructurePlacer {
      * 每 tick 放置一批方块
      */
     private void placeBatch() {
-        if (totalBlocks == 0) {
-            subscription.unsubscribe();
-            return;
-        }
+        int processedThisTick = 0;
 
-        int end = Math.min(placedCount + perTick, totalBlocks);
-
-        while (placedCount < end && blockIterator.hasNext()) {
+        while (blockIterator.hasNext() && processedThisTick < perTick) {
             BlockIterator.Entry entry = blockIterator.next();
             BlockPos pos = entry.pos();
             BlockState state = entry.state();
 
             int y = pos.getY();
-            if (level.isOutsideBuildHeight(y)) {
-                placedCount++;
+            if (serverLevel.isOutsideBuildHeight(y)) {
+                processedThisTick++;
                 continue;
             }
 
-            LevelChunk chunk = level.getChunkAt(pos);
+            LevelChunk chunk = serverLevel.getChunkAt(pos);
             LevelChunkSection section = chunk.getSection(chunk.getSectionIndex(y));
 
             int x = pos.getX() & 15;
@@ -142,14 +105,14 @@ public final class PlatformStructurePlacer {
 
             // 判断是否替换
             if (!breakBlocks && !oldState.isAir()) {
-                placedCount++;
+                processedThisTick++;
                 continue;
             }
 
             // 基岩保护
-            if (!level.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING) &&
+            if (!serverLevel.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING) &&
                     oldState.is(Blocks.BEDROCK)) {
-                placedCount++;
+                processedThisTick++;
                 continue;
             }
 
@@ -162,36 +125,41 @@ public final class PlatformStructurePlacer {
             }
 
             // 如果开启光照更新，且光照属性有变化
-            if (updateLight && LightEngine.hasDifferentLightProperties(level, pos, oldState, state)) {
-                chunk.getSkyLightSources().update(level, pos.getX(), pos.getY(), pos.getZ());
-                level.getChunkSource().getLightEngine().checkBlock(pos);
+            if (updateLight && LightEngine.hasDifferentLightProperties(serverLevel, pos, oldState, state)) {
+                chunk.getSkyLightSources().update(serverLevel, pos.getX(), pos.getY(), pos.getZ());
+                serverLevel.getChunkSource().getLightEngine().checkBlock(pos);
             }
 
             // BlockEntity 处理
-            oldState.onRemove(level, pos, state, false);
+            oldState.onRemove(serverLevel, pos, state, false);
             if (oldState.hasBlockEntity()) {
-                level.removeBlockEntity(pos);
+                serverLevel.removeBlockEntity(pos);
             }
             if (state.hasBlockEntity() && state.getBlock() instanceof net.minecraft.world.level.block.EntityBlock entityBlock) {
                 BlockEntity be = entityBlock.newBlockEntity(pos, state);
                 if (be != null) {
-                    level.setBlockEntity(be);
+                    serverLevel.setBlockEntity(be);
                     chunk.setBlockEntity(be);
                 }
             }
 
+            // 通知附近玩家方块更新
+            var fullStatus = chunk.getFullStatus();
+            if (fullStatus.isOrAfter(FullChunkStatus.BLOCK_TICKING)) {
+                serverLevel.getChunkSource().blockChanged(pos);
+            }
+
             chunk.setUnsaved(true);
-            placedCount++;
+            processedThisTick++;
         }
 
-        // 进度回调
-        int progress = totalBlocks > 0 ? (int) ((double) placedCount / totalBlocks * 100) : 0;
+        // 进度回调（基于 aisle 数量）
         if (onBatch != null) {
-            onBatch.accept(progress);
+            onBatch.accept(blockIterator.getProgressPercentage());
         }
 
-        // 完成后取消订阅
-        if (placedCount >= totalBlocks) {
+        // 如果迭代器结束，自动停止任务
+        if (!blockIterator.hasNext()) {
             subscription.unsubscribe();
         }
     }
@@ -221,11 +189,36 @@ public final class PlatformStructurePlacer {
         private int x = 0;             // 当前字符索引（行内 x）
         private int z = 0;             // 当前层索引（深度 z）
 
-        BlockIterator(InputStream input, BlockPos startPos, Map<Character, BlockState> blockMapping) throws IOException {
+        private final int totalAisles;      // 文件中总 aisle 数
+        private int processedAisles = 0;    // 已处理 aisle 数
+
+        BlockIterator(InputStream input, BlockPos startPos, Map<Character, BlockState> blockMapping, String resourcePath) throws IOException {
             this.reader = new BufferedReader(new InputStreamReader(input));
             this.startPos = startPos;
             this.blockMapping = blockMapping;
+            this.totalAisles = countTotalAisles(resourcePath);
             readNextAisle();
+        }
+
+        /**
+         * 统计文件中总 aisle 数
+         */
+        private int countTotalAisles(String resourcePath) throws IOException {
+            try (InputStream countInput = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
+
+                BufferedReader countReader;
+                if (countInput != null) countReader = new BufferedReader(new InputStreamReader(countInput));
+                else throw new FileNotFoundException("Structure file not found: " + resourcePath);
+
+                int count = 0;
+                String line;
+                while ((line = countReader.readLine()) != null) {
+                    if (line.trim().startsWith(".aisle(")) {
+                        count++;
+                    }
+                }
+                return count;
+            }
         }
 
         /**
@@ -248,12 +241,21 @@ public final class PlatformStructurePlacer {
                             currentAisle = rows.toArray(new String[0]);
                             y = 0;
                             x = 0;
+                            processedAisles++; // 处理完一个 aisle
                             return;
                         }
                     }
                 }
             }
             currentAisle = null; // 文件结束
+        }
+
+        /**
+         * 获取基于 aisle 的进度百分比
+         */
+        public int getProgressPercentage() {
+            if (totalAisles == 0) return 0;
+            return Math.min(100, (int) (((double) processedAisles / totalAisles) * 100));
         }
 
         @Override

@@ -6,13 +6,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class PlatformBlockType {
 
@@ -103,7 +97,7 @@ public final class PlatformBlockType {
         }
 
         public int[] getMaterials() {
-            return materials;
+            return Arrays.copyOf(materials, materials.length);
         }
 
         public int getXSize() {
@@ -121,7 +115,7 @@ public final class PlatformBlockType {
         public static final class Builder {
 
             private final String name;
-            private String type;
+            private String type = "default";
             private String displayName;
             private String description;
             private String source;
@@ -207,7 +201,8 @@ public final class PlatformBlockType {
                 if (symbolMap.isEmpty()) {
                     throw new IllegalStateException("No block mappings defined");
                 }
-                readDepthFromResource(resourcePath);
+                if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
+                if (zSize % 16 != 0) throw new IllegalArgumentException("Z size must be multiple of 16");
                 return new PlatformBlockStructure(
                         name,
                         type,
@@ -317,78 +312,5 @@ public final class PlatformBlockType {
                 return new PlatformPreset(name, displayName, description, source, structures);
             }
         }
-    }
-
-    /**
-     * 从资源文件读取结构数据
-     */
-    public static List<String[]> readDepthFromResource(String resourcePath) {
-        try (InputStream is = PlatformBlockType.class.getClassLoader().getResourceAsStream(resourcePath)) {
-            if (is == null) {
-                throw new IllegalArgumentException("Resource not found: " + resourcePath);
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String line;
-            Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
-            Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
-            List<String[]> depth = new ArrayList<>();
-            while ((line = br.readLine()) != null) {
-                line = line.trim();
-                if (line.startsWith(".aisle(")) {
-                    Matcher aisleMatcher = aislePattern.matcher(line);
-                    if (aisleMatcher.find()) {
-                        String content = aisleMatcher.group(1);
-                        Matcher stringMatcher = stringPattern.matcher(content);
-                        List<String> rows = new ArrayList<>();
-                        while (stringMatcher.find()) {
-                            rows.add(stringMatcher.group(1));
-                        }
-                        if (!rows.isEmpty()) {
-                            depth.add(rows.toArray(new String[0]));
-                        }
-                    }
-                }
-            }
-            validateStructure(depth);
-            return depth;
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load structure from resource: " + resourcePath, e);
-        }
-    }
-
-    /**
-     * 获取指定坐标的方块
-     */
-    public static BlockState getBlockAt(String resourcePath, Map<Character, BlockState> blockMapping, int x, int y, int z) {
-        List<String[]> depth = readDepthFromResource(resourcePath);
-        if (z < 0 || z >= depth.size()) throw new IndexOutOfBoundsException("Z index out of bounds");
-        String[] aisle = depth.get(z);
-        if (y < 0 || y >= aisle.length) throw new IndexOutOfBoundsException("Y index out of bounds");
-        String row = aisle[y];
-        if (x < 0 || x >= row.length()) throw new IndexOutOfBoundsException("X index out of bounds");
-        char symbol = row.charAt(x);
-        return blockMapping.get(symbol);
-    }
-
-    private static void validateStructure(List<String[]> depth) {
-        if (depth == null || depth.isEmpty()) throw new IllegalArgumentException("Depth cannot be empty");
-
-        int ySize = depth.get(0).length;
-        int xSize = depth.get(0)[0].length();
-        int zSize = depth.size();
-
-        for (String[] aisle : depth) {
-            if (aisle == null || aisle.length != ySize) {
-                throw new IllegalArgumentException("All aisles must have the same height (y size)");
-            }
-            for (String row : aisle) {
-                if (row == null || row.length() != xSize) {
-                    throw new IllegalArgumentException("All rows must have the same width (x size)");
-                }
-            }
-        }
-
-        if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
-        if (zSize % 16 != 0) throw new IllegalArgumentException("Z size must be multiple of 16");
     }
 }

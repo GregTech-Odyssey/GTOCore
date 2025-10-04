@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -142,22 +143,22 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Persisted
     private boolean insufficient = true;
 
-    private static final List<Map<Item, Integer>> ITEM_VALUE_MAP = List.of(
-            new LinkedHashMap<>(Map.of(
-                    GTOItems.BIOWARE_MAINFRAME.asItem(), 5000,
-                    GTOItems.BIOWARE_COMPUTER.asItem(), 2000,
-                    GTOItems.BIOWARE_ASSEMBLY.asItem(), 500,
-                    GTOItems.BIOWARE_PROCESSOR.asItem(), 200)),
-            new LinkedHashMap<>(Map.of(
-                    GTOItems.OPTICAL_MAINFRAME.asItem(), 5000,
-                    GTOItems.OPTICAL_COMPUTER.asItem(), 2000,
-                    GTOItems.OPTICAL_ASSEMBLY.asItem(), 500,
-                    GTOItems.OPTICAL_PROCESSOR.asItem(), 200)),
-            new LinkedHashMap<>(Map.of(
-                    GTOItems.EXOTIC_MAINFRAME.asItem(), 5000,
-                    GTOItems.EXOTIC_COMPUTER.asItem(), 2000,
-                    GTOItems.EXOTIC_ASSEMBLY.asItem(), 500,
-                    GTOItems.EXOTIC_PROCESSOR.asItem(), 200)));
+    private static final List<List<IntObjectHolder<Item>>> ITEM_VALUE_HOLDERS = List.of(
+            List.of(
+                    new IntObjectHolder<>(5000, GTOItems.BIOWARE_MAINFRAME.asItem()),
+                    new IntObjectHolder<>(2000, GTOItems.BIOWARE_COMPUTER.asItem()),
+                    new IntObjectHolder<>(500, GTOItems.BIOWARE_ASSEMBLY.asItem()),
+                    new IntObjectHolder<>(200, GTOItems.BIOWARE_PROCESSOR.asItem())),
+            List.of(
+                    new IntObjectHolder<>(5000, GTOItems.OPTICAL_MAINFRAME.asItem()),
+                    new IntObjectHolder<>(2000, GTOItems.OPTICAL_COMPUTER.asItem()),
+                    new IntObjectHolder<>(500, GTOItems.OPTICAL_ASSEMBLY.asItem()),
+                    new IntObjectHolder<>(200, GTOItems.OPTICAL_PROCESSOR.asItem())),
+            List.of(
+                    new IntObjectHolder<>(5000, GTOItems.EXOTIC_MAINFRAME.asItem()),
+                    new IntObjectHolder<>(2000, GTOItems.EXOTIC_COMPUTER.asItem()),
+                    new IntObjectHolder<>(500, GTOItems.EXOTIC_ASSEMBLY.asItem()),
+                    new IntObjectHolder<>(200, GTOItems.EXOTIC_PROCESSOR.asItem())));
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
@@ -439,10 +440,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         if (!presetConfirm) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
         else {
             BlockPos pos = getPos();
-            int maxChunkX = (pos.getX() >> 4) + offsetX;
-            int maxChunkZ = (pos.getZ() >> 4) + offsetZ;
-            int minChunkX = maxChunkX - getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16;
-            int minChunkZ = maxChunkZ - getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16;
+            int minChunkX = (pos.getX() >> 4) + offsetX;
+            int minChunkZ = (pos.getZ() >> 4) + offsetZ;
+            int maxChunkX = minChunkX + getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16;
+            int maxChunkZ = minChunkZ + getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16;
 
             int minX = minChunkX << 4;
             int maxX = (maxChunkX << 4) + 15;
@@ -497,7 +498,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     private void addDisplayTextStart(List<Component> textList) {
         if (!presetConfirm) textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
         else {
-            if (!insufficient) textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+            if (!insufficient) textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient")));
             else {
                 if (!taskCompleted) textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.doing", progress)));
                 else textList.add(centerComponent(50, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.start"), "start")));
@@ -584,12 +585,13 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
-            for (int k = 0; k < ITEM_VALUE_MAP.size(); k++) {
-                Integer value = ITEM_VALUE_MAP.get(k).get(stack.getItem());
-                if (value != null) {
-                    materialInventory[k] += value * stack.getCount();
-                    inventory.setStackInSlot(i, ItemStack.EMPTY);
-                    break;
+            for (int k = 0; k < ITEM_VALUE_HOLDERS.size(); k++) {
+                for (IntObjectHolder<Item> holder : ITEM_VALUE_HOLDERS.get(k)) {
+                    if (holder.obj.equals(stack.getItem())) {
+                        materialInventory[k] += holder.number * stack.getCount();
+                        inventory.setStackInSlot(i, ItemStack.EMPTY);
+                        break;
+                    }
                 }
             }
         }
@@ -600,12 +602,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             ItemStack stack = inventory.getStackInSlot(i);
             if (!stack.isEmpty()) continue;
             boolean filled = false;
-            for (int k = 0; k < ITEM_VALUE_MAP.size() && !filled; k++) {
-                for (Map.Entry<Item, Integer> entry : ITEM_VALUE_MAP.get(k).entrySet()) {
-                    int count = Math.min(materialInventory[k] / entry.getValue(), 64);
+            for (int k = 0; k < ITEM_VALUE_HOLDERS.size() && !filled; k++) {
+                for (IntObjectHolder<Item> holder : ITEM_VALUE_HOLDERS.get(k)) {
+                    int count = Math.min(materialInventory[k] / holder.number, 64);
                     if (count > 0) {
-                        inventory.setStackInSlot(i, new ItemStack(entry.getKey(), count));
-                        materialInventory[k] -= entry.getValue() * count;
+                        inventory.setStackInSlot(i, new ItemStack(holder.obj, count));
+                        materialInventory[k] -= holder.number * count;
                         filled = true;
                         break;
                     }
@@ -626,18 +628,17 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     }
 
     private void start() {
+        if (!taskCompleted) return;
         Level level = getLevel();
         BlockPos pos = getPos();
         if (level == null) return;
         progress = 0;
+        taskCompleted = false;
         try {
             PlatformStructurePlacer.placeStructureAsync(
                     level,
-                    new BlockPos(((pos.getX() >> 4) + offsetX - getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16) << 4,
-                            pos.getY() + offsetY,
-                            ((pos.getZ() >> 4) + offsetZ - getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16) << 4),
-                    getPlatformBlockStructure(saveGroup, saveId).getResourcePath(),
-                    getPlatformBlockStructure(saveGroup, saveId).getBlockMapping(),
+                    new BlockPos(((pos.getX() >> 4) + offsetX) << 4, pos.getY() + offsetY, ((pos.getZ() >> 4) + offsetZ) << 4),
+                    getPlatformBlockStructure(saveGroup, saveId),
                     50000,
                     true,
                     true,
