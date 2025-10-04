@@ -5,6 +5,8 @@ import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.utils.setTooltips
 
+import net.minecraftforge.coremod.api.ASMAPI.listOf
+
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
@@ -165,6 +167,14 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     content("你走到了单个存储元件的尽头" translatedTo "You've reached the end of a single storage cell")
                     increase(ComponentSlang.RecommendedToUse("ME存储器 (多方块结构)" translatedTo "ME Storage (MultiBlock)"))
                     increase("他最高可以实现不限类型的无限存储" translatedTo "It can even store unlimited amounts of items and fluids without type limit")
+                }.editionByGTONormal(),
+            )
+        }
+
+        listOf(AEItems.CERTUS_QUARTZ_KNIFE.asItem(), AEItems.NETHER_QUARTZ_KNIFE.asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    highlight("Shift+右键方块可以复制其名称，便于命名" translatedTo "Shift+Right click a block to copy its name, which is convenient for naming")
                 }.editionByGTONormal(),
             )
         }
