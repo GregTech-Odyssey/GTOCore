@@ -63,17 +63,14 @@ public final class PlatformStructurePlacer {
                                            boolean updateLight,
                                            Consumer<Integer> onBatch,
                                            Runnable onFinished) throws IOException {
-        if (!(level instanceof ServerLevel serverLevel)) {
-            throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
-        }
-
         try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(structure.getResourcePath())) {
             if (input == null) {
                 throw new FileNotFoundException("Structure file not found: " + structure.getResourcePath());
             }
 
             BlockIterator iterator = new BlockIterator(input, startPos, structure.getBlockMapping(), structure.getResourcePath());
-            new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, updateLight, onBatch, onFinished);
+            if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, updateLight, onBatch, onFinished);
+            else throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
         }
     }
 
@@ -110,8 +107,7 @@ public final class PlatformStructurePlacer {
             }
 
             // 基岩保护
-            if (!serverLevel.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING) &&
-                    oldState.is(Blocks.BEDROCK)) {
+            if (oldState.is(Blocks.BEDROCK)) {
                 processedThisTick++;
                 continue;
             }
@@ -120,13 +116,13 @@ public final class PlatformStructurePlacer {
             section.setBlockState(x, localY, z, state);
 
             // 更新高度图
-            for (Heightmap.Types type : Heightmap.Types.values()) {
-                chunk.getOrCreateHeightmapUnprimed(type).update(x, y, z, state);
-            }
+            chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.MOTION_BLOCKING).update(x, y, z, state);
+            chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES).update(x, y, z, state);
+            chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR).update(x, y, z, state);
+            chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE).update(x, y, z, state);
 
             // 如果开启光照更新，且光照属性有变化
             if (updateLight && LightEngine.hasDifferentLightProperties(serverLevel, pos, oldState, state)) {
-                chunk.getSkyLightSources().update(serverLevel, pos.getX(), pos.getY(), pos.getZ());
                 serverLevel.getChunkSource().getLightEngine().checkBlock(pos);
             }
 

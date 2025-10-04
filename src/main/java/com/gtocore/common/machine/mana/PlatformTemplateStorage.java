@@ -1,11 +1,24 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.machine.mana.PlatformBlockType.*;
+
+import com.gtolib.utils.RegistriesUtils;
+
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
 public class PlatformTemplateStorage {
 
@@ -27,10 +40,37 @@ public class PlatformTemplateStorage {
 
         // 从文件加载X方向道路
         PlatformBlockStructure roadX = PlatformBlockStructure.structure("roadX")
+                .displayName("一个lhc")
+                .description("这是一个lhc")
+                .source("疏影酱")
                 .preview(true)
-                .resourcePath("assets/gtocore/platforms/road_x")
-                .where('A', Blocks.COBBLESTONE)
-                .where('~', Blocks.AIR)
+                .resourcePath("assets/gtocore/platforms/lhc")
+                .where('A', GTOBlocks.IRIDIUM_CASING.get())
+                .where('B', GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get())
+                .where('C', Objects.requireNonNull(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)))
+                .where('D', GTOBlocks.NAQUADAH_ALLOY_CASING.get())
+                .where('E', GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.get())
+                .where('F', GTBlocks.HIGH_POWER_CASING.get())
+                .where('G', GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get())
+                .where('H', GTBlocks.HERMETIC_CASING_UHV.get())
+                .where('I', GTBlocks.FUSION_CASING.get())
+                .where('J', GTOBlocks.MOLECULAR_COIL.get())
+                .where('K', GTOBlocks.SHIELDED_ACCELERATOR.get())
+                .where('L', RegistriesUtils.getBlock("gtceu:magnetic_neodymium_block"))
+                .where('M', RegistriesUtils.getBlock("gtceu:magnetic_samarium_block"))
+                .where('N', RegistriesUtils.getBlock("gtocore:energetic_netherite_block"))
+                .where('O', GTOBlocks.MAGTECH_CASING.get())
+                .where('P', GTOBlocks.RADIATION_ABSORBENT_CASING.get())
+                .where('Q', GTOBlocks.AMPROSIUM_PIPE_CASING.get())
+                .where('R', Objects.requireNonNull(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.HastelloyN)))
+                .where('S', GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get())
+                .where('T', GTOBlocks.HOLLOW_CASING.get())
+                .where('U', GCYMBlocks.CASING_ATOMIC.get())
+                .where('V', GTOBlocks.OIL_GAS_TRANSPORTATION_PIPE_CASING.get())
+                .where('W', Blocks.SNOW_BLOCK)
+                .where('X', Blocks.LIME_CONCRETE)
+                .where('Y', GTOBlocks.IRIDIUM_CASING.get())
+                .where(' ', Blocks.AIR)
                 .materials(0, 256)
                 .xSize(16)
                 .ySize(1)

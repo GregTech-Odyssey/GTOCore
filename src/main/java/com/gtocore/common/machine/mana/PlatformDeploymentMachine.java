@@ -21,6 +21,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -632,11 +633,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         Level level = getLevel();
         BlockPos pos = getPos();
         if (level == null) return;
+        if (!(level instanceof ServerLevel serverLevel)) return;
         progress = 0;
         taskCompleted = false;
         try {
             PlatformStructurePlacer.placeStructureAsync(
-                    level,
+                    serverLevel,
                     new BlockPos(((pos.getX() >> 4) + offsetX) << 4, pos.getY() + offsetY, ((pos.getZ() >> 4) + offsetZ) << 4),
                     getPlatformBlockStructure(saveGroup, saveId),
                     50000,

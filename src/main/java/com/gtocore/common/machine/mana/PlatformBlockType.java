@@ -11,7 +11,7 @@ import java.util.*;
 public final class PlatformBlockType {
 
     // ===================================================================
-    // 单个平台结构（链式构建）
+    // 单平台结构
     // ===================================================================
     public static final class PlatformBlockStructure {
 
@@ -24,7 +24,7 @@ public final class PlatformBlockType {
         @Nullable
         private final String source;
         private final boolean preview;
-        private final String resourcePath; // 保存资源路径
+        private final String resourcePath;
         private final Map<Character, BlockState> blockMapping;
         private final int[] materials;
         private final int xSize;
@@ -221,7 +221,7 @@ public final class PlatformBlockType {
     }
 
     // ===================================================================
-    // 平台预设组（按 name 主键管理）
+    // 平台预设组
     // ===================================================================
     public static final class PlatformPreset {
 
