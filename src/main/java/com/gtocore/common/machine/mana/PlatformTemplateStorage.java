@@ -37,7 +37,6 @@ public final class PlatformTemplateStorage {
                 .materials(2, 256)
                 .build();
 
-        // 从文件加载X方向道路
         PlatformBlockStructure roadX = PlatformBlockStructure.structure("roadX")
                 .displayName("一个lhc")
                 .description("这是一个lhc")
@@ -77,19 +76,19 @@ public final class PlatformTemplateStorage {
                 .zSize(16)
                 .build();
 
-        // 从文件加载Z方向道路
         PlatformBlockStructure roadZ = PlatformBlockStructure.structure("roadZ")
+                .displayName("半个房子")
+                .description("这是半个房子")
+                .source("某村民")
                 .preview(true)
-                .resource(GTOCore.id("platforms/road_x"))
-                .where('A', Blocks.COBBLESTONE)
-                .where('~', Blocks.AIR)
+                .resource(GTOCore.id("platforms/20251005-002738-451-ad553080.txt"))
+                .symbolMap(GTOCore.id("platforms/20251005-002738-451-ad553080.json"))
                 .materials(0, 256)
                 .xSize(16)
                 .ySize(1)
                 .zSize(16)
                 .build();
 
-        // 从文件加载十字路口
         PlatformBlockStructure cross = PlatformBlockStructure.structure("cross")
                 .preview(false)
                 .resource(GTOCore.id("platforms/road_x"))
@@ -98,7 +97,7 @@ public final class PlatformTemplateStorage {
                 .materials(0, 256)
                 .build();
 
-        // 注册预设
+        // 注册预设组
         presets.add(
                 PlatformPreset.preset("cobblestone_single")
                         .displayName("一些方块")

@@ -1,5 +1,8 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtolib.GTOCore;
+import com.gtolib.utils.RegistriesUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -8,6 +11,7 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
@@ -26,30 +30,43 @@ import java.util.concurrent.CompletableFuture;
 public class PlatformCreators {
 
     private static final Set<Character> ILLEGAL_CHARS = new HashSet<>(Arrays.asList('.', '(', ')', ',', '/', '\\'));
+    private static volatile boolean isExporting = false;
 
     /**
-     * 异步导出结构（不卡主线程）
+     * 异步导出结构（防止重复执行）
      */
     public static void exportStructureAsync(Level level, BlockPos pos1, BlockPos pos2) {
-        // 在客户端使用 Minecraft 的异步任务提交
-        CompletableFuture.runAsync(() -> exportStructure(level, pos1, pos2));
+        if (isExporting) {
+            return;
+        }
+        isExporting = true;
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                exportStructure(level, pos1, pos2);
+            } finally {
+                isExporting = false;
+            }
+        });
     }
 
     /**
-     * 导出结构和映射文件到 logs/platform/ 目录（流式写入）
+     * 导出结构和映射文件到 logs/platform/ 目录
      */
     public static void exportStructure(Level level, BlockPos pos1, BlockPos pos2) {
         Path outputDir = Paths.get("logs", "platform");
         try {
             Files.createDirectories(outputDir);
         } catch (IOException e) {
-            e.printStackTrace();
+            GTOCore.LOGGER.error("Exporting structure and mapping files failed");
             return;
         }
 
-        String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
-        String structureFile = outputDir.resolve(timestamp + ".txt").toString();
-        String mappingFile = outputDir.resolve(timestamp + ".json").toString();
+        // 生成唯一文件名（时间戳 + UUID）
+        String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
+        String uuid = UUID.randomUUID().toString().substring(0, 8);
+        String structureFile = outputDir.resolve(timestamp + "-" + uuid + ".txt").toString();
+        String mappingFile = outputDir.resolve(timestamp + "-" + uuid + ".json").toString();
 
         int minX = Math.min(pos1.getX(), pos2.getX());
         int minY = Math.min(pos1.getY(), pos2.getY());
@@ -58,17 +75,20 @@ public class PlatformCreators {
         int maxY = Math.max(pos1.getY(), pos2.getY());
         int maxZ = Math.max(pos1.getZ(), pos2.getZ());
 
-        // 收集方块映射（Z -> Y -> X）
         Map<BlockState, Character> stateToChar = new LinkedHashMap<>();
         Character nextChar = getNextValidChar('A');
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
-        for (int z = minZ; z <= maxZ; z++) {
-            for (int y = minY; y <= maxY; y++) {
+        // 强制加入空气映射
+        BlockState air = Blocks.AIR.defaultBlockState();
+        stateToChar.put(air, ' ');
+
+        // 第一次遍历：收集所有方块映射
+        for (int y = minY; y <= maxY; y++) {
+            for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
                     mutablePos.set(x, y, z);
                     BlockState state = level.getBlockState(mutablePos);
-                    if (state.isAir()) continue;
                     if (!stateToChar.containsKey(state)) {
                         stateToChar.put(state, nextChar);
                         nextChar = getNextValidChar((char) (nextChar + 1));
@@ -77,35 +97,37 @@ public class PlatformCreators {
             }
         }
 
-        // 流式写入结构文件
+        // 第二次遍历：写入结构文件（GT 风格 .aisle）
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structureFile))) {
-            writer.write("// Z -> Y -> X");
             writer.newLine();
-
             for (int z = minZ; z <= maxZ; z++) {
+                List<String> ySlices = new ArrayList<>();
                 for (int y = minY; y <= maxY; y++) {
-                    StringBuilder aisleBuilder = new StringBuilder();
+                    StringBuilder xChars = new StringBuilder();
                     for (int x = minX; x <= maxX; x++) {
                         mutablePos.set(x, y, z);
                         BlockState state = level.getBlockState(mutablePos);
-                        aisleBuilder.append(state.isAir() ? ' ' : stateToChar.get(state));
+                        xChars.append(stateToChar.getOrDefault(state, ' '));
                     }
-                    writer.write(".aisle(\"" + aisleBuilder + "\")");
-                    writer.newLine();
+                    ySlices.add("\"" + xChars + "\"");
                 }
+                writer.write(".aisle(" + String.join(", ", ySlices) + ")");
+                writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            GTOCore.LOGGER.error("Failed to get structure");
         }
 
-        // 保存映射 JSON
         Map<Character, BlockState> charToState = new LinkedHashMap<>();
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
+
+        GTOCore.LOGGER.info("Mapping size before save: {}", charToState.size());
+
         saveMappingToJson(charToState, mappingFile);
 
-        System.out.println("结构和映射文件已导出到:");
-        System.out.println(" - 结构文件: " + structureFile);
-        System.out.println(" - 映射文件: " + mappingFile);
+        GTOCore.LOGGER.info("The structure and mapping files have been exported to:");
+        GTOCore.LOGGER.info(" - Structure File: {}", structureFile);
+        GTOCore.LOGGER.info(" - Mapping File: {}", mappingFile);
     }
 
     /**
@@ -132,14 +154,16 @@ public class PlatformCreators {
                     .setPrettyPrinting()
                     .create();
 
-            gson.toJson(mapping, new FileWriter(path.toFile()));
+            try (FileWriter writer = new FileWriter(path.toFile())) {
+                gson.toJson(mapping, writer);
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            GTOCore.LOGGER.error("Failed to save mapping to JSON file");
         }
     }
 
     /**
-     * 从数据包加载映射（适配 1.20.1）
+     * 从数据包加载映射
      */
     public static Map<Character, BlockState> loadMappingFromJson(ResourceLocation resLoc) {
         try {
@@ -148,7 +172,7 @@ public class PlatformCreators {
 
             if (optionalResource.isPresent()) {
                 Resource resource = optionalResource.get();
-                try (Reader reader = new InputStreamReader(resource.open())) { // 1.20.1 用 open()
+                try (Reader reader = new InputStreamReader(resource.open())) {
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter())
                             .create();
@@ -156,17 +180,17 @@ public class PlatformCreators {
                     return gson.fromJson(reader, type);
                 }
             } else {
-                System.err.println("无法找到资源: " + resLoc);
+                GTOCore.LOGGER.error("Unable to find resource: {}", resLoc);
                 return new HashMap<>();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            GTOCore.LOGGER.error("Failed to load map from data pack");
             return new HashMap<>();
         }
     }
 
     /**
-     * BlockState JSON 适配器（1.20.1 适配）
+     * BlockState JSON 适配器
      */
     private static class BlockStateTypeAdapter implements JsonSerializer<BlockState>, JsonDeserializer<BlockState> {
 
@@ -188,11 +212,7 @@ public class PlatformCreators {
         public BlockState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
                                                                                                           throws JsonParseException {
             JsonObject obj = json.getAsJsonObject();
-            ResourceLocation id = new ResourceLocation(obj.get("id").getAsString());
-            Block block = BuiltInRegistries.BLOCK.get(id);
-            if (block == null) {
-                throw new JsonParseException("未知方块 ID: " + id);
-            }
+            Block block = RegistriesUtils.getBlock(obj.get("id").getAsString());
 
             BlockState state = block.defaultBlockState();
             JsonObject props = obj.getAsJsonObject("properties");
@@ -232,13 +252,6 @@ public class PlatformCreators {
             }
             return null;
         }
-    }
-
-    /**
-     * 平台创建函数（同步）
-     */
-    public static void PlatformCreation(Level level, BlockPos startPos, BlockPos endPos) {
-        exportStructure(level, startPos, endPos);
     }
 
     /**

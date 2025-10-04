@@ -225,18 +225,12 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.0", "简介", "Introduction");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.1", "选择预设", "Select Preset");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.2", "确认耗材", "Confirm consumables");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.3", "选择偏移", "Set Offset");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.3", "调整设置", "Adjust settings");
 
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.choose_this", "选这个: ", "Choose this: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.unselected", "未选择...", "Unselected...");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.selected", "已选择: %s - %s", "Selected: %s - %s");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.source", "来源: %s", "Source: %s");
-
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset", "X Y Z方向的偏移(X Z方向单位为区块，Y方块单位为块)", "X, Y, Z offsets (X Z units are blocks, Y units are blocks)");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.x", "X: %s", "X: %s");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.z", "Z: %s", "Z: %s");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.y", "Y: %s", "Y: %s");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.boundary", "边界范围: ", "Boundary Range: ");
 
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "储量: ", "Reserves: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.demand", "需求: ", "Demand: ");
@@ -249,8 +243,19 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.adequate", "材料充足", "Material adequate");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.insufficient", "材料不足", "Material insufficient");
 
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset", "X Y Z方向的偏移(X Z方向单位为区块，Y方块单位为块)", "X, Y, Z offsets (X Z units are blocks, Y units are blocks)");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.x", "X: %s", "X: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.z", "Z: %s", "Z: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.y", "Y: %s", "Y: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.boundary", "边界范围: ", "Boundary Range: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.breakBlocks", "破坏方块: ", "Break Blocks: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.skipAir", "跳过空气: ", "Skip Air: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.updateLight", "光照更新: ", "Update Light: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.speed", "速度: ", "Speed: ");
+
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "[开始]", "[Start]");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中.%s]", "[In Progress.%s]");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.export", "[导出]", "[Export]");
 
         addSingleMachineTooltips();
 

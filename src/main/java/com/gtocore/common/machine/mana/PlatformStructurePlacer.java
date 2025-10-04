@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtocore.common.data.machines.ManaMachine;
+
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.core.BlockPos;
@@ -22,12 +24,15 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.gtocore.common.machine.mana.PlatformCreators.loadMappingFromJson;
+
 public final class PlatformStructurePlacer {
 
     private final ServerLevel serverLevel;
     private final BlockIterator blockIterator;
     private final int perTick;
     private final boolean breakBlocks;
+    private final boolean skipAir;
     private final boolean updateLight;
     private final Consumer<Integer> onBatch;
     private final Runnable onFinished;
@@ -38,6 +43,7 @@ public final class PlatformStructurePlacer {
                                     BlockIterator blockIterator,
                                     int perTick,
                                     boolean breakBlocks,
+                                    boolean skipAir,
                                     boolean updateLight,
                                     Consumer<Integer> onBatch,
                                     Runnable onFinished) {
@@ -45,34 +51,12 @@ public final class PlatformStructurePlacer {
         this.blockIterator = blockIterator;
         this.perTick = perTick;
         this.breakBlocks = breakBlocks;
+        this.skipAir = skipAir;
         this.updateLight = updateLight;
         this.onBatch = onBatch;
         this.onFinished = onFinished;
 
         this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, this::onComplete, 0)::unsubscribe;
-    }
-
-    /**
-     * 外部调用入口（直接接收 PlatformBlockStructure 对象）
-     */
-    public static void placeStructureAsync(Level level,
-                                           BlockPos startPos,
-                                           PlatformBlockType.PlatformBlockStructure structure,
-                                           int perTick,
-                                           boolean breakBlocks,
-                                           boolean updateLight,
-                                           Consumer<Integer> onBatch,
-                                           Runnable onFinished) throws IOException {
-        String resourcePath = "assets/" + structure.getResource().getNamespace() + "/" + structure.getResource().getPath();
-        try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
-            if (input == null) {
-                throw new FileNotFoundException("Structure file not found: " + structure.getResource());
-            }
-
-            BlockIterator iterator = new BlockIterator(input, startPos, structure.getBlockMapping(), resourcePath);
-            if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, updateLight, onBatch, onFinished);
-            else throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
-        }
     }
 
     /**
@@ -83,12 +67,16 @@ public final class PlatformStructurePlacer {
 
         while (blockIterator.hasNext() && processedThisTick < perTick) {
             BlockIterator.Entry entry = blockIterator.next();
-            BlockPos pos = entry.pos();
             BlockState state = entry.state();
 
+            // 跳过空气
+            if (skipAir && state.isAir()) {
+                continue;
+            }
+
+            BlockPos pos = entry.pos();
             int y = pos.getY();
             if (serverLevel.isOutsideBuildHeight(y)) {
-                processedThisTick++;
                 continue;
             }
 
@@ -101,7 +89,15 @@ public final class PlatformStructurePlacer {
 
             BlockState oldState = section.getBlockState(x, localY, z);
 
-            // 判断是否替换
+            if (oldState.getBlock().equals(ManaMachine.INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS.getBlock())) {
+                continue;
+            }
+
+            if (state.isAir() && oldState.isAir()) {
+                continue;
+            }
+
+            // 破坏方块
             if (!breakBlocks && !oldState.isAir()) {
                 processedThisTick++;
                 continue;
@@ -238,13 +234,13 @@ public final class PlatformStructurePlacer {
                             currentAisle = rows.toArray(new String[0]);
                             y = 0;
                             x = 0;
-                            processedAisles++; // 处理完一个 aisle
+                            processedAisles++;
                             return;
                         }
                     }
                 }
             }
-            currentAisle = null; // 文件结束
+            currentAisle = null;
         }
 
         /**
@@ -298,5 +294,29 @@ public final class PlatformStructurePlacer {
         }
 
         public record Entry(BlockPos pos, BlockState state) {}
+    }
+
+    /**
+     * 外部调用入口
+     */
+    public static void placeStructureAsync(Level level,
+                                           BlockPos startPos,
+                                           PlatformBlockType.PlatformBlockStructure structure,
+                                           int perTick,
+                                           boolean breakBlocks,
+                                           boolean skipAir,
+                                           boolean updateLight,
+                                           Consumer<Integer> onBatch,
+                                           Runnable onFinished) throws IOException {
+        String resourcePath = "assets/" + structure.getResource().getNamespace() + "/" + structure.getResource().getPath();
+        try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
+            if (input == null) {
+                throw new FileNotFoundException("Structure file not found: " + structure.getResource());
+            }
+
+            BlockIterator iterator = new BlockIterator(input, startPos, loadMappingFromJson(structure.getBlockMapping()), resourcePath);
+            if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, skipAir, updateLight, onBatch, onFinished);
+            else throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
+        }
     }
 }

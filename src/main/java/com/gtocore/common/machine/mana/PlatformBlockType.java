@@ -6,15 +6,10 @@ import com.gtolib.utils.holder.IntObjectHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-
-import static com.gtocore.common.machine.mana.PlatformCreators.loadMappingFromJson;
 
 public final class PlatformBlockType {
 
@@ -33,7 +28,7 @@ public final class PlatformBlockType {
         private final String source;
         private final boolean preview;
         private final ResourceLocation resource;
-        private final Map<Character, BlockState> blockMapping;
+        private final ResourceLocation blockMapping;
         private final List<IntObjectHolder<ItemStack>> extraMaterials;
         private final int[] materials;
         private final int xSize;
@@ -47,7 +42,7 @@ public final class PlatformBlockType {
                                        @Nullable String source,
                                        boolean preview,
                                        ResourceLocation resource,
-                                       Map<Character, BlockState> blockMapping,
+                                       ResourceLocation blockMapping,
                                        int[] materials,
                                        List<IntObjectHolder<ItemStack>> extraMaterials,
                                        int xSize,
@@ -103,7 +98,7 @@ public final class PlatformBlockType {
             return resource;
         }
 
-        public Map<Character, BlockState> getBlockMapping() {
+        public ResourceLocation getBlockMapping() {
             return blockMapping;
         }
 
@@ -136,7 +131,7 @@ public final class PlatformBlockType {
             private String source;
             private boolean preview = false;
             private ResourceLocation resource;
-            private final Map<Character, BlockState> symbolMap = new HashMap<>();
+            private ResourceLocation symbolMap;
             private final int[] materials = new int[] { 0, 0, 0 };
             private final List<IntObjectHolder<ItemStack>> extraMaterials = new ArrayList<>();
             private int xSize;
@@ -177,19 +172,8 @@ public final class PlatformBlockType {
                 return this;
             }
 
-            public Builder where(char symbol, @NotNull BlockState block) {
-                symbolMap.put(symbol, block);
-                return this;
-            }
-
-            public Builder where(char symbol, @NotNull Block block) {
-                symbolMap.put(symbol, block.defaultBlockState());
-                return this;
-            }
-
-            public Builder symbolMap(ResourceLocation symbolMapLoc) {
-                Map<Character, BlockState> loaded = loadMappingFromJson(symbolMapLoc);
-                this.symbolMap.putAll(loaded);
+            public Builder symbolMap(ResourceLocation symbolMap) {
+                this.symbolMap = symbolMap;
                 return this;
             }
 
@@ -236,9 +220,6 @@ public final class PlatformBlockType {
                 }
                 if (resource == null) {
                     throw new IllegalStateException("Resource path must be defined");
-                }
-                if (symbolMap.isEmpty()) {
-                    throw new IllegalStateException("No block mappings defined");
                 }
                 if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
                 if (zSize % 16 != 0) throw new IllegalArgumentException("Z size must be multiple of 16");
