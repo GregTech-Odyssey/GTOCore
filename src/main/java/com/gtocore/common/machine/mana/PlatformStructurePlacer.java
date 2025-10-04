@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,16 +18,9 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * 高性能结构生成器（流式读取版本）
- * - 流式读取结构文件，内存占用极低
- * - 高度图每次放置立即更新
- * - 光照更新由 updateLight 参数控制：
- * - true: 每次放置方块立即更新光照（两步法）
- * - false: 不更新光照
- * - 生成结束后不做光照更新
- */
 public final class PlatformStructurePlacer {
 
     private final ServerLevel level;
@@ -34,7 +28,7 @@ public final class PlatformStructurePlacer {
     private final int totalBlocks;
     private final int perTick;
     private final boolean breakBlocks;
-    private final boolean updateLight; // 是否每次放置方块更新光照
+    private final boolean updateLight;
     private final Consumer<Integer> onBatch;
     private final Runnable onFinished;
 
@@ -64,7 +58,7 @@ public final class PlatformStructurePlacer {
     /**
      * 外部调用入口
      */
-    public static void placeStructureAsync(ServerLevel level,
+    public static void placeStructureAsync(Level level,
                                            BlockPos startPos,
                                            String resourcePath,
                                            Map<Character, BlockState> blockMapping,
@@ -81,32 +75,33 @@ public final class PlatformStructurePlacer {
 
             BlockIterator iterator = new BlockIterator(input, startPos, blockMapping);
 
-            new PlatformStructurePlacer(level, iterator, totalBlocks, perTick, breakBlocks, updateLight, onBatch, onFinished);
+            if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, totalBlocks, perTick, breakBlocks, updateLight, onBatch, onFinished);
         }
     }
 
     /**
-     * 简化调用
-     */
-    public static void placeStructureAsync(ServerLevel level,
-                                           BlockPos startPos,
-                                           String resourcePath,
-                                           Map<Character, BlockState> blockMapping) throws IOException {
-        placeStructureAsync(level, startPos, resourcePath, blockMapping, 50000, true, false, null, null);
-    }
-
-    /**
-     * 预计算总方块数
+     * 预计算总方块数（用于进度计算）
      */
     private static int countTotalBlocks(InputStream input, Map<Character, BlockState> blockMapping) throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+            Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
+            Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
+
             int count = 0;
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] aisle = line.split(",");
-                for (String row : aisle) {
-                    for (char c : row.toCharArray()) {
-                        if (blockMapping.containsKey(c)) count++;
+                line = line.trim();
+                if (line.startsWith(".aisle(")) {
+                    Matcher aisleMatcher = aislePattern.matcher(line);
+                    if (aisleMatcher.find()) {
+                        String content = aisleMatcher.group(1);
+                        Matcher stringMatcher = stringPattern.matcher(content);
+                        while (stringMatcher.find()) {
+                            String row = stringMatcher.group(1);
+                            for (char c : row.toCharArray()) {
+                                if (blockMapping.containsKey(c)) count++;
+                            }
+                        }
                     }
                 }
             }
@@ -168,9 +163,7 @@ public final class PlatformStructurePlacer {
 
             // 如果开启光照更新，且光照属性有变化
             if (updateLight && LightEngine.hasDifferentLightProperties(level, pos, oldState, state)) {
-                // 更新天空光照源
                 chunk.getSkyLightSources().update(level, pos.getX(), pos.getY(), pos.getZ());
-                // 通知光照引擎检查该方块
                 level.getChunkSource().getLightEngine().checkBlock(pos);
             }
 
@@ -213,16 +206,20 @@ public final class PlatformStructurePlacer {
     }
 
     /**
-     * 方块迭代器（流式读取）
+     * 方块迭代器（流式读取 .aisle(...) 格式）
      */
     private static class BlockIterator implements Iterator<BlockIterator.Entry> {
 
         private final BufferedReader reader;
         private final BlockPos startPos;
         private final Map<Character, BlockState> blockMapping;
-        private String[] currentAisle;
-        private String currentRow;
-        private int z = 0, y = 0, x = 0;
+        private final Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
+        private final Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
+
+        private String[] currentAisle; // 当前 y 层
+        private int y = 0;             // 当前行索引（y 层内）
+        private int x = 0;             // 当前字符索引（行内 x）
+        private int z = 0;             // 当前层索引（深度 z）
 
         BlockIterator(InputStream input, BlockPos startPos, Map<Character, BlockState> blockMapping) throws IOException {
             this.reader = new BufferedReader(new InputStreamReader(input));
@@ -231,14 +228,32 @@ public final class PlatformStructurePlacer {
             readNextAisle();
         }
 
+        /**
+         * 读取下一个 .aisle(...) 并解析为 String[]
+         */
         private void readNextAisle() throws IOException {
-            String line = reader.readLine();
-            currentAisle = line == null ? null : line.split(",");
-            y = 0;
-            if (currentAisle != null) {
-                currentRow = currentAisle[y];
-                x = 0;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith(".aisle(")) {
+                    Matcher aisleMatcher = aislePattern.matcher(line);
+                    if (aisleMatcher.find()) {
+                        String content = aisleMatcher.group(1);
+                        Matcher stringMatcher = stringPattern.matcher(content);
+                        List<String> rows = new ArrayList<>();
+                        while (stringMatcher.find()) {
+                            rows.add(stringMatcher.group(1));
+                        }
+                        if (!rows.isEmpty()) {
+                            currentAisle = rows.toArray(new String[0]);
+                            y = 0;
+                            x = 0;
+                            return;
+                        }
+                    }
+                }
             }
+            currentAisle = null; // 文件结束
         }
 
         @Override
@@ -247,19 +262,21 @@ public final class PlatformStructurePlacer {
                 while (true) {
                     if (currentAisle == null) return false;
 
-                    while (y < currentAisle.length) {
-                        currentRow = currentAisle[y];
-                        while (x < currentRow.length()) {
-                            char c = currentRow.charAt(x);
-                            if (blockMapping.containsKey(c)) return true;
+                    if (y < currentAisle.length) {
+                        String row = currentAisle[y];
+                        while (x < row.length()) {
+                            char c = row.charAt(x);
+                            if (blockMapping.containsKey(c)) {
+                                return true;
+                            }
                             x++;
                         }
                         x = 0;
                         y++;
+                    } else {
+                        readNextAisle();
+                        z++;
                     }
-
-                    readNextAisle();
-                    z++;
                 }
             } catch (IOException e) {
                 return false;
@@ -269,7 +286,8 @@ public final class PlatformStructurePlacer {
         @Override
         public Entry next() {
             if (!hasNext()) throw new NoSuchElementException();
-            char c = currentRow.charAt(x);
+            String row = currentAisle[y];
+            char c = row.charAt(x);
             BlockState state = blockMapping.get(c);
             BlockPos pos = new BlockPos(
                     startPos.getX() + x,
@@ -280,9 +298,6 @@ public final class PlatformStructurePlacer {
             return entry;
         }
 
-        /**
-         * Java 17 record 作为数据载体
-         */
         public record Entry(BlockPos pos, BlockState state) {}
     }
 }

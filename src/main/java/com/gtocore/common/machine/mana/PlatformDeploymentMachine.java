@@ -38,8 +38,6 @@ import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static xaero.pac.common.server.world.ServerLevelHelper.getServerLevel;
-
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine {
@@ -554,8 +552,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         Font font = Minecraft.getInstance().font;
         int contentWidth = font.width(component);
         if (contentWidth >= totalWidth) return component;
-        Component leftPad = Component.literal(" ".repeat(((totalWidth - contentWidth) / 2) / font.width(" ")));
-        Component rightPad = Component.literal(" ".repeat((totalWidth / 2 - contentWidth * 3 / 2) / font.width(" ")));
+        int leftSpace = (totalWidth - contentWidth) / 2;
+        int rightSpace = totalWidth - contentWidth - leftSpace;
+        Component leftPad = Component.literal(" ".repeat(leftSpace / font.width(" ")));
+        Component rightPad = Component.literal(" ".repeat(rightSpace / font.width(" ")));
         return Component.empty().append(leftPad).append(component).append(rightPad);
     }
 
@@ -632,7 +632,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         progress = 0;
         try {
             PlatformStructurePlacer.placeStructureAsync(
-                    getServerLevel(getLevel()),
+                    level,
                     new BlockPos(((pos.getX() >> 4) + offsetX - getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16) << 4,
                             pos.getY() + offsetY,
                             ((pos.getZ() >> 4) + offsetZ - getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16) << 4),
