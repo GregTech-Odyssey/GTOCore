@@ -33,6 +33,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -496,12 +497,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // 启动控制工具
     private void addDisplayTextStart(List<Component> textList) {
-        if (!presetConfirm) textList.add(centerComponent(54, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+        if (!presetConfirm) textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
         else {
-            if (!insufficient) textList.add(centerComponent(54, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+            if (!insufficient) textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
             else {
-                if (!taskCompleted) textList.add(centerComponent(54, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.doing", progress)));
-                else textList.add(centerComponent(54, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.start"), "start")));
+                if (!taskCompleted) textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.doing", progress)));
+                else textList.add(centerComponent(50, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.start"), "start")));
             }
         }
     }
@@ -629,15 +630,25 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         BlockPos pos = getPos();
         if (level == null) return;
         progress = 0;
-        PlatformStructurePlacer.placeStructureAsync(
-                getServerLevel(getLevel()),
-                new BlockPos(((pos.getX() >> 4) + offsetX - getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16) << 4,
-                        pos.getY() + offsetY,
-                        ((pos.getZ() >> 4) + offsetZ - getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16) << 4),
-                getPlatformBlockStructure(saveGroup, saveId).getResourcePath(),
-                getPlatformBlockStructure(saveGroup, saveId).getBlockMapping(),
-                50000,
-                progress -> this.progress = progress,
-                () -> taskCompleted = true);
+        try {
+            PlatformStructurePlacer.placeStructureAsync(
+                    getServerLevel(getLevel()),
+                    new BlockPos(((pos.getX() >> 4) + offsetX - getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16) << 4,
+                            pos.getY() + offsetY,
+                            ((pos.getZ() >> 4) + offsetZ - getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16) << 4),
+                    getPlatformBlockStructure(saveGroup, saveId).getResourcePath(),
+                    getPlatformBlockStructure(saveGroup, saveId).getBlockMapping(),
+                    50000,
+                    true,
+                    true,
+                    progress -> this.progress = progress,
+                    () -> taskCompleted = true);
+        } catch (IOException e) {
+            GTOCore.LOGGER.error("The industrial platform deployment tool cannot deploy the platform, platform error {} {}, file location {}",
+                    getPlatformPreset(saveGroup).getName(),
+                    getPlatformBlockStructure(saveGroup, saveId).getName(),
+                    getPlatformBlockStructure(saveGroup, saveId).getResourcePath());
+            taskCompleted = true;
+        }
     }
 }

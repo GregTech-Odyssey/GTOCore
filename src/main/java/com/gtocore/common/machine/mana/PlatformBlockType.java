@@ -3,8 +3,6 @@ package com.gtocore.common.machine.mana;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
-import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +31,7 @@ public final class PlatformBlockType {
         private final String source;
         private final boolean preview;
         private final String resourcePath; // 保存资源路径
-        private final Char2ObjectMap<BlockState> blockMapping;
+        private final Map<Character, BlockState> blockMapping;
         private final int[] materials;
         private final int xSize;
         private final int ySize;
@@ -46,7 +44,7 @@ public final class PlatformBlockType {
                                        @Nullable String source,
                                        boolean preview,
                                        String resourcePath,
-                                       Char2ObjectMap<BlockState> blockMapping,
+                                       Map<Character, BlockState> blockMapping,
                                        int[] materials,
                                        int xSize,
                                        int ySize,
@@ -100,7 +98,7 @@ public final class PlatformBlockType {
             return resourcePath;
         }
 
-        public Char2ObjectMap<BlockState> getBlockMapping() {
+        public Map<Character, BlockState> getBlockMapping() {
             return blockMapping;
         }
 
@@ -218,7 +216,7 @@ public final class PlatformBlockType {
                         source,
                         preview,
                         resourcePath,
-                        new Char2ObjectOpenHashMap<>(symbolMap),
+                        symbolMap,
                         materials,
                         xSize,
                         ySize,
@@ -361,7 +359,7 @@ public final class PlatformBlockType {
     /**
      * 获取指定坐标的方块
      */
-    public static BlockState getBlockAt(String resourcePath, Char2ObjectMap<BlockState> blockMapping, int x, int y, int z) {
+    public static BlockState getBlockAt(String resourcePath, Map<Character, BlockState> blockMapping, int x, int y, int z) {
         List<String[]> depth = readDepthFromResource(resourcePath);
         if (z < 0 || z >= depth.size()) throw new IndexOutOfBoundsException("Z index out of bounds");
         String[] aisle = depth.get(z);
