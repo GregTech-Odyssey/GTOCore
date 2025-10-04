@@ -63,12 +63,13 @@ public final class PlatformStructurePlacer {
                                            boolean updateLight,
                                            Consumer<Integer> onBatch,
                                            Runnable onFinished) throws IOException {
-        try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(structure.getResourcePath())) {
+        String resourcePath = "assets/" + structure.getResource().getNamespace() + "/" + structure.getResource().getPath();
+        try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (input == null) {
-                throw new FileNotFoundException("Structure file not found: " + structure.getResourcePath());
+                throw new FileNotFoundException("Structure file not found: " + structure.getResource());
             }
 
-            BlockIterator iterator = new BlockIterator(input, startPos, structure.getBlockMapping(), structure.getResourcePath());
+            BlockIterator iterator = new BlockIterator(input, startPos, structure.getBlockMapping(), resourcePath);
             if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, updateLight, onBatch, onFinished);
             else throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
         }

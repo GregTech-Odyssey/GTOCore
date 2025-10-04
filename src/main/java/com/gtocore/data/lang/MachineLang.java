@@ -240,16 +240,17 @@ final class MachineLang {
 
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "储量: ", "Reserves: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.demand", "需求: ", "Demand: ");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.0", "基础: %s", "Basic: %s");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.1", "扩展: %s", "Extended: %s");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.2", "特种: %s", "Specialized: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.0", "基础: ", "Basic: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.1", "扩展: ", "Extended: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.2", "特种: ", "Specialized: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.extra_demand", "额外需求: ", "Additional Demand: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.loading", "§3[ 材料装载 ]§r", "§3[ Material Loading ]§r");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.unloading", "§3[ 材料卸载 ]§r", "§3[ Material Unloading ]§r");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.adequate", "材料充足", "Material adequate");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.insufficient", "材料不足", "Material insufficient");
 
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "[开始]", "[Start]");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中...%s]", "[In Progress...%s]");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中.%s]", "[In Progress.%s]");
 
         addSingleMachineTooltips();
 

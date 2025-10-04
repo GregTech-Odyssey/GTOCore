@@ -367,16 +367,30 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.unloading"), "unloading")));
 
         textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves"));
-        for (int i = 0; i < materialInventory.length; i++) {
-            if (materialInventory[i] != 0) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material." + i, materialInventory[i]));
-        }
+
+        textList.add(createEqualColumns(langWidth, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.0"),
+                Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.1"),
+                Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.2")));
+        textList.add(createEqualColumns(langWidth, Component.literal(String.valueOf(materialInventory[0])),
+                Component.literal(String.valueOf(materialInventory[1])),
+                Component.literal(String.valueOf(materialInventory[2]))));
 
         if (!presetConfirm) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
         else {
             textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand"));
             int[] costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
-            for (int i = 0; i < costMaterial.length; i++) {
-                if (costMaterial[i] != 0) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material." + i, costMaterial[i]));
+            textList.add(createEqualColumns(langWidth, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.0"),
+                    Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.1"),
+                    Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.2")));
+            textList.add(createEqualColumns(langWidth, Component.literal(String.valueOf(costMaterial[0])),
+                    Component.literal(String.valueOf(costMaterial[1])),
+                    Component.literal(String.valueOf(costMaterial[2]))));
+            List<IntObjectHolder<ItemStack>> extraMaterials = getPlatformBlockStructure(saveGroup, saveId).getExtraMaterials();
+            if (!extraMaterials.isEmpty()) {
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.extra_demand"));
+                extraMaterials.forEach(e -> {
+                    textList.add(Component.literal("[").append(e.obj.getDisplayName()).append("×").append(String.valueOf(e.number)).append("]"));
+                });
             }
             if (!insufficient) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
             else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
@@ -650,7 +664,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             GTOCore.LOGGER.error("The industrial platform deployment tool cannot deploy the platform, platform error {} {}, file location {}",
                     getPlatformPreset(saveGroup).getName(),
                     getPlatformBlockStructure(saveGroup, saveId).getName(),
-                    getPlatformBlockStructure(saveGroup, saveId).getResourcePath());
+                    getPlatformBlockStructure(saveGroup, saveId).getResource());
             taskCompleted = true;
         }
     }

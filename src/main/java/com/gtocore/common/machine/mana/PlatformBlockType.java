@@ -1,5 +1,11 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.holder.IntObjectHolder;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -7,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+
+import static com.gtocore.common.machine.mana.PlatformCreators.loadMappingFromJson;
 
 public final class PlatformBlockType {
 
@@ -24,8 +32,9 @@ public final class PlatformBlockType {
         @Nullable
         private final String source;
         private final boolean preview;
-        private final String resourcePath;
+        private final ResourceLocation resource;
         private final Map<Character, BlockState> blockMapping;
+        private final List<IntObjectHolder<ItemStack>> extraMaterials;
         private final int[] materials;
         private final int xSize;
         private final int ySize;
@@ -37,9 +46,10 @@ public final class PlatformBlockType {
                                        @Nullable String description,
                                        @Nullable String source,
                                        boolean preview,
-                                       String resourcePath,
+                                       ResourceLocation resource,
                                        Map<Character, BlockState> blockMapping,
                                        int[] materials,
+                                       List<IntObjectHolder<ItemStack>> extraMaterials,
                                        int xSize,
                                        int ySize,
                                        int zSize) {
@@ -49,9 +59,10 @@ public final class PlatformBlockType {
             this.description = description;
             this.source = source;
             this.preview = preview;
-            this.resourcePath = resourcePath;
+            this.resource = resource;
             this.blockMapping = blockMapping;
             this.materials = materials;
+            this.extraMaterials = List.copyOf(extraMaterials);
             this.xSize = xSize;
             this.ySize = ySize;
             this.zSize = zSize;
@@ -88,8 +99,8 @@ public final class PlatformBlockType {
             return preview;
         }
 
-        public String getResourcePath() {
-            return resourcePath;
+        public ResourceLocation getResource() {
+            return resource;
         }
 
         public Map<Character, BlockState> getBlockMapping() {
@@ -98,6 +109,10 @@ public final class PlatformBlockType {
 
         public int[] getMaterials() {
             return Arrays.copyOf(materials, materials.length);
+        }
+
+        public List<IntObjectHolder<ItemStack>> getExtraMaterials() {
+            return extraMaterials;
         }
 
         public int getXSize() {
@@ -120,9 +135,10 @@ public final class PlatformBlockType {
             private String description;
             private String source;
             private boolean preview = false;
-            private String resourcePath;
+            private ResourceLocation resource;
             private final Map<Character, BlockState> symbolMap = new HashMap<>();
             private final int[] materials = new int[] { 0, 0, 0 };
+            private final List<IntObjectHolder<ItemStack>> extraMaterials = new ArrayList<>();
             private int xSize;
             private int ySize;
             private int zSize;
@@ -156,8 +172,8 @@ public final class PlatformBlockType {
                 return this;
             }
 
-            public Builder resourcePath(String resourcePath) {
-                this.resourcePath = resourcePath;
+            public Builder resource(ResourceLocation resource) {
+                this.resource = resource;
                 return this;
             }
 
@@ -171,8 +187,31 @@ public final class PlatformBlockType {
                 return this;
             }
 
+            public Builder symbolMap(ResourceLocation symbolMapLoc) {
+                Map<Character, BlockState> loaded = loadMappingFromJson(symbolMapLoc);
+                this.symbolMap.putAll(loaded);
+                return this;
+            }
+
             public Builder materials(int material, int count) {
                 this.materials[material] = count;
+                return this;
+            }
+
+            public Builder extraMaterials(String item, int count) {
+                extraMaterials.add(new IntObjectHolder<>(count, RegistriesUtils.getItemStack(item)));
+                return this;
+            }
+
+            public Builder extraMaterials(Item item, int count) {
+                extraMaterials.add(new IntObjectHolder<>(count, new ItemStack(item)));
+                return this;
+            }
+
+            public Builder extraMaterials(ItemStack stack, int count) {
+                ItemStack copy = stack.copy();
+                copy.setCount(1);
+                extraMaterials.add(new IntObjectHolder<>(count, copy));
                 return this;
             }
 
@@ -195,7 +234,7 @@ public final class PlatformBlockType {
                 if (name == null || name.isEmpty()) {
                     throw new IllegalStateException("Structure name must be defined (as primary key)");
                 }
-                if (resourcePath == null || resourcePath.isEmpty()) {
+                if (resource == null) {
                     throw new IllegalStateException("Resource path must be defined");
                 }
                 if (symbolMap.isEmpty()) {
@@ -210,9 +249,10 @@ public final class PlatformBlockType {
                         description,
                         source,
                         preview,
-                        resourcePath,
+                        resource,
                         symbolMap,
                         materials,
+                        extraMaterials,
                         xSize,
                         ySize,
                         zSize);

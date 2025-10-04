@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.machine.mana.PlatformBlockType.*;
 
+import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -18,9 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-
-public class PlatformTemplateStorage {
+public final class PlatformTemplateStorage {
 
     private static final List<PlatformPreset> presets = new ArrayList<>();
 
@@ -31,7 +30,7 @@ public class PlatformTemplateStorage {
                 .description("这是一个方块")
                 .source("maple")
                 .preview(true)
-                .resourcePath("assets/gtocore/platforms/road_x")
+                .resource(GTOCore.id("platforms/road_x"))
                 .where('C', Blocks.COBBLESTONE)
                 .materials(0, 256)
                 .materials(1, 256)
@@ -44,7 +43,7 @@ public class PlatformTemplateStorage {
                 .description("这是一个lhc")
                 .source("疏影酱")
                 .preview(true)
-                .resourcePath("assets/gtocore/platforms/lhc")
+                .resource(GTOCore.id("platforms/lhc"))
                 .where('A', GTOBlocks.IRIDIUM_CASING.get())
                 .where('B', GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get())
                 .where('C', Objects.requireNonNull(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)))
@@ -72,6 +71,7 @@ public class PlatformTemplateStorage {
                 .where('Y', GTOBlocks.IRIDIUM_CASING.get())
                 .where(' ', Blocks.AIR)
                 .materials(0, 256)
+                .extraMaterials("avaritia:enhancement_core", 1)
                 .xSize(16)
                 .ySize(1)
                 .zSize(16)
@@ -80,7 +80,7 @@ public class PlatformTemplateStorage {
         // 从文件加载Z方向道路
         PlatformBlockStructure roadZ = PlatformBlockStructure.structure("roadZ")
                 .preview(true)
-                .resourcePath("assets/gtocore/platforms/road_x")
+                .resource(GTOCore.id("platforms/road_x"))
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(0, 256)
@@ -92,7 +92,7 @@ public class PlatformTemplateStorage {
         // 从文件加载十字路口
         PlatformBlockStructure cross = PlatformBlockStructure.structure("cross")
                 .preview(false)
-                .resourcePath("assets/gtocore/platforms/road_x")
+                .resource(GTOCore.id("platforms/road_x"))
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(0, 256)
