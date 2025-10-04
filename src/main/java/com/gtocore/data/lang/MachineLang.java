@@ -248,9 +248,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.adequate", "材料充足", "Material adequate");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.insufficient", "材料不足", "Material insufficient");
 
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "开始建造任务", "Start Construction Task");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "建造任务运行中...", "Construction Task in Progress...");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.finish", "无建造任务", "No Construction Task");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "[开始]", "[Start]");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中...%s]", "[In Progress...%s]");
 
         addSingleMachineTooltips();
 

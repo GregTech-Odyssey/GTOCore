@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.mana;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
@@ -22,7 +23,7 @@ public final class PlatformBlockType {
     // ===================================================================
     public static final class PlatformBlockStructure {
 
-        private final String name; // 主键
+        private final String name;
         private final String type;
         @Nullable
         private final String displayName;
@@ -31,8 +32,8 @@ public final class PlatformBlockType {
         @Nullable
         private final String source;
         private final boolean preview;
-        private final List<String[]> depth; // Z -> Y -> X
-        private final Char2ObjectMap<Block> blockMapping;
+        private final String resourcePath; // 保存资源路径
+        private final Char2ObjectMap<BlockState> blockMapping;
         private final int[] materials;
         private final int xSize;
         private final int ySize;
@@ -44,8 +45,8 @@ public final class PlatformBlockType {
                                        @Nullable String description,
                                        @Nullable String source,
                                        boolean preview,
-                                       List<String[]> depth,
-                                       Char2ObjectMap<Block> blockMapping,
+                                       String resourcePath,
+                                       Char2ObjectMap<BlockState> blockMapping,
                                        int[] materials,
                                        int xSize,
                                        int ySize,
@@ -56,7 +57,7 @@ public final class PlatformBlockType {
             this.description = description;
             this.source = source;
             this.preview = preview;
-            this.depth = depth;
+            this.resourcePath = resourcePath;
             this.blockMapping = blockMapping;
             this.materials = materials;
             this.xSize = xSize;
@@ -95,11 +96,11 @@ public final class PlatformBlockType {
             return preview;
         }
 
-        public List<String[]> getDepth() {
-            return depth;
+        public String getResourcePath() {
+            return resourcePath;
         }
 
-        public Char2ObjectMap<Block> getBlockMapping() {
+        public Char2ObjectMap<BlockState> getBlockMapping() {
             return blockMapping;
         }
 
@@ -119,14 +120,6 @@ public final class PlatformBlockType {
             return zSize;
         }
 
-        public Block getBlockAt(int x, int y, int z) {
-            if (z < 0 || z >= zSize) throw new IndexOutOfBoundsException("Z index out of bounds");
-            if (y < 0 || y >= ySize) throw new IndexOutOfBoundsException("Y index out of bounds");
-            if (x < 0 || x >= xSize) throw new IndexOutOfBoundsException("X index out of bounds");
-            char symbol = depth.get(z)[y].charAt(x);
-            return blockMapping.get(symbol);
-        }
-
         public static final class Builder {
 
             private final String name;
@@ -135,8 +128,8 @@ public final class PlatformBlockType {
             private String description;
             private String source;
             private boolean preview = false;
-            private final List<String[]> depth = new ArrayList<>();
-            private final Map<Character, Block> symbolMap = new HashMap<>();
+            private String resourcePath;
+            private final Map<Character, BlockState> symbolMap = new HashMap<>();
             private final int[] materials = new int[] { 0, 0, 0 };
             private int xSize;
             private int ySize;
@@ -171,51 +164,18 @@ public final class PlatformBlockType {
                 return this;
             }
 
-            public Builder aisle(String... rows) {
-                if (rows == null || rows.length == 0) {
-                    throw new IllegalArgumentException("aisle cannot be empty");
-                }
-                depth.add(rows.clone());
+            public Builder resourcePath(String resourcePath) {
+                this.resourcePath = resourcePath;
                 return this;
             }
 
-            /**
-             * 从资源文件读取 .aisle(...) 格式的结构
-             */
-            public Builder addAisleFromResource(String resourcePath) {
-                try (InputStream is = PlatformBlockType.class.getClassLoader().getResourceAsStream(resourcePath)) {
-                    if (is == null) {
-                        throw new IllegalArgumentException("Resource not found: " + resourcePath);
-                    }
-                    BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    String line;
-                    Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
-                    Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
-                    while ((line = br.readLine()) != null) {
-                        line = line.trim();
-                        if (line.startsWith(".aisle(")) {
-                            Matcher aisleMatcher = aislePattern.matcher(line);
-                            if (aisleMatcher.find()) {
-                                String content = aisleMatcher.group(1);
-                                Matcher stringMatcher = stringPattern.matcher(content);
-                                List<String> rows = new ArrayList<>();
-                                while (stringMatcher.find()) {
-                                    rows.add(stringMatcher.group(1));
-                                }
-                                if (!rows.isEmpty()) {
-                                    aisle(rows.toArray(new String[0]));
-                                }
-                            }
-                        }
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException("Failed to load structure from resource: " + resourcePath, e);
-                }
+            public Builder where(char symbol, @NotNull BlockState block) {
+                symbolMap.put(symbol, block);
                 return this;
             }
 
             public Builder where(char symbol, @NotNull Block block) {
-                symbolMap.put(symbol, block);
+                symbolMap.put(symbol, block.defaultBlockState());
                 return this;
             }
 
@@ -243,10 +203,13 @@ public final class PlatformBlockType {
                 if (name == null || name.isEmpty()) {
                     throw new IllegalStateException("Structure name must be defined (as primary key)");
                 }
-                validateStructure(depth);
+                if (resourcePath == null || resourcePath.isEmpty()) {
+                    throw new IllegalStateException("Resource path must be defined");
+                }
                 if (symbolMap.isEmpty()) {
                     throw new IllegalStateException("No block mappings defined");
                 }
+                readDepthFromResource(resourcePath);
                 return new PlatformBlockStructure(
                         name,
                         type,
@@ -254,7 +217,7 @@ public final class PlatformBlockType {
                         description,
                         source,
                         preview,
-                        depth,
+                        resourcePath,
                         new Char2ObjectOpenHashMap<>(symbolMap),
                         materials,
                         xSize,
@@ -270,8 +233,11 @@ public final class PlatformBlockType {
     public static final class PlatformPreset {
 
         private final String name;
+        @Nullable
         private final String displayName;
+        @Nullable
         private final String description;
+        @Nullable
         private final String source;
         private final List<PlatformBlockStructure> structures;
 
@@ -353,6 +319,57 @@ public final class PlatformBlockType {
                 return new PlatformPreset(name, displayName, description, source, structures);
             }
         }
+    }
+
+    /**
+     * 从资源文件读取结构数据
+     */
+    public static List<String[]> readDepthFromResource(String resourcePath) {
+        try (InputStream is = PlatformBlockType.class.getClassLoader().getResourceAsStream(resourcePath)) {
+            if (is == null) {
+                throw new IllegalArgumentException("Resource not found: " + resourcePath);
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String line;
+            Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
+            Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
+            List<String[]> depth = new ArrayList<>();
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.startsWith(".aisle(")) {
+                    Matcher aisleMatcher = aislePattern.matcher(line);
+                    if (aisleMatcher.find()) {
+                        String content = aisleMatcher.group(1);
+                        Matcher stringMatcher = stringPattern.matcher(content);
+                        List<String> rows = new ArrayList<>();
+                        while (stringMatcher.find()) {
+                            rows.add(stringMatcher.group(1));
+                        }
+                        if (!rows.isEmpty()) {
+                            depth.add(rows.toArray(new String[0]));
+                        }
+                    }
+                }
+            }
+            validateStructure(depth);
+            return depth;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load structure from resource: " + resourcePath, e);
+        }
+    }
+
+    /**
+     * 获取指定坐标的方块
+     */
+    public static BlockState getBlockAt(String resourcePath, Char2ObjectMap<BlockState> blockMapping, int x, int y, int z) {
+        List<String[]> depth = readDepthFromResource(resourcePath);
+        if (z < 0 || z >= depth.size()) throw new IndexOutOfBoundsException("Z index out of bounds");
+        String[] aisle = depth.get(z);
+        if (y < 0 || y >= aisle.length) throw new IndexOutOfBoundsException("Y index out of bounds");
+        String row = aisle[y];
+        if (x < 0 || x >= row.length()) throw new IndexOutOfBoundsException("X index out of bounds");
+        char symbol = row.charAt(x);
+        return blockMapping.get(symbol);
     }
 
     private static void validateStructure(List<String[]> depth) {

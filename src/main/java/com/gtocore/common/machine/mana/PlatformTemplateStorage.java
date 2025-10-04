@@ -18,7 +18,7 @@ public class PlatformTemplateStorage {
                 .description("这是一个方块")
                 .source("maple")
                 .preview(true)
-                .addAisleFromResource("assets/gtocore/platforms/road_x")
+                .resourcePath("assets/gtocore/platforms/road_x")
                 .where('C', Blocks.COBBLESTONE)
                 .materials(0, 256)
                 .materials(1, 256)
@@ -28,7 +28,7 @@ public class PlatformTemplateStorage {
         // 从文件加载X方向道路
         PlatformBlockStructure roadX = PlatformBlockStructure.structure("roadX")
                 .preview(true)
-                .addAisleFromResource("assets/gtocore/platforms/road_x")
+                .resourcePath("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(0, 256)
@@ -40,7 +40,7 @@ public class PlatformTemplateStorage {
         // 从文件加载Z方向道路
         PlatformBlockStructure roadZ = PlatformBlockStructure.structure("roadZ")
                 .preview(true)
-                .addAisleFromResource("assets/gtocore/platforms/road_x")
+                .resourcePath("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(0, 256)
@@ -52,7 +52,7 @@ public class PlatformTemplateStorage {
         // 从文件加载十字路口
         PlatformBlockStructure cross = PlatformBlockStructure.structure("cross")
                 .preview(false)
-                .addAisleFromResource("assets/gtocore/platforms/road_x")
+                .resourcePath("assets/gtocore/platforms/road_x")
                 .where('A', Blocks.COBBLESTONE)
                 .where('~', Blocks.AIR)
                 .materials(0, 256)

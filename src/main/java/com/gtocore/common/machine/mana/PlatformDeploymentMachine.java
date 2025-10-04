@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
@@ -36,11 +37,13 @@ import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static xaero.pac.common.server.world.ServerLevelHelper.getServerLevel;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implements IFancyUIMachine {
+public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(IndustrialPlatformDeploymentToolsMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PlatformDeploymentMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private final NotifiableItemStackHandler inventory;
@@ -48,7 +51,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     private final List<PlatformBlockType.PlatformPreset> presets = PlatformTemplateStorage.initializePresets();
     private final int maxGroup;
 
-    public IndustrialPlatformDeploymentToolsMachine(MetaMachineBlockEntity holder) {
+    public PlatformDeploymentMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 9, IO.NONE, IO.BOTH);
         maxGroup = presets.size();
@@ -162,6 +165,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     @Persisted
     private boolean taskCompleted = true;
 
+    private int progress = 0;
+
     /////////////////////////////////////
     // ************ UI组件 ************ //
     /// //////////////////////////////////
@@ -210,6 +215,9 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
                     .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
             group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
                     .clickHandler(this::handleDisplayClickStep));
+            group_start.addWidget(new ComponentPanelWidget(2, 20, this::addDisplayTextStart)
+                    .clickHandler(this::handleDisplayClickStart)
+                    .setMaxWidthLimit(50));
             group.addWidget(group_start);
         }
 
@@ -362,25 +370,24 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
             if (materialInventory[i] != 0) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material." + i, materialInventory[i]));
         }
 
-        if (presetConfirm) {
+        if (!presetConfirm) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
+        else {
             textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand"));
             int[] costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
             for (int i = 0; i < costMaterial.length; i++) {
                 if (costMaterial[i] != 0) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material." + i, costMaterial[i]));
             }
-            if (insufficient) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
-            else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
-        } else {
-            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
+            if (!insufficient) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
+            else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
         }
     }
 
     private void handleDisplayClick1(String componentData, ClickData clickData) {
         if (step != ConfirmConsumables) return;
-        if (Objects.equals(componentData, "loading")) {
+        if (componentData.equals("loading")) {
             loadingMaterial();
             examineMaterial();
-        } else if (Objects.equals(componentData, "unloading")) {
+        } else if (componentData.equals("unloading")) {
             unloadingMaterial();
             examineMaterial();
         }
@@ -430,7 +437,8 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
 
         textList.add(empty);
 
-        if (presetConfirm) {
+        if (!presetConfirm) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
+        else {
             BlockPos pos = getPos();
             int maxChunkX = (pos.getX() >> 4) + offsetX;
             int maxChunkZ = (pos.getZ() >> 4) + offsetZ;
@@ -456,8 +464,6 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
             textList.add(createEqualColumns(langWidth,
                     Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", maxZ),
                     Component.literal(String.valueOf(minZ))));
-        } else {
-            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
         }
     }
 
@@ -486,6 +492,22 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
             case "adjust_y_add" -> adjustY = Math.max(0, adjustY + 1);
             case "adjust_y_minus" -> adjustY = Math.max(0, adjustY - 1);
         }
+    }
+
+    // 启动控制工具
+    private void addDisplayTextStart(List<Component> textList) {
+        if (!presetConfirm) textList.add(centerComponent(54, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+        else {
+            if (!insufficient) textList.add(centerComponent(54, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+            else {
+                if (!taskCompleted) textList.add(centerComponent(54, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.doing", progress)));
+                else textList.add(centerComponent(54, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.start"), "start")));
+            }
+        }
+    }
+
+    private void handleDisplayClickStart(String componentData, ClickData clickData) {
+        if (componentData.equals("start")) start();
     }
 
     /////////////////////////////////////
@@ -546,7 +568,7 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
     }
 
     /////////////////////////////////////
-    // ********* 辅助获取方法 ********* //
+    // *********** 辅助方法 *********** //
     /////////////////////////////////////
 
     private PlatformBlockType.PlatformPreset getPlatformPreset(int group) {
@@ -602,7 +624,20 @@ public class IndustrialPlatformDeploymentToolsMachine extends MetaMachine implem
         }
     }
 
-    /////////////////////////////////////
-    // ********* 平台生成主方法 ********* //
-    /////////////////////////////////////
+    private void start() {
+        Level level = getLevel();
+        BlockPos pos = getPos();
+        if (level == null) return;
+        progress = 0;
+        PlatformStructurePlacer.placeStructureAsync(
+                getServerLevel(getLevel()),
+                new BlockPos(((pos.getX() >> 4) + offsetX - getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16) << 4,
+                        pos.getY() + offsetY,
+                        ((pos.getZ() >> 4) + offsetZ - getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16) << 4),
+                getPlatformBlockStructure(saveGroup, saveId).getResourcePath(),
+                getPlatformBlockStructure(saveGroup, saveId).getBlockMapping(),
+                50000,
+                progress -> this.progress = progress,
+                () -> taskCompleted = true);
+    }
 }
