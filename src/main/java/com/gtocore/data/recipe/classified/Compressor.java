@@ -6,7 +6,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -18,7 +17,7 @@ final class Compressor {
 
     public static void init() {
         COMPRESSOR_RECIPES.recipeBuilder("compressed_crafting_table")
-                .inputItems(new ItemStack(Blocks.CRAFTING_TABLE.asItem(), 64))
+                .inputItems(Blocks.CRAFTING_TABLE.asItem(), 64)
                 .outputItems(ModBlocks.compressed_crafting_table.get().asItem())
                 .EUt(480)
                 .duration(200)
@@ -33,7 +32,7 @@ final class Compressor {
 
         COMPRESSOR_RECIPES.recipeBuilder("spongebob")
                 .inputItems(TagPrefix.foil, GTMaterials.Polycaprolactam, 2)
-                .outputItems(new ItemStack(Blocks.SPONGE.asItem()))
+                .outputItems(Blocks.SPONGE.asItem())
                 .EUt(2)
                 .duration(200)
                 .save();
@@ -47,14 +46,14 @@ final class Compressor {
 
         COMPRESSOR_RECIPES.recipeBuilder("bedrock")
                 .inputItems(TagPrefix.block, GTOMaterials.Bedrockium)
-                .outputItems(new ItemStack(Blocks.BEDROCK.asItem()))
+                .outputItems(Blocks.BEDROCK.asItem())
                 .EUt(31457280)
                 .duration(4000)
                 .save();
 
         COMPRESSOR_RECIPES.recipeBuilder("netherite_block")
                 .inputItems(TagPrefix.ingot, GTMaterials.Netherite, 9)
-                .outputItems(new ItemStack(Blocks.NETHERITE_BLOCK.asItem()))
+                .outputItems(Blocks.NETHERITE_BLOCK.asItem())
                 .EUt(2)
                 .duration(300)
                 .save();

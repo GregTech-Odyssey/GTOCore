@@ -90,7 +90,13 @@ public final class GTOCommands {
                                 Commands.literal("off").executes((ctx) -> {
                                     ClientCache.machineNotFormedHighlight = false;
                                     return 1;
-                                }))));
+                                })))
+                .then(Commands.literal("message").executes((ctx) -> {
+                    net.minecraft.client.Minecraft.getInstance().execute(() -> {
+                        net.minecraft.client.Minecraft.getInstance().setScreen(new com.gtocore.client.screen.MessageListScreen());
+                    });
+                    return 1;
+                })));
     }
 
     private static Component copy(Component c) {

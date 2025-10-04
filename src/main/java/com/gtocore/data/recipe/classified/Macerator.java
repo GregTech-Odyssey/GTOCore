@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -42,15 +41,15 @@ final class Macerator {
         MACERATOR_RECIPES.recipeBuilder("essence")
                 .inputItems(GTOBlocks.ESSENCE_BLOCK.asItem())
                 .outputItems(GTOItems.ESSENCE.asItem())
-                .chancedOutput(GTOItems.ESSENCE.asStack(), 5000, 400)
-                .chancedOutput(GTOItems.ESSENCE.asStack(), 5000, 200)
-                .chancedOutput(GTOItems.ESSENCE.asStack(), 5000, 100)
+                .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 400)
+                .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 200)
+                .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 100)
                 .EUt(30)
                 .duration(200)
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("silicon_dust")
-                .inputItems(new ItemStack(AEItems.SILICON.asItem()))
+                .inputItems(AEItems.SILICON.asItem())
                 .outputItems(TagPrefix.dust, GTMaterials.Silicon)
                 .EUt(16)
                 .duration(200)
@@ -65,7 +64,7 @@ final class Macerator {
 
         MACERATOR_RECIPES.recipeBuilder("draconium_dust")
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asItem())
-                .outputItems(GTOItems.DRACONIUM_DIRT.asStack(9))
+                .outputItems(GTOItems.DRACONIUM_DIRT.asItem(), 9)
                 .outputItems(TagPrefix.dust, GTMaterials.Obsidian)
                 .outputItems(TagPrefix.dust, GTMaterials.EnderEye)
                 .outputItems(TagPrefix.dust, GTMaterials.Redstone)
@@ -74,14 +73,14 @@ final class Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("sculk_catalyst")
-                .inputItems(new ItemStack(Blocks.SCULK_CATALYST.asItem()))
+                .inputItems(Blocks.SCULK_CATALYST.asItem())
                 .outputItems(TagPrefix.dust, GTMaterials.EchoShard)
                 .EUt(7)
                 .duration(100)
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("sculk_shrieker")
-                .inputItems(new ItemStack(Blocks.SCULK_SHRIEKER.asItem()))
+                .inputItems(Blocks.SCULK_SHRIEKER.asItem())
                 .outputItems(TagPrefix.dust, GTMaterials.EchoShard)
                 .EUt(7)
                 .duration(100)
@@ -95,7 +94,7 @@ final class Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("sculk_sensor")
-                .inputItems(new ItemStack(Blocks.SCULK_SENSOR.asItem()))
+                .inputItems(Blocks.SCULK_SENSOR.asItem())
                 .outputItems(TagPrefix.dust, GTMaterials.EchoShard)
                 .EUt(7)
                 .duration(100)
@@ -116,22 +115,22 @@ final class Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("prismarine_shard")
-                .inputItems(new ItemStack(Blocks.PRISMARINE.asItem()))
-                .outputItems(new ItemStack(Items.PRISMARINE_SHARD.asItem()))
+                .inputItems(Blocks.PRISMARINE.asItem())
+                .outputItems(Items.PRISMARINE_SHARD.asItem())
                 .EUt(2)
                 .duration(200)
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("wheat_seeds")
-                .inputItems(new ItemStack(Items.WHEAT.asItem()))
-                .outputItems(new ItemStack(Blocks.WHEAT.asItem(), 8))
+                .inputItems(Items.WHEAT.asItem())
+                .outputItems(Blocks.WHEAT.asItem(), 8)
                 .EUt(2)
                 .duration(200)
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("sky_dust")
-                .inputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem()))
-                .outputItems(new ItemStack(AEItems.SKY_DUST.asItem()))
+                .inputItems(AEBlocks.SKY_STONE_BLOCK.block().asItem())
+                .outputItems(AEItems.SKY_DUST.asItem())
                 .EUt(2)
                 .duration(200)
                 .save();

@@ -29,8 +29,8 @@ final class DimensionalFocusEngravingArray {
                 .outputItems(GTOItems.PM_WAFER.asItem())
                 .EUt(1966080)
                 .duration(1800)
-                .scanner(b -> b.researchStack(GTOItems.PM_WAFER.asStack())
-                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
+                .scanner(b -> b.researchStack(GTOItems.PM_WAFER.asItem())
+                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asItem())
                         .EUt(1966080).duration(2400))
                 .save();
 
@@ -41,8 +41,8 @@ final class DimensionalFocusEngravingArray {
                 .outputItems(GTOItems.RAW_PHOTON_CARRYING_WAFER.asItem())
                 .EUt(1966080)
                 .duration(600)
-                .scanner(b -> b.researchStack(GTOItems.RAW_PHOTON_CARRYING_WAFER.asStack())
-                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
+                .scanner(b -> b.researchStack(GTOItems.RAW_PHOTON_CARRYING_WAFER.asItem())
+                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asItem())
                         .EUt(1966080).duration(2400))
                 .save();
 
@@ -53,8 +53,8 @@ final class DimensionalFocusEngravingArray {
                 .outputItems(GTOItems.HIGH_PRECISION_CRYSTAL_SOC.asItem())
                 .EUt(7864320)
                 .duration(2400)
-                .scanner(b -> b.researchStack(GTOItems.HIGH_PRECISION_CRYSTAL_SOC.asStack())
-                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
+                .scanner(b -> b.researchStack(GTOItems.HIGH_PRECISION_CRYSTAL_SOC.asItem())
+                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asItem())
                         .EUt(7864320).duration(2400))
                 .save();
 
@@ -65,8 +65,8 @@ final class DimensionalFocusEngravingArray {
                 .outputItems(GTOItems.PREPARED_COSMIC_SOC_WAFER.asItem())
                 .EUt(31457280)
                 .duration(4800)
-                .scanner(b -> b.researchStack(GTOItems.PREPARED_COSMIC_SOC_WAFER.asStack())
-                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
+                .scanner(b -> b.researchStack(GTOItems.PREPARED_COSMIC_SOC_WAFER.asItem())
+                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asItem())
                         .EUt(31457280).duration(2400))
                 .save();
 
@@ -77,8 +77,8 @@ final class DimensionalFocusEngravingArray {
                 .outputItems(GTOItems.NM_WAFER.asItem())
                 .EUt(491520)
                 .duration(900)
-                .scanner(b -> b.researchStack(GTOItems.NM_WAFER.asStack())
-                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
+                .scanner(b -> b.researchStack(GTOItems.NM_WAFER.asItem())
+                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asItem())
                         .EUt(491520).duration(2400))
                 .save();
 
@@ -89,8 +89,8 @@ final class DimensionalFocusEngravingArray {
                 .outputItems(GTOItems.FM_WAFER.asItem())
                 .EUt(7864320)
                 .duration(2700)
-                .scanner(b -> b.researchStack(GTOItems.FM_WAFER.asStack())
-                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
+                .scanner(b -> b.researchStack(GTOItems.FM_WAFER.asItem())
+                        .dataStack(GTOItems.OPTICAL_DATA_STICK.asItem())
                         .EUt(7864320).duration(2400))
                 .save();
 

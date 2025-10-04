@@ -53,7 +53,7 @@ final class ComputerRecipes {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("advanced_computer_casing")
-                .inputItems(COMPUTER_CASING.asStack())
+                .inputItems(COMPUTER_CASING.asItem())
                 .inputItems(CustomTags.ZPM_CIRCUITS)
                 .inputItems(wireFine, Cobalt, 64)
                 .inputItems(wireFine, Electrum, 64)
@@ -75,18 +75,18 @@ final class ComputerRecipes {
                 .save();
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder("data_bank")
-                .inputItems(COMPUTER_CASING.asStack())
+                .inputItems(COMPUTER_CASING.asItem())
                 .inputItems(CustomTags.LuV_CIRCUITS, 8)
                 .inputItems(TOOL_DATA_ORB)
                 .inputItems(wireFine, Cobalt, 64)
                 .inputItems(wireFine, Copper, 64)
-                .inputItems(OPTICAL_PIPES[0].asStack(4))
+                .inputItems(OPTICAL_PIPES[0].asItem(), 4)
                 .inputItems(wireGtDouble, IndiumTinBariumTitaniumCuprate, 16)
                 .inputFluids(SolderingAlloy, L << 1)
                 .inputFluids(Lubricant, 500)
                 .outputItems(DATA_BANK)
                 .scanner(b -> b
-                        .researchStack(DATA_ACCESS_HATCH.asStack())
+                        .researchStack(DATA_ACCESS_HATCH.asItem())
                         .duration(2400)
                         .EUt(VA[EV]))
                 .duration(1200).EUt(6000)
@@ -100,19 +100,19 @@ final class ComputerRecipes {
                 .inputItems(ELECTRIC_MOTOR_ZPM, 2)
                 .inputItems(wireGtDouble, UraniumRhodiumDinaquadide, 32)
                 .inputItems(foil, Trinium, 32)
-                .inputItems(OPTICAL_PIPES[0].asStack(16))
+                .inputItems(OPTICAL_PIPES[0].asItem(), 16)
                 .inputFluids(SolderingAlloy, L << 3)
                 .inputFluids(VanadiumGallium, L << 3)
                 .outputItems(RESEARCH_STATION)
                 .scanner(b -> b
-                        .researchStack(SCANNER[LuV].asStack())
+                        .researchStack(SCANNER[LuV].asItem())
                         .duration(2400)
                         .EUt(VA[IV]))
                 .duration(1200).EUt(100000)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hpca_empty_component")
-                .inputItems(COMPUTER_CASING.asStack())
+                .inputItems(COMPUTER_CASING.asItem())
                 .inputItems(CustomTags.IV_CIRCUITS)
                 .inputItems(TOOL_DATA_STICK)
                 .outputItems(HPCA_EMPTY_COMPONENT)
@@ -132,7 +132,7 @@ final class ComputerRecipes {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hpca_active_cooler_component")
-                .inputItems(ADVANCED_COMPUTER_CASING.asStack())
+                .inputItems(ADVANCED_COMPUTER_CASING.asItem())
                 .inputItems(plate, Aluminium, 16)
                 .inputItems(pipeTinyFluid, StainlessSteel, 16)
                 .inputItems(screw, StainlessSteel, 8)
@@ -143,10 +143,10 @@ final class ComputerRecipes {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hpca_bridge_component")
-                .inputItems(ADVANCED_COMPUTER_CASING.asStack())
+                .inputItems(ADVANCED_COMPUTER_CASING.asItem())
                 .inputItems(CustomTags.UV_CIRCUITS)
                 .inputItems(EMITTER_ZPM)
-                .inputItems(OPTICAL_PIPES[0].asStack(2))
+                .inputItems(OPTICAL_PIPES[0].asItem(), 2)
                 .outputItems(HPCA_BRIDGE_COMPONENT)
                 .inputFluids(PCBCoolant, 1000)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -174,11 +174,11 @@ final class ComputerRecipes {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("data_receiver_hatch")
-                .inputItems(COMPUTER_CASING.asStack())
+                .inputItems(COMPUTER_CASING.asItem())
                 .inputItems(ITEM_IMPORT_BUS[LuV])
                 .inputItems(CustomTags.LuV_CIRCUITS)
                 .inputItems(SENSOR_IV)
-                .inputItems(OPTICAL_PIPES[0].asStack(2))
+                .inputItems(OPTICAL_PIPES[0].asItem(), 2)
                 .inputFluids(Polybenzimidazole, L << 1)
                 .outputItems(DATA_HATCH_RECEIVER)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -186,11 +186,11 @@ final class ComputerRecipes {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("data_transmitter_hatch")
-                .inputItems(COMPUTER_CASING.asStack())
+                .inputItems(COMPUTER_CASING.asItem())
                 .inputItems(ITEM_EXPORT_BUS[LuV])
                 .inputItems(CustomTags.LuV_CIRCUITS)
                 .inputItems(EMITTER_IV)
-                .inputItems(OPTICAL_PIPES[0].asStack(2))
+                .inputItems(OPTICAL_PIPES[0].asItem(), 2)
                 .inputFluids(Polybenzimidazole, L << 1)
                 .outputItems(DATA_HATCH_TRANSMITTER)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -228,7 +228,7 @@ final class ComputerRecipes {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("laser_cable")
-                .inputItems(CASING_LAMINATED_GLASS.asStack(1))
+                .inputItems(CASING_LAMINATED_GLASS.asItem(), 1)
                 .inputItems(foil, Osmiridium, 2)
                 .inputFluids(Polytetrafluoroethylene, L)
                 .outputItems(LASER_PIPES[0])

@@ -498,14 +498,14 @@ public final class CircuitRecipes {
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_emerald")
                 .inputItems(gemExquisite, Emerald)
                 .inputFluids(Europium.getFluid(L / 9))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 1000, 2000)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 1000, 2000)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(320).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_olivine")
                 .inputItems(gemExquisite, Olivine)
                 .inputFluids(Europium.getFluid(L / 9))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 1000, 2000)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 1000, 2000)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(320).save();
 
@@ -524,14 +524,14 @@ public final class CircuitRecipes {
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_from_part_mutagen")
                 .inputItems(RAW_CRYSTAL_CHIP_PART)
                 .inputFluids(Mutagen.getFluid(250))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 8000, 250)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 8000, 250)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(VA[HV]).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_from_part_bacterial_sludge")
                 .inputItems(RAW_CRYSTAL_CHIP_PART)
                 .inputFluids(BacterialSludge.getFluid(250))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 8000, 250)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 8000, 250)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(VA[HV]).save();
     }
@@ -646,22 +646,22 @@ public final class CircuitRecipes {
         // T1: Electronic ==============================================================================================
 
         // LV
-        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_lv", ELECTRONIC_CIRCUIT_LV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_lv", ELECTRONIC_CIRCUIT_LV.asItem(),
                 "RPR", "VBV", "CCC",
-                'R', RESISTOR.asStack(),
+                'R', RESISTOR.asItem(),
                 'P', new MaterialEntry(plate, Steel),
-                'V', VACUUM_TUBE.asStack(),
-                'B', BASIC_CIRCUIT_BOARD.asStack(),
+                'V', VACUUM_TUBE.asItem(),
+                'B', BASIC_CIRCUIT_BOARD.asItem(),
                 'C', new MaterialEntry(cableGtSingle, RedAlloy));
 
         // MV
-        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_mv", ELECTRONIC_CIRCUIT_MV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_mv", ELECTRONIC_CIRCUIT_MV.asItem(),
                 "DPD", "CBC", "WCW",
                 'W', new MaterialEntry(wireGtSingle, Copper),
                 'P', new MaterialEntry(plate, Steel),
-                'C', ELECTRONIC_CIRCUIT_LV.asStack(),
-                'B', GOOD_CIRCUIT_BOARD.asStack(),
-                'D', DIODE.asStack());
+                'C', ELECTRONIC_CIRCUIT_LV.asItem(),
+                'B', GOOD_CIRCUIT_BOARD.asItem(),
+                'D', DIODE.asItem());
 
         CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("electronic_circuit_mv").EUt(VA[LV]).duration(300)
                 .inputItems(GOOD_CIRCUIT_BOARD)
@@ -1095,7 +1095,7 @@ public final class CircuitRecipes {
                 .inputFluids(Neon.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(CRYSTAL_MAINFRAME_UV)
                 .researchStation(b -> b
-                        .researchStack(CRYSTAL_COMPUTER_ZPM.asStack())
+                        .researchStack(CRYSTAL_COMPUTER_ZPM.asItem())
                         .CWUt(16))
                 .save();
 
@@ -1154,7 +1154,7 @@ public final class CircuitRecipes {
                 .inputFluids(Zinc.getFluid(FluidStorageKeys.PLASMA, 144))
                 .outputItems(WETWARE_SUPER_COMPUTER_UV)
                 .researchStation(b -> b
-                        .researchStack(WETWARE_PROCESSOR_ASSEMBLY_ZPM.asStack())
+                        .researchStack(WETWARE_PROCESSOR_ASSEMBLY_ZPM.asItem())
                         .CWUt(16))
                 .save();
 
@@ -1177,7 +1177,7 @@ public final class CircuitRecipes {
                 .inputFluids(Xenon.getFluid(FluidStorageKeys.PLASMA, 576))
                 .outputItems(WETWARE_MAINFRAME_UHV)
                 .researchStation(b -> b
-                        .researchStack(WETWARE_SUPER_COMPUTER_UV.asStack())
+                        .researchStack(WETWARE_SUPER_COMPUTER_UV.asItem())
                         .CWUt(96)
                         .EUt(VA[UV]))
                 .EUt(300000).duration(2000).save();

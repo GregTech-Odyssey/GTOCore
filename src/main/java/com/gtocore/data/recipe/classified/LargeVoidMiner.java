@@ -229,7 +229,7 @@ final class LargeVoidMiner {
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.NetherQuartz, 240)
                 .outputItems(TagPrefix.ore, GTMaterials.Quartzite, 80)
-                .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
+                .outputItems(Blocks.ANCIENT_DEBRIS.asItem(), 50)
                 .EUt(61440)
                 .duration(200)
                 .save();

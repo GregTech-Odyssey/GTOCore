@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import static com.gtocore.common.data.GTORecipeTypes.PACKER_RECIPES;
@@ -21,14 +20,14 @@ final class Packer {
 
     public static void init() {
         PACKER_RECIPES.recipeBuilder("zero_point_module")
-                .inputItems(GTOItems.ZERO_POINT_MODULE_FRAGMENTS.asStack(64))
+                .inputItems(GTOItems.ZERO_POINT_MODULE_FRAGMENTS.asItem(), 64)
                 .outputItems(GTItems.ZERO_POINT_MODULE.asItem())
                 .EUt(120)
                 .duration(2000)
                 .save();
 
         PACKER_RECIPES.recipeBuilder("scrap_box")
-                .inputItems(GTOItems.SCRAP.asStack(9))
+                .inputItems(GTOItems.SCRAP.asItem(), 9)
                 .outputItems(GTOItems.SCRAP_BOX.asItem())
                 .EUt(12)
                 .duration(200)
@@ -156,21 +155,21 @@ final class Packer {
                 .save();
 
         PACKER_RECIPES.recipeBuilder("carrot_crate")
-                .inputItems(new ItemStack(Items.CARROT.asItem(), 9))
+                .inputItems(Items.CARROT.asItem(), 9)
                 .outputItems(RegistriesUtils.getItemStack("farmersdelight:carrot_crate"))
                 .EUt(12)
                 .duration(10)
                 .save();
 
         PACKER_RECIPES.recipeBuilder("potato_crate")
-                .inputItems(new ItemStack(Items.POTATO.asItem(), 9))
+                .inputItems(Items.POTATO.asItem(), 9)
                 .outputItems(RegistriesUtils.getItemStack("farmersdelight:potato_crate"))
                 .EUt(12)
                 .duration(10)
                 .save();
 
         PACKER_RECIPES.recipeBuilder("beetroot_crate")
-                .inputItems(new ItemStack(Items.BEETROOT.asItem(), 9))
+                .inputItems(Items.BEETROOT.asItem(), 9)
                 .outputItems(RegistriesUtils.getItemStack("farmersdelight:beetroot_crate"))
                 .EUt(12)
                 .duration(10)

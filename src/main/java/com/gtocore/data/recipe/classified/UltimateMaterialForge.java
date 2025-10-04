@@ -7,8 +7,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
-
 import appeng.core.definitions.AEItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES;
@@ -22,7 +20,7 @@ final class UltimateMaterialForge {
                 .inputFluids(GTMaterials.UUMatter.getFluid(2000))
                 .inputFluids(GTOMaterials.Gluons.getFluid(1000))
                 .outputItems(GTOItems.VOID_MATTER.asItem())
-                .chancedOutput(GTOItems.CORPOREAL_MATTER.asStack(), 2000, 0)
+                .chancedOutput(GTOItems.CORPOREAL_MATTER.asItem(), 2000, 0)
                 .EUt(2013265920)
                 .duration(400)
                 .save();
@@ -33,7 +31,7 @@ final class UltimateMaterialForge {
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.AwakenedDraconium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOItems.TEMPORAL_MATTER.asItem())
-                .chancedOutput(GTOItems.OMNI_MATTER.asStack(), 500, 0)
+                .chancedOutput(GTOItems.OMNI_MATTER.asItem(), 500, 0)
                 .EUt(2013265920)
                 .duration(600)
                 .save();
@@ -64,7 +62,7 @@ final class UltimateMaterialForge {
                 .inputFluids(GTMaterials.UUMatter.getFluid(3000))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentCrudeCatalyst.getFluid(1000))
                 .outputItems(GTOItems.DARK_MATTER.asItem())
-                .chancedOutput(GTOItems.KINETIC_MATTER.asStack(), 1000, 0)
+                .chancedOutput(GTOItems.KINETIC_MATTER.asItem(), 1000, 0)
                 .EUt(2013265920)
                 .duration(1200)
                 .save();
@@ -75,7 +73,7 @@ final class UltimateMaterialForge {
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .inputFluids(GTMaterials.Naquadria.getFluid(1000))
                 .outputItems(GTOItems.KINETIC_MATTER.asItem())
-                .chancedOutput(GTOItems.AMORPHOUS_MATTER.asStack(), 200, 0)
+                .chancedOutput(GTOItems.AMORPHOUS_MATTER.asItem(), 200, 0)
                 .EUt(503316480)
                 .duration(600)
                 .save();
@@ -86,18 +84,18 @@ final class UltimateMaterialForge {
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.Legendarium.getFluid(1000))
                 .outputItems(GTOItems.AMORPHOUS_MATTER.asItem())
-                .chancedOutput(GTOItems.ESSENTIA_MATTER.asStack(), 100, 0)
+                .chancedOutput(GTOItems.ESSENTIA_MATTER.asItem(), 100, 0)
                 .EUt(503316480)
                 .duration(800)
                 .save();
 
         ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder("pellet_antimatter")
-                .inputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 64))
+                .inputItems(AEItems.MATTER_BALL.asItem(), 64)
                 .inputItems(TagPrefix.nugget, GTOMaterials.Neutron)
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.Antihydrogen.getFluid(10))
                 .outputItems(GTOItems.PELLET_ANTIMATTER.asItem())
-                .chancedOutput(GTOItems.VOID_MATTER.asStack(), 100, 0)
+                .chancedOutput(GTOItems.VOID_MATTER.asItem(), 100, 0)
                 .EUt(125829120)
                 .duration(2000)
                 .save();
@@ -108,7 +106,7 @@ final class UltimateMaterialForge {
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.QuantumChromoDynamicallyConfinedMatter.getFluid(1000))
                 .outputItems(GTOItems.ESSENTIA_MATTER.asItem())
-                .chancedOutput(GTOItems.DARK_MATTER.asStack(), 100, 0)
+                .chancedOutput(GTOItems.DARK_MATTER.asItem(), 100, 0)
                 .EUt(503316480)
                 .duration(1200)
                 .save();

@@ -43,24 +43,24 @@ final class ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder("fluix_pearl")
                 .inputItems(TagPrefix.gem, GTMaterials.EnderPearl)
                 .inputItems(TagPrefix.gemFlawless, GTOMaterials.Fluix)
-                .outputItems(new ItemStack(AEItems.FLUIX_PEARL.asItem()))
+                .outputItems(AEItems.FLUIX_PEARL.asItem())
                 .EUt(30)
                 .duration(160)
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder("piglin_head")
                 .notConsumable("minecraft:player_head")
-                .inputItems(new ItemStack(Items.PORKCHOP.asItem(), 9))
+                .inputItems(Items.PORKCHOP.asItem(), 9)
                 .inputItems(TagPrefix.nugget, GTMaterials.Gold)
-                .outputItems(new ItemStack(Blocks.PIGLIN_HEAD.asItem()))
+                .outputItems(Blocks.PIGLIN_HEAD.asItem())
                 .EUt(120)
                 .duration(200)
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder("zombie_head")
                 .notConsumable("minecraft:player_head")
-                .inputItems(new ItemStack(Items.ROTTEN_FLESH.asItem(), 9))
-                .outputItems(new ItemStack(Blocks.ZOMBIE_HEAD.asItem()))
+                .inputItems(Items.ROTTEN_FLESH.asItem(), 9)
+                .outputItems(Blocks.ZOMBIE_HEAD.asItem())
                 .EUt(120)
                 .duration(100)
                 .save();
@@ -77,7 +77,7 @@ final class ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder("skeleton_skull")
                 .notConsumable("minecraft:player_head")
                 .inputItems(TagPrefix.rod, GTMaterials.Bone, 9)
-                .outputItems(new ItemStack(Blocks.SKELETON_SKULL.asItem()))
+                .outputItems(Blocks.SKELETON_SKULL.asItem())
                 .EUt(120)
                 .duration(100)
                 .save();
@@ -114,7 +114,7 @@ final class ArcGenerator {
                 .save();
 
         ARC_GENERATOR_RECIPES.builder("wither_skeleton_skull")
-                .inputItems(new ItemStack(Items.WITHER_SKELETON_SKULL.asItem()))
+                .inputItems(Items.WITHER_SKELETON_SKULL.asItem())
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Coal)
                 .inputItems(TagPrefix.dust, GTMaterials.Iridium)
                 .inputItems(TagPrefix.dust, GTMaterials.Osmium)
@@ -128,10 +128,10 @@ final class ArcGenerator {
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder("netherite_scrap")
-                .inputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem()))
-                .inputItems(new ItemStack(Items.PRISMARINE_SHARD.asItem()))
+                .inputItems(Blocks.ANCIENT_DEBRIS.asItem())
+                .inputItems(Items.PRISMARINE_SHARD.asItem())
                 .inputFluids(GTMaterials.NetherAir.getFluid(100))
-                .outputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
+                .outputItems(Items.NETHERITE_SCRAP.asItem())
                 .EUt(480)
                 .duration(240)
                 .save();
@@ -150,8 +150,8 @@ final class ArcGenerator {
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder("dragon_egg")
-                .inputItems(new ItemStack(Items.EGG.asItem()))
-                .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack(64))
+                .inputItems(Items.EGG.asItem())
+                .inputItems(GTOItems.WARPED_ENDER_PEARL.asItem(), 64)
                 .inputFluids(GTOMaterials.Antimatter.getFluid(1000))
                 .inputFluids(GTMaterials.EnderEye.getFluid(10000))
                 .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(10000))
@@ -171,7 +171,7 @@ final class ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder("crying_obsidian")
                 .inputItems(TagPrefix.rock, GTMaterials.Obsidian)
                 .inputFluids(GTOMaterials.Antimatter.getFluid(10))
-                .outputItems(new ItemStack(Blocks.CRYING_OBSIDIAN.asItem()))
+                .outputItems(Blocks.CRYING_OBSIDIAN.asItem())
                 .EUt(480)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -204,7 +204,7 @@ final class ArcGenerator {
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Lithium)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Potassium)
                 .inputFluids(GTMaterials.SaltWater.getFluid(1000))
-                .outputItems(new ItemStack(Items.GHAST_TEAR.asItem()))
+                .outputItems(Items.GHAST_TEAR.asItem())
                 .EUt(30)
                 .duration(400)
                 .save();
@@ -221,7 +221,7 @@ final class ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder("creeper_head")
                 .notConsumable("minecraft:player_head")
                 .inputItems(TagPrefix.dust, GTMaterials.Gunpowder, 9)
-                .outputItems(new ItemStack(Blocks.CREEPER_HEAD.asItem()))
+                .outputItems(Blocks.CREEPER_HEAD.asItem())
                 .EUt(120)
                 .duration(100)
                 .save();
@@ -248,7 +248,7 @@ final class ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder("charged_certus_quartz_crystal")
                 .circuitMeta(1)
                 .inputItems(TagPrefix.gem, GTMaterials.CertusQuartz)
-                .outputItems(new ItemStack(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem()))
+                .outputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
                 .EUt(30)
                 .duration(60)
                 .save();
@@ -262,16 +262,16 @@ final class ArcGenerator {
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder("ice_shard")
-                .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem()))
+                .inputItems(Blocks.BLUE_ICE.asItem())
                 .outputItems(ModItems.ICE_SHARD.get())
                 .EUt(30)
                 .duration(200)
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder("prismarine")
-                .inputItems(new ItemStack(Blocks.COBBLESTONE.asItem()))
+                .inputItems(Blocks.COBBLESTONE.asItem())
                 .inputFluids(GTMaterials.SaltWater.getFluid(10))
-                .outputItems(new ItemStack(Blocks.PRISMARINE.asItem()))
+                .outputItems(Blocks.PRISMARINE.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -279,9 +279,9 @@ final class ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder("reinforced_deepslate")
                 .inputItems(TagPrefix.rock, GTMaterials.Deepslate)
                 .inputItems(TagPrefix.block, GTMaterials.EchoShard)
-                .inputItems(new ItemStack(DDItems.SCULK_BONE.get(), 4))
+                .inputItems(DDItems.SCULK_BONE.get(), 4)
                 .inputFluids(GTMaterials.EchoShard.getFluid(1440))
-                .outputItems(new ItemStack(Blocks.REINFORCED_DEEPSLATE.asItem()))
+                .outputItems(Blocks.REINFORCED_DEEPSLATE.asItem())
                 .EUt(480)
                 .duration(200)
                 .save();

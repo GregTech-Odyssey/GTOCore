@@ -62,13 +62,11 @@ import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import me.jellysquid.mods.sodium.mixin.core.render.MinecraftAccessor;
 
 import java.util.Collections;
 
 import static com.gtocore.common.data.GTORecipes.EMI_RECIPES;
-import static com.gtocore.common.data.GTORecipes.EMI_RECIPE_WIDGETS;
 
 public final class Data {
 
@@ -177,7 +175,6 @@ public final class Data {
                 EmiConfig.logUntranslatedTags = false;
                 EmiConfig.workstationLocation = SidebarSide.LEFT;
                 EmiRepairItemRecipe.TOOLS.clear();
-                EMI_RECIPE_WIDGETS = new Reference2ReferenceOpenHashMap<>();
                 ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
                 for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
                     if (!category.shouldRegisterDisplays()) continue;
@@ -191,7 +188,6 @@ public final class Data {
                         recipes.add(new MultiblockInfoEmiRecipe(definition));
                     }
                 }
-                EMI_RECIPE_WIDGETS = null;
                 EMI_RECIPES = recipes.build();
                 for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
                     if (type == GTORecipeTypes.FURNACE_RECIPES) {

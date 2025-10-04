@@ -34,7 +34,7 @@ import java.util.Set;
 
 public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
-    public static final EmiRecipeCategory CATEGORY = new EmiRecipeCategory(GTCEu.id("multiblock_info"), EmiStack.of(GTMultiMachines.ELECTRIC_BLAST_FURNACE.getItem())) {
+    public static final EmiRecipeCategory CATEGORY = new EmiRecipeCategory(GTCEu.id("multiblock_info"), EmiStack.of(GTMultiMachines.ELECTRIC_BLAST_FURNACE.asItem())) {
 
         @Override
         public Component getName() {

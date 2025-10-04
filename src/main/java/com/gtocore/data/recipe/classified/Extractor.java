@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,7 +27,7 @@ final class Extractor {
 
     public static void init() {
         EXTRACTOR_RECIPES.recipeBuilder("tannic")
-                .inputItems(new ItemStack(Blocks.NETHER_WART_BLOCK.asItem()))
+                .inputItems(Blocks.NETHER_WART_BLOCK.asItem())
                 .outputFluids(GTOMaterials.Tannic.getFluid(50))
                 .EUt(30)
                 .duration(200)
@@ -49,15 +48,15 @@ final class Extractor {
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("milk")
-                .inputItems(new ItemStack(Items.MILK_BUCKET.asItem()))
-                .outputItems(new ItemStack(Items.BUCKET.asItem()))
+                .inputItems(Items.MILK_BUCKET.asItem())
+                .outputItems(Items.BUCKET.asItem())
                 .outputFluids(GTMaterials.Milk.getFluid(1000))
                 .EUt(16)
                 .duration(60)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("tcetieseaweedextract")
-                .inputItems(GTOItems.TCETIEDANDELIONS.asStack(64))
+                .inputItems(GTOItems.TCETIEDANDELIONS.asItem(), 64)
                 .outputItems(GTOItems.TCETIESEAWEEDEXTRACT.asItem())
                 .EUt(16)
                 .duration(200)
@@ -65,7 +64,7 @@ final class Extractor {
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("bones")
-                .inputItems(new ItemStack(Blocks.DIRT.asItem()))
+                .inputItems(Blocks.DIRT.asItem())
                 .chancedOutput(TagPrefix.rod, GTMaterials.Bone, 25, 0)
                 .EUt(16)
                 .duration(100)
@@ -73,7 +72,7 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("dragon_breath")
                 .inputItems(Ench.Items.INFUSED_BREATH.get(), 3)
-                .outputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
+                .outputItems(Items.GLASS_BOTTLE.asItem())
                 .outputFluids(GTOMaterials.DragonBreath.getFluid(1000))
                 .EUt(30)
                 .duration(200)

@@ -15,7 +15,7 @@ final class AtomicEnergyExcitation {
     public static void init() {
         ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder("concentration_mixing_hyper_fuel_1")
                 .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.WhiteDwarfMatter)
-                .inputItems(GTOItems.RESONATING_GEM.asStack(4))
+                .inputItems(GTOItems.RESONATING_GEM.asItem(), 4)
                 .inputItems(TagPrefix.dust, GTMaterials.Hassium, 16)
                 .inputFluids(GTOMaterials.HyperFuel4.getFluid(8000))
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 6000))

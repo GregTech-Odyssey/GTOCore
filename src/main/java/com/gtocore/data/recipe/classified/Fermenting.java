@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
@@ -30,15 +29,15 @@ final class Fermenting {
                 .save();
 
         FERMENTING_RECIPES.recipeBuilder("poisonous_potato")
-                .inputItems(new ItemStack(Blocks.POTATOES.asItem()))
-                .outputItems(new ItemStack(Items.POISONOUS_POTATO.asItem()))
+                .inputItems(Blocks.POTATOES.asItem())
+                .outputItems(Items.POISONOUS_POTATO.asItem())
                 .EUt(30)
                 .duration(400)
                 .save();
 
         FERMENTING_RECIPES.recipeBuilder("rotten_flesh")
                 .inputItems(TagPrefix.dust, GTMaterials.Meat)
-                .outputItems(new ItemStack(Items.ROTTEN_FLESH.asItem()))
+                .outputItems(Items.ROTTEN_FLESH.asItem())
                 .EUt(30)
                 .duration(400)
                 .save();
@@ -60,7 +59,7 @@ final class Fermenting {
                 .save();
 
         FERMENTING_RECIPES.recipeBuilder("hootch")
-                .inputItems(GTOItems.RED_ALGAE.asStack(4))
+                .inputItems(GTOItems.RED_ALGAE.asItem(), 4)
                 .inputFluids(GTMaterials.Biomass.getFluid(1000))
                 .outputFluids(new FluidStack(EIOFluids.HOOTCH.getSource(), 1000))
                 .EUt(120)
@@ -68,7 +67,7 @@ final class Fermenting {
                 .save();
 
         FERMENTING_RECIPES.recipeBuilder("vapor_of_levity")
-                .inputItems(GTOItems.BLUE_ALGAE.asStack(4))
+                .inputItems(GTOItems.BLUE_ALGAE.asItem(), 4)
                 .inputFluids(new FluidStack(EIOFluids.DEW_OF_THE_VOID.getSource(), 1000))
                 .outputFluids(new FluidStack(EIOFluids.VAPOR_OF_LEVITY.getSource(), 1000))
                 .EUt(120)

@@ -1,6 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import static com.gtocore.common.data.GTORecipeTypes.UNPACKER_RECIPES;
@@ -10,21 +9,21 @@ final class Unpacker {
     public static void init() {
         UNPACKER_RECIPES.recipeBuilder("carrot")
                 .inputItems("farmersdelight:carrot_crate")
-                .outputItems(new ItemStack(Items.CARROT.asItem(), 9))
+                .outputItems(Items.CARROT.asItem(), 9)
                 .EUt(12)
                 .duration(10)
                 .save();
 
         UNPACKER_RECIPES.recipeBuilder("potato")
                 .inputItems("farmersdelight:potato_crate")
-                .outputItems(new ItemStack(Items.POTATO.asItem(), 9))
+                .outputItems(Items.POTATO.asItem(), 9)
                 .EUt(12)
                 .duration(10)
                 .save();
 
         UNPACKER_RECIPES.recipeBuilder("beetroot")
                 .inputItems("farmersdelight:beetroot_crate")
-                .outputItems(new ItemStack(Items.BEETROOT.asItem(), 9))
+                .outputItems(Items.BEETROOT.asItem(), 9)
                 .EUt(12)
                 .duration(10)
                 .save();

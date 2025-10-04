@@ -180,7 +180,7 @@ public final class MachineRecipeLoader {
 
         COMPRESSOR_RECIPES.recipeBuilder("coke_bricks")
                 .inputItems(COKE_OVEN_BRICK, 4)
-                .outputItems(GTBlocks.CASING_COKE_BRICKS.asStack())
+                .outputItems(GTBlocks.CASING_COKE_BRICKS.asItem())
                 .duration(300).EUt(2).save();
     }
 
@@ -383,7 +383,7 @@ public final class MachineRecipeLoader {
 
         ALLOY_SMELTER_RECIPES.recipeBuilder("coke_oven_brick").duration(150).EUt(VA[ULV])
                 .inputItems(Tags.Items.SAND)
-                .inputItems(new ItemStack(Items.CLAY_BALL))
+                .inputItems(Items.CLAY_BALL)
                 .outputItems(COKE_OVEN_BRICK, 2)
                 .save();
     }
@@ -441,23 +441,23 @@ public final class MachineRecipeLoader {
         CANNER_RECIPES.recipeBuilder("pack_paracetamol")
                 .inputItems(dust, Paracetamol, 16)
                 .notConsumable(GTItems.SHAPE_MOLD_PILL)
-                .outputItems(GTItems.PARACETAMOL_PILL.asStack(16))
+                .outputItems(GTItems.PARACETAMOL_PILL.asItem(), 16)
                 .duration(60).EUt(VA[LV]).save();
 
         CANNER_RECIPES.recipeBuilder("pack_rad_away")
                 .inputItems(dust, RadAway, 16)
                 .notConsumable(GTItems.SHAPE_MOLD_PILL)
-                .outputItems(GTItems.RAD_AWAY_PILL.asStack(16))
+                .outputItems(GTItems.RAD_AWAY_PILL.asItem(), 16)
                 .duration(60).EUt(VA[LV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_shutter")
-                .inputItems(new ItemStack(Items.IRON_DOOR))
+                .inputItems(Items.IRON_DOOR)
                 .inputItems(plate, Iron, 2)
                 .outputItems(COVER_SHUTTER, 2)
                 .EUt(16).duration(100).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_machine_controller")
-                .inputItems(new ItemStack(Blocks.LEVER))
+                .inputItems(Blocks.LEVER)
                 .inputItems(plate, Iron)
                 .inputFluids(SolderingAlloy, L / 2)
                 .outputItems(COVER_MACHINE_CONTROLLER)
@@ -479,7 +479,7 @@ public final class MachineRecipeLoader {
                 .EUt(16).duration(100).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_activity_detector")
-                .inputItems(new ItemStack(Blocks.REDSTONE_TORCH))
+                .inputItems(Blocks.REDSTONE_TORCH)
                 .inputItems(plate, Iron)
                 .inputFluids(SolderingAlloy, L / 2)
                 .outputItems(COVER_ACTIVITY_DETECTOR)
@@ -494,14 +494,14 @@ public final class MachineRecipeLoader {
                 .EUt(16).duration(100).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_fluid_detector")
-                .inputItems(new ItemStack(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE))
+                .inputItems(Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE)
                 .inputItems(plate, Iron)
                 .inputFluids(SolderingAlloy, L / 2)
                 .outputItems(COVER_FLUID_DETECTOR)
                 .EUt(16).duration(100).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_item_detector")
-                .inputItems(new ItemStack(Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE))
+                .inputItems(Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE)
                 .inputItems(plate, Iron)
                 .inputFluids(SolderingAlloy, L / 2)
                 .outputItems(COVER_ITEM_DETECTOR)
@@ -524,7 +524,7 @@ public final class MachineRecipeLoader {
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_infinite_water")
                 .inputItems(ELECTRIC_PUMP_HV, 2)
-                .inputItems(new ItemStack(Items.CAULDRON))
+                .inputItems(Items.CAULDRON)
                 .inputItems(CustomTags.HV_CIRCUITS)
                 .outputItems(COVER_INFINITE_WATER)
                 .EUt(VA[HV]).duration(100).save();
@@ -549,7 +549,7 @@ public final class MachineRecipeLoader {
                 .duration(100).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("casing_bronze_bricks").EUt(16).inputItems(plate, Bronze, 6)
-                .inputItems(new ItemStack(Blocks.BRICKS)).circuitMeta(6)
+                .inputItems(Blocks.BRICKS).circuitMeta(6)
                 .outputItems(GTBlocks.CASING_BRONZE_BRICKS.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).save();
         ASSEMBLER_RECIPES.recipeBuilder("casing_invar_heatproof").EUt(16).inputItems(plate, Invar, 6)
@@ -588,52 +588,52 @@ public final class MachineRecipeLoader {
                         GTBlocks.CASING_PALLADIUM_SUBSTATION.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("casing_ptfe_inert").EUt(16).inputItems(GTBlocks.CASING_STEEL_SOLID.asStack())
+        ASSEMBLER_RECIPES.recipeBuilder("casing_ptfe_inert").EUt(16).inputItems(GTBlocks.CASING_STEEL_SOLID.asItem())
                 .inputFluids(Polytetrafluoroethylene.getFluid(216)).circuitMeta(6)
-                .outputItems(GTBlocks.CASING_PTFE_INERT.asStack()).duration(50)
+                .outputItems(GTBlocks.CASING_PTFE_INERT.asItem()).duration(50)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("superconducting_coil_luv").EUt(VA[LuV])
                 .inputItems(wireGtDouble, IndiumTinBariumTitaniumCuprate, 32).inputItems(foil, NiobiumTitanium, 32)
-                .inputFluids(Trinium, GTValues.L * 24).outputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack())
+                .inputFluids(Trinium, GTValues.L * 24).outputItems(GTBlocks.SUPERCONDUCTING_COIL.asItem())
                 .duration(100).save();
         ASSEMBLER_RECIPES.recipeBuilder("superconducting_coil_zpm").EUt(VA[ZPM])
                 .inputItems(wireGtDouble, UraniumRhodiumDinaquadide, 16).inputItems(foil, NiobiumTitanium, 16)
-                .inputFluids(Trinium, GTValues.L << 4).outputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack())
+                .inputFluids(Trinium, GTValues.L << 4).outputItems(GTBlocks.SUPERCONDUCTING_COIL.asItem())
                 .duration(100).save();
         ASSEMBLER_RECIPES.recipeBuilder("superconducting_coil_uv").EUt(VA[UV])
                 .inputItems(wireGtDouble, EnrichedNaquadahTriniumEuropiumDuranide, 8)
                 .inputItems(foil, NiobiumTitanium, 8).inputFluids(Trinium, GTValues.L << 3)
-                .outputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack()).duration(100).save();
-        ASSEMBLER_RECIPES.recipeBuilder("fusion_coil").EUt(VA[ZPM]).inputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack())
-                .inputItems(FIELD_GENERATOR_IV.asStack(2)).inputItems(ELECTRIC_PUMP_IV)
-                .inputItems(NEUTRON_REFLECTOR.asStack(2)).inputItems(CustomTags.LuV_CIRCUITS, 4)
+                .outputItems(GTBlocks.SUPERCONDUCTING_COIL.asItem()).duration(100).save();
+        ASSEMBLER_RECIPES.recipeBuilder("fusion_coil").EUt(VA[ZPM]).inputItems(GTBlocks.SUPERCONDUCTING_COIL.asItem())
+                .inputItems(FIELD_GENERATOR_IV.asItem(), 2).inputItems(ELECTRIC_PUMP_IV)
+                .inputItems(NEUTRON_REFLECTOR.asItem(), 2).inputItems(CustomTags.LuV_CIRCUITS, 4)
                 .inputItems(pipeSmallFluid, Naquadah, 4).inputItems(plate, Europium, 4)
-                .inputFluids(VanadiumGallium, GTValues.L << 2).outputItems(GTBlocks.FUSION_COIL.asStack())
+                .inputFluids(VanadiumGallium, GTValues.L << 2).outputItems(GTBlocks.FUSION_COIL.asItem())
                 .duration(100).cleanroom(CleanroomType.CLEANROOM)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("fusion_glass").EUt(VA[LuV])
-                .inputItems(GTBlocks.CASING_LAMINATED_GLASS.asStack()).inputItems(plate, Naquadah, 4)
-                .inputItems(NEUTRON_REFLECTOR.asStack(4)).outputItems(GTBlocks.FUSION_GLASS.asStack(2))
+                .inputItems(GTBlocks.CASING_LAMINATED_GLASS.asItem()).inputItems(plate, Naquadah, 4)
+                .inputItems(NEUTRON_REFLECTOR.asItem(), 4).outputItems(GTBlocks.FUSION_GLASS.asItem(), 2)
                 .inputFluids(Polybenzimidazole, GTValues.L).duration(50).cleanroom(CleanroomType.CLEANROOM)
                 .save();
-        ASSEMBLER_RECIPES.recipeBuilder("fusion_casing").EUt(VA[LuV]).inputItems(GTBlocks.MACHINE_CASING_LuV.asStack())
-                .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack()).inputItems(NEUTRON_REFLECTOR)
+        ASSEMBLER_RECIPES.recipeBuilder("fusion_casing").EUt(VA[LuV]).inputItems(GTBlocks.MACHINE_CASING_LuV.asItem())
+                .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asItem()).inputItems(NEUTRON_REFLECTOR)
                 .inputItems(ELECTRIC_PUMP_LuV).inputItems(plate, TungstenSteel, 6)
                 .inputFluids(Polybenzimidazole, GTValues.L)
                 .outputItems(GTBlocks.FUSION_CASING.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
 
                 .duration(100).cleanroom(CleanroomType.CLEANROOM).save();
         ASSEMBLER_RECIPES.recipeBuilder("fusion_casing_mk2").EUt(VA[ZPM])
-                .inputItems(GTBlocks.MACHINE_CASING_ZPM.asStack()).inputItems(GTBlocks.FUSION_COIL.asStack())
-                .inputItems(VOLTAGE_COIL_ZPM.asStack(2)).inputItems(FIELD_GENERATOR_LuV).inputItems(plate, Europium, 6)
+                .inputItems(GTBlocks.MACHINE_CASING_ZPM.asItem()).inputItems(GTBlocks.FUSION_COIL.asItem())
+                .inputItems(VOLTAGE_COIL_ZPM.asItem(), 2).inputItems(FIELD_GENERATOR_LuV).inputItems(plate, Europium, 6)
                 .inputFluids(Polybenzimidazole, GTValues.L << 1)
                 .outputItems(GTBlocks.FUSION_CASING_MK2.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(100).cleanroom(CleanroomType.CLEANROOM)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("fusion_casing_mk3").EUt(VA[UV])
-                .inputItems(GTBlocks.MACHINE_CASING_UV.asStack()).inputItems(GTBlocks.FUSION_COIL.asStack())
-                .inputItems(VOLTAGE_COIL_UV.asStack(2)).inputItems(FIELD_GENERATOR_ZPM).inputItems(plate, Americium, 6)
+                .inputItems(GTBlocks.MACHINE_CASING_UV.asItem()).inputItems(GTBlocks.FUSION_COIL.asItem())
+                .inputItems(VOLTAGE_COIL_UV.asItem(), 2).inputItems(FIELD_GENERATOR_ZPM).inputItems(plate, Americium, 6)
                 .inputFluids(Polybenzimidazole, GTValues.L << 2)
                 .outputItems(GTBlocks.FUSION_CASING_MK3.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(100).cleanroom(CleanroomType.CLEANROOM)
@@ -645,17 +645,17 @@ public final class MachineRecipeLoader {
                 .duration(50)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("casing_stainless_steel_turbine").EUt(16)
-                .inputItems(GTBlocks.CASING_STEEL_TURBINE.asStack()).inputItems(plate, StainlessSteel, 6).circuitMeta(6)
+                .inputItems(GTBlocks.CASING_STEEL_TURBINE.asItem()).inputItems(plate, StainlessSteel, 6).circuitMeta(6)
                 .outputItems(GTBlocks.CASING_STAINLESS_TURBINE.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("casing_titanium_turbine").EUt(16)
-                .inputItems(GTBlocks.CASING_STEEL_TURBINE.asStack()).inputItems(plate, Titanium, 6).circuitMeta(6)
+                .inputItems(GTBlocks.CASING_STEEL_TURBINE.asItem()).inputItems(plate, Titanium, 6).circuitMeta(6)
                 .outputItems(GTBlocks.CASING_TITANIUM_TURBINE.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("casing_tungstensteel_turbine").EUt(16)
-                .inputItems(GTBlocks.CASING_STEEL_TURBINE.asStack()).inputItems(plate, TungstenSteel, 6).circuitMeta(6)
+                .inputItems(GTBlocks.CASING_STEEL_TURBINE.asItem()).inputItems(plate, TungstenSteel, 6).circuitMeta(6)
                 .outputItems(
                         GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50)
@@ -704,7 +704,7 @@ public final class MachineRecipeLoader {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hopper_wrought_iron").EUt(2).inputItems(Tags.Items.CHESTS_WOODEN)
-                .inputItems(plate, WroughtIron, 5).outputItems(new ItemStack(Blocks.HOPPER)).duration(800)
+                .inputItems(plate, WroughtIron, 5).outputItems(Blocks.HOPPER).duration(800)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("wooden_crate").EUt(16).inputItems(ItemTags.PLANKS, 4)
@@ -768,7 +768,7 @@ public final class MachineRecipeLoader {
                 .inputItems(CARBON_MESH).inputFluids(Polyethylene.getFluid(72)).outputItems(DUCT_TAPE, 8).duration(100)
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe("basic_tape", BASIC_TAPE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("basic_tape", BASIC_TAPE.asItem(),
                 " P ", "PSP", " P ", 'P', new MaterialEntry(plate, Paper), 'S', STICKY_RESIN.asItem());
         ASSEMBLER_RECIPES.recipeBuilder("basic_tape").EUt(VA[ULV]).inputItems(plate, Paper, 2).inputItems(STICKY_RESIN)
                 .outputItems(BASIC_TAPE, 2)
@@ -821,7 +821,7 @@ public final class MachineRecipeLoader {
         BLAST_RECIPES.recipeBuilder("tempered_glass_blasting")
                 .inputItems(block, Glass)
                 .inputFluids(Oxygen.getFluid(100))
-                .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asStack())
+                .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asItem())
                 .blastFurnaceTemp(1000)
                 .duration(200).EUt(VA[MV]).save();
     }
@@ -834,75 +834,75 @@ public final class MachineRecipeLoader {
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("raw_rubber_from_log").duration(300).EUt(2)
-                .inputItems(GTBlocks.RUBBER_LOG.asStack())
+                .inputItems(GTBlocks.RUBBER_LOG.asItem())
                 .outputItems(dust, RawRubber)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("raw_rubber_from_sapling").duration(300).EUt(2)
-                .inputItems(GTBlocks.RUBBER_SAPLING.asStack())
+                .inputItems(GTBlocks.RUBBER_SAPLING.asItem())
                 .outputItems(dust, RawRubber)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("raw_rubber_from_slime").duration(150).EUt(2)
-                .inputItems(new ItemStack(Items.SLIME_BALL))
+                .inputItems(Items.SLIME_BALL)
                 .outputItems(dust, RawRubber, 2)
                 .save();
 
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_sapling").duration(300).EUt(2).inputItems(ItemTags.SAPLINGS)
                 .outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_wheat").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.WHEAT, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.WHEAT, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_potato").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.POTATO, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.POTATO, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_carrot").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.CARROT, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.CARROT, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_cactus").duration(300).EUt(2)
-                .inputItems(new ItemStack(Blocks.CACTUS, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Blocks.CACTUS, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_sugar_cane").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.SUGAR_CANE, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.SUGAR_CANE, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_brown_mushroom").duration(300).EUt(2)
-                .inputItems(new ItemStack(Blocks.BROWN_MUSHROOM, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Blocks.BROWN_MUSHROOM, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_red_mushroom").duration(300).EUt(2)
-                .inputItems(new ItemStack(Blocks.RED_MUSHROOM, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Blocks.RED_MUSHROOM, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_beetroot").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.BEETROOT, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.BEETROOT, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_moss").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.MOSS_BLOCK, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.MOSS_BLOCK, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_nether_wart").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.NETHER_WART_BLOCK, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.NETHER_WART_BLOCK, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_crimson_stem").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.CRIMSON_STEM, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.CRIMSON_STEM, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_warped_stem").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.WARPED_STEM, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.WARPED_STEM, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_brain_coral").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.BRAIN_CORAL, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.BRAIN_CORAL, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_bubble_coral").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.BUBBLE_CORAL, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.BUBBLE_CORAL, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_fire_coral").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.FIRE_CORAL, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.FIRE_CORAL, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_tube_coral").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.TUBE_CORAL, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.TUBE_CORAL, 8).outputItems(PLANT_BALL).save();
         COMPRESSOR_RECIPES.recipeBuilder("plant_ball_from_horn_coral").duration(300).EUt(2)
-                .inputItems(new ItemStack(Items.HORN_CORAL, 8)).outputItems(PLANT_BALL).save();
+                .inputItems(Items.HORN_CORAL, 8).outputItems(PLANT_BALL).save();
     }
 
     private static void registerRecyclingRecipes() {
         MACERATOR_RECIPES.recipeBuilder("end_stone")
-                .inputItems(new ItemStack(Blocks.END_STONE))
+                .inputItems(Blocks.END_STONE)
                 .outputItems(dust, Endstone)
                 .chancedOutput(dust, Tungstate, 130, 30)
                 .duration(150).EUt(2)
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("netherrack")
-                .inputItems(new ItemStack(Blocks.NETHERRACK))
+                .inputItems(Blocks.NETHERRACK)
                 .outputItems(dust, Netherrack)
                 .chancedOutput(nugget, Gold, 500, 120)
                 .duration(150).EUt(2)
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("obsidian")
-                .inputItems(new ItemStack(Blocks.OBSIDIAN))
+                .inputItems(Blocks.OBSIDIAN)
                 .outputItems(dust, Obsidian)
                 .duration(150).EUt(2)
                 .save();
@@ -969,7 +969,7 @@ public final class MachineRecipeLoader {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("pork_chop")
-                .inputItems(new ItemStack(Items.PORKCHOP))
+                .inputItems(Items.PORKCHOP)
                 .outputItems(dust, Meat)
                 .chancedOutput(dust, Meat, 5000, 0)
                 .outputItems(dustTiny, Bone)
@@ -983,27 +983,27 @@ public final class MachineRecipeLoader {
                 .duration(102).EUt(2).save();
 
         MACERATOR_RECIPES.recipeBuilder("chicken")
-                .inputItems(new ItemStack(Items.CHICKEN))
+                .inputItems(Items.CHICKEN)
                 .outputItems(dust, Meat)
                 .outputItems(dustTiny, Bone)
                 .duration(102).EUt(2).save();
 
         MACERATOR_RECIPES.recipeBuilder("steak")
-                .inputItems(new ItemStack(Items.BEEF))
+                .inputItems(Items.BEEF)
                 .outputItems(dust, Meat)
                 .chancedOutput(dust, Meat, 5000, 0)
                 .outputItems(dustTiny, Bone)
                 .duration(102).EUt(2).save();
 
         MACERATOR_RECIPES.recipeBuilder("rabbit")
-                .inputItems(new ItemStack(Items.RABBIT))
+                .inputItems(Items.RABBIT)
                 .outputItems(dust, Meat)
                 .chancedOutput(dust, Meat, 5000, 0)
                 .outputItems(dustTiny, Bone)
                 .duration(102).EUt(2).save();
 
         MACERATOR_RECIPES.recipeBuilder("mutton")
-                .inputItems(new ItemStack(Items.MUTTON))
+                .inputItems(Items.MUTTON)
                 .outputItems(dust, Meat)
                 .outputItems(dustTiny, Bone)
                 .duration(102).EUt(2).save();
@@ -1045,7 +1045,7 @@ public final class MachineRecipeLoader {
 
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + stoneId.getPath())
                     .inputItems(roughStack.get(i))
-                    .notConsumable(SHAPE_EXTRUDER_BLOCK.asStack())
+                    .notConsumable(SHAPE_EXTRUDER_BLOCK.asItem())
                     .outputItems(stoneStack.get(i))
                     .duration(24).EUt(8).save();
         }
@@ -1080,14 +1080,14 @@ public final class MachineRecipeLoader {
             ResourceLocation mossId = ItemUtils.getIdLocation(mossStack.get(i).getItem());
             MIXER_RECIPES.recipeBuilder(mossId.getPath() + "_from_moss_block")
                     .inputItems(regularStack.get(i))
-                    .inputItems(new ItemStack(Blocks.MOSS_BLOCK))
+                    .inputItems(Blocks.MOSS_BLOCK)
                     .inputFluids(Water.getFluid(250))
                     .outputItems(mossStack.get(i))
                     .duration(40).EUt(1).save();
 
             MIXER_RECIPES.recipeBuilder(mossId.getPath() + "_from_vine")
                     .inputItems(regularStack.get(i))
-                    .inputItems(new ItemStack(Blocks.VINE))
+                    .inputItems(Blocks.VINE)
                     .inputFluids(Water.getFluid(250))
                     .outputItems(mossStack.get(i))
                     .duration(40).EUt(1).save();
@@ -1098,109 +1098,109 @@ public final class MachineRecipeLoader {
         for (MachineDefinition chest : GTMachines.SUPER_CHEST) {
             if (chest != null) {
                 VanillaRecipeHelper.addShapelessNBTClearingRecipe("super_chest_nbt_removal_" + chest.getTier(),
-                        chest.asStack(), chest.asStack());
+                        chest.asStack(), chest.asItem());
             }
         }
 
         for (MachineDefinition tank : GTMachines.SUPER_TANK) {
             if (tank != null) {
                 VanillaRecipeHelper.addShapelessNBTClearingRecipe("super_tank_nbt_removal_" + tank.getTier(),
-                        tank.asStack(), tank.asStack());
+                        tank.asStack(), tank.asItem());
             }
         }
 
         for (MachineDefinition chest : GTMachines.QUANTUM_CHEST) {
             if (chest != null) {
                 VanillaRecipeHelper.addShapelessNBTClearingRecipe("quantum_chest_nbt_removal_" + chest.getTier(),
-                        chest.asStack(), chest.asStack());
+                        chest.asStack(), chest.asItem());
             }
         }
 
         for (MachineDefinition tank : GTMachines.QUANTUM_TANK) {
             if (tank != null) {
                 VanillaRecipeHelper.addShapelessNBTClearingRecipe("quantum_tank_nbt_removal_" + tank.getTier(),
-                        tank.asStack(), tank.asStack());
+                        tank.asStack(), tank.asItem());
             }
         }
 
         // Drums
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_wood", GTMachines.WOODEN_DRUM.asStack(),
-                GTMachines.WOODEN_DRUM.asStack());
+                GTMachines.WOODEN_DRUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_bronze", GTMachines.BRONZE_DRUM.asStack(),
-                GTMachines.BRONZE_DRUM.asStack());
+                GTMachines.BRONZE_DRUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_steel", GTMachines.STEEL_DRUM.asStack(),
-                GTMachines.STEEL_DRUM.asStack());
+                GTMachines.STEEL_DRUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_aluminium",
-                GTMachines.ALUMINIUM_DRUM.asStack(), GTMachines.ALUMINIUM_DRUM.asStack());
+                GTMachines.ALUMINIUM_DRUM.asStack(), GTMachines.ALUMINIUM_DRUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_stainless_steel",
-                GTMachines.STAINLESS_STEEL_DRUM.asStack(), GTMachines.STAINLESS_STEEL_DRUM.asStack());
+                GTMachines.STAINLESS_STEEL_DRUM.asStack(), GTMachines.STAINLESS_STEEL_DRUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_gold", GTMachines.GOLD_DRUM.asStack(),
-                GTMachines.GOLD_DRUM.asStack());
+                GTMachines.GOLD_DRUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_titanium",
-                GTMachines.TITANIUM_DRUM.asStack(), GTMachines.TITANIUM_DRUM.asStack());
+                GTMachines.TITANIUM_DRUM.asStack(), GTMachines.TITANIUM_DRUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("drum_nbt_tungstensteel",
-                GTMachines.TUNGSTENSTEEL_DRUM.asStack(), GTMachines.TUNGSTENSTEEL_DRUM.asStack());
+                GTMachines.TUNGSTENSTEEL_DRUM.asStack(), GTMachines.TUNGSTENSTEEL_DRUM.asItem());
 
         // Cells
         VanillaRecipeHelper.addShapedNBTClearingRecipe("cell_nbt_regular", FLUID_CELL.asStack(), " C", "  ",
-                'C', FLUID_CELL.asStack());
+                'C', FLUID_CELL.asItem());
         VanillaRecipeHelper.addShapedNBTClearingRecipe("cell_nbt_universal", FLUID_CELL_UNIVERSAL.asStack(),
-                " C", "  ", 'C', FLUID_CELL_UNIVERSAL.asStack());
+                " C", "  ", 'C', FLUID_CELL_UNIVERSAL.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("cell_nbt_steel", FLUID_CELL_LARGE_STEEL.asStack(),
-                FLUID_CELL_LARGE_STEEL.asStack());
+                FLUID_CELL_LARGE_STEEL.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("cell_nbt_aluminium",
-                FLUID_CELL_LARGE_ALUMINIUM.asStack(), FLUID_CELL_LARGE_ALUMINIUM.asStack());
+                FLUID_CELL_LARGE_ALUMINIUM.asStack(), FLUID_CELL_LARGE_ALUMINIUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("cell_nbt_stainless_steel",
-                FLUID_CELL_LARGE_STAINLESS_STEEL.asStack(), FLUID_CELL_LARGE_STAINLESS_STEEL.asStack());
+                FLUID_CELL_LARGE_STAINLESS_STEEL.asStack(), FLUID_CELL_LARGE_STAINLESS_STEEL.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("cell_nbt_titanium",
-                FLUID_CELL_LARGE_TITANIUM.asStack(), FLUID_CELL_LARGE_TITANIUM.asStack());
+                FLUID_CELL_LARGE_TITANIUM.asStack(), FLUID_CELL_LARGE_TITANIUM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("cell_nbt_tungstensteel",
-                FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack(), FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
+                FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack(), FLUID_CELL_LARGE_TUNGSTEN_STEEL.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("cell_vial_nbt", FLUID_CELL_GLASS_VIAL.asStack(),
-                FLUID_CELL_GLASS_VIAL.asStack());
+                FLUID_CELL_GLASS_VIAL.asItem());
 
         // Data Items
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_stick_nbt", TOOL_DATA_STICK.asStack(),
-                TOOL_DATA_STICK.asStack());
+                TOOL_DATA_STICK.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_orb_nbt", TOOL_DATA_ORB.asStack(),
-                TOOL_DATA_ORB.asStack());
+                TOOL_DATA_ORB.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_module_nbt", TOOL_DATA_MODULE.asStack(),
-                TOOL_DATA_MODULE.asStack());
+                TOOL_DATA_MODULE.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_neural_matrix", GTOItems.NEURAL_MATRIX.asStack(),
-                GTOItems.NEURAL_MATRIX.asStack());
+                GTOItems.NEURAL_MATRIX.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_atomic_archives", GTOItems.ATOMIC_ARCHIVES.asStack(),
-                GTOItems.ATOMIC_ARCHIVES.asStack());
+                GTOItems.ATOMIC_ARCHIVES.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_obsidian_matrix", GTOItems.OBSIDIAN_MATRIX.asStack(),
-                GTOItems.OBSIDIAN_MATRIX.asStack());
+                GTOItems.OBSIDIAN_MATRIX.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_microcosm", GTOItems.MICROCOSM.asStack(),
-                GTOItems.MICROCOSM.asStack());
+                GTOItems.MICROCOSM.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_closed_timelike_curve_guidance_unit", GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack(),
-                GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack());
+                GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asItem());
 
         // pattern_buffer
-        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_PATTERN_BUFFER", GTAEMachines.ME_PATTERN_BUFFER.asStack(),
-                GTAEMachines.ME_PATTERN_BUFFER.asStack());
-        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_EXTEND_PATTERN_BUFFER", GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asStack(),
-                GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asStack());
-        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_EXTEND_PATTERN_BUFFER_ULTRA", GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asStack(),
-                GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asStack());
-        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_CATALYST_ME_PATTERN_BUFFER", GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asStack(),
-                GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asStack());
-        VanillaRecipeHelper.addShapelessNBTClearingRecipe("ME_SIMPLE_PATTERN_BUFFER", SimpleModeMachine.ME_SIMPLE_PATTERN_BUFFER.asStack(),
-                SimpleModeMachine.ME_SIMPLE_PATTERN_BUFFER.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_pattern_buffer", GTAEMachines.ME_PATTERN_BUFFER.asStack(),
+                GTAEMachines.ME_PATTERN_BUFFER.asItem());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_extend_pattern_buffer", GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asStack(),
+                GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_extend_pattern_buffer_ultra", GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asStack(),
+                GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_catalyst_me_pattern_buffer", GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asStack(),
+                GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asItem());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_simple_pattern_buffer", SimpleModeMachine.ME_SIMPLE_PATTERN_BUFFER.asStack(),
+                SimpleModeMachine.ME_SIMPLE_PATTERN_BUFFER.asItem());
 
         // Jetpacks
         VanillaRecipeHelper.addShapelessRecipe("fluid_jetpack_clear", LIQUID_FUEL_JETPACK.asStack(),
-                LIQUID_FUEL_JETPACK.asStack());
+                LIQUID_FUEL_JETPACK.asItem());
 
         VanillaRecipeHelper.addShapelessRecipe("item_filter_nbt", ITEM_FILTER.asStack(),
-                ITEM_FILTER.asStack());
+                ITEM_FILTER.asItem());
         VanillaRecipeHelper.addShapelessRecipe("fluid_filter_nbt", FLUID_FILTER.asStack(),
-                FLUID_FILTER.asStack());
+                FLUID_FILTER.asItem());
         VanillaRecipeHelper.addShapelessRecipe("item_tag_filter_nbt", TAG_FILTER.asStack(),
-                TAG_FILTER.asStack());
+                TAG_FILTER.asItem());
         VanillaRecipeHelper.addShapelessRecipe("fluid_tag_filter_nbt", TAG_FLUID_FILTER.asStack(),
-                TAG_FLUID_FILTER.asStack());
+                TAG_FLUID_FILTER.asItem());
     }
 
     private static void registerHatchConversion() {
@@ -1209,23 +1209,23 @@ public final class MachineRecipeLoader {
 
                 VanillaRecipeHelper.addShapedRecipe(
                         "fluid_hatch_output_to_input_" + FLUID_IMPORT_HATCH[i].getTier(),
-                        FLUID_IMPORT_HATCH[i].asStack(),
-                        "d", "B", 'B', FLUID_EXPORT_HATCH[i].asStack());
+                        FLUID_IMPORT_HATCH[i].asItem(),
+                        "d", "B", 'B', FLUID_EXPORT_HATCH[i].asItem());
                 VanillaRecipeHelper.addShapedRecipe(
                         "fluid_hatch_input_to_output_" + FLUID_EXPORT_HATCH[i].getTier(),
-                        FLUID_EXPORT_HATCH[i].asStack(),
-                        "d", "B", 'B', FLUID_IMPORT_HATCH[i].asStack());
+                        FLUID_EXPORT_HATCH[i].asItem(),
+                        "d", "B", 'B', FLUID_IMPORT_HATCH[i].asItem());
             }
         }
         for (int i = 0; i < ITEM_IMPORT_BUS.length; i++) {
             if (ITEM_IMPORT_BUS[i] != null && ITEM_EXPORT_BUS[i] != null) {
 
                 VanillaRecipeHelper.addShapedRecipe(
-                        "item_bus_output_to_input_" + ITEM_IMPORT_BUS[i].getTier(), ITEM_IMPORT_BUS[i].asStack(),
-                        "d", "B", 'B', ITEM_EXPORT_BUS[i].asStack());
+                        "item_bus_output_to_input_" + ITEM_IMPORT_BUS[i].getTier(), ITEM_IMPORT_BUS[i].asItem(),
+                        "d", "B", 'B', ITEM_EXPORT_BUS[i].asItem());
                 VanillaRecipeHelper.addShapedRecipe(
-                        "item_bus_input_to_output_" + ITEM_EXPORT_BUS[i].getTier(), ITEM_EXPORT_BUS[i].asStack(),
-                        "d", "B", 'B', ITEM_IMPORT_BUS[i].asStack());
+                        "item_bus_input_to_output_" + ITEM_EXPORT_BUS[i].getTier(), ITEM_EXPORT_BUS[i].asItem(),
+                        "d", "B", 'B', ITEM_IMPORT_BUS[i].asItem());
             }
         }
 
@@ -1238,18 +1238,18 @@ public final class MachineRecipeLoader {
             var exportHatch9x = FLUID_EXPORT_HATCH_9X[tier];
 
             VanillaRecipeHelper.addShapedRecipe("fluid_hatch_4x_output_to_input_" + tierName,
-                    importHatch4x.asStack(), "d", "B",
-                    'B', exportHatch4x.asStack());
+                    importHatch4x.asItem(), "d", "B",
+                    'B', exportHatch4x.asItem());
             VanillaRecipeHelper.addShapedRecipe("fluid_hatch_4x_input_to_output_" + tierName,
-                    exportHatch4x.asStack(), "d", "B",
-                    'B', importHatch4x.asStack());
+                    exportHatch4x.asItem(), "d", "B",
+                    'B', importHatch4x.asItem());
 
             VanillaRecipeHelper.addShapedRecipe("fluid_hatch_9x_output_to_input_" + tierName,
-                    importHatch9x.asStack(), "d", "B",
-                    'B', exportHatch9x.asStack());
+                    importHatch9x.asItem(), "d", "B",
+                    'B', exportHatch9x.asItem());
             VanillaRecipeHelper.addShapedRecipe("fluid_hatch_9x_input_to_output_" + tierName,
-                    exportHatch9x.asStack(), "d", "B",
-                    'B', importHatch9x.asStack());
+                    exportHatch9x.asItem(), "d", "B",
+                    'B', importHatch9x.asItem());
         }
 
         for (int tier : GTValues.tiersBetween(LV, MAX)) {
@@ -1260,37 +1260,37 @@ public final class MachineRecipeLoader {
 
             VanillaRecipeHelper.addShapedRecipe(
                     "dual_hatch_output_to_input_" + tierName,
-                    inputBuffer.asStack(),
+                    inputBuffer.asItem(),
                     "d",
                     "B",
                     'B',
-                    outputBuffer.asStack());
+                    outputBuffer.asItem());
             VanillaRecipeHelper.addShapedRecipe(
                     "dual_hatch_input_to_output_" + tierName,
-                    outputBuffer.asStack(),
+                    outputBuffer.asItem(),
                     "d",
                     "B",
                     'B',
-                    inputBuffer.asStack());
+                    inputBuffer.asItem());
         }
 
         // Steam
-        VanillaRecipeHelper.addShapedRecipe("steam_bus_output_to_input", STEAM_EXPORT_BUS.asStack(),
-                "d", "B", 'B', STEAM_IMPORT_BUS.asStack());
-        VanillaRecipeHelper.addShapedRecipe("steam_bus_input_to_output", STEAM_IMPORT_BUS.asStack(),
-                "d", "B", 'B', STEAM_EXPORT_BUS.asStack());
+        VanillaRecipeHelper.addShapedRecipe("steam_bus_output_to_input", STEAM_EXPORT_BUS.asItem(),
+                "d", "B", 'B', STEAM_IMPORT_BUS.asItem());
+        VanillaRecipeHelper.addShapedRecipe("steam_bus_input_to_output", STEAM_IMPORT_BUS.asItem(),
+                "d", "B", 'B', STEAM_EXPORT_BUS.asItem());
 
         VanillaRecipeHelper.addShapedRecipe("me_fluid_hatch_output_to_input",
-                GTAEMachines.FLUID_IMPORT_HATCH_ME.asStack(), "d", "B", 'B',
-                GTAEMachines.FLUID_EXPORT_HATCH_ME.asStack());
+                GTAEMachines.FLUID_IMPORT_HATCH_ME.asItem(), "d", "B", 'B',
+                GTAEMachines.FLUID_EXPORT_HATCH_ME.asItem());
         VanillaRecipeHelper.addShapedRecipe("me_fluid_hatch_input_to_output",
-                GTAEMachines.FLUID_EXPORT_HATCH_ME.asStack(), "d", "B", 'B',
-                GTAEMachines.FLUID_IMPORT_HATCH_ME.asStack());
+                GTAEMachines.FLUID_EXPORT_HATCH_ME.asItem(), "d", "B", 'B',
+                GTAEMachines.FLUID_IMPORT_HATCH_ME.asItem());
         VanillaRecipeHelper.addShapedRecipe("me_item_bus_output_to_input",
-                GTAEMachines.ITEM_IMPORT_BUS_ME.asStack(), "d", "B", 'B',
-                GTAEMachines.ITEM_EXPORT_BUS_ME.asStack());
+                GTAEMachines.ITEM_IMPORT_BUS_ME.asItem(), "d", "B", 'B',
+                GTAEMachines.ITEM_EXPORT_BUS_ME.asItem());
         VanillaRecipeHelper.addShapedRecipe("me_item_bus_input_to_output",
-                GTAEMachines.ITEM_EXPORT_BUS_ME.asStack(), "d", "B", 'B',
-                GTAEMachines.ITEM_IMPORT_BUS_ME.asStack());
+                GTAEMachines.ITEM_EXPORT_BUS_ME.asItem(), "d", "B", 'B',
+                GTAEMachines.ITEM_IMPORT_BUS_ME.asItem());
     }
 }

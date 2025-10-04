@@ -28,7 +28,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Electrum, 128)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(1000))
-                .outputItems(GTItems.ADVANCED_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.ADVANCED_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(120)
                 .duration(600)
                 .save();
@@ -38,7 +38,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 160)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(4000))
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(4000))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(32))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 32)
                 .EUt(120)
                 .duration(1600)
                 .save();
@@ -48,7 +48,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.AnnealedCopper, 160)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(500))
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(4000))
-                .outputItems(GTItems.EXTREME_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.EXTREME_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(120)
                 .duration(800)
                 .save();
@@ -58,7 +58,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 96)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(2000))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(16))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 16)
                 .EUt(120)
                 .duration(800)
                 .save();
@@ -78,7 +78,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 288)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(8000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(4000))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(64))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 64)
                 .EUt(120)
                 .duration(3200)
                 .save();
@@ -108,17 +108,17 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 64)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(500))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(120)
                 .duration(400)
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder("multilayer_fiber_reinforced_printed_circuit_board1")
-                .inputItems(GTItems.FIBER_BOARD.asStack(16))
+                .inputItems(GTItems.FIBER_BOARD.asItem(), 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Platinum, 128)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(8000))
-                .outputItems(GTItems.ELITE_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.ELITE_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(480)
                 .duration(800)
                 .save();
@@ -128,7 +128,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Electrum, 128)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(2000))
-                .outputItems(GTItems.ADVANCED_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.ADVANCED_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(120)
                 .duration(600)
                 .save();
@@ -138,7 +138,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 160)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(4000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(2000))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(32))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 32)
                 .EUt(120)
                 .duration(1600)
                 .save();
@@ -148,7 +148,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 64)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(1000))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(120)
                 .duration(400)
                 .save();
@@ -174,11 +174,11 @@ final class PCBFactory {
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder("multilayer_fiber_reinforced_printed_circuit_board")
-                .inputItems(GTItems.FIBER_BOARD.asStack(16))
+                .inputItems(GTItems.FIBER_BOARD.asItem(), 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Platinum, 128)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(1000))
-                .outputItems(GTItems.ELITE_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.ELITE_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(480)
                 .duration(800)
                 .save();
@@ -188,7 +188,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 288)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(8000))
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(8000))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(64))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 64)
                 .EUt(120)
                 .duration(3200)
                 .save();
@@ -198,7 +198,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Copper, 96)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(1000))
-                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(16))
+                .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asItem(), 16)
                 .EUt(120)
                 .duration(800)
                 .save();
@@ -228,7 +228,7 @@ final class PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.AnnealedCopper, 160)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(500))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(2000))
-                .outputItems(GTItems.EXTREME_CIRCUIT_BOARD.asStack(8))
+                .outputItems(GTItems.EXTREME_CIRCUIT_BOARD.asItem(), 8)
                 .EUt(120)
                 .duration(800)
                 .save();

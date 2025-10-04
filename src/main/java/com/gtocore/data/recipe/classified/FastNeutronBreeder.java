@@ -197,7 +197,7 @@ class FastNeutronBreeder {
         // 温度变化：0.4 K
 
         CANNER_RECIPES.builder("antimony_beryllium_particle_source")// 锑-铍粒子源
-                .inputItems(GTItems.FLUID_CELL.asStack(4))
+                .inputItems(GTItems.FLUID_CELL.asItem(), 4)
                 .inputItems(TagPrefix.dust, GTMaterials.Antimony)
                 .outputItems(GTOTagPrefix.PARTICLE_SOURCE, GTOMaterials.AntinomyBerylliumSource)
                 .inputFluids(GTMaterials.Beryllium, 1000)
@@ -206,7 +206,7 @@ class FastNeutronBreeder {
                 .save();
 
         CANNER_RECIPES.builder("plutonium_beryllium_particle_source")// 钚-铍粒子源
-                .inputItems(GTItems.FLUID_CELL.asStack(4))
+                .inputItems(GTItems.FLUID_CELL.asItem(), 4)
                 .inputItems(TagPrefix.dust, GTMaterials.Plutonium239)
                 .outputItems(GTOTagPrefix.PARTICLE_SOURCE, GTOMaterials.PlutoniumBerylliumSource)
                 .inputFluids(GTMaterials.Beryllium, 1000)
@@ -215,7 +215,7 @@ class FastNeutronBreeder {
                 .save();
 
         CANNER_RECIPES.builder("californium_252_particle_source")// 锎252粒子源
-                .inputItems(GTItems.FLUID_CELL.asStack(4))
+                .inputItems(GTItems.FLUID_CELL.asItem(), 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.Californium252Source)
                 .outputItems(GTOTagPrefix.PARTICLE_SOURCE, GTOMaterials.Californium252Source)
                 .EUt(30720)
@@ -223,15 +223,15 @@ class FastNeutronBreeder {
                 .save();
         ASSEMBLER_RECIPES.builder("fast_neutron_breeder_reactor")// 快中子增殖堆
                 .inputItems(TagPrefix.frameGt, GTOMaterials.BabbittAlloy)
-                .inputItems(GTItems.ROBOT_ARM_IV.asStack(16))
-                .inputItems(GTItems.SENSOR_IV.asStack(4))
-                .inputItems(GTItems.ADVANCED_SYSTEM_ON_CHIP.asStack(4))
+                .inputItems(GTItems.ROBOT_ARM_IV.asItem(), 16)
+                .inputItems(GTItems.SENSOR_IV.asItem(), 4)
+                .inputItems(GTItems.ADVANCED_SYSTEM_ON_CHIP.asItem(), 4)
                 .inputItems(TagPrefix.cableGtQuadruple, GTMaterials.NiobiumTitanium, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Trinium, 8)
                 .inputItems(TagPrefix.plateDense, GTMaterials.NaquadahAlloy, 4)
                 .inputItems(CustomTags.ZPM_CIRCUITS, 4)                                // 任意ZPM电路
-                .inputItems(GTItems.NEUTRON_REFLECTOR.asStack(4))
-                .outputItems(MultiBlockH.FAST_NEUTRON_BREEDER_REACTOR.asStack())
+                .inputItems(GTItems.NEUTRON_REFLECTOR.asItem(), 4)
+                .outputItems(MultiBlockH.FAST_NEUTRON_BREEDER_REACTOR.asItem())
                 .inputFluids(GTMaterials.PolyphenyleneSulfide, 1296)
                 .EUt(30720)
                 .duration(400)

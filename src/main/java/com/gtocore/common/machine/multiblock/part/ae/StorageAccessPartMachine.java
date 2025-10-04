@@ -155,7 +155,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     @Override
     public Component getDescription() {
-        return getDefinition().getItem().getDescription();
+        return getDefinition().asItem().getDescription();
     }
 
     @Override

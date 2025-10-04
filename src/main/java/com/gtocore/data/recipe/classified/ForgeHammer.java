@@ -6,7 +6,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import static com.gtocore.common.data.GTORecipeTypes.FORGE_HAMMER_RECIPES;
@@ -15,8 +14,8 @@ final class ForgeHammer {
 
     public static void init() {
         FORGE_HAMMER_RECIPES.recipeBuilder("prismarine_crystals")
-                .inputItems(new ItemStack(Items.PRISMARINE_SHARD.asItem()))
-                .outputItems(new ItemStack(Items.PRISMARINE_CRYSTALS.asItem()))
+                .inputItems(Items.PRISMARINE_SHARD.asItem())
+                .outputItems(Items.PRISMARINE_CRYSTALS.asItem())
                 .EUt(16)
                 .duration(20)
                 .save();

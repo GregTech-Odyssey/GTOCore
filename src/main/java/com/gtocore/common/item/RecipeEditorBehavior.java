@@ -81,6 +81,7 @@ import com.lowdragmc.lowdraglib.gui.widget.ProgressWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
+import it.unimi.dsi.fastutil.objects.Reference2CharLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
@@ -431,18 +432,18 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
             } else {
                 String id = machine.id;
                 if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
-                stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe( ");
+                stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(");
                 stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
                 stringBuilder.append(StringConverter.fromItem(Ingredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
                 char c = 'A';
-                Map<Item, Character> map = new LinkedHashMap<>();
+                Reference2CharLinkedOpenHashMap<Item> map = new Reference2CharLinkedOpenHashMap<>();
                 for (int i = 0, j = 0; i < machine.importItems.getSlots(); i++, j++) {
                     Item item = machine.importItems.getStackInSlot(i).getItem();
                     if (item != Items.AIR && !map.containsKey(item)) {
                         map.put(item, c);
                         c++;
                     }
-                    char d = item == Items.AIR ? ' ' : map.get(item);
+                    char d = item == Items.AIR ? ' ' : map.getChar(item);
                     if (j > 2) {
                         stringBuilder.append("\",\n\"").append(d);
                         j = 0;

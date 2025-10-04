@@ -43,11 +43,11 @@ public final class MetaTileEntityMachineRecipeLoader {
 
         // Energy Output Hatches
 
-        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_ulv", ENERGY_OUTPUT_HATCH[ULV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_ulv", ENERGY_OUTPUT_HATCH[ULV].asItem(),
                 " V ", "SHS", "   ",
                 'S', new MaterialEntry(spring, Lead),
-                'V', VOLTAGE_COIL_ULV.asStack(),
-                'H', HULL[ULV].asStack());
+                'V', VOLTAGE_COIL_ULV.asItem(),
+                'H', HULL[ULV].asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("dynamo_hatch_ulv")
                 .inputItems(HULL[ULV])
@@ -57,11 +57,11 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[ULV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_lv", ENERGY_OUTPUT_HATCH[LV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_lv", ENERGY_OUTPUT_HATCH[LV].asItem(),
                 " V ", "SHS", "   ",
                 'S', new MaterialEntry(spring, Tin),
-                'V', VOLTAGE_COIL_LV.asStack(),
-                'H', HULL[LV].asStack());
+                'V', VOLTAGE_COIL_LV.asItem(),
+                'H', HULL[LV].asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("dynamo_hatch_lv")
                 .inputItems(HULL[LV])
@@ -71,12 +71,12 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[LV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_mv", ENERGY_OUTPUT_HATCH[MV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_mv", ENERGY_OUTPUT_HATCH[MV].asItem(),
                 " V ", "SHS", " P ",
-                'P', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asStack(),
+                'P', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asItem(),
                 'S', new MaterialEntry(spring, Copper),
-                'V', VOLTAGE_COIL_MV.asStack(),
-                'H', HULL[MV].asStack());
+                'V', VOLTAGE_COIL_MV.asItem(),
+                'H', HULL[MV].asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("dynamo_hatch_mv")
                 .inputItems(HULL[MV])
@@ -119,11 +119,11 @@ public final class MetaTileEntityMachineRecipeLoader {
 
         // Energy Input Hatches
 
-        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_ulv", ENERGY_INPUT_HATCH[ULV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_ulv", ENERGY_INPUT_HATCH[ULV].asItem(),
                 " V ", "CHC", "   ",
                 'C', new MaterialEntry(cableGtSingle, RedAlloy),
-                'V', VOLTAGE_COIL_ULV.asStack(),
-                'H', HULL[ULV].asStack());
+                'V', VOLTAGE_COIL_ULV.asItem(),
+                'H', HULL[ULV].asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("energy_hatch_ulv")
                 .inputItems(HULL[ULV])
@@ -133,11 +133,11 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[ULV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_lv", ENERGY_INPUT_HATCH[LV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_lv", ENERGY_INPUT_HATCH[LV].asItem(),
                 " V ", "CHC", "   ",
                 'C', new MaterialEntry(cableGtSingle, Tin),
-                'V', VOLTAGE_COIL_LV.asStack(),
-                'H', HULL[LV].asStack());
+                'V', VOLTAGE_COIL_LV.asItem(),
+                'H', HULL[LV].asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("energy_hatch_lv")
                 .inputItems(HULL[LV])
@@ -147,12 +147,12 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[LV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_mv", ENERGY_INPUT_HATCH[MV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_mv", ENERGY_INPUT_HATCH[MV].asItem(),
                 " V ", "CHC", " P ",
                 'C', new MaterialEntry(cableGtSingle, Copper),
-                'P', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asStack(),
-                'V', VOLTAGE_COIL_MV.asStack(),
-                'H', HULL[MV].asStack());
+                'P', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asItem(),
+                'V', VOLTAGE_COIL_MV.asItem(),
+                'H', HULL[MV].asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("energy_hatch_mv")
                 .inputItems(HULL[MV])

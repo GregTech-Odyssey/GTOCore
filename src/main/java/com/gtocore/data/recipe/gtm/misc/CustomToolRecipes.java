@@ -112,7 +112,7 @@ public final class CustomToolRecipes {
                     VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true, recipeName,
                             Ingredient.of(batteryStack), powerUnitStack,
                             "S d", "GMG", "PBP",
-                            'M', motorItems.get(tier).asStack(),
+                            'M', motorItems.get(tier).asItem(),
                             'S', new MaterialEntry(screw, baseMaterials.get(tier)),
                             'P', new MaterialEntry(plate, baseMaterials.get(tier)),
                             'G', new MaterialEntry(gearSmall, baseMaterials.get(tier)),
@@ -221,12 +221,12 @@ public final class CustomToolRecipes {
                     "prospector_lv_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PROSPECTOR_LV.asStack(),
                     "EPS", "CDC", "PBP",
-                    'E', GTItems.EMITTER_LV.asStack(),
+                    'E', GTItems.EMITTER_LV.asItem(),
                     'P', new MaterialEntry(plate, GTMaterials.Steel),
-                    'S', GTItems.SENSOR_LV.asStack(),
+                    'S', GTItems.SENSOR_LV.asItem(),
                     'D', new MaterialEntry(plate, GTMaterials.Glass),
                     'C', CustomTags.LV_CIRCUITS,
-                    'B', batteryItem.asStack());
+                    'B', batteryItem.asItem());
 
             {
                 var magnetStack = GTItems.ITEM_MAGNET_LV.asStack();
@@ -242,7 +242,7 @@ public final class CustomToolRecipes {
                         'M', new MaterialEntry(rod, GTMaterials.SteelMagnetic),
                         'P', new MaterialEntry(plate, GTMaterials.Steel),
                         'C', new MaterialEntry(cableGtSingle, GTMaterials.Tin),
-                        'B', batteryItem.asStack());
+                        'B', batteryItem.asItem());
             }
         }
 
@@ -251,12 +251,12 @@ public final class CustomToolRecipes {
                     "portable_scanner_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PORTABLE_SCANNER.asStack(),
                     "EPS", "CDC", "PBP",
-                    'E', GTItems.EMITTER_MV.asStack(),
+                    'E', GTItems.EMITTER_MV.asItem(),
                     'P', new MaterialEntry(plate, GTMaterials.Aluminium),
-                    'S', GTItems.SENSOR_MV.asStack(),
-                    'D', GTItems.COVER_SCREEN.asStack(),
+                    'S', GTItems.SENSOR_MV.asItem(),
+                    'D', GTItems.COVER_SCREEN.asItem(),
                     'C', CustomTags.MV_CIRCUITS,
-                    'B', batteryItem.asStack());
+                    'B', batteryItem.asItem());
         }
 
         for (ItemEntry<? extends Item> batteryItem : batteryItems.get(HV)) {
@@ -264,12 +264,12 @@ public final class CustomToolRecipes {
                     "prospector_hv_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PROSPECTOR_HV.asStack(),
                     "EPS", "CDC", "PBP",
-                    'E', GTItems.EMITTER_HV.asStack(),
+                    'E', GTItems.EMITTER_HV.asItem(),
                     'P', new MaterialEntry(plate, GTMaterials.StainlessSteel),
-                    'S', GTItems.SENSOR_HV.asStack(),
-                    'D', GTItems.COVER_SCREEN.asStack(),
+                    'S', GTItems.SENSOR_HV.asItem(),
+                    'D', GTItems.COVER_SCREEN.asItem(),
                     'C', CustomTags.HV_CIRCUITS,
-                    'B', batteryItem.asStack());
+                    'B', batteryItem.asItem());
 
             {
                 var magnetStack = GTItems.ITEM_MAGNET_HV.asStack();
@@ -285,7 +285,7 @@ public final class CustomToolRecipes {
                         'M', new MaterialEntry(rod, GTMaterials.NeodymiumMagnetic),
                         'P', new MaterialEntry(plate, GTMaterials.StainlessSteel),
                         'C', new MaterialEntry(cableGtSingle, GTMaterials.Gold),
-                        'B', batteryItem.asStack());
+                        'B', batteryItem.asItem());
             }
         }
 
@@ -294,12 +294,12 @@ public final class CustomToolRecipes {
                     "prospector_luv_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PROSPECTOR_LuV.asStack(),
                     "EPS", "CDC", "PBP",
-                    'E', GTItems.EMITTER_LuV.asStack(),
+                    'E', GTItems.EMITTER_LuV.asItem(),
                     'P', new MaterialEntry(plate, GTMaterials.RhodiumPlatedPalladium),
-                    'S', GTItems.SENSOR_LuV.asStack(),
-                    'D', GTItems.COVER_SCREEN.asStack(),
+                    'S', GTItems.SENSOR_LuV.asItem(),
+                    'D', GTItems.COVER_SCREEN.asItem(),
                     'C', CustomTags.LuV_CIRCUITS,
-                    'B', batteryItem.asStack());
+                    'B', batteryItem.asItem());
         }
     }
 }

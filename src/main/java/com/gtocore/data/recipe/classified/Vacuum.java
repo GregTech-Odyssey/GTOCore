@@ -105,7 +105,7 @@ final class Vacuum {
                 .save();
 
         VACUUM_RECIPES.builder("space_coolant_cell_10k")
-                .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack())
+                .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asItem())
                 .outputItems(GTOItems.SPACE_COOLANT_CELL_10K.asItem())
                 .inputFluids(GTOMaterials.CoolantLiquid, 1000)
                 .EUt(7680)

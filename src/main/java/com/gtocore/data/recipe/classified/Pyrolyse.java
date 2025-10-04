@@ -12,7 +12,7 @@ final class Pyrolyse {
 
     public static void init() {
         PYROLYSE_RECIPES.recipeBuilder("rawradox1")
-                .inputItems(GTOBlocks.VARIATION_WOOD.asStack(16))
+                .inputItems(GTOBlocks.VARIATION_WOOD.asItem(), 16)
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.EnrichedXenoxene.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Ash)
@@ -22,7 +22,7 @@ final class Pyrolyse {
                 .save();
 
         PYROLYSE_RECIPES.recipeBuilder("rawradox")
-                .inputItems(GTOBlocks.VARIATION_WOOD.asStack(16))
+                .inputItems(GTOBlocks.VARIATION_WOOD.asItem(), 16)
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.Xenoxene.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Ash)

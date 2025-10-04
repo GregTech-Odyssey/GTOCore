@@ -294,26 +294,7 @@ public final class ForgeCommonEvent {
                 enhancedPlayer.getPlayerData().setDrift(enhancedPlayer.getPlayerData().disableDrift);
                 OrganUtilsKt.ktFreshOrganState(enhancedPlayer.getPlayerData());
             }
-            if (!GTCEu.isDev() && player.getLanguage().startsWith("en")) {
-                player.sendSystemMessage(
-                        Component.literal("If you are using the English translation. This translation is community-maintained with help from AI. Have suggestions or corrections? No Chinese required.")
-                                .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)));
-                // 以下是我们的感谢名单 （排行靠前的贡献度越高）
-                player.sendSystemMessage(
-                        Component.literal("Thanks to all the contributors who have contributed to the English translation.")
-                                .withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA)));
-                player.sendSystemMessage(
-                        Component.literal("2025.10.2 : xinxinsuried (666.28), 暮心 (406.55), KatNite (294.84), Rain-Flying (122.37), Xelo (108.85), Ormakent (84.7), totallynormal-tree (47.65), Hvm (42.85), LEgenD-Leo (32.02), nebniloc (19.35)")
-                                .withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)));
-                player.sendSystemMessage(
-                        Component.literal("Click Here to Join the English translation project on ParaTranz")
-                                .withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA)
-                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://paratranz.cn/projects/16320"))));
-                player.sendSystemMessage(
-                        Component.literal("Click Here to Join the Discord for more information and updates")
-                                .withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)
-                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/ZSVb4dgVNB"))));
-            }
+            // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
         }
     }
 
@@ -387,4 +368,6 @@ public final class ForgeCommonEvent {
             event.setCanceled(true);
         }
     }
+
+    // ===================== CLIENT ONLY HOOKS =====================
 }
