@@ -226,12 +226,10 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.1", "选择预设", "Select Preset");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.2", "确认耗材", "Confirm consumables");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.3", "调整设置", "Adjust settings");
-
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.choose_this", "选这个: ", "Choose this: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.unselected", "未选择...", "Unselected...");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.selected", "已选择: %s - %s", "Selected: %s - %s");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.source", "来源: %s", "Source: %s");
-
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "储量: ", "Reserves: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.demand", "需求: ", "Demand: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.0", "基础: ", "Basic: ");
@@ -242,7 +240,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.unloading", "§3[ 材料卸载 ]§r", "§3[ Material Unloading ]§r");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.adequate", "材料充足", "Material adequate");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.insufficient", "材料不足", "Material insufficient");
-
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset", "X Y Z方向的偏移(X Z方向单位为区块，Y方块单位为块)", "X, Y, Z offsets (X Z units are blocks, Y units are blocks)");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.x", "X: %s", "X: %s");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.offset.z", "Z: %s", "Z: %s");
@@ -252,7 +249,9 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.skipAir", "跳过空气: ", "Skip Air: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.updateLight", "光照更新: ", "Update Light: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.speed", "速度: ", "Speed: ");
-
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.xMirror", "X轴对称: ", "X-axis symmetry: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.zMirror", "Z轴对称: ", "Z-axis symmetry: ");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.rotation", "Y轴旋转: ", "Y-axis rotation: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "[开始]", "[Start]");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中.%s]", "[In Progress.%s]");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.export", "[导出]", "[Export]");

@@ -72,6 +72,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     public void onLoad() {
         super.onLoad();
         inventory.notifyListeners();
+        posChanged();
     }
 
     @Override
@@ -101,7 +102,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Persisted
     private boolean presetConfirm = false;
     // 当前查看的预设组索引
-    @Persisted
     private int checkGroup = 0;
     // 显示的预设编号
     private int checkId = 0;
@@ -132,6 +132,11 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     // Y方向偏移修改大小
     @Persisted
     private int adjustY = 0;
+    // 坐标点
+    @Persisted
+    private BlockPos pos1 = new BlockPos(0, 0, 0);
+    @Persisted
+    private BlockPos pos2 = new BlockPos(0, 0, 0);
 
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
@@ -160,11 +165,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
-    @Persisted
     private boolean taskCompleted = true;
-    // 破坏方块
-    @Persisted
-    private boolean breakBlocks = true;
     // 跳过空气
     @Persisted
     private boolean skipAir = true;
@@ -174,6 +175,15 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     // 光照更新
     @Persisted
     private int speed = 50;
+    // X轴对称
+    @Persisted
+    private boolean xMirror = false;
+    // Z轴对称
+    @Persisted
+    private boolean zMirror = false;
+    // Y轴旋转
+    @Persisted
+    private int rotation = 0;
     // 可导出
     @Persisted
     private boolean canExport = false;
@@ -272,13 +282,11 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         switch (step) {
             case Introduction -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsIntroduction().apply(textList);
             case PresetSelection -> {
-                if (!ensurePresetsReady()) return;
-
                 textList.add(createPageNavigation(langWidth,
                         createPageNavigation(langWidth - 60, Component.literal("<" + (checkGroup + 1) + "/" + maxGroup + ">"), "group"),
                         "group_plas"));
 
-                int totalIds = getPlatformPreset(checkGroup).getStructures().size();
+                int totalIds = getPlatformPreset(checkGroup).structures().size();
                 textList.add(createPageNavigation(langWidth,
                         createPageNavigation(langWidth - 60, Component.literal("<" + (checkId + 1) + "/" + totalIds + ">"), "id"),
                         "id_plas"));
@@ -289,17 +297,20 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                                 Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.selected", saveGroup + 1, saveId + 1) :
                                 Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
 
-                String displayName = getPlatformPreset(checkGroup).getDisplayName();
-                String description = getPlatformPreset(checkGroup).getDescription();
-                String source = getPlatformPreset(checkGroup).getSource();
+                PlatformBlockType.PlatformPreset group = getPlatformPreset(saveGroup);
+
+                String displayName = group.displayName();
+                String description = group.description();
+                String source = group.source();
                 if (displayName != null) textList.add(Component.translatable(displayName));
                 if (description != null) textList.add(Component.translatable(description));
                 if (source != null) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.source", source));
 
-                String structDisplayName = getPlatformBlockStructure(checkGroup, checkId).getDisplayName();
-                String type = getPlatformBlockStructure(checkGroup, checkId).getType();
-                String structDescription = getPlatformBlockStructure(checkGroup, checkId).getDescription();
-                String structSource = getPlatformBlockStructure(checkGroup, checkId).getSource();
+                PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+                String structDisplayName = structure.displayName();
+                String type = structure.type();
+                String structDescription = structure.description();
+                String structSource = structure.source();
                 if (structDisplayName != null) textList.add(Component.translatable(structDisplayName));
                 if (type != null) textList.add(Component.translatable(type));
                 if (structDescription != null) textList.add(Component.translatable(structDescription));
@@ -321,7 +332,9 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
                 if (!presetConfirm) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
                 else {
-                    int[] costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
+                    PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+
+                    int[] costMaterial = structure.materials();
                     textList.add(createEqualColumns(langWidth, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand"),
                             Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.0"),
                             Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.1"),
@@ -331,7 +344,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                             Component.literal(String.valueOf(costMaterial[1])),
                             Component.literal(String.valueOf(costMaterial[2]))));
 
-                    List<IntObjectHolder<ItemStack>> extraMaterials = getPlatformBlockStructure(saveGroup, saveId).getExtraMaterials();
+                    List<IntObjectHolder<ItemStack>> extraMaterials = structure.extraMaterials();
                     if (!extraMaterials.isEmpty()) {
                         textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.extra_demand"));
                         extraMaterials.forEach(e -> textList.add(Component.literal("[").append(e.obj.getDisplayName()).append("×").append(String.valueOf(e.number)).append("]")));
@@ -346,88 +359,81 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 Component X_change_1 = Component.empty()
                         .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "x_minus"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "x_add"));
-                Component Z_change_1 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "z_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "z_add"));
                 Component Y_change_1 = Component.empty()
                         .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "y_minus"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "y_add"));
+                Component Z_change_1 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "z_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "z_add"));
 
                 Component X_change_2 = Component.empty()
                         .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_x_minus"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustX + "]"), "x_minus_plas"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustX + "]"), "x_add_plas"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_x_add"));
-
+                Component Y_change_2 = Component.empty()
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_y_minus"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustY + "]"), "y_minus_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustY + "]"), "y_add_plas"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_y_add"));
                 Component Z_change_2 = Component.empty()
                         .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_z_minus"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustZ + "]"), "z_minus_plas"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustZ + "]"), "z_add_plas"))
                         .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_z_add"));
 
-                Component Y_change_2 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_y_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustY + "]"), "y_minus_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustY + "]"), "y_add_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_y_add"));
-
                 Component x_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", offsetX);
-                Component z_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", offsetZ);
                 Component y_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", offsetY);
+                Component z_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", offsetZ);
 
                 textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset"));
                 textList.add(createEqualColumns(langWidth - 20, x_offset, X_change_1, X_change_2));
-                textList.add(createEqualColumns(langWidth - 20, z_offset, Z_change_1, Z_change_2));
                 textList.add(createEqualColumns(langWidth - 20, y_offset, Y_change_1, Y_change_2));
+                textList.add(createEqualColumns(langWidth - 20, z_offset, Z_change_1, Z_change_2));
 
                 textList.add(empty);
 
                 if (!presetConfirm) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
                 else {
-                    BlockPos pos = getPos();
-                    int minChunkX = (pos.getX() >> 4) + offsetX;
-                    int minChunkZ = (pos.getZ() >> 4) + offsetZ;
-                    int maxChunkX = minChunkX + getPlatformBlockStructure(saveGroup, saveId).getXSize() / 16;
-                    int maxChunkZ = minChunkZ + getPlatformBlockStructure(saveGroup, saveId).getZSize() / 16;
-
-                    int minX = minChunkX << 4;
-                    int maxX = (maxChunkX << 4) + 15;
-                    int minZ = minChunkZ << 4;
-                    int maxZ = (maxChunkZ << 4) + 15;
-
-                    int minY = pos.getY() + offsetY;
-                    int maxY = minY + getPlatformBlockStructure(saveGroup, saveId).getYSize();
-
                     textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.boundary"));
 
                     textList.add(createEqualColumns(langWidth,
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", maxX),
-                            Component.literal(String.valueOf(minX))));
+                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", pos2.getX()),
+                            Component.literal(String.valueOf(pos1.getX()))));
                     textList.add(createEqualColumns(langWidth,
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", maxY),
-                            Component.literal(String.valueOf(minY))));
+                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", pos2.getY()),
+                            Component.literal(String.valueOf(pos1.getY()))));
                     textList.add(createEqualColumns(langWidth,
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", maxZ),
-                            Component.literal(String.valueOf(minZ))));
+                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", pos2.getZ()),
+                            Component.literal(String.valueOf(pos1.getZ()))));
                 }
                 textList.add(empty);
                 textList.add(createEqualColumns(langWidth,
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.breakBlocks")
-                                .append(ComponentPanelWidget.withButton(breakBlocks ?
-                                        Component.translatable("gtocore.machine.on") :
-                                        Component.translatable("gtocore.machine.off"), "breakBlocks")),
                         Component.translatable("gtocore.machine.industrial_platform_deployment_tools.skipAir")
                                 .append(ComponentPanelWidget.withButton(skipAir ?
                                         Component.translatable("gtocore.machine.on") :
-                                        Component.translatable("gtocore.machine.off"), "skipAir"))));
-
-                textList.add(createEqualColumns(langWidth,
+                                        Component.translatable("gtocore.machine.off"), "skipAir")),
                         Component.translatable("gtocore.machine.industrial_platform_deployment_tools.updateLight")
                                 .append(ComponentPanelWidget.withButton(updateLight ?
                                         Component.translatable("gtocore.machine.on") :
-                                        Component.translatable("gtocore.machine.off"), "updateLight")),
+                                        Component.translatable("gtocore.machine.off"), "updateLight"))));
+
+                textList.add(createEqualColumns(langWidth,
+                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.xMirror")
+                                .append(ComponentPanelWidget.withButton(xMirror ?
+                                        Component.translatable("gtocore.machine.on") :
+                                        Component.translatable("gtocore.machine.off"), "xMirror")),
+                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.zMirror")
+                                .append(ComponentPanelWidget.withButton(zMirror ?
+                                        Component.translatable("gtocore.machine.on") :
+                                        Component.translatable("gtocore.machine.off"), "zMirror"))));
+
+                textList.add(createEqualColumns(langWidth,
+                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.rotation")
+                                .append(ComponentPanelWidget.withButton(
+                                        Component.literal(String.valueOf(rotation)), "rotation")),
                         Component.translatable("gtocore.machine.industrial_platform_deployment_tools.speed")
-                                .append(String.format("%.1f", speed / 10.0))
+                                .append(String.valueOf(speed))
                                 .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "+speed"))
                                 .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "-speed"))));
             }
@@ -437,8 +443,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     private void handleDisplayClick(String componentData, ClickData clickData) {
         switch (step) {
             case PresetSelection -> {
-                if (!ensurePresetsReady()) return;
-                int maxId = getPlatformPreset(checkGroup).getStructures().size() - 1;
+                int maxId = getPlatformPreset(checkGroup).structures().size() - 1;
                 switch (componentData) {
                     case "next_group" -> {
                         checkGroup = Mth.clamp(checkGroup + 1, 0, maxGroup - 1);
@@ -467,6 +472,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                         saveId = checkId;
                         presetConfirm = true;
                         examineMaterial();
+                        posChanged();
                     }
                 }
             }
@@ -481,51 +487,87 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             }
             case AdjustSettings -> {
                 switch (componentData) {
-                    case "x_add" -> offsetX++;
-                    case "x_minus" -> offsetX--;
-                    case "z_add" -> offsetZ++;
-                    case "z_minus" -> offsetZ--;
-                    case "y_add" -> offsetY++;
-                    case "y_minus" -> offsetY--;
+                    case "x_add" -> {
+                        offsetX++;
+                        posChanged();
+                    }
+                    case "x_minus" -> {
+                        offsetX--;
+                        posChanged();
+                    }
+                    case "z_add" -> {
+                        offsetZ++;
+                        posChanged();
+                    }
+                    case "z_minus" -> {
+                        offsetZ--;
+                        posChanged();
+                    }
+                    case "y_add" -> {
+                        offsetY++;
+                        posChanged();
+                    }
+                    case "y_minus" -> {
+                        offsetY--;
+                        posChanged();
+                    }
 
                     case "x_add_plas" -> offsetX += adjustX;
                     case "x_minus_plas" -> offsetX -= adjustX;
-                    case "adjust_x_add" -> adjustX = Math.max(0, adjustX + 1);
-                    case "adjust_x_minus" -> adjustX = Math.max(0, adjustX - 1);
+                    case "adjust_x_add" -> {
+                        adjustX = Math.max(0, adjustX + 1);
+                        posChanged();
+                    }
+                    case "adjust_x_minus" -> {
+                        adjustX = Math.max(0, adjustX - 1);
+                        posChanged();
+                    }
 
-                    case "z_add_plas" -> offsetZ += adjustZ;
-                    case "z_minus_plas" -> offsetZ -= adjustZ;
-                    case "adjust_z_add" -> adjustZ = Math.max(0, adjustZ + 1);
-                    case "adjust_z_minus" -> adjustZ = Math.max(0, adjustZ - 1);
+                    case "z_add_plas" -> {
+                        offsetZ += adjustZ;
+                        posChanged();
+                    }
+                    case "z_minus_plas" -> {
+                        offsetZ -= adjustZ;
+                        posChanged();
+                    }
+                    case "adjust_z_add" -> {
+                        adjustZ = Math.max(0, adjustZ + 1);
+                        posChanged();
+                    }
+                    case "adjust_z_minus" -> {
+                        adjustZ = Math.max(0, adjustZ - 1);
+                        posChanged();
+                    }
 
                     case "y_add_plas" -> offsetY += adjustY;
                     case "y_minus_plas" -> offsetY -= adjustY;
-                    case "adjust_y_add" -> adjustY = Math.max(0, adjustY + 1);
-                    case "adjust_y_minus" -> adjustY = Math.max(0, adjustY - 1);
+                    case "adjust_y_add" -> {
+                        adjustY = Math.max(0, adjustY + 1);
+                        posChanged();
+                    }
+                    case "adjust_y_minus" -> {
+                        adjustY = Math.max(0, adjustY - 1);
+                        posChanged();
+                    }
 
-                    case "breakBlocks" -> breakBlocks = !breakBlocks;
                     case "skipAir" -> skipAir = !skipAir;
                     case "updateLight" -> updateLight = !updateLight;
-                    case "+speed" -> speed = Mth.clamp(checkId + 5, 10, 100);
-                    case "-speed" -> speed = Mth.clamp(checkId - 5, 10, 100);
+                    case "xMirror" -> xMirror = !xMirror;
+                    case "zMirror" -> zMirror = !zMirror;
+                    case "rotation" -> rotation = (rotation + 90) % 360;
+                    case "+speed" -> speed = Mth.clamp(speed + 5, 10, 100);
+                    case "-speed" -> speed = Mth.clamp(speed - 5, 10, 100);
                 }
             }
         }
     }
 
-    private boolean ensurePresetsReady() {
-        if (maxGroup == 0) return false;
-        checkGroup = Mth.clamp(checkGroup, 0, maxGroup - 1);
-        PlatformBlockType.PlatformPreset preset = getPlatformPreset(checkGroup);
-        if (preset.getStructures().isEmpty()) return false;
-        checkId = Mth.clamp(checkId, 0, preset.getStructures().size() - 1);
-        return true;
-    }
-
     private IGuiTexture getIGuiTexture() {
-        if (step == PresetSelection && ensurePresetsReady()) {
-            if (!getPlatformBlockStructure(checkGroup, checkId).getPreview()) return IGuiTexture.EMPTY;
-            String pngs = getPlatformPreset(checkGroup).getName() + "/" + getPlatformBlockStructure(checkGroup, checkId).getName() + ".png";
+        if (step == PresetSelection) {
+            PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+            if (!structure.preview()) return IGuiTexture.EMPTY;
+            String pngs = structure.name() + ".png";
             ResourceLocation imageLocation = GTOCore.id("textures/gui/industrial_platform_deployment_tools/" + pngs);
             return new ResourceTexture(imageLocation);
         }
@@ -534,7 +576,8 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // 启动控制工具
     private void addDisplayTextStart(List<Component> textList) {
-        if (!presetConfirm) {
+        if (canExport) textList.add(centerComponent(50, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.export"), "export")));
+        else if (!presetConfirm) {
             textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
         } else {
             if (!insufficient) {
@@ -547,7 +590,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 }
             }
         }
-        if (canExport) textList.add(centerComponent(50, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.export"), "export")));
     }
 
     private void handleDisplayClickStart(String componentData, ClickData clickData) {
@@ -610,11 +652,23 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     /////////////////////////////////////
 
     private PlatformBlockType.PlatformPreset getPlatformPreset(int group) {
-        return presets.get(group);
+        try {
+            return presets.get(group);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            checkGroup = 0;
+            saveGroup = 0;
+            return presets.get(0);
+        }
     }
 
     private PlatformBlockType.PlatformBlockStructure getPlatformBlockStructure(int group, int id) {
-        return getPlatformPreset(group).getStructures().get(id);
+        try {
+            return getPlatformPreset(group).structures().get(id);
+        } catch (IndexOutOfBoundsException | NullPointerException e) {
+            checkId = 0;
+            saveId = 0;
+            return getPlatformPreset(group).structures().get(0);
+        }
     }
 
     private void loadingMaterial() {
@@ -652,12 +706,39 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         }
     }
 
+    private void posChanged() {
+        BlockPos pos = getPos();
+        PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+
+        int sizeX = structure.xSize();
+        int sizeZ = structure.zSize();
+        int sizeY = structure.ySize();
+
+        int chunkMinX = (pos.getX() >> 4) << 4;
+        int chunkMinZ = (pos.getZ() >> 4) << 4;
+
+        int centerOffsetX = (sizeX - 1) / 32;
+        int centerOffsetZ = (sizeZ - 1) / 32;
+
+        int startX = chunkMinX - centerOffsetX * 16 + offsetX * 16;
+        int startZ = chunkMinZ - centerOffsetZ * 16 + offsetZ * 16;
+        int startY = pos.getY() + offsetY;
+
+        int maxX = startX + sizeX - 1;
+        int maxZ = startZ + sizeZ - 1;
+        int maxY = startY + sizeY - 1;
+
+        pos1 = new BlockPos(startX, startY, startZ);
+        pos2 = new BlockPos(maxX, maxY, maxZ);
+    }
+
     private void examineMaterial() {
         if (!presetConfirm) {
             insufficient = false;
             return;
         }
-        int[] costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
+        PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+        int[] costMaterial = structure.materials();
         boolean materialsSufficient = true;
         canExport = false;
         for (int i = 0; i < materialInventory.length; i++) {
@@ -666,14 +747,18 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 break;
             }
         }
-        List<IntObjectHolder<ItemStack>> extraMaterials = getPlatformBlockStructure(saveGroup, saveId).getExtraMaterials();
+        List<IntObjectHolder<ItemStack>> extraMaterials = structure.extraMaterials();
         Map<Item, Integer> inventoryCount = new HashMap<>();
         int coordinateCards = 0;
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
             inventoryCount.put(stack.getItem(), inventoryCount.getOrDefault(stack.getItem(), 0) + stack.getCount());
-            if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) coordinateCards++;
+            if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) {
+                if (coordinateCards == 0) pos1 = getStoredCoordinates(stack);
+                else pos2 = getStoredCoordinates(stack);
+                coordinateCards++;
+            }
         }
         for (IntObjectHolder<ItemStack> holder : extraMaterials) {
             Item item = holder.obj.getItem();
@@ -690,9 +775,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     private boolean consumeResources() {
         if (!presetConfirm || !insufficient) return false;
-        int[] costMaterial = getPlatformBlockStructure(saveGroup, saveId).getMaterials();
+        PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+        int[] costMaterial = structure.materials();
         for (int i = 0; i < materialInventory.length; i++) materialInventory[i] -= costMaterial[i];
-        List<IntObjectHolder<ItemStack>> extraMaterials = getPlatformBlockStructure(saveGroup, saveId).getExtraMaterials();
+        List<IntObjectHolder<ItemStack>> extraMaterials = structure.extraMaterials();
         for (IntObjectHolder<ItemStack> holder : extraMaterials) {
             Item item = holder.obj.getItem();
             int remaining = holder.number;
@@ -715,28 +801,32 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     private void start() {
         if (!taskCompleted) return;
         Level level = getLevel();
-        BlockPos pos = getPos();
         if (level == null) return;
         if (!(level instanceof ServerLevel serverLevel)) return;
         if (!consumeResources()) return;
+        posChanged();
+        PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
         progress = 0;
         taskCompleted = false;
         try {
             PlatformStructurePlacer.placeStructureAsync(
                     serverLevel,
-                    new BlockPos(((pos.getX() >> 4) + offsetX) << 4, pos.getY() + offsetY, ((pos.getZ() >> 4) + offsetZ) << 4),
-                    getPlatformBlockStructure(saveGroup, saveId),
+                    pos1,
+                    structure,
                     speed * 1000,
-                    breakBlocks,
+                    true,
                     skipAir,
                     updateLight,
+                    zMirror,
+                    xMirror,
+                    rotation,
                     progress -> this.progress = progress,
                     () -> taskCompleted = true);
         } catch (IOException e) {
             GTOCore.LOGGER.error("The industrial platform deployment tool cannot deploy the platform, platform error {} {}, file location {}",
-                    getPlatformPreset(saveGroup).getName(),
-                    getPlatformBlockStructure(saveGroup, saveId).getName(),
-                    getPlatformBlockStructure(saveGroup, saveId).getResource());
+                    getPlatformPreset(saveGroup).name(),
+                    structure.name(),
+                    structure.resource());
             taskCompleted = true;
         }
         examineMaterial();
@@ -753,7 +843,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             }
         }
         if (pos1 != null && pos2 != null) {
-            PlatformCreationAsync(getLevel(), pos1, pos2);
+            PlatformCreationAsync(getLevel(), pos1, pos2, xMirror, zMirror, rotation);
         }
     }
 }

@@ -9,6 +9,8 @@ import net.minecraft.server.level.FullChunkStatus;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -37,7 +39,7 @@ public final class PlatformStructurePlacer {
     private final Consumer<Integer> onBatch;
     private final Runnable onFinished;
 
-    private ISubscription subscription;
+    private final ISubscription subscription;
 
     private PlatformStructurePlacer(ServerLevel serverLevel,
                                     BlockIterator blockIterator,
@@ -56,7 +58,7 @@ public final class PlatformStructurePlacer {
         this.onBatch = onBatch;
         this.onFinished = onFinished;
 
-        this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, this::onComplete, 0)::unsubscribe;
+        this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, this::onComplete, 0);
     }
 
     /**
@@ -69,7 +71,6 @@ public final class PlatformStructurePlacer {
             BlockIterator.Entry entry = blockIterator.next();
             BlockState state = entry.state();
 
-            // 跳过空气
             if (skipAir && state.isAir()) {
                 continue;
             }
@@ -97,33 +98,27 @@ public final class PlatformStructurePlacer {
                 continue;
             }
 
-            // 破坏方块
             if (!breakBlocks && !oldState.isAir()) {
                 processedThisTick++;
                 continue;
             }
 
-            // 基岩保护
             if (oldState.is(Blocks.BEDROCK)) {
                 processedThisTick++;
                 continue;
             }
 
-            // 设置新方块
             section.setBlockState(x, localY, z, state);
 
-            // 更新高度图
             chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.MOTION_BLOCKING).update(x, y, z, state);
             chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES).update(x, y, z, state);
             chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.OCEAN_FLOOR).update(x, y, z, state);
             chunk.getOrCreateHeightmapUnprimed(Heightmap.Types.WORLD_SURFACE).update(x, y, z, state);
 
-            // 如果开启光照更新，且光照属性有变化
             if (updateLight && LightEngine.hasDifferentLightProperties(serverLevel, pos, oldState, state)) {
                 serverLevel.getChunkSource().getLightEngine().checkBlock(pos);
             }
 
-            // BlockEntity 处理
             oldState.onRemove(serverLevel, pos, state, false);
             if (oldState.hasBlockEntity()) {
                 serverLevel.removeBlockEntity(pos);
@@ -136,7 +131,6 @@ public final class PlatformStructurePlacer {
                 }
             }
 
-            // 通知附近玩家方块更新
             var fullStatus = chunk.getFullStatus();
             if (fullStatus.isOrAfter(FullChunkStatus.BLOCK_TICKING)) {
                 serverLevel.getChunkSource().blockChanged(pos);
@@ -146,20 +140,15 @@ public final class PlatformStructurePlacer {
             processedThisTick++;
         }
 
-        // 进度回调（基于 aisle 数量）
         if (onBatch != null) {
             onBatch.accept(blockIterator.getProgressPercentage());
         }
 
-        // 如果迭代器结束，自动停止任务
         if (!blockIterator.hasNext()) {
             subscription.unsubscribe();
         }
     }
 
-    /**
-     * 全部生成完成后调用
-     */
     private void onComplete() {
         if (onFinished != null) {
             onFinished.run();
@@ -167,7 +156,7 @@ public final class PlatformStructurePlacer {
     }
 
     /**
-     * 方块迭代器（流式读取 .aisle(...) 格式）
+     * 方块迭代器（修复镜像方向错误，支持独立旋转/镜像）
      */
     private static class BlockIterator implements Iterator<BlockIterator.Entry> {
 
@@ -177,20 +166,103 @@ public final class PlatformStructurePlacer {
         private final Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
         private final Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
 
-        private String[] currentAisle; // 当前 y 层
-        private int y = 0;             // 当前行索引（y 层内）
-        private int x = 0;             // 当前字符索引（行内 x）
-        private int z = 0;             // 当前层索引（深度 z）
+        private String[] currentAisle;
+        private int y = 0;
+        private int x = 0;
+        private int z = 0;
 
-        private final int totalAisles;      // 文件中总 aisle 数
-        private int processedAisles = 0;    // 已处理 aisle 数
+        private final int totalAisles;
+        private int processedAisles = 0;
 
-        BlockIterator(InputStream input, BlockPos startPos, Map<Character, BlockState> blockMapping, String resourcePath) throws IOException {
+        private final boolean zMirror;
+        private final boolean xMirror;
+        private final int rotation;
+        private final int sizeX, sizeZ;
+        private final int offsetX, offsetY, offsetZ;
+
+        BlockIterator(InputStream input, BlockPos startPos, Map<Character, BlockState> blockMapping,
+                      String resourcePath, boolean zMirror, boolean xMirror, int rotation) throws IOException {
             this.reader = new BufferedReader(new InputStreamReader(input));
             this.startPos = startPos;
             this.blockMapping = blockMapping;
             this.totalAisles = countTotalAisles(resourcePath);
+            this.zMirror = zMirror;
+            this.xMirror = xMirror;
+            this.rotation = rotation;
+
+            // 读取完整结构尺寸（包含 sizeY）
+            int sx = 0, sy = 0, sz = 0;
+            try (InputStream sizeInput = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
+                if (sizeInput != null) {
+                    BufferedReader sizeReader = new BufferedReader(new InputStreamReader(sizeInput));
+                    String line;
+                    while ((line = sizeReader.readLine()) != null) {
+                        line = line.trim();
+                        if (line.startsWith(".size(")) {
+                            Pattern sizePattern = Pattern.compile("\\.size\\((\\d+), (\\d+), (\\d+)\\)");
+                            Matcher m = sizePattern.matcher(line);
+                            if (m.find()) {
+                                sx = Integer.parseInt(m.group(1));
+                                sy = Integer.parseInt(m.group(2));
+                                sz = Integer.parseInt(m.group(3));
+                                break;
+                            }
+                        }
+                    }
+                    sizeReader.close();
+                }
+            }
+            this.sizeX = sx;
+            this.sizeZ = sz;
+
+            // 预计算最小局部坐标和偏移量（包含 Y 轴）
+            int minLx = Integer.MAX_VALUE, minLy = Integer.MAX_VALUE, minLz = Integer.MAX_VALUE;
+            for (int iz = 0; iz < sz; iz++) {
+                for (int iy = 0; iy < sy; iy++) {
+                    for (int ix = 0; ix < sx; ix++) {
+                        int[] transformed = transformCoords(ix, iy, iz, sx, sz, rotation, xMirror, zMirror);
+                        minLx = Math.min(minLx, transformed[0]);
+                        minLy = Math.min(minLy, transformed[1]);
+                        minLz = Math.min(minLz, transformed[2]);
+                    }
+                }
+            }
+            this.offsetX = -minLx;
+            this.offsetY = -minLy;
+            this.offsetZ = -minLz;
+
             readNextAisle();
+        }
+
+        /**
+         * 坐标变换（XZ 平面内的镜像和绕 Y 轴旋转，与 BlockState 变换顺序一致）
+         */
+        private static int[] transformCoords(int lx, int ly, int lz, int sx, int sz, int rotation, boolean xMirror, boolean zMirror) {
+            int rx = lx, rz = lz;
+
+            // 先旋转（绕 Y 轴顺时针）
+            switch (rotation) {
+                case 90 -> {
+                    int t = rx;
+                    rx = sz - 1 - rz;
+                    rz = t;
+                }
+                case 180 -> {
+                    rx = sx - 1 - rx;
+                    rz = sz - 1 - rz;
+                }
+                case 270 -> {
+                    int t = rx;
+                    rx = rz;
+                    rz = sx - 1 - t;
+                }
+            }
+
+            // 再镜像（X/Z 分别处理，与 Mirror 枚举对应）
+            if (xMirror) rx = sx - 1 - rx;
+            if (zMirror) rz = sz - 1 - rz;
+
+            return new int[] { rx, ly, rz };
         }
 
         /**
@@ -198,10 +270,12 @@ public final class PlatformStructurePlacer {
          */
         private int countTotalAisles(String resourcePath) throws IOException {
             try (InputStream countInput = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
-
                 BufferedReader countReader;
-                if (countInput != null) countReader = new BufferedReader(new InputStreamReader(countInput));
-                else throw new FileNotFoundException("Structure file not found: " + resourcePath);
+                if (countInput != null) {
+                    countReader = new BufferedReader(new InputStreamReader(countInput));
+                } else {
+                    throw new FileNotFoundException("Structure file not found: " + resourcePath);
+                }
 
                 int count = 0;
                 String line;
@@ -215,7 +289,7 @@ public final class PlatformStructurePlacer {
         }
 
         /**
-         * 读取下一个 .aisle(...) 并解析为 String[]
+         * 读取下一个 .aisle(...)
          */
         private void readNextAisle() throws IOException {
             String line;
@@ -243,9 +317,6 @@ public final class PlatformStructurePlacer {
             currentAisle = null;
         }
 
-        /**
-         * 获取基于 aisle 的进度百分比
-         */
         public int getProgressPercentage() {
             if (totalAisles == 0) return 0;
             return Math.min(100, (int) (((double) processedAisles / totalAisles) * 100));
@@ -284,10 +355,38 @@ public final class PlatformStructurePlacer {
             String row = currentAisle[y];
             char c = row.charAt(x);
             BlockState state = blockMapping.get(c);
+
+            // 1. 坐标变换（先旋转，再镜像）
+            int[] transformed = transformCoords(x, y, z, sizeX, sizeZ, rotation, xMirror, zMirror);
+            int lx = transformed[0] + offsetX;
+            int ly = transformed[1] + offsetY;
+            int lz = transformed[2] + offsetZ;
+
+            // 2. BlockState 变换（与坐标变换顺序一致：先旋转，再镜像）
+            Rotation rotationEnum = switch (rotation) {
+                case 90 -> Rotation.CLOCKWISE_90;
+                case 180 -> Rotation.CLOCKWISE_180;
+                case 270 -> Rotation.COUNTERCLOCKWISE_90;
+                default -> Rotation.NONE;
+            };
+            state = state.rotate(rotationEnum);
+
+            // 镜像处理（修复部分）
+            if (xMirror && zMirror) {
+                state = state.mirror(Mirror.LEFT_RIGHT);
+                state = state.mirror(Mirror.FRONT_BACK);
+            } else if (xMirror) {
+                state = state.mirror(Mirror.FRONT_BACK);
+            } else if (zMirror) {
+                state = state.mirror(Mirror.LEFT_RIGHT);
+            }
+
+            // 计算最终世界坐标
             BlockPos pos = new BlockPos(
-                    startPos.getX() + x,
-                    startPos.getY() + y,
-                    startPos.getZ() + z);
+                    startPos.getX() + lx,
+                    startPos.getY() + ly,
+                    startPos.getZ() + lz);
+
             Entry entry = new Entry(pos, state);
             x++;
             return entry;
@@ -297,7 +396,7 @@ public final class PlatformStructurePlacer {
     }
 
     /**
-     * 外部调用入口
+     * 外部调用入口（支持旋转和镜像）
      */
     public static void placeStructureAsync(Level level,
                                            BlockPos startPos,
@@ -306,15 +405,18 @@ public final class PlatformStructurePlacer {
                                            boolean breakBlocks,
                                            boolean skipAir,
                                            boolean updateLight,
+                                           boolean zMirror,
+                                           boolean xMirror,
+                                           int rotation,
                                            Consumer<Integer> onBatch,
                                            Runnable onFinished) throws IOException {
-        String resourcePath = "assets/" + structure.getResource().getNamespace() + "/" + structure.getResource().getPath();
+        String resourcePath = "assets/" + structure.resource().getNamespace() + "/" + structure.resource().getPath();
         try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (input == null) {
-                throw new FileNotFoundException("Structure file not found: " + structure.getResource());
+                throw new FileNotFoundException("Structure file not found: " + structure.resource());
             }
 
-            BlockIterator iterator = new BlockIterator(input, startPos, loadMappingFromJson(structure.getBlockMapping()), resourcePath);
+            BlockIterator iterator = new BlockIterator(input, startPos, loadMappingFromJson(structure.blockMapping()), resourcePath, xMirror, zMirror, rotation);
             if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, skipAir, updateLight, onBatch, onFinished);
             else throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
         }

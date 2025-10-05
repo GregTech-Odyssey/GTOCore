@@ -12,6 +12,8 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
@@ -33,9 +35,10 @@ public class PlatformCreators {
     private static volatile boolean isExporting = false;
 
     /**
-     * 异步导出结构（防止重复执行）
+     * 异步导出结构（支持 XZ 平面镜像和绕 Y 轴旋转）
      */
-    public static void exportStructureAsync(Level level, BlockPos pos1, BlockPos pos2) {
+    public static void exportStructureAsync(Level level, BlockPos pos1, BlockPos pos2,
+                                            boolean xMirror, boolean zMirror, int rotation) {
         if (isExporting) {
             return;
         }
@@ -43,7 +46,7 @@ public class PlatformCreators {
 
         CompletableFuture.runAsync(() -> {
             try {
-                exportStructure(level, pos1, pos2);
+                exportStructure(level, pos1, pos2, xMirror, zMirror, rotation);
             } finally {
                 isExporting = false;
             }
@@ -51,9 +54,22 @@ public class PlatformCreators {
     }
 
     /**
+     * 平台创建函数（异步）
+     *
+     * @param xMirror  X轴对称（左右）
+     * @param zMirror  Z轴对称（前后）
+     * @param rotation 旋转角度 0/90/180/270（绕Y轴）
+     */
+    public static void PlatformCreationAsync(Level level, BlockPos startPos, BlockPos endPos,
+                                             boolean xMirror, boolean zMirror, int rotation) {
+        exportStructureAsync(level, startPos, endPos, xMirror, zMirror, rotation);
+    }
+
+    /**
      * 导出结构和映射文件到 logs/platform/ 目录
      */
-    public static void exportStructure(Level level, BlockPos pos1, BlockPos pos2) {
+    public static void exportStructure(Level level, BlockPos pos1, BlockPos pos2,
+                                       boolean xMirror, boolean zMirror, int rotation) {
         Path outputDir = Paths.get("logs", "platform");
         try {
             Files.createDirectories(outputDir);
@@ -75,39 +91,105 @@ public class PlatformCreators {
         int maxY = Math.max(pos1.getY(), pos2.getY());
         int maxZ = Math.max(pos1.getZ(), pos2.getZ());
 
+        int dx = maxX - minX + 1;
+        int dy = maxY - minY + 1;
+        int dz = maxZ - minZ + 1;
+
+        // 根据旋转调整尺寸
+        boolean swapXZ = (rotation == 90 || rotation == 270);
+        if (swapXZ) {
+            int temp = dx;
+            dx = dz;
+            dz = temp;
+        }
+
+        // 旋转和镜像枚举
+        Rotation rotationEnum = switch (rotation) {
+            case 90 -> Rotation.CLOCKWISE_90;
+            case 180 -> Rotation.CLOCKWISE_180;
+            case 270 -> Rotation.COUNTERCLOCKWISE_90;
+            default -> Rotation.NONE;
+        };
+
+        Mirror mirrorEnum = Mirror.NONE;
+        Mirror mirrorEnum2 = Mirror.NONE;
+        if (xMirror && zMirror) {
+            mirrorEnum2 = Mirror.LEFT_RIGHT;
+            mirrorEnum = Mirror.FRONT_BACK;
+        } else if (xMirror) mirrorEnum = Mirror.FRONT_BACK;
+        else if (zMirror) mirrorEnum = Mirror.LEFT_RIGHT;
+
         Map<BlockState, Character> stateToChar = new LinkedHashMap<>();
+        Map<ResourceLocation, Integer> blockCount = new HashMap<>();
         Character nextChar = getNextValidChar('A');
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
-        // 强制加入空气映射
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
-        // 第一次遍历：收集所有方块映射
+        // 第一次遍历：收集旋转后的映射 + 计数
         for (int y = minY; y <= maxY; y++) {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
                     mutablePos.set(x, y, z);
-                    BlockState state = level.getBlockState(mutablePos);
-                    if (!stateToChar.containsKey(state)) {
-                        stateToChar.put(state, nextChar);
+                    BlockState originalState = level.getBlockState(mutablePos);
+
+                    // 应用旋转和镜像
+                    BlockState transformedState = originalState.rotate(rotationEnum).mirror(mirrorEnum).mirror(mirrorEnum2);
+
+                    ResourceLocation id = BuiltInRegistries.BLOCK.getKey(transformedState.getBlock());
+                    blockCount.put(id, blockCount.getOrDefault(id, 0) + 1);
+
+                    if (!stateToChar.containsKey(transformedState)) {
+                        stateToChar.put(transformedState, nextChar);
                         nextChar = getNextValidChar((char) (nextChar + 1));
                     }
                 }
             }
         }
 
-        // 第二次遍历：写入结构文件（GT 风格 .aisle）
+        // 第二次遍历：写入结构文件（用旋转后的坐标和状态）
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structureFile))) {
+            writer.write(".size(" + dx + ", " + dy + ", " + dz + ")");
             writer.newLine();
-            for (int z = minZ; z <= maxZ; z++) {
+
+            for (int outZ = 0; outZ < dz; outZ++) {
                 List<String> ySlices = new ArrayList<>();
-                for (int y = minY; y <= maxY; y++) {
+                for (int outY = 0; outY < dy; outY++) {
                     StringBuilder xChars = new StringBuilder();
-                    for (int x = minX; x <= maxX; x++) {
-                        mutablePos.set(x, y, z);
-                        BlockState state = level.getBlockState(mutablePos);
-                        xChars.append(stateToChar.getOrDefault(state, ' '));
+                    for (int outX = 0; outX < dx; outX++) {
+
+                        // 旋转/镜像坐标变换（与放置器完全一致）
+                        int rx = outX, rz = outZ;
+
+                        switch (rotation) {
+                            case 90 -> {
+                                int t = rx;
+                                rx = dz - 1 - rz;
+                                rz = t;
+                            }
+                            case 180 -> {
+                                rx = dx - 1 - rx;
+                                rz = dz - 1 - rz;
+                            }
+                            case 270 -> {
+                                int t = rx;
+                                rx = rz;
+                                rz = dx - 1 - t;
+                            }
+                        }
+
+                        if (xMirror) rx = dx - 1 - rx;
+                        if (zMirror) rz = dz - 1 - rz;
+
+                        int worldX = minX + rx;
+                        int worldY = minY + outY;
+                        int worldZ = minZ + rz;
+
+                        BlockState originalState = level.getBlockState(new BlockPos(worldX, worldY, worldZ));
+                        BlockState transformedState = originalState.rotate(rotationEnum).mirror(mirrorEnum);
+
+                        xChars.append(stateToChar.getOrDefault(transformedState, ' '));
                     }
                     ySlices.add("\"" + xChars + "\"");
                 }
@@ -115,19 +197,25 @@ public class PlatformCreators {
                 writer.newLine();
             }
         } catch (IOException e) {
-            GTOCore.LOGGER.error("Failed to get structure");
+            GTOCore.LOGGER.error("Failed to get structure", e);
         }
 
+        // 保存映射（旋转后的状态）
         Map<Character, BlockState> charToState = new LinkedHashMap<>();
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
-
-        GTOCore.LOGGER.info("Mapping size before save: {}", charToState.size());
-
         saveMappingToJson(charToState, mappingFile);
 
         GTOCore.LOGGER.info("The structure and mapping files have been exported to:");
         GTOCore.LOGGER.info(" - Structure File: {}", structureFile);
         GTOCore.LOGGER.info(" - Mapping File: {}", mappingFile);
+        GTOCore.LOGGER.info("Mapping size before save: {}", charToState.size());
+        // 输出 .size 和 .extraMaterials
+        List<String> defParts = new ArrayList<>();
+        defParts.add(".size(" + dx + ", " + dy + ", " + dz + ")\n");
+        blockCount.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(e -> defParts.add(".extraMaterials(\"" + e.getKey() + "\", " + e.getValue() + ")\n"));
+        GTOCore.LOGGER.info("[{}]", String.join(", ", defParts));
     }
 
     /**
@@ -158,7 +246,7 @@ public class PlatformCreators {
                 gson.toJson(mapping, writer);
             }
         } catch (IOException e) {
-            GTOCore.LOGGER.error("Failed to save mapping to JSON file");
+            GTOCore.LOGGER.error("Failed to save mapping to JSON file", e);
         }
     }
 
@@ -184,7 +272,7 @@ public class PlatformCreators {
                 return new HashMap<>();
             }
         } catch (Exception e) {
-            GTOCore.LOGGER.error("Failed to load map from data pack");
+            GTOCore.LOGGER.error("Failed to load map from data pack", e);
             return new HashMap<>();
         }
     }
@@ -252,12 +340,5 @@ public class PlatformCreators {
             }
             return null;
         }
-    }
-
-    /**
-     * 平台创建函数（异步）
-     */
-    public static void PlatformCreationAsync(Level level, BlockPos startPos, BlockPos endPos) {
-        exportStructureAsync(level, startPos, endPos);
     }
 }

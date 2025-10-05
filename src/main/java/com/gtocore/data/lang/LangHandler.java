@@ -4,6 +4,7 @@ import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTORecipeCategories;
+import com.gtocore.common.machine.mana.PlatformTemplateStorage;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.GTOCore;
@@ -60,6 +61,7 @@ public final class LangHandler {
         GTOMachineBuilder.LANG.forEach(LangHandler::addCNEN);
         MultiblockBuilder.LANG.forEach(LangHandler::addCNEN);
         Tooltips.LANG.forEach(LangHandler::addCNEN);
+        PlatformTemplateStorage.LANG.forEach((k, v) -> addCNEN("gtocore.platform." + k, v));
         ScanningClass.LANG.forEach(LangHandler::addCNEN);
         DynamicInitialData.LANG.forEach(LangHandler::addCNEN);
         TranslationKeyProvider.LANG.forEach(LangHandler::addCNEN);
