@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.generated;
 
+import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gtocore.api.data.material.GTOMaterialFlags;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
@@ -602,17 +603,19 @@ final class GTOPartsRecipeHandler {
                 .EUt(400)
                 .save();
 
-        MACERATOR_RECIPES.recipeBuilder("crush_" + material.getName() + "_turbine_blade")
+        MACERATOR_RECIPES.recipeBuilder("macerate_" + material.getName() + "_turbine_blade")
                 .inputItems(turbineRotor, material)
                 .outputItems(dustSmall, material, 2)
                 .duration(mass << 4)
+                .category(GTRecipeCategories.MACERATOR_RECYCLING)
                 .EUt(30)
                 .save();
 
-        MACERATOR_RECIPES.recipeBuilder("crush_" + material.getName() + "_turbine_blade_coated")
+        MACERATOR_RECIPES.recipeBuilder("macerate_" + material.getName() + "_turbine_blade_coated")
                 .inputItems(turbineRotorCoated, material)
                 .outputItems(dustSmall, material, 2)
                 .duration(mass << 4)
+                .category(GTRecipeCategories.MACERATOR_RECYCLING)
                 .EUt(30)
                 .save();
 
