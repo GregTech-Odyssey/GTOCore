@@ -30,12 +30,13 @@ public class TravelStaffItemMixinLikeForge {
             return;
         }
 
+        event.setCanceled(true);
+
         Level level = player.level();
         if (level.isClientSide()) {
             return;
         }
 
-        event.setCanceled(true);
 
         TravelMode currentMode = gtocore$getTravelMode(stack);
         TravelMode nextMode = currentMode.next();
