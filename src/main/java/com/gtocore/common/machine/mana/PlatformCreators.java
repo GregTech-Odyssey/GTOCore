@@ -2,6 +2,10 @@ package com.gtocore.common.machine.mana;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.StringIndex;
+import com.gtolib.utils.StringUtils;
+
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -38,7 +42,8 @@ public class PlatformCreators {
      * 异步导出结构（支持 XZ 平面镜像和绕 Y 轴旋转）
      */
     public static void exportStructureAsync(Level level, BlockPos pos1, BlockPos pos2,
-                                            boolean xMirror, boolean zMirror, int rotation) {
+                                            boolean xMirror, boolean zMirror, int rotation,
+                                            Block chamberBlock, boolean laserMode) {
         if (isExporting) {
             return;
         }
@@ -46,7 +51,7 @@ public class PlatformCreators {
 
         CompletableFuture.runAsync(() -> {
             try {
-                exportStructure(level, pos1, pos2, xMirror, zMirror, rotation);
+                exportStructure(level, pos1, pos2, xMirror, zMirror, rotation, chamberBlock, laserMode);
             } finally {
                 isExporting = false;
             }
@@ -61,15 +66,17 @@ public class PlatformCreators {
      * @param rotation 旋转角度 0/90/180/270（绕Y轴）
      */
     public static void PlatformCreationAsync(Level level, BlockPos startPos, BlockPos endPos,
-                                             boolean xMirror, boolean zMirror, int rotation) {
-        exportStructureAsync(level, startPos, endPos, xMirror, zMirror, rotation);
+                                             boolean xMirror, boolean zMirror, int rotation,
+                                             Block chamberBlock, boolean laserMode) {
+        exportStructureAsync(level, startPos, endPos, xMirror, zMirror, rotation, chamberBlock, laserMode);
     }
 
     /**
      * 导出结构和映射文件到 logs/platform/ 目录
      */
     public static void exportStructure(Level level, BlockPos pos1, BlockPos pos2,
-                                       boolean xMirror, boolean zMirror, int rotation) {
+                                       boolean xMirror, boolean zMirror, int rotation,
+                                       Block chamberBlock, boolean laserMode) {
         Path outputDir = Paths.get("logs", "platform");
         try {
             Files.createDirectories(outputDir);
@@ -81,6 +88,7 @@ public class PlatformCreators {
         String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
         String structureFile = outputDir.resolve(timestamp).toString();
         String mappingFile = outputDir.resolve(timestamp + ".json").toString();
+        String patternFile = outputDir.resolve(timestamp + ".txt").toString();
 
         int minX = Math.min(pos1.getX(), pos2.getX());
         int minY = Math.min(pos1.getY(), pos2.getY());
@@ -108,15 +116,13 @@ public class PlatformCreators {
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
-        // 第一次遍历：收集旋转后的映射 + 计数
+        // 第一次遍历：收集旋转后的映射
         for (int y = minY; y <= maxY; y++) {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
                     mutablePos.set(x, y, z);
                     BlockState originalState = level.getBlockState(mutablePos);
-
                     BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
-
                     ResourceLocation id = BuiltInRegistries.BLOCK.getKey(transformedState.getBlock());
                     blockCount.put(id, blockCount.getOrDefault(id, 0) + 1);
 
@@ -178,13 +184,140 @@ public class PlatformCreators {
             GTOCore.LOGGER.error("Failed to get structure", e);
         }
 
+        // 保存映射文件
         Map<Character, BlockState> charToState = new LinkedHashMap<>();
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
         saveMappingToJson(charToState, mappingFile);
 
+        // 生成 .block()/.where() 文件
+        try (BufferedWriter patternWriter = Files.newBufferedWriter(Paths.get(patternFile))) {
+            String chamberId = BuiltInRegistries.BLOCK.getKey(chamberBlock).toString();
+            String[] chamberParts = StringUtils.decompose(chamberId);
+
+            patternWriter.write(".block(" + convertBlockToString(chamberBlock, chamberId, chamberParts, true) + ")");
+            patternWriter.newLine();
+            patternWriter.write(".pattern(definition -> FactoryBlockPattern.start(definition)");
+            patternWriter.newLine();
+
+            // 写入 .aisle(...)
+            for (int outZ = 0; outZ < dz; outZ++) {
+                List<String> ySlices = new ArrayList<>();
+                for (int outY = 0; outY < dy; outY++) {
+                    StringBuilder xChars = new StringBuilder();
+                    for (int outX = 0; outX < dx; outX++) {
+
+                        int rx = outX, rz = outZ;
+                        switch (rotation) {
+                            case 90 -> {
+                                int t = rx;
+                                rx = dz - 1 - rz;
+                                rz = t;
+                            }
+                            case 180 -> {
+                                rx = dx - 1 - rx;
+                                rz = dz - 1 - rz;
+                            }
+                            case 270 -> {
+                                int t = rx;
+                                rx = rz;
+                                rz = dx - 1 - t;
+                            }
+                        }
+
+                        if (xMirror) rx = dx - 1 - rx;
+                        if (zMirror) rz = dz - 1 - rz;
+
+                        int worldX = minX + rx;
+                        int worldY = minY + outY;
+                        int worldZ = minZ + rz;
+
+                        BlockState originalState = level.getBlockState(new BlockPos(worldX, worldY, worldZ));
+                        BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
+
+                        xChars.append(stateToChar.getOrDefault(transformedState, ' '));
+                    }
+                    ySlices.add("\"" + xChars + "\"");
+                }
+                patternWriter.write(".aisle(" + String.join(", ", ySlices) + ")");
+                patternWriter.newLine();
+            }
+
+            // 写入 .where(...)
+            for (Map.Entry<Character, BlockState> entry : charToState.entrySet()) {
+                Character ch = entry.getKey();
+                BlockState state = entry.getValue();
+                if (ch == ' ') continue;
+
+                Block block = state.getBlock();
+                if (block == Blocks.COBBLESTONE) {
+                    patternWriter.write(".where('" + ch + "', blocks(" + convertBlockToString(chamberBlock, chamberId, chamberParts, false) + ")");
+                    if (laserMode) {
+                        patternWriter.write(".or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))");
+                        patternWriter.newLine();
+                        patternWriter.write(".or(abilities(MAINTENANCE).setExactLimit(1)))");
+                    } else {
+                        patternWriter.write(".or(autoAbilities(definition.getRecipeTypes()))");
+                        patternWriter.newLine();
+                        patternWriter.write(".or(abilities(MAINTENANCE).setExactLimit(1)))");
+                    }
+                    patternWriter.newLine();
+                    continue;
+                }
+
+                String id = BuiltInRegistries.BLOCK.getKey(block).toString();
+                String[] parts = StringUtils.decompose(id);
+                boolean isGT = Objects.equals(parts[0], "gtceu");
+                boolean isGTO = Objects.equals(parts[0], GTOCore.MOD_ID);
+
+                if ((isGT || isGTO) && parts[1].contains("_frame")) {
+                    patternWriter.write(".where('" + ch + "', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, " + (isGT ? "GTMaterials." : "GTOMaterials.") + FormattingUtil.lowerUnderscoreToUpperCamel(StringUtils.lastDecompose('_', parts[1])[0]) + ")))");
+                    patternWriter.newLine();
+                    continue;
+                }
+
+                patternWriter.write(".where('" + ch + "', blocks(" + convertBlockToString(block, id, parts, false) + "))");
+                patternWriter.newLine();
+            }
+
+            patternWriter.write(".build())");
+            patternWriter.newLine();
+            patternWriter.newLine();
+
+            patternWriter.write("Mapping size before save: " + charToState.size());
+            patternWriter.write(".size(" + dx + ", " + dy + ", " + dz + ")");
+            blockCount.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEach(e -> {
+                        try {
+                            patternWriter.write(".extraMaterials(\"" + e.getKey() + "\", " + e.getValue() + ")\n");
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
+            patternWriter.newLine();
+
+        } catch (IOException e) {
+            GTOCore.LOGGER.error("Failed to save .block()/.where() pattern file", e);
+        }
+
         GTOCore.LOGGER.info("The structure and mapping files have been exported to:");
         GTOCore.LOGGER.info(" - Structure File: {}", structureFile);
         GTOCore.LOGGER.info(" - Mapping File: {}", mappingFile);
+        GTOCore.LOGGER.info(" - Pattern File: {}", patternFile);
+    }
+
+    // 工具方法：方块转代码字符串
+    private static String convertBlockToString(Block b, String id, String[] parts, boolean supplier) {
+        if (StringIndex.BLOCK_LINK_MAP.containsKey(b)) {
+            return StringIndex.BLOCK_LINK_MAP.get(b) + (supplier ? "" : ".get()");
+        }
+        if (Objects.equals(parts[0], GTOCore.MOD_ID)) {
+            return "Blocks." + parts[1].toUpperCase() + (supplier ? "" : ".get()");
+        }
+        if (Objects.equals(parts[0], "minecraft")) {
+            return (supplier ? "() -> " : "") + "Blocks." + parts[1].toUpperCase();
+        }
+        return "RegistriesUtils.get" + (supplier ? "Supplier" : "") + "Block(\"" + id + "\")";
     }
 
     /**

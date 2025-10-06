@@ -96,6 +96,14 @@ public final class PlatformTemplateStorage {
                 .materials(0, 256)
                 .build();
 
+        PlatformBlockStructure xuanzhuan270xzzhouaaa = PlatformBlockStructure.structure("xuanzhuan270xzzhouaaa")
+                .displayName("雪原小屋")
+                .preview(true)
+                .resource(GTOCore.id("platforms/20251006-163632-455"))
+                .symbolMap(GTOCore.id("platforms/20251006-163632-455.json"))
+                .materials(0, 256)
+                .build();
+
         // 注册预设组
         presets.add(
                 PlatformPreset.preset("cobblestone_single")
@@ -110,6 +118,7 @@ public final class PlatformTemplateStorage {
                         .addStructure(xuanzhuan180)
                         .addStructure(xuanzhuan270)
                         .addStructure(xuanzhuan270xzzhou)
+                        .addStructure(xuanzhuan270xzzhouaaa)
                         .build());
 
         presets.add(
