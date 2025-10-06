@@ -112,6 +112,14 @@ public final class PlatformTemplateStorage {
                 .materials(0, 256)
                 .build();
 
+        PlatformBlockStructure village = PlatformBlockStructure.structure("village")
+                .displayName("一个村庄")
+                .preview(true)
+                .resource(GTOCore.id("platforms/20251006-215326-886"))
+                .symbolMap(GTOCore.id("platforms/20251006-215326-886.json"))
+                .materials(0, 256)
+                .build();
+
         // 注册预设组
         presets.add(
                 PlatformPreset.preset("cobblestone_single")
@@ -128,6 +136,7 @@ public final class PlatformTemplateStorage {
                         .addStructure(xuanzhuan270xzzhou)
                         .addStructure(snowfield_cabin)
                         .addStructure(ice_sheet)
+                        .addStructure(village)
                         .build());
 
         presets.add(

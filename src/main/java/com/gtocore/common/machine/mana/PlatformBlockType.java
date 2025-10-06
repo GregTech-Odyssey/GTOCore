@@ -173,8 +173,7 @@ public final class PlatformBlockType {
                                  @Nullable String displayName,
                                  @Nullable String description,
                                  @Nullable String source,
-                                 List<PlatformBlockStructure> structures
-    ) {
+                                 List<PlatformBlockStructure> structures) {
 
         public PlatformPreset {
             // 非空检查

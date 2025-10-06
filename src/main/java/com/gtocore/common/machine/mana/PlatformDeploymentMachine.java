@@ -91,7 +91,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     /// //////////////////////////////////
 
     // 当前所处的步骤
-    @Persisted
     private int step = 0;
 
     // 总步骤数
@@ -118,10 +117,8 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Persisted
     private int saveId = 0;
     // 是否显示预览
-    @Persisted
     private boolean preview = false;
     // 是否高亮
-    @Persisted
     private boolean highlight = false;
 
     // ------------------- 第二步：选择偏移 -------------------
@@ -156,7 +153,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     private int[] materialInventory = new int[] { 0, 0, 0 };
     // 库存是否充足
     @Persisted
-    private boolean insufficient = true;
+    private boolean insufficient = false;
     // 原料物品
     private static final List<List<IntObjectHolder<Item>>> ITEM_VALUE_HOLDERS = List.of(
             List.of(
@@ -184,7 +181,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     // 光照更新
     @Persisted
     private boolean updateLight = true;
-    // 光照更新
+    // 速度
     @Persisted
     private int speed = 50;
     // X轴对称
@@ -197,7 +194,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Persisted
     private int rotation = 0;
     // 可导出
-    @Persisted
     private boolean canExport = false;
 
     private int progress = 0;
@@ -231,7 +227,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                     .setMaxWidthLimit(langWidth);
             mainContentGroup.addWidget(mainTextPanel);
 
-            // 预设选择步骤时添加预览图
             mainContentGroup.addWidget(new ImageWidget(166, 46, 100, 100, this::getIGuiTexture));
 
             group.addWidget(mainContentGroup);

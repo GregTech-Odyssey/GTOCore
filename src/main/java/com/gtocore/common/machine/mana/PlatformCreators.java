@@ -41,25 +41,40 @@ import java.util.stream.Collectors;
 
 public class PlatformCreators {
 
-    // 扩充非法字符集，避免控制符和特殊符号
     private static final Set<Character> ILLEGAL_CHARS;
 
     static {
         ILLEGAL_CHARS = new HashSet<>();
-        // 基本符号
-        for (char c : new char[] { '.', '(', ')', ',', '/', '\\', '"', '\'', '`', ';', ':', '|', '&', '^', '%', '$', '#', '@', '!', '~', '[', ']', '{', '}', '<', '>', '?', '=', '+', '*' }) {
+
+        // 1. 原先的基本符号
+        for (char c : new char[] {
+                '.', '(', ')', ',', '/', '\\', '"', '\'', '`', ';', ':', '|', '&', '^',
+                '%', '$', '#', '@', '!', '~', '[', ']', '{', '}', '<', '>', '?', '=', '+', '*'
+        }) {
             ILLEGAL_CHARS.add(c);
         }
-        // 控制字符 (0x00-0x1F, 0x7F)
-        for (char c = 0; c < 32; c++) {
-            ILLEGAL_CHARS.add(c);
+
+        // 2. 添加所有 ISO 控制字符（包括 C0 和 C1）
+        for (int i = 0; i <= Character.MAX_VALUE; i++) {
+            char c = (char) i;
+            if (Character.isISOControl(c)) {
+                ILLEGAL_CHARS.add(c);
+            }
         }
-        ILLEGAL_CHARS.add((char) 0x7F);
+
+        for (int i = 0; i <= Character.MAX_VALUE; i++) {
+            char c = (char) i;
+            if (Character.isISOControl(c) ||
+                    (c >= 0x2028 && c <= 0x2029) ||
+                    (c >= 0x200B && c <= 0x200F)) {
+                ILLEGAL_CHARS.add(c);
+            }
+        }
     }
 
     private static volatile boolean isExporting = false;
 
-    // ✅ 补充 BLOCK_MAP 特殊方块处理
+    // 补充 BLOCK_MAP 特殊方块处理
     private static final Map<Block, BiConsumer<StringBuilder, Character>> BLOCK_MAP;
 
     static {
@@ -147,13 +162,24 @@ public class PlatformCreators {
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
-        // 第一次遍历：收集旋转后的映射
+        // 在第一次循环前初始化统计 Map
+        Map<Block, Integer> blockCountByBlock = new HashMap<>();
+        int totalNonAir = 0;
+
+        // 第一次遍历：收集旋转后的映射 & 统计方块数量
         for (int y = minY; y <= maxY; y++) {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
                     mutablePos.set(x, y, z);
                     BlockState originalState = level.getBlockState(mutablePos);
                     BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
+
+                    // ✅ 以 Block 为键统计数量
+                    Block block = transformedState.getBlock();
+                    if (!transformedState.isAir()) {
+                        blockCountByBlock.merge(block, 1, Integer::sum);
+                        totalNonAir++;
+                    }
 
                     if (!stateToChar.containsKey(transformedState)) {
                         stateToChar.put(transformedState, nextChar);
@@ -218,17 +244,7 @@ public class PlatformCreators {
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
         saveMappingToJson(charToState, mappingFile);
 
-        // ✅ 统计所有非空气方块数量 & .extraMaterials
-        Map<ResourceLocation, Integer> blockCount = new HashMap<>();
-        int totalNonAir = 0;
-        for (BlockState state : charToState.values()) {
-            if (state.isAir()) continue;
-            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
-            blockCount.put(id, blockCount.getOrDefault(id, 0) + 1);
-            totalNonAir++;
-        }
-
-        // ✅ 去重 Character，尽量使用靠前的字符
+        // 去重 Character，尽量使用靠前的字符
         List<BlockState> uniqueStates = new ArrayList<>(new LinkedHashSet<>(charToState.values()));
         Map<BlockState, Character> compactStateToChar = new LinkedHashMap<>();
         char c = 'A';
@@ -302,12 +318,11 @@ public class PlatformCreators {
 
                 Block block = state.getBlock();
 
-                // ✅ 修复 BLOCK_MAP 调用
                 if (BLOCK_MAP.containsKey(block)) {
                     patternWriter.write(".where('" + ch + "', ");
                     StringBuilder sb = new StringBuilder();
-                    BLOCK_MAP.get(block).accept(sb, ch); // 写入 StringBuilder
-                    patternWriter.write(sb.toString());  // 再写入文件
+                    BLOCK_MAP.get(block).accept(sb, ch);
+                    patternWriter.write(sb.toString());
                     patternWriter.newLine();
                     continue;
                 }
@@ -316,13 +331,11 @@ public class PlatformCreators {
                     patternWriter.write(".where('" + ch + "', blocks(" + convertBlockToString(chamberBlock, chamberId, chamberParts, false) + ")");
                     if (laserMode) {
                         patternWriter.write(".or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))");
-                        patternWriter.newLine();
-                        patternWriter.write(".or(abilities(MAINTENANCE).setExactLimit(1)))");
                     } else {
                         patternWriter.write(".or(autoAbilities(definition.getRecipeTypes()))");
-                        patternWriter.newLine();
-                        patternWriter.write(".or(abilities(MAINTENANCE).setExactLimit(1)))");
                     }
+                    patternWriter.newLine();
+                    patternWriter.write(".or(abilities(MAINTENANCE).setExactLimit(1)))");
                     patternWriter.newLine();
                     continue;
                 }
@@ -346,19 +359,18 @@ public class PlatformCreators {
             patternWriter.newLine();
             patternWriter.newLine();
 
-            // ✅ 输出 .extraMaterials
-            blockCount.entrySet().stream()
-                    .sorted(Map.Entry.comparingByKey())
+            blockCountByBlock.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey(Comparator.comparing(BuiltInRegistries.BLOCK::getKey)))
                     .forEach(e -> {
                         try {
-                            patternWriter.write(".extraMaterials(\"" + e.getKey() + "\", " + e.getValue() + ")");
+                            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(e.getKey());
+                            patternWriter.write(".extraMaterials(\"" + id + "\", " + e.getValue() + ")");
                             patternWriter.newLine();
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
                     });
 
-            // ✅ 输出非空气方块总数
             patternWriter.write("// Total non-air blocks: " + totalNonAir);
             patternWriter.newLine();
 

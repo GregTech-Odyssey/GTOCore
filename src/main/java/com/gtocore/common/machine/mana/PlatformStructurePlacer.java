@@ -416,6 +416,7 @@ public final class PlatformStructurePlacer {
                 throw new FileNotFoundException("Structure file not found: " + structure.resource());
             }
 
+            // 由于未知问题，这里交换了xz顺序，使其可以正常运行
             BlockIterator iterator = new BlockIterator(input, startPos, loadMappingFromJson(structure.blockMapping()), resourcePath, xMirror, zMirror, rotation);
             if (level instanceof ServerLevel serverLevel) new PlatformStructurePlacer(serverLevel, iterator, perTick, breakBlocks, skipAir, updateLight, onBatch, onFinished);
             else throw new IllegalArgumentException("Structure placement can only be done on ServerLevel");
