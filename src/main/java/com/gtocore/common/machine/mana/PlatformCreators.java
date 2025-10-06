@@ -37,24 +37,21 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 public class PlatformCreators {
 
+    // 非法字符集合
     private static final Set<Character> ILLEGAL_CHARS;
 
     static {
         ILLEGAL_CHARS = new HashSet<>();
 
-        // 1. 原先的基本符号
         for (char c : new char[] {
-                '.', '(', ')', ',', '/', '\\', '"', '\'', '`', ';', ':', '|', '&', '^',
-                '%', '$', '#', '@', '!', '~', '[', ']', '{', '}', '<', '>', '?', '=', '+', '*'
+                '.', '(', ')', ',', '/', '\\', '"', '\'', '`'
         }) {
             ILLEGAL_CHARS.add(c);
         }
 
-        // 2. 添加所有 ISO 控制字符（包括 C0 和 C1）
         for (int i = 0; i <= Character.MAX_VALUE; i++) {
             char c = (char) i;
             if (Character.isISOControl(c)) {
@@ -62,19 +59,19 @@ public class PlatformCreators {
             }
         }
 
-        for (int i = 0; i <= Character.MAX_VALUE; i++) {
-            char c = (char) i;
-            if (Character.isISOControl(c) ||
-                    (c >= 0x2028 && c <= 0x2029) ||
-                    (c >= 0x200B && c <= 0x200F)) {
-                ILLEGAL_CHARS.add(c);
-            }
+        for (char c : new char[] {
+                '\u200B', '\u200C', '\u200D', '\u200E', '\u200F', '\u2028', '\u2029', '\u2060',
+                '\u2061', '\u2062', '\u2063', '\u2064', '\uFFF9', '\uFFFA', '\uFFFB', '\uFEFF',
+                '\u00A0', '\u2002', '\u2003', '\u2009', '\u200A', '\u00AD', '\u1680', '\u180E',
+                '\u3000', '\u202F', '\u205F'
+        }) {
+            ILLEGAL_CHARS.add(c);
         }
     }
 
     private static volatile boolean isExporting = false;
 
-    // 补充 BLOCK_MAP 特殊方块处理
+    // BLOCK_MAP 特殊方块处理
     private static final Map<Block, BiConsumer<StringBuilder, Character>> BLOCK_MAP;
 
     static {
@@ -95,11 +92,8 @@ public class PlatformCreators {
     public static void exportStructureAsync(Level level, BlockPos pos1, BlockPos pos2,
                                             boolean xMirror, boolean zMirror, int rotation,
                                             Block chamberBlock, boolean laserMode) {
-        if (isExporting) {
-            return;
-        }
+        if (isExporting) return;
         isExporting = true;
-
         CompletableFuture.runAsync(() -> {
             try {
                 exportStructure(level, pos1, pos2, xMirror, zMirror, rotation, chamberBlock, laserMode);
@@ -128,7 +122,7 @@ public class PlatformCreators {
         try {
             Files.createDirectories(outputDir);
         } catch (IOException e) {
-            GTOCore.LOGGER.error("Exporting structure and mapping files failed");
+            GTOCore.LOGGER.error("Failed to create output directory", e);
             return;
         }
 
@@ -155,14 +149,14 @@ public class PlatformCreators {
             dz = temp;
         }
 
+        // 原始 BlockState -> Character 映射（不去重）
         Map<BlockState, Character> stateToChar = new LinkedHashMap<>();
         Character nextChar = getNextValidChar('A');
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
-        // 在第一次循环前初始化统计 Map
+        // 统计方块数量（按 Block）
         Map<Block, Integer> blockCountByBlock = new HashMap<>();
         int totalNonAir = 0;
 
@@ -174,7 +168,6 @@ public class PlatformCreators {
                     BlockState originalState = level.getBlockState(mutablePos);
                     BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
-                    // ✅ 以 Block 为键统计数量
                     Block block = transformedState.getBlock();
                     if (!transformedState.isAir()) {
                         blockCountByBlock.merge(block, 1, Integer::sum);
@@ -189,8 +182,8 @@ public class PlatformCreators {
             }
         }
 
-        // 第二次遍历：写入结构文件
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structureFile))) {
+        // 写 structureFile（保留状态）
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structureFile), StandardCharsets.UTF_8)) {
             writer.write(".size(" + dx + ", " + dy + ", " + dz + ")");
             writer.newLine();
 
@@ -199,7 +192,6 @@ public class PlatformCreators {
                 for (int outY = 0; outY < dy; outY++) {
                     StringBuilder xChars = new StringBuilder();
                     for (int outX = 0; outX < dx; outX++) {
-
                         int rx = outX, rz = outZ;
                         switch (rotation) {
                             case 90 -> {
@@ -217,7 +209,6 @@ public class PlatformCreators {
                                 rz = dx - 1 - t;
                             }
                         }
-
                         if (xMirror) rx = dx - 1 - rx;
                         if (zMirror) rz = dz - 1 - rz;
 
@@ -236,28 +227,29 @@ public class PlatformCreators {
                 writer.newLine();
             }
         } catch (IOException e) {
-            GTOCore.LOGGER.error("Failed to get structure", e);
+            GTOCore.LOGGER.error("Failed to write structure file", e);
         }
 
-        // 保存映射文件
+        // 写 mappingFile（保留状态）
         Map<Character, BlockState> charToState = new LinkedHashMap<>();
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
         saveMappingToJson(charToState, mappingFile);
 
-        // 去重 Character，尽量使用靠前的字符
-        List<BlockState> uniqueStates = new ArrayList<>(new LinkedHashSet<>(charToState.values()));
-        Map<BlockState, Character> compactStateToChar = new LinkedHashMap<>();
-        char c = 'A';
-        for (BlockState state : uniqueStates) {
-            c = getNextValidChar(c);
-            compactStateToChar.put(state, c);
-            c++;
+        // 构建 patternFile 专用的按 Block 去重映射
+        Map<Block, Character> blockToChar = new LinkedHashMap<>();
+        char currentChar = 'A';
+        blockToChar.put(Blocks.AIR, ' '); // 空气固定为空格
+
+        for (BlockState state : stateToChar.keySet()) {
+            Block block = state.getBlock();
+            if (!blockToChar.containsKey(block)) {
+                currentChar = getNextValidChar(currentChar);
+                blockToChar.put(block, currentChar);
+                currentChar = getNextValidChar((char) (currentChar + 1));
+            }
         }
 
-        Map<Character, BlockState> compactCharToState = compactStateToChar.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (a, b) -> a, LinkedHashMap::new));
-
-        // 生成 .block()/.where() 文件
+        // 生成 .block()/.where() 文件（按 Block 去重）
         try (BufferedWriter patternWriter = Files.newBufferedWriter(Paths.get(patternFile), StandardCharsets.UTF_8)) {
             String chamberId = BuiltInRegistries.BLOCK.getKey(chamberBlock).toString();
             String[] chamberParts = StringUtils.decompose(chamberId);
@@ -273,7 +265,6 @@ public class PlatformCreators {
                 for (int outY = 0; outY < dy; outY++) {
                     StringBuilder xChars = new StringBuilder();
                     for (int outX = 0; outX < dx; outX++) {
-
                         int rx = outX, rz = outZ;
                         switch (rotation) {
                             case 90 -> {
@@ -291,7 +282,6 @@ public class PlatformCreators {
                                 rz = dx - 1 - t;
                             }
                         }
-
                         if (xMirror) rx = dx - 1 - rx;
                         if (zMirror) rz = dz - 1 - rz;
 
@@ -302,7 +292,7 @@ public class PlatformCreators {
                         BlockState originalState = level.getBlockState(new BlockPos(worldX, worldY, worldZ));
                         BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
-                        xChars.append(compactStateToChar.getOrDefault(transformedState, ' '));
+                        xChars.append(blockToChar.getOrDefault(transformedState.getBlock(), ' '));
                     }
                     ySlices.add("\"" + xChars + "\"");
                 }
@@ -311,12 +301,10 @@ public class PlatformCreators {
             }
 
             // .where(...)
-            for (Map.Entry<Character, BlockState> entry : compactCharToState.entrySet()) {
-                Character ch = entry.getKey();
-                BlockState state = entry.getValue();
-                if (ch == ' ') continue;
-
-                Block block = state.getBlock();
+            for (Map.Entry<Block, Character> entry : blockToChar.entrySet()) {
+                Block block = entry.getKey();
+                Character ch = entry.getValue();
+                if (block == Blocks.AIR) continue;
 
                 if (BLOCK_MAP.containsKey(block)) {
                     patternWriter.write(".where('" + ch + "', ");
@@ -359,6 +347,7 @@ public class PlatformCreators {
             patternWriter.newLine();
             patternWriter.newLine();
 
+            // .extraMaterials
             blockCountByBlock.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey(Comparator.comparing(BuiltInRegistries.BLOCK::getKey)))
                     .forEach(e -> {
@@ -378,10 +367,10 @@ public class PlatformCreators {
             GTOCore.LOGGER.error("Failed to save .block()/.where() pattern file", e);
         }
 
-        GTOCore.LOGGER.info("The structure and mapping files have been exported to:");
-        GTOCore.LOGGER.info(" - Structure File: {}", structureFile);
-        GTOCore.LOGGER.info(" - Mapping File: {}", mappingFile);
-        GTOCore.LOGGER.info(" - Pattern File: {}", patternFile);
+        GTOCore.LOGGER.info("Exported files:");
+        GTOCore.LOGGER.info(" - Structure: {}", structureFile);
+        GTOCore.LOGGER.info(" - Mapping: {}", mappingFile);
+        GTOCore.LOGGER.info(" - Pattern: {}", patternFile);
     }
 
     // 工具方法：方块转代码字符串
@@ -470,14 +459,12 @@ public class PlatformCreators {
                     Type type = new TypeToken<Map<Character, BlockState>>() {}.getType();
                     return gson.fromJson(reader, type);
                 }
-            } else {
-                GTOCore.LOGGER.error("Unable to find resource: {}", resLoc);
-                return new HashMap<>();
             }
+            GTOCore.LOGGER.error("Resource not found: {}", resLoc);
         } catch (Exception e) {
-            GTOCore.LOGGER.error("Failed to load map from data pack", e);
-            return new HashMap<>();
+            GTOCore.LOGGER.error("Failed to load mapping from resource", e);
         }
+        return new HashMap<>();
     }
 
     /**
@@ -500,8 +487,7 @@ public class PlatformCreators {
         }
 
         @Override
-        public BlockState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-                                                                                                          throws JsonParseException {
+        public BlockState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject obj = json.getAsJsonObject();
             Block block = RegistriesUtils.getBlock(obj.get("id").getAsString());
 

@@ -1,0 +1,343 @@
+{
+  " ": {
+    "id": "minecraft:air",
+    "properties": {}
+  },
+  "A": {
+    "id": "gtocore:industrial_platform_deployment_tools",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "B": {
+    "id": "minecraft:grass_block",
+    "properties": {
+      "snowy": "false"
+    }
+  },
+  "C": {
+    "id": "minecraft:dirt_path",
+    "properties": {}
+  },
+  "D": {
+    "id": "minecraft:dirt",
+    "properties": {}
+  },
+  "E": {
+    "id": "minecraft:cobblestone",
+    "properties": {}
+  },
+  "F": {
+    "id": "minecraft:mossy_cobblestone",
+    "properties": {}
+  },
+  "G": {
+    "id": "gtocore:industrial_platform_deployment_tools",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "H": {
+    "id": "minecraft:oak_log",
+    "properties": {
+      "axis": "y"
+    }
+  },
+  "I": {
+    "id": "minecraft:white_bed",
+    "properties": {
+      "facing": "north",
+      "occupied": "false",
+      "part": "head"
+    }
+  },
+  "J": {
+    "id": "minecraft:white_bed",
+    "properties": {
+      "facing": "north",
+      "occupied": "false",
+      "part": "foot"
+    }
+  },
+  "K": {
+    "id": "minecraft:cobblestone_stairs",
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight",
+      "waterlogged": "false"
+    }
+  },
+  "L": {
+    "id": "minecraft:oak_door",
+    "properties": {
+      "facing": "west",
+      "half": "lower",
+      "hinge": "left",
+      "open": "true",
+      "powered": "false"
+    }
+  },
+  "M": {
+    "id": "minecraft:white_bed",
+    "properties": {
+      "facing": "west",
+      "occupied": "false",
+      "part": "head"
+    }
+  },
+  "N": {
+    "id": "minecraft:white_bed",
+    "properties": {
+      "facing": "west",
+      "occupied": "false",
+      "part": "foot"
+    }
+  },
+  "O": {
+    "id": "minecraft:cobblestone_stairs",
+    "properties": {
+      "facing": "east",
+      "half": "bottom",
+      "shape": "straight",
+      "waterlogged": "false"
+    }
+  },
+  "P": {
+    "id": "minecraft:farmland",
+    "properties": {
+      "moisture": "7"
+    }
+  },
+  "Q": {
+    "id": "minecraft:water",
+    "properties": {
+      "level": "0"
+    }
+  },
+  "R": {
+    "id": "minecraft:glass_pane",
+    "properties": {
+      "east": "true",
+      "north": "false",
+      "south": "false",
+      "waterlogged": "false",
+      "west": "true"
+    }
+  },
+  "S": {
+    "id": "minecraft:glass_pane",
+    "properties": {
+      "east": "false",
+      "north": "true",
+      "south": "true",
+      "waterlogged": "false",
+      "west": "false"
+    }
+  },
+  "T": {
+    "id": "minecraft:oak_door",
+    "properties": {
+      "facing": "west",
+      "half": "upper",
+      "hinge": "left",
+      "open": "true",
+      "powered": "false"
+    }
+  },
+  "U": {
+    "id": "minecraft:oak_door",
+    "properties": {
+      "facing": "east",
+      "half": "lower",
+      "hinge": "left",
+      "open": "false",
+      "powered": "false"
+    }
+  },
+  "V": {
+    "id": "minecraft:oak_door",
+    "properties": {
+      "facing": "east",
+      "half": "lower",
+      "hinge": "right",
+      "open": "false",
+      "powered": "false"
+    }
+  },
+  "W": {
+    "id": "minecraft:composter",
+    "properties": {
+      "level": "0"
+    }
+  },
+  "X": {
+    "id": "farmersdelight:onions",
+    "properties": {
+      "age": "7"
+    }
+  },
+  "Y": {
+    "id": "minecraft:potatoes",
+    "properties": {
+      "age": "7"
+    }
+  },
+  "Z": {
+    "id": "minecraft:wheat",
+    "properties": {
+      "age": "7"
+    }
+  },
+  "[": {
+    "id": "minecraft:carrots",
+    "properties": {
+      "age": "7"
+    }
+  },
+  "]": {
+    "id": "minecraft:wheat",
+    "properties": {
+      "age": "4"
+    }
+  },
+  "^": {
+    "id": "farmersdelight:tomatoes",
+    "properties": {
+      "age": "3",
+      "ropelogged": "false"
+    }
+  },
+  "_": {
+    "id": "minecraft:beetroots",
+    "properties": {
+      "age": "3"
+    }
+  },
+  "`": {
+    "id": "minecraft:wheat",
+    "properties": {
+      "age": "6"
+    }
+  },
+  "a": {
+    "id": "minecraft:wall_torch",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "b": {
+    "id": "minecraft:wall_torch",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "c": {
+    "id": "minecraft:wall_torch",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "d": {
+    "id": "minecraft:oak_door",
+    "properties": {
+      "facing": "east",
+      "half": "upper",
+      "hinge": "left",
+      "open": "false",
+      "powered": "false"
+    }
+  },
+  "e": {
+    "id": "minecraft:oak_door",
+    "properties": {
+      "facing": "east",
+      "half": "upper",
+      "hinge": "right",
+      "open": "false",
+      "powered": "false"
+    }
+  },
+  "f": {
+    "id": "minecraft:oak_log",
+    "properties": {
+      "axis": "x"
+    }
+  },
+  "g": {
+    "id": "minecraft:oak_planks",
+    "properties": {}
+  },
+  "h": {
+    "id": "minecraft:oak_log",
+    "properties": {
+      "axis": "z"
+    }
+  },
+  "i": {
+    "id": "minecraft:oak_stairs",
+    "properties": {
+      "facing": "south",
+      "half": "bottom",
+      "shape": "straight",
+      "waterlogged": "false"
+    }
+  },
+  "j": {
+    "id": "minecraft:oak_stairs",
+    "properties": {
+      "facing": "north",
+      "half": "top",
+      "shape": "straight",
+      "waterlogged": "false"
+    }
+  },
+  "k": {
+    "id": "minecraft:oak_stairs",
+    "properties": {
+      "facing": "south",
+      "half": "top",
+      "shape": "straight",
+      "waterlogged": "false"
+    }
+  },
+  "l": {
+    "id": "minecraft:oak_stairs",
+    "properties": {
+      "facing": "north",
+      "half": "bottom",
+      "shape": "straight",
+      "waterlogged": "false"
+    }
+  },
+  "m": {
+    "id": "minecraft:chest",
+    "properties": {
+      "facing": "south",
+      "type": "SINGLE",
+      "waterlogged": "false"
+    }
+  },
+  "n": {
+    "id": "minecraft:white_bed",
+    "properties": {
+      "facing": "south",
+      "occupied": "false",
+      "part": "foot"
+    }
+  },
+  "o": {
+    "id": "minecraft:white_bed",
+    "properties": {
+      "facing": "south",
+      "occupied": "false",
+      "part": "head"
+    }
+  },
+  "p": {
+    "id": "minecraft:wall_torch",
+    "properties": {
+      "facing": "east"
+    }
+  }
+}
