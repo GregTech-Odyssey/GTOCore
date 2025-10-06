@@ -18,11 +18,12 @@ public final class PlatformTemplateStorage {
 
     private static final List<PlatformPreset> presets = new ArrayList<>();
 
-    private static final String platform = "";
+    private static final String platform = add("platform", "平台", "platform");
 
     static {
         PlatformBlockStructure roadZ = PlatformBlockStructure.structure("roadZ")
-                .displayName("半个房子")
+                .type(platform)
+                .displayName(add("half_a_house", "这是半个房子", "half_a_house"))
                 .description("这是半个房子")
                 .source("某村民")
                 .preview(true)
@@ -66,24 +67,24 @@ public final class PlatformTemplateStorage {
         PlatformBlockStructure xuanzhuan90 = PlatformBlockStructure.structure("xuanzhuan90")
                 .displayName("旋转90")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-005841-133-afd7fb70.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-005841-133-afd7fb70.json"))
+                .resource(GTOCore.id("platforms/20251006-151353-921"))
+                .symbolMap(GTOCore.id("platforms/20251006-151353-921.json"))
                 .materials(0, 256)
                 .build();
 
         PlatformBlockStructure xuanzhuan180 = PlatformBlockStructure.structure("xuanzhuan180")
                 .displayName("旋转180")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-005843-431-50c959d9.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-005843-431-50c959d9.json"))
+                .resource(GTOCore.id("platforms/20251006-151355-820"))
+                .symbolMap(GTOCore.id("platforms/20251006-151355-820.json"))
                 .materials(0, 256)
                 .build();
 
         PlatformBlockStructure xuanzhuan270 = PlatformBlockStructure.structure("xuanzhuan270")
                 .displayName("旋转270")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-005845-294-9093097c.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-005845-294-9093097c.json"))
+                .resource(GTOCore.id("platforms/20251006-151357-911"))
+                .symbolMap(GTOCore.id("platforms/20251006-151357-911.json"))
                 .materials(0, 256)
                 .build();
 

@@ -79,9 +79,8 @@ public class PlatformCreators {
         }
 
         String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
-        String uuid = UUID.randomUUID().toString().substring(0, 8);
-        String structureFile = outputDir.resolve(timestamp + "-" + uuid + ".txt").toString();
-        String mappingFile = outputDir.resolve(timestamp + "-" + uuid + ".json").toString();
+        String structureFile = outputDir.resolve(timestamp).toString();
+        String mappingFile = outputDir.resolve(timestamp + ".json").toString();
 
         int minX = Math.min(pos1.getX(), pos2.getX());
         int minY = Math.min(pos1.getY(), pos2.getY());

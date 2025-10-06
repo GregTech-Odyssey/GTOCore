@@ -20,6 +20,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -40,6 +41,8 @@ import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gtocore.client.forge.ForgeClientEvent.highlightRegion;
+import static com.gtocore.client.forge.ForgeClientEvent.stopHighlight;
 import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinates;
 import static com.gtocore.common.machine.mana.PlatformCreators.PlatformCreationAsync;
 
@@ -111,6 +114,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     // 保存的预设编号
     @Persisted
     private int saveId = 0;
+    // 是否显示预览
+    @Persisted
+    private boolean preview = false;
+    // 是否高亮
+    @Persisted
+    private boolean highlight = false;
 
     // ------------------- 第二步：选择偏移 -------------------
     // X方向区块偏移
@@ -282,6 +291,9 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         switch (step) {
             case Introduction -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsIntroduction().apply(textList);
             case PresetSelection -> {
+                PlatformBlockType.PlatformPreset group = getPlatformPreset(checkGroup);
+                PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(checkGroup, checkId);
+
                 textList.add(createPageNavigation(langWidth,
                         createPageNavigation(langWidth - 60, Component.literal("<" + (checkGroup + 1) + "/" + maxGroup + ">"), "group"),
                         "group_plas"));
@@ -297,7 +309,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                                 Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.selected", saveGroup + 1, saveId + 1) :
                                 Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
 
-                PlatformBlockType.PlatformPreset group = getPlatformPreset(checkGroup);
+                textList.add(createEqualColumns(langWidth,
+                        structure.preview() ? Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.preview")
+                                .append(ComponentPanelWidget.withButton(Component.literal("[§b🖼§r]"), "preview")) :
+                                Component.empty(),
+                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.highlight")
+                                .append(ComponentPanelWidget.withButton(Component.literal("[§b🔆§r]"), "highlight"))));
 
                 String displayName = group.displayName();
                 String description = group.description();
@@ -306,7 +323,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 if (description != null) textList.add(Component.translatable(description));
                 if (source != null) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.source", source));
 
-                PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(checkGroup, checkId);
                 String structDisplayName = structure.displayName();
                 String type = structure.type();
                 String structDescription = structure.description();
@@ -474,6 +490,11 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                         examineMaterial();
                         posChanged();
                     }
+                    case "preview" -> preview = !preview;
+                    case "highlight" -> {
+                        highlight = !highlight;
+                        highlightArea(highlight);
+                    }
                 }
             }
             case ConfirmConsumables -> {
@@ -512,11 +533,11 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                         posChanged();
                     }
 
-                    case "x_add_plas" ->{
+                    case "x_add_plas" -> {
                         offsetX += adjustX;
                         posChanged();
                     }
-                    case "x_minus_plas" ->{
+                    case "x_minus_plas" -> {
                         offsetX -= adjustX;
                         posChanged();
                     }
@@ -534,11 +555,11 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                     case "adjust_z_add" -> adjustZ = Math.max(0, adjustZ + 1);
                     case "adjust_z_minus" -> adjustZ = Math.max(0, adjustZ - 1);
 
-                    case "y_add_plas" ->{
+                    case "y_add_plas" -> {
                         offsetY += adjustY;
                         posChanged();
                     }
-                    case "y_minus_plas" ->{
+                    case "y_minus_plas" -> {
                         offsetY -= adjustY;
                         posChanged();
                     }
@@ -558,7 +579,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     }
 
     private IGuiTexture getIGuiTexture() {
-        if (step == PresetSelection) {
+        if (step == PresetSelection && preview) {
             PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(checkGroup, checkId);
             if (!structure.preview()) return IGuiTexture.EMPTY;
             String pngs = structure.name() + ".png";
@@ -702,6 +723,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     private void posChanged() {
         BlockPos pos = getPos();
+        highlightArea(false);
         PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
 
         int sizeX = structure.xSize();
@@ -790,6 +812,29 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             }
         }
         return true;
+    }
+
+    private void highlightArea(boolean light) {
+        ResourceKey<Level> dimension = getLevel().dimension();
+        if (canExport) {
+            BlockPos pos1 = null;
+            BlockPos pos2 = null;
+            for (int i = 0; i < inventory.getSize(); i++) {
+                ItemStack stack = inventory.getStackInSlot(i);
+                if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) {
+                    if (pos1 == null) pos1 = getStoredCoordinates(stack);
+                    else pos2 = getStoredCoordinates(stack);
+                }
+            }
+            if (light) {
+                highlightRegion(dimension, pos1, pos2, 0x660099CC, 1200);
+            } else stopHighlight(pos1, pos2);
+        }
+        if (presetConfirm) {
+            if (light) {
+                highlightRegion(dimension, pos1, pos2, 0x2277FF77, 600);
+            } else stopHighlight(pos1, pos2);
+        }
     }
 
     private void start() {

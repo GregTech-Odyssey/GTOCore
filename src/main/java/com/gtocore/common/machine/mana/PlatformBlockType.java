@@ -9,13 +9,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class PlatformBlockType {
 
@@ -148,12 +149,6 @@ public final class PlatformBlockType {
                 int xSize = sizes[0];
                 int ySize = sizes[1];
                 int zSize = sizes[2];
-
-                Map<Character, BlockState> mapping = PlatformCreators.loadMappingFromJson(symbolMap);
-                if (mapping == null || mapping.isEmpty()) {
-                    throw new IllegalStateException("Block mapping is empty or invalid: " + symbolMap);
-                }
-
                 return new PlatformBlockStructure(
                         name,
                         type,
@@ -258,6 +253,7 @@ public final class PlatformBlockType {
                 return new int[] { x, y, z };
             }
         } catch (Exception e) {
+            if (GTCEu.isDataGen()) return new int[] { 16, 16, 16 };
             throw new RuntimeException("The first line of the structure file is not valid .size(x, y, z) 格式", e);
         }
         throw new IllegalArgumentException("The first line of the structure file is not valid .size(x, y, z) 格式");
