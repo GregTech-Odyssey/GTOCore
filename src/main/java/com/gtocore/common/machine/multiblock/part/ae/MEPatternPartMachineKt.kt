@@ -42,6 +42,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
@@ -55,6 +56,8 @@ import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.*
 import com.gtolib.api.network.SyncManagedFieldHolder
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup
+import com.lowdragmc.lowdraglib.gui.util.ClickData
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
@@ -98,6 +101,12 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         @RegisterLanguage(cn = "仅在简单游戏难度下启用", en = "Enable only in Easy Game Mode")
         const val NOT_simple: String = "gtceu.ae.pattern_part_machine.not_simple"
+
+        @RegisterLanguage(cn = "不在旅行网络中显示", en = "Do not show in Travel Network")
+        const val NOT_SHOW_IN_TRAVEL: String = "gtceu.ae.pattern_part_machine.not_show_in_travel"
+
+        @RegisterLanguage(cn = "在旅行网络中显示", en = "Show in Travel Network")
+        const val SHOW_IN_TRAVEL: String = "gtceu.ae.pattern_part_machine.show_in_travel"
     }
 
     // ==================== 持久化属性 ====================
@@ -111,6 +120,9 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     @DescSynced
     @Persisted
     var customName: String = ""
+
+    @Persisted
+    var showInTravelNetwork: Boolean = defaultShowInTravel()
 
     // ==================== 运行时属性 ====================
     val detailsSlotMap: BiMap<IPatternDetails, T> = HashBiMap.create(maxPatternCount)
@@ -168,6 +180,8 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         updatePatterns()
     }
+
+    open fun defaultShowInTravel(): Boolean = true
 
     // ==================== 扩展钩子方法 ====================
     open fun appendHoverTooltips(index: Int): Component? = null
@@ -273,7 +287,32 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun setWorkingEnabled(ignored: Boolean) {}
     override fun isDistinct(): Boolean = true
     override fun setDistinct(isDistinct: Boolean) {}
-    override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {}
+    override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {
+        super.attachConfigurators(configuratorPanel)
+        val configuratorToggle = IFancyConfiguratorButton.Toggle(
+            GuiTextureGroup(
+                GuiTextures.BUTTON,
+                GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(true).copy()
+                    .getSubTexture(0.0, 0.0, 1.0, 0.5),
+            ),
+
+            GuiTextureGroup(
+                GuiTextures.BUTTON,
+                GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(true).copy()
+                    .getSubTexture(0.0, 0.5, 1.0, 0.5),
+            ),
+            { showInTravelNetwork },
+            { _: ClickData, b: Boolean ->
+                run {
+                    showInTravelNetwork = b
+                    ITravelHandlerHook.requireResync(level!!)
+                }
+            },
+        ).setTooltipsSupplier { b ->
+            listOf(SHOW_IN_TRAVEL.takeIf { b } ?: NOT_SHOW_IN_TRAVEL).map { Component.translatable(it) }
+        }
+        configuratorPanel.attachConfigurators(configuratorToggle)
+    }
 
     // ==================== UI 相关方法 ====================
     lateinit var freshWidgetGroup: FreshWidgetGroupAbstract

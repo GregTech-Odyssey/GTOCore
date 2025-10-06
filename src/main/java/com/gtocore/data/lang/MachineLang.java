@@ -155,9 +155,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.monitor.mana.pool.2", "池/s)", "Pools per Second)");
         addCNEN("gtocore.machine.monitor.mana.increase", "每秒魔力增长: ", "Mana Growth Per Second: ");
         addCNEN("gtocore.machine.monitor.mana.decrease", "每秒魔力消耗: ", "Mana Consumption Per Second: ");
-        addCNEN("gtocore.machine.monitor.cwu.capacity", "当前网络算力: %s/%s CWU", "Current Network Hashrate: %s/%s CWU");
-        addCNEN("gtocore.machine.monitor.cwu.used", "（已使用: %s CWU）", "(Used: %s CWU)");
-        addCNEN("gtocore.machine.monitor.cwu.no_container", "警告：算力信息缺失！", "Warning: Hashrate information is missing!");
+        addCNEN("gtocore.machine.monitor.cwu.capacity", "当前网络可请求算力/最大算力: %s/%s CWU", "Current Network (Requestable/Max) Hashrate: %s/%s CWU");
+        addCNEN("gtocore.machine.monitor.cwu.used", "（平均使用算力: %s CWU）", "(Average Used Hashrate: %s CWU)");
         addCNEN("gtocore.machine.monitor.eu.no_container", "警告：无限能源塔绑定信息缺失！", "Warning: Infinite Energy Tower binding information is missing!");
         addCNEN("gtocore.machine.monitor.eu.fullness", "能量塔能量存量: %s%%", "Energy Tower Energy Storage: %s%%");
         addCNEN("gtocore.machine.monitor.priority", "调整显示的优先级", "Adjust the display priority");
@@ -221,6 +220,11 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式：强行添加镶孔", "Working Mode: Forced addition of sockets");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式：强行镶嵌宝石", "Working Mode: Forced gem inlay");
         addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
+        addCNEN("gtocore.machine.spacestation.ready", "空间站准备： %s%%就绪", "Space Station Readiness: %s%% Ready");
+        addCNEN("gtocore.machine.spacestation.energy_consumption.total", "所有空间站舱室总能量消耗： %s EU/t", "Total Energy Consumption of All Space Station Modules: %s EU/t");
+        addCNEN("gtocore.machine.space_shield_hatch.info", "机器太空护盾：运转正常", "Machine Space Shield: Operating Normally");
+        addCNEN("gtocore.machine.space_shield_hatch.insufficient", "机器太空护盾：无激光供应", "Machine Space Shield: No Laser Supply");
+        addCNEN("gtocore.machine.space_shield_hatch.not_in_space", "机器太空护盾：不在太空中", "Machine Space Shield: Not in Space");
 
         addSingleMachineTooltips();
 

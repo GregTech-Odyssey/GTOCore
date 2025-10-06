@@ -90,6 +90,38 @@ public final class MaterialC {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
+        HighPressureHelium = material("high_pressure_helium", "高压氦气")
+                .gas()
+                .color(0xFEF3D2)
+                .iconSet(DULL)
+                .components(Helium, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureNeon = material("high_pressure_neon", "高压氖气")
+                .gas()
+                .color(0xFF6E40)
+                .iconSet(DULL)
+                .components(Neon, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureArgon = material("high_pressure_argon", "高压氩气")
+                .gas()
+                .color(0xB3D9BD)
+                .iconSet(DULL)
+                .components(Argon, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureKrypton = material("high_pressure_krypton", "高压氪气")
+                .gas()
+                .color(0x3ACA32)
+                .iconSet(DULL)
+                .components(Krypton, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
         AcidicBromineSolution = material("acidic_bromine_solution", "酸性溴溶液")
                 .liquid()
                 .color(0xc49b52)

@@ -2,10 +2,14 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.MultiBlockH;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import static com.gtocore.common.data.GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES;
 
@@ -118,6 +122,23 @@ final class RocketAssembler {
                 .outputItems("ad_astra_rocketed:tier_6_rocket")
                 .EUt(122880)
                 .duration(1200)
+                .save();
+        ROCKET_ASSEMBLER_RECIPES.builder("space_station")
+                .inputItems("ad_astra:steel_engine", 2)
+                .inputItems("ad_astra:steel_tank", 16)
+                .inputItems(CustomTags.EV_CIRCUITS, 8)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.AluminumAlloy2090, 16)
+                .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.Titanium, 8)
+                .inputItems(GTBlocks.FILTER_CASING.asStack(8))
+                .inputItems(GTItems.COVER_SCREEN.asStack(4))
+                .inputItems(GTMultiMachines.CLEANROOM.asStack())
+                .inputItems(TagPrefix.plate, GTOMaterials.AluminumAlloy5A06, 8)
+                .outputItems(MultiBlockH.SPACE_STATION.asStack())
+                .inputFluids(GTOMaterials.StainlessSteelGC4, 1000)
+                .inputFluids(GTOMaterials.StructuralSteel45, 1000)
+                .inputFluids(GTMaterials.Lubricant, 8000)
+                .EUt(480)
+                .duration(2000)
                 .save();
     }
 }

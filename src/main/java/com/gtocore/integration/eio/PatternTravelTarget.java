@@ -54,7 +54,7 @@ public class PatternTravelTarget extends AnchorTravelTarget {
         super(host.getHolder().getBlockPos(),
                 getPlayerCustomName(host),
                 getAdjacentMachineIcon(),
-                host.isVisibleInTerminal());
+                host.getShowInTravelNetwork());
         this.patternBufferHost = host;
         this.patternProviderLogicHost = null;
         this.isClient = !(host.getHolder().getLevel() instanceof ServerLevel);
@@ -128,7 +128,7 @@ public class PatternTravelTarget extends AnchorTravelTarget {
         if (isClient || (dimension != null && !Objects.requireNonNull(getServer().getLevel(dimension)).isLoaded(getPos()))) {
             return super.getVisibility();
         }
-        return patternBufferHost != null ? patternBufferHost.isVisibleInTerminal() :
+        return patternBufferHost != null ? patternBufferHost.getShowInTravelNetwork() :
                 patternProviderLogicHost.isVisibleInTerminal();
     }
 

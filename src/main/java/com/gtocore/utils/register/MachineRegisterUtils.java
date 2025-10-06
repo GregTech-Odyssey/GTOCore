@@ -168,6 +168,26 @@ public final class MachineRegisterUtils {
                 tiers);
     }
 
+    public static MachineDefinition[] registerRocketSimpleGenerator(String name, String cn, GTRecipeType recipeType, Int2IntFunction tankScalingFunction, int... tiers) {
+        return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
+                (holder, tier) -> new SimpleGeneratorMachine(holder, tier, 0.1F * tier, tankScalingFunction),
+                (tier, builder) -> builder
+                        .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
+                        .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
+                        .allRotation()
+                        .workableInSpace()
+                        .recipeType(recipeType)
+                        .recipeModifier(RecipeModifierFunction.SIMPLE_GENERATOR_MACHINEMODIFIER)
+                        .addOutputLimit(ItemRecipeCapability.CAP, 0)
+                        .addOutputLimit(FluidRecipeCapability.CAP, 0)
+                        .renderer(() -> new SimpleGeneratorMachineRenderer(tier, GTOCore.id("block/generators/" + name)))
+                        .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GTOUtils.getGeneratorEfficiency(recipeType, tier)).append("%"))
+                        .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", GTOUtils.getGeneratorAmperage(tier)))
+                        .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, recipeType, tankScalingFunction.apply(tier), false))
+                        .register(),
+                tiers);
+    }
+
     public static MachineDefinition[] registerSimpleMachines(String name, String cn, GTRecipeType recipeType,
                                                              Int2IntFunction tankScalingFunction) {
         return registerSimpleMachines(name, cn, recipeType, tankScalingFunction, GTMachineUtils.ELECTRIC_TIERS);

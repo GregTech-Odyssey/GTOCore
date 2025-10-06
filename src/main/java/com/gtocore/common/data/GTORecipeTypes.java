@@ -791,6 +791,12 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL);
 
+    public static final RecipeType FIBER_EXTRUSION_RECIPES = register("fiber_extrusion", "纤维挤出", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(3, 1, 3, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COMPRESSOR);
+
     public static final RecipeType DRAWING_RECIPES = register("drawing", "拉丝", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxTooltips(5)
@@ -1067,6 +1073,8 @@ public final class GTORecipeTypes {
     public static final RecipeType EXTREME_COMPRESSOR = registerCombined("extreme_compressor", "极限压缩", COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES).setMaxIOSize(1, 1, 1, 1).setEUIO(IO.IN).setSound(GTSoundEntries.COMPRESSOR);
 
     public static final RecipeType LIFE_FORGE = registerCombined("life_forge", "生命熔炉", BIOCHEMICAL_EXTRACTION_RECIPES, BIOCHEMICAL_REACTION_RECIPES).setMaxIOSize(1, 1, 1, 1).setEUIO(IO.IN).setSound(GTSoundEntries.ARC);
+
+    public static final RecipeType UNIVERSAL_CONDENSE = registerCombined("universal_condense", "通用冷凝", VACUUM_RECIPES, ATOMIZATION_CONDENSATION_RECIPES).setMaxIOSize(2, 2, 3, 3).setEUIO(IO.IN).setSound(GTSoundEntries.COOLING);
 
     private static RecipeType registerCombined(String name, String cn, RecipeType... types) {
         if (LANG != null) LANG.put(name, new CNEN(cn, FormattingUtil.toEnglishName(name)));

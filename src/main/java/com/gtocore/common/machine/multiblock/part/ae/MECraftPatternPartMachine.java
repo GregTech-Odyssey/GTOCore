@@ -48,6 +48,11 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
     }
 
     @Override
+    public boolean defaultShowInTravel() {
+        return false;
+    }
+
+    @Override
     public boolean canShared() {
         return false;
     }

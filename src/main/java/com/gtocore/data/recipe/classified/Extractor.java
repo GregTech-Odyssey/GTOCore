@@ -7,12 +7,15 @@ import com.gtocore.common.recipe.condition.GravityCondition;
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.GTOCleanroomType;
 import com.gtolib.utils.RLUtils;
+import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
@@ -131,6 +134,13 @@ final class Extractor {
                 .outputFluids(TheWaterFromTheWellOfWisdom.getFluid(250))
                 .EUt(8)
                 .duration(20)
+                .save();
+
+        EXTRACTOR_RECIPES.builder("overworld_marker")
+                .inputItems("ad_astra:earth_globe")
+                .outputItems(new ItemStack(RegistriesUtils.getItem("gtceu:overworld_marker")).setHoverName(Component.translatable("item.gtocore.globe.earth")))
+                .EUt(30)
+                .duration(15000)
                 .save();
     }
 }

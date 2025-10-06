@@ -12,8 +12,13 @@ import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.FastNeutronBreederReactor;
 import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
+import com.gtocore.common.machine.multiblock.electric.space.ISpacePredicateMachine;
 import com.gtocore.common.machine.multiblock.electric.space.MegaSpaceElevatorModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorModuleMachine;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Conjunction;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Core;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Extension;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.SimpleSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.steam.LargeSteamSolarBoilerMachine;
 
 import com.gtolib.GTOCore;
@@ -27,25 +32,33 @@ import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 
+import com.google.common.collect.ImmutableSet;
+
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gtocore.api.pattern.GTOPredicates.autoGCYMAbilities;
-import static com.gtocore.api.pattern.GTOPredicates.hermeticCasing;
+import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
+import static com.gtocore.api.pattern.GTOPredicates.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
@@ -931,14 +944,14 @@ public final class MultiBlockH {
             .register();
 
     // 雾化冷凝器
-    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getCasingTier(BlockMap.hermetic_casing) - 1)), false, BlockMap.hermetic_casing))
+    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> (4 * (m.getCasingTier(BlockMap.hermetic_casing))), false, BlockMap.hermetic_casing))
             .nonYAxisRotation()
             .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getAtomizingCondenserTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
             .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^(密封机械方块等级-1)", "4^(Hermetic Mechanical Casing tier-1)")))
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("(密封机械方块等级)×4", "(Hermetic Mechanical Casing tier)×4")))
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle(" AAA ", " EBE ", " BBB ", " BBB ", " BBB ", " BBB ", " AAA ")
                     .aisle("AA AA", "ABBBA", "ABDBA", "ABDBA", "ABDBA", "ABHBA", "AAHAA")
@@ -993,5 +1006,357 @@ public final class MultiBlockH {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/compressor_controller_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    public static final MultiblockMachineDefinition SPACE_STATION = multiblock("space_station", "空间站", SimpleSpaceStationMachine::new)
+            .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getSpaceStationTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .workableInSpace()
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("       ", "  A A  ", " AGGGA ", "  GMG  ", " AGGGA ", "  A A  ", "       ")
+                    .aisle("       ", " AAGAA ", " AGGGA ", " GGMGG ", " AGGGA ", " AAGAA ", "       ")
+                    .aisle("  FFF  ", " AGGGA ", " G   G ", " G M G ", " G   G ", " AGGGA ", "       ")
+                    .aisle("       ", "  GMG  ", "CG M GC", " e M e ", "CG   GC", " lGGGl ", "       ")
+                    .aisle("  FFF  ", "  GFG  ", " GLLLG ", " FLMLF ", " GLLLG ", " lGMGl ", "       ")
+                    .aisle("       ", "  GMG  ", "CGLLLGC", " eLLLe ", "CGLLLGC", " lGGGl ", "       ")
+                    .aisle("  FFF  ", "  GGG  ", " GLLLG ", " GLLLG ", " GLLLG ", "  GGG  ", "       ")
+                    .aisle("       ", "   J   ", "  HHH  ", " JH HJ ", "  HHH  ", "   J   ", "       ")
+                    .aisle("       ", "   J   ", "  HHH  ", " JH HJ ", "  HHH  ", "   J   ", "       ")
+                    .aisle("  AAA  ", " AAAAA ", "AIFFFIA", "AIFNFIA", "AIFFFIA", " AAAAA ", "  AAA  ")
+                    .aisle(" AADAA ", "AfFpFfA", "ApppppA", "ApppppA", "ApppppA", "AfFpFfA", " AADAA ")
+                    .aisle(" BBBBB ", "BFFpFFB", "BpppppB", "EpppppE", "BpppppB", "BFFpFFB", " BBBBB ")
+                    .aisle(" AAAAA ", "ApppppA", "ApppppA", "ApppppA", "ApppppA", "ApppppA", " AAAAA ")
+                    .aisle(" BBABB ", "BpppppB", "BpppppB", "ApppppA", "BpppppB", "BpppppB", " BBABB ")
+                    .aisle(" BBABB ", "BpppppB", "BpppppB", "ApppppA", "BpppppB", "BpppppB", " BBABB ")
+                    .aisle(" BBABB ", "BpppppB", "BpppppB", "ApppppA", "BpppppB", "BpppppB", " BBABB ")
+                    .aisle(" AAAAA ", "ApppppA", "ApppppA", "ApppppA", "ApppppA", "ApppppA", " AAAAA ")
+                    .aisle(" BBBBB ", "BFFpFFB", "BpppppB", "EpppppE", "BpppppB", "BFFpFFB", " BBBBB ")
+                    .aisle(" AADAA ", "AfFpFfA", "ApppppA", "ApppppA", "ApppppA", "AfFpFfA", " AADAA ")
+                    .aisle("  AAA  ", " AAAAA ", "AALpLAA", "AALpLAA", "AALpLAA", " AAAAA ", "  AAA  ")
+                    .aisle("   C   ", "  AJA  ", " AFpFA ", "CJCpCJC", " AFpFA ", "  AJA  ", "   C   ")
+                    .aisle("       ", "  HJH  ", " HFpFH ", " JCpCJ ", " HFpFH ", "  HJH  ", "       ")
+                    .aisle("       ", "  HJH  ", " HFpFH ", " JCpCJ ", " HFpFH ", "  HJH  ", "       ")
+                    .aisle("   C   ", "  AJA  ", " AFpFA ", "CJCpCJC", " AFpFA ", "  AJA  ", "   C   ")
+                    .aisle("  AAA  ", " AAAAA ", "AALpLAA", "AALpLAA", "AALpLAA", " AAAAA ", "  AAA  ")
+                    .aisle("  AAA  ", " AAAAA ", "ApppppA", "DpppppD", "AKpppKA", " AAAAA ", "  AAA  ")
+                    .aisle("  BBB  ", " BpppB ", "BpppppB", "EpppppE", "BKpppKB", " BpppB ", "  BBB  ")
+                    .aisle("  AAA  ", " ApppA ", "ApppppA", "ApppppA", "AKpppKA", " ipppi ", "  III  ")
+                    .aisle("  BAB  ", " BpppB ", "BpppppB", "ApppppA", "BKpppKB", " BpppB ", "  BIB  ")
+                    .aisle("  BAB  ", " BpppB ", "BpppppB", "ApppppA", "BKpppKB", " BpppB ", "  BIB  ")
+                    .aisle("  AAA  ", " ApppA ", "ApppppA", "ApppppA", "AKpppKA", " ipppi ", "  III  ")
+                    .aisle("  BBB  ", " BpppB ", "BpppppB", "EpppppE", "BKpppKB", " BpppB ", "  BBB  ")
+                    .aisle("  AAA  ", " AAAAA ", "ApppppA", "DpppppD", "AKpppKA", " IpppI ", "  IDI  ")
+                    .aisle("  AAA  ", " AAAAA ", "AAFpFAA", "AAFpFAA", "AAFFFAA", " AAAAA ", "  AAA  ")
+                    .aisle("       ", "  AAA  ", " AFpFA ", " AJpJA ", " AFlFA ", "  AAA  ", "       ")
+                    .aisle("       ", "  BBB  ", " BFpFB ", " BJpJB ", " BFlFB ", "  BBB  ", "       ")
+                    .aisle("       ", "  GGG  ", " GFpFG ", " GFpFG ", " GFFFG ", "  GGG  ", "       ")
+                    .aisle("  C C  ", "  GFG  ", "CG   GC", " e   e ", "CG   GC", " lGFGl ", "       ")
+                    .aisle("  C C  ", "  GFG  ", " G   G ", " f   f ", " G   G ", " lGFGl ", "  FFF  ")
+                    .aisle("  C C  ", "  GFG  ", "CG   GC", " e   e ", "CG   GC", " lF Fl ", "  F F  ")
+                    .aisle("       ", "  GGG  ", " GFFFG ", " GFFFG ", " GFFFG ", "  GFG  ", "  FFF  ")
+                    .aisle("       ", " AAGAA ", " AGGGA ", " GGGGG ", " AGGGA ", " AAGAA ", "       ")
+                    .aisle("       ", "  A A  ", " ACCCA ", "  C C  ", " ACCCA ", "  A A  ", "       ")
+                    .where('A', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
+                    .where('D', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(IMachineBlock[]::new)).or(abilities(IMPORT_FLUIDS, EXPORT_FLUIDS, INPUT_ENERGY)))
+                    .where('e', ISpacePredicateMachine.photovoltaicPlantSupplyingPredicate.get())
+                    .where('E', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('F', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
+                    .where('f', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()).or(light()))
+                    .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('H', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('I', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .or(autoAbilities(definition.getRecipeTypes())))
+                    .where('i', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .or(light()))
+                    .where('J', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('K', Predicates.cleanroomFilters())
+                    .where('L', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
+                    .where('l', light())
+                    .where('M', blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
+                    .where('N', controller(blocks(definition.get())))
+                    .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    // 纺丝机
+    public static final MultiblockMachineDefinition FIBER_EXTRUDER = multiblock("fiber_extruder", "纺丝机", CoilCustomParallelMultiblockMachine.createParallelCoil(m -> 1L << (long) (m.getTemperature() / 900.0D), true, false, false))
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .tooltips(GTOMachineStories.INSTANCE.getFiberExtruderTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.FIBER_EXTRUSION_RECIPES)
+            .block(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "ABBBA", "ABBBA", "AAAAA", "     ")
+                    .aisle("ACCCA", "DDDDD", "DDDDD", "ACCCA", "     ")
+                    .aisle("ACCCA", "A   A", "A   A", "ACCCA", "     ")
+                    .aisle("ACCCA", "E   E", "E   E", "E   E", "EEEEE")
+                    .aisle("ACCCA", "E   E", "DDDDD", "DDDDD", "EBBBE")
+                    .aisle("ACCCA", "E   E", "EBBBE", "EBBBE", "EEEEE")
+                    .aisle("ACCCA", "A   A", "ACCCA", "     ", "     ")
+                    .aisle("AFFFA", "FBBBF", "AFFFA", "     ", "     ")
+                    .aisle("AAGAA", "A   A", "AAAAA", "     ", "     ")
+                    .where('A', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
+                    .where('C', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
+                    .where('D', blocks(GTBlocks.CASING_TITANIUM_GEARBOX.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('F', heatingCoils())
+                    .where('G', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/stainless_steel_corrosion_resistant_casing"),
+                    GTCEu.id("block/multiblock/gcym/large_extruder"))
+            .register();
+
+    // 大型可扩展空间站核心舱
+    public static final MultiblockMachineDefinition LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE = multiblock("large_expandable_space_station_core_module", "工业空间站核心舱", Core::new)
+            .langValue("Large Space Station Core Module")
+            .allRotation()
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getLargeSpaceStationTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeSpaceStationTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getCoreSpaceStationModuleTooltips().getSupplier())
+            .tooltips()
+            .block(GTOBlocks.SPACE_STATION_CONTROL_CASING)
+            .workableInSpace()
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "        ]]]        ", "       ]]]]]       ", "       ]]]]]       ", "       ]]]]]       ", "        ]]]        ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "       ]]]]]       ", "      ]]aaa]]      ", "      ]aHHHa]      ", "      ]aHHHa]      ", "      ]aHHHa]      ", "      ]]aaa]]      ", "       ]]]]]       ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "       ]]]]]       ", "      ]  a  ]      ", "     ]       ]     ", "     ]       ]     ", "     ]a     a]     ", "     ]       ]     ", "     ]       ]     ", "      ]  a  ]      ", "       ]]]]]       ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "       YYYYY       ", "      Y  a  Y      ", "     Y       Y     ", "     Y       Y     ", "     Ya     aY     ", "     Y       Y     ", "     Y       Y     ", "      Y  a  Y      ", "       YYYYY       ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "       UUZUU       ", "       UVZVU       ", "       YYZYY       ", "      Y[[Z[[Y      ", "   UUY[  Z  [YUU   ", "   UVY[  Z  [YVU   ", "   ZZZZZZZZZZZZZ   ", "   UVY[  Z  [YVU   ", "   UUY[  Z  [YUU   ", "      Y[[Z[[Y      ", "       YYZYY       ", "       UVZVU       ", "       UUZUU       ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "        UVU        ", "       UUUUU       ", "    JJJU Z UJJJ    ", "    JKJYYYYYJKJ    ", "    JJY     YJJ    ", "   UUY       YUU   ", "  UU Y       Y UU  ", "  VUZY   Z   YZUV  ", "  UU Y       Y UU  ", "   UUY       YUU   ", "    JJY     YJJ    ", "    JKJYYYYYJKJ    ", "    JJJU Z UJJJ    ", "       UUUUU       ", "        UVU        ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "        UVU        ", "    JJJUUUUUJJJ    ", "   JWWJU Z UJWWJ   ", "   JWWJYYYYYJWWJ   ", "   JJJY     YJJJ   ", "   UUY       YUU   ", "  UU Y       Y UU  ", "  VUZY   Z   YZUV  ", "  UU Y       Y UU  ", "   UUY       YUU   ", "   JJJY     YJJJ   ", "   JWWJYYYYYJWWJ   ", "   JWWJU Z UJWWJ   ", "    JJJUUUUUJJJ    ", "        UVU        ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "    JKJUUZUUJKJ    ", "   JWWJU Z UJWWJ   ", "   KWWJYYZYYJWWK   ", "   JJJY[[Z[[YJJJ   ", "   UUY[  Z  [YUU   ", "   U Y[  Z  [Y U   ", "   ZZZZZZZZZZZZZ   ", "   U Y[  Z  [Y U   ", "   UUY[  Z  [YUU   ", "   JJJY[[Z[[YJJJ   ", "   KWWJYYZYYJWWK   ", "   JWWJU Z UJWWJ   ", "    JKJUUZUUJKJ    ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "        UVU        ", "    JJJUUUUUJJJ    ", "   JWWJXXXXXJWWJ   ", "   JWWJYYYYYJWWJ   ", "   JJJY     YJJJ   ", "   UXY       YXU   ", "  UUXY       YXUU  ", "  VUXY       YXUV  ", "  UUXY       YXUU  ", "   UXY       YXU   ", "   JJJY     YJJJ   ", "   JWWJYYYYYJWWJ   ", "   JWWJXXXXXJWWJ   ", "    JJJUUUUUJJJ    ", "        UVU        ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "        UVU        ", "    JKJUUUUUJKJ    ", "   JWWJX X XJWWJ   ", "   KWWJ Y Y JWWK   ", "   JJJ       JJJ   ", "   UX         XU   ", "  UU Y       Y UU  ", "  VUX         XUV  ", "  UU Y       Y UU  ", "   UX         XU   ", "   JJJ       JJJ   ", "   KWWJ Y Y JWWK   ", "   JWWJX X XJWWJ   ", "    JKJUUUUUJKJ    ", "        UVU        ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "    JJJUUUUUJJJ    ", "   JWWJX X XJWWJ   ", "   JWWJ Y Y JWWJ   ", "   JJJ       JJJ   ", "   UX         XU   ", "   U Y       Y U   ", "   UX         XU   ", "   U Y       Y U   ", "   UX         XU   ", "   JJJ       JJJ   ", "   JWWJ Y Y JWWJ   ", "   JWWJX X XJWWJ   ", "    JJJUUUUUJJJ    ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "        UVU        ", "    JKJUUUUUJKJ    ", "   JWWJX X XJWWJ   ", "   KWWJ Y Y JWWK   ", "   JJJ       JJJ   ", "   UX         XU   ", "  UU Y       Y UU  ", "  VUX         XUV  ", "  UU Y       Y UU  ", "   UX         XU   ", "   JJJ       JJJ   ", "   KWWJ Y Y JWWK   ", "   JWWJX X XJWWJ   ", "    JKJUUUUUJKJ    ", "        UVU        ", "                   ", "                   ")
+                    .aisle("                   ", "       E   E       ", "    EEEEUVUEEEE    ", "   EJJJUUUUUJJJE   ", "  EJWWJXXXXXJWWJE  ", "  EJWWJ Y Y JWWJE  ", "  EJJJ       JJJE  ", " EEUX         XUEE ", "  UUXY       YXUU  ", "  VUX         XUV  ", "  UUXY       YXUU  ", " EEUX         XUEE ", "  EJJJ       JJJE  ", "  EJWWJ Y Y JWWJE  ", "  EJWWJXXXXXJWWJE  ", "   EJJJUUUUUJJJE   ", "    EEEEUVUEEEE    ", "       E   E       ", "                   ")
+                    .aisle("       E   E       ", "     IIIIFIIII     ", "    IIIIIFIIIII    ", "   IIIICCFCCIIII   ", "  IIIICCCFCCCIIII  ", " IIIICCGGGGGCCIIII ", " IIICCGOOOOOGCCIII ", "EIICCGOOQQQOOGCCIIE", " IICCGOQQQQQOGCCII ", " FFFFGOQQQQQOGFFFF ", " IICCGOQQQQQOGCCII ", "EIICCGOOQQQOOGCCIIE", " IIICCGOOOOOGCCIII ", " IIIICCGGGGGCCIIII ", "  IIIICCCFCCCIIII  ", "   IIIICCFCCIIII   ", "    IIIIIFIIIII    ", "     IIIIFIIII     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FCCCCCCCCCF    ", "   FCpRRRSRRRpCF   ", "  FCppRRRRRRRppCF  ", " JCpppRRRRRRRpppCJ ", " JCpppppppppppppCJ ", "EJCpppHEpppEHpppCJE", " JCppHEpppppEHppCJ ", " FCEEEEpppppEEEECF ", " JC  HE     EH  CJ ", "EJC   HE   EH   CJE", " JC    HEEEH    CJ ", " JC   TTTETTT   CJ ", "  FCppTTTETTTppCF  ", "   FC TTTETTT CF   ", "    FCCCCCCCCCF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FGpppppppppGF   ", "  FGpppppppppppGF  ", "JJpppppppppppppppJJ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", "JJpppppppppppppppJJ", "  FGpppppppppppGF  ", "   FGpppppppppGF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FGpppppppppGF   ", "  FGpppppppppppGF  ", " JpppppppppppppppJ ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " JpppppppppppppppJ ", "  FGpppppppppppGF  ", "   FGpppppppppGF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FGpppppppppGF   ", "  FGpppppppppppGF  ", "JJpppppppppppppppJJ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", "JJpppppppppppppppJJ", "  FGpppppppppppGF  ", "   FGpppppppppGF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FHpppppppppHF   ", "  FHpppppppppppHF  ", " JpppppppppppppppJ ", " NpppppppppppppppN ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " NpppppppppppppppN ", " JpppppppppppppppJ ", "  FHpppppppppppHF  ", "   FHpppppppppHF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "    AAAAAAAAAAA    ", "   AFpppppppppFA   ", "  AFHpppppppppHFA  ", " AFHpppppppppppHFA ", " ApppppppppppppppA ", " ApppppppppppppppA ", "EApppppppppppppppAE", " ApppppppppppppppA ", " ApppppppppppppppA ", " ApppppppppppppppA ", "EApppppppppppppppAE", " ApppppppppppppppA ", " ApppppppppppppppA ", " AFHpppppppppppHFA ", "  AFHpppppppppHFA  ", "   AFpppppppppFA   ", "    AAAAAAAAAAA    ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FHpppppppppHF   ", "  FHpppppppppppHF  ", " JpppppppppppppppJ ", " NpppppppppppppppN ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " NpppppppppppppppN ", " JpppppppppppppppJ ", "  FHpppppppppppHF  ", "   FHpppppppppHF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FGpppppppppGF   ", "  FGpppppppppppGF  ", "JJpppppppppppppppJJ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", "JJpppppppppppppppJJ", "  FGpppppppppppGF  ", "   FGpppppppppGF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FGpppppppppGF   ", "  FGpppppppppppGF  ", " JpppppppppppppppJ ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " JpppppppppppppppJ ", "  FGpppppppppppGF  ", "   FGpppppppppGF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FpppppppppF    ", "   FGpppppppppGF   ", "  FGpppppppppppGF  ", "JJpppppppppppppppJJ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", " FpppppppppppppppF ", " JpppppppppppppppJ ", "EJpppppppppppppppJE", " JpppppppppppppppJ ", "JJpppppppppppppppJJ", "  FGpppppppppppGF  ", "   FGpppppppppGF   ", "    FpppppppppF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "     JJJJFJJJJ     ", "    FCCCCCCCCCF    ", "   FCCpppppppCCF   ", "  FCCpppppppppCCF  ", " JCCpppppppppppCCJ ", " JCpppppppppppppCJ ", "EJCpppppppppppppCJE", " JCpppppppppppppCJ ", " FCpppppppppppppCF ", " JCpppppppppppppCJ ", "EJCpppppppppppppCJE", " JCpppppppppppppCJ ", " JCCpppppppppppCCJ ", "  FCCpppppppppCCF  ", "   FCCpppppppCCF   ", "    FCCCCCCCCCF    ", "     JJJJFJJJJ     ", "       E   E       ")
+                    .aisle("       E   E       ", "       BLLLB       ", "   MMBNOOAOONBMM   ", "  MBBGpppppppGBBM  ", "  MBGpppppppppGBM  ", "  BGpppppppppppGB  ", "  NpppppppppppppN  ", "EBOpppppppppppppOBE", " LOpppppppppppppOL ", " LOpppppppppppppOL ", " LOpppppppppppppOL ", "EBOpppppppppppppOBE", "  NpppppppppppppN  ", "  BGpppppppppppGB  ", "  MBGpppppppppGBM  ", "  MBBGpppppppGBBM  ", "   MMBNOOAOONBMM   ", "       BLLLB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBHOAOHBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBHOAOHBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "   MMBNHOAOHNBMM   ", "  MBBGpppppppGBBM  ", "  MBGpppppppppGBM  ", "  BGpppppppppppGB  ", "  NpppppppppppppN  ", "EBOpppppppppppppOBE", " JHpppppppppppppHJ ", " JHpppppppppppppHJ ", " JHpppppppppppppHJ ", "EBOpppppppppppppOBE", "  NpppppppppppppB  ", "  BGpppppppppppGB  ", "  MBGpppppppppGBP  ", "  MBBGpppppppGBB   ", "   MMBNHOAOHNBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBHOAOHBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", "EBOpppppppppppppOBE", "  BpppppppppppppN  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBM  ", "   BBGpppppppGBBM  ", "    PBBHOAOHBBMM   ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBHOAOHBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBHOAOHBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "   MMBNHOAOHNBMM   ", "  MBBGpppppppGBBM  ", "  MBGpppppppppGBM  ", "  BGpppppppppppGB  ", "  NpppppppppppppN  ", "EBOpppppppppppppOBE", " JHpppppppppppppHJ ", " JHpppppppppppppHJ ", " JHpppppppppppppHJ ", "EBOpppppppppppppOBE", "  NpppppppppppppN  ", "  BGpppppppppppGB  ", "  MBGpppppppppGBM  ", "  MBBGpppppppGBBM  ", "   MMBNHOAOHNBMM   ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBHOAOHBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBHOAOHBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "    PBBOOAOOBBP    ", "   BBGpppppppGBB   ", "  PBGpppppppppGBP  ", "  BGpppppppppppGB  ", "  BpppppppppppppB  ", "EBOpppppppppppppOBE", " QQpppppppppppppQQ ", " JOpppppppppppppOJ ", " QQpppppppppppppQQ ", "EBOpppppppppppppOBE", "  BpppppppppppppB  ", "  BGpppppppppppGB  ", "  PBGpppppppppGBP  ", "   BBGpppppppGBB   ", "    PBBOOAOOBBP    ", "       BJJJB       ", "       E   E       ")
+                    .aisle("       E   E       ", "       BJJJB       ", "   MMBNOOAOONBMM   ", "  MBBGpppppppGBBM  ", "  MBGpppppppppGBM  ", "  BGpppppppppppGB  ", "  NpppppppppppppN  ", "EBOpppppppppppppOBE", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", " JOpppppppppppppOJ ", "EBOpppppppppppppOBE", "  NpppppppppppppN  ", "  BGpppppppppppGB  ", "  MBGpppppppppGBM  ", "  MBBGpppppppGBBM  ", "   MMBNOOAOONBMM   ", "       BJJJB       ", "       E   E       ")
+                    .aisle("                   ", "       ELLLE       ", "      ECCCCCE      ", "     ECpppppCE     ", "    ECpppppppCE    ", "   ECpppppppppCE   ", "  ECpppppppppppCE  ", " ECpppppppppppppCE ", " LCpppppppppppppCL ", " LCpppppppppppppCL ", " LCpppppppppppppCL ", " ECpppppppppppppCE ", "  ECpppppppppppCE  ", "   ECpppppppppCE   ", "    ECpppppppCE    ", "     ECpppppCE     ", "      ECCCCCE      ", "       ELLLE       ", "                   ")
+                    .aisle("                   ", "                   ", "       E   E       ", "       JJJJJ       ", "     JJpppppJJ     ", "    JJpppppppJJ    ", "    JpppppppppJ    ", "  EJpppppppppppJE  ", "   JpppppppppppJ   ", "   JpppppppppppJ   ", "   JpppppppppppJ   ", "  EJpppppppppppJE  ", "    JpppppppppJ    ", "    JJpppppppJJ    ", "     JJpppppJJ     ", "       JJJJJ       ", "       E   E       ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "       E   E       ", "       JJKJJ       ", "     JJFFFFFJJ     ", "    JJFpppppFJJ    ", "    JFFpppppFFJ    ", "  EJFpppppppppFJE  ", "   JFpppppppppFJ   ", "   KFpppppppppFK   ", "   JFpppppppppFJ   ", "  EJFpppppppppFJE  ", "    JFFpppppFFJ    ", "    JJFpppppFJJ    ", "     JJFFFFFJJ     ", "       JJKJJ       ", "       E   E       ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "       EEEEE       ", "       BBBBB       ", "      BpppppB      ", "     BGpppppGB     ", "   EBpppppppppBE   ", "   EBpppppppppBE   ", "   EBpppppppppBE   ", "   EBpppppppppBE   ", "   EBpppppppppBE   ", "     BGpppppGB     ", "      BpppppB      ", "       BBBBB       ", "       EEEEE       ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "         E         ", "       BBBBB       ", "      BpppppB      ", "     BGpppppGB     ", "    BpppppppppB    ", "    BpppppppppB    ", "   EBpppppppppBE   ", "    BpppppppppB    ", "    BpppppppppB    ", "     BGpppppGB     ", "      BpppppB      ", "       BBBBB       ", "         E         ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "         E         ", "      IIIIIII      ", "     IIpppppII     ", "    IIGpppppGII    ", "    IpppppppppI    ", "    IpppppppppI    ", "   EIpppppppppIE   ", "    IpppppppppI    ", "    IpppppppppI    ", "    IIGpppppGII    ", "     IIpppppII     ", "      IIIIIII      ", "         E         ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "         E         ", "       BBBBB       ", "      BpppppB      ", "     BGpppppGB     ", "    BpppppppppB    ", "    BpppppppppB    ", "   EBpppppppppBE   ", "    BpppppppppB    ", "    BpppppppppB    ", "     BGpppppGB     ", "      BpppppB      ", "       BBBBB       ", "         E         ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "         E         ", "       BBBBB       ", "      BGGHGGB      ", "     BGpppppGB     ", "    BGpppppppGB    ", "    BGpppppppGB    ", "   EBHpppppppHBE   ", "    BGpppppppGB    ", "    BGpppppppGB    ", "     BGpppppGB     ", "      BGGHGGB      ", "       BBBBB       ", "         E         ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "         E         ", "         E         ", "       CCCCC       ", "      CCFFFCC      ", "     CCFpppFCC     ", "     CFpppppFC     ", "   EECFpppppFCEE   ", "     CFpppppFC     ", "     CCFpppFCC     ", "      CCFFFCC      ", "       CCCCC       ", "         E         ", "         E         ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "        EEE        ", "       ECCCE       ", "      ECCCCCE      ", "     ECCpppCCE     ", "     ECCpppCCE     ", "     ECCpppCCE     ", "      ECCCCCE      ", "       ECCCE       ", "        EEE        ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "         E         ", "        BAB        ", "       BCcCB       ", "      BCpppCB      ", "     EAcpppcAE     ", "      BCpppCB      ", "       BCcCB       ", "        BAB        ", "         E         ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "         A         ", "        BAB        ", "       BCDCB       ", "      BCpppCB      ", "     AADpppDAA     ", "      BCpppCB      ", "       BCDCB       ", "        BAB        ", "         A         ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "         A         ", "                   ", "                   ", "                   ", "     A       A     ", "                   ", "                   ", "                   ", "         A         ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('c', CORE.traceabilityPredicate.get())
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('F', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('G', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
+                    .where('H', GTOPredicates.light())
+                    .where('I', blocks(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('K', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where('L', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.AluminumAlloy7050)))
+                    .where('N', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(IMachineBlock[]::new)))
+                    .where('O', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
+                    .where('P', blocks(GTOBlocks.INSULATION_TILE_MECHANICAL_BLOCK.get()))
+                    .where('Q', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('R', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get())
+                            .or(abilities(INPUT_ENERGY, IMPORT_FLUIDS, EXPORT_FLUIDS))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('S', controller(blocks(definition.get())))
+                    .where('T', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('U', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
+                    .where('V', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('W', blocks(GTOBlocks.HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING.get()))
+                    .where('X', blocks(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.get()))
+                    .where('Y', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
+                    .where('Z', blocks(GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING.get()))
+                    .where('[', GTOPredicates.integralFramework())
+                    .where('a', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.PlatinumRhodiumAlloy)))
+                    .where(']', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
+                    .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/space_station_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    // 大型可扩展空间站走廊舱
+    public static final MachineDefinition SPACE_STATION_EXTENSION_MODULE = multiblock("space_station_extension_module",
+            "工业空间站拓展舱", Extension::new)
+            .allRotation()
+            .workableInSpace()
+            .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTOBlocks.SPACE_STATION_CONTROL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("                                                               ", "                                                               ", "                                                               ", "                                                               ", "                                                               ", "                  LpLpppLpLpppLpLpppLpLpppLpLpppLpL            ", "                                                               ", "               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ", "                                                               ", "                                                               ", "                                                               ", "               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ", "                                                               ", "                  LpLpppLpLpppLpLpppLpLpppLpLpppLpL            ", "                                                               ", "                                                               ", "                                                               ", "                                                               ", "                                                               ")
+                    .aisle("                                                               ", "                                                               ", "                                                               ", "                                                               ", "                C     C     C     C     C     C     C          ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "               ECOLLLOCOLLLOCOLLLOCOLLLOCOLLLOCOLLLOCE         ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "              NLCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCLN        ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "                COLLLOCOLLLOCOLLLOCOLLLOCOLLLOCOLLLOCE         ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "                C     C     C     C     C     C     C          ", "                                                               ", "                                                               ", "                                                               ", "                                                               ")
+                    .aisle("                                                               ", "                                                               ", "                                                               ", "                C     C     C     C     C     C     C          ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "               EpppppppppppppppppppppppppppppppppppppE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "              FEpppppppppppppppppppppppppppppppppppppHF        ", "               EpppppppppppppppppppppppppppppppppppppE         ", "                GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "                C     C     C     C     C     C     C          ", "                                                               ", "                                                               ", "                                                               ")
+                    .aisle("                                                               ", "                                                               ", "                C     C     C     C     C     C     C          ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "      FFFFFFMLpppppppppppppppppppppppppppppppppppppppppLMFF    ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              FEpppppppppppppppppppppppppppppppppppppHF        ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "                GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "                C     C     C     C     C     C     C          ", "                                                               ", "                                                               ")
+                    .aisle("                                                               ", "                C     C     C     C     C     C     C          ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      FEEKEEGpppppppppppppppppppppppppppppppppppppppppppGEF    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "              FEpppppppppppppppppppppppppppppppppppppHF        ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "                GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "                C     C     C     C     C     C     C          ", "                                                               ")
+                    .aisle("                                                               ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "               EpppppppppppppppppppppppppppppppppppppE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "  CCFFAIJJJJpppppppppppppppppppppppppppppppppppppppppppppAAFFCC", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "              FEpppppppppppppppppppppppppppppppppppppHF        ", "               EpppppppppppppppppppppppppppppppppppppE         ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "                                                               ")
+                    .aisle("                                                               ", "               ECLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      AHHHHHGpppppppppppppppppppppppppppppppppppppppppppGIA    ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "   CCAGpppppppppppppppppppppppppppppppppppppppppppppppppppGACC ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "      AHHHHHGpppppppppppppppppppppppppppppppppppppppppppGIA    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              FEpppppppppppppppppppppppppppppppppppppHF        ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCE         ", "                                                               ")
+                    .aisle("               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "AAAAAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "ABDDAApppppppppppppppppppppppppppppppppppppppppppppppppppppAcD ", "AAAAAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ")
+                    .aisle("                                                               ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "   AAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "   AAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "                                                               ")
+                    .aisle("                                                               ", "              NLCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCLN        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "      FFFFFFMLpppppppppppppppppppppppppppppppppppppppppLMFF    ", "      FEEKEEGpppppppppppppppppppppppppppppppppppppppppppGEF    ", "  CCFFAIJJJJpppppppppppppppppppppppppppppppppppppppppppppAAFFCC", "   CCAGpppppppppppppppppppppppppppppppppppppppppppppppppppGACC ", "   DAApppppppppppppppppppppppppppppppppppppppppppppppppppppAcD ", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "   DAApppppppppppppppppppppppppppppppppppppppppppppppppppppAcD ", "   CCAGpppppppppppppppppppppppppppppppppppppppppppppppppppGACC ", "  CCFFAIJJJJpppppppppppppppppppppppppppppppppppppppppppppAAFFCC", "      FEEKEEGpppppppppppppppppppppppppppppppppppppppppppGEF    ", "      FFFFFFMLpppppppppppppppppppppppppppppppppppppppppLMFF    ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              NLCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCLN        ", "                                                               ")
+                    .aisle("                                                               ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "   AAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp", "   AAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "                                                               ")
+                    .aisle("               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "   AAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "   DAApppppppppppppppppppppppppppppppppppppppppppppppppppppAcD ", "   AAApppppppppppppppppppppppppppppppppppppppppppppppppppppAAA ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ")
+                    .aisle("                                                               ", "               ECLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      AHHHHHGpppppppppppppppppppppppppppppppppppppppppppGIA    ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "   CCAGpppppppppppppppppppppppppppppppppppppppppppppppppppGACC ", "   EEAGpppppppppppppppppppppppppppppppppppppppppppppppppppGAEE ", "     FApppppppppppppppppppppppppppppppppppppppppppppppppppAF   ", "      AHHHHHGpppppppppppppppppppppppppppppppppppppppppppGIA    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              FHpppppppppppppppppppppppppppppppppppppEF        ", "               ECLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "                                                               ")
+                    .aisle("                                                               ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "               EpppppppppppppppppppppppppppppppppppppE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "  CCFFAIJJJJpppppppppppppppppppppppppppppppppppppppppppppAAFFCC", "     FAHJJJJpppppppppppppppppppppppppppppppppppppppppppppAAF   ", "      AHJJJJpppppppppppppppppppppppppppppppppppppppppppppAA    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "              FHpppppppppppppppppppppppppppppppppppppEF        ", "               EpppppppppppppppppppppppppppppppppppppE         ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "                                                               ")
+                    .aisle("                                                               ", "                C     C     C     C     C     C     C          ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "      FEEKEEGpppppppppppppppppppppppppppppppppppppppppppGEF    ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "       EEKEEGpppppppppppppppppppppppppppppppppppppppppppGE     ", "         KppLLpppppppppppppppppppppppppppppppppppppppppLL      ", "            LLAApppppppppppppppppppppppppppppppppppppAALL      ", "              FHpppppppppppppppppppppppppppppppppppppEF        ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG          ", "                C     C     C     C     C     C     C          ", "                                                               ")
+                    .aisle("                                                               ", "                                                               ", "                C     C     C     C     C     C     C          ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "      FFFFFFMLpppppppppppppppppppppppppppppppppppppppppLMFF    ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "           FLLpppppppppppppppppppppppppppppppppppppppppLLF     ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              FHpppppppppppppppppppppppppppppppppppppEF        ", "               EHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHHIIIHHE         ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG          ", "                C     C     C     C     C     C     C          ", "                                                               ", "                                                               ")
+                    .aisle("                                                               ", "                                                               ", "                                                               ", "                C     C     C     C     C     C     C          ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGE         ", "               EpppppppppppppppppppppppppppppppppppppE         ", "              FHpppppppppppppppppppppppppppppppppppppHF        ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "              AApppppppppppppppppppppppppppppppppppppAA        ", "            FFAApppppppppppppppppppppppppppppppppppppAAFF      ", "              FHpppppppppppppppppppppppppppppppppppppEF        ", "               EpppppppppppppppppppppppppppppppppppppE         ", "               EGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG          ", "                C     C     C     C     C     C     C          ", "                                                               ", "                                                               ", "                                                               ")
+                    .aisle("                                                               ", "                                                               ", "                                                               ", "                                                               ", "                C     C     C     C     C     C     C          ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "               ECOLLLOCOLLLOCOLLLOCOLLLOCOLLLOCOLLLOCE         ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "              NLCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCGGGGGCLN        ", "              NLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLN        ", "              FLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLF        ", "               ECOLLLOCOLLLOCOLLLOCOLLLOCOLLLOCOLLLOC          ", "                CLLLLLCLLLLLCLLLLLCLLLLLCLLLLLCLLLLLC          ", "                C     C     C     C     C     C     C          ", "                                                               ", "                                                               ", "                                                               ", "                                                               ")
+                    .aisle("                                                               ", "                                                               ", "                                                               ", "                                                               ", "                                                               ", "                  LpLpppLpLpppLpLpppLpLpppLpLpppLpL            ", "                                                               ", "               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ", "                                                               ", "                                                               ", "                                                               ", "               FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF         ", "                                                               ", "                  LpLpppLpLpppLpLpppLpLpppLpLpppLpL            ", "                                                               ", "                                                               ", "                                                               ", "                                                               ", "                                                               ")
+                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('B', controller(blocks(definition.get())))
+                    .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('c', MODULE.traceabilityPredicate.get())
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('E', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('G', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('H', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
+                    .where('I', GTOPredicates.light())
+                    .where('J', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('K', blocks(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('L', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('M', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where('N', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where('O', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(IMachineBlock[]::new)))
+                    .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/space_station_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    // 工业空间站六向衔接舱
+    public static final MachineDefinition SPACE_STATION_DOCKING_MODULE = multiblock("space_station_docking_module", "工业空间站六向衔接舱", Conjunction::new)
+            .allRotation()
+            .workableInSpace()
+            .tooltips(GTOMachineTooltips.INSTANCE.getConjunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACDCA       ", "         ACpppCA      ", "         BDpppDB      ", "         ACpppCA      ", "          ACDCA       ", "           ABA        ", "                      ", "                      ", "                      ")
+                    .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACcCA       ", "         ACpppCA      ", "         BcpppcB      ", "         ACpppCA      ", "          ACcCA       ", "           ABA        ", "                      ", "                      ", "                      ")
+                    .aisle("                      ", "                      ", "                      ", "           EEE        ", "       EEEECCCEEEE    ", "      EEEECpppCEEEE   ", "      EEEECpppCEEEE   ", "      EEEECpppCEEEE   ", "       EEEECCCEEEE    ", "           EEE        ", "                      ", "                      ", "                      ")
+                    .aisle("           ABA        ", "           ABA        ", "           EEE        ", "       EEEECCCEEEE    ", "      EEEEEGGGEEEEE   ", "   AAECGGGGpppGGGGCEAA", "   BBECGHHGpppGHHGCEBB", "   AAECGGGGpppGGGGCEAA", "      EEEEEGGGEEEEE   ", "       EEEECCCEEEE    ", "           EEE        ", "           ABA        ", "           ABA        ")
+                    .aisle("          ACDCA       ", "          ACcCA       ", "       EEEECCCEEEE    ", "      EEEEEGGGEEEEE   ", "   AAEFFFFFFFFFFFFFEAA", "CCCCCCpppppppppppppCCC", "CIDDcCpppppppppppppCcD", "CCCCCCpppppppppppppCCC", "   AAEFFFFFFFFFFFFFEAA", "      EEEEEGGGEEEEE   ", "       EEEECCCEEEE    ", "          ACcCA       ", "          ACDCA       ")
+                    .aisle("         ACpppCA      ", "         ACpppCA      ", "      EEEECpppCEEEE   ", "   AAECGGGGpppGGGGCEAA", "   CCCpppppppppppppCCC", "pppppppppppppppppppppp", "pppppppppppppppppppppp", "pppppppppppppppppppppp", "   CCCpppppppppppppCCC", "   AAECGGGGpppGGGGCEAA", "      EEEECpppCEEEE   ", "         ACpppCA      ", "         ACpppCA      ")
+                    .aisle("         BDpppDB      ", "         BcpppcB      ", "      EEEECpppCEEEE   ", "   BBECGHHGpppGHHGCEBB", "   DcCpppppppppppppCcD", "pppppppppppppppppppppp", "pppppppppppppppppppppp", "pppppppppppppppppppppp", "   DcCpppppppppppppCcD", "   BBECGHHGpppGHHGCEBB", "      EEEECpppCEEEE   ", "         BcpppcB      ", "         BDpppDB      ")
+                    .aisle("         ACpppCA      ", "         ACpppCA      ", "      EEEECpppCEEEE   ", "   AAECGGGGpppGGGGCEAA", "   CCCpppppppppppppCCC", "pppppppppppppppppppppp", "pppppppppppppppppppppp", "pppppppppppppppppppppp", "   CCCpppppppppppppCCC", "   AAECGGGGpppGGGGCEAA", "      EEEECpppCEEEE   ", "         ACpppCA      ", "         ACpppCA      ")
+                    .aisle("          ACDCA       ", "          ACcCA       ", "       EEEECCCEEEE    ", "      EEEEEGGGEEEEE   ", "   AAEFFFFFFFFFFFFFEAA", "   CCCpppppppppppppCCC", "   DcCpppppppppppppCcD", "   CCCpppppppppppppCCC", "   AAEFFFFFFFFFFFFFEAA", "      EEEEEGGGEEEEE   ", "       EEEECCCEEEE    ", "          ACcCA       ", "          ACDCA       ")
+                    .aisle("           ABA        ", "           ABA        ", "           EEE        ", "       EEEECCCEEEE    ", "      EEEEEGGGEEEEE   ", "   AAECGGGGpppGGGGCEAA", "   BBECGHHGpppGHHGCEBB", "   AAECGGGGpppGGGGCEAA", "      EEEEEGGGEEEEE   ", "       EEEECCCEEEE    ", "           EEE        ", "           ABA        ", "           ABA        ")
+                    .aisle("                      ", "                      ", "                      ", "           EEE        ", "       EEEECCCEEEE    ", "      EEEECpppCEEEE   ", "      EEEECpppCEEEE   ", "      EEEECpppCEEEE   ", "       EEEECCCEEEE    ", "           EEE        ", "                      ", "                      ", "                      ")
+                    .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACcCA       ", "         ACpppCA      ", "         BcpppcB      ", "         ACpppCA      ", "          ACcCA       ", "           ABA        ", "                      ", "                      ", "                      ")
+                    .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACDCA       ", "         ACpppCA      ", "         BDpppDB      ", "         ACpppCA      ", "          ACDCA       ", "           ABA        ", "                      ", "                      ", "                      ")
+                    .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('c', CONJUNCTION.traceabilityPredicate.get())
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('F', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('G', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('H', GTOPredicates.light())
+                    .where('I', controller(blocks(definition.get())))
+                    .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+    // 工业空间站玻璃衔接舱
+    public static final MachineDefinition SPACE_STATION_TRANSPARENT_DOCKING_MODULE = multiblock("space_station_transparent_docking_module", "工业空间站玻璃衔接舱", (h) -> new Conjunction(h) {
+
+        @Override
+        public Set<BlockPos> getModulePositions() {
+            var pos = getPos();
+            var fFacing = getFrontFacing();
+            var uFacing = getUpwardsFacing();
+            var pos1 = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped()), 19);
+            ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
+            var newFFacing = RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped());
+            var newUFacing = RelativeDirection.UP.getRelative(newFFacing, uFacing, isFlipped());
+            builder.add(pos1.relative(RelativeDirection.UP.getRelative(newFFacing, newUFacing, isFlipped()), 2));
+            builder.add(pos1.relative(RelativeDirection.DOWN.getRelative(newFFacing, newUFacing, isFlipped()), 2));
+            builder.add(pos1.relative(RelativeDirection.LEFT.getRelative(newFFacing, newUFacing, isFlipped()), 2));
+            builder.add(pos1.relative(RelativeDirection.RIGHT.getRelative(newFFacing, newUFacing, isFlipped()), 2));
+            return builder.build();
+        }
+    })
+            .allRotation()
+            .workableInSpace()
+            .tooltips(GTOMachineTooltips.INSTANCE.getConjunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("                     ", "                     ", "           A         ", "         BAAAB       ", "         BCCCB       ", "         BCCCB       ", "         BCCCB       ", "         BAAAB       ", "           A         ", "                     ", "                     ")
+                    .aisle("                     ", "           A         ", "         BDDDB       ", "      DDDDEEEDDDD    ", "     DCCCCCCCCCCCD   ", "     DCCCCCCCCCCCD   ", "     DCCCCCCCCCCCD   ", "      DDDDEEEDDDD    ", "         BDDDB       ", "           A         ", "                     ")
+                    .aisle("           A         ", "         BDDDB       ", "      DDDDEEEDDDD    ", "     DFFFDFFFDFFFD   ", "  GGDEHHHHHHHHHHHEDGG", "  BBDEHHHHHHHHHHHEDBB", "  GGDEHHHHHHHHHHHEDGG", "     DFFFDFFFDFFFD   ", "      DDDDEEEDDDD    ", "         BDDDB       ", "           A         ")
+                    .aisle("         BAAAB       ", "      DDDDEEEDDDD    ", "     DFFFDFFFDFFFD   ", "  GGDIIIIIIIIIIIIIDGG", "  EEEHHHHHHHHHHHHHEEE", "KJJEEHHHHHHHHHHHHHEcJ", "  EEEHHHHHHHHHHHHHEEE", "  GGDIIIIIIIIIIIIIDGG", "     DFFFDFFFDFFFD   ", "      DDDDEEEDDDD    ", "         BAAAB       ")
+                    .aisle("         BCCCB       ", "     DCCCCCCCCCCCD   ", "  GGDEHHHHHHHHHHHEDGG", "  EEEHHHHHHHHHHHHHEEE", "  HHHHHHHHHHHHHHHHHHH", "  HHHHHHHHHHHHHHHHHHH", "  HHHHHHHHHHHHHHHHHHH", "  EEEHHHHHHHHHHHHHEEE", "  GGDEHHHHHHHHHHHEDGG", "     DCCCCCCCCCCCD   ", "         BCCCB       ")
+                    .aisle("         BCCCB       ", "     DCCCCCCCCCCCD   ", "  BBDEHHHHHHHHHHHEDBB", "  JEEHHHHHHHHHHHHHEcJ", "  HHHHHHHHHHHHHHHHHHH", "  HHHHHHHHHHHHHHHHHHH", "  HHHHHHHHHHHHHHHHHHH", "  JEEHHHHHHHHHHHHHEcJ", "  BBDEHHHHHHHHHHHEDBB", "     DCCCCCCCCCCCD   ", "         BCCCB       ")
+                    .aisle("         BCCCB       ", "     DCCCCCCCCCCCD   ", "  GGDEHHHHHHHHHHHEDGG", "  EEEHHHHHHHHHHHHHEEE", "  HHHHHHHHHHHHHHHHHHH", "  HHHHHHHHHHHHHHHHHHH", "  HHHHHHHHHHHHHHHHHHH", "  EEEHHHHHHHHHHHHHEEE", "  GGDEHHHHHHHHHHHEDGG", "     DCCCCCCCCCCCD   ", "         BCCCB       ")
+                    .aisle("         BAAAB       ", "      DDDDEEEDDDD    ", "     DFFFDFFFDFFFD   ", "  GGDIIIIIIIIIIIIIDGG", "  EEEHHHHHHHHHHHHHEEE", "  JEEHHHHHHHHHHHHHEcJ", "  EEEHHHHHHHHHHHHHEEE", "  GGDIIIIIIIIIIIIIDGG", "     DFFFDFFFDFFFD   ", "      DDDDEEEDDDD    ", "         BAAAB       ")
+                    .aisle("           A         ", "         BDDDB       ", "      DDDDEEEDDDD    ", "     DFFFDFFFDFFFD   ", "  GGDEHHHHHHHHHHHEDGG", "  BBDEHHHHHHHHHHHEDBB", "  GGDEHHHHHHHHHHHEDGG", "     DFFFDFFFDFFFD   ", "      DDDDEEEDDDD    ", "         BDDDB       ", "           A         ")
+                    .aisle("                     ", "           A         ", "         BDDDB       ", "      DDDDEEEDDDD    ", "     DCCCCCCCCCCCD   ", "     DCCCCCCCCCCCD   ", "     DCCCCCCCCCCCD   ", "      DDDDEEEDDDD    ", "         BDDDB       ", "           A         ", "                     ")
+                    .aisle("                     ", "                     ", "           A         ", "         BAAAB       ", "         BCCCB       ", "         BCCCB       ", "         BCCCB       ", "         BAAAB       ", "           A         ", "                     ", "                     ")
+                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where('c', CONJUNCTION.traceabilityPredicate.get())
+                    .where('D', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('F', GTOPredicates.light())
+                    .where('G', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('H', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('I', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('J', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('K', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }

@@ -115,30 +115,6 @@ final class ChemicalBath {
                 .duration(80)
                 .save();
 
-        CHEMICAL_BATH_RECIPES.recipeBuilder("vibrant_alloy_ingot")
-                .inputItems(TagPrefix.ingotHot, GTOMaterials.VibrantAlloy)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .outputItems(TagPrefix.ingot, GTOMaterials.VibrantAlloy)
-                .EUt(120)
-                .duration(280)
-                .save();
-
-        CHEMICAL_BATH_RECIPES.recipeBuilder("electronic_grade_silicon")
-                .inputItems(TagPrefix.ingotHot, GTOMaterials.ElectronicGradeSilicon)
-                .outputItems(TagPrefix.ingot, GTOMaterials.ElectronicGradeSilicon)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .EUt(120)
-                .duration(250)
-                .save();
-
-        CHEMICAL_BATH_RECIPES.recipeBuilder("terrasteel_silicon")
-                .inputItems(TagPrefix.ingotHot, GTOMaterials.Terrasteel)
-                .outputItems(TagPrefix.ingot, GTOMaterials.Terrasteel)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .EUt(120)
-                .duration(230)
-                .save();
-
         CHEMICAL_BATH_RECIPES.recipeBuilder("sculk_vein")
                 .inputItems(Blocks.VINE.asItem())
                 .inputFluids(GTMaterials.EchoShard.getFluid(10))

@@ -21,6 +21,10 @@ public final class GTOMaterials {
     public static Material LiquidNitrogen;
     public static Material HighPressureNitrogen;
     public static Material HighPressureSteam;
+    public static Material HighPressureHelium;
+    public static Material HighPressureNeon;
+    public static Material HighPressureArgon;
+    public static Material HighPressureKrypton;
     public static Material AcidicBromineSolution;
     public static Material ConcentratedBromineSolution;
     public static Material HydrogenIodide;
@@ -103,6 +107,26 @@ public final class GTOMaterials {
     public static Material UltraLightweightCompositeSteel;
     public static Material BerylliumAluminiumAlloy;
     public static Material MoonGoddessTitanium;
+    public static Material AluminumAlloy2090;
+    public static Material AluminumAlloy8090;
+    public static Material AluminumAlloy7050;
+    public static Material AluminumAlloy5A06;
+    public static Material StructuralSteel45;
+    public static Material StainlessSteel420;
+    public static Material StainlessSteelGC4;
+    public static Material TitaniumTi64;
+    public static Material StainlessSteel155Ph;
+    public static Material StainlessSteel316;
+    public static Material StructuralSteelQ690;
+    public static Material InconelX750;
+    public static Material TungstenAlloyYW3;
+    public static Material TungstenAlloyYG10;
+    public static Material Inconel617;
+    public static Material BerylliumAluminumZ;
+    public static Material TitaniumTB6;
+    public static Material Inconel718;
+    public static Material BerylliumAluminumF;
+    public static Material TitaniumTC11;
 
     public static Material TriniumCompound;
     public static Material FumingNitricAcid;
@@ -1120,6 +1144,7 @@ public final class GTOMaterials {
         MaterialA.init();
         MaterialB.init();
         MaterialC.init();
+        MaterialSpaceEra.init();
         MaterialIgnored.init();
 
         MATERIAL_VOLTAGE = Map.of(

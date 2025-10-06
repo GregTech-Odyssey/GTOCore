@@ -2,6 +2,7 @@ package com.gtocore.common.data.material;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
 import com.gtocore.api.data.material.GTOMaterialIconSet;
+import com.gtocore.common.data.GTOFluidStorageKey;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -21,6 +22,7 @@ import java.util.List;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.material.GTOMaterialFlags.CAN_BE_COOLED_DOWN_BY_BATHING;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 
@@ -339,6 +341,11 @@ public final class GTMaterialExtend {
         TantalumCarbide.addFlags(GTOMaterialFlags.GENERATE_MXene);
         TungstenCarbide.addFlags(GTOMaterialFlags.GENERATE_MXene);
         NiobiumNitride.addFlags(GTOMaterialFlags.GENERATE_MXene);
+        BlueSteel.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        BlackSteel.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        RedSteel.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        Silicon.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        Kanthal.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
         Titanium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Boron.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Boron.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
@@ -352,6 +359,23 @@ public final class GTMaterialExtend {
         Thorium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Xenon.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Neon.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
+        Helium.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Neon.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Argon.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Krypton.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Nitrogen.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Hydrogen.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Oxygen.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Steam.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+
+        Oxygen.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureOxygen.getFluid(), null);
+        Hydrogen.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureHydrogen.getFluid(), null);
+        Nitrogen.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureNitrogen.getFluid(), null);
+        Steam.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureSteam.getFluid(), null);
+        Helium.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureHelium.getFluid(), null);
+        Neon.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureNeon.getFluid(), null);
+        Argon.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureArgon.getFluid(), null);
+        Krypton.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureKrypton.getFluid(), null);
 
         Americium.setProperty(HAZARD, new HazardProperty(HazardProperty.HazardTrigger.ANY,
                 GTMedicalConditions.CARCINOGEN, 1, true));

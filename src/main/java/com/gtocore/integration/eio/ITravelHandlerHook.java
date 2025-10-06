@@ -2,6 +2,7 @@ package com.gtocore.integration.eio;
 
 import com.gtocore.api.travel.TravelMode;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt;
+import com.gtocore.config.GTOConfig;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -127,6 +128,7 @@ public interface ITravelHandlerHook {
         if (travelTarget.isPresent() && travelTarget.get() instanceof AnchorTravelTarget anchorTravelTarget) {
             TravelSavedData.getTravelData(level).removeTravelTargetAt(level, anchorTravelTarget.getPos());
         }
+        if (!GTOConfig.INSTANCE.staffOfTravellingPatternNodes) return;
         AnchorTravelTarget anchorTravelTarget = new PatternTravelTarget(host);
         TravelSavedData.getTravelData(level).addTravelTarget(level, anchorTravelTarget);
         requireResync(level);
@@ -137,6 +139,7 @@ public interface ITravelHandlerHook {
         if (travelTarget.isPresent() && travelTarget.get() instanceof AnchorTravelTarget anchorTravelTarget) {
             TravelSavedData.getTravelData(level).removeTravelTargetAt(level, anchorTravelTarget.getPos());
         }
+        if (!GTOConfig.INSTANCE.staffOfTravellingPatternNodes) return;
         AnchorTravelTarget anchorTravelTarget = new PatternTravelTarget(host);
         TravelSavedData.getTravelData(level).addTravelTarget(level, anchorTravelTarget);
         requireResync(level);

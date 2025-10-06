@@ -136,6 +136,7 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition SPACE_PROBE_SURFACE_RECEPTION = multiblock("space_probe_surface_reception", "宇宙探测器地面接收单元", SpaceProbeSurfaceReceptionMachine::new)
             .nonYAxisRotation()
+            .workableInSpace()
             .recipeTypes(GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getSpaceProbeSurfaceReceptionTooltips().getSupplier())
             .perfectOCTooltips()

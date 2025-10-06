@@ -190,6 +190,7 @@
     "gtm.machine.TieredEnergyMachineMixin",
     "gtm.machine.WorkableElectricMultiblockMachineMixin",
     "gtm.machine.WorkableMultiblockMachineMixin",
+    "gtm.machine.WorkableTieredMachineMixin",
     "gtm.map.OreVeinElementRendererMixin",
     "gtm.map.XaeroWaypointHandlerMixin",
     "gtm.recipe.ArcFurnaceLogicMixin",

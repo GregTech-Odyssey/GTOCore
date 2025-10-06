@@ -8,6 +8,7 @@ import com.gtocore.integration.emi.EmiPersist;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.misc.PlanetManagement;
+import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.mixin.BookContentResourceListenerLoaderAccessor;
 
 import net.minecraft.client.Minecraft;
@@ -84,6 +85,7 @@ public final class ServerMessage {
                     handler.gtocore$syncCraftingResults(data);
                 }
             }
+            case "playerData" -> ((IEnhancedPlayer) player).getPlayerData().syncFromBuf(data);
         }
     }
 }

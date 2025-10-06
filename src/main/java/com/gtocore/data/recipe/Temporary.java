@@ -3,7 +3,9 @@ package com.gtocore.data.recipe;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.MultiBlockH;
 
 import com.gtolib.api.GTOValues;
 
@@ -156,6 +158,15 @@ public final class Temporary {
                 .outputItems(GTOBlocks.ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_UHV.asItem())
                 .inputFluids(GTMaterials.NiobiumTitanium, 3456 * 4)
                 .EUt(960)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("space_shield_hatch")
+                .inputItems(CustomTags.UEV_CIRCUITS, 4)
+                .inputItems(MultiBlockH.LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE.asItem(), 4)
+                .inputItems(GTOBlocks.LAW_FILTER_CASING.asItem(), 4)
+                .inputItems(GTOItems.HIGH_FREQUENCY_LASER.asItem(), 2)
+                .outputItems(GTOMachines.SPACE_SHIELD_HATCH.asItem())
+                .EUt(16777216)
                 .duration(200)
                 .save();
     }

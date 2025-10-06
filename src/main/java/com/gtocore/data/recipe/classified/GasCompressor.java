@@ -23,6 +23,34 @@ final class GasCompressor {
                 .duration(400)
                 .save();
 
+        GAS_COMPRESSOR_RECIPES.builder("high_pressure_helium")
+                .inputFluids(GTMaterials.Helium, 1000)
+                .outputFluids(GTOMaterials.HighPressureHelium, 1000)
+                .EUt(222)
+                .duration(600)
+                .save();
+
+        GAS_COMPRESSOR_RECIPES.builder("high_pressure_neon")
+                .inputFluids(GTMaterials.Neon, 1000)
+                .outputFluids(GTOMaterials.HighPressureNeon, 1000)
+                .EUt(222)
+                .duration(600)
+                .save();
+
+        GAS_COMPRESSOR_RECIPES.builder("high_pressure_argon")
+                .inputFluids(GTMaterials.Argon, 1000)
+                .outputFluids(GTOMaterials.HighPressureArgon, 1000)
+                .EUt(222)
+                .duration(600)
+                .save();
+
+        GAS_COMPRESSOR_RECIPES.builder("high_pressure_krypton")
+                .inputFluids(GTMaterials.Krypton, 1000)
+                .outputFluids(GTOMaterials.HighPressureKrypton, 1000)
+                .EUt(222)
+                .duration(600)
+                .save();
+
         GAS_COMPRESSOR_RECIPES.builder("high_pressure_oxygen")
                 .inputFluids(GTMaterials.Oxygen, 1000)
                 .outputFluids(GTOMaterials.HighPressureOxygen, 1000)

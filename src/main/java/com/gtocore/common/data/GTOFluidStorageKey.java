@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.fluids.FluidState;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKey;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import java.util.Map;
@@ -23,17 +22,19 @@ public class GTOFluidStorageKey {
     }
 
     // 储能阳极液
-    public static final FluidStorageKey ENERGY_STORAGE_ANODE = key(("energy_storage_anode"), "储能阳极液");
+    public static final FluidStorageKey ENERGY_STORAGE_ANODE = key(("energy_storage_anode"), "%s储能阳极液", "%s Energy Storage Anode");
     // 储能阴极液
-    public static final FluidStorageKey ENERGY_STORAGE_CATHODE = key(("energy_storage_cathode"), "储能阴极液");
+    public static final FluidStorageKey ENERGY_STORAGE_CATHODE = key(("energy_storage_cathode"), "%s储能阴极液", "%s Energy Storage Cathode");
     // 释能阳极液
-    public static final FluidStorageKey ENERGY_RELEASE_ANODE = key(("energy_release_anode"), "释能阳极液");
+    public static final FluidStorageKey ENERGY_RELEASE_ANODE = key(("energy_release_anode"), "%s释能阳极液", "%s Energy Release Anode");
     // 释能阴极液
-    public static final FluidStorageKey ENERGY_RELEASE_CATHODE = key(("energy_release_cathode"), "释能阴极液");
+    public static final FluidStorageKey ENERGY_RELEASE_CATHODE = key(("energy_release_cathode"), "%s释能阴极液", "%s Energy Release Cathode");
 
-    private static FluidStorageKey key(String id, String cn) {
+    public static final FluidStorageKey HIGH_PRESSURE_GAS = key(("high_pressure_gas"), "高压%s", "High Pressure %s");
+
+    private static FluidStorageKey key(String id, String cn, String en) {
         if (LANG != null) {
-            LANG.put(id, new CNEN("%s" + cn, "%s " + FormattingUtil.toEnglishName(id)));
+            LANG.put(id, new CNEN(cn, en));
         }
         return new FluidStorageKey(GTOCore.id(id),
                 MaterialIconType.liquid,

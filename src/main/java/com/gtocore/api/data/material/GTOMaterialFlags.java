@@ -64,4 +64,7 @@ public final class GTOMaterialFlags {
 
     public static final MaterialFlag GENERATE_MEMBRANE_ELECTRODE = new MaterialFlag.Builder("generate_membrane_electrode")
             .build();
+
+    public static final MaterialFlag CAN_BE_COOLED_DOWN_BY_BATHING = new MaterialFlag.Builder("can_be_cooled_down_by_bathing")
+            .build();
 }
