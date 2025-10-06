@@ -371,7 +371,7 @@ public final class PlatformStructurePlacer {
             };
             state = state.rotate(rotationEnum);
 
-            // 镜像处理（修复部分）
+            // 镜像处理
             if (xMirror && zMirror) {
                 state = state.mirror(Mirror.LEFT_RIGHT);
                 state = state.mirror(Mirror.FRONT_BACK);

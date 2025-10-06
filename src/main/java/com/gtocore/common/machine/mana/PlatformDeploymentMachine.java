@@ -297,7 +297,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                                 Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.selected", saveGroup + 1, saveId + 1) :
                                 Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
 
-                PlatformBlockType.PlatformPreset group = getPlatformPreset(saveGroup);
+                PlatformBlockType.PlatformPreset group = getPlatformPreset(checkGroup);
 
                 String displayName = group.displayName();
                 String description = group.description();
@@ -306,7 +306,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 if (description != null) textList.add(Component.translatable(description));
                 if (source != null) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.source", source));
 
-                PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+                PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(checkGroup, checkId);
                 String structDisplayName = structure.displayName();
                 String type = structure.type();
                 String structDescription = structure.description();
@@ -512,16 +512,16 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                         posChanged();
                     }
 
-                    case "x_add_plas" -> offsetX += adjustX;
-                    case "x_minus_plas" -> offsetX -= adjustX;
-                    case "adjust_x_add" -> {
-                        adjustX = Math.max(0, adjustX + 1);
+                    case "x_add_plas" ->{
+                        offsetX += adjustX;
                         posChanged();
                     }
-                    case "adjust_x_minus" -> {
-                        adjustX = Math.max(0, adjustX - 1);
+                    case "x_minus_plas" ->{
+                        offsetX -= adjustX;
                         posChanged();
                     }
+                    case "adjust_x_add" -> adjustX = Math.max(0, adjustX + 1);
+                    case "adjust_x_minus" -> adjustX = Math.max(0, adjustX - 1);
 
                     case "z_add_plas" -> {
                         offsetZ += adjustZ;
@@ -531,25 +531,19 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                         offsetZ -= adjustZ;
                         posChanged();
                     }
-                    case "adjust_z_add" -> {
-                        adjustZ = Math.max(0, adjustZ + 1);
-                        posChanged();
-                    }
-                    case "adjust_z_minus" -> {
-                        adjustZ = Math.max(0, adjustZ - 1);
-                        posChanged();
-                    }
+                    case "adjust_z_add" -> adjustZ = Math.max(0, adjustZ + 1);
+                    case "adjust_z_minus" -> adjustZ = Math.max(0, adjustZ - 1);
 
-                    case "y_add_plas" -> offsetY += adjustY;
-                    case "y_minus_plas" -> offsetY -= adjustY;
-                    case "adjust_y_add" -> {
-                        adjustY = Math.max(0, adjustY + 1);
+                    case "y_add_plas" ->{
+                        offsetY += adjustY;
                         posChanged();
                     }
-                    case "adjust_y_minus" -> {
-                        adjustY = Math.max(0, adjustY - 1);
+                    case "y_minus_plas" ->{
+                        offsetY -= adjustY;
                         posChanged();
                     }
+                    case "adjust_y_add" -> adjustY = Math.max(0, adjustY + 1);
+                    case "adjust_y_minus" -> adjustY = Math.max(0, adjustY - 1);
 
                     case "skipAir" -> skipAir = !skipAir;
                     case "updateLight" -> updateLight = !updateLight;
@@ -565,7 +559,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     private IGuiTexture getIGuiTexture() {
         if (step == PresetSelection) {
-            PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+            PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(checkGroup, checkId);
             if (!structure.preview()) return IGuiTexture.EMPTY;
             String pngs = structure.name() + ".png";
             ResourceLocation imageLocation = GTOCore.id("textures/gui/industrial_platform_deployment_tools/" + pngs);

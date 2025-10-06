@@ -42,48 +42,56 @@ public final class PlatformTemplateStorage {
         PlatformBlockStructure xzhou = PlatformBlockStructure.structure("xzhou")
                 .displayName("x轴")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-001335-122-e140bdfa.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-001335-122-e140bdfa.json"))
+                .resource(GTOCore.id("platforms/20251006-005833-199-df5062fd.txt"))
+                .symbolMap(GTOCore.id("platforms/20251006-005833-199-df5062fd.json"))
                 .materials(0, 256)
                 .build();
 
         PlatformBlockStructure zzhou = PlatformBlockStructure.structure("zzhou")
                 .displayName("z轴")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-001342-991-e325cd45.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-001342-991-e325cd45.json"))
+                .resource(GTOCore.id("platforms/20251006-005833-207-d5e3d1ba.txt"))
+                .symbolMap(GTOCore.id("platforms/20251006-005833-207-d5e3d1ba.json"))
                 .materials(0, 256)
                 .build();
 
         PlatformBlockStructure xzzhou = PlatformBlockStructure.structure("xzzhou")
                 .displayName("xz轴")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-001346-878-e6a59a21.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-001346-878-e6a59a21.json"))
+                .resource(GTOCore.id("platforms/20251006-005836-291-4770a081.txt"))
+                .symbolMap(GTOCore.id("platforms/20251006-005836-291-4770a081.json"))
                 .materials(0, 256)
                 .build();
 
         PlatformBlockStructure xuanzhuan90 = PlatformBlockStructure.structure("xuanzhuan90")
                 .displayName("旋转90")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-001356-529-a712915a.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-001356-529-a712915a.json"))
+                .resource(GTOCore.id("platforms/20251006-005841-133-afd7fb70.txt"))
+                .symbolMap(GTOCore.id("platforms/20251006-005841-133-afd7fb70.json"))
                 .materials(0, 256)
                 .build();
 
         PlatformBlockStructure xuanzhuan180 = PlatformBlockStructure.structure("xuanzhuan180")
                 .displayName("旋转180")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-001359-302-77b19911.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-001359-302-77b19911.json"))
+                .resource(GTOCore.id("platforms/20251006-005843-431-50c959d9.txt"))
+                .symbolMap(GTOCore.id("platforms/20251006-005843-431-50c959d9.json"))
                 .materials(0, 256)
                 .build();
 
         PlatformBlockStructure xuanzhuan270 = PlatformBlockStructure.structure("xuanzhuan270")
                 .displayName("旋转270")
                 .preview(true)
-                .resource(GTOCore.id("platforms/20251006-001359-302-77b19911.txt"))
-                .symbolMap(GTOCore.id("platforms/20251006-001359-302-77b19911.json"))
+                .resource(GTOCore.id("platforms/20251006-005845-294-9093097c.txt"))
+                .symbolMap(GTOCore.id("platforms/20251006-005845-294-9093097c.json"))
+                .materials(0, 256)
+                .build();
+
+        PlatformBlockStructure xuanzhuan270xzzhou = PlatformBlockStructure.structure("xuanzhuan270xzzhou")
+                .displayName("旋转270xz轴")
+                .preview(true)
+                .resource(GTOCore.id("platforms/20251006-005850-401-49f00fa3.txt"))
+                .symbolMap(GTOCore.id("platforms/20251006-005850-401-49f00fa3.json"))
                 .materials(0, 256)
                 .build();
 
@@ -100,6 +108,7 @@ public final class PlatformTemplateStorage {
                         .addStructure(xuanzhuan90)
                         .addStructure(xuanzhuan180)
                         .addStructure(xuanzhuan270)
+                        .addStructure(xuanzhuan270xzzhou)
                         .build());
 
         presets.add(

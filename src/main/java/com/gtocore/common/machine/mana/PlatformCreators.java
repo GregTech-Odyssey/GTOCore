@@ -78,7 +78,6 @@ public class PlatformCreators {
             return;
         }
 
-        // 生成唯一文件名（时间戳 + UUID）
         String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
         String uuid = UUID.randomUUID().toString().substring(0, 8);
         String structureFile = outputDir.resolve(timestamp + "-" + uuid + ".txt").toString();
@@ -95,29 +94,12 @@ public class PlatformCreators {
         int dy = maxY - minY + 1;
         int dz = maxZ - minZ + 1;
 
-        // 根据旋转调整尺寸
         boolean swapXZ = (rotation == 90 || rotation == 270);
         if (swapXZ) {
             int temp = dx;
             dx = dz;
             dz = temp;
         }
-
-        // 旋转和镜像枚举
-        Rotation rotationEnum = switch (rotation) {
-            case 90 -> Rotation.CLOCKWISE_90;
-            case 180 -> Rotation.CLOCKWISE_180;
-            case 270 -> Rotation.COUNTERCLOCKWISE_90;
-            default -> Rotation.NONE;
-        };
-
-        Mirror mirrorEnum = Mirror.NONE;
-        Mirror mirrorEnum2 = Mirror.NONE;
-        if (xMirror && zMirror) {
-            mirrorEnum2 = Mirror.LEFT_RIGHT;
-            mirrorEnum = Mirror.FRONT_BACK;
-        } else if (xMirror) mirrorEnum = Mirror.FRONT_BACK;
-        else if (zMirror) mirrorEnum = Mirror.LEFT_RIGHT;
 
         Map<BlockState, Character> stateToChar = new LinkedHashMap<>();
         Map<ResourceLocation, Integer> blockCount = new HashMap<>();
@@ -134,8 +116,7 @@ public class PlatformCreators {
                     mutablePos.set(x, y, z);
                     BlockState originalState = level.getBlockState(mutablePos);
 
-                    // 应用旋转和镜像
-                    BlockState transformedState = originalState.rotate(rotationEnum).mirror(mirrorEnum).mirror(mirrorEnum2);
+                    BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
                     ResourceLocation id = BuiltInRegistries.BLOCK.getKey(transformedState.getBlock());
                     blockCount.put(id, blockCount.getOrDefault(id, 0) + 1);
@@ -148,7 +129,7 @@ public class PlatformCreators {
             }
         }
 
-        // 第二次遍历：写入结构文件（用旋转后的坐标和状态）
+        // 第二次遍历：写入结构文件
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structureFile))) {
             writer.write(".size(" + dx + ", " + dy + ", " + dz + ")");
             writer.newLine();
@@ -159,9 +140,7 @@ public class PlatformCreators {
                     StringBuilder xChars = new StringBuilder();
                     for (int outX = 0; outX < dx; outX++) {
 
-                        // 旋转/镜像坐标变换（与放置器完全一致）
                         int rx = outX, rz = outZ;
-
                         switch (rotation) {
                             case 90 -> {
                                 int t = rx;
@@ -187,7 +166,7 @@ public class PlatformCreators {
                         int worldZ = minZ + rz;
 
                         BlockState originalState = level.getBlockState(new BlockPos(worldX, worldY, worldZ));
-                        BlockState transformedState = originalState.rotate(rotationEnum).mirror(mirrorEnum);
+                        BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
                         xChars.append(stateToChar.getOrDefault(transformedState, ' '));
                     }
@@ -200,7 +179,6 @@ public class PlatformCreators {
             GTOCore.LOGGER.error("Failed to get structure", e);
         }
 
-        // 保存映射（旋转后的状态）
         Map<Character, BlockState> charToState = new LinkedHashMap<>();
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
         saveMappingToJson(charToState, mappingFile);
@@ -208,14 +186,29 @@ public class PlatformCreators {
         GTOCore.LOGGER.info("The structure and mapping files have been exported to:");
         GTOCore.LOGGER.info(" - Structure File: {}", structureFile);
         GTOCore.LOGGER.info(" - Mapping File: {}", mappingFile);
-        GTOCore.LOGGER.info("Mapping size before save: {}", charToState.size());
-        // 输出 .size 和 .extraMaterials
-        List<String> defParts = new ArrayList<>();
-        defParts.add(".size(" + dx + ", " + dy + ", " + dz + ")\n");
-        blockCount.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEach(e -> defParts.add(".extraMaterials(\"" + e.getKey() + "\", " + e.getValue() + ")\n"));
-        GTOCore.LOGGER.info("[{}]", String.join(", ", defParts));
+    }
+
+    /**
+     * 统一的方块状态旋转/镜像处理（与 PlatformStructurePlacer 一致）
+     */
+    private static BlockState transformBlockState(BlockState original, int rotation, boolean xMirror, boolean zMirror) {
+        Rotation rotationEnum = switch (rotation) {
+            case 90 -> Rotation.COUNTERCLOCKWISE_90;
+            case 180 -> Rotation.CLOCKWISE_180;
+            case 270 -> Rotation.CLOCKWISE_90;
+            default -> Rotation.NONE;
+        };
+        BlockState state = original.rotate(rotationEnum);
+
+        if (xMirror && zMirror) {
+            state = state.mirror(Mirror.LEFT_RIGHT);
+            state = state.mirror(Mirror.FRONT_BACK);
+        } else if (xMirror) {
+            state = state.mirror(Mirror.FRONT_BACK);
+        } else if (zMirror) {
+            state = state.mirror(Mirror.LEFT_RIGHT);
+        }
+        return state;
     }
 
     /**

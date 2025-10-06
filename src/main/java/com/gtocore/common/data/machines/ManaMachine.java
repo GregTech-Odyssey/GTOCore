@@ -174,9 +174,9 @@ public final class ManaMachine {
             .workableManaTieredHullRenderer(4, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();
 
-    public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = GTCEu.isDev() ? manaMachine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
+    public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = manaMachine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
             .tier(LV)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
             .nonYAxisRotation()
-            .register() : null;
+            .register();
 }
