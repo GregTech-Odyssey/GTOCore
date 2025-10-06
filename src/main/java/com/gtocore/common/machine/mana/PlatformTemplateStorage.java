@@ -96,11 +96,19 @@ public final class PlatformTemplateStorage {
                 .materials(0, 256)
                 .build();
 
-        PlatformBlockStructure xuanzhuan270xzzhouaaa = PlatformBlockStructure.structure("xuanzhuan270xzzhouaaa")
+        PlatformBlockStructure snowfield_cabin = PlatformBlockStructure.structure("snowfield_cabin")
                 .displayName("雪原小屋")
                 .preview(true)
                 .resource(GTOCore.id("platforms/20251006-163632-455"))
                 .symbolMap(GTOCore.id("platforms/20251006-163632-455.json"))
+                .materials(0, 256)
+                .build();
+
+        PlatformBlockStructure ice_sheet = PlatformBlockStructure.structure("ice_sheet")
+                .displayName("冰原")
+                .preview(true)
+                .resource(GTOCore.id("platforms/20251006-171440-018"))
+                .symbolMap(GTOCore.id("platforms/20251006-171440-018.json"))
                 .materials(0, 256)
                 .build();
 
@@ -118,7 +126,8 @@ public final class PlatformTemplateStorage {
                         .addStructure(xuanzhuan180)
                         .addStructure(xuanzhuan270)
                         .addStructure(xuanzhuan270xzzhou)
-                        .addStructure(xuanzhuan270xzzhouaaa)
+                        .addStructure(snowfield_cabin)
+                        .addStructure(ice_sheet)
                         .build());
 
         presets.add(

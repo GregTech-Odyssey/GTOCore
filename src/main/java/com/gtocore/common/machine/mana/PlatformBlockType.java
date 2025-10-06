@@ -19,19 +19,19 @@ import java.util.*;
 public final class PlatformBlockType {
 
     // ===================================================================
-    // 单平台结构 (record)
+    // 单平台结构
     // ===================================================================
     public record PlatformBlockStructure(
-                                         String name,               // 必须非空
-                                         @Nullable String type,               // 必须非空
-                                         @Nullable String displayName, // 允许 null
-                                         @Nullable String description, // 允许 null
-                                         @Nullable String source,      // 允许 null
+                                         String name,
+                                         @Nullable String type,
+                                         @Nullable String displayName,
+                                         @Nullable String description,
+                                         @Nullable String source,
                                          boolean preview,
-                                         ResourceLocation resource,  // 必须非空
-                                         ResourceLocation blockMapping,// 必须非空
-                                         int[] materials,            // 必须非空
-                                         List<IntObjectHolder<ItemStack>> extraMaterials,// 必须非空
+                                         ResourceLocation resource,
+                                         ResourceLocation blockMapping,
+                                         int[] materials,
+                                         List<IntObjectHolder<ItemStack>> extraMaterials,
                                          int xSize,
                                          int ySize,
                                          int zSize) {
@@ -166,14 +166,14 @@ public final class PlatformBlockType {
     }
 
     // ===================================================================
-    // 平台预设组 (record)
+    // 平台预设组
     // ===================================================================
     public record PlatformPreset(
-                                 String name,               // 必须非空
-                                 @Nullable String displayName, // 允许 null
-                                 @Nullable String description, // 允许 null
-                                 @Nullable String source,      // 允许 null
-                                 List<PlatformBlockStructure> structures // 必须非空且至少一个
+                                 String name,
+                                 @Nullable String displayName,
+                                 @Nullable String description,
+                                 @Nullable String source,
+                                 List<PlatformBlockStructure> structures
     ) {
 
         public PlatformPreset {
@@ -237,7 +237,7 @@ public final class PlatformBlockType {
     }
 
     /**
-     * 读取结构文件尺寸（仅支持第一行 .size(x, y, z)）
+     * 读取结构文件尺寸
      */
     private static int[] readStructureSizes(ResourceLocation resource) {
         try (BufferedReader reader = new BufferedReader(

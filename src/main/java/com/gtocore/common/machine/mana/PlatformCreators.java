@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtocore.common.data.GTOBlocks;
+
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.StringIndex;
@@ -21,22 +23,56 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public class PlatformCreators {
 
-    private static final Set<Character> ILLEGAL_CHARS = new HashSet<>(Arrays.asList('.', '(', ')', ',', '/', '\\'));
+    // 扩充非法字符集，避免控制符和特殊符号
+    private static final Set<Character> ILLEGAL_CHARS;
+
+    static {
+        ILLEGAL_CHARS = new HashSet<>();
+        // 基本符号
+        for (char c : new char[] { '.', '(', ')', ',', '/', '\\', '"', '\'', '`', ';', ':', '|', '&', '^', '%', '$', '#', '@', '!', '~', '[', ']', '{', '}', '<', '>', '?', '=', '+', '*' }) {
+            ILLEGAL_CHARS.add(c);
+        }
+        // 控制字符 (0x00-0x1F, 0x7F)
+        for (char c = 0; c < 32; c++) {
+            ILLEGAL_CHARS.add(c);
+        }
+        ILLEGAL_CHARS.add((char) 0x7F);
+    }
+
     private static volatile boolean isExporting = false;
+
+    // ✅ 补充 BLOCK_MAP 特殊方块处理
+    private static final Map<Block, BiConsumer<StringBuilder, Character>> BLOCK_MAP;
+
+    static {
+        BLOCK_MAP = ImmutableMap.<Block, BiConsumer<StringBuilder, Character>>builder()
+                .put(Blocks.OAK_LOG, (b, c) -> b.append("controller(blocks(definition.get())))"))
+                .put(Blocks.DIRT, (b, c) -> b.append("heatingCoils())"))
+                .put(Blocks.WHITE_WOOL, (b, c) -> b.append("air())"))
+                .put(Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass())"))
+                .put(Blocks.GLOWSTONE, (b, c) -> b.append("GTOPredicates.light())"))
+                .put(GTOBlocks.ABS_WHITE_CASING.get(), (b, c) -> b.append("GTOPredicates.absBlocks())"))
+                .put(Blocks.FURNACE, (b, c) -> b.append("abilities(MUFFLER))"))
+                .build();
+    }
 
     /**
      * 异步导出结构（支持 XZ 平面镜像和绕 Y 轴旋转）
@@ -60,10 +96,6 @@ public class PlatformCreators {
 
     /**
      * 平台创建函数（异步）
-     *
-     * @param xMirror  X轴对称（左右）
-     * @param zMirror  Z轴对称（前后）
-     * @param rotation 旋转角度 0/90/180/270（绕Y轴）
      */
     public static void PlatformCreationAsync(Level level, BlockPos startPos, BlockPos endPos,
                                              boolean xMirror, boolean zMirror, int rotation,
@@ -109,7 +141,6 @@ public class PlatformCreators {
         }
 
         Map<BlockState, Character> stateToChar = new LinkedHashMap<>();
-        Map<ResourceLocation, Integer> blockCount = new HashMap<>();
         Character nextChar = getNextValidChar('A');
         BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
@@ -123,8 +154,6 @@ public class PlatformCreators {
                     mutablePos.set(x, y, z);
                     BlockState originalState = level.getBlockState(mutablePos);
                     BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
-                    ResourceLocation id = BuiltInRegistries.BLOCK.getKey(transformedState.getBlock());
-                    blockCount.put(id, blockCount.getOrDefault(id, 0) + 1);
 
                     if (!stateToChar.containsKey(transformedState)) {
                         stateToChar.put(transformedState, nextChar);
@@ -189,8 +218,31 @@ public class PlatformCreators {
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
         saveMappingToJson(charToState, mappingFile);
 
+        // ✅ 统计所有非空气方块数量 & .extraMaterials
+        Map<ResourceLocation, Integer> blockCount = new HashMap<>();
+        int totalNonAir = 0;
+        for (BlockState state : charToState.values()) {
+            if (state.isAir()) continue;
+            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+            blockCount.put(id, blockCount.getOrDefault(id, 0) + 1);
+            totalNonAir++;
+        }
+
+        // ✅ 去重 Character，尽量使用靠前的字符
+        List<BlockState> uniqueStates = new ArrayList<>(new LinkedHashSet<>(charToState.values()));
+        Map<BlockState, Character> compactStateToChar = new LinkedHashMap<>();
+        char c = 'A';
+        for (BlockState state : uniqueStates) {
+            c = getNextValidChar(c);
+            compactStateToChar.put(state, c);
+            c++;
+        }
+
+        Map<Character, BlockState> compactCharToState = compactStateToChar.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey, (a, b) -> a, LinkedHashMap::new));
+
         // 生成 .block()/.where() 文件
-        try (BufferedWriter patternWriter = Files.newBufferedWriter(Paths.get(patternFile))) {
+        try (BufferedWriter patternWriter = Files.newBufferedWriter(Paths.get(patternFile), StandardCharsets.UTF_8)) {
             String chamberId = BuiltInRegistries.BLOCK.getKey(chamberBlock).toString();
             String[] chamberParts = StringUtils.decompose(chamberId);
 
@@ -199,7 +251,7 @@ public class PlatformCreators {
             patternWriter.write(".pattern(definition -> FactoryBlockPattern.start(definition)");
             patternWriter.newLine();
 
-            // 写入 .aisle(...)
+            // .aisle(...)
             for (int outZ = 0; outZ < dz; outZ++) {
                 List<String> ySlices = new ArrayList<>();
                 for (int outY = 0; outY < dy; outY++) {
@@ -234,7 +286,7 @@ public class PlatformCreators {
                         BlockState originalState = level.getBlockState(new BlockPos(worldX, worldY, worldZ));
                         BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
-                        xChars.append(stateToChar.getOrDefault(transformedState, ' '));
+                        xChars.append(compactStateToChar.getOrDefault(transformedState, ' '));
                     }
                     ySlices.add("\"" + xChars + "\"");
                 }
@@ -242,13 +294,24 @@ public class PlatformCreators {
                 patternWriter.newLine();
             }
 
-            // 写入 .where(...)
-            for (Map.Entry<Character, BlockState> entry : charToState.entrySet()) {
+            // .where(...)
+            for (Map.Entry<Character, BlockState> entry : compactCharToState.entrySet()) {
                 Character ch = entry.getKey();
                 BlockState state = entry.getValue();
                 if (ch == ' ') continue;
 
                 Block block = state.getBlock();
+
+                // ✅ 修复 BLOCK_MAP 调用
+                if (BLOCK_MAP.containsKey(block)) {
+                    patternWriter.write(".where('" + ch + "', ");
+                    StringBuilder sb = new StringBuilder();
+                    BLOCK_MAP.get(block).accept(sb, ch); // 写入 StringBuilder
+                    patternWriter.write(sb.toString());  // 再写入文件
+                    patternWriter.newLine();
+                    continue;
+                }
+
                 if (block == Blocks.COBBLESTONE) {
                     patternWriter.write(".where('" + ch + "', blocks(" + convertBlockToString(chamberBlock, chamberId, chamberParts, false) + ")");
                     if (laserMode) {
@@ -283,17 +346,20 @@ public class PlatformCreators {
             patternWriter.newLine();
             patternWriter.newLine();
 
-            patternWriter.write("Mapping size before save: " + charToState.size());
-            patternWriter.write(".size(" + dx + ", " + dy + ", " + dz + ")");
+            // ✅ 输出 .extraMaterials
             blockCount.entrySet().stream()
                     .sorted(Map.Entry.comparingByKey())
                     .forEach(e -> {
                         try {
-                            patternWriter.write(".extraMaterials(\"" + e.getKey() + "\", " + e.getValue() + ")\n");
+                            patternWriter.write(".extraMaterials(\"" + e.getKey() + "\", " + e.getValue() + ")");
+                            patternWriter.newLine();
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
                     });
+
+            // ✅ 输出非空气方块总数
+            patternWriter.write("// Total non-air blocks: " + totalNonAir);
             patternWriter.newLine();
 
         } catch (IOException e) {
@@ -321,7 +387,7 @@ public class PlatformCreators {
     }
 
     /**
-     * 统一的方块状态旋转/镜像处理（与 PlatformStructurePlacer 一致）
+     * 统一的方块状态旋转/镜像处理
      */
     private static BlockState transformBlockState(BlockState original, int rotation, boolean xMirror, boolean zMirror) {
         Rotation rotationEnum = switch (rotation) {
@@ -367,7 +433,7 @@ public class PlatformCreators {
                     .setPrettyPrinting()
                     .create();
 
-            try (FileWriter writer = new FileWriter(path.toFile())) {
+            try (FileWriter writer = new FileWriter(path.toFile(), StandardCharsets.UTF_8)) {
                 gson.toJson(mapping, writer);
             }
         } catch (IOException e) {
@@ -385,7 +451,7 @@ public class PlatformCreators {
 
             if (optionalResource.isPresent()) {
                 Resource resource = optionalResource.get();
-                try (Reader reader = new InputStreamReader(resource.open())) {
+                try (Reader reader = new InputStreamReader(resource.open(), StandardCharsets.UTF_8)) {
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter())
                             .create();
