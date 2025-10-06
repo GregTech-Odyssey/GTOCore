@@ -147,5 +147,7 @@ final class ItemLang {
         addCNEN("tooltip.ad_astra.unknown_tag", "§c未知标签§r: %s", "§cUnknown tag§r: %s");
         addCNEN("tooltip.ad_astra.unknown_ingredient", "§c未知物品§r", "§cUnknown item§r");
         addCNEN("tag.item.forge.ingots.steel", "钢锭", "Steel Ingot");
+
+        addCNEN("tooltip.item.pattern.type", "该样板支持切换机器模式", "This pattern supports switching machine recipe type");
     }
 }

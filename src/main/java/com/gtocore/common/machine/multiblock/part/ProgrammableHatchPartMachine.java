@@ -44,7 +44,7 @@ import java.util.function.Supplier;
 public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine, ICustomCraftingMachine {
 
     @RegisterLanguage(cn = "切换配方类型[%s]", en = "Switch recipe type [%s]")
-    private final static String SWITCH_TYPE = "gtocore.machine.switch_type";
+    public final static String SWITCH_TYPE = "gtocore.machine.switch_type";
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ProgrammableHatchPartMachine.class, DualHatchPartMachine.MANAGED_FIELD_HOLDER);

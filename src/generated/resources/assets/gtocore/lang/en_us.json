@@ -6911,5 +6911,6 @@
   "tooltip.ad_astra.unknown_ingredient": "§cUnknown item§r",
   "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
   "tooltip.gtocore.hold_for_more": "§1Hold %s for more info.§r",
+  "tooltip.item.pattern.type": "This pattern supports switching machine recipe type",
   "tooltip.jade.current_gravity": "Current Gravity: %s"
 }

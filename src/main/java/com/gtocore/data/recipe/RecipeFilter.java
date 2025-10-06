@@ -337,6 +337,7 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("diamond_lattice_block"));
         filters.add(RLUtils.mc("diamond_lattice"));
 
+        filters.add(RLUtils.avaritia("eternal_singularity"));
         filters.add(RLUtils.avaritia("enhancement_core"));
         filters.add(RLUtils.avaritia("infinity_catalyst"));
         filters.add(RLUtils.avaritia("crystal_matrix_ingot"));

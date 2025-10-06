@@ -4559,5 +4559,6 @@
   "tooltip.ad_astra.unknown_ingredient": "§c未知物品§r",
   "tooltip.ad_astra.unknown_tag": "§c未知標簽§r: %s",
   "tooltip.gtocore.hold_for_more": "§1按住 %s 顯示更多信息。§r",
+  "tooltip.item.pattern.type": "該樣板支持切換機器模式",
   "tooltip.jade.current_gravity": "當前重力: %s"
 }
