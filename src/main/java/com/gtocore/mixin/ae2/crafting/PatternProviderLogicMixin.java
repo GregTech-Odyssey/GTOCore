@@ -1,10 +1,11 @@
 package com.gtocore.mixin.ae2.crafting;
 
-import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
 import com.gtocore.integration.eio.ITravelHandlerHook;
 
 import com.gtolib.api.ae2.*;
+import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
+import com.gtolib.utils.holder.BooleanHolder;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -33,7 +34,6 @@ import appeng.util.ConfigManager;
 import appeng.util.inv.AppEngInternalInventory;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -147,7 +147,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
         var level = be.getLevel();
         var pos = be.getBlockPos();
-        boolean success = false;
+        BooleanHolder success = new BooleanHolder(false);
         boolean molecular = !patternDetails.supportsPushInputsToExternalInventory();
         for (var direction : getActiveSides()) {
             var adjBe = cache.getAdjacentBlockEntity(level, pos, direction);
@@ -157,50 +157,32 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                 var craftingMachine = ICraftingMachine.of(level, pos.relative(direction), adjBeSide, adjBe);
                 if (craftingMachine != null) {
                     var result = gtolib$pushCraftingMachine(craftingMachine, patternDetails, inputHolder, pushPatternSuccess, adjBeSide);
-                    if (result.success()) success = true;
+                    if (result.success()) success.value = true;
                     if (result.needBreak()) return result;
                 }
             } else {
                 if (adjBe instanceof MetaMachineBlockEntity machineBlockEntity) {
-                    if (machineBlockEntity.metaMachine instanceof AdvancedTesseractMachine machine && machine.roundRobin) {
-                        var size = machine.poss.size();
-                        List<PatternProviderTarget> targets = new ObjectArrayList<>(size);
-                        for (int i = 0; i < size; ++i) {
-                            var targetPos = machine.poss.get(i);
-                            var target = PatternProviderTargetCache.find(machine.getBlockEntity(targetPos, i), this, adjBeSide, actionSource, targetPos.asLong());
-                            if (target == null) continue;
-                            targets.add(target);
-                        }
-                        int count = 1000;
-                        while (count > 0) {
-                            count--;
-                            boolean done = true;
-                            for (var target : targets) {
-                                if (target.containsPatternInput(patternInputs)) continue;
-                                var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, false);
-                                if (result.success()) success = true;
-                                if (result.needBreak()) return result;
-                                if (result == PushResult.SUCCESS) done = false;
-                            }
-                            if (done) break;
-                        }
+                    if (machineBlockEntity.metaMachine instanceof ICustomCraftingMachine craftingMachine && craftingMachine.customPush()) {
+                        var result = craftingMachine.pushPattern(this, actionSource, success, this::gtolib$pushTarget, patternInputs, patternDetails, inputHolder, pushPatternSuccess, canPush, direction, adjBeSide);
+                        if (result.success()) success.value = true;
+                        if (result.needBreak()) return result;
                     } else {
                         var target = PatternProviderTargetCache.find(adjBe, this, adjBeSide, actionSource, 0);
                         if (target == null || target.containsPatternInput(patternInputs)) continue;
                         var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
-                        if (result.success()) success = true;
+                        if (result.success()) success.value = true;
                         if (result.needBreak()) return result;
                     }
                 } else {
                     var target = findAdapter(direction);
                     if (target == null || target.containsPatternInput(patternInputs)) continue;
                     var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
-                    if (result.success()) success = true;
+                    if (result.success()) success.value = true;
                     if (result.needBreak()) return result;
                 }
             }
         }
-        return success ? PushResult.SUCCESS : PushResult.NOWHERE_TO_PUSH;
+        return success.value ? PushResult.SUCCESS : PushResult.NOWHERE_TO_PUSH;
     }
 
     /**

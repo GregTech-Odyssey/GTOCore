@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.maintenance;
 
-import com.gtocore.api.machine.part.ITempPartMachine;
-import com.gtocore.api.machine.part.IVacuumPartMachine;
+import com.gtocore.api.machine.ITempPartMachine;
+import com.gtocore.api.machine.IVacuumPartMachine;
 
 import com.gtolib.api.machine.feature.IGravityPartMachine;
 

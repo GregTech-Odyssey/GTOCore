@@ -188,7 +188,7 @@ public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine imp
     }
 
     @Override
-    public void setProgrammable() {
-        gtolib$isProgrammable = true;
+    public void setProgrammable(boolean programmable) {
+        gtolib$isProgrammable = programmable;
     }
 }

@@ -78,7 +78,7 @@ dependencies {
 //    modImplementation("curse.maven:render-blender-1346485:6993848")
 //    modImplementation("curse.maven:avaritia-integration-1347675:7001596")
 
-    modImplementation("curse.maven:EnderIO-64578:5780352")
+    modImplementation("curse.maven:ender-io-64578:7004092")
 
     modImplementation("curse.maven:farmers-delight-398521:6917255")
     modImplementation("curse.maven:farmers-respite-551453:5543547")

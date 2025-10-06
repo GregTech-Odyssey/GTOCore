@@ -1,5 +1,11 @@
 package com.gtocore.common.machine.electric;
 
+import com.gtolib.api.ae2.IPatternProviderLogic;
+import com.gtolib.api.ae2.PatternProviderTargetCache;
+import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
+import com.gtolib.utils.holder.BooleanHolder;
+import com.gtolib.utils.holder.ObjectHolder;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
@@ -31,6 +37,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import appeng.api.crafting.IPatternDetails;
+import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEKey;
+import appeng.api.stacks.KeyCounter;
+import appeng.helpers.patternprovider.PatternProviderTarget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -41,8 +52,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Set;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
-public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
+public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife, ICustomCraftingMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             AdvancedTesseractMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
@@ -56,7 +70,7 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     protected NotifiableItemStackHandler inventory;
 
     @Persisted
-    public boolean roundRobin;
+    private boolean roundRobin;
 
     private final List<IItemHandler> itemHandlers = new ObjectArrayList<>(20);
     private final List<IFluidHandler> fluidHandlers = new ObjectArrayList<>(20);
@@ -217,5 +231,36 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     @Override
     public void onMachineRemoved() {
         clearInventory(inventory.storage);
+    }
+
+    @Override
+    public boolean customPush() {
+        return roundRobin;
+    }
+
+    @Override
+    public IPatternProviderLogic.PushResult pushPattern(IPatternProviderLogic logic, IActionSource actionSource, BooleanHolder success, Operate operate, Set<AEKey> patternInputs, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, Direction adjBeSide) {
+        var size = poss.size();
+        List<PatternProviderTarget> targets = new ObjectArrayList<>(size);
+        for (int i = 0; i < size; ++i) {
+            var targetPos = poss.get(i);
+            var target = PatternProviderTargetCache.find(getBlockEntity(targetPos, i), logic, adjBeSide, actionSource, targetPos.asLong());
+            if (target == null) continue;
+            targets.add(target);
+        }
+        int count = 1000;
+        while (count > 0) {
+            count--;
+            boolean done = true;
+            for (var target : targets) {
+                if (target.containsPatternInput(patternInputs)) continue;
+                var result = operate.pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, false);
+                if (result.success()) success.value = true;
+                if (result.needBreak()) return result;
+                if (result == IPatternProviderLogic.PushResult.SUCCESS) done = false;
+            }
+            if (done) break;
+        }
+        return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
     }
 }

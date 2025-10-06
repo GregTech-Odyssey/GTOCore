@@ -89,6 +89,7 @@ public final class ForgeCommonEvent {
     public static void init() {
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
         MinecraftForge.EVENT_BUS.register(AnimalsRevengeEvent.class);
+        MinecraftForge.EVENT_BUS.register(TravelStaffItemMixinLikeForge.class);
     }
 
     @SubscribeEvent

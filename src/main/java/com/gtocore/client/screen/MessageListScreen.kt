@@ -176,9 +176,15 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
             }
         }
 
-        override fun getRowWidth(): Int = 600
+        override fun getRowWidth(): Int {
+            // 根据屏幕宽度自适应：使用屏幕宽度的70%，但不小于400，不大于800
+            return (this.width * 0.7).toInt().coerceIn(400, 800)
+        }
 
-        override fun getScrollbarPosition(): Int = this.width / 2 + 310
+        override fun getScrollbarPosition(): Int {
+            // 滚动条位置：内容宽度的右侧 + 10像素边距
+            return this.width / 2 + getRowWidth() / 2 + 10
+        }
 
         class MessageEntry(private val message: ClientForge.MessageDefinition, private val config: ClientForge.MessageConfig) : Entry<MessageEntry>() {
 
@@ -209,9 +215,12 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
                     ChatFormatting.AQUA.color ?: 0xFFFFFF,
                 )
 
-                // 消息预览（第一行）
+                // 消息预览（第一行）- 根据可用宽度自适应
                 val preview = message.messages.firstOrNull()?.string ?: ""
-                val trimmedPreview = if (preview.length > 60) "${preview.substring(0, 60)}..." else preview
+                // 计算可用宽度：总宽度 - 左边距 - 右边距 - 优先级图标空间
+                val availableWidth = width - 30
+                val maxChars = (availableWidth / font.width("W")).coerceAtLeast(20)
+                val trimmedPreview = if (preview.length > maxChars) "${preview.substring(0, maxChars.toInt())}..." else preview
                 guiGraphics.drawString(
                     font,
                     trimmedPreview,

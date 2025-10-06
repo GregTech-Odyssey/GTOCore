@@ -1,5 +1,7 @@
 package com.gtocore.integration.emi;
 
+import com.gtocore.common.item.ItemMap;
+import com.gtocore.data.tag.Tags;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
@@ -19,9 +21,12 @@ import com.hepdd.gtmthings.data.CustomItems;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.ItemEmiStack;
+import dev.emi.emi.api.stack.TagEmiIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GTEmiEncodingHelper { // also accessed by gtolib
@@ -38,7 +43,10 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
 
     private static List<GenericStack> intoGenericStack(EmiIngredient ingredient, boolean virtual) {
         if (ingredient.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptyList();
+        }
+        if (ingredient instanceof TagEmiIngredient tag && Tags.CIRCUITS_ARRAY.containsKey(tag.key)) {
+            return ingredient.getEmiStacks().stream().filter(stack -> stack instanceof ItemEmiStack itemEmiStack && ItemMap.UNIVERSAL_CIRCUITS.contains(itemEmiStack.getKey())).map(stack -> fromEmiStackVirtualConvertible(stack, ingredient.getAmount(), virtual)).toList();
         }
         return ingredient.getEmiStacks().stream().map(stack -> fromEmiStackVirtualConvertible(stack, ingredient.getAmount(), virtual)).toList();
     }

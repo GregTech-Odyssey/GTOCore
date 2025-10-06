@@ -142,21 +142,21 @@ public final class MetaTileEntityLoader {
                 "PIP", "IFI", "PIP", 'P', new MaterialEntry(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene),
                 'F', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Polytetrafluoroethylene), 'I',
                 new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Polytetrafluoroethylene));
-        VanillaRecipeHelper.addShapedRecipe(true, "casing_bronze_firebox", GTBlocks.FIREBOX_BRONZE.asItem(), 2,
+        VanillaRecipeHelper.addShapedRecipe(true, "casing_bronze_firebox", GTBlocks.FIREBOX_BRONZE.asStack(2),
                 "PSP", "SFS", "PSP", 'P', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze), 'F',
                 new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze), 'S',
                 new MaterialEntry(TagPrefix.rod, GTMaterials.Bronze));
-        VanillaRecipeHelper.addShapedRecipe(true, "casing_steel_firebox", GTBlocks.FIREBOX_STEEL.asItem(), 2,
+        VanillaRecipeHelper.addShapedRecipe(true, "casing_steel_firebox", GTBlocks.FIREBOX_STEEL.asStack(2),
                 "PSP", "SFS", "PSP", 'P', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'F',
                 new MaterialEntry(TagPrefix.frameGt, GTMaterials.Steel), 'S',
                 new MaterialEntry(TagPrefix.rod, GTMaterials.Steel));
         VanillaRecipeHelper.addShapedRecipe(true, "casing_titanium_firebox",
-                GTBlocks.FIREBOX_TITANIUM.asItem(), 2, "PSP", "SFS", "PSP", 'P',
+                GTBlocks.FIREBOX_TITANIUM.asStack(2), "PSP", "SFS", "PSP", 'P',
                 new MaterialEntry(TagPrefix.plate, GTMaterials.Titanium), 'F',
                 new MaterialEntry(TagPrefix.frameGt, GTMaterials.Titanium), 'S',
                 new MaterialEntry(TagPrefix.rod, GTMaterials.Titanium));
         VanillaRecipeHelper.addShapedRecipe(true, "casing_tungstensteel_firebox",
-                GTBlocks.FIREBOX_TUNGSTENSTEEL.asItem(), 2, "PSP", "SFS", "PSP", 'P',
+                GTBlocks.FIREBOX_TUNGSTENSTEEL.asStack(2), "PSP", "SFS", "PSP", 'P',
                 new MaterialEntry(TagPrefix.plate, GTMaterials.TungstenSteel), 'F',
                 new MaterialEntry(TagPrefix.frameGt, GTMaterials.TungstenSteel), 'S',
                 new MaterialEntry(TagPrefix.rod, GTMaterials.TungstenSteel));

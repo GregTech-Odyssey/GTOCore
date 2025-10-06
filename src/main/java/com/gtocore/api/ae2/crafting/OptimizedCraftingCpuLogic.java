@@ -234,8 +234,9 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                     }
                 }
             } else {
-                if ((craftingContainer.value = extractPatternInputs(tmp_details, inventory, job.expectedOutputs)) == null) continue;
+                craftingContainer.value = extractPatternInputs(tmp_details, inventory, job.expectedOutputs);
             }
+            if (craftingContainer.value == null) continue;
             var details = tmp_details;
 
             // 查找优先物品数量和识别可用并行

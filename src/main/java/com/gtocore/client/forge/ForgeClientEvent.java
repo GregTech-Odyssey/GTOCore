@@ -1,9 +1,9 @@
 package com.gtocore.client.forge;
 
 import com.gtocore.client.ClientCache;
+import com.gtocore.client.GTOClientCommands;
 import com.gtocore.client.Tooltips;
 import com.gtocore.client.renderer.RenderHelper;
-import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
@@ -186,7 +186,7 @@ public final class ForgeClientEvent {
 
     @SubscribeEvent
     public static void registerCommands(RegisterClientCommandsEvent evt) {
-        GTOCommands.initClient(evt.getDispatcher());
+        GTOClientCommands.init(evt.getDispatcher());
     }
 
     private static class Highlighting {

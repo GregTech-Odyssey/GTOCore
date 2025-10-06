@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -69,7 +68,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         return recipe.tier;
     }
 
-    public RecipeType<?> getRecipeType() {
+    public GTRecipeType getRecipeType() {
         return recipe.recipeType;
     }
 

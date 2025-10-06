@@ -426,12 +426,12 @@ final class Vanilla {
                 "CDE",
                 "AFA",
                 'A', new MaterialEntry(TagPrefix.foil, GTMaterials.Aluminium), 'B', GTItems.CONVEYOR_MODULE_MV.asItem(), 'C', GTItems.SENSOR_MV.asItem(), 'D', GTOBlocks.MULTI_FUNCTIONAL_CASING.asItem(), 'E', GTItems.EMITTER_MV.asItem(), 'F', GTItems.FLUID_REGULATOR_MV.asItem());
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("neutronium_pipe_casing"), GTOBlocks.AMPROSIUM_PIPE_CASING.asItem(), 2,
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("neutronium_pipe_casing"), GTOBlocks.AMPROSIUM_PIPE_CASING.asItem(),
                 "ABA",
                 "BCB",
                 "ABA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Neutronium), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("iridium_pipe_casing"), GTOBlocks.IRIDIUM_PIPE_CASING.asItem(), 2,
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("iridium_pipe_casing"), GTOBlocks.IRIDIUM_PIPE_CASING.asItem(),
                 "ABA",
                 "BCB",
                 "ABA",

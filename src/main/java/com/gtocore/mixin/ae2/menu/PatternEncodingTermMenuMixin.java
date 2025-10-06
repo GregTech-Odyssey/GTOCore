@@ -49,6 +49,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Unique
     private String gtocore$recipe;
 
+    @Unique
+    private String gtocore$recipeType;
+
     @Override
     public void gtolib$addRecipe(String id) {
         if (isClientSide()) {
@@ -56,10 +59,20 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         } else gtocore$recipe = id;
     }
 
+    @Override
+    public void gtolib$addRecipeType(String type) {
+        if (isClientSide()) {
+            sendClientAction("addRecipeType", type);
+        } else gtocore$recipeType = type;
+    }
+
     @Inject(method = "encodeProcessingPattern", at = @At("RETURN"), remap = false)
     private void encodeProcessingPatternHook(CallbackInfoReturnable<ItemStack> cir) {
         if (gtocore$recipe != null && !gtocore$recipe.isEmpty()) {
             cir.getReturnValue().getOrCreateTag().putString("recipe", gtocore$recipe);
+        }
+        if (gtocore$recipeType != null && !gtocore$recipeType.isEmpty()) {
+            cir.getReturnValue().getOrCreateTag().putString("type", gtocore$recipeType);
         }
     }
 
@@ -73,6 +86,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         blankPatternSlot.setStackLimit(1);
         registerClientAction("addRecipe", String.class,
                 this::gtolib$addRecipe);
+        registerClientAction("addRecipeType", String.class,
+                this::gtolib$addRecipeType);
     }
 
     @Override

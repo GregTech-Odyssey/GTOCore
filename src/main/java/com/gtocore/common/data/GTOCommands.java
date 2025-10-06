@@ -1,6 +1,5 @@
 package com.gtocore.common.data;
 
-import com.gtocore.client.ClientCache;
 import com.gtocore.common.saved.DysonSphereSavaedData;
 
 import com.gtolib.GTOCore;
@@ -69,32 +68,6 @@ public final class GTOCommands {
                     if (player != null) {
                         hand(player);
                     }
-                    return 1;
-                })));
-    }
-
-    public static void initClient(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal(GTOCore.MOD_ID + "c")
-                .then(Commands.literal("spark").then(Commands.literal("start").executes(ctx -> {
-                    SparkLaunchProfiler.start("all");
-                    return 1;
-                })).then(Commands.literal("stop").executes(ctx -> {
-                    SparkLaunchProfiler.stop("all");
-                    return 1;
-                })))
-                .then(Commands.literal("multiblock").then(
-                        Commands.literal("on").executes((ctx) -> {
-                            ClientCache.machineNotFormedHighlight = true;
-                            return 1;
-                        })).then(
-                                Commands.literal("off").executes((ctx) -> {
-                                    ClientCache.machineNotFormedHighlight = false;
-                                    return 1;
-                                })))
-                .then(Commands.literal("message").executes((ctx) -> {
-                    net.minecraft.client.Minecraft.getInstance().execute(() -> {
-                        net.minecraft.client.Minecraft.getInstance().setScreen(new com.gtocore.client.screen.MessageListScreen());
-                    });
                     return 1;
                 })));
     }

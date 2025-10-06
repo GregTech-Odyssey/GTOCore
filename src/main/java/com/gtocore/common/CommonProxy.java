@@ -4,6 +4,7 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
+import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.forge.ForgeCommonEvent;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
@@ -133,6 +134,7 @@ public class CommonProxy {
             GTMaterialBlocks.ITEM_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
         }
+        GTOItemTooltips.INSTANCE.initLanguage();
     }
 
     private static void addMaterials(MaterialEvent event) {

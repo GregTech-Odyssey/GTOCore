@@ -163,6 +163,8 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("mythicbotany", "blasting/elementium_ingot"));
         filters.add(RLUtils.fromNamespaceAndPath("mythicbotany", "alfsteel_pylon"));
         filters.add(RLUtils.fromNamespaceAndPath("mythicbotany", "gaia_pylon"));
+
+        filters.add(RLUtils.bot("red_string"));
         filters.add(RLUtils.bot("pure_daisy/livingwood"));
         filters.add(RLUtils.bot("mana_infusion/manasteel"));
         filters.add(RLUtils.bot("mana_infusion/manasteel_block"));

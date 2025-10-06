@@ -8,12 +8,22 @@ import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
+import net.minecraft.util.FormattedCharSequence
 
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 
 @DataGeneratorScanned
 class MessageScreen(private val message: ClientForge.MessageDefinition, private val currentPage: Int, private val totalPages: Int, private val onConfirm: () -> Unit, private val onExpand: (() -> Unit)? = null, private val onMarkAll: (() -> Unit)? = null) : Screen(Component.translatable(title_Key)) {
+
+    // Scrolling support
+    private var scrollOffset = 0.0
+    private var totalContentHeight = 0
+    private var maxScrollOffset = 0.0
+
+    // Cache wrapped lines for click detection
+    private val wrappedLinesCache = mutableListOf<Pair<Component, List<FormattedCharSequence>>>()
+
     @DataGeneratorScanned
     companion object {
         @RegisterLanguage(cn = "GTO 消息系统", en = "GTO Message System")
@@ -54,10 +64,34 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
 
         @RegisterLanguage(cn = "📜 正在显示历史消息...", en = "📜 Showing historical messages...")
         const val showingHistorical_Key = "gto.message.showing_historical"
+
+        @RegisterLanguage(cn = "提示：你随时可以通过 /gtocorec message 访问这些信息", en = "Tip: You can access these messages anytime via /gtocorec message")
+        const val commandTip_Key = "gto.message.command_tip"
     }
 
     override fun init() {
         super.init()
+
+        // Pre-calculate wrapped lines and total content height
+        val leftMargin = (this.width * 0.2).toInt()
+        val contentWidth = (this.width * 0.6).toInt()
+        val lineHeight = 12
+
+        wrappedLinesCache.clear()
+        totalContentHeight = 0
+
+        message.messages.forEach { msg ->
+            val wrappedLines = this.font.split(msg, contentWidth)
+            wrappedLinesCache.add(Pair(msg, wrappedLines))
+            totalContentHeight += wrappedLines.size * lineHeight + 5 // 5 for spacing between messages
+        }
+
+        // Calculate max scroll offset based on visible area
+        val contentStartY = 70
+        val boxBottom = this.height - 50
+        val visibleHeight = boxBottom - contentStartY - 15 // Leave some margin
+        maxScrollOffset = (totalContentHeight - visibleHeight).coerceAtLeast(0).toDouble()
+        scrollOffset = 0.0 // Reset scroll on init
 
         val buttonWidth = 120
         val buttonHeight = 20
@@ -136,7 +170,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         val titleY = 30
         val contentStartY = 70
         val lineHeight = 12
-        var currentY = contentStartY
+        var currentY = contentStartY - scrollOffset.toInt()
 
         // 计算文本区域 - 左边20%空白，中间60%正文，右边20%空白
         val leftMargin = (this.width * 0.2).toInt()
@@ -157,7 +191,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         // 渲染标题（居中，带背景）
         val titleBgLeft = this.width / 2 - 100
         val titleBgRight = this.width / 2 + 100
-        guiGraphics.fill(titleBgLeft, titleY - 5, titleBgRight, titleY + 15, 0xCC1E3A5F.toInt())
+        guiGraphics.fill(titleBgLeft, titleY - 8, titleBgRight, titleY + 15, 0xCC1E3A5F.toInt())
         guiGraphics.drawCenteredString(
             this.font,
             Component.translatable(title_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withBold(true)),
@@ -186,21 +220,31 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
             )
         }
 
-        // 渲染消息内容（左对齐）
-        message.messages.forEach { msg ->
-            val wrappedLines = this.font.split(msg, contentWidth)
+        // 开启剪裁测试，以裁剪超出可见区域的内容
+        val scissorTop = contentStartY
+        val scissorBottom = boxBottom - 10
+        guiGraphics.enableScissor(leftMargin - 10, scissorTop, rightMargin + 10, scissorBottom)
+
+        // 渲染消息内容（左对齐）并支持滚动
+        wrappedLinesCache.forEach { (msg, wrappedLines) ->
             wrappedLines.forEach { line ->
-                guiGraphics.drawString(
-                    this.font,
-                    line,
-                    leftMargin,
-                    currentY,
-                    0xFFFFFF,
-                )
+                // 仅在剪裁区域内可见时渲染
+                if (currentY + lineHeight >= scissorTop && currentY <= scissorBottom) {
+                    guiGraphics.drawString(
+                        this.font,
+                        line,
+                        leftMargin,
+                        currentY,
+                        0xFFFFFF,
+                    )
+                }
                 currentY += lineHeight
             }
             currentY += 5 // 消息之间的额外间距
         }
+
+        // 禁用剪裁测试
+        guiGraphics.disableScissor()
 
         // 渲染底部装饰性分隔线
         for (i in 0..2) {
@@ -212,6 +256,32 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
                 (alpha shl 24) or 0x4A90E2,
             )
         }
+
+        // 渲染命令提示信息（在底部按钮上方）
+        val tipText = Component.translatable(commandTip_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(true))
+        guiGraphics.drawCenteredString(
+            this.font,
+            tipText,
+            this.width / 2,
+            this.height - 55,
+            ChatFormatting.GRAY.color ?: 0xAAAAAA,
+        )
+
+        // 如果内容可滚动，则渲染滚动指示器
+        if (maxScrollOffset > 0) {
+            val scrollBarX = rightMargin + 5
+            val scrollBarTop = scissorTop + 5
+            val scrollBarBottom = scissorBottom - 5
+            val scrollBarHeight = scrollBarBottom - scrollBarTop
+
+            // 背景轨道
+            guiGraphics.fill(scrollBarX, scrollBarTop, scrollBarX + 3, scrollBarBottom, 0x80FFFFFF.toInt())
+
+            // 滚动条滑块
+            val thumbHeight = ((scrollBarHeight * scrollBarHeight) / (scrollBarHeight + maxScrollOffset)).toInt().coerceAtLeast(20)
+            val thumbY = scrollBarTop + ((scrollOffset / maxScrollOffset) * (scrollBarHeight - thumbHeight)).toInt()
+            guiGraphics.fill(scrollBarX, thumbY, scrollBarX + 3, thumbY + thumbHeight, 0xFF4A90E2.toInt())
+        }
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -222,17 +292,25 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         // 处理消息文本中的点击事件（特别是链接）
         val contentStartY = 70
         val lineHeight = 12
-        var currentY = contentStartY
+        var currentY = contentStartY - scrollOffset.toInt()
 
         val leftMargin = (this.width * 0.2).toInt()
         val contentWidth = (this.width * 0.6).toInt()
+        val boxBottom = this.height - 50
 
-        // 检查点击是否在消息文本区域
-        message.messages.forEach { msg ->
-            // 直接检查原始消息的点击事件
-            val wrappedLines = this.font.split(msg, contentWidth)
+        // 检查点击是否在可滚动内容区域内
+        val scissorTop = contentStartY
+        val scissorBottom = boxBottom - 10
+
+        // 仅处理在可见剪裁区域内的点击
+        if (mouseY < scissorTop || mouseY > scissorBottom) {
+            return false
+        }
+
+        // 检查应用滚动偏移后，点击是否在消息文本区域内
+        wrappedLinesCache.forEach { (msg, wrappedLines) ->
             wrappedLines.forEach { line ->
-                // 检查鼠标是否在这一行文本范围内
+                // 检查鼠标是否在这一行文本范围内（包括滚动偏移）
                 if (mouseY.toInt() in currentY..(currentY + lineHeight)) {
                     // 检查 X 坐标是否在文本区域内
                     if (mouseX.toInt() >= leftMargin && mouseX.toInt() <= leftMargin + contentWidth) {
@@ -248,6 +326,21 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         }
 
         return false
+    }
+
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, delta: Double): Boolean {
+        if (maxScrollOffset > 0) {
+            // 滚动速度：每个滚动刻度3行
+            val scrollAmount = delta * 36.0
+            scrollOffset = (scrollOffset - scrollAmount).coerceIn(0.0, maxScrollOffset)
+            return true
+        }
+        return super.mouseScrolled(mouseX, mouseY, delta)
+    }
+
+    override fun renderBackground(guiGraphics: GuiGraphics) {
+        // 自定义背景渲染（如果需要）
+        // guiGraphics.fill(0, 0, this.width, this.height, 0xFF000000.toInt()) // 示例：全黑背景
     }
 
     override fun isPauseScreen(): Boolean {

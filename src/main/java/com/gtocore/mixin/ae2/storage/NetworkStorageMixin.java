@@ -16,16 +16,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.List;
 import java.util.NavigableMap;
 
 @Mixin(NetworkStorage.class)
 public abstract class NetworkStorageMixin {
-
-    @Unique
-    private static final Deque<NetworkStorage> gtocore$DEQUE = new ArrayDeque<>();
 
     @Unique
     private ObjectArrayList<IntObjectHolder<MEStorage>> gtolib$inventory;

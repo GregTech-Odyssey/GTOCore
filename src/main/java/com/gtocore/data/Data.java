@@ -63,6 +63,8 @@ import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
 import me.jellysquid.mods.sodium.mixin.core.render.MinecraftAccessor;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.util.Collections;
 
@@ -199,6 +201,7 @@ public final class Data {
                 GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
             }
         } catch (Exception e) {
+            Configurator.setRootLevel(Level.DEBUG);
             e.printStackTrace();
             Client.interrupt();
         }

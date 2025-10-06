@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.machine.mana.PlatformTemplateStorage;
+import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.GTOCore;
@@ -51,6 +52,7 @@ public final class LangHandler {
     }
 
     private static void init() {
+        GTOItemTooltips.INSTANCE.initLanguage();
         MaterialsRegisterUtils.LANG.forEach((k, v) -> addCNEN("material.gtocore." + k, v));
         RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addCNEN("gtceu." + k, v));
         GTOBedrockFluids.LANG.forEach((k, v) -> addCNEN("gtceu.jei.bedrock_fluid." + k, v));
@@ -322,6 +324,13 @@ public final class LangHandler {
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");
         addCNEN("gtocore.adv_terminal.category.select", "选择类别", "Select Category");
+
+        addCNEN("gtocore.travel.mode.all", "所有目标", "All Targets");
+        addCNEN("gtocore.travel.mode.one_per_chunk", "每个区块一个目标", "One Target per Chunk");
+        addCNEN("gtocore.travel.mode.filter_by_block", "从目标类型筛选", "Filter by block type");
+        addCNEN("gtocore.travel.mode.switched", "切换模式", "Switch Mode");
+        addCNEN("gtocore.travel.mode.filter.noblock", "你的视线没有可作为目标的方块", "Your view does not have a block that can be used as a target");
+        addCNEN("gtocore.travel.missing_block", "[未设置方块]", "[No block set]");
 
         addCNEN("ftbultimine.shape.area", "不定形 (不连续)", "Shapeless (Area)");
 

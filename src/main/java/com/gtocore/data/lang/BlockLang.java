@@ -11,15 +11,15 @@ final class BlockLang {
 
     static void init() {
         for (int tier = GTValues.LV; tier <= GTValues.IV; tier++) {
-            addCNEN("block.gtceu." + GTValues.VN[tier].toLowerCase() + "_dual_input_hatch", "%s输入总成".formatted(GTOValues.VNFR[tier]), "%s Dual Input Hatch".formatted(GTValues.VNF[tier]));
-            addCNEN("block.gtceu." + GTValues.VN[tier].toLowerCase() + "_dual_output_hatch", "%s输出总成".formatted(GTOValues.VNFR[tier]), "%s Dual Output Hatch".formatted(GTValues.VNF[tier]));
+            addCNEN("block.gtceu." + GTValues.VN[tier].toLowerCase() + "_dual_input_hatch", "%s输入总成".formatted(GTOValues.VNFR[tier]), "%s Dual Input Hatch".formatted(GTOValues.VNFR[tier]));
+            addCNEN("block.gtceu." + GTValues.VN[tier].toLowerCase() + "_dual_output_hatch", "%s输出总成".formatted(GTOValues.VNFR[tier]), "%s Dual Output Hatch".formatted(GTOValues.VNFR[tier]));
         }
 
         for (int tier = GTValues.IV; tier <= GTValues.MAX; tier++) {
-            addCNEN("block.gtceu." + GTValues.VN[tier].toLowerCase() + "_parallel_hatch", GTOValues.VNFR[tier] + "并行控制仓", GTValues.VNF[tier] + " Parallel Control Hatch");
+            addCNEN("block.gtceu." + GTValues.VN[tier].toLowerCase() + "_parallel_hatch", GTOValues.VNFR[tier] + "并行控制仓", GTOValues.VNFR[tier] + " Parallel Control Hatch");
         }
 
-        addCNEN("block.gtceu." + GTValues.VN[GTValues.EV].toLowerCase() + "_parallel_hatch", GTOValues.VNFR[GTValues.EV] + "并行控制仓", GTValues.VNF[GTValues.EV] + " Parallel Control Hatch");
+        addCNEN("block.gtceu." + GTValues.VN[GTValues.EV].toLowerCase() + "_parallel_hatch", GTOValues.VNFR[GTValues.EV] + "并行控制仓", GTOValues.VNFR[GTValues.EV] + " Parallel Control Hatch");
 
         for (Dimension dim : new Dimension[] {
                 Dimension.CERES, Dimension.IO, Dimension.GANYMEDE, Dimension.BARNARDA_C, Dimension.ENCELADUS, Dimension.TITAN, Dimension.PLUTO

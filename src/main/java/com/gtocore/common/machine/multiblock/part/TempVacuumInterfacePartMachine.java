@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gtocore.api.machine.part.ITempPartMachine;
-import com.gtocore.api.machine.part.IVacuumPartMachine;
+import com.gtocore.api.machine.ITempPartMachine;
+import com.gtocore.api.machine.IVacuumPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;

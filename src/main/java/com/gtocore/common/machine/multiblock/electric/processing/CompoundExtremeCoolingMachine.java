@@ -37,8 +37,10 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
 
     @Override
     public void setActiveRecipeType(int activeRecipeType) {
+        if (this.activeRecipeType != activeRecipeType) {
+            updateCheck();
+        }
         super.setActiveRecipeType(activeRecipeType);
-        updateCheck();
     }
 
     public static BlockPattern getBlockPattern(int tier, MultiblockMachineDefinition definition) {

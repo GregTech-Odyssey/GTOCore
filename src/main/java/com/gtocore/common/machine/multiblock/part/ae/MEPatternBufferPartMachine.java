@@ -4,6 +4,7 @@ import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
+import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
@@ -472,18 +473,28 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
             patternDetails.pushInputsToExternalInventory(inputHolder, inputSink);
             if (recipe != null) {
-                for (var controller : machine.getControllers()) {
+                GTRecipeType type;
+                if (patternDetails instanceof IDetails details) {
+                    type = details.getRecipeType();
+                } else type = null;
+                machine.getControllers().forEach(controller -> {
                     if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
                         enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
-                    }
-                }
-                for (var proxy : machine.proxyMachines) {
-                    var rhl = (InternalSlotRecipeHandler.AbstractRHL) proxy.getProxySlotRecipeHandler().getProxySlotHandlers().get(index);
-                    for (var controller : proxy.getControllers()) {
-                        if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                            enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
+                        if (type != null) {
+                            holder.setRecipeType(type);
                         }
                     }
+                });
+                for (var proxy : machine.proxyMachines) {
+                    var rhl = (InternalSlotRecipeHandler.AbstractRHL) proxy.getProxySlotRecipeHandler().getProxySlotHandlers().get(index);
+                    proxy.getControllers().forEach(controller -> {
+                        if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                            enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
+                            if (type != null) {
+                                holder.setRecipeType(type);
+                            }
+                        }
+                    });
                 }
             }
             itemChanged = true;

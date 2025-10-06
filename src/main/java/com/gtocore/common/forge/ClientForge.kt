@@ -7,7 +7,6 @@ import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.HoverEvent
 import net.minecraft.network.chat.Style
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
@@ -35,45 +34,10 @@ object ClientForge {
 
     private val GSON = GsonBuilder().setPrettyPrinting().create()
 
-    // 存储当前世界ID的缓存（避免频繁重新计算）
-    private var cachedWorldId: String? = null
-
-    // 获取当前存档/服务器的唯一标识符
-    private fun getCurrentWorldId(): String {
-        // 如果已缓存且不为空，直接返回
-        cachedWorldId?.let { return it }
-
-        val mc = Minecraft.getInstance()
-        val worldId = when {
-            // 多人游戏 - 使用服务器地址（优先级最高，最可靠）
-            mc.currentServer != null -> {
-                val server = mc.currentServer!!
-                val address = server.ip.replace("[^a-zA-Z0-9.-]".toRegex(), "_")
-                "server_$address"
-            }
-            // 单人游戏 - 使用当前连接信息的哈希
-            mc.isSingleplayer && mc.player != null -> {
-                // 使用玩家的UUID作为存档标识（每个存档的玩家UUID是固定的）
-                val playerUUID = mc.player!!.uuid.toString()
-                "singleplayer_${playerUUID.hashCode().toString(16)}"
-            }
-            // 无法确定（启动时）- 使用全局配置
-            else -> "global"
-        }
-
-        // 只缓存非全局的ID
-        if (worldId != "global") {
-            cachedWorldId = worldId
-        }
-
-        return worldId
-    }
-
     // 动态获取配置文件路径（每个存档/服务器独立）
     private fun getConfigPath(): Path {
-        val worldId = getCurrentWorldId()
-        return Minecraft.getInstance().gameDirectory.toPath()
-            .resolve("config/gtocore_client_messages/$worldId.json")
+        val mc = Minecraft.getInstance()
+        return mc.gameDirectory.toPath().resolve("config/gtocore_client_messages.json")
     }
 
     // 版本格式验证 (x.x.x)
@@ -181,7 +145,7 @@ object ClientForge {
         MessageDefinition(
             id = "ae2_update_and_algorithm_migration",
             gameVersion = "0.4.9",
-            dateString = "20251101",
+            dateString = "20251004",
             languagePredicate = { true },
             priority = 100,
             messages = listOf(
@@ -231,46 +195,6 @@ object ClientForge {
     private fun createSeparator() = Minecraft.getInstance().let { mc ->
         val count = (mc.gui.chat.width / mc.font.width("━")).coerceAtLeast(1)
         Component.literal("━".repeat(count)).withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY))
-    }
-
-    // 显示消息
-    private fun showMessage(player: net.minecraft.client.player.LocalPlayer, msg: MessageDefinition, page: Int, total: Int) {
-        player.sendSystemMessage(createSeparator())
-        player.sendSystemMessage(
-            Component.literal("┃ ").withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY))
-                .append(Component.literal("GTO Message System").withStyle(Style.EMPTY.withColor(ChatFormatting.WHITE).withBold(true))),
-        )
-        player.sendSystemMessage(
-            Component.literal("┃ ").withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY))
-                .append(Component.literal("Version: ").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)))
-                .append(Component.literal(msg.gameVersion).withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA))),
-        )
-        player.sendSystemMessage(
-            Component.literal("┃ ").withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY))
-                .append(Component.literal("Date: ").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)))
-                .append(Component.literal(msg.formatDate()).withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA))),
-        )
-        player.sendSystemMessage(createSeparator())
-        msg.messages.forEach { player.sendSystemMessage(it) }
-        player.sendSystemMessage(createSeparator())
-        player.sendSystemMessage(
-            Component.literal("┃ ").withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY))
-                .append(Component.literal("Page $page/$total").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
-                .append(
-                    Component.literal(" [✅ Got it]").withStyle(
-                        Style.EMPTY.withColor(ChatFormatting.GREEN).withBold(true)
-                            .withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gtocore:msg_confirm"))
-                            .withHoverEvent(
-                                HoverEvent(
-                                    HoverEvent.Action.SHOW_TEXT,
-                                    Component.literal("不再显示此信息 (点击立即确认)")
-                                        .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)),
-                                ),
-                            ),
-                    ),
-                ),
-        )
-        player.sendSystemMessage(createSeparator())
     }
 
     // 显示消息 GUI
@@ -376,7 +300,7 @@ object ClientForge {
     // 【入口】登录时显示消息
     @SubscribeEvent(priority = EventPriority.LOWEST)
     @JvmStatic
-    fun onClientLoggedIn(event: ClientPlayerNetworkEvent.LoggingIn) {
+    fun onClientLoggedIn(@Suppress("UNUSED_PARAMETER") event: ClientPlayerNetworkEvent.LoggingIn) {
         val mc = Minecraft.getInstance()
         val langCode = mc.languageManager.selected
         val config = loadConfig()
