@@ -232,6 +232,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.preview", "显示预览", "Show Preview");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.highlight", "高亮区域", "Highlight area");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.source", "来源: %s", "Source: %s");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.text.size", "大小: (%s %s %s) (%s %s)", "Size: (%s %s %s) (%s %s)");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.reserves", "储量: ", "Reserves: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.demand", "需求: ", "Demand: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.material.0", "基础: ", "Basic: ");

@@ -81,8 +81,8 @@ object GTOMachineTooltips {
                 "Platform structures are relatively simple; automatic expansion, road placement, or connecting pillars are not supported.",
         )
         section(
-            "必须使用指定的工业平台组件作为材料" translatedTo
-                "Must use specified industrial platform components as materials.",
+            "必须使用指定的工业组件作为材料" translatedTo
+                "Must use specified industrial components as materials.",
         )
 
         highlight("尽管如此它依旧是专业的基地平台展开工具" translatedTo "It remains a professional base-platform deployment tool") { rainbowSlow() }
@@ -123,8 +123,8 @@ object GTOMachineTooltips {
                 "The system will automatically calculate the required materials based on the selected blueprint.",
         )
         content(
-            "支持多种材料类型，包括标准、扩展和特种系列工业平台组件" translatedTo
-                "Supports multiple material types, including standard, extended, and special-series industrial platform component.",
+            "支持多种材料类型，包括标准、扩展和特种系列工业组件" translatedTo
+                "Supports multiple material types, including standard, extended, and special-series industrial component.",
         )
         content(
             "部分预设需要额外的材料" translatedTo

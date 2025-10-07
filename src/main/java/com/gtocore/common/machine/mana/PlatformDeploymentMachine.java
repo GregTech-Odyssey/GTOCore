@@ -313,6 +313,8 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                                 Component.empty(),
                         Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.highlight")
                                 .append(ComponentPanelWidget.withButton(Component.literal("[§b🔆§r]"), "highlight"))));
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.size", structure.xSize(), structure.ySize(), structure.zSize(),
+                        structure.xSize() >> 4, structure.zSize() >> 4));
 
                 String displayName = group.displayName();
                 String description = group.description();
@@ -361,7 +363,8 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                     List<IntObjectHolder<ItemStack>> extraMaterials = structure.extraMaterials();
                     if (!extraMaterials.isEmpty()) {
                         textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.extra_demand"));
-                        extraMaterials.forEach(e -> textList.add(Component.literal("[").append(e.obj.getDisplayName()).append("×").append(String.valueOf(e.number)).append("]")));
+                        extraMaterials.forEach(e -> textList.add(
+                                Component.literal("[").append(e.obj.getDisplayName()).append("×").append(String.valueOf(e.number)).append("]")));
                     }
                     if (!insufficient) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
                     else textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.adequate"));
@@ -827,8 +830,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             if (light) {
                 highlightRegion(dimension, pos1, pos2, 0x660099CC, 1200);
             } else stopHighlight(pos1, pos2);
-        }
-        if (presetConfirm) {
+        } else if (presetConfirm) {
             if (light) {
                 highlightRegion(dimension, pos1, pos2, 0x2277FF77, 600);
             } else stopHighlight(pos1, pos2);
@@ -870,6 +872,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     }
 
     private void getPlatform() {
+        if (!(getLevel() instanceof ServerLevel serverLevel)) return;
         BlockPos pos1 = null;
         BlockPos pos2 = null;
         Block chamberBlock = Blocks.BEDROCK;
@@ -886,7 +889,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             }
         }
         if (pos1 != null && pos2 != null) {
-            PlatformCreationAsync(getLevel(), pos1, pos2, xMirror, zMirror, rotation, chamberBlock, laserMode);
+            PlatformCreationAsync(serverLevel, pos1, pos2, xMirror, zMirror, rotation, chamberBlock, laserMode);
         }
     }
 }

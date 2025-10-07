@@ -262,7 +262,7 @@ public final class GTOMachines {
                                             更大的超频因子代表更激进的超频策略
                                             耗能更高，速度更快！""",
                                     """
-                                            For the same overclocking serverLevel, the higher this value, the greater the overclocking factor
+                                            For the same overclocking level, the higher this value, the greater the overclocking factor
                                             A larger overclocking factor represents a more aggressive overclocking strategy
                                             Higher energy consumption, faster speed!""")))
                     .workableTieredHullRenderer(GTOCore.id("block/machines/overclock_hatch/overclock_hatch_mk" + (tier - 7)))

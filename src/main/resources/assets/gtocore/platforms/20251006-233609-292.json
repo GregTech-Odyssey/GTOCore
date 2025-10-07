@@ -1,0 +1,436 @@
+{
+  " ": {
+    "id": "minecraft:air",
+    "properties": {}
+  },
+  "A": {
+    "id": "gtocore:industrial_platform_deployment_tools",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "B": {
+    "id": "gtocore:industrial_platform_deployment_tools",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "C": {
+    "id": "gtocore:strengthen_the_base_block",
+    "properties": {}
+  },
+  "D": {
+    "id": "gtocore:space_elevator_internal_support",
+    "properties": {}
+  },
+  "E": {
+    "id": "gtocore:naquadah_alloy_casing",
+    "properties": {}
+  },
+  "F": {
+    "id": "gtceu:white_lamp",
+    "properties": {
+      "bloom": "true",
+      "inverted": "false",
+      "lit": "true",
+      "powered": "false"
+    }
+  },
+  "G": {
+    "id": "gtocore:sps_casing",
+    "properties": {}
+  },
+  "H": {
+    "id": "gtceu:assembly_line_grating",
+    "properties": {}
+  },
+  "I": {
+    "id": "gtocore:module_connector",
+    "properties": {}
+  },
+  "J": {
+    "id": "gtocore:space_elevator_module_base",
+    "properties": {}
+  },
+  "K": {
+    "id": "gtocore:zirconia_ceramic_high_strength_bending_resistance_mechanical_block",
+    "properties": {}
+  },
+  "L": {
+    "id": "gtocore:high_strength_concrete",
+    "properties": {}
+  },
+  "M": {
+    "id": "gtocore:hyper_core",
+    "properties": {
+      "active": "true"
+    }
+  },
+  "N": {
+    "id": "gtocore:high_strength_support_mechanical_casing",
+    "properties": {}
+  },
+  "O": {
+    "id": "gtocore:space_elevator_mechanical_casing",
+    "properties": {}
+  },
+  "P": {
+    "id": "gtocore:space_elevator_support",
+    "properties": {
+      "active": "true"
+    }
+  },
+  "Q": {
+    "id": "gtocore:amprosium_frame",
+    "properties": {}
+  },
+  "R": {
+    "id": "gtocore:iridium_casing",
+    "properties": {}
+  },
+  "S": {
+    "id": "gtocore:auto_configuration_maintenance_hatch",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "T": {
+    "id": "gtocore:mega_se_mining",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "U": {
+    "id": "gtocore:opv_wireless_input_hatch_16384a",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "V": {
+    "id": "gtocore:molecular_casing",
+    "properties": {}
+  },
+  "W": {
+    "id": "gtocore:chemical_corrosion_resistant_pipe_casing",
+    "properties": {}
+  },
+  "X": {
+    "id": "gtocore:high_strength_support_spindle",
+    "properties": {}
+  },
+  "Y": {
+    "id": "gtocore:amprosium_block",
+    "properties": {}
+  },
+  "Z": {
+    "id": "gtocore:amprosium_casing",
+    "properties": {}
+  },
+  "[": {
+    "id": "gtceu:nonconducting_casing",
+    "properties": {}
+  },
+  "]": {
+    "id": "gtocore:oxidation_resistant_hastelloy_n_mechanical_casing",
+    "properties": {}
+  },
+  "^": {
+    "id": "gtceu:tungsten_frame",
+    "properties": {}
+  },
+  "_": {
+    "id": "gtocore:opv_wireless_input_hatch_16384a",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "a": {
+    "id": "gtocore:mega_se_mining",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "b": {
+    "id": "gtceu:advanced_computer_casing",
+    "properties": {}
+  },
+  "c": {
+    "id": "gtocore:auto_configuration_maintenance_hatch",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "d": {
+    "id": "gtceu:hastelloy_x_frame",
+    "properties": {}
+  },
+  "e": {
+    "id": "gtocore:speeding_pipe",
+    "properties": {}
+  },
+  "f": {
+    "id": "gtocore:neutronium_stable_casing",
+    "properties": {}
+  },
+  "g": {
+    "id": "gtceu:high_power_casing",
+    "properties": {}
+  },
+  "h": {
+    "id": "gtceu:electrolytic_cell",
+    "properties": {
+      "active": "true"
+    }
+  },
+  "i": {
+    "id": "gtceu:me_pattern_buffer_proxy",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "j": {
+    "id": "gtocore:mega_se_assembler",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "k": {
+    "id": "gtmthings:me_export_buffer",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "l": {
+    "id": "gtocore:space_elevator_power_module_5",
+    "properties": {
+      "active": "true"
+    }
+  },
+  "m": {
+    "id": "gtocore:enhance_hyper_mechanical_casing",
+    "properties": {}
+  },
+  "n": {
+    "id": "gtocore:amprosium_gearbox",
+    "properties": {}
+  },
+  "o": {
+    "id": "gtocore:road_of_heaven",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "p": {
+    "id": "gtocore:me_extend_pattern_buffer",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "q": {
+    "id": "gtocore:opv_wireless_input_hatch_16384a",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "r": {
+    "id": "gtocore:mega_se_mining",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "s": {
+    "id": "gtocore:auto_configuration_maintenance_hatch",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "t": {
+    "id": "gtceu:cupronickel_coil_block",
+    "properties": {
+      "active": "false"
+    }
+  },
+  "u": {
+    "id": "gtceu:kanthal_coil_block",
+    "properties": {
+      "active": "false"
+    }
+  },
+  "v": {
+    "id": "gtceu:black_steel_frame",
+    "properties": {}
+  },
+  "w": {
+    "id": "gtceu:tempered_glass",
+    "properties": {}
+  },
+  "x": {
+    "id": "gtocore:precision_processing_mechanical_casing",
+    "properties": {}
+  },
+  "y": {
+    "id": "gtocore:advanced_assembly_line_unit",
+    "properties": {
+      "active": "false"
+    }
+  },
+  "z": {
+    "id": "gtceu:naquadah_frame",
+    "properties": {}
+  },
+  "{": {
+    "id": "gtocore:high_pressure_pipe_casing",
+    "properties": {}
+  },
+  "|": {
+    "id": "gtceu:tungstensteel_pipe_casing",
+    "properties": {}
+  },
+  "}": {
+    "id": "gtceu:fusion_glass",
+    "properties": {}
+  },
+  "~": {
+    "id": "gtocore:high_strength_space_elevator_cable",
+    "properties": {}
+  },
+  "¡": {
+    "id": "gtocore:spacetime_assembly_line_unit",
+    "properties": {}
+  },
+  "¢": {
+    "id": "gtocore:hollow_casing",
+    "properties": {}
+  },
+  "£": {
+    "id": "gtceu:ev_input_bus",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "¤": {
+    "id": "gtocore:wireless_network_computation_receiver_hatch",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "¥": {
+    "id": "gtocore:opv_wireless_input_hatch_64a",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "¦": {
+    "id": "gtceu:naquadria_frame",
+    "properties": {}
+  },
+  "§": {
+    "id": "ae2:cable_bus",
+    "properties": {
+      "light_level": "0",
+      "waterlogged": "false"
+    }
+  },
+  "¨": {
+    "id": "gtceu:me_stocking_input_bus",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "©": {
+    "id": "gtmthings:me_export_buffer",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "ª": {
+    "id": "gtceu:me_stocking_input_hatch",
+    "properties": {
+      "facing": "north"
+    }
+  },
+  "«": {
+    "id": "gtocore:quantum_glass",
+    "properties": {}
+  },
+  "¬": {
+    "id": "gtceu:me_stocking_input_hatch",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "®": {
+    "id": "gtceu:me_stocking_input_bus",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "¯": {
+    "id": "gtocore:hastelloy_n_frame",
+    "properties": {}
+  },
+  "°": {
+    "id": "gtocore:opv_wireless_input_hatch_16777216a",
+    "properties": {
+      "facing": "west"
+    }
+  },
+  "±": {
+    "id": "gtocore:boron_carbide_ceramic_radiation_resistant_mechanical_cube",
+    "properties": {}
+  },
+  "²": {
+    "id": "gtceu:me_stocking_input_hatch",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "³": {
+    "id": "gtmthings:me_export_buffer",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "´": {
+    "id": "gtceu:me_stocking_input_bus",
+    "properties": {
+      "facing": "south"
+    }
+  },
+  "µ": {
+    "id": "gtocore:law_filter_casing",
+    "properties": {}
+  },
+  "¶": {
+    "id": "gtocore:pressure_containment_casing",
+    "properties": {}
+  },
+  "·": {
+    "id": "gtocore:titanium_nitride_ceramic_impact_resistant_mechanical_block",
+    "properties": {}
+  },
+  "¸": {
+    "id": "gtocore:rhenium_reinforced_energy_glass",
+    "properties": {}
+  },
+  "¹": {
+    "id": "gtceu:tungsten_steel_frame",
+    "properties": {}
+  },
+  "º": {
+    "id": "gtocore:dyson_control_casing",
+    "properties": {}
+  },
+  "»": {
+    "id": "gtocore:amprosium_active_casing",
+    "properties": {}
+  },
+  "¼": {
+    "id": "gtocore:cobalt_oxide_ceramic_strong_thermally_conductive_mechanical_block",
+    "properties": {}
+  },
+  "½": {
+    "id": "gtocore:antifreeze_heatproof_machine_casing",
+    "properties": {}
+  }
+}

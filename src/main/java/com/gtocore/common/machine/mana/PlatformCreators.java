@@ -13,15 +13,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
@@ -89,7 +91,7 @@ public class PlatformCreators {
     /**
      * 异步导出结构（支持 XZ 平面镜像和绕 Y 轴旋转）
      */
-    public static void exportStructureAsync(Level level, BlockPos pos1, BlockPos pos2,
+    public static void exportStructureAsync(ServerLevel level, BlockPos pos1, BlockPos pos2,
                                             boolean xMirror, boolean zMirror, int rotation,
                                             Block chamberBlock, boolean laserMode) {
         if (isExporting) return;
@@ -106,7 +108,7 @@ public class PlatformCreators {
     /**
      * 平台创建函数（异步）
      */
-    public static void PlatformCreationAsync(Level level, BlockPos startPos, BlockPos endPos,
+    public static void PlatformCreationAsync(ServerLevel level, BlockPos startPos, BlockPos endPos,
                                              boolean xMirror, boolean zMirror, int rotation,
                                              Block chamberBlock, boolean laserMode) {
         exportStructureAsync(level, startPos, endPos, xMirror, zMirror, rotation, chamberBlock, laserMode);
@@ -115,7 +117,7 @@ public class PlatformCreators {
     /**
      * 导出结构和映射文件到 logs/platform/ 目录
      */
-    public static void exportStructure(Level level, BlockPos pos1, BlockPos pos2,
+    public static void exportStructure(ServerLevel level, BlockPos pos1, BlockPos pos2,
                                        boolean xMirror, boolean zMirror, int rotation,
                                        Block chamberBlock, boolean laserMode) {
         Path outputDir = Paths.get("logs", "platform");
@@ -152,7 +154,6 @@ public class PlatformCreators {
         // 原始 BlockState -> Character 映射（不去重）
         Map<BlockState, Character> stateToChar = new LinkedHashMap<>();
         Character nextChar = getNextValidChar('A');
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
@@ -164,8 +165,12 @@ public class PlatformCreators {
         for (int y = minY; y <= maxY; y++) {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
-                    mutablePos.set(x, y, z);
-                    BlockState originalState = level.getBlockState(mutablePos);
+                    BlockPos pos = new BlockPos(x, y, z);
+                    LevelChunk chunk = level.getChunkAt(pos);
+                    int sectionIndex = chunk.getSectionIndex(y);
+                    LevelChunkSection section = chunk.getSection(sectionIndex);
+
+                    BlockState originalState = section.getBlockState(x & 15, y & 15, z & 15);
                     BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
                     Block block = transformedState.getBlock();
@@ -182,7 +187,7 @@ public class PlatformCreators {
             }
         }
 
-        // 写 structureFile（保留状态）
+        // 写 structureFile
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structureFile), StandardCharsets.UTF_8)) {
             writer.write(".size(" + dx + ", " + dy + ", " + dz + ")");
             writer.newLine();
@@ -216,7 +221,12 @@ public class PlatformCreators {
                         int worldY = minY + outY;
                         int worldZ = minZ + rz;
 
-                        BlockState originalState = level.getBlockState(new BlockPos(worldX, worldY, worldZ));
+                        BlockPos pos = new BlockPos(worldX, worldY, worldZ);
+                        LevelChunk chunk = level.getChunkAt(pos);
+                        int sectionIndex = chunk.getSectionIndex(worldY);
+                        LevelChunkSection section = chunk.getSection(sectionIndex);
+                        BlockState originalState = section.getBlockState(worldX & 15, worldY & 15, worldZ & 15);
+
                         BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
                         xChars.append(stateToChar.getOrDefault(transformedState, ' '));
@@ -230,7 +240,7 @@ public class PlatformCreators {
             GTOCore.LOGGER.error("Failed to write structure file", e);
         }
 
-        // 写 mappingFile（保留状态）
+        // 写 mappingFile
         Map<Character, BlockState> charToState = new LinkedHashMap<>();
         stateToChar.forEach((state, ch) -> charToState.put(ch, state));
         saveMappingToJson(charToState, mappingFile);
@@ -238,7 +248,7 @@ public class PlatformCreators {
         // 构建 patternFile 专用的按 Block 去重映射
         Map<Block, Character> blockToChar = new LinkedHashMap<>();
         char currentChar = 'A';
-        blockToChar.put(Blocks.AIR, ' '); // 空气固定为空格
+        blockToChar.put(Blocks.AIR, ' ');
 
         for (BlockState state : stateToChar.keySet()) {
             Block block = state.getBlock();
@@ -249,7 +259,7 @@ public class PlatformCreators {
             }
         }
 
-        // 生成 .block()/.where() 文件（按 Block 去重）
+        // 生成 .block()/.where() 文件
         try (BufferedWriter patternWriter = Files.newBufferedWriter(Paths.get(patternFile), StandardCharsets.UTF_8)) {
             String chamberId = BuiltInRegistries.BLOCK.getKey(chamberBlock).toString();
             String[] chamberParts = StringUtils.decompose(chamberId);
@@ -289,7 +299,12 @@ public class PlatformCreators {
                         int worldY = minY + outY;
                         int worldZ = minZ + rz;
 
-                        BlockState originalState = level.getBlockState(new BlockPos(worldX, worldY, worldZ));
+                        BlockPos pos = new BlockPos(worldX, worldY, worldZ);
+                        LevelChunk chunk = level.getChunkAt(pos);
+                        int sectionIndex = chunk.getSectionIndex(worldY);
+                        LevelChunkSection section = chunk.getSection(sectionIndex);
+                        BlockState originalState = section.getBlockState(worldX & 15, worldY & 15, worldZ & 15);
+
                         BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
                         xChars.append(blockToChar.getOrDefault(transformedState.getBlock(), ' '));
