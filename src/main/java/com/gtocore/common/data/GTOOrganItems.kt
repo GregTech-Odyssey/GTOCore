@@ -1,5 +1,6 @@
 package com.gtocore.common.data
 
+import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.common.data.GTOOrganItems.TierOrganTypes
 import com.gtocore.common.data.translation.OrganTranslation
 import com.gtocore.common.data.translation.OrganTranslation.organModifierDescriptions
@@ -15,7 +16,6 @@ import com.gregtechceu.gtceu.api.item.ComponentItem
 import com.gregtechceu.gtceu.api.item.component.ElectricStats
 import com.gregtechceu.gtceu.common.data.GTItems.attach
 import com.gregtechceu.gtceu.common.item.TooltipBehavior
-import com.gtocore.api.lang.ComponentListSupplier
 import com.gtolib.GTOCore
 import com.gtolib.utils.register.ItemRegisterUtils.item
 import com.tterrag.registrate.util.entry.ItemEntry
@@ -43,7 +43,7 @@ object GTOOrganItems {
                 ComponentListSupplier {
                     add(OrganTranslation.flightInfo2)
                     add(OrganTranslation.maxFlyAbleSpeed(0.15f))
-                }::apply
+                }::apply,
             ),
         ),
     )
@@ -59,7 +59,7 @@ object GTOOrganItems {
                 ComponentListSupplier {
                     add(OrganTranslation.flightInfo2)
                     add(OrganTranslation.maxFlyAbleSpeed(0.15f))
-                }::apply
+                }::apply,
             ),
         ),
     )
@@ -75,7 +75,7 @@ object GTOOrganItems {
                 ComponentListSupplier {
                     add(OrganTranslation.flightInfo2)
                     add(OrganTranslation.maxFlyAbleSpeed(0.25f))
-                }::apply
+                }::apply,
             ),
             ElectricStats.createElectricItem(
                 GTValues.V[GTValues.EV] * (32.hours.inWholeSeconds.toInt()),
