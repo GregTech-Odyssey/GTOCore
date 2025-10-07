@@ -117,6 +117,7 @@
     "ae2.wtlib.ItemWTMixin",
     "ae2.wtlib.WirelessTerminalMenuHostMixin",
     "apotheosis.AdventureEventsMixin",
+    "avaritia.SingularityItemMixin",
     "botania.ContributorListMixin",
     "botania.DandelifeonBlockEntityMixin",
     "botania.GaiaGuardianEntityMixin",

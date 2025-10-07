@@ -21,7 +21,7 @@ import java.util.List;
 public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilCrossRecipeMultiblockMachine {
 
     public DimensionallyTranscendentPlasmaForgeMachine(MetaMachineBlockEntity holder) {
-        super(holder, false, true, false, false, MachineUtils::getHatchParallelLong);
+        super(holder, false, true, false, false, MachineUtils::getHatchParallel);
     }
 
     @Override

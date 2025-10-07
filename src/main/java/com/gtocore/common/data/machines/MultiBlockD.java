@@ -532,10 +532,10 @@ public final class MultiBlockD {
                     if (level != null) {
                         BlockPos pos = machine.self().getPos().offset(0, -16, 0);
                         Block block = level.getBlockState(pos).getBlock();
-                        if (MachineUtils.inputItem(machine, GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.COMMAND_BLOCK_BROKEN.get()) {
+                        if (MachineUtils.inputItem(machine, GTOItems.CHAIN_COMMAND_BLOCK_CORE.asItem(), 1) && block == GTOBlocks.COMMAND_BLOCK_BROKEN.get()) {
                             level.setBlockAndUpdate(pos, Blocks.CHAIN_COMMAND_BLOCK.defaultBlockState());
                         }
-                        if (MachineUtils.inputItem(machine, GTOItems.REPEATING_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.get()) {
+                        if (MachineUtils.inputItem(machine, GTOItems.REPEATING_COMMAND_BLOCK_CORE.asItem(), 1) && block == GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.get()) {
                             level.setBlockAndUpdate(pos, Blocks.REPEATING_COMMAND_BLOCK.defaultBlockState());
                         }
                     }

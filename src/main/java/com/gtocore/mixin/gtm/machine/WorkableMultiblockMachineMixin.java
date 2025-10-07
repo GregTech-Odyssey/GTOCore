@@ -55,8 +55,6 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     @Unique
     private boolean gtolib$isDualOutput;
     @Unique
-    private int gtolib$outputColor;
-    @Unique
     private Int2ReferenceOpenHashMap<RecipeHandlerList> gtolib$outputColorMap;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
@@ -144,16 +142,6 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
                 TaskHandler.enqueueServerTask(serverLevel, () -> enhancedRecipeLogicMachine.onContentChanges(handler), 0);
             }
         }
-    }
-
-    @Override
-    public void gtolib$setOutputColor(final int color) {
-        this.gtolib$outputColor = color;
-    }
-
-    @Override
-    public int gtolib$getOutputColor() {
-        return this.gtolib$outputColor;
     }
 
     @Override

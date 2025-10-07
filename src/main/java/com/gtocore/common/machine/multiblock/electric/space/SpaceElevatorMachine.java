@@ -92,7 +92,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
                         int count = Math.min(stack.getCount(), getMaxSpoolCount() - spoolCount);
                         if (count < 1) return true;
                         spoolCount += count;
-                        inputItem(stack.copyWithCount(count));
+                        inputItem(stack.getItem(), count);
                     }
                     return false;
                 });

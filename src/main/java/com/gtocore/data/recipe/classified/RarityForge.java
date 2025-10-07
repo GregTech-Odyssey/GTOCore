@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeCategories;
 
 import com.gtolib.utils.TagUtils;
 
@@ -140,6 +141,7 @@ final class RarityForge {
                         .circuitMeta(j + 1)
                         .EUt(VA[i + 3])
                         .duration(200)
+                        .category(GTORecipeCategories.RARITY_FORGE_RECIPES_GEM_UPGRADE)
                         .supportFast(false)
                         .save();
             }
