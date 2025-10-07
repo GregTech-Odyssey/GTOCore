@@ -2074,7 +2074,7 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", TierCasingCrossRecipeMultiblockMachine.createParallel(MachineUtils::getHatchParallelLong, COMPONENT_ASSEMBLY_CASING_TIER))
+    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", TierCasingCrossRecipeMultiblockMachine.createParallel(MachineUtils::getHatchParallel, COMPONENT_ASSEMBLY_CASING_TIER))
             .allRotation()
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblyLineTooltips().getSupplier())

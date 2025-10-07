@@ -446,8 +446,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     private boolean mineAndInsertFluids(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos) {
         if (blockState.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore) {
             boolean isSource = liq.getFluidState(blockState).isSource();
-            if (isSource && fluidMode == DigitalMiner.FluidMode.Harvest &&
-                    !MachineUtils.outputFluid(miner, new FluidStack(liq.getFluidState(blockState).getType(), 1000))) {
+            if (isSource && fluidMode == DigitalMiner.FluidMode.Harvest && !MachineUtils.outputFluid(miner, liq.getFluidState(blockState).getType(), 1000)) {
                 this.isInventoryFull = true;
                 return true;
             }

@@ -68,7 +68,7 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition LARGE_COKE_OVEN = multiblock("large_coke_oven", "大型焦炉", LargeCokeOvenMachine::new)
             .nonYAxisRotation()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(8))
-            .recipeModifiers(RecipeModifierFunction.recipeReduction(1, 2), RecipeModifierFunction.accurateParallel(8))
+            .recipeModifiers(RecipeModifierFunction.accurateParallel(8))
             .recipeTypes(GTRecipeTypes.COKE_OVEN_RECIPES)
             .block(GTBlocks.CASING_COKE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -925,11 +925,11 @@ public final class MultiBlockG {
             .register();
 
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统",
-            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * (m.getTier() - 1)), GLASS_TIER))
+            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GLASS_TIER) << 1), GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
             .specialParallelizableTooltips()
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
             .laserTooltips()
             .multipleRecipesTooltips()
             .combinedRecipeTooltips()

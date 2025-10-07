@@ -12,7 +12,6 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.GTOUtils;
-import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -29,7 +28,6 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
@@ -196,12 +194,12 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     private void tick() {
         if (isFormed() && getOffsetTimer() % 20 == 0) {
 
-            MachineUtils.forEachInputItems(this, (stack, amount) -> {
-                if (Wrapper.NEUTRON_SOURCES.containsKey(stack.getItem())) {
-                    neutronFluxkeV += (long) Wrapper.NEUTRON_SOURCES.get(stack.getItem()) * amount;
-                    inputItem(stack.copyWithCount((int) amount));
+            fastForEachInputItems((stack, amount) -> {
+                var neutron_sources = Wrapper.NEUTRON_SOURCES.get(stack.getItem());
+                if (neutron_sources != null) {
+                    neutronFluxkeV += (long) neutron_sources * amount;
+                    inputItem(stack.getItem(), amount);
                 }
-                return false;
             });
             neutronFluxkeV = Math.max(0, neutronFluxkeV - 10);
 
@@ -210,25 +208,24 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
                 neutronFluxkeV += (long) Math.sqrt(neutronFluxkeV * reflectors);
             }
             temperature += (float) recipeHeat;
-            MachineUtils.forEachInputFluids(this, (stack, amount) -> {
-                if (Wrapper.COOLANTS.containsKey(stack.getFluid()) && temperature > 298) {
-                    long processAmount = Math.min((long) Math.ceil((temperature - 298f) / Wrapper.COOLANTS.get(stack.getFluid())), amount);
-                    if (stack.getFluid() == GTMaterials.DistilledWater.getFluid()) {
+            fastForEachInputFluids((stack, amount) -> {
+                var fluid = stack.getFluid();
+                var coolants = Wrapper.COOLANTS.get(fluid);
+                if (coolants != null && temperature > 298) {
+                    long processAmount = Math.min((long) Math.ceil((temperature - 298f) / coolants), amount);
+                    if (fluid == GTMaterials.DistilledWater.getFluid()) {
                         processAmount = Math.min(processAmount, Integer.MAX_VALUE / 160);
                     } else {
                         processAmount = Math.min(processAmount, Integer.MAX_VALUE);
                     }
-                    temperature -= processAmount * Wrapper.COOLANTS.get(stack.getFluid());
-                    var copy = stack.copy();
-                    copy.setAmount((int) processAmount);
-                    inputFluid(copy);
+                    temperature -= processAmount * coolants;
+                    inputFluid(fluid, processAmount);
                     int outputAmount = (int) processAmount;
-                    if (stack.getFluid() == GTMaterials.DistilledWater.getFluid()) {
+                    if (fluid == GTMaterials.DistilledWater.getFluid()) {
                         outputAmount = outputAmount * 160;
                     }
-                    outputFluid(new FluidStack(Wrapper.COOLANT_OUTPUTS.get(stack.getFluid()), outputAmount));
+                    outputFluid(Wrapper.COOLANT_OUTPUTS.get(fluid), outputAmount);
                 }
-                return false;
             });
             temperature = Math.max(298, temperature);
             if (temperature > MAX_TEMPERATURE) {
@@ -245,7 +242,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     }
 
     private void meltDown() {
-        MachineUtils.outputItem(this, GTOItems.NUCLEAR_WASTE.asStack(1 + (int) (Math.random() * 4)));
+        outputItem(GTOItems.NUCLEAR_WASTE.asItem(), 1 + (int) (Math.random() * 4));
         var machine = self();
         var level = machine.getLevel();
         var pos = machine.getPos().relative(machine.getFrontFacing().getOpposite(), 6);

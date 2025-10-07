@@ -153,7 +153,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     }
 
     @Override
-    public long getParallelLong() {
-        return super.getParallelLong() * Math.max(1, temperature / 500);
+    public long getParallel() {
+        return super.getParallel() * Math.max(1, temperature / 500);
     }
 }

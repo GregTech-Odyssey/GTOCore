@@ -60,7 +60,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     long parallel() {
         WaterPurificationPlantMachine machine = getNetMachine();
         if (machine != null) {
-            var p = Math.min(super.getParallelLong(), (machine.availableEu << 1) / multiple);
+            var p = Math.min(super.getParallel(), (machine.availableEu << 1) / multiple);
             return p >= 1000 ? p : 0;
         }
         return 0;
