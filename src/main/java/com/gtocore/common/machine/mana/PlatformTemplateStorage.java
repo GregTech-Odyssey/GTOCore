@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.gtocore.common.machine.mana.PlatformBlockType.PlatformBlockStructure.structure;
+
 public final class PlatformTemplateStorage {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
@@ -24,13 +26,13 @@ public final class PlatformTemplateStorage {
     private static final String road = add("道路", "road");
     private static final String factory = add("工厂", "factory");
 
-    /// "叫 49*49 浅色带公路地板吧，然后cn是 神官。"
-
     static {
 
-        PlatformBlockStructure high_saturation_chessboard_1_blue_pink = PlatformBlockStructure.structure("high_saturation_chessboard_1_blue_pink")
+        String high_saturation_series = add("high_saturation_series", "高饱和系列", "High saturation series");
+
+        PlatformBlockStructure high_saturation_chessboard_1_blue_pink = structure("high_saturation_chessboard_1_blue_pink")
                 .type(platform)
-                .displayName(add("high_saturation_chessboard", "高饱和棋盘", "High saturation chessboard"))
+                .displayName(high_saturation_series)
                 .description(add("1×1 蓝·粉", "1×1 blue·pink"))
                 .source("阿龙-还有一件事")
                 .resource(GTOCore.id(in("high_saturation_chessboard_1")))
@@ -38,9 +40,9 @@ public final class PlatformTemplateStorage {
                 .materials(0, 144)
                 .build();
 
-        PlatformBlockStructure high_saturation_chessboard_1_orange_white = PlatformBlockStructure.structure("high_saturation_chessboard_1_orange_white")
+        PlatformBlockStructure high_saturation_chessboard_1_orange_white = structure("high_saturation_chessboard_1_orange_white")
                 .type(platform)
-                .displayName(add("high_saturation_chessboard", "高饱和棋盘", "High saturation chessboard"))
+                .displayName(high_saturation_series)
                 .description(add("1×1 橙·白", "1×1 orange·white"))
                 .source("阿龙-还有一件事")
                 .resource(GTOCore.id(in("high_saturation_chessboard_1")))
@@ -57,72 +59,76 @@ public final class PlatformTemplateStorage {
                         .addStructure(high_saturation_chessboard_1_orange_white)
                         .build());
 
-        PlatformBlockStructure light_colored_road_floor_1 = PlatformBlockStructure.structure("light_colored_road_floor_1")
+        String light_colored_road_floor = add("light_colored_road_floor", "浅色带公路地板", "Light-colored road floor");
+
+        PlatformBlockStructure light_colored_road_floor_1 = structure("light_colored_road_floor_1")
                 .type(platform)
-                .displayName(add("light_colored_road_floor", "浅色带公路地板", "Light-colored road floor"))
+                .displayName(light_colored_road_floor)
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_1")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_1.json")))
                 .materials(0, 100)
                 .build();
 
-        PlatformBlockStructure light_colored_road_floor_2 = PlatformBlockStructure.structure("light_colored_road_floor_2")
+        PlatformBlockStructure light_colored_road_floor_2 = structure("light_colored_road_floor_2")
                 .type(road)
-                .displayName(add("light_colored_road_floor", "浅色带公路地板", "Light-colored road floor"))
+                .displayName(light_colored_road_floor)
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_2")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_2.json")))
                 .materials(0, 20)
                 .build();
 
-        PlatformBlockStructure light_colored_road_floor_3 = PlatformBlockStructure.structure("light_colored_road_floor_3")
+        PlatformBlockStructure light_colored_road_floor_3 = structure("light_colored_road_floor_3")
                 .type(platform_3_3)
-                .displayName(add("light_colored_road_floor", "浅色带公路地板", "Light-colored road floor"))
+                .displayName(light_colored_road_floor)
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_3")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_3.json")))
                 .materials(0, 676)
                 .build();
 
-        PlatformBlockStructure light_colored_road_floor_4 = PlatformBlockStructure.structure("light_colored_road_floor_4")
+        PlatformBlockStructure light_colored_road_floor_4 = structure("light_colored_road_floor_4")
                 .type(platform_large)
-                .displayName(add("light_colored_road_floor", "浅色带公路地板", "Light-colored road floor"))
+                .displayName(light_colored_road_floor)
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_4")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_4.json")))
                 .materials(0, 676)
                 .build();
 
-        PlatformBlockStructure gray_floor_with_lights_1 = PlatformBlockStructure.structure("gray_floor_with_lights_1")
+        String gray_floor_with_lights = add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights");
+
+        PlatformBlockStructure gray_floor_with_lights_1 = structure("gray_floor_with_lights_1")
                 .type(platform)
-                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .displayName(gray_floor_with_lights)
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_1")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_1.json")))
                 .materials(1, 100)
                 .build();
 
-        PlatformBlockStructure gray_floor_with_lights_2 = PlatformBlockStructure.structure("gray_floor_with_lights_2")
+        PlatformBlockStructure gray_floor_with_lights_2 = structure("gray_floor_with_lights_2")
                 .type(road)
-                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .displayName(gray_floor_with_lights)
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_2")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_2.json")))
                 .materials(1, 20)
                 .build();
 
-        PlatformBlockStructure gray_floor_with_lights_3 = PlatformBlockStructure.structure("gray_floor_with_lights_3")
+        PlatformBlockStructure gray_floor_with_lights_3 = structure("gray_floor_with_lights_3")
                 .type(platform_3_3)
-                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .displayName(gray_floor_with_lights)
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_3")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_3.json")))
                 .materials(1, 676)
                 .build();
 
-        PlatformBlockStructure gray_floor_with_lights_4 = PlatformBlockStructure.structure("gray_floor_with_lights_4")
+        PlatformBlockStructure gray_floor_with_lights_4 = structure("gray_floor_with_lights_4")
                 .type(platform_large)
-                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .displayName(gray_floor_with_lights)
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_4")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_4.json")))
@@ -143,10 +149,10 @@ public final class PlatformTemplateStorage {
                         .addStructure(gray_floor_with_lights_4)
                         .build());
 
-        PlatformBlockStructure house = PlatformBlockStructure.structure("house")
+        PlatformBlockStructure house = structure("house")
                 .type(platform)
                 .displayName(add("这是房子", "house"))
-                .source(add("a_villager", "某村民", "A villager"))
+                .source("某村民")
                 .preview(true)
                 .resource(GTOCore.id(in("house")))
                 .symbolMap(GTOCore.id(in("house.json")))
