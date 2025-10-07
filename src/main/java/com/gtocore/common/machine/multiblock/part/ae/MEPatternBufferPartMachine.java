@@ -1,7 +1,8 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
+import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.machines.GTAEMachines;
-import com.gtocore.common.machine.multiblock.part.ProgrammableHatchPartMachine;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
@@ -25,7 +26,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
@@ -82,13 +82,11 @@ import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+//TODO fix
 @DataGeneratorScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -118,9 +116,16 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final Set<BlockPos> proxies = new OpenCacheHashSet<>();
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
-
     @Persisted
-    private boolean switchType = false;
+    @DescSynced
+    private final ArrayList<GTRecipeType> recipeTypes=new ArrayList<>();
+    @Persisted
+    @DescSynced
+    private GTRecipeType mode;
+
+    private void changeMode(GTRecipeType recipe) {
+        this.mode=recipe;
+    }
 
     protected IntSyncedField configuratorField = ISync.createIntField(this)
             .set(-1)
@@ -222,9 +227,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     @Override
     public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
+        //TODO fix
         var slot = getDetailsSlotMap().get(patternDetails);
         if (slot != null) {
-            if (switchType) {
+            if (false) {
                 for (var s : getInternalInventory()) {
                     if (s == slot || (s.recipe != null && slot.recipe != null && s.recipe.recipeType == slot.recipe.recipeType) || s.isEmpty()) continue;
                     return false;
@@ -278,6 +284,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 input.add(stack);
             }
             if (input.size() < sparseInput.length) {
+                //TODO fix
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
                 if (pattern.getDefinition().getTag().tags.get("type") instanceof StringTag stringTag) {
                     stack.getTag().put("type", stringTag);
@@ -344,7 +351,26 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorySimulated.storage));
         configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventory.storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
         configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTank.getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0, 1, 0.5), () -> switchType, (clickData, pressed) -> switchType = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(ProgrammableHatchPartMachine.SWITCH_TYPE, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
+    }
+    @Override
+    public void attachSideTabs(TabsWidget sideTabs) {
+        super.attachSideTabs(sideTabs);
+        sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes,mode,this::changeMode));
+    }
+
+    @Override
+    public void addedToController(@NotNull IMultiController controller) {
+        super.addedToController(controller);
+        this.recipeTypes.clear();
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypesCombined(this.getControllers()))
+                ;
+    }
+    @Override
+    public void removedFromController(@NotNull IMultiController controller) {
+        super.removedFromController(controller);
+        this.recipeTypes.clear();
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypesCombined(this.getControllers()))
+                ;
     }
 
     @Override
@@ -499,7 +525,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             patternDetails.pushInputsToExternalInventory(inputHolder, inputSink);
             if (recipe != null) {
                 GTRecipeType type;
-                if (machine.switchType && patternDetails instanceof IDetails details) {
+                //TODO fix
+                if (patternDetails instanceof IDetails details) {
                     type = details.getRecipeType();
                 } else type = null;
                 machine.getControllers().forEach(controller -> {
