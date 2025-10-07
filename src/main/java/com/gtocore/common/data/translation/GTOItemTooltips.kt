@@ -115,13 +115,12 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     setTranslationPrefix("storage_bus")
 
                     section("与存储设备进行交互" translatedTo "Interact with storage devices")
-                    command(("仅支持读取" translatedTo "Only supports reading ") + ("物品和流体" translatedTo "items and fluids ").gold() + ("两种类型" translatedTo "two types"))
                     info("经过优化，吞吐量性能卓越" translatedTo "Throughput performance is excellent")
                 }.editionByGTONormal(),
             )
         }
 
-        listOf(EPPItemAndBlock.TAG_STORAGE_BUS.asItem(), EPPItemAndBlock.MOD_STORAGE_BUS.asItem()).forEach {
+        listOf(EPPItemAndBlock.TAG_STORAGE_BUS.asItem(), EPPItemAndBlock.MOD_STORAGE_BUS.asItem(), EPPItemAndBlock.PRECISE_STORAGE_BUS).forEach {
             it.setTooltips(
                 ComponentListSupplier {
                     setTranslationPrefix("pattern_modifier")
