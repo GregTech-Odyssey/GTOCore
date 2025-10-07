@@ -1,19 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric;
 
-import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
-
-import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
-import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
-import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.utils.GTOUtils;
-import com.gtolib.utils.MachineUtils;
-
+import com.google.common.collect.ImmutableMap;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -25,16 +12,25 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
+import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
+import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
+import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.utils.GTOUtils;
+import com.gtolib.utils.MachineUtils;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-
-import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -211,6 +207,9 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
             }
             temperature += (float) recipeHeat;
             MachineUtils.forEachInputFluids(this, (stack, amount) -> {
+                if (stack == null || stack.getFluid() == null) {
+                    return false;
+                }
                 if (Wrapper.COOLANTS.containsKey(stack.getFluid()) && temperature > 298) {
                     long processAmount = Math.min((long) Math.ceil((temperature - 298f) / Wrapper.COOLANTS.get(stack.getFluid())), amount);
                     if (stack.getFluid() == GTMaterials.DistilledWater.getFluid()) {
