@@ -219,7 +219,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment({ "禁用爆弹物品的使用", "Disable the use of Charge Bomb items" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
-    public boolean disableChargeBomb = true;
+    public boolean disableChargeBomb = false;
 
     @Configurable
     @Configurable.Comment({ "在物品下方显示英文名称", "Show the English name below the item" })

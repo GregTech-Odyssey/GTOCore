@@ -108,7 +108,7 @@ public final class GTORecipeTypes {
     public static final RecipeType CRACKING_RECIPES = (RecipeType) GTRecipeTypes.CRACKING_RECIPES;
     public static final RecipeType IMPLOSION_RECIPES = (RecipeType) GTRecipeTypes.IMPLOSION_RECIPES;
     public static final RecipeType VACUUM_RECIPES = (RecipeType) GTRecipeTypes.VACUUM_RECIPES;
-    public static final RecipeType ASSEMBLY_LINE_RECIPES = (RecipeType) GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
+    public static final RecipeType ASSEMBLY_LINE_RECIPES = ((RecipeType) GTRecipeTypes.ASSEMBLY_LINE_RECIPES).compression(false);
     public static final RecipeType LARGE_CHEMICAL_RECIPES = (RecipeType) GTRecipeTypes.LARGE_CHEMICAL_RECIPES;
     public static final RecipeType FUSION_RECIPES = (RecipeType) GTRecipeTypes.FUSION_RECIPES;
     public static final RecipeType DUMMY_RECIPES = (RecipeType) GTRecipeTypes.DUMMY_RECIPES;

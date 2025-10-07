@@ -22,6 +22,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
+import appeng.api.stacks.AEKey;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -29,9 +30,12 @@ import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,6 +53,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
     @Persisted
     private boolean player = true;
     private StorageAccessPartMachine accessPartMachine;
+    private final List<Object2ObjectMap.Entry<AEKey, BigInteger>> list = new ObjectArrayList<>();
 
     public MEStorageMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -137,12 +142,15 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
                 if (data == BigCellDataStorage.EMPTY) return;
                 var map = data.getStoredMap();
                 if (map == null) return;
-                map.object2ObjectEntrySet().fastForEach(entry -> {
+                list.clear();
+                map.object2ObjectEntrySet().forEach(entry -> {
                     var currentAmount = entry.getValue();
                     if (currentAmount.compareTo(BigIntegerUtils.BIG_INTEGER_MAX_LONG) > 0) {
-                        textList.add(entry.getKey().getDisplayName().copy().append(": ").append(NumberUtils.numberText(currentAmount.doubleValue())).withStyle(ChatFormatting.GRAY));
+                        list.add(entry);
                     }
                 });
+                list.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+                list.forEach(entry -> textList.add(entry.getKey().getDisplayName().copy().append(": ").append(NumberUtils.numberText(entry.getValue().doubleValue())).withStyle(ChatFormatting.GRAY)));
             }
         }
     }

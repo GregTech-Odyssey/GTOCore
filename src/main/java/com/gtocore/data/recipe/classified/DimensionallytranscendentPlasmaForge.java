@@ -216,6 +216,28 @@ final class DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(88000)
                 .save();
 
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("chaos_infinity_glass")
+                .inputItems(GTOBlocks.INFINITY_GLASS.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.ChaosInfinityAlloy, 4)
+                .inputFluids(GTOMaterials.DimensionallyTranscendentStellarCatalyst.getFluid(1000))
+                .inputFluids(GTOMaterials.ElfGlass.getFluid(9216))
+                .outputItems(GTOBlocks.CHAOS_INFINITY_GLASS.asItem())
+                .EUt(32985348833280L)
+                .duration(1600)
+                .blastFurnaceTemp(92000)
+                .save();
+
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("eternity_glass")
+                .inputItems(GTOBlocks.CHAOS_INFINITY_GLASS.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.Eternity, 8)
+                .inputFluids(GTOMaterials.ExcitedDtsc.getFluid(1000))
+                .inputFluids(GTOMaterials.ChromaticGlass.getFluid(9216))
+                .outputItems(GTOBlocks.ETERNITY_GLASS.asItem())
+                .EUt(131941395333120L)
+                .duration(1600)
+                .blastFurnaceTemp(96000)
+                .save();
+
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("eternity")
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asItem())
                 .inputItems(ModItems.eternal_singularity.get())

@@ -50,6 +50,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
@@ -225,7 +226,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (slot != null) {
             if (switchType) {
                 for (var s : getInternalInventory()) {
-                    if (s == slot || s.isEmpty()) continue;
+                    if (s == slot || (s.recipe != null && slot.recipe != null && s.recipe.recipeType == slot.recipe.recipeType) || s.isEmpty()) continue;
                     return false;
                 }
             }
@@ -277,8 +278,11 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 input.add(stack);
             }
             if (input.size() < sparseInput.length) {
-                AEItemKey key = AEItemKey.of(PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs()));
-                return MyPatternDetailsHelper.CACHE.get(key);
+                var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
+                if (pattern.getDefinition().getTag().tags.get("type") instanceof StringTag stringTag) {
+                    stack.getTag().put("type", stringTag);
+                }
+                return MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
             }
         }
         return pattern;

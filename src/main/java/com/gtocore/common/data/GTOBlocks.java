@@ -236,7 +236,9 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> DRACONIUM_BOROSILICATE_GLASS = createTierGlassCasings("draconium_borosilicate_glass", "龙强化硼玻璃", GTOCore.id("block/casings/draconium_borosilicate_glass"), GTValues.OpV);
     public static final BlockEntry<Block> COSMIC_NEUTRONIUM_BOROSILICATE_GLASS = createTierGlassCasings("cosmic_neutronium_borosilicate_glass", "宇宙中子强化硼玻璃", GTOCore.id("block/casings/cosmic_neutronium_borosilicate_glass"), GTValues.MAX);
 
-    public static final BlockEntry<Block> INFINITY_GLASS = createGlassCasingBlock("infinity_glass", "无尽强化玻璃", GTOCore.id("block/casings/infinity_glass"));
+    public static final BlockEntry<Block> INFINITY_GLASS = createTierGlassCasings("infinity_glass", "无尽强化玻璃", GTOCore.id("block/casings/infinity_glass"), GTValues.MAX + 4);
+    public static final BlockEntry<Block> CHAOS_INFINITY_GLASS = createTierGlassCasings("chaos_infinity_glass", "混沌无尽强化玻璃", GTOCore.id("block/casings/cosmic_neutronium_borosilicate_glass"), GTValues.MAX + 10);
+    public static final BlockEntry<Block> ETERNITY_GLASS = createTierGlassCasings("eternity_glass", "永恒强化玻璃", GTOCore.id("block/casings/cosmic_neutronium_borosilicate_glass"), GTValues.MAX + 16);
     public static final BlockEntry<Block> RHENIUM_REINFORCED_ENERGY_GLASS = createGlassCasingBlock("rhenium_reinforced_energy_glass", "铼强化聚能玻璃", GTOCore.id("block/casings/rhenium_reinforced_energy_glass"));
     public static final BlockEntry<Block> ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS = createGlassCasingBlock("electron_permeable_amprosium_coated_glass", "电子渗透安普洛涂层玻璃", GTOCore.id("block/casings/electron_permeable_neutronium_coated_glass"));
     public static final BlockEntry<Block> NON_PHOTONIC_MATTER_EXCLUSION_GLASS = createGlassCasingBlock("non_photonic_matter_exclusion_glass", "非光子物质排除玻璃", GTOCore.id("block/casings/non_photonic_matter_exclusion_glass"));
