@@ -146,4 +146,9 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
             }
         }
     }
+
+    @Override
+    public boolean isTickSlot(int index, IO io, GTRecipe recipe) {
+        return false;
+    }
 }
