@@ -8,17 +8,20 @@ import com.gtolib.api.recipe.CombinedRecipeType;
 import java.util.*;
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.COMBINED_RECIPES;
 
 public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurator {
-    static ArrayList<GTRecipeType> EMPTY_LIST=new ArrayList<>(List.of(DUMMY_RECIPES));
+    static ArrayList<GTRecipeType> EMPTY_LIST=new ArrayList<>(List.of(COMBINED_RECIPES));
     private final Consumer<GTRecipeType> onChange;
     ArrayList<GTRecipeType> recipeTypes;
     int mode;
     public MultiMachineModeFancyConfigurator(ArrayList<GTRecipeType> recipeTypes, GTRecipeType selected, Consumer<GTRecipeType> onChange) {
-        super((recipeTypes.isEmpty()?EMPTY_LIST:recipeTypes).size());
-        this.recipeTypes= (recipeTypes.isEmpty()?EMPTY_LIST:recipeTypes);
+        super((recipeTypes.isEmpty()?EMPTY_LIST:recipeTypes).size()+(recipeTypes.contains(selected)?0:1));
+        this.recipeTypes= (recipeTypes.isEmpty()?EMPTY_LIST:(ArrayList<GTRecipeType>)recipeTypes.clone());
         this.onChange=onChange;
+        if(!this.recipeTypes.contains(selected)){
+            this.recipeTypes.add(selected);
+        }
         setRecipeType(selected);
     }
 
@@ -27,11 +30,12 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         for (var machine : machines) {
             if(machine instanceof IRecipeLogicMachine rMachine){
                 var gtRecipeTypes=rMachine.getRecipeTypes();
-                set.addAll(Arrays.asList(gtRecipeTypes));
                 for(var i:gtRecipeTypes){
                     if(i instanceof CombinedRecipeType crt){
                         set.addAll(List.of(crt.getTypes()));
                     }
+                    if(i!=COMBINED_RECIPES)
+                        set.add(i);
                 }
             }
 
@@ -39,7 +43,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         return new ArrayList<>(set.stream().toList());
     }
     public static ArrayList<GTRecipeType> extractRecipeTypesCombined(SortedSet<IMultiController> machines){
-        var list= new ArrayList<>(List.of(DUMMY_RECIPES));
+        var list= (ArrayList<GTRecipeType>)EMPTY_LIST.clone();
         list.addAll(extractRecipeTypes(machines));
         return list;
     }
@@ -49,7 +53,6 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
 
     public void setRecipeType(GTRecipeType recipe){
         if(recipeTypes.contains(recipe))setMode(recipeTypes.indexOf(recipe));
-        else setMode(0);
     }
     @Override
     public void setMode(int index) {
