@@ -28,14 +28,24 @@ public final class PlatformTemplateStorage {
 
     static {
 
-        PlatformBlockStructure house = PlatformBlockStructure.structure("house")
+        PlatformBlockStructure high_saturation_chessboard_1_blue_pink = PlatformBlockStructure.structure("high_saturation_chessboard_1_blue_pink")
                 .type(platform)
-                .displayName(add("这是房子", "house"))
-                .source(add("a_villager", "某村民", "A villager"))
-                .preview(true)
-                .resource(GTOCore.id(in("house")))
-                .symbolMap(GTOCore.id(in("house.json")))
-                .materials(0, 256)
+                .displayName(add("high_saturation_chessboard", "高饱和棋盘", "High saturation chessboard"))
+                .description(add("1×1 蓝·粉", "1×1 blue·pink"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_chessboard_1")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_1_blue_pink.json")))
+                .materials(0, 144)
+                .build();
+
+        PlatformBlockStructure high_saturation_chessboard_1_orange_white = PlatformBlockStructure.structure("high_saturation_chessboard_1_orange_white")
+                .type(platform)
+                .displayName(add("high_saturation_chessboard", "高饱和棋盘", "High saturation chessboard"))
+                .description(add("1×1 橙·白", "1×1 orange·white"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_chessboard_1")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_1_orange_white.json")))
+                .materials(0, 144)
                 .build();
 
         presets.add(
@@ -43,7 +53,8 @@ public final class PlatformTemplateStorage {
                         .displayName(add("平台标准预设库", "Platform standard preset library"))
                         .description(add("基础预设平台", "Basic preset platform"))
                         .source("maple")
-                        .addStructure(house)
+                        .addStructure(high_saturation_chessboard_1_blue_pink)
+                        .addStructure(high_saturation_chessboard_1_orange_white)
                         .build());
 
         PlatformBlockStructure light_colored_road_floor_1 = PlatformBlockStructure.structure("light_colored_road_floor_1")
@@ -52,7 +63,7 @@ public final class PlatformTemplateStorage {
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_1")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_1.json")))
-                .materials(0, 256)
+                .materials(0, 100)
                 .build();
 
         PlatformBlockStructure light_colored_road_floor_2 = PlatformBlockStructure.structure("light_colored_road_floor_2")
@@ -61,7 +72,7 @@ public final class PlatformTemplateStorage {
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_2")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_2.json")))
-                .materials(0, 256)
+                .materials(0, 20)
                 .build();
 
         PlatformBlockStructure light_colored_road_floor_3 = PlatformBlockStructure.structure("light_colored_road_floor_3")
@@ -70,7 +81,7 @@ public final class PlatformTemplateStorage {
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_3")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_3.json")))
-                .materials(0, 256)
+                .materials(0, 676)
                 .build();
 
         PlatformBlockStructure light_colored_road_floor_4 = PlatformBlockStructure.structure("light_colored_road_floor_4")
@@ -79,7 +90,43 @@ public final class PlatformTemplateStorage {
                 .source("神官")
                 .resource(GTOCore.id(in("light_colored_road_floor_4")))
                 .symbolMap(GTOCore.id(in("light_colored_road_floor_4.json")))
-                .materials(0, 256)
+                .materials(0, 676)
+                .build();
+
+        PlatformBlockStructure gray_floor_with_lights_1 = PlatformBlockStructure.structure("gray_floor_with_lights_1")
+                .type(platform)
+                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .source("呼")
+                .resource(GTOCore.id(in("gray_floor_with_lights_1")))
+                .symbolMap(GTOCore.id(in("gray_floor_with_lights_1.json")))
+                .materials(1, 100)
+                .build();
+
+        PlatformBlockStructure gray_floor_with_lights_2 = PlatformBlockStructure.structure("gray_floor_with_lights_2")
+                .type(road)
+                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .source("呼")
+                .resource(GTOCore.id(in("gray_floor_with_lights_2")))
+                .symbolMap(GTOCore.id(in("gray_floor_with_lights_2.json")))
+                .materials(1, 20)
+                .build();
+
+        PlatformBlockStructure gray_floor_with_lights_3 = PlatformBlockStructure.structure("gray_floor_with_lights_3")
+                .type(platform_3_3)
+                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .source("呼")
+                .resource(GTOCore.id(in("gray_floor_with_lights_3")))
+                .symbolMap(GTOCore.id(in("gray_floor_with_lights_3.json")))
+                .materials(1, 676)
+                .build();
+
+        PlatformBlockStructure gray_floor_with_lights_4 = PlatformBlockStructure.structure("gray_floor_with_lights_4")
+                .type(platform_large)
+                .displayName(add("gray_floor_with_lights", "浅色带灯带地板", "Gray floor with lights"))
+                .source("呼")
+                .resource(GTOCore.id(in("gray_floor_with_lights_4")))
+                .symbolMap(GTOCore.id(in("gray_floor_with_lights_4.json")))
+                .materials(1, 676)
                 .build();
 
         presets.add(
@@ -89,7 +136,22 @@ public final class PlatformTemplateStorage {
                         .addStructure(light_colored_road_floor_1)
                         .addStructure(light_colored_road_floor_2)
                         .addStructure(light_colored_road_floor_3)
+                        .addStructure(light_colored_road_floor_4)
+                        .addStructure(gray_floor_with_lights_1)
+                        .addStructure(gray_floor_with_lights_2)
+                        .addStructure(gray_floor_with_lights_3)
+                        .addStructure(gray_floor_with_lights_4)
                         .build());
+
+        PlatformBlockStructure house = PlatformBlockStructure.structure("house")
+                .type(platform)
+                .displayName(add("这是房子", "house"))
+                .source(add("a_villager", "某村民", "A villager"))
+                .preview(true)
+                .resource(GTOCore.id(in("house")))
+                .symbolMap(GTOCore.id(in("house.json")))
+                .materials(0, 256)
+                .build();
 
         presets.add(
                 PlatformPreset.preset("factory_standard_library")
@@ -103,103 +165,6 @@ public final class PlatformTemplateStorage {
                         .displayName(add("工厂扩展预设库", "Factory extension preset library"))
                         .description(add("扩展预设工厂", "Expanded preset Factory"))
                         .addStructure(house)
-                        .build());
-
-        PlatformBlockStructure zhengchang = PlatformBlockStructure.structure("zhengchang")
-                .displayName("正常")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-001254-039-50c31aea.txt")))
-                .symbolMap(GTOCore.id(in("20251006-001254-039-50c31aea.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure xzhou = PlatformBlockStructure.structure("xzhou")
-                .displayName("x轴")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-005833-199-df5062fd.txt")))
-                .symbolMap(GTOCore.id(in("20251006-005833-199-df5062fd.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure zzhou = PlatformBlockStructure.structure("zzhou")
-                .displayName("z轴")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-005833-207-d5e3d1ba.txt")))
-                .symbolMap(GTOCore.id(in("20251006-005833-207-d5e3d1ba.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure xzzhou = PlatformBlockStructure.structure("xzzhou")
-                .displayName("xz轴")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-005836-291-4770a081.txt")))
-                .symbolMap(GTOCore.id(in("20251006-005836-291-4770a081.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure xuanzhuan90 = PlatformBlockStructure.structure("xuanzhuan90")
-                .displayName("旋转90")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-151353-921")))
-                .symbolMap(GTOCore.id(in("20251006-151353-921.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure xuanzhuan180 = PlatformBlockStructure.structure("xuanzhuan180")
-                .displayName("旋转180")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-151355-820")))
-                .symbolMap(GTOCore.id(in("20251006-151355-820.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure xuanzhuan270 = PlatformBlockStructure.structure("xuanzhuan270")
-                .displayName("旋转270")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-151357-911")))
-                .symbolMap(GTOCore.id(in("20251006-151357-911.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure snowfield_cabin = PlatformBlockStructure.structure("snowfield_cabin")
-                .displayName("雪原小屋")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-163632-455")))
-                .symbolMap(GTOCore.id(in("20251006-163632-455.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure ice_sheet = PlatformBlockStructure.structure("ice_sheet")
-                .displayName("冰原")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-171440-018")))
-                .symbolMap(GTOCore.id(in("20251006-171440-018.json")))
-                .materials(0, 256)
-                .build();
-
-        PlatformBlockStructure village = PlatformBlockStructure.structure("village")
-                .displayName("一个村庄")
-                .preview(true)
-                .resource(GTOCore.id(in("20251006-215326-886")))
-                .symbolMap(GTOCore.id(in("20251006-215326-886.json")))
-                .materials(0, 256)
-                .build();
-
-        presets.add(
-                PlatformPreset.preset("cobblestone_single")
-                        .displayName("测试")
-                        .description("这是一些方块")
-                        .source("maple")
-                        .addStructure(zhengchang)
-                        .addStructure(xzhou)
-                        .addStructure(zzhou)
-                        .addStructure(xzzhou)
-                        .addStructure(xuanzhuan90)
-                        .addStructure(xuanzhuan180)
-                        .addStructure(xuanzhuan270)
-                        .addStructure(snowfield_cabin)
-                        .addStructure(ice_sheet)
-                        .addStructure(village)
                         .build());
     }
 

@@ -128,6 +128,8 @@ public class PlatformCreators {
             return;
         }
 
+        GTOCore.LOGGER.info("Start exporting the structure");
+
         String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
         String structureFile = outputDir.resolve(timestamp).toString();
         String mappingFile = outputDir.resolve(timestamp + ".json").toString();
