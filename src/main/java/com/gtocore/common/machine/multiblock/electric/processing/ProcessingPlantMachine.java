@@ -210,7 +210,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     }
 
     @Override
-    public long getParallelLong() {
+    public long getParallel() {
         return customParallelTrait.getParallel();
     }
 

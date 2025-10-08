@@ -46,7 +46,7 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
     @Override
     protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
         boolean param = false;
-        int parallels = getHatchParallel(this);
+        long parallels = getHatchParallel(this);
         recipe.duration = Math.max(1, (int) (recipe.duration * timeReduction));
         for (int i = 0; i < 3; i++) {
             String key = "param" + (i + 1);

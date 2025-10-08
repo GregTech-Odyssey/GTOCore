@@ -45,7 +45,7 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag advancedTooltips) {
-        //TODO 更完善的tooltip
+        // TODO 更完善的tooltip
         var tag = stack.getTag();
         if (tag == null) return;
         if (tag.tags.containsKey("type")) lines.add(Component.translatable("tooltip.item.pattern.type"));

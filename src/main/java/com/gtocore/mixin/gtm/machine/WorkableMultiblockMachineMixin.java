@@ -35,7 +35,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
+//TODO fix color
 @Mixin(WorkableMultiblockMachine.class)
 public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, IExtendedRecipeCapabilityHolder {
 
@@ -54,8 +54,6 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     private boolean gtolib$isFluidOutput;
     @Unique
     private boolean gtolib$isDualOutput;
-    @Unique
-    private int gtolib$outputColor;
     @Unique
     private Int2ReferenceOpenHashMap<RecipeHandlerList> gtolib$outputColorMap;
 
@@ -144,16 +142,6 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
                 TaskHandler.enqueueServerTask(serverLevel, () -> enhancedRecipeLogicMachine.onContentChanges(handler), 0);
             }
         }
-    }
-
-    @Override
-    public void gtolib$setOutputColor(final int color) {
-        this.gtolib$outputColor = color;
-    }
-
-    @Override
-    public int gtolib$getOutputColor() {
-        return this.gtolib$outputColor;
     }
 
     @Override

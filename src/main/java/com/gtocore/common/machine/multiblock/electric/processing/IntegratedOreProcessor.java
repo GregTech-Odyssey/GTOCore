@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 public final class IntegratedOreProcessor extends CrossRecipeMultiblockMachine {
 
     public IntegratedOreProcessor(MetaMachineBlockEntity holder) {
-        super(holder, false, true, MachineUtils::getHatchParallelLong);
+        super(holder, false, true, MachineUtils::getHatchParallel);
     }
 
     @Override
