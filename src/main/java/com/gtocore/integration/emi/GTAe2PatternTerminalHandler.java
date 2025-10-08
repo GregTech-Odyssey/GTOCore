@@ -129,7 +129,7 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         } else {
             if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.RECIPE_MAP.containsKey(gtemiRecipe.getId())) {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe(gtemiRecipe.getId().toString());
-                ((IPatterEncodingTermMenu) menu).gtolib$addRecipeType(gtemiRecipe.getRecipeType().registryName.getPath());
+                ((IPatterEncodingTermMenu) menu).gtolib$addRecipeType(gtemiRecipe.getRecipeType().registryName.toString());
             } else {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe("");
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipeType("");

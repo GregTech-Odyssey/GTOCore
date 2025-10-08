@@ -1,10 +1,10 @@
 package com.gtocore.api.gui.configurators;
 
-import com.gtolib.api.recipe.CombinedRecipeType;
-
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gtolib.GTOCore;
+import com.gtolib.api.recipe.CombinedRecipeType;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -41,7 +41,9 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
                 .filter(Objects::nonNull)
                 .flatMap(recipeType -> {
                     if (recipeType instanceof CombinedRecipeType combinedRecipeType) {
-                        return Arrays.stream(combinedRecipeType.getTypes());
+                        return Stream.concat(
+                                Stream.of(combinedRecipeType),
+                                Arrays.stream(combinedRecipeType.getTypes()));
                     }
                     return recipeType == COMBINED_RECIPES ? Stream.empty() : Stream.of(recipeType);
                 })
@@ -53,6 +55,23 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
     public static List<GTRecipeType> extractRecipeTypesCombined(SortedSet<IMultiController> machines) {
         List<GTRecipeType> result = new ArrayList<>(EMPTY_LIST);
         result.addAll(extractRecipeTypes(machines));
+        return Collections.unmodifiableList(result);
+    }
+
+    private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
+        int baseSize = recipeTypes.isEmpty() ? EMPTY_LIST.size() : recipeTypes.size();
+        boolean needsToAddSelected = selected != null && !recipeTypes.contains(selected);
+        return baseSize + (needsToAddSelected ? 1 : 0);
+    }
+
+    private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
+        List<GTRecipeType> result = new ArrayList<>(
+                original.isEmpty() ? EMPTY_LIST : original);
+
+        if (selected != null && !result.contains(selected)) {
+            result.add(selected);
+        }
+
         return Collections.unmodifiableList(result);
     }
 
@@ -81,6 +100,8 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         onChange.accept(getCurrentRecipeType());
     }
 
+    // ============ 私有辅助方法 ============
+
     @Override
     public int getCurrentMode() {
         return currentMode;
@@ -89,35 +110,15 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
     @Override
     public String getLanguageKey(int index) {
         if (index < 0 || index >= recipeTypes.size()) {
-            throw new IllegalArgumentException("Index out of bounds: " + index);
+            return getLanguageKey(0);
         }
 
         GTRecipeType recipeType = recipeTypes.get(index);
         if (recipeType == null) {
             // 如果遇到意外的null，重置到安全模式
-            setMode(0);
             return getLanguageKey(0);
         }
 
         return recipeType.registryName.toLanguageKey();
-    }
-
-    // ============ 私有辅助方法 ============
-
-    private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
-        int baseSize = recipeTypes.isEmpty() ? EMPTY_LIST.size() : recipeTypes.size();
-        boolean needsToAddSelected = selected != null && !recipeTypes.contains(selected);
-        return baseSize + (needsToAddSelected ? 1 : 0);
-    }
-
-    private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
-        List<GTRecipeType> result = new ArrayList<>(
-                original.isEmpty() ? EMPTY_LIST : original);
-
-        if (selected != null && !result.contains(selected)) {
-            result.add(selected);
-        }
-
-        return Collections.unmodifiableList(result);
     }
 }

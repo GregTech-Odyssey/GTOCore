@@ -144,6 +144,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                 }
             }
         }
+        gtolib$addRecipeType("");
     }
 
     @Shadow(remap = false)
