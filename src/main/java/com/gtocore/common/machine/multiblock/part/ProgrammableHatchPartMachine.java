@@ -46,6 +46,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
 
     private void changeMode(GTRecipeType recipe) {
         this.mode = recipe;
+        this.getHandlerList().setRecipeType(recipe);
     }
 
     @Override
