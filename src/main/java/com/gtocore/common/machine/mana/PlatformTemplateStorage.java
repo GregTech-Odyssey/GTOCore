@@ -149,7 +149,7 @@ public final class PlatformTemplateStorage {
                         .addStructure(gray_floor_with_lights_4)
                         .build());
 
-        PlatformBlockStructure house = structure("house")
+        PlatformBlockStructure AHouse = structure("house")
                 .type(platform)
                 .displayName(add("这是房子", "house"))
                 .source("某村民")
@@ -163,14 +163,14 @@ public final class PlatformTemplateStorage {
                 PlatformPreset.preset("factory_standard_library")
                         .displayName(add("工厂标准预设库", "Factory standard preset library"))
                         .description(add("基础预设工厂", "Basic preset Factory"))
-                        .addStructure(house)
+                        .addStructure(AHouse)
                         .build());
 
         presets.add(
                 PlatformPreset.preset("factory_extension_library")
                         .displayName(add("工厂扩展预设库", "Factory extension preset library"))
                         .description(add("扩展预设工厂", "Expanded preset Factory"))
-                        .addStructure(house)
+                        .addStructure(AHouse)
                         .build());
     }
 

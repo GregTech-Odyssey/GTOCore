@@ -178,5 +178,6 @@ public final class ManaMachine {
             .tier(LV)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
             .nonYAxisRotation()
+            .workableManaTieredHullRenderer(2, GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }
