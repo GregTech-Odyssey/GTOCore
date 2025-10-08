@@ -141,20 +141,19 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     public void findAndHandleRecipe() {
         lastRecipe = null;
         lastOriginRecipe = null;
-        Iterator<Recipe>  matches;
-        if(machine.getRecipeType()==COMBINED_RECIPES){
-            matches= Arrays.stream(machine.getRecipeTypes())
+        Iterator<Recipe> matches;
+        if (machine.getRecipeType() == COMBINED_RECIPES) {
+            matches = Arrays.stream(machine.getRecipeTypes())
                     .filter(gtRecipeType -> gtRecipeType != COMBINED_RECIPES)
                     .flatMap(recipeType -> {
                         Iterator<Recipe> iterator = RecipeType.searchIterator(recipeType, machine, recipe -> RecipeRunner.checkTier(machine, recipe) && RecipeRunner.checkConditions(machine, recipe));
                         return StreamSupport.stream(
                                 Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED),
-                                false
-                        );
+                                false);
                     })
                     .iterator();
-        }else{
-            matches=RecipeType.searchIterator(machine.getRecipeType(), machine, recipe -> RecipeRunner.checkTier(machine, recipe) && RecipeRunner.checkConditions(machine, recipe));
+        } else {
+            matches = RecipeType.searchIterator(machine.getRecipeType(), machine, recipe -> RecipeRunner.checkTier(machine, recipe) && RecipeRunner.checkConditions(machine, recipe));
         }
 
         while (matches.hasNext()) {

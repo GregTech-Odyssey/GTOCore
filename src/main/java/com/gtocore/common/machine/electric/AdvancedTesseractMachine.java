@@ -1,5 +1,11 @@
 package com.gtocore.common.machine.electric;
 
+import com.gtolib.api.ae2.IPatternProviderLogic;
+import com.gtolib.api.ae2.PatternProviderTargetCache;
+import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
+import com.gtolib.utils.holder.BooleanHolder;
+import com.gtolib.utils.holder.ObjectHolder;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
@@ -14,11 +20,6 @@ import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import com.gregtechceu.gtceu.api.transfer.item.ItemHandlerList;
 import com.gregtechceu.gtceu.utils.LazyOptionalUtil;
 
-import com.gtolib.api.ae2.IPatternProviderLogic;
-import com.gtolib.api.ae2.PatternProviderTargetCache;
-import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
-import com.gtolib.utils.holder.BooleanHolder;
-import com.gtolib.utils.holder.ObjectHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

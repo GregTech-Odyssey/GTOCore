@@ -65,7 +65,7 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
             long originParallel = 1L;
             if (machine instanceof IMultiController controller) {
                 if (controller instanceof IParallelMachine parallelHatch) {
-                    originParallel = parallelHatch.getParallelLong();
+                    originParallel = parallelHatch.getParallel();
                 } else {
                     Optional<IParallelHatch> parallelHatch = controller.getParallelHatch();
                     if (parallelHatch.isPresent()) {

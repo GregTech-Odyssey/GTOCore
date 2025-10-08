@@ -1,5 +1,9 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
+
+import com.gtolib.api.annotation.DataGeneratorScanned;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
@@ -10,20 +14,20 @@ import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
-import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
-import com.gtolib.api.annotation.DataGeneratorScanned;
+
+import net.minecraft.world.item.ItemStack;
+
 import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-//TODO fix
+// TODO fix
 @DataGeneratorScanned
 public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
 
@@ -42,6 +46,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
 
     private void changeMode(GTRecipeType recipe) {
         this.mode = recipe;
+        this.getHandlerList().setRecipeType(recipe);
     }
 
     @Override
@@ -51,7 +56,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
-    protected @NotNull NotifiableItemStackHandler createInventory(Object @NotNull ... args) {
+    protected @NotNull NotifiableItemStackHandler createInventory(Object @NotNull... args) {
         return new NotifiableItemStackHandler(this, getInventorySize(), io).setFilter(itemStack -> !(itemStack.hasTag() && itemStack.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())));
     }
 
@@ -95,8 +100,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
-    public void setProgrammable(boolean programmable) {
-    }
+    public void setProgrammable(boolean programmable) {}
 
     public static class ProgrammableCircuitHandler extends CircuitHandler {
 

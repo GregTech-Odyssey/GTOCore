@@ -1,10 +1,13 @@
 package com.gtocore.api.gui.configurators;
 
-
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.common.data.GTItems;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -17,16 +20,15 @@ import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 import java.util.List;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 
 public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
 
     int modeSize;
 
-    CustomModeFancyConfigurator(int modeSize){
-        this.modeSize=modeSize;
+    CustomModeFancyConfigurator(int modeSize) {
+        this.modeSize = modeSize;
     }
 
     public abstract void setMode(int index);
@@ -46,7 +48,7 @@ public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
     public Widget createMainPage(FancyMachineUIWidget widget) {
         MachineModeConfigurator group = new MachineModeConfigurator(0, 0, 140, 20 * modeSize + 4);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
-        for(int i = 0; i < modeSize; ++i) {
+        for (int i = 0; i < modeSize; ++i) {
             int finalI = i;
             group.addWidget(new ButtonWidget(2, 2 + i * 20, 136, 20, IGuiTexture.EMPTY, (cd) -> setMode(finalI)));
             group.addWidget(new ImageWidget(2, 2 + i * 20, 136, 20, () -> new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON.copy().setColor(getCurrentMode() == finalI ? ColorPattern.CYAN.color : -1), (new TextTexture(getLanguageKey(finalI))).setWidth(136).setType(TextType.ROLL))));
@@ -61,6 +63,7 @@ public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
     }
 
     public class MachineModeConfigurator extends WidgetGroup {
+
         public MachineModeConfigurator(int x, int y, int width, int height) {
             super(x, y, width, height);
         }
@@ -81,8 +84,6 @@ public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
             if (id == 0) {
                 CustomModeFancyConfigurator.this.setMode(buffer.readVarInt());
             }
-
         }
     }
 }
-
