@@ -28,35 +28,135 @@ public final class PlatformTemplateStorage {
 
     static {
 
-        String high_saturation_series = add("high_saturation_series", "高饱和系列", "High saturation series");
+        String high_saturation_chessboard = add("high_saturation_chessboard", "高饱和棋盘", "High saturation chessboard");
 
         PlatformBlockStructure high_saturation_chessboard_1_blue_pink = structure("high_saturation_chessboard_1_blue_pink")
                 .type(platform)
-                .displayName(high_saturation_series)
+                .displayName(high_saturation_chessboard)
                 .description(add("1×1 蓝·粉", "1×1 blue·pink"))
                 .source("阿龙-还有一件事")
                 .resource(GTOCore.id(in("high_saturation_chessboard_1")))
-                .symbolMap(GTOCore.id(in("high_saturation_chessboard_1_blue_pink.json")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_blue_pink.json")))
                 .materials(0, 144)
                 .build();
 
         PlatformBlockStructure high_saturation_chessboard_1_orange_white = structure("high_saturation_chessboard_1_orange_white")
                 .type(platform)
-                .displayName(high_saturation_series)
+                .displayName(high_saturation_chessboard)
                 .description(add("1×1 橙·白", "1×1 orange·white"))
                 .source("阿龙-还有一件事")
                 .resource(GTOCore.id(in("high_saturation_chessboard_1")))
-                .symbolMap(GTOCore.id(in("high_saturation_chessboard_1_orange_white.json")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_orange_white.json")))
                 .materials(0, 144)
+                .build();
+
+        PlatformBlockStructure high_saturation_chessboard_1_yellow_lime = structure("high_saturation_chessboard_1_yellow_lime")
+                .type(platform)
+                .displayName(high_saturation_chessboard)
+                .description(add("1×1 黄·青", "1×1 yellow·lime"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_chessboard_1")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_yellow_lime.json")))
+                .materials(0, 144)
+                .build();
+
+        PlatformBlockStructure high_saturation_chessboard_3_blue_pink = structure("high_saturation_chessboard_3_blue_pink")
+                .type(platform_3_3)
+                .displayName(high_saturation_chessboard)
+                .description(add("3×3 蓝·粉", "3×3 blue·pink"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_chessboard_3")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_blue_pink.json")))
+                .materials(0, 1296)
+                .build();
+
+        PlatformBlockStructure high_saturation_chessboard_3_orange_white = structure("high_saturation_chessboard_3_orange_white")
+                .type(platform_3_3)
+                .displayName(high_saturation_chessboard)
+                .description(add("3×3 橙·白", "3×3 orange·white"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_chessboard_3")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_orange_white.json")))
+                .materials(0, 1296)
+                .build();
+
+        PlatformBlockStructure high_saturation_chessboard_3_yellow_lime = structure("high_saturation_chessboard_3_yellow_lime")
+                .type(platform_3_3)
+                .displayName(high_saturation_chessboard)
+                .description(add("3×3 黄·青", "3×3 yellow·lime"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_chessboard_3")))
+                .symbolMap(GTOCore.id(in("high_saturation_chessboard_yellow_lime.json")))
+                .materials(0, 1296)
+                .build();
+
+        String high_saturation_panel = add("high_saturation_panel", "高饱和嵌板", "High saturation panel");
+
+        PlatformBlockStructure high_saturation_panel_1_white_pink = structure("high_saturation_panel_1_white_pink")
+                .type(platform)
+                .displayName(high_saturation_panel)
+                .description(add("1×1 白嵌粉", "1×1 white Embed pink"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_panel_1")))
+                .symbolMap(GTOCore.id(in("high_saturation_panel_white_pink.json")))
+                .materials(0, 144)
+                .build();
+
+        PlatformBlockStructure high_saturation_panel_1_black_blue = structure("high_saturation_panel_1_black_blue")
+                .type(platform)
+                .displayName(high_saturation_panel)
+                .description(add("1×1 黑嵌蓝", "1×1 black Embed blue"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_panel_1")))
+                .symbolMap(GTOCore.id(in("high_saturation_panel_black_blue.json")))
+                .materials(0, 144)
+                .build();
+
+        PlatformBlockStructure high_saturation_panel_3_white_pink = structure("high_saturation_panel_3_white_pink")
+                .type(platform_3_3)
+                .displayName(high_saturation_panel)
+                .description(add("3×3 白嵌粉", "3×3 white Embed pink"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_panel_1")))
+                .symbolMap(GTOCore.id(in("high_saturation_panel_white_pink.json")))
+                .materials(0, 144)
+                .build();
+
+        PlatformBlockStructure high_saturation_panel_3_black_blue = structure("high_saturation_panel_3_black_blue")
+                .type(platform_3_3)
+                .displayName(high_saturation_panel)
+                .description(add("3×3 黑嵌蓝", "3×3 black Embed blue"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("high_saturation_panel_1")))
+                .symbolMap(GTOCore.id(in("high_saturation_panel_black_blue.json")))
+                .materials(0, 144)
+                .build();
+
+        PlatformBlockStructure white_floor_with_greenery_and_orange_and_yellow_edges = structure("white_floor_with_greenery_and_orange_and_yellow_edges")
+                .type(platform_large)
+                .displayName(high_saturation_panel)
+                .description(add("2×2 带绿化的镶橙黄边白色地板", "2×2 White floor with greenery and orange and yellow edges"))
+                .source("阿龙-还有一件事")
+                .resource(GTOCore.id(in("white_floor_with_greenery_and_orange_and_yellow_edges")))
+                .symbolMap(GTOCore.id(in("white_floor_with_greenery_and_orange_and_yellow_edges.json")))
+                .materials(0, 576)
                 .build();
 
         presets.add(
                 PlatformPreset.preset("platform_standard_library")
                         .displayName(add("平台标准预设库", "Platform standard preset library"))
                         .description(add("基础预设平台", "Basic preset platform"))
-                        .source("maple")
                         .addStructure(high_saturation_chessboard_1_blue_pink)
                         .addStructure(high_saturation_chessboard_1_orange_white)
+                        .addStructure(high_saturation_chessboard_1_yellow_lime)
+                        .addStructure(high_saturation_chessboard_3_blue_pink)
+                        .addStructure(high_saturation_chessboard_3_orange_white)
+                        .addStructure(high_saturation_chessboard_3_yellow_lime)
+                        .addStructure(high_saturation_panel_1_white_pink)
+                        .addStructure(high_saturation_panel_1_black_blue)
+                        .addStructure(high_saturation_panel_3_white_pink)
+                        .addStructure(high_saturation_panel_3_black_blue)
+                        .addStructure(white_floor_with_greenery_and_orange_and_yellow_edges)
                         .build());
 
         String light_colored_road_floor = add("light_colored_road_floor", "浅色带公路地板", "Light-colored road floor");
@@ -105,7 +205,7 @@ public final class PlatformTemplateStorage {
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_1")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_1.json")))
-                .materials(1, 100)
+                .materials(2, 100)
                 .build();
 
         PlatformBlockStructure gray_floor_with_lights_2 = structure("gray_floor_with_lights_2")
@@ -114,7 +214,7 @@ public final class PlatformTemplateStorage {
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_2")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_2.json")))
-                .materials(1, 20)
+                .materials(2, 20)
                 .build();
 
         PlatformBlockStructure gray_floor_with_lights_3 = structure("gray_floor_with_lights_3")
@@ -123,7 +223,7 @@ public final class PlatformTemplateStorage {
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_3")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_3.json")))
-                .materials(1, 676)
+                .materials(2, 676)
                 .build();
 
         PlatformBlockStructure gray_floor_with_lights_4 = structure("gray_floor_with_lights_4")
@@ -132,7 +232,7 @@ public final class PlatformTemplateStorage {
                 .source("呼")
                 .resource(GTOCore.id(in("gray_floor_with_lights_4")))
                 .symbolMap(GTOCore.id(in("gray_floor_with_lights_4.json")))
-                .materials(1, 676)
+                .materials(2, 676)
                 .build();
 
         presets.add(
@@ -156,7 +256,7 @@ public final class PlatformTemplateStorage {
                 .preview(true)
                 .resource(GTOCore.id(in("house")))
                 .symbolMap(GTOCore.id(in("house.json")))
-                .materials(0, 256)
+                .materials(0, 1)
                 .build();
 
         presets.add(

@@ -30,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.core.definitions.AEItems;
 import com.enderio.base.common.init.EIOFluids;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
@@ -1189,6 +1190,9 @@ public final class MagicRecipesA {
                     "ABA", "CDC", "AEA",
                     'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.Gaiasteel), 'B', GTItems.ROBOT_ARM_LuV.asItem(), 'C', CustomTags.LuV_CIRCUITS, 'D', ManaMachine.MANA_HULL[GTValues.LuV].asItem(), 'E', GTItems.FIELD_GENERATOR_LuV.asItem());
 
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("industrial_platform_deployment_tools"), ManaMachine.INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS.asItem(),
+                    "AAA", "ABA", "AAA",
+                    'A', new ItemStack(AEItems.MATTER_BALL.asItem()), 'B', RegistriesUtils.getItemStack("gtocore:standard_industrial_components_small"));
         }
 
         // 杂项配方

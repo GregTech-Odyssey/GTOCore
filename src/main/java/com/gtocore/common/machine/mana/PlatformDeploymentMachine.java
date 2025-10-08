@@ -157,20 +157,17 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     // 原料物品
     private static final List<List<IntObjectHolder<Item>>> ITEM_VALUE_HOLDERS = List.of(
             List.of(
-                    new IntObjectHolder<>(5000, GTOItems.BIOWARE_MAINFRAME.asItem()),
-                    new IntObjectHolder<>(2000, GTOItems.BIOWARE_COMPUTER.asItem()),
-                    new IntObjectHolder<>(500, GTOItems.BIOWARE_ASSEMBLY.asItem()),
-                    new IntObjectHolder<>(200, GTOItems.BIOWARE_PROCESSOR.asItem())),
+                    new IntObjectHolder<>(5000, GTOItems.INDUSTRIAL_COMPONENTS[0][2].asItem()),
+                    new IntObjectHolder<>(1000, GTOItems.INDUSTRIAL_COMPONENTS[0][1].asItem()),
+                    new IntObjectHolder<>(200, GTOItems.INDUSTRIAL_COMPONENTS[0][0].asItem())),
             List.of(
-                    new IntObjectHolder<>(5000, GTOItems.OPTICAL_MAINFRAME.asItem()),
-                    new IntObjectHolder<>(2000, GTOItems.OPTICAL_COMPUTER.asItem()),
-                    new IntObjectHolder<>(500, GTOItems.OPTICAL_ASSEMBLY.asItem()),
-                    new IntObjectHolder<>(200, GTOItems.OPTICAL_PROCESSOR.asItem())),
+                    new IntObjectHolder<>(5000, GTOItems.INDUSTRIAL_COMPONENTS[1][2].asItem()),
+                    new IntObjectHolder<>(1000, GTOItems.INDUSTRIAL_COMPONENTS[1][1].asItem()),
+                    new IntObjectHolder<>(200, GTOItems.INDUSTRIAL_COMPONENTS[1][0].asItem())),
             List.of(
-                    new IntObjectHolder<>(5000, GTOItems.EXOTIC_MAINFRAME.asItem()),
-                    new IntObjectHolder<>(2000, GTOItems.EXOTIC_COMPUTER.asItem()),
-                    new IntObjectHolder<>(500, GTOItems.EXOTIC_ASSEMBLY.asItem()),
-                    new IntObjectHolder<>(200, GTOItems.EXOTIC_PROCESSOR.asItem())));
+                    new IntObjectHolder<>(5000, GTOItems.INDUSTRIAL_COMPONENTS[2][2].asItem()),
+                    new IntObjectHolder<>(1000, GTOItems.INDUSTRIAL_COMPONENTS[2][1].asItem()),
+                    new IntObjectHolder<>(200, GTOItems.INDUSTRIAL_COMPONENTS[2][0].asItem())));
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
