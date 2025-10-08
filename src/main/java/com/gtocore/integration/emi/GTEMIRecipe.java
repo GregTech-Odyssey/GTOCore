@@ -30,6 +30,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.jei.ModularWrapper;
+import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -98,10 +99,12 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
             } else {
                 Item item = itemStack.getItem();
                 CompoundTag nbt = itemStack.getTag();
-                if (nbt == null) {
+                if (nbt == null || nbt.isEmpty()) {
                     return new ItemEmiStack(item, null, amount);
                 }
-                return new StrictNBTEmiIngredient(item, nbt, amount);
+                var stack = new ItemEmiStack(item, nbt, amount);
+                stack.comparison(EmiPort.compareStrict());
+                return stack;
             }
         }
         return EmiStack.EMPTY;
