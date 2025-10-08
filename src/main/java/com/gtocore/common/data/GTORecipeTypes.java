@@ -1,5 +1,18 @@
 package com.gtocore.common.data;
 
+import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
+import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
+import com.gtocore.common.recipe.RecipeTypeModify;
+import com.gtocore.common.recipe.custom.RecyclerLogic;
+import com.gtocore.data.recipe.generated.GenerateDisassembly;
+
+import com.gtolib.GTOCore;
+import com.gtolib.api.gui.GTOGuiTextures;
+import com.gtolib.api.lang.CNEN;
+import com.gtolib.api.machine.trait.TierCasingTrait;
+import com.gtolib.api.recipe.CombinedRecipeType;
+import com.gtolib.api.recipe.RecipeType;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
@@ -13,24 +26,15 @@ import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
-import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
-import com.gtocore.common.recipe.RecipeTypeModify;
-import com.gtocore.common.recipe.custom.RecyclerLogic;
-import com.gtocore.data.recipe.generated.GenerateDisassembly;
-import com.gtolib.GTOCore;
-import com.gtolib.api.gui.GTOGuiTextures;
-import com.gtolib.api.lang.CNEN;
-import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.CombinedRecipeType;
-import com.gtolib.api.recipe.RecipeType;
-import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
-import com.lowdragmc.lowdraglib.utils.CycleItemStackHandler;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
+
+import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
+import com.lowdragmc.lowdraglib.utils.CycleItemStackHandler;
+import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +43,8 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.SPOOL;
 import static com.gtolib.api.GTOValues.*;
-import static com.gtolib.utils.register.RecipeTypeRegisterUtils.register;
 import static com.gtolib.utils.register.RecipeTypeRegisterUtils.*;
+import static com.gtolib.utils.register.RecipeTypeRegisterUtils.register;
 import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.LEFT_TO_RIGHT;
 import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.UP_TO_DOWN;
 
