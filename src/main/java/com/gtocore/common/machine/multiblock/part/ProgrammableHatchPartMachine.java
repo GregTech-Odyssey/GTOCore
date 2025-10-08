@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
@@ -48,6 +49,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     private void changeMode(GTRecipeType recipe) {
         this.mode = recipe;
         this.getHandlerList().setRecipeType(recipe);
+        RecipeHandlerList.NOTIFY.accept(this);
     }
 
     @Override

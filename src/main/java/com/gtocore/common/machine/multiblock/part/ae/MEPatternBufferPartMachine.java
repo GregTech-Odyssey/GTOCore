@@ -127,6 +127,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     private void changeMode(GTRecipeType recipe) {
         this.mode = recipe;
+        this.getHandlerList().setRecipeType(recipe);
+        RecipeHandlerList.NOTIFY.accept(this);
     }
 
     protected IntSyncedField configuratorField = ISync.createIntField(this)
