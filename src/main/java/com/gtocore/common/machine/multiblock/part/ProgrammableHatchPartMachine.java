@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-// TODO fix
+
 @DataGeneratorScanned
 public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
 

@@ -68,6 +68,8 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
                 Component.translatable("gtocore.pattern.clearSecOutput"),
                 Component.translatable("gtocore.pattern.tooltip.clearSecOutput"));
 
+        // TODO new button recipe info
+
         widgets.add("modify1", gtolib$multipleTow);
         widgets.add("modify2", gtolib$multipleThree);
         widgets.add("modify3", gtolib$multipleFive);
