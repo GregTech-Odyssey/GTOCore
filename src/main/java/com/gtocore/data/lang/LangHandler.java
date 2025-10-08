@@ -46,7 +46,7 @@ public final class LangHandler {
         addCNEN(key, new CNEN(cn, en));
     }
 
-    private static void addCN(String key, String cn) {
+    public static void addCN(String key, String cn) {
         addCNEN(key, cn, null);
     }
 

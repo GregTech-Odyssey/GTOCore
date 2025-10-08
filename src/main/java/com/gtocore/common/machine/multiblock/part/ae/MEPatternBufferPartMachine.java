@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
@@ -43,8 +41,10 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
@@ -81,7 +81,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.*;
-import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -124,7 +123,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
-    private GTRecipeType mode;
+    private GTRecipeType mode = GTRecipeTypes.COMBINED_RECIPES;
 
     private void changeMode(GTRecipeType recipe) {
         this.mode = recipe;
@@ -417,7 +416,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         public InternalSlotRecipeHandler.AbstractRHL rhl;
         private Recipe recipe;
-        private GTRecipeType recipeType=GTRecipeTypes.COMBINED_RECIPES;
+        private GTRecipeType recipeType = GTRecipeTypes.COMBINED_RECIPES;
         private final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
@@ -458,12 +457,12 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         public void setRecipe(@Nullable Recipe recipe) {
             this.recipe = recipe;
-            setRecipeType(recipe!=null?recipe.getType():GTRecipeTypes.COMBINED_RECIPES);
+            setRecipeType(recipe != null ? recipe.getType() : GTRecipeTypes.COMBINED_RECIPES);
             machine.caches[index] = recipe != null;
         }
 
         public void setRecipeType(@Nullable GTRecipeType gtRecipeType) {
-            this.recipeType=gtRecipeType;
+            this.recipeType = gtRecipeType;
             rhl.rhl.setRecipeType(gtRecipeType);
         }
 

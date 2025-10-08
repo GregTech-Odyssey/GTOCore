@@ -8,71 +8,116 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.COMBINED_RECIPES;
 
 public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurator {
 
-    static ArrayList<GTRecipeType> EMPTY_LIST = new ArrayList<>(List.of(COMBINED_RECIPES));
-    private final Consumer<GTRecipeType> onChange;
-    ArrayList<GTRecipeType> recipeTypes;
-    int mode;
+    private static final List<GTRecipeType> EMPTY_LIST = Collections.singletonList(COMBINED_RECIPES);
 
-    public MultiMachineModeFancyConfigurator(ArrayList<GTRecipeType> recipeTypes, GTRecipeType selected, Consumer<GTRecipeType> onChange) {
-        super((recipeTypes.isEmpty() ? EMPTY_LIST : recipeTypes).size() + (recipeTypes.contains(selected) ? 0 : 1));
-        this.recipeTypes = (recipeTypes.isEmpty() ? EMPTY_LIST : (ArrayList<GTRecipeType>) recipeTypes.clone());
-        this.onChange = onChange;
-        if (!this.recipeTypes.contains(selected)) {
-            this.recipeTypes.add(selected);
-        }
+    private final Consumer<GTRecipeType> onChange;
+    private final List<GTRecipeType> recipeTypes;
+    private int currentMode;
+
+    public MultiMachineModeFancyConfigurator(List<GTRecipeType> recipeTypes, GTRecipeType selected, Consumer<GTRecipeType> onChange) {
+        super(calculateModeSize(recipeTypes, selected));
+        this.recipeTypes = createRecipeTypeList(recipeTypes, selected);
+        this.onChange = Objects.requireNonNull(onChange, "onChange consumer cannot be null");
         setRecipeType(selected);
     }
 
-    public static ArrayList<GTRecipeType> extractRecipeTypes(SortedSet<IMultiController> machines) {
-        var set = new HashSet<GTRecipeType>();
-        for (var machine : machines) {
-            if (machine instanceof IRecipeLogicMachine rMachine) {
-                var gtRecipeTypes = rMachine.getRecipeTypes();
-                for (var i : gtRecipeTypes) {
-                    if (i instanceof CombinedRecipeType crt) {
-                        set.addAll(List.of(crt.getTypes()));
-                    }
-                    if (i != COMBINED_RECIPES)
-                        set.add(i);
-                }
-            }
-
+    public static List<GTRecipeType> extractRecipeTypes(SortedSet<IMultiController> machines) {
+        if (machines == null || machines.isEmpty()) {
+            return Collections.emptyList();
         }
-        return new ArrayList<>(set.stream().toList());
+
+        return machines.stream()
+                .filter(IRecipeLogicMachine.class::isInstance)
+                .map(IRecipeLogicMachine.class::cast)
+                .map(IRecipeLogicMachine::getRecipeTypes)
+                .flatMap(Arrays::stream)
+                .filter(Objects::nonNull)
+                .flatMap(recipeType -> {
+                    if (recipeType instanceof CombinedRecipeType combinedRecipeType) {
+                        return Arrays.stream(combinedRecipeType.getTypes());
+                    }
+                    return recipeType == COMBINED_RECIPES ? Stream.empty() : Stream.of(recipeType);
+                })
+                .collect(Collectors.toCollection(LinkedHashSet::new)) // 保持顺序并去重
+                .stream()
+                .toList();
     }
 
-    public static ArrayList<GTRecipeType> extractRecipeTypesCombined(SortedSet<IMultiController> machines) {
-        var list = (ArrayList<GTRecipeType>) EMPTY_LIST.clone();
-        list.addAll(extractRecipeTypes(machines));
-        return list;
+    public static List<GTRecipeType> extractRecipeTypesCombined(SortedSet<IMultiController> machines) {
+        List<GTRecipeType> result = new ArrayList<>(EMPTY_LIST);
+        result.addAll(extractRecipeTypes(machines));
+        return Collections.unmodifiableList(result);
     }
 
-    public GTRecipeType getCurrent() {
+    public GTRecipeType getCurrentRecipeType() {
         return recipeTypes.get(getCurrentMode());
     }
 
     public void setRecipeType(GTRecipeType recipe) {
-        if (recipeTypes.contains(recipe)) setMode(recipeTypes.indexOf(recipe));
+        if (recipe == null) {
+            throw new IllegalArgumentException("Recipe type cannot be null");
+        }
+
+        int index = recipeTypes.indexOf(recipe);
+        if (index >= 0) {
+            setMode(index);
+        }
     }
 
     @Override
     public void setMode(int index) {
-        this.mode = index;
-        onChange.accept(getCurrent());
+        if (index < 0 || index >= recipeTypes.size()) {
+            throw new IllegalArgumentException("Mode index out of bounds: " + index);
+        }
+
+        this.currentMode = index;
+        onChange.accept(getCurrentRecipeType());
     }
 
     @Override
     public int getCurrentMode() {
-        return mode > modeSize ? 0 : mode;
+        return currentMode;
     }
 
     @Override
     public String getLanguageKey(int index) {
-        return recipeTypes.get(index).registryName.toLanguageKey();
+        if (index < 0 || index >= recipeTypes.size()) {
+            throw new IllegalArgumentException("Index out of bounds: " + index);
+        }
+
+        GTRecipeType recipeType = recipeTypes.get(index);
+        if (recipeType == null) {
+            // 如果遇到意外的null，重置到安全模式
+            setMode(0);
+            return getLanguageKey(0);
+        }
+
+        return recipeType.registryName.toLanguageKey();
+    }
+
+    // ============ 私有辅助方法 ============
+
+    private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
+        int baseSize = recipeTypes.isEmpty() ? EMPTY_LIST.size() : recipeTypes.size();
+        boolean needsToAddSelected = selected != null && !recipeTypes.contains(selected);
+        return baseSize + (needsToAddSelected ? 1 : 0);
+    }
+
+    private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
+        List<GTRecipeType> result = new ArrayList<>(
+                original.isEmpty() ? EMPTY_LIST : original);
+
+        if (selected != null && !result.contains(selected)) {
+            result.add(selected);
+        }
+
+        return Collections.unmodifiableList(result);
     }
 }
