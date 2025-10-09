@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
@@ -44,7 +43,7 @@ import java.util.function.Supplier;
 public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine, ICustomCraftingMachine {
 
     @RegisterLanguage(cn = "切换配方类型[%s]", en = "Switch recipe type [%s]")
-    public final static String SWITCH_TYPE = "gtocore.machine.switch_type";
+    private final static String SWITCH_TYPE = "gtocore.machine.switch_type";
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ProgrammableHatchPartMachine.class, DualHatchPartMachine.MANAGED_FIELD_HOLDER);
@@ -97,10 +96,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
             if (patternDetails instanceof IDetails details) {
                 var type = details.getRecipeType();
                 if (type != null) {
-                    getControllers().forEach(controller -> {
-                        if (controller instanceof IRecipeLogicMachine recipeLogicMachine)
-                            recipeLogicMachine.setRecipeType(type);
-                    });
+                    getHandlerList().external.recipeType = type;
                 }
             }
         }

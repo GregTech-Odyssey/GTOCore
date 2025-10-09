@@ -48,6 +48,7 @@ import java.util.function.Supplier;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.*;
 import static com.gtolib.api.registries.GTORegistration.GTO;
 
@@ -186,10 +187,9 @@ public final class GeneratorMultiblock {
 
     public static final MultiblockMachineDefinition CHEMICAL_ENERGY_DEVOURER = multiblock("chemical_energy_devourer", "化学能吞噬者", ChemicalEnergyDevourerMachine::new)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.CHEMICAL_ENERGY_DEVOURER_FUELS)
+            .recipeTypes(COMBUSTION_GENERATOR_FUELS, GAS_TURBINE_FUELS, ROCKET_ENGINE_FUELS)
             .generator()
             .tooltips(GTOMachineTooltips.INSTANCE.getChemicalEnergyDevourerGenerateTooltips().getSupplier())
-            .combinedRecipeTooltips()
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
@@ -230,7 +230,7 @@ public final class GeneratorMultiblock {
 
     public static final MultiblockMachineDefinition ROCKET_LARGE_TURBINE = registerLargeTurbine(GTO,
             "rocket_large_turbine", "大型火箭引擎涡轮", EV, true,
-            GTORecipeTypes.ROCKET_ENGINE_FUELS,
+            ROCKET_ENGINE_FUELS,
             GTBlocks.CASING_TITANIUM_TURBINE, GTBlocks.CASING_TITANIUM_GEARBOX,
             GTCEu.id("block/casings/mechanic/machine_casing_turbine_titanium"),
             GTCEu.id("block/multiblock/generator/large_gas_turbine"), false);
@@ -366,7 +366,7 @@ public final class GeneratorMultiblock {
                     .where('K', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build());
-    public static final MultiblockMachineDefinition ROCKET_MEGA_TURBINE = registerMegaTurbine("rocket_mega_turbine", "特大火箭引擎涡轮", IV, true, GTORecipeTypes.ROCKET_ENGINE_FUELS, GTBlocks.CASING_TITANIUM_TURBINE, GTBlocks.CASING_TITANIUM_GEARBOX,
+    public static final MultiblockMachineDefinition ROCKET_MEGA_TURBINE = registerMegaTurbine("rocket_mega_turbine", "特大火箭引擎涡轮", IV, true, ROCKET_ENGINE_FUELS, GTBlocks.CASING_TITANIUM_TURBINE, GTBlocks.CASING_TITANIUM_GEARBOX,
             GTCEu.id("block/casings/mechanic/machine_casing_turbine_titanium"), GTCEu.id("block/multiblock/generator/large_gas_turbine"), definition -> FactoryBlockPattern.start(definition)
                     .aisle("CCCCCCCCCCCCC", "C           C", "CCCCCCCCCCCCC", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
                     .aisle("BBBBBBBBBBBBB", "BHHHHHHHHHHHB", "BBBBBBBBBBBBB", "BGGGGGGGGGGGB", "BGGGGGGGGGGGB", "BBBBBBBBBBBBB", "             ", "             ", "             ", "             ", "             ")

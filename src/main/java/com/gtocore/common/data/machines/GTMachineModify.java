@@ -3,7 +3,6 @@ package com.gtocore.common.data.machines;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
@@ -53,7 +52,6 @@ public final class GTMachineModify {
         GTMultiMachines.MULTI_SMELTER.setRecipeTypes(new GTRecipeType[] { GTRecipeTypes.FURNACE_RECIPES });
         GTMultiMachines.MULTI_SMELTER.setTooltipBuilder((itemStack, components) -> components.add(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.electric_furnace"))));
         GTMultiMachines.MULTI_SMELTER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::multiSmelterParallel));
-        GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeTypes(new GTRecipeType[] { GTORecipeTypes.CHEMICAL });
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(RecipeModifier.NO_MODIFIER);
         GTMultiMachines.LARGE_BOILER_BRONZE.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
         GTMultiMachines.LARGE_BOILER_STEEL.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);

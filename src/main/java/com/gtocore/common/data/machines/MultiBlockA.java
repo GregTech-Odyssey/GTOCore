@@ -54,6 +54,7 @@ import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
 import static com.gtocore.common.block.BlockMap.CALMAP;
 import static com.gtocore.common.block.BlockMap.SCMAP;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.CHEMICAL_PLANT_DISPLAY;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.*;
@@ -410,10 +411,9 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition CHEMICAL_PLANT = multiblock("chemical_plant", "化工厂", CoilMultiblockMachine.createCoilMachine(false, false))
             .allRotation()
-            .recipeTypes(GTORecipeTypes.CHEMICAL)
+            .recipeTypes(GTORecipeTypes.LARGE_CHEMICAL_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getChemicalFactoryTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getChemicalFactoryTooltips().getSupplier())
-            .combinedRecipeTooltips()
             .parallelizableTooltips()
             .perfectOCTooltips()
             .recipeModifier(RecipeModifierFunction.coilReductionOverclock(0.25))
@@ -828,9 +828,8 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition CHEMICAL_COMPLEX = multiblock("chemical_complex", "化工复合体", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
-            .recipeTypes(GTORecipeTypes.LARGE_CHEMICAL_PLANT)
+            .recipeTypes(LARGE_CHEMICAL_RECIPES, POLYMERIZATION_REACTOR_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getChemicalComplexTooltips().getSupplier())
-            .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -1641,9 +1640,8 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition HEAVY_ROLLING = multiblock("heavy_rolling", "重型辊轧机", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.HEAVY_ROLLING)
+            .recipeTypes(ROLLING_RECIPES, CLUSTER_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getHeavyRollingTooltips().getSupplier())
-            .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -2156,9 +2154,8 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition INTEGRATED_ASSEMBLER = multiblock("integrated_assembler", "综合组装车间", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.INTEGRATED_ASSEMBLER)
+            .recipeTypes(ASSEMBLER_RECIPES, LAMINATOR_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getIntegratedAssemblerTooltips().getSupplier())
-            .combinedRecipeTooltips()
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

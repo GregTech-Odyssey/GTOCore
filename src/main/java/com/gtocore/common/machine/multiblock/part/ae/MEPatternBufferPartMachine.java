@@ -1,16 +1,12 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.common.data.machines.GTAEMachines;
-import com.gtocore.common.machine.multiblock.part.ProgrammableHatchPartMachine;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
-import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
-import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.network.SyncManagedFieldHolder;
@@ -25,7 +21,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
@@ -118,9 +113,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final Set<BlockPos> proxies = new OpenCacheHashSet<>();
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
-
-    @Persisted
-    private boolean switchType = false;
 
     protected IntSyncedField configuratorField = ISync.createIntField(this)
             .set(-1)
@@ -224,12 +216,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
         var slot = getDetailsSlotMap().get(patternDetails);
         if (slot != null) {
-            if (switchType) {
-                for (var s : getInternalInventory()) {
-                    if (s == slot || (s.recipe != null && slot.recipe != null && s.recipe.recipeType == slot.recipe.recipeType) || s.isEmpty()) continue;
-                    return false;
-                }
-            }
             return slot.pushPattern(patternDetails, inputHolder);
         }
         return false;
@@ -344,7 +330,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorySimulated.storage));
         configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventory.storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
         configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTank.getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0, 1, 0.5), () -> switchType, (clickData, pressed) -> switchType = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(ProgrammableHatchPartMachine.SWITCH_TYPE, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
     }
 
     @Override
@@ -396,7 +381,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public static final class InternalSlot extends AbstractInternalSlot {
 
         public InternalSlotRecipeHandler.AbstractRHL rhl;
-        private Recipe recipe;
+        public Recipe recipe;
         private final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
@@ -497,31 +482,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Override
         public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
             patternDetails.pushInputsToExternalInventory(inputHolder, inputSink);
-            if (recipe != null) {
-                GTRecipeType type;
-                if (machine.switchType && patternDetails instanceof IDetails details) {
-                    type = details.getRecipeType();
-                } else type = null;
-                machine.getControllers().forEach(controller -> {
-                    if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                        enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
-                        if (type != null) {
-                            holder.setRecipeType(type);
-                        }
-                    }
-                });
-                for (var proxy : machine.proxyMachines) {
-                    var rhl = (InternalSlotRecipeHandler.AbstractRHL) proxy.getProxySlotRecipeHandler().getProxySlotHandlers().get(index);
-                    proxy.getControllers().forEach(controller -> {
-                        if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                            enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
-                            if (type != null) {
-                                holder.setRecipeType(type);
-                            }
-                        }
-                    });
-                }
-            }
             itemChanged = true;
             fluidChanged = true;
             onContentsChanged.run();
