@@ -466,7 +466,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public boolean itemChanged = true;
         public boolean fluidChanged = true;
         boolean rtValid = true;
-        private Recipe recipe;
+        public Recipe recipe;
         private GTRecipeType recipeType = GTRecipeTypes.DUMMY_RECIPES;
         private Runnable onContentsChanged = () -> {};
         private boolean lock;
