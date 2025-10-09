@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -74,6 +75,12 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         return proxySlotRecipeHandler.getProxySlotHandlers();
     }
 
+    @Nullable
+    public MEPatternBufferPartMachine getBuffer() {
+        if (!bufferResolved) setBuffer(bufferPos);
+        return buffer;
+    }
+
     public void setBuffer(@Nullable BlockPos pos) {
         bufferResolved = true;
         var level = getLevel();
@@ -93,12 +100,6 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         } else {
             buffer = null;
         }
-    }
-
-    @Nullable
-    public MEPatternBufferPartMachine getBuffer() {
-        if (!bufferResolved) setBuffer(bufferPos);
-        return buffer;
     }
 
     @Override
@@ -142,5 +143,11 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
 
     ProxySlotRecipeHandler getProxySlotRecipeHandler() {
         return this.proxySlotRecipeHandler;
+    }
+
+    public void setRecipeTypeRaw(int index, GTRecipeType gtRecipeType) {
+        var rhl = this.proxySlotRecipeHandler.getProxySlotHandlers().get(index);
+        rhl.setRecipeType(gtRecipeType);
+        RecipeHandlerList.NOTIFY.accept(this);
     }
 }

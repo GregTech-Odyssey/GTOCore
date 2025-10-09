@@ -1,7 +1,5 @@
 package com.gtocore.api.gui.configurators;
 
-import com.gtolib.api.recipe.CombinedRecipeType;
-
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -39,14 +37,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
                 .map(IRecipeLogicMachine::getRecipeTypes)
                 .flatMap(Arrays::stream)
                 .filter(Objects::nonNull)
-                .flatMap(recipeType -> {
-                    if (recipeType instanceof CombinedRecipeType combinedRecipeType) {
-                        return Stream.concat(
-                                Stream.of(combinedRecipeType),
-                                Arrays.stream(combinedRecipeType.getTypes()));
-                    }
-                    return recipeType == COMBINED_RECIPES ? Stream.empty() : Stream.of(recipeType);
-                })
+                .flatMap(recipeType -> recipeType == COMBINED_RECIPES ? Stream.empty() : Stream.of(recipeType))
                 .collect(Collectors.toCollection(LinkedHashSet::new)) // 保持顺序并去重
                 .stream()
                 .toList();

@@ -21,6 +21,7 @@ import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
@@ -34,7 +35,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -54,6 +56,10 @@ public final class InternalSlotRecipeHandler {
         }
     }
 
+    public List<RecipeHandlerList> getSlotHandlers() {
+        return this.slotHandlers;
+    }
+
     public static class WrapperRHL extends AbstractRHL {
 
         public WrapperRHL(AbstractRHL rhl) {
@@ -63,7 +69,8 @@ public final class InternalSlotRecipeHandler {
         private Reference2LongOpenHashMap<Fluid> getFluidMap(ParallelCache parallelCache) {
             var ingredientStacks = parallelCache.getFluidIngredientMap();
             for (var container : getCapability(FluidRecipeCapability.CAP)) {
-                if (container.isNotConsumable() || (container instanceof NonStandardHandler nonStandardHandler && nonStandardHandler.isNonStandardHandler())) continue;
+                if (container.isNotConsumable() || (container instanceof NonStandardHandler nonStandardHandler && nonStandardHandler.isNonStandardHandler()))
+                    continue;
                 container.fastForEachFluids((a, b) -> ingredientStacks.addTo(a.getFluid(), b));
             }
             return ingredientStacks;
@@ -118,10 +125,11 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public <T, R> Iterator<R> searchRecipe(IRecipeCapabilityHolder holder, T type, Predicate<R> canHandle) {
+        public <T extends GTRecipeType, R extends GTRecipe> Iterator<R> searchRecipe(IRecipeCapabilityHolder holder, T type, Predicate<R> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return Collections.emptyIterator();
+            if (!RecipeType.available(slot.getRecipeType(), RecipeType.getAvailableTypes(machine)))
+                return Collections.emptyIterator();
             if (slot.recipe != null) {
-                if (!RecipeType.available(slot.recipe.recipeType, machine.getRecipeTypes())) return Collections.emptyIterator();
                 R r = (R) slot.recipe;
                 holder.setCurrentHandlerList(external, null);
                 if (canHandle.test(r)) {
@@ -142,8 +150,9 @@ public final class InternalSlotRecipeHandler {
                     };
                 }
                 return Collections.emptyIterator();
+            } else {
+                return SEARCH.search(holder, type, this, canHandle);
             }
-            return SEARCH.search(holder, type, this, canHandle);
         }
 
         @Override
@@ -154,7 +163,8 @@ public final class InternalSlotRecipeHandler {
         private Reference2LongOpenHashMap<Item> getItemMap(ParallelCache parallelCache) {
             var ingredientStacks = parallelCache.getItemIngredientMap();
             for (var container : getCapability(ItemRecipeCapability.CAP)) {
-                if (container.isNotConsumable() || (container instanceof NonStandardHandler handler && handler.isNonStandardHandler())) continue;
+                if (container.isNotConsumable() || (container instanceof NonStandardHandler handler && handler.isNonStandardHandler()))
+                    continue;
                 container.fastForEachItems((a, b) -> ingredientStacks.addTo(a.getItem(), b));
             }
             return ingredientStacks;
@@ -224,7 +234,8 @@ public final class InternalSlotRecipeHandler {
         }
 
         public boolean handleRecipeContent(GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
-            if (slot.isEmpty() || (slot.recipe != null && !slot.recipe.id.getPath().equals(recipe.id.getPath()))) return false;
+            if (slot.isEmpty() || (slot.recipe != null && !slot.recipe.id.getPath().equals(recipe.id.getPath())))
+                return false;
             boolean item = contents.item == null;
             if (!item) {
                 List left = contents.item;
@@ -445,9 +456,5 @@ public final class InternalSlotRecipeHandler {
         public boolean isRecipeOnly() {
             return true;
         }
-    }
-
-    public List<RecipeHandlerList> getSlotHandlers() {
-        return this.slotHandlers;
     }
 }

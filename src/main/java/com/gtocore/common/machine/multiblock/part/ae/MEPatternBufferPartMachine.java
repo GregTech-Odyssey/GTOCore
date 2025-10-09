@@ -5,14 +5,15 @@ import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
+import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.network.SyncManagedFieldHolder;
-import com.gtolib.api.recipe.CombinedRecipeType;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ExpandedO2LMap;
@@ -117,7 +118,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Persisted
     private final Set<BlockPos> proxies = new OpenCacheHashSet<>();
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
-    public final InternalSlotRecipeHandler internalRecipeHandler;
 
     @Persisted
     @DescSynced
@@ -187,12 +187,11 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public boolean patternFilter(ItemStack stack) {
         var type = stack.getOrCreateTag().getString("type");
         var stack_type = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(type));
-        if(type.isEmpty())return true;
+        if (type.isEmpty()) return true;
         if (this.mode != GTRecipeTypes.COMBINED_RECIPES) {
-            if (this.mode instanceof CombinedRecipeType cbt) return cbt.hasType(stack_type);
-            else return this.mode == stack_type;
-        } else if (this.mode == GTRecipeTypes.COMBINED_RECIPES && !getControllers().isEmpty()) {
-            return this.recipeTypes.contains(stack_type);
+            return RecipeType.available(stack_type, this.mode);
+        } else if (!getControllers().isEmpty()) {
+            return RecipeType.available(stack_type,RecipeType.getAvailableTypes(this.recipeTypes.toArray(new GTRecipeType[0]),GTRecipeTypes.COMBINED_RECIPES));
         }
         return stack.getItem() instanceof ProcessingPatternItem;
     }
@@ -325,9 +324,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     public boolean checkRecipeType(@Nullable GTRecipeType gtRecipeType) {
         if (gtRecipeType == null) return false;
-        return this.mode == GTRecipeTypes.COMBINED_RECIPES ||
-                this.mode instanceof CombinedRecipeType cbt && cbt.hasType(gtRecipeType) ||
-                this.mode == gtRecipeType || gtRecipeType == GTRecipeTypes.DUMMY_RECIPES;
+        return RecipeType.available(gtRecipeType, this.mode) || gtRecipeType == GTRecipeTypes.DUMMY_RECIPES;
     }
 
     @Override
@@ -503,7 +500,12 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         private void setRecipeTypeRaw(GTRecipeType gtRecipeType, boolean valid) {
             this.recipeType = gtRecipeType;
             this.rtValid = valid;
-            rhl.rhl.setRecipeType(valid ? gtRecipeType : GTRecipeTypes.DUMMY_RECIPES);
+            rhl.setRecipeType(valid ? gtRecipeType : GTRecipeTypes.DUMMY_RECIPES);
+            for (var pos : machine.proxies) {
+                if (MetaMachine.getMachine(machine.getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {
+                    proxy.setRecipeTypeRaw(index, recipeType);
+                }
+            }
             RecipeHandlerList.NOTIFY.accept(this.machine);
         }
 
@@ -521,6 +523,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
             // 检查配方类型是否匹配
             setRecipeTypeRaw(gtRecipeType, machine.checkRecipeType(gtRecipeType));
+        }
+
+        public GTRecipeType getRecipeType() {
+            return recipeType;
         }
 
         public void refreshRecipeTypeCheck() {
@@ -712,8 +718,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            var rt=GTRegistries.RECIPE_TYPES.get(RLUtils.parse(tag.getString("recipeType")));
-            if(rt!=null) setRecipeType(rt);
+            var rt = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(tag.getString("recipeType")));
+            if (rt != null) setRecipeType(rt);
             setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
             tag.putString("type", recipeType.registryName.toString());
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
