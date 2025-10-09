@@ -47,7 +47,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
-import static com.gtocore.data.recipe.processing.CompositeMaterials.getFiberExtrusionTemperature;
+import static com.gtocore.data.recipe.processing.CompositeMaterialsProcessing.getFiberExtrusionTemperature;
 
 final class GTOMaterialRecipeHandler {
 
@@ -117,7 +117,7 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
 
-        if (material.hasFlag(NO_SMASHING)) {
+        if (material.hasAnyOfFlags(NO_SMASHING, COMPOSITE_MATERIAL)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_to_ingot")
                     .inputItems(dust, material)
                     .notConsumable(GTItems.SHAPE_EXTRUDER_INGOT)
@@ -281,7 +281,7 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
 
-        if (material.hasFlag(NO_SMASHING) && material.hasFlag(GENERATE_PLATE)) {
+        if (material.hasAnyOfFlags(NO_SMASHING, COMPOSITE_MATERIAL) && material.hasFlag(GENERATE_PLATE)) {
             ItemStack plateStack = ChemicalHelper.get(plate, material);
             if (!plateStack.isEmpty()) {
                 CUTTER_RECIPES.recipeBuilder("cut_" + material.getName() + "_block_to_plate")
@@ -674,6 +674,7 @@ final class GTOMaterialRecipeHandler {
     }
 
     private static void processEBFRecipe(Material material, BlastProperty property, ItemStack output) {
+        if (material.hasFlag(COMPOSITE_MATERIAL)) return;
         int blastTemp = property.getBlastTemperature();
         BlastProperty.GasTier gasTier = property.getGasTier();
         int duration = property.getDurationOverride();

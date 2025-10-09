@@ -26,7 +26,7 @@ import static com.gtocore.api.data.tag.GTOTagPrefix.MXene;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
-public class CompositeMaterials {
+public class CompositeMaterialsProcessing {
 
     private static @Nullable Reference2IntOpenHashMap<Material> fiber_extrusion_temperatures = new Reference2IntOpenHashMap<>();
 

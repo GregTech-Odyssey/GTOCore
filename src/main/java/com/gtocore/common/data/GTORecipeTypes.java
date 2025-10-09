@@ -66,7 +66,7 @@ public final class GTORecipeTypes {
     public static final RecipeType MACERATOR_RECIPES = (RecipeType) GTRecipeTypes.MACERATOR_RECIPES;
     public static final RecipeType CANNER_RECIPES = (RecipeType) GTRecipeTypes.CANNER_RECIPES.setMaxIOSize(2, 2, 2, 2);
     public static final RecipeType CENTRIFUGE_RECIPES = (RecipeType) GTRecipeTypes.CENTRIFUGE_RECIPES;
-    public static final RecipeType CHEMICAL_BATH_RECIPES = (RecipeType) GTRecipeTypes.CHEMICAL_BATH_RECIPES;
+    public static final RecipeType CHEMICAL_BATH_RECIPES = (RecipeType) GTRecipeTypes.CHEMICAL_BATH_RECIPES.setMaxIOSize(3, 9, 3, 1);
     public static final RecipeType CHEMICAL_RECIPES = (RecipeType) GTRecipeTypes.CHEMICAL_RECIPES;
     public static final RecipeType COMPRESSOR_RECIPES = (RecipeType) GTRecipeTypes.COMPRESSOR_RECIPES;
     public static final RecipeType CUTTER_RECIPES = (RecipeType) GTRecipeTypes.CUTTER_RECIPES;

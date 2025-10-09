@@ -129,7 +129,7 @@ public final class Data {
         BrineRecipes.init();
         NaquadahProcess.init();
         PlatGroupMetals.init();
-        CompositeMaterials.init();
+        CompositeMaterialsProcessing.init();
         ElementCopying.init();
         StoneDustProcess.init();
         Lanthanidetreatment.init();

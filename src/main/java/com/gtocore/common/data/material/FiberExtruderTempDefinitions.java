@@ -2,7 +2,7 @@ package com.gtocore.common.data.material;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOMaterials.*;
-import static com.gtocore.data.recipe.processing.CompositeMaterials.registerFiberExtrusionTemperature;
+import static com.gtocore.data.recipe.processing.CompositeMaterialsProcessing.registerFiberExtrusionTemperature;
 
 public class FiberExtruderTempDefinitions {
 

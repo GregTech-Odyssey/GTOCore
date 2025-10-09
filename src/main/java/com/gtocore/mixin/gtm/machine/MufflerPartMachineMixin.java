@@ -7,7 +7,6 @@ import com.gtolib.api.GTOValues;
 import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.feature.IAirScrubberInteractor;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
-import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
 import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
@@ -74,7 +73,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     private CustomItemStackHandler inventory;
 
     @Unique
-    private DroneControlCenterMachine gtolib$cache;
+    private IDroneControlCenterMachine gtolib$cache;
 
     @Unique
     private AirScrubberMachine gtolib$airScrubberCache;
@@ -104,13 +103,13 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     @SuppressWarnings("all")
-    public DroneControlCenterMachine getNetMachineCache() {
+    public IDroneControlCenterMachine getNetMachineCache() {
         return gtolib$cache;
     }
 
     @Unique
     @SuppressWarnings("all")
-    public void setNetMachineCache(DroneControlCenterMachine cache) {
+    public void setNetMachineCache(IDroneControlCenterMachine cache) {
         gtolib$cache = cache;
     }
 

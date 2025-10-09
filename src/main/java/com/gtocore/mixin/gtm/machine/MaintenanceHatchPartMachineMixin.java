@@ -2,7 +2,6 @@ package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
-import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
 import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
@@ -37,17 +36,17 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     protected int timeActive;
 
     @Unique
-    private DroneControlCenterMachine gtolib$cache;
+    private IDroneControlCenterMachine gtolib$cache;
 
     @Unique
     @SuppressWarnings("all")
-    public DroneControlCenterMachine getNetMachineCache() {
+    public IDroneControlCenterMachine getNetMachineCache() {
         return gtolib$cache;
     }
 
     @Unique
     @SuppressWarnings("all")
-    public void setNetMachineCache(DroneControlCenterMachine cache) {
+    public void setNetMachineCache(IDroneControlCenterMachine cache) {
         gtolib$cache = cache;
     }
 

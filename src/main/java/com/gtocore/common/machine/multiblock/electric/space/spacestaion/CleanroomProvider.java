@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
+import com.google.common.collect.ImmutableSet;
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.CMHatchPartMachine;
 
@@ -73,6 +74,11 @@ public class CleanroomProvider extends Extension implements ICleanroomProvider, 
         IIWirelessInteractor.removeFromNet(NETWORK, this);
     }
 
+    @Override
+    public boolean isActiveState() {
+        return isWorkspaceReady();
+    }
+
     public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
         if (part instanceof DroneHatchPartMachine machine) {
@@ -90,7 +96,7 @@ public class CleanroomProvider extends Extension implements ICleanroomProvider, 
 
     @Override
     public Set<CleanroomType> getTypes() {
-        return cleanroomType == null ? Collections.emptySet() : cleanroomType.getTypes();
+        return cleanroomType == null ? Collections.emptySet() : ImmutableSet.copyOf(cleanroomType.getTypes());
     }
 
     @Override

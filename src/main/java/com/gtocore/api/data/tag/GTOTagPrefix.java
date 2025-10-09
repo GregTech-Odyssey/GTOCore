@@ -37,7 +37,7 @@ import vazkii.botania.common.block.BotaniaBlocks;
 import java.util.regex.Pattern;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.hasOreProperty;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Boron;
 
 @DataGeneratorScanned
@@ -66,8 +66,9 @@ public final class GTOTagPrefix extends TagPrefix {
     }
 
     public static void init() {
-        TagPrefix.dustTiny.generationCondition(Conditions.hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_TINY_DUST)));
-        TagPrefix.dustSmall.generationCondition(Conditions.hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_SMALL_DUST)));
+        TagPrefix.dustTiny.generationCondition(hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_TINY_DUST)));
+        TagPrefix.dustSmall.generationCondition(hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_SMALL_DUST)));
+        TagPrefix.ingotHot.generationCondition(hasBlastProperty.and(mat -> mat.getProperty(PropertyKey.BLAST).getBlastTemperature() > 1750).and(mat -> !mat.hasFlag(GTOMaterialFlags.COMPOSITE_MATERIAL)));
     }
 
     private static TagPrefix ore(String name) {
