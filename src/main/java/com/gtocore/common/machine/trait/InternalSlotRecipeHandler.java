@@ -123,7 +123,7 @@ public final class InternalSlotRecipeHandler {
             if (slot.recipe != null) {
                 if (!RecipeType.available(slot.recipe.recipeType, machine.getRecipeTypes())) return Collections.emptyIterator();
                 R r = (R) slot.recipe;
-                holder.setCurrentHandlerList(external, null);
+                holder.setCurrentHandlerList(this, null);
                 if (canHandle.test(r)) {
                     return new Iterator<>() {
 

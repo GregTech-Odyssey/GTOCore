@@ -33,7 +33,7 @@ public final class GTOConfig {
             init = true;
             synchronized (LOCK) {
                 ConfigHolder.init();
-                INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.yaml()).getConfigInstance();
+                INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.YAML).getConfigInstance();
                 if (INSTANCE.startSpark == SparkRange.ALL || INSTANCE.startSpark == SparkRange.MAIN_MENU) {
                     SparkLaunchProfiler.start("all");
                 }
@@ -150,14 +150,13 @@ public final class GTOConfig {
     // 游戏核心设置
     @Configurable
     @Configurable.Comment({ "游戏难度等级：简单、普通、专家",
-            "该配置项即将被弃用，请改用 config/gtocore/gtocore_startup.cfg 中的 Difficulty 选项",
+            "该配置项被弃用，请改用 config/gtocore/gtocore_startup.cfg 中的 Difficulty 选项",
             "此处的更改将会同步到 config/gtocore/gtocore_startup.cfg 中的 Difficulty 选项",
             "Game difficulty level: Simple, Normal, Expert",
             "This configuration option is about to be deprecated, please use the Difficulty option in config/gtocore/gtocore_startup.cfg",
             "Changes here will be synchronized to the Difficulty option in config/gtocore/gtocore_startup.cfg"
     })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度")
-    @Configurable.ValueUpdateCallback(method = "onUpdate")
     public Difficulty gameDifficulty = Difficulty.Normal;
 
     @Configurable

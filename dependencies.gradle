@@ -28,7 +28,7 @@ dependencies {
 
     modImplementation("curse.maven:building-gadgets-298187:6850495")
 
-    modImplementation("curse.maven:configuration-444699:4710266")
+    modImplementation("curse.maven:configuration-444699:5840405")
 
     modImplementation("com.teamresourceful:yabn:1.0.3")
     modImplementation("com.teamresourceful:bytecodecs:1.0.2")

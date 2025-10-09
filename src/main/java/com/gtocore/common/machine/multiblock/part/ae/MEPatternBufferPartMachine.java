@@ -45,7 +45,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
@@ -265,9 +264,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             }
             if (input.size() < sparseInput.length) {
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
-                if (pattern.getDefinition().getTag().tags.get("type") instanceof StringTag stringTag) {
-                    stack.getTag().put("type", stringTag);
-                }
                 return MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
             }
         }
