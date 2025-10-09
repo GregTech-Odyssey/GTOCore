@@ -166,8 +166,8 @@ public final class GTOBlocks {
     public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_SUPPORT = createActiveCasing("space_elevator_support", "太空电梯支撑结构", "block/variant/space_elevator_support");
     public static final BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_CORE = createActiveCasing("space_elevator_power_core", "太空电梯动力核心", "block/variant/space_elevator_power_core");
     public static final BlockEntry<ActiveBlock> HYPER_CORE = createActiveCasing("hyper_core", "超能核心", "block/variant/hyper_core");
-    public static final BlockEntry<ActiveBlock> SPACETIMECONTINUUMRIPPER = createActiveCasing("spacetimecontinuumripper", "时空连续体撕裂方块", "block/variant/spacetimecontinuumripper");
-    public static final BlockEntry<ActiveBlock> SPACETIMEBENDINGCORE = createActiveCasing("spacetimebendingcore", "时空扭曲核心方块", "block/variant/spacetimebendingcore");
+    public static final BlockEntry<ActiveBlock> SPACETIME_CONTINUUM_RIPPER = createActiveCasing("spacetime_continuum_ripper", "时空连续体撕裂方块", "block/variant/spacetime_continuum_ripper");
+    public static final BlockEntry<ActiveBlock> SPACETIME_BENDING_CORE = createActiveCasing("spacetime_bending_core", "时空扭曲核心方块", "block/variant/spacetime_bending_core");
     public static final BlockEntry<ActiveBlock> QUANTUM_FORCE_TRANSFORMER_COIL = createActiveCasing("quantum_force_transformer_coil", "量子操纵者线圈方块", "block/variant/quantum_force_transformer_coil");
     public static final BlockEntry<ActiveBlock> FISSION_FUEL_COMPONENT = createActiveCasing("fission_fuel_component", "裂变燃料组件", "block/variant/fission_fuel_component");
     public static final BlockEntry<ActiveBlock> FISSION_COOLER_COMPONENT = createActiveCasing("fission_cooler_component", "裂变冷却组件", "block/variant/fission_cooler_component");

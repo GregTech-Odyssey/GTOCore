@@ -353,10 +353,22 @@ public final class ForgeCommonEvent {
             if (mapping.getKey().equals(GTOCore.id("abs_rad_casing"))) {
                 mapping.remap(GTOBlocks.ABS_RED_CASING.get());
             }
+            else if (mapping.getKey().equals(GTOCore.id("spacetimecontinuumripper"))) {
+                mapping.remap(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.get());
+            }
+            else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
+                mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.get());
+            }
         });
         event.getMappings(Registries.ITEM, GTOCore.MOD_ID).forEach(mapping -> {
             if (mapping.getKey().equals(GTOCore.id("abs_rad_casing"))) {
                 mapping.remap(GTOBlocks.ABS_RED_CASING.asItem());
+            }
+            else if (mapping.getKey().equals(GTOCore.id("spacetimecontinuumripper"))) {
+                mapping.remap(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.asItem());
+            }
+            else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
+                mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.asItem());
             }
         });
     }
