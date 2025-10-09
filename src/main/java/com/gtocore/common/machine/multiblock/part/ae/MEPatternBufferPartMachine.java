@@ -187,7 +187,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (this.mode != GTRecipeTypes.COMBINED_RECIPES) {
             return RecipeType.available(stack_type, this.mode);
         } else if (!getControllers().isEmpty()) {
-            return RecipeType.available(stack_type,RecipeType.getAvailableTypes(this.recipeTypes.toArray(new GTRecipeType[0]),GTRecipeTypes.COMBINED_RECIPES));
+            return RecipeType.available(stack_type, RecipeType.getAvailableTypes(this.recipeTypes.toArray(new GTRecipeType[0]), GTRecipeTypes.COMBINED_RECIPES));
         }
         return stack.getItem() instanceof ProcessingPatternItem;
     }
