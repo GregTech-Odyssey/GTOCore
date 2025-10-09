@@ -122,6 +122,11 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     }
 
     @Override
+    public boolean hasBatchConfig() {
+        return false;
+    }
+
+    @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
