@@ -495,7 +495,6 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition DRONE_CONTROL_CENTER = multiblock("drone_control_center", "无人机控制中心", DroneControlCenterMachine::new)
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
-            .workableInSpace()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("ABAAA  ", "ADA A  ", "AAA A  ", "AABAA  ", "A A A  ", "A A A  ", "AAAAA  ")

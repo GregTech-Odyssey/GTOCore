@@ -20,8 +20,7 @@ import java.awt.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gtocore.api.data.material.GTOMaterialFlags.CAN_BE_COOLED_DOWN_BY_BATHING;
-import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_CRYSTAL_SEED;
+import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -1029,7 +1028,7 @@ public final class MaterialA {
                 .components(Cobalt, 9, Chromium, 9, Manganese, 5, Titanium, 2)
                 .color(0x888192)
                 .iconSet(METALLIC)
-                .flags(GENERATE_GEAR, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_GEAR, DISABLE_DECOMPOSITION, GENERATE_FOIL, GENERATE_PLATE)
                 .buildAndRegister();
 
         SiliconCarbide = material("silicon_carbide", "碳化硅")
@@ -1039,7 +1038,7 @@ public final class MaterialA {
                 .components(Silicon, 1, Carbon, 1)
                 .color(0x34adb6)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GENERATE_FIBER)
                 .buildAndRegister();
 
         QuantumMetal = material("quantum_metal", "量子金属")
@@ -1368,7 +1367,7 @@ public final class MaterialA {
                 .fluid()
                 .color(0x9f9f53)
                 .iconSet(DULL)
-                .flags(GENERATE_FOIL)
+                .flags(GENERATE_FOIL, GENERATE_FIBER)
                 .buildAndRegister();
 
         Radox = material("radox", "拉多X聚合物")

@@ -1587,10 +1587,10 @@ object GTOMachineTooltips {
         setTranslationPrefix("large_space_station")
 
         section(MainFunction)
-        info("提供一个保护机器正常工作，免受太空辐射等复杂环境影响的空间" translatedTo "Provides a space that protects machines from complex environments such as space radiation")
-        info("空间站内部自带供玩家呼吸的空气" translatedTo "The interior of the space station comes with air for players to breathe")
-        info("且自带无线电网中继器的功能，提供的电压根据安装的整体框架的等级而定" translatedTo "And comes with the function of a wireless radio network repeater, providing voltage based on the level of the installed mainframe")
-        info("可以向外侧安装拓展舱体以增加内部空间/更多功能" translatedTo "Can install expansion modules on the outside to increase internal space/more functions")
+        highlight("提供一个保护机器正常工作，免受太空辐射等复杂环境影响的空间" translatedTo "Provides a space that protects machines from complex environments such as space radiation")
+        highlight("空间站内部自带供玩家呼吸的空气" translatedTo "The interior of the space station comes with air for players to breathe")
+        highlight("且自带无线电网中继器的功能，提供的电压根据安装的整体框架的等级而定" translatedTo "And comes with the function of a wireless radio network repeater, providing voltage based on the level of the installed mainframe")
+        highlight("可以向外侧安装拓展舱体以增加内部空间/更多功能" translatedTo "Can install expansion modules on the outside to increase internal space/more functions")
 
         section("建造要求" translatedTo "Construction Requirements")
         command("必须在太空中建造" translatedTo "Must be constructed in space")
@@ -1611,6 +1611,28 @@ object GTOMachineTooltips {
         info("§b核心舱§r：大型空间站的核心部分，必须安装且只能安装一个" translatedTo "§bCore Module§r: The core part of the large space station, must be installed and only one can be installed")
         info("§b衔接舱§r：用于连接核心舱/模块仓与其他拓展舱体" translatedTo "§bConnection Module§r: Used to connect the core module with other expansion modules")
         info("§b模块仓§r：提供额外的空间与功能" translatedTo "§bFunctional Module§r: Provides additional space and functions")
+    }
+    val SpaceStationEnvironmentalMaintenanceModuleTooltips = ComponentListSupplier {
+        setTranslationPrefix("space_station_environmental_maintenance_module")
+
+        section(MainFunction)
+        highlight("给当前空间站里的所有机器提供超净环境" translatedTo "Provides a super clean environment for all machines in the current space station")
+        info("提供的环境等级取决于安装的过滤器方块种类" translatedTo "The level of environment provided depends on the types of filter blocks installed")
+        highlight(
+            ("且不同于常规超净间，高级超净环境" translatedTo "And unlike conventional super clean rooms, advanced super clean environments") +
+                ("向下兼容低级超净环境" translatedTo " are backward compatible with lower-level super clean environments").scrollOptical(),
+        )
+        highlight("提供无人机仓，可供无人机清理空间站内机器的垃圾，或自动维护机器" translatedTo "Provides a drone bay for drones to clean up machine waste or automatically maintain machines in the space station")
+    }
+    val NoExtensionAvailableTooltips = ComponentListSupplier {
+        setTranslationPrefix("no_extension_available")
+        error("该种类空间站无法向外侧安装拓展舱体" translatedTo "This type of space station cannot install expansion modules on the outside")
+    }
+    val RecipeExtensionTooltips = ComponentListSupplier {
+        setTranslationPrefix("recipe_extension")
+        section("配方拓展舱室" translatedTo "Recipe Extension Module")
+        info("§6被动耗能§r由§b核心舱§r提供，而§6配方耗能§r需由安装在§b此舱§r的§d能源仓§r提供" translatedTo "§6Passive energy consumption§r is provided by the §bCore Module§r, while §6recipe energy consumption§r needs to be provided by the §dEnergy Input Hatch§r installed in the §bthis module§r")
+        error("无核心舱连接时，无法运行配方" translatedTo "Cannot run recipes without a linked core module")
     }
     val CoreSpaceStationModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("core_space_station_module")

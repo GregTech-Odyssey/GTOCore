@@ -23,6 +23,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.CAN_BE_COOLED_DOWN_BY_BATHING;
+import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_FIBER;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 
@@ -172,6 +173,16 @@ public final class GTMaterialExtend {
         Aluminium.addFlags(GENERATE_ROTOR);
         Neutronium.addFlags(GTOMaterialFlags.GENERATE_NANITES);
         Carbon.setProperty(INGOT, new IngotProperty());
+        Carbon.addFlags(GENERATE_FIBER);
+        Quartzite.addFlags(GENERATE_FIBER);
+        TitaniumCarbide.addFlags(GENERATE_FIBER);
+        Titanium.addFlags(GENERATE_FIBER);
+        TungstenCarbide.addFlags(GENERATE_FIBER);
+        Tantalum.addFlags(GENERATE_FIBER);
+        Copper.addFlags(GENERATE_FIBER);
+        Tungsten.addFlags(GENERATE_FIBER);
+        Aluminium.addFlags(GENERATE_FIBER);
+        BorosilicateGlass.addFlags(GENERATE_FIBER);
         RadAway.addFlags(DISABLE_DECOMPOSITION);
         Platinum.addFlags(GENERATE_SPRING);
         Polytetrafluoroethylene.addFlags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE);

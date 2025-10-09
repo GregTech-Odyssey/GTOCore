@@ -14,8 +14,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIcon
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.METALLIC;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gtocore.api.data.material.GTOMaterialFlags.CAN_BE_COOLED_DOWN_BY_BATHING;
-import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_CURVED_PLATE;
+import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTOMaterials.Etrium;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -64,7 +63,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .fluidPipeProperties(3500, 3500, true, true, true)
                 .buildAndRegister();
 
@@ -79,7 +78,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         PlatinumRhodiumAlloy = material("platinum_rhodium_alloy", "铂铑合金")
                 .ingot()
@@ -92,7 +91,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         ScalmAlloyS = material("scalm_alloy_s", "斯卡马洛伊-S合金")
                 .ingot()
@@ -105,7 +104,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         Grcop84 = material("grcop84", "GRCop-84合金")
                 .ingot()
@@ -118,7 +117,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         ThermalConductiveAlloy = material("thermal_conductive_alloy", "高热导合金")
                 .ingot()
@@ -131,7 +130,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         Titanium5553 = material("titanium_5553", "钛合金-5553")
                 .ingot()
@@ -144,7 +143,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         UltraLightweightCompositeSteel = material("ultra_lightweight_composite_steel", "超轻复合钢")
                 .ingot()
@@ -157,7 +156,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         BerylliumAluminiumAlloy = material("beryllium_aluminium_alloy", "特种铍铝合金")
                 .ingot()
@@ -169,7 +168,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         MoonGoddessTitanium = material("moon_goddess_titanium", "月神钛")
                 .ingot()
@@ -182,7 +181,7 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
 
         AluminumAlloy2090 = material("aluminum_alloy_2090", "铝合金-2090")
@@ -192,7 +191,7 @@ public class MaterialSpaceEra {
                 .components(Aluminium, 16, Lithium, 1, Copper, 2)
                 .blastTemp(1660, LOW, GTValues.VA[GTValues.HV], 1100)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         AluminumAlloy8090 = material("aluminum_alloy_8090", "铝合金-8090")
                 .ingot().fluid()
@@ -201,7 +200,7 @@ public class MaterialSpaceEra {
                 .components(Aluminium, 20, Copper, 2, Magnesium, 1, Lithium, 4)
                 .blastTemp(1760, LOW, GTValues.VA[GTValues.HV], 1100)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE, CAN_BE_COOLED_DOWN_BY_BATHING)
+                .flags(GENERATE_PLATE, CAN_BE_COOLED_DOWN_BY_BATHING, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         AluminumAlloy7050 = material("aluminum_alloy_7050", "铝合金-7050")
                 .ingot().fluid()
@@ -212,7 +211,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         AluminumAlloy5A06 = material("aluminum_alloy_5a06", "铝合金-5A06")
                 .ingot().fluid()
@@ -221,7 +220,7 @@ public class MaterialSpaceEra {
                 .components(Aluminium, 20, Magnesium, 3, Manganese, 1, Silicon, 1)
                 .blastTemp(2180, LOW, GTValues.VA[GTValues.EV], 1050)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE, CAN_BE_COOLED_DOWN_BY_BATHING)
+                .flags(GENERATE_PLATE, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         StructuralSteel45 = material("structural_steel_45", "结构钢-45")
                 .ingot().fluid()
@@ -232,7 +231,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         StainlessSteel420 = material("stainless_steel_420", "不锈钢-420")
                 .ingot().fluid()
@@ -243,7 +242,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         StainlessSteelGC4 = material("stainless_steel_gc4", "不锈钢-GC4")
                 .ingot().fluid()
@@ -254,7 +253,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         TitaniumTi64 = material("titanium_ti64", "钛合金-Ti64")
                 .ingot().fluid()
@@ -265,7 +264,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         StainlessSteel155Ph = material("stainless_steel_15_5ph", "不锈钢-15-5ph")
                 .ingot().fluid()
@@ -274,7 +273,7 @@ public class MaterialSpaceEra {
                 .components(Steel, 60, Copper, 4, Nichrome, 5, StainlessSteel, 10, Niobium, 1, Silicon, 1)
                 .blastTemp(3150, LOW, GTValues.VA[GTValues.EV], 1150)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, GENERATE_FIBER, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         StainlessSteel316 = material("stainless_steel_316", "不锈钢-316")
                 .ingot().fluid()
@@ -285,7 +284,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         StructuralSteelQ690 = material("structural_steel_q690", "结构钢-Q690")
                 .ingot().fluid()
@@ -294,7 +293,7 @@ public class MaterialSpaceEra {
                 .components(Steel, 80, Vanadium, 1, Titanium, 2, Niobium, 1, Aluminium, 1)
                 .blastTemp(3430, LOW, GTValues.VA[GTValues.EV], 950)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         InconelX750 = material("inconel_x750", "镍铬基合金-X750")
                 .ingot().fluid()
@@ -303,7 +302,7 @@ public class MaterialSpaceEra {
                 .components(Nickel, 35, Chromium, 9, Steel, 5, Tungsten, 1, Molybdenum, 1, Titanium, 1)
                 .blastTemp(3350, LOW, GTValues.VA[GTValues.EV], 1150)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         TungstenAlloyYW3 = material("tungsten_alloy_yw3", "钨合金-YW3")
                 .ingot().fluid()
@@ -312,7 +311,7 @@ public class MaterialSpaceEra {
                 .components(Tungsten, 50, Nickel, 5, Steel, 4, Cobalt, 1)
                 .blastTemp(4444, HIGH, GTValues.VA[GTValues.IV], 1300)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         TungstenAlloyYG10 = material("tungsten_alloy_yg10", "钨合金-YG10")
                 .ingot().fluid()
@@ -323,7 +322,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         Inconel617 = material("inconel_617", "镍铬基合金-617")
                 .ingot().fluid()
@@ -332,7 +331,7 @@ public class MaterialSpaceEra {
                 .components(Nickel, 11, Chromium, 6, Cobalt, 4, Molybdenum, 2, Steel, 1)
                 .blastTemp(4270, HIGH, GTValues.VA[GTValues.IV], 1250)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         BerylliumAluminumZ = material("beryllium_aluminum_z", "铍铝合金-Z")
                 .ingot().fluid()
@@ -343,7 +342,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         TitaniumTB6 = material("titanium_tb6", "钛合金-TB6")
                 .ingot().fluid()
@@ -352,7 +351,7 @@ public class MaterialSpaceEra {
                 .components(Titanium, 85, Vanadium, 10, Steel, 2, Aluminium, 3)
                 .blastTemp(4320, HIGH, GTValues.VA[GTValues.IV], 1200)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         Inconel718 = material("inconel_718", "镍铬基合金-718")
                 .ingot().fluid()
@@ -361,7 +360,7 @@ public class MaterialSpaceEra {
                 .components(Nickel, 50, Chromium, 20, Molybdenum, 4, Niobium, 6, StainlessSteel, 19, Titanium, 2)
                 .blastTemp(4175, HIGH, GTValues.VA[GTValues.IV], 1300)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE)
+                .flags(GENERATE_PLATE, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         BerylliumAluminumF = material("beryllium_aluminum_f", "铍铝合金-F")
                 .ingot().fluid()
@@ -372,7 +371,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
         TitaniumTC11 = material("titanium_tc11", "钛合金-TC11")
                 .ingot().fluid()
@@ -383,7 +382,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();
     }
 }

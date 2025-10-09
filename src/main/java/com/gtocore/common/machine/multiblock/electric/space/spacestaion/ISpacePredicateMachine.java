@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.multiblock.electric.space;
+package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.common.data.GTOBlocks;
 
@@ -43,10 +43,7 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.INPUT_ENE
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 
-public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine {
-
-    @Nullable
-    ICleanroomProvider getOptionalCleanroomProvider();
+public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanroomProvider {
 
     @NotNull
     MultiblockState getMultiblockState();
@@ -56,25 +53,17 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine {
 
     void setSpaceMachines(@Nullable Collection<IWorkInSpaceMachine> spaceMachines);
 
-    default boolean alsoProvidesCleanroom() {
-        return getOptionalCleanroomProvider() != null;
-    }
-
     default void onFormed() {
         if (getSpaceMachines() != null) {
             this.getSpaceMachines().forEach(receiver -> {
-                if (alsoProvidesCleanroom()) {
-                    receiver.setCleanroom(null);
-                }
+                receiver.setCleanroom(null);
                 receiver.setWorkspaceProvider(null);
             });
             setSpaceMachines(null);
         }
         setSpaceMachines(getMultiblockState().getMatchContext().getOrDefault("spaceMachine", Collections.emptyList()));
         getSpaceMachines().forEach(receiver -> {
-            if (alsoProvidesCleanroom()) {
-                receiver.setCleanroom(getOptionalCleanroomProvider());
-            }
+            receiver.setCleanroom(this);
             receiver.setWorkspaceProvider(this);
             if (receiver instanceof IEnhancedRecipeLogicMachine enhanced) {
                 enhanced.getRecipeLogic().updateTickSubscription();
@@ -85,9 +74,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine {
     default void onInvalid() {
         if (getSpaceMachines() != null) {
             this.getSpaceMachines().forEach(receiver -> {
-                if (alsoProvidesCleanroom()) {
-                    receiver.setCleanroom(null);
-                }
+                receiver.setCleanroom(null);
                 receiver.setWorkspaceProvider(null);
             });
             // setSpaceMachines(null);
@@ -146,7 +133,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine {
     }, null, abilities(EXPORT_FLUIDS).common.get(0).candidates).or(abilities(INPUT_ENERGY)).or(blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get())));
 
     static boolean isMachineBanned(MetaMachine machine) {
-        return machine instanceof ISpaceWorkspaceMachine;
+        return machine instanceof ISpaceWorkspaceMachine || machine instanceof ICleanroomProvider;
     }
 
     class BlockPredicate extends TraceabilityPredicate {

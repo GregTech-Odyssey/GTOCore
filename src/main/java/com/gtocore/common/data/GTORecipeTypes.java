@@ -795,7 +795,20 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COMPRESSOR);
+            .setSound(GTSoundEntries.COMPRESSOR)
+            .addDataInfo(TEMPERATURE)
+            .addDataInfo(COIL)
+            .setUiBuilder(COIL_UI);
+
+    // 太空冶炼
+    public static final RecipeType SPACE_SMELTING_RECIPES = register("space_smelting", "微重超纯冶炼", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(12, 1, 6, 2)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FURNACE)
+            .addDataInfo(TEMPERATURE)
+            .addDataInfo(COIL)
+            .setUiBuilder(COIL_UI);
 
     public static final RecipeType DRAWING_RECIPES = register("drawing", "拉丝", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -910,10 +923,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.CHEMICAL)
-            .addDataInfo(TEMPERATURE)
-            .addDataInfo(COIL)
-            .setUiBuilder(COIL_UI);
+            .setSound(GTSoundEntries.CHEMICAL);
 
     public static final RecipeType ATOMIZATION_CONDENSATION_RECIPES = register("atomization_condensation", "雾化冷凝", MULTIBLOCK)
             .setEUIO(IO.IN)

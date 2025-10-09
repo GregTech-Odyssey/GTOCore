@@ -45,7 +45,7 @@ public final class WirelessInteractorMachineProvider extends CapabilityBlockProv
                 data.putString("pos", Component.Serializer.toJson(Component.translatable(machine.getDefinition().getDescriptionId()).append("[").append(machine.getPos().toShortString()).append("]")));
             }
         } else if (capability instanceof IIWirelessInteractor<?> interactorMachine) {
-            MetaMachine machine = interactorMachine.getNetMachine();
+            MetaMachine machine = (MetaMachine) interactorMachine.getNetMachine();
             if (machine != null) {
                 data.putString("pos", Component.Serializer.toJson(Component.translatable(machine.getDefinition().getDescriptionId()).append("[").append(machine.getPos().toShortString()).append("]")));
             }

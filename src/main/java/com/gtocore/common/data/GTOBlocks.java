@@ -535,5 +535,5 @@ public final class GTOBlocks {
     // 航天发动机喷管 space_engine_nozzle
     public static final BlockEntry<ActiveBlock> SPACE_ENGINE_NOZZLE = createActiveCasing("space_engine_nozzle", "航天发动机喷管", "block/variant/space_engine_nozzle");
     // 航天器自修复自清洁防护机械外壳 spacecraft_dynamic_protective_mechanical_casing
-    public static final BlockEntry<Block> SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING = createCasingBlock("spacecraft_dynamic_protective_mechanical_casing", "航天器自修复自清洁防护机械外壳", GTOCore.id("block/casings/spacecraft_dynamic_protective_mechanical_casing"));
+    public static final BlockEntry<Block> SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING = createCasingBlock("spacecraft_dynamic_protective_mechanical_casing", "航天器防护机械外壳", GTOCore.id("block/casings/spacecraft_dynamic_protective_mechanical_casing"));
 }

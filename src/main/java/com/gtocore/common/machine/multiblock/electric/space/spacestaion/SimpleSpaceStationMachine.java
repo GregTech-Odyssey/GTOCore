@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.client.forge.ForgeClientEvent;
-import com.gtocore.common.machine.multiblock.electric.space.ISpacePredicateMachine;
 
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -91,11 +90,6 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
     }
 
     @Override
-    public ICleanroomProvider getOptionalCleanroomProvider() {
-        return this;
-    }
-
-    @Override
     public List<ForgeClientEvent.HighlightNeed> getCustomHighlights() {
         BlockPos corner0 = getPos()
                 .relative(getFrontFacing(), 0)
@@ -168,10 +162,5 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
     @Override
     public Set<CleanroomType> getTypes() {
         return this.cleanroomType == null ? Set.of() : Set.of(this.cleanroomType);
-    }
-
-    @Override
-    public boolean isClean() {
-        return ready >= 10;
     }
 }

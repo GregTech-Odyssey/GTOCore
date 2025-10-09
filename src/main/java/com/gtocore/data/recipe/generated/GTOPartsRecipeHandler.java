@@ -941,10 +941,10 @@ final class GTOPartsRecipeHandler {
     }
 
     private static void processroughBlank(Material material) {
-        ItemStack stack = ChemicalHelper.get(ROUGH_BLANK, material);
-        if (stack.isEmpty()) return;
-        ItemStack stack1 = ChemicalHelper.get(block, material);
         ItemStack stack2 = ChemicalHelper.get(BRICK, material);
+        if (stack2.isEmpty()) return;
+        ItemStack stack = ChemicalHelper.get(ROUGH_BLANK, material);
+        ItemStack stack1 = ChemicalHelper.get(block, material);
         SINTERING_FURNACE_RECIPES.recipeBuilder(material.getName() + "_rough_blank")
                 .inputItems(stack)
                 .outputItems(stack1)

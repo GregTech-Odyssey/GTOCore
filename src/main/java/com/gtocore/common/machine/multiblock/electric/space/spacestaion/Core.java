@@ -4,20 +4,25 @@ import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.IWirelessDimensionProvider;
 
 import com.gtolib.api.GTOValues;
+import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -28,10 +33,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
@@ -40,9 +42,24 @@ import static com.gtolib.utils.ServerUtils.getServer;
 
 public class Core extends AbstractSpaceStation implements ILargeSpaceStationMachine, IWirelessDimensionProvider {
 
+    public static final Map<ResourceLocation, Set<Core>> NETWORK = new O2OOpenCacheHashMap<>();
+
+    private @Nullable CleanroomProvider provider = null;
+
     private final Set<ILargeSpaceStationMachine> subMachinesFlat;
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
+
+    private boolean dirty = false;
+
+    public boolean isDirty() {
+        return dirty;
+    }
+
+    @Override
+    public void markDirty(boolean dirty) {
+        this.dirty = dirty;
+    }
 
     public Core(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
@@ -59,21 +76,26 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     public void setRoot(Core root) {}
 
     @Override
-    public boolean onWorking() {
-        onWork();
-        return super.onWorking();
+    protected void tickReady() {
+        super.tickReady();
+        if (getOffsetTimer() % 40 == 0) {
+            updateSpaceMachines();
+        }
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         onFormed();
+        IIWirelessInteractor.addToNet(NETWORK, this);
+        markDirty(true);
         loadContainer();
     }
 
     @Override
     public void onUnload() {
         unloadContainer();
+        IIWirelessInteractor.removeFromNet(NETWORK, this);
         super.onUnload();
     }
 
@@ -97,6 +119,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     public void onStructureInvalid() {
         delayedUnload();
         super.onStructureInvalid();
+        IIWirelessInteractor.removeFromNet(NETWORK, this);
         onInvalid();
     }
 
@@ -109,28 +132,34 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     @Override
     public void customText(@NotNull List<Component> list) {
         super.customText(list);
-        list.add(Component.translatable("gui.ae2.PowerUsageRate", "%s EU/t".formatted(getEUt())).withStyle(ChatFormatting.YELLOW));
-        list.add(Component.translatable("gtocore.machine.spacestation.energy_consumption.total", Optional.ofNullable(getRecipeLogic().getLastRecipe()).map(GTRecipe::getInputEUt).orElse(0L)).withStyle(ChatFormatting.GOLD));
+        list.add(Component.translatable("gui.ae2.PowerUsageRate", "%s EU/t".formatted(FormattingUtil.formatNumbers(getEUt()))).withStyle(ChatFormatting.YELLOW));
+        list.add(Component.translatable("gtocore.machine.spacestation.energy_consumption.total", FormattingUtil.formatNumbers(Optional.ofNullable(getRecipeLogic().getLastRecipe()).map(GTRecipe::getInputEUt).orElse(0L))).withStyle(ChatFormatting.GOLD));
         list.add(Component.translatable("gtocore.machine.modules_amount", subMachinesFlat.size()));
     }
 
     public void removeAllSubMachines() {
         for (ILargeSpaceStationMachine m : subMachinesFlat) {
-            if (m != this) {
+            if (m != this && m.getRoot() == this) {
                 m.setRoot(null);
             }
         }
         subMachinesFlat.clear();
     }
 
+    /// 很吃性能的操作，使用dirty标记需要更新
     public void refreshModules() {
         removeAllSubMachines();
+        provider = null;
         Set<ILargeSpaceStationMachine> its = new ObjectOpenHashSet<>();
         its.addAll(getConnectedModules());
         while (its.iterator().hasNext()) {
             ILargeSpaceStationMachine m = its.iterator().next();
             its.remove(m);
+            if (m.getRoot() != null) continue;
             m.setRoot(this);
+            if (m instanceof CleanroomProvider p && provider == null) {
+                provider = p;
+            }
             if (subMachinesFlat.add(m)) {
                 its.addAll(m.getConnectedModules());
             }
@@ -164,14 +193,16 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     public Recipe getRecipe() {
         if (!PlanetApi.API.isSpace(getLevel()))
             return null;
-
-        refreshModules();
+        if (dirty) {
+            refreshModules();
+            dirty = false;
+        }
         long EUt = getEUt();
         for (ILargeSpaceStationMachine machine : subMachinesFlat) {
             EUt += machine.getEUt();
             if (machine instanceof IRecipeLogicMachine r) r.getRecipeLogic().updateTickSubscription();
         }
-        return getRecipeBuilder().duration(40).EUt(EUt)
+        return getRecipeBuilder().duration(20).EUt(EUt)
                 .inputFluids(inputFluids(subMachinesFlat.size() + 1))
                 .outputFluids(FlocculationWasteSolution.getFluid(30 * (subMachinesFlat.size() + 1)))
                 .buildRawRecipe();
@@ -179,9 +210,9 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
 
     private FluidStack[] inputFluids(int mul) {
         return new FluidStack[] {
-                DistilledWater.getFluid(30 * mul),
-                GTMaterials.RocketFuel.getFluid(20 * mul),
-                GTMaterials.Air.getFluid(200 * mul)
+                DistilledWater.getFluid(15 * mul),
+                GTMaterials.RocketFuel.getFluid(10 * mul),
+                GTMaterials.Air.getFluid(100 * mul)
         };
     }
 
@@ -209,5 +240,13 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     @Override
     public WirelessEnergyContainer getWirelessEnergyContainerCache() {
         return this.WirelessEnergyContainerCache;
+    }
+
+    @Override
+    public Set<CleanroomType> getTypes() {
+        if (provider == null) {
+            return Collections.emptySet();
+        }
+        return provider.getTypes();
     }
 }

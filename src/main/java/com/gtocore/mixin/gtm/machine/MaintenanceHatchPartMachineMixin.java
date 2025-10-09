@@ -3,6 +3,7 @@ package com.gtocore.mixin.gtm.machine;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
 import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
+import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
@@ -85,7 +86,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)
     private void update(CallbackInfo ci) {
-        DroneControlCenterMachine centerMachine = getNetMachine();
+        IDroneControlCenterMachine centerMachine = getNetMachine();
         if (centerMachine != null) {
             Drone drone = getFirstUsableDrone();
             if (drone != null && drone.start(10, getNumMaintenanceProblems() << 6, GTOValues.MAINTAINING)) {

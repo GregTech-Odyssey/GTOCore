@@ -6,7 +6,6 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -17,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.HV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
@@ -24,9 +24,11 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 public class Conjunction extends AbstractSpaceStation implements ILargeSpaceStationMachine {
 
     protected Core core;
+    private final Function<AbstractSpaceStation, Set<BlockPos>> positionFunction;
 
-    public Conjunction(MetaMachineBlockEntity metaMachineBlockEntity) {
+    public Conjunction(MetaMachineBlockEntity metaMachineBlockEntity, Function<AbstractSpaceStation, Set<BlockPos>> positionFunction) {
         super(metaMachineBlockEntity);
+        this.positionFunction = positionFunction;
         shouldShowReadyText = false;
     }
 
@@ -42,22 +44,7 @@ public class Conjunction extends AbstractSpaceStation implements ILargeSpaceStat
 
     @Override
     public Set<BlockPos> getModulePositions() {
-        var pos = getPos();
-        var fFacing = getFrontFacing();
-        var uFacing = getUpwardsFacing();
-        var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped()), 11);
-        ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
-        for (RelativeDirection dir : RelativeDirection.values()) {
-            if (dir == RelativeDirection.RIGHT) continue;
-            var newFFacing = dir.getRelative(fFacing, uFacing, isFlipped());
-            var newUFacing = RelativeDirection.UP.getRelative(newFFacing, uFacing, isFlipped());
-            var shiftedPos = hallwayCenter.relative(newFFacing, dir == RelativeDirection.LEFT ? 8 : 5);
-            builder.add(shiftedPos.relative(RelativeDirection.UP.getRelative(newFFacing, newUFacing, isFlipped()), 2));
-            builder.add(shiftedPos.relative(RelativeDirection.DOWN.getRelative(newFFacing, newUFacing, isFlipped()), 2));
-            builder.add(shiftedPos.relative(RelativeDirection.LEFT.getRelative(newFFacing, newUFacing, isFlipped()), 2));
-            builder.add(shiftedPos.relative(RelativeDirection.RIGHT.getRelative(newFFacing, newUFacing, isFlipped()), 2));
-        }
-        return builder.build();
+        return positionFunction != null ? positionFunction.apply(this) : ImmutableSet.of();
     }
 
     @Override
@@ -76,29 +63,28 @@ public class Conjunction extends AbstractSpaceStation implements ILargeSpaceStat
     }
 
     @Override
-    public boolean onWorking() {
-        onWork();
-        return super.onWorking();
+    protected void tickReady() {
+        tickNonCoreModule();
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         onFormed();
+        markDirty(true);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         onInvalid();
+        markDirty(true);
     }
 
     @Override
     public void onMachineRemoved() {
         super.onMachineRemoved();
-        if (getRoot() != null) {
-            getRoot().refreshModules();
-        }
+        markDirty(true);
     }
 
     @Override

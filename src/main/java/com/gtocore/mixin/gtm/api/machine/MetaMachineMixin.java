@@ -1,5 +1,6 @@
 package com.gtocore.mixin.gtm.api.machine;
 
+import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.IDifficultyConfigDefinition;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -11,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MetaMachine.class)
-public abstract class MetaMachineMixin {
+public abstract class MetaMachineMixin implements IIWirelessInteractor.IWirelessProvider {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(MetaMachineBlockEntity holder, CallbackInfo ci) {

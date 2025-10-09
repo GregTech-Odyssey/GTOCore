@@ -3,19 +3,20 @@ package com.gtocore.api.machine.part;
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.machines.MultiBlockH;
-import com.gtocore.common.machine.multiblock.electric.space.ISpacePredicateMachine;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.AbstractSpaceStation;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Core;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.ISpacePredicateMachine;
 
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 import com.gregtechceu.gtceu.utils.memoization.MemoizedSupplier;
 
@@ -25,12 +26,13 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import earth.terrarium.adastra.api.planets.PlanetApi;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.custom;
@@ -40,15 +42,35 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
 
     MultiblockControllerMachine self();
 
+    @Override
+    default Set<CleanroomType> getTypes() {
+        if (getRoot() != null) {
+            return getRoot().getTypes();
+        }
+        return Collections.emptySet();
+    }
+
+    default void markDirty(boolean dirty) {
+        if (getRoot() != null) getRoot().markDirty(dirty);
+        else Core.NETWORK.getOrDefault(getLevel().dimension().location(), Set.of()).forEach(core -> core.markDirty(dirty));
+    }
+
     @Nullable
     Core getRoot();
 
     void setRoot(@Nullable Core root);
 
-    default void onWork() {
+    default void tickNonCoreModule() {
         if (getOffsetTimer() % 40 == 0) {
-            provideOxygen();
-            ((AbstractSpaceStation) self()).updateSpaceMachines();
+            AbstractSpaceStation self = (AbstractSpaceStation) self();
+
+            if (getRoot() != null && getRoot().getReadyCount() > 0) {
+                provideOxygen();
+            } else {
+                self.clearOxygenBlocks();
+            }
+
+            self.updateSpaceMachines();
         }
     }
 
@@ -60,15 +82,18 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
 
     default Set<ILargeSpaceStationMachine> getConnectedModules() {
         if (getLevel() == null) return Collections.emptySet();
-        return getModulePositions().stream()
-                .map(pos -> getLevel().getBlockEntity(pos))
-                .filter(Objects::nonNull)
-                .filter(blockEntity -> blockEntity instanceof MetaMachineBlockEntity)
-                .map(blockEntity -> ((MetaMachineBlockEntity) blockEntity).getMetaMachine())
-                .filter(machine -> machine instanceof ILargeSpaceStationMachine)
-                .map(machine -> (ILargeSpaceStationMachine) machine)
-                .filter(IMultiController::isFormed)
-                .collect(Collectors.toSet());
+
+        Set<ILargeSpaceStationMachine> machines = new ObjectOpenHashSet<>();
+        for (BlockPos pos : getModulePositions()) {
+            var blockEntity = getLevel().getBlockEntity(pos);
+            if (blockEntity instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
+                var machine = metaMachineBlockEntity.getMetaMachine();
+                if (machine instanceof ILargeSpaceStationMachine largeSpaceStationMachine && largeSpaceStationMachine.isFormed()) {
+                    machines.add(largeSpaceStationMachine);
+                }
+            }
+        }
+        return machines;
     }
 
     @Override
@@ -133,4 +158,18 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
     TraceabilityPredicate checkIsConjunction = custom(state -> check(state, CONJUNCTION),
             () -> BlockInfo.fromBlock(MultiBlockH.SPACE_STATION_DOCKING_MODULE.getBlock()),
             null);
+
+    static Function<AbstractSpaceStation, Set<BlockPos>> twoWayPositionFunction(final int distance) {
+        return (AbstractSpaceStation machine) -> {
+            var pos = machine.getPos();
+            var fFacing = machine.getFrontFacing();
+            var uFacing = machine.getUpwardsFacing();
+            boolean isFlipped = machine.isFlipped();
+            var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped), distance);
+            return Set.of(hallwayCenter.relative(fFacing, 2),
+                    hallwayCenter.relative(fFacing.getOpposite(), 2),
+                    hallwayCenter.relative(RelativeDirection.UP.getRelative(fFacing, uFacing, isFlipped), 2),
+                    hallwayCenter.relative(RelativeDirection.DOWN.getRelative(fFacing, uFacing, isFlipped), 2));
+        };
+    }
 }

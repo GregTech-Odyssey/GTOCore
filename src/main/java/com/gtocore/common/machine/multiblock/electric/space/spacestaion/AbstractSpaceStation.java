@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
-import com.gtocore.common.machine.multiblock.electric.space.ISpacePredicateMachine;
-
 import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
@@ -9,7 +7,6 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.ChatFormatting;
@@ -37,6 +34,11 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     protected final Set<BlockPos> lastDistributedBlocks = new ObjectOpenHashSet<>();
 
     protected final static ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AbstractSpaceStation.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    public int getReadyCount() {
+        return ready;
+    }
+
     @Persisted
     protected int ready;
     @Nullable
@@ -78,11 +80,6 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     }
 
     @Override
-    public @Nullable ICleanroomProvider getOptionalCleanroomProvider() {
-        return null;
-    }
-
-    @Override
     public @Nullable Collection<IWorkInSpaceMachine> getSpaceMachines() {
         return spaceMachines;
     }
@@ -107,7 +104,7 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
         clearOxygenBlocks();
     }
 
-    protected void clearOxygenBlocks() {
+    public void clearOxygenBlocks() {
         OxygenApi.API.removeOxygen(getLevel(), lastDistributedBlocks);
         TemperatureApi.API.removeTemperature(getLevel(), lastDistributedBlocks);
         lastDistributedBlocks.clear();
@@ -140,5 +137,10 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     public void customText(@NotNull List<Component> list) {
         super.customText(list);
         if (shouldShowReadyText) list.add(Component.translatable("gtocore.machine.spacestation.ready", Math.min(ready * 10, 100)).withStyle(ChatFormatting.YELLOW));
+    }
+
+    @Override
+    public boolean isClean() {
+        return isWorkspaceReady();
     }
 }

@@ -180,8 +180,8 @@ public final class FuelRecipe {
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("cetane_diesel")
                 .inputFluids(CetaneBoostedDiesel.getFluid(2))
-                .inputFluids(Air.getFluid(90))
-                .duration(90)
+                .inputFluids(Air.getFluid(120))
+                .duration(120)
                 .EUt(-V[LV])
                 .save();
 

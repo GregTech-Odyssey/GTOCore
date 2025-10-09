@@ -8,6 +8,7 @@ import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.feature.IAirScrubberInteractor;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
 import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
+import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
@@ -137,7 +138,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private void gtolib$tick() {
         if (getOffsetTimer() % 40 == 0) {
-            DroneControlCenterMachine centerMachine = getNetMachine();
+            IDroneControlCenterMachine centerMachine = getNetMachine();
             if (centerMachine != null && !inventory.stacks[inventory.size - 3].isEmpty()) {
                 Drone drone = null;
                 boolean available = false;

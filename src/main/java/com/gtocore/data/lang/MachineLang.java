@@ -225,6 +225,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.space_shield_hatch.info", "机器太空护盾：运转正常", "Machine Space Shield: Operating Normally");
         addCNEN("gtocore.machine.space_shield_hatch.insufficient", "机器太空护盾：无激光供应", "Machine Space Shield: No Laser Supply");
         addCNEN("gtocore.machine.space_shield_hatch.not_in_space", "机器太空护盾：不在太空中", "Machine Space Shield: Not in Space");
+        addCNEN("gtocore.machine.tooltips.items_are_hidden", "（剩余%s项已隐藏）", "（%s items hidden）");
 
         addSingleMachineTooltips();
 

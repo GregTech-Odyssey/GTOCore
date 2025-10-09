@@ -6,7 +6,6 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -41,14 +40,7 @@ public class Extension extends AbstractSpaceStation implements ILargeSpaceStatio
 
     @Override
     public Set<BlockPos> getModulePositions() {
-        var pos = getPos();
-        var fFacing = getFrontFacing();
-        var uFacing = getUpwardsFacing();
-        var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped()), 59);
-        return Set.of(hallwayCenter.relative(fFacing, 2),
-                hallwayCenter.relative(fFacing.getOpposite(), 2),
-                hallwayCenter.relative(RelativeDirection.UP.getRelative(fFacing, uFacing, isFlipped()), 2),
-                hallwayCenter.relative(RelativeDirection.DOWN.getRelative(fFacing, uFacing, isFlipped()), 2));
+        return ILargeSpaceStationMachine.twoWayPositionFunction(59).apply(this);
     }
 
     @Override
@@ -67,29 +59,28 @@ public class Extension extends AbstractSpaceStation implements ILargeSpaceStatio
     }
 
     @Override
-    public boolean onWorking() {
-        onWork();
-        return super.onWorking();
+    protected void tickReady() {
+        tickNonCoreModule();
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         onFormed();
+        markDirty(true);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         onInvalid();
+        markDirty(true);
     }
 
     @Override
     public void onMachineRemoved() {
         super.onMachineRemoved();
-        if (getRoot() != null) {
-            getRoot().refreshModules();
-        }
+        markDirty(true);
     }
 
     @Override
