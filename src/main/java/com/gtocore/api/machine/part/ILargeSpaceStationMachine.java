@@ -26,6 +26,7 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import earth.terrarium.adastra.api.planets.PlanetApi;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -159,17 +160,20 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
             () -> BlockInfo.fromBlock(MultiBlockH.SPACE_STATION_DOCKING_MODULE.getBlock()),
             null);
 
+    Int2ObjectOpenHashMap<Function<AbstractSpaceStation, Set<BlockPos>>> positionFunctionMap = new Int2ObjectOpenHashMap<>();
+
     static Function<AbstractSpaceStation, Set<BlockPos>> twoWayPositionFunction(final int distance) {
-        return (AbstractSpaceStation machine) -> {
-            var pos = machine.getPos();
-            var fFacing = machine.getFrontFacing();
-            var uFacing = machine.getUpwardsFacing();
-            boolean isFlipped = machine.isFlipped();
-            var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped), distance);
-            return Set.of(hallwayCenter.relative(fFacing, 2),
-                    hallwayCenter.relative(fFacing.getOpposite(), 2),
-                    hallwayCenter.relative(RelativeDirection.UP.getRelative(fFacing, uFacing, isFlipped), 2),
-                    hallwayCenter.relative(RelativeDirection.DOWN.getRelative(fFacing, uFacing, isFlipped), 2));
-        };
+        return positionFunctionMap.computeIfAbsent(distance,
+                i -> (AbstractSpaceStation machine) -> {
+                    var pos = machine.getPos();
+                    var fFacing = machine.getFrontFacing();
+                    var uFacing = machine.getUpwardsFacing();
+                    boolean isFlipped = machine.isFlipped();
+                    var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped), distance);
+                    return Set.of(hallwayCenter.relative(fFacing, 2),
+                            hallwayCenter.relative(fFacing.getOpposite(), 2),
+                            hallwayCenter.relative(RelativeDirection.UP.getRelative(fFacing, uFacing, isFlipped), 2),
+                            hallwayCenter.relative(RelativeDirection.DOWN.getRelative(fFacing, uFacing, isFlipped), 2));
+                });
     }
 }

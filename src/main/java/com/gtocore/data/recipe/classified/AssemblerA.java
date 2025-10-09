@@ -22,8 +22,7 @@ import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.Locale;
 
-import static com.gregtechceu.gtceu.api.GTValues.LuV;
-import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
@@ -610,6 +609,124 @@ final class AssemblerA {
                 .inputItems(plate, GTOMaterials.AluminumAlloy5A06, 6)
                 .inputItems(pipeLargeFluid, Aluminium, 4)
                 .outputItems(GTOBlocks.COOLANT_PIPE_CASING.asStack())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.StainlessSteel316, 6)
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.StainlessSteel316)
+                .outputItems(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.SPACECRAFT_DOCKING_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.BerylliumAluminumF)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.AluminumReinforcedWithSiliconCarbideParticles, 6)
+                .inputItems(GTOTagPrefix.pipeSmallFluid, GTMaterials.StainlessSteel, 4)
+                .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.SamariumIronArsenicOxide, 16)
+                .inputItems(CustomTags.LuV_CIRCUITS)
+                .outputItems(GTOBlocks.SPACECRAFT_DOCKING_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.QuartzFiberReinforcedSilica, 6)
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.CarbonFiberEpoxyComposite)
+                .outputItems(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.asItem())
+                .inputFluids(GTOMaterials.FiberglassReinforcedPlastic, 2 * L)
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.INNER_LINING_OF_SMELTING_FURNACE_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.frameGt, GTMaterials.TungstenCarbide)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.SilicaCarbonComposite, 6)
+                .outputItems(GTOBlocks.INNER_LINING_OF_SMELTING_FURNACE_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.CREEP_RESISTANT_SMELTING_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.TungstenAlloyYG10)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.OxideDispersionStrengthenedNickelBasedAlloy, 6)
+                .outputItems(GTOBlocks.CREEP_RESISTANT_SMELTING_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.SPACE_STATION_CONTROL_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.CarbonFiberPolyphenyleneSulfideComposite)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.Inconel617, 6)
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.CarbonFiberPolyphenyleneSulfideComposite, 2)
+                .inputItems(CustomTags.LuV_CIRCUITS, 2)
+                .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.UraniumTriplatinum, 16)
+                .outputItems(GTOBlocks.SPACE_STATION_CONTROL_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.StructuralSteel45)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.StainlessSteel155Ph, 6)
+                .outputItems(GTOBlocks.HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING.asItem())
+                .inputFluids(GTMaterials.SolderingAlloy, 8 * L)
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.STABLE_BASE_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.StructuralSteelQ690, 2)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.TungstenAlloyYG10, 4)
+                .inputItems(GTOTagPrefix.frameGt, GTMaterials.TungstenSteel)
+                .outputItems(GTOBlocks.STABLE_BASE_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.CarbonFiberReinforcedEpoxyComposite)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.AluminumReinforcedWithSiliconCarbideParticles, 6)
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.DispersionStrengthenedCopper, 10)
+                .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.SamariumIronArsenicOxide, 6)
+                .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.UraniumTriplatinum, 6)
+                .inputItems(GTItems.SENSOR_IV.asItem())
+                .outputItems(GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.SMELTING_CONTROL_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(GTOTagPrefix.frameGt, GTMaterials.Naquadah)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.TungstenFiberReinforcedCobaltBasedComposite, 4)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.SiliconCarbideFiberReinforcedTitaniumMatrixComposite, 2)
+                .inputItems(CustomTags.LuV_CIRCUITS)
+                .outputItems(GTOBlocks.SMELTING_CONTROL_CASING.asItem())
+                .inputFluids(GTOMaterials.Grcop84, 4 * L)
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("GTOBlocks.PRECISION_MACHINING_CONTROL_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(plate, GTOMaterials.TungstenAlloyYG10, 6)
+                .inputItems(GTItems.ROBOT_ARM_ZPM.asItem())
+                .inputItems(GTItems.CONVEYOR_MODULE_ZPM.asItem())
+                .inputItems(frameGt, GTOMaterials.OxideDispersionStrengthenedNickelBasedAlloy)
+                .outputItems(GTOBlocks.PRECISION_MACHINING_CONTROL_CASING.asItem())
+                .inputFluids(GTOMaterials.Titanium5553, 4 * L)
                 .circuitMeta(6)
                 .EUt(16)
                 .duration(50)

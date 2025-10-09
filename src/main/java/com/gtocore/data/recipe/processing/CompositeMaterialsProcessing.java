@@ -206,7 +206,7 @@ public class CompositeMaterialsProcessing {
                 .save();
         ELECTROPLATING_RECIPES.builder("t1500_carbon_fiber_tow_carbon_fibres")
                 .inputItems(GTOTagPrefix.FIBER_TOW, GTOMaterials.T1200CarbonFiber, 2)
-                .inputItems(GTOTagPrefix.plateDouble, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 8)
+                .notConsumable(GTOTagPrefix.plateDouble, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 8)
                 .outputItems(GTOTagPrefix.FIBER_TOW, GTOMaterials.T1500CarbonFiber, 2)
                 .inputFluids(GTOMaterials.Orichalcum, FluidStorageKeys.PLASMA, 1000)
                 .inputFluids(GTOMaterials.SupercriticalCarbonDioxide, 4000)
@@ -215,6 +215,7 @@ public class CompositeMaterialsProcessing {
                 .save();
 
         Material[] carbonFibers = new Material[] {
+                Carbon,
                 GTOMaterials.T300CarbonFiber,
                 GTOMaterials.T400CarbonFiber,
                 GTOMaterials.T600CarbonFiber,
@@ -227,6 +228,7 @@ public class CompositeMaterialsProcessing {
         };
 
         Material[] resins = new Material[] {
+                Polyethylene,
                 GTOMaterials.PhenolicResin,
                 GTMaterials.Epoxy,
                 GTMaterials.ReinforcedEpoxyResin,
@@ -241,17 +243,9 @@ public class CompositeMaterialsProcessing {
             CHEMICAL_BATH_RECIPES.builder("chemical_bath_" + carbonFibers[i].getName())
                     .inputItems(GTOTagPrefix.FIBER_TOW, carbonFibers[i], 4)
                     .outputItems(GTOTagPrefix.FIBER, carbonFibers[i], 4)
-                    .inputFluids(resins[i], 1000)
-                    .EUt(280)
-                    .duration(2000)
-                    .save();
-            FIBER_EXTRUSION_RECIPES.builder("fiber_mesh_" + carbonFibers[i].getName())
-                    .inputItems(GTOTagPrefix.FIBER, carbonFibers[i], 4)
-                    .outputItems(FIBER_MESH, carbonFibers[i])
-                    .circuitMeta(4)
-                    .EUt(520)
-                    .blastFurnaceTemp(3600)
-                    .duration(500)
+                    .inputFluids(resins[i], 576)
+                    .EUt(95 + ((1 << i) * 25L))
+                    .duration(200)
                     .save();
         }
     }
@@ -542,6 +536,7 @@ public class CompositeMaterialsProcessing {
                     .inputItems(reinforcement)
                     .EUt(voltage)
                     .duration(duration)
+                    .blastFurnaceTemp(1801)
                     .save();
         }
     }

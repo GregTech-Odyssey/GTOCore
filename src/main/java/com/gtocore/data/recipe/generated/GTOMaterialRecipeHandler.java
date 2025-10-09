@@ -2,7 +2,6 @@ package com.gtocore.data.recipe.generated;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
-import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
 
@@ -46,6 +45,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
+import static com.gtocore.api.data.tag.GTOTagPrefix.FIBER_MESH;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.recipe.processing.CompositeMaterialsProcessing.getFiberExtrusionTemperature;
 
@@ -475,51 +475,26 @@ final class GTOMaterialRecipeHandler {
                     .duration(20 * mass + 10)
                     .save();
         }
-        if (material.hasFlag(GENERATE_FIBER) && !material.hasFlag(IS_CARBON_FIBER)) {
-            int fiberTemp = getFiberExtrusionTemperature(material);
-            if (fiberTemp == 0) {
-                fiberTemp = Math.max(800, material.getBlastTemperature());
-            }
-            if (material.hasFluid()) {
-                REACTION_FURNACE_RECIPES.builder("fiber_um_" + id)
-                        .inputItems(GTOItems.PREOXIDIZED_MICRON_PAN_FIBER.asItem())
-                        .outputItems(GTOTagPrefix.FIBER_TOW, material)
-                        .inputFluids(material, 144)
-                        .EUt(555)
-                        .blastFurnaceTemp(fiberTemp)
-                        .duration(20 * mass + 10)
-                        .save();
-                REACTION_FURNACE_RECIPES.builder("fiber_nm_" + id)
-                        .inputItems(GTOItems.PREOXIDIZED_NANO_PAN_FIBER.asItem(), 16)
-                        .outputItems(GTOTagPrefix.FIBER_TOW, material, 16)
-                        .inputFluids(material, 144)
-                        .EUt(2220)
-                        .blastFurnaceTemp(fiberTemp)
-                        .duration(20 * mass + 10)
-                        .save();
-                REACTION_FURNACE_RECIPES.builder("fiber_atomic_" + id)
-                        .inputItems(GTOItems.GRAPHITIZED_ATOMIC_PAN_FIBER.asItem(), 256)
-                        .outputItems(GTOTagPrefix.FIBER_TOW, material, 256)
-                        .inputFluids(material, 144)
-                        .EUt(8880)
-                        .blastFurnaceTemp(fiberTemp)
-                        .duration(20 * mass + 10)
-                        .save();
-                CHEMICAL_BATH_RECIPES.builder("fiber_bath_" + id + "from_fluid")
-                        .inputItems(GTOTagPrefix.FIBER_TOW, material)
+        if (material.hasFlag(GENERATE_FIBER)) {
+            if (material.hasFluid() && !material.hasFlag(IS_CARBON_FIBER)) {
+                int fiberTemp = getFiberExtrusionTemperature(material);
+                if (fiberTemp == 0) {
+                    fiberTemp = Math.max(800, material.getBlastTemperature());
+                }
+                FIBER_EXTRUSION_RECIPES.builder("fiber_" + id + "from_extrusion")
+                        .inputItems(dust, material)
                         .outputItems(GTOTagPrefix.FIBER, material)
-                        .inputFluids(material, 288)
-                        .EUt(280)
-                        .duration(2000)
+                        .EUt(50 + mass * 2L)
+                        .duration(200 + mass * 4)
+                        .blastFurnaceTemp(fiberTemp)
                         .save();
             }
-            FIBER_EXTRUSION_RECIPES.builder("fiber_mesh_" + id + "_from_fiber")
-                    .inputItems(GTOTagPrefix.FIBER, material, 8)
-                    .outputItems(GTOTagPrefix.FIBER_MESH, material, 4)
+            LOOM_RECIPES.builder("fiber_mesh_" + id + "_from_fiber")
+                    .inputItems(GTOTagPrefix.FIBER, material, 2)
+                    .outputItems(GTOTagPrefix.FIBER_MESH, material, 1)
                     .circuitMeta(4)
-                    .EUt(520)
-                    .duration(500)
-                    .blastFurnaceTemp(fiberTemp)
+                    .EUt(30 + mass * 2L)
+                    .duration(500 + mass * 4)
                     .save();
         }
 

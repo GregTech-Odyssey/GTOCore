@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
-import com.google.common.collect.ImmutableSet;
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.CMHatchPartMachine;
 
@@ -19,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
+import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.jetbrains.annotations.NotNull;

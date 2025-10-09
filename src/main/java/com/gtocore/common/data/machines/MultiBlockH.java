@@ -695,7 +695,7 @@ public final class MultiBlockH {
                     .where('G', GTOPredicates.glass())
                     .where('H', heatingCoils())
                     .where('I', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('J', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('K', blocks(GTOBlocks.IRIDIUM_GEARBOX.get()))

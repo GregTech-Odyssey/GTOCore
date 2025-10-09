@@ -44,7 +44,7 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gtocore.common.data.GTOBlocks.INTEGRAL_FRAMEWORK_MV;
-import static com.gtocore.common.data.GTORecipeTypes.UNIVERSAL_CONDENSE;
+import static com.gtocore.common.data.GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 
@@ -850,7 +850,8 @@ public final class GCYMMachines {
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .allRotation()
-            .recipeTypes(UNIVERSAL_CONDENSE)
+            .recipeTypes(VACUUM_RECIPES)
+            .recipeTypes(ATOMIZATION_CONDENSATION_RECIPES)
             .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .block(CASING_ALUMINIUM_FROSTPROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)

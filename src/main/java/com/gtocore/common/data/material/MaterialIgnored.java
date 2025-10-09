@@ -255,7 +255,7 @@ public final class MaterialIgnored {
         plate.setIgnored(Etrium, ModItems.ETRIUM_PLATE);
         rod.setIgnored(Etrium, ModItems.ETRIUM_ROD);
 
-        FIBER.setIgnored(Carbon, () -> CARBON_FIBERS);
+        FIBER_TOW.setIgnored(Carbon, () -> CARBON_FIBERS);
         FIBER_MESH.setIgnored(Carbon, () -> CARBON_MESH);
         FIBER.setIgnored(Kevlar, () -> KEVLAR_FIBER);
         FIBER_MESH.setIgnored(Kevlar, () -> WOVEN_KEVLAR);
