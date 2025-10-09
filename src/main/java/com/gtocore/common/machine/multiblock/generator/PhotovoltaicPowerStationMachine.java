@@ -69,7 +69,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
             int eut;
             int basic = (int) (basic_rate * PlanetApi.API.getSolarPower(level));
             if (PlanetApi.API.isSpace(level)) {
-                eut = inputFluid(GTMaterials.DistilledWater.getFluid(basic / 4)) ? basic << 4 : 0;
+                eut = inputFluid(GTMaterials.DistilledWater.getFluid(), basic / 4) ? basic << 4 : 0;
             } else {
                 eut = (int) (basic * (GTODimensions.isVoid(level.dimension().location()) ? 14 : GTOUtils.getSunIntensity(level.getDayTime()) * 15 / 100 * (level.isRaining() ? (level.isThundering() ? 0.3f : 0.7f) : 1)));
             }

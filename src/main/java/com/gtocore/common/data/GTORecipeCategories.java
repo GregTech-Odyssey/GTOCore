@@ -30,6 +30,7 @@ public final class GTORecipeCategories {
     public static final GTRecipeCategory ESSENCE_RECOVERY = register("essence_recovery", "精粹回收", GTRecipeTypes.CHEMICAL_BATH_RECIPES)
             .setIcon(GuiTextures.PROGRESS_BAR_BATH.getSubTexture(0, 0.5, 1, 0.5));
     public static final GTRecipeCategory THREE_DIMENSIONAL_PRINTER_RECIPES_DISPOSABLE = register("three_dimensional_printer_recipes_disposable", new CNEN("3D打印：一次性工具", "3D Printer: Disposable"), GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES);
+    public static final GTRecipeCategory RARITY_FORGE_RECIPES_GEM_UPGRADE = register("rarity_forge_recipes_gem_upgrade", new CNEN("珍宝锻炉：宝石升级", "Rarity Forge: Gem Upgrade"), GTORecipeTypes.RARITY_FORGE_RECIPES);
 
     public static final GTRecipeCategory CONDENSE_FLUID_TO_DUST = register("condense_fluid_to_dust", new CNEN("雾化冷凝：液态", "Atomizing Condensation: Fluid"),
             GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)

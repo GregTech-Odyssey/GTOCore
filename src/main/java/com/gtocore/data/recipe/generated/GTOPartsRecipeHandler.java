@@ -21,6 +21,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.common.item.tool.CoatedTurbineRotorBehaviour;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -602,17 +603,19 @@ final class GTOPartsRecipeHandler {
                 .EUt(400)
                 .save();
 
-        MACERATOR_RECIPES.recipeBuilder("crush_" + material.getName() + "_turbine_blade")
+        MACERATOR_RECIPES.recipeBuilder("macerate_" + material.getName() + "_turbine_blade")
                 .inputItems(turbineRotor, material)
                 .outputItems(dustSmall, material, 2)
                 .duration(mass << 4)
+                .category(GTRecipeCategories.MACERATOR_RECYCLING)
                 .EUt(30)
                 .save();
 
-        MACERATOR_RECIPES.recipeBuilder("crush_" + material.getName() + "_turbine_blade_coated")
+        MACERATOR_RECIPES.recipeBuilder("macerate_" + material.getName() + "_turbine_blade_coated")
                 .inputItems(turbineRotorCoated, material)
                 .outputItems(dustSmall, material, 2)
                 .duration(mass << 4)
+                .category(GTRecipeCategories.MACERATOR_RECYCLING)
                 .EUt(30)
                 .save();
 

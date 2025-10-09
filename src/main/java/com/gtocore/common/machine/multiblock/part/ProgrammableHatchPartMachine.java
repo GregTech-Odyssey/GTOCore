@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 @DataGeneratorScanned
-public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
+public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine{
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ProgrammableHatchPartMachine.class, DualHatchPartMachine.MANAGED_FIELD_HOLDER);

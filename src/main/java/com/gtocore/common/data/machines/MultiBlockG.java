@@ -59,6 +59,8 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_COKE_BRICKS;
 import static com.gregtechceu.gtceu.common.data.GTMachines.COKE_OVEN_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
@@ -68,7 +70,7 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition LARGE_COKE_OVEN = multiblock("large_coke_oven", "大型焦炉", LargeCokeOvenMachine::new)
             .nonYAxisRotation()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(8))
-            .recipeModifiers(RecipeModifierFunction.recipeReduction(1, 2), RecipeModifierFunction.accurateParallel(8))
+            .recipeModifiers(RecipeModifierFunction.accurateParallel(8))
             .recipeTypes(GTRecipeTypes.COKE_OVEN_RECIPES)
             .block(GTBlocks.CASING_COKE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -923,15 +925,14 @@ public final class MultiBlockG {
             .register();
 
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统",
-            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * (m.getTier() - 1)), GLASS_TIER))
+            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GLASS_TIER) << 1), GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
             .specialParallelizableTooltips()
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
             .laserTooltips()
             .multipleRecipesTooltips()
-            .combinedRecipeTooltips()
-            .recipeTypes(GTORecipeTypes.VAPOR_DEPOSITION)
+            .recipeTypes(CHEMICAL_VAPOR_DEPOSITION_RECIPES, PHYSICAL_VAPOR_DEPOSITION_RECIPES)
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))

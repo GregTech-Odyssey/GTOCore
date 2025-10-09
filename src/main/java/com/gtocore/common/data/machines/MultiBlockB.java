@@ -42,6 +42,8 @@ import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
+import static com.gtocore.common.data.GTORecipeTypes.COMPRESSOR_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.GAS_COMPRESSOR_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
@@ -817,12 +819,11 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("extreme_compressor", "极限压缩装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.EXTREME_COMPRESSOR)
+            .recipeTypes(COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getHorizontalCompressorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
-            .combinedRecipeTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))

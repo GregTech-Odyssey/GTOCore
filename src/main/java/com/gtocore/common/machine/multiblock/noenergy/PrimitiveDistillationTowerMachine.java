@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
@@ -19,7 +20,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
@@ -40,7 +40,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -82,9 +82,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         return group;
     }
 
-    private static final ItemStack COAL = Items.COAL.getDefaultInstance();
-    private static final ItemStack COAL_BLOCK = Items.COAL_BLOCK.getDefaultInstance();
-    private static final ItemStack COAL_DUST = ChemicalHelper.get(TagPrefix.dust, GTMaterials.Coal);
+    private static final Item COAL_DUST = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
     @Persisted
     @DescSynced
     @RequireRerender
@@ -264,13 +262,13 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      */
     private void checkAndRefuel(long offsetTimer) {
         if (isWorkingEnabled() && offsetTimer % 10 == 0) {
-            if (inputItem(COAL)) {
+            if (inputItem(Items.COAL, 1)) {
                 tier = TIER_INCREASE;
                 time += 1200;
-            } else if (inputItem(COAL_BLOCK)) {
+            } else if (inputItem(Items.COAL_BLOCK, 1)) {
                 tier = TIER_DECREASE;
                 time += 21600;
-            } else if (inputItem(COAL_DUST)) {
+            } else if (inputItem(COAL_DUST, 1)) {
                 tier = 4;
                 time += 500;
             }

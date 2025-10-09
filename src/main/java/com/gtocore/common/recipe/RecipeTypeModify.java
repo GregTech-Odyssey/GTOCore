@@ -58,6 +58,8 @@ public final class RecipeTypeModify {
 
         CHEMICAL_RECIPES.onRecipeBuild((r) -> {});
 
+        LARGE_CHEMICAL_RECIPES.getProxyRecipes().put(CHEMICAL_RECIPES, Collections.emptyList());
+
         ASSEMBLY_LINE_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
         ASSEMBLER_RECIPES.setMANAIO(IO.IN);

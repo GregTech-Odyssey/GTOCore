@@ -84,7 +84,7 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
         if (!super.onWorking()) return false;
         if (getOffsetTimer() % 20 == 0) {
             int sh = MathUtil.saturatedCast(getItemAmount(SodiumHydroxide.getItem())[0]);
-            if (inputItem(SodiumHydroxide.copyWithCount(sh))) {
+            if (inputItem(SodiumHydroxide.getItem(), sh)) {
                 ph = Math.min(14, ph + sh * 0.01F);
             }
             int hc = MathUtil.saturatedCast(getFluidAmount(HydrochloricAcid)[0]);

@@ -4,7 +4,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.IFluid;
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.misc.IMapValueCache;
-import com.gtolib.utils.UniqueObject;
+import com.gtolib.utils.UniqueNbt;
 
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
@@ -39,13 +39,14 @@ public class AEFluidKeyMixin implements IAEFluidKey {
     private @Nullable CompoundTag tag;
 
     @Unique
-    private UniqueObject<CompoundTag> gtocore$tag;
+    private UniqueNbt<CompoundTag> gtocore$tag;
 
+    @Unique
     private FluidStack gtocore$stack;
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/util/Objects;hash([Ljava/lang/Object;)I"), remap = false)
     private int init(Object[] values) {
-        gtocore$tag = UniqueObject.of(tag);
+        gtocore$tag = UniqueNbt.of(tag);
         tag = null;
         return 31 * values[0].hashCode() + gtocore$tag.hashCode();
     }

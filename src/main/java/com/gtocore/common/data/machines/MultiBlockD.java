@@ -77,6 +77,7 @@ import java.util.Objects;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
@@ -204,7 +205,7 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition CIRCUIT_ASSEMBLY_LINE = multiblock("circuit_assembly_line", "电路装配线", CircuitAssemblyLineMachine::new)
             .allRotation()
-            .recipeTypes(GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES)
+            .recipeTypes(CIRCUIT_ASSEMBLY_LINE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getCircuitAssemblyLineTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("同配方机器人数量x2的并行", "Parallelism of x2 for the same recipe robots")))
@@ -532,10 +533,10 @@ public final class MultiBlockD {
                     if (level != null) {
                         BlockPos pos = machine.self().getPos().offset(0, -16, 0);
                         Block block = level.getBlockState(pos).getBlock();
-                        if (MachineUtils.inputItem(machine, GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.COMMAND_BLOCK_BROKEN.get()) {
+                        if (MachineUtils.inputItem(machine, GTOItems.CHAIN_COMMAND_BLOCK_CORE.asItem(), 1) && block == GTOBlocks.COMMAND_BLOCK_BROKEN.get()) {
                             level.setBlockAndUpdate(pos, Blocks.CHAIN_COMMAND_BLOCK.defaultBlockState());
                         }
-                        if (MachineUtils.inputItem(machine, GTOItems.REPEATING_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.get()) {
+                        if (MachineUtils.inputItem(machine, GTOItems.REPEATING_COMMAND_BLOCK_CORE.asItem(), 1) && block == GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.get()) {
                             level.setBlockAndUpdate(pos, Blocks.REPEATING_COMMAND_BLOCK.defaultBlockState());
                         }
                     }
@@ -547,9 +548,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
-            .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
+            .recipeTypes(SUPRACHRONAL_ASSEMBLY_LINE_RECIPES, ASSEMBLY_LINE_RECIPES, CIRCUIT_ASSEMBLY_LINE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
-            .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

@@ -6,6 +6,7 @@ import com.gtolib.api.machine.feature.IOverclockConfigMachine;
 import com.gtolib.api.machine.feature.IPowerAmplifierMachine;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
 import com.gtolib.api.machine.feature.multiblock.ICheckPatternMachine;
+import com.gtolib.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -132,8 +133,8 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_POWER.getSubTexture(0, 0, 1, 0.5), GuiTextures.BUTTON_POWER.getSubTexture(0, 0.5, 1, 0.5), this::isWorkingEnabled, (clickData, pressed) -> this.setWorkingEnabled(pressed)).setTooltipsSupplier(pressed -> List.of(Component.translatable(pressed ? "behaviour.soft_hammer.enabled" : "behaviour.soft_hammer.disabled"))));
         if (!isGenerator()) {
-            configuratorPanel.attachConfigurators(new OverclockConfigurator(this));
-            configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
+            if (hasOverclockConfig()) configuratorPanel.attachConfigurators(new OverclockConfigurator(this));
+            if (!(this instanceof IMultiblockTraitHolder holder && !holder.hasBatchConfig())) configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
                     GuiTextures.BUTTON_BATCH.getSubTexture(0, 0, 1, 0.5),
                     GuiTextures.BUTTON_BATCH.getSubTexture(0, 0.5, 1, 0.5),
                     this::isBatchEnabled, (cd, p) -> batchEnabled = p)

@@ -8,9 +8,7 @@ import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.gui.GTOGuiTextures;
-import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.trait.TierCasingTrait;
-import com.gtolib.api.recipe.CombinedRecipeType;
 import com.gtolib.api.recipe.RecipeType;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -1047,29 +1045,4 @@ public final class GTORecipeTypes {
             .setMaxIOSize(18, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
-    //////////////////////////////////////
-    // ********** Combined **********//
-    //////////////////////////////////////
-    public static final RecipeType CHEMICAL = registerCombined("chemical", "化学反应", LARGE_CHEMICAL_RECIPES, CHEMICAL_RECIPES).setMaxIOSize(3, 3, 5, 4).setEUIO(IO.IN).setSound(GTSoundEntries.CHEMICAL);
-
-    public static final RecipeType CHEMICAL_ENERGY_DEVOURER_FUELS = registerCombined("chemical_energy_devourer", "化学能吞噬者", COMBUSTION_GENERATOR_FUELS, GAS_TURBINE_FUELS, ROCKET_ENGINE_FUELS).setSound(GTSoundEntries.COMBUSTION);
-
-    public static final RecipeType VAPOR_DEPOSITION = registerCombined("vapor_deposition", "气相沉积", CHEMICAL_VAPOR_DEPOSITION_RECIPES, PHYSICAL_VAPOR_DEPOSITION_RECIPES).setMaxIOSize(3, 1, 3, 1).setEUIO(IO.IN).setSound(GTSoundEntries.ARC);
-
-    public static final RecipeType SUPRACHRONAL_ASSEMBLY_LINE = registerCombined("suprachronal_assembly", "奈亚拉托提普之触", SUPRACHRONAL_ASSEMBLY_LINE_RECIPES, ASSEMBLY_LINE_RECIPES, CIRCUIT_ASSEMBLY_LINE_RECIPES).setMaxIOSize(16, 1, 4, 0).setEUIO(IO.IN).setSound(GTSoundEntries.ASSEMBLER);
-
-    public static final RecipeType INTEGRATED_ASSEMBLER = registerCombined("integrated_assembler", "综合组装", ASSEMBLER_RECIPES, LAMINATOR_RECIPES).setMaxIOSize(9, 1, 1, 0).setEUIO(IO.IN).setSound(GTSoundEntries.ASSEMBLER);
-
-    public static final RecipeType HEAVY_ROLLING = registerCombined("heavy_rolling", "重型辊轧", ROLLING_RECIPES, CLUSTER_RECIPES).setMaxIOSize(2, 1, 0, 0).setEUIO(IO.IN).setSound(GTSoundEntries.MOTOR);
-
-    public static final RecipeType LARGE_CHEMICAL_PLANT = registerCombined("large_chemical_plant", "化工复合", LARGE_CHEMICAL_RECIPES, CHEMICAL_RECIPES, POLYMERIZATION_REACTOR_RECIPES).setMaxIOSize(3, 3, 5, 4).setEUIO(IO.IN).setSound(GTSoundEntries.CHEMICAL);
-
-    public static final RecipeType EXTREME_COMPRESSOR = registerCombined("extreme_compressor", "极限压缩", COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES).setMaxIOSize(1, 1, 1, 1).setEUIO(IO.IN).setSound(GTSoundEntries.COMPRESSOR);
-
-    public static final RecipeType LIFE_FORGE = registerCombined("life_forge", "生命熔炉", BIOCHEMICAL_EXTRACTION_RECIPES, BIOCHEMICAL_REACTION_RECIPES).setMaxIOSize(1, 1, 1, 1).setEUIO(IO.IN).setSound(GTSoundEntries.ARC);
-
-    private static RecipeType registerCombined(String name, String cn, RecipeType... types) {
-        if (LANG != null) LANG.put(name, new CNEN(cn, FormattingUtil.toEnglishName(name)));
-        return CombinedRecipeType.register(name, types);
-    }
 }

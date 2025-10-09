@@ -989,14 +989,6 @@ object GTOMachineTooltips {
         info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")
     }
 
-    // 集成气相沉积系统
-    val integratedVaporDepositionSystemTooltips: ComponentListSupplier = ComponentListSupplier {
-        setTranslationPrefix("integrated_vapor_deposition_system")
-        section(ComponentSlang.ParallelBonus)
-        content("由电压等级决定" translatedTo "Determined by Voltage Tier")
-        info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")
-    }
-
     // 等离子冷凝器
     val plasmaCondenserTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("plasma_condenser")

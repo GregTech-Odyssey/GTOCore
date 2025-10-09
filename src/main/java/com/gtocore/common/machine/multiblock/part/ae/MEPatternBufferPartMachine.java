@@ -5,12 +5,9 @@ import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
-import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
-import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.network.SyncManagedFieldHolder;
@@ -120,6 +117,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Persisted
     private final Set<BlockPos> proxies = new OpenCacheHashSet<>();
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
+    public final InternalSlotRecipeHandler internalRecipeHandler;
+
     @Persisted
     @DescSynced
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
@@ -242,6 +241,15 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public void onPatternChange(int index) {
         getInternalInventory()[index].setLock(false);
         super.onPatternChange(index);
+    }
+
+    @Override
+    public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
+        var slot = getDetailsSlotMap().get(patternDetails);
+        if (slot != null) {
+            return slot.pushPattern(patternDetails, inputHolder);
+        }
+        return false;
     }
 
     @Override
@@ -580,21 +588,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Override
         public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
             patternDetails.pushInputsToExternalInventory(inputHolder, inputSink);
-            if (recipe != null) {
-                for (var controller : machine.getControllers()) {
-                    if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                        enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
-                    }
-                }
-                for (var proxy : machine.proxyMachines) {
-                    var rhl = (InternalSlotRecipeHandler.AbstractRHL) proxy.getProxySlotRecipeHandler().getProxySlotHandlers().get(index);
-                    for (var controller : proxy.getControllers()) {
-                        if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                            enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
-                        }
-                    }
-                }
-            }
             itemChanged = true;
             fluidChanged = true;
             onContentsChanged.run();

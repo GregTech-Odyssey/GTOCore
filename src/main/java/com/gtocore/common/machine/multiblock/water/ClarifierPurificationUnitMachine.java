@@ -99,7 +99,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     long before() {
         eut = 0;
         if (count > 100) {
-            if (inputFluid(AIR, count * 10000L) && inputFluid(Fluids.WATER, (200L + GTValues.RNG.nextInt(100)) * 1000) && outputItem(GTOItems.SCRAP.asStack(count / 20))) {
+            if (inputFluid(AIR, count * 10000L) && inputFluid(Fluids.WATER, (200L + GTValues.RNG.nextInt(100)) * 1000) && outputItem(GTOItems.SCRAP.asItem(), count / 20)) {
                 count = 0;
             } else {
                 return 0;
