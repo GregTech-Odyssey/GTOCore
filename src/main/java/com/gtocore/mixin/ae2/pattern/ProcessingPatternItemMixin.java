@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.pattern;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
+import com.gtolib.utils.RLUtils;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -45,10 +46,16 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag advancedTooltips) {
-        // TODO 更完善的tooltip
         var tag = stack.getTag();
         if (tag == null) return;
-        if (tag.tags.containsKey("type")) lines.add(Component.translatable("tooltip.item.pattern.type"));
+        if (tag.tags.containsKey("type") && !tag.getString("type").isEmpty()) {
+            var key = RLUtils.parse(stack.getOrCreateTag().getString("type")).toLanguageKey();
+            lines.add(Component.translatable("gtocore.pattern.type", Component.translatable(key)));
+        }
+        if (tag.tags.containsKey("recipe") && !tag.getString("recipe").isEmpty()) {
+            lines.add(Component.translatable("gtocore.pattern.recipe"));
+        }
+
         super.appendHoverText(stack, level, lines, advancedTooltips);
     }
 }

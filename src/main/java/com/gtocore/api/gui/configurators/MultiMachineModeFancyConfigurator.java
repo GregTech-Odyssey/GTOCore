@@ -1,10 +1,10 @@
 package com.gtocore.api.gui.configurators;
 
+import com.gtolib.api.recipe.CombinedRecipeType;
+
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gtolib.GTOCore;
-import com.gtolib.api.recipe.CombinedRecipeType;
 
 import java.util.*;
 import java.util.function.Consumer;

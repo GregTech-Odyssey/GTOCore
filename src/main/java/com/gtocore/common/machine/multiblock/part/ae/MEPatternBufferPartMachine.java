@@ -1,15 +1,26 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import appeng.api.config.Actionable;
-import appeng.api.crafting.IPatternDetails;
-import appeng.api.crafting.PatternDetailsHelper;
-import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.stacks.*;
-import appeng.api.storage.MEStorage;
-import appeng.api.storage.StorageHelper;
-import appeng.crafting.pattern.AEProcessingPattern;
-import appeng.crafting.pattern.EncodedPatternItem;
-import appeng.crafting.pattern.ProcessingPatternItem;
+import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
+import com.gtocore.common.data.machines.GTAEMachines;
+import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
+
+import com.gtolib.api.ae2.MyPatternDetailsHelper;
+import com.gtolib.api.ae2.pattern.IDetails;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.capability.ISync;
+import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
+import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
+import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
+import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
+import com.gtolib.api.network.SyncManagedFieldHolder;
+import com.gtolib.api.recipe.CombinedRecipeType;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
+import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
+import com.gtolib.utils.ExpandedO2LMap;
+import com.gtolib.utils.RLUtils;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -36,25 +47,30 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
-import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
-import com.gtocore.common.data.machines.GTAEMachines;
-import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
-import com.gtolib.api.ae2.MyPatternDetailsHelper;
-import com.gtolib.api.annotation.DataGeneratorScanned;
-import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.capability.ISync;
-import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
-import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
-import com.gtolib.api.network.SyncManagedFieldHolder;
-import com.gtolib.api.recipe.CombinedRecipeType;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-import com.gtolib.utils.ExpandedO2LMap;
-import com.gtolib.utils.RLUtils;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.TickTask;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+
+import appeng.api.config.Actionable;
+import appeng.api.crafting.IPatternDetails;
+import appeng.api.crafting.PatternDetailsHelper;
+import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.stacks.*;
+import appeng.api.storage.MEStorage;
+import appeng.api.storage.StorageHelper;
+import appeng.crafting.pattern.AEProcessingPattern;
+import appeng.crafting.pattern.EncodedPatternItem;
+import appeng.crafting.pattern.ProcessingPatternItem;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -68,23 +84,12 @@ import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.TickTask;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 // TODO fix
 @DataGeneratorScanned
@@ -96,12 +101,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             MEPatternBufferPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
     private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
             MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
-    @RegisterLanguage(cn = "配方已缓存", en = "Recipe cached")
-    private static final String CACHE = "gtocore.pattern_buffer.cache";
+    @RegisterLanguage(cn = "配方类型不匹配", en = "null")
+    private static final String RECIPE_TYPE_INVALID = "gtocore.pattern_buffer.invalid";
     @RegisterLanguage(cn = "样板独立配置", en = "Pattern independent configuration")
     private static final String INDEPENDENT = "gtocore.pattern_buffer.independent";
     @RegisterLanguage(cn = "总成共享配置", en = "Buffer share configuration")
     private static final String SHARE = "gtocore.pattern_buffer.share";
+    private static final String CACHE = "gtocore.pattern.recipe";
     @Persisted
     public final NotifiableNotConsumableItemHandler shareInventory;
     @Persisted
@@ -142,12 +148,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         this.internalRecipeHandler = new InternalSlotRecipeHandler(this, getInternalInventory());
     }
 
-    private void changeMode(GTRecipeType recipe) {
-        this.mode = recipe;
-        this.getHandlerList().setRecipeType(recipe);
+    private void changeMode(GTRecipeType recipeType) {
+        if (this.mode == recipeType) return;
+        this.mode = recipeType;
+        this.getHandlerList().setRecipeType(recipeType);
         RecipeHandlerList.NOTIFY.accept(this);
-        for(var i:getInternalInventory()){
-            i.validAndRefreshRecipeTypes(null);
+        for (var i : getInternalInventory()) {
+            i.refreshRecipeTypeCheck();
         }
     }
 
@@ -180,10 +187,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     public boolean patternFilter(ItemStack stack) {
         var type = stack.getOrCreateTag().getString("type");
-        if (this.mode != GTRecipeTypes.COMBINED_RECIPES && !type.isEmpty()) {
-            var stack_type = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(type));
+        var stack_type = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(type));
+        if(type.isEmpty())return true;
+        if (this.mode != GTRecipeTypes.COMBINED_RECIPES) {
             if (this.mode instanceof CombinedRecipeType cbt) return cbt.hasType(stack_type);
             else return this.mode == stack_type;
+        } else if (this.mode == GTRecipeTypes.COMBINED_RECIPES && !getControllers().isEmpty()) {
+            return this.recipeTypes.contains(stack_type);
         }
         return stack.getItem() instanceof ProcessingPatternItem;
     }
@@ -235,16 +245,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     }
 
     @Override
-    public @Nullable IPatternDetails decodePattern(ItemStack stack, int index) {
-        var pattern = super.decodePattern(stack, index);
+    public @Nullable IPatternDetails initPattern(ItemStack stack, int index) {
+        var pattern = (AEProcessingPattern) super.initPattern(stack, index);
         if (pattern == null) return null;
-        var id = stack.getOrCreateTag().getString("recipe");
-        if (!id.isEmpty() && !caches[index]) {
-            getInternalInventory()[index].setRecipe(RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(id)));
+        if (((IDetails) pattern).getRecipe() != null && !caches[index]) {
+            getInternalInventory()[index].setRecipe(((IDetails) pattern).getRecipe());
         }
-        var type = stack.getOrCreateTag().getString("type");
-        if (!type.isEmpty() && !caches[index]) {
-            getInternalInventory()[index].setRecipeType(GTRegistries.RECIPE_TYPES.get(RLUtils.parse(type)));
+        if (!caches[index]) {
+            getInternalInventory()[index].setRecipeType(((IDetails) pattern).getRecipeType());
         }
         return pattern;
     }
@@ -297,10 +305,21 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     @Nullable
     public Component appendHoverTooltips(int index) {
+        var cp = Component.empty();
         if (caches[index]) {
-            return Component.translatable(CACHE);
+            cp.append(Component.translatable(CACHE)).append("\n");
         }
-        return null;
+        if (!getInternalInventory()[index].rtValid) {
+            cp.append(Component.translatable(RECIPE_TYPE_INVALID)).append("\n");
+        }
+        return cp.equals(Component.empty()) ? null : cp;
+    }
+
+    public boolean checkRecipeType(@Nullable GTRecipeType gtRecipeType) {
+        if (gtRecipeType == null) return false;
+        return this.mode == GTRecipeTypes.COMBINED_RECIPES ||
+                this.mode instanceof CombinedRecipeType cbt && cbt.hasType(gtRecipeType) ||
+                this.mode == gtRecipeType || gtRecipeType == GTRecipeTypes.DUMMY_RECIPES;
     }
 
     @Override
@@ -406,7 +425,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     @Override
     public InteractionResult onDataStickShiftUse(Player player, ItemStack dataStick) {
-        dataStick.getOrCreateTag().putIntArray("pos", new int[]{getPos().getX(), getPos().getY(), getPos().getZ()});
+        dataStick.getOrCreateTag().putIntArray("pos", new int[] { getPos().getX(), getPos().getY(), getPos().getZ() });
         return InteractionResult.SUCCESS;
     }
 
@@ -420,8 +439,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         return new BufferData(items, fluids);
     }
 
-    public record BufferData(Object2LongMap<AEItemKey> items, Object2LongMap<AEFluidKey> fluids) {
-    }
+    public record BufferData(Object2LongMap<AEItemKey> items, Object2LongMap<AEFluidKey> fluids) {}
 
     public static final class InternalSlot extends AbstractInternalSlot {
 
@@ -439,11 +457,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public InternalSlotRecipeHandler.AbstractRHL rhl;
         public boolean itemChanged = true;
         public boolean fluidChanged = true;
+        boolean rtValid = true;
         private Recipe recipe;
-        private GTRecipeType recipeType = GTRecipeTypes.COMBINED_RECIPES;
-        boolean rtValid=true;
-        private Runnable onContentsChanged = () -> {
-        };
+        private GTRecipeType recipeType = GTRecipeTypes.DUMMY_RECIPES;
+        private Runnable onContentsChanged = () -> {};
         private boolean lock;
 
         private InternalSlot(MEPatternBufferPartMachine machine, int index) {
@@ -468,33 +485,41 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
 
         public void setRecipe(@Nullable Recipe recipe) {
-            if(this.recipe==recipe)return;
+            if (this.recipe == recipe) return;
             this.recipe = recipe;
-            setRecipeType(recipe != null ? recipe.getType() : GTRecipeTypes.COMBINED_RECIPES);
+            if (recipe != null && recipe.getType() != GTRecipeTypes.DUMMY_RECIPES)
+                setRecipeType(recipe.getType());
             machine.caches[index] = recipe != null;
         }
 
-        public void setRecipeType(@Nullable GTRecipeType gtRecipeType) {
-            //TODO fix
-            if (gtRecipeType == null) gtRecipeType = this.machine.mode;
-            if (this.recipeType == gtRecipeType) return;
-
-            if (validAndRefreshRecipeTypes(gtRecipeType)) {
-                this.recipeType = gtRecipeType;
-                rhl.rhl.setRecipeType(gtRecipeType);
-            }else rtValid=false;
+        private void setRecipeTypeRaw(GTRecipeType gtRecipeType, boolean valid) {
+            this.recipeType = gtRecipeType;
+            this.rtValid = valid;
+            rhl.rhl.setRecipeType(valid ? gtRecipeType : GTRecipeTypes.DUMMY_RECIPES);
+            RecipeHandlerList.NOTIFY.accept(this.machine);
         }
 
-        public boolean validAndRefreshRecipeTypes(@Nullable GTRecipeType gtRecipeType) {
-            if (gtRecipeType == null) gtRecipeType = recipeType;
-            if (this.machine.mode != GTRecipeTypes.COMBINED_RECIPES &&
-                    !(this.machine.mode instanceof CombinedRecipeType cbt && cbt.hasType(gtRecipeType)) &&
-                    this.machine.mode != gtRecipeType) {
-                this.recipeType = GTRecipeTypes.DUMMY_RECIPES;
-                rhl.rhl.setRecipeType(GTRecipeTypes.DUMMY_RECIPES);
-                return rtValid=false;
+        public void setRecipeType(@Nullable GTRecipeType gtRecipeType) {
+            if (gtRecipeType == this.recipeType || !rtValid)
+                return;
+            if (gtRecipeType == null) {
+                // 如果传入null且当前配方类型为空，则设置为machine.mode
+                if (this.recipeType == GTRecipeTypes.DUMMY_RECIPES) {
+                    setRecipeTypeRaw(this.machine.mode, true);
+                }
+                // 如果当前配方类型不为空，则不改变
+                return;
             }
-            return true;
+
+            // 检查配方类型是否匹配
+            setRecipeTypeRaw(gtRecipeType, machine.checkRecipeType(gtRecipeType));
+        }
+
+        public void refreshRecipeTypeCheck() {
+            // 检查当前配方类型的有效性
+            if (machine.checkRecipeType(this.recipeType) != this.rtValid) {
+                setRecipeTypeRaw(this.recipeType, machine.checkRecipeType(this.recipeType));
+            }
         }
 
         public boolean isEmpty() {
@@ -506,7 +531,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             if (network != null) {
                 MEStorage networkInv = network.getStorageService().getInventory();
                 var energy = network.getEnergyService();
-                for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext(); ) {
+                for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
 
                     var count = entry.getLongValue();
@@ -523,7 +548,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                         else entry.setValue(count);
                     }
                 }
-                for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext(); ) {
+                for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
                     var amount = entry.getLongValue();
                     if (amount == 0) {
@@ -548,6 +573,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Override
         public void onPatternChange() {
             setRecipe(null);
+            setRecipeType(GTRecipeTypes.DUMMY_RECIPES);
             refund();
         }
 
@@ -578,7 +604,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Nullable
         public List<Ingredient> handleItemInternal(List<Ingredient> left, boolean simulate) {
             boolean changed = false;
-            for (var it = left.listIterator(0); it.hasNext(); ) {
+            for (var it = left.listIterator(0); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -587,7 +613,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 long amount;
                 if (ingredient instanceof FastSizedIngredient si) amount = si.getAmount();
                 else amount = 1;
-                for (var it2 = itemInventory.object2LongEntrySet().fastIterator(); it2.hasNext(); ) {
+                for (var it2 = itemInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
                     if (!ingredient.test(entry.getKey().getReadOnlyStack())) continue;
                     var count = entry.getLongValue();
@@ -616,14 +642,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Nullable
         public List<FluidIngredient> handleFluidInternal(List<FluidIngredient> left, boolean simulate) {
             boolean changed = false;
-            for (var it = left.listIterator(0); it.hasNext(); ) {
+            for (var it = left.listIterator(0); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
                     continue;
                 }
                 long amount = FastFluidIngredient.getAmount(ingredient);
-                for (var it2 = fluidInventory.object2LongEntrySet().fastIterator(); it2.hasNext(); ) {
+                for (var it2 = fluidInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
                     if (!FastFluidIngredient.testAeKay(ingredient, entry.getKey())) continue;
                     var count = entry.getLongValue();
@@ -657,7 +683,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             }
             tag.putString("type", recipeType.registryName.toString());
             ListTag itemsTag = new ListTag();
-            for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext(); ) {
+            for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
                 var ct = entry.getKey().toTag();
                 ct.putLong("real", entry.getLongValue());
@@ -665,7 +691,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             }
             if (!itemsTag.isEmpty()) tag.put("inventory", itemsTag);
             ListTag fluidsTag = new ListTag();
-            for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext(); ) {
+            for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
                 var ct = entry.getKey().toTag();
                 ct.putLong("real", entry.getLongValue());
@@ -693,7 +719,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            setRecipeType(GTRegistries.RECIPE_TYPES.get(RLUtils.parse(tag.getString("recipeType"))));
+            var rt=GTRegistries.RECIPE_TYPES.get(RLUtils.parse(tag.getString("recipeType")));
+            if(rt!=null) setRecipeType(rt);
             setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
             tag.putString("type", recipeType.registryName.toString());
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
@@ -730,6 +757,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             var c = tag.getInt("c");
             if (c > 0) circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(c));
             setLock(tag.getBoolean("l"));
+            refreshRecipeTypeCheck();
         }
 
         @Override

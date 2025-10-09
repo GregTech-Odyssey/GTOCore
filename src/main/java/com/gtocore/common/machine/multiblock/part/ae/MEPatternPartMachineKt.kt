@@ -88,7 +88,8 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     @DataGeneratorScanned
     companion object {
         @JvmStatic
-        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(MEPatternPartMachineKt::class.java, MEPartMachine.MANAGED_FIELD_HOLDER)
+        val MANAGED_FIELD_HOLDER =
+            ManagedFieldHolder(MEPatternPartMachineKt::class.java, MEPartMachine.MANAGED_FIELD_HOLDER)
 
         @JvmStatic
         val SYNC_MANAGED_FIELD_HOLDER = SyncManagedFieldHolder(MEPatternPartMachineKt::class.java, sync)
@@ -118,6 +119,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     private var patterns: List<IPatternDetails> = emptyList()
     private var needPatternSync: Boolean = false
     private var updateSubs: TickableSubscription? = null
+    private var machineSet: Set<MEPatternContentSortMachine>? = null
 
     // ==================== 委托属性 ====================
     val internalPatternInventory by lazy {
@@ -154,17 +156,15 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     open fun onPatternChange(index: Int) {
         if (isRemote) return
-
         val internalInv = getInternalInventory()[index]
-        val newPattern = patternInventory.getStackInSlot(index)
-        val newPatternDetails = decodePattern(newPattern, index)
         val oldPatternDetails = detailsSlotMap.inverse()[internalInv]
-
-        detailsSlotMap.forcePut(newPatternDetails, internalInv)
-
-        oldPatternDetails?.takeIf { it != newPatternDetails }?.let {
+        oldPatternDetails?.let {
             internalInv.onPatternChange()
         }
+        val newPattern = patternInventory.getStackInSlot(index)
+        val newPatternDetails = initPattern(newPattern, index)
+
+        detailsSlotMap.forcePut(newPatternDetails, internalInv)
 
         updatePatterns()
     }
@@ -207,21 +207,26 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
         super<MEPartMachine>.onMainNodeStateChanged(reason)
         updateSubscription()
+        val curMachineSet = grid!!.getMachines(MEPatternContentSortMachine::class.java)
         when (val level = getLevel()) {
             is ServerLevel -> {
-                level.server.tell(
-                    TickTask(0) {
-                        (0 until patternInventory.slots).forEach { i ->
-                            val pattern = patternInventory.getStackInSlot(i)
-                            decodePattern(pattern, i)?.let { patternDetails ->
-                                detailsSlotMap[patternDetails] = getInternalInventory()[i]
+                // 样板替换器
+                if (!curMachineSet.equals(machineSet) || detailsSlotMap.isEmpty()) {
+                    level.server.tell(
+                        TickTask(0) {
+                            (0 until patternInventory.slots).forEach { i ->
+                                val pattern = patternInventory.getStackInSlot(i)
+                                initPattern(pattern, i)?.let { patternDetails ->
+                                    detailsSlotMap.forcePut(patternDetails, getInternalInventory()[i])
+                                }
                             }
-                        }
-                        updatePatterns()
-                    },
-                )
+                            updatePatterns()
+                        },
+                    )
+                }
             }
         }
+        machineSet = curMachineSet
     }
 
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
@@ -251,6 +256,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         Component.translatable(controllerDefinition.descriptionId)
                     }
             }
+
             else -> {
                 AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.asItem()) to
                     if (customName.isNotEmpty()) {
@@ -300,7 +306,12 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 }
                 val height1 = this@rootFresh.availableHeight - 24 - 16
                 val pageWidget =
-                    multiPageAdvanced(width = this@vBox.availableWidth, runOnUpdate = ::runOnUpdate, height = height1, pageSelector = newPageField) {
+                    multiPageAdvanced(
+                        width = this@vBox.availableWidth,
+                        runOnUpdate = ::runOnUpdate,
+                        height = height1,
+                        pageSelector = newPageField,
+                    ) {
                         chunked.forEach { pageIndices ->
                             page {
                                 vScroll(width = this@vBox.availableWidth, height = height1) {
@@ -333,17 +344,27 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                             height = 13,
                             onClick = { ck ->
                                 onPagePrev()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
+                                if (!isRemote) newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
                             },
                             text = { "<<" },
                         )
-                        text(height = 13, width = wid - 60, text = { Component.literal("${newPageField.get() + 1} / ${pageWidget.getMaxPageSize()}") })
+                        text(
+                            height = 13,
+                            width = wid - 60,
+                            text = { Component.literal("${newPageField.get() + 1} / ${pageWidget.getMaxPageSize()}") },
+                        )
                         button(
                             height = 13,
                             width = 30,
                             onClick = { ck ->
                                 onPageNext()
-                                if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                                if (!isRemote) {
+                                    newPageField.setAndSyncToClient(
+                                        (newPageField.get() + 1).coerceAtMost(
+                                            pageWidget.getMaxPageSize() - 1,
+                                        ),
+                                    )
+                                }
                             },
                             text = { ">>" },
                         )
@@ -363,7 +384,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     open fun convertPattern(pattern: IPatternDetails, index: Int): IPatternDetails = pattern
 
-    open fun decodePattern(stack: ItemStack, index: Int): IPatternDetails? {
+    open fun initPattern(stack: ItemStack, index: Int): IPatternDetails? {
         val pattern = MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid())
         if (pattern == null) return null
         return IParallelPatternDetails.of(convertPattern(pattern, index), level, 1)
@@ -374,6 +395,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             getMainNode().isOnline -> {
                 updateSubs = subscribeServerTick(updateSubs, ::update)
             }
+
             updateSubs != null -> {
                 updateSubs?.unsubscribe()
                 updateSubs = null
@@ -404,6 +426,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                     val output = item.getOutput(stack)
                     if (!output.isEmpty) output else stack
                 }
+
                 else -> stack
             }
         }
@@ -415,6 +438,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         return slot
     }
+
     open fun VBoxBuilder.buildToolBoxContent() {}
     override fun createMainPage(widget: FancyMachineUIWidget?): Widget? = super.createMainPage(widget)
 

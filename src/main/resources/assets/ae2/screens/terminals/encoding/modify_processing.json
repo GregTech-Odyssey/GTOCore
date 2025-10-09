@@ -32,6 +32,10 @@
     "clearSecOutput": {
       "left": 127,
       "bottom": 119
+    },
+    "recipeInfo": {
+      "left": 91,
+      "bottom": 163
     }
   }
 }
