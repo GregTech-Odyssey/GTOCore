@@ -145,7 +145,6 @@ public final class PlatformTemplateStorage {
         presets.add(
                 PlatformPreset.preset("platform_standard_library")
                         .displayName(add("平台标准预设库", "Platform standard preset library"))
-                        .description(add("基础预设平台", "Basic preset platform"))
                         .addStructure(high_saturation_chessboard_1_blue_pink)
                         .addStructure(high_saturation_chessboard_1_orange_white)
                         .addStructure(high_saturation_chessboard_1_yellow_lime)
@@ -238,7 +237,6 @@ public final class PlatformTemplateStorage {
         presets.add(
                 PlatformPreset.preset("platform_extension_library")
                         .displayName(add("平台扩展预设库", "Platform extended preset library"))
-                        .description(add("扩展预设平台", "Expanded preset platform"))
                         .addStructure(light_colored_road_floor_1)
                         .addStructure(light_colored_road_floor_2)
                         .addStructure(light_colored_road_floor_3)
@@ -249,28 +247,31 @@ public final class PlatformTemplateStorage {
                         .addStructure(gray_floor_with_lights_4)
                         .build());
 
-        PlatformBlockStructure AHouse = structure("house")
+        PlatformBlockStructure standard_factory_building = structure("standard_factory_building")
                 .type(platform)
-                .displayName(add("这是房子", "house"))
-                .source("某村民")
-                .preview(true)
-                .resource(GTOCore.id(in("house")))
-                .symbolMap(GTOCore.id(in("house.json")))
-                .materials(0, 1)
+                .displayName(add("标准厂房", "Standard factory building"))
+                .source("疏影")
+                .resource(GTOCore.id(in("standard_factory_building")))
+                .symbolMap(GTOCore.id(in("standard_factory_building.json")))
+                .materials(0, 400)
+                .materials(1, 100)
+                .build();
+
+        PlatformBlockStructure extra_large_factory_building = structure("extra_large_factory_building")
+                .type(platform)
+                .displayName(add("特大厂房", "Extra large factory building"))
+                .source("疏影")
+                .resource(GTOCore.id(in("extra_large_factory_building")))
+                .symbolMap(GTOCore.id(in("extra_large_factory_building.json")))
+                .materials(0, 800)
+                .materials(1, 800)
                 .build();
 
         presets.add(
                 PlatformPreset.preset("factory_standard_library")
                         .displayName(add("工厂标准预设库", "Factory standard preset library"))
-                        .description(add("基础预设工厂", "Basic preset Factory"))
-                        .addStructure(AHouse)
-                        .build());
-
-        presets.add(
-                PlatformPreset.preset("factory_extension_library")
-                        .displayName(add("工厂扩展预设库", "Factory extension preset library"))
-                        .description(add("扩展预设工厂", "Expanded preset Factory"))
-                        .addStructure(AHouse)
+                        .addStructure(standard_factory_building)
+                        .addStructure(extra_large_factory_building)
                         .build());
     }
 
