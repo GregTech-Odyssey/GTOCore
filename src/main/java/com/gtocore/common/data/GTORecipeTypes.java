@@ -761,7 +761,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType ISOSTATIC_PRESSING_RECIPES = register("isostatic_pressing", "等静压成型", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 1, 1, 0)
+            .setMaxIOSize(3, 3, 3, 1)
             .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COMPRESSOR);
 

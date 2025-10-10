@@ -18,6 +18,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalComputationHatch {
@@ -80,11 +81,11 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
         infoList.addIfAbsent(
                 DisplayRegistry.COMPUTATION_WORK.id(),
                 Component.translatable("gtocore.machine.monitor.cwu.capacity",
-                        cwtTotal, cwtRequestable).withStyle(ChatFormatting.GREEN).getVisualOrderText());
+                        NumberFormat.getInstance().format(cwtTotal), NumberFormat.getInstance().format(cwtRequestable)).withStyle(ChatFormatting.GREEN).getVisualOrderText());
         infoList.addIfAbsent(
                 DisplayRegistry.COMPUTATION_WORK_USED.id(),
                 Component.translatable("gtocore.machine.monitor.cwu.used",
-                        lastRequestedCWUt).withStyle(ChatFormatting.GRAY).getVisualOrderText());
+                        NumberFormat.getInstance().format(lastRequestedCWUt)).withStyle(ChatFormatting.GRAY).getVisualOrderText());
         return infoList;
     }
 
