@@ -10,19 +10,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.COMBINED_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.NO_FILTER;
+import static com.gtocore.common.data.GTORecipeTypes.HATCH_COMBINED;
 
 public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurator {
 
-    private static final List<GTRecipeType> EMPTY_LIST = Collections.singletonList(NO_FILTER);
+    private static final List<GTRecipeType> EMPTY_LIST = Collections.singletonList(HATCH_COMBINED);
 
     private final Consumer<GTRecipeType> onChange;
     private final List<GTRecipeType> recipeTypes;
     private int currentMode;
 
     public MultiMachineModeFancyConfigurator(List<GTRecipeType> recipeTypes, GTRecipeType selected, Consumer<GTRecipeType> onChange) {
-        super(calculateModeSize(recipeTypes, selected == COMBINED_RECIPES ? NO_FILTER : selected));
-        selected = selected == COMBINED_RECIPES ? NO_FILTER : selected;
+        super(calculateModeSize(recipeTypes, selected == COMBINED_RECIPES ? HATCH_COMBINED : selected));
+        selected = selected == COMBINED_RECIPES ? HATCH_COMBINED : selected;
         this.recipeTypes = createRecipeTypeList(recipeTypes, selected);
         this.onChange = Objects.requireNonNull(onChange, "onChange consumer cannot be null");
         setRecipeType(selected);
@@ -90,7 +90,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         }
 
         this.currentMode = index;
-        onChange.accept(getCurrentRecipeType() == NO_FILTER ? COMBINED_RECIPES : getCurrentRecipeType());
+        onChange.accept(getCurrentRecipeType() == HATCH_COMBINED ? COMBINED_RECIPES : getCurrentRecipeType());
     }
 
     // ============ 私有辅助方法 ============

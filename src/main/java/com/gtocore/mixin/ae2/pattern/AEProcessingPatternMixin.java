@@ -25,17 +25,11 @@ public abstract class AEProcessingPatternMixin implements IDetails {
 
     @Unique
     private KeyCounter[] gtolib$inputHolder;
-
-    @Unique
-    private GTRecipeType gtolib$recipeType;
     @Unique
     private Recipe gtolib$recipe;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(AEItemKey definition, CallbackInfo ci) {
-        if (definition.getTag().tags.get("type") instanceof StringTag stringTag) {
-            gtolib$recipeType = GTRegistries.RECIPE_TYPES.get(ResourceLocation.parse(stringTag.getAsString()));
-        }
         if (definition.getTag().tags.get("recipe") instanceof StringTag stringTag) {
             gtolib$recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
         }
@@ -51,11 +45,6 @@ public abstract class AEProcessingPatternMixin implements IDetails {
             }
         }
         return gtolib$inputHolder;
-    }
-
-    @Override
-    public GTRecipeType getRecipeType() {
-        return gtolib$recipeType;
     }
 
     @Override

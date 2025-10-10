@@ -222,7 +222,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式：强行添加镶孔", "Working Mode: Forced addition of sockets");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式：强行镶嵌宝石", "Working Mode: Forced gem inlay");
         addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
-        addCN("gtceu.combined", "组合配方");
+        addCN("gtceu.combined", "仓室模式");
 
         addSingleMachineTooltips();
 

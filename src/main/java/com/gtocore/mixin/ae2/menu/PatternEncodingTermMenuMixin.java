@@ -5,6 +5,7 @@ import com.gtocore.api.ae2.pattern.IEncodingLogic;
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
 import com.gtolib.api.ae2.pattern.PatternUtils;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.RLUtils;
 
 import net.minecraft.network.chat.Component;
@@ -82,20 +83,12 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     }
 
     @Override
-    public void gtolib$addRecipeType(String type) {
-        if (isClientSide()) {
-            sendClientAction("addRecipeType", type);
-        } else gtolib$logic().gtocore$setRecipeType(type);
-    }
-
-    @Override
     public void gtolib$clickRecipeInfo() {
         if (isClientSide()) {
             sendClientAction("clickRecipeInfo");
             return;
         }
-        if (this.gtolib$extraInfoEnabled && (!gtolib$logic().gtocore$getRecipe().isEmpty() ||
-                !gtolib$logic().gtocore$getRecipeType().isEmpty())) {
+        if (this.gtolib$extraInfoEnabled && !gtolib$logic().gtocore$getRecipe().isEmpty()) {
             gtolib$logic().gtocore$clearExtraRecipeInfo();
             return;
         }
@@ -122,15 +115,11 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (!this.gtolib$extraInfoEnabled) {
             return title.append(Component.translatable(CLICK_TO_ENABLE));
         }
-        if (!gtocore$recipe.isEmpty() || !gtocore$recipeType.isEmpty()) {
+        if (!gtocore$recipe.isEmpty()) {
             var tooltip = Component.empty();
-            if (!gtocore$recipeType.isEmpty()) {
-                var key = RLUtils.parse(gtocore$recipeType).toLanguageKey();
-                tooltip.append(Component.translatable("gtocore.pattern.type", Component.translatable(key))).append("\n");
-            }
-            if (!gtocore$recipe.isEmpty()) {
-                tooltip.append(Component.translatable("gtocore.pattern.recipe")).append("\n");
-            }
+            tooltip.append(Component.translatable("gtocore.pattern.recipe")).append("\n");
+            var key = RLUtils.parse(gtocore$recipe.split("/")[0]).toLanguageKey();
+            tooltip.append(Component.translatable("gtocore.pattern.type", Component.translatable(key))).append("\n");
             return title.append(tooltip.append(Component.translatable(CLICK_TO_CLEAR)));
         } else {
             return title.append(Component.translatable(CLICK_TO_DISABLE));
@@ -142,9 +131,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (gtolib$extraInfoEnabled) {
             if (!gtolib$logic().gtocore$getRecipe().isEmpty()) {
                 cir.getReturnValue().getOrCreateTag().putString("recipe", gtolib$logic().gtocore$getRecipe());
-            }
-            if (!gtolib$logic().gtocore$getRecipeType().isEmpty()) {
-                cir.getReturnValue().getOrCreateTag().putString("type", gtolib$logic().gtocore$getRecipeType());
             }
         }
     }
@@ -217,7 +203,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Inject(method = "broadcastChanges", at = @At("TAIL"))
     public void broadcastChanges(CallbackInfo ci) {
         if (isServerSide()) {
-            this.gtocore$recipeType = gtolib$logic().gtocore$getRecipeType();
             this.gtocore$recipe = gtolib$logic().gtocore$getRecipe();
         }
     }

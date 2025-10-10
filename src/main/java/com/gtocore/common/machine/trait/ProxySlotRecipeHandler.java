@@ -55,7 +55,6 @@ public final class ProxySlotRecipeHandler {
             slotFluid = new ProxyFluidRecipeHandler(machine);
             slotSharedFluid = new ProxyFluidRecipeHandler(machine);
             addHandlers(slotItem, slotFluid, slotCircuit, slotSharedItem, slotSharedFluid, circuit, sharedItem, sharedFluid);
-            setRecipeType(slot.getRecipeType());
         }
 
         private void setBuffer(MEPatternBufferPartMachine buffer, InternalSlotRecipeHandler.SlotRHL slotRHL) {
@@ -67,7 +66,6 @@ public final class ProxySlotRecipeHandler {
             slotCircuit.setProxy(slotRHL.slot.circuitInventory);
             slotSharedItem.setProxy(slotRHL.slot.shareInventory);
             slotSharedFluid.setProxy(slotRHL.slot.shareTank);
-            setRecipeType(slot.getRecipeType());
         }
 
         private void clearBuffer() {

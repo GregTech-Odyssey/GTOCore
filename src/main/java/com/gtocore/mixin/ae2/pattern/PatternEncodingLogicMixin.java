@@ -6,19 +6,21 @@ import com.gtolib.api.ae2.pattern.IDetails;
 
 import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.parts.encoding.PatternEncodingLogic;
+import net.minecraft.nbt.CompoundTag;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PatternEncodingLogic.class)
-public class PatternEncodingLogicMixin implements IEncodingLogic {
+public abstract class PatternEncodingLogicMixin implements IEncodingLogic {
+
+    @Shadow(remap = false) public abstract void saveChanges();
 
     @Unique
     public String gtocore$recipe = "";
-    @Unique
-    public String gtocore$recipeType = "";
 
     @Inject(method = "loadProcessingPattern", at = @At("RETURN"), remap = false)
     private void loadProcessingPattern(AEProcessingPattern pattern, CallbackInfo ci) {
@@ -27,11 +29,15 @@ public class PatternEncodingLogicMixin implements IEncodingLogic {
         } else {
             gtocore$recipe = "";
         }
-        if (((IDetails) pattern).getRecipeType() != null) {
-            gtocore$recipeType = ((IDetails) pattern).getRecipeType().registryName.toString();
-        } else {
-            gtocore$recipeType = "";
-        }
+    }
+    @Inject(method="writeToNBT",at=@At("TAIL"),remap = false)
+    void writeToNBT(CompoundTag data, CallbackInfo ci){
+        data.putString("gto$recipe",gtocore$recipe);
+    }
+
+    @Inject(method="readFromNBT",at=@At("TAIL"),remap = false)
+    void readFromNBT(CompoundTag data, CallbackInfo ci){
+        gtocore$recipe=data.getString("gto$recipe");
     }
 
     @Override
@@ -40,23 +46,13 @@ public class PatternEncodingLogicMixin implements IEncodingLogic {
     }
 
     @Override
-    public String gtocore$getRecipeType() {
-        return gtocore$recipeType;
-    }
-
-    @Override
     public void gtocore$setRecipe(String recipe) {
         this.gtocore$recipe = recipe;
-    }
-
-    @Override
-    public void gtocore$setRecipeType(String recipeType) {
-        this.gtocore$recipeType = recipeType;
+        saveChanges();
     }
 
     @Override
     public void gtocore$clearExtraRecipeInfo() {
-        this.gtocore$recipeType = "";
         this.gtocore$recipe = "";
     }
 }
