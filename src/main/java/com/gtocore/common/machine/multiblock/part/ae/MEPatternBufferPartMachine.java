@@ -134,7 +134,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @DescSynced
     private GTRecipeType mode = GTRecipeTypes.COMBINED_RECIPES;
 
-    public GTRecipeType getMode(){return mode;}
+    public GTRecipeType getMode() {
+        return mode;
+    }
 
     public MEPatternBufferPartMachine(MetaMachineBlockEntity holder, int maxPatternCount) {
         super(holder, maxPatternCount);

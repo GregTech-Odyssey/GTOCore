@@ -130,7 +130,7 @@ public final class InternalSlotRecipeHandler {
             if (!RecipeType.available(slot.machine.getMode(), RecipeType.getAvailableTypes(machine)))
                 return Collections.emptyIterator();
             if (slot.recipe != null) {
-                if(!RecipeType.available(slot.recipe.getType(),slot.machine.getMode()))return Collections.emptyIterator();
+                if (!RecipeType.available(slot.recipe.getType(), slot.machine.getMode())) return Collections.emptyIterator();
                 R r = (R) slot.recipe;
                 holder.setCurrentHandlerList(this, null);
                 if (canHandle.test(r)) {
@@ -152,7 +152,7 @@ public final class InternalSlotRecipeHandler {
                 }
                 return Collections.emptyIterator();
             } else {
-                this.recipeType=slot.machine.getMode();
+                this.recipeType = slot.machine.getMode();
                 return SEARCH.search(holder, type, this, canHandle);
             }
         }

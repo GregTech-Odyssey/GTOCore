@@ -1,11 +1,12 @@
 package com.gtocore.mixin.ae2.menu;
 
+import com.gtocore.api.ae2.pattern.IEncodingLogic;
+
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
 import com.gtolib.api.ae2.pattern.PatternUtils;
 import com.gtolib.api.player.IEnhancedPlayer;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.ClientUtil;
+import com.gtolib.utils.RLUtils;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;

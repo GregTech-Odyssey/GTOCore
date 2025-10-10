@@ -5,11 +5,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
-
 import net.minecraft.nbt.StringTag;
-import net.minecraft.resources.ResourceLocation;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.KeyCounter;

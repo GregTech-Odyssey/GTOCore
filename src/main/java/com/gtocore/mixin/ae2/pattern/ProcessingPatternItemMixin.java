@@ -1,13 +1,8 @@
 package com.gtocore.mixin.ae2.pattern;
 
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
-import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.RLUtils;
 
-import net.minecraft.nbt.IntArrayTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;

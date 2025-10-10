@@ -4,9 +4,10 @@ import com.gtocore.api.ae2.pattern.IEncodingLogic;
 
 import com.gtolib.api.ae2.pattern.IDetails;
 
+import net.minecraft.nbt.CompoundTag;
+
 import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.parts.encoding.PatternEncodingLogic;
-import net.minecraft.nbt.CompoundTag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,7 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PatternEncodingLogic.class)
 public abstract class PatternEncodingLogicMixin implements IEncodingLogic {
 
-    @Shadow(remap = false) public abstract void saveChanges();
+    @Shadow(remap = false)
+    public abstract void saveChanges();
 
     @Unique
     public String gtocore$recipe = "";
@@ -30,14 +32,15 @@ public abstract class PatternEncodingLogicMixin implements IEncodingLogic {
             gtocore$recipe = "";
         }
     }
-    @Inject(method="writeToNBT",at=@At("TAIL"),remap = false)
-    void writeToNBT(CompoundTag data, CallbackInfo ci){
-        data.putString("gto$recipe",gtocore$recipe);
+
+    @Inject(method = "writeToNBT", at = @At("TAIL"), remap = false)
+    void writeToNBT(CompoundTag data, CallbackInfo ci) {
+        data.putString("gto$recipe", gtocore$recipe);
     }
 
-    @Inject(method="readFromNBT",at=@At("TAIL"),remap = false)
-    void readFromNBT(CompoundTag data, CallbackInfo ci){
-        gtocore$recipe=data.getString("gto$recipe");
+    @Inject(method = "readFromNBT", at = @At("TAIL"), remap = false)
+    void readFromNBT(CompoundTag data, CallbackInfo ci) {
+        gtocore$recipe = data.getString("gto$recipe");
     }
 
     @Override

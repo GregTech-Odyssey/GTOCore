@@ -3,6 +3,7 @@ package com.gtocore.api.gui.configurators;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+
 import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 
 import java.util.*;
@@ -22,7 +23,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
     private int currentMode;
 
     public MultiMachineModeFancyConfigurator(List<GTRecipeType> recipeTypes, GTRecipeType selected, Consumer<GTRecipeType> onChange) {
-        super(calculateModeSize(recipeTypes, selected == COMBINED_RECIPES ? HATCH_COMBINED : selected));
+        super(calculateModeSize(recipeTypes, selected));
         selected = selected == COMBINED_RECIPES ? HATCH_COMBINED : selected;
         this.recipeTypes = createRecipeTypeList(recipeTypes, selected);
         this.onChange = Objects.requireNonNull(onChange, "onChange consumer cannot be null");
@@ -54,7 +55,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
 
     private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
         if (recipeTypes.isEmpty()) return 1;
-        return recipeTypes.size() + (selected == GTRecipeTypes.DUMMY_RECIPES || recipeTypes.contains(selected) ? 1 : 2);
+        return recipeTypes.size() + (selected == COMBINED_RECIPES || recipeTypes.contains(selected) ? 1 : 2);
     }
 
     private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
