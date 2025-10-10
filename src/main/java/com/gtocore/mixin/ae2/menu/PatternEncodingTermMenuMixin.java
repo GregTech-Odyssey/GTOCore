@@ -159,7 +159,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         registerClientAction("addRecipe", String.class, this::gtolib$addRecipe);
         registerClientAction("addRecipeType", String.class, this::gtolib$addRecipeType);
         registerClientAction("clickRecipeInfo", this::gtolib$clickRecipeInfo);
-        // TODO recipe info
     }
 
     @Override

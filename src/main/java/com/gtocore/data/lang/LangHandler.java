@@ -349,7 +349,7 @@ public final class LangHandler {
         addCNEN("tooltip.gtocore.hold_for_more", "§1按住 %s 显示更多信息。§r", "§1Hold %s for more info.§r");
 
         addCNEN("gtocore.pattern.recipe", "配方已缓存", "Recipe cached");
-        addCNEN("gtocore.pattern.type", "机器模式：", "Machine recipe type:%s");
+        addCNEN("gtocore.pattern.type", "机器模式：%s", "Machine recipe type:%s");
 
         // 配方信息按钮翻译
         addCNEN("gtocore.pattern.recipeInfoButton.title.enabled", "配方信息已启用", "Recipe Info Recording");

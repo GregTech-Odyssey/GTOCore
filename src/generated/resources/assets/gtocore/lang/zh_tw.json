@@ -3101,7 +3101,7 @@
   "gtocore.pattern.tooltip.clearSecOutput": "清除樣板副產物",
   "gtocore.pattern.tooltip.divide": "將樣板材料數量 ÷ %s",
   "gtocore.pattern.tooltip.multiply": "將樣板材料數量 x %s",
-  "gtocore.pattern.type": "機器模式：",
+  "gtocore.pattern.type": "機器模式：%s",
   "gtocore.patternModifierPro.0": "設置完成後，潛行右擊樣板供應器以應用",
   "gtocore.patternModifierPro.1": "模板乘數：所有物品和流體乘以指定倍數",
   "gtocore.patternModifierPro.2": "模板除數：所有物品和流體除以指定倍數",
