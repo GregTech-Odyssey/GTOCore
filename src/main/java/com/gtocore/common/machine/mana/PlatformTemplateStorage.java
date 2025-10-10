@@ -257,12 +257,12 @@ public final class PlatformTemplateStorage {
                 .materials(1, 100)
                 .build();
 
-        PlatformBlockStructure extra_large_factory_building = structure("extra_large_factory_building")
+        PlatformBlockStructure long_corridor_factory_building = structure("long_corridor_factory_building")
                 .type(platform)
-                .displayName(add("特大厂房", "Extra large factory building"))
+                .displayName(add("长廊厂房", "Long corridor factory building"))
                 .source("疏影")
-                .resource(GTOCore.id(in("extra_large_factory_building")))
-                .symbolMap(GTOCore.id(in("extra_large_factory_building.json")))
+                .resource(GTOCore.id(in("long_corridor_factory_building")))
+                .symbolMap(GTOCore.id(in("long_corridor_factory_building.json")))
                 .materials(0, 800)
                 .materials(1, 800)
                 .build();
@@ -271,7 +271,7 @@ public final class PlatformTemplateStorage {
                 PlatformPreset.preset("factory_standard_library")
                         .displayName(add("工厂标准预设库", "Factory standard preset library"))
                         .addStructure(standard_factory_building)
-                        .addStructure(extra_large_factory_building)
+                        .addStructure(long_corridor_factory_building)
                         .build());
     }
 
