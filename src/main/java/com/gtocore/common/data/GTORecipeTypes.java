@@ -339,7 +339,7 @@ public final class GTORecipeTypes {
     public static final RecipeType RARE_EARTH_CENTRIFUGAL_RECIPES = register("rare_earth_centrifugal", "稀土离心", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 17, 1, 1)
-            .setProgressBar(GuiTextures.CENTRIFUGE_OVERLAY, LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CENTRIFUGE);
 
     public static final RecipeType TRANSCENDING_CRAFTING_RECIPES = register("transcending_crafting", "超临界合成", MULTIBLOCK)
@@ -913,7 +913,7 @@ public final class GTORecipeTypes {
     public static final RecipeType ATOMIZATION_CONDENSATION_RECIPES = register("atomization_condensation", "雾化冷凝", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(2, 2, 3, 3)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, UP_TO_DOWN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
 
     // TODO 添加用途
