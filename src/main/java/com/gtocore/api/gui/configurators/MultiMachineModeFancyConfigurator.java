@@ -1,5 +1,6 @@
 package com.gtocore.api.gui.configurators;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -10,17 +11,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.COMBINED_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.NO_FILTER;
 
 public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurator {
 
-    private static final List<GTRecipeType> EMPTY_LIST = Collections.singletonList(COMBINED_RECIPES);
+    private static final List<GTRecipeType> EMPTY_LIST = Collections.singletonList(NO_FILTER);
 
     private final Consumer<GTRecipeType> onChange;
     private final List<GTRecipeType> recipeTypes;
     private int currentMode;
 
     public MultiMachineModeFancyConfigurator(List<GTRecipeType> recipeTypes, GTRecipeType selected, Consumer<GTRecipeType> onChange) {
-        super(calculateModeSize(recipeTypes, selected));
+        super(calculateModeSize(recipeTypes, selected==COMBINED_RECIPES?NO_FILTER:selected));
+        selected=selected==COMBINED_RECIPES?NO_FILTER:selected;
         this.recipeTypes = createRecipeTypeList(recipeTypes, selected);
         this.onChange = Objects.requireNonNull(onChange, "onChange consumer cannot be null");
         setRecipeType(selected);
@@ -88,7 +91,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         }
 
         this.currentMode = index;
-        onChange.accept(getCurrentRecipeType());
+        onChange.accept(getCurrentRecipeType()==NO_FILTER?COMBINED_RECIPES:getCurrentRecipeType());
     }
 
     // ============ 私有辅助方法 ============

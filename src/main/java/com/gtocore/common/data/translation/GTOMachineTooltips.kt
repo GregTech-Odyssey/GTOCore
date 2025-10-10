@@ -1113,10 +1113,10 @@ object GTOMachineTooltips {
     // 激光蚀刻工厂
     val EngravingLaserPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("engraving_laser_plant")
-
         section(ComponentSlang.EfficiencyBonus)
         increase("运行激光焊接配方时速度×5" translatedTo "Running Laser Welder recipes at 5x speed")
         error("精密激光模式不支持并行" translatedTo "Precision Laser mode does not support parallel")
+        error("精密激光模式不支持组合" translatedTo "Precision Laser mode does not support combined")
     }
 
     // 集成矿石处理厂
