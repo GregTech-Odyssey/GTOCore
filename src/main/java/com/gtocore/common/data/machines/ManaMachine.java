@@ -146,7 +146,7 @@ public final class ManaMachine {
             .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES, 1600))
             .register();
 
-    public static final MachineDefinition CELESTIAL_CONDENSER = manaMachine("celestial_condenser", "苍穹凝聚器", CelestialCondenser::new)
+    public static final MachineDefinition CELESTIAL_CONDENSER = machine("celestial_condenser", "苍穹凝聚器", CelestialCondenser::new)
             .tier(HV)
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("celestial_condenser"), GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES))
             .recipeType(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
@@ -167,14 +167,14 @@ public final class ManaMachine {
             .renderer(() -> new ManaHeaterRenderer(MV))
             .register();
 
-    public static final MachineDefinition AREA_DESTRUCTION_TOOLS = manaMachine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
+    public static final MachineDefinition AREA_DESTRUCTION_TOOLS = machine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
             .tier(EV)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getAreaDestructionToolsTooltips().apply(list))
             .nonYAxisRotation()
             .workableManaTieredHullRenderer(4, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();
 
-    public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = manaMachine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
+    public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = machine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
             .tier(LV)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
             .nonYAxisRotation()
