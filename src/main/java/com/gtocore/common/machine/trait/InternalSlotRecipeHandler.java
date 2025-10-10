@@ -129,7 +129,8 @@ public final class InternalSlotRecipeHandler {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return Collections.emptyIterator();
             if (!RecipeType.available(slot.machine.getMode(), RecipeType.getAvailableTypes(machine)))
                 return Collections.emptyIterator();
-            if (slot.recipe != null && RecipeType.available(slot.recipe.getType(),slot.machine.getMode())) {
+            if (slot.recipe != null) {
+                if(!RecipeType.available(slot.recipe.getType(),slot.machine.getMode()))return Collections.emptyIterator();
                 R r = (R) slot.recipe;
                 holder.setCurrentHandlerList(this, null);
                 if (canHandle.test(r)) {
