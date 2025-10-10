@@ -127,9 +127,9 @@ public final class InternalSlotRecipeHandler {
         @Override
         public <T extends GTRecipeType, R extends GTRecipe> Iterator<R> searchRecipe(IRecipeCapabilityHolder holder, T type, Predicate<R> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return Collections.emptyIterator();
-            if (!RecipeType.available(slot.getRecipeType(), RecipeType.getAvailableTypes(machine)))
+            if (!RecipeType.available(slot.machine.getMode(), RecipeType.getAvailableTypes(machine)))
                 return Collections.emptyIterator();
-            if (slot.recipe != null) {
+            if (slot.recipe != null && RecipeType.available(slot.recipe.getType(),slot.machine.getMode())) {
                 R r = (R) slot.recipe;
                 holder.setCurrentHandlerList(this, null);
                 if (canHandle.test(r)) {
@@ -151,6 +151,7 @@ public final class InternalSlotRecipeHandler {
                 }
                 return Collections.emptyIterator();
             } else {
+                this.recipeType=slot.machine.getMode();
                 return SEARCH.search(holder, type, this, canHandle);
             }
         }

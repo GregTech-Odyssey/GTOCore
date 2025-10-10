@@ -134,6 +134,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @DescSynced
     private GTRecipeType mode = GTRecipeTypes.COMBINED_RECIPES;
 
+    public GTRecipeType getMode(){return mode;}
+
     public MEPatternBufferPartMachine(MetaMachineBlockEntity holder, int maxPatternCount) {
         super(holder, maxPatternCount);
         this.caches = new boolean[maxPatternCount];
@@ -148,8 +150,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         this.mode = recipeType;
         this.getHandlerList().setRecipeType(recipeType);
         RecipeHandlerList.NOTIFY.accept(this);
-        for (var i : getInternalInventory()) {
-            i.refreshRecipeTypeCheck();
+        for (var pos : proxies) {
+            if (MetaMachine.getMachine(getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {
+                RecipeHandlerList.NOTIFY.accept(proxy);
+            }
         }
     }
 
@@ -253,9 +257,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (pattern == null) return null;
         if (((IDetails) pattern).getRecipe() != null && !caches[index]) {
             getInternalInventory()[index].setRecipe(((IDetails) pattern).getRecipe());
-        }
-        if (!caches[index]) {
-            getInternalInventory()[index].setRecipeType(((IDetails) pattern).getRecipeType());
         }
         return pattern;
     }
@@ -453,14 +454,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public final NotifiableNotConsumableFluidHandler shareTank;
         public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
-        private final MEPatternBufferPartMachine machine;
+        public final MEPatternBufferPartMachine machine;
         private final InputSink inputSink;
         public InternalSlotRecipeHandler.AbstractRHL rhl;
         public boolean itemChanged = true;
         public boolean fluidChanged = true;
         boolean rtValid = true;
         public Recipe recipe;
-        private GTRecipeType recipeType = GTRecipeTypes.DUMMY_RECIPES;
         private Runnable onContentsChanged = () -> {};
         private boolean lock;
 
@@ -488,48 +488,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public void setRecipe(@Nullable Recipe recipe) {
             if (this.recipe == recipe) return;
             this.recipe = recipe;
-            if (recipe != null && recipe.getType() != GTRecipeTypes.DUMMY_RECIPES)
-                setRecipeType(recipe.getType());
             machine.caches[index] = recipe != null;
-        }
-
-        private void setRecipeTypeRaw(GTRecipeType gtRecipeType, boolean valid) {
-            this.recipeType = gtRecipeType;
-            this.rtValid = valid;
-            rhl.setRecipeType(valid ? gtRecipeType : GTRecipeTypes.DUMMY_RECIPES);
-            for (var pos : machine.proxies) {
-                if (MetaMachine.getMachine(machine.getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {
-                    proxy.setRecipeTypeRaw(index, recipeType);
-                }
-            }
-            RecipeHandlerList.NOTIFY.accept(this.machine);
-        }
-
-        public void setRecipeType(@Nullable GTRecipeType gtRecipeType) {
-            if (gtRecipeType == this.recipeType || !rtValid)
-                return;
-            if (gtRecipeType == null) {
-                // 如果传入null且当前配方类型为空，则设置为machine.mode
-                if (this.recipeType == GTRecipeTypes.DUMMY_RECIPES) {
-                    setRecipeTypeRaw(this.machine.mode, true);
-                }
-                // 如果当前配方类型不为空，则不改变
-                return;
-            }
-
-            // 检查配方类型是否匹配
-            setRecipeTypeRaw(gtRecipeType, machine.checkRecipeType(gtRecipeType));
-        }
-
-        public GTRecipeType getRecipeType() {
-            return recipeType;
-        }
-
-        public void refreshRecipeTypeCheck() {
-            // 检查当前配方类型的有效性
-            if (machine.checkRecipeType(this.recipeType) != this.rtValid) {
-                setRecipeTypeRaw(this.recipeType, machine.checkRecipeType(this.recipeType));
-            }
         }
 
         public boolean isEmpty() {
@@ -583,7 +542,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Override
         public void onPatternChange() {
             setRecipe(null);
-            setRecipeType(GTRecipeTypes.DUMMY_RECIPES);
             refund();
         }
 
@@ -676,7 +634,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             if (recipe != null) {
                 tag.put("recipe", recipe.serializeNBT());
             }
-            tag.putString("type", recipeType.registryName.toString());
             ListTag itemsTag = new ListTag();
             for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
@@ -715,9 +672,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Override
         public void deserializeNBT(CompoundTag tag) {
             var rt = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(tag.getString("recipeType")));
-            if (rt != null) setRecipeType(rt);
             setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
-            tag.putString("type", recipeType.registryName.toString());
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag ct)) continue;
@@ -752,7 +707,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             var c = tag.getInt("c");
             if (c > 0) circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(c));
             setLock(tag.getBoolean("l"));
-            refreshRecipeTypeCheck();
         }
 
         @Override

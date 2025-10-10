@@ -144,10 +144,4 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
     ProxySlotRecipeHandler getProxySlotRecipeHandler() {
         return this.proxySlotRecipeHandler;
     }
-
-    public void setRecipeTypeRaw(int index, GTRecipeType gtRecipeType) {
-        var rhl = this.proxySlotRecipeHandler.getProxySlotHandlers().get(index);
-        rhl.setRecipeType(gtRecipeType);
-        RecipeHandlerList.NOTIFY.accept(this);
-    }
 }
