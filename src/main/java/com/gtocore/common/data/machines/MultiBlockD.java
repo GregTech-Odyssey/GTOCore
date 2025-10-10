@@ -166,6 +166,7 @@ public final class MultiBlockD {
             .register();
 
     public static final MultiblockMachineDefinition HYPERDIMENSIONAL_PLASMA_FUSION_CORE = multiblock("hyperdimensional_plasma_fusion_core", "高维等离子聚变核心", DimensionallyTranscendentPlasmaForgeMachine::new)
+            .disabledCombined()
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES)
             .recipeTypes(GTORecipeTypes.STELLAR_FORGE_RECIPES)

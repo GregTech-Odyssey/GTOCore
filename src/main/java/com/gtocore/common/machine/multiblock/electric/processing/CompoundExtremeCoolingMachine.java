@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
@@ -121,7 +122,7 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
 
     @Override
     public BlockPattern getPattern() {
-        return getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES ? 1 : 0, getDefinition());
+        return getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES || getRecipeType() == GTRecipeTypes.COMBINED_RECIPES ? 1 : 0, getDefinition());
     }
 
     @Override
