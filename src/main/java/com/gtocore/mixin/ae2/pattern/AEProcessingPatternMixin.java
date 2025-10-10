@@ -25,6 +25,7 @@ public abstract class AEProcessingPatternMixin implements IDetails {
 
     @Unique
     private KeyCounter[] gtolib$inputHolder;
+
     @Unique
     private Recipe gtolib$recipe;
 

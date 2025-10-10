@@ -3,6 +3,7 @@ package com.gtocore.api.gui.configurators;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -40,7 +41,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
                 .flatMap(Arrays::stream)
                 .filter(Objects::nonNull)
                 .flatMap(recipeType -> recipeType == COMBINED_RECIPES ? Stream.empty() : Stream.of(recipeType))
-                .collect(Collectors.toCollection(LinkedHashSet::new)) // 保持顺序并去重
+                .collect(Collectors.toCollection(ReferenceLinkedOpenHashSet::new)) // 保持顺序并去重
                 .stream()
                 .toList();
     }
@@ -52,9 +53,8 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
     }
 
     private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
-        int baseSize = recipeTypes.isEmpty() ? EMPTY_LIST.size() : recipeTypes.size();
-        boolean needsToAddSelected = selected != null && !recipeTypes.contains(selected);
-        return baseSize + (needsToAddSelected ? 1 : 0);
+        if (recipeTypes.isEmpty()) return 1;
+        return recipeTypes.size() + (selected == GTRecipeTypes.DUMMY_RECIPES || recipeTypes.contains(selected) ? 1 : 2);
     }
 
     private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
@@ -68,8 +68,8 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         return Collections.unmodifiableList(result);
     }
 
-    public GTRecipeType getCurrentRecipeType() {
-        return recipeTypes.get(getCurrentMode());
+    private GTRecipeType getCurrentRecipeType() {
+        return recipeTypes.get(currentMode);
     }
 
     public void setRecipeType(GTRecipeType recipe) {

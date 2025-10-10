@@ -25,7 +25,7 @@ import java.util.List;
 
 public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
 
-    int modeSize;
+    private final int modeSize;
 
     CustomModeFancyConfigurator(int modeSize) {
         this.modeSize = modeSize;
@@ -62,9 +62,9 @@ public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
         return tooltip;
     }
 
-    public class MachineModeConfigurator extends WidgetGroup {
+    private class MachineModeConfigurator extends WidgetGroup {
 
-        public MachineModeConfigurator(int x, int y, int width, int height) {
+        private MachineModeConfigurator(int x, int y, int width, int height) {
             super(x, y, width, height);
         }
 

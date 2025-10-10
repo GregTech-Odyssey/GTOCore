@@ -2,17 +2,27 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 
+import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
+
+import com.gtolib.api.ae2.IPatternProviderLogic;
+import com.gtolib.api.ae2.PatternProviderTargetCache;
+import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
+import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
@@ -28,9 +38,17 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 @DataGeneratorScanned
-public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
+public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine, ICustomCraftingMachine {
+
+    @RegisterLanguage(cn = "自动切换配方类型[%s]", en = "Auto switch recipe type [%s]")
+    private final static String SWITCH_TYPE = "gtocore.machine.switch_type";
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ProgrammableHatchPartMachine.class, DualHatchPartMachine.MANAGED_FIELD_HOLDER);
@@ -56,6 +74,9 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+
+    @Persisted
+    private boolean switchType = false;
 
     @Override
     protected @NotNull NotifiableItemStackHandler createInventory(Object @NotNull... args) {
@@ -94,6 +115,24 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
         super.removedFromController(controller);
         this.recipeTypes.clear();
         this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypesCombined(this.getControllers()));
+    }
+
+    @Override
+    public IPatternProviderLogic.PushResult pushPattern(IPatternProviderLogic logic, IActionSource actionSource, BooleanHolder success, Operate operate, Set<AEKey> patternInputs, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, Direction adjBeSide) {
+        var target = PatternProviderTargetCache.find(holder, logic, adjBeSide, actionSource, 0);
+        if (target == null || target.containsPatternInput(patternInputs)) return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+        var result = operate.pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
+        if (result.success()) {
+            success.value = true;
+            if (patternDetails instanceof IDetails details) {
+                var recipe = details.getRecipe();
+                if (recipe != null) {
+                    changeMode(recipe.recipeType);
+                }
+            }
+        }
+        if (result.needBreak()) return result;
+        return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
     }
 
     @Override

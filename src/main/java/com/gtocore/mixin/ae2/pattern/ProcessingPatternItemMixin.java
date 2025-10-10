@@ -5,7 +5,11 @@ import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.RLUtils;
 
+import net.minecraft.nbt.IntArrayTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.IntArrayTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -51,6 +55,10 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
     public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag advancedTooltips) {
         var tag = stack.getTag();
         if (tag == null) return;
+        if (tag.tags.get("uuid") instanceof IntArrayTag arrayTag) {
+            var player = level.getPlayerByUUID(NbtUtils.loadUUID(arrayTag));
+            lines.add(Component.translatable("tooltip.item.pattern.uuid", player == null ? "Unknown" : player.getName()));
+        }
         if (tag.tags.containsKey("recipe") && !tag.getString("recipe").isEmpty()) {
             lines.add(Component.translatable("gtocore.pattern.recipe"));
             var key = RLUtils.parse(tag.getString("recipe").split("/")[0]).toLanguageKey();
