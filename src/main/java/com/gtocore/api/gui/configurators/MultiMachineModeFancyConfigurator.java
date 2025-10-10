@@ -55,7 +55,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
 
     private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
         if (recipeTypes.isEmpty()) return 1;
-        return recipeTypes.size() + (selected == COMBINED_RECIPES || recipeTypes.contains(selected) ? 1 : 2);
+        return recipeTypes.size() + (selected == COMBINED_RECIPES || recipeTypes.contains(selected) ? 0 : 1);
     }
 
     private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
