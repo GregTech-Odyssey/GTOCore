@@ -194,7 +194,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_UEV = createTierCasings("component_assembly_line_casing_uev", "部件装配线外壳(UEV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_uev"), CALMAP, 10);
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_UIV = createTierCasings("component_assembly_line_casing_uiv", "部件装配线外壳(UIV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_uiv"), CALMAP, 11);
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_UXV = createTierCasings("component_assembly_line_casing_uxv", "部件装配线外壳(UXV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_uxv"), CALMAP, 12);
-    public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_OPV = createTierCasings("component_assembly_line_casing_opv", "部件装配线外壳(OPV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_opv"), CALMAP, 13);
+    public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_OPV = createTierCasings("component_assembly_line_casing_opv", "部件装配线外壳(OpV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_opv"), CALMAP, 13);
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_MAX = createTierCasings("component_assembly_line_casing_max", "部件装配线外壳(MAX)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_max"), CALMAP, 14);
 
     public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_ULV = createTierCasings("integral_framework_ulv", "整体框架(ULV)", GTOCore.id("block/casings/integral_framework/ulv"), INTEGRALFRAMEWORKMAP, 0);
