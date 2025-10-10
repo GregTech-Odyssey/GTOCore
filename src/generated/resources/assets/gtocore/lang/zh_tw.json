@@ -3045,7 +3045,7 @@
   "gtocore.machine.steam_parallel_machine.oc": "每次超頻將減少2倍耗時和增加3倍蒸汽消耗",
   "gtocore.machine.stellar_forge.pressure": "內部壓力：",
   "gtocore.machine.structure_check": "更新結構檢查(shift點擊將重新檢查結構)",
-  "gtocore.machine.switch_type": "切換配方類型[%s]",
+  "gtocore.machine.switch_type": "自動切換配方類型[%s]",
   "gtocore.machine.sync_tester_machine.tooltip.0": "A tool for testing machine synchronization.",
   "gtocore.machine.sync_tester_machine.tooltip.1": "Do not use in production environment.",
   "gtocore.machine.synthetic_data_assembly_plant.tooltip.0": "分析/推演的一體化機器。",
@@ -4625,5 +4625,6 @@
   "tooltip.ad_astra.unknown_tag": "§c未知標簽§r: %s",
   "tooltip.gtocore.hold_for_more": "§1按住 %s 顯示更多信息。§r",
   "tooltip.item.pattern.type": "該樣板支持切換機器模式",
+  "tooltip.item.pattern.uuid": "編碼者：%s",
   "tooltip.jade.current_gravity": "當前重力: %s"
 }

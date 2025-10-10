@@ -4523,7 +4523,7 @@
   "gtocore.machine.steam_parallel_machine.oc": "Each time of overclocking will reduce time by 2 times and increase steam consumption by 3 times",
   "gtocore.machine.stellar_forge.pressure": "Internal Pressure: ",
   "gtocore.machine.structure_check": "Update structure check (Clicking on Shift will recheck the structure).",
-  "gtocore.machine.switch_type": "Switch recipe type [%s]",
+  "gtocore.machine.switch_type": "Auto switch recipe type [%s]",
   "gtocore.machine.sync_tester_machine.tooltip.0": "用于测试机器同步的工具。",
   "gtocore.machine.sync_tester_machine.tooltip.1": "请勿在生产环境中使用。",
   "gtocore.machine.synthetic_data_assembly_plant.tooltip.0": "Precision multi-block scanner.",
@@ -7008,5 +7008,6 @@
   "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
   "tooltip.gtocore.hold_for_more": "§1Hold %s for more info.§r",
   "tooltip.item.pattern.type": "This pattern supports switching machine recipe type",
+  "tooltip.item.pattern.uuid": "Encoded by: %s",
   "tooltip.jade.current_gravity": "Current Gravity: %s"
 }

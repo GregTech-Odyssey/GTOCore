@@ -153,5 +153,6 @@ final class ItemLang {
         addCNEN("item.gtocore.globe.earth", "地球仪的球体", "Earth Globe Sphere");
 
         addCNEN("tooltip.item.pattern.type", "该样板支持切换机器模式", "This pattern supports switching machine recipe type");
+        addCNEN("tooltip.item.pattern.uuid", "编码者：%s", "Encoded by: %s");
     }
 }

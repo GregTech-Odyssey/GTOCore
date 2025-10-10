@@ -380,6 +380,7 @@ public final class MultiBlockA {
             .recipeTypes(GTORecipeTypes.RANDOM_ORE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
+            .disabledCombined()
             .recipeModifier((machine, recipe) -> {
                 if (((ElectricMultiblockMachine) machine).getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) {
                     return RecipeModifierFunction.overclocking(machine, ParallelLogic.accurateParallel(machine, recipe, 1L << ((((ElectricMultiblockMachine) machine).getTier() - GTValues.ZPM) << 1)));
@@ -618,6 +619,7 @@ public final class MultiBlockA {
             .parallelizableTooltips()
             .parallelizableOverclock()
             .block(GTOBlocks.ALUMINIUM_BRONZE_CASING)
+            .disabledCombined()
             .pattern(definition -> FactoryBlockPattern.start(definition, RIGHT, UP, BACK)
                     .aisle("    AAAAA    ", "    AAFAA    ", "    BBBBB    ", "             ")
                     .aisle("   BBBBBBB   ", "   BCCCCCB   ", "   BB E BB   ", "             ")
@@ -703,9 +705,9 @@ public final class MultiBlockA {
             .perfectOCTooltips()
             .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
-                    if (workableElectricMultiblockMachine.getRecipeType() == GTRecipeTypes.LASER_ENGRAVER_RECIPES)
+                    if (recipe.getType() == GTRecipeTypes.LASER_ENGRAVER_RECIPES)
                         return RecipeModifierFunction.hatchParallel(workableElectricMultiblockMachine, recipe);
-                    if (workableElectricMultiblockMachine.getRecipeType() == GTORecipeTypes.LASER_WELDER_RECIPES) {
+                    if (recipe.getType() == GTORecipeTypes.LASER_WELDER_RECIPES) {
                         recipe.duration = recipe.duration / 5;
                         return RecipeModifierFunction.hatchParallel(workableElectricMultiblockMachine, recipe);
                     }
@@ -1889,6 +1891,7 @@ public final class MultiBlockA {
         }
         return 1;
     }, true, false, false))
+            .disabledCombined()
             .allRotation()
             .recipeTypes(GTORecipeTypes.VACUUM_DRYING_RECIPES)
             .recipeTypes(GTORecipeTypes.DEHYDRATOR_RECIPES)

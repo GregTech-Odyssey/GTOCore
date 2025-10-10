@@ -3,6 +3,7 @@ package com.gtocore.mixin.ae2.menu;
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
 import com.gtolib.api.ae2.pattern.PatternUtils;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.utils.ClientUtil;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -31,6 +32,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.UUID;
+
 @Mixin(PatternEncodingTermMenu.class)
 public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, IPatterEncodingTermMenu {
 
@@ -50,7 +53,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private String gtocore$recipe;
 
     @Unique
-    private String gtocore$recipeType;
+    private UUID gtocore$UUID;
 
     @Override
     public void gtolib$addRecipe(String id) {
@@ -60,10 +63,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     }
 
     @Override
-    public void gtolib$addRecipeType(String type) {
+    public void gtolib$addUUID(UUID id) {
         if (isClientSide()) {
-            sendClientAction("addRecipeType", type);
-        } else gtocore$recipeType = type;
+            sendClientAction("addUUID", id);
+        } else gtocore$UUID = id;
     }
 
     @Inject(method = "encodeProcessingPattern", at = @At("RETURN"), remap = false)
@@ -71,8 +74,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (gtocore$recipe != null && !gtocore$recipe.isEmpty()) {
             cir.getReturnValue().getOrCreateTag().putString("recipe", gtocore$recipe);
         }
-        if (gtocore$recipeType != null && !gtocore$recipeType.isEmpty()) {
-            cir.getReturnValue().getOrCreateTag().putString("type", gtocore$recipeType);
+        if (gtocore$UUID != null) {
+            cir.getReturnValue().getOrCreateTag().putUUID("uuid", gtocore$UUID);
         }
     }
 
@@ -86,8 +89,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         blankPatternSlot.setStackLimit(1);
         registerClientAction("addRecipe", String.class,
                 this::gtolib$addRecipe);
-        registerClientAction("addRecipeType", String.class,
-                this::gtolib$addRecipeType);
+        registerClientAction("addUUID", UUID.class,
+                this::gtolib$addUUID);
     }
 
     @Override
@@ -114,6 +117,11 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Final
     @Shadow(remap = false)
     private RestrictedInputSlot encodedPatternSlot;
+
+    @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lappeng/menu/me/items/PatternEncodingTermMenu;sendClientAction(Ljava/lang/String;)V"), remap = false)
+    private void encode(CallbackInfo ci) {
+        gtolib$addUUID(ClientUtil.getPlayer().getUUID());
+    }
 
     @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lappeng/menu/slot/RestrictedInputSlot;set(Lnet/minecraft/world/item/ItemStack;)V", ordinal = 1, remap = true), remap = false, cancellable = true)
     private void encoding(CallbackInfo ci, @Local(ordinal = 0) ItemStack stack) {

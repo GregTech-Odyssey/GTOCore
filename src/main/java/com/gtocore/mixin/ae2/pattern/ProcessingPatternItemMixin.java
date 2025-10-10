@@ -2,6 +2,8 @@ package com.gtocore.mixin.ae2.pattern;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
 
+import net.minecraft.nbt.IntArrayTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -47,7 +49,11 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
     public void appendHoverText(ItemStack stack, Level level, List<Component> lines, TooltipFlag advancedTooltips) {
         var tag = stack.getTag();
         if (tag == null) return;
-        if (tag.tags.containsKey("type")) lines.add(Component.translatable("tooltip.item.pattern.type"));
+        if (tag.tags.get("uuid") instanceof IntArrayTag arrayTag) {
+            var player = level.getPlayerByUUID(NbtUtils.loadUUID(arrayTag));
+            lines.add(Component.translatable("tooltip.item.pattern.uuid", player == null ? "Unknown" : player.getName()));
+        }
+        if (tag.tags.containsKey("recipe")) lines.add(Component.translatable("tooltip.item.pattern.type"));
         super.appendHoverText(stack, level, lines, advancedTooltips);
     }
 }

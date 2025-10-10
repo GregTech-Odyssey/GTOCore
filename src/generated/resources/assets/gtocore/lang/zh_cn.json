@@ -4523,7 +4523,7 @@
   "gtocore.machine.steam_parallel_machine.oc": "每次超频将减少2倍耗时和增加3倍蒸汽消耗",
   "gtocore.machine.stellar_forge.pressure": "内部压力：",
   "gtocore.machine.structure_check": "更新结构检查(shift点击将重新检查结构)",
-  "gtocore.machine.switch_type": "切换配方类型[%s]",
+  "gtocore.machine.switch_type": "自动切换配方类型[%s]",
   "gtocore.machine.sync_tester_machine.tooltip.0": "A tool for testing machine synchronization.",
   "gtocore.machine.sync_tester_machine.tooltip.1": "Do not use in production environment.",
   "gtocore.machine.synthetic_data_assembly_plant.tooltip.0": "分析/推演的一体化机器。",
@@ -7008,5 +7008,6 @@
   "tooltip.ad_astra.unknown_tag": "§c未知标签§r: %s",
   "tooltip.gtocore.hold_for_more": "§1按住 %s 显示更多信息。§r",
   "tooltip.item.pattern.type": "该样板支持切换机器模式",
+  "tooltip.item.pattern.uuid": "编码者：%s",
   "tooltip.jade.current_gravity": "当前重力: %s"
 }

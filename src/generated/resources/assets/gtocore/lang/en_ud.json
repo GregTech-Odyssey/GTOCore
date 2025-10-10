@@ -4523,7 +4523,7 @@
   "gtocore.machine.steam_parallel_machine.oc": "sǝɯıʇ Ɛ ʎq uoıʇdɯnsuoɔ ɯɐǝʇs ǝsɐǝɹɔuı puɐ sǝɯıʇ ᄅ ʎq ǝɯıʇ ǝɔnpǝɹ ןןıʍ buıʞɔoןɔɹǝʌo ɟo ǝɯıʇ ɥɔɐƎ",
   "gtocore.machine.stellar_forge.pressure": " :ǝɹnssǝɹԀ ןɐuɹǝʇuI",
   "gtocore.machine.structure_check": "˙)ǝɹnʇɔnɹʇs ǝɥʇ ʞɔǝɥɔǝɹ ןןıʍ ʇɟıɥS uo buıʞɔıןƆ( ʞɔǝɥɔ ǝɹnʇɔnɹʇs ǝʇɐpd∩",
-  "gtocore.machine.switch_type": "]%s[ ǝdʎʇ ǝdıɔǝɹ ɥɔʇıʍS",
+  "gtocore.machine.switch_type": "]%s[ ǝdʎʇ ǝdıɔǝɹ ɥɔʇıʍs oʇnⱯ",
   "gtocore.machine.sync_tester_machine.tooltip.0": "。具工的步同器机试测于用",
   "gtocore.machine.sync_tester_machine.tooltip.1": "。用使中境环产生在勿请",
   "gtocore.machine.synthetic_data_assembly_plant.tooltip.0": "˙ɹǝuuɐɔs ʞɔoןq-ıʇןnɯ uoısıɔǝɹԀ",
@@ -7008,5 +7008,6 @@
   "tooltip.ad_astra.unknown_tag": "%s :ɹ§bɐʇ uʍouʞu∩ɔ§",
   "tooltip.gtocore.hold_for_more": "ɹ§˙oɟuı ǝɹoɯ ɹoɟ %s pןoHƖ§",
   "tooltip.item.pattern.type": "ǝdʎʇ ǝdıɔǝɹ ǝuıɥɔɐɯ buıɥɔʇıʍs sʇɹoddns uɹǝʇʇɐd sıɥ⟘",
+  "tooltip.item.pattern.uuid": "%s :ʎq pǝpoɔuƎ",
   "tooltip.jade.current_gravity": "%s :ʎʇıʌɐɹ⅁ ʇuǝɹɹnƆ"
 }
