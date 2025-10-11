@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.holder.IntObjectHolder;
 
@@ -134,19 +135,26 @@ public final class PlatformBlockType {
             public PlatformBlockStructure build() {
                 if (GTCEu.isDataGen()) return null;
                 if (name == null || name.isEmpty()) {
-                    throw new IllegalStateException("Structure name must be defined (as primary key)");
+                    return null;
                 }
                 if (resource == null) {
-                    throw new IllegalStateException("Resource path must be defined");
+                    return null;
                 }
                 if (symbolMap == null) {
-                    throw new IllegalStateException("Block mapping (symbolMap) must be defined");
+                    return null;
                 }
 
-                int[] sizes = readStructureSizes(resource);
-                int xSize = sizes[0];
-                int ySize = sizes[1];
-                int zSize = sizes[2];
+                int[] sizes = new int[2];
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getInstance().getResourceManager().getResource(resource).get().open()))) {
+                    String line = reader.readLine().trim();
+                    if (line.startsWith(".size(") && line.endsWith(")")) {
+                        String[] parts = line.substring(6, line.length() - 1).split(",");
+                        sizes = new int[] { Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()), Integer.parseInt(parts[2].trim()) };
+                    }
+                } catch (Exception e) {
+                    return null;
+                }
+
                 return new PlatformBlockStructure(
                         name,
                         type,
@@ -158,9 +166,9 @@ public final class PlatformBlockType {
                         symbolMap,
                         materials,
                         extraMaterials,
-                        xSize,
-                        ySize,
-                        zSize);
+                        sizes[0],
+                        sizes[1],
+                        sizes[2]);
             }
         }
     }
@@ -221,38 +229,18 @@ public final class PlatformBlockType {
             }
 
             public PresetBuilder addStructure(PlatformBlockStructure structure) {
-                structures.add(structure);
+                if (structure != null) structures.add(structure);
                 return this;
             }
 
             public PlatformPreset build() {
                 if (GTCEu.isDataGen()) return null;
                 if (structures.isEmpty()) {
-                    throw new IllegalStateException("Preset must contain at least one structure");
+                    GTOCore.LOGGER.error("Preset must contain at least one structure");
+                    return null;
                 }
                 return new PlatformPreset(name, displayName, description, source, structures);
             }
         }
-    }
-
-    /**
-     * 读取结构文件尺寸
-     */
-    private static int[] readStructureSizes(ResourceLocation resource) {
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(Minecraft.getInstance().getResourceManager().getResource(resource).get().open()))) {
-            String line = reader.readLine().trim();
-            if (line.startsWith(".size(") && line.endsWith(")")) {
-                String[] parts = line.substring(6, line.length() - 1).split(",");
-                int x = Integer.parseInt(parts[0].trim());
-                int y = Integer.parseInt(parts[1].trim());
-                int z = Integer.parseInt(parts[2].trim());
-                return new int[] { x, y, z };
-            }
-        } catch (Exception e) {
-            if (GTCEu.isDataGen()) return new int[] { 16, 16, 16 };
-            throw new RuntimeException("The first line of the structure file is not valid .size(x, y, z) 格式", e);
-        }
-        throw new IllegalArgumentException("The first line of the structure file is not valid .size(x, y, z) 格式");
     }
 }
