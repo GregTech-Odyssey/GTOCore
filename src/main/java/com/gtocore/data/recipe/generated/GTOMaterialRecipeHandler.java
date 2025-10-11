@@ -481,9 +481,10 @@ final class GTOMaterialRecipeHandler {
                 if (fiberTemp == 0) {
                     fiberTemp = Math.max(800, material.getBlastTemperature());
                 }
+                int amount = material == BorosilicateGlass ? 8 : 1;
                 FIBER_EXTRUSION_RECIPES.builder("fiber_" + id + "from_extrusion")
                         .inputItems(dust, material)
-                        .outputItems(GTOTagPrefix.FIBER, material)
+                        .outputItems(GTOTagPrefix.FIBER, material, amount)
                         .EUt(50 + mass * 2L)
                         .duration(200 + mass * 4)
                         .blastFurnaceTemp(fiberTemp)

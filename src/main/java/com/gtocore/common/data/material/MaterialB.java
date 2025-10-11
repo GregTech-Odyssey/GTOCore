@@ -4123,7 +4123,7 @@ public final class MaterialB {
                 .fluid()
                 .color(0x8d3c4f).iconSet(LIMPID)
                 .buildAndRegister().setFormula("SiO2");
-        AluminumNitride = material("aluminum_nitride", "氮氧化铝粉")
+        AluminumNitride = material("aluminum_nitride", "氮氧化铝")
                 .dust()
                 .components(Aluminium, 1, Nitrogen, 1)
                 .color(0x4f3c8d).iconSet(DULL)

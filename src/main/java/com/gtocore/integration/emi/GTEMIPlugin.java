@@ -3,7 +3,7 @@ package com.gtocore.integration.emi;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
-import com.gtocore.integration.emi.satellite.SatelliteEmiCategory;
+import com.gtocore.integration.emi.space.SatelliteEmiCategory;
 
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.UtilsMiscs;

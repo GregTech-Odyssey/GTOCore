@@ -39,11 +39,14 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
+import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_1;
+import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_2;
 import static com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.SPOOL;
 import static com.gtolib.api.GTOValues.*;
 import static com.gtolib.utils.register.RecipeTypeRegisterUtils.*;
 import static com.gtolib.utils.register.RecipeTypeRegisterUtils.register;
 import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.*;
+import static earth.terrarium.adastra.common.registry.ModItems.TIER_1_ROCKET;
 
 public final class GTORecipeTypes {
 
@@ -965,6 +968,14 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
+
+    public static final RecipeType SPACE_STATION_CONSTRUCTION_RECIPES = register("space_station_construction", "空间站建造", MULTIBLOCK)
+            .setMaxIOSize(9, 0, 0, 0)
+            .setProgressBar(GTOGuiTextures.PROGRESS_BAR_MINING_MODULE, UP_TO_DOWN)
+            .addDataInfo(data -> LocalizationUtils.format(BUILD_SPACE_STATION_DESC_1))
+            .addDataInfo(data -> LocalizationUtils.format(BUILD_SPACE_STATION_DESC_2))
+            .setSound(GTSoundEntries.ASSEMBLER)
+            .setIconSupplier(() -> TIER_1_ROCKET.get().getDefaultInstance());
 
     //////////////////////////////////////
     // ********** Magic **********//
