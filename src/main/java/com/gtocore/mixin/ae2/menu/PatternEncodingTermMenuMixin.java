@@ -64,9 +64,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Unique
     @GuiSync(120)
     public String gtocore$recipe = "";
-    @Unique
-    @GuiSync(121)
-    public String gtocore$recipeType = "";
 
     @Unique
     private UUID gtocore$UUID;
@@ -144,6 +141,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             if (!gtolib$logic().gtocore$getRecipe().isEmpty()) {
                 cir.getReturnValue().getOrCreateTag().putString("recipe", gtolib$logic().gtocore$getRecipe());
             }
+        }
+        if (gtocore$UUID != null) {
+                cir.getReturnValue().getOrCreateTag().putUUID("uuid", gtocore$UUID);
         }
     }
 
