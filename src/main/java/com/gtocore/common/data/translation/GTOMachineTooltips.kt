@@ -27,6 +27,8 @@ object GTOMachineTooltips {
     val AreaDestructionToolsTooltips = ComponentListSupplier {
         setTranslationPrefix("area_destruction_tools")
 
+        miraculousTools("区域破坏器" translatedTo "Area Destruction Tools")
+
         highlight("专业的世界摧毁者" translatedTo "Professional world destroyer") { rainbowSlow() }
         danger("一键清空方块！！！" translatedTo "One click to clear the blocks!!!")
         danger("无视一切条件！！！" translatedTo "Ignore all conditions!!!")
@@ -44,6 +46,105 @@ object GTOMachineTooltips {
         section("爆炸当量" translatedTo "Explosive Yield")
         increase("向库存添加以下物品以提高爆炸当量：" translatedTo "Add the following items to inventory to increase explosive yield:")
         info("§c工业TNT§r/§c核弹§r/§c超能硅岩爆弹§r/§c轻子爆弹§r/§c量子色动力学爆弹§r" translatedTo "§cIndustrial TNT§r/§cNuke Bomb§r/§cNaquadria Charge§r/§cLeptonic Charge§r/§cQuantum Chromodynamic Charge§r")
+    }
+
+    // 工业平台展开工具 - 物品描述
+    val IndustrialPlatformDeploymentToolsTooltips = ComponentListSupplier {
+        setTranslationPrefix("industrial_platform_deployment_tools")
+
+        story(
+            "在过去，工业平台展开工具曾是工程师建造巨型工厂的神器" translatedTo
+                "In the past, the Industrial Platform Deployment Tool was a revered instrument for engineers constructing massive factories.",
+        )
+        story(
+            "只需几条指令就能生成复杂的多层工业设施" translatedTo
+                "With just a few commands, it could generate complex multi-layered industrial facilities.",
+        )
+        story(
+            "然而，受能源危机与安全管制影响，新版工具的功能被大幅削弱" translatedTo
+                "However, due to the energy crisis and safety regulations, the capabilities of the new version have been significantly reduced.",
+        )
+        story(
+            "如今它只能根据预设蓝图放置一些简单的平台结构" translatedTo
+                "Now it can only place simple platform structures based on preset blueprints.",
+        )
+        story(
+            "尽管如此，对于快速搭建基础工业基地，它依然是不可或缺的好帮手。" translatedTo
+                "Nevertheless, it remains an indispensable assistant for quickly setting up basic industrial bases.",
+        )
+
+        miraculousTools("工业平台展开工具" translatedTo "Industrial Platform Deployment Tools")
+
+        section("只能使用预设蓝图，无法自定义复杂结构" translatedTo "• Only preset blueprints are supported; complex customization is not available")
+        section(
+            "平台结构相对简单，不支持自动扩展、道路或连接柱等复杂设施" translatedTo
+                "Platform structures are relatively simple; automatic expansion, road placement, or connecting pillars are not supported.",
+        )
+        section(
+            "必须使用指定的工业组件作为材料" translatedTo
+                "Must use specified industrial components as materials.",
+        )
+
+        highlight("尽管如此它依旧是专业的基地平台展开工具" translatedTo "It remains a professional base-platform deployment tool") { rainbowSlow() }
+
+        guide("详细操作请查看机器内简介" translatedTo "For detailed instructions, see the in-machine introduction")
+    }
+
+    // 工业平台展开工具 — 详细介绍
+    val IndustrialPlatformDeploymentToolsIntroduction = ComponentListSupplier {
+        setTranslationPrefix("industrial_platform_deployment_tools.introduction")
+
+        highlight("快速部署基础工业平台" translatedTo "Quickly deploy a basic industrial platform") { rainbowSlow() }
+
+        section("基本功能" translatedTo "Basic Functions")
+        content(
+            "本工具可根据预设蓝图快速放置各种工业平台结构" translatedTo
+                "This tool can quickly place various industrial platform structures based on preset blueprints.",
+        )
+        content(
+            "适用于快速搭建基础生产基地和复杂工业设施" translatedTo
+                "making it ideal for rapidly establishing both basic production bases and complex industrial facilities.",
+        )
+
+        section("使用流程" translatedTo "Usage Process")
+        content("第一步：选择预设蓝图" translatedTo "1. Select a preset blueprint")
+        content("第二步：确认所需材料，可从物品栏加载或卸载材料" translatedTo "2. Confirm required materials; you can load or unload materials from the inventory")
+        content("第三步：调整放置参数（位置偏移、旋转、镜像等）" translatedTo "3. Adjust placement parameters (position offset, rotation, mirroring, etc.)")
+        content("第四步：确认无误后开始放置任务" translatedTo "4. Start the placement task after confirming everything is correct")
+        content("任务完成后可重新开始新一轮部署" translatedTo "5. Can start a new deployment after task completion")
+
+        section("高级功能" translatedTo "Advanced Features")
+        content("支持使用坐标卡导出已有区域为新的平台蓝图" translatedTo "Supports using coordinate cards to export existing areas as new platform blueprints")
+        content("可调整放置速度、光照更新、空气方块处理等高级选项" translatedTo "Allows adjustment of advanced options such as placement speed, light updates, and air block handling")
+
+        section("材料需求" translatedTo "Material Requirements")
+        content(
+            "根据选择的预设蓝图，系统会自动计算所需的材料" translatedTo
+                "The system will automatically calculate the required materials based on the selected blueprint.",
+        )
+        content(
+            "支持多种材料类型，包括标准、扩展和特种系列工业组件" translatedTo
+                "Supports multiple material types, including standard, extended, and special-series industrial component.",
+        )
+        content(
+            "部分预设需要额外的材料" translatedTo
+                "Some presets require additional materials.",
+        )
+
+        section("注意事项" translatedTo "Notes")
+        content(
+            "放置任务开始后无法取消，请确认位置和材料无误" translatedTo
+                "Once started, the placement task cannot be canceled. Please confirm that the position and materials are correct.",
+        )
+        content(
+            "大型结构可能需要较长放置时间，请耐心等待" translatedTo
+                "Large structures may take longer to place. Please be patient.",
+        )
+
+        guide(
+            "请按照步骤操作，完成后点击确认按钮开始放置" translatedTo
+                "Please follow the steps and click the confirm button to start placement.",
+        )
     }
 
     // 魔力增幅仓
@@ -1439,13 +1540,13 @@ object GTOMachineTooltips {
 
         section("通过电路选择工作模式" translatedTo "Select the operating mode through the circuit")
         command("电路 1：物品解构" translatedTo "Circuit 1: Item Deconstruction")
-        info("需要输入 书 铭刻之布 摘抄符石" translatedTo "Requires input Book  Affix Canvas  Sigil of Withdrawal")
+        info("需要输入 书 铭刻之布 摘除符石" translatedTo "Requires input Book  Affix Canvas  Sigil of Withdrawal")
         command("电路 2：物品 + 附魔 解构" translatedTo "Circuit 2: Item + Enchantments Deconstruction")
-        info("需要输入 铭刻之布 摘抄符石" translatedTo "Requires input Affix Canvas  Sigil of Withdrawal")
+        info("需要输入 铭刻之布 摘除符石" translatedTo "Requires input Affix Canvas  Sigil of Withdrawal")
         command("电路 3：物品 + 刻印 解构" translatedTo "Circuit 3: Item + Affixes Deconstruction")
-        info("需要输入 书 摘抄符石" translatedTo "Requires input Book  Sigil of Withdrawal")
+        info("需要输入 书 摘除符石" translatedTo "Requires input Book  Sigil of Withdrawal")
         command("电路 4：物品 + 附魔 + 刻印 解构" translatedTo "Circuit 4: Item + Enchantments + Affixes Deconstruction")
-        info("需要输入 摘抄符石" translatedTo "Requires input Sigil of Withdrawal")
+        info("需要输入 摘除符石" translatedTo "Requires input Sigil of Withdrawal")
         command("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence crafting Enchanted Book")
         info("需要输入一本书，消耗附魔精粹和魔力合成" translatedTo "Need to input a book, consume enchantment essence and magic to craft")
         command("电路 6：附魔书合并" translatedTo "Circuit 6: Enchantment Enchanted Book Merge")

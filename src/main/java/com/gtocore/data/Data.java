@@ -20,7 +20,6 @@ import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.mod.MeteoriteRecipe;
 import com.gtocore.data.recipe.processing.*;
-import com.gtocore.data.recipe.research.AnalyzeData;
 import com.gtocore.data.recipe.research.AnalyzeRecipes;
 import com.gtocore.data.recipe.research.DataGenerateRecipe;
 import com.gtocore.data.recipe.research.ScanningRecipes;
@@ -146,9 +145,10 @@ public final class Data {
         Temporary.init();
         if (GTCEu.isDev()) {
             ScanningRecipes.init();
-            AnalyzeData.init();
-            AnalyzeRecipes.init();
-            DataGenerateRecipe.init();
+            if (false) {
+                AnalyzeRecipes.init();
+                DataGenerateRecipe.init();
+            }
         }
         if (GTCEu.isDev() || GTOCore.isSimple()) {
             SimpleModeRecipe.init();

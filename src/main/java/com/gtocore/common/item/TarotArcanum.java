@@ -1,17 +1,13 @@
 package com.gtocore.common.item;
 
-import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import dev.shadowsoffire.placebo.color.GradientColor;
 import org.jetbrains.annotations.NotNull;
@@ -20,16 +16,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-public final class TarotArcanum extends ComponentItem {
+public final class TarotArcanum extends ColoringItems {
 
-    private final int itemColor;
     private final int serialNumber;
     private final List<Consumer<List<Component>>> tooltipConsumers;
 
     private TarotArcanum(Properties properties, int color, int serialNumber,
                          List<Consumer<List<Component>>> tooltipConsumers) {
-        super(properties);
-        this.itemColor = color;
+        super(properties, color, 0);
         this.serialNumber = serialNumber;
         this.tooltipConsumers = tooltipConsumers;
     }
@@ -37,16 +31,6 @@ public final class TarotArcanum extends ComponentItem {
     public static TarotArcanum create(Properties properties, int color, int serialNumber,
                                       List<Consumer<List<Component>>> tooltipConsumers) {
         return new TarotArcanum(properties, color, serialNumber, tooltipConsumers);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static ItemColor color() {
-        return (itemStack, index) -> {
-            if (!(itemStack.getItem() instanceof TarotArcanum tarot) || index >= 1) {
-                return -1;
-            }
-            return tarot.itemColor;
-        };
     }
 
     @Override

@@ -75,12 +75,12 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
 
             // 显示研究信息
             tooltip.add(Component.translatable("gtocore.tooltip.item.analyze_things",
-                    Component.literal(I18n.get("data." + analyzeId)).withStyle(ChatFormatting.GOLD)));
+                    Component.literal(I18n.get("gtocore.data." + analyzeId)).withStyle(ChatFormatting.GOLD)));
 
             tooltip.add(Component.translatable("gtocore.tooltip.item.analyze_serial",
                     Component.literal(String.format("%08X", serial)).withStyle(ChatFormatting.YELLOW)));
 
-            String tooltipKey = "data." + analyzeId + ".tooltip";
+            String tooltipKey = "gtocore.data." + analyzeId + ".tooltip";
             String localized = I18n.get(tooltipKey);
             if (!localized.equals(tooltipKey)) tooltip.add(Component.translatable("- " + localized));
 

@@ -1,0 +1,30 @@
+{
+  " ": {
+    "id": "minecraft:air",
+    "properties": {}
+  },
+  "A": {
+    "id": "chisel:large_tile/light_gray_concrete",
+    "properties": {}
+  },
+  "B": {
+    "id": "chisel:large_tile/green_concrete",
+    "properties": {}
+  },
+  "C": {
+    "id": "chisel:large_tile/lime_concrete",
+    "properties": {}
+  },
+  "D": {
+    "id": "chisel:weaver/yellow_concrete",
+    "properties": {}
+  },
+  "E": {
+    "id": "chisel:large_tile/orange_concrete",
+    "properties": {}
+  },
+  "F": {
+    "id": "chisel:large_tile/white_concrete",
+    "properties": {}
+  }
+}

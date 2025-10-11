@@ -903,6 +903,28 @@ public final class GTOItems {
     public static final ItemEntry<ApothItem>[] ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
     public static final ItemEntry<ApothItem>[] AFFIX_ESSENCE = registerAffixEssence();
 
+    static String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
+    static String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };
+    static int[] ComponentsColors = { 0xaa66fd3c, 0xaa3844f4, 0xaae700ef, 0xaaf54314 };
+    static String[] ComponentSizes = { "small", "medium", "large" };
+    static String[] ComponentSizes2 = { "小", "中", "大" };
+    public static final ItemEntry<ColoringItems>[][] INDUSTRIAL_COMPONENTS = registerIndustrialComponents();
+
+    public static ItemEntry<ColoringItems>[][] registerIndustrialComponents() {
+        ItemEntry<ColoringItems>[][] entries = new ItemEntry[IndustrialComponents.length][ComponentSizes.length];
+        for (int i = 0; i < IndustrialComponents.length; i++) {
+            for (int k = 0; k < ComponentSizes.length; k++) {
+                int finalI = i;
+                int finalK = k;
+                entries[i][k] = item(IndustrialComponents[i] + "_industrial_components_" + ComponentSizes[k], IndustrialComponents2[i] + "工业组件" + ComponentSizes2[k], p -> ColoringItems.create(p, ComponentsColors[finalI], 1))
+                        .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/industrial_components_" + ComponentSizes[finalK] + "_0"), GTOCore.id("item/industrial_components_" + ComponentSizes[finalK] + "_1")))
+                        .color(() -> ColoringItems::color)
+                        .register();
+            }
+        }
+        return entries;
+    }
+
     public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",

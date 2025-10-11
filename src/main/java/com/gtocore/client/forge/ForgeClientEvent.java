@@ -27,10 +27,12 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
@@ -187,6 +189,30 @@ public final class ForgeClientEvent {
     @SubscribeEvent
     public static void registerCommands(RegisterClientCommandsEvent evt) {
         GTOClientCommands.init(evt.getDispatcher());
+    }
+
+    /**
+     * 高亮指定维度内两个坐标点之间的立方体区域
+     * 
+     * @param dimension     目标维度
+     * @param start         立方体对角点1
+     * @param end           立方体对角点2
+     * @param color         高亮颜色 (ARGB)
+     * @param durationTicks 持续时间(tick)，20 tick = 1秒，默认 1200 tick = 60秒
+     */
+    public static void highlightRegion(ResourceKey<Level> dimension, BlockPos start, BlockPos end, int color, int durationTicks) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null) return;
+        if (mc.level.dimension() != dimension) return;
+        ForgeClientEvent.HighlightNeed need = new ForgeClientEvent.HighlightNeed(start, end, color);
+        CUstomHighlightNeeds.put(need, durationTicks);
+    }
+
+    /**
+     * 手动解除某个区域的高亮
+     */
+    public static void stopHighlight(BlockPos start, BlockPos end) {
+        CUstomHighlightNeeds.object2IntEntrySet().removeIf(entry -> entry.getKey().start.equals(start) && entry.getKey().end.equals(end));
     }
 
     private static class Highlighting {

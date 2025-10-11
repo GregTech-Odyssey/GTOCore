@@ -893,7 +893,7 @@ public final class BotaniaRecipes {
                 ElfExchangeRecipe(5, "drei", 6000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.dreiRewardBag, 50));
                 ElfExchangeRecipe(6, "vier", 6000, 100, new ItemStack(ExtraBotanyItems.heroMedal), new ItemStack(ExtraBotanyItems.vierRewardBag, 50));
 
-                ElfExchangeRecipe(7, "philosophers_stone", 20000, 600, new ItemStack(ExtraBotanyItems.heroMedal, 64), new ItemStack(GTOItems.PHILOSOPHERS_STONE));
+                ElfExchangeRecipe(7, "philosophers_stone", 20000, 600, new ItemStack(ExtraBotanyItems.heroMedal, 32), new ItemStack(GTOItems.PHILOSOPHERS_STONE));
             }
         }
     }
