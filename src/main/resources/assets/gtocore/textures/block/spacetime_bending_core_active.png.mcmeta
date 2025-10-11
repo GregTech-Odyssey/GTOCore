@@ -1,0 +1,9 @@
+{
+  "animation": {
+		"interpolate": true,
+        "frametime": 4
+  },
+    "ldlib": {
+        "connection": "gtocore:block/spacetime_bending_core_active_ctm"
+  }
+}

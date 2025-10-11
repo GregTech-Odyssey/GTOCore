@@ -31,6 +31,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -106,7 +107,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        isOC = getParts().stream().anyMatch(LargeSteamHatchPartMachine.class::isInstance);
+        isOC = Arrays.stream(getParts()).anyMatch(LargeSteamHatchPartMachine.class::isInstance);
     }
 
     @Persisted

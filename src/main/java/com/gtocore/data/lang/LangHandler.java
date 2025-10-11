@@ -370,7 +370,7 @@ public final class LangHandler {
 
     public static void twInitialize(TraditionalChineseLanguageProvider provider) {
         LANGS.forEach((k, v) -> {
-            if (v.en() == null) return;
+            if (v.cn() == null) return;
             provider.add(k, ChineseConverter.convert(v.cn()));
         });
     }

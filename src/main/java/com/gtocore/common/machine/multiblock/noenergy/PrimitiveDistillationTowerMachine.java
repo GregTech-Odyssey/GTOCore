@@ -354,7 +354,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     public void onStructureFormed() {
         super.onStructureFormed();
         int startY = getPos().getY() + 1;
-        List<IMultiPart> parts = getParts().stream().filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
+        List<IMultiPart> parts = Arrays.stream(getParts()).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
         if (!parts.isEmpty()) {
             int maxY = parts.get(parts.size() - 1).self().getPos().getY();
             fluidOutputs = new ObjectArrayList<>(maxY - startY);

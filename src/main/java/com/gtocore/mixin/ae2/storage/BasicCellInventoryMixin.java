@@ -12,6 +12,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
+import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.KeyCounter;
@@ -55,6 +56,9 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
 
     @Unique
     private long gtolib$totalAmount;
+
+    @Unique
+    private boolean gtocore$change = true;
 
     @Shadow(remap = false)
     @Final
@@ -126,9 +130,8 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         if (gtolib$cache != null) return gtolib$cache;
         if (GTCEu.isClientThread()) return CellDataStorage.EMPTY;
         UUID uuid = gtolib$getUUID();
-        if (uuid == null) return CellDataStorage.EMPTY;
-        gtolib$cache = CellDataStorage.get(uuid);
-        return gtolib$cache;
+        if (uuid == null) return gtolib$cache = CellDataStorage.EMPTY;
+        return gtolib$cache = CellDataStorage.get(uuid);
     }
 
     /**
@@ -269,18 +272,23 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         KeyCounter keyCounter;
         if (cellType instanceof PortableCellItem) {
             keyCounter = new KeyCounter();
+            gtocore$change = true;
         } else {
             var data = gtolib$getCellStorage();
             keyCounter = data.getKeyCounter();
             if (keyCounter == null) {
                 keyCounter = new KeyCounter();
                 data.setKeyCounter(keyCounter);
-            } else {
+                gtocore$change = true;
+            } else if (gtocore$change) {
                 keyCounter.clear();
             }
         }
-        getAvailableStacks(keyCounter);
-        keyCounter.removeEmptySubmaps();
+        if (gtocore$change) {
+            getAvailableStacks(keyCounter);
+            keyCounter.removeEmptySubmaps();
+            gtocore$change = false;
+        }
         return keyCounter;
     }
 
@@ -302,17 +310,46 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         if (gtolib$getUUID() == null) {
             UUID uuid = UUID.randomUUID();
             i.getOrCreateTag().putUUID(CELL_UUID, uuid);
-            CellDataStorage.get(uuid);
+            gtolib$cache = CellDataStorage.get(uuid);
         }
         var data = gtolib$getCellStorage();
         if (data == CellDataStorage.EMPTY) return 0;
         amount = Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount);
         if (amount < 1) return 0;
         if (mode == Actionable.MODULATE) {
+            gtocore$change = true;
             gtolib$getCellStoredMap().addTo(what, amount);
             saveChanges();
         }
 
         return amount;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
+        var map = gtolib$getCellStoredMap();
+        var currentAmount = map.getLong(what);
+        if (currentAmount > 0) {
+            if (amount >= currentAmount) {
+                if (mode == Actionable.MODULATE) {
+                    map.remove(what, currentAmount);
+                    gtocore$change = true;
+                    this.saveChanges();
+                }
+                return currentAmount;
+            } else {
+                if (mode == Actionable.MODULATE) {
+                    map.put(what, currentAmount - amount);
+                    gtocore$change = true;
+                    this.saveChanges();
+                }
+                return amount;
+            }
+        }
+        return 0;
     }
 }

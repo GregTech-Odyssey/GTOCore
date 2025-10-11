@@ -55,7 +55,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
         if (maintenanceMachine.isFullAuto()) return;
         var pa = 1;
         for (var c : getControllers()) {
-            pa += c.getParts().size();
+            pa += c.getParts().length;
         }
         timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getDurationMultiplier() * pa * pa)));
         var value = timeActive - MINIMUM_MAINTENANCE_TIME;

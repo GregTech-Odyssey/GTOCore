@@ -63,7 +63,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:6714970")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:7005572")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7064210")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 

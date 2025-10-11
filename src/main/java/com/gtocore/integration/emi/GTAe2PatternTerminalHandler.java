@@ -125,7 +125,7 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
     @Override
     public boolean craft(EmiRecipe recipe, EmiCraftContext<T> context) {
         T menu = context.getScreenHandler();
-        ((IPatterEncodingTermMenu) menu).gtolib$addUUID(ClientUtil.getPlayer().getUUID());
+        ((IPatterEncodingTermMenu) menu).gtolib$addUUID(ClientUtil.getUUID());
         if (isCrafting(recipe)) {
             EncodingHelper.encodeCraftingRecipe(menu, recipe.getBackingRecipe(), GTEmiEncodingHelper.ofInputs(recipe), i -> true);
         } else {

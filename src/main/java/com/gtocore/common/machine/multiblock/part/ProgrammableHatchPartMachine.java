@@ -7,15 +7,11 @@ import com.gtolib.api.ae2.PatternProviderTargetCache;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
 import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
-import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.utils.holder.BooleanHolder;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -24,9 +20,10 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.crafting.IPatternDetails;
@@ -42,16 +39,12 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 @DataGeneratorScanned
 public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine, ICustomCraftingMachine {
-
-    @RegisterLanguage(cn = "自动切换配方类型[%s]", en = "Auto switch recipe type [%s]")
-    private final static String SWITCH_TYPE = "gtocore.machine.switch_type";
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ProgrammableHatchPartMachine.class, DualHatchPartMachine.MANAGED_FIELD_HOLDER);
@@ -69,16 +62,21 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
         return MANAGED_FIELD_HOLDER;
     }
 
-    @Persisted
-    private boolean switchType = false;
-
     public ProgrammableHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, Object... args) {
         super(holder, tier, io, args);
     }
 
     private void changeMode(GTRecipeType type) {
         this.recipeType = type == null ? GTRecipeTypes.DUMMY_RECIPES : type;
-        this.getHandlerList().recipeType = type;
+        this.getHandlerList().external.recipeType = type;
+    }
+
+    @Override
+    public void onPaintingColorChanged(int color) {
+        super.onPaintingColorChanged(color);
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            TaskHandler.enqueueServerTask(serverLevel, () -> this.getHandlerList().external.recipeType = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType, 1);
+        }
     }
 
     @Override
@@ -96,20 +94,14 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
-    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
-        super.attachConfigurators(configuratorPanel);
-        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0, 1, 0.5), () -> switchType, (clickData, pressed) -> switchType = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(SWITCH_TYPE, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
-    }
-
-    @Override
     public boolean customPush() {
-        return switchType;
+        return true;
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        this.getHandlerList().recipeType = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType;
+        this.getHandlerList().external.recipeType = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType;
     }
 
     @Override

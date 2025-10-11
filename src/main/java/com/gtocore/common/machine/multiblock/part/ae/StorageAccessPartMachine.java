@@ -48,6 +48,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -462,7 +463,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             }
 
             // check if the controller has any other storage parts than this one
-            if (this.controllers.isEmpty() || this.controllers.first().getParts().stream().anyMatch(
+            if (this.controllers.isEmpty() || Arrays.stream(this.controllers.first().getParts()).anyMatch(
                     p -> p instanceof StorageAccessPartMachine && p != this)) {
                 setWorkingEnabled(false);
                 return;

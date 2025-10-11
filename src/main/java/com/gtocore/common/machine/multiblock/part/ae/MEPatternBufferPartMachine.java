@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
@@ -21,6 +22,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
@@ -38,16 +40,20 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -76,10 +82,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -98,6 +101,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private static final String INDEPENDENT = "gtocore.pattern_buffer.independent";
     @RegisterLanguage(cn = "总成共享配置", en = "Buffer share configuration")
     private static final String SHARE = "gtocore.pattern_buffer.share";
+
+    @Persisted
+    @DescSynced
+    private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
+    @Persisted
+    @DescSynced
+    private GTRecipeType recipeType = GTRecipeTypes.DUMMY_RECIPES;
 
     @DescSynced
     private final boolean[] caches;
@@ -126,16 +136,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     public @NotNull SyncManagedFieldHolder getSyncHolder() {
         return SYNC_MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-    }
-
-    @Override
-    public void onUnload() {
-        super.onUnload();
     }
 
     protected ConfiguratorPanel configuratorPanel;
@@ -205,6 +205,55 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
     }
 
+    private void changeMode(@Nullable GTRecipeType type) {
+        this.recipeType = type == null ? GTRecipeTypes.DUMMY_RECIPES : type;
+        for (var i : getInternalInventory()) {
+            i.rhl.external.recipeType = type;
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        var type = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType;
+        for (var i : getInternalInventory()) {
+            i.rhl.external.recipeType = type;
+        }
+    }
+
+    @Override
+    public void onPaintingColorChanged(int color) {
+        super.onPaintingColorChanged(color);
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            TaskHandler.enqueueServerTask(serverLevel, () -> {
+                var type = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType;
+                for (var i : getInternalInventory()) {
+                    i.rhl.external.recipeType = type;
+                }
+            }, 1);
+        }
+    }
+
+    @Override
+    public void attachSideTabs(TabsWidget sideTabs) {
+        super.attachSideTabs(sideTabs);
+        sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::changeMode));
+    }
+
+    @Override
+    public void addedToController(@NotNull IMultiController controller) {
+        super.addedToController(controller);
+        this.recipeTypes.clear();
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+    }
+
+    @Override
+    public void removedFromController(@NotNull IMultiController controller) {
+        super.removedFromController(controller);
+        this.recipeTypes.clear();
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+    }
+
     @Override
     public void onPatternChange(int index) {
         getInternalInventory()[index].setLock(false);
@@ -224,9 +273,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public @Nullable IPatternDetails decodePattern(ItemStack stack, int index) {
         var pattern = super.decodePattern(stack, index);
         if (pattern == null) return null;
-        var id = stack.getOrCreateTag().getString("recipe");
-        if (!id.isEmpty() && !caches[index]) {
-            getInternalInventory()[index].setRecipe(RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(id)));
+        if (!caches[index] && stack.getOrCreateTag().tags.get("recipe") instanceof StringTag stringTag) {
+            var recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
+            getInternalInventory()[index].setRecipe(recipe);
         }
         return pattern;
     }

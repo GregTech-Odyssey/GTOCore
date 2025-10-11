@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import com.hepdd.gtmthings.utils.FormatUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
@@ -48,13 +49,15 @@ public class MonitorMana extends AbstractInfoProviderMonitor implements ITeamInf
                     DisplayRegistry.MANA_CURRENT.id(),
                     Component.translatable("gtocore.machine.monitor.mana.current")
                             .withStyle(ChatFormatting.GRAY)
-                            .append(Component.literal(String.valueOf(manaBufferCache)).withStyle(ChatFormatting.AQUA))
+                            .append(Component.literal(FormatUtil.formatNumber(manaBufferCache)).withStyle(ChatFormatting.AQUA))
                             .getVisualOrderText());
             informationList.addIfAbsent(
                     DisplayRegistry.MANA_CURRENT_AS_POOL.id(),
                     Component.translatable("gtocore.machine.monitor.mana.pool.0")
                             .withStyle(ChatFormatting.GRAY)
-                            .append(Component.literal(String.format("%.02f", (float) manaBufferCache / ManaPoolBlockEntity.MAX_MANA)).withStyle(ChatFormatting.AQUA))
+                            .append(Component.literal((manaBufferCache / ManaPoolBlockEntity.MAX_MANA) >= 1000 ?
+                                    FormatUtil.formatNumber(manaBufferCache / ManaPoolBlockEntity.MAX_MANA) :
+                                    String.format("%.02f", (float) manaBufferCache / ManaPoolBlockEntity.MAX_MANA)).withStyle(ChatFormatting.AQUA))
                             .append(Component.translatable("gtocore.machine.monitor.mana.pool.1").withStyle(ChatFormatting.GRAY))
                             .getVisualOrderText());
             long manaChange = (manaBufferCache - manaBufferCache1s);
@@ -62,29 +65,31 @@ public class MonitorMana extends AbstractInfoProviderMonitor implements ITeamInf
             if (manaChange >= 0) {
                 informationList.addIfAbsent(
                         DisplayRegistry.MANA_CHANGE.id(),
-                        Component.translatable("gtocore.machine.monitor.mana.increase",
-                                manaChangeAbs).withStyle(ChatFormatting.BLUE)
-                                .append(Component.literal(String.valueOf(manaChangeAbs)).withStyle(ChatFormatting.AQUA))
+                        Component.translatable("gtocore.machine.monitor.mana.increase").withStyle(ChatFormatting.BLUE)
+                                .append(Component.literal(FormatUtil.formatNumber(manaChangeAbs)).withStyle(ChatFormatting.AQUA))
                                 .getVisualOrderText());
                 informationList.addIfAbsent(
                         DisplayRegistry.MANA_CHANGE_AS_POOL.id(),
                         Component.translatable("gtocore.machine.monitor.mana.pool.0")
                                 .withStyle(ChatFormatting.BLUE)
-                                .append(Component.literal(String.format("%.02f", (float) manaChangeAbs / ManaPoolBlockEntity.MAX_MANA)).withStyle(ChatFormatting.AQUA))
+                                .append(Component.literal((manaChangeAbs / ManaPoolBlockEntity.MAX_MANA) >= 1000 ?
+                                        FormatUtil.formatNumber(manaChangeAbs / ManaPoolBlockEntity.MAX_MANA) :
+                                        String.format("%.02f", (float) manaChangeAbs / ManaPoolBlockEntity.MAX_MANA)).withStyle(ChatFormatting.AQUA))
                                 .append(Component.translatable("gtocore.machine.monitor.mana.pool.2").withStyle(ChatFormatting.BLUE))
                                 .getVisualOrderText());
             } else {
                 informationList.addIfAbsent(
                         DisplayRegistry.MANA_CHANGE.id(),
-                        Component.translatable("gtocore.machine.monitor.mana.decrease",
-                                manaChangeAbs).withStyle(ChatFormatting.GOLD)
-                                .append(Component.literal(String.valueOf(manaChangeAbs)).withStyle(ChatFormatting.AQUA))
+                        Component.translatable("gtocore.machine.monitor.mana.decrease").withStyle(ChatFormatting.GOLD)
+                                .append(Component.literal(FormatUtil.formatNumber(manaChangeAbs)).withStyle(ChatFormatting.AQUA))
                                 .getVisualOrderText());
                 informationList.addIfAbsent(
                         DisplayRegistry.MANA_CHANGE_AS_POOL.id(),
                         Component.translatable("gtocore.machine.monitor.mana.pool.0")
                                 .withStyle(ChatFormatting.BLUE)
-                                .append(Component.literal(String.format("%.02f", (float) (manaChangeAbs / ManaPoolBlockEntity.MAX_MANA))).withStyle(ChatFormatting.AQUA))
+                                .append(Component.literal((manaChangeAbs / ManaPoolBlockEntity.MAX_MANA) >= 1000 ?
+                                        FormatUtil.formatNumber(manaChangeAbs / ManaPoolBlockEntity.MAX_MANA) :
+                                        String.format("%.02f", (float) manaChangeAbs / ManaPoolBlockEntity.MAX_MANA)).withStyle(ChatFormatting.AQUA))
                                 .append(Component.translatable("gtocore.machine.monitor.mana.pool.2").withStyle(ChatFormatting.BLUE))
                                 .getVisualOrderText());
                 informationList.addIfAbsent(
