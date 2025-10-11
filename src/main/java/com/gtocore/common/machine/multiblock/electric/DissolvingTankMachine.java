@@ -73,6 +73,9 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     @Nullable
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+        if(getSubFormedAmount() > 0) {
+            return RecipeModifierFunction.overclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
+        }
         List<Content> fluidList = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, null);
         FluidStack fluidStack1 = FluidRecipeCapability.CAP.of(fluidList.get(0).getContent()).getStacks()[0];
         FluidStack fluidStack2 = FluidRecipeCapability.CAP.of(fluidList.get(1).getContent()).getStacks()[0];
