@@ -17,6 +17,7 @@ import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.GTValues.UEV;
 
@@ -43,7 +44,7 @@ public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspa
 
     @Override
     public GTRecipe modifyRecipe(GTRecipe recipe) {
-        hasLaser = getControllers().first().getParts().stream().anyMatch(p -> p instanceof LaserHatchPartMachine || p instanceof CreativeLaserHatchPartMachine);
+        hasLaser = Stream.of(getControllers().first().getParts()).anyMatch(p -> p instanceof LaserHatchPartMachine || p instanceof CreativeLaserHatchPartMachine);
         return super.modifyRecipe(recipe);
     }
 

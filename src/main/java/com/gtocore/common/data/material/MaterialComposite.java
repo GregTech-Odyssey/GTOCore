@@ -22,7 +22,7 @@ public class MaterialComposite {
         // 硼硅纤维增强铝基复合材料 borosilicate_fiber_reinforced_aluminum_matrix_composite 杆，框架，双层板 #f6ffff IV
         // 弥散强化铜 dispersion_strengthened_copper 箔，杆 #c87d0a IV
         // 氧化物弥散强化镍基合金 oxide_dispersion_strengthened_nickel_based_alloy 杆，框架，双层板 #106643 IV
-        // 钛-钢复合材料 titanium_Steel_composite 弯曲板，双层板 #bb7390 IV
+        // 钛-钢复合材料 titanium_steel_composite 弯曲板，双层板 #bb7390 IV
         // 二氧化硅-碳复合材料 silica_carbon_composite 弯曲板，双层板 #141417 IV
         // 碳纤维-环氧树脂复合材料 carbon_fiber_epoxy_composite 杆，框架，双层板 #8d8c31 IV
         // 碳纤维-强化环氧树脂复合材料 carbon_fiber_reinforced_epoxy_composite 杆，框架，双层板 #225b27 IV
@@ -125,7 +125,7 @@ public class MaterialComposite {
                 .iconSet(METALLIC)
                 .flags(GENERATE_LONG_ROD, GENERATE_FRAME, GENERATE_PLATE, GENERATE_CURVED_PLATE, COMPOSITE_MATERIAL)
                 .buildAndRegister();
-        TitaniumSteelComposite = material("titanium_Steel_composite", "钛-钢复合材料")
+        TitaniumSteelComposite = material("titanium_steel_composite", "钛-钢复合材料")
                 .ingot().fluid()
                 .color(0xbb7390)
                 .secondaryColor(0x7a4c5e)

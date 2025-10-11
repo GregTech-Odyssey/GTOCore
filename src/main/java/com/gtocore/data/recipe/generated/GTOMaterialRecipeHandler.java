@@ -46,6 +46,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.FIBER_MESH;
+import static com.gtocore.common.data.GTOMaterials.Kevlar;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.recipe.processing.CompositeMaterialsProcessing.getFiberExtrusionTemperature;
 
@@ -481,7 +482,7 @@ final class GTOMaterialRecipeHandler {
                 if (fiberTemp == 0) {
                     fiberTemp = Math.max(800, material.getBlastTemperature());
                 }
-                int amount = material == BorosilicateGlass ? 8 : 1;
+                int amount = (material == BorosilicateGlass || material == Kevlar) ? 8 : 1;
                 FIBER_EXTRUSION_RECIPES.builder("fiber_" + id + "from_extrusion")
                         .inputItems(dust, material)
                         .outputItems(GTOTagPrefix.FIBER, material, amount)

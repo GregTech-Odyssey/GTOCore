@@ -812,6 +812,20 @@ public final class GTORecipeTypes {
             .addDataInfo(COIL)
             .setUiBuilder(COIL_UI);
 
+    // 超材料锻造
+    public static final RecipeType SUPERMATERIAL_FORGING_RECIPES = register("supermaterial_forging", "太空超材料锻造", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(6, 1, 3, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MACERATOR);
+
+    // 微重纳米精细加工
+    public static final RecipeType MICROGRAVITY_NANOFABRICATION_RECIPES = register("microgravity_nanofabrication", "微重纳米精细加工", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(6, 1, 3, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ARC);
+
     public static final RecipeType DRAWING_RECIPES = register("drawing", "拉丝", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxTooltips(5)

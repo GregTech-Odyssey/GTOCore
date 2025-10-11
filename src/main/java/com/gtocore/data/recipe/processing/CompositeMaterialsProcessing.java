@@ -261,7 +261,7 @@ public class CompositeMaterialsProcessing {
                 .duration(200)
                 .save();
 
-        ISOSTATIC_PRESSING_RECIPES.builder("titanium_Steel_composite_rough_blank")
+        ISOSTATIC_PRESSING_RECIPES.builder("titanium_steel_composite_rough_blank")
                 .inputItems(GTOTagPrefix.foil, GTOMaterials.TitaniumTi64, 9)
                 .inputItems(GTOTagPrefix.foil, GTOMaterials.StainlessSteelGC4, 9)
                 .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.TitaniumSteelComposite)
@@ -270,7 +270,7 @@ public class CompositeMaterialsProcessing {
                 .duration(2000)
                 .save();
 
-        THERMO_PRESSING_RECIPES.builder("titanium_Steel_composite_block")
+        THERMO_PRESSING_RECIPES.builder("titanium_steel_composite_block")
                 .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.TitaniumSteelComposite)
                 .outputItems(GTOTagPrefix.block, GTOMaterials.TitaniumSteelComposite)
                 .inputFluids(GTMaterials.Nickel, 288)

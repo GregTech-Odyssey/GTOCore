@@ -33,6 +33,6 @@ public abstract class WorkableTieredMachineMixin implements IWorkInSpaceMachine,
             getEnhancedRecipeLogic().gtolib$setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE.reason());
             return false;
         }
-        return this.self().getDefinition().getBeforeWorking().test(this, recipe);
+        return true;
     }
 }
