@@ -150,7 +150,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private void changeMode(GTRecipeType recipeType) {
         if (this.mode == recipeType) return;
         this.mode = recipeType;
-        this.getHandlerList().setRecipeType(recipeType);
+        this.getHandlerList().recipeType=recipeType;
         RecipeHandlerList.NOTIFY.accept(this);
         for (var pos : proxies) {
             if (MetaMachine.getMachine(getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {

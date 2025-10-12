@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
+import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -122,7 +123,12 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
 
     @Override
     public BlockPattern getPattern() {
-        return getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES || getRecipeType() == GTRecipeTypes.COMBINED_RECIPES ? 1 : 0, getDefinition());
+        return getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES ? 1 : 0, getDefinition());
+    }
+
+    @Override
+    public boolean disabledCombined() {
+        return getRecipeType() != GTORecipeTypes.PLASMA_CONDENSER_RECIPES;
     }
 
     @Override

@@ -77,7 +77,6 @@ public final class ProxySlotRecipeHandler {
             slotCircuit.setProxy(null);
             slotSharedItem.setProxy(null);
             slotSharedFluid.setProxy(null);
-            setRecipeType(GTRecipeTypes.DUMMY_RECIPES);
         }
     }
 
