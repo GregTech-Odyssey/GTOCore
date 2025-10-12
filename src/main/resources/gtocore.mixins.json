@@ -93,6 +93,7 @@
     "ae2.pattern.AESmithingTablePatternMixin",
     "ae2.pattern.AEStonecuttingPatternMixin",
     "ae2.pattern.CraftingPatternItemMixin",
+    "ae2.pattern.PatternEncodingLogicMixin",
     "ae2.pattern.ProcessingPatternEncodingMixin",
     "ae2.pattern.ProcessingPatternItemMixin",
     "ae2.pattern.SmithingTablePatternItemMixin",

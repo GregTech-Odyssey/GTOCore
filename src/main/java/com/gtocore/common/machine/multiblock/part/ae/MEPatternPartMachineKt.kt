@@ -64,7 +64,6 @@ import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 import java.util.function.IntSupplier
 import javax.annotation.ParametersAreNonnullByDefault
@@ -90,8 +89,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     // ==================== 常量和静态成员 ====================
     @DataGeneratorScanned
     companion object {
-        @JvmStatic
-        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(MEPatternPartMachineKt::class.java, MEPartMachine.MANAGED_FIELD_HOLDER)
 
         @JvmStatic
         val SYNC_MANAGED_FIELD_HOLDER = SyncManagedFieldHolder(MEPatternPartMachineKt::class.java, syncFieldHolder)
@@ -238,7 +235,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         }
     }
 
-    override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
     override fun getSyncHolder(): SyncManagedFieldHolder = SYNC_MANAGED_FIELD_HOLDER
 
     // ==================== ICraftingProvider 接口实现 ====================

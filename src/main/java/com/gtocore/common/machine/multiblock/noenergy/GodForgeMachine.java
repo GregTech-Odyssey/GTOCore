@@ -29,7 +29,6 @@ import net.minecraft.world.level.material.Fluids;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -40,14 +39,6 @@ import static com.gtolib.api.GTOValues.GRAVITON_FLOW_TIER;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class GodForgeMachine extends NoEnergyMultiblockMachine implements ITierCasingMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            GodForgeMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @DescSynced
     @Persisted

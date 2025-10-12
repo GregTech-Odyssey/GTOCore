@@ -28,7 +28,6 @@ import net.minecraft.world.level.material.Fluid;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectImmutableList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
@@ -48,14 +47,6 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     @Persisted
     private double bonusEfficiency = 1.0f;
     private static final int MaxCanReleaseParallel = 50;
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            FullCellGenerator.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public FullCellGenerator(MetaMachineBlockEntity holder) {
         super(holder);

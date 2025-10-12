@@ -13,7 +13,6 @@ import net.minecraft.world.item.Item;
 
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import java.util.Map;
 
@@ -35,19 +34,11 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
         SPOOL = spoolBuilder.build();
     }
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            SpoolHatchPartMachine.class, ItemHatchPartMachine.MANAGED_FIELD_HOLDER);
-
     @Persisted
     private boolean isWorking;
 
     public SpoolHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 64, i -> SPOOL.containsKey(i.getItem()));
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

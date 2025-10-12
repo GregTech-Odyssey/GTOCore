@@ -1,10 +1,12 @@
 package com.gtocore.mixin.ae2.pattern;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
+import com.gtolib.utils.RLUtils;
 
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -50,10 +52,20 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
         var tag = stack.getTag();
         if (tag == null) return;
         if (tag.tags.get("uuid") instanceof IntArrayTag arrayTag) {
-            var player = level.getPlayerByUUID(NbtUtils.loadUUID(arrayTag));
+            if (level == null) {
+                level = net.minecraft.client.Minecraft.getInstance().level;
+            }
+            Player player = null;
+            if (level != null) {
+                player = level.getPlayerByUUID(NbtUtils.loadUUID(arrayTag));
+            }
             lines.add(Component.translatable("tooltip.item.pattern.uuid", player == null ? "Unknown" : player.getName()));
         }
-        if (tag.tags.containsKey("recipe")) lines.add(Component.translatable("tooltip.item.pattern.type"));
+        if (tag.tags.containsKey("recipe") && !tag.getString("recipe").isEmpty()) {
+            lines.add(Component.translatable("gtocore.pattern.recipe"));
+            var key = RLUtils.parse(tag.getString("recipe").split("/")[0]).toLanguageKey();
+            lines.add(Component.translatable("gtocore.pattern.type", Component.translatable(key)));
+        }
         super.appendHoverText(stack, level, lines, advancedTooltips);
     }
 }

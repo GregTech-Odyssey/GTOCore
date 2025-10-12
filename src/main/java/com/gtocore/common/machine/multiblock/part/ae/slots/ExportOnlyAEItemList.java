@@ -20,15 +20,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements IConfigurableSlotList {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ExportOnlyAEItemList.class, NotifiableItemStackHandler.MANAGED_FIELD_HOLDER);
 
     @Persisted
     final ExportOnlyAEItemSlot[] inventory;
@@ -200,11 +197,6 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
 
     public boolean isStocking() {
         return false;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private static final class ItemStackHandlerDelegate extends CustomItemStackHandler {

@@ -1892,7 +1892,6 @@ public final class MultiBlockA {
         }
         return 1;
     }, true, false, false))
-            .disabledCombined()
             .allRotation()
             .recipeTypes(GTORecipeTypes.VACUUM_DRYING_RECIPES)
             .recipeTypes(GTORecipeTypes.DEHYDRATOR_RECIPES)
@@ -1902,6 +1901,7 @@ public final class MultiBlockA {
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.dehydrator"))
             .coilParallelTooltips()
+            .disabledCombined()
             .recipeModifier((m, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {
                     if (machine.getRecipeType() == GTORecipeTypes.DEHYDRATOR_RECIPES) {

@@ -39,7 +39,6 @@ import com.lowdragmc.lowdraglib.misc.ItemTransferList
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
@@ -56,7 +55,6 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
     IGridConnectedMachine {
     @DataGeneratorScanned
     companion object {
-        val manager = ManagedFieldHolder(MEPatternContentSortMachine::class.java, MANAGED_FIELD_HOLDER)
         const val PAGE_WIDTH = 276
         const val PAGE_HEIGHT = 166
 
@@ -72,8 +70,6 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
         @RegisterLanguage(cn = "模式 : 物品替换", en = "Mode : Item Replacement")
         const val mode_item = "gtocore.tooltip.pattern_content_sort_machine.mode.item"
     }
-
-    override fun getFieldHolder() = manager
 
     @DescSynced
     var isGridOnline: Boolean = false

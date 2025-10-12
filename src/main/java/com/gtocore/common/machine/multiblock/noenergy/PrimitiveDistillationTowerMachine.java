@@ -50,7 +50,6 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,14 +63,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, DummyEnergyMachine {
 
     private static final DummyContainer CONTAINER = new DummyContainer(120);
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrimitiveDistillationTowerMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
+
     @NotNull
     private List<IFluidHandler> fluidOutputs = Collections.emptyList();
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     public Widget createUIWidget() {

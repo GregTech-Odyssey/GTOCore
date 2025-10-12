@@ -1,9 +1,10 @@
 package com.gtocore.api.gui.configurators;
 
+import com.gtocore.common.data.GTORecipeTypes;
+
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurator {
 
-    private static final List<GTRecipeType> EMPTY_LIST = Collections.singletonList(GTRecipeTypes.DUMMY_RECIPES);
+    private static final List<GTRecipeType> EMPTY_LIST = Collections.singletonList(GTORecipeTypes.HATCH_COMBINED);
 
     private final Consumer<GTRecipeType> onChange;
     private final List<GTRecipeType> recipeTypes;
@@ -44,15 +45,14 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
 
     private static int calculateModeSize(List<GTRecipeType> recipeTypes, GTRecipeType selected) {
         if (recipeTypes.isEmpty()) return 1;
-        return recipeTypes.size() + (selected == GTRecipeTypes.DUMMY_RECIPES || recipeTypes.contains(selected) ? 1 : 2);
+        return recipeTypes.size() + (selected == GTORecipeTypes.HATCH_COMBINED || recipeTypes.contains(selected) ? 1 : 2);
     }
 
     private static List<GTRecipeType> createRecipeTypeList(List<GTRecipeType> original, GTRecipeType selected) {
         if (original.isEmpty()) return EMPTY_LIST;
         List<GTRecipeType> result = new ArrayList<>(original);
-        result.add(GTRecipeTypes.DUMMY_RECIPES);
-        result.add(GTRecipeTypes.DUMMY_RECIPES);
-        if (selected != GTRecipeTypes.DUMMY_RECIPES && !result.contains(selected)) {
+        result.add(GTORecipeTypes.HATCH_COMBINED);
+        if (selected != GTORecipeTypes.HATCH_COMBINED && !result.contains(selected)) {
             result.add(selected);
         }
         return result;
@@ -80,7 +80,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         }
 
         this.currentMode = index;
-        onChange.accept(getCurrentRecipeType() == GTRecipeTypes.DUMMY_RECIPES ? null : getCurrentRecipeType());
+        onChange.accept(getCurrentRecipeType() == GTORecipeTypes.HATCH_COMBINED ? null : getCurrentRecipeType());
     }
 
     // ============ 私有辅助方法 ============

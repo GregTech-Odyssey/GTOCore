@@ -28,8 +28,6 @@ import appeng.core.definitions.AEItems;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -40,9 +38,6 @@ import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinate
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUIMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            AreaDestructionToolsMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private final NotifiableItemStackHandler inventory;
@@ -91,12 +86,6 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
             }
 
         });
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

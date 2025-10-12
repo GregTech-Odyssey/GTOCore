@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.trait;
 
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
@@ -122,7 +123,7 @@ public final class InternalSlotRecipeHandler {
         public <T extends GTRecipeType, R extends GTRecipe> Iterator<R> searchRecipe(IRecipeCapabilityHolder holder, T type, Predicate<R> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return Collections.emptyIterator();
             if (slot.recipe != null) {
-                if (!RecipeType.available(slot.recipe.recipeType, machine.getRecipeTypes())) return Collections.emptyIterator();
+                if (!RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) return Collections.emptyIterator();
                 R r = (R) slot.recipe;
                 holder.setCurrentHandlerList(this, null);
                 if (canHandle.test(r)) {
@@ -143,8 +144,10 @@ public final class InternalSlotRecipeHandler {
                     };
                 }
                 return Collections.emptyIterator();
+            } else {
+                this.recipeType = slot.machine.recipeType == GTORecipeTypes.HATCH_COMBINED ? null : slot.machine.recipeType;
+                return SEARCH.search(holder, type, this, canHandle);
             }
-            return SEARCH.search(holder, type, this, canHandle);
         }
 
         @Override

@@ -11,7 +11,6 @@ import net.minecraft.util.Mth;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -21,14 +20,6 @@ public final class CGCHatchPartMachine extends ACMHatchPartMachine implements IG
 
     @Persisted
     private int currentGravity;
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            CGCHatchPartMachine.class, ACMHatchPartMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public CGCHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);

@@ -32,16 +32,12 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
 public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            InfiniteIntakeHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     public static final Map<ResourceLocation, Fluid> AIR_MAP = new O2OOpenCacheHashMap<>();
 
@@ -176,10 +172,5 @@ public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
     public void setWorkingEnabled(boolean workingEnabled) {
         super.setWorkingEnabled(workingEnabled);
         updateTankSubscription();
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 }

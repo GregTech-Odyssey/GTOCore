@@ -1,14 +1,9 @@
 package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
+import com.gtocore.common.data.GTORecipeTypes;
 
-import com.gtolib.api.ae2.IPatternProviderLogic;
-import com.gtolib.api.ae2.PatternProviderTargetCache;
-import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
-import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
-import com.gtolib.utils.holder.BooleanHolder;
-import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -18,56 +13,37 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
-import appeng.api.crafting.IPatternDetails;
-import appeng.api.networking.security.IActionSource;
-import appeng.api.stacks.AEKey;
-import appeng.api.stacks.KeyCounter;
 import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 @DataGeneratorScanned
-public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine, ICustomCraftingMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ProgrammableHatchPartMachine.class, DualHatchPartMachine.MANAGED_FIELD_HOLDER);
+public class ProgrammableHatchPartMachine extends DualHatchPartMachine implements IProgrammableMachine {
 
     @Persisted
     @DescSynced
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
-    private GTRecipeType recipeType = GTRecipeTypes.DUMMY_RECIPES;
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
+    private GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
     public ProgrammableHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, Object... args) {
         super(holder, tier, io, args);
     }
 
     private void changeMode(GTRecipeType type) {
-        this.recipeType = type == null ? GTRecipeTypes.DUMMY_RECIPES : type;
+        this.recipeType = type == null ? GTORecipeTypes.HATCH_COMBINED : type;
         this.getHandlerList().external.recipeType = type;
     }
 
@@ -75,7 +51,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     public void onPaintingColorChanged(int color) {
         super.onPaintingColorChanged(color);
         if (getLevel() instanceof ServerLevel serverLevel) {
-            TaskHandler.enqueueServerTask(serverLevel, () -> this.getHandlerList().external.recipeType = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType, 1);
+            TaskHandler.enqueueServerTask(serverLevel, () -> this.getHandlerList().external.recipeType = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType, 1);
         }
     }
 
@@ -94,14 +70,9 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
-    public boolean customPush() {
-        return true;
-    }
-
-    @Override
     public void onLoad() {
         super.onLoad();
-        this.getHandlerList().external.recipeType = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType;
+        this.getHandlerList().external.recipeType = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
     }
 
     @Override
@@ -122,24 +93,6 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
         super.removedFromController(controller);
         this.recipeTypes.clear();
         this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
-    }
-
-    @Override
-    public IPatternProviderLogic.PushResult pushPattern(IPatternProviderLogic logic, IActionSource actionSource, BooleanHolder success, Operate operate, Set<AEKey> patternInputs, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, Direction adjBeSide) {
-        var target = PatternProviderTargetCache.find(holder, logic, adjBeSide, actionSource, 0);
-        if (target == null || target.containsPatternInput(patternInputs)) return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
-        var result = operate.pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
-        if (result.success()) {
-            success.value = true;
-            if (patternDetails instanceof IDetails details) {
-                var recipe = details.getRecipe();
-                if (recipe != null) {
-                    changeMode(recipe.recipeType);
-                }
-            }
-        }
-        if (result.needBreak()) return result;
-        return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
     }
 
     @Override

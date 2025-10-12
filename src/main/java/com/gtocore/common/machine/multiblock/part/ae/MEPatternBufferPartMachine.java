@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
@@ -40,7 +41,6 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
@@ -77,7 +77,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -91,8 +90,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MEPatternBufferPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
     private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
             MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
     @RegisterLanguage(cn = "配方已缓存", en = "Recipe cached")
@@ -107,7 +104,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
-    private GTRecipeType recipeType = GTRecipeTypes.DUMMY_RECIPES;
+    public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
     @DescSynced
     private final boolean[] caches;
@@ -206,7 +203,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     }
 
     private void changeMode(@Nullable GTRecipeType type) {
-        this.recipeType = type == null ? GTRecipeTypes.DUMMY_RECIPES : type;
+        this.recipeType = type == null ? GTORecipeTypes.HATCH_COMBINED : type;
         for (var i : getInternalInventory()) {
             i.rhl.external.recipeType = type;
         }
@@ -215,7 +212,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     public void onLoad() {
         super.onLoad();
-        var type = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType;
+        var type = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
         for (var i : getInternalInventory()) {
             i.rhl.external.recipeType = type;
         }
@@ -226,7 +223,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         super.onPaintingColorChanged(color);
         if (getLevel() instanceof ServerLevel serverLevel) {
             TaskHandler.enqueueServerTask(serverLevel, () -> {
-                var type = recipeType == GTRecipeTypes.DUMMY_RECIPES ? null : recipeType;
+                var type = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
                 for (var i : getInternalInventory()) {
                     i.rhl.external.recipeType = type;
                 }
@@ -348,7 +345,11 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (isFormed()) {
             IMultiController controller = getControllers().first();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
-            GTRecipeType rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
+            GTRecipeType rt = this.recipeType;
+            if (rt == null)
+                rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
+            if (rt == null || rt == GTORecipeTypes.HATCH_COMBINED)
+                rt = null;
             String lid = rt != null ? rt.registryName.toLanguageKey() : controllerDefinition.getDescriptionId();
 
             if (!getCustomName().isEmpty()) {
@@ -375,11 +376,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorySimulated.storage));
         configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventory.storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
         configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTank.getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -427,7 +423,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
         public InternalSlotRecipeHandler.AbstractRHL rhl;
         public Recipe recipe;
-        private final MEPatternBufferPartMachine machine;
+        public final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
         private Runnable onContentsChanged = () -> {};
@@ -455,6 +451,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
 
         public void setLock(boolean lock) {
+            if (this.lock == lock) {
+                lockableInventory.setLock(lock);
+                return;
+            }
             if (this.lock) {
                 circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
                 for (int i = 0; i < 9; i++) {

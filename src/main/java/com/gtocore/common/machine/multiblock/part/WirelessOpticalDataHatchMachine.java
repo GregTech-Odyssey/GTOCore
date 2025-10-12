@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import com.hepdd.gtmthings.api.capability.IGTMTJadeIF;
 import com.hepdd.gtmthings.api.misc.CleanableReferenceSupplier;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -26,14 +25,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachine implements IDataStickInteractable, IGTMTJadeIF {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            WirelessOpticalDataHatchMachine.class, OpticalDataHatchMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Persisted
     private BlockPos transmitterPos;

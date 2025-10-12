@@ -4,7 +4,6 @@ import com.gtocore.api.gui.DisplayComponentGroup;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 
 import net.minecraft.ChatFormatting;
@@ -16,14 +15,10 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 public abstract class AbstractInfoProviderMonitor extends BasicMonitor implements IInformationProvider {
@@ -35,21 +30,13 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
     @Persisted
     @DescSynced
     private ResourceLocation[] displayOrderCache = new ResourceLocation[0];
-    private static final ManagedFieldHolder BASIC_MONITOR_HOLDER = new ManagedFieldHolder(AbstractInfoProviderMonitor.class, MetaMachine.MANAGED_FIELD_HOLDER);
-
-    protected ManagedFieldHolder getManagedFieldHolder(Class<? extends BasicMonitor> clazz) {
-        return new ManagedFieldHolder(clazz, BASIC_MONITOR_HOLDER);
-    }
 
     private TickableSubscription tickableSubscription;
 
     AbstractInfoProviderMonitor(MetaMachineBlockEntity holder) {
         super(holder);
         Class<? extends BasicMonitor> clazz = this.getClass();
-        MANAGED_FIELD_HOLDER_MAP.computeIfAbsent(clazz, this::getManagedFieldHolder);
     }
-
-    private static final Map<Class<? extends BasicMonitor>, ManagedFieldHolder> MANAGED_FIELD_HOLDER_MAP = new ConcurrentHashMap<>();
 
     @Override
     public void onLoad() {
@@ -70,15 +57,6 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
             tickableSubscription.unsubscribe();
             tickableSubscription = null;
         }
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        var holder = MANAGED_FIELD_HOLDER_MAP.get(getClass());
-        if (holder == null) {
-            throw new IllegalStateException("ManagedFieldHolder not found for " + getClass().getName());
-        }
-        return holder;
     }
 
     @Override
@@ -124,7 +102,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
         return (new WidgetGroup(0, 0, 200, 160)).addWidget(panel).addWidget(input).addWidget(scrollAreaWrapper);
     }
 
-    public void setDisplayOrderCache(List<ResourceLocation> displayOrderCache) {
+    private void setDisplayOrderCache(List<ResourceLocation> displayOrderCache) {
         if (getLevel() != null && !getLevel().isClientSide()) {
             this.displayOrderCache = displayOrderCache.toArray(new ResourceLocation[0]);
         }

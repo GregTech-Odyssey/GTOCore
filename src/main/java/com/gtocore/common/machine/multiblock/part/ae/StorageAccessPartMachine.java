@@ -42,7 +42,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
@@ -66,11 +65,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
     public static StorageAccessPartMachine createIO(MetaMachineBlockEntity holder) {
         return new StorageAccessPartMachine.IO(holder);
     }
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StorageAccessPartMachine.class, AmountConfigurationHatchPartMachine.MANAGED_FIELD_HOLDER);
-    private static final ManagedFieldHolder IO_FIELD_HOLDER = new ManagedFieldHolder(
-            IO.class, MANAGED_FIELD_HOLDER);
 
     boolean observe;
 
@@ -97,12 +91,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         getMainNode().addService(IStorageProvider.class, this);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> true);
         current = 0;
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -398,11 +386,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         private IO(MetaMachineBlockEntity holder) {
             super(holder);
             mySrc = IActionSource.ofMachine(this);
-        }
-
-        @Override
-        public @NotNull ManagedFieldHolder getFieldHolder() {
-            return IO_FIELD_HOLDER;
         }
 
         @Override

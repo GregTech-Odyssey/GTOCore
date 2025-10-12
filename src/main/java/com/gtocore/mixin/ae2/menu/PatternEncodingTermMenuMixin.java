@@ -1,10 +1,14 @@
 package com.gtocore.mixin.ae2.menu;
 
+import com.gtocore.api.ae2.pattern.IEncodingLogic;
+
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
 import com.gtolib.api.ae2.pattern.PatternUtils;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.ClientUtil;
+import com.gtolib.utils.RLUtils;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -17,9 +21,11 @@ import appeng.api.storage.MEStorage;
 import appeng.core.definitions.AEItems;
 import appeng.helpers.IMenuCraftingPacket;
 import appeng.helpers.IPatternTerminalMenuHost;
+import appeng.menu.guisync.GuiSync;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
+import appeng.parts.encoding.PatternEncodingLogic;
 import appeng.util.ConfigInventory;
 import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Final;
@@ -37,29 +43,45 @@ import java.util.UUID;
 @Mixin(PatternEncodingTermMenu.class)
 public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, IPatterEncodingTermMenu {
 
+    @Unique
+    @GuiSync(122)
+    public boolean gtolib$extraInfoEnabled = true;
     @Shadow(remap = false)
     @Final
     private ConfigInventory encodedInputsInv;
-
     @Shadow(remap = false)
     @Final
     private ConfigInventory encodedOutputsInv;
+    @Final
+    @Shadow(remap = false)
+    private RestrictedInputSlot encodedPatternSlot;
+    @Final
+    @Shadow(remap = false)
+    private RestrictedInputSlot blankPatternSlot;
+    @Shadow(remap = false)
+    @Final
+    private PatternEncodingLogic encodingLogic;
+    @Unique
+    @GuiSync(120)
+    public String gtocore$recipe = "";
+
+    @Unique
+    private UUID gtocore$UUID;
 
     protected PatternEncodingTermMenuMixin(MenuType<?> menuType, int id, Inventory ip, ITerminalHost host) {
         super(menuType, id, ip, host);
     }
 
     @Unique
-    private String gtocore$recipe;
-
-    @Unique
-    private UUID gtocore$UUID;
+    private IEncodingLogic gtolib$logic() {
+        return ((IEncodingLogic) encodingLogic);
+    }
 
     @Override
     public void gtolib$addRecipe(String id) {
         if (isClientSide()) {
             sendClientAction("addRecipe", id);
-        } else gtocore$recipe = id;
+        } else gtolib$logic().gtocore$setRecipe(id);
     }
 
     @Override
@@ -69,10 +91,56 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         } else gtocore$UUID = id;
     }
 
+    @Override
+    public void gtolib$clickRecipeInfo() {
+        if (isClientSide()) {
+            sendClientAction("clickRecipeInfo");
+            return;
+        }
+        if (this.gtolib$extraInfoEnabled && !gtolib$logic().gtocore$getRecipe().isEmpty()) {
+            gtolib$logic().gtocore$clearExtraRecipeInfo();
+            return;
+        }
+        gtolib$logic().gtocore$clearExtraRecipeInfo();
+        this.gtolib$extraInfoEnabled = !this.gtolib$extraInfoEnabled;
+    }
+
+    @Unique
+    private static final String TITLE_ENABLED = "gtocore.pattern.recipeInfoButton.title.enabled";
+    @Unique
+    private static final String TITLE_DISABLED = "gtocore.pattern.recipeInfoButton.title.disabled";
+    @Unique
+    private static final String CLICK_TO_ENABLE = "gtocore.pattern.recipeInfoButton.clickToEnable";
+    @Unique
+    private static final String CLICK_TO_DISABLE = "gtocore.pattern.recipeInfoButton.clickToDisable";
+    @Unique
+    private static final String CLICK_TO_CLEAR = "gtocore.pattern.recipeInfoButton.clickToClear";
+
+    @Override
+    public Component gtolib$getRecipeInfoTooltip() {
+        var title = Component.empty();
+        title.append(this.gtolib$extraInfoEnabled ? Component.translatable(TITLE_ENABLED) : Component.translatable(TITLE_DISABLED));
+        title.append("\n");
+        if (!this.gtolib$extraInfoEnabled) {
+            return title.append(Component.translatable(CLICK_TO_ENABLE));
+        }
+        if (!gtocore$recipe.isEmpty()) {
+            var tooltip = Component.empty();
+            tooltip.append(Component.translatable("gtocore.pattern.recipe")).append("\n");
+            var key = RLUtils.parse(gtocore$recipe.split("/")[0]).toLanguageKey();
+            tooltip.append(Component.translatable("gtocore.pattern.type", Component.translatable(key))).append("\n");
+            return title.append(tooltip.append(Component.translatable(CLICK_TO_CLEAR)));
+        } else {
+            return title.append(Component.translatable(CLICK_TO_DISABLE));
+        }
+    }
+
     @Inject(method = "encodeProcessingPattern", at = @At("RETURN"), remap = false)
     private void encodeProcessingPatternHook(CallbackInfoReturnable<ItemStack> cir) {
-        if (gtocore$recipe != null && !gtocore$recipe.isEmpty()) {
-            cir.getReturnValue().getOrCreateTag().putString("recipe", gtocore$recipe);
+        if (gtolib$extraInfoEnabled) {
+            if (!gtolib$logic().gtocore$getRecipe().isEmpty()) {
+                cir.getReturnValue().getOrCreateTag().putString("recipe", gtolib$logic().gtocore$getRecipe());
+            }
         }
         if (gtocore$UUID != null) {
             cir.getReturnValue().getOrCreateTag().putUUID("uuid", gtocore$UUID);
@@ -83,14 +151,12 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             at = @At("TAIL"),
             remap = false)
     private void initHooks(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host, boolean bindInventory, CallbackInfo ci) {
-        registerClientAction("modifyPatter", Integer.class,
-                this::gtolib$modifyPatter);
+        registerClientAction("modifyPatter", Integer.class, this::gtolib$modifyPatter);
         registerClientAction("clearSecOutput", this::gtolib$clearSecOutput);
         blankPatternSlot.setStackLimit(1);
-        registerClientAction("addRecipe", String.class,
-                this::gtolib$addRecipe);
-        registerClientAction("addUUID", UUID.class,
-                this::gtolib$addUUID);
+        registerClientAction("addRecipe", String.class, this::gtolib$addRecipe);
+        registerClientAction("clickRecipeInfo", this::gtolib$clickRecipeInfo);
+        registerClientAction("addUUID", UUID.class, this::gtolib$addUUID);
     }
 
     @Override
@@ -113,10 +179,6 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             }
         }
     }
-
-    @Final
-    @Shadow(remap = false)
-    private RestrictedInputSlot encodedPatternSlot;
 
     @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lappeng/menu/me/items/PatternEncodingTermMenu;sendClientAction(Ljava/lang/String;)V"), remap = false)
     private void encode(CallbackInfo ci) {
@@ -154,15 +216,18 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         }
     }
 
+    @Inject(method = "broadcastChanges", at = @At("TAIL"))
+    public void broadcastChanges(CallbackInfo ci) {
+        if (isServerSide()) {
+            this.gtocore$recipe = gtolib$logic().gtocore$getRecipe();
+        }
+    }
+
     @Shadow(remap = false)
     protected abstract boolean isPattern(ItemStack output);
 
     @Shadow(remap = false)
     public abstract void encode();
-
-    @Final
-    @Shadow(remap = false)
-    private RestrictedInputSlot blankPatternSlot;
 
     @Inject(method = "encode",
             at = @At(value = "INVOKE",

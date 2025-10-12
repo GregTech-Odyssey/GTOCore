@@ -28,7 +28,6 @@ import net.minecraft.world.item.ItemStack;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -95,14 +94,6 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
                          normalValue = "16",
                          expertValue = "32")
     private static int Engraving_needed_amount = 16;
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            LargeSteamCircuitAssemblerMachine.class, BaseSteamMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     public void onStructureFormed() {

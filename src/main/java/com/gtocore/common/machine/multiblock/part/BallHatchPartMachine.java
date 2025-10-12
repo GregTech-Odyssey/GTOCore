@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import java.util.Map;
 
@@ -43,7 +42,6 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
         GRINDBALL = grindball.build();
     }
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BallHatchPartMachine.class, ItemHatchPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     @DescSynced
     @RequireRerender
@@ -60,11 +58,6 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
                 recipeLogicMachine.getRecipeLogic().updateTickSubscription();
             }
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

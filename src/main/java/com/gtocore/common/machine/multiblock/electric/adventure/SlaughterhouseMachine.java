@@ -46,7 +46,6 @@ import com.enderio.machines.common.init.MachineBlocks;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -62,9 +61,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class SlaughterhouseMachine extends StorageMultiblockMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            SlaughterhouseMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private static final Object2ObjectOpenHashMap<ResourceLocation, Set<SlaughterhouseMachine>> MACHINES = new O2OOpenCacheHashMap<>();
 
@@ -124,11 +120,6 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     @Override
     public boolean hasBatchConfig() {
         return false;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private static Player getFakePlayer(ServerLevel level) {

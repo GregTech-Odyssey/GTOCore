@@ -46,7 +46,7 @@ public final class LangHandler {
         addCNEN(key, new CNEN(cn, en));
     }
 
-    private static void addCN(String key, String cn) {
+    public static void addCN(String key, String cn) {
         addCNEN(key, cn, null);
     }
 
@@ -347,6 +347,16 @@ public final class LangHandler {
         addCNEN("gtocore.celestial_condenser.any", "任意：%s", "Any: %s");
 
         addCNEN("tooltip.gtocore.hold_for_more", "§1按住 %s 显示更多信息。§r", "§1Hold %s for more info.§r");
+
+        addCNEN("gtocore.pattern.recipe", "配方已缓存", "Recipe cached");
+        addCNEN("gtocore.pattern.type", "机器模式：%s", "Machine recipe type:%s");
+
+        // 配方信息按钮翻译
+        addCNEN("gtocore.pattern.recipeInfoButton.title.enabled", "配方信息已启用", "Recipe Info Recording");
+        addCNEN("gtocore.pattern.recipeInfoButton.title.disabled", "配方信息已禁用", "Recipe Info Not Recorded");
+        addCNEN("gtocore.pattern.recipeInfoButton.clickToEnable", "点击启用配方信息写入", "Click to start recording recipe info");
+        addCNEN("gtocore.pattern.recipeInfoButton.clickToDisable", "点击禁用配方信息写入", "Click to stop recording recipe info");
+        addCNEN("gtocore.pattern.recipeInfoButton.clickToClear", "点击清除已记录的配方信息", "Click to clear recorded recipe info");
     }
 
     public static void enInitialize(LanguageProvider provider) {

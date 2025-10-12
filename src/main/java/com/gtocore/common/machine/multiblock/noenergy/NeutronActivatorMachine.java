@@ -30,7 +30,6 @@ import net.minecraft.world.item.Item;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,13 +40,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implements IExplosionMachine {
-
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(NeutronActivatorMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final Item dustBeryllium = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Beryllium);
     private static final Item dustGraphite = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Graphite);

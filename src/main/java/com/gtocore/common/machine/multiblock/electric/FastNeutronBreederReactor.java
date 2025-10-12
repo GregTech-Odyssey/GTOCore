@@ -8,7 +8,6 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
-import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.GTOUtils;
@@ -32,7 +31,6 @@ import net.minecraft.world.level.material.Fluid;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,8 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine implements IStorageMultiblock, IExplosionMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(FastNeutronBreederReactor.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private final NotifiableItemStackHandler machineStorage;
@@ -55,11 +51,6 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     private SensorPartMachine sensorNeutronFlux;
 
     private static final int MAX_TEMPERATURE = 2098;
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public FastNeutronBreederReactor(MetaMachineBlockEntity holder) {
         super(holder, true, h -> 2048);

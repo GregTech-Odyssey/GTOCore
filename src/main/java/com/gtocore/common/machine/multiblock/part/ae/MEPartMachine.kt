@@ -38,7 +38,6 @@ import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import com.mojang.datafixers.util.Pair
 
 import java.util.*
@@ -115,8 +114,6 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
 
-    override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
-
     override fun onPaintingColorChanged(color: Int) {
         for (c in getControllers()) {
             if (c is IExtendedRecipeCapabilityHolder) {
@@ -162,10 +159,6 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     }
 
     companion object {
-        val MANAGED_FIELD_HOLDER: ManagedFieldHolder = ManagedFieldHolder(
-            MEPartMachine::class.java,
-            TieredIOPartMachine.MANAGED_FIELD_HOLDER,
-        )
         val syncFieldHolder = SyncManagedFieldHolder(MEPartMachine::class.java)
 
         const val CONFIG_SIZE: Int = 16

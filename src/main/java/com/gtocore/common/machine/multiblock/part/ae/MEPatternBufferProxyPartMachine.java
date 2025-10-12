@@ -25,7 +25,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine implements IMachineLife, IDataStickInteractable {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEPatternBufferProxyPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
     private ProxySlotRecipeHandler proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
     @Persisted
     @DescSynced
@@ -110,11 +108,6 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
     public ModularUI createUI(Player entityPlayer) {
         assert getBuffer() != null;
         return getBuffer().createUI(entityPlayer);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

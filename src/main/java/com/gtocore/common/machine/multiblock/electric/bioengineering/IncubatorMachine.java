@@ -12,7 +12,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -24,14 +23,6 @@ import static com.gtolib.api.GTOValues.GLASS_TIER;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class IncubatorMachine extends TierCasingMultiblockMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            IncubatorMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Persisted
     private final RadioactivityTrait radioactivityTrait;

@@ -23,8 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -35,17 +33,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AdvancedInfiniteDrillMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final FluidStack DISTILLED_WATER = GTMaterials.DistilledWater.getFluid(20000);
     private static final FluidStack OXYGEN = GTMaterials.Oxygen.getFluid(FluidStorageKeys.LIQUID, 20000);
     private static final FluidStack HELIUM = GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 20000);
     private static final Map<Material, Integer> HEAT_MAP = Map.of(GTOMaterials.Neutron, 1);
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final int RUNNING_HEAT = 2000;
     private static final int MAX_HEAT = 10000;

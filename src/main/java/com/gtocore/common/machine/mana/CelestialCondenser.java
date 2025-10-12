@@ -13,12 +13,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 public class CelestialCondenser extends SimpleNoEnergyMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(CelestialCondenser.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private int solaris = 0;
     @Persisted
@@ -58,12 +55,6 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
         }
 
         return true;
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

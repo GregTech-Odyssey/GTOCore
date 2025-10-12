@@ -34,7 +34,6 @@ import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +52,6 @@ import static com.gtocore.common.data.GTOMaterials.*;
 @MethodsReturnNonnullByDefault
 public final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SupercomputingCenterMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final Map<Item, Integer> MAINFRAME = Map.of(GTOItems.BIOWARE_MAINFRAME.asItem(), 2, GTOItems.SUPRACAUSAL_MAINFRAME.asItem(), 3);
     private static final Map<Integer, Integer> GLASS_MAP = Map.of(1, GTValues.IV, 2, GTValues.UHV, 3, GTValues.UIV);
     private static final Map<Item, Item> MFPCs;
@@ -90,11 +88,6 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     public SupercomputingCenterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, stack -> MAINFRAME.containsKey(stack.getItem()));
         maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, () -> isFormed);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private void clean() {

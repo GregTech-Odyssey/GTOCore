@@ -23,7 +23,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,9 +32,6 @@ import java.util.Set;
 public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
     private static final Set<Capability<?>> CAPABILITIES = Set.of(ForgeCapabilities.ITEM_HANDLER, ForgeCapabilities.FLUID_HANDLER);
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            TesseractMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     @Override
     public void onMachineRemoved() {
@@ -67,11 +63,6 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
             if (pos.equals(getPos())) return;
             this.pos = pos;
         });
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
