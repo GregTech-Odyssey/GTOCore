@@ -40,7 +40,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -223,7 +222,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         allocatedCWUt = 0;
         if (coolingAmount > maxCoolingAmount) {
             int damaged = coolingAmount - maxCoolingAmount;
-            for (IMultiPart part : Set.copyOf(getParts())) {
+            for (IMultiPart part : getParts()) {
                 if (part instanceof HPCAComponentPartMachine componentPartMachine && componentPartMachine.canBeDamaged()) {
                     damaged -= GTValues.RNG.nextInt(256);
                     componentPartMachine.setDamaged(true);

@@ -213,16 +213,11 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
                 var coolants = Wrapper.COOLANTS.get(fluid);
                 if (coolants != null && temperature > 298) {
                     long processAmount = Math.min((long) Math.ceil((temperature - 298f) / coolants), amount);
-                    if (fluid == GTMaterials.DistilledWater.getFluid()) {
-                        processAmount = Math.min(processAmount, Integer.MAX_VALUE / 160);
-                    } else {
-                        processAmount = Math.min(processAmount, Integer.MAX_VALUE);
-                    }
                     temperature -= processAmount * coolants;
                     inputFluid(fluid, processAmount);
-                    int outputAmount = (int) processAmount;
+                    long outputAmount = processAmount;
                     if (fluid == GTMaterials.DistilledWater.getFluid()) {
-                        outputAmount = outputAmount * 160;
+                        outputAmount = outputAmount * 160L;
                     }
                     outputFluid(Wrapper.COOLANT_OUTPUTS.get(fluid), outputAmount);
                 }

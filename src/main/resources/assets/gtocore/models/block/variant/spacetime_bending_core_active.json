@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "gtocore:block/spacetimebendingcore_active"
+    "all": "gtocore:block/spacetime_bending_core_active"
   }
 }

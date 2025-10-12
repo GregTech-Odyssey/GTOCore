@@ -330,6 +330,9 @@ public final class PatternPreview extends WidgetGroup {
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean mouseWheelMove(double mouseX, double mouseY, double wheelDelta) {
+        if (scrollableWidgetGroup.isMouseOverElement(mouseX, mouseY)) {
+            return super.mouseWheelMove(mouseX, mouseY, wheelDelta);
+        }
         if (sceneWidget.isMouseOverElement(mouseX, mouseY)) {
             double rotationPitch = Math.toRadians(sceneWidget.getRotationPitch());
             double rotationYaw = Math.toRadians(sceneWidget.getRotationYaw());
@@ -339,7 +342,6 @@ public final class PatternPreview extends WidgetGroup {
             sceneWidget.setCenter(sceneWidget.getCenter().add(moveX, moveY, moveZ));
             return true;
         }
-
         return super.mouseWheelMove(mouseX, mouseY, wheelDelta);
     }
 

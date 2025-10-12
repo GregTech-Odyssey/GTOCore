@@ -500,10 +500,11 @@ public final class MultiBlockA {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
-            .afterWorking(m -> {
-                if (m.getRecipeLogic().getLastRecipe() != null && m.getRecipeLogic().getLastRecipe().data.getBoolean("isCustom")) {
+            .onWorking(m -> {
+                if (m.getProgress() == m.getMaxProgress() - 1 && m.getRecipeLogic().getLastRecipe() != null && m.getRecipeLogic().getLastRecipe().data.getBoolean("isCustom")) {
                     m.getRecipeLogic().markLastRecipeDirty();
                 }
+                return true;
             })
             .register();
 
@@ -815,8 +816,8 @@ public final class MultiBlockA {
                     .where('E', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()))
                     .where('F', blocks(GTOBlocks.QUANTUM_GLASS.get()))
                     .where('G', blocks(GTOBlocks.HYPER_CORE.get()))
-                    .where('H', blocks(GTOBlocks.SPACETIMEBENDINGCORE.get()))
-                    .where('I', blocks(GTOBlocks.SPACETIMECONTINUUMRIPPER.get()))
+                    .where('H', blocks(GTOBlocks.SPACETIME_BENDING_CORE.get()))
+                    .where('I', blocks(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.get()))
                     .where('J', blocks(GTOBlocks.LAW_FILTER_CASING.get()))
                     .where('K', blocks(GTOBlocks.MANIPULATOR.get()))
                     .where('L', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))

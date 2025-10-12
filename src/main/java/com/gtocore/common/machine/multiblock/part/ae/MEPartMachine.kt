@@ -166,12 +166,12 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
             MEPartMachine::class.java,
             TieredIOPartMachine.MANAGED_FIELD_HOLDER,
         )
-        val sync = SyncManagedFieldHolder(MEPartMachine::class.java)
+        val syncFieldHolder = SyncManagedFieldHolder(MEPartMachine::class.java)
 
         const val CONFIG_SIZE: Int = 16
     }
 
-    override fun getSyncHolder(): SyncManagedFieldHolder = sync
+    override fun getSyncHolder(): SyncManagedFieldHolder = syncFieldHolder
 
     // ////////////////////////////////
     // ****** 无线连接设置 ******//
