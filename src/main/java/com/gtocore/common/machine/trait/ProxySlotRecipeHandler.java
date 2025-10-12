@@ -7,7 +7,6 @@ import com.gtolib.api.machine.trait.ProxyFluidRecipeHandler;
 import com.gtolib.api.machine.trait.ProxyItemRecipeHandler;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import java.util.ArrayList;
 import java.util.List;

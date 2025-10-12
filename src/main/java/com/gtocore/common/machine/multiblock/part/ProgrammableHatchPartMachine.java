@@ -21,9 +21,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 
 import net.minecraft.core.Direction;
@@ -61,7 +59,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
-    private GTRecipeType mode = GTRecipeTypes.COMBINED_RECIPES;
+    private GTRecipeType mode = null;
 
     public ProgrammableHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, Object... args) {
         super(holder, tier, io, args);
@@ -69,8 +67,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
 
     private void changeMode(GTRecipeType recipe) {
         this.mode = recipe;
-        this.getHandlerList().recipeType=recipe;
-        RecipeHandlerList.NOTIFY.accept(this);
+        this.getHandlerList().recipeType = recipe;
     }
 
     @Override
@@ -113,7 +110,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
         super.addedToController(controller);
         this.recipeTypes.clear();
         this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypesCombined(this.getControllers()));
-        this.getHandlerList().recipeType=mode;
+        this.getHandlerList().recipeType = mode;
     }
 
     @Override

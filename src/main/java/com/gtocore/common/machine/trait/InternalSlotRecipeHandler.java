@@ -128,8 +128,7 @@ public final class InternalSlotRecipeHandler {
         public <T extends GTRecipeType, R extends GTRecipe> Iterator<R> searchRecipe(IRecipeCapabilityHolder holder, T type, Predicate<R> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return Collections.emptyIterator();
             if (slot.recipe != null) {
-                if (!RecipeType.available(slot.recipe.getType(), slot.machine.getMode())) return Collections.emptyIterator();
-                if (!RecipeType.available(slot.recipe.getType(), machine.disabledCombined()?List.of(machine.getRecipeType()).toArray(new GTRecipeType[0]): machine.getRecipeTypes())) return Collections.emptyIterator();
+                if (!RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) return Collections.emptyIterator();
                 R r = (R) slot.recipe;
                 holder.setCurrentHandlerList(this, null);
                 if (canHandle.test(r)) {

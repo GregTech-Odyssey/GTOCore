@@ -5,7 +5,6 @@ import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
-import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
@@ -13,6 +12,7 @@ import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.network.SyncManagedFieldHolder;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
@@ -132,7 +132,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     protected ConfiguratorPanel configuratorPanel;
     @Persisted
     @DescSynced
-    private GTRecipeType mode = GTRecipeTypes.COMBINED_RECIPES;
+    private GTRecipeType mode = null;
 
     public GTRecipeType getMode() {
         return mode;
@@ -148,15 +148,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     }
 
     private void changeMode(GTRecipeType recipeType) {
-        if (this.mode == recipeType) return;
         this.mode = recipeType;
-        this.getHandlerList().recipeType=recipeType;
-        RecipeHandlerList.NOTIFY.accept(this);
-        for (var pos : proxies) {
-            if (MetaMachine.getMachine(getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {
-                RecipeHandlerList.NOTIFY.accept(proxy);
-            }
-        }
+        this.getHandlerList().recipeType = recipeType;
     }
 
     @Override
@@ -190,7 +183,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         var type = stack.getOrCreateTag().getString("type");
         var stack_type = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(type));
         if (type.isEmpty()) return true;
-        if (this.mode != GTRecipeTypes.COMBINED_RECIPES) {
+        if (this.mode != null) {
             return RecipeType.available(stack_type, this.mode);
         }
         return stack.getItem() instanceof ProcessingPatternItem;
@@ -253,10 +246,11 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     @Override
     public @Nullable IPatternDetails initPattern(ItemStack stack, int index) {
-        var pattern = (AEProcessingPattern) super.initPattern(stack, index);
+        var pattern = super.initPattern(stack, index);
         if (pattern == null) return null;
-        if (((IDetails) pattern).getRecipe() != null && !caches[index]) {
-            getInternalInventory()[index].setRecipe(((IDetails) pattern).getRecipe());
+        if (!caches[index] && stack.getOrCreateTag().tags.get("recipe") instanceof StringTag stringTag) {
+            var recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
+            getInternalInventory()[index].setRecipe(recipe);
         }
         return pattern;
     }
@@ -340,9 +334,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             IMultiController controller = getControllers().first();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
             GTRecipeType rt = this.mode;
-            if (rt == GTRecipeTypes.COMBINED_RECIPES)
+            if (rt == null)
                 rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
-            if (rt == GTRecipeTypes.COMBINED_RECIPES || rt == GTRecipeTypes.DUMMY_RECIPES)
+            if (rt == null || rt == GTRecipeTypes.DUMMY_RECIPES)
                 rt = null;
             String lid = rt != null ? rt.registryName.toLanguageKey() : controllerDefinition.getDescriptionId();
 
