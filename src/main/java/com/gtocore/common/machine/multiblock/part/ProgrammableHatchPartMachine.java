@@ -80,7 +80,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Persisted
-    private boolean switchType = false;
+    private boolean switchType = true;
 
     @Override
     protected @NotNull NotifiableItemStackHandler createInventory(Object @NotNull... args) {
