@@ -2,7 +2,7 @@ package com.gtocore.api.machine.part;
 
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.machines.MultiBlockH;
+import com.gtocore.common.data.machines.SpaceMultiblock;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.AbstractSpaceStation;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Core;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.ISpacePredicateMachine;
@@ -158,10 +158,10 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
     }
 
     TraceabilityPredicate checkIsModule = custom(state -> check(state, MODULE),
-            () -> BlockInfo.fromBlock(MultiBlockH.SPACE_STATION_EXTENSION_MODULE.getBlock()),
+            () -> BlockInfo.fromBlock(SpaceMultiblock.SPACE_STATION_EXTENSION_MODULE.getBlock()),
             null);
     TraceabilityPredicate checkIsConjunction = custom(state -> check(state, CONJUNCTION),
-            () -> BlockInfo.fromBlock(MultiBlockH.SPACE_STATION_DOCKING_MODULE.getBlock()),
+            () -> BlockInfo.fromBlock(SpaceMultiblock.SPACE_STATION_DOCKING_MODULE.getBlock()),
             null);
 
     Int2ObjectOpenHashMap<Function<AbstractSpaceStation, Set<BlockPos>>> positionFunctionMap = new Int2ObjectOpenHashMap<>();

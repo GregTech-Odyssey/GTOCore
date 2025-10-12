@@ -5,7 +5,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.machines.MultiBlockH;
+import com.gtocore.common.data.machines.SpaceMultiblock;
 
 import com.gtolib.api.GTOValues;
 
@@ -162,7 +162,7 @@ public final class Temporary {
                 .save();
         ASSEMBLER_RECIPES.builder("space_shield_hatch")
                 .inputItems(CustomTags.UEV_CIRCUITS, 4)
-                .inputItems(MultiBlockH.LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE.asItem(), 4)
+                .inputItems(SpaceMultiblock.LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE.asItem(), 4)
                 .inputItems(GTOBlocks.LAW_FILTER_CASING.asItem(), 4)
                 .inputItems(GTOItems.HIGH_FREQUENCY_LASER.asItem(), 2)
                 .outputItems(GTOMachines.SPACE_SHIELD_HATCH.asItem())

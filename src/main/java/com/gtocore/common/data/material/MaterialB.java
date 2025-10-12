@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_FIBER;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -3654,7 +3655,7 @@ public final class MaterialB {
                 .dust()
                 .components(Aluminium, 2, Oxygen, 3)
                 .color(0x1d4759).iconSet(DULL)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FIBER)
                 .buildAndRegister();
 
         CaesiumHydroxide = material("caesium_hydroxide", "氢氧化铯")

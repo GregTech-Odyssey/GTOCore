@@ -3,7 +3,7 @@ package com.gtocore.data.recipe.misc;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.machines.MultiBlockH;
+import com.gtocore.common.data.machines.SpaceMultiblock;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
@@ -46,7 +46,7 @@ public class SpaceStationRecipes {
         // Space Station
         SpaceStationBuilder.builder("earth_orbit_space_station")
                 .dimension(Dimension.OVERWORLD)
-                .inputItems(MultiBlockH.SPACE_STATION.asItem())
+                .inputItems(SpaceMultiblock.SPACE_STATION.asItem())
                 .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asItem(), 64)
                 .inputItems(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.asItem(), 64)
                 .inputItems(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.asItem(), 32)
@@ -62,7 +62,7 @@ public class SpaceStationRecipes {
             }
             SpaceStationBuilder.builder("orbit_space_station_" + dimension.name().toLowerCase())
                     .dimension(dimension)
-                    .inputItems(MultiBlockH.SPACE_STATION.asItem())
+                    .inputItems(SpaceMultiblock.SPACE_STATION.asItem())
                     .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asItem(), 344)
                     .inputItems(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.asItem(), 148)
                     .inputItems(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.asItem(), 128)

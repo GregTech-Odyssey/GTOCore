@@ -4,7 +4,7 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
-import com.gtocore.common.data.machines.MultiBlockH;
+import com.gtocore.common.data.machines.SpaceMultiblock;
 
 import com.gtolib.utils.RegistriesUtils;
 
@@ -139,7 +139,7 @@ final class RocketAssembler {
                 .inputItems(GTOTagPrefix.gearSmall, GTOMaterials.StainlessSteelGC4, 4)
                 .inputItems(GTOTagPrefix.plate, GTOMaterials.StainlessSteelGC4, 4)
                 .inputItems(GTOTagPrefix.frameGt, GTOMaterials.TitaniumTi64)
-                .outputItems(MultiBlockH.SPACE_STATION.asItem())
+                .outputItems(SpaceMultiblock.SPACE_STATION.asItem())
                 .inputFluids(GTMaterials.RocketFuel, 16000)
                 .inputFluids(GTMaterials.Lubricant, 5000)
                 .inputFluids(GTMaterials.SolderingAlloy, 4000)
@@ -157,7 +157,7 @@ final class RocketAssembler {
                 .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.TungstenSteel, 16)
                 .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.SamariumIronArsenicOxide, 16)
                 .inputItems(GTOTagPrefix.rodLong, GTOMaterials.CarbonFiberPolyphenyleneSulfideComposite, 4)
-                .outputItems(MultiBlockH.LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE.asItem())
+                .outputItems(SpaceMultiblock.LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE.asItem())
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
                 .inputFluids(GTMaterials.TungstenSteel, 1440)
                 .inputFluids(GTMaterials.Lubricant, 16000)
@@ -175,7 +175,7 @@ final class RocketAssembler {
                 .inputItems(GTOTagPrefix.pipeLargeRestrictive, GTMaterials.Osmiridium, 4)
                 .inputItems(GTOTagPrefix.pipeLargeFluid, GTMaterials.TungstenSteel, 4)
                 .inputItems(CustomTags.ZPM_CIRCUITS)
-                .outputItems(MultiBlockH.SPACE_STATION_EXTENSION_MODULE.asItem())
+                .outputItems(SpaceMultiblock.SPACE_STATION_EXTENSION_MODULE.asItem())
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
                 .inputFluids(GTMaterials.TungstenSteel, 1440)
                 .inputFluids(GTMaterials.Lubricant, 16000)
@@ -193,7 +193,7 @@ final class RocketAssembler {
                 .inputItems(GTOTagPrefix.plate, GTOMaterials.DispersionStrengthenedCopper, 16)
                 .inputItems(GTOTagPrefix.plate, GTOMaterials.OxideDispersionStrengthenedNickelBasedAlloy, 16)
                 .inputItems(GTOTagPrefix.plate, GTOMaterials.StructuralSteel45, 16)
-                .outputItems(MultiBlockH.SPACE_STATION_DOCKING_MODULE.asItem())
+                .outputItems(SpaceMultiblock.SPACE_STATION_DOCKING_MODULE.asItem())
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
                 .inputFluids(GTOMaterials.TitaniumTi64, 1440)
                 .inputFluids(GTMaterials.Lubricant, 16000)
@@ -211,7 +211,7 @@ final class RocketAssembler {
                 .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.Inconel718, 32)
                 .inputItems(GTOTagPrefix.frameGt, GTOMaterials.StainlessSteelGC4, 4)
                 .inputItems(GTOTagPrefix.frameGt, GTOMaterials.StainlessSteel420, 4)
-                .outputItems(MultiBlockH.SPACE_STATION_TRANSPARENT_DOCKING_MODULE.asItem())
+                .outputItems(SpaceMultiblock.SPACE_STATION_TRANSPARENT_DOCKING_MODULE.asItem())
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
                 .inputFluids(GTMaterials.NiobiumTitanium, 1440)
                 .inputFluids(GTMaterials.Lubricant, 16000)
@@ -229,7 +229,7 @@ final class RocketAssembler {
                 .inputItems(GTBlocks.FILTER_CASING.asItem(), 6)
                 .inputItems(GTOTagPrefix.gearSmall, GTOMaterials.StainlessSteelGC4, 32)
                 .inputItems(GTOTagPrefix.pipeNonupleFluid, GTMaterials.Polytetrafluoroethylene, 4)
-                .outputItems(MultiBlockH.SPACE_STATION_ENVIRONMENTAL_MAINTENANCE_MODULE.asItem())
+                .outputItems(SpaceMultiblock.SPACE_STATION_ENVIRONMENTAL_MAINTENANCE_MODULE.asItem())
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
                 .inputFluids(GTMaterials.Polybenzimidazole, 7200)
                 .inputFluids(GTMaterials.Lubricant, 16000)
@@ -247,7 +247,7 @@ final class RocketAssembler {
                 .inputItems(GTItems.CONVEYOR_MODULE_ZPM.asItem(), 4)
                 .inputItems(GTOTagPrefix.plateDense, GTOMaterials.Calorite, 4)
                 .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.Grcop84, 16)
-                .outputItems(MultiBlockH.ORBITAL_SMELTING_FACILITY.asItem())
+                .outputItems(SpaceMultiblock.ORBITAL_SMELTING_FACILITY.asItem())
                 .inputFluids(new FluidStack(RegistriesUtils.getFluid("ad_astra:cryo_fuel"), 16000))
                 .inputFluids(GTOMaterials.ScalmAlloyS, 7200)
                 .inputFluids(GTMaterials.Lubricant, 16000)

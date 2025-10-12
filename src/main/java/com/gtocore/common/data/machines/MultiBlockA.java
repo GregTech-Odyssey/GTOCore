@@ -1576,7 +1576,7 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition MEGA_WIREMILL = multiblock("mega_wiremill", "特大线材轧机", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTRecipeTypes.WIREMILL_RECIPES)
+            .recipeTypes(GTRecipeTypes.WIREMILL_RECIPES, FIBER_EXTRUSION_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getMegaWiremillTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()

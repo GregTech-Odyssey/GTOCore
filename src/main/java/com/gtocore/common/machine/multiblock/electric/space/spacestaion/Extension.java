@@ -25,7 +25,7 @@ public class Extension extends AbstractSpaceStation implements ILargeSpaceStatio
     protected Core core;
 
     public Extension(MetaMachineBlockEntity metaMachineBlockEntity) {
-        super(metaMachineBlockEntity, ILargeSpaceStationMachine.twoWayPositionFunction(59));
+        super(metaMachineBlockEntity);
         shouldShowReadyText = false;
     }
 

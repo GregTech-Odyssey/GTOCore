@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.processing;
 
+import com.gtocore.common.data.GTORecipeTypes;
+
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
@@ -35,6 +37,14 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
 
     @Override
     protected boolean beforeWorking(@Nullable Recipe recipe) {
-        return super.beforeWorking(recipe) && inputFluid();
+        if (!super.beforeWorking(recipe)) return false;
+        if (getRecipeType() == GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES &&
+                getSubFormedAmount() == 0) {
+            getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtocore.machine.module.null")
+                    .append(": ")
+                    .append(Component.translatable("gtceu." + GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES.registryName.getPath())));
+            return false;
+        }
+        return inputFluid();
     }
 }
