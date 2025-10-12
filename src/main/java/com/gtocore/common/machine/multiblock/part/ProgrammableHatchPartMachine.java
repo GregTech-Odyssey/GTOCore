@@ -8,7 +8,6 @@ import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
 import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.holder.BooleanHolder;
 import com.gtolib.utils.holder.ObjectHolder;
 
@@ -137,8 +136,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
             success.value = true;
             if (patternDetails instanceof IDetails details) {
                 var recipe = details.getRecipe();
-                if (recipe != null && recipe.recipeType != mode &&
-                        RecipeType.available(recipe.recipeType, recipeTypes.toArray(new GTRecipeType[0]))) {
+                if (recipe != null && recipe.recipeType != mode) {
                     changeMode(recipe.recipeType);
                 }
             }

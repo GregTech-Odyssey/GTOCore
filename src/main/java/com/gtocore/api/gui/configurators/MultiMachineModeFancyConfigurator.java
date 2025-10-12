@@ -9,7 +9,6 @@ import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.COMBINED_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.HATCH_COMBINED;
@@ -40,8 +39,6 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
                 .map(IRecipeLogicMachine.class::cast)
                 .map(IRecipeLogicMachine::getRecipeTypes)
                 .flatMap(Arrays::stream)
-                .filter(Objects::nonNull)
-                .flatMap(recipeType -> recipeType == COMBINED_RECIPES ? Stream.empty() : Stream.of(recipeType))
                 .collect(Collectors.toCollection(ReferenceLinkedOpenHashSet::new)) // 保持顺序并去重
                 .stream()
                 .toList();

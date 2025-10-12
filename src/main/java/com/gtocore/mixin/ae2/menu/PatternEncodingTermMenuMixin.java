@@ -143,7 +143,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             }
         }
         if (gtocore$UUID != null) {
-                cir.getReturnValue().getOrCreateTag().putUUID("uuid", gtocore$UUID);
+            cir.getReturnValue().getOrCreateTag().putUUID("uuid", gtocore$UUID);
         }
     }
 

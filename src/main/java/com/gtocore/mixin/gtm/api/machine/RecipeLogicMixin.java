@@ -28,9 +28,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
-import java.util.stream.StreamSupport;
-
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.COMBINED_RECIPES;
 
 @Mixin(value = RecipeLogic.class, remap = false)
 public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
@@ -131,20 +128,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     public void findAndHandleRecipe() {
         lastRecipe = null;
         lastOriginRecipe = null;
-        Iterator<Recipe> matches;
-        if (machine.getRecipeType() == COMBINED_RECIPES) {
-            matches = Arrays.stream(RecipeType.getAvailableTypes(machine))
-                    .flatMap(recipeType -> {
-                        Iterator<Recipe> iterator = RecipeType.searchIterator(recipeType, machine, recipe -> RecipeRunner.checkTier(machine, recipe) && RecipeRunner.checkConditions(machine, recipe));
-                        return StreamSupport.stream(
-                                Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED),
-                                false);
-                    })
-                    .iterator();
-        } else {
-            matches = RecipeType.searchIterator(machine.getRecipeType(), machine, recipe -> RecipeRunner.checkTier(machine, recipe) && RecipeRunner.checkConditions(machine, recipe));
-        }
-
+        var matches = RecipeType.searchIterator(machine.getRecipeType(), machine, recipe -> RecipeRunner.checkTier(machine, recipe) && RecipeRunner.checkConditions(machine, recipe));
         while (matches.hasNext()) {
             GTRecipe match = matches.next();
             if (match == null) continue;

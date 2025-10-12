@@ -192,8 +192,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (type.isEmpty()) return true;
         if (this.mode != GTRecipeTypes.COMBINED_RECIPES) {
             return RecipeType.available(stack_type, this.mode);
-        } else if (!getControllers().isEmpty()) {
-            return RecipeType.available(stack_type, RecipeType.getAvailableTypes(this.recipeTypes.toArray(new GTRecipeType[0]), GTRecipeTypes.COMBINED_RECIPES));
         }
         return stack.getItem() instanceof ProcessingPatternItem;
     }
@@ -319,11 +317,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             cp.append(Component.translatable(RECIPE_TYPE_INVALID)).append("\n");
         }
         return cp.equals(Component.empty()) ? null : cp;
-    }
-
-    public boolean checkRecipeType(@Nullable GTRecipeType gtRecipeType) {
-        if (gtRecipeType == null) return false;
-        return RecipeType.available(gtRecipeType, this.mode) || gtRecipeType == GTRecipeTypes.DUMMY_RECIPES;
     }
 
     @Override
