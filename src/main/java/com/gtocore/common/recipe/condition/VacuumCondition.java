@@ -55,7 +55,7 @@ public final class VacuumCondition extends AbstractRecipeCondition {
         return !OxygenApi.API.hasOxygen(level, machine.getPos()) && PlanetApi.API.isSpace(level);
     }
 
-    private boolean checkVacuumTier(Iterable<IMultiPart> parts) {
+    private boolean checkVacuumTier(IMultiPart[] parts) {
         for (IMultiPart part : parts) {
             if (part instanceof IVacuumMachine vacuumMachine && vacuumMachine.getVacuumTier() >= tier) {
                 return true;

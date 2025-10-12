@@ -17,7 +17,6 @@ import net.minecraft.world.level.material.Fluid;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
@@ -32,7 +31,6 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     private static final BigInteger BASE = BigInteger.valueOf(5277655810867200L);
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HarmonyMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final Fluid HYDROGEN = GTMaterials.Hydrogen.getFluid();
     private static final Fluid HELIUM = GTMaterials.Helium.getFluid();
     private WirelessEnergyContainer WirelessEnergyContainerCache;
@@ -51,11 +49,6 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     public HarmonyMachine(MetaMachineBlockEntity holder) {
         super(holder);
         tickSubs = new ConditionalSubscriptionHandler(this, this::StartupUpdate, this::isFormed);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private void StartupUpdate() {

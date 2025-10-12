@@ -5,6 +5,6 @@
     "frames": [0,0,1,2,2,1]
    },
     "ldlib": {
-        "connection": "gtocore:block/spacetimecontinuumripper_active_ctm"
+        "connection": "gtocore:block/spacetime_continuum_ripper_active_ctm"
   }
 }

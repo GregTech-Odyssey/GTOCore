@@ -28,7 +28,6 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -41,7 +40,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart {
 
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEStockingBusPartMachine.class, MEInputBusPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private boolean autoPull;
 
@@ -64,11 +62,6 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
     @Override
     protected ExportOnlyAEStockingItemList createInventory() {
         return new ExportOnlyAEStockingItemList(this, CONFIG_SIZE);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     /////////////////////////////////

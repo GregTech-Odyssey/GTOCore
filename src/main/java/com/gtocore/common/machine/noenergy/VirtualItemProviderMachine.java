@@ -47,15 +47,10 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
 public final class VirtualItemProviderMachine extends MetaMachine implements IUIMachine, IDropSaveMachine, MEStorage, IGridConnectedMachine, IStorageProvider {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            VirtualItemProviderMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     private static final Item VIRTUAL_ITEM_PROVIDER = CustomItems.VIRTUAL_ITEM_PROVIDER.asItem();
     static private final AEKey EMPTY_STACK;
@@ -74,6 +69,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
     private final GridNodeHolder nodeHolder;
     @DescSynced
     private boolean isOnline;
+    private boolean change = true;
 
     public VirtualItemProviderMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -82,6 +78,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         getMainNode().addService(IStorageProvider.class, this);
         storage.setStoredMap(new O2LOpenCacheHashMap<>());
         inventory.addChangedListener(() -> {
+            change = true;
             storage.getStoredMap().clear();
             storage.getStoredMap().addTo(EMPTY_STACK, IParallelMachine.MAX_PARALLEL << 6);
             for (var i = 0; i < inventory.storage.size; i++) {
@@ -101,11 +98,6 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
 
             }
         });
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -224,11 +216,15 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         if (keyCounter == null) {
             keyCounter = new KeyCounter();
             storage.setKeyCounter(keyCounter);
-        } else {
+            change = true;
+        } else if (change) {
             keyCounter.clear();
         }
-        getAvailableStacks(keyCounter);
-        keyCounter.removeEmptySubmaps();
+        if (change) {
+            getAvailableStacks(keyCounter);
+            keyCounter.removeEmptySubmaps();
+            change = false;
+        }
         return keyCounter;
     }
 }

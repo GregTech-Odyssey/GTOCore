@@ -7,7 +7,6 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.language.RegisterEnumLang;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -42,7 +41,6 @@ import com.lowdragmc.lowdraglib.gui.widget.layout.Align;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import org.jetbrains.annotations.Nullable;
 
@@ -107,8 +105,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     protected DraggableScrollableWidgetGroup mapArea;
 
     // ===================== 构造与初始化 =====================
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DigitalMiner.class,
-            ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public DigitalMiner(MetaMachineBlockEntity holder) {
         super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);;
@@ -120,11 +116,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
         this.zRadialLength = 1;
         this.xOffset = 0;
         this.zOffset = 0;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     protected CustomItemStackHandler createFilterItemHandler() {

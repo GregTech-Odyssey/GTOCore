@@ -45,7 +45,6 @@ import appeng.helpers.patternprovider.PatternProviderTarget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,9 +56,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife, ICustomCraftingMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            AdvancedTesseractMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     private final WeakReference<BlockEntity>[] blockEntityReference = new WeakReference[20];
 
@@ -96,11 +92,6 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
                 }
             }
         });
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

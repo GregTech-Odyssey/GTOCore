@@ -20,7 +20,6 @@ import com.gtolib.api.gui.ktflexible.field
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.jei.IngredientIO
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 import java.util.function.IntSupplier
 
@@ -28,8 +27,6 @@ import java.util.function.IntSupplier
 open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatternCount: Int) : MEPatternBufferPartMachine(holder, maxPatternCount) {
     @DataGeneratorScanned
     companion object {
-        @JvmStatic
-        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(MEPatternBufferPartMachineKt::class.java, MEPatternBufferPartMachine.MANAGED_FIELD_HOLDER)
 
         @RegisterLanguage(cn = "此样板物品输入槽", en = "This Pattern Special Item Input Slot")
         const val item_special: String = "gtceu.ae.pattern_part_machine.item_special"
@@ -40,8 +37,6 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
         @RegisterLanguage(cn = "此样板电路输入槽", en = "This Pattern Special Circuit Input Slot")
         const val circuit_special: String = "gtceu.ae.pattern_part_machine.circuit_special"
     }
-
-    override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
 
     override fun getApplyIndex() = IntSupplier { configuratorField.get() }
     override fun runOnUpdate() = run { if (isRemote)configuratorField.setAndSyncToServer(-1) }

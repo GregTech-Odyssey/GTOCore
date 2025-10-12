@@ -11,20 +11,10 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public final class ThreadHatchPartMachine extends AmountConfigurationHatchPartMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ThreadHatchPartMachine.class, AmountConfigurationHatchPartMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Persisted
     private boolean repeatedRecipes = true;

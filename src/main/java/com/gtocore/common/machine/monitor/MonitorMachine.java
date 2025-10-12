@@ -124,8 +124,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor implements IMach
                         var c = bufferCache[i];
                         informationList.addIfAbsent(
                                 DISPLAY_REGISTRY.get(i).id(),
-                                DisplayComponent.progressBar(
-                                        DISPLAY_REGISTRY.get(i).id(), progress, 50, 16, c.getString(), ProgressBarColorStyle.Companion.getDURATION()));
+                                DisplayComponent.progressBar(DISPLAY_REGISTRY.get(i).id(), progress, c.getString(), ProgressBarColorStyle.Companion.getDURATION()));
                     } else {
                         informationList.addIfAbsent(
                                 DISPLAY_REGISTRY.get(i).id(),

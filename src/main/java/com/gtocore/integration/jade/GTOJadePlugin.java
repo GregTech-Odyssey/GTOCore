@@ -1,6 +1,7 @@
 package com.gtocore.integration.jade;
 
 import com.gtocore.integration.jade.provider.*;
+import com.gtocore.integration.jade.provider.MachineModeProvider;
 import com.gtocore.integration.jade.provider.MultiblockStructureProvider;
 import com.gtocore.integration.jade.provider.ParallelProvider;
 import com.gtocore.integration.jade.provider.RecipeLogicProvider;

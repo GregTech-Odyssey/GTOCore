@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "gtocore:block/spacetimecontinuumripper_active",
+    "all": "gtocore:block/spacetime_continuum_ripper_active",
     "up": "gtocore:block/manipulator",
     "down": "gtocore:block/manipulator"
   }

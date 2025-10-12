@@ -13,6 +13,7 @@ src/generated/resources/assets/gtocore/blockstates/
 src/generated/resources/assets/gtocore/models/
 src/generated/resources/data/
 libs/*-sources.jar
+libs/*-debug.jar
 *.launch
 *.iml
 *.ipr

@@ -25,7 +25,6 @@ import net.minecraft.world.level.material.Fluids;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -39,12 +38,6 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ClarifierPurificationUnitMachine.class);
     private static final Fluid AIR = GTMaterials.Air.getFluid();
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ClarifierPurificationUnitMachine.class, WaterPurificationUnitMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Persisted
     private int count;

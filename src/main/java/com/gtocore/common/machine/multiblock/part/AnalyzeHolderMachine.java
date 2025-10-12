@@ -24,7 +24,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,9 +36,6 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
     public void setLocked(boolean locked) {
         isLocked = locked;
     }
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AnalyzeHolderMachine.class,
-            MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
     public static final int CATALYST_SLOT = 0;
     public static final int EMPTY_SLOT = 1;
@@ -98,11 +94,6 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
                 controller.checkPatternWithLock();
             }
         }
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private static class AnalyzeHolder extends NotifiableItemStackHandler {

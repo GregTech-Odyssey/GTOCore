@@ -26,7 +26,7 @@ public final class KeyBind {
         public void setDown(boolean isDown) {
             if (isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
                 ConfigHolder.getConfig(GTOCore.MOD_ID).ifPresent(config -> {
-                    ((BooleanValue) (config.getValueMap().get("nightVision"))).set(!GTOConfig.INSTANCE.nightVision);
+                    ((BooleanValue) (config.getValueMap().get("nightVision"))).setValue(!GTOConfig.INSTANCE.nightVision);
                     ConfigIO.saveClientValues(config);
                     ConfigIO.reloadClientValues(config);
                 });

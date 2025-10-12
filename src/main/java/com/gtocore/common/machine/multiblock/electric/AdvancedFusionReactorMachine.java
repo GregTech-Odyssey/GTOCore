@@ -21,7 +21,6 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +35,6 @@ import static com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionRea
 @MethodsReturnNonnullByDefault
 public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AdvancedFusionReactorMachine.class, CrossRecipeMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DescSynced
     private int color = -1;
     private final int tier;
@@ -51,11 +49,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         this.tier = tier;
         this.energyContainer = createEnergyContainer();
         preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, () -> isFormed || heat > 0);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private EnergyContainerTrait createEnergyContainer() {

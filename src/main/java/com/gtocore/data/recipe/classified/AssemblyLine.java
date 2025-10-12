@@ -1396,7 +1396,7 @@ final class AssemblyLine {
         ASSEMBLY_LINE_RECIPES.recipeBuilder("create_aggregation")
                 .inputItems(TagPrefix.frameGt, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter, 32)
                 .inputItems(GTOItems.CHAIN_COMMAND_BLOCK_CORE.asItem(), 16)
-                .inputItems(GTOBlocks.SPACETIMECONTINUUMRIPPER.asItem(), 16)
+                .inputItems(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.asItem(), 16)
                 .inputItems(GTOBlocks.CREATE_AGGREGATIONE_CORE.asItem(), 8)
                 .inputItems(GTOItems.MAX_ROBOT_ARM.asItem(), 32)
                 .inputItems(GTOItems.MAX_EMITTER.asItem(), 32)
@@ -1484,7 +1484,7 @@ final class AssemblyLine {
                         .EUt(31457280))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder("spacetimebendingcore")
+        ASSEMBLY_LINE_RECIPES.recipeBuilder("spacetime_bending_core")
                 .inputItems(GTOBlocks.MANIPULATOR.asItem())
                 .inputItems(GTItems.FIELD_GENERATOR_UIV.asItem(), 4)
                 .inputItems(GTItems.ROBOT_ARM_UXV.asItem(), 4)
@@ -1497,10 +1497,10 @@ final class AssemblyLine {
                 .inputFluids(GTMaterials.Thulium.getFluid(2880))
                 .inputFluids(GTMaterials.Nobelium.getFluid(2880))
                 .inputFluids(GTMaterials.Lawrencium.getFluid(2880))
-                .outputItems(GTOBlocks.SPACETIMEBENDINGCORE.asItem())
+                .outputItems(GTOBlocks.SPACETIME_BENDING_CORE.asItem())
                 .EUt(125829120)
                 .duration(800)
-                .researchStation(b -> b.researchStack(GTOBlocks.SPACETIMECONTINUUMRIPPER.asItem())
+                .researchStation(b -> b.researchStack(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.asItem())
                         .CWUt(1024)
                         .EUt(125829120))
                 .save();
@@ -1836,7 +1836,7 @@ final class AssemblyLine {
                         .EUt(7680))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder("spacetimecontinuumripper")
+        ASSEMBLY_LINE_RECIPES.recipeBuilder("spacetime_continuum_ripper")
                 .inputItems(GTOBlocks.MANIPULATOR.asItem())
                 .inputItems(GTItems.EMITTER_UIV.asItem(), 4)
                 .inputItems(GTItems.FIELD_GENERATOR_UIV.asItem())
@@ -1849,7 +1849,7 @@ final class AssemblyLine {
                 .inputFluids(GTMaterials.Thulium.getFluid(2880))
                 .inputFluids(GTMaterials.Neptunium.getFluid(2880))
                 .inputFluids(GTMaterials.Fermium.getFluid(2880))
-                .outputItems(GTOBlocks.SPACETIMECONTINUUMRIPPER.asItem())
+                .outputItems(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.asItem())
                 .EUt(125829120)
                 .duration(800)
                 .researchStation(b -> b.researchStack(GTOBlocks.MANIPULATOR.asItem())
@@ -3096,7 +3096,7 @@ final class AssemblyLine {
                 .inputItems(GTMachines.WORLD_ACCELERATOR[GTValues.ZPM].asItem(), 64)
                 .inputItems(GTMachines.WORLD_ACCELERATOR[GTValues.UV].asItem(), 64)
                 .inputItems(GTOBlocks.HYPER_CORE.asItem(), 16)
-                .inputItems(GTOBlocks.SPACETIMEBENDINGCORE.asItem(), 4)
+                .inputItems(GTOBlocks.SPACETIME_BENDING_CORE.asItem(), 4)
                 .inputItems(GTOBlocks.DIMENSIONAL_STABILITY_CASING.asItem(), 4)
                 .inputItems(GTOBlocks.SPACETIME_COMPRESSION_FIELD_GENERATOR.asItem(), 4)
                 .inputItems(GTOItems.TOPOLOGICAL_MANIPULATOR_UNIT.asItem(), 6)
@@ -3635,8 +3635,8 @@ final class AssemblyLine {
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder("quantum_force_transformer")
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Vibranium, 8)
-                .inputItems(GTOBlocks.SPACETIMECONTINUUMRIPPER.asItem(), 4)
-                .inputItems(GTOBlocks.SPACETIMEBENDINGCORE.asItem(), 4)
+                .inputItems(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.asItem(), 4)
+                .inputItems(GTOBlocks.SPACETIME_BENDING_CORE.asItem(), 4)
                 .inputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asItem(), 8)
                 .inputItems(GTItems.SENSOR_UXV.asItem(), 8)
                 .inputItems(GTItems.ROBOT_ARM_UXV.asItem(), 8)
@@ -3653,7 +3653,7 @@ final class AssemblyLine {
                 .outputItems(MultiBlockA.QUANTUM_FORCE_TRANSFORMER.asItem())
                 .EUt(125829120)
                 .duration(2400)
-                .researchStation(b -> b.researchStack(GTOBlocks.SPACETIMEBENDINGCORE.asItem())
+                .researchStation(b -> b.researchStack(GTOBlocks.SPACETIME_BENDING_CORE.asItem())
                         .CWUt(2048)
                         .EUt(125829120))
                 .save();

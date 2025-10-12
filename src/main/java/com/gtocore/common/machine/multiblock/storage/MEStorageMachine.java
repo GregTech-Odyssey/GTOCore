@@ -29,10 +29,8 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
@@ -42,7 +40,6 @@ import java.util.UUID;
 @DataGeneratorScanned
 public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine implements IBindable, IDropSaveMachine, IStorageMultiblock {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEStorageMachine.class, NoRecipeLogicMultiblockMachine.MANAGED_FIELD_HOLDER);
     public static final long infinite = 1000000000000L; // 1T
     @RegisterLanguage(en = "Data Index Position: ", cn = "数据索引位置：")
     private static final String MODE = "gtocore.machine.me_storage.mode";
@@ -191,12 +188,6 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
         if (tag.hasUUID("uuid")) {
             uuid = tag.getUUID("uuid");
         }
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

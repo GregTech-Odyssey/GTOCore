@@ -16,6 +16,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Collections;
+import java.util.List;
+
 @Mixin(ProcessingEncodingPanel.class)
 public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
 
@@ -33,6 +36,8 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     private ModifyIconButton gtolib$dividingFive;
     @Unique
     private ModifyIconButton gtolib$clearSecOutput;
+    @Unique
+    private ModifyIconButton gtolib$recipeInfo;
 
     protected ProcessingEncodingPanelMixin(PatternEncodingTermScreen<?> screen, WidgetContainer widgets) {
         super(screen, widgets);
@@ -68,6 +73,18 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
                 Component.translatable("gtocore.pattern.clearSecOutput"),
                 Component.translatable("gtocore.pattern.tooltip.clearSecOutput"));
 
+        gtolib$recipeInfo = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$clickRecipeInfo(), ModifyIcon.TOOLBAR_BUTTON_BACKGROUND,
+                Component.empty(),
+                Component.empty()) {
+
+            @Override
+            public List<Component> getTooltipMessage() {
+                return Collections.singletonList(((IPatterEncodingTermMenu) menu).gtolib$getRecipeInfoTooltip());
+            }
+        };
+
+        // TODO new button recipe info
+
         widgets.add("modify1", gtolib$multipleTow);
         widgets.add("modify2", gtolib$multipleThree);
         widgets.add("modify3", gtolib$multipleFive);
@@ -75,6 +92,7 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
         widgets.add("modify5", gtolib$dividingThree);
         widgets.add("modify6", gtolib$dividingFive);
         widgets.add("clearSecOutput", gtolib$clearSecOutput);
+        widgets.add("recipeInfo", gtolib$recipeInfo);
     }
 
     @Inject(method = "setVisible", at = @At("TAIL"), remap = false)
@@ -86,5 +104,6 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
         gtolib$dividingThree.setVisibility(visible);
         gtolib$dividingFive.setVisibility(visible);
         gtolib$clearSecOutput.setVisibility(visible);
+        gtolib$recipeInfo.setVisibility(visible);
     }
 }

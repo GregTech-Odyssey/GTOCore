@@ -10,7 +10,6 @@ import appeng.api.stacks.AEKey;
 import appeng.util.prioritylist.IPartitionList;
 import com.glodblock.github.extendedae.common.me.taglist.TagPriorityList;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -18,7 +17,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class METagFilterStockHatchPartMachine extends MEStockingHatchPartMachine implements ITagFilterPartMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(METagFilterStockHatchPartMachine.class, MEStockingHatchPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private String tagWhite = "";
     @Persisted
@@ -59,11 +57,6 @@ public class METagFilterStockHatchPartMachine extends MEStockingHatchPartMachine
         if (tag.contains("TagBlack")) {
             setTagBlack(tag.getString("TagBlack"));
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

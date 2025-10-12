@@ -35,7 +35,6 @@ import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +49,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IExtendWirelessEnergyContainerHolder {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(GeneratorArrayMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DynamicInitialValue(key = "generator_array.multiply", simpleValue = "2", normalValue = "1.3", expertValue = "1.3", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, cn = "发电阵列乘数", cnComment = """
             发电阵列的功率奖励乘数，影响每个发电机的输出功率。
             数值越大，发电机的输出功率越高。
@@ -88,11 +86,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
 
     public GeneratorArrayMachine(MetaMachineBlockEntity holder) {
         super(holder, generatorLimit, GeneratorArrayMachine::filter);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private static boolean filter(ItemStack itemStack) {

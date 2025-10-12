@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class BasicMonitor extends MetaMachine implements IBindable, IMachineLife, IMonitor {
 
-    public BasicMonitor(MetaMachineBlockEntity holder) {
+    BasicMonitor(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

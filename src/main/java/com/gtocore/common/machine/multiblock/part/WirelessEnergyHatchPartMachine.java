@@ -21,8 +21,6 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -30,9 +28,6 @@ import java.util.UUID;
 import static com.hepdd.gtmthings.utils.TeamUtil.GetName;
 
 public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine implements IInteractedMachine, IBindable {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            WirelessEnergyHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private final WirelessEnergyContainerTrait energyContainer;
@@ -55,11 +50,6 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
             container.setCapabilityValidator(s -> s == null || s == this.getFrontFacing());
         }
         return container;
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

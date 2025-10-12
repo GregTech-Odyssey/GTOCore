@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -26,7 +25,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import java.util.List;
 
@@ -36,9 +34,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class FissionReactorMachine extends ElectricMultiblockMachine implements IExplosionMachine, IParallelMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            FissionReactorMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private static final Fluid DistilledWater = GTMaterials.DistilledWater.getFluid();
     private static final Fluid Steam = GTMaterials.Steam.getFluid();
@@ -63,11 +58,6 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
     public FissionReactorMachine(MetaMachineBlockEntity holder) {
         super(holder);
         HeatSubs = new ConditionalSubscriptionHandler(this, this::HeatUpdate, () -> isFormed() || heat > 298);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

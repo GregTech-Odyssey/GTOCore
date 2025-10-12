@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +30,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class SteamVentHatchMachine extends MultiblockPartMachine implements IExhaustVentMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SteamVentHatchMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private boolean needsVenting;
 
@@ -56,12 +54,6 @@ public class SteamVentHatchMachine extends MultiblockPartMachine implements IExh
         this.needsVenting = true;
         checkVenting();
         return super.afterWorking(controller);
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

@@ -15,7 +15,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -23,20 +22,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class CatalystHatchPartMachine extends TieredIOPartMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            CatalystHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
-
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
     public CatalystHatchPartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.IN);
         this.inventory = new NotifiableCatalystHandler(this, tier == 2 ? 4 : 36, true);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

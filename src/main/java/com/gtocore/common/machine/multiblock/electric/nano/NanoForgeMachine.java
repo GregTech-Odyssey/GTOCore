@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,14 +38,6 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class NanoForgeMachine extends StorageMultiblockMachine implements IParallelMachine, IMultiStructureMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            NanoForgeMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(4, 0.9F);
 

@@ -13,15 +13,12 @@ import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 public final class LargeMixerMachine extends GCYMMultiblockMachine implements IFluidRendererMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(LargeMixerMachine.class, GCYMMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DescSynced
     @RequireRerender
     private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
@@ -36,12 +33,6 @@ public final class LargeMixerMachine extends GCYMMultiblockMachine implements IF
     protected boolean beforeWorking(@Nullable Recipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
         return super.beforeWorking(recipe);
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

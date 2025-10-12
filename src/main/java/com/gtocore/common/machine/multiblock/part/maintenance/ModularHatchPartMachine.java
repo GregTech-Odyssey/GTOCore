@@ -34,7 +34,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -45,8 +44,6 @@ import java.util.function.Supplier;
 
 @DataGeneratorScanned
 public class ModularHatchPartMachine extends ACMHatchPartMachine implements IModularMaintenance, IMachineModifyDrops {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ModularHatchPartMachine.class, ACMHatchPartMachine.MANAGED_FIELD_HOLDER);
 
     private TickableSubscription tickSubs;
 
@@ -79,11 +76,6 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private IntInputWidget gravityWidget;
     private IntInputWidget temperatureWidget;
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public ModularHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);

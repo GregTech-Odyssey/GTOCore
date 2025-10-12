@@ -24,7 +24,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,9 +36,6 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
     public void setLocked(boolean locked) {
         isLocked = locked;
     }
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DataGenerateHolderMachine.class,
-            MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
     public static final int CATALYST_SLOT_1 = 0;
     public static final int CATALYST_SLOT_2 = 1;
@@ -137,11 +133,6 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
                 controller.checkPatternWithLock();
             }
         }
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private static class DataGenerateHolder extends NotifiableItemStackHandler {

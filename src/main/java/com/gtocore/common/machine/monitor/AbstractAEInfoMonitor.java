@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.monitor;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
@@ -13,15 +12,12 @@ import net.minecraft.resources.ResourceLocation;
 import appeng.api.networking.IManagedGridNode;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
 import java.util.List;
 
 public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor implements IGridConnectedMachine {
-
-    private static final ManagedFieldHolder MONITOR_HOLDER = new ManagedFieldHolder(AbstractAEInfoMonitor.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     @DescSynced
     @NotNull
@@ -38,10 +34,6 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
     AbstractAEInfoMonitor(MetaMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
-    }
-
-    protected ManagedFieldHolder getManagedFieldHolder(Class<? extends BasicMonitor> clazz) {
-        return new ManagedFieldHolder(clazz, MONITOR_HOLDER);
     }
 
     @Override

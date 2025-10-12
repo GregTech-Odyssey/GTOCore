@@ -38,7 +38,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.api.planets.PlanetApi;
@@ -54,7 +53,6 @@ import static com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes.KEY_AMP
 @MethodsReturnNonnullByDefault
 public final class WindMillTurbineMachine extends TieredEnergyMachine implements IMachineLife, IFancyUIMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(WindMillTurbineMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     @DescSynced
     private float spinSpeed;
@@ -221,11 +219,6 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     @Override
     protected long getMaxInputOutputAmperage() {
         return amperage_out;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     public static int getAmperage_out() {

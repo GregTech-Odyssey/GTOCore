@@ -12,7 +12,6 @@ import appeng.api.stacks.KeyCounter;
 import appeng.blockentity.crafting.IMolecularAssemblerSupportedPattern;
 import appeng.crafting.pattern.EncodedPatternItem;
 import appeng.crafting.pattern.ProcessingPatternItem;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -20,16 +19,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPatternPartMachine.InternalSlot> {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MECraftPatternPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
     private Runnable onContentsChanged = () -> {};
 
     public MECraftPatternPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 72);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
