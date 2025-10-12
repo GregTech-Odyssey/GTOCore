@@ -167,11 +167,7 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             }
             informationList.addIfAbsent(
                     DisplayRegistry.EU_STATUS_BAR.id(),
-                    DisplayComponent.progressBar(DisplayRegistry.EU_STATUS_BAR.id(),
-                            energyFullness,
-                            40, 12,
-                            Component.translatable("gtocore.machine.monitor.eu.fullness", String.format("%.2f", energyFullness * 100)).getString(),
-                            ProgressBarColorStyle.Companion.getHEALTH_GRADIENT()));
+                    DisplayComponent.progressBar(DisplayRegistry.EU_STATUS_BAR.id(), energyFullness, Component.translatable("gtocore.machine.monitor.eu.fullness", String.format("%.2f", energyFullness * 100)).getString()));
         }
         return informationList;
     }

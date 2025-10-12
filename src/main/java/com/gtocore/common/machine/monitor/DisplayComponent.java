@@ -82,45 +82,40 @@ public abstract class DisplayComponent implements IDisplayComponent {
     }
 
     public static class ProgressBar extends DisplayComponent {
-
-        private float progress; // 0.0 to 1.0
-        private GTOToolTipComponent toolTipComponent;
-        private String text = ""; // Optional text to display on the progress bar
-        private ProgressBarColorStyle style = ProgressBarColorStyle.Companion.getDEFAULT_GREEN(); // Default style
+        private final GTOProgressToolTipComponent toolTipComponent;
 
         private ProgressBar(ResourceLocation id) {
             super(id);
+            this.toolTipComponent = new GTOProgressToolTipComponent(0, "", ProgressBarColorStyle.Companion.getDEFAULT_GREEN());
+        }
+
+        public ProgressBar setInformation(float progress, String text, ProgressBarColorStyle style, int height) {
+            return setInformation(progress, height, text, style);
         }
 
         @Override
-        public IDisplayComponent setInformation(Object... information) {
-            if (information.length >= 3 && information[0] instanceof Float progressValue && information[1] instanceof Integer widthValue && information[2] instanceof Integer heightValue) {
-                this.progress = progressValue;
-                // this.width = widthValue;
-                if (information.length >= 5 && information[3] instanceof String text0 &&
-                        information[4] instanceof ProgressBarColorStyle style0) {
-                    // Optionally handle text if needed, currently unused
-                    this.text = text0;
-                    this.style = style0;
+        public ProgressBar setInformation(Object... information) {
+            if (information.length >= 2 && information[0] instanceof Float progressValue && information[1] instanceof Integer heightValue) {
+                if (information.length >= 4 && information[2] instanceof String textValue && information[3] instanceof ProgressBarColorStyle styleValue) {
+                    toolTipComponent.setText(textValue);
+                    toolTipComponent.setProgressColorStyle(styleValue);
                 }
-                toolTipComponent = new GTOProgressToolTipComponent(progress, text, style);
-                toolTipComponent.setWidth(widthValue);
+                toolTipComponent.setPercentage(progressValue);
                 toolTipComponent.setHeight(heightValue);
             } else {
-                this.progress = 0.0f; // Default to 0 if no valid values provided
-                // this.width = 100; // Default width
+                toolTipComponent.setPercentage(0);
             }
             return this;
         }
 
         @Override
         public int getVisualWidth() {
-            return toolTipComponent.getWidth() + 4;
+            return toolTipComponent.getWidth();
         }
 
         @Override
         public int getVisualHeight() {
-            return toolTipComponent.getHeight() + 1;
+            return toolTipComponent.getHeight();
         }
 
         @Override
@@ -130,34 +125,44 @@ public abstract class DisplayComponent implements IDisplayComponent {
 
         @Override
         public void renderDisplay(
-                                  Manager.GridNetwork network,
-                                  BlockEntity blockEntity,
-                                  float partialTicks,
-                                  PoseStack stack,
-                                  MultiBufferSource buffer,
-                                  int combinedLight,
-                                  int combinedOverlay,
-                                  int lastLineX,
-                                  int startY) {
-            GuiIn3DHelper.renderIn3D(
-                    stack,
-                    (gui, pose) -> {
-
-                        // guiPose.translate(0, 0, -400);
-                        pose.scale(1f, 1f, 1e-3f);
-                        new GTOProgressClientComponent(new GTOProgressToolTipComponent(progress, text, style)).renderImage(Minecraft.getInstance().font, 0, startY, gui);
-                    });
+                Manager.GridNetwork network,
+                BlockEntity blockEntity,
+                float partialTicks,
+                PoseStack stack,
+                MultiBufferSource buffer,
+                int combinedLight,
+                int combinedOverlay,
+                int lastLineX,
+                int startY) {
+            GuiIn3DHelper.renderIn3D(stack, (gui, pose) -> {
+                pose.scale(1f, 1f, 0.01f);
+                new GTOProgressClientComponent(toolTipComponent).renderImage(Minecraft.getInstance().font, 0, startY, gui);
+            });
         }
     }
 
-    public static ProgressBar progressBar(ResourceLocation id, float progress, int width, int height) {
-        return (ProgressBar) new ProgressBar(id)
-                .setInformation(progress, width, height);
+    public static ProgressBar progressBar(ResourceLocation id, float progress) {
+        return progressBar(id, progress, 15);
     }
 
-    public static ProgressBar progressBar(ResourceLocation id, float progress, int width, int height, String text, ProgressBarColorStyle style) {
-        return (ProgressBar) new ProgressBar(id)
-                .setInformation(progress, width, height, text, style);
+    public static ProgressBar progressBar(ResourceLocation id, float progress, int height) {
+        return new ProgressBar(id).setInformation(progress, height);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text) {
+        return progressBar(id, progress, text, 15);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text, int height) {
+        return new ProgressBar(id).setInformation(progress, text, ProgressBarColorStyle.Companion.getDEFAULT_GREEN(), height);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text, ProgressBarColorStyle style) {
+        return progressBar(id, progress, text, style, 15);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text, ProgressBarColorStyle style, int height) {
+        return new ProgressBar(id).setInformation(progress, text, style, height);
     }
 
     public static class TextWithStack extends Text {
