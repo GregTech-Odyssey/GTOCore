@@ -455,6 +455,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
 
         public void setLock(boolean lock) {
+            if (this.lock == lock) {
+                lockableInventory.setLock(lock);
+                return;
+            }
             if (this.lock) {
                 circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
                 for (int i = 0; i < 9; i++) {
