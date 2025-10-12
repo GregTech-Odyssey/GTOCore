@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
@@ -43,6 +44,7 @@ import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType
 import static com.gtocore.api.pattern.GTOPredicates.autoGCYMAbilities;
 import static com.gtocore.api.pattern.GTOPredicates.light;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtolib.api.machine.MultiblockDefinition.getBlockInfos;
 
 public class SpaceMultiblock {
 
@@ -233,9 +235,11 @@ public class SpaceMultiblock {
             .allRotation()
             .workableInSpace()
             .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceStationWorkspaceExtensionTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.SPACE_STATION_CONTROL_CASING)
             .pattern(WorkspaceExtension.patternAtLength(2))
+            .shapeInfos(d -> Stream.of(2, 9).map(i -> new MultiblockShapeInfo(getBlockInfos(WorkspaceExtension.patternAtLength(i).apply(d)))).toList())
             .workableCasingRenderer(GTOCore.id("block/casings/space_station_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
     // 工业空间站六向衔接舱

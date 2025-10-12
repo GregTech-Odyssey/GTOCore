@@ -730,6 +730,7 @@ object GTOMachineTooltips {
 
         section(RunningRequirements)
         command("需每秒提供10x配方等级^2的§b液态冰§r" translatedTo "Requires to provide 10x(Recipe tier)² of §bLiquid Ice§r per second")
+        command("雾化冷凝配方需要机器安装模块" translatedTo "Atomization condensation recipes require the machine to be equipped with modules")
     }
 
     // 烈焰高炉
@@ -1504,6 +1505,18 @@ object GTOMachineTooltips {
         increase("获得0.01x耗时减免" translatedTo "Gain 0.01x Duration reduction")
     }
 
+    // 精灵交易所
+    val ElfExchangeMachine = ComponentListSupplier {
+        setTranslationPrefix("elf_exchange_machine")
+
+        section("下界模式" translatedTo "Nether Mode")
+        info("在下界中工作，且设置电路时，交易对象不再是亚尔夫海姆世界的居民" translatedTo "When working in the Nether, and setting the circuit meta, the trading partner is no longer a resident of Alfheim.")
+        info("而是猪灵堡垒中的§6猪灵§r" translatedTo "Instead, it is the §6Piglins§r in the Bastion Remnants.")
+        info("每一笔交易将花费§e金锭§r作为交易货币" translatedTo "Each trade will cost §eGold Ingots§r as the trading currency.")
+        command("设置§b2号电路§r时，将过滤交易物品，不允许§b装备/药水/附魔书§r" translatedTo "When setting §bCircuit 2§r, it will filter traded items, disallowing §bEquipment/Potions/Enchanted Books§r.")
+        important("此法过滤的物品仍然需要支付§e金锭§r" translatedTo "Items filtered by this method still require payment in §eGold Ingots§r.")
+    }
+
     // 快中子增殖堆
     val FastNeutronBreederTooltips = ComponentListSupplier {
         setTranslationPrefix("fast_neutron_breeder")
@@ -1612,6 +1625,15 @@ object GTOMachineTooltips {
         info("§b衔接舱§r：用于连接核心舱/模块仓与其他拓展舱体" translatedTo "§bConnection Module§r: Used to connect the core module with other expansion modules")
         info("§b模块仓§r：提供额外的空间与功能" translatedTo "§bFunctional Module§r: Provides additional space and functions")
     }
+    val SpaceStationWorkspaceExtensionTooltips = ComponentListSupplier {
+        setTranslationPrefix("space_station_workspace_extension")
+
+        section(MainFunction)
+        info("提供额外的空间以容纳更多机器" translatedTo "Provides additional space to accommodate more machines")
+        info("且可安装在§b大型空间站§r的任意一侧" translatedTo "And can be installed on any side of the §bLarge Space Station§r")
+        important(("该模块为变长模块" translatedTo "This module is a variable-length module").scrollExotic())
+        important("在搭建模块前请在机器GUI内点击左下调整器调整模块的长度" translatedTo "Before building the module, please click the adjuster in the bottom left of the machine GUI to adjust the length of the module")
+    }
     val SpaceStationEnvironmentalMaintenanceModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("space_station_environmental_maintenance_module")
 
@@ -1623,6 +1645,13 @@ object GTOMachineTooltips {
                 ("向下兼容低级超净环境" translatedTo " are backward compatible with lower-level super clean environments").scrollOptical(),
         )
         highlight("提供无人机仓，可供无人机清理空间站内机器的垃圾，或自动维护机器" translatedTo "Provides a drone bay for drones to clean up machine waste or automatically maintain machines in the space station")
+    }
+    val SpaceStationDroneBayTooltips = ComponentListSupplier {
+        setTranslationPrefix("space_station_drone_bay")
+
+        section(MainFunction)
+        info("向外派遣无人机以完成各种任务" translatedTo "Dispatch drones to complete various tasks")
+        info("收集太空中的宇宙尘埃，并将其转化为可用的资源" translatedTo "Collect cosmic dust in space and convert it into usable resources")
     }
     val NoExtensionAvailableTooltips = ComponentListSupplier {
         setTranslationPrefix("no_extension_available")

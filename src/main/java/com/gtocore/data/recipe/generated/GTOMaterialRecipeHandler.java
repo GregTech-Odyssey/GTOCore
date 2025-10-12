@@ -477,7 +477,7 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
         if (material.hasFlag(GENERATE_FIBER)) {
-            if (material.hasFluid() && !material.hasFlag(IS_CARBON_FIBER)) {
+            if (!material.hasFlag(IS_CARBON_FIBER)) {
                 int fiberTemp = getFiberExtrusionTemperature(material);
                 if (fiberTemp == 0) {
                     fiberTemp = Math.max(800, material.getBlastTemperature());
@@ -489,6 +489,15 @@ final class GTOMaterialRecipeHandler {
                         .EUt(50 + mass * 2L)
                         .duration(200 + mass * 4)
                         .blastFurnaceTemp(fiberTemp)
+                        .save();
+                DRAWING_RECIPES.recipeBuilder("drawing_fiber_" + id)
+                        .circuitMeta(4)
+                        .inputItems(dust, material, 256)
+                        .outputItems(GTOTagPrefix.FIBER, material, amount * 256)
+                        .addData("spool", 5)
+                        .duration((200 + mass * 4) * 512)
+                        .EUt((50 + mass * 2L) * 16)
+                        .blastFurnaceTemp(4300 + fiberTemp)
                         .save();
             }
             LOOM_RECIPES.builder("fiber_mesh_" + id + "_from_fiber")

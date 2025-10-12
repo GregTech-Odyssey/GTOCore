@@ -196,6 +196,7 @@
     "gtm.machine.WorkableTieredMachineMixin",
     "gtm.map.OreVeinElementRendererMixin",
     "gtm.map.XaeroWaypointHandlerMixin",
+    "gtm.recipe.AlloyBlastRecipeProducerMixin",
     "gtm.recipe.ArcFurnaceLogicMixin",
     "gtm.recipe.CraftingComponentMixin",
     "gtm.recipe.MaceratorLogicMixin",

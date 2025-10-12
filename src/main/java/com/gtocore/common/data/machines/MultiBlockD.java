@@ -378,6 +378,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition COLD_ICE_FREEZER = multiblock("cold_ice_freezer", "寒冰冷冻机", ColdIceFreezerMachine::new)
             .allRotation()
             .moduleTooltips()
+            .disabledCombined()
             .recipeTypes(GTRecipeTypes.VACUUM_RECIPES, ATOMIZATION_CONDENSATION_RECIPES)
             .durationMultiplierTooltips(0.5)
             .tooltips(GTOMachineStories.INSTANCE.getColdIceFreezerTooltips().getSupplier())

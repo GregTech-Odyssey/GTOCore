@@ -31,13 +31,11 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
@@ -49,12 +47,6 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
     @Persisted
     @DescSynced
     private int length = 2;
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(WorkspaceExtension.class, Extension.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public WorkspaceExtension(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
@@ -62,7 +54,7 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
 
     @Override
     public List<BlockPattern> getMultiPattern() {
-        return IntStream.rangeClosed(2, 9).mapToObj(i -> patternAtLength(i).apply(getDefinition())).toList();
+        return Stream.of(2, 9).map(i -> patternAtLength(i).apply(getDefinition())).toList();
     }
 
     @Override
@@ -94,7 +86,7 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
             public Widget createConfigurator() {
                 WidgetGroup group = new WidgetGroup(0, 0, 100, 20);
                 var intInput = new IntInputWidget(() -> length, p -> {
-                    if (p != length) onStructureInvalid();
+                    if (p != length) requestCheck();
                     length = p;
                 }).setMin(2).setMax(9).setValue(length);
                 return group.addWidget(intInput);

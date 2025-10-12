@@ -23,7 +23,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +44,6 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
     /// 空间站附赠超净间
     @Nullable
     private CleanroomType cleanroomType = null;
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SimpleSpaceStationMachine.class, AbstractSpaceStation.MANAGED_FIELD_HOLDER);
 
     public SimpleSpaceStationMachine(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);

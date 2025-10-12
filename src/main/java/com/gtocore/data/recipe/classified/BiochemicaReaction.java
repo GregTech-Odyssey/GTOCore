@@ -326,7 +326,7 @@ final class BiochemicaReaction {
                 .inputItems("botania:virus_necrodermal", 4)
                 .inputItems(GTOItems.CEREBRUM.asItem(), 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Tantalum, 16)
-                .outputItems("enderio:zombie_electrode")
+                .outputItems("enderio:zombie_electrode", 16)
                 .outputItems(Items.ROTTEN_FLESH.asItem(), 4)
                 .inputFluids(GTOMaterials.Biotin, 100)
                 .inputFluids(GTOMaterials.EpidermalGrowthFactor, 100)

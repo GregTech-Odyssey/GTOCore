@@ -162,9 +162,11 @@ public final class Temporary {
                 .save();
         ASSEMBLER_RECIPES.builder("space_shield_hatch")
                 .inputItems(CustomTags.UEV_CIRCUITS, 4)
-                .inputItems(SpaceMultiblock.LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE.asItem(), 4)
+                .inputItems(SpaceMultiblock.SPACE_STATION_ENVIRONMENTAL_MAINTENANCE_MODULE.asItem(), 4)
                 .inputItems(GTOBlocks.LAW_FILTER_CASING.asItem(), 4)
                 .inputItems(GTOItems.HIGH_FREQUENCY_LASER.asItem(), 2)
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UEV, 4)
+                .inputFluids(GTOMaterials.UltraLightweightCompositeSteel, 1152)
                 .outputItems(GTOMachines.SPACE_SHIELD_HATCH.asItem())
                 .EUt(16777216)
                 .duration(200)

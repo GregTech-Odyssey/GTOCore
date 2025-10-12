@@ -731,5 +731,16 @@ final class AssemblerA {
                 .EUt(16)
                 .duration(50)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("space_engine_nozzle")
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.TungstenAlloyYG10)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.InconelX750, 4)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.OxideDispersionStrengthenedNickelBasedAlloy, 2)
+                .inputItems(GTOTagPrefix.pipeLargeFluid, GTMaterials.TungstenSteel, 2)
+                .outputItems(GTOBlocks.SPACE_ENGINE_NOZZLE.asItem())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
     }
 }

@@ -124,13 +124,13 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xffe278)
                 .secondaryColor(0xc2a664)
-                .blastTemp(8964, HIGHER, GTValues.VA[GTValues.ZPM], 400)
-                .components(Copper, 57, Silver, 40, Zirconium, 27)
+                .blastTemp(7111, HIGHER, GTValues.VA[GTValues.ZPM], 1400)
+                .components(Copper, 80, Silver, 20, Zirconium, 8, SterlingSilver, 5, Thulium, 3)
                 .iconSet(BRIGHT)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         Titanium5553 = material("titanium_5553", "钛合金-5553")
                 .ingot()
@@ -150,13 +150,13 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0x8b8b8b)
                 .secondaryColor(0x4c4c4c)
-                .blastTemp(10450, HIGHER, GTValues.VA[GTValues.IV], 1600)
-                .components(Steel, 56, Manganese, 29, Aluminium, 12, Silicon, 1, Chromium, 5)
+                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.UV], 1600)
+                .components(Steel, 56 * 3, Aluminium, 12 * 3, Manganese, 29 * 3, Chromium, 5 * 3, Beryllium, 2, Naquadria, 1)
                 .iconSet(SHINY)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         BerylliumAluminiumAlloy = material("beryllium_aluminium_alloy", "特种铍铝合金")
                 .ingot()
@@ -175,13 +175,13 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xd3b8d2)
                 .secondaryColor(0xa899a8)
-                .blastTemp(11660, HIGHER, GTValues.VA[GTValues.UHV], 1900)
-                .components(Titanium, 25, Aluminium, 1, Vanadium, 5, Tin, 1, Chromium, 1, AstralSilver, 3, Etrium, 6)
+                .blastTemp(12345, HIGHER, GTValues.VA[GTValues.UHV], 1900)
+                .components(Titanium, 64 * 4, Vanadium, 10 * 4, Aluminium, 5 * 4, Chromium, 5 * 4, Tin, 5 * 4, Etrium, 8 * 4, InfusedGold, 5, AstralSilver, 3)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
 
         AluminumAlloy2090 = material("aluminum_alloy_2090", "铝合金-2090")

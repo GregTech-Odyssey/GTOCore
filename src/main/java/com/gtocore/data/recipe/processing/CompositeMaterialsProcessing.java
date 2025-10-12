@@ -533,5 +533,21 @@ public class CompositeMaterialsProcessing {
                 .EUt(8000)
                 .duration(100)
                 .save();
+
+        CHEMICAL_BATH_RECIPES.builder("alumina_fiber_reinforced_aluminum_matrix_composite_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AluminumAlloy5A06, 9)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.Alumina, 2)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminaFiberReinforcedAluminumMatrixComposite)
+                .inputFluids(GTMaterials.ReinforcedEpoxyResin, 288)
+                .EUt(2000)
+                .duration(200)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("alumina_fiber_reinforced_aluminum_matrix_composite_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminaFiberReinforcedAluminumMatrixComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.AluminaFiberReinforcedAluminumMatrixComposite)
+                .EUt(500)
+                .duration(100)
+                .save();
     }
 }

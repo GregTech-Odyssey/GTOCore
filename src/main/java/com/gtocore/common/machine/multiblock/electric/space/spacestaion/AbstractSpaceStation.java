@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.api.systems.OxygenApi;
 import earth.terrarium.adastra.api.systems.TemperatureApi;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -33,9 +32,6 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     protected Collection<IWorkInSpaceMachine> spaceMachines;
     @DescSynced
     protected final Set<BlockPos> lastDistributedBlocks = new ObjectOpenHashSet<>();
-
-    protected final static ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AbstractSpaceStation.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
     private final @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction;
 
     @Persisted

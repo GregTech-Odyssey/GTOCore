@@ -40,7 +40,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.apache.commons.lang3.BooleanUtils;
@@ -73,13 +72,6 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     private final ManaTrait manaTrait;
 
     private final BlockPattern patternInSpace;
-
-    private static final ManagedFieldHolder FIELD_HOLDER = new ManagedFieldHolder(PhotovoltaicPowerStationMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return FIELD_HOLDER;
-    }
 
     @DescSynced
     private BlockPos highlightStartPos = BlockPos.ZERO;
