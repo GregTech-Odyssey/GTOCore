@@ -75,7 +75,11 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
         }
     }
 
-    Set<BlockPos> getModulePositions();
+    default Set<BlockPos> getModulePositions() {
+        AbstractSpaceStation self = (AbstractSpaceStation) self();
+        if (self.getPositionFunction() != null) return self.getPositionFunction().apply(self);
+        return Collections.emptySet();
+    }
 
     ConnectType getConnectType();
 

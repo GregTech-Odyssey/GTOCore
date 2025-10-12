@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
@@ -37,7 +36,7 @@ public class CleanroomProvider extends Extension implements ICleanroomProvider, 
     private final ObjectList<DroneHatchPartMachine> droneHatchPartMachine = new ObjectArrayList<>();
 
     public CleanroomProvider(MetaMachineBlockEntity metaMachineBlockEntity) {
-        super(metaMachineBlockEntity);
+        super(metaMachineBlockEntity, ILargeSpaceStationMachine.twoWayPositionFunction(41));
     }
 
     @Override
@@ -60,11 +59,6 @@ public class CleanroomProvider extends Extension implements ICleanroomProvider, 
         this.cleanroomType = null;
         getDroneHatchPartMachine().clear();
         IIWirelessInteractor.removeFromNet(NETWORK, this);
-    }
-
-    @Override
-    public Set<BlockPos> getModulePositions() {
-        return ILargeSpaceStationMachine.twoWayPositionFunction(41).apply(this);
     }
 
     @Override

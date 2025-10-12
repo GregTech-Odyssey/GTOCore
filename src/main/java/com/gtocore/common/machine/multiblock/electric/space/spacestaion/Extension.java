@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
@@ -24,7 +25,12 @@ public class Extension extends AbstractSpaceStation implements ILargeSpaceStatio
     protected Core core;
 
     public Extension(MetaMachineBlockEntity metaMachineBlockEntity) {
-        super(metaMachineBlockEntity);
+        super(metaMachineBlockEntity, ILargeSpaceStationMachine.twoWayPositionFunction(59));
+        shouldShowReadyText = false;
+    }
+
+    public Extension(MetaMachineBlockEntity metaMachineBlockEntity, @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction) {
+        super(metaMachineBlockEntity, positionFunction);
         shouldShowReadyText = false;
     }
 
@@ -36,11 +42,6 @@ public class Extension extends AbstractSpaceStation implements ILargeSpaceStatio
     @Override
     public void setRoot(@Nullable Core root) {
         core = root;
-    }
-
-    @Override
-    public Set<BlockPos> getModulePositions() {
-        return ILargeSpaceStationMachine.twoWayPositionFunction(59).apply(this);
     }
 
     @Override

@@ -7,13 +7,22 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
+import net.minecraft.core.BlockPos;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
+import java.util.function.Function;
 
 public class RecipeExtension extends Extension {
 
     public RecipeExtension(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
+    }
+
+    public RecipeExtension(MetaMachineBlockEntity metaMachineBlockEntity, @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction) {
+        super(metaMachineBlockEntity, positionFunction);
     }
 
     @Override

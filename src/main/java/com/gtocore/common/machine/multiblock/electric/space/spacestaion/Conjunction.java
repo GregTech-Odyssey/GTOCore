@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 
-import com.google.common.collect.ImmutableSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,11 +23,9 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 public class Conjunction extends AbstractSpaceStation implements ILargeSpaceStationMachine {
 
     protected Core core;
-    private final Function<AbstractSpaceStation, Set<BlockPos>> positionFunction;
 
     public Conjunction(MetaMachineBlockEntity metaMachineBlockEntity, Function<AbstractSpaceStation, Set<BlockPos>> positionFunction) {
-        super(metaMachineBlockEntity);
-        this.positionFunction = positionFunction;
+        super(metaMachineBlockEntity, positionFunction);
         shouldShowReadyText = false;
     }
 
@@ -40,11 +37,6 @@ public class Conjunction extends AbstractSpaceStation implements ILargeSpaceStat
     @Override
     public void setRoot(@Nullable Core root) {
         core = root;
-    }
-
-    @Override
-    public Set<BlockPos> getModulePositions() {
-        return positionFunction != null ? positionFunction.apply(this) : ImmutableSet.of();
     }
 
     @Override

@@ -51,7 +51,6 @@ import net.minecraft.world.level.block.Blocks;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -1273,13 +1272,7 @@ public final class MultiBlockH {
             .register();
 
     // 工业空间站短扩展舱
-    public static final MachineDefinition SPACE_STATION_SHORT_HALLWAY = multiblock("space_station_short_hallway", "工业空间站短扩展舱", (c) -> new Extension(c) {
-
-        @Override
-        public Set<BlockPos> getModulePositions() {
-            return ILargeSpaceStationMachine.twoWayPositionFunction(41).apply(this);
-        }
-    })
+    public static final MachineDefinition SPACE_STATION_SHORT_HALLWAY = multiblock("space_station_short_hallway", "工业空间站短扩展舱", (c) -> new Extension(c, ILargeSpaceStationMachine.twoWayPositionFunction(41)))
             .allRotation()
             .workableInSpace()
             .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
@@ -1468,7 +1461,7 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/spacecraft_sealing_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
     // 轨道冶炼所
-    public static final MachineDefinition ORBITAL_SMELTING_FACILITY = multiblock("orbital_smelting_facility", "轨道冶炼所", OrbitalSmeltingFacility::new)
+    public static final MachineDefinition ORBITAL_SMELTING_FACILITY = multiblock("orbital_smelting_facility", "轨道冶炼舱", OrbitalSmeltingFacility::new)
             .allRotation()
             .workableInSpace()
             .parallelizableTooltips()
@@ -1523,13 +1516,7 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/smelting_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
     // 轨道精细材料工厂
-    public static final MachineDefinition ORBITAL_FINE_MATERIALS_FACTORY = multiblock("orbital_fine_materials_factory", "轨道超材料锻造工厂", (d -> new RecipeExtension(d) {
-
-        @Override
-        public Set<BlockPos> getModulePositions() {
-            return ILargeSpaceStationMachine.twoWayPositionFunction(41).apply(this);
-        }
-    }))
+    public static final MachineDefinition ORBITAL_FINE_MATERIALS_FACTORY = multiblock("orbital_fine_materials_factory", "轨道超材料锻造工厂舱", (d -> new RecipeExtension(d, ILargeSpaceStationMachine.twoWayPositionFunction(41))))
             .allRotation()
             .workableInSpace()
             .parallelizableTooltips()
@@ -1585,13 +1572,7 @@ public final class MultiBlockH {
             .register();
 
     // 轨道纳米精密加工舱
-    public static final MachineDefinition ORBITAL_NANOPRECISION_PROCESSING_CHAMBER = multiblock("orbital_nanoprecision_processing_chamber", "轨道纳米精密加工舱", d -> new RecipeExtension(d) {
-
-        @Override
-        public Set<BlockPos> getModulePositions() {
-            return ILargeSpaceStationMachine.twoWayPositionFunction(41).apply(this);
-        }
-    })
+    public static final MachineDefinition ORBITAL_NANOPRECISION_PROCESSING_CHAMBER = multiblock("orbital_nanoprecision_processing_chamber", "轨道纳米精密加工舱", d -> new RecipeExtension(d, ILargeSpaceStationMachine.twoWayPositionFunction(41)))
             .allRotation()
             .workableInSpace()
             .parallelizableTooltips()

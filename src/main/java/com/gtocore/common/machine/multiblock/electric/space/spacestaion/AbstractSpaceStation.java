@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 public abstract class AbstractSpaceStation extends ElectricMultiblockMachine implements ISpacePredicateMachine, ICustomHighlightMachine {
 
@@ -35,9 +36,7 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
 
     protected final static ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AbstractSpaceStation.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    public int getReadyCount() {
-        return ready;
-    }
+    private final @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction;
 
     @Persisted
     protected int ready;
@@ -47,6 +46,12 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
 
     public AbstractSpaceStation(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
+        this.positionFunction = null;
+    }
+
+    public AbstractSpaceStation(MetaMachineBlockEntity metaMachineBlockEntity, @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction) {
+        super(metaMachineBlockEntity);
+        this.positionFunction = positionFunction;
     }
 
     @Override
@@ -142,5 +147,13 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     @Override
     public boolean isClean() {
         return isWorkspaceReady();
+    }
+
+    public int getReadyCount() {
+        return ready;
+    }
+
+    public @Nullable Function<AbstractSpaceStation, Set<BlockPos>> getPositionFunction() {
+        return positionFunction;
     }
 }
