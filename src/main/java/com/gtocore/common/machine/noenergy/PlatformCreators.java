@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.mana;
+package com.gtocore.common.machine.noenergy;
 
 import com.gtocore.common.data.GTOBlocks;
 

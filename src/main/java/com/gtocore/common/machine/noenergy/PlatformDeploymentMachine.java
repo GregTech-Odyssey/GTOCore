@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.mana;
+package com.gtocore.common.machine.noenergy;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
@@ -45,7 +45,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import static com.gtocore.client.forge.ForgeClientEvent.highlightRegion;
 import static com.gtocore.client.forge.ForgeClientEvent.stopHighlight;
 import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinates;
-import static com.gtocore.common.machine.mana.PlatformCreators.PlatformCreationAsync;
+import static com.gtocore.common.machine.noenergy.PlatformCreators.PlatformCreationAsync;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault

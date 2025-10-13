@@ -5,7 +5,7 @@ import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
-import com.gtocore.common.machine.mana.PlatformTemplateStorage;
+import com.gtocore.common.machine.noenergy.PlatformTemplateStorage;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.GTOCore;

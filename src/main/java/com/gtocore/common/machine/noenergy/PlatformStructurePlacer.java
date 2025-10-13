@@ -1,6 +1,6 @@
-package com.gtocore.common.machine.mana;
+package com.gtocore.common.machine.noenergy;
 
-import com.gtocore.common.data.machines.ManaMachine;
+import com.gtocore.common.data.GTOMachines;
 
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -27,7 +27,7 @@ import java.util.function.IntConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.gtocore.common.machine.mana.PlatformCreators.loadMappingFromJson;
+import static com.gtocore.common.machine.noenergy.PlatformCreators.loadMappingFromJson;
 
 final class PlatformStructurePlacer {
 
@@ -91,7 +91,7 @@ final class PlatformStructurePlacer {
 
             BlockState oldState = section.getBlockState(x, localY, z);
 
-            if (oldState.getBlock().equals(ManaMachine.INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS.getBlock())) {
+            if (oldState.getBlock().equals(GTOMachines.INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS.getBlock())) {
                 continue;
             }
 

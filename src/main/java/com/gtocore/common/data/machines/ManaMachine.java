@@ -173,11 +173,4 @@ public final class ManaMachine {
             .nonYAxisRotation()
             .workableManaTieredHullRenderer(4, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();
-
-    public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = machine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
-            .tier(LV)
-            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
-            .nonYAxisRotation()
-            .workableManaTieredHullRenderer(2, GTCEu.id("block/multiblock/fusion_reactor"))
-            .register();
 }
