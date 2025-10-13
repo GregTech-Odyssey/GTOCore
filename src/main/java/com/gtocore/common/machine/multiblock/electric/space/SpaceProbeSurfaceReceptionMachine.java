@@ -18,7 +18,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,9 +26,6 @@ import java.util.List;
 import java.util.Objects;
 
 public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            SpaceProbeSurfaceReceptionMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private ResourceKey<Level> dimension;
 
@@ -111,10 +107,5 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.dyson_sphere.number", DysonSphereSavaedData.getDimensionData(getDimension()).leftInt()));
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 }

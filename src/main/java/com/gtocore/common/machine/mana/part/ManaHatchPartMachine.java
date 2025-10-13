@@ -23,7 +23,6 @@ import com.hollingsworth.arsnouveau.api.source.ISpecialSourceProvider;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.common.block.tile.SourceJarTile;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import vazkii.botania.api.mana.ManaCollector;
 import vazkii.botania.api.mana.ManaPool;
@@ -32,7 +31,6 @@ import vazkii.botania.xplat.XplatAbstractions;
 
 public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ManaHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
     TickableSubscription tickSubs;
     @Persisted
     private final NotifiableManaContainer manaContainer;
@@ -41,12 +39,6 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
         super(holder, tier, io);
         manaContainer = createManaContainer(rate);
         manaContainer.setAcceptDistributor(io == IO.IN);
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     NotifiableManaContainer createManaContainer(int rate) {

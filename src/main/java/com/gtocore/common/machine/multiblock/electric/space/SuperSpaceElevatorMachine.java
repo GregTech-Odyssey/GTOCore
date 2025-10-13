@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.DummyWorld;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,13 +24,6 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
     @DescSynced
     BlockPos center;
     private int megaModuleCount;
-    private final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SuperSpaceElevatorMachine.class, SpaceElevatorMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     public SuperSpaceElevatorMachine(MetaMachineBlockEntity holder) {
         super(holder);

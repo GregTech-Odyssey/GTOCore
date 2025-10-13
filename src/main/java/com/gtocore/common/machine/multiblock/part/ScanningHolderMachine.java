@@ -23,7 +23,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,9 +39,6 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
     public void setLocked(boolean locked) {
         isLocked = locked;
     }
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ScanningHolderMachine.class,
-            MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
     public static final int CATALYST_SLOT = 0;
     public static final int DATA_SLOT = 1;
@@ -126,11 +122,6 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
                 controller.checkPatternWithLock();
             }
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private static final class ScanningHolder extends NotifiableItemStackHandler {

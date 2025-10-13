@@ -9,19 +9,11 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 public class TempVacuumInterfacePartMachine extends TieredPartMachine implements ITempPartMachine, IVacuumPartMachine {
 
     @Persisted
     private int temperature = 293;
-    protected ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(TempVacuumInterfacePartMachine.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private TickableSubscription tickableSubscription;
 

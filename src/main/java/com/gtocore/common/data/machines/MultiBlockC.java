@@ -896,6 +896,8 @@ public final class MultiBlockC {
                             .or(abilities(EXPORT_ITEMS).setExactLimit(1))
                             .or(abilities(INPUT_ENERGY).setPreviewCount(1))
                             .or(abilities(INPUT_LASER).setPreviewCount(1))
+                            .or(blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1))
+                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                     .where('C', frames(GTMaterials.HSSG))

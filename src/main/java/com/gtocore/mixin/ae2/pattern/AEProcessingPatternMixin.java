@@ -1,10 +1,9 @@
 package com.gtocore.mixin.ae2.pattern;
 
 import com.gtolib.api.ae2.pattern.IDetails;
-
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.utils.RLUtils;
 
 import net.minecraft.nbt.StringTag;
 
@@ -24,12 +23,12 @@ public abstract class AEProcessingPatternMixin implements IDetails {
     private KeyCounter[] gtolib$inputHolder;
 
     @Unique
-    private GTRecipeType gtolib$recipeType;
+    private Recipe gtolib$recipe;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(AEItemKey definition, CallbackInfo ci) {
-        if (definition.getTag().tags.get("type") instanceof StringTag stringTag) {
-            gtolib$recipeType = GTRegistries.RECIPE_TYPES.get(GTCEu.id(stringTag.getAsString()));
+        if (definition.getTag().tags.get("recipe") instanceof StringTag stringTag) {
+            gtolib$recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
         }
     }
 
@@ -46,7 +45,7 @@ public abstract class AEProcessingPatternMixin implements IDetails {
     }
 
     @Override
-    public GTRecipeType getRecipeType() {
-        return gtolib$recipeType;
+    public Recipe getRecipe() {
+        return gtolib$recipe;
     }
 }

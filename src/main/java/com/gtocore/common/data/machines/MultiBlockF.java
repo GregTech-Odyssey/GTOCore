@@ -25,6 +25,8 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.*;
 
+import net.minecraft.network.chat.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +104,7 @@ public final class MultiBlockF {
     public static final MultiblockMachineDefinition COMPOUND_EXTREME_COOLING_UNIT = multiblock("compound_extreme_cooling_unit", "复合式极端冷却装置", CompoundExtremeCoolingMachine::new)
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getCompoundExtremeCoolingUnitTooltips().getSupplier())
+            .combinedTooltips(Component.translatable("gtocore.compound_extreme_cooling_unit.tooltips.combined"))
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

@@ -20,14 +20,12 @@ import net.minecraft.world.level.material.Fluid;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachine {
 
     private static final Fluid SALAMANDER = GTOMaterials.Salamander.getFluid(FluidStorageKeys.GAS);
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ManaHeaterMachine.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @DescSynced
@@ -121,12 +119,6 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     @Override
     public int getMaxTemperature() {
         return 2400;
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

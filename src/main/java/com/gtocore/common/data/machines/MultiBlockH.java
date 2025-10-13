@@ -46,6 +46,8 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.pattern.GTOPredicates.autoGCYMAbilities;
 import static com.gtocore.api.pattern.GTOPredicates.hermeticCasing;
+import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_EXTRACTION_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
@@ -412,8 +414,7 @@ public final class MultiBlockH {
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
-            .combinedRecipeTooltips()
-            .recipeTypes(GTORecipeTypes.LIFE_FORGE)
+            .recipeTypes(BIOCHEMICAL_EXTRACTION_RECIPES, BIOCHEMICAL_REACTION_RECIPES)
             .block(GTOBlocks.SPS_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT) // definition
                     .where('A', blocks(GTOBlocks.SPS_CASING.get())

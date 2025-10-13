@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -21,7 +20,6 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -35,8 +33,6 @@ import java.util.Map;
 @Mixin(value = RecipeLogic.class, remap = false)
 public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
 
-    @Unique
-    private Reference2ReferenceOpenHashMap<Recipe, RecipeHandlerList> gtolib$recipeCache;
     @Unique
     private ParallelCache gtolib$parallelCache;
     @Unique
@@ -77,11 +73,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected RecipeLogic.Status status;
 
     @Override
-    public Reference2ReferenceOpenHashMap<Recipe, RecipeHandlerList> gtolib$getRecipeCache() {
-        return gtolib$recipeCache;
-    }
-
-    @Override
     public void gtolib$setAsyncRecipeOutputTask(AsyncRecipeOutputTask task) {
         gtolib$asyncRecipeOutputTask = task;
     }
@@ -108,7 +99,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(IRecipeLogicMachine machine, CallbackInfo ci) {
-        gtolib$recipeCache = new Reference2ReferenceOpenHashMap<>();
         gtolib$parallelCache = new ParallelCache();
     }
 

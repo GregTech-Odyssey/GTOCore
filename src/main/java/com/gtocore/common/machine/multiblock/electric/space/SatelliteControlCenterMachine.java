@@ -27,7 +27,6 @@ import net.minecraftforge.fluids.FluidStack;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import earth.terrarium.adastra.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
@@ -39,9 +38,6 @@ import java.util.Map;
 
 @DataGeneratorScanned
 public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            SatelliteControlCenterMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @RegisterLanguage(en = "Selected planet: ", cn = "已选择的星球：")
     private static final String PLANET = "gtocore.satellite_control_center.planet";
@@ -114,12 +110,6 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     @Override
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe, true);
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     public static Dimension[] getPlanets() {

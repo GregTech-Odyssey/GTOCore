@@ -164,7 +164,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                 if (adjBe instanceof MetaMachineBlockEntity machineBlockEntity) {
                     if (machineBlockEntity.metaMachine instanceof ICustomCraftingMachine craftingMachine && craftingMachine.customPush()) {
                         var result = craftingMachine.pushPattern(this, actionSource, success, this::gtolib$pushTarget, patternInputs, patternDetails, inputHolder, pushPatternSuccess, canPush, direction, adjBeSide);
-                        if (result.success()) success.value = true;
                         if (result.needBreak()) return result;
                     } else {
                         var target = PatternProviderTargetCache.find(adjBe, this, adjBeSide, actionSource, 0);

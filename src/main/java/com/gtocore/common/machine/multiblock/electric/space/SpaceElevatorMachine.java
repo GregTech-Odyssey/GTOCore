@@ -31,7 +31,6 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.common.menus.base.PlanetsMenuProvider;
 import earth.terrarium.botarium.common.menu.MenuHooks;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +42,6 @@ import java.util.List;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements IHighlightMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceElevatorMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public SpaceElevatorMachine(MetaMachineBlockEntity holder) {
         super(holder, POWER_MODULE_TIER);
@@ -65,12 +62,6 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         poss.add(blockPos.offset(0, 2, -7));
         poss.add(blockPos.offset(2, 2, -7));
         poss.add(blockPos.offset(-2, 2, -7));
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @DescSynced

@@ -16,16 +16,12 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class MEOutputHatchPartMachine extends MEPartMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MEOutputHatchPartMachine.class, MEPartMachine.Companion.getMANAGED_FIELD_HOLDER());
 
     @Persisted
     private final KeyStorage internalBuffer;
@@ -58,11 +54,6 @@ public class MEOutputHatchPartMachine extends MEPartMachine {
                         Actionable.MODULATE, getActionSourceField());
             }
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

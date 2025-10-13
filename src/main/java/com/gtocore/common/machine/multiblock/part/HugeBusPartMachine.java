@@ -45,7 +45,6 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,7 +56,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class HugeBusPartMachine extends TieredIOPartMachine implements IMachineLife {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HugeBusPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private final HugeNotifiableItemStackHandler inventory;
     @Nullable
@@ -69,11 +67,6 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         super(holder, GTValues.IV, IO.IN);
         this.inventory = new HugeNotifiableItemStackHandler(this);
         workingEnabled = false;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

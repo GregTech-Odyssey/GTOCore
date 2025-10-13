@@ -27,7 +27,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -38,7 +37,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class CombustionEngineMachine extends ElectricMultiblockMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(CombustionEngineMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final FluidStack OXYGEN_STACK = GTMaterials.Oxygen.getFluid(20);
     private static final FluidStack LIQUID_OXYGEN_STACK = GTMaterials.Oxygen.getFluid(FluidStorageKeys.LIQUID, 80);
     private static final FluidStack LUBRICANT_STACK = GTMaterials.Lubricant.getFluid(1);
@@ -78,11 +76,6 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
             tank.fillInternal(new FluidStack(fluid, (formedCount * 8000) + 8000), IFluidHandler.FluidAction.EXECUTE);
             tankSubs.updateSubscription();
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

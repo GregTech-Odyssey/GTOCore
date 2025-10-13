@@ -14,7 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.item.BotaniaItems;
@@ -42,9 +41,6 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
             6, BotaniaItems.runeSummer,
             7, BotaniaItems.runeAutumn,
             8, BotaniaItems.runeWinter);
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ManaAlloyBlastSmelterMachine.class, CoilCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private int tick;
@@ -129,11 +125,6 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.recipe.mana_consumption").append(": ").append(String.valueOf(mana)));
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

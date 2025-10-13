@@ -1,16 +1,14 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gtocore.api.gui.configurators.MultiMachineModeFancyConfigurator;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.machines.GTAEMachines;
-import com.gtocore.common.machine.multiblock.part.ProgrammableHatchPartMachine;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
-import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
-import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.network.SyncManagedFieldHolder;
@@ -25,7 +23,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
@@ -44,6 +42,7 @@ import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -54,6 +53,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -77,15 +77,11 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -94,8 +90,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MEPatternBufferPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
     private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
             MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
     @RegisterLanguage(cn = "配方已缓存", en = "Recipe cached")
@@ -104,6 +98,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private static final String INDEPENDENT = "gtocore.pattern_buffer.independent";
     @RegisterLanguage(cn = "总成共享配置", en = "Buffer share configuration")
     private static final String SHARE = "gtocore.pattern_buffer.share";
+
+    @Persisted
+    @DescSynced
+    private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
+    @Persisted
+    @DescSynced
+    public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
     @DescSynced
     private final boolean[] caches;
@@ -119,9 +120,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
-    @Persisted
-    private boolean switchType = false;
-
     protected IntSyncedField configuratorField = ISync.createIntField(this)
             .set(-1)
             .setSenderListener((side, o, n) -> {
@@ -135,16 +133,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     public @NotNull SyncManagedFieldHolder getSyncHolder() {
         return SYNC_MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-    }
-
-    @Override
-    public void onUnload() {
-        super.onUnload();
     }
 
     protected ConfiguratorPanel configuratorPanel;
@@ -214,6 +202,55 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
     }
 
+    private void changeMode(@Nullable GTRecipeType type) {
+        this.recipeType = type == null ? GTORecipeTypes.HATCH_COMBINED : type;
+        for (var i : getInternalInventory()) {
+            i.rhl.external.recipeType = type;
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        var type = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
+        for (var i : getInternalInventory()) {
+            i.rhl.external.recipeType = type;
+        }
+    }
+
+    @Override
+    public void onPaintingColorChanged(int color) {
+        super.onPaintingColorChanged(color);
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            TaskHandler.enqueueServerTask(serverLevel, () -> {
+                var type = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
+                for (var i : getInternalInventory()) {
+                    i.rhl.external.recipeType = type;
+                }
+            }, 1);
+        }
+    }
+
+    @Override
+    public void attachSideTabs(TabsWidget sideTabs) {
+        super.attachSideTabs(sideTabs);
+        sideTabs.attachSubTab(new MultiMachineModeFancyConfigurator(recipeTypes, recipeType, this::changeMode));
+    }
+
+    @Override
+    public void addedToController(@NotNull IMultiController controller) {
+        super.addedToController(controller);
+        this.recipeTypes.clear();
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+    }
+
+    @Override
+    public void removedFromController(@NotNull IMultiController controller) {
+        super.removedFromController(controller);
+        this.recipeTypes.clear();
+        this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
+    }
+
     @Override
     public void onPatternChange(int index) {
         getInternalInventory()[index].setLock(false);
@@ -224,12 +261,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
         var slot = getDetailsSlotMap().get(patternDetails);
         if (slot != null) {
-            if (switchType) {
-                for (var s : getInternalInventory()) {
-                    if (s == slot || (s.recipe != null && slot.recipe != null && s.recipe.recipeType == slot.recipe.recipeType) || s.isEmpty()) continue;
-                    return false;
-                }
-            }
             return slot.pushPattern(patternDetails, inputHolder);
         }
         return false;
@@ -239,9 +270,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public @Nullable IPatternDetails decodePattern(ItemStack stack, int index) {
         var pattern = super.decodePattern(stack, index);
         if (pattern == null) return null;
-        var id = stack.getOrCreateTag().getString("recipe");
-        if (!id.isEmpty() && !caches[index]) {
-            getInternalInventory()[index].setRecipe(RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(id)));
+        if (!caches[index] && stack.getOrCreateTag().tags.get("recipe") instanceof StringTag stringTag) {
+            var recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
+            getInternalInventory()[index].setRecipe(recipe);
         }
         return pattern;
     }
@@ -279,9 +310,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             }
             if (input.size() < sparseInput.length) {
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
-                if (pattern.getDefinition().getTag().tags.get("type") instanceof StringTag stringTag) {
-                    stack.getTag().put("type", stringTag);
-                }
                 return MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
             }
         }
@@ -317,7 +345,11 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (isFormed()) {
             IMultiController controller = getControllers().first();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
-            GTRecipeType rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
+            GTRecipeType rt = this.recipeType;
+            if (rt == null)
+                rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
+            if (rt == null || rt == GTORecipeTypes.HATCH_COMBINED)
+                rt = null;
             String lid = rt != null ? rt.registryName.toLanguageKey() : controllerDefinition.getDescriptionId();
 
             if (!getCustomName().isEmpty()) {
@@ -344,12 +376,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorySimulated.storage));
         configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventory.storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
         configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTank.getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0, 1, 0.5), () -> switchType, (clickData, pressed) -> switchType = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(ProgrammableHatchPartMachine.SWITCH_TYPE, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -396,8 +422,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public static final class InternalSlot extends AbstractInternalSlot {
 
         public InternalSlotRecipeHandler.AbstractRHL rhl;
-        private Recipe recipe;
-        private final MEPatternBufferPartMachine machine;
+        public Recipe recipe;
+        public final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
         private Runnable onContentsChanged = () -> {};
@@ -425,6 +451,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
 
         public void setLock(boolean lock) {
+            if (this.lock == lock) {
+                lockableInventory.setLock(lock);
+                return;
+            }
             if (this.lock) {
                 circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
                 for (int i = 0; i < 9; i++) {
@@ -497,31 +527,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         @Override
         public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
             patternDetails.pushInputsToExternalInventory(inputHolder, inputSink);
-            if (recipe != null) {
-                GTRecipeType type;
-                if (machine.switchType && patternDetails instanceof IDetails details) {
-                    type = details.getRecipeType();
-                } else type = null;
-                machine.getControllers().forEach(controller -> {
-                    if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                        enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
-                        if (type != null) {
-                            holder.setRecipeType(type);
-                        }
-                    }
-                });
-                for (var proxy : machine.proxyMachines) {
-                    var rhl = (InternalSlotRecipeHandler.AbstractRHL) proxy.getProxySlotRecipeHandler().getProxySlotHandlers().get(index);
-                    proxy.getControllers().forEach(controller -> {
-                        if (controller instanceof IExtendedRecipeCapabilityHolder holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                            enhancedRecipeLogic.gtolib$getRecipeCache().put(recipe, rhl.rhl);
-                            if (type != null) {
-                                holder.setRecipeType(type);
-                            }
-                        }
-                    });
-                }
-            }
             itemChanged = true;
             fluidChanged = true;
             onContentsChanged.run();

@@ -57,9 +57,6 @@ public class MonitorRenderer extends MachineRenderer {
     public static final ResourceLocation MONITOR_OVERLAY_FULL_CTM = GTOCore.id("block/overlay/machine/overlay_monitor_full_ctm");
     private static final Map<BlockEntity, Manager.GridNetwork> renderedThisTick = new ConcurrentHashMap<>();
     public static final Map<Manager.GridFacedPoint, Manager.GridNetwork> gridToNetworkCLIENT = new ConcurrentHashMap<>();
-    // Minimum width for text rendering, measured in pixels.
-    // This ensures that text elements are not rendered too small to be legible.
-    private static final int MIN_WIDTH_TEXT = 100;
     private static final float MARGIN = 0.15f;
 
     public MonitorRenderer() {
@@ -124,39 +121,21 @@ public class MonitorRenderer extends MachineRenderer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public int getViewDistance() {
-        return 16;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof MetaMachineBlockEntity holder && holder.getMetaMachine() instanceof IMonitor monitor && monitor.getLevel() != null) {
             Manager.GridNetwork network = Manager.GridNetwork.fromClientBlock(
                     monitor.getFrontFacing(),
                     monitor.getPos(),
                     monitor.getLevel());
-            if (network != null &&
-                    (renderedThisTick.containsKey(blockEntity) || renderedThisTick.values().stream().noneMatch(n -> n.equals(network)))) {
+            if (network != null && (renderedThisTick.containsKey(blockEntity) || renderedThisTick.values().stream().noneMatch(n -> n.equals(network)))) {
                 renderedThisTick.put(blockEntity, network);
                 {
                     stack.pushPose();
 
-                    var box = Shapes.create(network.aabb());
                     var pos = monitor.getPos();
                     if (GTOConfig.INSTANCE.dev) {
-                        LevelRenderer.renderVoxelShape(
-                                stack,
-                                buffer.getBuffer(RenderType.lines()),
-                                box,
-                                -pos.getX(),
-                                -pos.getY(),
-                                -pos.getZ(),
-                                0f,
-                                1f,
-                                0f,
-                                1f,
-                                false);
+                        var box = Shapes.create(network.aabb());
+                        LevelRenderer.renderVoxelShape(stack, buffer.getBuffer(RenderType.lines()), box, -pos.getX(), -pos.getY(), -pos.getZ(), 0f, 1f, 0f, 1f, false);
                     }
 
                     var front = monitor.getFrontFacing();
@@ -164,9 +143,9 @@ public class MonitorRenderer extends MachineRenderer {
                     var pitch = toPitchAngle(front);
 
                     stack.translate(
-                            network.getOriginPos().getX() - pos.getX() + (front == Direction.WEST ? -0.02f : 1.02f),
-                            network.getOriginPos().getY() - pos.getY() + (front == Direction.DOWN ? -0.02f : 1.02f),
-                            network.getOriginPos().getZ() - pos.getZ() + (front == Direction.NORTH ? -0.02f : 1.02f));
+                            network.getOriginPos().getX() - pos.getX() + (front == Direction.WEST ? -0.01f : 1.01f) + (front == Direction.SOUTH ? -0.02f : 0),
+                            network.getOriginPos().getY() - pos.getY() + (front == Direction.DOWN ? -0.01f : 1.01f),
+                            network.getOriginPos().getZ() - pos.getZ() + (front == Direction.NORTH ? -0.01f : 1.01f) + (front == Direction.WEST ? -0.02f : 0));
 
                     stack.mulPose(Axis.YN.rotationDegrees(yaw));
                     stack.mulPose(Axis.XP.rotationDegrees(pitch));
@@ -181,23 +160,30 @@ public class MonitorRenderer extends MachineRenderer {
                                 switch (front) {
                                     case WEST, SOUTH -> 1 - MARGIN;
                                     case EAST, NORTH -> network.width3D() - 1 - MARGIN;
-                                    default -> 0f;
+                                    default -> 0;
                                 },
                                 network.height3D() - 1 - MARGIN,
-                                -0f);
-                        var factor = getGlobalScaleFactor(info, MIN_WIDTH_TEXT, network.width3D() - MARGIN * 2f, network.height3D() - MARGIN * 2f);
+                                0);
+                        var factor = getGlobalScaleFactor(info, network.width3D() - MARGIN * 2f, network.height3D() - MARGIN * 2f);
                         stack.scale(-factor, -factor, -factor);
                         int cumulatedHeight = 0;
                         int lastLineX = 0;
                         for (IDisplayComponent iDisplayComponent : info) {
-                            if (iDisplayComponent.getDisplayType().hasStyledText()) {
-                                FormattedCharSequence text = iDisplayComponent.getDisplayValue();
-                                font.drawInBatch(text, 0, cumulatedHeight, 0xFFFFFFFF, false, stack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0x000000, LightTexture.FULL_BRIGHT);
+                            if (GTOConfig.INSTANCE.dev) {
+                                LevelRenderer.renderLineBox(stack, buffer.getBuffer(RenderType.lines()),
+                                        0, cumulatedHeight, 0, iDisplayComponent.getVisualWidth(), cumulatedHeight + iDisplayComponent.getVisualHeight(), 0,
+                                        0f, 1f, 0f, 1f);
                             }
-                            if (iDisplayComponent.getDisplayType().hasCustomRenderer()) {
-                                stack.pushPose();
-                                iDisplayComponent.renderDisplay(network, blockEntity, partialTicks, stack, buffer, combinedLight, combinedOverlay, lastLineX, cumulatedHeight);
-                                stack.popPose();
+                            switch (iDisplayComponent.getDisplayType()) {
+                                case STYLED_TEXT -> {
+                                    FormattedCharSequence text = iDisplayComponent.getDisplayValue();
+                                    font.drawInBatch(text, 0, cumulatedHeight, 0xFFFFFFFF, false, stack.last().pose(), buffer, Font.DisplayMode.NORMAL, 0x000000, LightTexture.FULL_BRIGHT);
+                                }
+                                case CUSTOM_RENDERER -> {
+                                    stack.pushPose();
+                                    iDisplayComponent.renderDisplay(network, blockEntity, partialTicks, stack, buffer, combinedLight, combinedOverlay, lastLineX, cumulatedHeight);
+                                    stack.popPose();
+                                }
                             }
                             cumulatedHeight += iDisplayComponent.getVisualHeight() + 2;
                             lastLineX = iDisplayComponent.getVisualWidth();
@@ -219,15 +205,14 @@ public class MonitorRenderer extends MachineRenderer {
         };
     }
 
-    private static float getGlobalScaleFactor(List<IDisplayComponent> info, int minWidth, float displayWidth, float displayHeight) {
+    private static float getGlobalScaleFactor(List<IDisplayComponent> info, float displayWidth, float displayHeight) {
         if (info == null || info.isEmpty()) {
             return 1.0f;
         }
         var maxWidth = info.stream().mapToInt(IDisplayComponent::getVisualWidth).max().orElse(0);
-        maxWidth = Math.max(maxWidth, minWidth) + 10;
-        var maxHeight = info.stream().mapToInt(IDisplayComponent::getVisualHeight).sum() + info.size() * 4 + 10;
-        var scaleX = displayWidth / (maxWidth + 0.01f);
-        var scaleY = displayHeight / (maxHeight + 0.01f);
+        var maxHeight = info.stream().mapToInt(IDisplayComponent::getVisualHeight).sum() + info.size() * 2;
+        var scaleX = displayWidth / Math.max(maxWidth, 0.01f);
+        var scaleY = displayHeight / Math.max(maxHeight, 0.01f);
         return Math.min(scaleX, scaleY);
     }
 

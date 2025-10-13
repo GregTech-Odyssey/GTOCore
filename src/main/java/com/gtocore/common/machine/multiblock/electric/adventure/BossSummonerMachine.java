@@ -27,6 +27,16 @@ public final class BossSummonerMachine extends ElectricMultiblockMachine {
     }
 
     @Override
+    public boolean hasOverclockConfig() {
+        return false;
+    }
+
+    @Override
+    public boolean hasBatchConfig() {
+        return false;
+    }
+
+    @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
         Level world = getLevel();

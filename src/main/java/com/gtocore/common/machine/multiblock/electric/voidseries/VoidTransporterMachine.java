@@ -26,7 +26,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,9 +34,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public final class VoidTransporterMachine extends ElectricMultiblockMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            VoidTransporterMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public static boolean checkTransporter(BlockPos pos, Level level, int id) {
         return !(MetaMachine.getMachine(level, pos.offset(0, -1, 0)) instanceof VoidTransporterMachine machine) || !machine.isFormed() || machine.id != id || !machine.check();
@@ -160,10 +156,5 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
     @Override
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 }

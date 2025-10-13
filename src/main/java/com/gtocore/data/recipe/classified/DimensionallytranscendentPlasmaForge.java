@@ -20,7 +20,7 @@ final class DimensionallytranscendentPlasmaForge {
     public static void init() {
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("spacetime_ingot")
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asItem(), 64)
-                .notConsumable(GTOBlocks.SPACETIMEBENDINGCORE.asItem(), 64)
+                .notConsumable(GTOBlocks.SPACETIME_BENDING_CORE.asItem(), 64)
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(1000))
                 .inputFluids(GTOMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(TagPrefix.ingot, GTOMaterials.SpaceTime, 8)

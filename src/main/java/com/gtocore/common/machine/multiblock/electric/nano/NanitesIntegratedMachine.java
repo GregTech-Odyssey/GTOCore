@@ -31,7 +31,6 @@ import net.minecraft.world.level.Level;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import org.jetbrains.annotations.NotNull;
@@ -41,14 +40,6 @@ import java.util.List;
 import java.util.Map;
 
 public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMachine implements IHighlightMachine, IStorageMultiblock {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(NanitesIntegratedMachine.class, CoilCrossRecipeMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final Int2ObjectOpenHashMap<MachineDefinition> MODULE_MAP = new Int2ObjectOpenHashMap<>();
 

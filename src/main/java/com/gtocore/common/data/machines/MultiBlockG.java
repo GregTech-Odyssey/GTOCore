@@ -59,6 +59,8 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_COKE_BRICKS;
 import static com.gregtechceu.gtceu.common.data.GTMachines.COKE_OVEN_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
@@ -930,8 +932,7 @@ public final class MultiBlockG {
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
             .laserTooltips()
             .multipleRecipesTooltips()
-            .combinedRecipeTooltips()
-            .recipeTypes(GTORecipeTypes.VAPOR_DEPOSITION)
+            .recipeTypes(CHEMICAL_VAPOR_DEPOSITION_RECIPES, PHYSICAL_VAPOR_DEPOSITION_RECIPES)
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))

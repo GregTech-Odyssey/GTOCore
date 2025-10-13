@@ -28,7 +28,7 @@ dependencies {
 
     modImplementation("curse.maven:building-gadgets-298187:6850495")
 
-    modImplementation("curse.maven:configuration-444699:4710266")
+    modImplementation("curse.maven:configuration-444699:5840405")
 
     modImplementation("com.teamresourceful:yabn:1.0.3")
     modImplementation("com.teamresourceful:bytecodecs:1.0.2")
@@ -63,7 +63,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:6714970")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:7005572")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7064210")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 

@@ -26,7 +26,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,8 +35,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
-
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DigitalMinerLogic.class, CustomRecipeLogic.MANAGED_FIELD_HOLDER);
 
     @Persisted
     protected int x = Integer.MAX_VALUE;
@@ -183,10 +180,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     // ===================== 生命周期相关方法 =====================
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     public void onMachineUnLoad() {

@@ -27,7 +27,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,14 +39,6 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 public final class NeutronVortexMachine extends NeutronActivatorMachine implements IMultiStructureMachine, IElectricMachine {
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            NeutronVortexMachine.class, NeutronActivatorMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Persisted
     private boolean energy;

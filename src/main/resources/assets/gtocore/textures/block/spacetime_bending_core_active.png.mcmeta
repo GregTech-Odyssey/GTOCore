@@ -4,6 +4,6 @@
         "frametime": 4
   },
     "ldlib": {
-        "connection": "gtocore:block/spacetimebendingcore_active_ctm"
+        "connection": "gtocore:block/spacetime_bending_core_active_ctm"
   }
 }

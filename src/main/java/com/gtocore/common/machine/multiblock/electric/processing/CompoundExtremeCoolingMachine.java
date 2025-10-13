@@ -39,8 +39,8 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
     public void setActiveRecipeType(int activeRecipeType) {
         if (this.activeRecipeType != activeRecipeType) {
             updateCheck();
+            super.setActiveRecipeType(activeRecipeType);
         }
-        super.setActiveRecipeType(activeRecipeType);
     }
 
     public static BlockPattern getBlockPattern(int tier, MultiblockMachineDefinition definition) {
@@ -122,6 +122,11 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
     @Override
     public BlockPattern getPattern() {
         return getBlockPattern(getRecipeType() == GTORecipeTypes.PLASMA_CONDENSER_RECIPES ? 1 : 0, getDefinition());
+    }
+
+    @Override
+    public boolean disabledCombined() {
+        return getRecipeType() != GTORecipeTypes.PLASMA_CONDENSER_RECIPES;
     }
 
     @Override

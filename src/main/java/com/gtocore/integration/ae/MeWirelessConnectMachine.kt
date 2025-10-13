@@ -22,7 +22,6 @@ import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
@@ -31,8 +30,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     ISync,
     IFancyUIMachine {
     companion object {
-        @JvmStatic
-        val manager = ManagedFieldHolder(MeWirelessConnectMachine::class.java, MANAGED_FIELD_HOLDER)
 
         @JvmStatic
         val syncManager = SyncManagedFieldHolder(MeWirelessConnectMachine::class.java)
@@ -41,9 +38,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     @DescSynced
     var isGridOnline: Boolean = false
-    var isClientInit = false
 
-    override fun getFieldHolder() = manager
     override fun isOnline(): Boolean = isGridOnline
     override fun getCableConnectionType(dir: Direction): AECableType = AECableType.DENSE_SMART
 

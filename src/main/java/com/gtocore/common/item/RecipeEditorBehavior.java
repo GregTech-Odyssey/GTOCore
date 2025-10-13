@@ -6,7 +6,6 @@ import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.DummyMachine;
-import com.gtolib.api.recipe.CombinedRecipeType;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
@@ -38,7 +37,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -107,14 +105,6 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     if (recipeType == GTRecipeTypes.SCANNER_RECIPES) continue;
                     if (recipeType == GTORecipeTypes.LARGE_GAS_COLLECTOR_RECIPES) continue;
                     recipeMap.computeIfAbsent(recipeType, k -> new OpenCacheHashSet<>()).add(recipe);
-                }
-                for (var recipeType : GTRegistries.RECIPE_TYPES) {
-                    if (recipeType instanceof CombinedRecipeType combinedRecipeType) {
-                        var set = recipeMap.computeIfAbsent(combinedRecipeType, k -> new OpenCacheHashSet<>());
-                        for (var type : combinedRecipeType.getTypes()) {
-                            set.addAll(recipeMap.get(type));
-                        }
-                    }
                 }
                 Set<BiCache> cache = new OpenCacheHashSet<>();
                 for (Set<Recipe> recipes : recipeMap.values()) {

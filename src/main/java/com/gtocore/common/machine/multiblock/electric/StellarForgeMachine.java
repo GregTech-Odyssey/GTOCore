@@ -18,7 +18,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,9 +27,6 @@ import static com.gtolib.api.GTOValues.STELLAR_CONTAINMENT_TIER;
 
 @DataGeneratorScanned
 public final class StellarForgeMachine extends TierCasingMultiblockMachine implements IExplosionMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StellarForgeMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @RegisterLanguage(cn = "内部压力：", en = "Internal Pressure: ")
     private static final String PRESSURE = "gtocore.machine.stellar_forge.pressure";
@@ -42,11 +38,6 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
 
     public StellarForgeMachine(MetaMachineBlockEntity holder) {
         super(holder, STELLAR_CONTAINMENT_TIER);
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

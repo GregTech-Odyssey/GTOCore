@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -21,7 +20,6 @@ import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -37,7 +35,6 @@ import static com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes.KEY_MUL
 @MethodsReturnNonnullByDefault
 public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenanceMachine {
 
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ACMHatchPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     @DynamicInitialValue(key = "maintenance.configurable_duration.max", typeKey = KEY_MULTIPLY, simpleValue = "1.3F", normalValue = "1.2F", expertValue = "1.1F", cn = "配方处理速度调节上限 : %s 倍", cnComment = "不计超频，配方处理速度为正常速度的最高倍率", en = "Configurable Recipe Speed Multiplier Maximum : %s Multiplier", enComment = "Ignore overclocking, the recipe processing speed is the highest multiplier for normal speed")
     private static float MAX_DURATION_MULTIPLIER = 1.0F;
     @DynamicInitialValue(key = "maintenance.configurable_duration.min", typeKey = KEY_MULTIPLY, simpleValue = "0.7F", normalValue = "0.8F", expertValue = "0.9F", cn = "配方处理速度调节下限 : %s 倍", cnComment = "不计超频，配方处理速度为正常速度的最低倍率", en = "Configurable Recipe Speed Multiplier Minimum : %s Multiplier", enComment = "Ignore overclocking, the recipe processing speed is the lowest multiplier for normal speed")
@@ -92,11 +89,6 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
 
     @Override
     public void setTimeActive(int time) {}
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     @Nullable

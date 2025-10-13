@@ -34,7 +34,6 @@ object ProgressBarHelper {
         val innerHeight = totalHeight - borderWidth * 2
         val atomicZOrder = AtomicInteger(0)
         if (borderWidth > 0) {
-//            DrawerHelper.drawBorder(graphics, innerX, innerY, innerWidth, innerHeight, borderColor, borderWidth)
             renderAndAddZOrder(
                 graphics,
                 {
@@ -44,7 +43,6 @@ object ProgressBarHelper {
             )
         }
         if (innerWidth > 0 && innerHeight > 0) {
-//            DrawerHelper.drawSolidRect(graphics, innerX, innerY, innerWidth, innerHeight, backgroundColor)
             renderAndAddZOrder(
                 graphics,
                 {
@@ -75,7 +73,6 @@ object ProgressBarHelper {
             val textHeight = font.lineHeight
             val textX = (totalWidth - textWidth) / 2f
             val textY = (totalHeight - textHeight) / 2f + 1f
-//            DrawerHelper.drawText(graphics, text, textX, textY, 1f, textColor, true)
             renderAndAddZOrder(
                 graphics,
                 {

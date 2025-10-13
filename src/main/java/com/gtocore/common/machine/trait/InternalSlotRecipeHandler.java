@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.trait;
 
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
@@ -9,20 +10,19 @@ import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NonStandardHandler;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeCapabilityMap;
+import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
@@ -40,7 +40,10 @@ import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public final class InternalSlotRecipeHandler {
 
@@ -57,7 +60,6 @@ public final class InternalSlotRecipeHandler {
 
         public WrapperRHL(AbstractRHL rhl) {
             super(rhl.slot, rhl.part);
-            rhl.rhl = this;
         }
 
         private Reference2LongOpenHashMap<Fluid> getFluidMap(ParallelCache parallelCache) {
@@ -110,12 +112,42 @@ public final class InternalSlotRecipeHandler {
 
     public static abstract class AbstractRHL extends ExtendedRecipeHandlerList {
 
-        public RecipeHandlerList rhl = this;
         public final MEPatternBufferPartMachine.InternalSlot slot;
 
         AbstractRHL(MEPatternBufferPartMachine.InternalSlot slot, MultiblockPartMachine part) {
             super(IO.IN, part);
             this.slot = slot;
+        }
+
+        @Override
+        public <T extends GTRecipeType, R extends GTRecipe> Iterator<R> searchRecipe(IRecipeCapabilityHolder holder, T type, Predicate<R> canHandle) {
+            if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return Collections.emptyIterator();
+            if (slot.recipe != null) {
+                if (!RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) return Collections.emptyIterator();
+                R r = (R) slot.recipe;
+                holder.setCurrentHandlerList(this, null);
+                if (canHandle.test(r)) {
+                    return new Iterator<>() {
+
+                        private boolean hasNext = true;
+
+                        @Override
+                        public boolean hasNext() {
+                            return hasNext;
+                        }
+
+                        @Override
+                        public R next() {
+                            hasNext = false;
+                            return r;
+                        }
+                    };
+                }
+                return Collections.emptyIterator();
+            } else {
+                this.recipeType = slot.machine.recipeType == GTORecipeTypes.HATCH_COMBINED ? null : slot.machine.recipeType;
+                return SEARCH.search(holder, type, this, canHandle);
+            }
         }
 
         @Override
@@ -196,7 +228,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         public boolean handleRecipeContent(GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
-            if (slot.isEmpty()) return false;
+            if (slot.isEmpty() || (slot.recipe != null && !slot.recipe.id.getPath().equals(recipe.id.getPath()))) return false;
             boolean item = contents.item == null;
             if (!item) {
                 List left = contents.item;

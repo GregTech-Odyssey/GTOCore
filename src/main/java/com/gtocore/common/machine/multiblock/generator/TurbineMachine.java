@@ -35,7 +35,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,18 +48,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Scanned
 public class TurbineMachine extends ElectricMultiblockMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(TurbineMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_output_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4.0F", normalValue = "3.0F", expertValue = "2.5F", cn = "高速模式输出倍率 : %s 倍", en = "High Speed Mode Output Multiplier : %s Multiplier")
     private static float highSpeedModeOutputMultiplier = 3.0F;
     @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_rotor_damage_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4", normalValue = "10", expertValue = "12", cn = "高速模式转子损坏倍率 : %s 倍", en = "High Speed Mode Rotor Damage Multiplier : %s Multiplier")
     private static int highSpeedModeRotorDamageMultiplier = 10;
     @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_machine_fault", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4F", normalValue = "8F", expertValue = "10F", cn = "高速模式机器故障倍率 : %s 倍", en = "High Speed Mode Machine Fault Multiplier : %s Multiplier")
     private static float highSpeedModeMachineFault = 8.0F;
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private final long baseEUOutput;
     private final int tier;

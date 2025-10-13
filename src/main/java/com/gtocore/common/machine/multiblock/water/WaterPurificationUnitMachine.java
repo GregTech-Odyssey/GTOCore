@@ -19,7 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -27,8 +26,6 @@ import java.util.Set;
 
 @MethodsReturnNonnullByDefault
 abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements IIWirelessInteractor<WaterPurificationPlantMachine> {
-
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(WaterPurificationUnitMachine.class, NoEnergyCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     abstract long before();
 
@@ -137,11 +134,6 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
     @Override
     public void setWorkingEnabled(boolean isWorkingAllowed) {}
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     @NotNull
