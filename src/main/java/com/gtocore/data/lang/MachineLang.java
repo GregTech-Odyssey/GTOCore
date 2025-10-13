@@ -75,6 +75,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.processing_plant.mismatched", "配方等级与小机器等级不匹配", "Recipe tier does not match small machine tier");
         addCNEN("gtocore.machine.radiation_hatch.inhibition_dose", "抑制量: %s Sv", "Inhibition Amount: %s Sv");
         addCNEN("gtocore.machine.radiation_hatch.time", "时间: %s / %s Tick", "Time: %s / %s Tick");
+        addCNEN("gtocore.machine.simple_spacestation.distilled_water", "向外供给蒸馏水： %s mB 每秒·每仓", "Distilled Water Output: %s mB per second per hatch");
         addCNEN("gtocore.machine.slaughterhouse.is_spawn", "实体生成模式: ", "Entity Generation: ");
         addCNEN("gtocore.machine.slaughterhouse.active_weapon", "使用§6%d§r击杀生物", "Kill the creature using §6%d§r");
         addCNEN("gtocore.machine.space_elevator.set_out", "启程", "Set Off");

@@ -14,15 +14,18 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
@@ -38,12 +41,15 @@ import static com.gtocore.common.data.GTOMaterials.FlocculationWasteSolution;
 public class SimpleSpaceStationMachine extends AbstractSpaceStation implements ICustomHighlightMachine, ICleanroomProvider, ISpacePredicateMachine {
 
     @Nullable
-    private Collection<MultiblockPartMachine> outputDistilledWaterHatches;
+    private Collection<BlockPos> outputDistilledWaterHatches;
     @Nullable
     private ObjectArrayList<RecipeHandlerList> outputDistilledWaterHatchesList;
     /// 空间站附赠超净间
     @Nullable
     private CleanroomType cleanroomType = null;
+
+    @Persisted
+    private int waterAmountPerHatch = 8;
 
     public SimpleSpaceStationMachine(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
@@ -51,7 +57,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
 
     @Override
     public void addHandlerList(RecipeHandlerList handler) {
-        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.contains(handler.part)) {
+        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.getPos() == p)) {
             if (outputDistilledWaterHatchesList == null) {
                 outputDistilledWaterHatchesList = new ObjectArrayList<>();
             }
@@ -116,14 +122,37 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
     };
 
     @Override
+    public void customText(@NotNull List<Component> list) {
+        super.customText(list);
+        list.add(Component.translatable("gtocore.machine.simple_spacestation.distilled_water", waterAmountPerHatch).append(ComponentPanelWidget.withButton(Component.literal(" [-]"), "Sub")).append(ComponentPanelWidget.withButton(Component.literal(" [+]"), "Add")));
+    }
+
+    @Override
+    public void handleDisplayClick(String componentData, ClickData clickData) {
+        if (!clickData.isRemote) {
+            int delta = (clickData.isCtrlClick ? 64 : 1) * (clickData.isShiftClick ? 8 : 1);
+            switch (componentData) {
+                case "Add" -> {
+                    waterAmountPerHatch += delta;
+                    waterAmountPerHatch = Math.min(waterAmountPerHatch, 1000);
+                }
+                case "Sub" -> {
+                    waterAmountPerHatch -= delta;
+                    waterAmountPerHatch = Math.max(waterAmountPerHatch, 0);
+                }
+                default -> super.handleDisplayClick(componentData, clickData);
+            }
+        }
+    }
+
+    @Override
     public boolean onWorking() {
         if (getOffsetTimer() % 20 == 0) {
 
             provideOxygen();
 
             /// Distilled Water distribution
-            if (outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {
-                int waterAmountPerHatch = 8;
+            if (waterAmountPerHatch > 0 && outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {
                 for (RecipeHandlerList handler : outputDistilledWaterHatchesList) {
                     IRecipeCapabilityHolder waterHolder = new IRecipeCapabilityHolder() {
 

@@ -126,7 +126,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
         if (abilities(EXPORT_FLUIDS).test(blockWorldState) &&
                 blockWorldState.getTileEntity() instanceof MetaMachineBlockEntity mbe &&
                 mbe.getMetaMachine() instanceof MultiblockPartMachine spaceMachine) {
-            blockWorldState.getMatchContext().getOrCreate("spaceMachinePhotovoltaicSupp", ReferenceOpenHashSet::new).add(spaceMachine.getPos());
+            blockWorldState.getMatchContext().getOrCreate("spaceMachinePhotovoltaicSupp", ObjectOpenHashSet::new).add(spaceMachine.getPos());
             return true;
         }
         return false;

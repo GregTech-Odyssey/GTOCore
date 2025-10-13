@@ -4602,6 +4602,7 @@
   "gtocore.machine.scanning": "Scanning...",
   "gtocore.machine.sensor.invert.disabled": "Redstone Output: Normal",
   "gtocore.machine.sensor.invert.enabled": "Redstone Output: Inverted",
+  "gtocore.machine.simple_spacestation.distilled_water": "Distilled Water Output: %s mB per second per hatch",
   "gtocore.machine.slaughterhouse.active_weapon": "Kill the creature using §6%d§r",
   "gtocore.machine.slaughterhouse.is_spawn": "Entity Generation: ",
   "gtocore.machine.space_elevator.connected": "Connected To A Running SpaceElevator",

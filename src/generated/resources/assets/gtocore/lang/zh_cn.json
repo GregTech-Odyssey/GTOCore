@@ -4604,6 +4604,7 @@
   "gtocore.machine.scanning": "扫描中...",
   "gtocore.machine.sensor.invert.disabled": "红石输出: 普通",
   "gtocore.machine.sensor.invert.enabled": "红石输出: 反转",
+  "gtocore.machine.simple_spacestation.distilled_water": "向外供给蒸馏水： %s mB 每秒·每仓",
   "gtocore.machine.slaughterhouse.active_weapon": "使用§6%d§r击杀生物",
   "gtocore.machine.slaughterhouse.is_spawn": "实体生成模式: ",
   "gtocore.machine.space_elevator.connected": "已连接正在运行的太空电梯",
