@@ -87,8 +87,9 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     private void update(CallbackInfo ci) {
         IDroneControlCenterMachine centerMachine = getNetMachine();
         if (centerMachine != null) {
-            Drone drone = getFirstUsableDrone();
-            if (drone != null && drone.start(10, getNumMaintenanceProblems() << 6, GTOValues.MAINTAINING)) {
+            var eu = getNumMaintenanceProblems() << 6;
+            Drone drone = getFirstUsableDrone(d -> d.getCharge() >= eu);
+            if (drone != null && drone.start(10, eu, GTOValues.MAINTAINING)) {
                 fixAllMaintenanceProblems();
                 ci.cancel();
             }

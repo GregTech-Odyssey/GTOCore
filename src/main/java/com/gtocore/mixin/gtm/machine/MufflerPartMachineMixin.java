@@ -145,9 +145,10 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
                     ItemStack stack = inventory.stacks[i];
                     if (stack.getCount() > 1) {
                         if (drone == null) {
-                            drone = getFirstUsableDrone();
+                            var eu = inventory.size << 4;
+                            drone = getFirstUsableDrone(d -> d.getCharge() >= eu);
                             if (drone != null) {
-                                available = drone.start(4, inventory.size << 4, GTOValues.REMOVING_ASH);
+                                available = drone.start(4, eu, GTOValues.REMOVING_ASH);
                             }
                         }
                         if (available) {

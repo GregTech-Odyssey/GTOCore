@@ -14,6 +14,7 @@ import com.gtolib.utils.holder.LongHolder;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,7 +45,7 @@ import appeng.crafting.inv.ListCraftingInventory;
 import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import it.unimi.dsi.fastutil.objects.*;
 
@@ -61,8 +62,8 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
     private Consumer<AEKey> listener = null;
 
-    private final SetMultimap<AEKey, GlobalPos> pendingRequests = HashMultimap.create();
-    private final SetMultimap<AEKey, IPatternProviderLogic.PushResult> craftingResults = HashMultimap.create();
+    private final SetMultimap<AEKey, GlobalPos> pendingRequests = Multimaps.newSetMultimap(new Reference2ReferenceOpenHashMap<>(), OpenCacheHashSet::new);
+    private final SetMultimap<AEKey, IPatternProviderLogic.PushResult> craftingResults = Multimaps.newSetMultimap(new Reference2ReferenceOpenHashMap<>(), ReferenceOpenHashSet::new);
 
     private final ListCraftingInventory.ChangeListener changeListener = what -> {
         lastModifiedOnTick = TickHandler.instance().getCurrentTick();

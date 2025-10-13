@@ -118,6 +118,7 @@
     "ae2.wtlib.ItemWTMixin",
     "ae2.wtlib.WirelessTerminalMenuHostMixin",
     "apotheosis.AdventureEventsMixin",
+    "apotheosis.LootRarityMixin",
     "avaritia.SingularityItemMixin",
     "botania.ContributorListMixin",
     "botania.DandelifeonBlockEntityMixin",
@@ -223,7 +224,8 @@
     "mc.mob.AbstractSkeletonMixin",
     "mc.mob.LivingEntityMixin",
     "mc.mob.MobMixin",
-    "merequester.RequestMixin"
+    "merequester.RequestMixin",
+    "patchouli.PageDoubleRecipeRegistryMixin"
   ],
   "injectors": {
     "defaultRequire": 1,

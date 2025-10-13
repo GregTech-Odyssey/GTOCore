@@ -128,6 +128,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     // ==================== 运行时属性 ====================
     val detailsSlotMap: BiMap<IPatternDetails, T> = HashBiMap.create(maxPatternCount)
+    var detailsInit = false
 
     private var patterns: List<IPatternDetails> = emptyList()
     private var needPatternSync: Boolean = false
@@ -203,11 +204,13 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun onLoad() {
         super.onLoad()
+        detailsInit = false
         level?.let { ITravelHandlerHook.removeAndReadd(it, this) }
     }
 
     override fun onUnload() {
         super.onUnload()
+        detailsInit = false
         level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }
 
@@ -222,20 +225,25 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
         super<MEPartMachine>.onMainNodeStateChanged(reason)
-        if (isOnline && detailsSlotMap.isEmpty()) {
-            when (val level = getLevel()) {
-                is ServerLevel -> {
-                    TaskHandler.enqueueServerTask(level, {
-                        (0 until patternInventory.slots).forEach { i ->
-                            val pattern = patternInventory.getStackInSlot(i)
-                            decodePattern(pattern, i)?.let { patternDetails ->
-                                detailsSlotMap[patternDetails] = getInternalInventory()[i]
+        if (isOnline) {
+            if (!detailsInit) {
+                when (val level = getLevel()) {
+                    is ServerLevel -> {
+                        TaskHandler.enqueueServerTask(level, {
+                            (0 until patternInventory.slots).forEach { i ->
+                                val pattern = patternInventory.getStackInSlot(i)
+                                decodePattern(pattern, i)?.let { patternDetails ->
+                                    detailsSlotMap[patternDetails] = getInternalInventory()[i]
+                                }
                             }
-                        }
-                        updatePatterns()
-                    }, 1)
+                            updatePatterns()
+                            detailsInit = true
+                        }, 10)
+                    }
                 }
             }
+        } else {
+            detailsInit = false
         }
     }
 
