@@ -924,6 +924,23 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
+    public static final MultiblockMachineDefinition TESLA_TOWER = multiblock("tesla_tower", "特斯拉电塔", TeslaTowerMachine::new)
+            .allRotation()
+            .addTooltipsFromClass(TeslaTowerMachine.class)
+            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("aaa", "aaa", "aaa")
+                    .aisle("aaa", "aca", "aaa")
+                    .aisle("aaa", "aia", "aaa")
+                    .where('a', blocks(GTBlocks.CASING_STEEL_SOLID.get()).or(abilities(INPUT_ENERGY)))
+                    .where('i', controller(blocks(definition.get())))
+                    .where('c', air())
+                    .build())
+            .checkPriority(1000)
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统",
             TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GLASS_TIER) << 1), GLASS_TIER))
             .nonYAxisRotation()
