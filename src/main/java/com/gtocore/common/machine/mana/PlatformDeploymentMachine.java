@@ -36,8 +36,6 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.*;
@@ -53,8 +51,6 @@ import static com.gtocore.common.machine.mana.PlatformCreators.PlatformCreationA
 @MethodsReturnNonnullByDefault
 public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PlatformDeploymentMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
-
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
@@ -66,12 +62,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         inventory = new NotifiableItemStackHandler(this, 27, IO.NONE, IO.BOTH);
         inventory.addChangedListener(this::examineMaterial);
         maxGroup = presets.size();
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -94,13 +84,13 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     private int step = 0;
 
     // 总步骤数
-    private final int totalStep = 3;
+    private static final int totalStep = 3;
 
     // 步骤编号常量定义
-    private final int Introduction = 0;        // 第零步：简介
-    private final int PresetSelection = 1;     // 第一步：选择预设
-    private final int ConfirmConsumables = 2;  // 第二步：确认耗材
-    private final int AdjustSettings = 3;      // 第三步：调整设置
+    private static final int Introduction = 0;        // 第零步：简介
+    private static final int PresetSelection = 1;     // 第一步：选择预设
+    private static final int ConfirmConsumables = 2;  // 第二步：确认耗材
+    private static final int AdjustSettings = 3;      // 第三步：调整设置
 
     // ------------------- 第一步：选择预设 -------------------
     // 是否已完成预设选择
@@ -150,7 +140,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     // ------------------- 第三步：确认放置 -------------------
     // 库存的原料量
     @Persisted
-    private int[] materialInventory = new int[] { 0, 0, 0 };
+    private final int[] materialInventory = new int[] { 0, 0, 0 };
     // 库存是否充足
     @Persisted
     private boolean insufficient = false;
@@ -197,10 +187,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     /////////////////////////////////////
     // ************ UI组件 ************ //
-    /// //////////////////////////////////
-
-    int totalLangWidth = 266;
-    int langWidth = 266 - 8;
+    private static final int langWidth = 266 - 8;
 
     // 创建UI组件
     @Override
@@ -208,6 +195,8 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         var group = new WidgetGroup(0, 0, 320 + 8, 160 + 8);
 
         // 步骤标题
+        /// //////////////////////////////////
+        int totalLangWidth = 266;
         {
             WidgetGroup group_title = new DraggableScrollableWidgetGroup(4, 4, totalLangWidth, 160)
                     .setBackground(GuiTextures.DISPLAY);

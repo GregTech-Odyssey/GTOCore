@@ -28,6 +28,12 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import it.unimi.dsi.fastutil.chars.Char2ReferenceLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.chars.Char2ReferenceOpenHashMap;
+import it.unimi.dsi.fastutil.chars.CharOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2CharLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2CharOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -40,13 +46,13 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-public class PlatformCreators {
+class PlatformCreators {
 
     // 非法字符集合
-    private static final Set<Character> ILLEGAL_CHARS;
+    private static final CharOpenHashSet ILLEGAL_CHARS;
 
     static {
-        ILLEGAL_CHARS = new HashSet<>();
+        ILLEGAL_CHARS = new CharOpenHashSet();
 
         for (char c : new char[] {
                 '.', '(', ')', ',', '/', '\\', '"', '\'', '`'
@@ -91,9 +97,9 @@ public class PlatformCreators {
     /**
      * 异步导出结构（支持 XZ 平面镜像和绕 Y 轴旋转）
      */
-    public static void exportStructureAsync(ServerLevel level, BlockPos pos1, BlockPos pos2,
-                                            boolean xMirror, boolean zMirror, int rotation,
-                                            Block chamberBlock, boolean laserMode) {
+    private static void exportStructureAsync(ServerLevel level, BlockPos pos1, BlockPos pos2,
+                                             boolean xMirror, boolean zMirror, int rotation,
+                                             Block chamberBlock, boolean laserMode) {
         if (isExporting) return;
         isExporting = true;
         CompletableFuture.runAsync(() -> {
@@ -108,18 +114,18 @@ public class PlatformCreators {
     /**
      * 平台创建函数（异步）
      */
-    public static void PlatformCreationAsync(ServerLevel level, BlockPos startPos, BlockPos endPos,
-                                             boolean xMirror, boolean zMirror, int rotation,
-                                             Block chamberBlock, boolean laserMode) {
+    static void PlatformCreationAsync(ServerLevel level, BlockPos startPos, BlockPos endPos,
+                                      boolean xMirror, boolean zMirror, int rotation,
+                                      Block chamberBlock, boolean laserMode) {
         exportStructureAsync(level, startPos, endPos, xMirror, zMirror, rotation, chamberBlock, laserMode);
     }
 
     /**
      * 导出结构和映射文件到 logs/platform/ 目录
      */
-    public static void exportStructure(ServerLevel level, BlockPos pos1, BlockPos pos2,
-                                       boolean xMirror, boolean zMirror, int rotation,
-                                       Block chamberBlock, boolean laserMode) {
+    private static void exportStructure(ServerLevel level, BlockPos pos1, BlockPos pos2,
+                                        boolean xMirror, boolean zMirror, int rotation,
+                                        Block chamberBlock, boolean laserMode) {
         Path outputDir = Paths.get("logs", "platform");
         try {
             Files.createDirectories(outputDir);
@@ -154,13 +160,13 @@ public class PlatformCreators {
         }
 
         // 原始 BlockState -> Character 映射（不去重）
-        Map<BlockState, Character> stateToChar = new LinkedHashMap<>();
-        Character nextChar = getNextValidChar('A');
+        Reference2CharLinkedOpenHashMap<BlockState> stateToChar = new Reference2CharLinkedOpenHashMap<>();
+        char nextChar = getNextValidChar('A');
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
         // 统计方块数量（按 Block）
-        Map<Block, Integer> blockCountByBlock = new HashMap<>();
+        Reference2IntOpenHashMap<Block> blockCountByBlock = new Reference2IntOpenHashMap<>();
         int totalNonAir = 0;
 
         // 第一次遍历：收集旋转后的映射 & 统计方块数量
@@ -177,7 +183,7 @@ public class PlatformCreators {
 
                     Block block = transformedState.getBlock();
                     if (!transformedState.isAir()) {
-                        blockCountByBlock.merge(block, 1, Integer::sum);
+                        blockCountByBlock.addTo(block, 1);
                         totalNonAir++;
                     }
 
@@ -243,12 +249,12 @@ public class PlatformCreators {
         }
 
         // 写 mappingFile
-        Map<Character, BlockState> charToState = new LinkedHashMap<>();
-        stateToChar.forEach((state, ch) -> charToState.put(ch, state));
+        Char2ReferenceLinkedOpenHashMap<BlockState> charToState = new Char2ReferenceLinkedOpenHashMap<>();
+        stateToChar.reference2CharEntrySet().fastForEach(e -> charToState.put(e.getCharValue(), e.getKey()));
         saveMappingToJson(charToState, mappingFile);
 
         // 构建 patternFile 专用的按 Block 去重映射
-        Map<Block, Character> blockToChar = new LinkedHashMap<>();
+        Reference2CharOpenHashMap<Block> blockToChar = new Reference2CharOpenHashMap<>();
         char currentChar = 'A';
         blockToChar.put(Blocks.AIR, ' ');
 
@@ -318,9 +324,9 @@ public class PlatformCreators {
             }
 
             // .where(...)
-            for (Map.Entry<Block, Character> entry : blockToChar.entrySet()) {
+            for (var entry : blockToChar.reference2CharEntrySet()) {
                 Block block = entry.getKey();
-                Character ch = entry.getValue();
+                Character ch = entry.getCharValue();
                 if (block == Blocks.AIR) continue;
 
                 if (BLOCK_MAP.containsKey(block)) {
@@ -365,12 +371,12 @@ public class PlatformCreators {
             patternWriter.newLine();
 
             // .extraMaterials
-            blockCountByBlock.entrySet().stream()
+            blockCountByBlock.reference2IntEntrySet().stream()
                     .sorted(Map.Entry.comparingByKey(Comparator.comparing(BuiltInRegistries.BLOCK::getKey)))
                     .forEach(e -> {
                         try {
                             ResourceLocation id = BuiltInRegistries.BLOCK.getKey(e.getKey());
-                            patternWriter.write(".extraMaterials(\"" + id + "\", " + e.getValue() + ")");
+                            patternWriter.write(".extraMaterials(\"" + id + "\", " + e.getIntValue() + ")");
                             patternWriter.newLine();
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
@@ -430,8 +436,8 @@ public class PlatformCreators {
     /**
      * 获取下一个可用的字符
      */
-    private static Character getNextValidChar(char start) {
-        Character ch = start;
+    private static char getNextValidChar(char start) {
+        char ch = start;
         while (ILLEGAL_CHARS.contains(ch)) {
             ch++;
         }
@@ -441,7 +447,7 @@ public class PlatformCreators {
     /**
      * 保存映射到 JSON 文件
      */
-    public static void saveMappingToJson(Map<Character, BlockState> mapping, String filePath) {
+    private static void saveMappingToJson(Map<Character, BlockState> mapping, String filePath) {
         try {
             Path path = Paths.get(filePath);
             if (path.getParent() != null) Files.createDirectories(path.getParent());
@@ -462,7 +468,7 @@ public class PlatformCreators {
     /**
      * 从数据包加载映射
      */
-    public static Map<Character, BlockState> loadMappingFromJson(ResourceLocation resLoc) {
+    static Char2ReferenceOpenHashMap<BlockState> loadMappingFromJson(ResourceLocation resLoc) {
         try {
             ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
             Optional<Resource> optionalResource = resourceManager.getResource(resLoc);
@@ -473,7 +479,7 @@ public class PlatformCreators {
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter())
                             .create();
-                    Type type = new TypeToken<Map<Character, BlockState>>() {}.getType();
+                    Type type = new TypeToken<Char2ReferenceOpenHashMap<BlockState>>() {}.getType();
                     return gson.fromJson(reader, type);
                 }
             }
@@ -481,7 +487,7 @@ public class PlatformCreators {
         } catch (Exception e) {
             GTOCore.LOGGER.error("Failed to load mapping from resource", e);
         }
-        return new HashMap<>();
+        return new Char2ReferenceOpenHashMap<>();
     }
 
     /**

@@ -19,16 +19,17 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.lighting.LightEngine;
 
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import it.unimi.dsi.fastutil.chars.Char2ReferenceOpenHashMap;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.gtocore.common.machine.mana.PlatformCreators.loadMappingFromJson;
 
-public final class PlatformStructurePlacer {
+final class PlatformStructurePlacer {
 
     private final ServerLevel serverLevel;
     private final BlockIterator blockIterator;
@@ -36,7 +37,7 @@ public final class PlatformStructurePlacer {
     private final boolean breakBlocks;
     private final boolean skipAir;
     private final boolean updateLight;
-    private final Consumer<Integer> onBatch;
+    private final IntConsumer onBatch;
     private final Runnable onFinished;
 
     private final ISubscription subscription;
@@ -47,7 +48,7 @@ public final class PlatformStructurePlacer {
                                     boolean breakBlocks,
                                     boolean skipAir,
                                     boolean updateLight,
-                                    Consumer<Integer> onBatch,
+                                    IntConsumer onBatch,
                                     Runnable onFinished) {
         this.serverLevel = serverLevel;
         this.blockIterator = blockIterator;
@@ -162,7 +163,7 @@ public final class PlatformStructurePlacer {
 
         private final BufferedReader reader;
         private final BlockPos startPos;
-        private final Map<Character, BlockState> blockMapping;
+        private final Char2ReferenceOpenHashMap<BlockState> blockMapping;
         private final Pattern aislePattern = Pattern.compile("\\.aisle\\(([^)]+)\\)");
         private final Pattern stringPattern = Pattern.compile("\"([^\"]+)\"");
 
@@ -180,7 +181,7 @@ public final class PlatformStructurePlacer {
         private final int sizeX, sizeZ;
         private final int offsetX, offsetY, offsetZ;
 
-        BlockIterator(InputStream input, BlockPos startPos, Map<Character, BlockState> blockMapping,
+        BlockIterator(InputStream input, BlockPos startPos, Char2ReferenceOpenHashMap<BlockState> blockMapping,
                       String resourcePath, boolean zMirror, boolean xMirror, int rotation) throws IOException {
             this.reader = new BufferedReader(new InputStreamReader(input));
             this.startPos = startPos;
@@ -268,7 +269,7 @@ public final class PlatformStructurePlacer {
         /**
          * 统计文件中总 aisle 数
          */
-        private int countTotalAisles(String resourcePath) throws IOException {
+        private static int countTotalAisles(String resourcePath) throws IOException {
             try (InputStream countInput = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
                 BufferedReader countReader;
                 if (countInput != null) {
@@ -317,7 +318,7 @@ public final class PlatformStructurePlacer {
             currentAisle = null;
         }
 
-        public int getProgressPercentage() {
+        int getProgressPercentage() {
             if (totalAisles == 0) return 0;
             return Math.min(100, (int) (((double) processedAisles / totalAisles) * 100));
         }
@@ -398,18 +399,18 @@ public final class PlatformStructurePlacer {
     /**
      * 外部调用入口（支持旋转和镜像）
      */
-    public static void placeStructureAsync(Level level,
-                                           BlockPos startPos,
-                                           PlatformBlockType.PlatformBlockStructure structure,
-                                           int perTick,
-                                           boolean breakBlocks,
-                                           boolean skipAir,
-                                           boolean updateLight,
-                                           boolean zMirror,
-                                           boolean xMirror,
-                                           int rotation,
-                                           Consumer<Integer> onBatch,
-                                           Runnable onFinished) throws IOException {
+    static void placeStructureAsync(Level level,
+                                    BlockPos startPos,
+                                    PlatformBlockType.PlatformBlockStructure structure,
+                                    int perTick,
+                                    boolean breakBlocks,
+                                    boolean skipAir,
+                                    boolean updateLight,
+                                    boolean zMirror,
+                                    boolean xMirror,
+                                    int rotation,
+                                    IntConsumer onBatch,
+                                    Runnable onFinished) throws IOException {
         String resourcePath = "assets/" + structure.resource().getNamespace() + "/" + structure.resource().getPath();
         try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (input == null) {

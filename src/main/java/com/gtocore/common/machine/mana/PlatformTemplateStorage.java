@@ -4,6 +4,7 @@ import com.gtocore.common.machine.mana.PlatformBlockType.*;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.lang.CNEN;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
@@ -428,11 +429,11 @@ public final class PlatformTemplateStorage {
         return "platforms/" + path;
     }
 
-    public static ResourceLocation GTOEpp(String name) {
-        return new ResourceLocation("gtoepp", name);
+    private static ResourceLocation GTOEpp(String name) {
+        return RLUtils.fromNamespaceAndPath("gtoepp", name);
     }
 
-    public static List<PlatformPreset> initializePresets() {
+    static List<PlatformPreset> initializePresets() {
         List<PlatformPreset> preset = new ArrayList<>();
         presets.forEach(c -> {
             if (c != null) preset.add(c);
