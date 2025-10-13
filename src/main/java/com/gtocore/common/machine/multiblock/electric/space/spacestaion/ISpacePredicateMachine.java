@@ -130,7 +130,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
             return true;
         }
         return false;
-    }, null, abilities(EXPORT_FLUIDS).common.get(0).candidates).or(abilities(INPUT_ENERGY)).or(blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get())));
+    }, null, abilities(EXPORT_FLUIDS).common.getFirst().candidates).or(abilities(INPUT_ENERGY)).or(blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get())));
 
     static boolean isMachineBanned(MetaMachine machine) {
         return machine instanceof ISpaceWorkspaceMachine || machine instanceof ICleanroomProvider;
