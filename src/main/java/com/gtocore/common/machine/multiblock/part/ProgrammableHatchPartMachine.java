@@ -72,6 +72,9 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     @Override
     public void onLoad() {
         super.onLoad();
+        if (recipeType == GTORecipeTypes.DUMMY_RECIPES) {
+            recipeType = GTORecipeTypes.HATCH_COMBINED;
+        }
         this.getHandlerList().external.recipeType = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
     }
 

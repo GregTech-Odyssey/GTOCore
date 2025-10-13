@@ -7,10 +7,7 @@ import com.gtocore.client.renderer.machine.OverlayManaTieredMachineRenderer;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
-import com.gtocore.common.machine.mana.AlchemyCauldron;
-import com.gtocore.common.machine.mana.AreaDestructionToolsMachine;
-import com.gtocore.common.machine.mana.CelestialCondenser;
-import com.gtocore.common.machine.mana.ManaHeaterMachine;
+import com.gtocore.common.machine.mana.*;
 import com.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
 import com.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
 import com.gtocore.common.machine.mana.part.ManaHatchPartMachine;
@@ -149,7 +146,7 @@ public final class ManaMachine {
             .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES, 1600))
             .register();
 
-    public static final MachineDefinition CELESTIAL_CONDENSER = manaMachine("celestial_condenser", "苍穹凝聚器", CelestialCondenser::new)
+    public static final MachineDefinition CELESTIAL_CONDENSER = machine("celestial_condenser", "苍穹凝聚器", CelestialCondenser::new)
             .tier(HV)
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("celestial_condenser"), GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES))
             .recipeType(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
@@ -170,10 +167,10 @@ public final class ManaMachine {
             .renderer(() -> new ManaHeaterRenderer(MV))
             .register();
 
-    public static final MachineDefinition AREA_DESTRUCTION_TOOLS = manaMachine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
-            .tier(LuV)
+    public static final MachineDefinition AREA_DESTRUCTION_TOOLS = machine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
+            .tier(EV)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getAreaDestructionToolsTooltips().apply(list))
             .nonYAxisRotation()
-            .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/area_destruction_tools"))
+            .workableManaTieredHullRenderer(4, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();
 }

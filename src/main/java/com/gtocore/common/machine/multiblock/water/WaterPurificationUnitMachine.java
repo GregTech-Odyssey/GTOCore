@@ -40,6 +40,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
         super(holder, false, m -> IParallelMachine.MAX_PARALLEL);
         this.multiple = multiple;
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, this::isFormed);
+        customParallelTrait.setDefaultMax(false);
     }
 
     private void tickUpdate() {

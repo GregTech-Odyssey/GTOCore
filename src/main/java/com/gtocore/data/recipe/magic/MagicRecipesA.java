@@ -30,6 +30,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.core.definitions.AEItems;
 import com.enderio.base.common.init.EIOFluids;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
@@ -1189,6 +1190,9 @@ public final class MagicRecipesA {
                     "ABA", "CDC", "AEA",
                     'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.Gaiasteel), 'B', GTItems.ROBOT_ARM_LuV.asItem(), 'C', CustomTags.LuV_CIRCUITS, 'D', ManaMachine.MANA_HULL[GTValues.LuV].asItem(), 'E', GTItems.FIELD_GENERATOR_LuV.asItem());
 
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("industrial_platform_deployment_tools"), GTOMachines.INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS.asItem(),
+                    "AAA", "ABA", "AAA",
+                    'A', AEItems.MATTER_BALL.asItem(), 'B', RegistriesUtils.getItemStack("gtocore:standard_industrial_components_small"));
         }
 
         // 杂项配方
@@ -1215,13 +1219,13 @@ public final class MagicRecipesA {
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("area_destruction_tools"), ManaMachine.AREA_DESTRUCTION_TOOLS.asItem(),
                     "ABA", "CDC", "ABA",
-                    'A', new ItemStack(Items.REPEATER.asItem()), 'B', GTBlocks.INDUSTRIAL_TNT.asItem(), 'C', GTOBlocks.NUKE_BOMB.asItem(), 'D', ManaMachine.MANA_HULL[GTValues.LuV].asItem());
+                    'A', Items.REPEATER.asItem(), 'B', GTBlocks.INDUSTRIAL_TNT.asItem(), 'C', GTOBlocks.NUKE_BOMB.asItem(), 'D', ManaMachine.MANA_HULL[GTValues.EV].asItem());
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("celestial_condenser"), ManaMachine.CELESTIAL_CONDENSER.asItem(),
                     "ABC", "DEF", "GHI",
-                    'A', new ItemStack(Items.YELLOW_STAINED_GLASS_PANE.asItem()), 'B', new ItemStack(Items.WHITE_STAINED_GLASS_PANE.asItem()), 'C', new ItemStack(Items.PINK_STAINED_GLASS_PANE.asItem()),
-                    'D', new ItemStack(Items.RED_STAINED_GLASS_PANE.asItem()), 'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite), 'F', new ItemStack(Items.MAGENTA_STAINED_GLASS_PANE.asItem()),
-                    'G', RegistriesUtils.getItemStack("botania:tornado_rod"), 'H', new ItemStack(Items.CHISELED_DEEPSLATE.asItem()), 'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
+                    'A', Items.YELLOW_STAINED_GLASS_PANE, 'B', Items.WHITE_STAINED_GLASS_PANE, 'C', Items.PINK_STAINED_GLASS_PANE,
+                    'D', Items.RED_STAINED_GLASS_PANE, 'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite), 'F', Items.MAGENTA_STAINED_GLASS_PANE,
+                    'G', RegistriesUtils.getItemStack("botania:tornado_rod"), 'H', Items.CHISELED_DEEPSLATE, 'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
         }
 
         // 工具配方

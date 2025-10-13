@@ -1,0 +1,14 @@
+{
+  " ": {
+    "id": "minecraft:air",
+    "properties": {}
+  },
+  "A": {
+    "id": "chisel:weaver/pink_concrete",
+    "properties": {}
+  },
+  "B": {
+    "id": "chisel:dent/white_concrete",
+    "properties": {}
+  }
+}

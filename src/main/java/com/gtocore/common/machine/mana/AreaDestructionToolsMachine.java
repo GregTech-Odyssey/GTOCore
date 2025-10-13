@@ -66,6 +66,9 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
                 else if (item == GTItems.SHAPE_MOLD_CYLINDER.asItem()) model = 2;
                 else if (item == GTItems.SHAPE_MOLD_BLOCK.asItem()) model = 3;
                 else if (item == AEItems.SINGULARITY.asItem()) model = 4;
+                else if (item == GTOItems.INDUSTRIAL_COMPONENTS[3][2].asItem()) explosiveEnergy += 5000L * stack.getCount();
+                else if (item == GTOItems.INDUSTRIAL_COMPONENTS[3][1].asItem()) explosiveEnergy += 1000L * stack.getCount();
+                else if (item == GTOItems.INDUSTRIAL_COMPONENTS[3][0].asItem()) explosiveEnergy += 200L * stack.getCount();
                 else if (item == GTBlocks.INDUSTRIAL_TNT.asItem()) explosiveEnergy += 30L * stack.getCount();
                 else if (item == GTOBlocks.NUKE_BOMB.asItem()) explosiveEnergy += 2048L * stack.getCount();
                 else if (item == GTOBlocks.NAQUADRIA_CHARGE.asItem()) explosiveEnergy += 3200L * stack.getCount();

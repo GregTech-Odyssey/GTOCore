@@ -14,6 +14,7 @@ import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.network.SyncManagedFieldHolder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ExpandedO2LMap;
@@ -159,6 +160,17 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     @Override
     public boolean patternFilter(ItemStack stack) {
+        if (recipeTypes.isEmpty()) return false;
+        if (stack.getOrCreateTag().tags.get("recipe") instanceof StringTag stringTag) {
+            var recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
+            if (recipe != null) {
+                if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
+                    if (!RecipeType.available(recipe.recipeType, recipeTypes.toArray(new GTRecipeType[0]))) return false;
+                } else if (!RecipeType.available(recipe.recipeType, recipeType)) {
+                    return false;
+                }
+            }
+        }
         return stack.getItem() instanceof ProcessingPatternItem;
     }
 
@@ -212,6 +224,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     public void onLoad() {
         super.onLoad();
+        if (recipeType == GTORecipeTypes.DUMMY_RECIPES) {
+            recipeType = GTORecipeTypes.HATCH_COMBINED;
+        }
         var type = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
         for (var i : getInternalInventory()) {
             i.rhl.external.recipeType = type;
