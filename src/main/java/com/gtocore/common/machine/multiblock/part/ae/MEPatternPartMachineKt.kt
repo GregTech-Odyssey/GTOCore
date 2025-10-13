@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
@@ -47,6 +48,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.ae2.MyPatternDetailsHelper
@@ -55,6 +57,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.*
+import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine
 import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup
 import com.lowdragmc.lowdraglib.gui.util.ClickData
@@ -65,7 +68,9 @@ import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 
+import java.util.function.BiConsumer
 import java.util.function.IntSupplier
+import java.util.stream.Stream
 import javax.annotation.ParametersAreNonnullByDefault
 
 @ParametersAreNonnullByDefault
@@ -258,6 +263,37 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         Component.literal(customName)
                     } else {
                         Component.translatable(controllerDefinition.descriptionId)
+                            .append("-")
+                            .append(
+                                (
+                                    if (controller is IEnhancedRecipeLogicMachine) {
+                                        Stream.of(
+                                            *controller.recipeTypes,
+                                        )
+                                            .map { r: GTRecipeType? -> Component.translatable("gtceu." + r!!.registryName.path) }
+                                            .collect(
+                                                { Component.empty() },
+                                                BiConsumer { c: MutableComponent?, t: MutableComponent? ->
+                                                    c!!.append(
+                                                        if (c.getString().isEmpty()) t else Component.literal("/").append(t),
+                                                    )
+                                                },
+                                                { c1: MutableComponent?, c2: MutableComponent? ->
+                                                    c1!!.append(
+                                                        if (c2!!.string.isEmpty()) {
+                                                            c2
+                                                        } else {
+                                                            Component.literal("/")
+                                                                .append(c2)
+                                                        },
+                                                    )
+                                                },
+                                            )
+                                    } else {
+                                        Component.empty()
+                                    }
+                                    ),
+                            )
                     }
             }
             else -> {

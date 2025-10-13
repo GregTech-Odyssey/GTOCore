@@ -91,6 +91,7 @@ public abstract class GTMaterialBlocksMixin {
         OREBuilder.put(GTMaterials.Garnierite, Set.of(GTOTagPrefix.MERCURY_STONE, GTOTagPrefix.GANYMEDE_STONE));
         OREBuilder.put(GTMaterials.Oilsands, Set.of(GTOTagPrefix.GLACIO_STONE));
         OREBuilder.put(GTMaterials.Opal, Set.of(GTOTagPrefix.MARS_STONE, GTOTagPrefix.PLUTO_STONE));
+        OREBuilder.put(GTMaterials.Borax, Set.of(GTOTagPrefix.CERES_STONE, GTOTagPrefix.VENUS_STONE, GTOTagPrefix.MARS_STONE));
         OREBuilder.put(GTMaterials.Pyrite, Set.of(TagPrefix.oreNetherrack, GTOTagPrefix.IO_STONE, GTOTagPrefix.ENCELADUS_STONE, GTOTagPrefix.MARS_STONE, GTOTagPrefix.VENUS_STONE));
         OREBuilder.put(GTOMaterials.Ostrum, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.CERES_STONE));
         OREBuilder.put(GTMaterials.CertusQuartz, Set.of(TagPrefix.oreNetherrack, GTOTagPrefix.PLUTO_STONE));
@@ -148,12 +149,12 @@ public abstract class GTMaterialBlocksMixin {
         OREBuilder.put(GTMaterials.Pollucite, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.MARS_STONE, GTOTagPrefix.PLUTO_STONE, GTOTagPrefix.GANYMEDE_STONE));
         OREBuilder.put(GTMaterials.CassiteriteSand, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.TITAN_STONE, GTOTagPrefix.MOON_STONE));
         OREBuilder.put(GTMaterials.Talc, Set.of(GTOTagPrefix.CERES_STONE, GTOTagPrefix.GANYMEDE_STONE, GTOTagPrefix.MOON_STONE));
-        OREBuilder.put(GTMaterials.Lepidolite, Set.of(GTOTagPrefix.GLACIO_STONE));
+        OREBuilder.put(GTMaterials.Lepidolite, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.CERES_STONE, GTOTagPrefix.VENUS_STONE, GTOTagPrefix.MARS_STONE));
         OREBuilder.put(GTMaterials.Coal, Set.of(GTOTagPrefix.IO_STONE, GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.VENUS_STONE));
         OREBuilder.put(GTMaterials.Stibnite, Set.of(TagPrefix.oreNetherrack, GTOTagPrefix.MARS_STONE, GTOTagPrefix.TITAN_STONE));
         OREBuilder.put(GTMaterials.BasalticMineralSand, Set.of(GTOTagPrefix.IO_STONE, GTOTagPrefix.MARS_STONE));
         OREBuilder.put(GTMaterials.Barite, Set.of(TagPrefix.oreNetherrack, GTOTagPrefix.PLUTO_STONE));
-        OREBuilder.put(GTMaterials.Salt, Set.of(GTOTagPrefix.GLACIO_STONE));
+        OREBuilder.put(GTMaterials.Salt, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.CERES_STONE, GTOTagPrefix.VENUS_STONE, GTOTagPrefix.MARS_STONE));
         OREBuilder.put(GTMaterials.Magnetite, Set.of(GTOTagPrefix.IO_STONE, GTOTagPrefix.MARS_STONE, GTOTagPrefix.CERES_STONE, GTOTagPrefix.TITAN_STONE, GTOTagPrefix.VENUS_STONE, GTOTagPrefix.MOON_STONE));
         OREBuilder.put(GTOMaterials.SalamanderCrystal, Set.of(GTOTagPrefix.LIVING_STONE));
         OREBuilder.put(GTMaterials.Copper, Set.of(TagPrefix.oreNetherrack, GTOTagPrefix.ENCELADUS_STONE, GTOTagPrefix.MARS_STONE, GTOTagPrefix.TITAN_STONE));
@@ -189,7 +190,7 @@ public abstract class GTMaterialBlocksMixin {
         OREBuilder.put(GTMaterials.Lazurite, Set.of(GTOTagPrefix.GLACIO_STONE));
         OREBuilder.put(GTOMaterials.GnomeCrystal, Set.of(GTOTagPrefix.LIVING_STONE));
         OREBuilder.put(GTMaterials.Grossular, Set.of(TagPrefix.oreNetherrack, GTOTagPrefix.CERES_STONE, GTOTagPrefix.MERCURY_STONE));
-        OREBuilder.put(GTMaterials.RockSalt, Set.of(GTOTagPrefix.GLACIO_STONE));
+        OREBuilder.put(GTMaterials.RockSalt, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.CERES_STONE, GTOTagPrefix.VENUS_STONE, GTOTagPrefix.MARS_STONE));
         OREBuilder.put(GTOMaterials.Zircon, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.PLUTO_STONE));
         OREBuilder.put(GTMaterials.Monazite, Set.of(GTOTagPrefix.GLACIO_STONE, GTOTagPrefix.CERES_STONE, GTOTagPrefix.MOON_STONE));
         OREBuilder.put(GTMaterials.Molybdenum, Set.of(TagPrefix.oreNetherrack, GTOTagPrefix.IO_STONE, GTOTagPrefix.ENCELADUS_STONE, GTOTagPrefix.VENUS_STONE));

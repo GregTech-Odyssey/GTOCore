@@ -799,14 +799,6 @@ object GTOMachineTooltips {
         info("每次最多能击杀20个生物" translatedTo "A maximum of 20 creatures can be killed each time")
     }
 
-    // 溶解罐
-    val DissolvingTankTooltips = ComponentListSupplier {
-        setTranslationPrefix("dissolving_tank")
-
-        section(RunningRequirements)
-        command("必须保证输入的流体与配方流体比例相同，否则无产物输出" translatedTo "Must ensure the ratio of input fluid to recipe fluid is the same, otherwise no product output")
-    }
-
     // 基岩钻机
     val BedrockDrillingRigTooltips = ComponentListSupplier {
         setTranslationPrefix("bedrock_drilling_rig")

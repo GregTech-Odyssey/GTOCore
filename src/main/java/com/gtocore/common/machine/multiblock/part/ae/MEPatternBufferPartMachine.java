@@ -53,6 +53,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -83,6 +84,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -361,10 +363,20 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             IMultiController controller = getControllers().first();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
             GTRecipeType rt = this.recipeType;
+            MutableComponent lidComp = null;
+
             if (rt == null)
                 rt = controller instanceof IRecipeLogicMachine rlm ? rlm.getRecipeType() : null;
-            if (rt == null || rt == GTORecipeTypes.HATCH_COMBINED)
+            if (rt == null || rt == GTORecipeTypes.HATCH_COMBINED) {
                 rt = null;
+                lidComp = (controller instanceof IRecipeLogicMachine rlm ? Stream.of(rlm.getRecipeTypes()) : Stream.<GTRecipeType>empty())
+                        .map(r -> Component.translatable("gtceu." + r.registryName.getPath()))
+                        .collect(Component::empty,
+                                (c, t) -> c.append(c.getString().isEmpty() ? t : Component.literal("/").append(t)),
+                                (c1, c2) -> c1.append(c2.getString().isEmpty() ? c2 : Component.literal("/").append(c2)));
+
+            }
+
             String lid = rt != null ? rt.registryName.toLanguageKey() : controllerDefinition.getDescriptionId();
 
             if (!getCustomName().isEmpty()) {
@@ -372,8 +384,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             } else {
                 ItemStack circuitStack = circuitInventorySimulated.storage.getStackInSlot(0);
                 int circuitConfiguration = circuitStack.isEmpty() ? -1 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
-                Component groupName = circuitConfiguration != -1 ? Component.translatable(lid).append(" - " + circuitConfiguration) : Component.translatable(lid);
-                return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), groupName, Collections.emptyList());
+                MutableComponent groupName = lidComp != null ? lidComp : Component.translatable(lid);
+                if (circuitConfiguration != -1) groupName = groupName.append(" - " + circuitConfiguration);
+                return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), groupName,
+                        lidComp != null ? List.of(Component.translatable(lid)) : Collections.emptyList());
             }
         } else {
             if (!getCustomName().isEmpty()) {

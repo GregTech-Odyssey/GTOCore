@@ -156,6 +156,7 @@ public final class LangHandler {
         addCNEN("gtceu.jei.ore_vein.zircon_vein", "锆石矿脉", "Zircon Vein");
         addCNEN("gtceu.jei.ore_vein.crystal_vein_water_fire", "魔晶矿脉(水-火)", "Crystal Vein(Water-Fire)");
         addCNEN("gtceu.jei.ore_vein.crystal_vein_earth_wind", "魔晶矿脉(地-风)", "Crystal Vein(Earth-Wind)");
+        addCNEN("gtceu.jei.ore_vein.borax_vein", "硼砂矿脉", "Borax Vein");
 
         addCNEN("gtocore.recipe.ev_max", "最大中子动能：%s MeV", "Maximum Neutron Energy: %s MeV");
         addCNEN("gtocore.recipe.ev_min", "最小中子动能：%s MeV", "Minimum Neutron Energy: %s MeV");

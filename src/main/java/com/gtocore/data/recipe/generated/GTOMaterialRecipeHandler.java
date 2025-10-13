@@ -490,6 +490,7 @@ final class GTOMaterialRecipeHandler {
                         .duration(200 + mass * 4)
                         .blastFurnaceTemp(fiberTemp)
                         .save();
+
                 DRAWING_RECIPES.recipeBuilder("drawing_fiber_" + id)
                         .circuitMeta(4)
                         .inputItems(dust, material, 256)
