@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
@@ -18,20 +17,20 @@ import com.gtolib.api.recipe.IdleReason;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 import net.minecraft.world.item.ItemStack;
 
-public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IControllable {
+public interface IGTOMufflerMachine extends IMufflerMachine ,IControllable {
 
     ItemStack ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
     ItemStack NEUTRON_PILE = ModItems.neutron_pile.get().getDefaultInstance();
 
     int gtolib$getRecoveryChance();
 
-    default boolean isMufflerValid() {
-        return GTOConfig.INSTANCE.disableMufflerPart || gtolib$getRecoveryChance() == 100;
+    default boolean isMufflerPulseDisabled() {
+        return (GTOConfig.INSTANCE.disableMufflerPart && !GTOCore.isExpert()) || gtolib$getRecoveryChance() == 100;
     }
 
     @Override
     default GTRecipe modifyRecipe(GTRecipe recipe) {
-        if (isMufflerValid()) return recipe;
+        if (isMufflerPulseDisabled()) return recipe;
         if (!isFrontFaceFree()) {
             for (var c : getControllers()) {
                 if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
@@ -45,7 +44,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
 
     @Override
     default boolean beforeWorking(IWorkableMultiController controller) {
-        if (isMufflerValid()) return true;
+        if (isMufflerPulseDisabled()) return true;
         if (gtolib$checkAshFull()) {
             for (var c : getControllers()) {
                 if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
@@ -59,9 +58,9 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
 
     @Override
     default boolean onWorking(IWorkableMultiController controller) {
-        if (isMufflerValid() && !isWorkingEnabled()) return true;
+        if (isMufflerPulseDisabled() && !isWorkingEnabled()) return true;
         if (controller.getRecipeLogic().progress % 80 == 0) {
-            if (GTOCore.isExpert() && gtolib$checkAshFull()) return false;
+            if (GTOCore.isExpert() && !isMufflerPulseDisabled() && gtolib$checkAshFull()) return false;
             gtolib$addMufflerEffect();
             gtolib$insertAsh(controller);
         }
@@ -74,17 +73,17 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
         return true;
     }
 
-    default boolean gtolib$checkAshFull(){return false;};
+    default boolean gtolib$checkAshFull(){return false;}
 
     default void gtolib$insertAsh(IWorkableMultiController controller) {
         var count = gtolib$getRecoveryChance();
-        if(count>=GTValues.RNG.nextInt(100)) {
+        if(count>=100 || count>=GTValues.RNG.nextInt(100)) {
             if (isWorkingEnabled()) {
                 GTRecipe lastRecipe = controller.getRecipeLogic().getLastRecipe();
                 if (lastRecipe != null && lastRecipe.getInputEUt() >= GTValues.V[GTValues.UV] && GTValues.RNG.nextFloat() < 1e-5f*count) {
                     ItemStack ash = NEUTRON_PILE.copy();
-                    if(count>100)
-                        ash.setCount((int) (count/1e5));
+                    if(count>1e5)
+                        ash.setCount((int) (count/1e5)+(count>=GTValues.RNG.nextInt((int) 1e5)?0:1));
                     recoverItemsTable(ash);
                 }
                 if(GTValues.RNG.nextBoolean()){
@@ -92,10 +91,9 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
                     if (supplier != null) {
                         ItemStack ash = supplier.getMuffledProduction(controller.self(), lastRecipe);
                         if(count>100)
-                            ash.setCount((int) (count/100));
+                            ash.setCount(count/100+(count>=GTValues.RNG.nextInt(100)?0:1));
                         recoverItemsTable(ash);
                     }
-
                 }
             }
         }else if(GTOCore.isExpert() || GTValues.RNG.nextBoolean()) {

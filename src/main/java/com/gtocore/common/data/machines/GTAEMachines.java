@@ -244,7 +244,7 @@ public final class GTAEMachines {
             .tooltips(Component.translatable("gtceu.machine.item_bus.export.tooltip"),
                     Component.translatable("gtceu.machine.me.item_export.tooltip"),
                     Component.translatable("gtceu.machine.me.export.tooltip"),
-                    Component.translatable("gtceu.part_sharing.enabled"))
+                    Component.translatable("gtceu.part_sharing.disabled"))
             .register();
 
     public static final MachineDefinition ME_PATTERN_BUFFER = GTM

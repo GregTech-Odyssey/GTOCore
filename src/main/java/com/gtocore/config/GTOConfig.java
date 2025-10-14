@@ -166,7 +166,7 @@ public final class GTOConfig {
 
     @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "disable Muffler Part", cn = "禁用消声仓")
-    @Configurable.Comment({ "禁用后失去掏灰玩法", "After disabling, you will lose the ash digging gameplay" })
+    @Configurable.Comment({ "禁用后失去掏灰玩法(在非专家模式生效)", "Removing this disables Ash-Scooping gameplay (only applies in non-Expert mode)" })
     public boolean disableMufflerPart = false;
 
     @Configurable

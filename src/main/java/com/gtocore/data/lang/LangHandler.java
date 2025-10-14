@@ -88,7 +88,6 @@ public final class LangHandler {
             int a = (1 << (2 * (tier - 4)));
             addCNEN("gtceu.machine.parallel_hatch_mk" + tier + ".tooltip", "允许同时处理至多" + a + "个配方。", "Allows to run up to " + a + " recipes in parallel.");
         }
-
         addCNEN("gtceu.machine.available_recipe_map_5.tooltip", "可用配方类型：%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s");
         addCNEN("gtceu.machine.available_recipe_map_6.tooltip", "可用配方类型：%s，%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s, %s");
 

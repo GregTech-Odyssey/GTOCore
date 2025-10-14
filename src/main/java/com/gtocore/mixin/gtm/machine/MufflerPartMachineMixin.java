@@ -19,7 +19,7 @@ import com.gtocore.api.machine.IGTOMufflerMachine;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IAirScrubberInteractor;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
-import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
+import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.utils.MachineUtils;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -57,7 +57,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Final
     private CustomItemStackHandler inventory;
     @Unique
-    private DroneControlCenterMachine gtolib$cache;
+    private IDroneControlCenterMachine gtolib$cache;
     @Unique
     private AirScrubberMachine gtolib$airScrubberCache;
     @Unique
@@ -87,19 +87,19 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     }
 
     @Unique
-    public DroneControlCenterMachine getNetMachineCache() {
+    public IDroneControlCenterMachine getNetMachineCache() {
         return gtolib$cache;
     }
 
     @Unique
-    public void setNetMachineCache(DroneControlCenterMachine cache) {
+    public void setNetMachineCache(IDroneControlCenterMachine cache) {
         gtolib$cache = cache;
     }
 
     @Unique
     private void gtolib$tick() {
         if (getOffsetTimer() % 40 == 0) {
-            DroneControlCenterMachine centerMachine = getNetMachine();
+            IDroneControlCenterMachine centerMachine = getNetMachine();
             if (centerMachine != null && !inventory.stacks[inventory.size - 3].isEmpty()) {
                 Drone drone = null;
                 boolean available = false;
