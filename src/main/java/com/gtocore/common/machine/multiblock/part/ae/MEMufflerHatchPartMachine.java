@@ -211,12 +211,12 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
                     mufflerMap.put(i.getBlock().asItem(), i.getTier());
                 }
             }
-            MUFFLER_HATCH = mufflerMap;
+            MUFFLER_HATCH = Map.copyOf(mufflerMap);
             var amplifierTierMap = new HashMap<Item, Integer>();
             for (int i = GTValues.UV; i <= GTValues.OpV; ++i) {
                 amplifierTierMap.put(((ItemStack) CraftingComponents.INTEGRATED_CONTROL_CORE.get(i)).getItem(), i);
             }
-            AMPLIFIER_TIER_MAP = amplifierTierMap;
+            AMPLIFIER_TIER_MAP = Map.copyOf(amplifierTierMap);
         }
     }
 }
