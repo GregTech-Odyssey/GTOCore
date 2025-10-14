@@ -232,6 +232,21 @@ public final class GTAEMachines {
                     Component.translatable("gtceu.part_sharing.enabled"))
             .register();
 
+    public static final MachineDefinition MUFFLER_HATCH_ME = GTM
+            .machine("me_muffler_hatch", MEMufflerHatchPartMachine::new)
+            .langValue("ME Muffler Hatch")
+            .genLang("ME消声仓")
+            .tier(LuV)
+            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
+            .allRotation()
+            .abilities(PartAbility.MUFFLER)
+            .overlayTieredHullRenderer("me_item_bus.export")
+            .tooltips(Component.translatable("gtceu.machine.item_bus.export.tooltip"),
+                    Component.translatable("gtceu.machine.me.item_export.tooltip"),
+                    Component.translatable("gtceu.machine.me.export.tooltip"),
+                    Component.translatable("gtceu.part_sharing.enabled"))
+            .register();
+
     public static final MachineDefinition ME_PATTERN_BUFFER = GTM
             .machine("me_pattern_buffer", h -> new MEPatternBufferPartMachineKt(h, 27))
             .tier(LuV)

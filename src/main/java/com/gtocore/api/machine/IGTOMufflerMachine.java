@@ -16,28 +16,22 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.IdleReason;
 import committee.nova.mods.avaritia.init.registry.ModItems;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.AABB;
-
-import java.util.List;
 
 public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IControllable {
 
     ItemStack ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
-    ItemStack NeutronPile = ModItems.neutron_pile.get().getDefaultInstance();
+    ItemStack NEUTRON_PILE = ModItems.neutron_pile.get().getDefaultInstance();
 
-    int getAshNotProduceChance();
+    int gtolib$getRecoveryChance();
 
-    default boolean gtolib$isValid() {
-        return GTOConfig.INSTANCE.disableMufflerPart || getAshNotProduceChance() == 100;
+    default boolean isMufflerValid() {
+        return GTOConfig.INSTANCE.disableMufflerPart || gtolib$getRecoveryChance() == 100;
     }
 
     @Override
     default GTRecipe modifyRecipe(GTRecipe recipe) {
-        if (gtolib$isValid()) return recipe;
+        if (isMufflerValid()) return recipe;
         if (!isFrontFaceFree()) {
             for (var c : getControllers()) {
                 if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
@@ -50,15 +44,25 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
     }
 
     @Override
+    default boolean beforeWorking(IWorkableMultiController controller) {
+        if (isMufflerValid()) return true;
+        if (gtolib$checkAshFull()) {
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                    enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     default boolean onWorking(IWorkableMultiController controller) {
-        if (gtolib$isValid() && !isWorkingEnabled()) return true;
-        if (gto$checkAshFull()) return false;
+        if (isMufflerValid() && !isWorkingEnabled()) return true;
         if (controller.getRecipeLogic().progress % 80 == 0) {
-            List<LivingEntity> entities = self().getLevel().getEntitiesOfClass(LivingEntity.class, new AABB(self().getPos().relative(this.self().getFrontFacing())));
-            entities.forEach(e -> {
-                e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 2));
-                e.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 1));
-            });
+            if (GTOCore.isExpert() && gtolib$checkAshFull()) return false;
+            gtolib$addMufflerEffect();
             gtolib$insertAsh(controller);
         }
         return true;
@@ -70,42 +74,36 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
         return true;
     }
 
-    default boolean beforeWorking(IWorkableMultiController controller) {
-        if (gtolib$isValid()) return true;
-        if (gto$checkAshFull()) {
-            for (var c : getControllers()) {
-                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                    enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
-                }
-            }
-            return false;
-        }
-        return true;
-    }
-
-    boolean gto$checkAshFull();
-    boolean gto$getAshFull();
+    default boolean gtolib$checkAshFull(){return false;};
 
     default void gtolib$insertAsh(IWorkableMultiController controller) {
-        var count=getAshNotProduceChance();
-        while ((count-=GTValues.RNG.nextInt(100))>=0){
+        var count = gtolib$getRecoveryChance();
+        if(count>=GTValues.RNG.nextInt(100)) {
             if (isWorkingEnabled()) {
                 GTRecipe lastRecipe = controller.getRecipeLogic().getLastRecipe();
-                ItemStack ash = null;
-                if (lastRecipe != null && lastRecipe.getInputEUt() >= GTValues.V[GTValues.UV] && GTValues.RNG.nextFloat() < 1e-3f) {
-                    ash = NeutronPile;
-                } else {
+                if (lastRecipe != null && lastRecipe.getInputEUt() >= GTValues.V[GTValues.UV] && GTValues.RNG.nextFloat() < 1e-5f*count) {
+                    ItemStack ash = NEUTRON_PILE.copy();
+                    if(count>100)
+                        ash.setCount((int) (count/1e5));
+                    recoverItemsTable(ash);
+                }
+                if(GTValues.RNG.nextBoolean()){
                     MultiblockMachineBuilder.MufflerProductionGenerator supplier = controller.self().getDefinition().getRecoveryItems();
                     if (supplier != null) {
-                        ash = supplier.getMuffledProduction(controller.self(), lastRecipe);
+                        ItemStack ash = supplier.getMuffledProduction(controller.self(), lastRecipe);
+                        if(count>100)
+                            ash.setCount((int) (count/100));
+                        recoverItemsTable(ash);
                     }
 
                 }
-                recoverItemsTable(ash);
             }
-        }
-        if (GTValues.RNG.nextInt(100) >= getAshNotProduceChance() &&(GTOCore.isExpert() || GTValues.RNG.nextBoolean())) {
+        }else if(GTOCore.isExpert() || GTValues.RNG.nextBoolean()) {
             recoverItemsTable(ASH);
         }
     }
+
+    default void gtolib$addMufflerEffect() {
+    }
+
 }
