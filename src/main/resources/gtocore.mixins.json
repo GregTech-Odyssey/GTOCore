@@ -5,6 +5,7 @@
   "refmap": "gtocore.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "GameRendererMixin",
     "adastra.AdAstraOverlayScreenMixin",
     "adastra.PlanetsScreenMixin",
     "ae2.gui.CraftConfirmTableRendererMixin",
@@ -33,7 +34,7 @@
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
-    "GameRendererMixin",
+    "AppliedBotanicsForgeMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
     "ae2.EnergyServiceMixin",
