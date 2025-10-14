@@ -45,9 +45,11 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     @Persisted
     private final NotifiableItemStackHandler amplifierInv;
     private final InaccessibleInfiniteHandler handler;
-    @Persisted
+
     @DescSynced
     private int recoveryChance = 0;
+
+    private int muffler_tier=0;
 
     private static final int COUNT =1<<(GTOCore.difficulty*2);
     private static final int MIN_COUNT= 1<<(GTOCore.difficulty*2-2);
@@ -83,13 +85,11 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
         var amplifierIs=amplifierInv.getStackInSlot(0);
         var item = mufflerHatchInv.getStackInSlot(0).getItem();
         recoveryChance = 0;
+        muffler_tier=0;
         if (!Wrapper.MUFFLER_HATCH.containsKey(item)) {
             return;
         }
         var tier = Wrapper.MUFFLER_HATCH.get(item);
-        if (GTOCore.isExpert() && !getControllers().isEmpty() && getControllers().getFirst() instanceof ITieredMachine machine && machine.getTier()>tier+1) {
-            return;
-        }
         if(Objects.equals(Wrapper.AMPLIFIER_TIER_MAP.get(amplifierIs.getItem()), Wrapper.MUFFLER_HATCH.get(item))){
             var recoveryChanceMin=tier*10;
             var recoveryChanceMax = recoveryChanceMin*tier;
@@ -97,8 +97,9 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
             recoveryChance+=recoveryChanceMin;
             recoveryChance=Math.max(recoveryChance,recoveryChanceMin);
         }else{
-            recoveryChance=Wrapper.MUFFLER_HATCH.get(item)*10;
+            recoveryChance=tier*10;
         }
+        muffler_tier=tier;
 
         RecipeHandlerList.NOTIFY.accept(this);
     }
@@ -159,7 +160,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
         muffler.addWidget(new SlotWidget(amplifierInv.storage, 0,120, 10, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(AMPLIFIER_TOOLTIP_KEY)));
-        muffler.addWidget(new ComponentPanelWidget(6, 15, (list) -> list.add(Component.translatable("gtceu.muffler.recovery_tooltip", recoveryChance!=0?recoveryChance:DISABLED_TOOLTIP_KEY))));
+        muffler.addWidget(new ComponentPanelWidget(6, 15, (list) -> list.add(Component.translatable("gtceu.muffler.recovery_tooltip", recoveryChance!=0?recoveryChance:Component.translatable(DISABLED_TOOLTIP_KEY)))));
         group.addWidget(muffler);
         WidgetGroup meOutput = new WidgetGroup(0, 35, 170, 65);
         meOutput.addWidget(new LabelWidget(5, 0, () -> this.getOnlineField() ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
@@ -183,6 +184,11 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     @Override
     public int gtolib$getRecoveryChance() {
         return recoveryChance;
+    }
+
+    @Override
+    public int getTier() {
+        return Math.max(tier,muffler_tier);
     }
 
     static class Wrapper {
