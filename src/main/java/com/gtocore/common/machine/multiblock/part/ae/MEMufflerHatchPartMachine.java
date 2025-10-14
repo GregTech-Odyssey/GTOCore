@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -36,10 +37,11 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine {
+public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine, IMachineModifyDrops {
 
     @Persisted
     private final KeyStorage internalBuffer;
@@ -190,6 +192,12 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     @Override
     public int getTier() {
         return Math.max(tier, muffler_tier);
+    }
+
+    @Override
+    public void onDrops(List<ItemStack> drops) {
+        clearInventory(mufflerHatchInv);
+        clearInventory(amplifierInv);
     }
 
     static class Wrapper {
