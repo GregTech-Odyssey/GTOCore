@@ -241,9 +241,7 @@ public final class GTAEMachines {
             .allRotation()
             .abilities(PartAbility.MUFFLER)
             .overlayTieredHullRenderer("me_item_bus.export")
-            .tooltips(Component.translatable("gtceu.machine.item_bus.export.tooltip"),
-                    Component.translatable("gtceu.machine.me.item_export.tooltip"),
-                    Component.translatable("gtceu.machine.me.export.tooltip"),
+            .tooltips(Component.translatable("gtocore.me_muffler_hatch.tooltip"),
                     Component.translatable("gtceu.part_sharing.disabled"))
             .register();
 
