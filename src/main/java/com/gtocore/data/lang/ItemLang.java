@@ -72,6 +72,9 @@ final class ItemLang {
         addCNEN("tagprefix.mxene", "%s二维纳米层", "%s MXene");
         addCNEN("tagprefix.mborene", "%s二维纳米层", "%s MBorene");
         addCNEN("tagprefix.aluminium_contained_mxene_precursor", "MAXene%s二维纳米层前驱体", "A-Contained %s MXene Precursor");
+        addCNEN("tagprefix.carbon_fiber", "%s纤维", "%s Fiber");
+        addCNEN("tagprefix.carbon_fibres", "%s纤维原丝", "%s Fiber Tow");
+        addCNEN("tagprefix.carbon_fiber_mesh", "%s纤维网", "%s Fiber Mesh");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");
@@ -147,6 +150,7 @@ final class ItemLang {
         addCNEN("tooltip.ad_astra.unknown_tag", "§c未知标签§r: %s", "§cUnknown tag§r: %s");
         addCNEN("tooltip.ad_astra.unknown_ingredient", "§c未知物品§r", "§cUnknown item§r");
         addCNEN("tag.item.forge.ingots.steel", "钢锭", "Steel Ingot");
+        addCNEN("item.gtocore.globe.earth", "地球仪的球体", "Earth Globe Sphere");
 
         addCNEN("tooltip.item.pattern.uuid", "编码者：%s", "Encoded by: %s");
     }

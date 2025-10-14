@@ -21,6 +21,10 @@ public final class GTOMaterials {
     public static Material LiquidNitrogen;
     public static Material HighPressureNitrogen;
     public static Material HighPressureSteam;
+    public static Material HighPressureHelium;
+    public static Material HighPressureNeon;
+    public static Material HighPressureArgon;
+    public static Material HighPressureKrypton;
     public static Material AcidicBromineSolution;
     public static Material ConcentratedBromineSolution;
     public static Material HydrogenIodide;
@@ -103,6 +107,26 @@ public final class GTOMaterials {
     public static Material UltraLightweightCompositeSteel;
     public static Material BerylliumAluminiumAlloy;
     public static Material MoonGoddessTitanium;
+    public static Material AluminumAlloy2090;
+    public static Material AluminumAlloy8090;
+    public static Material AluminumAlloy7050;
+    public static Material AluminumAlloy5A06;
+    public static Material StructuralSteel45;
+    public static Material StainlessSteel420;
+    public static Material StainlessSteelGC4;
+    public static Material TitaniumTi64;
+    public static Material StainlessSteel155Ph;
+    public static Material StainlessSteel316;
+    public static Material StructuralSteelQ690;
+    public static Material InconelX750;
+    public static Material TungstenAlloyYW3;
+    public static Material TungstenAlloyYG10;
+    public static Material Inconel617;
+    public static Material BerylliumAluminumZ;
+    public static Material TitaniumTB6;
+    public static Material Inconel718;
+    public static Material BerylliumAluminumF;
+    public static Material TitaniumTC11;
 
     public static Material TriniumCompound;
     public static Material FumingNitricAcid;
@@ -226,6 +250,46 @@ public final class GTOMaterials {
     public static Material LightEmittingChargedSuspiciousWaste;
     public static Material EnrichedLightEmittingChargedSuspiciousWaste;
 
+    public static Material FiberglassReinforcedPlastic;
+    public static Material QuartzFiberReinforcedSilica;
+    public static Material AluminumReinforcedWithSiliconCarbideParticles;
+    public static Material AluminumReinforcedWithSiliconCarbideParticlesPre;
+    public static Material AluminaFiberReinforcedAluminumMatrixComposite;
+    public static Material GraphiteCopperComposite;
+    public static Material GraphiteCopperCompositePre;
+    public static Material BorosilicateFiberReinforcedAluminumMatrixComposite;
+    public static Material DispersionStrengthenedCopper;
+    public static Material DispersionStrengthenedCopperPre;
+    public static Material OxideDispersionStrengthenedNickelBasedAlloy;
+    public static Material TitaniumSteelComposite;
+    public static Material SilicaCarbonComposite;
+    public static Material CarbonFiberEpoxyComposite;
+    public static Material CarbonFiberReinforcedEpoxyComposite;
+    public static Material CarbonFiberPhenolicResinComposite;
+    public static Material CarbonFiberPolyphenyleneSulfideComposite;
+    public static Material AluminumOxynitrideGlassCeramic;
+    public static Material SiliconCarbideFiberReinforcedNickelBasedComposite;
+    public static Material SiliconCarbideFiberReinforcedTitaniumMatrixComposite;
+    public static Material TungstenFiberReinforcedCobaltBasedComposite;
+    public static Material CarbonFiberPolyimideComposite;
+    public static Material CarbonFiberPolyetheretherketoneComposite;
+
+    public static Material NanoScaleSiliconCarbide;
+    public static Material NanoScaleTungsten;
+    public static Material T300CarbonFiber;
+    public static Material T400CarbonFiber;
+    public static Material T600CarbonFiber;
+    public static Material T700CarbonFiber;
+    public static Material T800CarbonFiber;
+    public static Material T900CarbonFiber;
+    public static Material T1000CarbonFiber;
+    public static Material T1200CarbonFiber;
+    public static Material T1500CarbonFiber;
+
+    public static Material MethylAcrylate;
+    public static Material SilicaSol;
+    public static Material AluminumNitride;
+    public static Material Polyacrylonitrile;
     public static Material DirtyHexafluorosilicicAcid;
     public static Material DiluteHexafluorosilicicAcid;
     public static Material StoneDustResidue;
@@ -1120,7 +1184,10 @@ public final class GTOMaterials {
         MaterialA.init();
         MaterialB.init();
         MaterialC.init();
+        MaterialSpaceEra.init();
+        MaterialComposite.init();
         MaterialIgnored.init();
+        FiberExtruderTempDefinitions.init();
 
         MATERIAL_VOLTAGE = Map.of(
                 GTMaterials.Gold, VA[LV],

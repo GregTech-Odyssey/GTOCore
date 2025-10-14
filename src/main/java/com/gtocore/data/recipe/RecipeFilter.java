@@ -2,6 +2,7 @@ package com.gtocore.data.recipe;
 
 import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.generated.DyeRecipes;
+import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.integration.Mods;
@@ -71,6 +72,7 @@ public final class RecipeFilter {
         ImmersiveAircraft.initJsonFilter(filters);
         FunctionalStorage.initJsonFilter(filters);
         AE2.initJsonFilter(filters);
+        SpaceStationRecipes.initJsonFilter(filters);
 
         String[] ore1 = new String[] { "coal", "redstone", "emerald", "diamond" };
         String[] ore2 = new String[] { "iron", "copper", "gold" };

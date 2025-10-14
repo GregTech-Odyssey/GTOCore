@@ -1,6 +1,7 @@
 package com.gtocore.common.data.material;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -19,7 +20,11 @@ import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.tag.GTOTagPrefix.*;
+import static com.gtocore.common.data.GTOItems.KEVLAR_FIBER;
+import static com.gtocore.common.data.GTOItems.WOVEN_KEVLAR;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static committee.nova.mods.avaritia.init.registry.ModBlocks.infinity;
 import static committee.nova.mods.avaritia.init.registry.ModItems.*;
@@ -249,6 +254,12 @@ public final class MaterialIgnored {
         block.setIgnored(Etrium, ModBlocks.ETRIUM_BLOCK);
         plate.setIgnored(Etrium, ModItems.ETRIUM_PLATE);
         rod.setIgnored(Etrium, ModItems.ETRIUM_ROD);
+
+        FIBER_TOW.setIgnored(Carbon, () -> CARBON_FIBERS);
+        FIBER_MESH.setIgnored(Carbon, () -> CARBON_MESH);
+        FIBER.setIgnored(Kevlar, () -> KEVLAR_FIBER);
+        FIBER_MESH.setIgnored(Kevlar, () -> WOVEN_KEVLAR);
+        FIBER.setIgnored(BorosilicateGlass, () -> ChemicalHelper.get(wireFine, BorosilicateGlass).getItem());
 
         if (GTCEu.isProd()) {
             TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);

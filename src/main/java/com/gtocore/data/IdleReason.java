@@ -18,6 +18,9 @@ public final class IdleReason extends com.gtolib.api.recipe.IdleReason {
 
     public static final IdleReason NO_ORES = new IdleReason("gtocore.idle_reason.no_ores", "该维度中没有可用的矿石", "No ores available in this dimension");
 
+    public static final IdleReason INCORRECT_DIRECTION_VOLTA = new IdleReason("gtocore.idle_reason.incorrect_direction_volta", "这个方向摆放的机器晒不到太阳", "The machine placed in this direction can't get sunlight");
+    public static final IdleReason OBSTRUCTED_VOLTA = new IdleReason("gtocore.idle_reason.obstructed_volta", "太阳能板被遮挡了", "The solar panel is obstructed");
+
     public IdleReason(String key, String cn, String en) {
         super(key, en, cn);
     }

@@ -228,12 +228,13 @@ public final class ManaMultiBlock {
             .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_mixer"))
             .register();
 
-    public static final MultiblockMachineDefinition ELF_EXCHANGE = multiblock("elf_exchange", "精灵交易所", ManaMultiblockMachine::new)
+    public static final MultiblockMachineDefinition ELF_EXCHANGE = multiblock("elf_exchange", "精灵交易所", ElfExchangeMachine::new)
             .langValue("ELF Exchange")
             .nonYAxisRotation()
             .parallelizableTooltips()
             .perfectOCTooltips()
             .parallelizableManaOverclock()
+            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getElfExchangeMachine().getSupplier())
             .recipeTypes(GTORecipeTypes.ELF_EXCHANGE_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)

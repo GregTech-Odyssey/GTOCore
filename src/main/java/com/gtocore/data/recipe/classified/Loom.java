@@ -7,7 +7,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.world.level.block.Blocks;
@@ -59,13 +58,13 @@ final class Loom {
                 .duration(20)
                 .save();
 
-        LOOM_RECIPES.recipeBuilder("woven_kevlar")
-                .inputItems(GTOItems.KEVLAR_FIBER.asItem(), 8)
-                .outputItems(GTOItems.WOVEN_KEVLAR.asItem())
-                .EUt(120)
-                .duration(200)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
+        // LOOM_RECIPES.recipeBuilder("woven_kevlar")
+        // .inputItems(GTOItems.KEVLAR_FIBER.asItem(), 8)
+        // .outputItems(GTOItems.WOVEN_KEVLAR.asItem())
+        // .EUt(120)
+        // .duration(200)
+        // .cleanroom(CleanroomType.CLEANROOM)
+        // .save();
 
         LOOM_RECIPES.recipeBuilder("nanotube_spool")
                 .inputItems(TagPrefix.wireFine, GTOMaterials.CarbonNanotubes, 16)

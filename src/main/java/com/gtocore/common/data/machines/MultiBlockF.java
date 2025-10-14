@@ -32,6 +32,8 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gtocore.common.data.GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.VACUUM_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockF {
@@ -108,7 +110,7 @@ public final class MultiBlockF {
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
-            .recipeTypes(GTRecipeTypes.VACUUM_RECIPES)
+            .recipeTypes(VACUUM_RECIPES, ATOMIZATION_CONDENSATION_RECIPES)
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
             .pattern(definition -> CompoundExtremeCoolingMachine.getBlockPattern(0, definition))

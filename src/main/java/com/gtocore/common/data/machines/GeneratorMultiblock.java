@@ -1,6 +1,5 @@
 package com.gtocore.common.data.machines;
 
-import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.AdvancedHyperRenderer;
 import com.gtocore.client.renderer.machine.AnnihilateGeneratorRenderer;
@@ -63,41 +62,22 @@ public final class GeneratorMultiblock {
 
     private static MultiblockMachineDefinition registerPhotovoltaicPowerStation(String name, String cn, int basicRate, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock, ResourceLocation texture) {
         String model;
-        if (basicRate == 1) model = "PG-11";
-        else if (basicRate == 4) model = "PG-12";
-        else if (basicRate == 16) model = "PG-13";
-        else model = "PG-11";
+        if (basicRate < 4) model = "PG-11";
+        else if (basicRate < 16) model = "PG-12";
+        else model = "PG-13";
 
-        return multiblock(name + "_photovoltaic_power_station", cn + "光伏电站", holder -> new PhotovoltaicPowerStationMachine(holder, basicRate))
-                .nonYAxisRotation()
+        return multiblock(name + "_photovoltaic_power_station", cn + "光伏电站", holder -> new PhotovoltaicPowerStationMachine(holder, basicRate, casing, photovoltaicBlock))
+                .allRotation()
+                .workableInSpace()
                 .tooltips(GTOMachineStories.INSTANCE.getPhotovoltaicPlantTooltips().invoke(model).getSupplier())
                 .tooltips(GTOMachineTooltips.INSTANCE.getPhotovoltaicPlantTooltips().getSupplier())
                 .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
                 .generator()
                 .block(casing)
-                .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
-                        .aisle("       ", "       ", "       ", "       ", "AAAAAAA")
-                        .aisle("       ", "       ", "       ", "       ", "ABBCBBA")
-                        .aisle("   D   ", "       ", "       ", "       ", "ABBCBBA")
-                        .aisle("   D   ", "       ", "       ", "       ", "ABBCBBA")
-                        .aisle("  ~CD  ", "   C   ", "   C   ", " AACAA ", "ABBCBBA")
-                        .aisle("   D   ", "       ", "       ", "       ", "ABBCBBA")
-                        .aisle("   D   ", "       ", "       ", "       ", "ABBCBBA")
-                        .aisle("       ", "       ", "       ", "       ", "ABBCBBA")
-                        .aisle("       ", "       ", "       ", "       ", "AAAAAAA")
-                        .where('A', frames(GTMaterials.Aluminium))
-                        .where('B', blocks(photovoltaicBlock.get()))
-                        .where('C', blocks(casing.get()))
-                        .where('D', blocks(casing.get())
-                                .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
-                                .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
-                                .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
-                                .or(abilities(GTOPartAbility.OUTPUT_MANA).setMaxGlobalLimited(4))
-                                .or(abilities(MAINTENANCE).setExactLimit(1)))
-                        .where('~', controller(blocks(definition.get())))
-                        .where(' ', any())
-                        .build())
+                .pattern(definition -> PhotovoltaicPowerStationMachine.getPatternCommon(definition, casing, photovoltaicBlock))
                 .workableCasingRenderer(texture, GTCEu.id("block/multiblock/generator/large_steam_turbine"))
+                .shapeInfo(d -> PhotovoltaicPowerStationMachine.getPatternCommonPreview(d, casing, photovoltaicBlock))
+                .shapeInfo(d -> PhotovoltaicPowerStationMachine.getPatternInSpacePreview(d, casing, photovoltaicBlock))
                 .register();
     }
 
@@ -553,6 +533,7 @@ public final class GeneratorMultiblock {
 
     public static final MultiblockMachineDefinition DYSON_SPHERE_RECEIVING_STATION = multiblock("dyson_sphere_receiving_station", "戴森球接收站", DysonSphereReceivingStationMcahine::new)
             .nonYAxisRotation()
+            .workableInSpace()
             .generator()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltipsText("发射戴森球模块后开始工作", "Starts working after launching Dyson Sphere modules")

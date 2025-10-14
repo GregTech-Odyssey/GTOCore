@@ -1041,4 +1041,18 @@ public final class GTOItems {
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(new CoordinateCardBehavior()))
             .register();
+    // 微米级聚丙烯腈原丝
+    // 预氧化微米级聚丙烯腈原丝
+    // 纳米级聚丙烯腈原丝
+    // 预氧化纳米级聚丙烯腈原丝
+    // 原子级聚丙烯腈原丝
+    // 预氧化原子级聚丙烯腈原丝
+    // 石墨化原子级聚丙烯腈原丝
+    public static final ItemEntry<Item> MICRON_PAN_FIBER = item("micron_pan_fiber", "微米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_MICRON_PAN_FIBER = item("preoxidized_micron_pan_fiber", "预氧化微米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> NANO_PAN_FIBER = item("nano_pan_fiber", "纳米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_NANO_PAN_FIBER = item("preoxidized_nano_pan_fiber", "预氧化纳米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> ATOMIC_PAN_FIBER = item("atomic_pan_fiber", "原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_ATOMIC_PAN_FIBER = item("preoxidized_atomic_pan_fiber", "预氧化原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> GRAPHITIZED_ATOMIC_PAN_FIBER = item("graphitized_atomic_pan_fiber", "石墨化原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
 }

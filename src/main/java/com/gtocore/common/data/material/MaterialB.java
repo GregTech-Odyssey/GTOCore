@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_FIBER;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -3654,7 +3655,7 @@ public final class MaterialB {
                 .dust()
                 .components(Aluminium, 2, Oxygen, 3)
                 .color(0x1d4759).iconSet(DULL)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FIBER)
                 .buildAndRegister();
 
         CaesiumHydroxide = material("caesium_hydroxide", "氢氧化铯")
@@ -4114,6 +4115,26 @@ public final class MaterialB {
                 .liquid(new FluidBuilder().temperature(7000))
                 .color(0x3c8d4f).iconSet(LIMPID)
                 .buildAndRegister();
+
+        MethylAcrylate = material("methyl_acrylate", "丙烯酸甲酯")
+                .fluid()
+                .color(0x3c8d4f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("C4H6O2");
+        SilicaSol = material("silica_sol", "硅溶胶")
+                .fluid()
+                .color(0x8d3c4f).iconSet(LIMPID)
+                .buildAndRegister().setFormula("SiO2");
+        AluminumNitride = material("aluminum_nitride", "氮氧化铝")
+                .dust()
+                .components(Aluminium, 1, Nitrogen, 1)
+                .color(0x4f3c8d).iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        Polyacrylonitrile = material("polyacrylonitrile", "聚丙烯腈")
+                .polymer().fluid()
+                .flags(GENERATE_FOIL, GENERATE_PLATE)
+                .color(0x8f8d3c).iconSet(DULL)
+                .buildAndRegister().setFormula("(C3H3N)n");
 
         RedSlurry = material("red_slurry", "赤泥浆液")
                 .fluid()
@@ -4890,7 +4911,7 @@ public final class MaterialB {
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("Si3N4");
 
-        Titanium3Carbide = material("titanium3_carbide_ceramic", "碳化钛(III)陶瓷")
+        Titanium3Carbide = material("titanium3_carbide_ceramic", "碳化钛陶瓷")
                 .dust()
                 .color(0x6b423b).secondaryColor(0x4e2f2a)
                 .iconSet(BRIGHT)

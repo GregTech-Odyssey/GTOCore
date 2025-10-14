@@ -78,6 +78,7 @@ public final class GTOMachines {
         MultiBlockF.init();
         MultiBlockG.init();
         MultiBlockH.init();
+        SpaceMultiblock.init();
 
         SimpleModeMachine.init(); // 限制模式不注册会出现多方块预览错误
 
@@ -112,7 +113,7 @@ public final class GTOMachines {
     public static final MachineDefinition[] THERMAL_GENERATOR = registerSimpleGenerator("thermal_generator", "热力发电机",
             GTORecipeTypes.THERMAL_GENERATOR_FUELS, tier -> (tier + 1) * 1000, ULV, LV, MV);
 
-    public static final MachineDefinition[] ROCKET_ENGINE_GENERATOR = registerSimpleGenerator("rocket_engine", "火箭引擎", GTORecipeTypes.ROCKET_ENGINE_FUELS,
+    public static final MachineDefinition[] ROCKET_ENGINE_GENERATOR = registerRocketSimpleGenerator("rocket_engine", "火箭引擎", GTORecipeTypes.ROCKET_ENGINE_FUELS,
             GTMachineUtils.genericGeneratorTankSizeFunction, EV, IV, LuV);
 
     public static final MachineDefinition[] NAQUADAH_REACTOR_GENERATOR = registerSimpleGenerator("naquadah_reactor", "硅岩反应堆", GTORecipeTypes.NAQUADAH_REACTOR,
@@ -543,10 +544,17 @@ public final class GTOMachines {
     public static final MachineDefinition TEMP_VACUUM_INTERFACE = machine("temp_vacuum_interface", "温度/真空接口", TempVacuumInterfacePartMachine::new)
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
-            .notAllowSharedTooltips()
             .tooltips(GTOMachineTooltips.INSTANCE.getTempVacuumInterfaceTooltips().getSupplier())
             .tier(1)
             .overlayTieredHullRenderer("neutron_sensor")
+            .register();
+
+    public static final MachineDefinition SPACE_SHIELD_HATCH = machine("space_shield_hatch", "太空屏障仓", SpaceShieldHatch::new)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .notAllowSharedTooltips()
+            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceShieldHatchTooltips().getSupplier())
+            .renderer(() -> new OverlayTieredMachineRenderer(UEV, GTCEu.id("block/machine/part/optical_data_hatch")))
             .register();
 
     public static final MachineDefinition CLEANING_CONFIGURATION_MAINTENANCE_HATCH = machine("cleaning_configuration_maintenance_hatch", "超净可配置维护仓", holder -> new CCMHatchPartMachine(holder, CMHatchPartMachine.DUMMY_CLEANROOM))

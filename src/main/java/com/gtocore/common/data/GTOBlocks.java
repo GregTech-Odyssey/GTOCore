@@ -508,4 +508,32 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK = createCasingBlock("tungsten_alloy_radiation_shielding_mechanical_block", "钨合金辐射屏蔽机械方块", GTOCore.id("block/casings/tungsten_alloy_radiation_shielding_mechanical_block"));
     // 冷却液管道机械方块
     public static final BlockEntry<Block> COOLANT_PIPE_CASING = createCasingBlock("coolant_pip_casing", "冷却液管道机械方块", GTOCore.id("block/casings/coolant_pip_casing"));
+    // 不锈钢耐腐蚀机械方块 stainless_steel_corrosion_resistant_casing
+    public static final BlockEntry<Block> STAINLESS_STEEL_CORROSION_RESISTANT_CASING = createCasingBlock("stainless_steel_corrosion_resistant_casing", "不锈钢耐腐蚀机械方块", GTOCore.id("block/casings/stainless_steel_corrosion_resistant_casing"));
+    // 航天器对接机械方块 spacecraft_docking_casing
+    public static final BlockEntry<Block> SPACECRAFT_DOCKING_CASING = createCasingBlock("spacecraft_docking_casing", "航天器对接机械方块", GTOCore.id("block/casings/spacecraft_docking_casing"));
+    // 传感器防护罩机械方块 sensor_protective_cover_casing
+    public static final BlockEntry<Block> SENSOR_PROTECTIVE_COVER_CASING = createCasingBlock("sensor_protective_cover_casing", "传感器防护罩机械方块", GTOCore.id("block/casings/sensor_protective_cover_casing"));
+    // 冶炼炉内衬机械方块 inner_lining_of_smelting_furnace_casing
+    public static final BlockEntry<Block> INNER_LINING_OF_SMELTING_FURNACE_CASING = createCasingBlock("inner_lining_of_smelting_furnace_casing", "冶炼炉内衬机械方块", GTOCore.id("block/casings/inner_lining_of_smelting_furnace_casing"));
+    // 抗蠕变冶炼机械方块 creep_resistant_smelting_casing
+    public static final BlockEntry<Block> CREEP_RESISTANT_SMELTING_CASING = createCasingBlock("creep_resistant_smelting_casing", "抗蠕变冶炼机械方块", GTOCore.id("block/casings/creep_resistant_smelting_casing"));
+    // 空间站控制机械方块 space_station_control_casing
+    public static final BlockEntry<Block> SPACE_STATION_CONTROL_CASING = createCasingBlock("space_station_control_casing", "空间站控制机械方块", GTOCore.id("block/casings/space_station_control_casing"));
+    // 高压气体储罐机械方块 high_pressure_gas_storage_tanks_casing
+    public static final BlockEntry<Block> HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING = createCasingBlock("high_pressure_gas_storage_tanks_casing", "高压气体储罐机械方块", GTOCore.id("block/casings/high_pressure_gas_storage_tanks_casing"));
+    // 稳定底座机械方块 stable_base_casing
+    public static final BlockEntry<Block> STABLE_BASE_CASING = createCasingBlock("stable_base_casing", "稳定底座机械方块", GTOCore.id("block/casings/stable_base_casing"));
+    // 电力传输机械方块 electric_power_transmission_casing
+    public static final BlockEntry<Block> ELECTRIC_POWER_TRANSMISSION_CASING = createCasingBlock("electric_power_transmission_casing", "电力传输机械方块", GTOCore.id("block/casings/electric_power_transmission_casing"));
+    // 冶炼控制机械方块 smelting_control_casing
+    public static final BlockEntry<Block> SMELTING_CONTROL_CASING = createCasingBlock("smelting_control_casing", "冶炼控制机械方块", GTOCore.id("block/casings/smelting_control_casing"));
+    // 加工控制机械方块 precision_machining_control_casing
+    public static final BlockEntry<Block> PRECISION_MACHINING_CONTROL_CASING = createCasingBlock("precision_machining_control_casing", "加工控制机械方块", GTOCore.id("block/casings/precision_machining_control_casing"));
+    // 航天器热屏蔽机械方块 spacecraft_thermal_shielding_casing
+    public static final BlockEntry<Block> SPACECRAFT_THERMAL_SHIELDING_CASING = createCasingBlock("spacecraft_thermal_shielding_casing", "航天器热屏蔽机械方块", GTOCore.id("block/casings/spacecraft_thermal_shielding_casing"));
+    // 航天发动机喷管 space_engine_nozzle
+    public static final BlockEntry<ActiveBlock> SPACE_ENGINE_NOZZLE = createActiveCasing("space_engine_nozzle", "航天发动机喷管", "block/variant/space_engine_nozzle");
+    // 航天器自修复自清洁防护机械外壳 spacecraft_dynamic_protective_mechanical_casing
+    public static final BlockEntry<Block> SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING = createCasingBlock("spacecraft_dynamic_protective_mechanical_casing", "航天器防护机械外壳", GTOCore.id("block/casings/spacecraft_dynamic_protective_mechanical_casing"));
 }

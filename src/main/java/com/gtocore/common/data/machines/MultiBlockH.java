@@ -44,8 +44,7 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gtocore.api.pattern.GTOPredicates.autoGCYMAbilities;
-import static com.gtocore.api.pattern.GTOPredicates.hermeticCasing;
+import static com.gtocore.api.pattern.GTOPredicates.*;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_EXTRACTION_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
@@ -683,7 +682,7 @@ public final class MultiBlockH {
                     .where('G', GTOPredicates.glass())
                     .where('H', heatingCoils())
                     .where('I', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('J', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('K', blocks(GTOBlocks.IRIDIUM_GEARBOX.get()))
@@ -932,21 +931,21 @@ public final class MultiBlockH {
             .register();
 
     // 雾化冷凝器
-    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getCasingTier(BlockMap.hermetic_casing) - 1)), false, BlockMap.hermetic_casing))
+    public static final MultiblockMachineDefinition ATOMIZING_CONDENSER = multiblock("atomizing_condenser", "雾化冷凝器", TierCasingParallelMultiblockMachine.createParallel(m -> (4 * (m.getCasingTier(BlockMap.hermetic_casing))), false, BlockMap.hermetic_casing))
             .nonYAxisRotation()
             .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getAtomizingCondenserTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
             .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^(密封机械方块等级-1)", "4^(Hermetic Mechanical Casing tier-1)")))
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("(密封机械方块等级)×4", "(Hermetic Mechanical Casing tier)×4")))
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle(" AAA ", " EBE ", " BBB ", " BBB ", " BBB ", " BBB ", " AAA ")
                     .aisle("AA AA", "ABBBA", "ABDBA", "ABDBA", "ABDBA", "ABHBA", "AAHAA")
                     .aisle(" AAA ", " BCB ", " BBB ", " BBB ", " BBB ", " BBB ", " AAA ")
                     .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                     .where('B', blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
-                            .or(autoGCYMAbilities(definition.getRecipeTypes()))
+                            .or(autoAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('C', controller(blocks(definition.get())))
                     .where('D', hermeticCasing())
@@ -994,5 +993,37 @@ public final class MultiBlockH {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/compressor_controller_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    // 纺丝机
+    public static final MultiblockMachineDefinition FIBER_EXTRUDER = multiblock("fiber_extruder", "纺丝机", CoilCustomParallelMultiblockMachine.createParallelCoil(m -> 1L << (long) (m.getTemperature() / 900.0D), true, true, true))
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .tooltips(GTOMachineStories.INSTANCE.getFiberExtruderTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.FIBER_EXTRUSION_RECIPES)
+            .block(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "ABBBA", "ABBBA", "AAAAA", "     ")
+                    .aisle("ACCCA", "DDDDD", "DDDDD", "ACCCA", "     ")
+                    .aisle("ACCCA", "A   A", "A   A", "ACCCA", "     ")
+                    .aisle("ACCCA", "E   E", "E   E", "E   E", "EEEEE")
+                    .aisle("ACCCA", "E   E", "DDDDD", "DDDDD", "EBBBE")
+                    .aisle("ACCCA", "E   E", "EBBBE", "EBBBE", "EEEEE")
+                    .aisle("ACCCA", "A   A", "ACCCA", "     ", "     ")
+                    .aisle("AFFFA", "FBBBF", "AFFFA", "     ", "     ")
+                    .aisle("AAGAA", "A   A", "AAAAA", "     ", "     ")
+                    .where('A', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
+                    .where('C', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
+                    .where('D', blocks(GTBlocks.CASING_TITANIUM_GEARBOX.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('F', heatingCoils())
+                    .where('G', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/stainless_steel_corrosion_resistant_casing"),
+                    GTCEu.id("block/multiblock/gcym/large_extruder"))
             .register();
 }

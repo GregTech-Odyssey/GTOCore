@@ -75,6 +75,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.processing_plant.mismatched", "配方等级与小机器等级不匹配", "Recipe tier does not match small machine tier");
         addCNEN("gtocore.machine.radiation_hatch.inhibition_dose", "抑制量: %s Sv", "Inhibition Amount: %s Sv");
         addCNEN("gtocore.machine.radiation_hatch.time", "时间: %s / %s Tick", "Time: %s / %s Tick");
+        addCNEN("gtocore.machine.simple_spacestation.distilled_water", "向外供给蒸馏水： %s mB 每秒·每仓", "Distilled Water Output: %s mB per second per hatch");
         addCNEN("gtocore.machine.slaughterhouse.is_spawn", "实体生成模式: ", "Entity Generation: ");
         addCNEN("gtocore.machine.slaughterhouse.active_weapon", "使用§6%d§r击杀生物", "Kill the creature using §6%d§r");
         addCNEN("gtocore.machine.space_elevator.set_out", "启程", "Set Off");
@@ -156,10 +157,9 @@ final class MachineLang {
         addCNEN("gtocore.machine.monitor.mana.pool.2", "池/s)", "Pools per Second)");
         addCNEN("gtocore.machine.monitor.mana.increase", "每秒魔力增长: ", "Mana Growth Per Second: ");
         addCNEN("gtocore.machine.monitor.mana.decrease", "每秒魔力消耗: ", "Mana Consumption Per Second: ");
-        addCNEN("gtocore.machine.monitor.cwu.capacity", "当前网络算力: %s/%s CWU", "Current Network Hashrate: %s/%s CWU");
-        addCNEN("gtocore.machine.monitor.cwu.used", "（已使用: %s CWU）", "(Used: %s CWU)");
-        addCNEN("gtocore.machine.monitor.cwu.no_container", "警告: 算力信息缺失！", "Warning: Hashrate information is missing!");
-        addCNEN("gtocore.machine.monitor.eu.no_container", "警告: 无限能源塔绑定信息缺失！", "Warning: Infinite Energy Tower binding information is missing!");
+        addCNEN("gtocore.machine.monitor.cwu.capacity", "当前网络可请求算力/最大算力: %s/%s CWU", "Current Network (Requestable/Max) Hashrate: %s/%s CWU");
+        addCNEN("gtocore.machine.monitor.cwu.used", "（平均使用算力: %s CWU）", "(Average Used Hashrate: %s CWU)");
+        addCNEN("gtocore.machine.monitor.eu.no_container", "警告：无限能源塔绑定信息缺失！", "Warning: Infinite Energy Tower binding information is missing!");
         addCNEN("gtocore.machine.monitor.eu.fullness", "能量塔能量存量: %s%%", "Energy Tower Energy Storage: %s%%");
         addCNEN("gtocore.machine.monitor.priority", "调整显示的优先级", "Adjust the display priority");
         addCNEN("gtocore.machine.monitor.adjust_component.move_up", "上移", "Move Up");
@@ -224,6 +224,12 @@ final class MachineLang {
         addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
         addCN("gtceu.combined", "仓室模式");
         addCN("gtocore.compound_extreme_cooling_unit.tooltips.combined", "选择等离子冷凝模式以启用");
+        addCNEN("gtocore.machine.spacestation.ready", "空间站准备： %s%%就绪", "Space Station Readiness: %s%% Ready");
+        addCNEN("gtocore.machine.spacestation.energy_consumption.total", "所有空间站舱室总能量消耗： %s EU/t", "Total Energy Consumption of All Space Station Modules: %s EU/t");
+        addCNEN("gtocore.machine.space_shield_hatch.info", "机器太空护盾：运转正常", "Machine Space Shield: Operating Normally");
+        addCNEN("gtocore.machine.space_shield_hatch.insufficient", "机器太空护盾：无激光供应", "Machine Space Shield: No Laser Supply");
+        addCNEN("gtocore.machine.space_shield_hatch.not_in_space", "机器太空护盾：不在太空中", "Machine Space Shield: Not in Space");
+        addCNEN("gtocore.machine.tooltips.items_are_hidden", "（剩余%s项已隐藏）", "（%s items hidden）");
 
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.0", "简介", "Introduction");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.1", "选择预设", "Select Preset");

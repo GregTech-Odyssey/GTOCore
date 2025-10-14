@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/spacecraft_thermal_shielding_casing_ctm"
+    }
+}

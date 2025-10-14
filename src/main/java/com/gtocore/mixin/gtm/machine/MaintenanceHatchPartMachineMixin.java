@@ -2,7 +2,7 @@ package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
-import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
+import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
@@ -36,17 +36,17 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     protected int timeActive;
 
     @Unique
-    private DroneControlCenterMachine gtolib$cache;
+    private IDroneControlCenterMachine gtolib$cache;
 
     @Unique
     @SuppressWarnings("all")
-    public DroneControlCenterMachine getNetMachineCache() {
+    public IDroneControlCenterMachine getNetMachineCache() {
         return gtolib$cache;
     }
 
     @Unique
     @SuppressWarnings("all")
-    public void setNetMachineCache(DroneControlCenterMachine cache) {
+    public void setNetMachineCache(IDroneControlCenterMachine cache) {
         gtolib$cache = cache;
     }
 
@@ -85,7 +85,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)
     private void update(CallbackInfo ci) {
-        DroneControlCenterMachine centerMachine = getNetMachine();
+        IDroneControlCenterMachine centerMachine = getNetMachine();
         if (centerMachine != null) {
             var eu = getNumMaintenanceProblems() << 6;
             Drone drone = getFirstUsableDrone(d -> d.getCharge() >= eu);

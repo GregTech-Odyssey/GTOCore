@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.generator;
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 
-import com.gtolib.api.machine.feature.multiblock.IHighlightMachine;
+import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
@@ -41,7 +40,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachine implements IHighlightMachine {
+public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachine implements ICustomHighlightMachine {
 
     private static final FluidStack DINITROGEN_TETROXIDE_STACK = GTMaterials.DinitrogenTetroxide.getFluid(480);
     private static final FluidStack LIQUID_OXYGEN_STACK = GTMaterials.Oxygen.getFluid(FluidStorageKeys.LIQUID, 320);
@@ -202,21 +201,17 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     }
 
     @Override
-    public List<BlockPos> getHighlightPos() {
-        return List.of();
+    public List<Component> getHighlightText() {
+        return List.of(Component.translatable("gtocore.machine.highlight_obstruction"));
     }
 
     @Override
-    public void attachHighlightConfigurators(ConfiguratorPanel configuratorPanel) {
-        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
-                GuiTextures.LIGHT_ON, GuiTextures.LIGHT_ON, () -> false,
-                (clickData, pressed) -> {
-                    if (clickData.isRemote && this.isFormed() && this.self().getLevel() != null) {
-                        ForgeClientEvent.CUstomHighlightNeeds.computeIfAbsent(
-                                new ForgeClientEvent.HighlightNeed(highlightStartPos, highlightEndPos, ChatFormatting.GOLD.getColor()),
-                                k -> 400);
-                    }
-                })
-                .setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.highlight_obstruction"))));
+    public List<ForgeClientEvent.HighlightNeed> getCustomHighlights() {
+        return List.of(new ForgeClientEvent.HighlightNeed(highlightStartPos, highlightEndPos, ChatFormatting.GOLD.getColor()));
+    }
+
+    @Override
+    public int getHighlightMilliseconds() {
+        return 20000;
     }
 }

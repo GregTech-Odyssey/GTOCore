@@ -4,6 +4,8 @@ import com.gtocore.common.machine.multiblock.part.ae.MEDualOutputPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEOutputBusPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEOutputHatchPartMachine;
 
+import com.gtolib.api.machine.feature.ISpaceWorkspaceMachine;
+import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
 import com.gtolib.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
 
@@ -37,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mixin(WorkableMultiblockMachine.class)
-public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, IExtendedRecipeCapabilityHolder {
+public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, IExtendedRecipeCapabilityHolder, IWorkInSpaceMachine {
 
     @Shadow(remap = false)
     @Final
@@ -56,6 +58,18 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     private boolean gtolib$isDualOutput;
     @Unique
     private Int2ReferenceOpenHashMap<RecipeHandlerList> gtolib$outputColorMap;
+    @Unique
+    private ISpaceWorkspaceMachine gto$workspaceProvider;
+
+    @Override
+    public ISpaceWorkspaceMachine getWorkspaceProvider() {
+        return gto$workspaceProvider;
+    }
+
+    @Override
+    public void setWorkspaceProvider(ISpaceWorkspaceMachine iSpaceWorkspaceMachine) {
+        gto$workspaceProvider = iSpaceWorkspaceMachine;
+    }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(MetaMachineBlockEntity holder, Object[] args, CallbackInfo ci) {

@@ -43,6 +43,7 @@ public final class GTOOres {
     private static final Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new O2OOpenCacheHashMap<>();
     public static final Map<ResourceLocation, Object2IntOpenHashMap<Material>> ALL_ORES = new O2OOpenCacheHashMap<>();
 
+    @SuppressWarnings("ConstantConditions")
     public static void init() {
         GTBedrockFluids.init();
         if (false) {
@@ -135,6 +136,20 @@ public final class GTOOres {
                     .spread(b -> b.mat(Uraninite)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Pitchblende)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
+
+    private static final GTOreDefinition BORAX_VEIN = create("borax_vein", vein -> vein
+            .clusterSize(UniformInt.of(32, 64)).density(0.25f).weight(30)
+            .layer(ALL_LAYER)
+            .dimensions(VENUS, MARS, CERES, OTHERSIDE)
+            .heightRangeUniform(30, 60)
+            .cuboidVeinGenerator(generator -> generator
+                    .top(b -> b.mat(RockSalt).size(2))
+                    .middle(b -> b.mat(Borax).size(3))
+                    .bottom(b -> b.mat(Salt).size(2))
+                    .spread(b -> b.mat(Lepidolite)))
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Borax)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition SCHEELITE_VEIN = create("scheelite_vein", vein -> vein

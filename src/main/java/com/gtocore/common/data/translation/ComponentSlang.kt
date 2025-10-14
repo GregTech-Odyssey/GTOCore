@@ -92,4 +92,17 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
         OutTopic(1) + LegendSignalWrapper(GTOSignal_LOGO_GTOCoreRemix) + ("里程碑建筑" translatedTo "Milestone Building")
     val GTOSignal_Machine_MiracleByGTORemix =
         OutTopic(1) + LegendSignalWrapper(GTOSignal_LOGO_GTOCoreRemix) + ("奇迹工程" translatedTo "Miracle Project")
+    val IsWhatTypeSpaceModule = { type: ComponentSupplier ->
+        (("太空舱种类：" translatedTo " Space Module Type: ") + type).green().bold().initialize()
+    }
+    val CanConnectToWhatTypeSpaceModule =
+        { canConnectTos: List<ComponentSupplier> ->
+            (
+                ("可连接至的太空舱种类：" translatedTo "Types of Space Modules can connect to:").green().bold() +
+                    canConnectTos.reduce { acc, component -> acc + ", ".toLiteralSupplier() + component }
+                ).initialize()
+        }
+    val CoreModuleSpaceModule = ("核心舱" translatedTo "Core Module").aqua().bold().initialize()
+    val FunctionModuleSpaceModule = ("模块舱" translatedTo "Function Module").aqua().bold().initialize()
+    val ConjunctionModuleSpaceModule = ("衔接舱" translatedTo "Conjunction Module").aqua().bold().initialize()
 }

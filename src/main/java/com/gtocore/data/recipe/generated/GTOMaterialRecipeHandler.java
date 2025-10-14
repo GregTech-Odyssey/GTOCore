@@ -1,11 +1,15 @@
 package com.gtocore.data.recipe.generated;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
 
 import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.GTOUtils;
 
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -26,16 +30,25 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.material.GTOMaterialFlags.*;
+import static com.gtocore.api.data.tag.GTOTagPrefix.FIBER_MESH;
+import static com.gtocore.common.data.GTOMaterials.Kevlar;
 import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.data.recipe.processing.CompositeMaterialsProcessing.getFiberExtrusionTemperature;
 
 final class GTOMaterialRecipeHandler {
 
@@ -105,7 +118,7 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
 
-        if (material.hasFlag(NO_SMASHING)) {
+        if (material.hasAnyOfFlags(NO_SMASHING, COMPOSITE_MATERIAL)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_to_ingot")
                     .inputItems(dust, material)
                     .notConsumable(GTItems.SHAPE_EXTRUDER_INGOT)
@@ -140,6 +153,14 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
 
+        if (GTOUtils.isGeneration(ingotHot, material) && material.hasFlag(CAN_BE_COOLED_DOWN_BY_BATHING)) {
+            CHEMICAL_BATH_RECIPES.builder("%s_cool_down".formatted(material))
+                    .inputItems(ingotHot, material)
+                    .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                    .outputItems(ingot, material)
+                    .duration(mass * 5).EUt(VA[MV]).save();
+        }
+
         if (material.hasFlag(GENERATE_PLATE) && !material.hasFlag(NO_WORKING)) {
 
             if (!material.hasFlag(NO_SMASHING)) {
@@ -157,9 +178,11 @@ final class GTOMaterialRecipeHandler {
                             .outputItems(plateStack.copyWithCount(2))
                             .EUt(16).duration(Math.max(1, mass / 2))
                             .save();
-                    if (mass < 240 && material.getBlastTemperature() < 3600)
+                    if (mass < 240 && material.getBlastTemperature() < 3600) {
                         VanillaRecipeHelper.addShapedRecipe(String.format("plate_%s", material.getName()),
                                 plateStack, "h", "I", "I", 'I', stack);
+
+                    }
                 }
             }
 
@@ -259,7 +282,7 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
 
-        if (material.hasFlag(NO_SMASHING) && material.hasFlag(GENERATE_PLATE)) {
+        if (material.hasAnyOfFlags(NO_SMASHING, COMPOSITE_MATERIAL) && material.hasFlag(GENERATE_PLATE)) {
             ItemStack plateStack = ChemicalHelper.get(plate, material);
             if (!plateStack.isEmpty()) {
                 CUTTER_RECIPES.recipeBuilder("cut_" + material.getName() + "_block_to_plate")
@@ -363,6 +386,8 @@ final class GTOMaterialRecipeHandler {
         }
     }
 
+    static Reference2ReferenceMap<Fluid, Fluid> inertGas2HighPressureCache = null;
+
     private static void processDust(Material material) {
         ItemStack dustStack = ChemicalHelper.get(TagPrefix.dust, material);
         if (dustStack.isEmpty()) return;
@@ -372,22 +397,47 @@ final class GTOMaterialRecipeHandler {
         int mass = (int) material.getMass();
 
         if (material.hasFluid()) {
+            if (inertGas2HighPressureCache == null) {
+                inertGas2HighPressureCache = new Reference2ReferenceOpenHashMap<>();
+            }
+            Fluid molten = material.getFluid(FluidStorageKeys.MOLTEN);
+            FastFluidIngredient N2 = FastFluidIngredient.of(GTMaterials.Nitrogen.getFluid(4 * mass));
+            FastFluidIngredient N2HP = FastFluidIngredient.of(GTOMaterials.HighPressureNitrogen.getFluid(5 * mass));
+
+            FluidIngredient inert = material.hasProperty(PropertyKey.BLAST) ? Optional.ofNullable(material.getProperty(PropertyKey.BLAST).getGasTier())
+                    .map(gas -> gas.getFluid().getStacks()[0])
+                    .map(fs -> FastFluidIngredient.of(new FluidStack(fs.getFluid(), fs.getAmount() * mass / 500 + 30 + mass)))
+                    .orElse(N2) : N2;
+            FluidIngredient inertHighPressure = material.hasProperty(PropertyKey.BLAST) ?
+                    Optional.ofNullable(material.getProperty(PropertyKey.BLAST).getGasTier())
+                            .map(gas -> gas.getFluid().getStacks()[0])
+                            .map(fs -> {
+                                Fluid fluid = fs.getFluid();
+                                int amount = fs.getAmount() * mass / 450 + 40 + mass / 5 * 6;
+                                if (inertGas2HighPressureCache.containsKey(fluid)) {
+                                    return new FluidStack(inertGas2HighPressureCache.get(fluid), amount);
+                                }
+                                Fluid HP = GTCEuAPI.materialManager.getRegisteredMaterials().stream().filter(m -> m.hasFluid() && m.getFluid() == fluid).findAny().orElseThrow().getFluid(GTOFluidStorageKey.HIGH_PRESSURE_GAS);
+                                inertGas2HighPressureCache.put(fluid, HP);
+                                return new FluidStack(HP, amount);
+                            }).map(FastFluidIngredient::of)
+                            .orElse(N2HP) :
+                    N2HP;
             ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_dust")
                     .inputFluids(material.getFluid(L))
-                    .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(mass * 7 / 2))
+                    .inputFluids(inertHighPressure)
                     .outputItems(dustStack)
-                    .outputFluids(Nitrogen.getFluid(mass * 3))
+                    .outputFluids(inert)
                     .duration(mass / 2 + 1).EUt(VA[LV] / 2)
                     .category(GTORecipeCategories.CONDENSE_FLUID_TO_DUST)
                     .save();
-            Fluid molten = material.getFluid(FluidStorageKeys.MOLTEN);
             if (molten != null) {
                 boolean needLiquidHelium = material.getProperty(PropertyKey.ALLOY_BLAST).getTemperature() >= 5000;
                 var b = ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_dust_from_molten")
                         .inputFluids(molten, L)
-                        .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(mass * 7 / 2))
+                        .inputFluids(inertHighPressure)
                         .outputItems(dustStack)
-                        .outputFluids(Nitrogen.getFluid(mass * 3))
+                        .outputFluids(inert)
                         .duration((int) (mass * 1.5f)).EUt(GTOUtils.getVoltageMultiplier(material))
                         .category(GTORecipeCategories.CONDENSE_MOLTEN_TO_DUST);
                 if (needLiquidHelium) {
@@ -396,6 +446,68 @@ final class GTOMaterialRecipeHandler {
                 }
                 b.save();
             }
+        }
+
+        if (material.hasFlag(GENERATE_MXene)) {
+            Material A;
+            int temp = Math.max(3700 + 10 * mass, material.getBlastTemperature());
+            if (temp >= 5000) {
+                A = GTMaterials.Gallium;
+            } else A = GTMaterials.Aluminium;
+
+            CRYSTALLIZATION_RECIPES.builder("mxene_precursor_" + id)
+                    .inputItems(dust, material, 4)
+                    .inputItems(dustTiny, material, 16)
+                    .outputItems(GTOTagPrefix.AluminumContainedMXenePrecursor, material)
+                    .inputFluids(A, 288)
+                    .inputFluids(GTOMaterials.HighPressureArgon, 1000)
+                    .EUt(128)
+                    .blastFurnaceTemp(temp)
+                    .duration(2400)
+                    .save();
+            REACTION_FURNACE_RECIPES.builder("mxene_etching_" + id)
+                    .inputItems(GTOTagPrefix.AluminumContainedMXenePrecursor, material)
+                    .inputItems(GTOTagPrefix.dust, GTOMaterials.SodiumFluoride, 8)
+                    .outputItems(GTOTagPrefix.MXene, material)
+                    .inputFluids(GTMaterials.HydrofluoricAcid, 13000)
+                    .outputFluids(GTOMaterials.DiluteHydrofluoricAcid, 13000)
+                    .EUt(555)
+                    .blastFurnaceTemp(temp - 2000)
+                    .duration(20 * mass + 10)
+                    .save();
+        }
+        if (material.hasFlag(GENERATE_FIBER)) {
+            if (!material.hasFlag(IS_CARBON_FIBER)) {
+                int fiberTemp = getFiberExtrusionTemperature(material);
+                if (fiberTemp == 0) {
+                    fiberTemp = Math.max(800, material.getBlastTemperature());
+                }
+                int amount = (material == BorosilicateGlass || material == Kevlar) ? 8 : 1;
+                FIBER_EXTRUSION_RECIPES.builder("fiber_" + id + "from_extrusion")
+                        .inputItems(dust, material)
+                        .outputItems(GTOTagPrefix.FIBER, material, amount)
+                        .EUt(50 + mass * 2L)
+                        .duration(200 + mass * 4)
+                        .blastFurnaceTemp(fiberTemp)
+                        .save();
+
+                DRAWING_RECIPES.recipeBuilder("drawing_fiber_" + id)
+                        .circuitMeta(4)
+                        .inputItems(dust, material, 256)
+                        .outputItems(GTOTagPrefix.FIBER, material, amount * 256)
+                        .addData("spool", 5)
+                        .duration((200 + mass * 4) * 512)
+                        .EUt((50 + mass * 2L) * 16)
+                        .blastFurnaceTemp(4300 + fiberTemp)
+                        .save();
+            }
+            LOOM_RECIPES.builder("fiber_mesh_" + id + "_from_fiber")
+                    .inputItems(GTOTagPrefix.FIBER, material, 2)
+                    .outputItems(GTOTagPrefix.FIBER_MESH, material, 1)
+                    .circuitMeta(4)
+                    .EUt(30 + mass * 2L)
+                    .duration(500 + mass * 4)
+                    .save();
         }
 
         if (material.hasProperty(PropertyKey.GEM)) {
@@ -549,6 +661,7 @@ final class GTOMaterialRecipeHandler {
     }
 
     private static void processEBFRecipe(Material material, BlastProperty property, ItemStack output) {
+        if (material.hasFlag(COMPOSITE_MATERIAL)) return;
         int blastTemp = property.getBlastTemperature();
         BlastProperty.GasTier gasTier = property.getGasTier();
         int duration = property.getDurationOverride();

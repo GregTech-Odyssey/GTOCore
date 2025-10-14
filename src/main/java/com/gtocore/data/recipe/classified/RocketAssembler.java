@@ -1,11 +1,19 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.*;
+
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
+import net.minecraftforge.fluids.FluidStack;
 
 import static com.gtocore.common.data.GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES;
 
@@ -118,6 +126,168 @@ final class RocketAssembler {
                 .outputItems("ad_astra_rocketed:tier_6_rocket")
                 .EUt(122880)
                 .duration(1200)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("space_station")
+                .inputItems("ad_astra:tier_1_rocket")
+                .inputItems(GTItems.FIELD_GENERATOR_HV.asItem())
+                .inputItems(GTItems.SENSOR_HV.asItem())
+                .inputItems(CustomTags.IV_CIRCUITS, 4)
+                .inputItems(GTOTagPrefix.wireGtSingle, GTOMaterials.VibrantAlloy, 16)
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.AluminumAlloy7050, 16)
+                .inputItems(GTOTagPrefix.gearSmall, GTOMaterials.StainlessSteelGC4, 4)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.StainlessSteelGC4, 4)
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.TitaniumTi64)
+                .outputItems(SpaceMultiblock.SPACE_STATION.asItem())
+                .inputFluids(GTMaterials.RocketFuel, 16000)
+                .inputFluids(GTMaterials.Lubricant, 5000)
+                .inputFluids(GTMaterials.SolderingAlloy, 4000)
+                .EUt(500)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("large_expandable_space_station_core_module")
+                .inputItems("ad_astra_rocketed:tier_5_rocket")
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.BerylliumAluminumZ, 32)
+                .inputItems(GTItems.FIELD_GENERATOR_IV.asItem(), 4)
+                .inputItems(GTItems.SENSOR_IV.asItem(), 4)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 4)
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.CarbonFiberPhenolicResinComposite, 4)
+                .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.TungstenSteel, 16)
+                .inputItems(GTOTagPrefix.wireGtSingle, GTMaterials.SamariumIronArsenicOxide, 16)
+                .inputItems(GTOTagPrefix.rodLong, GTOMaterials.CarbonFiberPolyphenyleneSulfideComposite, 4)
+                .outputItems(SpaceMultiblock.LARGE_EXPANDABLE_SPACE_STATION_CORE_MODULE.asItem())
+                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
+                .inputFluids(GTMaterials.TungstenSteel, 1440)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(32000)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("space_station_extension_module")
+                .inputItems("ad_astra_rocketed:tier_5_rocket")
+                .inputItems(GTItems.ROBOT_ARM_IV.asItem(), 4)
+                .inputItems(GTItems.ELECTRIC_MOTOR_IV.asItem(), 4)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.CarbonFiberReinforcedEpoxyComposite, 16)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.StainlessSteel155Ph, 16)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.InconelX750, 16)
+                .inputItems(GTOTagPrefix.pipeLargeRestrictive, GTMaterials.Osmiridium, 4)
+                .inputItems(GTOTagPrefix.pipeLargeFluid, GTMaterials.TungstenSteel, 4)
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .outputItems(SpaceMultiblock.SPACE_STATION_EXTENSION_MODULE.asItem())
+                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
+                .inputFluids(GTMaterials.TungstenSteel, 1440)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(32000)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("space_station_docking_module")
+                .inputItems("ad_astra_rocketed:tier_5_rocket")
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.TungstenAlloyYW3, 16)
+                .inputItems(GTItems.FLUID_REGULATOR_IV.asItem(), 6)
+                .inputItems(GTItems.ELECTRIC_PUMP_IV.asItem(), 6)
+                .inputItems(GTItems.CONVEYOR_MODULE_IV.asItem(), 6)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.DispersionStrengthenedCopper, 16)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.OxideDispersionStrengthenedNickelBasedAlloy, 16)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.StructuralSteel45, 16)
+                .outputItems(SpaceMultiblock.SPACE_STATION_DOCKING_MODULE.asItem())
+                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
+                .inputFluids(GTOMaterials.TitaniumTi64, 1440)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(32000)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("space_station_transparent_docking_module")
+                .inputItems("ad_astra_rocketed:tier_5_rocket")
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.StainlessSteel316, 16)
+                .inputItems(GTItems.FLUID_REGULATOR_IV.asItem(), 2)
+                .inputItems(GTItems.ELECTRIC_PUMP_IV.asItem(), 2)
+                .inputItems(GTItems.CONVEYOR_MODULE_IV.asItem())
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.Inconel718, 32)
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.StainlessSteelGC4, 4)
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.StainlessSteel420, 4)
+                .outputItems(SpaceMultiblock.SPACE_STATION_TRANSPARENT_DOCKING_MODULE.asItem())
+                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
+                .inputFluids(GTMaterials.NiobiumTitanium, 1440)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(32000)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("space_station_environmental_maintenance_module")
+                .inputItems("ad_astra_rocketed:tier_5_rocket")
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .inputItems(GTBlocks.HERMETIC_CASING_LuV.asItem(), 4)
+                .inputItems(GTItems.ITEM_FILTER.asItem(), 16)
+                .inputItems(GTItems.ELECTRIC_PUMP_IV.asItem(), 4)
+                .inputItems(GTItems.ROBOT_ARM_IV.asItem(), 4)
+                .inputItems(GTBlocks.FILTER_CASING.asItem(), 6)
+                .inputItems(GTOTagPrefix.gearSmall, GTOMaterials.StainlessSteelGC4, 32)
+                .inputItems(GTOTagPrefix.pipeNonupleFluid, GTMaterials.Polytetrafluoroethylene, 4)
+                .outputItems(SpaceMultiblock.SPACE_STATION_ENVIRONMENTAL_MAINTENANCE_MODULE.asItem())
+                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
+                .inputFluids(GTMaterials.Polybenzimidazole, 7200)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(32000)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("orbital_smelting_facility")
+                .inputItems("ad_astra_rocketed:tier_6_rocket")
+                .inputItems(CustomTags.UV_CIRCUITS)
+                .inputItems(GCYMMachines.MEGA_ALLOY_BLAST_SMELTER.asItem())
+                .inputItems(GCYMMachines.MEGA_BLAST_FURNACE.asItem())
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.CarbonFiberPolyimideComposite, 16)
+                .inputItems(GTItems.SENSOR_ZPM.asItem(), 4)
+                .inputItems(GTItems.CONVEYOR_MODULE_ZPM.asItem(), 4)
+                .inputItems(GTOTagPrefix.plateDense, GTOMaterials.Calorite, 4)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.Grcop84, 16)
+                .outputItems(SpaceMultiblock.ORBITAL_SMELTING_FACILITY.asItem())
+                .inputFluids(new FluidStack(RegistriesUtils.getFluid("ad_astra:cryo_fuel"), 16000))
+                .inputFluids(GTOMaterials.ScalmAlloyS, 7200)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(130000)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("orbital_fine_materials_factory")
+                .inputItems("ad_astra_rocketed:tier_6_rocket")
+                .inputItems(CustomTags.UV_CIRCUITS)
+                .inputItems(GTItems.SENSOR_ZPM.asItem(), 4)
+                .inputItems(MultiBlockC.CHEMICAL_VAPOR_DEPOSITION.asItem(), 4)
+                .inputItems(MultiBlockC.PHYSICAL_VAPOR_DEPOSITION.asItem(), 4)
+                .inputItems(MultiBlockC.THREE_DIMENSIONAL_PRINTER.asItem(), 4)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.CarbonFiberPolyimideComposite, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.SiliconCarbideFiberReinforcedTitaniumMatrixComposite, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.BerylliumAluminumF, 32)
+                .outputItems("gtocore:orbital_fine_materials_factory")
+                .inputFluids(new FluidStack(RegistriesUtils.getFluid("ad_astra:cryo_fuel"), 16000))
+                .inputFluids(GTOMaterials.Titanium5553, 7200)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(130000)
+                .duration(1000)
+                .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("orbital_nanoprecision_processing_chamber")
+                .inputItems("ad_astra_rocketed:tier_7_rocket")
+                .inputItems(CustomTags.UHV_CIRCUITS)
+                .inputItems(MultiBlockD.NANO_FORGE.asItem())
+                .inputItems(MultiBlockA.PRECISION_ASSEMBLER.asItem(), 4)
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UV.asItem())
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.StainlessSteelJbk75, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTMaterials.Naquadria, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.BerylliumAluminumZ, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.PlatinumRhodiumAlloy, 32)
+                .outputItems("gtocore:orbital_nanoprecision_processing_chamber")
+                .inputFluids(GTOMaterials.StellarEnergyRocketFuel, 16000)
+                .inputFluids(GTOMaterials.UltraLightweightCompositeSteel, 7200)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(524280)
+                .duration(1000)
                 .save();
     }
 }

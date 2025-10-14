@@ -349,13 +349,13 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @RegisterLanguage(cn = "调节温度：", en = "Adjust Temperature：")
     private static final String TEMPERATURE_CONFIG = "gtocore.machine.modular_maintenance.temperature_config";
     @RegisterLanguage(cn = "未设置超净环境", en = "Cleanroom Not Set")
-    private static final String CLEANROOM_NOT_SET = "gtocore.machine.modular_maintenance.no_cleanroom";
+    public static final String CLEANROOM_NOT_SET = "gtocore.machine.modular_maintenance.no_cleanroom";
     @RegisterLanguage(cn = "无控制器或不接受超净", en = "No Controller or Not Accepting Cleanroom")
     private static final String CLEANROOM_NOT_APPLICABLE = "gtocore.machine.modular_maintenance.no_controller";
     @RegisterLanguage(cn = "调节范围限制：%s~%s", en = "Adjustment Range Limit: %s~%s")
     private static final String RANGE_LIMIT = "gtocore.machine.modular_maintenance.range_limit";
     @RegisterLanguage(cn = "当前的超净环境：", en = "Current Cleanroom: ")
-    private static final String CURRENT_CLEANROOM = "gtocore.machine.modular_maintenance.current_cleanroom";
+    public static final String CURRENT_CLEANROOM = "gtocore.machine.modular_maintenance.current_cleanroom";
     @RegisterLanguage(cn = "4级真空", en = "Tier 4 Vacuum")
     private static final String VACUUM_TIER_4 = "gtocore.machine.modular_maintenance.vacuum_tier_4";
     @RegisterLanguage(cn = "可控温度", en = "Controllable Temperature")

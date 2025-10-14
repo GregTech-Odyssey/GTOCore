@@ -1,4 +1,4 @@
-package com.gtocore.integration.emi.satellite;
+package com.gtocore.integration.emi.space;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.machines.MultiBlockG;

@@ -69,7 +69,7 @@ public final class ForgeClientEvent {
             if (ClientCache.highlightTime > 0) {
                 ClientCache.highlightTime--;
             }
-            CUstomHighlightNeeds.object2IntEntrySet().fastForEach(
+            CUstomHighlightNeeds.clone().object2IntEntrySet().fastForEach(
                     entry -> {
                         int time = entry.getIntValue();
                         if (time > 0) {

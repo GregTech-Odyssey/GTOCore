@@ -64,4 +64,18 @@ public final class GTOMaterialFlags {
 
     public static final MaterialFlag GENERATE_MEMBRANE_ELECTRODE = new MaterialFlag.Builder("generate_membrane_electrode")
             .build();
+
+    public static final MaterialFlag CAN_BE_COOLED_DOWN_BY_BATHING = new MaterialFlag.Builder("can_be_cooled_down_by_bathing")
+            .build();
+
+    public static final MaterialFlag GENERATE_FIBER = new MaterialFlag.Builder("generate_carbon_fiber")
+            .build();
+
+    public static final MaterialFlag IS_CARBON_FIBER = new MaterialFlag.Builder("is_carbon_fiber").requireFlags(GENERATE_FIBER)
+            .build();
+
+    public static final MaterialFlag COMPOSITE_MATERIAL = new MaterialFlag.Builder("composite_material")
+            .build();
+    public static final MaterialFlag NEED_BLAST_IN_SPACE = new MaterialFlag.Builder("need_blast_in_space")
+            .build();
 }

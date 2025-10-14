@@ -15,6 +15,8 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +30,8 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import static net.minecraft.sounds.SoundEvents.*;
 
 public class FishingGroundMachine extends ElectricMultiblockMachine {
 
@@ -79,6 +83,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
             recipe = getRecipeType().lookup().findRecipe(this);
             if (recipe != null) {
                 recipe = fullModifyRecipe(recipe.copy());
+                fishingHook = null;
             }
         }
         if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
@@ -90,6 +95,22 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
     @Override
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
+    }
+
+    private int piglinSoundPlayCD = 0;
+    private static final SoundEvent[] soundEntries = new SoundEvent[] {
+            FISHING_BOBBER_RETRIEVE, FISHING_BOBBER_SPLASH, FISHING_BOBBER_THROW, FISH_SWIM
+    };
+
+    @Override
+    public boolean onWorking() {
+        if (piglinSoundPlayCD > 0) piglinSoundPlayCD--;
+        else if (fishingHook != null && getLevel() instanceof ServerLevel level) {
+            SoundEvent soundEvent = soundEntries[level.random.nextInt(soundEntries.length)];
+            level.playSound(null, getPos(), soundEvent, SoundSource.BLOCKS);
+            piglinSoundPlayCD = 10 + level.random.nextInt(100);
+        }
+        return super.onWorking();
     }
 
     private static class MyFishingHook extends FishingHook {

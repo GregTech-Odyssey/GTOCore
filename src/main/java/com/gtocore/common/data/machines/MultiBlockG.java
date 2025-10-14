@@ -534,6 +534,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition WIRELESS_DIMENSION_REPEATER = multiblock("wireless_dimension_repeater", "无线电网维度中继器", WirelessDimensionRepeaterMachine::new)
             .nonYAxisRotation()
+            .workableInSpace()
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_PALLADIUM_SUBSTATION)
             .tooltips(GTOMachineTooltips.INSTANCE.getWirelessDimensionRepeaterTooltips().getSupplier())

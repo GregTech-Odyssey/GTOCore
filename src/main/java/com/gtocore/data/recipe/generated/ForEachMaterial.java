@@ -29,5 +29,7 @@ public final class ForEachMaterial {
             GTOWireRecipeHandler.run(material);
             GTODisposableToolHandler.run(material);
         }
+
+        GTOMaterialRecipeHandler.inertGas2HighPressureCache = null;
     }
 }

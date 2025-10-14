@@ -48,6 +48,13 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     @RegisterLanguage(en = "The required fuel: ", cn = "需要的燃料：")
     private static final String FUEL = "gtocore.satellite_control_center.fuel";
 
+    @RegisterLanguage(cn = "建造空间站", en = "Build Space Station")
+    private static final String BUILD_SPACE_STATION = "gtocore.satellite_control_center.emi.space_station";
+    @RegisterLanguage(cn = "在该星球建造空间站时，", en = "When building a space station on this planet,")
+    public static final String BUILD_SPACE_STATION_DESC_1 = "gtocore.satellite_control_center.emi.space_station.desc.1";
+    @RegisterLanguage(cn = "需要将这些材料带入太空中。", en = "you need to bring these materials into space.")
+    public static final String BUILD_SPACE_STATION_DESC_2 = "gtocore.satellite_control_center.emi.space_station.desc.2";
+
     private boolean launch;
 
     @Persisted

@@ -21,6 +21,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIcon
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.HIGHEST;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.LOW;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Silver;
+import static com.gtocore.api.data.material.GTOMaterialFlags.CAN_BE_COOLED_DOWN_BY_BATHING;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.LIMPID;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -383,7 +384,7 @@ public final class MagicMaterial {
                 .rarity(Rarity.UNCOMMON)
                 .ingot()
                 .fluid()
-                .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
+                .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW, CAN_BE_COOLED_DOWN_BY_BATHING)
                 .element(GTOElements.TERRASTEEL)
                 .color(0x5cd12b)
                 .blastTemp(2500, LOW)

@@ -179,6 +179,11 @@ public final class GTOConfig {
     @Configurable.Comment({ "允许在 AE2 中下单缺少原料的任务", "缺少的原料将以“正在合成”的状态被等待接收", "Allow placing orders for tasks that are missing ingredients in AE2", "Missing ingredients will be in a 'crafting' state waiting to be received" })
     public boolean allowMissingCraftingJobs = true;
 
+    @Configurable
+    @Configurable.Comment({ "启用后，样板供应器/样板总成会显示在旅行权杖的节点列表中，以便捷传送", "When enabled, Pattern Providers/Pattern Assemblers will appear in the node list of the Staff Of Travelling for easy teleportation" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff Of Travelling Pattern Nodes", cn = "旅行权杖样板节点")
+    public boolean staffOfTravellingPatternNodes = true;
+
     // 性能优化设置
     @Configurable
     @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })

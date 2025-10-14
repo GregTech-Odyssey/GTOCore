@@ -519,36 +519,6 @@ public final class MiscRecipe {
                 .addCondition(RestrictedMachineCondition.multiblock())
                 .save();
 
-        CHEMICAL_BATH_RECIPES.builder("silicon_cool_down")
-                .inputItems(ingotHot, Silicon)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .outputItems(ingot, Silicon)
-                .duration(250).EUt(VA[MV]).save();
-
-        CHEMICAL_BATH_RECIPES.builder("kanthal_cool_down")
-                .inputItems(ingotHot, Kanthal)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .outputItems(ingot, Kanthal)
-                .duration(250).EUt(VA[MV]).save();
-
-        CHEMICAL_BATH_RECIPES.builder("black_steel_cool_down")
-                .inputItems(ingotHot, BlackSteel)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .outputItems(ingot, BlackSteel)
-                .duration(125).EUt(VA[MV]).save();
-
-        CHEMICAL_BATH_RECIPES.builder("red_steel_cool_down")
-                .inputItems(ingotHot, RedSteel)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .outputItems(ingot, RedSteel)
-                .duration(250).EUt(VA[MV]).save();
-
-        CHEMICAL_BATH_RECIPES.builder("blue_steel_cool_down")
-                .inputItems(ingotHot, BlueSteel)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .outputItems(ingot, BlueSteel)
-                .duration(250).EUt(VA[MV]).save();
-
         MIXER_RECIPES.builder("pcb_coolant").duration(200).EUt(VA[HV])
                 .inputFluids(PolychlorinatedBiphenyl.getFluid(750))
                 .inputFluids(GTOMaterials.CoolantLiquid.getFluid(250))

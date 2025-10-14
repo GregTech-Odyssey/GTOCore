@@ -28,7 +28,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 电镀槽
     val electroplatingBathTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("electroplating_bath")
-        story("掌握了铂系金属处理的技术后" translatedTo "After mastering platinum group metal processing technology")
+        story("掌握了从矿石中提取和分离铂系金属的技术后" translatedTo "After mastering the technology to extract and separate platinum group metals from ores")
         story("GTO集团的工程师们开始尝试着这个材料混那个，那个材料混这个" translatedTo "GTO Group engineers began experimenting mixing this material with that")
         story("最开始他们只是在合金冶炼炉里混合" translatedTo "Initially they just alloyed in smelters")
         story("但他们想要的§6§l镀§r铑钯锭怎么可能在那里诞生呢" translatedTo "But how could they get rhodium §6§lPLATED§r palladium ingots there")
@@ -56,6 +56,33 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("后世工程师难以想象先驱者如何用简陋工具打造这台机器" translatedTo "Later engineers can hardly imagine how pioneers built this machine with crude tools")
         story("仅靠蒸汽动力和机械传动却实现了电路产出的倍增效果" translatedTo "Using only steam power and mechanical transmission, yet achieving multiplied circuit output")
         story("或许是魔法？总之没有别的合理解释了" translatedTo "Perhaps magic? There's no other reasonable explanation")
+    }
+
+    // 空间站
+    val SpaceStationTooltips = ComponentListSupplier {
+        setTranslationPrefix("space_station")
+        story("欢迎来到GTO寰宇集团的太空站" translatedTo "Welcome to GTO Universe Group's Space Station")
+        story("你可能注意到，在外太空，大部分的机器因失重，低压，强射线等原因无法正常工作" translatedTo "You may have noticed that in outer space, most machines cannot function properly due to weightlessness, low pressure, strong radiation, and other reasons")
+        story("为了克服这些问题，我们开发了这台专用的空间站" translatedTo "To overcome these issues, we developed this specialized space station")
+        story("它能够在恶劣的太空环境中稳定运行，并为机器们提供一个温暖的小家" translatedTo "It can operate stably in harsh space environments and provide a warm home for the machines")
+        story("空间站的内部还会根据过滤器的类型提供超净环境" translatedTo "The interior of the space station also provides a super clean environment based on the type of filter")
+        story("祝你在太空中工作愉快！" translatedTo "Wish you a pleasant work in space!")
+    }
+
+    // 大型工业空间站
+    val LargeSpaceStationTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_space_station")
+        story("GTO寰宇集团的太空站已经成功运营多年" translatedTo "GTO Universe Group's space station has been successfully operating for many years")
+        story("为了满足更多更大的机器需求，GTO寰宇集团决定建造更大的空间站" translatedTo "To meet the needs of more and larger machines, GTO Universe Group decided to build a larger space station")
+        story("大型空间站不仅拥有更大的内部空间，还支持连接扩展舱室以扩展更多的功能" translatedTo "The large space station not only has a larger internal space but also supports connecting extension modules to expand more functions")
+        story("无论是工业生产还是科研实验，大型空间站都能为你提供一个理想的工作环境" translatedTo "Whether for industrial production or scientific research, the large space station can provide you with an ideal working environment")
+    }
+
+    // 纺丝机（纤维挤出机）
+    val FiberExtruderTooltips = ComponentListSupplier {
+        setTranslationPrefix("fiber_extruder")
+        story("这可不是什么一般的缝纫机或者织布机" translatedTo "This is not just an ordinary sewing machine or loom")
+        story("从这台机器织出的纤维将要成为支起GTO集团未来的工业帝国的强大吊索" translatedTo "The fibers woven from this machine will become the strong cables supporting GTO Group's future industrial empire")
     }
 
     // 大型蒸汽太阳能锅炉
