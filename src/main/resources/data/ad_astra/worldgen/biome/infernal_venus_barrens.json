@@ -1,0 +1,98 @@
+{
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "downfall": 1.0,
+  "effects": {
+    "fog_color": 13732690,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000
+    },
+    "particle": {
+      "options": {
+        "type": "minecraft:crimson_spore"
+      },
+      "probability": 0.014
+    },
+    "sky_color": 13732690,
+    "water_color": 4159204,
+    "water_fog_color": 329011
+  },
+  "features": [
+    [],
+    [],
+    [
+      "minecraft:basalt_pillar",
+      "ad_astra:small_infernal_spire_column",
+      "ad_astra:large_infernal_spire_column"
+    ],
+    [],
+    [
+      "minecraft:delta"
+    ],
+    [],
+    [
+      "ad_astra:venus_calorite_ore",
+      "ad_astra:venus_coal_ore",
+      "ad_astra:venus_diamond_ore",
+      "ad_astra:venus_gold_ore",
+      "minecraft:ore_magma"
+    ],
+    [
+      "minecraft:spring_lava",
+      "minecraft:basalt_blobs"
+    ]
+  ],
+  "has_precipitation": true,
+  "spawn_costs": {
+    "ad_astra:mogler": {
+      "charge": 0.2,
+      "energy_budget": 0.015
+    },
+    "ad_astra:sulfur_creeper": {
+      "charge": 0.4,
+      "energy_budget": 0.02
+    },
+    "ad_astra:zombified_pygro": {
+      "charge": 0.2,
+      "energy_budget": 0.012
+    }
+  },
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "ad_astra:mogler",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 100
+      },
+      {
+        "type": "ad_astra:sulfur_creeper",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 100
+      },
+      {
+        "type": "ad_astra:zombified_pygro",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 100
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "temperature": 1.6
+}
