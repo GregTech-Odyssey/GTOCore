@@ -112,11 +112,12 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     @Override
     public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
-        if (this.getControllers().size() > 1) {
-            controller.onStructureInvalid();
-            return;
-        }
         onMufflerChange();
+    }
+
+    @Override
+    public boolean canShared() {
+        return false;
     }
 
     @Override
