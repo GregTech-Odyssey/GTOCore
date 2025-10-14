@@ -1,5 +1,14 @@
 package com.gtocore.mixin.gtm.machine;
 
+import com.gtocore.api.machine.IGTOMufflerMachine;
+
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.machine.feature.IAirScrubberInteractor;
+import com.gtolib.api.machine.feature.IDroneInteractionMachine;
+import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
+import com.gtolib.api.misc.Drone;
+import com.gtolib.utils.MachineUtils;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -15,19 +24,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.electric.AirScrubberMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
-import com.gtocore.api.machine.IGTOMufflerMachine;
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.machine.feature.IAirScrubberInteractor;
-import com.gtolib.api.machine.feature.IDroneInteractionMachine;
-import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
-import com.gtolib.api.misc.Drone;
-import com.gtolib.utils.MachineUtils;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.utils.Position;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -35,6 +32,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
+
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.utils.Position;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,11 +1,16 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.machines.GTAEMachines;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
@@ -507,6 +512,20 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .inputItems(accelerationCard.copyWithCount(4))
                 .outputItems(GTAEMachines.STOCKING_IMPORT_HATCH_ME)
                 .duration(300).EUt(VA[IV])
+                .save();
+
+        ASSEMBLER_RECIPES.builder("me_muffler_hatch")
+                .inputItems(GTMachines.MUFFLER_HATCH[GTValues.LuV].asItem())
+                .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_LUV.asItem())
+                .inputItems("gtceu:me_output_bus")
+                .inputItems(GTItems.FIELD_GENERATOR_LuV.asItem(), 16)
+                .inputItems(GTItems.ROBOT_ARM_LuV.asItem(), 16)
+                .inputItems("ae2:annihilation_plane", 8)
+                .inputItems(GTOItems.IV_DRONE.asItem())
+                .outputItems("gtceu:me_muffler_hatch")
+                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .EUt(GTValues.VA[LuV])
+                .duration(400)
                 .save();
     }
 

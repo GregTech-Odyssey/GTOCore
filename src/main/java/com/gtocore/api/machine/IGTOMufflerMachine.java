@@ -1,5 +1,11 @@
 package com.gtocore.api.machine;
 
+import com.gtocore.config.GTOConfig;
+
+import com.gtolib.GTOCore;
+import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
+import com.gtolib.api.recipe.IdleReason;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -11,12 +17,10 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiContro
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gtocore.config.GTOConfig;
-import com.gtolib.GTOCore;
-import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.IdleReason;
-import committee.nova.mods.avaritia.init.registry.ModItems;
+
 import net.minecraft.world.item.ItemStack;
+
+import committee.nova.mods.avaritia.init.registry.ModItems;
 
 public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITieredMachine {
 
@@ -96,7 +100,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
                 if (GTValues.RNG.nextBoolean()) {
                     MultiblockMachineBuilder.MufflerProductionGenerator supplier = controller.self().getDefinition().getRecoveryItems();
                     if (supplier != null) {
-                        ItemStack ash = supplier.getMuffledProduction(controller.self(), lastRecipe);
+                        ItemStack ash = supplier.getMuffledProduction(controller.self(), lastRecipe).copy();
                         if (count > 100)
                             ash.setCount(count / 100 + (count >= GTValues.RNG.nextInt(100) ? 0 : 1));
                         recoverItemsTable(ash);
@@ -108,7 +112,5 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
         }
     }
 
-    default void gtolib$addMufflerEffect() {
-    }
-
+    default void gtolib$addMufflerEffect() {}
 }
