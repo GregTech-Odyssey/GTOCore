@@ -31,6 +31,7 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
+import static com.gtocore.common.data.machines.GTAEMachines.MUFFLER_HATCH_ME;
 
 public final class MetaTileEntityMachineRecipeLoader {
 
@@ -522,7 +523,7 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .inputItems(GTItems.ROBOT_ARM_LuV.asItem(), 16)
                 .inputItems("ae2:annihilation_plane", 8)
                 .inputItems(GTOItems.IV_DRONE.asItem())
-                .outputItems("gtceu:me_muffler_hatch")
+                .outputItems(MUFFLER_HATCH_ME)
                 .inputFluids(GTMaterials.SolderingAlloy, 9216)
                 .EUt(GTValues.VA[LuV])
                 .duration(400)
