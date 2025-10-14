@@ -307,6 +307,7 @@ public final class GTMaterialExtend {
         Tungsten.setProperty(ORE, new OreProperty());
         Tungsten.getProperty(ORE).setOreByProducts(Lithium, Calcium);
         Indium.setProperty(ORE, new OreProperty());
+        Indium.getProperty(ORE).setOreByProducts(Aluminium, Zinc);
         Borax.setProperty(PropertyKey.ORE, new OreProperty(2, 1, false));
         Borax.getProperty(ORE).setOreByProducts(Lithium, Boron);
         NaquadahEnriched.setProperty(ORE, new OreProperty());

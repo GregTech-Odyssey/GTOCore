@@ -48,11 +48,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Scanned
 public class TurbineMachine extends ElectricMultiblockMachine {
 
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_output_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4.0F", normalValue = "3.0F", expertValue = "2.5F", cn = "高速模式输出倍率 : %s 倍", en = "High Speed Mode Output Multiplier : %s Multiplier")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_output_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4.0F", normalValue = "3.0F", expertValue = "2.5F", cn = "高速模式输出倍率 : %s 倍", en = "High Speed Mode Output Multiplier : %s Multiplier")
     private static float highSpeedModeOutputMultiplier = 3.0F;
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_rotor_damage_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4", normalValue = "10", expertValue = "12", cn = "高速模式转子损坏倍率 : %s 倍", en = "High Speed Mode Rotor Damage Multiplier : %s Multiplier")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_rotor_damage_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4", normalValue = "10", expertValue = "12", cn = "高速模式转子损坏倍率 : %s 倍", en = "High Speed Mode Rotor Damage Multiplier : %s Multiplier")
     private static int highSpeedModeRotorDamageMultiplier = 10;
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_machine_fault", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4F", normalValue = "8F", expertValue = "10F", cn = "高速模式机器故障倍率 : %s 倍", en = "High Speed Mode Machine Fault Multiplier : %s Multiplier")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_machine_fault", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4F", normalValue = "8F", expertValue = "10F", cn = "高速模式机器故障倍率 : %s 倍", en = "High Speed Mode Machine Fault Multiplier : %s Multiplier")
     private static float highSpeedModeMachineFault = 8.0F;
 
     private final long baseEUOutput;

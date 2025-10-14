@@ -27,7 +27,7 @@ import net.minecraft.network.chat.Component;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -88,7 +88,7 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
     default Set<ILargeSpaceStationMachine> getConnectedModules() {
         if (getLevel() == null) return Collections.emptySet();
 
-        Set<ILargeSpaceStationMachine> machines = new ObjectOpenHashSet<>();
+        Set<ILargeSpaceStationMachine> machines = new ReferenceOpenHashSet<>();
         for (BlockPos pos : getModulePositions()) {
             var blockEntity = getLevel().getBlockEntity(pos);
             if (blockEntity instanceof MetaMachineBlockEntity metaMachineBlockEntity) {

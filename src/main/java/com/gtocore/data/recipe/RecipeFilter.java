@@ -453,7 +453,7 @@ public final class RecipeFilter {
         filters.add(RLUtils.eio("alloy_smelting/end_steel_ingot"));
         filters.add(RLUtils.eio("sag_milling/ender_pearl"));
 
-        if (!GTOCore.isSimple()) {
+        if (!GTOCore.isEasy()) {
 
             filters.add(RLUtils.eio("copper_alloy_block"));
             filters.add(RLUtils.eio("copper_alloy_ingot"));

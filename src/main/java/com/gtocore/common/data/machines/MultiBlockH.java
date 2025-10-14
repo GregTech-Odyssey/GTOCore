@@ -2,7 +2,6 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
-import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
@@ -11,7 +10,6 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.FastNeutronBreederReactor;
-import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
 import com.gtocore.common.machine.multiblock.electric.space.MegaSpaceElevatorModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorModuleMachine;
 import com.gtocore.common.machine.multiblock.steam.LargeSteamSolarBoilerMachine;
@@ -50,7 +48,6 @@ import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPE
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
-import static com.hepdd.gtmthings.data.GTMTRecipeTypes.DIGITAL_MINER_RECIPE;
 
 public final class MultiBlockH {
 
@@ -476,34 +473,6 @@ public final class MultiBlockH {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
-            .register();
-
-    public static final MultiblockMachineDefinition DIGITAL_MINER = multiblock("digital_miner", "数字型采矿机", DigitalMiner::new)
-            .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getDigitalMinerTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getDigitalMinerTooltips().getSupplier())
-            .block(GTBlocks.CASING_STEEL_SOLID)
-            .recipeTypes(DIGITAL_MINER_RECIPE)
-            .pattern(definition -> FactoryBlockPattern.start(definition)
-                    .aisle("AAAAA", "CDCDC", "C C C", "  C  ", " CCC ", "     ", "     ", "     ")
-                    .aisle("AEEEA", "D   D", "     ", "     ", "     ", " CDC ", "     ", "     ")
-                    .aisle("AEFEA", "D G D", "  F  ", "  F  ", "  F  ", "  F  ", " CDC ", "  E  ")
-                    .aisle("AEEEA", "D   D", "     ", "     ", "     ", "     ", " CCC ", "     ")
-                    .aisle("AABAA", "CDDDC", "C   C", "     ", "     ", "     ", "     ", "     ")
-                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
-                            .or(abilities(EXPORT_FLUIDS))
-                            .or(abilities(EXPORT_ITEMS)))
-                    .where('B', controller(blocks(definition.get())))
-                    .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
-                    .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
-                    .where('E', blocks(GTBlocks.STEEL_HULL.get()))
-                    .where('F', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
-                    .where('G', GTOPredicates.integralFramework())
-                    .where(' ', any())
-                    .build())
-            .renderer(DigitalMinerRenderer::new)
-            .hasTESR(true)
             .register();
 
     public static final MultiblockMachineDefinition KERR_NEWMAN_HOMOGENIZER = multiblock("kerr_newman_homogenizer", "克尔-纽曼均质仪", CrossRecipeMultiblockMachine::createHatchParallel)

@@ -946,7 +946,7 @@ final class Vanilla {
                 "BBB",
                 "CCC",
                 'A', new ItemStack(Items.TINTED_GLASS.asItem()), 'B', new MaterialEntry(TagPrefix.pipeTinyFluid, GTMaterials.Steel), 'C', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Silver));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("digital_miner"), MultiBlockH.DIGITAL_MINER.asItem(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("digital_miner"), MultiBlockA.DIGITAL_MINER.asItem(),
                 "ABA",
                 "CDC",
                 "EFE",

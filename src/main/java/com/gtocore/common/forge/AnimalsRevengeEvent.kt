@@ -1,6 +1,7 @@
 package com.gtocore.common.forge
 
 import com.gtocore.api.misc.AnimalsRevengeAttackGoal
+import com.gtocore.common.data.GTOLoots
 import com.gtocore.config.GTOConfig
 
 import net.minecraft.core.RegistryAccess
@@ -218,9 +219,11 @@ object AnimalsRevengeEvent {
             .create(LootContextParamSets.ENTITY)
 
         repeat(32) {
+            GTOLoots.modifyLoot = false
             for (stack in table.getRandomItems(params)) {
                 if (!stack.isEmpty) result.add(stack.item)
             }
+            GTOLoots.modifyLoot = true
         }
         return result
     }

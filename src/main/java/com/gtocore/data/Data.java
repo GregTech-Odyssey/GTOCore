@@ -153,8 +153,8 @@ public final class Data {
                 DataGenerateRecipe.init();
             }
         }
-        if (GTCEu.isDev() || GTOCore.isSimple()) {
-            SimpleModeRecipe.init();
+        if (GTCEu.isDev() || GTOCore.isEasy()) {
+            EasyModeRecipe.init();
         }
 
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();

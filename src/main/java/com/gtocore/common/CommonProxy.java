@@ -90,7 +90,6 @@ public class CommonProxy {
 
     private static void init() {
         GTOCreativeModeTabs.init();
-        GTOConfig.init();
         ScanningClass.init();
         GTOEntityTypes.init();
         GTONet.init();

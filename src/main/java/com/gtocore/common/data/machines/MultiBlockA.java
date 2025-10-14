@@ -2,6 +2,7 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
@@ -9,6 +10,7 @@ import com.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
 import com.gtocore.common.machine.multiblock.electric.MoltenCoreMachine;
 import com.gtocore.common.machine.multiblock.electric.StellarForgeMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.PrecisionAssemblerMachine;
+import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
 import com.gtocore.common.machine.multiblock.electric.processing.IntegratedOreProcessor;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidFluidDrillingRigMachine;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidMinerMachine;
@@ -35,15 +37,12 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
 
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.material.Fluids;
 
 import appeng.core.definitions.AEBlocks;
@@ -58,10 +57,39 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.CHEMICAL_PLANT_DISPLAY;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.*;
+import static com.hepdd.gtmthings.data.GTMTRecipeTypes.DIGITAL_MINER_RECIPE;
 
 public final class MultiBlockA {
 
     public static void init() {}
+
+    public static final MultiblockMachineDefinition DIGITAL_MINER = multiblock("digital_miner", "数字型采矿机", DigitalMiner::new)
+            .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getDigitalMinerTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getDigitalMinerTooltips().getSupplier())
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .recipeTypes(DIGITAL_MINER_RECIPE)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "CDCDC", "C C C", "  C  ", " CCC ", "     ", "     ", "     ")
+                    .aisle("AEEEA", "D   D", "     ", "     ", "     ", " CDC ", "     ", "     ")
+                    .aisle("AEFEA", "D G D", "  F  ", "  F  ", "  F  ", "  F  ", " CDC ", "  E  ")
+                    .aisle("AEEEA", "D   D", "     ", "     ", "     ", "     ", " CCC ", "     ")
+                    .aisle("AABAA", "CDDDC", "C   C", "     ", "     ", "     ", "     ", "     ")
+                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
+                            .or(abilities(EXPORT_FLUIDS))
+                            .or(abilities(EXPORT_ITEMS)))
+                    .where('B', controller(blocks(definition.get())))
+                    .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
+                    .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
+                    .where('E', blocks(GTBlocks.STEEL_HULL.get()))
+                    .where('F', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
+                    .where('G', GTOPredicates.integralFramework())
+                    .where(' ', any())
+                    .build())
+            .renderer(DigitalMinerRenderer::new)
+            .hasTESR(true)
+            .register();
 
     public static final MultiblockMachineDefinition EVAPORATION_PLANT = multiblock("evaporation_plant", "蒸发塔", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
@@ -1000,26 +1028,11 @@ public final class MultiBlockA {
                             .or(abilities(STEAM_EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(blocks(GTOMachines.STEAM_VENT_HATCH.getBlock()).setExactLimit(1)))
                     .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.WroughtIron)))
-                    .where('C', blocks(Blocks.STICKY_PISTON))
+                    .where('C', blockDirection(Blocks.STICKY_PISTON, DOWN))
                     .where('D', abilities(STEAM))
                     .where('E', blocks(GTBlocks.CASING_BRONZE_BRICKS.get()))
                     .where('#', air())
                     .where(' ', any())
-                    .build())
-            .shapeInfo(definition -> MultiblockShapeInfo.builder()
-                    .aisle("IVO", " S ", "   ", "   ", "   ")
-                    .aisle("ABA", "E E", "EBE", "ECE", "EDE")
-                    .aisle("AAA", " E ", "   ", "   ", "   ")
-                    .where('S', definition, Direction.NORTH)
-                    .where('A', GTBlocks.CASING_BRONZE_BRICKS.get())
-                    .where('E', GTBlocks.CASING_BRONZE_BRICKS.get())
-                    .where('I', GTMachines.STEAM_IMPORT_BUS, Direction.NORTH)
-                    .where('V', GTOMachines.STEAM_VENT_HATCH, Direction.NORTH)
-                    .where('O', GTMachines.STEAM_EXPORT_BUS, Direction.NORTH)
-                    .where('D', GTMachines.STEAM_HATCH, Direction.NORTH)
-                    .where('B', ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.WroughtIron))
-                    .where('C', Blocks.STICKY_PISTON.defaultBlockState().setValue(DirectionalBlock.FACING, Direction.DOWN))
-                    .where(' ', Blocks.AIR)
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/machines/forge_hammer"))
             .register();

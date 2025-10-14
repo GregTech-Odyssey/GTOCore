@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.client.forge.ForgeClientEvent;
 
-import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
@@ -12,7 +11,6 @@ import com.gtolib.utils.MachineUtils;
 import com.gregtechceu.gtceu.api.block.IFilterType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -38,7 +36,7 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
 import static com.gtocore.common.data.GTOMaterials.FlocculationWasteSolution;
 
-public class SimpleSpaceStationMachine extends AbstractSpaceStation implements ICustomHighlightMachine, ICleanroomProvider, ISpacePredicateMachine {
+public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Nullable
     private Collection<BlockPos> outputDistilledWaterHatches;
@@ -62,7 +60,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
                 outputDistilledWaterHatchesList = new ObjectArrayList<>();
             }
             outputDistilledWaterHatchesList.add(handler);
-            return;
+            if (handler.getHandlerIO() == IO.OUT) return;
         }
         super.addHandlerList(handler);
     }
@@ -158,7 +156,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
 
                         @Override
                         public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-                            return Map.of(IO.OUT, List.of(handler));
+                            return Map.of(IO.OUT, Collections.singletonList(handler));
                         }
 
                         @Override
@@ -169,7 +167,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
                     if (RecipeRunner.handleContent(
                             waterHolder,
                             IO.OUT,
-                            new ObjectArrayList<>(Collections.singleton(FastFluidIngredient.of(DistilledWater.getFluid(waterAmountPerHatch)))), FluidRecipeCapability.CAP, true, false) &&
+                            ObjectArrayList.of(FastFluidIngredient.of(DistilledWater.getFluid(waterAmountPerHatch))), FluidRecipeCapability.CAP, true, false) &&
                             inputFluid(DistilledWater.getFluid(waterAmountPerHatch))) {
 
                         MachineUtils.outputFluid(waterHolder, DistilledWater.getFluid(waterAmountPerHatch));

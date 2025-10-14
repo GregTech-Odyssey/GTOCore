@@ -12,7 +12,6 @@ import com.gtocore.common.saved.DysonSphereSavaedData;
 import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 import com.gtocore.common.saved.WirelessSavedData;
 import com.gtocore.config.GTOConfig;
-import com.gtocore.config.GTOStartupConfig;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
@@ -342,8 +341,8 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void serverStarting(ServerStartingEvent event) {
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-            if (Objects.equals(GTOStartupConfig.serverLang, "en_us")) return;
-            ServerLangHook.gto$loadLanguage(GTOStartupConfig.serverLang, event.getServer());
+            if (Objects.equals(GTOConfig.INSTANCE.serverLang, "en_us")) return;
+            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.serverLang, event.getServer());
         });
     }
 

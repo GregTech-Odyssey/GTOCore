@@ -20,7 +20,7 @@ final class CircuitAssemblyLine {
     @DynamicInitialValue(
                          key = "circuit_assembly_line.amount",
                          typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
-                         simpleValue = "3",
+                         easyValue = "3",
                          normalValue = "3",
                          expertValue = "4",
                          cn = "电路装配线电路板需求数量",

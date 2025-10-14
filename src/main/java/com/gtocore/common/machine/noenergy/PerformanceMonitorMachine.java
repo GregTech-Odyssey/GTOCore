@@ -74,7 +74,7 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
         textList.add(Component.translatable("gui.enderio.range.show").append(ComponentPanelWidget.withButton(Component.translatable(grid ? GRID : "config.gtceu.option.machines"), "grid")));
         if (grid) {
             AEGridProvider.OBSERVE = true;
-            if (textListCache == null || getOffsetTimer() % 160 == 0) {
+            if (textListCache == null || holder.getOffsetTimer() % 80 == 0) {
                 textListCache = new ArrayList<>();
                 Map<IExpandedGrid, Long> sortedMap = new TreeMap<>(Comparator.comparing(IExpandedGrid::getLatency).reversed());
                 sortedMap.putAll(IExpandedGrid.PERFORMANCE_MAP);
@@ -108,7 +108,7 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
             textList.addAll(textListCache);
         } else {
             OBSERVE = true;
-            if (textListCache == null || getOffsetTimer() % 160 == 0) {
+            if (textListCache == null || holder.getOffsetTimer() % 80 == 0) {
                 textListCache = new ArrayList<>();
                 Map<MetaMachine, Integer> sortedMap = new TreeMap<>(Comparator.comparing(MetaMachine::getTickTime).reversed());
                 sortedMap.putAll(PERFORMANCE_MAP);

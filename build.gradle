@@ -22,6 +22,7 @@ apply from: "$rootDir/gradle/scripts/jars.gradle"
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 generateModMetadata.doFirst {
+    mkdir('run/client')
     mkdir('run/server')
     mkdir('run/data')
 }
