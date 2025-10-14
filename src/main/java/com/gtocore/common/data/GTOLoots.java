@@ -45,6 +45,8 @@ public final class GTOLoots {
 
     private GTOLoots() {}
 
+    public static boolean modifyLoot = true;
+
     public static Set<Object> BLOCKS = new OpenCacheHashSet<>();
 
     public static boolean cache;

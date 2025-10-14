@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric;
 
+import com.gtocore.common.data.GTOLoots;
+
 import com.gtolib.GTOCore;
 import com.gtolib.api.item.ItemStackSet;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
@@ -9,6 +11,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
+import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.holder.IntHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -67,7 +70,10 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                 if (recipe == null) return null;
                 IntHolder nbt = new IntHolder(0);
                 builder.EUt(recipe.getInputEUt());
-                for (int i = 0; i < recipe.parallels; i++) {
+                var parallel = Math.min(1024, recipe.parallels);
+                var multiplier = recipe.parallels / parallel;
+                GTOLoots.modifyLoot = false;
+                for (int i = 0; i < parallel; i++) {
                     lootTable.getRandomItems(lootContext).forEach(itemStack -> {
                         if (itemStack.hasTag()) {
                             if (nbt.value > 100) return;
@@ -76,7 +82,13 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                         itemStacks.add(itemStack);
                     });
                 }
-                itemStacks.forEach(builder::outputItems);
+                GTOLoots.modifyLoot = true;
+                itemStacks.forEach(i -> {
+                    if (multiplier > 1) {
+                        i.setCount(MathUtil.saturatedCast(i.getCount() * multiplier));
+                    }
+                    builder.outputItems(i);
+                });
                 recipe = builder.buildRawRecipe();
             }
         } else {
