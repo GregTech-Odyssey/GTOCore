@@ -60,7 +60,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
                 outputDistilledWaterHatchesList = new ObjectArrayList<>();
             }
             outputDistilledWaterHatchesList.add(handler);
-            return;
+            if (handler.getHandlerIO() == IO.OUT) return;
         }
         super.addHandlerList(handler);
     }
