@@ -1,5 +1,6 @@
 package com.gtocore.mixin.gtm.machine;
 
+import com.gtocore.api.machine.IGTOMufflerMachine;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
@@ -66,7 +67,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(MufflerPartMachine.class)
-public abstract class MufflerPartMachineMixin extends TieredPartMachine implements IMufflerMachine, IDroneInteractionMachine, IAirScrubberInteractor {
+public abstract class MufflerPartMachineMixin extends TieredPartMachine implements IGTOMufflerMachine, IDroneInteractionMachine, IAirScrubberInteractor {
 
     @Shadow(remap = false)
     @Final
@@ -120,19 +121,10 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     private boolean gtolib$isFrontFaceFree;
     @Unique
     private boolean gtolib$isAshFull;
-
-    @Unique
-    private static ItemStack gtolib$ASH;
-    @Unique
-    private static ItemStack gtolib$NeutronPile;
     @Unique
     @Persisted
     private @Nullable ItemStack gtocore$lastAsh;
 
-    @Unique
-    private boolean gtolib$invalid() {
-        return GTOConfig.INSTANCE.disableMufflerPart || gto$chanceOfNotProduceAsh == 100;
-    }
 
     @Unique
     private void gtolib$tick() {
@@ -165,7 +157,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     public void onLoad() {
         super.onLoad();
         gto$chanceOfNotProduceAsh = Math.min(Math.max(gto$chanceOfNotProduceAsh, 0), getTier() * 10);
-        if (gtolib$invalid()) return;
         if (!isRemote()) {
             gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::gtolib$tick);
         }
@@ -197,59 +188,12 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     }
 
     @Override
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
-        if (gtolib$invalid()) return recipe;
-        if (!isFrontFaceFree()) {
-            for (var c : getControllers()) {
-                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                    enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
-                }
-            }
-            return null;
-        }
-        return recipe;
-    }
-
-    @Override
     public boolean afterWorking(IWorkableMultiController controller) {
         return true;
     }
 
-    @Override
-    public boolean onWorking(IWorkableMultiController controller) {
-        if (gtolib$invalid()) return true;
-        gtolib$count++;
-        if (gtolib$isAshFull) return false;
-        if (gtolib$count % 80 == 0) {
-            gtolib$count = 1;
-            List<LivingEntity> entities = self().getLevel().getEntitiesOfClass(LivingEntity.class, new AABB(self().getPos().relative(this.self().getFrontFacing())));
-            entities.forEach(e -> {
-                e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 2));
-                e.addEffect(new MobEffectInstance(MobEffects.POISON, 40, 1));
-            });
-            if (GTValues.RNG.nextInt(100) >= gto$chanceOfNotProduceAsh && (GTOCore.isExpert() || GTValues.RNG.nextBoolean())) {
-                gtolib$insertAsh(controller);
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean beforeWorking(IWorkableMultiController controller) {
-        if (gtolib$invalid()) return true;
-        if (gto$checkAshFull()) {
-            for (var c : getControllers()) {
-                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                    enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
-                }
-            }
-            return false;
-        }
-        return true;
-    }
-
     @Unique
-    private boolean gto$checkAshFull() {
+    public boolean gto$checkAshFull() {
         gtolib$isAshFull = false;
         var stack = inventory.getStackInSlot(inventory.getSlots() - 1);
         if (stack.getCount() > 63 || (!stack.isEmpty() && gtocore$lastAsh != null && !stack.is(gtocore$lastAsh.getItem()))) {
@@ -259,37 +203,19 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
         return false;
     }
 
-    @Unique
-    private void gtolib$insertAsh(IWorkableMultiController controller) {
-        if (gtolib$ASH == null) {
-            gtolib$ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
-        }
-        ItemStack ash = gtolib$ASH;
-        GTRecipe lastRecipe = controller.getRecipeLogic().getLastRecipe();
-        if (lastRecipe != null && lastRecipe.getInputEUt() >= GTValues.V[GTValues.UV] && GTValues.RNG.nextFloat() < 1e-3f) {
-            if (gtolib$NeutronPile == null) {
-                gtolib$NeutronPile = ModItems.neutron_pile.get().getDefaultInstance();
-            }
-            ash = gtolib$NeutronPile;
-        } else {
-            MultiblockMachineBuilder.MufflerProductionGenerator supplier = controller.self().getDefinition().getRecoveryItems();
-            if (supplier != null) {
-                ash = supplier.getMuffledProduction(controller.self(), lastRecipe);
-            }
-            gtocore$lastAsh = ash;
-        }
-
+    @Override
+    public void recoverItemsTable(ItemStack recoveryItems) {
         AirScrubberMachine machine = getAirScrubberMachine();
         if (machine != null && GTValues.RNG.nextInt(machine.getTier() << 1 + 1) > 1) {
-            MachineUtils.outputItem(machine, ash);
+            MachineUtils.outputItem(machine, recoveryItems);
             return;
         }
-        CustomItemStackHandler.insertItemStackedFast(inventory, ash);
+        CustomItemStackHandler.insertItemStackedFast(inventory, recoveryItems);
+        gtocore$lastAsh=recoveryItems;
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(MetaMachineBlockEntity holder, int tier, CallbackInfo ci) {
-        if (gtolib$invalid()) return;
         inventory.setOnContentsChanged(() -> {
             for (var controller : getControllers()) {
                 if (controller instanceof IRecipeLogicMachine recipeLogicMachine) {
@@ -313,54 +239,4 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
         return super.createMainPage(widget);
     }
 
-    @Override
-    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
-        super.attachConfigurators(configuratorPanel);
-        configuratorPanel.attachConfigurators(new IFancyConfigurator() {
-
-            @Override
-            public Component getTitle() {
-                return Component.translatable("gtocore.machine.muffler.config");
-            }
-
-            @Override
-            public IGuiTexture getIcon() {
-                return GTOGuiTextures.PARALLEL_CONFIG;
-            }
-
-            @Override
-            public Widget createConfigurator() {
-                return gtolib$configPanelWidget();
-            }
-        });
-    }
-
-    @Unique
-    private Widget gtolib$configPanelWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 100, 20);
-        var intInput = new IntInputWidget(() -> gto$chanceOfNotProduceAsh, p -> gto$chanceOfNotProduceAsh = p) {
-
-            @Override
-            public void writeInitialData(FriendlyByteBuf buffer) {
-                super.writeInitialData(buffer);
-                buffer.writeVarInt(getTier() * 10);
-                setMax(getTier() * 10);
-            }
-
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public void readInitialData(FriendlyByteBuf buffer) {
-                super.readInitialData(buffer);
-                setMax(buffer.readVarInt());
-            }
-
-            @Override
-            public List<Component> getTooltipTexts() {
-                return super.getTooltipTexts();
-            }
-        };
-        intInput.setMin(0);
-        group.addWidget(intInput.setHoverTooltips(Component.translatable("gtocore.machine.muffler.config.desc", gto$chanceOfNotProduceAsh)));
-        return group;
-    }
 }

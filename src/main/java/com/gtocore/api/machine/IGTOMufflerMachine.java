@@ -84,9 +84,11 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
     }
 
     boolean gto$checkAshFull();
+    boolean gto$getAshFull();
 
     default void gtolib$insertAsh(IWorkableMultiController controller) {
-        if (GTValues.RNG.nextInt(100) <= getAshNotProduceChance()) {
+        var count=getAshNotProduceChance();
+        while ((count-=GTValues.RNG.nextInt(100))>=0){
             if (isWorkingEnabled()) {
                 GTRecipe lastRecipe = controller.getRecipeLogic().getLastRecipe();
                 ItemStack ash = null;
@@ -101,7 +103,8 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IMultiPart, IContro
                 }
                 recoverItemsTable(ash);
             }
-        } else if ((GTOCore.isExpert() || GTValues.RNG.nextBoolean())) {
+        }
+        if (GTValues.RNG.nextInt(100) >= getAshNotProduceChance() &&(GTOCore.isExpert() || GTValues.RNG.nextBoolean())) {
             recoverItemsTable(ASH);
         }
     }
