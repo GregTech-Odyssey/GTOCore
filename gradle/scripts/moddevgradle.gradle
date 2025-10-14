@@ -14,14 +14,12 @@ legacyForge {
     runs {
         client {
             client()
-            gameDirectory.set(file('run/client'))
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
         server {
             server()
             programArgument '--nogui'
-            gameDirectory.set(file('run/server'))
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
