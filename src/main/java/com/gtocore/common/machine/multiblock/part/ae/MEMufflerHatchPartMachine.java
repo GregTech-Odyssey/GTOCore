@@ -101,7 +101,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
             recoveryChance += recoveryChanceMin;
             recoveryChance = Math.max(recoveryChance, recoveryChanceMin);
         } else {
-            recoveryChance = tier * 10;
+            recoveryChance = muffler_tier * 10;
         }
 
         RecipeHandlerList.NOTIFY.accept(this);

@@ -523,7 +523,7 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .inputItems("ae2:annihilation_plane", 8)
                 .inputItems(GTOItems.IV_DRONE.asItem())
                 .outputItems("gtceu:me_muffler_hatch")
-                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .inputFluids(GTMaterials.SolderingAlloy, 9216)
                 .EUt(GTValues.VA[LuV])
                 .duration(400)
                 .save();
