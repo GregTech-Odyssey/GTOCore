@@ -102,17 +102,17 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             EnergyStat stat = container.getEnergyStat();
             // Energy stats title
             textListCache[2] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.net_power"));
-            BigDecimal avgMinute = stat.getMinuteAvg();
+            BigDecimal avgMinute = stat.minute.getAvgByTick();
             textListCache[3] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_minute",
                     Component.literal(FormatUtil.formatBigDecimalNumberOrSic(avgMinute)).withStyle(ChatFormatting.DARK_AQUA),
                     Component.literal(FormatUtil.voltageAmperage(avgMinute).toEngineeringString()),
                     FormatUtil.voltageName(avgMinute)));
-            BigDecimal avgHour = stat.getHourAvg();
+            BigDecimal avgHour = stat.hour.getAvgByTick();
             textListCache[4] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_hour",
                     Component.literal(FormatUtil.formatBigDecimalNumberOrSic(avgHour)).withStyle(ChatFormatting.YELLOW),
                     Component.literal(FormatUtil.voltageAmperage(avgHour).toEngineeringString()),
                     FormatUtil.voltageName(avgHour)));
-            BigDecimal avgDay = stat.getDayAvg();
+            BigDecimal avgDay = stat.day.getAvgByTick();
             textListCache[5] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_day",
                     Component.literal(FormatUtil.formatBigDecimalNumberOrSic(avgDay)).withStyle(ChatFormatting.DARK_GREEN),
                     Component.literal(FormatUtil.voltageAmperage(avgDay).toEngineeringString()),

@@ -98,9 +98,9 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
             lastAmount[i] = currentAmount[i];
             currentAmount[i] = amount;
 
-            lastMinuteStat[i] = stats[i].getMinuteAvg().longValue();
-            lastHourStat[i] = stats[i].getHourAvg().longValue();
-            lastDayStat[i] = stats[i].getDayAvg().longValue();
+            lastMinuteStat[i] = stats[i].minute.getAvgByTick().longValue();
+            lastHourStat[i] = stats[i].hour.getAvgByTick().longValue();
+            lastDayStat[i] = stats[i].day.getAvgByTick().longValue();
 
             nowStat[i] = change;
             // displayingName[i] = current.getDisplayName();
