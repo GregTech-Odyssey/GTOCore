@@ -110,6 +110,7 @@ public final class $ClassifiedRecipe {
         WaterPurificationPlant.init();
         PhysicalVaporDeposition.init();
         ChemicalVaporDepositio.init();
+        SuperMaterialForge.init();
         ElectricCooking.init();
         Crystallization.init();
         BiochemicalExtraction.init();
