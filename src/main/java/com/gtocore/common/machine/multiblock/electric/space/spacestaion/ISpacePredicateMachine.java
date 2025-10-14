@@ -77,7 +77,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
                 receiver.setCleanroom(null);
                 receiver.setWorkspaceProvider(null);
             });
-            // setSpaceMachines(null);
+            setSpaceMachines(null);
         }
     }
 
@@ -138,7 +138,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
 
     class BlockPredicate extends TraceabilityPredicate {
 
-        public BlockPredicate(Predicate<MultiblockState> predicate, Supplier<BlockInfo> blockInfo, @Nullable Supplier<Block[]> candidates) {
+        BlockPredicate(Predicate<MultiblockState> predicate, Supplier<BlockInfo> blockInfo, @Nullable Supplier<Block[]> candidates) {
             super(predicate, blockInfo, candidates);
         }
 

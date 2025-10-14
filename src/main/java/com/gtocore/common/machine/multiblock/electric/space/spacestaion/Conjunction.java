@@ -51,7 +51,7 @@ public class Conjunction extends AbstractSpaceStation implements ILargeSpaceStat
 
     @Override
     public boolean isWorkspaceReady() {
-        return getRoot() != null && getRoot().isWorkspaceReady();
+        return core != null && core.isWorkspaceReady();
     }
 
     @Override

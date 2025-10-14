@@ -30,7 +30,7 @@ import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatc
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CURRENT_CLEANROOM;
 import static com.gtolib.api.machine.feature.IDroneInteractionMachine.NETWORK;
 
-public class CleanroomProvider extends Extension implements ICleanroomProvider, IDroneControlCenterMachine {
+public class CleanroomProvider extends Extension implements IDroneControlCenterMachine {
 
     private @Nullable ICleanroomProvider cleanroomType = null;
     private final ObjectList<DroneHatchPartMachine> droneHatchPartMachine = new ObjectArrayList<>();
@@ -42,6 +42,7 @@ public class CleanroomProvider extends Extension implements ICleanroomProvider, 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+        droneHatchPartMachine.clear();
         IFilterType filterType = getMultiblockState().getMatchContext().get("FilterType");
         if (filterType != null) {
             this.cleanroomType = switch (filterType.getCleanroomType().getName()) {
@@ -57,7 +58,7 @@ public class CleanroomProvider extends Extension implements ICleanroomProvider, 
     public void onStructureInvalid() {
         super.onStructureInvalid();
         this.cleanroomType = null;
-        getDroneHatchPartMachine().clear();
+        droneHatchPartMachine.clear();
         IIWirelessInteractor.removeFromNet(NETWORK, this);
     }
 

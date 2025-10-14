@@ -158,7 +158,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
 
                         @Override
                         public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-                            return Map.of(IO.OUT, List.of(handler));
+                            return Map.of(IO.OUT, Collections.singletonList(handler));
                         }
 
                         @Override
@@ -169,7 +169,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation implements I
                     if (RecipeRunner.handleContent(
                             waterHolder,
                             IO.OUT,
-                            new ObjectArrayList<>(Collections.singleton(FastFluidIngredient.of(DistilledWater.getFluid(waterAmountPerHatch)))), FluidRecipeCapability.CAP, true, false) &&
+                            ObjectArrayList.of(FastFluidIngredient.of(DistilledWater.getFluid(waterAmountPerHatch))), FluidRecipeCapability.CAP, true, false) &&
                             inputFluid(DistilledWater.getFluid(waterAmountPerHatch))) {
 
                         MachineUtils.outputFluid(waterHolder, DistilledWater.getFluid(waterAmountPerHatch));

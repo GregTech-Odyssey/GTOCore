@@ -73,6 +73,9 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
 
     private final BlockPattern patternInSpace;
 
+    private int refreshSky = 0;
+    private boolean canSeeSky;
+
     @DescSynced
     private BlockPos highlightStartPos = BlockPos.ZERO;
     @DescSynced
@@ -93,7 +96,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
         return super.getPattern();
     }
 
-    public boolean isInSpace() {
+    private boolean isInSpace() {
         Level level = getLevel();
         return level != null && PlanetApi.API.isSpace(level);
     }
@@ -159,7 +162,16 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     @Nullable
     private Recipe getRecipe() {
         Level level = getLevel();
-        if (level != null && canSeeSky(level)) {
+        if (level != null) {
+            boolean canSeeSky;
+            if (refreshSky > 0) {
+                refreshSky--;
+                canSeeSky = this.canSeeSky;
+            } else {
+                this.canSeeSky = canSeeSky = canSeeSky(level);
+                refreshSky = 10;
+            }
+            if (!canSeeSky) return null;
             int eut;
             int basic = (int) (basic_rate * PlanetApi.API.getSolarPower(level));
             if (PlanetApi.API.isSpace(level)) {

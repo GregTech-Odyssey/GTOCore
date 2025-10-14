@@ -30,6 +30,7 @@ import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -137,7 +138,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
         list.add(Component.translatable("gtocore.machine.modules_amount", subMachinesFlat.size()));
     }
 
-    public void removeAllSubMachines() {
+    private void removeAllSubMachines() {
         for (ILargeSpaceStationMachine m : subMachinesFlat) {
             if (m != this && m.getRoot() == this) {
                 m.setRoot(null);
@@ -147,14 +148,14 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     }
 
     /// 很吃性能的操作，使用dirty标记需要更新
-    public void refreshModules() {
+    private void refreshModules() {
         removeAllSubMachines();
         provider = null;
-        Set<ILargeSpaceStationMachine> its = new ObjectOpenHashSet<>();
-        its.addAll(getConnectedModules());
-        while (its.iterator().hasNext()) {
-            ILargeSpaceStationMachine m = its.iterator().next();
-            its.remove(m);
+        Set<ILargeSpaceStationMachine> its = new ReferenceOpenHashSet<>(getConnectedModules());
+        while (!its.isEmpty()) {
+            var it = its.iterator();
+            ILargeSpaceStationMachine m = it.next();
+            it.remove();
             if (m.getRoot() != null) continue;
             m.setRoot(this);
             if (m instanceof CleanroomProvider p && provider == null) {
@@ -208,7 +209,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
                 .buildRawRecipe();
     }
 
-    private FluidStack[] inputFluids(int mul) {
+    private static FluidStack[] inputFluids(int mul) {
         return new FluidStack[] {
                 DistilledWater.getFluid(15 * mul),
                 GTMaterials.RocketFuel.getFluid(10 * mul),

@@ -29,23 +29,23 @@ import java.util.function.Function;
 public abstract class AbstractSpaceStation extends ElectricMultiblockMachine implements ISpacePredicateMachine, ICustomHighlightMachine {
 
     @Nullable
-    protected Collection<IWorkInSpaceMachine> spaceMachines;
+    private Collection<IWorkInSpaceMachine> spaceMachines;
     @DescSynced
-    protected final Set<BlockPos> lastDistributedBlocks = new ObjectOpenHashSet<>();
+    private final Set<BlockPos> lastDistributedBlocks = new ObjectOpenHashSet<>();
     private final @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction;
 
     @Persisted
     protected int ready;
     @Nullable
     private TickableSubscription tickSubscription = null;
-    protected boolean shouldShowReadyText = true;
+    boolean shouldShowReadyText = true;
 
-    public AbstractSpaceStation(MetaMachineBlockEntity metaMachineBlockEntity) {
+    AbstractSpaceStation(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
         this.positionFunction = null;
     }
 
-    public AbstractSpaceStation(MetaMachineBlockEntity metaMachineBlockEntity, @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction) {
+    AbstractSpaceStation(MetaMachineBlockEntity metaMachineBlockEntity, @Nullable Function<AbstractSpaceStation, Set<BlockPos>> positionFunction) {
         super(metaMachineBlockEntity);
         this.positionFunction = positionFunction;
     }
@@ -118,8 +118,8 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     }
 
     public void updateSpaceMachines() {
-        if (getSpaceMachines() != null) {
-            this.getSpaceMachines().forEach(m -> m.getRecipeLogic().updateTickSubscription());
+        if (spaceMachines != null) {
+            this.spaceMachines.forEach(m -> m.getRecipeLogic().updateTickSubscription());
         }
     }
 
