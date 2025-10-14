@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.client.forge.ForgeClientEvent;
 
-import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
@@ -12,7 +11,6 @@ import com.gtolib.utils.MachineUtils;
 import com.gregtechceu.gtceu.api.block.IFilterType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -38,7 +36,7 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
 import static com.gtocore.common.data.GTOMaterials.FlocculationWasteSolution;
 
-public class SimpleSpaceStationMachine extends AbstractSpaceStation implements ICustomHighlightMachine, ICleanroomProvider, ISpacePredicateMachine {
+public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Nullable
     private Collection<BlockPos> outputDistilledWaterHatches;

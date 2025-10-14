@@ -122,15 +122,18 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
         }
         return true;
     }, null, null));
-    MemoizedSupplier<TraceabilityPredicate> photovoltaicPlantSupplyingPredicate = GTMemoizer.memoize(() -> new BlockPredicate(blockWorldState -> {
-        if (abilities(EXPORT_FLUIDS).test(blockWorldState) &&
-                blockWorldState.getTileEntity() instanceof MetaMachineBlockEntity mbe &&
-                mbe.getMetaMachine() instanceof MultiblockPartMachine spaceMachine) {
-            blockWorldState.getMatchContext().getOrCreate("spaceMachinePhotovoltaicSupp", ObjectOpenHashSet::new).add(spaceMachine.getPos());
-            return true;
-        }
-        return false;
-    }, null, abilities(EXPORT_FLUIDS).common.getFirst().candidates).or(abilities(INPUT_ENERGY)).or(blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get())));
+    MemoizedSupplier<TraceabilityPredicate> photovoltaicPlantSupplyingPredicate = GTMemoizer.memoize(() -> {
+        var abilities = abilities(EXPORT_FLUIDS).or(abilities(INPUT_ENERGY)).or(blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()));
+        return new BlockPredicate(blockWorldState -> {
+            if (abilities.test(blockWorldState)) {
+                if (blockWorldState.getTileEntity() instanceof MetaMachineBlockEntity mbe && mbe.getMetaMachine() instanceof MultiblockPartMachine spaceMachine) {
+                    blockWorldState.getMatchContext().getOrCreate("spaceMachinePhotovoltaicSupp", ObjectOpenHashSet::new).add(spaceMachine.getPos());
+                }
+                return true;
+            }
+            return false;
+        }, () -> BlockInfo.fromBlock(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()), abilities(EXPORT_FLUIDS).common.getFirst().candidates).or(abilities(INPUT_ENERGY)).or(blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()));
+    });
 
     static boolean isMachineBanned(MetaMachine machine) {
         return machine instanceof ISpaceWorkspaceMachine || machine instanceof ICleanroomProvider;
