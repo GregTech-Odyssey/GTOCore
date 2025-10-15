@@ -37,8 +37,18 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             .put(4, DisplayRegistry.ENERGY_STAT_HOUR)
             .put(5, DisplayRegistry.ENERGY_STAT_DAY)
             .put(6, DisplayRegistry.ENERGY_STAT_NOW)
-            .put(7, DisplayRegistry.ENERGY_STAT_REMAINING_TIME)
-            .put(8, DisplayRegistry.ENERGY_STAT_BOUND_INFO)
+            .put(7, DisplayRegistry.ENERGY_STAT_TITLE_INPUT)
+            .put(8, DisplayRegistry.ENERGY_STAT_MINUTE_INPUT)
+            .put(9, DisplayRegistry.ENERGY_STAT_HOUR_INPUT)
+            .put(10, DisplayRegistry.ENERGY_STAT_DAY_INPUT)
+            .put(11, DisplayRegistry.ENERGY_STAT_NOW_INPUT)
+            .put(12, DisplayRegistry.ENERGY_STAT_TITLE_OUTPUT)
+            .put(13, DisplayRegistry.ENERGY_STAT_MINUTE_OUTPUT)
+            .put(14, DisplayRegistry.ENERGY_STAT_HOUR_OUTPUT)
+            .put(15, DisplayRegistry.ENERGY_STAT_DAY_OUTPUT)
+            .put(16, DisplayRegistry.ENERGY_STAT_NOW_OUTPUT)
+            .put(17, DisplayRegistry.ENERGY_STAT_REMAINING_TIME)
+            .put(18, DisplayRegistry.ENERGY_STAT_BOUND_INFO)
             .build();
     @DescSynced
     private Component[] bufferCache = new Component[0];
@@ -122,26 +132,71 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
                     Component.literal(FormatUtil.formatBigDecimalNumberOrSic(avgEnergy)).withStyle(ChatFormatting.DARK_PURPLE),
                     Component.literal(FormatUtil.voltageAmperage(avgEnergy).toEngineeringString()),
                     FormatUtil.voltageName(avgEnergy)));
-            int compare = avgEnergy.compareTo(BigDecimal.valueOf(0L));
-            BigInteger multiply = avgEnergy.abs().toBigInteger().multiply(BigInteger.valueOf(20L));
+
+            textListCache[7] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.input_power"));
+            BigDecimal InputMinute = stat.minute.getAvgInputByTick();
+            textListCache[8] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_minute",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(InputMinute)).withStyle(ChatFormatting.DARK_AQUA),
+                    Component.literal(FormatUtil.voltageAmperage(InputMinute).toEngineeringString()),
+                    FormatUtil.voltageName(InputMinute)));
+            BigDecimal InputHour = stat.hour.getAvgInputByTick();
+            textListCache[9] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_hour",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(InputHour)).withStyle(ChatFormatting.YELLOW),
+                    Component.literal(FormatUtil.voltageAmperage(InputHour).toEngineeringString()),
+                    FormatUtil.voltageName(InputHour)));
+            BigDecimal InputDay = stat.day.getAvgInputByTick();
+            textListCache[10] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_day",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(InputDay)).withStyle(ChatFormatting.DARK_GREEN),
+                    Component.literal(FormatUtil.voltageAmperage(InputDay).toEngineeringString()),
+                    FormatUtil.voltageName(InputDay)));
+            BigDecimal InputEnergy = stat.getAvgInput();
+            textListCache[11] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.now",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(InputEnergy)).withStyle(ChatFormatting.DARK_PURPLE),
+                    Component.literal(FormatUtil.voltageAmperage(InputEnergy).toEngineeringString()),
+                    FormatUtil.voltageName(InputEnergy)));
+
+            textListCache[12] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.output_power"));
+            BigDecimal OutputMinute = stat.minute.getAvgOutputByTick();
+            textListCache[13] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_minute",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(OutputMinute)).withStyle(ChatFormatting.DARK_AQUA),
+                    Component.literal(FormatUtil.voltageAmperage(OutputMinute).toEngineeringString()),
+                    FormatUtil.voltageName(OutputMinute)));
+            BigDecimal OutputHour = stat.hour.getAvgOutputByTick();
+            textListCache[14] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_hour",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(OutputHour)).withStyle(ChatFormatting.YELLOW),
+                    Component.literal(FormatUtil.voltageAmperage(OutputHour).toEngineeringString()),
+                    FormatUtil.voltageName(OutputHour)));
+            BigDecimal OutputDay = stat.day.getAvgOutputByTick();
+            textListCache[15] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.last_day",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(OutputDay)).withStyle(ChatFormatting.DARK_GREEN),
+                    Component.literal(FormatUtil.voltageAmperage(OutputDay).toEngineeringString()),
+                    FormatUtil.voltageName(OutputDay)));
+            BigDecimal OutputEnergy = stat.getAvgOutput();
+            textListCache[16] = (Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.now",
+                    Component.literal(FormatUtil.formatBigDecimalNumberOrSic(OutputEnergy)).withStyle(ChatFormatting.DARK_PURPLE),
+                    Component.literal(FormatUtil.voltageAmperage(OutputEnergy).toEngineeringString()),
+                    FormatUtil.voltageName(OutputEnergy)));
+
+            int compare = OutputEnergy.compareTo(BigDecimal.valueOf(0L));
+            BigInteger multiply = OutputEnergy.abs().toBigInteger().multiply(BigInteger.valueOf(20L));
             if (compare > 0) {
-                textListCache[7] = (Component.translatable("gtceu.multiblock.power_substation.time_to_fill",
+                textListCache[17] = (Component.translatable("gtceu.multiblock.power_substation.time_to_fill",
                         container.getCapacity() == null ?
                                 Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.time_to_fill") :
                                 PowerSubstationMachine.getTimeToFillDrainText(container.getCapacity().subtract(energyTotal).divide(multiply)))
                         .withStyle(ChatFormatting.GRAY));
             } else if (compare < 0) {
-                textListCache[7] = (Component.translatable("gtceu.multiblock.power_substation.time_to_drain",
+                textListCache[17] = (Component.translatable("gtceu.multiblock.power_substation.time_to_drain",
                         PowerSubstationMachine.getTimeToFillDrainText(energyTotal.divide(multiply))).withStyle(ChatFormatting.GRAY));
-            } else textListCache[7] = Component.translatable("gtceu.multiblock.power_substation.time_to_drain",
+            } else textListCache[17] = Component.translatable("gtceu.multiblock.power_substation.time_to_drain",
                     Component.translatable("gtceu.multiblock.power_substation.time_forever").withStyle(ChatFormatting.GRAY));
 
             if (container.getBindPos() == null) {
-                textListCache[8] = Component.translatable("gtocore.machine.monitor.eu.no_container")
+                textListCache[18] = Component.translatable("gtocore.machine.monitor.eu.no_container")
                         .withStyle(ChatFormatting.RED);
             } else {
                 String pos = container.getBindPos().pos().toShortString();
-                textListCache[8] = (Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.2",
+                textListCache[18] = (Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.2",
                         Component.translatable("recipe.condition.dimension.tooltip",
                                 new Object[] { container.getBindPos().dimension().location().toString() }).append(" [").append(pos).append("] "))
                         .withStyle(ChatFormatting.GRAY));
