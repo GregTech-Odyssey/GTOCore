@@ -36,6 +36,12 @@ public enum DisplayRegistry {
     ENERGY_STAT_REMAINING_TIME("energy_stat_remaining_time", "能量统计（剩余时间）", "Energy Statistics (Remaining Time)"),
     ENERGY_STAT_BOUND_INFO("energy_stat_bound_info", "能源塔绑定信息", "Energy Tower Binding Information"),
     EU_STATUS_BAR("eu_status_bar", "电网存量条", "Energy Grid Status Bar"),
+    EnergyInputHistoryDay("energy_input_history", "输入历史（天）", "Input History (Days)"),
+    EnergyOutputHistoryDay("energy_output_history", "输出历史（天）", "Output History (Days)"),
+    EnergyInputHistoryHour("energy_input_history_short", "输入历史（小时）", "Input History (Hours)"),
+    EnergyOutputHistoryHour("energy_output_history_short", "输出历史（小时）", "Output History (Hours)"),
+    EnergyInputHistoryMinute("energy_input_history_minute", "输入历史（分钟）", "Input History (Minutes)"),
+    EnergyOutputHistoryMinute("energy_output_history_minute", "输出历史（分钟）", "Output History (Minutes)"),
 
     COMPUTATION_WORK("computation_work", "算力使用情况", "Computation Work Usage"),
     COMPUTATION_WORK_USED("computation_work_used", "算力使用量", "Computation Work Used"),

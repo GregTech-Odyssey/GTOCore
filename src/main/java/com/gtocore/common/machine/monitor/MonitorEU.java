@@ -20,9 +20,11 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessMonitor, ITeamInformationProvider {
@@ -55,6 +57,24 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
 
     @DescSynced
     private float energyFullness = 0.0f;
+
+    @DescSynced
+    private ArrayList<String> EnergyInputHistoryDay = new ArrayList<>();
+
+    @DescSynced
+    private ArrayList<String> EnergyOutputHistoryDay = new ArrayList<>();
+
+    @DescSynced
+    private ArrayList<String> EnergyInputHistoryHour = new ArrayList<>();
+
+    @DescSynced
+    private ArrayList<String> EnergyOutputHistoryHour = new ArrayList<>();
+
+    @DescSynced
+    private ArrayList<String> EnergyInputHistoryMinute = new ArrayList<>();
+
+    @DescSynced
+    private ArrayList<String> EnergyOutputHistoryMinute = new ArrayList<>();
 
     public MonitorEU(Object o) {
         this((MetaMachineBlockEntity) o);
@@ -203,6 +223,24 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             }
             energyFullness = (container.getCapacity() == null || container.getCapacity().equals(BigInteger.ZERO)) ?
                     0f : new BigDecimal(energyTotal).divide(new BigDecimal(container.getCapacity()), 4, RoundingMode.DOWN).floatValue();
+            EnergyInputHistoryDay = stat.day.getInputHistory().stream()
+                    .map(BigInteger::toString) // 将每个 BigInteger 转换为 String
+                    .collect(Collectors.toCollection(ArrayList::new));
+            EnergyOutputHistoryDay = stat.day.getOutputHistory().stream()
+                    .map(BigInteger::toString) // 将每个 BigInteger 转换为 String
+                    .collect(Collectors.toCollection(ArrayList::new));
+            EnergyInputHistoryHour = stat.hour.getInputHistory().stream()
+                    .map(BigInteger::toString) // 将每个 BigInteger 转换为 String
+                    .collect(Collectors.toCollection(ArrayList::new));
+            EnergyOutputHistoryHour = stat.hour.getOutputHistory().stream()
+                    .map(BigInteger::toString) // 将每个 BigInteger 转换为 String
+                    .collect(Collectors.toCollection(ArrayList::new));
+            EnergyInputHistoryMinute = stat.minute.getInputHistory().stream()
+                    .map(BigInteger::toString) // 将每个 BigInteger 转换为 String
+                    .collect(Collectors.toCollection(ArrayList::new));
+            EnergyOutputHistoryMinute = stat.minute.getOutputHistory().stream()
+                    .map(BigInteger::toString) // 将每个 BigInteger 转换为 String
+                    .collect(Collectors.toCollection(ArrayList::new));
             return textListCache;
         }
     }
@@ -221,6 +259,30 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             informationList.addIfAbsent(
                     DisplayRegistry.EU_STATUS_BAR.id(),
                     DisplayComponent.progressBar(DisplayRegistry.EU_STATUS_BAR.id(), energyFullness, Component.translatable("gtocore.machine.monitor.eu.fullness", String.format("%.2f", energyFullness * 100)).getString()));
+
+            informationList.addIfAbsent(
+                    DisplayRegistry.EnergyInputHistoryDay.id(), // 假设你在 DisplayRegistry 中定义了这个ID
+                    DisplayComponent.lineChart(DisplayRegistry.EnergyInputHistoryDay.id(), this.EnergyInputHistoryDay.stream().map(BigInteger::new).toList()));
+
+            informationList.addIfAbsent(
+                    DisplayRegistry.EnergyOutputHistoryDay.id(), // 假设你在 DisplayRegistry 中定义了这个ID
+                    DisplayComponent.lineChart(DisplayRegistry.EnergyOutputHistoryDay.id(), this.EnergyOutputHistoryDay.stream().map(BigInteger::new).toList()));
+
+            informationList.addIfAbsent(
+                    DisplayRegistry.EnergyInputHistoryHour.id(), // 假设你在 DisplayRegistry 中定义了这个ID
+                    DisplayComponent.lineChart(DisplayRegistry.EnergyInputHistoryHour.id(), this.EnergyInputHistoryHour.stream().map(BigInteger::new).toList()));
+
+            informationList.addIfAbsent(
+                    DisplayRegistry.EnergyOutputHistoryHour.id(), // 假设你在 DisplayRegistry 中定义了这个ID
+                    DisplayComponent.lineChart(DisplayRegistry.EnergyOutputHistoryHour.id(), this.EnergyOutputHistoryHour.stream().map(BigInteger::new).toList()));
+
+            informationList.addIfAbsent(
+                    DisplayRegistry.EnergyInputHistoryMinute.id(), // 假设你在 DisplayRegistry 中定义了这个ID
+                    DisplayComponent.lineChart(DisplayRegistry.EnergyInputHistoryMinute.id(), this.EnergyInputHistoryMinute.stream().map(BigInteger::new).toList()));
+
+            informationList.addIfAbsent(
+                    DisplayRegistry.EnergyOutputHistoryMinute.id(), // 假设你在 DisplayRegistry 中定义了这个ID
+                    DisplayComponent.lineChart(DisplayRegistry.EnergyOutputHistoryMinute.id(), this.EnergyOutputHistoryMinute.stream().map(BigInteger::new).toList()));
         }
         return informationList;
     }
@@ -234,6 +296,12 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
                 .map(DisplayRegistry::id)
                 .toList());
         rls.add(DisplayRegistry.EU_STATUS_BAR.id());
+        rls.add(DisplayRegistry.EnergyInputHistoryDay.id());
+        rls.add(DisplayRegistry.EnergyOutputHistoryDay.id());
+        rls.add(DisplayRegistry.EnergyInputHistoryHour.id());
+        rls.add(DisplayRegistry.EnergyOutputHistoryHour.id());
+        rls.add(DisplayRegistry.EnergyInputHistoryMinute.id());
+        rls.add(DisplayRegistry.EnergyOutputHistoryMinute.id());
         return rls;
     }
 }
