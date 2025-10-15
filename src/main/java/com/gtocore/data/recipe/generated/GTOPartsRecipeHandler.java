@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.data.chemical.material.GTOMaterialBuilder;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
@@ -697,6 +698,8 @@ final class GTOPartsRecipeHandler {
                 .EUt(16)
                 .save();
     }
+    private static final long TD_VOLTAGE=GTValues.VA[GTOCore.difficulty+1];
+    private static final int SCAN_VOLTAGE_MOVER= 4<<((GTOCore.difficulty)<<1);
 
     private static void processMotorEnclosure(Material material) {
         int mass = (int) material.getMass();
@@ -716,13 +719,13 @@ final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save();
 
-        ItemStack data = GTOItems.DATA_DISC.get().getDisc(motorEnclosureStack);
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc("gtocore_disc_motor_enclosure");
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_motor_enclosure")
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(motorEnclosureStack)
                 .outputItems(data)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) <<SCAN_VOLTAGE_MOVER)
                 .duration(mass)
                 .save();
 
@@ -731,7 +734,7 @@ final class GTOPartsRecipeHandler {
                 .inputFluids(material.getFluid(GTValues.L << 1))
                 .outputItems(motorEnclosureStack)
                 .duration(mass << 1)
-                .EUt(16)
+                .EUt(TD_VOLTAGE)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
@@ -754,13 +757,13 @@ final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save();
 
-        ItemStack data = GTOItems.DATA_DISC.get().getDisc(pumpBarrelStack);
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc("gtocore_disc_pump_barrel");
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_pump_barrel")
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(pumpBarrelStack)
                 .outputItems(data)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) <<SCAN_VOLTAGE_MOVER)
                 .duration(mass)
                 .save();
 
@@ -769,7 +772,7 @@ final class GTOPartsRecipeHandler {
                 .inputFluids(material.getFluid(GTValues.L * 5 / 2))
                 .outputItems(pumpBarrelStack)
                 .duration(mass * 5 / 2)
-                .EUt(16)
+                .EUt(TD_VOLTAGE)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
@@ -792,13 +795,13 @@ final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save();
 
-        ItemStack data = GTOItems.DATA_DISC.get().getDisc(pistonHousingStack);
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc("gtocore_disc_piston_housing");
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_piston_housing")
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(pistonHousingStack)
                 .outputItems(data)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) <<SCAN_VOLTAGE_MOVER)
                 .duration(mass)
                 .save();
 
@@ -807,7 +810,7 @@ final class GTOPartsRecipeHandler {
                 .inputFluids(material.getFluid(GTValues.L * 3))
                 .outputItems(pistonHousingStack)
                 .duration(mass * 3)
-                .EUt(16)
+                .EUt(TD_VOLTAGE)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
@@ -831,13 +834,13 @@ final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save();
 
-        ItemStack data = GTOItems.DATA_DISC.get().getDisc(emitterBasesStack);
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc("gtocore_disc_emitter_base");
 
         SCANNER_RECIPES.recipeBuilder(material.getName() + "_emitter_base")
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(emitterBasesStack)
                 .outputItems(data)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) <<SCAN_VOLTAGE_MOVER)
                 .duration(mass)
                 .save();
 
@@ -846,7 +849,7 @@ final class GTOPartsRecipeHandler {
                 .inputFluids(material.getFluid(GTValues.L << 2))
                 .outputItems(emitterBasesStack)
                 .duration(mass << 2)
-                .EUt(16)
+                .EUt(TD_VOLTAGE)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
@@ -875,7 +878,7 @@ final class GTOPartsRecipeHandler {
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(sensorCasingStack)
                 .outputItems(data)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) <<SCAN_VOLTAGE_MOVER)
                 .duration(mass)
                 .save();
 
@@ -884,7 +887,7 @@ final class GTOPartsRecipeHandler {
                 .inputFluids(material.getFluid(GTValues.L * 9 / 2))
                 .outputItems(sensorCasingStack)
                 .duration(mass * 9 / 2)
-                .EUt(16)
+                .EUt(TD_VOLTAGE)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
@@ -913,7 +916,7 @@ final class GTOPartsRecipeHandler {
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(fieldGeneratorCasingStack)
                 .outputItems(data)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) <<SCAN_VOLTAGE_MOVER)
                 .duration(mass)
                 .save();
 
@@ -922,7 +925,7 @@ final class GTOPartsRecipeHandler {
                 .inputFluids(material.getFluid(GTValues.L << 3))
                 .outputItems(fieldGeneratorCasingStack)
                 .duration(mass << 3)
-                .EUt(16)
+                .EUt(TD_VOLTAGE)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }

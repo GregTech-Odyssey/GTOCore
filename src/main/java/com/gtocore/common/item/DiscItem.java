@@ -2,6 +2,7 @@ package com.gtocore.common.item;
 
 import com.gtocore.api.placeholder.IPlaceholder;
 
+import com.gtolib.GTOCore;
 import com.gtolib.IItem;
 import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.FluidUtils;
@@ -37,6 +38,7 @@ public final class DiscItem extends Item implements IPlaceholder<Object, ItemSta
     }
 
     private static final Object EMPTY_CONTENT = ItemStack.EMPTY;
+    private static final String DISC_ID=GTOCore.MOD_ID+"_disc";
 
     public ItemStack getDisc(ItemStack itemStack) {
         ItemStack stack = getDefaultInstance();
@@ -53,6 +55,14 @@ public final class DiscItem extends Item implements IPlaceholder<Object, ItemSta
         stack.getOrCreateTag().putString("f", id.getNamespace());
         stack.getOrCreateTag().putString("n", id.getPath());
         MapIngredient.add(id.getPath());
+        return stack;
+    }
+
+    public ItemStack getDisc(String string) {
+        ItemStack stack = getDefaultInstance();
+        stack.getOrCreateTag().putString("s", DISC_ID);
+        stack.getOrCreateTag().putString("n", string);
+        MapIngredient.add(string);
         return stack;
     }
 
@@ -99,6 +109,26 @@ public final class DiscItem extends Item implements IPlaceholder<Object, ItemSta
         return Optional.empty();
     }
 
+    /**
+     * 从光盘ItemStack中读取并返回存储的String。
+     *
+     * @param stack 要读取的光盘ItemStack
+     * @return 一个包含String的Optional，如果不存在或无效则为空
+     */
+    private static Optional<String> getStoredString(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag == null) {
+            return Optional.empty();
+        }
+
+        String namespace = tag.getString("s");
+        if (!namespace.isEmpty()) {
+            return Optional.of(tag.getString("n"));
+        }
+
+        return Optional.empty();
+    }
+
     @NotNull
     private static Object getStoredContent(ItemStack discStack) {
         Optional<Item> itemOpt = getStoredItem(discStack);
@@ -111,6 +141,11 @@ public final class DiscItem extends Item implements IPlaceholder<Object, ItemSta
             return new FluidStack(fluidOpt.get(), 1);
         }
 
+        Optional<String> stringOpt = getStoredString(discStack);
+        if(stringOpt.isPresent()){
+            return stringOpt.get();
+        }
+
         // 如果上面都没有返回，说明光盘是空的，返回我们的“空对象”实例。
         return EMPTY_CONTENT;
     }
@@ -121,8 +156,18 @@ public final class DiscItem extends Item implements IPlaceholder<Object, ItemSta
         Optional<Item> storedItem = getStoredItem(itemstack);
         if (storedItem.isPresent()) {
             list.add(Component.translatable("item.gtocore.disc.data", ((IItem) storedItem.get()).gtolib$getReadOnlyStack().getDisplayName()));
-        } else {
-            getStoredFluid(itemstack).ifPresent(fluid -> list.add(Component.translatable("item.gtocore.disc.data", "[" + new FluidStack(fluid, 1).getDisplayName().getString() + "]")));
+            return;
+        }
+        Optional<Fluid> storedFluid = getStoredFluid(itemstack);
+        if (storedFluid.isPresent()){
+            list.add(Component.translatable("item.gtocore.disc.data", "[" + new FluidStack(storedFluid.get(), 1).getDisplayName().getString() + "]"));
+            return;
+        }
+
+        Optional<String> storedString= getStoredString(itemstack);
+        if (storedString.isPresent()){
+            list.add(Component.translatable("item.gtocore.disc.data", Component.literal("[").append(Component.translatable(storedString.get().replace('_','.'))).append(Component.literal("]"))));
+            return;
         }
     }
 

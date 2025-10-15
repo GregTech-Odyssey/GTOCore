@@ -16,14 +16,14 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import java.util.Map;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Nitrogen;
 import static com.gtocore.common.data.GTOItems.*;
-import static com.gtocore.common.data.GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 
 final class FluidSolidfication {
 
@@ -107,9 +107,9 @@ final class FluidSolidfication {
 
         for (Map.Entry<Item, TagKey<Item>> disposableMold : toolToMoldMap.entrySet()) {
             TagKey<Item> tagKey = disposableMold.getValue();
-            FLUID_SOLIDFICATION_RECIPES.builder("disposable_" + ItemUtils.getIdLocation(disposableMold.getKey()).getPath())
+            SCANNER_RECIPES.builder("disposable_" + ItemUtils.getIdLocation(disposableMold.getKey()).getPath())
                     .inputItems(tagKey)
-                    .inputFluids(GTMaterials.Steel.getFluid(4 * GTValues.L))
+                    .inputItems(GTOItems.DATA_DISC.asItem(), 1)
                     .outputItems(disposableMold.getKey())
                     .EUt(30)
                     .duration(800)
