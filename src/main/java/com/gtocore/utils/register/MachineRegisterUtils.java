@@ -202,9 +202,9 @@ public final class MachineRegisterUtils {
     }
 
     public static MachineDefinition[] registerCrankableMachines(String name, String cn,
-                                                             GTRecipeType recipeType,
-                                                             Int2IntFunction tankScalingFunction,
-                                                             int... tiers) {
+                                                                GTRecipeType recipeType,
+                                                                Int2IntFunction tankScalingFunction,
+                                                                int... tiers) {
         return registerCrankableMachines(name, cn, recipeType, tankScalingFunction, GTOCore.id("block/machines/" + name), tiers);
     }
 
@@ -229,9 +229,9 @@ public final class MachineRegisterUtils {
     }
 
     public static MachineDefinition[] registerCrankableMachines(String name, String cn,
-                                                             GTRecipeType recipeType,
-                                                             Int2IntFunction tankScalingFunction,
-                                                             ResourceLocation workableModel, int... tiers) {
+                                                                GTRecipeType recipeType,
+                                                                Int2IntFunction tankScalingFunction,
+                                                                ResourceLocation workableModel, int... tiers) {
         return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
                 (holder, tier) -> new CrankableMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
                     builder.recipeModifier(RecipeModifierFunction.OVERCLOCKING);

@@ -1,48 +1,48 @@
 package com.gtocore.api.machine;
 
-import appeng.api.implementations.blockentities.ICrankable;
-import appeng.capabilities.Capabilities;
+import com.gtocore.data.IdleReason;
+
+import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.machine.feature.DummyEnergyMachine;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
-import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gtocore.api.misc.CreativeEnergyRecipeHandler;
-import com.gtolib.GTOCore;
-import com.gtolib.api.machine.SimpleNoEnergyMachine;
-import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+
+import appeng.api.implementations.blockentities.ICrankable;
+import appeng.capabilities.Capabilities;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+public class CrankableMachine extends SimpleNoEnergyMachine implements DummyEnergyMachine {
 
-public class CrankableMachine extends SimpleNoEnergyMachine {
+    private final DummyContainer energyContainer;
 
-    public CrankableMachine(MetaMachineBlockEntity holder,int tier, Int2IntFunction tankScalingFunction, Object... args) {
-        super(holder,tier, tankScalingFunction, args);
-        addHandlerList(RecipeHandlerList.of(IO.IN, new CreativeEnergyRecipeHandler(GTValues.V[tier])));
+    public CrankableMachine(MetaMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
+        super(holder, tier, tankScalingFunction, args);
+        energyContainer = new DummyContainer(GTValues.V[tier]);
     }
-    protected long chargeTicks=0;
+
+    protected long chargeTicks = 0;
 
     @Override
     protected @NotNull RecipeLogic createRecipeLogic() {
-        return new RecipeLogic(this){
+        return new RecipeLogic(this) {
+
             @Override
             public void handleRecipeWorking() {
-                if(chargeTicks-->0){
+                if (chargeTicks-- > 0) {
                     setStatus(RecipeLogic.Status.WORKING);
                     progress++;
                     totalContinuousRunningTime++;
-                }else{
-                    setWaiting(null);
+                } else {
+                    setWaiting(IdleReason.NO_CRANK.reason());
                 }
             }
         };
@@ -55,6 +55,13 @@ public class CrankableMachine extends SimpleNoEnergyMachine {
         }
         return null;
     }
+
+    @Override
+    @NotNull
+    public IEnergyContainer gtolib$getEnergyContainer() {
+        return energyContainer;
+    }
+
     @Override
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, Direction facing) {
         if (Capabilities.CRANKABLE.equals(capability)) {
@@ -70,16 +77,16 @@ public class CrankableMachine extends SimpleNoEnergyMachine {
         return super.getCapability(capability, facing);
     }
 
-
     class Crankable implements ICrankable {
+
         @Override
         public boolean canTurn() {
-            return getRecipeLogic().isWorking() || chargeTicks!=40;
+            return getRecipeLogic().isWorking() || chargeTicks != 40;
         }
 
         @Override
         public void applyTurn() {
-            chargeTicks=Math.max(chargeTicks,40);
+            chargeTicks = Math.max(chargeTicks, 20);
         }
     }
 }

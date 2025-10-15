@@ -236,9 +236,10 @@ public final class GTAEMachines {
             .langValue("ME Muffler Hatch")
             .tier(LuV)
             .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
+            .addTooltipsFromClass(MEMufflerHatchPartMachine.class)
             .allRotation()
             .abilities(PartAbility.MUFFLER)
-            .overlayTieredHullRenderer("me_item_bus.export")
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .notAllowSharedTooltips()
             .register();
 
