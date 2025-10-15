@@ -1,5 +1,6 @@
 package com.gtocore.utils.register;
 
+import com.gtocore.api.machine.CrankableMachine;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
@@ -200,6 +201,13 @@ public final class MachineRegisterUtils {
         return registerSimpleMachines(name, cn, recipeType, tankScalingFunction, GTOCore.id("block/machines/" + name), tiers);
     }
 
+    public static MachineDefinition[] registerCrankableMachines(String name, String cn,
+                                                             GTRecipeType recipeType,
+                                                             Int2IntFunction tankScalingFunction,
+                                                             int... tiers) {
+        return registerCrankableMachines(name, cn, recipeType, tankScalingFunction, GTOCore.id("block/machines/" + name), tiers);
+    }
+
     public static MachineDefinition[] registerSimpleMachines(String name, String cn,
                                                              GTRecipeType recipeType,
                                                              Int2IntFunction tankScalingFunction,
@@ -210,6 +218,26 @@ public final class MachineRegisterUtils {
                     return builder
                             .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
+                            .nonYAxisRotation()
+                            .recipeType(recipeType)
+                            .workableTieredHullRenderer(workableModel)
+                            .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, recipeType,
+                                    tankScalingFunction.apply(tier), true))
+                            .register();
+                },
+                tiers);
+    }
+
+    public static MachineDefinition[] registerCrankableMachines(String name, String cn,
+                                                             GTRecipeType recipeType,
+                                                             Int2IntFunction tankScalingFunction,
+                                                             ResourceLocation workableModel, int... tiers) {
+        return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
+                (holder, tier) -> new CrankableMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
+                    builder.recipeModifier(RecipeModifierFunction.OVERCLOCKING);
+                    return builder
+                            .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
+                            .editableUI(CrankableMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                             .nonYAxisRotation()
                             .recipeType(recipeType)
                             .workableTieredHullRenderer(workableModel)
