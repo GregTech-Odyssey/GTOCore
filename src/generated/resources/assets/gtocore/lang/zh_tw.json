@@ -1337,6 +1337,8 @@
   "block.gtocore.ultimate_stellar_containment_casing": "終極恆星熱力容器",
   "block.gtocore.ulv_assembler": "原始組裝機 §r",
   "block.gtocore.ulv_chemical_reactor": "原始化學反應釜 §r",
+  "block.gtocore.ulv_crankable_loom": "原始人力織布機 §r",
+  "block.gtocore.ulv_crankable_mixer": "原始人力攪拌機 §r",
   "block.gtocore.ulv_fluid_solidifier": "原始流體固化器 §r",
   "block.gtocore.ulv_lathe": "原始車床 §r",
   "block.gtocore.ulv_loom": "原始織布機 §r",

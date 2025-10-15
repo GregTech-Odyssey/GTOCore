@@ -1337,6 +1337,8 @@
   "block.gtocore.ultimate_stellar_containment_casing": "Ultimate Stellar Containment Casing",
   "block.gtocore.ulv_assembler": "Primitive Assembler §r",
   "block.gtocore.ulv_chemical_reactor": "Primitive Chemical Reactor §r",
+  "block.gtocore.ulv_crankable_loom": "Primitive Crankable Loom §r",
+  "block.gtocore.ulv_crankable_mixer": "Primitive Crankable Mixer §r",
   "block.gtocore.ulv_fluid_solidifier": "Primitive Fluid Solidifier §r",
   "block.gtocore.ulv_lathe": "Primitive Lathe §r",
   "block.gtocore.ulv_loom": "Primitive Loom §r",
