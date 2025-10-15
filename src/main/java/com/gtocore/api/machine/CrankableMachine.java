@@ -81,7 +81,7 @@ public class CrankableMachine extends SimpleNoEnergyMachine implements DummyEner
 
         @Override
         public boolean canTurn() {
-            return getRecipeLogic().isWorking() || chargeTicks != 40;
+            return getRecipeLogic().isWorking() || chargeTicks != 20;
         }
 
         @Override
