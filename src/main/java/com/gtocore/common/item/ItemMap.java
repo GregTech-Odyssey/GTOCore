@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtolib.api.data.chemical.GTOChemicalHelper;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -17,12 +18,16 @@ import net.minecraft.world.item.Items;
 import appeng.core.definitions.AEItems;
 import com.google.common.collect.ImmutableSet;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import committee.nova.mods.avaritia.init.registry.ModItems;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public final class ItemMap {
+
+    public static final ItemStack ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
+    public static final ItemStack NEUTRON_PILE = ModItems.neutron_pile.get().getDefaultInstance();
 
     public static final ImmutableSet<Item> UNIVERSAL_CIRCUITS = ImmutableSet.copyOf(Arrays.stream(GTOItems.UNIVERSAL_CIRCUIT).filter(Objects::nonNull).map(RegistryEntry::get).toList());
 

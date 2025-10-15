@@ -4,8 +4,11 @@ import com.gtocore.api.machine.IGTOMufflerMachine;
 import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
+import com.gtolib.api.misc.AsyncTask;
+import com.gtolib.api.misc.IAsyncTaskHolder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -14,8 +17,9 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.SingleCustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
@@ -39,7 +43,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine {
+@DataGeneratorScanned
+public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine, IAsyncTaskHolder {
 
     @Persisted
     private final KeyStorage internalBuffer;
@@ -52,26 +57,17 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     @DescSynced
     private int recoveryChance = 0;
 
+    private AsyncTask asyncTask;
+
     private int muffler_tier = 0;
 
-    private static final int COUNT = 1 << (GTOCore.difficulty * 2);
-    private static final int MIN_COUNT = 1 << (GTOCore.difficulty * 2 - 2);
+    private static final int COUNT = 1 << (GTOCore.difficulty << 1);
+    private static final int MIN_COUNT = 1 << ((GTOCore.difficulty << 1) - 2);
 
     public MEMufflerHatchPartMachine(@NotNull MetaMachineBlockEntity holder) {
         super(holder, IO.NONE);
         internalBuffer = new KeyStorage();
-        handler = new InaccessibleInfiniteHandler(this, internalBuffer, IO.NONE) {
-
-            @Override
-            public void updateAutoOutputSubscription() {
-                if (machine.isOnline()) {
-                    updateSubs = getMachine().subscribeServerTick(updateSubs, this::updateTick);
-                } else if (updateSubs != null) {
-                    updateSubs.unsubscribe();
-                    updateSubs = null;
-                }
-            }
-        };
+        handler = new InaccessibleInfiniteHandler(this, internalBuffer);
         mufflerHatchInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         mufflerHatchInv.setFilter(stack -> Wrapper.MUFFLER_HATCH.containsKey(stack.getItem()));
         mufflerHatchInv.addChangedListener(this::onMufflerChange);
@@ -86,7 +82,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
         amplifierInv.addChangedListener(this::onMufflerChange);
     }
 
-    public void onMufflerChange() {
+    private void onMufflerChange() {
         var amplifierIs = amplifierInv.getStackInSlot(0);
         var item = mufflerHatchInv.getStackInSlot(0).getItem();
         recoveryChance = 0;
@@ -103,8 +99,21 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
         } else {
             recoveryChance = muffler_tier * 10;
         }
+    }
 
-        RecipeHandlerList.NOTIFY.accept(this);
+    @Override
+    public AsyncTask getAsyncTask() {
+        return asyncTask;
+    }
+
+    @Override
+    public void setAsyncTask(AsyncTask task) {
+        asyncTask = task;
+    }
+
+    @Override
+    public void gtolib$insertAsh(MultiblockControllerMachine controller, GTRecipe lastRecipe) {
+        AsyncTask.addAsyncTask(this, () -> IGTOMufflerMachine.super.gtolib$insertAsh(controller, lastRecipe));
     }
 
     @Override

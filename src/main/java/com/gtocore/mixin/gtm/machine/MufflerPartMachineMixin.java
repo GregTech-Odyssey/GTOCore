@@ -19,7 +19,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.electric.AirScrubberMachine;
@@ -39,7 +38,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -56,7 +54,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     @Persisted
-    boolean gtocore$isWorkingEnabled;
+    private boolean gtocore$isWorkingEnabled;
     @Shadow(remap = false)
     @Final
     private CustomItemStackHandler inventory;
@@ -72,9 +70,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     private TickableSubscription gtolib$tickSubs;
     @Unique
     private boolean gtolib$isFrontFaceFree;
-    @Unique
-    @Persisted
-    private @Nullable ItemStack gtocore$lastAsh;
 
     protected MufflerPartMachineMixin(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier);
@@ -171,15 +166,9 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
         return gtolib$isFrontFaceFree;
     }
 
-    @Override
-    public boolean afterWorking(IWorkableMultiController controller) {
-        return true;
-    }
-
     @Unique
     public boolean gtolib$checkAshFull() {
-        var stack = inventory.getStackInSlot(inventory.getSlots() - 1);
-        return stack.getCount() > 63 || (!stack.isEmpty() && gtocore$lastAsh != null && !stack.is(gtocore$lastAsh.getItem()));
+        return inventory.getStackInSlot(inventory.getSlots() - 1).getCount() > 63;
     }
 
     @Override
@@ -195,7 +184,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
             return;
         }
         CustomItemStackHandler.insertItemStackedFast(inventory, recoveryItems);
-        gtocore$lastAsh = recoveryItems;
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
