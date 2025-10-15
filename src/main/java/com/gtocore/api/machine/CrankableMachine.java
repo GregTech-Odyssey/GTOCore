@@ -2,13 +2,19 @@ package com.gtocore.api.machine;
 
 import appeng.api.implementations.blockentities.ICrankable;
 import appeng.capabilities.Capabilities;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gtocore.api.misc.CreativeEnergyRecipeHandler;
 import com.gtolib.GTOCore;
+import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -18,37 +24,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class CrankableMachine extends SimpleTieredMachine implements IEnergyInfoProvider {
+public class CrankableMachine extends SimpleNoEnergyMachine {
 
     public CrankableMachine(MetaMachineBlockEntity holder,int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder,tier, tankScalingFunction, args);
+        addHandlerList(RecipeHandlerList.of(IO.IN, new CreativeEnergyRecipeHandler(GTValues.V[tier])));
     }
     protected long chargeTicks=0;
 
     @Override
-    public @NotNull List<MachineTrait> getTraits() {
-        return super.getTraits().stream()
-                .filter(machineTrait->!(machineTrait instanceof IEnergyContainer)).toList();
-    }
-
-    @Override
-    protected void updateBatterySubscription() {
-        if (chargeTicks>0) {
-            batterySubs = subscribeServerTick(batterySubs, this::chargeBattery);
-        } else if (batterySubs != null) {
-            batterySubs.unsubscribe();
-            batterySubs = null;
-        }
-    }
-
-    @Override
-    protected void chargeBattery() {
-        if(chargeTicks-->0){
-            var voltage=energyContainer.getInputVoltage();
-            energyContainer.acceptEnergyFromNetwork(this,Direction.UP,voltage,voltage);
-        }else{
-            updateBatterySubscription();
-        }
+    protected @NotNull RecipeLogic createRecipeLogic() {
+        return new RecipeLogic(this){
+            @Override
+            public void handleRecipeWorking() {
+                if(chargeTicks-->0){
+                    setStatus(RecipeLogic.Status.WORKING);
+                    progress++;
+                    totalContinuousRunningTime++;
+                }else{
+                    setWaiting(null);
+                }
+            }
+        };
     }
 
     @Nullable
@@ -73,42 +70,16 @@ public class CrankableMachine extends SimpleTieredMachine implements IEnergyInfo
         return super.getCapability(capability, facing);
     }
 
-    @Override
-    public EnergyInfo getEnergyInfo() {
-        return energyContainer.getEnergyInfo();
-    }
-
-    @Override
-    public long getInputPerSec() {
-        return energyContainer.getInputPerSec();
-    }
-
-    @Override
-    public long getOutputPerSec() {
-        return energyContainer.getOutputPerSec();
-    }
-
-    @Override
-    public boolean supportsBigIntEnergyValues() {
-        return false;
-    }
-
 
     class Crankable implements ICrankable {
-        private final NotifiableEnergyContainer container=CrankableMachine.this.energyContainer;
         @Override
         public boolean canTurn() {
-            if(GTOCore.isExpert() && container.getEnergyStored()==container.getEnergyCapacity() && !recipeLogic.isWorking()){
-                CrankableMachine.this.doExplosion(tier+1);
-                return false;
-            }
-            return true;
+            return getRecipeLogic().isWorking() || chargeTicks!=40;
         }
 
         @Override
         public void applyTurn() {
-            CrankableMachine.this.chargeTicks=Math.max(40,CrankableMachine.this.chargeTicks);
-            updateBatterySubscription();
+            chargeTicks=Math.max(chargeTicks,40);
         }
     }
 }
