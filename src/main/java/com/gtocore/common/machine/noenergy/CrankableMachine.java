@@ -1,4 +1,4 @@
-package com.gtocore.api.machine;
+package com.gtocore.common.machine.noenergy;
 
 import com.gtocore.data.IdleReason;
 

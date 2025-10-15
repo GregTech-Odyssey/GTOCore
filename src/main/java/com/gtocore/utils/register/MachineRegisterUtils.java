@@ -1,6 +1,6 @@
 package com.gtocore.utils.register;
 
-import com.gtocore.api.machine.CrankableMachine;
+import com.gtocore.common.machine.noenergy.CrankableMachine;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
