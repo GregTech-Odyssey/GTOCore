@@ -25,12 +25,9 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
-import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
-import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
-import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -78,8 +75,6 @@ public class CommonProxy {
         GTOFluids.FLUID.register(eventBus);
         GTOEffects.init(eventBus);
         eventBus.addListener(CommonProxy::commonSetup);
-        eventBus.addListener(CommonProxy::addMaterials);
-        eventBus.addListener(CommonProxy::registerMaterialRegistry);
         eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);
         eventBus.addListener(CommonProxy::modConstruct);
@@ -96,6 +91,7 @@ public class CommonProxy {
     }
 
     private static void modConstruct(FMLConstructModEvent event) {
+        Datagen.init();
         event.enqueueWork(() -> HotkeyActions.register(new Ae2WTLibLocatingService(Wireless.ID), Wireless.ID + "_locating_service"));
     }
 
@@ -134,14 +130,6 @@ public class CommonProxy {
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
         }
         GTOItemTooltips.INSTANCE.initLanguage();
-    }
-
-    private static void addMaterials(MaterialEvent event) {
-        GTOMaterials.init();
-    }
-
-    private static void registerMaterialRegistry(MaterialRegistryEvent event) {
-        MaterialRegistryManager.getInstance().createRegistry(GTOCore.MOD_ID);
     }
 
     private static void registerDimensionMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {

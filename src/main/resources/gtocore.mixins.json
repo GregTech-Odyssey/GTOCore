@@ -150,7 +150,6 @@
     "gtm.GTSyncedFieldAccessorsMixin",
     "gtm.GTUtilMixin",
     "gtm.RockBreakerConditionMixin",
-    "gtm.api.AddonFinderMixin",
     "gtm.api.MetaMachineBlockMixin",
     "gtm.api.machine.FluidDrillLogicMixin",
     "gtm.api.machine.MachineDefinitionMixin",

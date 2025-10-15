@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.electric;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
-import com.gtolib.api.recipe.AsyncRecipeOutputTask;
+import com.gtolib.api.misc.AsyncTask;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
@@ -157,7 +157,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
                 return handleIO;
             }
             if (getMachine().isDualMEOutput(recipe)) {
-                AsyncRecipeOutputTask.addAsyncLogic(this, () -> output((Recipe) recipe));
+                AsyncTask.addAsyncTask(this, () -> output((Recipe) recipe));
             } else {
                 output((Recipe) recipe);
             }

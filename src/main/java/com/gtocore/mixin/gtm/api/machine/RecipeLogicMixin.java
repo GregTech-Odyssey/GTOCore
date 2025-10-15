@@ -3,6 +3,7 @@ package com.gtocore.mixin.gtm.api.machine;
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
+import com.gtolib.api.misc.AsyncTask;
 import com.gtolib.api.recipe.*;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
@@ -38,7 +39,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Unique
     private RecipeBuilder gtolib$recipeBuilder;
     @Unique
-    private AsyncRecipeOutputTask gtolib$asyncRecipeOutputTask;
+    private AsyncTask gtolib$asyncRecipeOutputTask;
     @Unique
     @DescSynced
     private Component gtolib$reason;
@@ -73,18 +74,18 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected RecipeLogic.Status status;
 
     @Override
-    public void gtolib$setAsyncRecipeOutputTask(AsyncRecipeOutputTask task) {
+    public void setAsyncTask(AsyncTask task) {
         gtolib$asyncRecipeOutputTask = task;
     }
 
     @Override
-    public AsyncRecipeOutputTask gtolib$getAsyncRecipeOutputTask() {
+    public AsyncTask getAsyncTask() {
         return gtolib$asyncRecipeOutputTask;
     }
 
     @Override
     public void onMachineUnLoad() {
-        AsyncRecipeOutputTask.removeAsyncLogic(this);
+        AsyncTask.removeAsyncTask(this);
     }
 
     @Override
@@ -173,7 +174,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
         if (io == IO.OUT && machine instanceof IExtendedRecipeCapabilityHolder outputMachine && outputMachine.isDualMEOutput(recipe)) {
             var contents = new RecipeCapabilityMap<>(recipe.outputs);
-            AsyncRecipeOutputTask.addAsyncLogic(this, () -> RecipeRunner.handleRecipe(machine, (Recipe) recipe, IO.OUT, contents, getChanceCaches(), false));
+            AsyncTask.addAsyncTask(this, () -> RecipeRunner.handleRecipe(machine, (Recipe) recipe, IO.OUT, contents, getChanceCaches(), false));
             return true;
         }
         return RecipeRunner.handleRecipeIO(machine, (Recipe) recipe, io, chanceCaches);
