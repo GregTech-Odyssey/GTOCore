@@ -5,6 +5,9 @@ import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
+import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
 import com.gtolib.api.misc.AsyncTask;
@@ -40,10 +43,9 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
+@Scanned
 @DataGeneratorScanned
 public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine, IAsyncTaskHolder {
 
@@ -61,9 +63,24 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     private AsyncTask asyncTask;
 
     private int muffler_tier = 0;
-
-    private static final int COUNT = 1 << (GTOCore.difficulty << 1);
-    private static final int MIN_COUNT = 1 << ((GTOCore.difficulty << 1) - 2);
+    @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
+                         key = "me_muffler_hatch.amplifier_max_amount",
+                         easyValue = "4",
+                         normalValue = "16",
+                         expertValue = "64",
+                         cn = "集控核心最大数量",
+                         cnComment = "增幅到最大值所需的集控核心数量为%s。",
+                         en = "")
+    private static int COUNT = 16;
+    @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
+                         key = "me_muffler_hatch.amplifier_min_amount",
+                         easyValue = "1",
+                         normalValue = "4",
+                         expertValue = "16",
+                         cn = "集控核心最小数量",
+                         cnComment = "启用增幅所需的集控核心数量为%s。",
+                         en = "")
+    private static int MIN_COUNT = 4;
 
     public MEMufflerHatchPartMachine(@NotNull MetaMachineBlockEntity holder) {
         super(holder, IO.NONE);
@@ -192,6 +209,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
 
     @Override
     public void recoverItemsTable(ItemStack recoveryItems) {
+        if (!workingEnabled) return;
         handler.insertInternal(recoveryItems, recoveryItems.getCount());
     }
 
