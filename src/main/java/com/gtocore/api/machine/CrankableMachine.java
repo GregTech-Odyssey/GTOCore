@@ -98,7 +98,7 @@ public class CrankableMachine extends SimpleTieredMachine implements IEnergyInfo
         private final NotifiableEnergyContainer container=CrankableMachine.this.energyContainer;
         @Override
         public boolean canTurn() {
-            if(container.getEnergyStored()==container.getEnergyCapacity() && GTOCore.isExpert()){
+            if(container.getEnergyStored()==container.getEnergyCapacity() && GTOCore.isExpert() && !recipeLogic.isWorking()){
                 CrankableMachine.this.doExplosion(tier+1);
                 return false;
             }
