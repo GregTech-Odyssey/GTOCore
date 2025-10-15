@@ -46,7 +46,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 @Scanned
-@DataGeneratorScanned
 public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine, IAsyncTaskHolder {
 
     @Persisted
