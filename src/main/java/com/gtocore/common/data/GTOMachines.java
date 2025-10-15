@@ -142,6 +142,7 @@ public final class GTOMachines {
             GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES, GTMachineUtils.defaultTankSizeFunction, MAX);
     public static final MachineDefinition[] CRANKABLE_LOOM = registerCrankableMachines("crankable_loom", "人力织布机", GTORecipeTypes.LOOM_RECIPES, GTMachineUtils.defaultTankSizeFunction, ULV);
     public static final MachineDefinition[] CRANKABLE_MIXER = registerCrankableMachines("crankable_mixer", "人力搅拌机", GTORecipeTypes.MIXER_RECIPES, GTMachineUtils.defaultTankSizeFunction, ULV);
+    public static final MachineDefinition[] CRANKABLE_PACKER = registerCrankableMachines("crankable_packer", "人力打包机", GTORecipeTypes.PACKER_RECIPES, GTMachineUtils.defaultTankSizeFunction, ULV);
 
     public static final MachineDefinition[] ULV_WIREMILL = registerSimpleMachines("wiremill", "线材轧机", GTORecipeTypes.WIREMILL_RECIPES, GTMachineUtils.defaultTankSizeFunction, GTCEu.id("block/machines/wiremill"), ULV);
     public static final MachineDefinition[] ULV_LATHE = registerSimpleMachines("lathe", "车床", GTORecipeTypes.LATHE_RECIPES, GTMachineUtils.defaultTankSizeFunction, GTCEu.id("block/machines/lathe"), ULV);
