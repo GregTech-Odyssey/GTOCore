@@ -121,7 +121,7 @@ public final class GTOPredicates {
                 }
             }
             return false;
-        }, () -> BlockInfo.fromBlock(blocks[0]), () -> blocks).addTooltips(Component.translatable("gtocore.machine.pattern.error.tier"));
+        }, () -> BlockInfo.fromBlock(blocks[0]/*TODO render*/), () -> blocks).addTooltips(Component.translatable("gtocore.machine.pattern.error.tier"));
     }
 
     public static TraceabilityPredicate RotorBlock(int tier) {
@@ -205,7 +205,7 @@ public final class GTOPredicates {
                 return true;
             }
             return false;
-        }, () -> BlockInfo.fromBlock(blocks[0]), () -> predicate.common.stream().map(p -> p.candidates).filter(Objects::nonNull).map(Supplier::get).flatMap(Arrays::stream).toArray(Block[]::new)));
+        }, () -> BlockInfo.fromBlock(blocks[0]/*TODO render*/), () -> predicate.common.stream().map(p -> p.candidates).filter(Objects::nonNull).map(Supplier::get).flatMap(Arrays::stream).toArray(Block[]::new)));
     }
 
     private static BlockState getBlockState(MultiblockState state, BlockPos pos) {
