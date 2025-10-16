@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+
 import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 
 import java.util.*;

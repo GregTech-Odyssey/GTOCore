@@ -69,7 +69,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private TickableSubscription gtolib$tickSubs;
     @Unique
-    private boolean gtolib$isFrontFaceFree;
+    private long gtolib$lastFrontFaceFree = 0;
 
     protected MufflerPartMachineMixin(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier);
@@ -154,16 +154,17 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Override
     public boolean isFrontFaceFree() {
-        if (!beforeWorking(null)) return false;
-        if (!gtolib$isFrontFaceFree || self().getOffsetTimer() % 20 == 0) {
-            gtolib$isFrontFaceFree = true;
+        if (self().getOffsetTimer() - gtolib$lastFrontFaceFree > 300) {
             BlockPos pos = self().getPos();
             for (int i = 0; i < 3; i++) {
                 pos = pos.relative(this.self().getFrontFacing());
-                if (!self().getLevel().getBlockState(pos).isAir()) gtolib$isFrontFaceFree = false;
+                if (!self().getLevel().getBlockState(pos).isAir()) {
+                    return false;
+                }
             }
+            gtolib$lastFrontFaceFree = self().getOffsetTimer();
         }
-        return gtolib$isFrontFaceFree;
+        return true;
     }
 
     @Unique

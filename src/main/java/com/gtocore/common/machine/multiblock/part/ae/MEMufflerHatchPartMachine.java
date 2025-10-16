@@ -4,7 +4,6 @@ import com.gtocore.api.machine.IGTOMufflerMachine;
 import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
@@ -142,11 +141,6 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     public void addedToController(@NotNull IMultiController controller) {
         super.addedToController(controller);
         onMufflerChange();
-    }
-
-    @Override
-    public boolean canShared() {
-        return false;
     }
 
     @Override
