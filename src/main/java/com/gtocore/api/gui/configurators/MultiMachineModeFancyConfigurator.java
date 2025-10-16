@@ -5,9 +5,11 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurator {
 
@@ -35,6 +37,8 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
                 .map(IRecipeLogicMachine::getRecipeTypes)
                 .flatMap(Arrays::stream)
                 .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(ReferenceLinkedOpenHashSet::new)) // 保持顺序并去重
+                .stream()
                 .toList();
     }
 
