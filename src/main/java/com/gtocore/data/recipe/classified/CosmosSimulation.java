@@ -3,9 +3,9 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.common.data.*;
 
 import com.gtolib.api.data.GTODimensions;
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.api.recipe.RecipeBuilder;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
@@ -221,7 +221,7 @@ final class CosmosSimulation {
             materialMap.putAll(dustContent.getOrDefault(tier, new O2IOpenCacheHashMap<>()));
             Object2IntOpenHashMap<Item> dust = new O2IOpenCacheHashMap<>();
             for (Object2IntOpenHashMap.Entry<Material> material : materialMap.object2IntEntrySet()) {
-                Item item = GTOChemicalHelper.getItem(TagPrefix.dust, material.getKey());
+                Item item = ChemicalHelper.getItem(TagPrefix.dust, material.getKey());
                 if (item != Items.AIR) {
                     dust.mergeInt(item, material.getIntValue(), Integer::sum);
                 }

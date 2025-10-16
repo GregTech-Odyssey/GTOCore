@@ -4,7 +4,6 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
@@ -20,6 +19,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
@@ -76,7 +76,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         return group;
     }
 
-    private static final Item COAL_DUST = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
+    private static final Item COAL_DUST = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
     @Persisted
     @DescSynced
     @RequireRerender

@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.monitor;
 
+import com.gtocore.api.gui.graphic.impl.GTOLineChartClientComponent;
+import com.gtocore.api.gui.graphic.impl.GTOLineChartToolTipComponent;
 import com.gtocore.api.gui.graphic.impl.GTOProgressClientComponent;
 import com.gtocore.api.gui.graphic.impl.GTOProgressToolTipComponent;
 import com.gtocore.api.gui.helper.GuiIn3DHelper;
@@ -17,6 +19,10 @@ import appeng.api.stacks.GenericStack;
 import appeng.client.gui.me.common.StackSizeRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class DisplayComponent implements IDisplayComponent {
 
@@ -163,6 +169,81 @@ public abstract class DisplayComponent implements IDisplayComponent {
 
     public static ProgressBar progressBar(ResourceLocation id, float progress, String text, ProgressBarColorStyle style, int height) {
         return new ProgressBar(id).setInformation(progress, text, style, height);
+    }
+
+    public static class LineChart extends DisplayComponent {
+
+        private final GTOLineChartToolTipComponent toolTipComponent;
+
+        private LineChart(ResourceLocation id) {
+            super(id);
+            // 初始化一个空的图表数据容器
+            this.toolTipComponent = new GTOLineChartToolTipComponent(
+                    new ArrayList<>(), // 初始数据为空
+                    0xFF2ECC71,      // 默认线条颜色
+                    true             // 默认填充区域
+            );
+        }
+
+        @Override
+        public LineChart setInformation(Object... information) {
+            // 解析传入的数据
+            if (information.length > 0 && information[0] instanceof List) {
+                try {
+                    // 进行类型安全的转换
+                    @SuppressWarnings("unchecked")
+                    List<BigInteger> dataList = (List<BigInteger>) information[0];
+                    toolTipComponent.setData(dataList);
+                } catch (ClassCastException e) {
+                    // 如果传入的 List 不是 BigInteger 类型，则清空数据以避免错误
+                    toolTipComponent.setData(new ArrayList<>());
+                }
+            } else {
+                toolTipComponent.setData(new ArrayList<>());
+            }
+            // 未来可以扩展，从 information 中解析更多参数，如颜色、高度等
+            return this;
+        }
+
+        @Override
+        public int getVisualWidth() {
+            return toolTipComponent.getWidth();
+        }
+
+        @Override
+        public int getVisualHeight() {
+            return toolTipComponent.getHeight();
+        }
+
+        @Override
+        public DisplayType getDisplayType() {
+            return DisplayType.CUSTOM_RENDERER;
+        }
+
+        @Override
+        public void renderDisplay(
+                                  Manager.GridNetwork network,
+                                  BlockEntity blockEntity,
+                                  float partialTicks,
+                                  PoseStack stack,
+                                  MultiBufferSource buffer,
+                                  int combinedLight,
+                                  int combinedOverlay,
+                                  int lastLineX,
+                                  int startY) {
+            // 与 ProgressBar 类似, 创建渲染器并调用其渲染方法
+            GuiIn3DHelper.renderIn3D(stack, (gui, pose) -> {
+                pose.scale(1f, 1f, 0.01f);
+                new GTOLineChartClientComponent(toolTipComponent).renderImage(Minecraft.getInstance().font, 0, startY, gui);
+            });
+        }
+    }
+
+    /**
+     * 静态工厂方法，用于方便地创建 LineChart 组件.
+     */
+    public static LineChart lineChart(ResourceLocation id, List<BigInteger> data) {
+        return new LineChart(id).setInformation(data);
     }
 
     public static class TextWithStack extends Text {

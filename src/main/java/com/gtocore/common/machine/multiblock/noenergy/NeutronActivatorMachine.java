@@ -3,7 +3,6 @@ package com.gtocore.common.machine.multiblock.noenergy;
 import com.gtocore.common.machine.multiblock.part.NeutronAcceleratorPartMachine;
 import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
@@ -15,6 +14,7 @@ import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
@@ -41,8 +41,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implements IExplosionMachine {
 
-    private static final Item dustBeryllium = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Beryllium);
-    private static final Item dustGraphite = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Graphite);
+    private static final Item dustBeryllium = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Beryllium);
+    private static final Item dustGraphite = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Graphite);
     int height;
     @Persisted
     protected int eV;

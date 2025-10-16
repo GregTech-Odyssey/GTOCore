@@ -7,7 +7,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.recipe.builder.botania.*;
 import com.gtocore.data.tag.Tags;
 
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
@@ -78,21 +77,21 @@ public final class BotaniaRecipes {
 
         // 魔力池
         {
-            ManaInfusionRecipe("pulsating", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, PulsatingAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, PulsatingAlloy)), 400, null, null);
-            ManaInfusionRecipe("conductivee", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, ConductiveAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, ConductiveAlloy)), 1600, null, null);
-            ManaInfusionRecipe("energeticalloy", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EnergeticAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EnergeticAlloy)), 6000, null, null);
-            ManaInfusionRecipe("vibrantalloy", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, VibrantAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, VibrantAlloy)), 25600, null, null);
-            ManaInfusionRecipe("endsteel", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EndSteel)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EndSteel)), 102400, null, null);
+            ManaInfusionRecipe("pulsating", Ingredient.of(ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, PulsatingAlloy)), new ItemStack(ChemicalHelper.getItem(wireGtSingle, PulsatingAlloy)), 400, null, null);
+            ManaInfusionRecipe("conductivee", Ingredient.of(ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, ConductiveAlloy)), new ItemStack(ChemicalHelper.getItem(wireGtSingle, ConductiveAlloy)), 1600, null, null);
+            ManaInfusionRecipe("energeticalloy", Ingredient.of(ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EnergeticAlloy)), new ItemStack(ChemicalHelper.getItem(wireGtSingle, EnergeticAlloy)), 6000, null, null);
+            ManaInfusionRecipe("vibrantalloy", Ingredient.of(ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, VibrantAlloy)), new ItemStack(ChemicalHelper.getItem(wireGtSingle, VibrantAlloy)), 25600, null, null);
+            ManaInfusionRecipe("endsteel", Ingredient.of(ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EndSteel)), new ItemStack(ChemicalHelper.getItem(wireGtSingle, EndSteel)), 102400, null, null);
 
-            ManaInfusionRecipe("manasteel", Ingredient.of(GTOChemicalHelper.getItem(ingot, Steel)), new ItemStack(GTOChemicalHelper.getItem(ingot, Manasteel)), 3000, null, null);
-            ManaInfusionRecipe("manasteel_block", Ingredient.of(GTOChemicalHelper.getItem(block, Steel)), new ItemStack(GTOChemicalHelper.getItem(block, Manasteel)), 27000, null, null);
+            ManaInfusionRecipe("manasteel", Ingredient.of(ChemicalHelper.getItem(ingot, Steel)), new ItemStack(ChemicalHelper.getItem(ingot, Manasteel)), 3000, null, null);
+            ManaInfusionRecipe("manasteel_block", Ingredient.of(ChemicalHelper.getItem(block, Steel)), new ItemStack(ChemicalHelper.getItem(block, Manasteel)), 27000, null, null);
             ManaInfusionRecipe("mana_pearl", Ingredient.of(RegistriesUtils.getItem("torchmaster:frozen_pearl")), new ItemStack(BotaniaItems.manaPearl), 6000, null, null);
             ManaInfusionRecipe("mana_string", Ingredient.of(ItemsRegistry.MAGE_FIBER.asItem()), new ItemStack(BotaniaItems.manaString), 1250, null, null);
 
             ManaInfusionRecipe("life_essence", Ingredient.of(GTOItems.UNSTABLE_GAIA_SOUL.asItem()), new ItemStack(BotaniaItems.lifeEssence), 500000, ChemicalHelper.getBlock(block, Gaia), null);
 
-            ManaInfusionRecipe("infused_gold", Ingredient.of(Items.GOLD_INGOT), new ItemStack(GTOChemicalHelper.getItem(ingot, InfusedGold)), 8000, null, null);
-            ManaInfusionRecipe("original_bronze_dust", Ingredient.of(GTOChemicalHelper.getItem(ingot, Bronze)), new ItemStack(GTOChemicalHelper.getItem(ingot, OriginalBronze)), 6000, null, null);
+            ManaInfusionRecipe("infused_gold", Ingredient.of(Items.GOLD_INGOT), new ItemStack(ChemicalHelper.getItem(ingot, InfusedGold)), 8000, null, null);
+            ManaInfusionRecipe("original_bronze_dust", Ingredient.of(ChemicalHelper.getItem(ingot, Bronze)), new ItemStack(ChemicalHelper.getItem(ingot, OriginalBronze)), 6000, null, null);
 
         }
 
@@ -108,12 +107,12 @@ public final class BotaniaRecipes {
 
         // 符文祭坛
         {
-            RunicAltarRecipe("runerock_block", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 8), false,
+            RunicAltarRecipe("runerock_block", 1000000, new ItemStack(ChemicalHelper.getItem(block, Runerock), 8), false,
                     new Ingredient[] { Ingredient.of(BotaniaItems.runeEarth), Ingredient.of(BotaniaItems.runeAir), Ingredient.of(BotaniaItems.runeFire), Ingredient.of(BotaniaItems.runeWater),
                             Ingredient.of(BotaniaItems.runeSpring), Ingredient.of(BotaniaItems.runeSummer), Ingredient.of(BotaniaItems.runeAutumn), Ingredient.of(BotaniaItems.runeWinter),
                             Ingredient.of(BotaniaItems.runeMana), Ingredient.of(BotaniaItems.runeLust), Ingredient.of(BotaniaItems.runeGluttony), Ingredient.of(BotaniaItems.runeGreed),
                             Ingredient.of(BotaniaItems.runeSloth), Ingredient.of(BotaniaItems.runeWrath), Ingredient.of(BotaniaItems.runeEnvy), Ingredient.of(BotaniaItems.runePride) });
-            RunicAltarRecipe("runerock_block_plas", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 16), false,
+            RunicAltarRecipe("runerock_block_plas", 1000000, new ItemStack(ChemicalHelper.getItem(block, Runerock), 16), false,
                     new Ingredient[] { Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune")),
@@ -127,19 +126,19 @@ public final class BotaniaRecipes {
 
         // 泰拉凝聚板
         {
-            TAgglomerationRecipe("thaumium_ingot", 500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Thaumium)),
-                    new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Livingsteel)), Ingredient.of(ItemsRegistry.SOURCE_GEM), Ingredient.of(GTOChemicalHelper.getItem(ingot, OriginalBronze)), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE) });
-            TAgglomerationRecipe("gaiasteel_ingot", 2500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaiasteel), 3),
+            TAgglomerationRecipe("thaumium_ingot", 500000, new ItemStack(ChemicalHelper.getItem(ingot, Thaumium)),
+                    new Ingredient[] { Ingredient.of(ChemicalHelper.getItem(ingot, Livingsteel)), Ingredient.of(ItemsRegistry.SOURCE_GEM), Ingredient.of(ChemicalHelper.getItem(ingot, OriginalBronze)), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE) });
+            TAgglomerationRecipe("gaiasteel_ingot", 2500000, new ItemStack(ChemicalHelper.getItem(ingot, Gaiasteel), 3),
                     new Ingredient[] { Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
-                            Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
-                            Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
+                            Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(ChemicalHelper.getItem(ingot, Alfsteel)),
+                            Ingredient.of(ChemicalHelper.getItem(ingot, Runerock)), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune")),
-                            Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)),
+                            Ingredient.of(ChemicalHelper.getItem(ingot, Alfsteel)), Ingredient.of(ChemicalHelper.getItem(ingot, Runerock)),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune")),
-                            Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
-                            Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)) });
-            TAgglomerationRecipe("gaia_ingot", 5000000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaia), 2),
-                    new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence) });
+                            Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")), Ingredient.of(ChemicalHelper.getItem(ingot, Alfsteel)),
+                            Ingredient.of(ChemicalHelper.getItem(ingot, Runerock)) });
+            TAgglomerationRecipe("gaia_ingot", 5000000, new ItemStack(ChemicalHelper.getItem(ingot, Gaia), 2),
+                    new Ingredient[] { Ingredient.of(ChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(ChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence) });
 
         }
 
@@ -300,8 +299,8 @@ public final class BotaniaRecipes {
         // 魔力灌注 - 魔力池
         {
             // === 基础配方 ===//
-            InfusionManaPoolRecipe("manasteel", GTOChemicalHelper.getItem(ingot, Steel), new ItemStack(BotaniaItems.manaSteel), 3000, null, null);
-            InfusionManaPoolRecipe("manasteel_block", GTOChemicalHelper.getItem(block, Steel), new ItemStack(BotaniaBlocks.manasteelBlock), 27000, null, null);
+            InfusionManaPoolRecipe("manasteel", ChemicalHelper.getItem(ingot, Steel), new ItemStack(BotaniaItems.manaSteel), 3000, null, null);
+            InfusionManaPoolRecipe("manasteel_block", ChemicalHelper.getItem(block, Steel), new ItemStack(BotaniaBlocks.manasteelBlock), 27000, null, null);
             InfusionManaPoolRecipe("mana_pearl", RegistriesUtils.getItem("torchmaster:frozen_pearl"), new ItemStack(BotaniaItems.manaPearl), 6000, null, null);
             InfusionManaPoolRecipe("mana_diamond", Items.DIAMOND, new ItemStack(BotaniaItems.manaDiamond), 10000, null, null);
             InfusionManaPoolRecipe("mana_diamond_block", Items.DIAMOND_BLOCK, new ItemStack(BotaniaBlocks.manaDiamondBlock), 90000, null, null);
@@ -492,14 +491,14 @@ public final class BotaniaRecipes {
             InfusionManaPoolRecipe("necrofleur_chibi", ExtrabotanyFlowerBlocks.necrofleur.asItem(), new ItemStack(ExtrabotanyFlowerBlocks.necrofleurChibi), 2500, BotaniaBlocks.alchemyCatalyst, "botania:flower_shrinking");
 
             // GTO配方
-            InfusionManaPoolRecipe("pulsating", GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, PulsatingAlloy), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, PulsatingAlloy)), 400, null, null);
-            InfusionManaPoolRecipe("conductivee", GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, ConductiveAlloy), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, ConductiveAlloy)), 1600, null, null);
-            InfusionManaPoolRecipe("energeticalloy", GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EnergeticAlloy), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EnergeticAlloy)), 6400, null, null);
-            InfusionManaPoolRecipe("vibrantalloy", GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, VibrantAlloy), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, VibrantAlloy)), 25600, null, null);
-            InfusionManaPoolRecipe("endsteel", GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EndSteel), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EndSteel)), 102400, null, null);
+            InfusionManaPoolRecipe("pulsating", ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, PulsatingAlloy), new ItemStack(ChemicalHelper.getItem(wireGtSingle, PulsatingAlloy)), 400, null, null);
+            InfusionManaPoolRecipe("conductivee", ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, ConductiveAlloy), new ItemStack(ChemicalHelper.getItem(wireGtSingle, ConductiveAlloy)), 1600, null, null);
+            InfusionManaPoolRecipe("energeticalloy", ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EnergeticAlloy), new ItemStack(ChemicalHelper.getItem(wireGtSingle, EnergeticAlloy)), 6400, null, null);
+            InfusionManaPoolRecipe("vibrantalloy", ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, VibrantAlloy), new ItemStack(ChemicalHelper.getItem(wireGtSingle, VibrantAlloy)), 25600, null, null);
+            InfusionManaPoolRecipe("endsteel", ChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EndSteel), new ItemStack(ChemicalHelper.getItem(wireGtSingle, EndSteel)), 102400, null, null);
 
-            InfusionManaPoolRecipe("infused_gold", Items.GOLD_INGOT, new ItemStack(GTOChemicalHelper.getItem(ingot, InfusedGold)), 8000, null, null);
-            InfusionManaPoolRecipe("original_bronze_dust", GTOChemicalHelper.getItem(ingot, Bronze), new ItemStack(GTOChemicalHelper.getItem(ingot, OriginalBronze)), 6000, null, null);
+            InfusionManaPoolRecipe("infused_gold", Items.GOLD_INGOT, new ItemStack(ChemicalHelper.getItem(ingot, InfusedGold)), 8000, null, null);
+            InfusionManaPoolRecipe("original_bronze_dust", ChemicalHelper.getItem(ingot, Bronze), new ItemStack(ChemicalHelper.getItem(ingot, OriginalBronze)), 6000, null, null);
 
             InfusionManaPoolRecipe("life_essence", GTOItems.UNSTABLE_GAIA_SOUL.asItem(), new ItemStack(BotaniaItems.lifeEssence), 500000, ChemicalHelper.getBlock(block, Gaia), null);
 
@@ -524,7 +523,7 @@ public final class BotaniaRecipes {
 
         // 魔力灌注 - 白雏菊
         {
-            InfusionPureDaisyRecipe("livingclay", Items.DIRT, GTOChemicalHelper.getItem(block, Livingclay));
+            InfusionPureDaisyRecipe("livingclay", Items.DIRT, ChemicalHelper.getItem(block, Livingclay));
             InfusionPureDaisyRecipe("livingrock", Items.STONE, BotaniaBlocks.livingrock.asItem());
             InfusionPureDaisyRecipe("livingwood1", BlockRegistry.BLAZING_LOG.asItem(), BotaniaBlocks.livingwoodLog.asItem());
             InfusionPureDaisyRecipe("livingwood2", BlockRegistry.CASCADING_LOG.asItem(), BotaniaBlocks.livingwoodLog.asItem());

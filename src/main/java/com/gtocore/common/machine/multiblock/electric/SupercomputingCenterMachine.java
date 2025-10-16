@@ -8,7 +8,6 @@ import com.gtocore.common.machine.multiblock.part.research.ExResearchComputation
 import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
 
 import com.gtolib.api.GTOValues;
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
@@ -17,6 +16,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -58,17 +58,17 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     static {
         ImmutableMap.Builder<Item, Item> mfpcRecipe = ImmutableMap.builder();
-        mfpcRecipe.put(GTOChemicalHelper.getItem(block, CascadeMFPC), GTOChemicalHelper.getItem(block, InvalidationCascadeMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(block, BasicMFPC), GTOChemicalHelper.getItem(block, InvalidationBasicMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(ingot, CascadeMFPC), GTOChemicalHelper.getItem(ingot, InvalidationCascadeMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(ingot, BasicMFPC), GTOChemicalHelper.getItem(ingot, InvalidationBasicMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(nugget, CascadeMFPC), GTOChemicalHelper.getItem(nugget, InvalidationCascadeMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(nugget, BasicMFPC), GTOChemicalHelper.getItem(nugget, InvalidationBasicMFPC));
-        mfpcRecipe.put(ModItems.ICE_SHARD.get().asItem(), GTOChemicalHelper.getItem(dustTiny, Ice));
+        mfpcRecipe.put(ChemicalHelper.getItem(block, CascadeMFPC), ChemicalHelper.getItem(block, InvalidationCascadeMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(block, BasicMFPC), ChemicalHelper.getItem(block, InvalidationBasicMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(ingot, CascadeMFPC), ChemicalHelper.getItem(ingot, InvalidationCascadeMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(ingot, BasicMFPC), ChemicalHelper.getItem(ingot, InvalidationBasicMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(nugget, CascadeMFPC), ChemicalHelper.getItem(nugget, InvalidationCascadeMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(nugget, BasicMFPC), ChemicalHelper.getItem(nugget, InvalidationBasicMFPC));
+        mfpcRecipe.put(ModItems.ICE_SHARD.get().asItem(), ChemicalHelper.getItem(dustTiny, Ice));
         MFPCs = mfpcRecipe.build();
     }
 
-    private static final Map<Item, Integer> ITEM_INDEX_MAP = Map.of(GTOChemicalHelper.getItem(block, CascadeMFPC), 0, GTOChemicalHelper.getItem(block, BasicMFPC), 1, GTOChemicalHelper.getItem(ingot, CascadeMFPC), 2, GTOChemicalHelper.getItem(ingot, BasicMFPC), 3, GTOChemicalHelper.getItem(nugget, CascadeMFPC), 4, GTOChemicalHelper.getItem(nugget, BasicMFPC), 5, ModItems.ICE_SHARD.get().asItem(), 6);
+    private static final Map<Item, Integer> ITEM_INDEX_MAP = Map.of(ChemicalHelper.getItem(block, CascadeMFPC), 0, ChemicalHelper.getItem(block, BasicMFPC), 1, ChemicalHelper.getItem(ingot, CascadeMFPC), 2, ChemicalHelper.getItem(ingot, BasicMFPC), 3, ChemicalHelper.getItem(nugget, CascadeMFPC), 4, ChemicalHelper.getItem(nugget, BasicMFPC), 5, ModItems.ICE_SHARD.get().asItem(), 6);
     private ThermalConductorHatchPartMachine ThermalConductorHatchPart;
     private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
     @Persisted

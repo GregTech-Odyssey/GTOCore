@@ -6,8 +6,6 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.recipe.builder.ars.MeteoriteRegistryHelper;
 
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
-
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -517,7 +515,7 @@ public final class MeteoriteRecipe {
 
             Item[] inputItem = new Item[] {
                     // 维度: Overworld (主世界)--ID: minecraft:overworld
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Steel), GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Manasteel),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Steel), ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Manasteel),
                     // 维度: Ancient World (远古世界)--ID: gtocore:ancient_world
                     GTOItems.ULV_ROBOT_ARM.asItem(), GTOItems.ULV_FLUID_REGULATOR.asItem(),
                     // 维度: Nether (下界)--ID: minecraft:the_nether
@@ -525,23 +523,23 @@ public final class MeteoriteRecipe {
                     // 维度: Moon (月球)--ID: ad_astra:moon
                     GTItems.ROBOT_ARM_EV.asItem(), GTItems.FLUID_REGULATOR_EV.asItem(),
                     // 维度: Mars (火星)--ID: ad_astra:mars
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.TungstenSteel), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RTMAlloy),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.TungstenSteel), ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RTMAlloy),
                     // 维度: Venus (金星)--ID: ad_astra:venus
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Desh), GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Desh),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Desh), ChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Desh),
                     // 维度: Mercury (水星)--ID: ad_astra:mercury
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Calorite), GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Calorite),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Calorite), ChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Calorite),
                     // 维度: Ceres (谷神星)--ID: gtocore:ceres
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Ostrum), GTOChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Ostrum),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Ostrum), ChemicalHelper.getItem(TagPrefix.plateDense, GTOMaterials.Ostrum),
                     // 维度: Io (木卫一)--ID: gtocore:io
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.NaquadahAlloy), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Naquadria),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.NaquadahAlloy), ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Naquadria),
                     // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Naquadah), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Trinium),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Naquadah), ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Trinium),
                     // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
-                    GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Tellurium), GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Rubidium),
+                    ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Tellurium), ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Rubidium),
                     // 维度: Titan (土卫六)--ID: gtocore:titan
-                    GTOChemicalHelper.getItem(GTOTagPrefix.FLAKES, GTOMaterials.HydroxyapatiteCeramic), GTOChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Sunnarium),
+                    ChemicalHelper.getItem(GTOTagPrefix.FLAKES, GTOMaterials.HydroxyapatiteCeramic), ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Sunnarium),
                     // 维度: Pluto (冥王星)--ID: gtocore:pluto
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Darmstadtium), GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Tritanium),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Darmstadtium), ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Tritanium),
                     // 维度: Glacio (霜原星)--ID: ad_astra:glacio
                     // 维度: Barnarda C (巴纳德C)--ID: gtocore:barnarda_c
                     // 维度: Otherside (幽冥)--ID: deeperdarker:otherside
@@ -589,17 +587,17 @@ public final class MeteoriteRecipe {
                     // 维度: Mars (火星)--ID: ad_astra:mars
                     GTItems.NANO_PROCESSOR_ASSEMBLY_EV.asItem(),
                     // 维度: Venus (金星)--ID: ad_astra:venus
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.UraniumTriplatinum),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.UraniumTriplatinum),
                     // 维度: Mercury (水星)--ID: ad_astra:mercury
                     GTOItems.GRAPHENE_IRON_PLATE.asItem(),
                     // 维度: Ceres (谷神星)--ID: gtocore:ceres
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Plutonium241),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.Plutonium241),
                     // 维度: Io (木卫一)--ID: gtocore:io
-                    GTOChemicalHelper.getItem(GTOTagPrefix.FLAKES, GTOMaterials.SiliconNitrideCeramic),
+                    ChemicalHelper.getItem(GTOTagPrefix.FLAKES, GTOMaterials.SiliconNitrideCeramic),
                     // 维度: Ganymede (木卫三)--ID: gtocore:ganymede
                     GTItems.RAW_CRYSTAL_CHIP.asItem(),
                     // 维度: Enceladus (土卫二)--ID: gtocore:enceladus
-                    GTOChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.UraniumRhodiumDinaquadide),
+                    ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.UraniumRhodiumDinaquadide),
                     // 维度: Titan (土卫六)--ID: gtocore:titan
                     GTOItems.SUPER_CEREBRUM.asItem(),
                     // 维度: Pluto (冥王星)--ID: gtocore:pluto

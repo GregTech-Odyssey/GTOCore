@@ -4,7 +4,6 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.item.DimensionDataItem;
 
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.ContentBuilder;
@@ -16,6 +15,7 @@ import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
@@ -73,7 +73,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     private ItemStack[] getItems() {
         ItemStack[] stacks = new ItemStack[4];
         for (int i = 0; i < 4; i++) {
-            stacks[i] = new ItemStack(GTOChemicalHelper.getItem(TagPrefix.rawOre, GTOOres.selectMaterial(dim)), (int) Math.pow(getTier() - 3, GTValues.RNG.nextDouble() + 1));
+            stacks[i] = new ItemStack(ChemicalHelper.getItem(TagPrefix.rawOre, GTOOres.selectMaterial(dim)), (int) Math.pow(getTier() - 3, GTValues.RNG.nextDouble() + 1));
         }
         return stacks;
     }

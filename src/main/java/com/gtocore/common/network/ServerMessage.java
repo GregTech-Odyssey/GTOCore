@@ -59,12 +59,10 @@ public final class ServerMessage {
                 ClientCache.UNLOCKED_PLANET.clear();
                 if (Minecraft.getInstance().level != null && !ClientCache.initializedBook) {
                     ClientCache.initializedBook = true;
-                    Thread thread = new Thread(() -> {
+                    Thread.startVirtualThread(() -> {
                         ClientBookRegistry.INSTANCE.reload();
                         ((BookContentResourceListenerLoaderAccessor) BookContentResourceListenerLoader.INSTANCE).getData().clear();
                     });
-                    thread.setDaemon(true);
-                    thread.start();
                 }
                 ClientCache.SERVER_IDENTIFIER = data.readUUID();
                 if (!GTOConfig.INSTANCE.emiGlobalFavorites && EmiPersist.needsRefresh) {
