@@ -11,16 +11,20 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import appeng.api.stacks.GenericStack;
+import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiStackHelper;
+import com.lowdragmc.lowdraglib.gui.ingredient.IIngredientSlot;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
+import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.EmiStackInteraction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AEConfigSlotWidget extends Widget {
+public class AEConfigSlotWidget extends Widget implements IIngredientSlot {
 
     final ConfigWidget parentWidget;
     final int index;
@@ -89,5 +93,32 @@ public class AEConfigSlotWidget extends Widget {
 
     public void setSelect(final boolean select) {
         this.select = select;
+    }
+
+    public Object getXEIIngredientOverMouse(double mouseX, double mouseY) {
+        IConfigurableSlot slot = this.parentWidget.getDisplay(this.index);
+        if (slot == null) {
+            return null;
+        }
+        GenericStack stack = null;
+        if (this.mouseOverConfig(mouseX, mouseY)) {
+            stack = slot.getConfig();
+        } else if (this.mouseOverStock(mouseX, mouseY)) {
+            stack = slot.getStock();
+        }
+
+        if (stack == null || stack.what() == null) {
+            return null;
+        }
+
+        EmiStack emiStack = EmiStackHelper.toEmiStack(stack);
+        if (emiStack != null) {
+            if (emiStack.getAmount() == 0L) {
+                emiStack.setAmount(1L);
+            }
+
+            return new EmiStackInteraction(emiStack, null, false);
+        }
+        return null;
     }
 }
