@@ -1,14 +1,8 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gtocore.common.recipe.condition.VacuumCondition;
-
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.rodLong;
@@ -19,15 +13,6 @@ import static com.gtocore.common.data.GTORecipeTypes.LASER_WELDER_RECIPES;
 final class LaserWelder {
 
     public static void init() {
-        LASER_WELDER_RECIPES.builder("huge_item_import_bus")
-                .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.IV].asItem())
-                .inputItems(GTMachines.QUANTUM_CHEST[GTValues.LuV].asItem())
-                .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 4)
-                .outputItems(GTOMachines.HUGE_ITEM_IMPORT_BUS.asItem())
-                .EUt(7680)
-                .duration(400)
-                .save();
-
         LASER_WELDER_RECIPES.builder("reactor_thorium_dual")
                 .inputItems(GTOItems.REACTOR_THORIUM_SIMPLE.asItem(), 2)
                 .inputItems(rodLong, Steel, 4)

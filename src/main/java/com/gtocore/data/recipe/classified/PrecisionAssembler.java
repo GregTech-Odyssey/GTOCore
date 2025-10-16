@@ -1,13 +1,11 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOFluids;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.GeneratorMultiblock;
 import com.gtocore.common.data.machines.MultiBlockD;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.machine.GTOCleanroomType;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -609,6 +607,17 @@ final class PrecisionAssembler {
                 .inputFluids(GTMaterials.Tritanium, 400)
                 .inputFluids(GTOMaterials.HastelloyN, 400)
                 .EUt(7680)
+                .duration(300)
+                .save();
+        PRECISION_ASSEMBLER_RECIPES.builder("huge_item_import_bus")
+                .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.ZPM].asItem())
+                .inputItems(GTItems.ROBOT_ARM_ZPM.asItem(), 4)
+                .inputItems(GTMachines.QUANTUM_CHEST[GTValues.LuV].asItem(), 4)
+                .inputItems(GTOCore.isExpert() ? GTOItems.CELL_COMPONENT_256M : GTOItems.CELL_COMPONENT_64M)
+                .inputFluids(GTMaterials.SolderingAlloy, 144 * 16)
+                .inputFluids(GTMaterials.Duranium, 144 * (GTOCore.isExpert() ? 5 : 2))
+                .outputItems(GTOMachines.HUGE_ITEM_IMPORT_BUS.asItem())
+                .EUt(122880)
                 .duration(300)
                 .save();
     }
