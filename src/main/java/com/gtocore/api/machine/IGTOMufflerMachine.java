@@ -45,7 +45,6 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     default boolean beforeWorking(IWorkableMultiController controller) {
         if (isMufflerPulseDisabled()) return true;
         if(controller==null){
-            GTOCore.LOGGER.error("err",new NullPointerException("controller is null"));
             controller= (IWorkableMultiController) getControllers().getFirst();
         }
         if (GTOCore.isExpert() && controller instanceof ITieredMachine machine && machine.getTier() > getTier() + 1) {
