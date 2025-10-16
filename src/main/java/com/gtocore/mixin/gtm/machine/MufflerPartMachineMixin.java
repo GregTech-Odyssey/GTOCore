@@ -154,7 +154,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Override
     public boolean isFrontFaceFree() {
-        if (self().getOffsetTimer() - gtolib$lastFrontFaceFree > 300) {
+        if (self().getOffsetTimer() - gtolib$lastFrontFaceFree > 100) {
             BlockPos pos = self().getPos();
             for (int i = 0; i < 3; i++) {
                 pos = pos.relative(this.self().getFrontFacing());
