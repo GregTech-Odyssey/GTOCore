@@ -35,7 +35,6 @@ import net.minecraft.world.phys.AABB;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.spongepowered.asm.mixin.Final;
@@ -63,13 +62,13 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private AirScrubberMachine gtolib$airScrubberCache;
     @Unique
-    @Persisted
-    @DescSynced
     private int gto$chanceOfNotProduceAsh = 100;
     @Unique
     private TickableSubscription gtolib$tickSubs;
     @Unique
-    private long gtolib$lastFrontFaceFree = 0;
+    private boolean gtolib$lastFrontFaceFree;
+    @Unique
+    private long gtocore$refresh = 0;
 
     protected MufflerPartMachineMixin(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier);
@@ -154,17 +153,18 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Override
     public boolean isFrontFaceFree() {
-        if (self().getOffsetTimer() - gtolib$lastFrontFaceFree > 100) {
+        if (self().getOffsetTimer() - gtocore$refresh > 100) {
+            gtolib$lastFrontFaceFree = true;
             BlockPos pos = self().getPos();
             for (int i = 0; i < 3; i++) {
                 pos = pos.relative(this.self().getFrontFacing());
                 if (!self().getLevel().getBlockState(pos).isAir()) {
-                    return false;
+                    gtolib$lastFrontFaceFree = false;
                 }
             }
-            gtolib$lastFrontFaceFree = self().getOffsetTimer();
+            gtocore$refresh = self().getOffsetTimer();
         }
-        return true;
+        return gtolib$lastFrontFaceFree;
     }
 
     @Unique
@@ -189,6 +189,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(MetaMachineBlockEntity holder, int tier, CallbackInfo ci) {
+        gtolib$lastFrontFaceFree = true;
         inventory.setOnContentsChanged(() -> {
             for (var controller : getControllers()) {
                 if (controller instanceof IRecipeLogicMachine recipeLogicMachine) {
