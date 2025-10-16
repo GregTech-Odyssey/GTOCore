@@ -14,6 +14,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
+import static com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color.Cyan;
+import static com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color.Gray;
 import static com.gtocore.common.data.GTORecipeTypes.LASER_ENGRAVER_RECIPES;
 
 final class LaserEngraver {
@@ -106,7 +108,7 @@ final class LaserEngraver {
 
         LASER_ENGRAVER_RECIPES.recipeBuilder("nand_memory_wafer")
                 .inputItems(GTOItems.TARANIUM_WAFER.asItem())
-                .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Gray)
+                .notConsumable(TagPrefix.lens, Gray)
                 .outputItems(GTItems.NAND_MEMORY_CHIP_WAFER.asItem(), 32)
                 .EUt(122880)
                 .duration(50)
@@ -168,7 +170,7 @@ final class LaserEngraver {
 
         LASER_ENGRAVER_RECIPES.recipeBuilder("simple_soc_wafer")
                 .inputItems(GTOItems.TARANIUM_WAFER.asItem())
-                .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Cyan)
+                .notConsumable(TagPrefix.lens, Cyan)
                 .outputItems(GTItems.SIMPLE_SYSTEM_ON_CHIP_WAFER.asItem(), 64)
                 .EUt(122880)
                 .duration(13)
@@ -217,6 +219,24 @@ final class LaserEngraver {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .EUt(129600)
                 .duration(20)
+                .save();
+
+        LASER_ENGRAVER_RECIPES.builder("fpga_wafer")
+                .inputItems(GTOItems.GERMANIUM_DOPED_SILICON_WAFER.asItem())
+                .inputItems(GTOTagPrefix.lens, Gray)
+                .outputItems(GTOItems.FPGA_WAFER.asItem(), 6)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .EUt(131000)
+                .duration(500)
+                .save();
+
+        LASER_ENGRAVER_RECIPES.builder("igbt_wafer")
+                .inputItems(GTOItems.SIC_WIDE_BANDGAP_SEMICONDUCTOR_WAFER.asItem())
+                .inputItems(GTOTagPrefix.lens, Cyan)
+                .outputItems(GTOItems.IGBT_WAFER.asItem(), 6)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .EUt(131000)
+                .duration(500)
                 .save();
     }
 }

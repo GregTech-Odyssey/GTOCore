@@ -35,7 +35,6 @@ import net.minecraft.world.phys.AABB;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.spongepowered.asm.mixin.Final;
@@ -63,13 +62,13 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private AirScrubberMachine gtolib$airScrubberCache;
     @Unique
-    @Persisted
-    @DescSynced
     private int gto$chanceOfNotProduceAsh = 100;
     @Unique
     private TickableSubscription gtolib$tickSubs;
     @Unique
-    private boolean gtolib$isFrontFaceFree;
+    private boolean gtolib$lastFrontFaceFree;
+    @Unique
+    private long gtocore$refresh = 0;
 
     protected MufflerPartMachineMixin(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier);
@@ -154,16 +153,18 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Override
     public boolean isFrontFaceFree() {
-        if (!beforeWorking(null)) return false;
-        if (!gtolib$isFrontFaceFree || self().getOffsetTimer() % 20 == 0) {
-            gtolib$isFrontFaceFree = true;
+        if (self().getOffsetTimer() - gtocore$refresh > 100) {
+            gtolib$lastFrontFaceFree = true;
             BlockPos pos = self().getPos();
             for (int i = 0; i < 3; i++) {
                 pos = pos.relative(this.self().getFrontFacing());
-                if (!self().getLevel().getBlockState(pos).isAir()) gtolib$isFrontFaceFree = false;
+                if (!self().getLevel().getBlockState(pos).isAir()) {
+                    gtolib$lastFrontFaceFree = false;
+                }
             }
+            gtocore$refresh = self().getOffsetTimer();
         }
-        return gtolib$isFrontFaceFree;
+        return gtolib$lastFrontFaceFree;
     }
 
     @Unique
@@ -188,6 +189,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(MetaMachineBlockEntity holder, int tier, CallbackInfo ci) {
+        gtolib$lastFrontFaceFree = true;
         inventory.setOnContentsChanged(() -> {
             for (var controller : getControllers()) {
                 if (controller instanceof IRecipeLogicMachine recipeLogicMachine) {

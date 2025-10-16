@@ -76,6 +76,10 @@ public final class GTOMaterialFlags {
 
     public static final MaterialFlag COMPOSITE_MATERIAL = new MaterialFlag.Builder("composite_material")
             .build();
+
     public static final MaterialFlag NEED_BLAST_IN_SPACE = new MaterialFlag.Builder("need_blast_in_space")
+            .build();
+
+    public static final MaterialFlag HAS_NANOSCALE_FORM = new MaterialFlag.Builder("need_blast_in_space")
             .build();
 }

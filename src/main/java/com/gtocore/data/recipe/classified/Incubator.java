@@ -708,6 +708,17 @@ final class Incubator {
                 .addData("filter_casing", 2)
                 .save();
 
+        INCUBATOR_RECIPES.recipeBuilder("clostridium_pasteurianum")
+                .notConsumable(GTOItems.CLOSTRIDIUM_PASTEURIANUM_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.ClostridiumPasteurianum, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.ClostridiumPasteurianum, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+
         INCUBATOR_RECIPES.recipeBuilder("shewanella")
                 .notConsumable(GTOItems.SHEWANELLA_PETRI_DISH.asItem())
                 .inputItems(TagPrefix.dust, GTOMaterials.Shewanella, 16)

@@ -742,5 +742,21 @@ final class AssemblerA {
                 .EUt(16)
                 .duration(50)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("small_shuttle_mk1")
+                .inputItems("ad_astra:ostrum_tank", 4)
+                .inputItems(GTItems.EMITTER_LuV.asItem())
+                .inputItems(GTItems.ROBOT_ARM_LuV.asItem())
+                .inputItems(GTItems.SENSOR_LuV.asItem())
+                .inputItems(GTItems.ELECTRIC_MOTOR_LuV.asItem())
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.Inconel718, 4)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.CarbonFiberEpoxyComposite, 10)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.BorosilicateFiberReinforcedAluminumMatrixComposite, 10)
+                .outputItems(GTOItems.SMALL_SHUTTLE_MK1.asItem())
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(32760)
+                .duration(500)
+                .save();
     }
 }

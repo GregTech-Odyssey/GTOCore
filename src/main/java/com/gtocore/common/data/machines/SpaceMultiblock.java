@@ -9,8 +9,10 @@ import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.*;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.OrbitalSmeltingFacility;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.SpaceDroneDock;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -39,7 +41,6 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gtocore.api.machine.part.GTOPartAbility.DRONE_HATCH;
-import static com.gtocore.api.machine.part.GTOPartAbility.OVERCLOCK_HATCH;
 import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
 import static com.gtocore.api.pattern.GTOPredicates.autoGCYMAbilities;
 import static com.gtocore.api.pattern.GTOPredicates.light;
@@ -422,8 +423,7 @@ public class SpaceMultiblock {
                     .where('G', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.SMELTING_CONTROL_CASING.get())
                             .or(autoGCYMAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH))
-                            .or(abilities(OVERCLOCK_HATCH)))
+                            .or(abilities(PARALLEL_HATCH)))
                     .where('I', blocks(GTOBlocks.CREEP_RESISTANT_SMELTING_CASING.get()))
                     .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('K', blocks(GTOBlocks.SMELTING_CONTROL_CASING.get()))
@@ -475,8 +475,7 @@ public class SpaceMultiblock {
                     .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
                     .where('G', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get())
                             .or(autoGCYMAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH))
-                            .or(abilities(OVERCLOCK_HATCH)))
+                            .or(abilities(PARALLEL_HATCH)))
                     .where('H', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
                     .where('I', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('J', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
@@ -528,8 +527,7 @@ public class SpaceMultiblock {
                     .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.PRECISION_MACHINING_CONTROL_CASING.get())
                             .or(autoGCYMAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH))
-                            .or(abilities(OVERCLOCK_HATCH)))
+                            .or(abilities(PARALLEL_HATCH)))
                     .where('I', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
                     .where('J', blocks(GTOBlocks.PRECISION_MACHINING_CONTROL_CASING.get()))
                     .where('K', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
@@ -540,5 +538,64 @@ public class SpaceMultiblock {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/precision_machining_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    // 太空无人机船坞
+    public static final MachineDefinition SPACE_DRONE_DOCK = multiblock("space_drone_dock", "太空无人机船坞", SpaceDroneDock::new)
+            .allRotation()
+            .workableInSpace()
+            .specialParallelizableTooltips()
+            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceDroneDockTooltips().getSupplier())
+            .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(h -> h.addLines("0.2 + 1.31072 / (1.632 + (消耗的电量(单位：GEU)))", "0.2 + 1.31072 / (1.632 + (Energy consumption in GEU))")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getRecipeExtensionTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.SPACE_DEBRIS_COLLECTION_RECIPES)
+            .block(GTOBlocks.SPACE_STATION_CONTROL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("                                             ", "                                             ", "                                             ", "                                             ", "        MMM      MMM       MMM      MMM      ", "       M   M    M   M     M   M    M   M     ", "        MMM      MMM       MMM      MMM      ", "                                             ", "                                             ", "                                             ", "        MMM      MMM       MMM      MMM      ", "       M   M    M   M     M   M    M   M     ", "        MMM      MMM       MMM      MMM      ", "                                             ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MRM      MRM       MRM      MRM      ", "       M   M    M   M GGG M   M    M   M     ", "        MRM GGGG MRM GGGGG MRM GGGG MRM      ", "        CQC GGGG CQC GGGGG CQC GGGG CQC      ", "            GGGG     GGGGG     GGGG          ", "        CQC GGGG CQC GGGGG CQC GGGG CQC      ", "        MRM GGGG MRM GGGGG MRM GGGG MRM      ", "       M   M    M   M GGG M   M    M   M     ", "        MRM      MRM       MRM      MRM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MRM      MRM       MRM      MRM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MRM G  G MRM G   G MRM G  G MRM      ", "        CQC G  G CQC G   G CQC G  G CQC      ", "            G  G     G   G     G  G          ", "        CQC G  G CQC G   G CQC G  G CQC      ", "        MRM G  G MRM G   G MRM G  G MRM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MRM      MRM       MRM      MRM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MSM GGGG MSM  GGG  MSM GGGG MSM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "     F  MSM GLLG MSM GLLLG MSM GLLG MSM  F   ", "     F  CQC GLLG CQC GLLLG CQC GLLG CQC  F   ", "     FGGGGGGGLLGGGGGGGLLLGGGGGGGLLGGGGGGGF   ", "     F  CQC GLLG CQC GLLLG CQC GLLG CQC  F   ", "     F  MSM GLLG MSM GLLLG MSM GLLG MSM  F   ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MSM GGGG MSM  GGG  MSM GGGG MSM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "       MMSMMGGGGMMSMMGGGGGMMSMMGGGGMMSMM     ", "     F M   MGGGGM   MGGGGGM   MGGGGM   M F   ", "     FGMMSMMGPPGMMSMMGPPPGMMSMMGPPGMMSMMGF   ", "     GGLCLCLGPPGLCLCLGPPPGLCLCLGPPGLCLCLGG   ", "  CCFGGGGGGGGPPGGGGGGGPPPGGGGGGGPPGGGGGGGGFCC", "     GGLCLCLGPPGLCLCLGPPPGLCLCLGPPGLCLCLGG   ", "     FGMMSMMGPPGMMSMMGPPPGMMSMMGPPGMMSMMGF   ", "     F M   MGGGGM   MGGGGGM   MGGGGM   M F   ", "       MMSMMGGGGMMSMMGGGGGMMSMMGGGGMMSMM     ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "     F MMSMMI  IMMSMMI   IMMSMMI  IMMSMM F   ", "     FGMPPPMI  IMPPPMI   IMPPPMI  IMPPPMGF   ", "     GGMMSMMI  IMMSMMI   IMMSMMI  IMMSMMGG   ", "   EEAALCLCLI  ILCLCLL   LLCLCLI  ILCLCLAAEE ", "   CCAA                                 AACC ", "   EEAALCLCLI  ILCLCLL   LLCLCLI  ILCLCLAAEE ", "     GGMMSMMI  IMMSMMI   IMMSMMI  IMMSMMGG   ", "     FGMPPPMI  IMPPPMI   IMPPPMI  IMPPPMGF   ", "     F MMSMMI  IMMSMMI   IMMSMMI  IMMSMM F   ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "                                             ", "                                             ", "                                             ")
+                    .aisle("      IIIIIII  IIIIIII   IIIIIII  IIIIIII    ", "      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ", "      IGGLGGIGGIGGLGGIGGGIGGLGGIGGIGGLGGI    ", "     FIIIIIIIGGIIIIIIIGGGIIIIIIIGGIIIIIIIF   ", "     FIMMSMMI  IMMSMMI   IMMSMMI  IMMSMMIF   ", "     GINO ONI  INO ONI   INO ONI  INO ONIG   ", "   EEAIMMSMMI  IMMSMMGQQQGMMSMMI  IMMSMMIAEE ", "AAAAAHHLCLCLI  ILCLCLGQQQGLCLCLI  ILCLCLHHAA ", "ABDDAHH              GHHHG              HHaD ", "AAAAAHHLCLCLI  ILCLCLGQQQGLCLCLI  ILCLCLHHAA ", "   EEAIMMSMMI  IMMSMMGQQQGMMSMMI  IMMSMMIAEE ", "     GIMO OMI  IMO OMI   IMO OMI  IMO OMIG   ", "     FIMMSMMI  IMMSMMI   IMMSMMI  IMMSMMIF   ", "     FIIIIIIIGGIIIIIIIGGGIIIIIIIGGIIIIIIIF   ", "      IGGLGGIGGIGGLGGIGGGIGGLGGIGGIGGLGGI    ", "      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ", "      IIIIIII  IIIIIII   IIIIIII  IIIIIII    ")
+                    .aisle("      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ", "     GJJJLTTTLLJJJLTTTLLLTTTLJJJLLTTTLJJJG   ", "     GJJJLTTTGGJJJLTTTGGGTTTLJJJGGTTTLJJJG   ", "     FIJJLTTI  IJJLTTI   ITTLJJI  ITTLJJIF   ", "     GI     I  I     I   I     I  I     IG   ", "   EEAIKO OUI  IKO OUI   IUO OKI  IUO OKIAEE ", "   AAHHH             GGVGG             HHHAA ", "   ppppHCCCCCCCCCCCCCHpppHCCCCCCCCCCCCCHpppp ", "   ppppHQQQQQQQQQQQQQHpppHQQQQQQQQQQQQQHpppp ", "   ppppHCCCCCCCCCCCCCHpppHCCCCCCCCCCCCCHpppp ", "   AAHHH             GGVGG             HHHAA ", "   EEAIKO OUI  IKO OUI   IUO OKI  IUO OKIAEE ", "     GI     I  I     I   I     I  I     IG   ", "     FIJJLTTI  IJJLTTI   ITTLJJI  ITTLJJIF   ", "     GJJJLTTTGGJJJLTTTGGGTTTLJJJGGTTTLJJJG   ", "     GJJJLTTTLLJJJLTTTLLLTTTLJJJLLTTTLJJJG   ", "      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ")
+                    .aisle("      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ", "     GJJJLTTTLLJJJLTTTLLLTTTLJJJLLTTTLJJJG   ", "     GJKNLNUTGGJKNLNUTGGGTUNLNKJGGTUNLNKJG   ", "     FIKO OUI  IKO OUI   IUO OKI  IUO OKIF   ", "  CCFGIKO OUI  IKO OUI   IUO OKI  IUO OKIGFCC", "   CCAIKO OUI  IKO OUI   IUO OKI  IUO OKIACC ", "   DAHHHQQQQQQQQQQQQQGQQQGQQQQQQQQQQQQQHHHaD ", "   ppppppppppppppppppppppppppppppppppppppppp ", "   ppppppppppppppppppppppppppppppppppppppppp ", "   ppppppppppppppppppppppppppppppppppppppppp ", "   DAHHHQQQQQQQQQQQQQGQQQGQQQQQQQQQQQQQHHHaD ", "   CCAIKO OUI  IKO OUI   IUO OKI  IUO OKIACC ", "  CCFGIKO OUI  IKO OUI   IUO OKI  IUO OKIGFCC", "     FIKO OUI  IKO OUI   IUO OKI  IUO OKIF   ", "     GJKNLNUTGGJKNLNUTGGGTUNLNKJGGTUNLNKJG   ", "     GJJJLTTTLLJJJLTTTLLLTTTLJJJLLTTTLJJJG   ", "      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ")
+                    .aisle("      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ", "     GJJJLTTTLLJJJLTTTLLLTTTLJJJLLTTTLJJJG   ", "     GJJJLTTTGGJJJLTTTGGGTTTLJJJGGTTTLJJJG   ", "     FIJJLTTI  IJJLTTI   ITTLJJI  ITTLJJIF   ", "     GI     I  I     I   I     I  I     IG   ", "   EEAIKO OUI  IKO OUI   IUO OKI  IUO OKIAEE ", "   AAHHH             GGVGG             HHHAA ", "   ppppHCCCCCCCCCCCCCHpppHCCCCCCCCCCCCCHpppp ", "   ppppHQQQQQQQQQQQQQHpppHQQQQQQQQQQQQQHpppp ", "   ppppHCCCCCCCCCCCCCHpppHCCCCCCCCCCCCCHpppp ", "   AAHHH             GGVGG             HHHAA ", "   EEAIKO OUI  IKO OUI   IUO OKI  IUO OKIAEE ", "     GI     I  I     I   I     I  I     IG   ", "     FIJJLTTI  IJJLTTI   ITTLJJI  ITTLJJIF   ", "     GJJJLTTTGGJJJLTTTGGGTTTLJJJGGTTTLJJJG   ", "     GJJJLTTTLLJJJLTTTLLLTTTLJJJLLTTTLJJJG   ", "      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ")
+                    .aisle("      IIIIIII  IIIIIII   IIIIIII  IIIIIII    ", "      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ", "      IGGLGGIGGIGGLGGIGGGIGGLGGIGGIGGLGGI    ", "     FIIIIIIIGGIIIIIIIGGGIIIIIIIGGIIIIIIIF   ", "     FIMMSMMI  IMMSMMI   IMMSMMI  IMMSMMIF   ", "     GINO ONI  INO ONI   INO ONI  INO ONIG   ", "   EEAIMMSMMI  IMMSMMGQQQGMMSMMI  IMMSMMIAEE ", "   AAHHLCLCLI  ILCLCLGQQQGLCLCLI  ILCLCLHHAA ", "   DAHH              GHHHG              HHaD ", "   AAHHLCLCLI  ILCLCLGQQQGLCLCLI  ILCLCLHHAA ", "   EEAIMMSMMI  IMMSMMGQQQGMMSMMI  IMMSMMIAEE ", "     GIMO OMI  IMO OMI   IMO OMI  IMO OMIG   ", "     FIMMSMMI  IMMSMMI   IMMSMMI  IMMSMMIF   ", "     FIIIIIIIGGIIIIIIIGGGIIIIIIIGGIIIIIIIF   ", "      IGGLGGIGGIGGLGGIGGGIGGLGGIGGIGGLGGI    ", "      IGGLGGI  IGGLGGI   IGGLGGI  IGGLGGI    ", "      IIIIIII  IIIIIII   IIIIIII  IIIIIII    ")
+                    .aisle("                                             ", "                                             ", "                                             ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "     F MMSMMI  IMMSMMI   IMMSMMI  IMMSMM F   ", "     FGMPPPMI  IMPPPMI   IMPPPMI  IMPPPMGF   ", "     GGMMSMMI  IMMSMMI   IMMSMMI  IMMSMMGG   ", "   EEAALCLCLI  ILCLCLL   LLCLCLI  ILCLCLAAEE ", "   CCAA                                 AACC ", "   EEAALCLCLI  ILCLCLL   LLCLCLI  ILCLCLAAEE ", "     GGMMSMMI  IMMSMMI   IMMSMMI  IMMSMMGG   ", "     FGMPPPMI  IMPPPMI   IMPPPMI  IMPPPMGF   ", "     F MMSMMI  IMMSMMI   IMMSMMI  IMMSMM F   ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "       MMSMMGGGGMMSMMGGGGGMMSMMGGGGMMSMM     ", "     F M   MGGGGM   MGGGGGM   MGGGGM   M F   ", "     FGMMSMMGPPGMMSMMGPPPGMMSMMGPPGMMSMMGF   ", "     GGLCLCLGPPGLCLCLGPPPGLCLCLGPPGLCLCLGG   ", "  CCFGGGGGGGGPPGGGGGGGPPPGGGGGGGPPGGGGGGGGFCC", "     GGLCLCLGPPGLCLCLGPPPGLCLCLGPPGLCLCLGG   ", "     FGMMSMMGPPGMMSMMGPPPGMMSMMGPPGMMSMMGF   ", "     F M   MGGGGM   MGGGGGM   MGGGGM   M F   ", "       MMSMMGGGGMMSMMGGGGGMMSMMGGGGMMSMM     ", "       LCLCLGGGGLCLCLGGGGGLCLCLGGGGLCLCL     ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MSM GGGG MSM  GGG  MSM GGGG MSM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "     F  MSM GLLG MSM GLLLG MSM GLLG MSM  F   ", "     F  CQC GLLG CQC GLLLG CQC GLLG CQC  F   ", "     FGGGGGGGLLGGGGGGGLLLGGGGGGGLLGGGGGGGF   ", "     F  CQC GLLG CQC GLLLG CQC GLLG CQC  F   ", "     F  MSM GLLG MSM GLLLG MSM GLLG MSM  F   ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MSM GGGG MSM  GGG  MSM GGGG MSM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MRM      MRM       MRM      MRM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MRM G  G MRM G   G MRM G  G MRM      ", "        CQC G  G CQC G   G CQC G  G CQC      ", "            G  G     G   G     G  G          ", "        CQC G  G CQC G   G CQC G  G CQC      ", "        MRM G  G MRM G   G MRM G  G MRM      ", "       M   MGGGGM   MGGGGGM   MGGGGM   M     ", "        MRM      MRM       MRM      MRM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "        CQC      CQC       CQC      CQC      ", "        MRM      MRM       MRM      MRM      ", "       M   M    M   M GGG M   M    M   M     ", "        MRM GGGG MRM GGGGG MRM GGGG MRM      ", "        CQC GGGG CQC GGGGG CQC GGGG CQC      ", "            GGGG     GGGGG     GGGG          ", "        CQC GGGG CQC GGGGG CQC GGGG CQC      ", "        MRM GGGG MRM GGGGG MRM GGGG MRM      ", "       M   M    M   M GGG M   M    M   M     ", "        MRM      MRM       MRM      MRM      ", "        CQC      CQC       CQC      CQC      ", "                                             ", "                                             ", "                                             ")
+                    .aisle("                                             ", "                                             ", "                                             ", "                                             ", "        MMM      MMM       MMM      MMM      ", "       M   M    M   M     M   M    M   M     ", "        MMM      MMM       MMM      MMM      ", "                                             ", "                                             ", "                                             ", "        MMM      MMM       MMM      MMM      ", "       M   M    M   M     M   M    M   M     ", "        MMM      MMM       MMM      MMM      ", "                                             ", "                                             ", "                                             ", "                                             ")
+                    .where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('a', MODULE.traceabilityPredicate.get())
+                    .where('B', controller(blocks(definition.get())))
+                    .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('E', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('H', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes())))
+                    .where('I', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('J', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_TANK_CASING.get()))
+                    .where('K', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_PIPE_CASING.get()))
+                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelJbk75)))
+                    .where('M', blocks(GTOBlocks.TUNGSTEN_ALLOY_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
+                    .where('N', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
+                    .where('O', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.BerylliumAluminumF)))
+                    .where('P', blocks(GTOBlocks.HASTELLOY_N_75_GEARBOX.get()))
+                    .where('Q', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
+                    .where('R', blocks(GTOBlocks.MAGTECH_CASING.get()))
+                    .where('S', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
+                    .where('T', blocks(GTOBlocks.HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING.get()))
+                    .where('U', blocks(GTOBlocks.COOLANT_PIPE_CASING.get()))
+                    .where('V', GTOPredicates.light())
+                    .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/space_station_control_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }

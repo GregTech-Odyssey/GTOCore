@@ -12,6 +12,7 @@ public final class $ClassifiedRecipe {
         DissolutionTreatment.init();
         VacuumDrying.init();
         FlotatingBeneficiation.init();
+        SpaceDebrisCollection.init();
         AlloySmelter.init();
         AtomicEnergyExcitation.init();
         FuelRefining.init();
@@ -110,6 +111,7 @@ public final class $ClassifiedRecipe {
         WaterPurificationPlant.init();
         PhysicalVaporDeposition.init();
         ChemicalVaporDepositio.init();
+        SuperMaterialForge.init();
         ElectricCooking.init();
         Crystallization.init();
         BiochemicalExtraction.init();

@@ -4,8 +4,10 @@ import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
+import com.gtocore.common.data.translation.ComponentSlang.ParallelBonus
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.SpaceDroneDock
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
@@ -1773,5 +1775,16 @@ object GTOMachineTooltips {
         section("工业空间站太空舱种类" translatedTo "Types of Industrial Space Station Modules")
         info(ComponentSlang.IsWhatTypeSpaceModule(ComponentSlang.FunctionModuleSpaceModule))
         info(ComponentSlang.CanConnectToWhatTypeSpaceModule(listOf(ComponentSlang.ConjunctionModuleSpaceModule)))
+    }
+    val SpaceDroneDockTooltips = ComponentListSupplier {
+        setTranslationPrefix("space_drone_dock")
+        section(MainFunction)
+        increase("向太空发送无人机以收集宇宙尘埃" translatedTo "Send drones into space to collect cosmic dust")
+        info("在不同的星系能够收集到不同种类的宇宙尘埃" translatedTo "Different types of cosmic dust can be collected in different galaxies")
+        section(RunningRequirements)
+        command("每次运行时，需要配方提供的无人机/电池有能量时才能运行" translatedTo "Each operation requires the drones/batteries provided by the recipe to have energy to operate")
+        info("每次消耗其内部存储的全部电量" translatedTo "Consumes all the internal stored energy each time")
+        increase("每消耗6,400,000EU，配方最大并行数+1" translatedTo "For every 6,400,000EU consumed, the maximum parallelism of the recipe +1")
+        decrease("无人机/电池缺电时，配方无法运行" translatedTo "The recipe cannot run when the drone has no power")
     }
 }

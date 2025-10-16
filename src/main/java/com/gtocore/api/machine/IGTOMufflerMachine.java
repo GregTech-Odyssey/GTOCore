@@ -9,7 +9,6 @@ import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
@@ -29,31 +28,19 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
 
     @Override
     default GTRecipe modifyRecipe(GTRecipe recipe) {
-        if (isMufflerPulseDisabled()) return recipe;
-        if (!isFrontFaceFree()) {
-            for (var c : getControllers()) {
-                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                    enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
-                }
-            }
-            return null;
-        }
         return recipe;
     }
 
     @Override
     default boolean beforeWorking(IWorkableMultiController controller) {
         if (isMufflerPulseDisabled()) return true;
-        if (controller == null) {
-            controller = (IWorkableMultiController) getControllers().getFirst();
-        }
         if (GTOCore.isExpert() && controller instanceof ITieredMachine machine && machine.getTier() > getTier() + 1) {
             if (controller.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
                 enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_INSUFFICIENT.reason());
             }
             return false;
         }
-        if (gtolib$checkAshFull()) {
+        if (gtolib$checkAshFull() || !isFrontFaceFree()) {
             if (controller.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
                 enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
             }
@@ -108,4 +95,9 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     }
 
     default void gtolib$addMufflerEffect() {}
+
+    @Override
+    default boolean canShared() {
+        return false;
+    }
 }

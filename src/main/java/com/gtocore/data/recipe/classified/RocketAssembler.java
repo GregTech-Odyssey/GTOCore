@@ -289,5 +289,23 @@ final class RocketAssembler {
                 .EUt(524280)
                 .duration(1000)
                 .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("space_drone_dock")
+                .inputItems("ad_astra_rocketed:tier_6_rocket")
+                .inputItems(MultiBlockG.DRONE_CONTROL_CENTER.asItem(), 4)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 4)
+                .inputItems(GTItems.SENSOR_LuV.asItem(), 6)
+                .inputItems(GTItems.EMITTER_LuV.asItem(), 6)
+                .inputItems(GTItems.ROBOT_ARM_LuV.asItem(), 6)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.CarbonFiberPhenolicResinComposite, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.SiliconCarbideFiberReinforcedTitaniumMatrixComposite, 32)
+                .inputItems(GTOTagPrefix.rod, GTOMaterials.SiliconCarbideFiberReinforcedTitaniumMatrixComposite, 64)
+                .outputItems("gtocore:space_drone_dock")
+                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 16000)
+                .inputFluids(GTOMaterials.BerylliumAluminumF, 2880)
+                .inputFluids(GTMaterials.Lubricant, 16000)
+                .EUt(32760)
+                .duration(1000)
+                .save();
     }
 }

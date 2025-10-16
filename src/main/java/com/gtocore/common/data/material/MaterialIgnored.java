@@ -261,6 +261,16 @@ public final class MaterialIgnored {
         FIBER_MESH.setIgnored(Kevlar, () -> WOVEN_KEVLAR);
         FIBER.setIgnored(BorosilicateGlass, () -> ChemicalHelper.get(wireFine, BorosilicateGlass).getItem());
 
+        NANO.setIgnored(SiliconCarbide, () -> ChemicalHelper.get(dust, NanoScaleSiliconCarbide).getItem());
+        NANO.setIgnored(Tungsten, () -> ChemicalHelper.get(dust, NanoScaleTungsten).getItem());
+        NANO.setIgnored(Alumina, () -> ChemicalHelper.get(dust, NanoScaleAlumina).getItem());
+        NANO.setIgnored(YttriumOxide, () -> ChemicalHelper.get(dust, NanoScaleYttria).getItem());
+        NANO.setIgnored(Niobium, () -> ChemicalHelper.get(dust, NanoScaleNiobium).getItem());
+        NANO.setIgnored(Zirconium, () -> ChemicalHelper.get(dust, NanoScaleZirconium).getItem());
+        NANO.setIgnored(Rhenium, () -> ChemicalHelper.get(dust, NanoScaleRhenium).getItem());
+        NANO.setIgnored(Molybdenum, () -> ChemicalHelper.get(dust, NanoScaleMolybdenum).getItem());
+        NANO.setIgnored(Aluminium, () -> ChemicalHelper.get(dust, NanoAluminum).getItem());
+
         if (GTCEu.isProd()) {
             TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);
             TagPrefix.nugget.setIgnored(Alfsteel, () -> () -> alfsteelNugget);

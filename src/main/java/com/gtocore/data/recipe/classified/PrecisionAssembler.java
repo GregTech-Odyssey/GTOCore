@@ -611,5 +611,47 @@ final class PrecisionAssembler {
                 .EUt(7680)
                 .duration(300)
                 .save();
+
+        PRECISION_ASSEMBLER_RECIPES.builder("energy_control_module_mk1")
+                .inputItems(GTOItems.IGBT_CHIP.asItem(), 2)
+                .inputItems(GTOTagPrefix.foil, GTMaterials.PolyphenyleneSulfide, 8)
+                .inputItems(GTOTagPrefix.wireFine, GTMaterials.Naquadria, 16)
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .outputItems(GTOItems.ENERGY_CONTROL_MODULE_MK1.asItem())
+                .inputFluids(GTMaterials.ManganesePhosphide, 288)
+                .inputFluids(GTOMaterials.Titanium5553, 288)
+                .inputFluids(GTOMaterials.Grcop84, 288)
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(131000)
+                .duration(500)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.builder("machining_control_module_mk1")
+                .inputItems(GTOItems.FPGA_CHIP.asItem(), 2)
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.DispersionStrengthenedCopper, 8)
+                .inputItems(GTOTagPrefix.wireFine, GTMaterials.IndiumTinBariumTitaniumCuprate, 16)
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .outputItems(GTOItems.MACHINING_CONTROL_MODULE_MK1.asItem())
+                .inputFluids(GTOMaterials.NitinolA, 288)
+                .inputFluids(GTMaterials.HastelloyC276, 288)
+                .inputFluids(GTOMaterials.PlatinumRhodiumAlloy, 288)
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(131000)
+                .duration(500)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.builder("small_shuttle_mk2")
+                .inputItems("gtocore:suprachronal_circuit_uv", 2)
+                .inputItems(GTItems.SENSOR_ZPM.asItem(), 2)
+                .inputItems(GTItems.EMITTER_ZPM.asItem(), 2)
+                .inputItems(GTItems.ROBOT_ARM_ZPM.asItem(), 2)
+                .outputItems(GTOItems.SMALL_SHUTTLE_MK2.asItem())
+                .inputFluids(GTOMaterials.CarbonFiberPolyimideComposite, 1440)
+                .inputFluids(GTOMaterials.TungstenFiberReinforcedCobaltBasedComposite, 1440)
+                .inputFluids(GTOMaterials.ScalmAlloyS, FluidStorageKeys.MOLTEN, 1440)
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(131000)
+                .duration(500)
+                .save();
     }
 }

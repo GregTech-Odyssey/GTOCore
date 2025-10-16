@@ -471,7 +471,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType FISHING_GROUND_RECIPES = register("fishing_ground", "渔场", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(2, 24, 0, 0)
+            .setMaxIOSize(2, 2, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MINER);
 
@@ -676,13 +676,19 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.CHEMICAL);
 
     public static final RecipeType VACUUM_DRYING_RECIPES = register("vacuum_drying", "真空干燥", MULTIBLOCK)
-            .setMaxIOSize(0, 6, 1, 2)
+            .setMaxIOSize(0, 9, 1, 2)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
             .addDataInfo(TEMPERATURE)
             .addDataInfo(COIL)
             .setUiBuilder(COIL_UI);
+
+    public static final RecipeType ULTRA_FINE_GRINDING_RECIPES = register("ultra_fine_grinding", "极细粒度粉碎", MULTIBLOCK)
+            .setMaxIOSize(1, 3, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MACERATOR);
 
     public static final RecipeType DISSOLUTION_TREATMENT_RECIPES = register("dissolution_treatment", "溶解", MULTIBLOCK)
             .setMaxIOSize(2, 2, 2, 1)
@@ -813,6 +819,13 @@ public final class GTORecipeTypes {
             .addDataInfo(TEMPERATURE)
             .addDataInfo(COIL)
             .setUiBuilder(COIL_UI);
+
+    // 太空浮游物质收集
+    public static final RecipeType SPACE_DEBRIS_COLLECTION_RECIPES = register("space_debris_collection", "太空浮游物质收集", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(3, 16, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COOLING);
 
     // 超材料锻造
     public static final RecipeType SUPERMATERIAL_FORGING_RECIPES = register("supermaterial_forging", "太空超材料锻造", MULTIBLOCK)

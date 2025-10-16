@@ -1,5 +1,7 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOItems;
+
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color;
@@ -42,6 +44,18 @@ public final class CircuitRecipes {
         CUTTER_RECIPES.recipeBuilder("cut_naquadah_boule")
                 .inputItems(NAQUADAH_BOULE)
                 .outputItems(NAQUADAH_WAFER, 64)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .duration(1600).EUt(VA[EV]).save();
+
+        CUTTER_RECIPES.recipeBuilder("cut_sic_boule")
+                .inputItems(GTOItems.SIC_WIDE_BANDGAP_SEMICONDUCTOR_SINGLE_CRYSTAL)
+                .outputItems(GTOItems.SIC_WIDE_BANDGAP_SEMICONDUCTOR_WAFER, 64)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .duration(1600).EUt(VA[EV]).save();
+
+        CUTTER_RECIPES.recipeBuilder("cut_ge_boule")
+                .inputItems(GTOItems.GERMANIUM_DOPED_SINGLE_CRYSTAL_SILICON)
+                .outputItems(GTOItems.GERMANIUM_DOPED_SILICON_WAFER, 64)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(1600).EUt(VA[EV]).save();
 
@@ -201,6 +215,10 @@ public final class CircuitRecipes {
         // Wafer cutting
         CUTTER_RECIPES.recipeBuilder("cut_hasoc").duration(900).EUt(VA[IV]).inputItems(HIGHLY_ADVANCED_SOC_WAFER)
                 .outputItems(HIGHLY_ADVANCED_SOC, 6).cleanroom(CleanroomType.CLEANROOM).save();
+        CUTTER_RECIPES.recipeBuilder("cut_igbt").duration(900).EUt(VA[IV]).inputItems(GTOItems.IGBT_WAFER)
+                .outputItems(GTOItems.IGBT_CHIP, 6).cleanroom(CleanroomType.CLEANROOM).save();
+        CUTTER_RECIPES.recipeBuilder("cut_fpga").duration(900).EUt(VA[IV]).inputItems(GTOItems.FPGA_WAFER)
+                .outputItems(GTOItems.FPGA_CHIP, 6).cleanroom(CleanroomType.CLEANROOM).save();
         CUTTER_RECIPES.recipeBuilder("cut_asoc").duration(900).EUt(VA[EV]).inputItems(ADVANCED_SYSTEM_ON_CHIP_WAFER)
                 .outputItems(ADVANCED_SYSTEM_ON_CHIP, 6).cleanroom(CleanroomType.CLEANROOM).save();
         CUTTER_RECIPES.recipeBuilder("cut_soc").duration(900).EUt(VA[HV]).inputItems(SYSTEM_ON_CHIP_WAFER)

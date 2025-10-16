@@ -52,6 +52,89 @@ import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 public class MaterialSpaceEra {
 
     public static void init() {
+        // 纳米碳化硅 nano_scale_silicon_carbide 默认 #76dfcf
+        // 纳米钨 nano_scale_tungsten 默认 #a3bb51
+        //
+        // public static Material NanoScaleAlumina;
+        // public static Material NanoScaleYttria;
+        // public static Material NanoScaleNiobium;
+        // public static Material NanoScaleZirconium;
+        // public static Material NanoScaleRhenium;
+        // public static Material NanoScaleMolybdenum;
+        // public static Material NanoAluminum;
+        NanoScaleSiliconCarbide = material("nano_scale_silicon_carbide", "纳米碳化硅")
+                .dust().ingot()
+                .color(0x76dfcf)
+                .secondaryColor(0x4accca)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FIBER)
+                .blastTemp(5000, HIGH, GTValues.VA[GTValues.LuV], 600)
+                .buildAndRegister().setFormula("SiC");
+        NanoScaleTungsten = material("nano_scale_tungsten", "纳米钨")
+                .dust().ingot()
+                .color(0xa3bb51)
+                .secondaryColor(0x7d8c3a)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FIBER)
+                .blastTemp(6000, HIGH, GTValues.VA[GTValues.LuV], 600)
+                .buildAndRegister().setFormula("W");
+        NanoScaleAlumina = material("nano_scale_alumina", "纳米氧化铝")
+                .dust()
+                .color(0xfff5e1)
+                .secondaryColor(0xc7bfa1)
+                .iconSet(BRIGHT)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister()
+                .setFormula("Al2O3");
+        NanoScaleYttria = material("nano_scale_yttria", "纳米氧化钇")
+                .dust()
+                .color(0xe6f6ff)
+                .secondaryColor(0xb7d9ff)
+                .iconSet(BRIGHT)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister()
+                .setFormula("Y2O3");
+        NanoScaleNiobium = material("nano_scale_niobium", "纳米铌")
+                .dust()
+                .color(0xbfcfff)
+                .secondaryColor(0x8b9ac6)
+                .iconSet(BRIGHT)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister()
+                .setFormula("Nb");
+        NanoScaleZirconium = material("nano_scale_zirconium", "纳米锆")
+                .dust()
+                .color(0xd9d9d9)
+                .secondaryColor(0xa1a1a1)
+                .iconSet(BRIGHT)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister()
+                .setFormula("Zr");
+        NanoScaleRhenium = material("nano_scale_rhenium", "纳米铼")
+                .dust()
+                .color(0x6666ff)
+                .secondaryColor(0x4c4cbb)
+                .iconSet(BRIGHT)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister()
+                .setFormula("Re");
+        NanoScaleMolybdenum = material("nano_scale_molybdenum", "纳米钼")
+                .dust()
+                .color(0x9999cc)
+                .secondaryColor(0x737399)
+                .iconSet(BRIGHT)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister()
+                .setFormula("Mo");
+        NanoAluminum = material("nano_scale_aluminum", "纳米铝")
+                .dust().ingot()
+                .color(0xffd700)
+                .secondaryColor(0xc6a300)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FIBER)
+                .blastTemp(2327, LOW, GTValues.VA[GTValues.EV], 600)
+                .buildAndRegister().setFormula("Al");
+
         StainlessSteelJbk75 = material("stainless_steel_jbk75", "不锈钢-JBK75")
                 .ingot()
                 .fluid()
@@ -383,6 +466,249 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+
+        //
+        // // 宇尘微粒
+        // public static Material CosmicDust;
+        // // 冻结挥发物冰晶
+        // public static Material FrozenVolatileIce;
+        // // 等离子淬火微珠
+        // public static Material PlasmaQuenchedBeads;
+        // // 暗物质结合节
+        // public static Material DarkMatterBoundNodes;
+        // // 气凝胶状多孔颗粒
+        // public static Material AerogelPorousParticles;
+        // // 恒星物质遗骸末
+        // public static Material StellarMatterRemnantDust;
+        // // 金属化合物微粒
+        // public static Material MetalCompoundParticles;
+
+        CosmicDust = material("cosmic_dust", "宇尘微粒")
+                .dust()
+                .color(0xaa7aca)
+                .secondaryColor(0x7a4c9a)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        FrozenVolatileIce = material("frozen_volatile_ice", "冻结挥发物冰晶")
+                .dust()
+                .color(0x78d4f2)
+                .secondaryColor(0x4ca6c6)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        PlasmaQuenchedBeads = material("plasma_quenched_beads", "等离子淬火微珠")
+                .dust()
+                .color(0xf27878)
+                .secondaryColor(0xc65050)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        DarkMatterBoundNodes = material("dark_matter_bound_nodes", "暗物质结合节")
+                .dust()
+                .color(0x3c3c5c)
+                .secondaryColor(0x282832)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        AerogelPorousParticles = material("aerogel_porous_particles", "气凝胶状多孔颗粒")
+                .dust()
+                .color(0xe2e2e2)
+                .secondaryColor(0xb1b1b1)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        StellarMatterRemnantDust = material("stellar_matter_remnant_dust", "恒星物质遗骸末")
+                .dust()
+                .color(0xffd878)
+                .secondaryColor(0xc6a650)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        MetalCompoundParticles = material("metal_compound_particles", "宇宙悬浮金属复合物颗粒")
+                .dust()
+                .color(0xafa5a0)
+                .secondaryColor(0xcc8430)
+                .iconSet(DULL)
+                .flags(GENERATE_SMALL_DUST, GENERATE_TINY_DUST, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        // 合金系列 电压 温度 ID 组成 配方类型
+        // 镍钛诺-50记忆合金 LUV 7100 nitinol_50_shape_memory_alloy 5钛，5镍 合金冶炼炉
+        // 镍钛锡霍伊斯勒合金 LUV 8600 nickel_titanium_tin_heusler_alloy 1镍，1钛，1锡 超纯合金冶炼
+        // 钛合金-Ti53311S ZPM 9500 titanium_ti53311S 86钛，5铝，3锡，3锆，1铌，1钼 合金冶炼炉
+        // 钛合金-TC21 ZPM 9700 titanium_tc21 84钛，6铝，2锆，2锡，3钼，1铬，2铌 超纯合金冶炼
+        // 钴锰镓霍伊斯勒合金 UV 11400 cobalt_manganese_gallium_heusler_alloy 2钴，1锰，1镓 合金冶炼炉
+        // 钌二铁硅霍伊斯勒合金 UV 12000 ruthenium_iron_silicon_heusler_alloy 2钌，1铁，1硅 超纯合金冶炼
+        // 磁控形状记忆合金 UV 12100 magnetic_controlled_shape_memory_alloy 1镍，1锰，1镓 超纯合金冶炼
+        // 高温记忆合金 UV 12500 high_temperature_shape_memory_alloy 17钛，10镍，4铂，2钯，2金 合金冶炼炉
+        // 铂锰锑霍伊斯勒合金 UHV 13000 platinum_manganese_antimony_heusler_alloy 1铂，1锰，1锑 超纯合金冶炼
+        // 星轨钢 UHV 13500 starlite_steel 68钢，15钴，7镍，12铬，15锰，4钪，4钇 超纯合金冶炼
+        // 高熵形状记忆合金 UHV 13700 high_entropy_shape_memory_alloy 25钛，4锆，3铪，17镍，6铜，3钴 超纯合金冶炼
+        // 射线屏蔽高密度钨钢 UHV 14100 radiation_shielding_high_density_tungsten_steel 58钨，9镍，12钢，4铼，11钴 合金冶炼炉
+        // 奥德赛纳米超合金 UEV 15000 odyssey_nano_superalloy 14凯金，8超能硅岩，17钼，5纳米级氧化钇，5纳米级氧化铝 超纯合金冶炼
+        // 纳米强化记忆合金 UEV 15500 nano_strengthened_shape_memory_alloy 25镍，25钛，3纳米级铌，2纳米级锆 超纯合金冶炼
+
+        Nitinol50ShapeMemoryAlloy = material("nitinol_50_shape_memory_alloy", "镍钛诺-50记忆合金")
+                .ingot().fluid()
+                .color(0xff8080)
+                .secondaryColor(0xcc6060)
+                .components(Titanium, 5, Nickel, 5)
+                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.LuV], 800)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        NickelTitaniumTinHeuslerAlloy = material("nickel_titanium_tin_heusler_alloy", "镍钛锡霍伊斯勒合金")
+                .ingot().fluid()
+                .color(0xffd2b8)
+                .secondaryColor(0xccaa88)
+                .components(Nickel, 1, Titanium, 1, Tin, 1)
+                .blastTemp(8600, HIGHER, GTValues.VA[GTValues.LuV], 800)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        TitaniumTi53311S = material("titanium_ti53311S", "钛合金-Ti53311S")
+                .ingot().fluid()
+                .color(0xd2b8c6)
+                .secondaryColor(0x9a7a88)
+                .components(Titanium, 86, Aluminium, 5, Tin, 3, Zirconium, 3, Niobium, 1, Molybdenum, 1)
+                .blastTemp(9600, HIGHER, GTValues.VA[GTValues.ZPM], 900)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        TitaniumTC21 = material("titanium_tc21", "钛合金-TC21")
+                .ingot().fluid()
+                .color(0xc6a5b1)
+                .secondaryColor(0x8b6a7a)
+                .components(Titanium, 84, Aluminium, 6, Zirconium, 2, Tin, 2, Molybdenum, 3, Chromium, 1, Niobium, 2)
+                .blastTemp(9700, HIGHER, GTValues.VA[GTValues.ZPM], 1000)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        CobaltManganeseGalliumHeuslerAlloy = material("cobalt_manganese_gallium_heusler_alloy", "钴锰镓霍伊斯勒合金")
+                .ingot().fluid()
+                .color(0xffd27a)
+                .secondaryColor(0xccaa5e)
+                .components(Cobalt, 2, Manganese, 1, Gallium, 1)
+                .blastTemp(11400, HIGHER, GTValues.VA[GTValues.IV], 1100)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        RutheniumIronSiliconHeuslerAlloy = material("ruthenium_iron_silicon_heusler_alloy", "钌二铁硅霍伊斯勒合金")
+                .ingot().fluid()
+                .color(0xd2d2d2)
+                .secondaryColor(0x9a9a9a)
+                .components(Ruthenium, 2, Iron, 1, Silicon, 1)
+                .blastTemp(12000, HIGHER, GTValues.VA[GTValues.IV], 1200)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        MagneticControlledShapeMemoryAlloy = material("magnetic_controlled_shape_memory_alloy", "磁控形状记忆合金")
+                .ingot().fluid()
+                .color(0xff8080)
+                .secondaryColor(0xcc6060)
+                .components(Nickel, 1, Manganese, 1, Gallium, 1)
+                .blastTemp(12100, HIGHER, GTValues.VA[GTValues.IV], 1200)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        HighTemperatureShapeMemoryAlloy = material("high_temperature_shape_memory_alloy", "高温记忆合金")
+                .ingot().fluid()
+                .color(0xffe0b2)
+                .secondaryColor(0xc6aa88)
+                .components(Titanium, 17, Nickel, 10, Platinum, 4, Palladium, 2, Gold, 2)
+                .blastTemp(12500, HIGHER, GTValues.VA[GTValues.IV], 1300)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        PlatinumManganeseAntimonyHeuslerAlloy = material("platinum_manganese_antimony_heusler_alloy", "铂锰锑霍伊斯勒合金")
+                .ingot().fluid()
+                .color(0xe6e6e6)
+                .secondaryColor(0xb3b3b3)
+                .components(Platinum, 1, Manganese, 1, Antimony, 1)
+                .blastTemp(13000, HIGHER, GTValues.VA[GTValues.UHV], 1300)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        StarliteSteel = material("starlite_steel", "星轨钢")
+                .ingot().fluid()
+                .color(0xd2d2d2)
+                .secondaryColor(0x9a9a9a)
+                .components(Steel, 68, Cobalt, 15, Nickel, 7, Chromium, 12, Manganese, 15, Scandium, 4, Yttrium, 4)
+                .blastTemp(13500, HIGHER, GTValues.VA[GTValues.UHV], 1100)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        HighEntropyShapeMemoryAlloy = material("high_entropy_shape_memory_alloy", "高熵形状记忆合金")
+                .ingot().fluid()
+                .color(0xb2a6a0)
+                .secondaryColor(0x7a6e68)
+                .components(Titanium, 25, Zirconium, 4, Hafnium, 3, Nickel, 17, Copper, 6, Cobalt, 3)
+                .blastTemp(13700, HIGHER, GTValues.VA[GTValues.UHV], 1200)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        RadiationShieldingHighDensityTungstenSteel = material("radiation_shielding_high_density_tungsten_steel", "射线屏蔽高密度钨钢")
+                .ingot().fluid()
+                .color(0x7a7a8b)
+                .secondaryColor(0x4c4c5e)
+                .components(Tungsten, 58, Nickel, 9, Steel, 12, Rhenium, 4, Cobalt, 11)
+                .blastTemp(14100, HIGHER, GTValues.VA[GTValues.UHV], 1300)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .buildAndRegister();
+        OdysseyNanoSuperalloy = material("odyssey_nano_superalloy", "奥德赛纳米超合金")
+                .ingot().fluid()
+                .color(0x4c7a6a)
+                .secondaryColor(0x2e4c3c)
+                .components(Trinium, 14, Naquadria, 8, Molybdenum, 17, NanoScaleYttria, 5, NanoScaleAlumina, 5)
+                .blastTemp(15000, HIGHER, GTValues.VA[GTValues.UEV], 1400)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                .buildAndRegister();
+        NanoStrengthenedShapeMemoryAlloy = material("nano_strengthened_shape_memory_alloy", "纳米强化记忆合金")
+                .ingot().fluid()
+                .color(0xff8080)
+                .secondaryColor(0xcc6060)
+                .components(Nickel, 25, Titanium, 25, NanoScaleNiobium, 3, NanoScaleZirconium, 2)
+                .blastTemp(15500, HIGHER, GTValues.VA[GTValues.UEV], 1300)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
+                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
     }
 }

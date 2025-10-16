@@ -144,11 +144,6 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     }
 
     @Override
-    public boolean canShared() {
-        return false;
-    }
-
-    @Override
     public void setWorkingEnabled(boolean workingEnabled) {
         super.setWorkingEnabled(workingEnabled);
         handler.updateAutoOutputSubscription();

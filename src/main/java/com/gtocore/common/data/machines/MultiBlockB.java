@@ -548,6 +548,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getNanoPhagocytosisPlantTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.MACERATOR_RECIPES)
             .recipeTypes(GTORecipeTypes.ISA_MILL_RECIPES)
+            .recipeTypes(GTORecipeTypes.ULTRA_FINE_GRINDING_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
