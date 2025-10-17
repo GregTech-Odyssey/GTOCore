@@ -7,9 +7,11 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.misc.IGhostItemTarget;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -108,61 +110,130 @@ public class AEItemConfigSlotWidget extends AEConfigSlotWidget implements IGhost
             }
             return true;
         } else if (mouseOverStock(mouseX, mouseY)) {
-            // Left click to pick up
-            if (button == 0) {
-                if (parentWidget.isStocking()) {
-                    return false;
-                }
-                GenericStack stack = this.parentWidget.getDisplay(this.index).getStock();
-                if (stack != null) {
-                    writeClientAction(PICK_UP_ID, buf -> {});
-                }
+            if (parentWidget.isStocking()) {
+                return false;
+            }
+            var stack = this.parentWidget.getDisplay(this.index).getStock();
+            if (stack != null) {
+                writeClientAction(SLOT_CLICK_ID, buf -> {
+                    buf.writeInt(button);
+                    buf.writeBoolean(isShiftDown());
+                });
                 return true;
             }
         }
         return false;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (this.parentWidget.getDisplay(this.index).getStock() == null) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
+        var minecraft = Minecraft.getInstance();
+        if (minecraft.options.keyDrop.matches(keyCode, scanCode)) {
+            if (parentWidget.isStocking()) {
+                return false;
+            }
+            var mouseX = minecraft.mouseHandler.xpos() * minecraft.getWindow().getGuiScaledWidth() / minecraft.getWindow().getScreenWidth();
+            var mouseY = minecraft.mouseHandler.ypos() * minecraft.getWindow().getGuiScaledHeight() / minecraft.getWindow().getScreenHeight();
+
+            if (isMouseOverElement(mouseX, mouseY) && mouseOverStock(mouseX, mouseY)) {
+                writeClientAction(SLOT_DROP_ID, buf -> buf.writeBoolean(isCtrlDown()));
+                return true;
+            }
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
     @Override
     public void handleClientAction(int id, FriendlyByteBuf buffer) {
         super.handleClientAction(id, buffer);
-        IConfigurableSlot slot = this.parentWidget.getConfig(this.index);
-        if (id == REMOVE_ID) {
-            slot.setConfig(null);
-            this.parentWidget.disableAmount();
-            writeUpdateInfo(REMOVE_ID, buf -> {});
-        }
-        if (id == UPDATE_ID) {
-            ItemStack item = buffer.readItem();
-            var stack = GenericStack.fromItemStack(item);
-            if (!isStackValidForSlot(stack)) return;
-            slot.setConfig(stack);
-            this.parentWidget.enableAmount(this.index);
-            if (!item.isEmpty()) {
-                writeUpdateInfo(UPDATE_ID, buf -> buf.writeItem(item));
+        var slot = this.parentWidget.getConfig(this.index);
+        switch (id) {
+            case REMOVE_ID -> {
+                slot.setConfig(null);
+                this.parentWidget.disableAmount();
+                writeUpdateInfo(REMOVE_ID, buf -> {});
             }
-        }
-        if (id == AMOUNT_CHANGE_ID) {
-            if (slot.getConfig() != null) {
+            case UPDATE_ID -> {
+                var itemStack = buffer.readItem();
+                var stack = GenericStack.fromItemStack(itemStack);
+                if (!isStackValidForSlot(stack)) return;
+                slot.setConfig(stack);
+                this.parentWidget.enableAmount(this.index);
+                if (!itemStack.isEmpty()) {
+                    writeUpdateInfo(UPDATE_ID, buf -> buf.writeItem(itemStack));
+                }
+            }
+            case AMOUNT_CHANGE_ID -> {
+                if (slot.getConfig() == null) return;
                 long amt = buffer.readVarLong();
                 slot.setConfig(new GenericStack(slot.getConfig().what(), amt));
                 writeUpdateInfo(AMOUNT_CHANGE_ID, buf -> buf.writeVarLong(amt));
             }
-        }
-        if (id == PICK_UP_ID) {
-            if (slot.getStock() != null && this.gui.getModularUIContainer().getCarried() == ItemStack.EMPTY &&
-                    slot.getStock().what() instanceof AEItemKey key) {
-                ItemStack stack = new ItemStack(key.getItem());
-                stack.setCount(Math.min((int) slot.getStock().amount(), stack.getMaxStackSize()));
-                var tag = key.getTag();
-                if (tag != null) {
-                    stack.setTag(tag.copy());
+            case SLOT_CLICK_ID -> {
+                var mouseButton = buffer.readInt();
+                var isShiftDown = buffer.readBoolean();
+                if (slot.getStock() == null || !(slot.getStock().what() instanceof AEItemKey key)) {
+                    return;
                 }
-                this.gui.getModularUIContainer().setCarried(stack);
-                GenericStack stack1 = ExportOnlyAESlot.copy(slot.getStock(),
-                        Math.max(0, (slot.getStock().amount() - stack.getCount())));
-                slot.setStock(stack1.amount() == 0 ? null : stack1);
-                writeUpdateInfo(PICK_UP_ID, buf -> {});
+                var amount = slot.getStock().amount();
+                var maxStackSize = key.getMaxStackSize();
+                int clickResult;
+                if (mouseButton == 0 && isShiftDown) {
+                    var player = this.gui.entityPlayer;
+                    if (player == null) return;
+                    var moveCount = (int) Math.min(amount, maxStackSize);
+                    var moveStack = key.toStack(moveCount);
+                    transferToPlayerInventory(player, moveStack);
+                    var newStock = ExportOnlyAESlot.copy(slot.getStock(), amount - (moveCount - moveStack.getCount()));
+                    slot.setStock(newStock.amount() == 0 ? null : newStock);
+                    clickResult = gui.getModularUIContainer().getCarried().getCount();
+                } else {
+                    var container = this.gui.getModularUIContainer();
+                    var carried = container.getCarried();
+                    var pickUpCount = (int) Math.min(amount, maxStackSize);
+                    if (mouseButton == 1) {
+                        pickUpCount = (pickUpCount + 1) / 2;
+                    }
+                    var pickUpStack = key.toStack(pickUpCount);
+                    if (carried.isEmpty()) {
+                        container.setCarried(pickUpStack);
+                        var newStock = ExportOnlyAESlot.copy(slot.getStock(), amount - pickUpCount);
+                        slot.setStock(newStock.amount() == 0 ? null : newStock);
+                        clickResult = pickUpStack.getCount();
+                    } else if (ItemStack.isSameItemSameTags(carried, pickUpStack)) {
+                        var canAdd = Math.min(pickUpCount, carried.getMaxStackSize() - carried.getCount());
+                        if (canAdd <= 0) return;
+                        carried.grow(canAdd);
+                        var newStock = ExportOnlyAESlot.copy(slot.getStock(), amount - canAdd);
+                        slot.setStock(newStock.amount() == 0 ? null : newStock);
+                        clickResult = carried.getCount();
+                    } else {
+                        clickResult = -1;
+                    }
+                }
+                if (clickResult >= 0) {
+                    writeUpdateInfo(SLOT_CLICK_ID, buf -> buf.writeVarInt(clickResult));
+                }
+            }
+            case SLOT_DROP_ID -> {
+                var isCtrlDown = buffer.readBoolean();
+                if (slot.getStock() == null || !(slot.getStock().what() instanceof AEItemKey key)) {
+                    return;
+                }
+                var player = this.gui.entityPlayer;
+                if (player == null) return;
+                var amount = slot.getStock().amount();
+                var maxStackSize = key.getMaxStackSize();
+                var dropCount = isCtrlDown ? (int) Math.min(amount, maxStackSize) : 1;
+                var dropStack = key.toStack(dropCount);
+                player.drop(dropStack, true);
+                var newStock = ExportOnlyAESlot.copy(slot.getStock(), amount - dropCount);
+                slot.setStock(newStock.amount() == 0 ? null : newStock);
+                writeUpdateInfo(SLOT_DROP_ID, buf -> buf.writeVarLong(newStock.amount() == 0 ? 0 : newStock.amount()));
             }
         }
     }
@@ -172,31 +243,36 @@ public class AEItemConfigSlotWidget extends AEConfigSlotWidget implements IGhost
     public void readUpdateInfo(int id, FriendlyByteBuf buffer) {
         super.readUpdateInfo(id, buffer);
         IConfigurableSlot slot = this.parentWidget.getDisplay(this.index);
-        if (id == REMOVE_ID) {
-            slot.setConfig(null);
-        }
-        if (id == UPDATE_ID) {
-            ItemStack item = buffer.readItem();
-            slot.setConfig(new GenericStack(AEItemKey.of(item), item.getCount()));
-        }
-        if (id == AMOUNT_CHANGE_ID) {
-            if (slot.getConfig() != null) {
-                long amt = buffer.readVarLong();
-                slot.setConfig(new GenericStack(slot.getConfig().what(), amt));
+        switch (id) {
+            case REMOVE_ID -> {
+                slot.setConfig(null);
             }
-        }
-        if (id == PICK_UP_ID) {
-            if (slot.getStock() != null && slot.getStock().what() instanceof AEItemKey key) {
-                ItemStack stack = new ItemStack(key.getItem());
-                stack.setCount(Math.min((int) slot.getStock().amount(), stack.getMaxStackSize()));
-                var tag = key.getTag();
-                if (tag != null) {
-                    stack.setTag(tag.copy());
+            case UPDATE_ID -> {
+                ItemStack item = buffer.readItem();
+                slot.setConfig(new GenericStack(AEItemKey.of(item), item.getCount()));
+            }
+            case AMOUNT_CHANGE_ID -> {
+                if (slot.getConfig() != null) {
+                    long amt = buffer.readVarLong();
+                    slot.setConfig(new GenericStack(slot.getConfig().what(), amt));
                 }
-                this.gui.getModularUIContainer().setCarried(stack);
-                GenericStack stack1 = ExportOnlyAESlot.copy(slot.getStock(),
-                        Math.max(0, (slot.getStock().amount() - stack.getCount())));
-                slot.setStock(stack1.amount() == 0 ? null : stack1);
+            }
+            case SLOT_CLICK_ID -> {
+                if (slot.getStock() != null && slot.getStock().what() instanceof AEItemKey) {
+                    var currentStack = gui.getModularUIContainer().getCarried();
+                    int newStackSize = buffer.readVarInt();
+                    currentStack.setCount(newStackSize);
+                    gui.getModularUIContainer().setCarried(currentStack);
+
+                    long amount = buffer.readVarLong();
+                    slot.setStock(ExportOnlyAESlot.copy(slot.getStock(), amount));
+                }
+            }
+            case SLOT_DROP_ID -> {
+                if (slot.getStock() != null && slot.getStock().what() instanceof AEItemKey) {
+                    long amt = buffer.readVarLong();
+                    slot.setStock(ExportOnlyAESlot.copy(slot.getStock(), amt));
+                }
             }
         }
     }
@@ -238,5 +314,30 @@ public class AEItemConfigSlotWidget extends AEConfigSlotWidget implements IGhost
             return true;
         }
         return false;
+    }
+
+    private void transferToPlayerInventory(Player player, ItemStack stack) {
+        var playerInv = player.getInventory();
+        while (!stack.isEmpty()) {
+            int slotIndex = playerInv.getSlotWithRemainingSpace(stack);
+            if (slotIndex != -1) {
+                var itemInSlot = playerInv.getItem(slotIndex);
+                int spaceAvailable = itemInSlot.getMaxStackSize() - itemInSlot.getCount();
+                int moveCount = Math.min(stack.getCount(), spaceAvailable);
+                itemInSlot.grow(moveCount);
+                stack.shrink(moveCount);
+                continue;
+            }
+            slotIndex = playerInv.getFreeSlot();
+            if (slotIndex != -1) {
+                int moveCount = Math.min(stack.getCount(), stack.getMaxStackSize());
+                var moveStack = stack.copy();
+                moveStack.setCount(moveCount);
+                playerInv.setItem(slotIndex, moveStack);
+                stack.shrink(moveCount);
+                continue;
+            }
+            break;
+        }
     }
 }
