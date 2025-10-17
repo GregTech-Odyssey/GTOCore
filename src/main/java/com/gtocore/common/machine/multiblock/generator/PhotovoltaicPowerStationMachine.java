@@ -17,7 +17,6 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -37,7 +36,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -243,7 +241,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     }
 
     public static BlockPattern getPatternInSpace(MultiblockMachineDefinition definition, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock) {
-        return FactoryBlockPattern.start(definition, RelativeDirection.UP, RelativeDirection.BACK, RelativeDirection.RIGHT)
+        return FactoryBlockPattern.start(definition)
                 .aisle("AAAAA")
                 .aisle("ABBBA")
                 .aisle("ABBBA")
@@ -307,9 +305,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 .where('o', FLUID_IMPORT_HATCH[HV], Direction.UP)
                 .where('p', CONTROL_HATCH, Direction.UP)
                 .where('q', MAINTENANCE_HATCH, Direction.UP)
-                .where('D', definition.defaultBlockState()
-                        .setValue(MetaMachineBlock.UPWARDS_FACING_PROPERTY, Direction.EAST)
-                        .setValue(DirectionalBlock.FACING, Direction.SOUTH))
+                .where('D', definition, Direction.WEST)
                 .where(' ', AIR)
                 .build();
     }
