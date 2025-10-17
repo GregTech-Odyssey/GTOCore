@@ -47,6 +47,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     public static final Map<ResourceLocation, Set<Core>> NETWORK = new O2OOpenCacheHashMap<>();
 
     private @Nullable CleanroomProvider provider = null;
+    private @Nullable SpaceStationEnergyConversionModule laserProvider = null;
 
     private final Set<ILargeSpaceStationMachine> subMachinesFlat;
     private WirelessEnergyContainer WirelessEnergyContainerCache;
@@ -152,6 +153,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     private void refreshModules() {
         removeAllSubMachines();
         provider = null;
+        laserProvider = null;
         Set<ILargeSpaceStationMachine> its = new ReferenceOpenHashSet<>(getConnectedModules());
         while (!its.isEmpty()) {
             var it = its.iterator();
@@ -161,6 +163,9 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
             m.setRoot(this);
             if (m instanceof CleanroomProvider p && provider == null) {
                 provider = p;
+            }
+            if (m instanceof SpaceStationEnergyConversionModule l && laserProvider == null) {
+                laserProvider = l;
             }
             if (subMachinesFlat.add(m)) {
                 its.addAll(m.getConnectedModules());
@@ -250,5 +255,9 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
             return Collections.emptySet();
         }
         return provider.getTypes();
+    }
+
+    public boolean canUseLaser() {
+        return laserProvider != null;
     }
 }

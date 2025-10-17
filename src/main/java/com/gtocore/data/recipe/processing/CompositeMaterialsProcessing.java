@@ -737,5 +737,105 @@ public class CompositeMaterialsProcessing {
                 .EUt(8388608)
                 .duration(2500)
                 .save();
+
+        REACTION_FURNACE_RECIPES.builder("aluminum_nitride_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.Alumina)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Carbon)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.AluminumNitride)
+                .inputFluids(GTMaterials.Nitrogen, 1000)
+                .outputFluids(GTMaterials.CarbonMonoxide, 1000)
+                .EUt(2040)
+                .blastFurnaceTemp(1900)
+                .duration(100)
+                .save();
+
+        ISOSTATIC_PRESSING_RECIPES.builder("aluminum_oxynitride_glass_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AluminumNitride, 9)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminumOxynitrideGlassCeramic)
+                .inputFluids(GTMaterials.Epoxy, 1000)
+                .EUt(32700)
+                .duration(500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("aluminum_oxynitride_glass_ceramic_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminumOxynitrideGlassCeramic)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.AluminumOxynitrideGlassCeramic)
+                .inputFluids(GTMaterials.Neon, 1000)
+                .EUt(8100)
+                .blastFurnaceTemp(7900)
+                .duration(500)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("lead_oxide_dust")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Lead)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.LeadOxide)
+                .inputFluids(GTMaterials.Oxygen, 1000)
+                .EUt(510)
+                .blastFurnaceTemp(2600)
+                .duration(100)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("lead_zirconate_titanate_ceramic_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadOxide)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.ZirconiumOxide, 4)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.TitaniumDioxide, 3)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.LeadZirconateTitanateCeramic, 6)
+                .EUt(8100)
+                .blastFurnaceTemp(2600)
+                .duration(100)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("lead_zirconate_titanate_shape_piezoelectric_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadZirconateTitanateCeramic, 9)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadZirconateTitanateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.Epoxy, 1000)
+                .EUt(32700)
+                .duration(500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("lead_zirconate_titanate_shape_piezoelectric_ceramic_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadZirconateTitanateShapePiezoelectricCeramic)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.LeadZirconateTitanateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.Argon, 1000)
+                .EUt(32760)
+                .blastFurnaceTemp(11800)
+                .duration(500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("lead_magnesium_niobate_shape_piezoelectric_ceramic_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadMagnesiumNiobateShapePiezoelectricCeramic)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.LeadMagnesiumNiobateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.Argon, 1000)
+                .EUt(32760)
+                .blastFurnaceTemp(11800)
+                .duration(500)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("lead_niobate_magnesium_niobate_ceramic_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadOxide, 3)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.NiobiumOxide)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Magnesia)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.LeadNiobateMagnesiumNiobateCeramic, 3)
+                .EUt(8100)
+                .blastFurnaceTemp(2600)
+                .duration(100)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("niobium_oxide_dust")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Niobium, 2)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.NiobiumOxide)
+                .inputFluids(GTMaterials.Oxygen, 5000)
+                .EUt(500)
+                .blastFurnaceTemp(1800)
+                .duration(100)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("lead_magnesium_niobate_shape_piezoelectric_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadNiobateMagnesiumNiobateCeramic, 9)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadMagnesiumNiobateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.ReinforcedEpoxyResin, 1000)
+                .EUt(32700)
+                .duration(500)
+                .save();
     }
 }

@@ -569,7 +569,7 @@ public class MaterialSpaceEra {
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
-        TitaniumTi53311S = material("titanium_ti53311S", "钛合金-Ti53311S")
+        TitaniumTi53311S = material("titanium_ti53311s", "钛合金-Ti53311S")
                 .ingot().fluid()
                 .color(0xd2b8c6)
                 .secondaryColor(0x9a7a88)

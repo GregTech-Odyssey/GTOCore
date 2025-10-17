@@ -185,7 +185,7 @@ public class MaterialComposite {
                 .flags(GENERATE_PLATE, GENERATE_LONG_ROD, GENERATE_FRAME, GENERATE_CURVED_PLATE, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         AluminumOxynitrideGlassCeramic = material("aluminum_oxynitride_glass_ceramic", "氮氧化铝玻璃陶瓷")
-                .ingot().fluid()
+                .ingot()
                 .color(0xdedede)
                 .secondaryColor(0xa1a1a1)
                 .blastTemp(2050, LOW, GTValues.VA[GTValues.HV], 600)
@@ -253,7 +253,7 @@ public class MaterialComposite {
                 .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         LeadZirconateTitanateShapePiezoelectricCeramic = material("lead_zirconate_titanate_shape_piezoelectric_ceramic", "锆钛酸铅压电陶瓷")
-                .ingot().fluid()
+                .ingot()
                 .color(0xb357ba)
                 .secondaryColor(0x7a3a7d)
                 .blastTemp(5700, HIGH, GTValues.VA[GTValues.UV], 600)
@@ -261,7 +261,7 @@ public class MaterialComposite {
                 .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         LeadMagnesiumNiobateShapePiezoelectricCeramic = material("lead_magnesium_niobate_shape_piezoelectric_ceramic", "铌镁酸铅压电陶瓷")
-                .ingot().fluid()
+                .ingot()
                 .color(0xbb7d8a)
                 .secondaryColor(0x7a5258)
                 .blastTemp(5800, HIGH, GTValues.VA[GTValues.UV], 600)
@@ -269,7 +269,7 @@ public class MaterialComposite {
                 .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         BoronCarbideCompositeProtectiveCeramic = material("boron_carbide_composite_protective_ceramic", "碳化硼复合防护陶瓷")
-                .ingot().fluid()
+                .ingot()
                 .color(0x3d3715)
                 .secondaryColor(0x29270f)
                 .blastTemp(5920, HIGH, GTValues.VA[GTValues.UV], 600)
@@ -293,7 +293,7 @@ public class MaterialComposite {
                 .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         FGMTPSThermalProtectionComposite = material("fgm_tps10_thermal_protection_composite", "FGM-TPS10热防护复合陶瓷")
-                .ingot().fluid()
+                .ingot()
                 .color(0x7d5721)
                 .secondaryColor(0x5e3a16)
                 .blastTemp(6200, HIGH, GTValues.VA[GTValues.UHV], 600)

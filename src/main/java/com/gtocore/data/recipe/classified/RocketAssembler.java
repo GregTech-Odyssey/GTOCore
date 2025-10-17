@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.*;
@@ -305,6 +306,23 @@ final class RocketAssembler {
                 .inputFluids(GTOMaterials.BerylliumAluminumF, 2880)
                 .inputFluids(GTMaterials.Lubricant, 16000)
                 .EUt(32760)
+                .duration(1000)
+                .save();
+        ROCKET_ASSEMBLER_RECIPES.builder("yellow_stripes_block_777a")
+                .inputItems("ad_astra_rocketed:tier_7_rocket")
+                .inputItems(CustomTags.UIV_CIRCUITS, 64)
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UHV.asItem(), 64)
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.OdysseyNanoSuperalloy, 64)
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.NanoStrengthenedShapeMemoryAlloy, 64)
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.TitaniumDioxideNanotubeReinforcedTitaniumMatrixComposite, 64)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.OxideDispersionStrengthenedNickelBaseSuperalloy, 64)
+                .inputItems(GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.asItem(), 64)
+                .inputItems(GTOItems.UHV_VOLTAGE_COIL.asItem(), 64)
+                .outputItems(SpaceMultiblock.SPACE_STATION_ENERGY_CONVERSION_MODULE.asItem())
+                .inputFluids(GTOMaterials.StellarEnergyRocketFuel, 16000)
+                .inputFluids(GTOMaterials.Enderite, 64000)
+                .inputFluids(GTOMaterials.SuperMutatedLivingSolder, 64000)
+                .EUt(8388608)
                 .duration(1000)
                 .save();
     }

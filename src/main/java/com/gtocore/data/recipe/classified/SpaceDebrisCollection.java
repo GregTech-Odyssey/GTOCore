@@ -49,6 +49,7 @@ final class SpaceDebrisCollection {
 
     private static Item[] drones = null;
     private static final IntFunction<Object> chargeable = (tier) -> switch (tier) {
+        case 2 -> CustomTags.EV_BATTERIES;
         case 3 -> CustomTags.IV_BATTERIES;
         case 4 -> CustomTags.LuV_BATTERIES;
         case 5 -> CustomTags.ZPM_BATTERIES;

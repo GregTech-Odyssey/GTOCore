@@ -758,5 +758,48 @@ final class AssemblerA {
                 .EUt(32760)
                 .duration(500)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("optical_dynamic_coating_instrument_protective_shield_glass")
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.BerylliumAluminumF)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.AluminumOxynitrideGlassCeramic, 6)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.CubicZirconia, 4)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.YttriumOxide, 4)
+                .outputItems(GTOBlocks.OPTICAL_DYNAMIC_COATING_INSTRUMENT_PROTECTIVE_SHIELD_GLASS.asItem())
+                .inputFluids(GTMaterials.ReinforcedEpoxyResin, 1000)
+                .circuitMeta(6)
+                .EUt(120)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("composite_armor_protective_layer")
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.StarliteSteel)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.BoronCarbideCompositeProtectiveCeramic, 6)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.HighDurabilityCompoundSteel, 6)
+                .outputItems(GTOBlocks.COMPOSITE_ARMOR_PROTECTIVE_LAYER.asItem())
+                .inputFluids(GTMaterials.TungstenSteel, 288)
+                .circuitMeta(6)
+                .EUt(120)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("spacecraft_thermal_shielding_casing")
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.UltraLightweightCompositeSteel)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.UHTCX2000UltraHighTemperatureComposite, 6)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.RadiationShieldingHighDensityTungstenSteel, 6)
+                .outputItems(GTOBlocks.SPACECRAFT_THERMAL_SHIELDING_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(120)
+                .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("spacecraft_dynamic_protective_mechanical_casing")
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.UltraLightweightCompositeSteel)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.StarliteSteel, 4)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.FGMTPSThermalProtectionComposite, 2)
+                .outputItems(GTOBlocks.SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING.asItem())
+                .circuitMeta(6)
+                .EUt(120)
+                .duration(50)
+                .save();
     }
 }
