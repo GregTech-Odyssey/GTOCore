@@ -10,7 +10,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
 import com.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
 import com.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
@@ -360,34 +359,6 @@ public final class MultiBlockG {
                     .where(' ', air())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
-            .register();
-
-    public static final MultiblockMachineDefinition CARVING_CENTER = multiblock("carving_center", "雕刻中心", ChiselMachine::new)
-            .allRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getCarvingCenterTooltips().getSupplier())
-            .recipeTypes(DUMMY_RECIPES)
-            .block(GTBlocks.CASING_STEEL_SOLID)
-            .pattern(definition -> FactoryBlockPattern.start(definition)
-                    .aisle("AAAAA", "ABABA", "ABABA", " CCC ")
-                    .aisle("ADDDA", "C   C", "C E C", "CCCCC")
-                    .aisle("ADDDA", "C F C", "CEFEC", "CCCCC")
-                    .aisle("ADDDA", "C   C", "C   C", "CCCCC")
-                    .aisle("AAGAA", "AHHHA", "AHHHA", " CCC ")
-                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4))
-                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))
-                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
-                            .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
-                    .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
-                    .where('D', blocks(GTBlocks.STEEL_HULL.get()))
-                    .where('E', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
-                    .where('F', blocks(Blocks.IRON_BARS))
-                    .where('G', controller(blocks(definition.get())))
-                    .where('H', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
-                    .where(' ', any())
-                    .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
     public static final MultiblockMachineDefinition ANCIENT_REACTOR_CORE = multiblock("ancient_reactor_core", "远古反应核", VoidTransporterMachine.create(1, 0, VoidTransporterMachine.teleportToDimension(GTODimensions.ANCIENT_WORLD, new BlockPos(0, 63, 0))))

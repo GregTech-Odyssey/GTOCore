@@ -9,7 +9,6 @@ dependencies {
     jarJar("dev:terrific_trash_cans:1.0.0")
 
     modImplementation(jarJar("dev:gtolib:1.0"))
-    modImplementation(jarJar("com.hepdd:ae2emicraftingforge:1.0.0"))
 //    modImplementation(jarJar("dev.mineland:item-interactions-mod-forge+1.20.1:2.1.4"))
 
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
@@ -22,7 +21,7 @@ dependencies {
 
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
 
-    modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}") { transitive false }
+    jarJar(modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}"))
     modImplementation("org.appliedenergistics:guideme:20.1.13")
     modImplementation("curse.maven:applied-energistics-2-wireless-terminals-459929:7014805")
     modImplementation("curse.maven:applied-botanics-addon-610632:7024180")

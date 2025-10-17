@@ -5,6 +5,7 @@ import com.gtocore.data.recipe.generated.DyeRecipes;
 import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
+import com.gtocore.data.recipe.mod.Sophisticated;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
@@ -73,6 +74,7 @@ public final class RecipeFilter {
         FunctionalStorage.initJsonFilter(filters);
         AE2.initJsonFilter(filters);
         SpaceStationRecipes.initJsonFilter(filters);
+        Sophisticated.initJsonFilter(filters);
 
         String[] ore1 = new String[] { "coal", "redstone", "emerald", "diamond" };
         String[] ore2 = new String[] { "iron", "copper", "gold" };
@@ -454,7 +456,6 @@ public final class RecipeFilter {
         filters.add(RLUtils.eio("sag_milling/ender_pearl"));
 
         if (!GTOCore.isEasy()) {
-
             filters.add(RLUtils.eio("copper_alloy_block"));
             filters.add(RLUtils.eio("copper_alloy_ingot"));
             filters.add(RLUtils.eio("copper_alloy_nugget"));
@@ -491,38 +492,6 @@ public final class RecipeFilter {
             filters.add(RLUtils.eio("end_steel_ingot"));
             filters.add(RLUtils.eio("end_steel_nugget"));
             filters.add(RLUtils.eio("end_steel_nugget_to_ingot"));
-
-            filters.add(RLUtils.sp("backpack"));
-            filters.add(RLUtils.sp("pickup_upgrade"));
-            filters.add(RLUtils.sp("filter_upgrade"));
-            filters.add(RLUtils.sp("advanced_pickup_upgrade"));
-            filters.add(RLUtils.sp("advanced_filter_upgrade"));
-            filters.add(RLUtils.sp("magnet_upgrade"));
-            filters.add(RLUtils.sp("advanced_magnet_upgrade"));
-            filters.add(RLUtils.sp("advanced_magnet_upgrade_from_basic"));
-            filters.add(RLUtils.sp("compacting_upgrade"));
-            filters.add(RLUtils.sp("advanced_compacting_upgrade"));
-            filters.add(RLUtils.sp("void_upgrade"));
-            filters.add(RLUtils.sp("advanced_void_upgrade"));
-            filters.add(RLUtils.sp("pump_upgrade"));
-            filters.add(RLUtils.sp("advanced_pump_upgrade"));
-            filters.add(RLUtils.sp("battery_upgrade"));
-            filters.add(RLUtils.sp("tank_upgrade"));
-            filters.add(RLUtils.sp("refill_upgrade"));
-            filters.add(RLUtils.sp("advanced_refill_upgrade"));
-            filters.add(RLUtils.sp("inception_upgrade"));
-            filters.add(RLUtils.sp("auto_smelting_upgrade"));
-            filters.add(RLUtils.sp("auto_smoking_upgrade"));
-            filters.add(RLUtils.sp("auto_smoking_upgrade_from_auto_smelting_upgrade"));
-            filters.add(RLUtils.sp("auto_blasting_upgrade"));
-            filters.add(RLUtils.sp("auto_blasting_upgrade_from_auto_smelting_upgrade"));
-            filters.add(RLUtils.sp("stack_upgrade_starter_tier"));
-            filters.add(RLUtils.sp("stack_upgrade_tier_1"));
-            filters.add(RLUtils.sp("stack_upgrade_tier_1_from_starter"));
-            filters.add(RLUtils.sp("stack_upgrade_tier_2"));
-            filters.add(RLUtils.sp("stack_upgrade_tier_3"));
-            filters.add(RLUtils.sp("stack_upgrade_tier_4"));
-            filters.add(RLUtils.sp("stack_upgrade_omega_tier"));
         }
 
         filters.add(RLUtils.fd("wheat_dough_from_water"));

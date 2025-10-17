@@ -173,7 +173,7 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         .widget(
             InitFancyMachineUIWidget(this, 176, 166) {
                 if (!isRemote) {
-                    syncDataToClientInServer()
+                    refreshCachesOnServer()
                 }
             },
         )

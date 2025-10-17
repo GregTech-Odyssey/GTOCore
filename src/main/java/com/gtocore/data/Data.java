@@ -20,6 +20,7 @@ import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.mod.MeteoriteRecipe;
+import com.gtocore.data.recipe.mod.Sophisticated;
 import com.gtocore.data.recipe.processing.*;
 import com.gtocore.data.recipe.research.AnalyzeRecipes;
 import com.gtocore.data.recipe.research.DataGenerateRecipe;
@@ -144,6 +145,7 @@ public final class Data {
         Ae2wtlibRecipes.init();
         ImmersiveAircraft.init();
         FunctionalStorage.init();
+        Sophisticated.init();
         $ClassifiedRecipe.init();
         Temporary.init();
         if (GTCEu.isDev()) {

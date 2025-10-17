@@ -16,11 +16,11 @@ import net.minecraft.world.inventory.Slot;
 
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+import appeng.integration.modules.emi.EmiStackHelper;
 import appeng.integration.modules.jeirei.EncodingHelper;
 import appeng.integration.modules.jeirei.TransferHelper;
 import appeng.menu.me.common.GridInventoryEntry;
 import appeng.menu.me.items.PatternEncodingTermMenu;
-import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiStackHelper;
 import dev.emi.emi.api.recipe.EmiPlayerInventory;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.EmiCraftContext;
@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.hepdd.ae2emicraftingforge.client.helper.rendering.Rendering.getInnerBounds;
-import static com.hepdd.ae2emicraftingforge.client.helper.rendering.Rendering.isInputSlot;
+import static appeng.integration.modules.emi.AbstractRecipeHandler.getInnerBounds;
+import static appeng.integration.modules.emi.AbstractRecipeHandler.isInputSlot;
 
 final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> implements EmiRecipeHandler<T> {
 

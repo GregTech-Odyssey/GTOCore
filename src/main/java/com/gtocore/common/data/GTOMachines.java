@@ -80,7 +80,7 @@ public final class GTOMachines {
         MultiBlockH.init();
         SpaceMultiblock.init();
 
-        EasyModeMachine.init(); // 限制模式不注册会出现多方块预览错误
+        OptionalMachine.init(); // 限制模式不注册会出现多方块预览错误
 
         if (GTCEu.isDev() || GTCEu.isDataGen()) {
             final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)

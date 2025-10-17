@@ -1,5 +1,6 @@
 package com.gtocore.integration.emi;
 
+import com.gtocore.integration.Mods;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
@@ -27,17 +28,16 @@ import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.p3pp3rf1y.sophisticatedbackpacks.compat.recipeviewers.emi.BackpackEmiPlugin;
 
+import appeng.core.AppEng;
+import appeng.integration.modules.emi.AppEngEmiPlugin;
+import appeng.integration.modules.emi.EmiEncodePatternHandler;
+import appeng.integration.modules.emi.EmiUseCraftingRecipeHandler;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
 import com.enderio.base.common.integrations.jei.EnderIOJEI;
 import com.enderio.machines.common.integrations.jei.MachinesJEI;
-import com.hepdd.ae2emicraftingforge.Ae2EmiCraftingMod;
-import com.hepdd.ae2emicraftingforge.client.Ae2EmiPlugin;
-import com.hepdd.ae2emicraftingforge.client.handler.Ae2CraftingHandler;
-import com.hepdd.ae2emicraftingforge.client.handler.Ae2PatternTerminalHandler;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
@@ -95,7 +95,9 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new EmiPluginContainer(new VanillaPlugin(), "emi"));
         if (GTCEu.isProd()) {
             list.add(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
-            list.add(new EmiPluginContainer(new BackpackEmiPlugin(), "backpack"));
+        }
+        if (Mods.sophisticatedbackpacks()) {
+            list.add(new EmiPluginContainer(new net.p3pp3rf1y.sophisticatedbackpacks.compat.recipeviewers.emi.BackpackEmiPlugin(), "backpack"));
         }
         list.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Const.MOD_ID));
         list.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
@@ -103,12 +105,12 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
         list.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         list.add(new EmiPluginContainer(new MeteoritesEmiPlugin(), ArsMeteorites.MOD_ID));
-        list.add(new EmiPluginContainer(new Ae2EmiPlugin(), Ae2EmiCraftingMod.MOD_ID));
+        list.add(new EmiPluginContainer(new AppEngEmiPlugin(), AppEng.MOD_ID));
     }
 
     @Override
     public void register(EmiRegistry registry) {
-        if (GTCEu.isProd()) ChiselRecipe.register(registry);
+        if (Mods.chisel()) ChiselRecipe.register(registry);
 
         registry.addCategory(MultiblockInfoEmiRecipe.CATEGORY);
         registry.addCategory(OreProcessingEmiCategory.CATEGORY);
@@ -124,9 +126,9 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(Wireless.TYPE, UtilsMiscs.createEMIWireless());
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new GTAe2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new GTAe2PatternTerminalHandler<>());
-        registry.addRecipeHandler(WCTMenu.TYPE, new Ae2CraftingHandler<>(WCTMenu.class));
-        registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>(WETMenu.class));
-        registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>(PatternEncodingTermMenu.class));
+        registry.addRecipeHandler(WCTMenu.TYPE, new EmiUseCraftingRecipeHandler<>(WCTMenu.class));
+        registry.addRecipeHandler(WETMenu.TYPE, new EmiEncodePatternHandler<>(WETMenu.class));
+        registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new EmiEncodePatternHandler<>(PatternEncodingTermMenu.class));
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);

@@ -1,7 +1,6 @@
 package com.gtocore.data.recipe.gtm.misc;
 
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.machines.EasyModeMachine;
 import com.gtocore.common.data.machines.GTAEMachines;
 
 import com.gtolib.utils.ItemUtils;
@@ -1186,8 +1185,6 @@ public final class MachineRecipeLoader {
                 GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_catalyst_me_pattern_buffer", GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asStack(),
                 GTAEMachines.ME_CATALYST_ME_PATTERN_BUFFER.asItem());
-        VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_simple_pattern_buffer", EasyModeMachine.ME_SIMPLE_PATTERN_BUFFER.asStack(),
-                EasyModeMachine.ME_SIMPLE_PATTERN_BUFFER.asItem());
 
         // Jetpacks
         VanillaRecipeHelper.addShapelessRecipe("fluid_jetpack_clear", LIQUID_FUEL_JETPACK.asStack(),

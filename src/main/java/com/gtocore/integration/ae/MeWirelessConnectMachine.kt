@@ -91,7 +91,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
             this,
             176,
             166,
-        ) { if (!isRemote)syncDataToClientInServer() },
+        ) { if (!isRemote)refreshCachesOnServer() },
     )
 
     override fun getSyncHolder(): SyncManagedFieldHolder = syncManager

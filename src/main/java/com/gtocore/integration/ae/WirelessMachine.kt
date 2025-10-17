@@ -215,7 +215,6 @@ interface WirelessMachine :
                     }
                 }
                 // 机器加载完成后进行一次数据同步，避免 UI 打开时需要主动拉取
-                syncDataToClientInServer()
                 wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
             }
         }, GTUtil.NOOP, 40)
@@ -252,9 +251,6 @@ interface WirelessMachine :
             WirelessSavedData.accessibleGridsFor(requesterUUID),
         )
     }
-
-    // 兼容旧命名
-    fun syncDataToClientInServer() = refreshCachesOnServer()
 
     fun createWirelessMachineRunTime() = WirelessMachineRunTime(this)
     fun createWirelessMachinePersisted() = WirelessMachinePersisted(this)
