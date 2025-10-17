@@ -21,11 +21,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.Set;
 
-public final class PlanetCoreDrillingMachine extends ElectricMultiblockMachine {
+public final class StarcoreMinerMachine extends ElectricMultiblockMachine {
 
     private Set<Material> materials;
 
-    public PlanetCoreDrillingMachine(MetaMachineBlockEntity holder) {
+    public StarcoreMinerMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

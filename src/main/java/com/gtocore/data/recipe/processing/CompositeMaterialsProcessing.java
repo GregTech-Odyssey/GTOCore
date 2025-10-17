@@ -11,11 +11,9 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gtocore.api.data.tag.GTOTagPrefix.FIBER_MESH;
-import static com.gtocore.common.data.GTOMaterials.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Carbon;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Polyethylene;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public class CompositeMaterialsProcessing {

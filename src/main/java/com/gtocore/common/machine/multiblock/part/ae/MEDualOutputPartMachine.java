@@ -81,7 +81,8 @@ public class MEDualOutputPartMachine extends MEPartMachine {
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(new Position(0, 0));
-        group.addWidget(new LabelWidget(0, 0, () -> this.isOnline() ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
+        group.addWidget(new LabelWidget(5, 0, () -> this.isOnline() ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
+        group.addWidget(new LabelWidget(5, 10, "gtceu.gui.waiting_list"));
         group.addWidget(new AEListGridWidget.Item(5, 20, 3, this.internalBuffer));
         group.addWidget(new AEListGridWidget.Fluid(5, 80, 3, this.internalTankBuffer));
         return group;

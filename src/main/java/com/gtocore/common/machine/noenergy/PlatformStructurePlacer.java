@@ -22,7 +22,10 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import it.unimi.dsi.fastutil.chars.Char2ReferenceOpenHashMap;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.IntConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

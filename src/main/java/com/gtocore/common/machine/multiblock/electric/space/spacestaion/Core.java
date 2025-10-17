@@ -36,7 +36,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.IV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
 import static com.gtocore.common.data.GTOMaterials.FlocculationWasteSolution;
 import static com.gtolib.utils.ServerUtils.getServer;

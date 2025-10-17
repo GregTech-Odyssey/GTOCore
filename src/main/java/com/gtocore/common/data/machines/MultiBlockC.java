@@ -16,7 +16,7 @@ import com.gtocore.common.machine.multiblock.electric.bioengineering.BiologicalE
 import com.gtocore.common.machine.multiblock.electric.nano.NanitesIntegratedMachine;
 import com.gtocore.common.machine.multiblock.electric.nano.NanitesModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.voidseries.AdvancedInfiniteDrillMachine;
-import com.gtocore.common.machine.multiblock.electric.voidseries.PlanetCoreDrillingMachine;
+import com.gtocore.common.machine.multiblock.electric.voidseries.StarcoreMinerMachine;
 import com.gtocore.common.machine.multiblock.noenergy.LargeSteamStorageTank;
 import com.gtocore.common.machine.multiblock.noenergy.NeutronVortexMachine;
 import com.gtocore.common.machine.multiblock.noenergy.PrimitiveDistillationTowerMachine;
@@ -811,8 +811,9 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition PLANET_CORE_DRILLING = multiblock("planet_core_drilling", "星核钻机", PlanetCoreDrillingMachine::new)
+    public static final MultiblockMachineDefinition PLANET_CORE_DRILLING = multiblock("planet_core_drilling", "星核钻机", StarcoreMinerMachine::new)
             .nonYAxisRotation()
+            .langValue("Starcore Miner")
             .tooltips(GTOMachineStories.INSTANCE.getPlanetCoreDrillingTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getPlanetCoreDrillingTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)

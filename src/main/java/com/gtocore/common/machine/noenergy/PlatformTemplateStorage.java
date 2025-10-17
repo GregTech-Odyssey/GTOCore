@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.noenergy;
 
-import com.gtocore.common.machine.noenergy.PlatformBlockType.*;
+import com.gtocore.common.machine.noenergy.PlatformBlockType.PlatformPreset;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.lang.CNEN;

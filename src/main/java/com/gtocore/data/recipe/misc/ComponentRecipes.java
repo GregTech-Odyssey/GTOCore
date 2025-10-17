@@ -21,7 +21,6 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -251,14 +250,14 @@ public final class ComponentRecipes {
     }
 
     private static void assembler(int tier, Item emitter_gem, Item field_gem, Material... material) {
-        ItemStack motor = (ItemStack) MOTOR.get(tier);
-        ItemStack conveyor = (ItemStack) CONVEYOR.get(tier);
-        ItemStack pump = (ItemStack) PUMP.get(tier);
-        ItemStack piston = (ItemStack) PISTON.get(tier);
-        ItemStack robot_arm = (ItemStack) ROBOT_ARM.get(tier);
-        ItemStack emitter = (ItemStack) EMITTER.get(tier);
-        ItemStack sensor = (ItemStack) SENSOR.get(tier);
-        ItemStack field_generator = (ItemStack) FIELD_GENERATOR.get(tier);
+        Item motor = (Item) MOTOR.get(tier);
+        Item conveyor = (Item) CONVEYOR.get(tier);
+        Item pump = (Item) PUMP.get(tier);
+        Item piston = (Item) PISTON.get(tier);
+        Item robot_arm = (Item) ROBOT_ARM.get(tier);
+        Item emitter = (Item) EMITTER.get(tier);
+        Item sensor = (Item) SENSOR.get(tier);
+        Item field_generator = (Item) FIELD_GENERATOR.get(tier);
         TagKey<Item> circuit = (TagKey<Item>) CIRCUIT.get(tier);
         ASSEMBLER_RECIPES.recipeBuilder(String.format("motor_%s", VN[tier].toLowerCase()))
                 .inputItems(GTOTagPrefix.MOTOR_ENCLOSURE, material[0])
@@ -276,12 +275,12 @@ public final class ComponentRecipes {
                 .inputItems(wireGtDouble, material[3], 48)
                 .inputItems(cableGtSingle, material[1], 24)
                 .inputFluids(material[0], L * 40)
-                .outputItems(motor.copyWithCount(16))
+                .outputItems(motor, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(String.format("conveyor_%s", VN[tier].toLowerCase()))
-                .inputItems(motor.copyWithCount(2))
+                .inputItems(motor, 2)
                 .inputItems(rod, material[0], 2)
                 .inputItems(ring, material[0], 4)
                 .inputItems(cableGtSingle, material[1], 2)
@@ -291,18 +290,18 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("conveyor_%s", VN[tier].toLowerCase()))
                 .circuitMeta(2)
-                .inputItems(motor.copyWithCount(24))
+                .inputItems(motor, 24)
                 .inputItems(cableGtSingle, material[1], 24)
                 .inputFluids(material[0], L * 24)
                 .inputFluids(material[4], L * 72)
-                .outputItems(conveyor.copyWithCount(16))
+                .outputItems(conveyor, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(String.format("pump_%s", VN[tier].toLowerCase()))
                 .inputItems(GTOTagPrefix.PUMP_BARREL, material[0])
                 .inputItems(pipeNormalFluid, material[5])
-                .inputItems(motor.copyWithCount(1))
+                .inputItems(motor, 1)
                 .inputItems(screw, material[6], 2)
                 .inputItems(rotor, material[6])
                 .inputItems(ring, material[4], 2)
@@ -312,13 +311,13 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("pump_%s", VN[tier].toLowerCase()))
                 .circuitMeta(3)
-                .inputItems(motor.copyWithCount(12))
+                .inputItems(motor, 12)
                 .inputItems(cableGtSingle, material[1], 24)
                 .inputFluids(material[0], L * 30)
                 .inputFluids(material[5], L * 36)
                 .inputFluids(material[6], L * 51)
                 .inputFluids(material[4], L * 6)
-                .outputItems(pump.copyWithCount(16))
+                .outputItems(pump, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
@@ -327,7 +326,7 @@ public final class ComponentRecipes {
                 .inputItems(circuit, 2)
                 .inputItems(GTOTagPrefix.CURVED_PLATE, material[0], 2)
                 .circuitMeta(1)
-                .outputItems((ItemStack) CraftingComponents.FLUID_REGULATOR.get(tier))
+                .outputItems(CraftingComponents.FLUID_REGULATOR.get(tier))
                 .EUt(VA[tier])
                 .duration(100)
                 .save();
@@ -344,17 +343,17 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("piston_%s", VN[tier].toLowerCase()))
                 .circuitMeta(4)
-                .inputItems(motor.copyWithCount(12))
+                .inputItems(motor, 12)
                 .inputItems(cableGtSingle, material[1], 24)
                 .inputFluids(material[0], L * (36 + 6 * 12 + 12))
-                .outputItems(piston.copyWithCount(16))
+                .outputItems(piston, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(String.format("arm_%s", VN[tier].toLowerCase()))
                 .inputItems(cableGtSingle, material[1], 3)
                 .inputItems(rod, material[0], 2)
-                .inputItems(motor.copyWithCount(2))
+                .inputItems(motor, 2)
                 .inputItems(piston)
                 .inputItems(circuit)
                 .outputItems(robot_arm)
@@ -362,12 +361,12 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("arm_%s", VN[tier].toLowerCase()))
                 .circuitMeta(5)
-                .inputItems(motor.copyWithCount(12))
-                .inputItems(piston.copyWithCount(12))
+                .inputItems(motor, 12)
+                .inputItems(piston, 12)
                 .inputItems(cableGtSingle, material[1], 36)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 12)
                 .inputFluids(material[0], L * 24)
-                .outputItems(robot_arm.copyWithCount(16))
+                .outputItems(robot_arm, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
@@ -387,7 +386,7 @@ public final class ComponentRecipes {
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 24)
                 .inputFluids(material[0], L * 48)
                 .inputFluids(material[7], L * 12)
-                .outputItems(emitter.copyWithCount(16))
+                .outputItems(emitter, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
@@ -407,7 +406,7 @@ public final class ComponentRecipes {
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 24)
                 .inputFluids(material[0], L * 54)
                 .inputFluids(material[7], L * 6)
-                .outputItems(sensor.copyWithCount(16))
+                .outputItems(sensor, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
@@ -422,26 +421,26 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("field_generator_%s", VN[tier].toLowerCase()))
                 .circuitMeta(8)
-                .inputItems(emitter.copyWithCount(12))
+                .inputItems(emitter, 12)
                 .inputItems(field_gem, 12)
                 .inputItems(wireGtQuadruple, material[8], 48)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 24)
                 .inputFluids(material[0], L * 96)
-                .outputItems(field_generator.copyWithCount(16))
+                .outputItems(field_generator, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
     }
 
     private static void assembly_line(int tier, Item pipe, Item emitter_gem, Item magnetic, Material... material) {
         int fluidMultiplier = getFluidMultiplier(tier);
-        ItemStack motor = (ItemStack) MOTOR.get(tier);
-        ItemStack conveyor = (ItemStack) CONVEYOR.get(tier);
-        ItemStack pump = (ItemStack) PUMP.get(tier);
-        ItemStack piston = (ItemStack) PISTON.get(tier);
-        ItemStack robot_arm = (ItemStack) ROBOT_ARM.get(tier);
-        ItemStack emitter = (ItemStack) EMITTER.get(tier);
-        ItemStack sensor = (ItemStack) SENSOR.get(tier);
-        ItemStack field_generator = (ItemStack) FIELD_GENERATOR.get(tier);
+        Item motor = (Item) MOTOR.get(tier);
+        Item conveyor = (Item) CONVEYOR.get(tier);
+        Item pump = (Item) PUMP.get(tier);
+        Item piston = (Item) PISTON.get(tier);
+        Item robot_arm = (Item) ROBOT_ARM.get(tier);
+        Item emitter = (Item) EMITTER.get(tier);
+        Item sensor = (Item) SENSOR.get(tier);
+        Item field_generator = (Item) FIELD_GENERATOR.get(tier);
         TagKey<Item> circuit = (TagKey<Item>) CIRCUIT.get(tier);
 
         RecipeBuilder builder_motor = ASSEMBLY_LINE_RECIPES.recipeBuilder(String.format("motor_%s", VN[tier].toLowerCase()))
@@ -460,7 +459,7 @@ public final class ComponentRecipes {
             builder_motor.inputItems(wireFine, material[1], 64)
                     .inputItems(wireFine, material[1], 64)
                     .researchStation(b -> b
-                            .researchStack((ItemStack) MOTOR.get(tier - 1))
+                            .researchStack((Item) MOTOR.get(tier - 1))
                             .CWUt(1 << (tier - 3))
                             .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
@@ -487,12 +486,12 @@ public final class ComponentRecipes {
                 .inputFluids(material[3], L * 12 * fluidMultiplier)
                 .inputFluids(material[4], 3000 * fluidMultiplier)
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
-                .outputItems(motor.copyWithCount(16))
+                .outputItems(motor, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
 
         RecipeBuilder builder_conveyor = ASSEMBLY_LINE_RECIPES.recipeBuilder(String.format("conveyor_%s", VN[tier].toLowerCase()))
-                .inputItems(motor.copyWithCount(2))
+                .inputItems(motor, 2)
                 .inputItems(plate, material[0], 2)
                 .inputItems(ring, material[0], 4)
                 .inputItems(round, material[0], 16)
@@ -507,7 +506,7 @@ public final class ComponentRecipes {
 
         if (tier > ZPM) {
             builder_conveyor.researchStation(b -> b
-                    .researchStack((ItemStack) CONVEYOR.get(tier - 1))
+                    .researchStack((Item) CONVEYOR.get(tier - 1))
                     .CWUt(1 << (tier - 3))
                     .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
@@ -525,14 +524,14 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("conveyor_%s", VN[tier].toLowerCase()))
                 .circuitMeta(2)
-                .inputItems(motor.copyWithCount(24))
+                .inputItems(motor, 24)
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0], L * 63)
                 .inputFluids(material[3], L * 12 * fluidMultiplier)
                 .inputFluids(material[4], 3000 * fluidMultiplier)
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
                 .inputFluids(material[6], L * 96 * fluidMultiplier)
-                .outputItems(conveyor.copyWithCount(16))
+                .outputItems(conveyor, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
 
@@ -552,7 +551,7 @@ public final class ComponentRecipes {
 
         if (tier > ZPM) {
             builder_pump.researchStation(b -> b
-                    .researchStack((ItemStack) PUMP.get(tier - 1))
+                    .researchStack((Item) PUMP.get(tier - 1))
                     .CWUt(1 << (tier - 3))
                     .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
@@ -570,7 +569,7 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("pump_%s", VN[tier].toLowerCase()))
                 .circuitMeta(3)
-                .inputItems(motor.copyWithCount(12))
+                .inputItems(motor, 12)
                 .inputItems(pipe, 12)
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0], L * 90)
@@ -578,7 +577,7 @@ public final class ComponentRecipes {
                 .inputFluids(material[4], 3000 * fluidMultiplier)
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
                 .inputFluids(material[6], L * 12 * fluidMultiplier)
-                .outputItems(pump.copyWithCount(16))
+                .outputItems(pump, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
 
@@ -587,7 +586,7 @@ public final class ComponentRecipes {
                 .inputItems(circuit, 2)
                 .inputItems(GTOTagPrefix.CURVED_PLATE, material[0], 2)
                 .circuitMeta(1)
-                .outputItems((ItemStack) CraftingComponents.FLUID_REGULATOR.get(tier))
+                .outputItems(CraftingComponents.FLUID_REGULATOR.get(tier))
                 .EUt(VA[tier])
                 .duration(100)
                 .save();
@@ -610,7 +609,7 @@ public final class ComponentRecipes {
 
         if (tier > ZPM) {
             builder_piston.researchStation(b -> b
-                    .researchStack((ItemStack) PISTON.get(tier - 1))
+                    .researchStack((Item) PISTON.get(tier - 1))
                     .CWUt(1 << (tier - 3))
                     .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
@@ -628,13 +627,13 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("piston_%s", VN[tier].toLowerCase()))
                 .circuitMeta(4)
-                .inputItems(motor.copyWithCount(12))
+                .inputItems(motor, 12)
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0], L * 192)
                 .inputFluids(material[3], L * 12 * fluidMultiplier)
                 .inputFluids(material[4], 3000 * fluidMultiplier)
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
-                .outputItems(piston.copyWithCount(16))
+                .outputItems(piston, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
 
@@ -642,7 +641,7 @@ public final class ComponentRecipes {
                 .inputItems(rodLong, material[0], 4)
                 .inputItems(gear, material[0])
                 .inputItems(gearSmall, material[0], 3)
-                .inputItems(motor.copyWithCount(2))
+                .inputItems(motor, 2)
                 .inputItems(piston)
                 .inputItems(circuit)
                 .inputItems((TagKey<Item>) CIRCUIT.get(tier - 1), 2)
@@ -656,7 +655,7 @@ public final class ComponentRecipes {
 
         if (tier > ZPM) {
             builder_arm.researchStation(b -> b
-                    .researchStack((ItemStack) ROBOT_ARM.get(tier - 1))
+                    .researchStack((Item) ROBOT_ARM.get(tier - 1))
                     .CWUt(1 << (tier - 3))
                     .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
@@ -674,8 +673,8 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("arm_%s", VN[tier].toLowerCase()))
                 .circuitMeta(5)
-                .inputItems(motor.copyWithCount(24))
-                .inputItems(piston.copyWithCount(12))
+                .inputItems(motor, 24)
+                .inputItems(piston, 12)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 12)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier - 1].asItem(), 24)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier - 3].asItem(), 36)
@@ -684,7 +683,7 @@ public final class ComponentRecipes {
                 .inputFluids(material[3], L * 24 * fluidMultiplier)
                 .inputFluids(material[4], 3000 * fluidMultiplier)
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
-                .outputItems(robot_arm.copyWithCount(16))
+                .outputItems(robot_arm, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
 
@@ -705,12 +704,12 @@ public final class ComponentRecipes {
 
         if (tier > ZPM) {
             builder_emitter.researchStation(b -> b
-                    .researchStack((ItemStack) EMITTER.get(tier - 1))
+                    .researchStack((Item) EMITTER.get(tier - 1))
                     .CWUt((int) ((1 << (tier - 3)) * 1.5))
                     .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
             builder_emitter.researchStation(b -> b
-                    .researchStack((ItemStack) EMITTER.get(ZPM - 1))
+                    .researchStack((Item) EMITTER.get(ZPM - 1))
                     .CWUt(1 << (tier - 4))
                     .EUt(VA[tier - 1]));
         } else {
@@ -723,7 +722,7 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("emitter_%s", VN[tier].toLowerCase()))
                 .circuitMeta(6)
-                .inputItems(motor.copyWithCount(12))
+                .inputItems(motor, 12)
                 .inputItems(emitter_gem, 24)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 24)
                 .inputItems(cableGtSingle, material[2], 48)
@@ -733,7 +732,7 @@ public final class ComponentRecipes {
                 .inputFluids(material[7], L * 24)
                 .inputFluids(material[8], L * 192)
                 .inputFluids(material[9], L * 192)
-                .outputItems(emitter.copyWithCount(16))
+                .outputItems(emitter, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
 
@@ -754,12 +753,12 @@ public final class ComponentRecipes {
 
         if (tier > ZPM) {
             builder_sensor.researchStation(b -> b
-                    .researchStack((ItemStack) SENSOR.get(tier - 1))
+                    .researchStack((Item) SENSOR.get(tier - 1))
                     .CWUt((int) ((1 << (tier - 3)) * 1.5))
                     .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
             builder_sensor.researchStation(b -> b
-                    .researchStack((ItemStack) SENSOR.get(ZPM - 1))
+                    .researchStack((Item) SENSOR.get(ZPM - 1))
                     .CWUt(1 << (tier - 4))
                     .EUt(VA[tier - 1]));
         } else {
@@ -772,7 +771,7 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("sensor_%s", VN[tier].toLowerCase()))
                 .circuitMeta(7)
-                .inputItems(motor.copyWithCount(12))
+                .inputItems(motor, 12)
                 .inputItems(emitter_gem, 24)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 24)
                 .inputItems(cableGtSingle, material[2], 48)
@@ -782,7 +781,7 @@ public final class ComponentRecipes {
                 .inputFluids(material[7], L * 24)
                 .inputFluids(material[8], L * 192)
                 .inputFluids(material[9], L * 192)
-                .outputItems(sensor.copyWithCount(16))
+                .outputItems(sensor, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
 
@@ -790,7 +789,7 @@ public final class ComponentRecipes {
                 .inputItems(frameGt, material[7])
                 .inputItems(GTOTagPrefix.FIELD_GENERATOR_CASING, material[0])
                 .inputItems(emitter_gem)
-                .inputItems(emitter.copyWithCount(2))
+                .inputItems(emitter, 2)
                 .inputItems(circuit, 2)
                 .inputItems(wireFine, material[10], 64)
                 .inputItems(wireFine, material[10], 64)
@@ -802,12 +801,12 @@ public final class ComponentRecipes {
 
         if (tier > ZPM) {
             builder_field_generator.researchStation(b -> b
-                    .researchStack((ItemStack) FIELD_GENERATOR.get(tier - 1))
+                    .researchStack((Item) FIELD_GENERATOR.get(tier - 1))
                     .CWUt((int) ((1 << (tier - 3)) * 1.5))
                     .EUt(VA[tier - 1]));
         } else if (tier == ZPM) {
             builder_field_generator.researchStation(b -> b
-                    .researchStack((ItemStack) FIELD_GENERATOR.get(ZPM - 1))
+                    .researchStack((Item) FIELD_GENERATOR.get(ZPM - 1))
                     .CWUt(1 << (tier - 4))
                     .EUt(VA[tier - 1]));
         } else {
@@ -820,7 +819,7 @@ public final class ComponentRecipes {
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("field_generator_%s", VN[tier].toLowerCase()))
                 .circuitMeta(8)
-                .inputItems(emitter.copyWithCount(24))
+                .inputItems(emitter, 24)
                 .inputItems(emitter_gem, 12)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 24)
                 .inputItems(cableGtSingle, material[2], 48)
@@ -829,7 +828,7 @@ public final class ComponentRecipes {
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
                 .inputFluids(material[7], L * 24)
                 .inputFluids(material[10], L * 384)
-                .outputItems(field_generator.copyWithCount(16))
+                .outputItems(field_generator, 16)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
     }
@@ -866,9 +865,9 @@ public final class ComponentRecipes {
      */
     private static void integrated_control_core(int tier, Item computationComponent, Item computationUnit, Item pipe, Material... material) {
         int fluidMultiplier = getFluidMultiplier(tier);
-        ItemStack field_generator = (ItemStack) FIELD_GENERATOR.get(tier);
-        ItemStack sensor = (ItemStack) SENSOR.get(tier);
-        ItemStack pump = (ItemStack) PUMP.get(tier);
+        Item field_generator = (Item) FIELD_GENERATOR.get(tier);
+        Item sensor = (Item) SENSOR.get(tier);
+        Item pump = (Item) PUMP.get(tier);
         TagKey<Item> circuit = (TagKey<Item>) CIRCUIT.get(tier);
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder(String.format("integrated_control_core_%s", VN[tier].toLowerCase()))
@@ -886,18 +885,18 @@ public final class ComponentRecipes {
                 .inputFluids(material[3], L * 2 * fluidMultiplier)
                 .inputFluids(material[4], L * 4 * fluidMultiplier)
                 .inputFluids(material[5], L * fluidMultiplier)
-                .outputItems((ItemStack) CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier))
+                .outputItems(CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier))
                 .researchStation(b -> b
-                        .researchStack(tier == UV ? GTOItems.WETWARE_SOC.asStack() : (ItemStack) CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier - 1))
+                        .researchStack(tier == UV ? GTOItems.WETWARE_SOC.asItem() : (Item) CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier - 1))
                         .CWUt((int) ((1 << (tier - 3)) * 1.5))
                         .EUt(VA[tier - 1]))
                 .duration(1200).EUt(VA[tier]).save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("integrated_control_core_%s", VN[tier].toLowerCase()))
                 .circuitMeta(9)
-                .inputItems(field_generator.copyWithCount(12))
-                .inputItems(sensor.copyWithCount(12))
-                .inputItems(pump.copyWithCount(12))
+                .inputItems(field_generator, 12)
+                .inputItems(sensor, 12)
+                .inputItems(pump, 12)
                 .inputItems(computationUnit, 12)
                 .inputItems(computationComponent, 24)
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asItem(), 48)
@@ -907,7 +906,7 @@ public final class ComponentRecipes {
                 .inputFluids(material[5], L * 12 * fluidMultiplier)
                 .inputFluids(material[6], L * 24)
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
-                .outputItems(((ItemStack) CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier)).copyWithCount(16))
+                .outputItems(CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier), 16)
                 .duration(2400).EUt(VA[tier]).save();
     }
 }

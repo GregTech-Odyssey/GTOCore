@@ -22,31 +22,31 @@ public final class CraftingComponents {
     public static CraftingComponent INTEGRATED_CONTROL_CORE;
 
     public static void init() {
-        PUMP.add(14, GTOItems.MAX_ELECTRIC_PUMP.asStack());
+        PUMP.add(14, GTOItems.MAX_ELECTRIC_PUMP.asItem());
 
-        CONVEYOR.add(14, GTOItems.MAX_CONVEYOR_MODULE.asStack());
+        CONVEYOR.add(14, GTOItems.MAX_CONVEYOR_MODULE.asItem());
 
-        MOTOR.add(14, GTOItems.MAX_ELECTRIC_MOTOR.asStack());
+        MOTOR.add(14, GTOItems.MAX_ELECTRIC_MOTOR.asItem());
 
-        PISTON.add(14, GTOItems.MAX_ELECTRIC_PISTON.asStack());
+        PISTON.add(14, GTOItems.MAX_ELECTRIC_PISTON.asItem());
 
-        EMITTER.add(14, GTOItems.MAX_EMITTER.asStack());
+        EMITTER.add(14, GTOItems.MAX_EMITTER.asItem());
 
-        SENSOR.add(14, GTOItems.MAX_SENSOR.asStack());
+        SENSOR.add(14, GTOItems.MAX_SENSOR.asItem());
 
-        FIELD_GENERATOR.add(14, GTOItems.MAX_FIELD_GENERATOR.asStack());
+        FIELD_GENERATOR.add(14, GTOItems.MAX_FIELD_GENERATOR.asItem());
 
-        ROBOT_ARM.add(14, GTOItems.MAX_ROBOT_ARM.asStack());
+        ROBOT_ARM.add(14, GTOItems.MAX_ROBOT_ARM.asItem());
 
-        GRINDER.add(5, GTItems.COMPONENT_GRINDER_DIAMOND.asStack())
-                .add(6, GTItems.COMPONENT_GRINDER_DIAMOND.asStack())
-                .add(7, GTItems.COMPONENT_GRINDER_TUNGSTEN.asStack())
-                .add(8, GTItems.COMPONENT_GRINDER_TUNGSTEN.asStack())
-                .add(9, GTItems.COMPONENT_GRINDER_TUNGSTEN.asStack())
-                .add(10, GTItems.COMPONENT_GRINDER_TUNGSTEN.asStack())
-                .add(11, GTItems.COMPONENT_GRINDER_TUNGSTEN.asStack())
-                .add(12, GTOItems.BEDROCK_DRILL.asStack())
-                .add(13, GTOItems.BEDROCK_DRILL.asStack());
+        GRINDER.add(5, GTItems.COMPONENT_GRINDER_DIAMOND.asItem())
+                .add(6, GTItems.COMPONENT_GRINDER_DIAMOND.asItem())
+                .add(7, GTItems.COMPONENT_GRINDER_TUNGSTEN.asItem())
+                .add(8, GTItems.COMPONENT_GRINDER_TUNGSTEN.asItem())
+                .add(9, GTItems.COMPONENT_GRINDER_TUNGSTEN.asItem())
+                .add(10, GTItems.COMPONENT_GRINDER_TUNGSTEN.asItem())
+                .add(11, GTItems.COMPONENT_GRINDER_TUNGSTEN.asItem())
+                .add(12, GTOItems.BEDROCK_DRILL.asItem())
+                .add(13, GTOItems.BEDROCK_DRILL.asItem());
 
         SAWBLADE.add(3, new MaterialEntry(TagPrefix.toolHeadBuzzSaw, GTMaterials.VanadiumSteel))
                 .add(4, new MaterialEntry(TagPrefix.toolHeadBuzzSaw, GTMaterials.TungstenSteel))
@@ -187,12 +187,12 @@ public final class CraftingComponents {
                 .add(14, new MaterialEntry(TagPrefix.pipeNonupleFluid,
                         GTOMaterials.HeavyQuarkDegenerateMatter));
 
-        GLASS.add(UHV, GTBlocks.FUSION_GLASS.asStack())
-                .add(UEV, GTBlocks.FUSION_GLASS.asStack())
-                .add(UIV, GTOBlocks.FORCE_FIELD_GLASS.asStack())
-                .add(UXV, GTOBlocks.FORCE_FIELD_GLASS.asStack())
-                .add(OpV, GTOBlocks.FORCE_FIELD_GLASS.asStack())
-                .add(MAX, GTOBlocks.FORCE_FIELD_GLASS.asStack());
+        GLASS.add(UHV, GTBlocks.FUSION_GLASS.asItem())
+                .add(UEV, GTBlocks.FUSION_GLASS.asItem())
+                .add(UIV, GTOBlocks.FORCE_FIELD_GLASS.asItem())
+                .add(UXV, GTOBlocks.FORCE_FIELD_GLASS.asItem())
+                .add(OpV, GTOBlocks.FORCE_FIELD_GLASS.asItem())
+                .add(MAX, GTOBlocks.FORCE_FIELD_GLASS.asItem());
 
         PLATE.add(10, new MaterialEntry(TagPrefix.plate, GTOMaterials.Quantanium))
                 .add(11, new MaterialEntry(TagPrefix.plate, GTOMaterials.Adamantium))
@@ -274,18 +274,18 @@ public final class CraftingComponents {
                 .add(14, new MaterialEntry(TagPrefix.pipeHugeFluid,
                         GTOMaterials.FullerenePolymerMatrixPulp));
 
-        POWER_COMPONENT.add(10, GTOItems.NM_CHIP.asStack())
-                .add(11, GTOItems.PM_CHIP.asStack())
-                .add(12, GTOItems.PM_CHIP.asStack())
-                .add(13, GTOItems.FM_CHIP.asStack())
-                .add(14, GTOItems.FM_CHIP.asStack());
+        POWER_COMPONENT.add(10, GTOItems.NM_CHIP.asItem())
+                .add(11, GTOItems.PM_CHIP.asItem())
+                .add(12, GTOItems.PM_CHIP.asItem())
+                .add(13, GTOItems.FM_CHIP.asItem())
+                .add(14, GTOItems.FM_CHIP.asItem());
 
-        VOLTAGE_COIL.add(9, GTOItems.UHV_VOLTAGE_COIL.asStack())
-                .add(10, GTOItems.UEV_VOLTAGE_COIL.asStack())
-                .add(11, GTOItems.UIV_VOLTAGE_COIL.asStack())
-                .add(12, GTOItems.UXV_VOLTAGE_COIL.asStack())
-                .add(13, GTOItems.OPV_VOLTAGE_COIL.asStack())
-                .add(14, GTOItems.MAX_VOLTAGE_COIL.asStack());
+        VOLTAGE_COIL.add(9, GTOItems.UHV_VOLTAGE_COIL.asItem())
+                .add(10, GTOItems.UEV_VOLTAGE_COIL.asItem())
+                .add(11, GTOItems.UIV_VOLTAGE_COIL.asItem())
+                .add(12, GTOItems.UXV_VOLTAGE_COIL.asItem())
+                .add(13, GTOItems.OPV_VOLTAGE_COIL.asItem())
+                .add(14, GTOItems.MAX_VOLTAGE_COIL.asItem());
 
         SPRING.add(10, new MaterialEntry(TagPrefix.spring, GTOMaterials.Mithril))
                 .add(11, new MaterialEntry(TagPrefix.spring, GTMaterials.Neutronium))
@@ -293,19 +293,19 @@ public final class CraftingComponents {
                 .add(13, new MaterialEntry(TagPrefix.spring, GTOMaterials.CrystalMatrix))
                 .add(14, new MaterialEntry(TagPrefix.spring, GTOMaterials.CosmicNeutronium));
 
-        CRATE.add(9, GTMachines.SUPER_CHEST[2].asStack())
-                .add(10, GTMachines.SUPER_CHEST[3].asStack())
-                .add(11, GTMachines.SUPER_CHEST[4].asStack())
-                .add(12, GTMachines.QUANTUM_CHEST[5].asStack())
-                .add(13, GTMachines.QUANTUM_CHEST[6].asStack())
-                .add(14, GTMachines.QUANTUM_CHEST[7].asStack());
+        CRATE.add(9, GTMachines.SUPER_CHEST[2].asItem())
+                .add(10, GTMachines.SUPER_CHEST[3].asItem())
+                .add(11, GTMachines.SUPER_CHEST[4].asItem())
+                .add(12, GTMachines.QUANTUM_CHEST[5].asItem())
+                .add(13, GTMachines.QUANTUM_CHEST[6].asItem())
+                .add(14, GTMachines.QUANTUM_CHEST[7].asItem());
 
-        DRUM.add(9, GTMachines.SUPER_TANK[2].asStack())
-                .add(10, GTMachines.SUPER_TANK[3].asStack())
-                .add(11, GTMachines.SUPER_TANK[4].asStack())
-                .add(12, GTMachines.QUANTUM_TANK[5].asStack())
-                .add(13, GTMachines.QUANTUM_TANK[6].asStack())
-                .add(14, GTMachines.QUANTUM_TANK[7].asStack());
+        DRUM.add(9, GTMachines.SUPER_TANK[2].asItem())
+                .add(10, GTMachines.SUPER_TANK[3].asItem())
+                .add(11, GTMachines.SUPER_TANK[4].asItem())
+                .add(12, GTMachines.QUANTUM_TANK[5].asItem())
+                .add(13, GTMachines.QUANTUM_TANK[6].asItem())
+                .add(14, GTMachines.QUANTUM_TANK[7].asItem());
 
         FRAME.add(9, new MaterialEntry(TagPrefix.frameGt, GTMaterials.Tritanium))
                 .add(10, new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium))
@@ -314,44 +314,44 @@ public final class CraftingComponents {
                 .add(13, new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Draconium))
                 .add(14, new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Infinity));
 
-        BUFFER = CraftingComponent.of("buffer", GTMachines.BUFFER[1].asStack())
-                .add(1, GTMachines.BUFFER[1].asStack())
-                .add(2, GTMachines.BUFFER[2].asStack())
-                .add(3, GTMachines.BUFFER[3].asStack())
-                .add(4, GTMachines.BUFFER[4].asStack())
-                .add(5, GTMachines.BUFFER[5].asStack())
-                .add(6, GTMachines.BUFFER[6].asStack())
-                .add(7, GTMachines.BUFFER[7].asStack())
-                .add(8, GTMachines.BUFFER[8].asStack())
-                .add(9, GTMachines.BUFFER[9].asStack())
-                .add(10, GTMachines.BUFFER[10].asStack())
-                .add(11, GTMachines.BUFFER[11].asStack())
-                .add(12, GTMachines.BUFFER[12].asStack())
-                .add(13, GTMachines.BUFFER[13].asStack())
-                .add(14, GTMachines.BUFFER[14].asStack());
+        BUFFER = CraftingComponent.of("buffer", GTMachines.BUFFER[1].asItem())
+                .add(1, GTMachines.BUFFER[1].asItem())
+                .add(2, GTMachines.BUFFER[2].asItem())
+                .add(3, GTMachines.BUFFER[3].asItem())
+                .add(4, GTMachines.BUFFER[4].asItem())
+                .add(5, GTMachines.BUFFER[5].asItem())
+                .add(6, GTMachines.BUFFER[6].asItem())
+                .add(7, GTMachines.BUFFER[7].asItem())
+                .add(8, GTMachines.BUFFER[8].asItem())
+                .add(9, GTMachines.BUFFER[9].asItem())
+                .add(10, GTMachines.BUFFER[10].asItem())
+                .add(11, GTMachines.BUFFER[11].asItem())
+                .add(12, GTMachines.BUFFER[12].asItem())
+                .add(13, GTMachines.BUFFER[13].asItem())
+                .add(14, GTMachines.BUFFER[14].asItem());
 
-        FLUID_REGULATOR = CraftingComponent.of("fluid_regulator", GTItems.FLUID_REGULATOR_LV.asStack())
-                .add(1, GTItems.FLUID_REGULATOR_LV.asStack())
-                .add(2, GTItems.FLUID_REGULATOR_MV.asStack())
-                .add(3, GTItems.FLUID_REGULATOR_HV.asStack())
-                .add(4, GTItems.FLUID_REGULATOR_EV.asStack())
-                .add(5, GTItems.FLUID_REGULATOR_IV.asStack())
-                .add(6, GTItems.FLUID_REGULATOR_LuV.asStack())
-                .add(7, GTItems.FLUID_REGULATOR_ZPM.asStack())
-                .add(8, GTItems.FLUID_REGULATOR_UV.asStack())
-                .add(9, GTItems.FLUID_REGULATOR_UHV.asStack())
-                .add(10, GTItems.FLUID_REGULATOR_UEV.asStack())
-                .add(11, GTItems.FLUID_REGULATOR_UIV.asStack())
-                .add(12, GTItems.FLUID_REGULATOR_UXV.asStack())
-                .add(13, GTItems.FLUID_REGULATOR_OpV.asStack());
+        FLUID_REGULATOR = CraftingComponent.of("fluid_regulator", GTItems.FLUID_REGULATOR_LV.asItem())
+                .add(1, GTItems.FLUID_REGULATOR_LV.asItem())
+                .add(2, GTItems.FLUID_REGULATOR_MV.asItem())
+                .add(3, GTItems.FLUID_REGULATOR_HV.asItem())
+                .add(4, GTItems.FLUID_REGULATOR_EV.asItem())
+                .add(5, GTItems.FLUID_REGULATOR_IV.asItem())
+                .add(6, GTItems.FLUID_REGULATOR_LuV.asItem())
+                .add(7, GTItems.FLUID_REGULATOR_ZPM.asItem())
+                .add(8, GTItems.FLUID_REGULATOR_UV.asItem())
+                .add(9, GTItems.FLUID_REGULATOR_UHV.asItem())
+                .add(10, GTItems.FLUID_REGULATOR_UEV.asItem())
+                .add(11, GTItems.FLUID_REGULATOR_UIV.asItem())
+                .add(12, GTItems.FLUID_REGULATOR_UXV.asItem())
+                .add(13, GTItems.FLUID_REGULATOR_OpV.asItem());
 
-        INTEGRATED_CONTROL_CORE = CraftingComponent.of("integrated_control_core", GTOItems.INTEGRATED_CONTROL_CORE_UV.asStack())
-                .add(8, GTOItems.INTEGRATED_CONTROL_CORE_UV.asStack())
-                .add(9, GTOItems.INTEGRATED_CONTROL_CORE_UHV.asStack())
-                .add(10, GTOItems.INTEGRATED_CONTROL_CORE_UEV.asStack())
-                .add(11, GTOItems.INTEGRATED_CONTROL_CORE_UIV.asStack())
-                .add(12, GTOItems.INTEGRATED_CONTROL_CORE_UXV.asStack())
-                .add(13, GTOItems.INTEGRATED_CONTROL_CORE_OpV.asStack())
-                .add(14, GTOItems.INTEGRATED_CONTROL_CORE_MAX.asStack());
+        INTEGRATED_CONTROL_CORE = CraftingComponent.of("integrated_control_core", GTOItems.INTEGRATED_CONTROL_CORE_UV.asItem())
+                .add(8, GTOItems.INTEGRATED_CONTROL_CORE_UV.asItem())
+                .add(9, GTOItems.INTEGRATED_CONTROL_CORE_UHV.asItem())
+                .add(10, GTOItems.INTEGRATED_CONTROL_CORE_UEV.asItem())
+                .add(11, GTOItems.INTEGRATED_CONTROL_CORE_UIV.asItem())
+                .add(12, GTOItems.INTEGRATED_CONTROL_CORE_UXV.asItem())
+                .add(13, GTOItems.INTEGRATED_CONTROL_CORE_OpV.asItem())
+                .add(14, GTOItems.INTEGRATED_CONTROL_CORE_MAX.asItem());
     }
 }

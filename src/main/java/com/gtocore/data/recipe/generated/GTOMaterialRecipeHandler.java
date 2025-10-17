@@ -45,7 +45,6 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
-import static com.gtocore.api.data.tag.GTOTagPrefix.FIBER_MESH;
 import static com.gtocore.common.data.GTOMaterials.Kevlar;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.recipe.processing.CompositeMaterialsProcessing.getFiberExtrusionTemperature;

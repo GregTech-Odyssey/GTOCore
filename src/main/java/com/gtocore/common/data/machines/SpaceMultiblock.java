@@ -38,8 +38,6 @@ import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gtocore.api.machine.part.GTOPartAbility.DRONE_HATCH;
 import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
 import static com.gtocore.api.pattern.GTOPredicates.autoGCYMAbilities;

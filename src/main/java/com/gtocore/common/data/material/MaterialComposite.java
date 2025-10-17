@@ -8,7 +8,6 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastP
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.LOW;
 import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.common.data.GTOMaterials.*;
-import static com.gtocore.common.data.GTOMaterials.CarbonFiberPolyetheretherketoneComposite;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 
 public class MaterialComposite {

@@ -26,7 +26,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.data.CustomItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -239,8 +238,8 @@ final class HatchRecipe {
             ASSEMBLER_RECIPES.recipeBuilder("programmablec_hatch_" + tierName + "_4a")
                     .inputItems(GTMachines.DUAL_IMPORT_HATCH[tier].asItem())
                     .inputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asItem())
-                    .inputItems((ItemStack) ROBOT_ARM.get(tier))
-                    .inputItems((ItemStack) CONVEYOR.get(tier))
+                    .inputItems(ROBOT_ARM.get(tier))
+                    .inputItems(CONVEYOR.get(tier))
                     .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 4)
                     .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
                     .outputItems(GTOMachines.PROGRAMMABLEC_HATCH[tier].asItem())
@@ -484,9 +483,9 @@ final class HatchRecipe {
                             .EUt(VA[tier])
                             .save();
 
-                    Item sensor = ((ItemStack) SENSOR.get(tier)).getItem();
-                    Item emitter = ((ItemStack) EMITTER.get(tier)).getItem();
-                    Item pump = ((ItemStack) PUMP.get(tier)).getItem();
+                    Item sensor = ((Item) SENSOR.get(tier));
+                    Item emitter = ((Item) EMITTER.get(tier));
+                    Item pump = ((Item) PUMP.get(tier));
                     MaterialEntry cable = (MaterialEntry) CABLE_OCT.get(tier);
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "16384_i")

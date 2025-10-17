@@ -9,6 +9,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.ItemUtils;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -21,11 +22,11 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +81,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
      * @return 如果所有配料堆栈匹配则返回true，否则返回false
      */
     private static boolean validateIngredientStacks(AdvancedAssemblyLineMachine lineMachine, int size, FastSizedIngredient[] recipeIngredients) {
-        Set<Item> itemSet = new OpenCacheHashSet<>();
+        Set<Item> itemSet = new ReferenceOpenHashSet<>();
         for (int i = 0; i < size; i++) {
             FastSizedIngredient currentIngredient = recipeIngredients[i];
             if (currentIngredient == null) continue;
@@ -166,18 +167,21 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
         private boolean consumeOrderedItemInputs(GTRecipe recipe) {
             var itemInputs = recipe.inputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList());
             if (itemInputs.isEmpty()) return true;
-
             var machineInputs = getMachine().itemStackTransfers;
             if (machineInputs.size() < itemInputs.size()) return false;
-
             for (int i = 0; i < itemInputs.size(); i++) {
                 var inputSlot = machineInputs.get(i);
                 var recipeInput = ItemRecipeCapability.CAP.of(itemInputs.get(i).content);
-                var stack = inputSlot.getStackInSlot(0);
-                if (stack.isEmpty() || !recipeInput.test(stack)) {
-                    return false;
+                boolean tested = false;
+                var amount = ItemUtils.getSizedAmount(recipeInput);
+                for (int j = 1; j < inputSlot.size; j++) {
+                    var stack = inputSlot.getStackInSlot(j);
+                    if (stack.isEmpty() || (!tested && !recipeInput.test(stack))) continue;
+                    tested = true;
+                    amount -= inputSlot.extractItem(0, MathUtil.saturatedCast(amount), false).getCount();
+                    if (amount <= 0) break;
                 }
-                inputSlot.extractItem(0, (int) ItemUtils.getSizedAmount(recipeInput), false);
+                if (amount > 0) return false;
             }
             return true;
         }

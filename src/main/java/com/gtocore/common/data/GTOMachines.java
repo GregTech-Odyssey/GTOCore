@@ -808,12 +808,12 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition HUGE_ITEM_IMPORT_BUS = machine("huge_item_import_bus", "巨型输入总线", HugeBusPartMachine::new)
-            .tier(IV)
+            .tier(ZPM)
             .langValue("Huge Input Bus")
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, GTOPartAbility.ITEMS_INPUT)
             .tooltipsKey("gtceu.part_sharing.enabled")
-            .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/item_bus.import")))
+            .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/item_bus.import")))
             .register();
 
     public static final MachineDefinition STEAM_FLUID_INPUT_HATCH = machine("steam_fluid_input_hatch", "蒸汽流体输入仓", holder -> new SteamFluidHatchPartMachine(holder, IO.IN))

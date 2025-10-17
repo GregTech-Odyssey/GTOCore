@@ -42,7 +42,9 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Scanned
 public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine, IAsyncTaskHolder {

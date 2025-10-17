@@ -20,7 +20,8 @@ import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.CARBON_FIBERS;
+import static com.gregtechceu.gtceu.common.data.GTItems.CARBON_MESH;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.*;
 import static com.gtocore.common.data.GTOItems.KEVLAR_FIBER;

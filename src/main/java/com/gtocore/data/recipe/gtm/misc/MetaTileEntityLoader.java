@@ -1153,9 +1153,9 @@ public final class MetaTileEntityLoader {
                 Object component = ((CraftingComponent) recipe[i]).get(tier);
                 recipe[i] = component;
             } else if (recipe[i] instanceof Item item) {
-                recipe[i] = new ItemStack(item);
+                recipe[i] = item;
             } else if (recipe[i] instanceof Block block) {
-                recipe[i] = new ItemStack(block);
+                recipe[i] = block.asItem();
             } else if (recipe[i] instanceof ItemProviderEntry<?> itemEntry) {
                 recipe[i] = itemEntry.asItem();
             }
