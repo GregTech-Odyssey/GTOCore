@@ -1052,7 +1052,7 @@ public final class MaterialA {
                 .flags(DISABLE_DECOMPOSITION, GENERATE_CERAMIC)
                 .buildAndRegister();
         LeadZirconateTitanateCeramic = material("lead_zirconate_titanate_ceramic", "钛酸铅锆")
-                .ingot()
+                .ingot().dust()
                 .fluid()
                 .components(Lead, 1, Zirconium, 1, Titanium, 1, Oxygen, 3)
                 .color(0xffa500)
@@ -1060,7 +1060,7 @@ public final class MaterialA {
                 .flags(DISABLE_DECOMPOSITION, GENERATE_CERAMIC)
                 .buildAndRegister();
         LeadNiobateMagnesiumNiobateCeramic = material("lead_niobate_magnesium_niobate_ceramic", "铌酸铅镁")
-                .ingot()
+                .ingot().dust()
                 .fluid()
                 .components(Lead, 1, Niobium, 1, Magnesium, 1, Oxygen, 3)
                 .color(0xff4500)
@@ -1070,13 +1070,13 @@ public final class MaterialA {
                 .fluid()
                 .components(Phosphorus, 1, Magnesium, 1, Oxygen, 4)
                 .color(0xffe135)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_FIBER)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
         PhosphoricAcidChromiumPhosphateCement = material("phosphoric_acid_chromium_phosphate_cement", "磷酸铬粘合剂")
                 .fluid()
                 .components(Phosphorus, 1, Chromium, 1, Oxygen, 4)
                 .color(0x8a9a5b)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_FIBER)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
         SodiumMolybdate = material("sodium_molybdate", "钼酸钠")
                 .dust()
@@ -1102,6 +1102,20 @@ public final class MaterialA {
                 .fluid()
                 .components(Carbon, 9, Hydrogen, 12)
                 .color(0xfff8dc)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        LeadOxide = material("lead_oxide", "氧化铅")
+                .dust()
+                .components(Lead, 1, Oxygen, 1)
+                .color(0xffd700)
+                .iconSet(BRIGHT)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+        NiobiumOxide = material("niobium_oxide", "氧化铌")
+                .dust()
+                .components(Niobium, 2, Oxygen, 5)
+                .color(0xc0c4c0)
+                .iconSet(BRIGHT)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 

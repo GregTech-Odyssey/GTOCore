@@ -363,6 +363,7 @@ public final class GTMaterialExtend {
         Tungsten.addFlags(HAS_NANOSCALE_FORM);
         Niobium.addFlags(HAS_NANOSCALE_FORM);
         Zirconium.addFlags(HAS_NANOSCALE_FORM);
+        Aluminium.addFlags(HAS_NANOSCALE_FORM);
         Titanium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Boron.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Boron.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));

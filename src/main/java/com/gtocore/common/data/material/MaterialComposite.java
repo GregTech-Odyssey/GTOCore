@@ -61,7 +61,7 @@ public class MaterialComposite {
                 .color(0xeff3f3)
                 .secondaryColor(0xc7d3d3)
                 .blastTemp(1720, LOW, GTValues.VA[GTValues.EV], 600)
-                .iconSet(GLASS)
+                .iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_CURVED_PLATE, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         AluminumReinforcedWithSiliconCarbideParticles = material("aluminum_reinforced_with_silicon_carbide_particles", "碳化硅颗粒增强铝基复合材料")
@@ -232,7 +232,7 @@ public class MaterialComposite {
                 .color(0x3a3a3a)
                 .secondaryColor(0x262626)
                 .blastTemp(5120, HIGH, GTValues.VA[GTValues.ZPM], 600)
-                .iconSet(GLASS)
+                .iconSet(SHINY)
                 .flags(GENERATE_PLATE)
                 .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL, GENERATE_FOIL, GENERATE_CURVED_PLATE)
                 .buildAndRegister();

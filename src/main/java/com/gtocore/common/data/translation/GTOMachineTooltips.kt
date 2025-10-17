@@ -1784,7 +1784,7 @@ object GTOMachineTooltips {
         section(RunningRequirements)
         command("每次运行时，需要配方提供的无人机/电池有能量时才能运行" translatedTo "Each operation requires the drones/batteries provided by the recipe to have energy to operate")
         info("每次消耗其内部存储的全部电量" translatedTo "Consumes all the internal stored energy each time")
-        increase("每消耗6,400,000EU，配方最大并行数+1" translatedTo "For every 6,400,000EU consumed, the maximum parallelism of the recipe +1")
+        increase("每消耗600,000EU，配方最大并行数+1" translatedTo "For every 600,000EU consumed, the maximum parallelism of the recipe +1")
         decrease("无人机/电池缺电时，配方无法运行" translatedTo "The recipe cannot run when the drone has no power")
     }
 }

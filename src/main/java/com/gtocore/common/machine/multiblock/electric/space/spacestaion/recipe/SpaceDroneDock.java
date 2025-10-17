@@ -79,7 +79,7 @@ public class SpaceDroneDock extends RecipeExtension {
         recipe.inputs.put(ItemRecipeCapability.CAP, newInput);
         // recipe.outputs.put(ItemRecipeCapability.CAP, newOutput);
 
-        maxParallel = costEU.value.divide(BigInteger.valueOf(6_400_000)).longValue() + 1;
+        maxParallel = Math.max(1, costEU.value.divide(BigInteger.valueOf(600_000)).longValue());
         // "0.2 + 1.31072 / (1.632 + (消耗的电量(单位：GEU)))"
         recipe.duration = (int) (recipe.duration * (0.2 + 1.31072 / (1.632 + costEU.value.doubleValue() / 1_000_000_000)));
         recipe = ParallelLogic.accurateParallel(this, recipe, maxParallel);

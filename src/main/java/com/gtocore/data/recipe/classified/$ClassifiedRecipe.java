@@ -107,6 +107,7 @@ public final class $ClassifiedRecipe {
         RocketAssembler.init();
         AlchemyCauldron.init();
         PolymerizationReactor.init();
+        MicrogravityNanofabrication.init();
         Unpacker.init();
         WaterPurificationPlant.init();
         PhysicalVaporDeposition.init();

@@ -207,6 +207,8 @@ public final class GTOMaterials {
     public static Material AluminumAcetylacetonate;
     public static Material Acetylacetonate;
     public static Material Mestitylene;
+    public static Material LeadOxide;
+    public static Material NiobiumOxide;
 
     public static Material TrisHydrochlorideSolution;
     public static Material Tris;

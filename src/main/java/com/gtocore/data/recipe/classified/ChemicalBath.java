@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
@@ -204,6 +205,30 @@ final class ChemicalBath {
                 .outputItems(GTOItems.ETERNITY_CATALYST.asItem())
                 .EUt(8053063680L)
                 .duration(1600)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("yellow_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeYellow, 3)
+                .outputItems(GTOItems.YELLOW_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("blue_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeBlue, 3)
+                .outputItems(GTOItems.BLUE_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("red_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeRed, 3)
+                .outputItems(GTOItems.RED_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
                 .save();
     }
 }

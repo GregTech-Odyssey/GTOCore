@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
@@ -34,6 +35,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
@@ -61,6 +65,8 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     private long energyPerTick;
     @Persisted
     private boolean highSpeedMode;
+    @Persisted
+    private float highSpeedFactor;
     final List<RotorHolderPartMachine> rotorHolderMachines = new ObjectArrayList<>();
     private ItemHatchPartMachine rotorHatchPartMachine;
     private final ConditionalSubscriptionHandler rotorSubs;
@@ -242,6 +248,56 @@ public class TurbineMachine extends ElectricMultiblockMachine {
             }
             highSpeedMode = pressed;
         }).setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.mega_turbine.high_speed_mode").append("[").append(Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")).append("]"))));
+
+        configuratorPanel.attachConfigurators(new IFancyConfigurator() {
+
+            @Override
+            public Component getTitle() {
+                return Component.translatable("gtocore.machine.muffler.config");
+            }
+
+            @Override
+            public IGuiTexture getIcon() {
+                return GTOGuiTextures.PARALLEL_CONFIG;
+            }
+
+            @Override
+            public Widget createConfigurator() {
+                return gtolib$configPanelWidget();
+            }
+        });
+    }
+
+    private Widget gtolib$configPanelWidget() {
+        WidgetGroup group = new WidgetGroup(0, 0, 100, 20);
+        // TODO TODO TODO
+        // var intInput = new ComponentPanelWidget(0, 0, list -> {
+        // list.add(firstLine.get());
+        // MutableComponent buttonText = secondLineTitle.get().copy();
+        // if (enableWrite.getAsBoolean()) {
+        // buttonText.append(" ");
+        // buttonText.append(ComponentPanelWidget.withButton(Component.literal("[-]").withStyle(ChatFormatting.RED),
+        // "sub"));
+        // buttonText.append(" ");
+        // buttonText.append(ComponentPanelWidget.withButton(Component.literal("[+]").withStyle(ChatFormatting.GREEN),
+        // "add"));
+        // }
+        // list.add(buttonText.setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+        // Component.translatable(RANGE_LIMIT, String.format("%.2f", min), String.format("%.2f", max))))));
+        // }).setMaxWidthLimit(150 - 8 - 8 - 4).clickHandler((componentData, clickData) -> {
+        // if (!clickData.isRemote && enableWrite.getAsBoolean()) {
+        // int multiplier = clickData.isCtrlClick ? 100 : clickData.isShiftClick ? 10 : 1;
+        // if ("sub".equals(componentData)) {
+        // onSub.accept(multiplier);
+        // } else if ("add".equals(componentData)) {
+        // onAdd.accept(multiplier);
+        // }
+        // }
+        // });
+        // intInput.setMin(0);
+        // group.addWidget(intInput.setHoverTooltips(Component.translatable("gtocore.machine.muffler.config.desc",
+        // gto$chanceOfNotProduceAsh)));
+        return group;
     }
 
     @Override

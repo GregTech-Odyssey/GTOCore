@@ -223,8 +223,8 @@ final class LaserEngraver {
 
         LASER_ENGRAVER_RECIPES.builder("fpga_wafer")
                 .inputItems(GTOItems.GERMANIUM_DOPED_SILICON_WAFER.asItem())
-                .inputItems(GTOTagPrefix.lens, Gray)
-                .outputItems(GTOItems.FPGA_WAFER.asItem(), 6)
+                .notConsumable(GTOTagPrefix.lens, Gray)
+                .outputItems(GTOItems.FPGA_WAFER.asItem())
                 .cleanroom(CleanroomType.CLEANROOM)
                 .EUt(131000)
                 .duration(500)
@@ -232,8 +232,8 @@ final class LaserEngraver {
 
         LASER_ENGRAVER_RECIPES.builder("igbt_wafer")
                 .inputItems(GTOItems.SIC_WIDE_BANDGAP_SEMICONDUCTOR_WAFER.asItem())
-                .inputItems(GTOTagPrefix.lens, Cyan)
-                .outputItems(GTOItems.IGBT_WAFER.asItem(), 6)
+                .notConsumable(GTOTagPrefix.lens, Cyan)
+                .outputItems(GTOItems.IGBT_WAFER.asItem())
                 .cleanroom(CleanroomType.CLEANROOM)
                 .EUt(131000)
                 .duration(500)
