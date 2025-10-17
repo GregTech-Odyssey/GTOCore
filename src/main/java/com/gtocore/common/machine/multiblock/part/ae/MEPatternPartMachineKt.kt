@@ -360,14 +360,14 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             val chunked: List<List<List<Int>>> = (0 until maxPatternCount).chunked(9).chunked(6)
             vBox(width = availableWidth, style = { spacing = 3 }) {
                 hBox(height = 12, alwaysVerticalCenter = true) {
-                    blank(width = 4)
+                    blank(width = 7)
                     textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
                         when (onlineField) {
                             true -> Component.translatable("gtceu.gui.me_network.online")
                             false -> Component.translatable("gtceu.gui.me_network.offline")
                         }
                     })
-                    blank(width = 4)
+                    blank(width = 9)
                     textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
                         Component.translatable(AE_NAME)
                     })
