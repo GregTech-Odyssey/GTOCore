@@ -93,6 +93,7 @@ public class CompositeMaterialsProcessing {
                 .duration(200)
                 .save();
         ARC_GENERATOR_RECIPES.builder("preoxidized_nano_pan_fiber")
+                .circuitMeta(1)
                 .inputItems(GTOItems.NANO_PAN_FIBER.asItem(), 2)
                 .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Rhenium)
                 .outputItems(GTOItems.PREOXIDIZED_NANO_PAN_FIBER.asItem(), 2)
@@ -100,6 +101,7 @@ public class CompositeMaterialsProcessing {
                 .EUt(7680)
                 .duration(200)
                 .save();
+
         ELECTROPLATING_RECIPES.builder("preoxidized_atomic_pan_fiber")
                 .inputItems(GTOItems.ATOMIC_PAN_FIBER.asItem(), 2)
                 .notConsumable(GTOTagPrefix.plateDouble, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 8)
