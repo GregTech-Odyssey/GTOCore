@@ -4,7 +4,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.IFluid;
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.misc.IMapValueCache;
-import com.gtolib.utils.UniqueNbt;
 
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
@@ -17,6 +16,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.InternedTag;
 import appeng.util.Platform;
 import com.llamalad7.mixinextras.sugar.Local;
 import org.jetbrains.annotations.Nullable;
@@ -39,14 +39,14 @@ public class AEFluidKeyMixin implements IAEFluidKey {
     private @Nullable CompoundTag tag;
 
     @Unique
-    private UniqueNbt<CompoundTag> gtocore$tag;
+    private InternedTag gtocore$tag;
 
     @Unique
     private FluidStack gtocore$stack;
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/util/Objects;hash([Ljava/lang/Object;)I"), remap = false)
     private int init(Object[] values) {
-        gtocore$tag = UniqueNbt.of(tag);
+        gtocore$tag = InternedTag.of(tag, false);
         tag = null;
         return 31 * values[0].hashCode() + gtocore$tag.hashCode();
     }
@@ -57,7 +57,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
      */
     @Overwrite(remap = false)
     public boolean matches(FluidStack variant) {
-        return !variant.isEmpty() && fluid.isSame(variant.getFluid()) && Objects.equals(gtocore$tag.o, variant.getTag());
+        return !variant.isEmpty() && fluid.isSame(variant.getFluid()) && Objects.equals(gtocore$tag.tag, variant.getTag());
     }
 
     @Redirect(method = "equals", at = @At(value = "INVOKE", target = "Ljava/util/Objects;equals(Ljava/lang/Object;Ljava/lang/Object;)Z"), remap = false)
@@ -72,7 +72,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
      */
     @Overwrite(remap = false)
     protected Component computeDisplayName() {
-        return Platform.getFluidDisplayName(fluid, gtocore$tag.o);
+        return Platform.getFluidDisplayName(fluid, gtocore$tag.tag);
     }
 
     /**
@@ -81,7 +81,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
      */
     @Overwrite(remap = false)
     public FluidStack toStack(int amount) {
-        return new FluidStack(fluid, amount, gtocore$tag.o);
+        return new FluidStack(fluid, amount, gtocore$tag.tag);
     }
 
     /**
@@ -90,7 +90,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
      */
     @Overwrite(remap = false)
     public @Nullable CompoundTag getTag() {
-        return gtocore$tag.o;
+        return gtocore$tag.tag;
     }
 
     /**
@@ -99,7 +99,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
      */
     @Overwrite(remap = false)
     public @Nullable CompoundTag copyTag() {
-        return gtocore$tag.o;
+        return gtocore$tag.tag;
     }
 
     /**
@@ -108,7 +108,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
      */
     @Overwrite(remap = false)
     public boolean hasTag() {
-        return gtocore$tag.o != null;
+        return gtocore$tag.tag != null;
     }
 
     /**
@@ -118,7 +118,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
     @Overwrite(remap = false)
     public void writeToPacket(FriendlyByteBuf data) {
         data.writeVarInt(BuiltInRegistries.FLUID.getId(fluid));
-        data.writeNbt(gtocore$tag.o);
+        data.writeNbt(gtocore$tag.tag);
     }
 
     /**
@@ -190,8 +190,8 @@ public class AEFluidKeyMixin implements IAEFluidKey {
     public CompoundTag toTag() {
         CompoundTag result = new CompoundTag();
         result.putString("id", ((IFluid) fluid).gtolib$getIdString());
-        if (gtocore$tag.o != null) {
-            result.put("tag", gtocore$tag.o.copy());
+        if (gtocore$tag.tag != null) {
+            result.put("tag", gtocore$tag.tag.copy());
         }
         return result;
     }
@@ -203,7 +203,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
     @Overwrite(remap = false)
     public String toString() {
         String idString = ((IFluid) fluid).gtolib$getIdString();
-        return gtocore$tag.o == null ? idString : idString + " (+tag)";
+        return gtocore$tag.tag == null ? idString : idString + " (+tag)";
     }
 
     @Override

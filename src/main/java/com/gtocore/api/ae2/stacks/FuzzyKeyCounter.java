@@ -18,7 +18,7 @@ public final class FuzzyKeyCounter {
         var map = IKeyCounter.of(keyCounter).gtolib$getMap();
         if (map == null) return;
         lists = new Int2ObjectOpenHashMap<>(map.size());
-        map.object2LongEntrySet().fastForEach(entry -> {
+        map.reference2LongEntrySet().fastForEach(entry -> {
             var key = entry.getKey();
             if (key.getPrimaryKey() instanceof IUnique unique) {
                 if (key.getFuzzySearchMaxValue() > 0) {
@@ -45,7 +45,7 @@ public final class FuzzyKeyCounter {
         var map = IKeyCounter.of(other).gtolib$getMap();
         if (map == null) return;
         if (lists == null) lists = new Int2ObjectOpenHashMap<>(map.size());
-        map.object2LongEntrySet().fastForEach(entry -> {
+        map.reference2LongEntrySet().fastForEach(entry -> {
             var key = entry.getKey();
             if (key.getPrimaryKey() instanceof IUnique unique) {
                 if (key.getFuzzySearchMaxValue() > 0) {

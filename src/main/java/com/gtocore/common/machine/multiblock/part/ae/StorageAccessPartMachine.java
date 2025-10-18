@@ -18,8 +18,6 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -36,6 +34,7 @@ import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import appeng.api.storage.StorageHelper;
+import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
@@ -226,7 +225,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 observe = false;
                 CellDataStorage storage = getCellStorage();
                 double totalAmount = 0;
-                for (ObjectIterator<Object2LongMap.Entry<AEKey>> it = getCellStoredMap().object2LongEntrySet().fastIterator(); it.hasNext();) {
+                for (var it = getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
                     totalAmount += (double) entry.getLongValue() / entry.getKey().getType().getAmountPerByte();
                 }
@@ -243,11 +242,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             return dataStorage;
         }
 
-        private Object2LongOpenHashMap<AEKey> getCellStoredMap() {
+        private Reference2LongOpenHashMap<AEKey> getCellStoredMap() {
             var data = getCellStorage();
             var map = data.getStoredMap();
             if (map == null) {
-                map = new O2LOpenCacheHashMap<>();
+                map = new Reference2LongOpenHashMap<>();
                 data.setStoredMap(map);
             }
             return map;
@@ -268,8 +267,8 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             double totalAmount = 0;
             LongArrayList amounts = new LongArrayList(getCellStoredMap().size());
             ListTag keys = new ListTag();
-            for (ObjectIterator<Object2LongMap.Entry<AEKey>> it = getCellStoredMap().object2LongEntrySet().fastIterator(); it.hasNext();) {
-                Object2LongOpenHashMap.Entry<AEKey> entry = it.next();
+            for (var it = getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
+                var entry = it.next();
                 long amount = entry.getLongValue();
                 if (amount > 0) {
                     var key = entry.getKey();
@@ -290,7 +289,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             super.loadCustomPersistedData(tag);
             if (uuid == null) return;
             CellDataStorage storage = getCellStorage();
-            Object2LongOpenHashMap<AEKey> map = getCellStoredMap();
+            var map = getCellStoredMap();
             long[] amounts = storage.getAmounts();
             double totalAmount = 0;
             for (int i = 0; i < amounts.length; i++) {
@@ -352,7 +351,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             if (data == CellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map);
+            IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
         }
 
         @Override
@@ -567,7 +566,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 var map = data.getStoredMap();
                 if (map == null) return;
                 double totalAmount = 0;
-                for (ObjectIterator<Object2ObjectMap.Entry<AEKey, BigInteger>> it = map.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
+                for (var it = map.reference2ReferenceEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
                     totalAmount += entry.getValue().doubleValue() / entry.getKey().getType().getAmountPerByte();
                 }
@@ -584,11 +583,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             return dataStorage;
         }
 
-        private Object2ObjectOpenHashMap<AEKey, BigInteger> getCellStoredMap() {
+        private Reference2ReferenceOpenHashMap<AEKey, BigInteger> getCellStoredMap() {
             var data = getCellStorage();
             var map = data.getStoredMap();
             if (map == null) {
-                map = new O2OOpenCacheHashMap<>();
+                map = new Reference2ReferenceOpenHashMap<>();
                 data.setStoredMap(map);
             }
             return map;
@@ -612,8 +611,8 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             double totalAmount = 0;
             ListTag amounts = new ListTag();
             ListTag keys = new ListTag();
-            for (ObjectIterator<Object2ObjectMap.Entry<AEKey, BigInteger>> it = map.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
-                Object2ObjectMap.Entry<AEKey, BigInteger> entry = it.next();
+            for (var it = map.reference2ReferenceEntrySet().fastIterator(); it.hasNext();) {
+                var entry = it.next();
                 var amount = entry.getValue();
                 if (amount.signum() > 0) {
                     var key = entry.getKey();
@@ -707,7 +706,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             if (data == BigCellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map);
+            IKeyCounter.addAll(out, map.size(), m -> map.reference2ReferenceEntrySet().fastForEach(e -> m.addTo(e.getKey(), BigIntegerUtils.getLongValue(e.getValue()))));
         }
 
         @Override

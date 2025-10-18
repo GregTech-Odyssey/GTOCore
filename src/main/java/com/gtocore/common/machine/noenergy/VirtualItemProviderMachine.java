@@ -19,7 +19,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -47,6 +46,7 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 
 import java.util.stream.Stream;
 
@@ -76,7 +76,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         this.inventory = new NotifiableItemStackHandler(this, 288, IO.NONE, IO.BOTH);
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);
-        storage.setStoredMap(new O2LOpenCacheHashMap<>());
+        storage.setStoredMap(new Reference2LongOpenHashMap<>());
         inventory.addChangedListener(() -> {
             change = true;
             storage.getStoredMap().clear();
@@ -207,7 +207,8 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
 
     @Override
     public void getAvailableStacks(KeyCounter out) {
-        IKeyCounter.addAll(out, storage.getStoredMap());
+        var map = storage.getStoredMap();
+        IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
     }
 
     @Override

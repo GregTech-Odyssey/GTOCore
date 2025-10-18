@@ -104,12 +104,11 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
             var item = BuiltInRegistries.ITEM.getOptional(RLUtils.parse(tag.getString("id"))).orElseThrow(() -> new IllegalArgumentException("Unknown item id."));
             if (item == Items.AIR) return null;
             var extraTag = tag.contains("tag") ? tag.getCompound("tag") : null;
-            var extraCaps = tag.contains("caps") ? tag.getCompound("caps") : null;
-            if ((extraTag == null || extraTag.isEmpty()) && (extraCaps == null || extraCaps.isEmpty())) {
+            if (extraTag == null || extraTag.isEmpty()) {
                 return ((IItem) item).gtolib$getAEKey();
             }
-            var stack = new ItemStack(item, 1, extraCaps);
-            if (extraTag != null) stack.setTag(extraTag);
+            var stack = new ItemStack(item, 1);
+            stack.setTag(extraTag);
             return IMapValueCache.ITEM_KEY_CACHE.get(stack);
         } catch (Exception e) {
             AELog.debug("Tried to load an invalid item key from NBT: %s", tag, e);

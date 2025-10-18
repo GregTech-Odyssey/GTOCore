@@ -17,7 +17,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-import com.gtolib.utils.ExpandedO2LMap;
+import com.gtolib.utils.ExpandedR2LMap;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -79,8 +79,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
@@ -303,6 +301,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             var input = new ObjectArrayList<GenericStack>(sparseInput.length);
             var in = 0;
             var slot = getInternalInventory()[index];
+            var locked = false;
             for (var stack : sparseInput) {
                 if (stack != null && stack.what() instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
                     ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
@@ -312,7 +311,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     } else {
                         var grid = getGrid();
                         if (grid != null && grid.getStorageService().getInventory().extract(what, 1, Actionable.SIMULATE, getActionSource()) == 1) {
-                            slot.setLock(true);
+                            if (!locked) {
+                                slot.setLock(true);
+                                locked = true;
+                            }
                             var storage = slot.shareInventory.storage;
                             var inSlot = storage.getStackInSlot(in);
                             if (!inSlot.isEmpty()) {
@@ -438,14 +440,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         return InteractionResult.SUCCESS;
     }
 
-    public record BufferData(Object2LongMap<AEItemKey> items, Object2LongMap<AEFluidKey> fluids) {}
+    public record BufferData(ExpandedR2LMap<AEItemKey> items, ExpandedR2LMap<AEFluidKey> fluids) {}
 
     public BufferData mergeInternalSlots() {
-        var items = new ExpandedO2LMap<AEItemKey>();
-        var fluids = new ExpandedO2LMap<AEFluidKey>();
+        var items = new ExpandedR2LMap<AEItemKey>();
+        var fluids = new ExpandedR2LMap<AEFluidKey>();
         for (InternalSlot slot : getInternalInventory()) {
-            slot.itemInventory.object2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
-            slot.fluidInventory.object2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
+            slot.itemInventory.reference2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
+            slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
         }
         return new BufferData(items, fluids);
     }
@@ -462,8 +464,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public boolean fluidChanged = true;
         public final IntIngredientMap itemIngredientMap = new IntIngredientMap();
         public final IntIngredientMap fluidIngredientMap = new IntIngredientMap();
-        public final Object2LongOpenHashMap<AEItemKey> itemInventory = new ExpandedO2LMap<>();
-        public final Object2LongOpenHashMap<AEFluidKey> fluidInventory = new ExpandedO2LMap<>();
+        public final ExpandedR2LMap<AEItemKey> itemInventory = new ExpandedR2LMap<>();
+        public final ExpandedR2LMap<AEFluidKey> fluidInventory = new ExpandedR2LMap<>();
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
@@ -482,10 +484,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         }
 
         public void setLock(boolean lock) {
-            if (this.lock == lock) {
-                lockableInventory.setLock(lock);
-                return;
-            }
             if (this.lock) {
                 circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
                 for (int i = 0; i < 9; i++) {
@@ -510,7 +508,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             if (network != null) {
                 MEStorage networkInv = network.getStorageService().getInventory();
                 var energy = network.getEnergyService();
-                for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+                for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
 
                     var count = entry.getLongValue();
@@ -527,7 +525,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                         else entry.setValue(count);
                     }
                 }
-                for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+                for (var it = fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
                     var amount = entry.getLongValue();
                     if (amount == 0) {
@@ -576,7 +574,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 long amount;
                 if (ingredient instanceof FastSizedIngredient si) amount = si.getAmount();
                 else amount = 1;
-                for (var it2 = itemInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
+                for (var it2 = itemInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
                     if (!ingredient.test(entry.getKey().getReadOnlyStack())) continue;
                     var count = entry.getLongValue();
@@ -612,7 +610,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     continue;
                 }
                 long amount = FastFluidIngredient.getAmount(ingredient);
-                for (var it2 = fluidInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
+                for (var it2 = fluidInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
                     if (!FastFluidIngredient.testAeKay(ingredient, entry.getKey())) continue;
                     var count = entry.getLongValue();
@@ -645,7 +643,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 tag.put("recipe", recipe.serializeNBT());
             }
             ListTag itemsTag = new ListTag();
-            for (var it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+            for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
                 var ct = entry.getKey().toTag();
                 ct.putLong("real", entry.getLongValue());
@@ -653,7 +651,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             }
             if (!itemsTag.isEmpty()) tag.put("inventory", itemsTag);
             ListTag fluidsTag = new ListTag();
-            for (var it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
+            for (var it = fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
                 var ct = entry.getKey().toTag();
                 ct.putLong("real", entry.getLongValue());

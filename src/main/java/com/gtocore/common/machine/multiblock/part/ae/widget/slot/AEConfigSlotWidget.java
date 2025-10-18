@@ -31,7 +31,8 @@ public class AEConfigSlotWidget extends Widget implements IIngredientSlot {
     static final int REMOVE_ID = 1000;
     static final int UPDATE_ID = 1001;
     static final int AMOUNT_CHANGE_ID = 1002;
-    static final int PICK_UP_ID = 1003;
+    static final int SLOT_CLICK_ID = 1003;
+    static final int SLOT_DROP_ID = 1004;
     boolean select = false;
 
     AEConfigSlotWidget(Position pos, Size size, ConfigWidget widget, int index) {

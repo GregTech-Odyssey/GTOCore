@@ -77,7 +77,7 @@ public class MEPatternBufferProxyProvider implements IBlockComponentProvider, IS
         var fluids = merged.fluids();
 
         ListTag itemsTag = new ListTag();
-        for (var entry : items.object2LongEntrySet()) {
+        for (var entry : items.reference2LongEntrySet()) {
             var ct = entry.getKey().toTag();
             ct.putLong("real", entry.getLongValue());
             itemsTag.add(ct);
@@ -85,7 +85,7 @@ public class MEPatternBufferProxyProvider implements IBlockComponentProvider, IS
         if (!itemsTag.isEmpty()) compoundTag.put("items", itemsTag);
 
         ListTag fluidsTag = new ListTag();
-        for (var entry : fluids.object2LongEntrySet()) {
+        for (var entry : fluids.reference2LongEntrySet()) {
             var ct = entry.getKey().toTag();
             ct.putLong("real", entry.getLongValue());
             fluidsTag.add(ct);

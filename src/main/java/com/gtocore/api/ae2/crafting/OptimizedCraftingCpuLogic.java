@@ -734,7 +734,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         return inputHolder;
     }
 
-    private static long getMaxParallel(long maxParallel, IPatternDetails details, Object2LongOpenHashMap<AEKey> sourceInv) {
+    private static long getMaxParallel(long maxParallel, IPatternDetails details, Reference2LongOpenHashMap<AEKey> sourceInv) {
         if (sourceInv == null) return 0;
         for (IPatternDetails.IInput input : details.getInputs()) {
             long extracted = 0;
