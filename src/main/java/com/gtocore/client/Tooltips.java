@@ -15,7 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
 import com.google.common.collect.ImmutableMap;
-import committee.nova.mods.avaritia.init.registry.ModItems;
 
 import java.util.Map;
 
