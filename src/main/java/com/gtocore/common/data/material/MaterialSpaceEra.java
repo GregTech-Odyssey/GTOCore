@@ -556,7 +556,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
         NickelTitaniumTinHeuslerAlloy = material("nickel_titanium_tin_heusler_alloy", "镍钛锡霍伊斯勒合金")
                 .ingot().fluid()
@@ -567,7 +567,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         TitaniumTi53311S = material("titanium_ti53311s", "钛合金-Ti53311S")
                 .ingot().fluid()
@@ -578,7 +578,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
         TitaniumTC21 = material("titanium_tc21", "钛合金-TC21")
                 .ingot().fluid()
@@ -589,7 +589,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         CobaltManganeseGalliumHeuslerAlloy = material("cobalt_manganese_gallium_heusler_alloy", "钴锰镓霍伊斯勒合金")
                 .ingot().fluid()
@@ -600,7 +600,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         RutheniumIronSiliconHeuslerAlloy = material("ruthenium_iron_silicon_heusler_alloy", "钌二铁硅霍伊斯勒合金")
                 .ingot().fluid()
@@ -611,7 +611,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         MagneticControlledShapeMemoryAlloy = material("magnetic_controlled_shape_memory_alloy", "磁控形状记忆合金")
                 .ingot().fluid()
@@ -622,7 +622,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         HighTemperatureShapeMemoryAlloy = material("high_temperature_shape_memory_alloy", "高温记忆合金")
                 .ingot().fluid()
@@ -633,7 +633,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         PlatinumManganeseAntimonyHeuslerAlloy = material("platinum_manganese_antimony_heusler_alloy", "铂锰锑霍伊斯勒合金")
                 .ingot().fluid()
@@ -644,7 +644,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         StarliteSteel = material("starlite_steel", "星轨钢")
                 .ingot().fluid()
@@ -655,7 +655,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         HighEntropyShapeMemoryAlloy = material("high_entropy_shape_memory_alloy", "高熵形状记忆合金")
                 .ingot().fluid()
@@ -666,7 +666,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         RadiationShieldingHighDensityTungstenSteel = material("radiation_shielding_high_density_tungsten_steel", "射线屏蔽高密度钨钢")
                 .ingot().fluid()
@@ -677,7 +677,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
         OdysseyNanoSuperalloy = material("odyssey_nano_superalloy", "奥德赛纳米超合金")
                 .ingot().fluid()
@@ -688,7 +688,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         NanoStrengthenedShapeMemoryAlloy = material("nano_strengthened_shape_memory_alloy", "纳米强化记忆合金")
                 .ingot().fluid()
@@ -699,7 +699,7 @@ public class MaterialSpaceEra {
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
-                        GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING, NEED_BLAST_IN_SPACE)
+                        GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
     }
 }

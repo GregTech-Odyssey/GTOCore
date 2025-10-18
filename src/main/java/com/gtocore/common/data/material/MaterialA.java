@@ -1052,19 +1052,17 @@ public final class MaterialA {
                 .flags(DISABLE_DECOMPOSITION, GENERATE_CERAMIC)
                 .buildAndRegister();
         LeadZirconateTitanateCeramic = material("lead_zirconate_titanate_ceramic", "钛酸铅锆")
-                .ingot().dust()
-                .fluid()
+                .dust()
                 .components(Lead, 1, Zirconium, 1, Titanium, 1, Oxygen, 3)
                 .color(0xffa500)
                 .iconSet(BRIGHT)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_CERAMIC)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
         LeadNiobateMagnesiumNiobateCeramic = material("lead_niobate_magnesium_niobate_ceramic", "铌酸铅镁")
-                .ingot().dust()
-                .fluid()
+                .dust()
                 .components(Lead, 1, Niobium, 1, Magnesium, 1, Oxygen, 3)
                 .color(0xff4500)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_CERAMIC)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
         PhosphoricAcidMagnesiumPhosphateCement = material("phosphoric_acid_magnesium_phosphate_cement", "磷酸镁粘合剂")
                 .fluid()

@@ -183,12 +183,5 @@ final class Dehydrator {
                 .duration(200)
                 .save();
 
-        DEHYDRATOR_RECIPES.builder("neutron_pile")
-                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Copper, 1024)
-                .outputItems("avaritia:neutron_pile")
-                .inputFluids(GTOMaterials.UuAmplifier, 1000)
-                .duration(20 * 60)
-                .EUt(VA[UHV])
-                .save();
     }
 }
