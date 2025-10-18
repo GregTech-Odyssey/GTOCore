@@ -61,7 +61,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     override fun isRemote() = super<MetaMachine>.isRemote
     override fun attachSideTabs(sideTabs: TabsWidget) {
         sideTabs.mainTab = getSetupFancyUIProvider()
-        sideTabs.attachSubTab(getDetailFancyUIProvider())
     }
 
     override fun onLoad() {

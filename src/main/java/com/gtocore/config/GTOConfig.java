@@ -30,7 +30,8 @@ public final class GTOConfig {
         if (INSTANCE.startSpark == SparkRange.ALL || INSTANCE.startSpark == SparkRange.MAIN_MENU) {
             SparkLaunchProfiler.start("all");
         }
-        if (INSTANCE.dev && !INSTANCE.detailedLogging) Configurator.setRootLevel(Level.INFO);
+        if (INSTANCE.dev) Configurator.setRootLevel(Level.INFO);
+        if (INSTANCE.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
         int difficulty = INSTANCE.difficulty.ordinal() + 1;
         GTOCore.difficulty = difficulty;
         RecipeLogic.SEARCH_MAX_INTERVAL = GTOConfig.INSTANCE.recipeSearchMaxInterval;
@@ -269,7 +270,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment({ "启用后将显示详细的启动日志输出，包含所有 DEBUG 级别的日志（增加日志文件大小但便于调试）", "When enabled, shows detailed startup log output including all DEBUG level logs (increases log file size but useful for debugging)" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Detailed Logging", cn = "[调试] 详细日志输出")
-    public boolean detailedLogging = true;
+    public boolean detailedLogging = false;
 
     @Configurable
     @Configurable.Comment({ "检查配方之间的冲突问题", "Check for conflicts between recipes" })

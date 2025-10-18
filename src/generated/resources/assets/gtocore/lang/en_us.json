@@ -1570,6 +1570,7 @@
   "config.gtocore.option.breakBlocksBlackList": "Chain Mining Blacklist",
   "config.gtocore.option.cannibalismDamage": "Carnivory Punish Damage",
   "config.gtocore.option.cannibalismRadius": "Carnivory Punish Radius",
+  "config.gtocore.option.detailedLogging": "[Debug] Detailed Logging",
   "config.gtocore.option.dev": "Developer Mode",
   "config.gtocore.option.difficulty": "Game Difficulty",
   "config.gtocore.option.disableChargeBomb": "Disable Charge Bomb",

@@ -14,6 +14,7 @@ import appeng.api.config.Actionable;
 import appeng.api.config.IncludeExclude;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.cells.IBasicCellItem;
@@ -23,7 +24,6 @@ import appeng.items.tools.powered.PortableCellItem;
 import appeng.me.cells.BasicCellInventory;
 import appeng.util.prioritylist.IPartitionList;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
-import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -113,11 +113,11 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
 
     @Unique
     @NotNull
-    private Reference2LongOpenHashMap<AEKey> gtolib$getCellStoredMap() {
+    private AEKeyMap<AEKey> gtolib$getCellStoredMap() {
         CellDataStorage storage = gtolib$getCellStorage();
         var map = storage.getStoredMap();
         if (map == null) {
-            map = new Reference2LongOpenHashMap<>();
+            map = new AEKeyMap<>();
             storage.setStoredMap(map);
             long[] amounts = storage.getAmounts();
             double totalAmount = 0;

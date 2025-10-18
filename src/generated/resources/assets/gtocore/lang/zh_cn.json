@@ -1570,6 +1570,7 @@
   "config.gtocore.option.breakBlocksBlackList": "连锁挖掘黑名单",
   "config.gtocore.option.cannibalismDamage": "食肉惩罚伤害",
   "config.gtocore.option.cannibalismRadius": "食肉惩罚半径",
+  "config.gtocore.option.detailedLogging": "[调试] 详细日志输出",
   "config.gtocore.option.dev": "开发者模式",
   "config.gtocore.option.difficulty": "游戏难度",
   "config.gtocore.option.disableChargeBomb": "禁用爆弹",

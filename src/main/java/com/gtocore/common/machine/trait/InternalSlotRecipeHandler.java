@@ -418,7 +418,7 @@ public final class InternalSlotRecipeHandler {
                     it.remove();
                     continue;
                 }
-                if (function.test(((IAEFluidKey) (Object) e.getKey()).gtolib$getReadOnlyStack(), a)) return true;
+                if (function.test(e.getKey().getReadOnlyStack(), a)) return true;
             }
             return false;
         }
@@ -428,7 +428,7 @@ public final class InternalSlotRecipeHandler {
             slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> {
                 var a = e.getLongValue();
                 if (a < 1) return;
-                function.accept(((IAEFluidKey) (Object) e.getKey()).gtolib$getReadOnlyStack(), a);
+                function.accept(e.getKey().getReadOnlyStack(), a);
             });
         }
 

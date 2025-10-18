@@ -7,7 +7,6 @@ import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 
-import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,8 +20,6 @@ import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(AEItemKey.class)
 public abstract class AEItemKeyMixin implements IAEItemKey {
@@ -144,11 +141,6 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         var stack = new ItemStack(item);
         stack.readShareTag(shareTag);
         return IMapValueCache.ITEM_KEY_CACHE.get(stack);
-    }
-
-    @Redirect(method = "toTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/DefaultedRegistry;getKey(Ljava/lang/Object;)Lnet/minecraft/resources/ResourceLocation;", remap = true), remap = false)
-    private <T> ResourceLocation gtolib$getKey(DefaultedRegistry instance, T t) {
-        return ((IItem) t).gtolib$getIdLocation();
     }
 
     /**

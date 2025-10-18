@@ -187,6 +187,5 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     override fun attachSideTabs(sideTabs: TabsWidget) {
         super<TieredIOPartMachine>.attachSideTabs(sideTabs)
         sideTabs.attachSubTab(getSetupFancyUIProvider())
-        sideTabs.attachSubTab(getDetailFancyUIProvider())
     }
 }
