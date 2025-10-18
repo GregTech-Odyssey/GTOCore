@@ -323,7 +323,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
             }
             list.add(buttonText.setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                     Component.translatable(ADJUSTMENT2, String.format("%.2f", getHighSpeedModeOutputMultiplier()))
-                            .append(" ").append(Component.translatable(ADJUSTMENT3, String.format("%.2f", getHighSpeedModeDamageMultiplier())))))));
+                            .append("、").append(Component.translatable(ADJUSTMENT3, String.format("%.2f", getHighSpeedModeDamageMultiplier())))))));
         }).setMaxWidthLimit(150 - 8 - 8 - 4).clickHandler((componentData, clickData) -> {
             if (!clickData.isRemote) {
                 if ("reset".equals(componentData)) {

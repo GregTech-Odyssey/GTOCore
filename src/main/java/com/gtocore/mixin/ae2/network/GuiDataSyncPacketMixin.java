@@ -25,9 +25,6 @@ public class GuiDataSyncPacketMixin implements IGuiDataSyncPacketExt {
     @Final
     @Shadow(remap = false)
     private int containerId;
-    @Final
-    @Shadow(remap = false)
-    private FriendlyByteBuf data;
 
     /// S2C packet handling for inner menus of Me2in1Menu
     @Inject(remap = false, at = @At("HEAD"), method = "clientPacketData", cancellable = true)

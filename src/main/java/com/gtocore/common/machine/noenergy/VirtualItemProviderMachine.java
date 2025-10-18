@@ -32,6 +32,7 @@ import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
@@ -46,7 +47,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 
 import java.util.stream.Stream;
 
@@ -76,7 +76,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         this.inventory = new NotifiableItemStackHandler(this, 288, IO.NONE, IO.BOTH);
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);
-        storage.setStoredMap(new Reference2LongOpenHashMap<>());
+        storage.setStoredMap(new AEKeyMap<>());
         inventory.addChangedListener(() -> {
             change = true;
             storage.getStoredMap().clear();

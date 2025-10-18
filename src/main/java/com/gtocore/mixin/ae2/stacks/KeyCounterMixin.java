@@ -3,10 +3,10 @@ package com.gtocore.mixin.ae2.stacks;
 import com.gtolib.IUnique;
 import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.utils.ExpandedO2LMap;
-import com.gtolib.utils.ExpandedR2LMap;
 
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.KeyCounter;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.*;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class KeyCounterMixin implements IKeyCounter {
 
     @Unique
-    private ExpandedR2LMap<AEKey> gtolib$map;
+    private AEKeyMap<AEKey> gtolib$map;
 
     @Unique
     private Int2ObjectOpenHashMap<ExpandedO2LMap<AEKey>> gtolib$fuzzyMap;
@@ -93,7 +93,7 @@ public class KeyCounterMixin implements IKeyCounter {
         var size = l.size();
         if (size < 1) return;
         if (gtolib$map == null) {
-            gtolib$map = new ExpandedR2LMap<>(l.size());
+            gtolib$map = new AEKeyMap<>(l.size());
             l.reference2LongEntrySet().fastForEach(entry -> gtolib$map.addTo(entry.getKey(), entry.getLongValue()));
         } else {
             gtolib$map.ensureCapacity(size);
@@ -113,7 +113,7 @@ public class KeyCounterMixin implements IKeyCounter {
         var size = l.size();
         if (size < 1) return;
         if (gtolib$map == null) {
-            gtolib$map = new ExpandedR2LMap<>(size);
+            gtolib$map = new AEKeyMap<>(size);
         } else {
             gtolib$map.ensureCapacity(size);
         }
@@ -127,7 +127,7 @@ public class KeyCounterMixin implements IKeyCounter {
      */
     @Overwrite(remap = false)
     public void add(AEKey key, long amount) {
-        if (gtolib$map == null) gtolib$map = new ExpandedR2LMap<>();
+        if (gtolib$map == null) gtolib$map = new AEKeyMap<>();
         gtolib$map.addTo(key, amount);
         gtolib$fuzzyUpdate = true;
     }
@@ -138,7 +138,7 @@ public class KeyCounterMixin implements IKeyCounter {
      */
     @Overwrite(remap = false)
     public void remove(AEKey key, long amount) {
-        if (gtolib$map == null) gtolib$map = new ExpandedR2LMap<>();
+        if (gtolib$map == null) gtolib$map = new AEKeyMap<>();
         gtolib$map.addTo(key, -amount);
         gtolib$fuzzyUpdate = true;
     }
@@ -160,7 +160,7 @@ public class KeyCounterMixin implements IKeyCounter {
      */
     @Overwrite(remap = false)
     public void set(AEKey key, long amount) {
-        if (gtolib$map == null) gtolib$map = new ExpandedR2LMap<>();
+        if (gtolib$map == null) gtolib$map = new AEKeyMap<>();
         gtolib$map.put(key, amount);
         gtolib$fuzzyUpdate = true;
     }
@@ -300,16 +300,16 @@ public class KeyCounterMixin implements IKeyCounter {
     @Override
     public void gtolib$ensureCapacity(int capacity) {
         if (gtolib$map == null) {
-            gtolib$map = new ExpandedR2LMap<>();
+            gtolib$map = new AEKeyMap<>();
         }
         gtolib$map.ensureCapacity(capacity);
     }
 
     @Override
-    public void gtolib$addAll(int size, Consumer<ExpandedR2LMap<AEKey>> consumer) {
+    public void gtolib$addAll(int size, Consumer<AEKeyMap<AEKey>> consumer) {
         if (size < 1) return;
         if (this.gtolib$map == null) {
-            this.gtolib$map = new ExpandedR2LMap<>(size);
+            this.gtolib$map = new AEKeyMap<>(size);
         }
         gtolib$map.ensureCapacity(size);
         consumer.accept(gtolib$map);

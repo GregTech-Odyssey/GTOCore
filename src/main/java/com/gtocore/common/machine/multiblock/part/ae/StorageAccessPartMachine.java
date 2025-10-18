@@ -29,6 +29,7 @@ import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
@@ -242,11 +243,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             return dataStorage;
         }
 
-        private Reference2LongOpenHashMap<AEKey> getCellStoredMap() {
+        private AEKeyMap<AEKey> getCellStoredMap() {
             var data = getCellStorage();
             var map = data.getStoredMap();
             if (map == null) {
-                map = new Reference2LongOpenHashMap<>();
+                map = new AEKeyMap<>();
                 data.setStoredMap(map);
             }
             return map;

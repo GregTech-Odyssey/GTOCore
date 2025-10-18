@@ -280,7 +280,7 @@ public class MaterialSpaceEra {
                 .ingot().fluid()
                 .color(0x94d4ee)
                 .secondaryColor(0x6abed1)
-                .components(Aluminium, 20, Copper, 1, Magnesium, 1, Zinc, 3)
+                .components(Aluminium, 20, Copper, 1, Lead, 1, Magnesium, 1, Zinc, 3)
                 .blastTemp(1750, LOW, GTValues.VA[GTValues.HV], 1200)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
@@ -411,7 +411,7 @@ public class MaterialSpaceEra {
                 .ingot().fluid()
                 .color(0x47b191)
                 .secondaryColor(0x2f7d61)
-                .components(Aluminium, 18, Beryllium, 30, Magnesium, 2)
+                .components(Aluminium, 18, Beryllium, 30, Calcium, 2, Magnesium, 2)
                 .blastTemp(3644, HIGH, GTValues.VA[GTValues.IV], 900)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
@@ -551,7 +551,7 @@ public class MaterialSpaceEra {
                 .ingot().fluid()
                 .color(0xff8080)
                 .secondaryColor(0xcc6060)
-                .components(Titanium, 5, Nickel, 5)
+                .components(Titanium, 5, Nickel, 5, Chromium, 1)
                 .blastTemp(7100, HIGHER, GTValues.VA[GTValues.LuV], 800)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,

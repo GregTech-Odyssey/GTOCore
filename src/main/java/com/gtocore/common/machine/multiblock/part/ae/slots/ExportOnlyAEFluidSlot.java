@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
-import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
@@ -61,7 +60,7 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
 
     public FluidStack getReadOnlyStack() {
         if (this.stock != null && this.stock.what() instanceof AEFluidKey fluidKey) {
-            return ((IAEFluidKey) (Object) fluidKey).gtolib$getReadOnlyStack();
+            return fluidKey.getReadOnlyStack();
         }
         return FluidStack.EMPTY;
     }
