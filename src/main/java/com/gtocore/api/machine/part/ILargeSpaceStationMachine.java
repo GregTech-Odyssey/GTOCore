@@ -69,10 +69,12 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
         if (getOffsetTimer() % 40 == 0) {
             AbstractSpaceStation self = (AbstractSpaceStation) self();
 
-            if (getRoot() != null && getRoot().getReadyCount() > 0) {
-                provideOxygen();
-            } else {
-                self.clearOxygenBlocks();
+            if (getOffsetTimer() % 400 == 0) {
+                if (getRoot() != null && getRoot().getReadyCount() > 0) {
+                    provideOxygen();
+                } else {
+                    self.clearOxygenBlocks();
+                }
             }
 
             self.updateSpaceMachines();

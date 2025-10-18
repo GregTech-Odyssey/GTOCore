@@ -995,4 +995,31 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/stainless_steel_corrosion_resistant_casing"),
                     GTCEu.id("block/multiblock/gcym/large_extruder"))
             .register();
+
+    // 砖窑
+    public static final MultiblockMachineDefinition BRICK_KILN = multiblock("brick_kiln", "砖窑", NoEnergyMultiblockMachine::new)
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .tooltips(GTOMachineStories.INSTANCE.getBrickKilnTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.BRICK_FURNACE_RECIPES)
+            .block(GTBlocks.CASING_PRIMITIVE_BRICKS)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle(" AAA ", " BBB ", " BBB ", "  B  ")
+                    .aisle("ACDCA", "BB BB", "BB BB", " BBB ")
+                    .aisle("ADDDA", "B   B", "B   B", " BBB ")
+                    .aisle("ADDDA", "B   B", "B   B", " BBB ")
+                    .aisle("ADDDA", "B   B", "B   B", " BBB ")
+                    .aisle("ACDCA", "BB BB", "BB BB", " BBB ")
+                    .aisle(" AEA ", " BBB ", " BBB ", "  B  ")
+                    .where('A', blocks(GTBlocks.CASING_PRIMITIVE_BRICKS.get())
+                            .or(abilities(IMPORT_FLUIDS, IMPORT_ITEMS, EXPORT_ITEMS)))
+                    .where('B', blocks(Blocks.BRICKS))
+                    .where('C', blocks(GTBlocks.CASING_PRIMITIVE_BRICKS.get()))
+                    .where('D', blocks(Blocks.STONE_BRICKS))
+                    .where('E', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(
+                    GTCEu.id("block/casings/solid/machine_primitive_bricks"), GTOCore.id("block/machines/heater/basic"))
+            .register();
 }

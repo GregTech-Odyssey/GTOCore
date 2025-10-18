@@ -41,6 +41,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
@@ -354,6 +355,43 @@ public final class MultiBlockC {
                     .where('Q', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
+            .addSubPattern(
+                    definition -> FactoryBlockPattern.start(definition)
+                            .aisle("AAADDDAAA AAAGGGAAA AAADDDAAA", "BBCBBBCBBAA AGFGA AABBCBBBCBB", "BBCBIBCBB AAAGGGAAA BBCBEBCBB", "BBCBIBCBB    GGG    BBCBEBCBB", "BBCBIBCBB    GFG    BBCBEBCBB", "  CBBBC      GGG      CBBBC  ")
+                            .aisle("AAAAAAAAAAA A   A AAAAAAAAAAA", "BB BIB BBFFFFFFFFFFFBB BEB BB", "BB BIB BBAA AGFGA AABB BEB BB", "BB BIB BB    GFG    BB BEB BB", "BB BIB BB    FFF    BB BEB BB", "  CBBBC      GFG      CBBBC  ")
+                            .aisle("AAAAAAAAA AAAGGGAAA AAAAAAAAA", "BB BBB BBAAFAGFGAFAABB BBB BB", "BB BIB BB AAAGGGAAA BB BEB BB", "BB BIB BB    GGG    BB BEB BB", "BB BIB BB    G G    BB BEB BB", "  CBBBC      GGG      CBBBC  ")
+                            .aisle("AAAAAAAAA    G G    AAAAAAAAA", "C  III  C  F  F  F  C  EEE  C", "C  III  C    GFG    C  EEE  C", "C  III  C    GFG    C  EEE  C", "C  III  C    FFF    C  EEE  C", "CCCCCCCCC    GFG    CCCCCCCCC")
+                            .aisle("AAAAAAAAA AAAGGGAAA AAAAAAAAA", "BB BBB BB AFAGFGAFA BB BBB BB", "BB BIB BB AAAGGGAAA BB BEB BB", "BB BIB BB    GGG    BB BEB BB", "BB BIB BB    G G    BB BEB BB", "  CBBBC      GGG      CBBBC  ")
+                            .aisle("AAAAAAAAA    G G    AAAAAAAAA", "BB BIB BB  F  F  F  BB BEB BB", "BB BIB BB    GFG    BB BEB BB", "BB BIB BB    GFG    BB BEB BB", "BB BIB BB    FFF    BB BEB BB", "  CBBBC      GFG      CBBBC  ")
+                            .aisle("AAAAAAAAA AAAGGGAAA AAAAAAAAA", "BBCBBBCBB AFAG GAFA BBCBBBCBB", "BBCBIBCBB AAAGGGAAA BBCBEBCBB", "BBCBIBCBB    GGG    BBCBEBCBB", "BBCBIBCBB    G G    BBCBEBCBB", "  CBBBC      GGG      CBBBC  ")
+                            .aisle("           A     A           ", "          AFA   AFA          ", "           A     A           ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "          A A   A A          ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .aisle("              H              ", "                             ", "                             ", "                             ", "                             ", "                             ")
+                            .where('A', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
+                            .where('B', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
+                            .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.CarbonFiberPolyphenyleneSulfideComposite)))
+                            .where('D', blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                                    .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
+                                    .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                    .or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
+                                    .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                            .where('E', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
+                            .where('F', blocks(GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING.get()))
+                            .where('G', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
+                            .where('H', controller(blocks(definition.get())))
+                            .where('I', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK2.get()))
+                            .where(' ', any())
+                            .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_assembler"))
             .register();
 

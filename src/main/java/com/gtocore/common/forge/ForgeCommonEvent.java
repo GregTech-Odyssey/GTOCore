@@ -275,7 +275,6 @@ public final class ForgeCommonEvent {
                 level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));
             }
-            return;
         }
     }
 
@@ -355,6 +354,8 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.get());
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.get());
+            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
+                mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get());
             }
         });
         event.getMappings(Registries.ITEM, GTOCore.MOD_ID).forEach(mapping -> {
@@ -364,6 +365,8 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.asItem());
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.asItem());
+            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
+                mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.asItem());
             }
         });
     }
