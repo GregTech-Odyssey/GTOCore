@@ -11,6 +11,11 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.Items;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Molybdenum;
+import static com.gtocore.api.data.tag.GTOTagPrefix.NANO;
+import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
 
 final class BiochemicaReaction {
@@ -53,17 +58,17 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.builder("succinic_acid_dust")
-                .inputItems(TagPrefix.dust, GTMaterials.Sugar, 24)
-                .inputItems(TagPrefix.dust, GTOMaterials.EschericiaColi)
-                .outputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 14)
+                .inputItems(dust, GTMaterials.Sugar, 24)
+                .inputItems(dust, GTOMaterials.EschericiaColi)
+                .outputItems(dust, GTOMaterials.SuccinicAcid, 14)
                 .EUt(480)
                 .duration(200)
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("succinic_anhydride")
-                .inputItems(TagPrefix.dust, GTOMaterials.Succinimide, 12)
-                .inputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium)
-                .outputItems(TagPrefix.dust, GTOMaterials.SuccinicAnhydride, 11)
+                .inputItems(dust, GTOMaterials.Succinimide, 12)
+                .inputItems(dust, GTOMaterials.BrevibacteriumFlavium)
+                .outputItems(dust, GTOMaterials.SuccinicAnhydride, 11)
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000))
                 .EUt(7680)
                 .duration(50)
@@ -92,6 +97,26 @@ final class BiochemicaReaction {
                 .inputItems(GTOItems.PREPARATION_PETRI_DISH.asItem())
                 .outputItems(GTOItems.CUPRIAVIDUS_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
+                .EUt(30720)
+                .duration(2400)
+                .save();
+
+        BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("clostridium_pasteurianum_dish")
+                .inputItems(Items.HONEY_BOTTLE.asItem())
+                .inputItems(GTOItems.PREPARATION_PETRI_DISH.asItem())
+                .outputItems(GTOItems.CLOSTRIDIUM_PASTEURIANUM_DISH.asItem())
+                .outputItems(Items.GLASS_BOTTLE.asItem())
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
+                .EUt(30720)
+                .duration(2400)
+                .save();
+
+        // 10.1016/j.chemosphere.2018.02.079
+        BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("nano_molybdenum_biochem_reduction")
+                .inputItems(dust, SodiumMolybdate, 4)
+                .inputItems(dust, ClostridiumPasteurianum)
+                .outputItems(NANO, Molybdenum, 4)
+                .inputFluids(DistilledWater.getFluid(4000))
                 .EUt(30720)
                 .duration(2400)
                 .save();
@@ -125,7 +150,7 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("brevibacterium")
                 .inputItems(GTOItems.BREVIBACTERIUM_PETRI_DISH.asItem())
-                .outputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium)
+                .outputItems(dust, GTOMaterials.BrevibacteriumFlavium)
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
                 .EUt(30720)
@@ -134,7 +159,7 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("bifidobacteriumm")
                 .inputItems(GTOItems.BIFIDOBACTERIUMM_PETRI_DISH.asItem())
-                .outputItems(TagPrefix.dust, GTOMaterials.BifidobacteriumBreve)
+                .outputItems(dust, GTOMaterials.BifidobacteriumBreve)
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
                 .EUt(30720)
@@ -143,7 +168,7 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("eschericia")
                 .inputItems(GTOItems.ESCHERICIA_PETRI_DISH.asItem())
-                .outputItems(TagPrefix.dust, GTOMaterials.EschericiaColi)
+                .outputItems(dust, GTOMaterials.EschericiaColi)
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
                 .EUt(30720)
@@ -152,7 +177,7 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("streptococcus")
                 .inputItems(GTOItems.STREPTOCOCCUS_PETRI_DISH.asItem())
-                .outputItems(TagPrefix.dust, GTOMaterials.StreptococcusPyogenes)
+                .outputItems(dust, GTOMaterials.StreptococcusPyogenes)
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
                 .EUt(30720)
@@ -161,7 +186,16 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("cupriavidus")
                 .inputItems(GTOItems.CUPRIAVIDUS_PETRI_DISH.asItem())
-                .outputItems(TagPrefix.dust, GTOMaterials.CupriavidusNecator)
+                .outputItems(dust, GTOMaterials.CupriavidusNecator)
+                .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
+                .EUt(30720)
+                .duration(200)
+                .save();
+
+        BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("clostridium_pasteurianum")
+                .inputItems(GTOItems.CLOSTRIDIUM_PASTEURIANUM_DISH.asItem())
+                .outputItems(dust, GTOMaterials.ClostridiumPasteurianum)
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
                 .EUt(30720)
@@ -170,7 +204,7 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("shewanella")
                 .inputItems(GTOItems.SHEWANELLA_PETRI_DISH.asItem())
-                .outputItems(TagPrefix.dust, GTOMaterials.Shewanella)
+                .outputItems(dust, GTOMaterials.Shewanella)
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
                 .EUt(30720)
@@ -178,7 +212,7 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("linoleic_acid")
-                .inputItems(TagPrefix.dust, GTOMaterials.Yeast, 6)
+                .inputItems(dust, GTOMaterials.Yeast, 6)
                 .inputFluids(GTMaterials.Biomass.getFluid(1000))
                 .outputFluids(GTOMaterials.LinoleicAcid.getFluid(1000))
                 .EUt(480)
@@ -186,7 +220,7 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("chitosan")
-                .inputItems(TagPrefix.dust, GTOMaterials.BifidobacteriumBreve, 8)
+                .inputItems(dust, GTOMaterials.BifidobacteriumBreve, 8)
                 .inputFluids(GTOMaterials.Chitin.getFluid(1000))
                 .outputFluids(GTOMaterials.Chitosan.getFluid(1000))
                 .EUt(1920)
@@ -194,7 +228,7 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("pluripotency_induction_gene_plasmids")
-                .inputItems(TagPrefix.dust, GTOMaterials.EschericiaColi, 8)
+                .inputItems(dust, GTOMaterials.EschericiaColi, 8)
                 .inputFluids(GTOMaterials.Cas9Protein.getFluid(1000))
                 .inputFluids(GTOMaterials.MycGene.getFluid(1000))
                 .inputFluids(GTOMaterials.Oct4Gene.getFluid(1000))
@@ -206,7 +240,7 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("cas9_protein")
-                .inputItems(TagPrefix.dust, GTOMaterials.StreptococcusPyogenes, 12)
+                .inputItems(dust, GTOMaterials.StreptococcusPyogenes, 12)
                 .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
                 .outputFluids(GTOMaterials.Cas9Protein.getFluid(1000))
                 .EUt(480)
@@ -214,8 +248,8 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("biotin")
-                .inputItems(TagPrefix.dust, GTOMaterials.CupriavidusNecator, 2)
-                .inputItems(TagPrefix.dust, GTMaterials.Sugar, 2)
+                .inputItems(dust, GTOMaterials.CupriavidusNecator, 2)
+                .inputItems(dust, GTMaterials.Sugar, 2)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(1000))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(1000))
                 .outputFluids(GTOMaterials.Biotin.getFluid(1000))
@@ -224,16 +258,16 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("clear_ammonia_solution")
-                .inputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium, 4)
-                .inputItems(TagPrefix.dust, GTMaterials.Sugar, 4)
-                .outputItems(TagPrefix.dust, GTOMaterials.Glutamine, 40)
+                .inputItems(dust, GTOMaterials.BrevibacteriumFlavium, 4)
+                .inputItems(dust, GTMaterials.Sugar, 4)
+                .outputItems(dust, GTOMaterials.Glutamine, 40)
                 .inputFluids(GTOMaterials.ClearAmmoniaSolution.getFluid(1000))
                 .EUt(7680)
                 .duration(500)
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("raw_growth_medium")
-                .inputItems(TagPrefix.dust, GTOMaterials.Glutamine, 20)
+                .inputItems(dust, GTOMaterials.Glutamine, 20)
                 .inputFluids(GTOMaterials.BasicFibroblastGrowthFactor.getFluid(1000))
                 .inputFluids(GTOMaterials.AmmoniumNitrateSolution.getFluid(1000))
                 .inputFluids(GTOMaterials.B27Supplement.getFluid(1000))
@@ -244,9 +278,9 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("unknownnutrientagar")
-                .inputItems(TagPrefix.dust, GTMaterials.Salt, 16)
-                .inputItems(TagPrefix.dust, GTMaterials.Meat, 16)
-                .inputItems(TagPrefix.dust, GTMaterials.Agar, 16)
+                .inputItems(dust, GTMaterials.Salt, 16)
+                .inputItems(dust, GTMaterials.Meat, 16)
+                .inputItems(dust, GTMaterials.Agar, 16)
                 .inputFluids(GTOMaterials.UnknowWater.getFluid(4000))
                 .inputFluids(GTMaterials.PhthalicAcid.getFluid(4000))
                 .outputFluids(GTOMaterials.UnknownNutrientAgar.getFluid(8000))
@@ -255,7 +289,7 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("rawgrowthmedium")
-                .inputItems(TagPrefix.dust, GTOMaterials.Glutamine, 20)
+                .inputItems(dust, GTOMaterials.Glutamine, 20)
                 .inputFluids(GTOMaterials.BiomediumRaw.getFluid(1000))
                 .inputFluids(GTMaterials.Mutagen.getFluid(1000))
                 .inputFluids(GTMaterials.Biomass.getFluid(100000))
@@ -267,7 +301,7 @@ final class BiochemicaReaction {
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("biomediumraw")
                 .inputItems(GTItems.STEM_CELLS.asItem(), 64)
                 .inputItems(GTOItems.TCETIESEAWEEDEXTRACT.asItem(), 16)
-                .inputItems(TagPrefix.dust, GTMaterials.Tritanium)
+                .inputItems(dust, GTMaterials.Tritanium)
                 .inputFluids(GTMaterials.RawGrowthMedium.getFluid(1000))
                 .outputFluids(GTOMaterials.BiomediumRaw.getFluid(1000))
                 .EUt(1920)
@@ -292,7 +326,7 @@ final class BiochemicaReaction {
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("biological_cells")
                 .inputItems(GTOItems.STERILIZED_PETRI_DISH.asItem())
                 .inputItems(GTItems.STEM_CELLS.asItem(), 1)
-                .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched)
+                .inputItems(dust, GTMaterials.NaquadahEnriched)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Mutagen.getFluid(1000))
                 .outputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 1)
@@ -304,7 +338,7 @@ final class BiochemicaReaction {
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("dragon_cells")
                 .inputItems(GTOItems.DRAGON_STEM_CELLS.asItem(), 1)
-                .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 16)
+                .inputItems(dust, GTMaterials.Naquadria, 16)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(10000))
                 .inputFluids(GTMaterials.Mutagen.getFluid(10000))
                 .outputItems(GTOItems.DRAGON_CELLS.asItem(), 1)
@@ -336,8 +370,8 @@ final class BiochemicaReaction {
                 .save();
 
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder("alpha_lipoic_acid")
-                .inputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium, 8)
-                .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 4)
+                .inputItems(dust, GTOMaterials.BrevibacteriumFlavium, 8)
+                .inputItems(dust, GTMaterials.Sulfur, 4)
                 .inputFluids(GTMaterials.Biomass.getFluid(1000))
                 .outputFluids(GTOMaterials.LipoicAcid.getFluid(1000))
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)

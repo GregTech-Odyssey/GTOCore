@@ -57,7 +57,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
     public final IntSupplier displayPriority;
 
     public GTEMIRecipe(Recipe recipe, EmiRecipeCategory category) {
-        super(() -> EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, type.getRecipeUI().getJEISize().height)));
+        super(() -> EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, getHeight(recipe))));
         this.recipe = recipe;
         this.category = category;
         displayPriority = () -> recipe.displayPriority;
@@ -79,6 +79,15 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                     recipe.recipeType.getRecipeUI().getOriginalWidth()) / 2;
         }
         return 0;
+    }
+
+    private static int getHeight(Recipe recipe) {
+        return recipe.recipeType.getRecipeUI().getJEISize().height + recipe.conditions.size() * 10;
+    }
+
+    @Override
+    public int getDisplayHeight() {
+        return getHeight(recipe);
     }
 
     @SuppressWarnings("all")

@@ -547,5 +547,295 @@ public class CompositeMaterialsProcessing {
                 .EUt(500)
                 .duration(100)
                 .save();
+
+        CHEMICAL_BATH_RECIPES.builder("carbon_fiber_peek_composite_rough_blank")
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.T900CarbonFiber, 10)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonFiberPolyetheretherketoneComposite)
+                .inputFluids(GTOMaterials.Polyetheretherketone, 432)
+                .EUt(131000)
+                .duration(200)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("carbon_fiber_peek_composite_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonFiberPolyetheretherketoneComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.CarbonFiberPolyetheretherketoneComposite)
+                .EUt(131000)
+                .duration(200)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("uhtc_x1000_ultra_high_temperature_composite_rough_blank")
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.ZirconiumCarbide, 7)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Hafnium, 5)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.TungstenAlloyYG10, 3)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.SiliconCarbide, 4)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.UHTCX1000UltraHighTemperatureComposite, 2)
+                .inputFluids(GTOMaterials.SilicaSol, 576)
+                .EUt(131000)
+                .duration(1500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("uhtc_x1000_ultra_high_temperature_composite_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.UHTCX1000UltraHighTemperatureComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.UHTCX1000UltraHighTemperatureComposite)
+                .EUt(131000)
+                .blastFurnaceTemp(9600)
+                .duration(500)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("zirconia_nickel_base_graded_composite_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.Inconel242, 12)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.ZirconiumOxide, 5)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.StainlessSteel155Ph, 4)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.ZirconiaNickelBaseGradedComposite, 2)
+                .inputFluids(GTMaterials.Nickel, 576)
+                .EUt(131000)
+                .duration(1500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("zirconia_nickel_base_graded_composite_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.ZirconiaNickelBaseGradedComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.ZirconiaNickelBaseGradedComposite)
+                .EUt(131000)
+                .blastFurnaceTemp(9600)
+                .duration(500)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("zirconia_nickel_base_graded_composite_rough_blank1")
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.BoronCarbideCompositeProtectiveCeramic, 9)
+                .inputItems(GTOTagPrefix.plate, GTMaterials.TungstenCarbide, 5)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.DepletedUraniumAlloy, 3)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.Kevlar, 5)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.SiliconCarbide, 5)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.ZirconiaNickelBaseGradedComposite, 3)
+                .inputFluids(GTOMaterials.PhenolicResin, 576)
+                .EUt(524200)
+                .duration(1500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("boron_carbide_composite_protective_ceramic_block2")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.BoronCarbideCompositeProtectiveCeramic)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.BoronCarbideCompositeProtectiveCeramic)
+                .EUt(131000)
+                .blastFurnaceTemp(11000)
+                .duration(500)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("carbon_nanotube_reinforced_nickel_matrix_composite_rough_blank3")
+                .inputItems(GTOTagPrefix.foil, GTOMaterials.Inconel242, 16)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Graphene, 5)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.CarbonNanotubes, 3)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonNanotubeReinforcedNickelMatrixComposite)
+                .inputFluids(GTMaterials.Nickel, 288)
+                .EUt(524200)
+                .duration(500)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("carbon_nanotube_reinforced_nickel_matrix_composite_block4")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonNanotubeReinforcedNickelMatrixComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.CarbonNanotubeReinforcedNickelMatrixComposite)
+                .EUt(131000)
+                .duration(200)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("carbon_nanotube_reinforced_aluminum_matrix_composite_rough_blank5")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.NanoAluminum, 6)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Graphene, 3)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.CarbonNanotubes, 2)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite)
+                .inputFluids(GTOMaterials.PolyurethaneResin, 1000)
+                .EUt(524200)
+                .duration(500)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("carbon_nanotube_reinforced_aluminum_matrix_composite_rough_blank6")
+                .inputItems(GTOTagPrefix.block, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite)
+                .EUt(131000)
+                .duration(200)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("fgm_tps10_thermal_protection_composite_rough_blank7")
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.ZirconiumDiboride, 10)
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.SiliconCarbide, 8)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.NanoScaleRhenium, 3)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.NanoScaleMolybdenum, 7)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.NanoScaleTungsten, 5)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.FGMTPSThermalProtectionComposite, 3)
+                .inputFluids(GTOMaterials.PhosphoricAcidMagnesiumPhosphateCement, 576)
+                .EUt(2097100)
+                .duration(1500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("fgm_tps10_thermal_protection_composite_block8")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.FGMTPSThermalProtectionComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.FGMTPSThermalProtectionComposite)
+                .EUt(528200)
+                .blastFurnaceTemp(13800)
+                .duration(500)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("cfc_sic1500_carbon_fiber_reinforced_composite_rough_blan9k")
+                .inputItems(GTOTagPrefix.plate, GTOMaterials.SiliconCarbide, 8)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.T1500CarbonFiber, 4)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CFCSIC1500CarbonFiberReinforcedComposite)
+                .inputFluids(GTOMaterials.Paa, 288)
+                .EUt(2097100)
+                .duration(500)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("cfc_sic1500_carbon_fiber_reinforced_composite_bloc7k")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CFCSIC1500CarbonFiberReinforcedComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.CFCSIC1500CarbonFiberReinforcedComposite)
+                .EUt(524200)
+                .duration(200)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("uhtc_x2000_ultra_high_temperature_composite5_rough_blank")
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.ZirconiumDiboride, 12)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.TantalumCarbide, 10)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Hafnium, 5)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.NanoScaleSiliconCarbide, 5)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.UHTCX2000UltraHighTemperatureComposite, 3)
+                .inputFluids(GTOMaterials.PhosphoricAcidChromiumPhosphateCement, 576)
+                .EUt(2097100)
+                .duration(1500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("uhtc_x2000_ultra_high_temperature_com3posite_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.UHTCX2000UltraHighTemperatureComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.UHTCX2000UltraHighTemperatureComposite)
+                .EUt(528200)
+                .blastFurnaceTemp(14200)
+                .duration(500)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("titanium_dioxide_nanotube_reinforce2d_titanium_matrix_composite_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.TitaniumTC21, 12)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.TitaniumDioxideNanotubes, 6)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.TitaniumDioxideNanotubeReinforcedTitaniumMatrixComposite, 2)
+                .inputFluids(GTMaterials.Titanium, 288)
+                .EUt(83888600)
+                .duration(1000)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("titanium_dioxide_nanotube_reinforce1d_titanium_matrix_composite_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.TitaniumDioxideNanotubeReinforcedTitaniumMatrixComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.TitaniumDioxideNanotubeReinforcedTitaniumMatrixComposite)
+                .EUt(528200)
+                .blastFurnaceTemp(14200)
+                .duration(500)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("oxide_dispersion_strengthen2ed_nickel_base_superalloy_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.Inconel242, 16)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.DegenerateRhenium, 6)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.YttriumOxide, 3)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Ruthenium, 5)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTMaterials.TungstenCarbide, 8)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.OxideDispersionStrengthenedNickelBaseSuperalloy, 5)
+                .inputFluids(GTMaterials.Nickel, 1440)
+                .EUt(8388608)
+                .duration(2500)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("aluminum_nitride_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.Alumina)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Carbon)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.AluminumNitride)
+                .inputFluids(GTMaterials.Nitrogen, 1000)
+                .outputFluids(GTMaterials.CarbonMonoxide, 1000)
+                .EUt(2040)
+                .blastFurnaceTemp(1900)
+                .duration(100)
+                .save();
+
+        ISOSTATIC_PRESSING_RECIPES.builder("aluminum_oxynitride_glass_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AluminumNitride, 9)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminumOxynitrideGlassCeramic)
+                .inputFluids(GTMaterials.Epoxy, 1000)
+                .EUt(32700)
+                .duration(500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("aluminum_oxynitride_glass_ceramic_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminumOxynitrideGlassCeramic)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.AluminumOxynitrideGlassCeramic)
+                .inputFluids(GTMaterials.Neon, 1000)
+                .EUt(8100)
+                .blastFurnaceTemp(7900)
+                .duration(500)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("lead_oxide_dust")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Lead)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.LeadOxide)
+                .inputFluids(GTMaterials.Oxygen, 1000)
+                .EUt(510)
+                .blastFurnaceTemp(2600)
+                .duration(100)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("lead_zirconate_titanate_ceramic_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadOxide)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.ZirconiumOxide, 4)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.TitaniumDioxide, 3)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.LeadZirconateTitanateCeramic, 6)
+                .EUt(8100)
+                .blastFurnaceTemp(2600)
+                .duration(100)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("lead_zirconate_titanate_shape_piezoelectric_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadZirconateTitanateCeramic, 9)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadZirconateTitanateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.Epoxy, 1000)
+                .EUt(32700)
+                .duration(500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("lead_zirconate_titanate_shape_piezoelectric_ceramic_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadZirconateTitanateShapePiezoelectricCeramic)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.LeadZirconateTitanateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.Argon, 1000)
+                .EUt(32760)
+                .blastFurnaceTemp(11800)
+                .duration(500)
+                .save();
+
+        SINTERING_FURNACE_RECIPES.builder("lead_magnesium_niobate_shape_piezoelectric_ceramic_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadMagnesiumNiobateShapePiezoelectricCeramic)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.LeadMagnesiumNiobateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.Argon, 1000)
+                .EUt(32760)
+                .blastFurnaceTemp(11800)
+                .duration(500)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("lead_niobate_magnesium_niobate_ceramic_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadOxide, 3)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.NiobiumOxide)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Magnesia)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.LeadNiobateMagnesiumNiobateCeramic, 3)
+                .EUt(8100)
+                .blastFurnaceTemp(2600)
+                .duration(100)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("niobium_oxide_dust")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Niobium, 2)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.NiobiumOxide)
+                .inputFluids(GTMaterials.Oxygen, 5000)
+                .EUt(500)
+                .blastFurnaceTemp(1800)
+                .duration(100)
+                .save();
+
+        THERMO_PRESSING_RECIPES.builder("lead_magnesium_niobate_shape_piezoelectric_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LeadNiobateMagnesiumNiobateCeramic, 9)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.LeadMagnesiumNiobateShapePiezoelectricCeramic)
+                .inputFluids(GTMaterials.ReinforcedEpoxyResin, 1000)
+                .EUt(32700)
+                .duration(500)
+                .save();
     }
 }

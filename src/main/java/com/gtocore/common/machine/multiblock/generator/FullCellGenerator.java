@@ -106,7 +106,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
             IdleReason.setIdleReason(this, IdleReason.INVALID_INPUT);
             return null;
         }
-        bonusEfficiency = Math.pow(1.25d, membraneTier);
+        bonusEfficiency = Math.pow(1.1d, membraneTier);
         fuelEnergyPerUnit = (long) (fuelEnergyPerUnit * bonusEfficiency);
 
         // find existing electrolytes

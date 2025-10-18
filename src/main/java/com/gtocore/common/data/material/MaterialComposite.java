@@ -32,8 +32,20 @@ public class MaterialComposite {
         // 碳化硅纤维增强钛基复合材料 silicon_carbide_fiber_reinforced_titanium_matrix_composite 转子 #6d4041 LUV
         // 钨纤维强化钴基复合材料 tungsten_fiber_reinforced_cobalt_based_composite 弯曲板，双层板 #171a3c LUV
         // 碳纤维-聚酰亚胺复合材料 carbon_fiber_polyimide_composite 箔，杆 #c68430 LUV
-        // 碳纤维-PEEK复合材料 carbon_fiber_peek_composite 箔，杆 #3a3a3a LUV
+        // 碳纤维-聚醚醚酮复合材料 carbon_fiber_peek_composite #2a3164 ZPM 弯曲板，双层板，杆，箔
         //
+        // UHTC-X1000超高温复合材料 uhtc_x1000_ultra_high_temperature_composite #85868d ZPM 双层板
+        // 二氧化锆-镍基功能梯度复合材料 zirconia_nickel_base_graded_composite #4b7f4c ZPM 箔，杆
+        // 锆钛酸铅压电陶瓷 lead_zirconate_titanate_shape_piezoelectric_ceramic #b357ba UV 箔，杆
+        // 铌镁酸铅压电陶瓷 lead_magnesium_niobate_shape_piezoelectric_ceramic #bb7d8a UV 箔，杆
+        // 碳化硼复合防护陶瓷 boron_carbide_composite_protective_ceramic #3d3715 UV 双层板
+        // 碳纳米管强化镍基复合材料 carbon_nanotube_reinforced_nickel_matrix_composite #1c7212 UV 箔，杆，细导线
+        // 碳纳米管增强铝基复合材料 carbon_nanotube_reinforced_aluminum_matrix_composite #1aad94 UV 箔，杆，细导线
+        // FGM-TPS10热防护复合陶瓷 fgm_tps10_thermal_protection_composite #7d5721 UHV 双层板
+        // CFC-SIC1500碳纤维强化复合材料 cfc_sic1500_carbon_fiber_reinforced_composite #1a5f68 UHV 双层板，箔
+        // UHTC-X2000超高温复合材料 uhtc_x2000_ultra_high_temperature_composite #752323 UHV 双层板，箔
+        // 二氧化钛纳米管强化钛基复合材料 titanium_dioxide_nanotube_reinforced_titanium_matrix_composite #91269d UEV 双层板，箔
+        // 氧化物弥散强化镍基超合金 oxide_dispersion_strengthened_nickel_base_superalloy #43a75c UEV 箔，齿轮，管道，杆
 
         FiberglassReinforcedPlastic = material("fiberglass_reinforced_plastic", "玻璃钢")
                 .ingot().fluid()
@@ -48,7 +60,7 @@ public class MaterialComposite {
                 .color(0xeff3f3)
                 .secondaryColor(0xc7d3d3)
                 .blastTemp(1720, LOW, GTValues.VA[GTValues.EV], 600)
-                .iconSet(GLASS)
+                .iconSet(BRIGHT)
                 .flags(GENERATE_PLATE, GENERATE_CURVED_PLATE, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         AluminumReinforcedWithSiliconCarbideParticles = material("aluminum_reinforced_with_silicon_carbide_particles", "碳化硅颗粒增强铝基复合材料")
@@ -173,7 +185,7 @@ public class MaterialComposite {
                 .flags(GENERATE_PLATE, GENERATE_LONG_ROD, GENERATE_FRAME, GENERATE_CURVED_PLATE, COMPOSITE_MATERIAL)
                 .buildAndRegister();
         AluminumOxynitrideGlassCeramic = material("aluminum_oxynitride_glass_ceramic", "氮氧化铝玻璃陶瓷")
-                .ingot().fluid()
+                .ingot()
                 .color(0xdedede)
                 .secondaryColor(0xa1a1a1)
                 .blastTemp(2050, LOW, GTValues.VA[GTValues.HV], 600)
@@ -218,14 +230,110 @@ public class MaterialComposite {
                 .ingot().fluid()
                 .color(0x3a3a3a)
                 .secondaryColor(0x262626)
-                .blastTemp(5120, HIGH, GTValues.VA[GTValues.LuV], 600)
-                .iconSet(GLASS)
+                .blastTemp(5120, HIGH, GTValues.VA[GTValues.ZPM], 600)
+                .iconSet(SHINY)
                 .flags(GENERATE_PLATE)
-                .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
+                .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL, GENERATE_FOIL, GENERATE_CURVED_PLATE)
                 .buildAndRegister();
 
-        // 纳米碳化硅 nano_scale_silicon_carbide 默认 #76dfcf
-        // 纳米钨 nano_scale_tungsten 默认 #a3bb51
+        UHTCX1000UltraHighTemperatureComposite = material("uhtc_x1000_ultra_high_temperature_composite", "UHTC-X1000超高温复合材料")
+                .ingot().fluid()
+                .color(0x85868d)
+                .secondaryColor(0x5e5f66)
+                .blastTemp(5420, HIGH, GTValues.VA[GTValues.ZPM], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_PLATE, COMPOSITE_MATERIAL, GENERATE_CURVED_PLATE)
+                .buildAndRegister();
+        ZirconiaNickelBaseGradedComposite = material("zirconia_nickel_base_graded_composite", "二氧化锆-镍基功能梯度复合材料")
+                .ingot().fluid()
+                .color(0x4b7f4c)
+                .secondaryColor(0x30522f)
+                .blastTemp(5560, HIGH, GTValues.VA[GTValues.ZPM], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
+                .buildAndRegister();
+        LeadZirconateTitanateShapePiezoelectricCeramic = material("lead_zirconate_titanate_shape_piezoelectric_ceramic", "锆钛酸铅压电陶瓷")
+                .ingot()
+                .color(0xb357ba)
+                .secondaryColor(0x7a3a7d)
+                .blastTemp(5700, HIGH, GTValues.VA[GTValues.UV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
+                .buildAndRegister();
+        LeadMagnesiumNiobateShapePiezoelectricCeramic = material("lead_magnesium_niobate_shape_piezoelectric_ceramic", "铌镁酸铅压电陶瓷")
+                .ingot()
+                .color(0xbb7d8a)
+                .secondaryColor(0x7a5258)
+                .blastTemp(5800, HIGH, GTValues.VA[GTValues.UV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
+                .buildAndRegister();
+        BoronCarbideCompositeProtectiveCeramic = material("boron_carbide_composite_protective_ceramic", "碳化硼复合防护陶瓷")
+                .ingot()
+                .color(0x3d3715)
+                .secondaryColor(0x29270f)
+                .blastTemp(5920, HIGH, GTValues.VA[GTValues.UV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_PLATE, COMPOSITE_MATERIAL, GENERATE_CURVED_PLATE)
+                .buildAndRegister();
+        CarbonNanotubeReinforcedNickelMatrixComposite = material("carbon_nanotube_reinforced_nickel_matrix_composite", "碳纳米管强化镍基复合材料")
+                .ingot().fluid()
+                .color(0x1c7212)
+                .secondaryColor(0x104d0a)
+                .blastTemp(6000, HIGH, GTValues.VA[GTValues.UV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
+                .buildAndRegister();
+        CarbonNanotubeReinforcedAluminumMatrixComposite = material("carbon_nanotube_reinforced_aluminum_matrix_composite", "碳纳米管增强铝基复合材料")
+                .ingot().fluid()
+                .color(0x1aad94)
+                .secondaryColor(0x0d7f66)
+                .blastTemp(6100, HIGH, GTValues.VA[GTValues.UV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_FOIL, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
+                .buildAndRegister();
+        FGMTPSThermalProtectionComposite = material("fgm_tps10_thermal_protection_composite", "FGM-TPS10热防护复合陶瓷")
+                .ingot()
+                .color(0x7d5721)
+                .secondaryColor(0x5e3a16)
+                .blastTemp(6200, HIGH, GTValues.VA[GTValues.UHV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_PLATE, COMPOSITE_MATERIAL, GENERATE_CURVED_PLATE)
+                .buildAndRegister();
+        CFCSIC1500CarbonFiberReinforcedComposite = material("cfc_sic1500_carbon_fiber_reinforced_composite", "CFC-SIC1500碳纤维强化复合材料")
+                .ingot().fluid()
+                .color(0x1a5f68)
+                .secondaryColor(0x103a3f)
+                .blastTemp(6300, HIGH, GTValues.VA[GTValues.UHV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_PLATE, COMPOSITE_MATERIAL, GENERATE_CURVED_PLATE, GENERATE_FOIL)
+                .buildAndRegister();
+        UHTCX2000UltraHighTemperatureComposite = material("uhtc_x2000_ultra_high_temperature_composite", "UHTC-X2000超高温复合材料")
+                .ingot().fluid()
+                .color(0x752323)
+                .secondaryColor(0x4c1616)
+                .blastTemp(6400, HIGH, GTValues.VA[GTValues.UHV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_PLATE, COMPOSITE_MATERIAL, GENERATE_CURVED_PLATE, GENERATE_FOIL)
+                .buildAndRegister();
+        TitaniumDioxideNanotubeReinforcedTitaniumMatrixComposite = material("titanium_dioxide_nanotube_reinforced_titanium_matrix_composite", "二氧化钛纳米管强化钛基复合材料")
+                .ingot().fluid()
+                .color(0x91269d)
+                .secondaryColor(0x5e167d)
+                .blastTemp(6500, HIGH, GTValues.VA[GTValues.UEV], 600)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_PLATE, COMPOSITE_MATERIAL, GENERATE_FOIL)
+                .buildAndRegister();
+        OxideDispersionStrengthenedNickelBaseSuperalloy = material("oxide_dispersion_strengthened_nickel_base_superalloy", "氧化物弥散强化镍基超合金")
+                .ingot().fluid()
+                .color(0x43a75c)
+                .secondaryColor(0x2e7f3f)
+                .blastTemp(6600, HIGH, GTValues.VA[GTValues.UEV], 600)
+                .iconSet(METALLIC)
+                .itemPipeProperties(12, 7000f)
+                .flags(GENERATE_FOIL, GENERATE_GEAR, GENERATE_LONG_ROD, COMPOSITE_MATERIAL)
+                .buildAndRegister();
+
         // T300碳纤维原丝
         // T400碳纤维原丝
         // T600碳纤维原丝
@@ -236,22 +344,6 @@ public class MaterialComposite {
         // T1200碳纤维原丝
         // T1500碳纤维原丝
 
-        NanoScaleSiliconCarbide = material("nano_scale_silicon_carbide", "纳米碳化硅")
-                .dust()
-                .color(0x76dfcf)
-                .secondaryColor(0x4accca)
-                .iconSet(BRIGHT)
-                .flags(GENERATE_FIBER)
-                .blastTemp(5000, HIGH, GTValues.VA[GTValues.LuV], 600)
-                .buildAndRegister();
-        NanoScaleTungsten = material("nano_scale_tungsten", "纳米钨")
-                .dust()
-                .color(0xa3bb51)
-                .secondaryColor(0x7d8c3a)
-                .iconSet(BRIGHT)
-                .flags(GENERATE_FIBER)
-                .blastTemp(6000, HIGH, GTValues.VA[GTValues.LuV], 600)
-                .buildAndRegister();
         T300CarbonFiber = material("t300_carbon_fiber_tow", "T300碳")
                 .dust()
                 .color(0x3a3a3a)

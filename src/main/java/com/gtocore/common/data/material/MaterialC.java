@@ -316,6 +316,12 @@ public final class MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        ClostridiumPasteurianum = material("clostridium_pasteurianum", "巴氏梭菌")
+                .dust()
+                .color(0x6B8E23)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         Yeast = material("yeast", "酵母")
                 .dust()
                 .color(0xAE9C00)

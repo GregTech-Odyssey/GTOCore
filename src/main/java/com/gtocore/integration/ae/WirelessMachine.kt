@@ -255,7 +255,11 @@ interface WirelessMachine :
     fun createWirelessMachineRunTime() = WirelessMachineRunTime(this)
     fun createWirelessMachinePersisted() = WirelessMachinePersisted(this)
 
-    fun linkGrid(gridName: String) { // 连接网格，例如机器加载
+    /**
+     * 连接网格，例如机器加载
+     * @param gridName 网格名称
+     */
+    fun linkGrid(gridName: String) {
         if (!allowThisMachineConnectToWirelessGrid()) return
         if (self().isRemote) return
         when (WirelessSavedData.joinToGrid(gridName, this, requesterUUID)) {

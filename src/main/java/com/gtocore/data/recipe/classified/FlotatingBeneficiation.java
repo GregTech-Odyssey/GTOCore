@@ -38,6 +38,15 @@ final class FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
+        FLOTATING_BENEFICIATION_RECIPES.builder("metal_compound_particle_front")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.MetalCompoundParticles, 64)
+                .inputFluids(GTOMaterials.Turpentine, 12000)
+                .outputFluids(GTOMaterials.MetalCompoundParticleFront, 1000)
+                .EUt(7680)
+                .duration(4800)
+                .save();
+
         FLOTATING_BENEFICIATION_RECIPES.recipeBuilder("monazite_front")
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.MILLED, GTMaterials.Monazite, 64)

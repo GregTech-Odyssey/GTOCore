@@ -20,6 +20,7 @@ import appeng.core.definitions.AEItems;
 import com.enderio.base.common.init.EIOItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.MACERATOR_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.ULTRA_FINE_GRINDING_RECIPES;
 
 final class Macerator {
 
@@ -107,7 +108,7 @@ final class Macerator {
                 .duration(200)
                 .save();
 
-        MACERATOR_RECIPES.recipeBuilder("degenerate_rhenium_dust")
+        ULTRA_FINE_GRINDING_RECIPES.recipeBuilder("degenerate_rhenium_dust")
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium)
                 .outputItems(TagPrefix.dust, GTOMaterials.DegenerateRhenium)
                 .EUt(31457280)

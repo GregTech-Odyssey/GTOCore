@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_FIBER;
+import static com.gtocore.api.data.material.GTOMaterialFlags.HAS_NANOSCALE_FORM;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -2713,7 +2714,7 @@ public final class MaterialB {
                 .flags(GTOMaterialFlags.GENERATE_SMALL_DUST)
                 .components(Yttrium, 2, Oxygen, 3)
                 .iconSet(GLASS)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, HAS_NANOSCALE_FORM)
                 .buildAndRegister();
 
         ZirconChlorinatingResidue = material("zircon_chlorinating_residue", "锆氯化反应残渣")
@@ -3071,6 +3072,13 @@ public final class MaterialB {
                 .fluid()
                 .components(TriniumCompound, 1)
                 .color(0xbae8e6)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(FLUID)
+                .buildAndRegister();
+
+        MetalCompoundParticleFront = material("metal_compound_particle_front", "富集金属复合物泡沫")
+                .fluid()
+                .color(0xc6d6e6)
                 .flags(DISABLE_DECOMPOSITION)
                 .iconSet(FLUID)
                 .buildAndRegister();
@@ -3655,7 +3663,7 @@ public final class MaterialB {
                 .dust()
                 .components(Aluminium, 2, Oxygen, 3)
                 .color(0x1d4759).iconSet(DULL)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_FIBER)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FIBER, HAS_NANOSCALE_FORM)
                 .buildAndRegister();
 
         CaesiumHydroxide = material("caesium_hydroxide", "氢氧化铯")
@@ -3691,6 +3699,16 @@ public final class MaterialB {
                 .components(Phosphorus, 4, Sulfur, 10)
                 .color(0xe7a123).iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        DyeCarrierResin = material("dye_carrier_resin", "染料载体树脂")
+                .fluid()
+                .color(0xb8b8b8).iconSet(DULL)
+                .buildAndRegister();
+
+        EmulsifiedDyeCarrierResin = material("emulsified_dye_carrier_resin", "乳化染料载体树脂")
+                .fluid()
+                .color(0xa7a7a7).iconSet(DULL)
                 .buildAndRegister();
 
         StoneDustResidue = material("stone_dust_residue", "石头粉残渣")

@@ -178,7 +178,7 @@ public class SpaceStationRecipes {
                     return null;
                 }
             });
-            var recipe = SPACE_STATION_CONSTRUCTION_RECIPES.builder(id.getPath()).dimension(dimension.getLocation());;
+            var recipe = SPACE_STATION_CONSTRUCTION_RECIPES.builder(id.getPath()).dimension(dimension.getLocation());
             ingredients.forEach(i -> recipe.inputItems(i.ingredient(), i.count()));
             recipe.circuitMeta(circuitMeta.incrementAndGet()).save();
         }

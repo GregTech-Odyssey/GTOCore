@@ -209,6 +209,7 @@ public final class Data {
             Configurator.setRootLevel(Level.DEBUG);
             e.printStackTrace();
             Client.interrupt();
+            Configurator.setRootLevel(Level.OFF);
         }
     }
 

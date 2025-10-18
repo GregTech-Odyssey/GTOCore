@@ -1,5 +1,7 @@
 package com.gtocore.mixin.gtm;
 
+import com.gtocore.common.recipe.condition.GalaxyCondition;
+
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -141,6 +143,9 @@ public abstract class GTRecipeWidgetMixin extends WidgetGroup {
             if (condition.getTooltips() == null) continue;
             if (condition instanceof DimensionCondition dimCondition) {
                 addWidget(dimCondition.setupDimensionMarkers(recipe.recipeType.getRecipeUI().getJEISize().width - xOffset - 44, recipe.recipeType.getRecipeUI().getJEISize().height - 32).setBackgroundTexture(IGuiTexture.EMPTY));
+                if (dimCondition instanceof GalaxyCondition) {
+                    addWidget(new LabelWidget(3 - xOffset, yOff.addAndGet(10), condition.getTooltips().getString()));
+                }
             } else addWidget(new LabelWidget(3 - xOffset, yOff.addAndGet(10), condition.getTooltips().getString()));
         }
         for (Function<CompoundTag, String> dataInfo : recipe.recipeType.getDataInfos()) {

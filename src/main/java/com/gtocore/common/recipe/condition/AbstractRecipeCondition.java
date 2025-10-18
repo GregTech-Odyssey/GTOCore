@@ -23,6 +23,8 @@ abstract class AbstractRecipeCondition extends RecipeCondition {
 
     static final RecipeConditionType<RunLimitCondition> RUN_LIMIT = new RecipeConditionType<>(null, null);
 
+    static final RecipeConditionType<RunLimitCondition> GALAXY = new RecipeConditionType<>(null, null);
+
     @Override
     public final RecipeCondition createTemplate() {
         return null;

@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.processing;
 
 import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.AbstractSpaceStation;
 
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.gui.ParallelConfigurator;
@@ -31,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -129,7 +129,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    protected Recipe getRealRecipe(Recipe recipe) {
         if (!mismatched && !isEmpty()) {
             return RecipeModifierFunction.overclocking(this, recipe, false, 0.9, 0.8, 0.5);
         }
@@ -212,7 +212,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     @Override
     public void setCleanroom(@Nullable ICleanroomProvider provider) {
-        if (provider instanceof CleanroomMachine) super.setCleanroom(provider);
+        if (provider instanceof CleanroomMachine || provider instanceof AbstractSpaceStation) super.setCleanroom(provider);
     }
 
     @Override

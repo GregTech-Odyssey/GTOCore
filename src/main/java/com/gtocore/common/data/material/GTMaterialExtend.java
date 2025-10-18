@@ -358,6 +358,12 @@ public final class GTMaterialExtend {
         RedSteel.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
         Silicon.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
         Kanthal.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        Rhenium.addFlags(HAS_NANOSCALE_FORM);
+        Molybdenum.addFlags(HAS_NANOSCALE_FORM);
+        Tungsten.addFlags(HAS_NANOSCALE_FORM);
+        Niobium.addFlags(HAS_NANOSCALE_FORM);
+        Zirconium.addFlags(HAS_NANOSCALE_FORM);
+        Aluminium.addFlags(HAS_NANOSCALE_FORM);
         Titanium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Boron.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Boron.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));

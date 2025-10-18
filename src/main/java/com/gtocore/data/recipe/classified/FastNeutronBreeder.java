@@ -4,11 +4,14 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.MultiBlockH;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Iron;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Nickel;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 class FastNeutronBreeder {
@@ -221,6 +224,41 @@ class FastNeutronBreeder {
                 .EUt(30720)
                 .duration(200)
                 .save();
+
+        CENTRIFUGE_RECIPES.builder("nickel64")
+                .chancedInput(ChemicalHelper.get(GTOTagPrefix.PARTICLE_SOURCE, GTOMaterials.Californium252Source), 1000, 100)
+                .inputFluids(Nickel, 1440)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.Nickel64Source, 8)
+                .chancedOutput(ChemicalHelper.get(GTOTagPrefix.dust, GTOMaterials.Zinc70Source), 3000, 300)
+                .EUt(30720)
+                .duration(200)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("iron58")
+                .chancedInput(ChemicalHelper.get(GTOTagPrefix.PARTICLE_SOURCE, GTOMaterials.Californium252Source), 1000, 100)
+                .inputFluids(Iron, 1440)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.Iron58Source, 8)
+                .chancedOutput(ChemicalHelper.get(GTOTagPrefix.dust, GTOMaterials.Nickel64Source), 3000, 300)
+                .EUt(30720)
+                .duration(200)
+                .save();
+
+        CANNER_RECIPES.builder("nickel64_particle_source")// 镍64粒子源
+                .inputItems(GTItems.FLUID_CELL.asItem(), 4)
+                .inputItems(TagPrefix.dust, GTOMaterials.Nickel64Source)
+                .outputItems(GTOTagPrefix.PARTICLE_SOURCE, GTOMaterials.Nickel64Source)
+                .EUt(30720)
+                .duration(200)
+                .save();
+
+        CANNER_RECIPES.builder("iron58_particle_source")// 铁58粒子源
+                .inputItems(GTItems.FLUID_CELL.asItem(), 4)
+                .inputItems(TagPrefix.dust, GTOMaterials.Iron58Source)
+                .outputItems(GTOTagPrefix.PARTICLE_SOURCE, GTOMaterials.Iron58Source)
+                .EUt(30720)
+                .duration(200)
+                .save();
+
         ASSEMBLER_RECIPES.builder("fast_neutron_breeder_reactor")// 快中子增殖堆
                 .inputItems(TagPrefix.frameGt, GTOMaterials.BabbittAlloy)
                 .inputItems(GTItems.ROBOT_ARM_IV.asItem(), 16)
