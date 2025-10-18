@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 public final class Core {
 
     public Core() {
+        GTOCore.init();
         DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     }
 }

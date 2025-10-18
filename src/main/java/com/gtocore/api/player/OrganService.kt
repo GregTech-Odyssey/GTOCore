@@ -22,7 +22,8 @@ import net.minecraftforge.common.ForgeMod.BLOCK_REACH
 
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper
-import com.gtolib.api.capability.IWirelessChargerInteraction
+import com.gtocore.api.machine.IWirelessChargerInteraction
+import com.gtocore.common.machine.multiblock.WirelessChargerMachine
 import com.gtolib.api.data.GTODimensions
 import com.gtolib.api.player.IEnhancedPlayer
 import com.gtolib.api.player.PlayerData
@@ -209,8 +210,8 @@ class OrganService : IOrganService {
         val item = GTCapabilityHelper.getElectricItem(stack) ?: return false
         if (item.charge <= 0) return false
         playerData?.wingState = true
-        playerData?.flySpeedAble = 0.25f
-        IWirelessChargerInteraction.charge(playerData?.getNetMachine(), stack)
+        playerData?.flySpeedAble = 0.25f//
+        IWirelessChargerInteraction.charge(playerData?.getNetMachine() as WirelessChargerMachine?, stack)
         if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
             item.discharge(GTValues.V[GTValues.EV], item.tier, true, false, false)
         }

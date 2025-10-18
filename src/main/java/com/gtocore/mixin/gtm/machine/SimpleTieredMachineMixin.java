@@ -2,10 +2,10 @@ package com.gtocore.mixin.gtm.machine;
 
 import com.gtocore.common.machine.multiblock.part.ProgrammableHatchPartMachine;
 
-import com.gtolib.api.capability.IWirelessChargerInteraction;
+import com.gtocore.api.machine.IWirelessChargerInteraction;
 import com.gtolib.api.machine.feature.IPowerAmplifierMachine;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
-import com.gtolib.api.machine.multiblock.WirelessChargerMachine;
+import com.gtocore.common.machine.multiblock.WirelessChargerMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
