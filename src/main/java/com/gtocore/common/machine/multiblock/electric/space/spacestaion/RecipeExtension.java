@@ -19,8 +19,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.utils.collection.O2OOpenCustomCacheHashMap;
 
@@ -58,8 +56,6 @@ public class RecipeExtension extends Extension implements ICrossRecipeLogicMachi
 
     @NotNull
     private ToLongFunction<RecipeExtension> parallel = MachineUtils::getHatchParallel;
-
-    private boolean hasLaserInput = false;
 
     public RecipeExtension(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
