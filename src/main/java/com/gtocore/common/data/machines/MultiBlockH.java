@@ -926,7 +926,7 @@ public final class MultiBlockH {
             .register();
 
     // 热压成型机
-    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", TierCasingMultiblockMachine.createMachine(BlockMap.hermetic_casing))
+    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getThermoPressTooltips().getSupplier())

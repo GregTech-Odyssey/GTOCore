@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.block.CoilBlock;
 
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -79,6 +80,11 @@ public final class GTOBlocks {
             .item(BlockItem::new)
             .build()
             .register();
+
+    public static final BlockEntry<Block> BLAZE_CASING = createCasingBlock("blaze_casing", "烈焰机械方块", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> COLD_ICE_CASING = createCasingBlock("cold_ice_casing", "寒冰机械方块", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
 
     public static final BlockEntry<Block> LAW_FILTER_CASING = createCleanroomFilter();
 
@@ -152,12 +158,18 @@ public final class GTOBlocks {
     public static final BlockEntry<MEStorageCoreBlock> T4_CRAFTING_STORAGE_CORE = createCraftingStorageCore(4);
     public static final BlockEntry<MEStorageCoreBlock> T5_CRAFTING_STORAGE_CORE = createCraftingStorageCore(5);
 
-    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK1 = createSidedMK123Block("energy_control_casing", "能量控制方块 MK-I", 1);
-    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK2 = createSidedMK123Block("energy_control_casing", "能量控制方块 MK-II", 2);
-    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK3 = createSidedMK123Block("energy_control_casing", "能量控制方块 MK-III", 3);
-    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK1 = createSidedMK123Block("machining_control_casing", "运行控制方块 MK-I", 1);
-    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK2 = createSidedMK123Block("machining_control_casing", "运行控制方块 MK-II", 2);
-    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK3 = createSidedMK123Block("machining_control_casing", "运行控制方块 MK-III", 3);
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK1 = createCasingBlock("energy_control_casing_mk1", "能量控制方块 MK-I", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK2 = createCasingBlock("energy_control_casing_mk2", "能量控制方块 MK-II", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK3 = createCasingBlock("energy_control_casing_mk3", "能量控制方块 MK-III", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK1 = createCasingBlock("machining_control_casing_mk1", "运行控制方块 MK-I", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK2 = createCasingBlock("machining_control_casing_mk2", "运行控制方块 MK-II", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK3 = createCasingBlock("machining_control_casing_mk3", "运行控制方块 MK-III", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
+            () -> RenderType::cutoutMipped);
 
     public static final BlockEntry<Block> FUSION_CASING_MK4 = createCasingBlock("fusion_casing_mk4", "聚变机械方块 MK-IV", GTOCore.id("block/casings/fusion/fusion_casing_mk4"));
     public static final BlockEntry<Block> FUSION_CASING_MK5 = createCasingBlock("fusion_casing_mk5", "聚变机械方块 MK-V", GTOCore.id("block/casings/fusion/fusion_casing_mk5"));
@@ -300,8 +312,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> DYSON_DEPLOYMENT_CASING = createCasingBlock("dyson_deployment_casing", "戴森球模块部署单元基座机械方块", GTOCore.id("block/casings/dyson_deployment_casing"));
     public static final BlockEntry<Block> CREATE_CASING = createCasingBlock("create_casing", "创造机械方块", GTOCore.id("block/casings/create_casing"));
     public static final BlockEntry<Block> SUPERCRITICAL_TURBINE_CASING = createCasingBlock("supercritical_turbine_casing", "超临界涡轮机械方块", GTOCore.id("block/casings/supercritical_turbine_casing"));
-    public static final BlockEntry<Block> BLAZE_CASING = createCasingBlock("blaze_casing", "烈焰机械方块", GTOCore.id("block/casings/blaze_casing"));
-    public static final BlockEntry<Block> COLD_ICE_CASING = createCasingBlock("cold_ice_casing", "寒冰机械方块", GTOCore.id("block/casings/cold_ice_casing"));
     public static final BlockEntry<Block> RED_STEEL_CASING = createCasingBlock("red_steel_casing", "高气密红钢机器外壳", GTOCore.id("block/casings/red_steel_casing"));
     public static final BlockEntry<Block> MOLECULAR_CASING = createCasingBlock("molecular_casing", "分子机械方块", GTOCore.id("block/casings/molecular_casing"));
     public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock("multi_functional_casing", "多功能机械方块", GTOCore.id("block/casings/multi_functional_casing"));

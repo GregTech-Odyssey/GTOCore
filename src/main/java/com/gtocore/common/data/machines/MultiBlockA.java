@@ -36,6 +36,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
@@ -49,6 +50,8 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
+import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
+import static com.gtocore.api.machine.part.GTOPartAbility.OVERCLOCK_HATCH;
 import static com.gtocore.common.block.BlockMap.CALMAP;
 import static com.gtocore.common.block.BlockMap.SCMAP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
@@ -93,7 +96,7 @@ public final class MultiBlockA {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.EVAPORATION_RECIPES)
             .parallelizableOverclock()
-            .moduleTooltips()
+            .moduleTooltips(PARALLEL_HATCH, ACCELERATE_HATCH)
             .block(GTOBlocks.STAINLESS_EVAPORATION_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RIGHT, BACK, UP)
                     .aisle("FYF", "YYY", "FYF")
@@ -126,7 +129,7 @@ public final class MultiBlockA {
                     .where('F', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get())
                             .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
+                            .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                     .where('G', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get()))
                     .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, Aluminium)))
                     .where(' ', any())
@@ -312,7 +315,7 @@ public final class MultiBlockA {
             .tooltips(GTOMachineStories.INSTANCE.getMatterFabricatorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
-            .moduleTooltips()
+            .moduleTooltips(OVERCLOCK_HATCH)
             .parallelizableOverclock()
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -361,7 +364,8 @@ public final class MultiBlockA {
                     .where('H', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
                     .where('I', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('J', blocks(GTBlocks.HIGH_POWER_CASING.get())
-                            .or(abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
+                            .or(abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
                     .where('K', blocks(GTOBlocks.SPS_CASING.get()))
                     .where('L', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK3.get()))
                     .where('M', blocks(GTBlocks.MACHINE_CASING_UHV.get()))
@@ -921,8 +925,7 @@ public final class MultiBlockA {
             .recipeTypes(GTORecipeTypes.INTEGRATED_ORE_PROCESSOR)
             .tooltips(GTOMachineTooltips.INSTANCE.getIntegratedOreProcessorTooltips().getSupplier())
             .parallelizableTooltips()
-            .moduleTooltips()
-            .parallelizableOverclock()
+            .moduleTooltips(new PartAbility[0])
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("aaaaaa     ", "abbbba     ", "abbbba     ", "abbbba     ", "abbbba     ", "aaaaaa     ", "           ", "           ", "           ", "           ", "           ", "           ")
@@ -1556,7 +1559,7 @@ public final class MultiBlockA {
                     .where('H', blocks(GTBlocks.HIGH_POWER_CASING.get())
                             .setMinGlobalLimited(5)
                             .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
-                            .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
+                            .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                     .where('I', blocks(GCYMBlocks.CASING_WATERTIGHT.get()))
                     .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)))
                     .where('K', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Tungsten)))
@@ -1842,7 +1845,7 @@ public final class MultiBlockA {
                             .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
-                            .or(abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1)))
                     .where('B', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('C', blocks(GTOBlocks.MOLECULAR_COIL.get()))
@@ -2061,7 +2064,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition ELECTRIC_IMPLOSION_COMPRESSOR = multiblock("electric_implosion_compressor", "电力聚爆压缩机", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .parallelizableTooltips()
-            .moduleTooltips()
+            .moduleTooltips(INPUT_LASER, OVERCLOCK_HATCH)
             .recipeTypes(GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES)
             .parallelizableOverclock()
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
@@ -2104,7 +2107,8 @@ public final class MultiBlockA {
                     .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
                     .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                             .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
-                            .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
                     .where('G', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('H', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
                     .where('I', abilities(MUFFLER))

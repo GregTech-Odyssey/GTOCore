@@ -29,6 +29,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
+import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 
@@ -57,6 +58,7 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.CALMAP;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
@@ -295,7 +297,7 @@ public final class MultiBlockC {
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getComponentAssemblerTooltips().getSupplier())
-            .moduleTooltips()
+            .moduleTooltips(ACCELERATE_HATCH, OVERCLOCK_HATCH, INPUT_LASER, PARALLEL_HATCH, THREAD_HATCH)
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .overclock()
             .block(GTBlocks.CASING_STEEL_SOLID)
@@ -336,7 +338,7 @@ public final class MultiBlockC {
                     .aisle(" CKKKKKKKKC       CKKKKKKKKC ", "  KNNNNNNK         KNNNNNNK  ", "  KNNNNNNK         KNNNNNNK  ", "  KKKKKKKK         KKKKKKKK  ", "                             ", "                             ")
                     .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
-                            .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
+                            .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                     .where('B', GTOPredicates.tierBlock(CALMAP, COMPONENT_ASSEMBLY_CASING_TIER))
                     .where('C', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                     .where('D', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
@@ -384,7 +386,7 @@ public final class MultiBlockC {
                                     .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
                                     .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                                     .or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
-                                    .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                                    .or(Predicates.abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
                             .where('E', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
                             .where('F', blocks(GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING.get()))
                             .where('G', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
@@ -719,7 +721,7 @@ public final class MultiBlockC {
                     .where('a', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
-                            .or(abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
@@ -955,7 +957,7 @@ public final class MultiBlockC {
             .tooltips(GTOMachineStories.INSTANCE.getNeutronVortexTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getNeutronVortexTooltips().getSupplier())
             .parallelizableTooltips()
-            .moduleTooltips()
+            .moduleTooltips(new RecipeType[0])
             .recipeTypes(GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES)
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
             .pattern(definition -> NeutronVortexMachine.getBlockPattern(0, definition))
