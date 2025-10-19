@@ -1,6 +1,8 @@
 package com.gtocore.integration.emi.multipage;
 
 import com.gtocore.client.gui.PatternPreview;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.item.OrderItem;
 
 import com.gtolib.api.machine.MultiblockDefinition;
 
@@ -24,6 +26,7 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.ListEmiIngredient;
+import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,6 +86,14 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
     }
 
     @Override
+    public List<EmiStack> getOutputs() {
+        if (definition != null) {
+            return List.of(EmiStack.of(OrderItem.setTarget(GTOItems.ORDER.asStack(), definition.asStack())));
+        }
+        return super.getOutputs();
+    }
+
+    @Override
     public List<Widget> getFlatWidgetCollection(Widget widgetIn) {
         return Collections.emptyList();
     }
@@ -108,6 +119,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         }
         widgets.add(new CustomModularEmiRecipe(modular, Collections.emptyList()));
         widgets.add(new ModularForegroundRenderWidget(modular));
+        widgets.add(new SlotWidget(EmiStack.of(OrderItem.setTarget(GTOItems.ORDER.asStack(), definition.asStack())), 1000, 1000).recipeContext(this));
     }
 
     @Override
