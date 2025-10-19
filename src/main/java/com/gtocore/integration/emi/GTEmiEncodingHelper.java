@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class GTEmiEncodingHelper { // also accessed by gtolib
 
@@ -68,12 +69,18 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
     }
 
     public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
-        if (emiRecipe instanceof MultiblockInfoEmiRecipe) {
-            return emiRecipe.getInputs()
+        if (emiRecipe instanceof MultiblockInfoEmiRecipe recipe) {
+            var stream = emiRecipe.getInputs()
                     .stream()
                     .filter(GTEmiEncodingHelper::isNotHatch)
-                    .map(GTEmiEncodingHelper::intoGenericStack)
-                    .toList();
+                    .map(GTEmiEncodingHelper::intoGenericStack);
+            if (recipe.i > 0 && recipe.definition.getSubPatternFactory() != null && GTUtil.isCtrlDown()) {
+                stream = Stream.concat(recipe.getInputs(0)
+                        .stream()
+                        .filter(GTEmiEncodingHelper::isNotHatch)
+                        .map(GTEmiEncodingHelper::intoGenericStack), stream);
+            }
+            return stream.toList();
         }
         var list = new ArrayList<List<GenericStack>>();
         if (GTUtil.isShiftDown() || GTUtil.isCtrlDown()) {

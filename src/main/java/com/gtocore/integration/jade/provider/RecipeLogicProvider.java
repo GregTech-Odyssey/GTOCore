@@ -3,8 +3,9 @@ package com.gtocore.integration.jade.provider;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
+import com.gtolib.api.machine.feature.ICustomElectricMachine;
+import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
-import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.utils.NumberUtils;
@@ -59,7 +60,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             if (!recipeInfo.isEmpty()) {
                 double totalEu = recipeInfo.getDouble("totalEu");
                 if (totalEu > 0) {
-                    var text = Component.translatable("gtceu.top.energy_consumption").append(" ").append(Component.literal(NumberUtils.formatDouble(totalEu)).withStyle(ChatFormatting.RED)).append(Component.literal(" EU").withStyle(ChatFormatting.RESET))
+                    var text = Component.translatable(recipeInfo.getBoolean("isGenerator") ? "gtceu.top.energy_production" : "gtceu.top.energy_consumption").append(" ").append(Component.literal(NumberUtils.formatDouble(totalEu)).withStyle(ChatFormatting.RED)).append(Component.literal(" EU").withStyle(ChatFormatting.RESET))
                             .append(Component.literal(" (").withStyle(ChatFormatting.GREEN));
                     var tier = GTUtil.getOCTierByVoltage(totalEu > Long.MAX_VALUE ? Long.MAX_VALUE : (long) totalEu);
                     text = text.append(Component.literal(String.format("%sA",
@@ -214,11 +215,14 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             recipeInfo.putLong("EUt", inputEUt - outputEUt);
             recipeInfo.putLong("Manat", inputManat - outputManat);
 
-            if (capability.machine instanceof CrossRecipeMultiblockMachine machine && machine.getEnergyInterfacePartMachine() != null) {
+            if (capability.machine instanceof ICustomElectricMachine machine && machine.getTotalEu() > 0) {
                 recipeInfo.putDouble("totalEu", machine.getTotalEu());
+                if (machine.isGenerator()) {
+                    recipeInfo.putBoolean("isGenerator", true);
+                }
             }
             var originRecipe = capability.getLastOriginRecipe();
-            if (originRecipe == null && capability.machine instanceof CrossRecipeMultiblockMachine c) {
+            if (originRecipe == null && capability.machine instanceof ICrossRecipeMachine c) {
                 originRecipe = c.getLastRecipes().stream().findFirst().orElse(null);
             }
             if (originRecipe != null) {

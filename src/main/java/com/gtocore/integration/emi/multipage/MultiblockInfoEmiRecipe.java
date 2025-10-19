@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
@@ -47,8 +46,9 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
     private static final Widget MULTIBLOCK = new Widget(0, 0, 160, 160);
 
-    private final MultiblockMachineDefinition definition;
-    public List<ItemStack> itemList = null;
+    public final MultiblockMachineDefinition definition;
+    public int i;
+    public PatternPreview.MBPattern[] patterns = null;
 
     public MultiblockInfoEmiRecipe(MultiblockMachineDefinition definition) {
         super(() -> MULTIBLOCK);
@@ -76,13 +76,17 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         MultiblockDefinition.of(definition).getPatterns()[0].parts().forEach(i -> super.inputs.add(EmiStack.of(i)));
     }
 
-    @Override
-    public List<EmiIngredient> getInputs() {
-        if (itemList != null) {
-            return itemList.stream().map(EmiStack::of).map(s -> (EmiIngredient) s).toList();
+    public List<EmiIngredient> getInputs(int i) {
+        if (patterns != null && i >= 0 && patterns.length > i) {
+            return patterns[i].parts.stream().map(EmiStack::of).map(s -> (EmiIngredient) s).toList();
         } else {
             return super.getInputs();
         }
+    }
+
+    @Override
+    public List<EmiIngredient> getInputs() {
+        return getInputs(i);
     }
 
     @Override

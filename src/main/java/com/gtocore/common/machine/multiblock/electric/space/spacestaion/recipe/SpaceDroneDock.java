@@ -38,7 +38,7 @@ public class SpaceDroneDock extends RecipeExtension {
     }
 
     @Override
-    protected @Nullable Recipe fullModifyRecipe(@NotNull Recipe recipe) {
+    public @Nullable Recipe fullModifyRecipe(@NotNull Recipe recipe) {
         long maxParallel;
         AtomicBoolean hasInput = new AtomicBoolean(false);
         for (var c : recipe.conditions) {

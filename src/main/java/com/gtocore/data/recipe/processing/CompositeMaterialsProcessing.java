@@ -650,8 +650,8 @@ public class CompositeMaterialsProcessing {
                 .save();
 
         THERMO_PRESSING_RECIPES.builder("carbon_nanotube_reinforced_aluminum_matrix_composite_rough_blank6")
-                .inputItems(GTOTagPrefix.block, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite)
-                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite)
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.CarbonNanotubeReinforcedAluminumMatrixComposite)
                 .EUt(131000)
                 .duration(200)
                 .save();

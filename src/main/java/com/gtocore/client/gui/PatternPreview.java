@@ -150,6 +150,7 @@ public final class PatternPreview extends WidgetGroup {
                     });
         });
         setPage();
+        recipe.patterns = patterns;
     }
 
     private void updateLayer() {
@@ -201,7 +202,7 @@ public final class PatternPreview extends WidgetGroup {
             MBPattern pattern = patterns[index];
             setupScene(pattern);
             itemList = pattern.parts;
-            recipe.itemList = itemList;
+            recipe.i = index;
         } else {
             return;
         }
@@ -360,10 +361,10 @@ public final class PatternPreview extends WidgetGroup {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
     }
 
-    private static class MBPattern {
+    public static class MBPattern {
 
         @NotNull
-        private final List<ItemStack> parts;
+        public final List<ItemStack> parts;
         @NotNull
         private final Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap;
         @NotNull
