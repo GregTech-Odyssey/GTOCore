@@ -3,28 +3,21 @@ package com.gtocore.mixin.ae2.crafting;
 import com.gtolib.api.ae2.crafting.OptimizedCalculation;
 import com.gtolib.api.ae2.machine.CraftingInterfacePartMachine;
 
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.crafting.*;
-import appeng.api.networking.energy.IEnergyService;
 import appeng.api.networking.security.IActionSource;
-import appeng.api.networking.storage.IStorageService;
 import appeng.api.stacks.AEKey;
 import appeng.blockentity.crafting.CraftingBlockEntity;
 import appeng.crafting.CraftingLink;
 import appeng.crafting.CraftingLinkNexus;
 import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
-import appeng.me.helpers.StackWatcher;
 import appeng.me.service.CraftingService;
 import com.llamalad7.mixinextras.sugar.Local;
-import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -56,22 +49,10 @@ public abstract class CraftingServiceMixin {
     @Mutable
     @Shadow(remap = false)
     @Final
-    private Map<IGridNode, StackWatcher<ICraftingWatcherNode>> craftingWatchers;
-
-    @Mutable
-    @Shadow(remap = false)
-    @Final
     private Map<UUID, CraftingLinkNexus> craftingLinks;
 
     @Shadow(remap = false)
     private boolean updateList;
-
-    @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void init(IGrid grid, IStorageService storageGrid, IEnergyService energyGrid, CallbackInfo ci) {
-        craftingCPUClusters = new ReferenceOpenHashSet<>();
-        craftingWatchers = new Reference2ObjectOpenHashMap<>();
-        craftingLinks = new O2OOpenCacheHashMap<>();
-    }
 
     @Inject(method = "onServerEndTick", at = @At(value = "INVOKE", target = "Ljava/util/Map;values()Ljava/util/Collection;"), remap = false, cancellable = true)
     private void onServerEndTick(CallbackInfo ci) {

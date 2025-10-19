@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 import com.gregtechceu.gtceu.utils.memoization.MemoizedSupplier;
 
@@ -128,7 +129,7 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
     }
 
     default void customText(@NotNull List<Component> list) {
-        list.add(Component.translatable("gui.ae2.PowerUsageRate", "%s EU/t".formatted(getEUt())).withStyle(ChatFormatting.YELLOW));
+        list.add(Component.translatable("gui.ae2.PowerUsageRate", "%s EU/t".formatted(FormattingUtil.formatNumbers(getEUt()))).withStyle(ChatFormatting.YELLOW));
         if (getRoot() != null) {
             list.add(Component.translatable("gui.ae2.AttachedTo", "[" + getRoot().getPos().toShortString() + "]"));
             getRoot().customText(list);

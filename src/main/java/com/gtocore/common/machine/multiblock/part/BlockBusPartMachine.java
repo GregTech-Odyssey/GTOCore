@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.world.item.BlockItem;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -27,13 +26,7 @@ public final class BlockBusPartMachine extends TieredIOPartMachine implements IM
 
     public BlockBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 6, IO.BOTH);
-        inventory = createInventoryItemHandler();
-    }
-
-    private NotifiableItemStackHandler createInventoryItemHandler() {
-        NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 81, IO.NONE, IO.BOTH);
-        storage.setFilter(i -> i.getItem() instanceof BlockItem);
-        return storage;
+        inventory = new NotifiableItemStackHandler(this, 81, IO.NONE, IO.BOTH);
     }
 
     @Override

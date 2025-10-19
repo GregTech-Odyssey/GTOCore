@@ -816,6 +816,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> STREPTOCOCCUS_PETRI_DISH = registerTexture("streptococcus_petri_dish", "酿脓链球菌培养皿", "germ");
     public static final ItemEntry<Item> CUPRIAVIDUS_PETRI_DISH = registerTexture("cupriavidus_petri_dish", "贪铜钩虫菌培养皿", "germ");
     public static final ItemEntry<Item> SHEWANELLA_PETRI_DISH = registerTexture("shewanella_petri_dish", "希瓦氏菌培养皿", "germ");
+    public static final ItemEntry<Item> CLOSTRIDIUM_PASTEURIANUM_DISH = registerTexture("clostridium_pasteurianum_dish", "巴氏梭菌培养皿", "germ");
 
     public static final ItemEntry<Item> CONVERSION_SIMULATE_CARD = register("conversion_simulate_card", "转换模拟卡");
     public static final ItemEntry<Item> ACTIVATED_CARBON_FILTER_MESH = register("activated_carbon_filter_mesh", "活性炭过滤网");
@@ -1055,4 +1056,47 @@ public final class GTOItems {
     public static final ItemEntry<Item> ATOMIC_PAN_FIBER = item("atomic_pan_fiber", "原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
     public static final ItemEntry<Item> PREOXIDIZED_ATOMIC_PAN_FIBER = item("preoxidized_atomic_pan_fiber", "预氧化原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
     public static final ItemEntry<Item> GRAPHITIZED_ATOMIC_PAN_FIBER = item("graphitized_atomic_pan_fiber", "石墨化原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+
+    // 能量控制模块mk123
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK1 = register("energy_control_module_mk1", "能量控制模块 MK-I");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK2 = register("energy_control_module_mk2", "能量控制模块 MK-II");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK3 = register("energy_control_module_mk3", "能量控制模块 MK-III");
+    // 运行控制模块mk123
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK1 = register("machining_control_module_mk1", "运行控制模块 MK-I");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK2 = register("machining_control_module_mk2", "运行控制模块 MK-II");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK3 = register("machining_control_module_mk3", "运行控制模块 MK-III");
+    // 小型太空梭mk12
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK1 = item("small_shuttle_mk1", "小型太空梭 MK-I", ComponentItem::create)
+            .onRegister(attach(ElectricStats.createRechargeableBattery(3_600_000L, GTValues.HV)))
+            .register();
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK2 = item("small_shuttle_mk2", "小型太空梭 MK-II", ComponentItem::create)
+            .onRegister(attach(ElectricStats.createRechargeableBattery(10_240_000L, GTValues.EV)))
+            .register();
+    // 激光陀螺仪mk12
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK1 = register("laser_gyroscope_mk1", "激光陀螺仪 MK-I");
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK2 = register("laser_gyroscope_mk2", "激光陀螺仪 MK-II");
+
+    // 奇怪的45钢钢板
+    public static final ItemEntry<Item> STRANGE_STRUCTURE_STEEL_45_PLATE = register("strange_structure_steel_45_plate", "奇怪的45钢钢板");
+
+    // 碳化硅宽禁带半导体单晶硅
+    public static final ItemEntry<Item> SIC_WIDE_BANDGAP_SEMICONDUCTOR_SINGLE_CRYSTAL = register("sic_wide_bandgap_semiconductor_single_crystal", "碳化硅宽禁带半导体单晶硅");
+    // 碳化硅宽禁带半导体晶圆
+    public static final ItemEntry<Item> SIC_WIDE_BANDGAP_SEMICONDUCTOR_WAFER = register("sic_wide_bandgap_semiconductor_wafer", "碳化硅宽禁带半导体晶圆");
+    // IGBT晶圆
+    public static final ItemEntry<Item> IGBT_WAFER = register("igbt_wafer", "IGBT晶圆");
+    // IGBT芯片
+    public static final ItemEntry<Item> IGBT_CHIP = register("igbt_chip", "IGBT芯片");
+    // 锗调节单晶硅
+    public static final ItemEntry<Item> GERMANIUM_DOPED_SINGLE_CRYSTAL_SILICON = register("germanium_doped_single_crystal_silicon", "锗调节单晶硅");
+    // 锗调节硅晶圆
+    public static final ItemEntry<Item> GERMANIUM_DOPED_SILICON_WAFER = register("germanium_doped_silicon_wafer", "锗调节硅晶圆");
+    // FPGA晶圆
+    public static final ItemEntry<Item> FPGA_WAFER = register("fpga_wafer", "FPGA晶圆");
+    // FPGA芯片
+    public static final ItemEntry<Item> FPGA_CHIP = register("fpga_chip", "FPGA芯片");
+
+    public static final ItemEntry<Item> RED_DYE_MASTERBATCH = register("red_dye_masterbatch", "红色染料色母");
+    public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
+    public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
 }

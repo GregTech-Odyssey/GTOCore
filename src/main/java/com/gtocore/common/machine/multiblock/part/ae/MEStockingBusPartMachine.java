@@ -23,6 +23,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
+import appeng.api.networking.storage.IStorageService;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
@@ -38,7 +39,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart {
+public class MEStockingBusPartMachine extends MEInputBusPartMachine implements IMEStockingPart, IStorageService.UpdateRequester {
 
     @Persisted
     private boolean autoPull;

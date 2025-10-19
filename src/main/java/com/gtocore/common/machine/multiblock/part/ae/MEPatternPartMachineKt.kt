@@ -233,7 +233,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                             (0 until patternInventory.slots).forEach { i ->
                                 val pattern = patternInventory.getStackInSlot(i)
                                 decodePattern(pattern, i)?.let { patternDetails ->
-                                    detailsSlotMap[patternDetails] = getInternalInventory()[i]
+                                    detailsSlotMap.forcePut(patternDetails, getInternalInventory()[i])
                                 }
                             }
                             updatePatterns()

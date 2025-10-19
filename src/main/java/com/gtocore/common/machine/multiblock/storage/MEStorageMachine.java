@@ -29,8 +29,8 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
@@ -50,7 +50,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
     @Persisted
     private boolean player = true;
     private StorageAccessPartMachine accessPartMachine;
-    private final List<Object2ObjectMap.Entry<AEKey, BigInteger>> list = new ObjectArrayList<>();
+    private final List<Reference2ReferenceMap.Entry<AEKey, BigInteger>> list = new ObjectArrayList<>();
 
     public MEStorageMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -140,7 +140,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
                 var map = data.getStoredMap();
                 if (map == null) return;
                 list.clear();
-                map.object2ObjectEntrySet().forEach(entry -> {
+                map.reference2ReferenceEntrySet().forEach(entry -> {
                     var currentAmount = entry.getValue();
                     if (currentAmount.compareTo(BigIntegerUtils.BIG_INTEGER_MAX_LONG) > 0) {
                         list.add(entry);

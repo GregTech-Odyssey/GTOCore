@@ -35,7 +35,7 @@ public final class GenerateDisassembly {
 
     private static final String[] outputItem = { "_frame", "_fence", "_electric_motor",
             "_electric_pump", "_conveyor_module", "_electric_piston", "_robot_arm", "_field_generator",
-            "_emitter", "_sensor", "smd_", "_lamp", "ae2:blank_pattern", "gtocore:carbon_nanites" };
+            "_emitter", "_sensor", "smd_", "_lamp", "ae2:blank_pattern", "gtocore:carbon_nanites", "_integrated_control_core" };
 
     private static boolean isExcludeItems(String id) {
         for (String pattern : outputItem) {

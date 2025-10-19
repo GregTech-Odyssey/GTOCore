@@ -201,6 +201,7 @@ public final class GCYMRecipes {
         MIXER_RECIPES.recipeBuilder("molybdenum_disilicide")
                 .inputItems(dust, Molybdenum)
                 .inputItems(dust, Silicon, 2)
+                .circuitMeta(2)
                 .outputItems(dust, MolybdenumDisilicide, 3)
                 .duration(180).EUt(VA[EV])
                 .save();

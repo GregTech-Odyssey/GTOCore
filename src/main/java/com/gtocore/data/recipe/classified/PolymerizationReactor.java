@@ -239,5 +239,13 @@ final class PolymerizationReactor {
                 .EUt(72000)
                 .duration(1200)
                 .save();
+
+        POLYMERIZATION_REACTOR_RECIPES.builder("dye_carrier_resin")
+                .inputFluids(GTOMaterials.EmulsifiedDyeCarrierResin, 5000)
+                .inputFluids(GTMaterials.Helium, 1000)
+                .outputFluids(GTOMaterials.DyeCarrierResin, 5000)
+                .EUt(510)
+                .duration(150)
+                .save();
     }
 }

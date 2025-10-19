@@ -152,6 +152,13 @@ public final class GTOBlocks {
     public static final BlockEntry<MEStorageCoreBlock> T4_CRAFTING_STORAGE_CORE = createCraftingStorageCore(4);
     public static final BlockEntry<MEStorageCoreBlock> T5_CRAFTING_STORAGE_CORE = createCraftingStorageCore(5);
 
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK1 = createSidedMK123Block("energy_control_casing", "能量控制方块 MK-I", 1);
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK2 = createSidedMK123Block("energy_control_casing", "能量控制方块 MK-II", 2);
+    public static final BlockEntry<Block> ENERGY_CONTROL_CASING_MK3 = createSidedMK123Block("energy_control_casing", "能量控制方块 MK-III", 3);
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK1 = createSidedMK123Block("machining_control_casing", "运行控制方块 MK-I", 1);
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK2 = createSidedMK123Block("machining_control_casing", "运行控制方块 MK-II", 2);
+    public static final BlockEntry<Block> MACHINING_CONTROL_CASING_MK3 = createSidedMK123Block("machining_control_casing", "运行控制方块 MK-III", 3);
+
     public static final BlockEntry<Block> FUSION_CASING_MK4 = createCasingBlock("fusion_casing_mk4", "聚变机械方块 MK-IV", GTOCore.id("block/casings/fusion/fusion_casing_mk4"));
     public static final BlockEntry<Block> FUSION_CASING_MK5 = createCasingBlock("fusion_casing_mk5", "聚变机械方块 MK-V", GTOCore.id("block/casings/fusion/fusion_casing_mk5"));
 

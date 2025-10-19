@@ -537,11 +537,21 @@ final class Centrifuge {
                 .EUt(491520)
                 .duration(320)
                 .save();
+
         CENTRIFUGE_RECIPES.builder("recycle_basic_mfpc_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.InvalidationCascadeMFPC)
                 .outputItems(TagPrefix.dust, GTOMaterials.RecycleBasicMFPC)
                 .EUt(1200)
                 .duration(1200)
+                .save();
+        CENTRIFUGE_RECIPES.builder("small_apatite_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AerogelPorousParticles, 16)
+                .outputItems(GTOTagPrefix.dustSmall, GTMaterials.Apatite, 4)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.SilicaAluminaGel)
+                .outputItems(GTOTagPrefix.dustTiny, GTMaterials.Phosphorus, 8)
+                .outputItems(GTOTagPrefix.dustTiny, GTOMaterials.NanoScaleSiliconCarbide, 8)
+                .EUt(360)
+                .duration(360)
                 .save();
     }
 }

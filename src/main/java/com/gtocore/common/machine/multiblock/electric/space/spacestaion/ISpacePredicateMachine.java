@@ -28,7 +28,6 @@ import earth.terrarium.adastra.api.systems.TemperatureApi;
 import earth.terrarium.adastra.common.constants.PlanetConstants;
 import earth.terrarium.adastra.common.registry.ModSoundEvents;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,11 +84,11 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
         /// Oxygen and Temperature
         /// @see earth.terrarium.adastra.common.blockentities.machines.OxygenDistributorBlockEntity#tickOxygen
         if (getLevel() instanceof ServerLevel level) {
-            Set<BlockPos> positions = new ObjectOpenHashSet<>(getMultiblockState().getMatchContext().getOrDefault("spaceMachinePhotovoltaicSupp", Collections.emptyList()));
+            Set<BlockPos> positions = new ObjectOpenHashSet<>(getMultiblockState().getMatchContext().getOrDefault("space", Collections.emptyList()));
 
+            this.resetLastDistributedBlocks(positions);
             OxygenApi.API.setOxygen(level, positions, true);
             TemperatureApi.API.setTemperature(level, positions, PlanetConstants.COMFY_EARTH_TEMPERATURE);
-            this.resetLastDistributedBlocks(positions);
 
             if (getOffsetTimer() % 200 == 0) {
                 level.playSound(null, getPos().above(3).relative(getFrontFacing(), 15), ModSoundEvents.OXYGEN_OUTTAKE.get(), SoundSource.BLOCKS, 0.2f, 1);
@@ -117,9 +116,10 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
                 return false;
             }
             if (machine instanceof IWorkInSpaceMachine spaceMachine) {
-                blockWorldState.getMatchContext().getOrCreate("spaceMachine", ReferenceOpenHashSet::new).add(spaceMachine);
+                blockWorldState.getMatchContext().getOrCreate("spaceMachine", ObjectOpenHashSet::new).add(spaceMachine);
             }
         }
+        blockWorldState.getMatchContext().getOrCreate("space", ObjectOpenHashSet::new).add(blockWorldState.getPos());
         return true;
     }, null, null));
     MemoizedSupplier<TraceabilityPredicate> photovoltaicPlantSupplyingPredicate = GTMemoizer.memoize(() -> {

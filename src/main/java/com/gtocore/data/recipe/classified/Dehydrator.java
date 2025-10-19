@@ -1,6 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -8,8 +7,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import static com.gregtechceu.gtceu.api.GTValues.UHV;
-import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.DEHYDRATOR_RECIPES;
 
 final class Dehydrator {
@@ -181,14 +178,6 @@ final class Dehydrator {
                 .outputItems(TagPrefix.dust, GTOMaterials.CalciumOxideCeramic)
                 .EUt(1920)
                 .duration(200)
-                .save();
-
-        DEHYDRATOR_RECIPES.builder("neutron_pile")
-                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Copper, 1024)
-                .outputItems("avaritia:neutron_pile")
-                .inputFluids(GTOMaterials.UuAmplifier, 1000)
-                .duration(20 * 60)
-                .EUt(VA[UHV])
                 .save();
     }
 }

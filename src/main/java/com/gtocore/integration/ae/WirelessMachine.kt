@@ -2,10 +2,6 @@ package com.gtocore.integration.ae
 
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.api.lang.ComponentSupplier
-import com.gtocore.client.forge.GTORenderData
-import com.gtocore.client.forge.GTORenderManager
-import com.gtocore.client.forge.GTORenderType
-import com.gtocore.common.data.GTOMachines.ME_WIRELESS_CONNECTION_MACHINE
 import com.gtocore.common.data.translation.EnumTranslation.both
 import com.gtocore.common.data.translation.EnumTranslation.other
 import com.gtocore.common.data.translation.EnumTranslation.patternHatch
@@ -15,9 +11,7 @@ import com.gtocore.common.saved.WirelessGrid
 import com.gtocore.common.saved.WirelessSavedData
 import com.gtocore.common.saved.createWirelessSyncedField
 import com.gtocore.config.GTOConfig
-import com.gtocore.utils.toTicks
 
-import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
@@ -45,13 +39,10 @@ import com.gtolib.api.player.IEnhancedPlayer
 import com.hepdd.gtmthings.api.capability.IBindable
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
-import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
 
 import java.util.*
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 enum class FilterInMachineType(val component: ComponentSupplier) {
     BOTH(both),
@@ -255,7 +246,11 @@ interface WirelessMachine :
     fun createWirelessMachineRunTime() = WirelessMachineRunTime(this)
     fun createWirelessMachinePersisted() = WirelessMachinePersisted(this)
 
-    fun linkGrid(gridName: String) { // 连接网格，例如机器加载
+    /**
+     * 连接网格，例如机器加载
+     * @param gridName 网格名称
+     */
+    fun linkGrid(gridName: String) {
         if (!allowThisMachineConnectToWirelessGrid()) return
         if (self().isRemote) return
         when (WirelessSavedData.joinToGrid(gridName, this, requesterUUID)) {
@@ -421,123 +416,5 @@ interface WirelessMachine :
                 }
             }
         }.also { wirelessMachineRunTime.connectPageFreshRun = Runnable { it.fresh() } }
-    }
-    fun getDetailFancyUIProvider(): IFancyUIProvider = object : IFancyUIProvider {
-        override fun getTabIcon(): IGuiTexture? = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
-
-        override fun getTitle(): Component? = Component.translatable(gridNodeList)
-
-        override fun createMainPage(p0: FancyMachineUIWidget?): Widget? = rootFresh(256, 166) {
-            if (GTOConfig.INSTANCE.aeLog) println(2)
-            // 移除页面打开即同步，避免触发刷新循环；改为由机器加载与按钮操作驱动同步
-
-            hBox(height = availableHeight, { spacing = 4 }) {
-                blank()
-                vBox(width = this@rootFresh.availableWidth - 4, { spacing = 4 }) {
-                    blank()
-                    if (!allowThisMachineConnectToWirelessGrid()) {
-                        textBlock(
-                            maxWidth = availableWidth - 4,
-                            textSupplier = { Component.translatable(banned) },
-                        )
-                        return@vBox
-                    }
-                    textBlock(
-                        maxWidth = availableWidth - 4,
-                        textSupplier = {
-                            val id = wirelessMachinePersisted.gridConnectedName
-                            val nick = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname
-                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
-                        },
-                    )
-                    // 重命名区域（仅在已连接时显示）
-                    if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
-                        hBox(height = 16, { spacing = 4 }) {
-                            field(
-                                width = 120,
-                                getter = {
-                                    val id = wirelessMachinePersisted.gridConnectedName
-                                    if (wirelessMachineRunTime.gridNicknameEdit.isEmpty()) {
-                                        wirelessMachineRunTime.gridNicknameEdit = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname ?: id
-                                    }
-                                    wirelessMachineRunTime.gridNicknameEdit
-                                },
-                                setter = { wirelessMachineRunTime.gridNicknameEdit = it },
-                            )
-                            button(transKet = renameGrid, width = 80) { ck ->
-                                if (!ck.isRemote) {
-                                    WirelessSavedData.setGridNickname(
-                                        wirelessMachinePersisted.gridConnectedName,
-                                        requesterUUID,
-                                        wirelessMachineRunTime.gridNicknameEdit,
-                                    )
-                                    refreshCachesOnServer()
-                                }
-                            }
-                        }
-                    }
-                    // filter 选择器
-                    hScroll(width = availableWidth - 4, height = 20, style = { spacing = 4 }) {
-                        val syncField = wirelessMachineRunTime.FilterInMachineTypeSyncField
-                        syncField.get().javaClass.enumConstants.forEach { select: FilterInMachineType ->
-                            button(
-                                width = if (self().isRemote) Minecraft.getInstance().font.width(select.component.get().string) + 20 else 20,
-                                height = 16,
-                                text = { select.component.get().string },
-                                onClick = { ck ->
-                                    if (!ck.isRemote) syncField.setAndSyncToClient(select)
-                                },
-                            )
-                        }
-                    }
-                    if (self().isRemote) {
-                        vScroll(width = availableWidth, height = 152 - 4 - 10 - 16 - 20, { spacing = 2 }) {
-                            val availableWidth1 = availableWidth
-                            // filter 应用，数据展示。
-                            val objects = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == wirelessMachinePersisted.gridConnectedName }?.connectionPoolTable
-                            val machineTypeFilter: (WirelessGrid.MachineInfo) -> Boolean = { info: WirelessGrid.MachineInfo ->
-                                when (wirelessMachineRunTime.FilterInMachineTypeSyncField.get()) {
-                                    FilterInMachineType.BOTH -> true
-                                    FilterInMachineType.PATTERN_HATCH -> info.descriptionId.contains("pattern")
-                                    FilterInMachineType.WIRELESS_CONNECT_MACHINE -> info.descriptionId == ME_WIRELESS_CONNECTION_MACHINE.descriptionId
-                                    FilterInMachineType.OTHER -> !info.descriptionId.contains("pattern") && info.descriptionId != ME_WIRELESS_CONNECTION_MACHINE.descriptionId
-                                }
-                            }
-                            objects
-                                ?.filter(machineTypeFilter)
-                                ?.groupBy { it.level }
-                                ?.forEach { level, line ->
-                                    textBlock(maxWidth = availableWidth1, textSupplier = { Component.literal("- ${level.location().path} (${line.size})") })
-                                    line.groupBy { it.owner }
-                                        .forEach { owner, line1 ->
-                                            textBlock(maxWidth = availableWidth1, tab = 10, textSupplier = { Component.literal("- $owner") })
-                                            line1.sortedBy { it.descriptionId }
-                                                .forEach {
-                                                    textBlock(maxWidth = availableWidth1, tab = 20, textSupplier = { Component.literal("- ${Component.translatable(it.descriptionId).string} (${it.pos.x},${it.pos.y},${it.pos.z})") })
-                                                    hBox(height = 99) {
-                                                        blank(width = 20)
-                                                        button(width = availableWidth1 - 20 - 4, height = 14, transKet = findMachine) { ck ->
-                                                            if (ck.isRemote) {
-                                                                GTORenderManager.tasks.push(
-                                                                    GTORenderType.BLOCK_LINE(
-                                                                        data = GTORenderData.BLOCK_LINE_DATA(
-                                                                            pos = it.pos,
-                                                                            level = self().holder.level().dimension(),
-                                                                            durationTick = 1.minutes.toTicks(),
-                                                                            flickerCycle = 1.seconds.toTicks(),
-                                                                        ),
-                                                                    ),
-                                                                ) // 推送高亮数据
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                        }
-                                }
-                        }
-                    }
-                }
-            }
-        }.also { wirelessMachineRunTime.detailsPageFreshRun = Runnable { it.fresh() } }
     }
 }

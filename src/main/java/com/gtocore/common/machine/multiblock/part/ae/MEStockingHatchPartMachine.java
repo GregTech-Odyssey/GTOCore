@@ -24,6 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
+import appeng.api.networking.storage.IStorageService;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
@@ -39,7 +40,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implements IMEStockingPart {
+public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implements IMEStockingPart, IStorageService.UpdateRequester {
 
     private static final int CONFIG_SIZE = 16;
     @Persisted

@@ -298,6 +298,7 @@ public final class StoneDustProcess {
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder("nitrogen_pentoxide")
+                .circuitMeta(6)
                 .inputFluids(Oxygen.getFluid(6000))
                 .outputFluids(Ozone.getFluid(2000))
                 .duration(120).EUt(VA[HV])

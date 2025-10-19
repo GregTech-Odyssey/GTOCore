@@ -509,6 +509,14 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
 
+        if (material.hasFlag(HAS_NANOSCALE_FORM)) {
+            ULTRA_FINE_GRINDING_RECIPES.recipeBuilder("ultra_fine_grind_" + id)
+                    .inputItems(dust, material)
+                    .outputItems(GTOTagPrefix.NANO, material)
+                    .duration(100).EUt(VA[UIV])
+                    .save();
+        }
+
         if (material.hasProperty(PropertyKey.GEM)) {
             ItemStack gemStack = ChemicalHelper.get(gem, material);
 

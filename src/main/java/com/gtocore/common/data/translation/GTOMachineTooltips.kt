@@ -1,11 +1,13 @@
 package com.gtocore.common.data.translation
 
 import com.gtocore.api.lang.ComponentListSupplier
+import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
+import com.gtocore.common.machine.multiblock.generator.TurbineMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
@@ -15,6 +17,7 @@ import net.minecraft.network.chat.Component
 
 import com.google.common.collect.ImmutableMap
 import com.gregtechceu.gtceu.api.GTValues
+import com.gtolib.GTOCore
 import com.gtolib.utils.NumberUtils
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
 
@@ -655,6 +658,7 @@ object GTOMachineTooltips {
             function(ComponentSlang.BaseProductionEut(baseEUt))
             increase(ComponentSlang.RotorEfficiency(rotorTier))
             function("运行效率相当于16台同类大型涡轮" translatedTo "Operating efficiency is equivalent to 16 large turbines of the same type")
+            function("启动速度为同类大型涡轮的4倍" translatedTo "Startup speed is 4 times that of similar large turbines")
             increase("可使用更多动力仓" translatedTo "Can use more power hatch")
             increase("可安装转子仓，从中自动取出转子安装到空转子支架" translatedTo "Rotors can be installed in the rotor chamber, automatically extracting rotor for installation onto empty rotor brackets")
 
@@ -665,6 +669,26 @@ object GTOMachineTooltips {
 
             section(ComponentSlang.CoilEfficiencyBonus)
             increase("线圈等级每高出白铜一级，转子启动速度增加20%" translatedTo "Each coil tier above Cupronickel increases rotor startup speed by 20%")
+
+            val cs1 = ("高速模式调节器（专家模式专属）" translatedTo "High-Speed Mode Regulator (Expert Mode Exclusive)")
+            val cf1 = ("允许调节涡轮的高速倍率以换取转子寿命" translatedTo "Allows adjustment of turbine high-speed multiplier in exchange for rotor lifespan")
+            val ci1 = ("高速倍率范围为0.1x到5.0x，并将乘数自动与原涡轮乘数相乘" translatedTo "The high-speed multiplier ranges from 0.1x to 5.0x, and the multiplier is automatically multiplied by the original turbine multiplier")
+
+            val cs2 = ("玻璃等级加成（专家模式专属）" translatedTo "Glass Tier Bonus (Expert Mode Exclusive)")
+            val ci2 = ("专家模式下，玻璃等级每一级，高速调节器的损坏基数-0.08" translatedTo "In expert mode, each glass tier reduces the damage base of the high-speed regulator by 0.08")
+            val cf2 = ("最低的损坏基数为1.2" translatedTo "The minimum damage base is 1.2")
+
+            if (GTOCore.isExpert()) {
+                section(cs1)
+                function(cf1)
+                info(ci1)
+                info(ComponentSupplier(Component.translatable(TurbineMachine.DESC4)))
+                info(ComponentSupplier(Component.translatable(TurbineMachine.DESC5)))
+
+                section(cs2)
+                increase(ci2)
+                info(cf2)
+            }
         }
     }
 
@@ -1716,7 +1740,7 @@ object GTOMachineTooltips {
         section("拓展舱体" translatedTo "Expansion Modules")
         info("§b核心舱§r：大型空间站的核心部分，必须安装且只能安装一个" translatedTo "§bCore Module§r: The core part of the large space station, must be installed and only one can be installed")
         info("§b衔接舱§r：用于连接核心舱/模块仓与其他拓展舱体" translatedTo "§bConnection Module§r: Used to connect the core module with other expansion modules")
-        info("§b模块仓§r：提供额外的空间与功能" translatedTo "§bFunctional Module§r: Provides additional space and functions")
+        info("§b模块舱§r：提供额外的空间与功能" translatedTo "§bFunctional Module§r: Provides additional space and functions")
     }
     val SpaceStationWorkspaceExtensionTooltips = ComponentListSupplier {
         setTranslationPrefix("space_station_workspace_extension")
@@ -1739,22 +1763,20 @@ object GTOMachineTooltips {
         )
         highlight("提供无人机仓，可供无人机清理空间站内机器的垃圾，或自动维护机器" translatedTo "Provides a drone bay for drones to clean up machine waste or automatically maintain machines in the space station")
     }
-    val SpaceStationDroneBayTooltips = ComponentListSupplier {
-        setTranslationPrefix("space_station_drone_bay")
-
-        section(MainFunction)
-        info("向外派遣无人机以完成各种任务" translatedTo "Dispatch drones to complete various tasks")
-        info("收集太空中的宇宙尘埃，并将其转化为可用的资源" translatedTo "Collect cosmic dust in space and convert it into usable resources")
-    }
     val NoExtensionAvailableTooltips = ComponentListSupplier {
         setTranslationPrefix("no_extension_available")
-        error("该种类空间站无法向外侧安装拓展舱体" translatedTo "This type of space station cannot install expansion modules on the outside")
+        error("该种类空间站舱段无法向外侧安装拓展舱体" translatedTo "This type of space station module cannot install expansion modules on the outside")
     }
     val RecipeExtensionTooltips = ComponentListSupplier {
         setTranslationPrefix("recipe_extension")
         section("配方拓展舱室" translatedTo "Recipe Extension Module")
         info("§6被动耗能§r由§b核心舱§r提供，而§6配方耗能§r需由安装在§b此舱§r的§d能源仓§r提供" translatedTo "§6Passive energy consumption§r is provided by the §bCore Module§r, while §6recipe energy consumption§r needs to be provided by the §dEnergy Input Hatch§r installed in the §bthis module§r")
         error("无核心舱连接时，无法运行配方" translatedTo "Cannot run recipes without a linked core module")
+        highlight(
+            ("当前空间站内如果安装有" translatedTo "If the current space station has installed") +
+                ("空间站高能转换调配舱" translatedTo "Space Station High-Energy Conversion and Dispensing Module").scrollExotic(),
+        )
+        highlight("则解锁§d激光仓§r/§d超频仓§r/§d线程仓§r等高级舱体的使用权限" translatedTo "The use of advanced modules such as §dLaser Chamber§r/§dOverclocking Chamber§r/§dThread Chamber§r will be unlocked")
     }
     val CoreSpaceStationModuleTooltips = ComponentListSupplier {
         setTranslationPrefix("core_space_station_module")
@@ -1773,5 +1795,21 @@ object GTOMachineTooltips {
         section("工业空间站太空舱种类" translatedTo "Types of Industrial Space Station Modules")
         info(ComponentSlang.IsWhatTypeSpaceModule(ComponentSlang.FunctionModuleSpaceModule))
         info(ComponentSlang.CanConnectToWhatTypeSpaceModule(listOf(ComponentSlang.ConjunctionModuleSpaceModule)))
+    }
+    val SpaceDroneDockTooltips = ComponentListSupplier {
+        setTranslationPrefix("space_drone_dock")
+        section(MainFunction)
+        increase("向太空发送无人机以收集宇宙尘埃" translatedTo "Send drones into space to collect cosmic dust")
+        info("在不同的星系能够收集到不同种类的宇宙尘埃" translatedTo "Different types of cosmic dust can be collected in different galaxies")
+        section(RunningRequirements)
+        command("每次运行时，需要配方提供的无人机/电池有能量时才能运行" translatedTo "Each operation requires the drones/batteries provided by the recipe to have energy to operate")
+        info("每次消耗其内部存储的全部电量" translatedTo "Consumes all the internal stored energy each time")
+        increase("每消耗600,000EU，配方最大并行数+1" translatedTo "For every 600,000EU consumed, the maximum parallelism of the recipe +1")
+        decrease("无人机/电池缺电时，配方无法运行" translatedTo "The recipe cannot run when the drone has no power")
+    }
+    val SpaceStationEnergyConversionModuleTooltips = ComponentListSupplier {
+        setTranslationPrefix("space_station_energy_conversion_module")
+        section(MainFunction)
+        highlight("安装后，空间站内的其他拓展舱体将能够使用§d激光仓§r/§d超频仓§r/§d线程仓§r等高级舱体" translatedTo "When installed, other expansion modules in the space station will be able to use advanced modules such as §dLaser Chamber§r/§dOverclocking Chamber§r/§dThread Chamber§r")
     }
 }

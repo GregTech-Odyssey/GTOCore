@@ -17,6 +17,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.tag.GTOTagPrefix.NANO;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
@@ -3379,6 +3380,82 @@ final class ChemicaRreactor {
                 .outputFluids(GTMaterials.Water, 1000)
                 .EUt(480)
                 .duration(600)
+                .save();
+
+        // doi:10.1007/s42864-020-00057-3
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("rhenium_nanoparticle_radiation_reduction")
+                .inputFluids(GTOMaterials.AmmoniumPerrhenate, 1000)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .notConsumable(GTOTagPrefix.PARTICLE_SOURCE, Nickel64Source)
+                .outputItems(NANO, Rhenium, 10)
+                .outputFluids(GTMaterials.Ammonia.getFluid(1000))
+                .EUt(1920)
+                .duration(400)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("sodium_molybdate")
+                .inputItems(TagPrefix.dust, GTMaterials.Molybdenum)
+                .inputFluids(SodiumHydroxideSolution.getFluid(2000))
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumMolybdate, 3)
+                .outputFluids(GTMaterials.Hydrogen.getFluid(1000))
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("acac")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.SodiumHydride)
+                .outputItems(GTOTagPrefix.dust, GTMaterials.Salt)
+                .inputFluids(GTOMaterials.AcetylChloride, 1000)
+                .inputFluids(GTMaterials.Acetone, 1000)
+                .outputFluids(GTOMaterials.Acetylacetonate, 1000)
+                .EUt(122)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("aluminum_acetylacetonate_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AluminiumChloride, 2)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.AluminumAcetylacetonate, 2)
+                .inputFluids(GTOMaterials.Acetylacetonate, 6000)
+                .outputFluids(GTMaterials.HydrochloricAcid, 6000)
+                .EUt(122)
+                .duration(100)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("nano_scale_aluminum_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LithiumAluminiumHydride, 3)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AluminumAcetylacetonate)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.NanoAluminum, 4)
+                .outputFluids(GTOMaterials.Acetylacetonate, 2000)
+                .EUt(122)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("phosphoric_acid_chromium_phosphate_cement")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.ChromiumTrioxide, 4)
+                .inputFluids(GTMaterials.PhosphoricAcid, 864)
+                .outputFluids(GTOMaterials.PhosphoricAcidChromiumPhosphateCement, 576)
+                .outputFluids(GTMaterials.Water, 720)
+                .outputFluids(GTMaterials.Oxygen, 432)
+                .EUt(8100)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("phosphoric_acid_magnesium_phosphate_cement")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Magnesia)
+                .inputFluids(GTMaterials.PhosphoricAcid, 144)
+                .outputFluids(GTOMaterials.PhosphoricAcidMagnesiumPhosphateCement, 144)
+                .outputFluids(GTMaterials.Water, 144)
+                .EUt(8100)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("emulsified_dye_carrier_resin")
+                .inputFluids(GTMaterials.Styrene, 5000)
+                .inputFluids(GTOMaterials.AcrylicAcid, 2000)
+                .inputFluids(GTOMaterials.EthylAcrylate, 3000)
+                .outputFluids(GTOMaterials.EmulsifiedDyeCarrierResin, 10000)
+                .EUt(8100)
+                .duration(300)
                 .save();
     }
 }

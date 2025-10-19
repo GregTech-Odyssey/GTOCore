@@ -180,6 +180,7 @@ public final class LangHandler {
         addCNEN("gtceu.multiblock.batch_parallel_multiplier", "(批处理/超频补偿 %s)", "(Batch/OC Compensation %s)");
         addCNEN("gtocore.condition.gravity", "需要强重力环境", "Requires Strong Gravity Environment");
         addCNEN("gtocore.condition.zero_gravity", "需要无重力环境", "Requires Zero Gravity Environment");
+        addCNEN("gtocore.condition.within_galaxy", "需要在%s内", "Requires within Galaxy: %s");
 
         addCNEN("gtocore.tier.advanced", "高级", "Advanced");
         addCNEN("gtocore.tier.base", "基础", "Basic");
