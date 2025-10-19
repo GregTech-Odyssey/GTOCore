@@ -174,7 +174,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
                 var recipeInput = ItemRecipeCapability.CAP.of(itemInputs.get(i).content);
                 boolean tested = false;
                 var amount = ItemUtils.getSizedAmount(recipeInput);
-                for (int j = 1; j < inputSlot.size; j++) {
+                for (int j = 0; j < inputSlot.size; j++) {
                     var stack = inputSlot.getStackInSlot(j);
                     if (stack.isEmpty() || (!tested && !recipeInput.test(stack))) continue;
                     tested = true;

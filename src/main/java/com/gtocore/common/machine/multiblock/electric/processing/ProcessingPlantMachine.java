@@ -73,6 +73,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
             GTRecipeTypes.ORE_WASHER_RECIPES,
             GTRecipeTypes.CHEMICAL_RECIPES,
             GTRecipeTypes.FLUID_SOLIDFICATION_RECIPES,
+            GTRecipeTypes.AUTOCLAVE_RECIPES,
             GTRecipeTypes.ALLOY_SMELTER_RECIPES,
             GTRecipeTypes.ARC_FURNACE_RECIPES,
             GTORecipeTypes.ARC_GENERATOR_RECIPES,
