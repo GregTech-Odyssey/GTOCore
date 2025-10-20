@@ -13,13 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 import static com.gtocore.common.machine.noenergy.PlatformBlockType.PlatformBlockStructure.structure;
-import static org.com.gtoepp.platforms.PlatformPresets.extendedPresets;
 
 public final class PlatformTemplateStorage {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
-    private static final List<PlatformPreset> presets = new ArrayList<>();
+    private static final List<PlatformPreset> preset = new ArrayList<>();
 
     private static final String platform = add("平台", "platform");
     private static final String platform_3_3 = add("平台(3*3)", "platform(3*3)");
@@ -42,15 +41,6 @@ public final class PlatformTemplateStorage {
     }
 
     static List<PlatformPreset> initializePresets() {
-        List<PlatformPreset> preset = new ArrayList<>();
-        presets.forEach(c -> {
-            if (c != null) preset.add(c);
-        });
-        if (GTCEu.isModLoaded("gtoepp")) {
-            extendedPresets.forEach(c -> {
-                if (c != null) preset.add(c);
-            });
-        }
         return preset;
     }
 
@@ -60,6 +50,7 @@ public final class PlatformTemplateStorage {
     private static final String gray_floor_with_lights = add("浅色带灯带地板", "Gray floor with lights");
 
     static {
+        var presets = new ArrayList<PlatformPreset>();
         // 平台标准预设库
         {
             presets.add(
@@ -261,6 +252,14 @@ public final class PlatformTemplateStorage {
                                     .materials(1, 800)
                                     .build())
                             .build());
+        }
+        presets.forEach(c -> {
+            if (c != null) preset.add(c);
+        });
+        if (GTCEu.isModLoaded("gtoepp")) {
+            // extendedPresets.forEach(c -> {
+            // if (c != null) preset.add(c);
+            // });
         }
     }
 }
