@@ -19,8 +19,13 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 尽量使用**灰色**
     // 类GCYM机器(如大热解/裂化/电弧)不要写
 
+    val brickKilnTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("brick_kiln")
+        story("古法窑炉，原始工艺" translatedTo "Ancient kiln, primitive craftsmanship")
+    }
+
     // 热压成型机
-    var thermoPressTooltips: ComponentListSupplier = ComponentListSupplier {
+    val thermoPressTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("thermo_press")
         story("为了将金属，陶瓷，塑料以及胶水粘到一起而开发的机器" translatedTo "A machine developed to bond metals, ceramics, plastics, and adhesives together")
     }

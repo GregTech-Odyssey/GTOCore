@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/energy_control_casing_mk1"
+    }
+  }
+}

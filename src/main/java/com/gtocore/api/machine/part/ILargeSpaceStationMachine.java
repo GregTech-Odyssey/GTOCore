@@ -66,13 +66,15 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
     void setRoot(@Nullable Core root);
 
     default void tickNonCoreModule() {
-        if (getOffsetTimer() % 40 == 0) {
+        if (getOffsetTimer() % 80 == 0) {
             AbstractSpaceStation self = (AbstractSpaceStation) self();
 
-            if (getRoot() != null && getRoot().getReadyCount() > 0) {
-                provideOxygen();
-            } else {
-                self.clearOxygenBlocks();
+            if (getOffsetTimer() % 400 == 0) {
+                if (getRoot() != null && getRoot().getReadyCount() > 0) {
+                    provideOxygen();
+                } else {
+                    self.clearOxygenBlocks();
+                }
             }
 
             self.updateSpaceMachines();

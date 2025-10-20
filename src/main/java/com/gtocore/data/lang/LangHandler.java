@@ -1,5 +1,6 @@
 package com.gtocore.data.lang;
 
+import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
@@ -65,6 +66,7 @@ public final class LangHandler {
         Tooltips.LANG.forEach(LangHandler::addCNEN);
         PlatformTemplateStorage.LANG.forEach((k, v) -> addCNEN("gtocore.platform." + k, v));
         AnalyzeData.LANG.forEach((k, v) -> addCNEN("gtocore.data." + k, v));
+        GTOPartAbility.LANG.forEach(LangHandler::addCNEN);
         ScanningClass.LANG.forEach(LangHandler::addCNEN);
         DynamicInitialData.LANG.forEach(LangHandler::addCNEN);
         TranslationKeyProvider.LANG.forEach(LangHandler::addCNEN);
@@ -201,6 +203,11 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
         addCNEN("config.jade.plugin_gtocore.celestial_energy_provider", "[GTOCore] 天体能量", "[GTOCore] Celestial Energy");
+
+        addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
+                "Hatch types unlocked by installing auxiliary modules : %s");
+        addCNEN("gtocore.applicable_recipes", "安装附属模块后可解锁的配方类型 : %s",
+                "Recipe types unlocked by installing auxiliary modules : %s");
 
         addCNEN("fluid.gtocore.gelid_cryotheum", "极寒之凛冰", "Gelid Cryotheum");
 

@@ -18,6 +18,7 @@ import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ExpandedR2LMap;
+import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -375,9 +376,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 rt = null;
                 lidComp = (controller instanceof IRecipeLogicMachine rlm ? Stream.of(rlm.getRecipeTypes()) : Stream.<GTRecipeType>empty())
                         .map(r -> Component.translatable("gtceu." + r.registryName.getPath()))
-                        .collect(Component::empty,
-                                (c, t) -> c.append(c.getString().isEmpty() ? t : Component.literal("/").append(t)),
-                                (c1, c2) -> c1.append(c2.getString().isEmpty() ? c2 : Component.literal("/").append(c2)));
+                        .collect(GTOUtils.joiningComponent(Component.literal("/")));
 
             }
 

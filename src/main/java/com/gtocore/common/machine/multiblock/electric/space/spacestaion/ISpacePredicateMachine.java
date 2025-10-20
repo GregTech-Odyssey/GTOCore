@@ -90,11 +90,8 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
             OxygenApi.API.setOxygen(level, positions, true);
             TemperatureApi.API.setTemperature(level, positions, PlanetConstants.COMFY_EARTH_TEMPERATURE);
 
-            if (getOffsetTimer() % 200 == 0) {
-                level.playSound(null, getPos().above(3).relative(getFrontFacing(), 15), ModSoundEvents.OXYGEN_OUTTAKE.get(), SoundSource.BLOCKS, 0.2f, 1);
-            } else if (getOffsetTimer() % 100 == 0) {
-                level.playSound(null, getPos().above(3).relative(getFrontFacing(), 15), ModSoundEvents.OXYGEN_INTAKE.get(), SoundSource.BLOCKS, 0.2f, 1);
-            }
+            level.playSound(null, getPos().above(3).relative(getFrontFacing(), 15), ModSoundEvents.OXYGEN_INTAKE.get(), SoundSource.BLOCKS, 0.2f, 1);
+
         }
     }
 

@@ -58,6 +58,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_COKE_BRICKS;
 import static com.gregtechceu.gtceu.common.data.GTMachines.COKE_OVEN_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
+import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
@@ -92,7 +93,7 @@ public final class MultiBlockG {
             .tooltips(GTOMachineStories.INSTANCE.getCrystallizationChamberTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.CRYSTALLIZATION_RECIPES)
             .overclock()
-            .moduleTooltips()
+            .moduleTooltips(ACCELERATE_HATCH)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("aaaaa", "aBBBa", "aBBBa", "aaaaa", "     ")
@@ -122,7 +123,7 @@ public final class MultiBlockG {
                     .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
                             .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
-                            .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
+                            .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                     .where('B', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
                     .where('D', blocks(GTBlocks.FIREBOX_STEEL.get()))

@@ -649,5 +649,31 @@ public final class MiscRecipe {
                 .EUt(7)
                 .duration(100)
                 .save();
+
+        if (GTOCore.isExpert()) {
+
+            BRICK_FURNACE_RECIPES.builder("firebricks")
+                    .inputItems(GTItems.FIRECLAY_BRICK.asItem(), 6)
+                    .inputItems(GTOTagPrefix.dust, GTMaterials.Gypsum, 2)
+                    .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem())
+                    .inputFluids(GTMaterials.Concrete, 1000)
+                    .duration(200)
+                    .save();
+        }
+        BRICK_FURNACE_RECIPES.builder("firebrick")
+                .inputItems(GTItems.COMPRESSED_FIRECLAY.asItem())
+                .outputItems(GTItems.FIRECLAY_BRICK.asItem())
+                .duration(100)
+                .save();
+        BRICK_FURNACE_RECIPES.builder("coke_oven_brick")
+                .inputItems(GTItems.COMPRESSED_COKE_CLAY.asItem())
+                .outputItems(GTItems.COKE_OVEN_BRICK.asItem())
+                .duration(100)
+                .save();
+        BRICK_FURNACE_RECIPES.builder("brick")
+                .inputItems(GTItems.COMPRESSED_CLAY.asItem())
+                .outputItems(GTOTagPrefix.ingot, GTMaterials.Brick)
+                .duration(100)
+                .save();
     }
 }

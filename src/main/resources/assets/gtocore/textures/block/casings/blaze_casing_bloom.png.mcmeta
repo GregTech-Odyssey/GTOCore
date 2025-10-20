@@ -1,0 +1,6 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/blaze_casing_ctm_bloom",
+      "emissive": true
+    }
+}
