@@ -21,7 +21,6 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.api.planets.PlanetApi;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,11 +31,8 @@ import java.util.function.ToLongFunction;
 public class RecipeExtension extends Extension implements ICrossRecipeMachine {
 
     private boolean hasLaserInput = false;
-    private final Set<Recipe> lastRecipes = new ReferenceOpenHashSet<>();
     @Persisted
-    private double totalEu;
-    @Persisted
-    protected final CrossRecipeTrait crossRecipeTrait;
+    private final CrossRecipeTrait crossRecipeTrait;
 
     @NotNull
     private ToLongFunction<RecipeExtension> parallel = MachineUtils::getHatchParallel;
@@ -100,10 +96,10 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
 
     @Override
     public Recipe getRecipe() {
-        if (!PlanetApi.API.isSpace(getLevel()))
+        if (!PlanetApi.API.isSpace(getLevel()) || getRoot() == null || !getRoot().isWorkspaceReady()) {
+            setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
             return null;
-        if (getRoot() == null || !getRoot().isWorkspaceReady())
-            return null;
+        }
 
         return crossRecipeTrait.getRecipe();
     }
@@ -116,15 +112,5 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     @Override
     public CrossRecipeTrait getCrossRecipeTrait() {
         return crossRecipeTrait;
-    }
-
-    @Override
-    public Set<Recipe> getLastRecipes() {
-        return lastRecipes;
-    }
-
-    @Override
-    public double getTotalEu() {
-        return totalEu;
     }
 }

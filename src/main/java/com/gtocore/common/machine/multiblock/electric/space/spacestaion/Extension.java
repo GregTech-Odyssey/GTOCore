@@ -35,12 +35,12 @@ public class Extension extends AbstractSpaceStation implements ILargeSpaceStatio
     }
 
     @Override
-    public @Nullable Core getRoot() {
+    public final @Nullable Core getRoot() {
         return core;
     }
 
     @Override
-    public void setRoot(@Nullable Core root) {
+    public final void setRoot(@Nullable Core root) {
         core = root;
     }
 
@@ -56,7 +56,7 @@ public class Extension extends AbstractSpaceStation implements ILargeSpaceStatio
 
     @Override
     public boolean isWorkspaceReady() {
-        return getRoot() != null && getRoot().isWorkspaceReady();
+        return core != null && core.isWorkspaceReady();
     }
 
     @Override
