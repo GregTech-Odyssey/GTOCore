@@ -66,7 +66,7 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
     void setRoot(@Nullable Core root);
 
     default void tickNonCoreModule() {
-        if (getOffsetTimer() % 40 == 0) {
+        if (getOffsetTimer() % 80 == 0) {
             AbstractSpaceStation self = (AbstractSpaceStation) self();
 
             if (getOffsetTimer() % 400 == 0) {

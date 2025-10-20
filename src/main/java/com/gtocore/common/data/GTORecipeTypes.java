@@ -130,15 +130,13 @@ public final class GTORecipeTypes {
             .setSlotOverlay(false, false, false, GuiTextures.LIGHTNING_OVERLAY_2)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType DEHYDRATOR_RECIPES = register("dehydrator", "脱水机", ELECTRIC)
             .setMaxIOSize(2, 6, 2, 2)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType UNPACKER_RECIPES = register("unpacker", "解包机", ELECTRIC)
             .setMaxIOSize(2, 2, 0, 0)
@@ -179,7 +177,6 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
-            .setMaxTooltips(4)
             .onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType WORLD_DATA_SCANNER_RECIPES = register("world_data_scanner", "世界信息扫描仪", ELECTRIC)
@@ -252,7 +249,7 @@ public final class GTORecipeTypes {
             .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.ev_min", data.getInt("ev_min")))
             .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.ev_max", data.getInt("ev_max")))
             .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.evt", data.getInt("evt")))
-            .setMaxTooltips(2);
+            .setMaxTooltips(1);
 
     public static final RecipeType HEAT_EXCHANGER_RECIPES = register("heat_exchanger", "流体热交换", MULTIBLOCK)
             .setMaxIOSize(0, 0, 2, 3)
@@ -293,7 +290,6 @@ public final class GTORecipeTypes {
                 };
                 return LocalizationUtils.format(TierCasingTrait.getTierTranslationKey(STELLAR_CONTAINMENT_TIER), tierString);
             })
-            .setMaxTooltips(4)
             .onRecipeBuild(b -> b.duration(b.duration * GTOCore.difficulty / 3));
 
     public static final RecipeType COMPONENT_ASSEMBLY_RECIPES = register("component_assembly", "部件装配", MULTIBLOCK)
@@ -440,7 +436,6 @@ public final class GTORecipeTypes {
 
     public static final RecipeType SUPRACHRONAL_ASSEMBLY_LINE_RECIPES = register("suprachronal_assembly_line", "超时空装配线", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxTooltips(4)
             .setMaxIOSize(16, 1, 4, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
@@ -449,7 +444,6 @@ public final class GTORecipeTypes {
 
     public static final RecipeType PRECISION_ASSEMBLER_RECIPES = register("precision_assembler", "精密组装", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxTooltips(4)
             .setMaxIOSize(4, 1, 4, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
@@ -545,7 +539,6 @@ public final class GTORecipeTypes {
 
     public static final RecipeType DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES = register("dimensional_focus_engraving_array", "维度聚焦激光蚀刻阵列", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxTooltips(4)
             .setMaxIOSize(2, 1, 2, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
@@ -553,7 +546,6 @@ public final class GTORecipeTypes {
 
     public static final RecipeType PRECISION_LASER_ENGRAVER_RECIPES = register("precision_laser_engraver", "精密激光蚀刻", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxTooltips(4)
             .setMaxIOSize(9, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
@@ -580,8 +572,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 2, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COOLING)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.COOLING);
 
     public static final RecipeType DOOR_OF_CREATE_RECIPES = register("door_of_create", "创造之门", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -618,8 +609,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 0, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType PETROCHEMICAL_PLANT_RECIPES = register("petrochemical_plant", "集成石油化工处理", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -688,8 +678,7 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.COOLING)
             .addDataInfo(TEMPERATURE)
             .addDataInfo(COIL)
-            .setUiBuilder(COIL_UI)
-            .setMaxTooltips(4);
+            .setUiBuilder(COIL_UI);
 
     public static final RecipeType ULTRA_FINE_GRINDING_RECIPES = register("ultra_fine_grinding", "极细粒度粉碎", MULTIBLOCK)
             .setMaxIOSize(1, 3, 0, 0)
@@ -760,13 +749,11 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType THREE_DIMENSIONAL_PRINTER_RECIPES = register("three_dimensional_printer", "3D Printer", "3D打印", MULTIBLOCK)
             .setMaxIOSize(3, 1, 3, 0)
             .setEUIO(IO.IN)
-            .setMaxTooltips(4)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
@@ -789,8 +776,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.CHEMICAL)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.CHEMICAL);
 
     public static final RecipeType TREE_GROWTH_SIMULATOR_RECIPES = register("tree_growth_simulator", "原木拟生场", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -872,8 +858,7 @@ public final class GTORecipeTypes {
                         .getKey());
                 widgetGroup.addWidget(new SlotWidget(new CycleItemStackHandler(List.of(List.of(itemStack))), 0,
                         widgetGroup.getSize().width - 50, widgetGroup.getSize().height - 40, false, false));
-            })
-            .setMaxTooltips(4);
+            });
 
     public static final RecipeType ROCKET_ASSEMBLER_RECIPES = register("rocket_assembler", "火箭装配", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -885,8 +870,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(2, 1, 3, 2)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.CHEMICAL)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.CHEMICAL);
 
     public static final RecipeType WATER_PURIFICATION_PLANT_RECIPES = register("water_purification_plant", "净化水厂", MULTIBLOCK)
             .noSearch(true)
@@ -900,8 +884,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType CRYSTALLIZATION_RECIPES = register("crystallization", "结晶", MULTIBLOCK)
             .setMaxIOSize(3, 1, 2, 0)
@@ -910,8 +893,7 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.FURNACE)
             .addDataInfo(TEMPERATURE)
             .addDataInfo(COIL)
-            .setUiBuilder(COIL_UI)
-            .setMaxTooltips(4);
+            .setUiBuilder(COIL_UI);
 
     public static final RecipeType FAST_NEUTRON_BREEDER_REACTOR_RECIPES = register("fast_neutron_breeder_reactor", "快中子增殖反应堆", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -930,8 +912,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(3, 2, 5, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .addDataInfo(data -> data.contains("radioactivity") ? LocalizationUtils.format("gtocore.recipe.radioactivity", data.getInt("radioactivity")) : "")
-            .setSound(GTSoundEntries.COOLING)
-            .setMaxTooltips(4);
+            .setSound(GTSoundEntries.COOLING);
 
     public static final RecipeType FUEL_CELL_ENERGY_ABSORPTION_RECIPES = register("fuel_cell_energy_absorption", "燃料电池液能量吸收", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -999,25 +980,21 @@ public final class GTORecipeTypes {
     public static final RecipeType CRYSTAL_SCAN_RECIPES = register("crystal_scan", "晶片扫描", ELECTRIC)
             .setMaxIOSize(3, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType DATA_ANALYSIS_RECIPES = register("data_analysis", "数据分析", ELECTRIC)
             .setMaxIOSize(3, 6, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType DATA_INTEGRATION_RECIPES = register("data_integration", "数据统合", ELECTRIC)
             .setMaxIOSize(13, 2, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType RECIPES_DATA_GENERATE_RECIPES = register("recipes_data_generate", "配方数据生成", ELECTRIC)
             .setMaxIOSize(11, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType SPACE_STATION_CONSTRUCTION_RECIPES = register("space_station_construction", "空间站建造", MULTIBLOCK)

@@ -3,6 +3,7 @@ package com.gtocore.integration.jade.provider;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
+import com.gtolib.api.machine.feature.ICustomElectricMachine;
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
@@ -214,7 +215,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             recipeInfo.putLong("EUt", inputEUt - outputEUt);
             recipeInfo.putLong("Manat", inputManat - outputManat);
 
-            if (capability.machine instanceof ICrossRecipeMachine machine && machine.getCrossRecipeTrait().energyInterfacePartMachine != null) {
+            if (capability.machine instanceof ICustomElectricMachine machine && machine.isActivated()) {
                 recipeInfo.putDouble("totalEu", machine.getTotalEu());
                 if (machine.isGenerator()) {
                     recipeInfo.putBoolean("isGenerator", true);
