@@ -257,9 +257,9 @@ public final class PlatformTemplateStorage {
             if (c != null) preset.add(c);
         });
         if (GTCEu.isModLoaded("gtoepp")) {
-            // extendedPresets.forEach(c -> {
-            // if (c != null) preset.add(c);
-            // });
+            org.com.gtoepp.platforms.PlatformPresets.extendedPresets.forEach(c -> {
+                if (c != null) preset.add(c);
+            });
         }
     }
 }

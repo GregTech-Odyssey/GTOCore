@@ -128,8 +128,8 @@ object GTOMachineTooltips {
                 "The system will automatically calculate the required materials based on the selected blueprint.",
         )
         content(
-            "支持多种材料类型，包括标准、扩展和特种系列工业组件" translatedTo
-                "Supports multiple material types, including standard, extended, and special-series industrial component.",
+            "支持多种材料类型，包括基础、扩展和特种系列工业组件" translatedTo
+                "Supports multiple material types, including basic, extended, and special-series industrial component.",
         )
         content(
             "部分预设需要额外的材料" translatedTo
