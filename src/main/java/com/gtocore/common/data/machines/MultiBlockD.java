@@ -1262,6 +1262,11 @@ public final class MultiBlockD {
                         .where('U', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                         .where('V', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                         .where(' ', any())
+                        .condition(state -> {
+                            var states = state.controller.getSubMultiblockState();
+                            if (states == null) return true;
+                            return states[0] != null && states[0].error != null;
+                        })
                         .build(),
                 def -> MultiBlockFileReader.builder().name("kuangbiao4").startBuild(def)
                         .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Trinium)))
@@ -1296,6 +1301,11 @@ public final class MultiBlockD {
                         .where('^', blocks(GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.get()))
                         .where('_', controller(blocks(def.get())))
                         .where(' ', any())
+                        .condition(state -> {
+                            var states = state.controller.getSubMultiblockState();
+                            if (states == null) return true;
+                            return states[1] != null && states[1].error != null;
+                        })
                         .build(),
                 def -> MultiBlockFileReader.builder().name("kuangbiao_crossrecipe").startBuild(def)
                         .where('A', blocks(GTBlocks.FUSION_CASING.get()))
