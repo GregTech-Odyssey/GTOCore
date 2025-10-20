@@ -199,51 +199,44 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         // 步骤标题
         /// //////////////////////////////////
         int totalLangWidth = 266;
-        {
-            WidgetGroup group_title = new DraggableScrollableWidgetGroup(4, 4, totalLangWidth, 160)
-                    .setBackground(GuiTextures.DISPLAY);
-            group_title.addWidget(new ComponentPanelWidget(4, 5, this::addDisplayTextTitle));
-            group.addWidget(group_title);
-        }
+
+        WidgetGroup group_title = new DraggableScrollableWidgetGroup(4, 4, totalLangWidth, 160)
+                .setBackground(GuiTextures.DISPLAY);
+        group_title.addWidget(new ComponentPanelWidget(4, 5, this::addDisplayTextTitle));
+        group.addWidget(group_title);
 
         // 主页
-        {
-            WidgetGroup mainContentGroup = new DraggableScrollableWidgetGroup(4, 18, totalLangWidth, 146);
+        DraggableScrollableWidgetGroup mainContentGroup = new DraggableScrollableWidgetGroup(4, 18, totalLangWidth, 146);
 
-            ComponentPanelWidget mainTextPanel = new ComponentPanelWidget(4, 0, this::addDisplayText)
-                    .clickHandler(this::handleDisplayClick)
-                    .setMaxWidthLimit(langWidth);
-            mainContentGroup.addWidget(mainTextPanel);
+        ComponentPanelWidget mainTextPanel = new ComponentPanelWidget(4, 0, this::addDisplayText)
+                .clickHandler(this::handleDisplayClick)
+                .setMaxWidthLimit(langWidth);
+        mainContentGroup.addWidget(mainTextPanel);
 
-            mainContentGroup.addWidget(new ImageWidget(166, 46, 100, 100, this::getIGuiTexture));
+        mainContentGroup.addWidget(new ImageWidget(166, 46, 100, 100, this::getIGuiTexture));
 
-            group.addWidget(mainContentGroup);
-        }
+        group.addWidget(mainContentGroup);
 
         // 启动区
-        {
-            WidgetGroup group_start = new DraggableScrollableWidgetGroup(271, 4, 54, 105)
-                    .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
-            group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
-                    .clickHandler(this::handleDisplayClickStep));
-            group_start.addWidget(new ComponentPanelWidget(2, 20, this::addDisplayTextStart)
-                    .clickHandler(this::handleDisplayClickStart)
-                    .setMaxWidthLimit(50));
-            group.addWidget(group_start);
-        }
+        WidgetGroup group_start = new DraggableScrollableWidgetGroup(271, 4, 54, 105)
+                .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
+        group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
+                .clickHandler((a, b) -> handleDisplayClickStep(a, mainContentGroup)));
+        group_start.addWidget(new ComponentPanelWidget(2, 20, this::addDisplayTextStart)
+                .clickHandler(this::handleDisplayClickStart)
+                .setMaxWidthLimit(50));
+        group.addWidget(group_start);
 
         // 物品槽
-        {
-            WidgetGroup group_slot = new DraggableScrollableWidgetGroup(271, 110, 54, 54);
-            for (int y = 0; y < 3; y++) {
-                for (int x = 0; x < 3; x++) {
-                    int slotIndex = y * 3 + x;
-                    group_slot.addWidget(new SlotWidget(inventory, slotIndex, x * 18, y * 18, true, true)
-                            .setBackground(GuiTextures.SLOT));
-                }
+        WidgetGroup group_slot = new DraggableScrollableWidgetGroup(271, 110, 54, 54);
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                int slotIndex = y * 3 + x;
+                group_slot.addWidget(new SlotWidget(inventory, slotIndex, x * 18, y * 18, true, true)
+                        .setBackground(GuiTextures.SLOT));
             }
-            group.addWidget(group_slot);
         }
+        group.addWidget(group_slot);
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
@@ -265,9 +258,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         textList.add(result);
     }
 
-    private void handleDisplayClickStep(String componentData, ClickData clickData) {
+    private void handleDisplayClickStep(String componentData, DraggableScrollableWidgetGroup group) {
         String[] parts = componentData.split("_", 2);
         if (parts[0].equals("step")) {
+            group.setScrollYOffset(0);
             step = Mth.clamp(Integer.parseInt(parts[1]), 0, totalStep);
         }
     }

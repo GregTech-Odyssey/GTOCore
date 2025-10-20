@@ -1040,8 +1040,8 @@ public final class MagicRecipesA {
                     .save();
 
             ASSEMBLER_RECIPES.builder("iv_wireless_mana_output_hatch")
-                    .inputItems("ars_nouveau:warp_scroll")
                     .inputItems(ManaMachine.MANA_OUTPUT_HATCH[IV].asItem())
+                    .inputItems("ars_nouveau:warp_scroll")
                     .inputItems("botania:corporea_index", 8)
                     .inputItems(ManaMultiBlock.ADVANCED_MANA_DISTRIBUTOR, 2)
                     .outputItems(ManaMachine.WIRELESS_MANA_OUTPUT_HATCH[IV].asItem())
@@ -1051,8 +1051,8 @@ public final class MagicRecipesA {
                     .save();
 
             ASSEMBLER_RECIPES.builder("luv_wireless_mana_output_hatch")
-                    .inputItems("ars_nouveau:warp_scroll")
                     .inputItems(ManaMachine.MANA_OUTPUT_HATCH[LuV].asItem())
+                    .inputItems("ars_nouveau:warp_scroll")
                     .inputItems("botania:corporea_index", 16)
                     .inputItems(ManaMultiBlock.ADVANCED_MANA_DISTRIBUTOR, 4)
                     .outputItems(ManaMachine.WIRELESS_MANA_OUTPUT_HATCH[LuV].asItem())
@@ -1146,8 +1146,8 @@ public final class MagicRecipesA {
                     .save();
 
             ASSEMBLER_RECIPES.builder("mana_amplifier_hatch")
-                    .notConsumable("botania:dice")
                     .inputItems(ManaMachine.MANA_HULL[GTValues.LuV].asItem())
+                    .notConsumable("botania:dice")
                     .inputItems("botania:laputa_shard")
                     .inputItems("extrabotany:the_universe", 8)
                     .outputItems(ManaMachine.MANA_AMPLIFIER_HATCH.asItem())
@@ -1226,6 +1226,10 @@ public final class MagicRecipesA {
                     'A', Items.YELLOW_STAINED_GLASS_PANE, 'B', Items.WHITE_STAINED_GLASS_PANE, 'C', Items.PINK_STAINED_GLASS_PANE,
                     'D', Items.RED_STAINED_GLASS_PANE, 'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite), 'F', Items.MAGENTA_STAINED_GLASS_PANE,
                     'G', RegistriesUtils.getItemStack("botania:tornado_rod"), 'H', Items.CHISELED_DEEPSLATE, 'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
+                    "BBB", "BAB", "BBB",
+                    'A', Items.DIAMOND, 'B', Items.NETHER_STAR);
         }
 
         // 工具配方

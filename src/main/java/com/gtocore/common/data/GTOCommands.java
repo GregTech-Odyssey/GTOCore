@@ -6,6 +6,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
+import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.StringConverter;
@@ -38,10 +39,17 @@ public final class GTOCommands {
 
     public static void init(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal(GTOCore.MOD_ID)
+                .then(Commands.literal("gc").executes(ctx -> {
+                    ctx.getSource().sendSuccess(() -> Component.literal("Start garbage cleanup"), false);
+                    GTOUtils.gc();
+                    return 1;
+                }))
                 .then(Commands.literal("spark").then(Commands.literal("start").executes(ctx -> {
+                    ctx.getSource().sendSuccess(() -> Component.literal("Started profiling"), false);
                     SparkLaunchProfiler.start("all");
                     return 1;
                 })).then(Commands.literal("stop").executes(ctx -> {
+                    ctx.getSource().sendSuccess(() -> Component.literal("Stopped profiling"), false);
                     SparkLaunchProfiler.stop("all");
                     return 1;
                 })))
@@ -50,7 +58,7 @@ public final class GTOCommands {
                             ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
                             ResourceLocation id = RLUtils.parse(StringArgumentType.getString(ctx, "id"));
                             PlanetManagement.unlock(player.getUUID(), id);
-                            ctx.getSource().sendSuccess(() -> Component.translatable(PlanetManagement.isUnlocked(player, id) ? "gtocore.unlocked" : "gtocore.ununlocked"), true);
+                            ctx.getSource().sendSuccess(() -> Component.translatable(PlanetManagement.isUnlocked(player, id) ? "gtocore.unlocked" : "gtocore.ununlocked"), false);
                             return 1;
                         })))))
                         .then(Commands.literal("dyson").then(Commands.literal("info").executes(ctx -> {
