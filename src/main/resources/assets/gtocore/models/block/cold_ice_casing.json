@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "gtocore:block/casings/cold_ice_casing",
+    "top_all": "gtocore:block/casings/cold_ice_casing_bloom"
+  }
+}

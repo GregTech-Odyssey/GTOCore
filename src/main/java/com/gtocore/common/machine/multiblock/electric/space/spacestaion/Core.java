@@ -81,7 +81,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     @Override
     protected void tickReady() {
         super.tickReady();
-        if (getOffsetTimer() % 40 == 0) {
+        if (getOffsetTimer() % 80 == 0) {
             updateSpaceMachines();
         }
     }

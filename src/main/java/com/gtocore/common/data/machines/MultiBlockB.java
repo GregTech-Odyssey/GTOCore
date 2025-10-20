@@ -7,7 +7,6 @@ import com.gtocore.client.renderer.machine.SpaceElevatorRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.nano.NanoPhagocytosisPlantMachine;
@@ -41,9 +40,9 @@ import committee.nova.mods.avaritia.init.registry.ModBlocks;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
-import static com.gtocore.common.data.GTORecipeTypes.COMPRESSOR_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.GAS_COMPRESSOR_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
@@ -54,8 +53,8 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition GRAVITATION_SHOCKBURST = multiblock("gravitation_shockburst", "引力震爆器", ElectricMultiblockMachine::new)
             .allRotation()
-            .recipeTypes(GTORecipeTypes.GRAVITATION_SHOCKBURST_RECIPES)
-            .recipeTypes(GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES)
+            .recipeTypes(GRAVITATION_SHOCKBURST_RECIPES)
+            .recipeTypes(ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
             .parallelizableOverclock()
@@ -88,7 +87,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getDigestionTankTooltips().getSupplier())
             .parallelizableTooltips()
-            .recipeTypes(GTORecipeTypes.DIGESTION_TREATMENT_RECIPES)
+            .recipeTypes(DIGESTION_TREATMENT_RECIPES)
             .parallelizableOverclock()
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -116,7 +115,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition WOOD_DISTILLATION = multiblock("wood_distillation", "木化工厂", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.WOOD_DISTILLATION_RECIPES)
+            .recipeTypes(WOOD_DISTILLATION_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getWoodDistillationTooltips().getSupplier())
             .laserTooltips()
             .coilParallelTooltips()
@@ -157,7 +156,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition DESULFURIZER = multiblock("desulfurizer", "脱硫机", CoilCrossRecipeMultiblockMachine::createInfiniteCoilParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.DESULFURIZER_RECIPES)
+            .recipeTypes(DESULFURIZER_RECIPES)
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -187,9 +186,9 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition LIQUEFACTION_FURNACE = multiblock("liquefaction_furnace", "液化炉", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES)
+            .recipeTypes(LIQUEFACTION_FURNACE_RECIPES)
             .parallelizableOverclock()
-            .moduleTooltips()
+            .moduleTooltips(PARALLEL_HATCH, ACCELERATE_HATCH)
             .block(GTBlocks.CASING_INVAR_HEATPROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("AAAAA", " BBB ", " AAA ")
@@ -219,7 +218,7 @@ public final class MultiBlockB {
                     .where('A', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get())
                             .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
+                            .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                     .where('B', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
                     .where('C', controller(blocks(definition.get())))
                     .where('D', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
@@ -234,9 +233,9 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition REACTION_FURNACE = multiblock("reaction_furnace", "反应炉", CoilMultiblockMachine.createCoilMachine(true, true))
             .nonYAxisRotation()
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .recipeTypes(GTORecipeTypes.REACTION_FURNACE_RECIPES)
+            .recipeTypes(REACTION_FURNACE_RECIPES)
             .parallelizableOverclock()
-            .moduleTooltips()
+            .moduleTooltips(PARALLEL_HATCH, ACCELERATE_HATCH)
             .upgradable()
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
@@ -265,7 +264,7 @@ public final class MultiBlockB {
                     .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
+                            .or(abilities(ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                     .where('B', blocks(GTBlocks.CASING_PTFE_INERT.get()))
                     .where('C', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where('D', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
@@ -312,7 +311,7 @@ public final class MultiBlockB {
             .parallelizableTooltips()
             .laserTooltips()
             .coilParallelTooltips()
-            .recipeTypes(GTORecipeTypes.FUEL_REFINING_RECIPES)
+            .recipeTypes(FUEL_REFINING_RECIPES)
             .parallelizableOverclock()
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -356,7 +355,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MICROORGANISM_MASTER = multiblock("microorganism_master", "微生物之主", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
+            .recipeTypes(INCUBATOR_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
             .parallelizableTooltips()
@@ -393,7 +392,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition LIGHTNING_ROD = multiblock("lightning_rod", "引雷针", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.ARC_GENERATOR_RECIPES)
+            .recipeTypes(ARC_GENERATOR_RECIPES)
             .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getLightningRodTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
@@ -546,10 +545,11 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition NANO_PHAGOCYTOSIS_PLANT = multiblock("nano_phagocytosis_plant", "纳米吞噬厂", NanoPhagocytosisPlantMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getNanoPhagocytosisPlantTooltips().getSupplier())
-            .recipeTypes(GTORecipeTypes.MACERATOR_RECIPES)
-            .recipeTypes(GTORecipeTypes.ISA_MILL_RECIPES)
-            .recipeTypes(GTORecipeTypes.ULTRA_FINE_GRINDING_RECIPES)
+            .recipeTypes(MACERATOR_RECIPES)
+            .recipeTypes(ISA_MILL_RECIPES)
+            .recipeTypes(ULTRA_FINE_GRINDING_RECIPES)
             .parallelizableTooltips()
+            .moduleTooltips(ISA_MILL_RECIPES, ULTRA_FINE_GRINDING_RECIPES)
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
@@ -755,7 +755,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MEGA_VACUUM_DRYING_FURNACE = multiblock("mega_vacuum_drying_furnace", "巨型真空干燥炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.VACUUM_DRYING_RECIPES)
+            .recipeTypes(VACUUM_DRYING_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getMegaVacuumDryingFurnaceTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
@@ -792,7 +792,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition MOLECULAR_OSCILLATION_DEHYDRATOR = multiblock("molecular_oscillation_dehydrator", "分子震荡脱水装置", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getMolecularOscillationDehydratorTooltips().getSupplier())
-            .recipeTypes(GTORecipeTypes.DEHYDRATOR_RECIPES)
+            .recipeTypes(DEHYDRATOR_RECIPES)
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -859,7 +859,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineTooltips.INSTANCE.getWaterPurificationPlantTooltips().getSupplier())
             .laserTooltips()
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.STERILE_WATER_PLANT_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAAAAA", "CEEEEEC", "CEFFFEC", "CEEEEEC", "CCCCCCC", "       ", "       ", "       ", "       ")
@@ -889,7 +889,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getClarifierPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getClarifierPurificationUnitTooltips().getSupplier())
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.REINFORCED_STERILE_WATER_PLANT_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAAAAAAAAA", "AFFFAAAFFFA", "AFFFAAAFFFA", "AFFFAAAFFFA", "AAAAAAAAAAA")
@@ -923,7 +923,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getOzonationPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getOzonationPurificationUnitTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.OZONE_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("     AAA ", "     AAA ", "     AAA ", "     AAA ", "     AAA ", "     AAA ", "      A  ", "      A  ", "         ", "         ")
@@ -949,7 +949,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getFlocculationPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getFlocculationPurificationUnitTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.FLOCCULATION_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("HH     HH", "HH     HH", "HH     HH", "HH     HH")
@@ -981,7 +981,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getPHNeutralizationPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getPHNeutralizationPurificationUnitTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.STABILIZED_NAQUADAH_WATER_PLANT_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("ABBBA     ABBBA", "ABCBA     ABCBA", "ABCBA     ABCBA", "ABCBA     ABCBA", "ABBBA     ABBBA", "A   A     A   A")
@@ -1009,7 +1009,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getExtremeTemperatureFluctuationPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getExtremeTemperatureFluctuationPurificationUnitTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.PLASMA_HEATER_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("             AAAAA     ", "             AAAAA     ", "             AAAAA     ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "            AAAAAAA    ")
@@ -1048,7 +1048,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getHighEnergyLaserPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getHighEnergyLaserPurificationUnitTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("     BBB     ", "     CCC     ", "             ", "             ", "             ", "             ", "             ", "     CCC     ", "     BBB     ")
@@ -1080,7 +1080,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getResidualDecontaminantDegasserPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getResidualDecontaminantDegasserPurificationUnitTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.PLASMA_HEATER_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("      CCCCC      ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "      AAAAA      ")
@@ -1118,7 +1118,7 @@ public final class MultiBlockB {
             .tooltips(GTOMachineStories.INSTANCE.getAbsoluteBaryonicPerfectionPurificationUnitTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getAbsoluteBaryonicPerfectionPurificationUnitTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
-            .recipeTypes(GTORecipeTypes.WATER_PURIFICATION_PLANT_RECIPES)
+            .recipeTypes(WATER_PURIFICATION_PLANT_RECIPES)
             .block(GTOBlocks.QUARK_EXCLUSION_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "      AAAAA      ", "      AAAAA      ", "      AAAAA      ", "      AAAAA      ", "      AAAAA      ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ")

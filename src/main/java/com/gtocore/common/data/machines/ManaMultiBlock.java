@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -463,7 +464,7 @@ public final class ManaMultiBlock {
             .parallelizableTooltips()
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getAlchemicalDeviceTooltips().getSupplier())
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getLargeAlchemicalDeviceTooltips().getSupplier())
-            .moduleTooltips()
+            .moduleTooltips(new PartAbility[0])
             .recipeModifiers(RecipeModifierFunction.HATCH_PARALLEL)
             .recipeTypes(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
             .block(GCYMBlocks.CASING_CORROSION_PROOF)

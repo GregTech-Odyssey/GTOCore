@@ -215,7 +215,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             recipeInfo.putLong("EUt", inputEUt - outputEUt);
             recipeInfo.putLong("Manat", inputManat - outputManat);
 
-            if (capability.machine instanceof ICustomElectricMachine machine && machine.getTotalEu() > 0) {
+            if (capability.machine instanceof ICustomElectricMachine machine && machine.isActivated()) {
                 recipeInfo.putDouble("totalEu", machine.getTotalEu());
                 if (machine.isGenerator()) {
                     recipeInfo.putBoolean("isGenerator", true);
