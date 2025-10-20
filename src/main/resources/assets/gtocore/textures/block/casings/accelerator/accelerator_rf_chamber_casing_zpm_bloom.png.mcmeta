@@ -1,0 +1,9 @@
+{
+  "ldlib": {
+    "emissive": true,
+    "connection": "gtocore:block/casings/accelerator/accelerator_rf_chamber_casing_zpm_bloom_ctm"
+  },
+  "shimmer": {
+    "bloom": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "animation": {
+    "interpolate": false,
+    "frametime": 2
+  },
+  "ldlib": {
+    "emissive": true,
+    "connection": "gtocore:block/casings/accelerator/accelerator_magnetic_constrained_rail_casing_bloom_ctm"
+  },
+  "shimmer": {
+    "bloom": true
+  }
+}

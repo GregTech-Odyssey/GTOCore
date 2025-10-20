@@ -126,7 +126,7 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
         addCNEN("gtocore.pattern.tooltip.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
 
-        addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
+        addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energetics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energetics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
         addCNEN("gtocore.fly_speed_reset", "飞行速度已重置", "fly Speed Reset");
         addCNEN("gtocore.fly_speed", "飞行速度 x%s", "fly Speed x%s");
