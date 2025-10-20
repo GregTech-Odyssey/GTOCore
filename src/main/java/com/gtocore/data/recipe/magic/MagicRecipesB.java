@@ -1,9 +1,13 @@
 package com.gtocore.data.recipe.magic;
 
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.GTORecipeCategories;
+import com.gtocore.common.data.*;
+import com.gtocore.common.data.machines.ManaMachine;
+
+import com.gtolib.GTOCore;
+
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -11,6 +15,7 @@ import net.minecraft.world.item.Items;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
+import static com.gregtechceu.gtceu.api.GTValues.VN;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Ethanol;
@@ -137,6 +142,35 @@ public class MagicRecipesB {
                         .MANAt(256)
                         .duration(200)
                         .save();
+            }
+        }
+
+        // 权宜之计
+        {
+            // 魔力输入输出
+            {
+                int[] values = { GTValues.ZPM, GTValues.UV, GTValues.UHV, GTValues.UEV, GTValues.UIV, GTValues.UXV, GTValues.OpV };
+                for (int value : values) {
+                    VanillaRecipeHelper.addShapedRecipe(GTOCore.id(VN[value].toLowerCase() + "_mana_extract_hatch"), ManaMachine.MANA_EXTRACT_HATCH[value],
+                            "AEA", "CDC", "AEA",
+                            'A', GTOItems.STOPGAP_MEASURES.asStack(), 'C', GTMachines.BATTERY_BUFFER_16[value].asStack(), 'D', GTMachines.CHARGER_4[value].asStack(), 'E', GTMachines.ENERGY_INPUT_HATCH[value].asStack());
+
+                    VanillaRecipeHelper.addShapedRecipe(GTOCore.id(VN[value].toLowerCase() + "_mana_input_hatch"), ManaMachine.MANA_INPUT_HATCH[value],
+                            "AAA", "ABA", "AAA",
+                            'A', GTOItems.STOPGAP_MEASURES.asStack(), 'B', GTMachines.SUBSTATION_ENERGY_INPUT_HATCH[value].asStack());
+
+                    VanillaRecipeHelper.addShapedRecipe(GTOCore.id(VN[value].toLowerCase() + "_mana_output_hatch"), ManaMachine.MANA_OUTPUT_HATCH[value],
+                            "AAA", "ABA", "AAA",
+                            'A', GTOItems.STOPGAP_MEASURES.asStack(), 'B', GTMachines.SUBSTATION_ENERGY_OUTPUT_HATCH[value].asStack());
+
+                    VanillaRecipeHelper.addShapedRecipe(GTOCore.id(VN[value].toLowerCase() + "_wireless_mana_input_hatch"), ManaMachine.WIRELESS_MANA_INPUT_HATCH[value],
+                            "AAA", "ABA", "AAA",
+                            'A', GTOItems.STOPGAP_MEASURES.asStack(), 'B', GTOMachines.WIRELESS_INPUT_HATCH_64[value].asStack());
+
+                    VanillaRecipeHelper.addShapedRecipe(GTOCore.id(VN[value].toLowerCase() + "_wireless_mana_output_hatch"), ManaMachine.WIRELESS_MANA_OUTPUT_HATCH[value],
+                            "AAA", "ABA", "AAA",
+                            'A', GTOItems.STOPGAP_MEASURES.asStack(), 'B', GTOMachines.WIRELESS_OUTPUT_HATCH_64[value].asStack());
+                }
             }
         }
 

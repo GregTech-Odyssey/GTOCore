@@ -1099,4 +1099,9 @@ public final class GTOItems {
     public static final ItemEntry<Item> RED_DYE_MASTERBATCH = register("red_dye_masterbatch", "红色染料色母");
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
     public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
+
+    // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
+    public static final ItemEntry<ComponentItem> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计", ComponentItem::create)
+            .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
+            .register();
 }
