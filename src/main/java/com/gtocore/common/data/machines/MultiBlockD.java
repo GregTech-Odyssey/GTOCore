@@ -935,7 +935,7 @@ public final class MultiBlockD {
                             .or(abilities(EXPORT_FLUIDS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('B', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('B', GTOPredicates.glass())
                     .where('C', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
                     .where('D', blocks(Blocks.IRON_BARS))
                     .where('E', blocks(GTBlocks.FIREBOX_STEEL.get()))
