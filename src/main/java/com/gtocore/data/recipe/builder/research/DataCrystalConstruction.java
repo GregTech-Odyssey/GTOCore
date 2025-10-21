@@ -95,17 +95,20 @@ public final class DataCrystalConstruction {
         if (dataCrystal < 1 || dataCrystal > 5) throw new IllegalStateException("DataCrystal Out of index");
 
         var dataStack = dataItem;
+        String recipeId;
         if (fluidStack != null) {
             ExResearchManager.writeScanningResearchToNBT(dataStack.getOrCreateTag(), fluidStack, dataTier, dataCrystal);
+            recipeId = fluidStackToString(fluidStack);
         } else if (itemStack != null) {
             ExResearchManager.writeScanningResearchToNBT(dataStack.getOrCreateTag(), itemStack, dataTier, dataCrystal);
+            recipeId = itemStackToString(itemStack);
         } else {
             throw new IllegalStateException("The scanned item or fluid is missing");
         }
 
         if (recipe == null) return;
         if (!recipe) {
-            SCANNER_RECIPES.recipeBuilder(itemStackToString(itemStack))
+            SCANNER_RECIPES.recipeBuilder(recipeId)
                     .inputItems(EmptyDataCrystalMap.get(dataCrystal))
                     .inputItems(itemStack)
                     .outputItems(dataStack)
@@ -115,7 +118,7 @@ public final class DataCrystalConstruction {
         } else {
             if (cwut > totalCWU) throw new IllegalStateException("Total CWU cannot be greater than CWU/t!");
             if (catalyst == null) throw new IllegalStateException("Catalyst input required");
-            CRYSTAL_SCAN_RECIPES.recipeBuilder(itemStackToString(itemStack))
+            CRYSTAL_SCAN_RECIPES.recipeBuilder(recipeId)
                     .notConsumable(catalyst)
                     .inputItems(EmptyDataCrystalMap.get(dataCrystal))
                     .inputItems(itemStack)
