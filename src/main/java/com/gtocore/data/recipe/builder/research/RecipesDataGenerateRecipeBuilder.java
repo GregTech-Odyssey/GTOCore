@@ -14,8 +14,7 @@ import java.util.Arrays;
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.RECIPES_DATA_GENERATE_RECIPES;
-import static com.gtocore.data.recipe.builder.research.ExResearchManager.DataItemMap;
-import static com.gtocore.data.recipe.builder.research.ExResearchManager.getAnalyzeData;
+import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
 
 public final class RecipesDataGenerateRecipeBuilder {
 
@@ -87,7 +86,7 @@ public final class RecipesDataGenerateRecipeBuilder {
 
     public RecipesDataGenerateRecipeBuilder CWUt(int cwut) {
         this.cwut = cwut;
-        this.totalCWU = cwut * 4000;
+        this.totalCWU = cwut * 800;
         return this;
     }
 
@@ -111,7 +110,7 @@ public final class RecipesDataGenerateRecipeBuilder {
                 .notConsumable(catalyst1)
                 .notConsumable(catalyst2)
                 .inputItems(DataItem);
-        for (int inputAnalyzeDatum : inputAnalyzeData) build.notConsumable(getAnalyzeData(inputAnalyzeDatum));
+        for (int inputAnalyzeDatum : inputAnalyzeData) build.notConsumable(getDataCrystal(inputAnalyzeDatum));
         build
                 .chancedOutput(dataStack, chance, 0)
                 .EUt(eut)

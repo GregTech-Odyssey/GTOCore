@@ -133,6 +133,7 @@ final class ItemLang {
         addCNEN("gtocore.tooltip.item.analyze_data", "§n研究数据：", "§nResearch data:");
         addCNEN("gtocore.tooltip.item.analyze_things", "- %d", "- %d");
         addCNEN("gtocore.tooltip.item.analyze_serial", "- §a研究编号：%s", "- §aResearch number: %s");
+        addCNEN("gtocore.data.empty", "空", "empty");
 
         addCNEN("gtocore.behaviour.grass_harvest.description", GOLD + "极大" + RESET + "地提升小麦种子掉落概率", GOLD + "Greatly" + RESET + " increase the probability of wheat seed dropping");
         addCNEN("gtocore.behaviour.grass_harvest.description2", "右键以收割", "Right click to harvest");

@@ -5,43 +5,80 @@ import com.gtocore.common.data.GTOItems;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public final class ExResearchManager {
-
-    public static final boolean SCANNING_DEBUG = false;
 
     private static final int FNV_OFFSET_BASIS = 0x811C9DC5;
     private static final int FNV_PRIME = 0x01000193;
 
-    public static final Int2ObjectMap<Item> DataCrystalMap = new Int2ObjectOpenHashMap<>();
+    public static final String SCANNING_NBT_TAG = "scanning_research";
+    public static final String SCANNING_ID_NBT_TAG = "scanning_id";
+    public static final String SCANNING_SERIAL_NBT_TAG = "scanning_serial";
+    public static final Int2ObjectMap<DataCrystal> scanningMap = new Int2ObjectOpenHashMap<>();
+
+    public static final String ANALYZE_NBT_TAG = "analyze_research";
+    public static final String ANALYZE_ID_NBT_TAG = "analyze_id";
+    public static final String ANALYZE_SERIAL_NBT_TAG = "analyze_serial";
+    public static final Int2ObjectMap<DataCrystal> analyzeMap = new Int2ObjectOpenHashMap<>();
     static {
-        DataCrystalMap.put(1, GTOItems.DATA_CRYSTAL_MK1.asItem());
-        DataCrystalMap.put(2, GTOItems.DATA_CRYSTAL_MK2.asItem());
-        DataCrystalMap.put(3, GTOItems.DATA_CRYSTAL_MK3.asItem());
-        DataCrystalMap.put(4, GTOItems.DATA_CRYSTAL_MK4.asItem());
-        DataCrystalMap.put(5, GTOItems.DATA_CRYSTAL_MK5.asItem());
+        analyzeMap.put(0, new DataCrystal("empty", 0, 0, 0));
     }
-    public static final Int2IntMap ErrorDataMap = new Int2IntOpenHashMap();
+
+    public static final String EMPTY_NBT_TAG = "empty_crystal";
+    public static final String EMPTY_ID_NBT_TAG = "empty_id";
+
+    public static final Int2ObjectMap<ItemStack> DataCrystalMap = new Int2ObjectOpenHashMap<>();
     static {
-        ErrorDataMap.put(1, 0x01181C20);
-        ErrorDataMap.put(2, 0x021820D9);
-        ErrorDataMap.put(3, 0x03181F46);
-        ErrorDataMap.put(4, 0x041823FF);
-        ErrorDataMap.put(5, 0x0518226C);
+        DataCrystalMap.put(1, GTOItems.DATA_CRYSTAL_MK1.asStack());
+        DataCrystalMap.put(2, GTOItems.DATA_CRYSTAL_MK2.asStack());
+        DataCrystalMap.put(3, GTOItems.DATA_CRYSTAL_MK3.asStack());
+        DataCrystalMap.put(4, GTOItems.DATA_CRYSTAL_MK4.asStack());
+        DataCrystalMap.put(5, GTOItems.DATA_CRYSTAL_MK5.asStack());
     }
+
+    public static ItemStack getDataCrystalItem(int tier) {
+        if (tier < 1 || tier > 5) throw new IllegalArgumentException("Invalid crystal tier: " + tier + " (must be 1-5)");
+        return DataCrystalMap.get(tier).copy();
+    }
+
+    public static final Int2ObjectMap<ItemStack> ErrorDataCrystalMap = new Int2ObjectOpenHashMap<>();
+    static {
+        int[] errorDataCrystal = { 0x38181C20, 0x3B1820D9, 0x3A181F46, 0x3D1823FF, 0x3C18226C };
+        for (int tier = 1; tier <= 5; tier++) {
+            ItemStack emptyStack = getDataCrystalItem(tier);
+            CompoundTag stackTag = emptyStack.getOrCreateTag();
+            CompoundTag dataTag = new CompoundTag();
+            dataTag.putString(ANALYZE_ID_NBT_TAG, "error" + tier);
+            dataTag.putInt(ANALYZE_SERIAL_NBT_TAG, errorDataCrystal[tier - 1]);
+            stackTag.put(ANALYZE_NBT_TAG, dataTag);
+            ErrorDataCrystalMap.put(tier, emptyStack);
+        }
+    }
+
+    public static final Int2ObjectMap<ItemStack> EmptyDataCrystalMap = new Int2ObjectOpenHashMap<>();
+    static {
+        for (int tier = 1; tier <= 5; tier++) {
+            ItemStack emptyStack = getDataCrystalItem(tier);
+            CompoundTag stackTag = emptyStack.getOrCreateTag();
+            CompoundTag emptyTag = new CompoundTag();
+            emptyTag.putInt(EMPTY_ID_NBT_TAG, 0);
+            stackTag.put(EMPTY_NBT_TAG, emptyTag);
+            EmptyDataCrystalMap.put(tier, emptyStack);
+        }
+    }
+
     public static final Int2ObjectMap<Item> DataItemMap = new Int2ObjectOpenHashMap<>();
     static {
         DataItemMap.put(1, GTItems.TOOL_DATA_STICK.get());
@@ -53,119 +90,83 @@ public final class ExResearchManager {
         DataItemMap.put(7, GTOItems.MICROCOSM.asItem());
     }
 
-    public static final String SCANNING_NBT_TAG = "scanning_research";
-    public static final String SCANNING_ID_NBT_TAG = "scanning_id";
-    public static final String SCANNING_SERIAL_NBT_TAG = "scanning_serial";
-    public static final Int2ObjectMap<String> ScanningMap = new Int2ObjectOpenHashMap<>();
-    static {
-        ScanningMap.defaultReturnValue(null);
-    }
+    public record DataCrystal(
+                              String data,
+                              int serial,
+                              int tier,
+                              int crystal) {}
 
-    public static final String ANALYZE_NBT_TAG = "analyze_research";
-    public static final String ANALYZE_ID_NBT_TAG = "analyze_id";
-    public static final String ANALYZE_SERIAL_NBT_TAG = "analyze_serial";
-    public static final Int2ObjectMap<String> AnalyzeMap = new Int2ObjectOpenHashMap<>();
-    static {
-        AnalyzeMap.defaultReturnValue(null);
-        AnalyzeMap.put(0, "empty");
-    }
-
-    public static final String EMPTY_NBT_TAG = "empty_crystal";
-    public static final String EMPTY_ID_NBT_TAG = "empty_id";
-
-    public static void writeScanningResearchToNBT(@NotNull CompoundTag stackCompound, @NotNull ItemStack Scanned, int dataTier, int dataCrystal) {
+    /**
+     * 向物品NBT写入扫描数据
+     */
+    public static void writeScanningResearchToNBT(@NotNull CompoundTag stackCompound, @NotNull Object scanned, int dataTier, int dataCrystal) {
+        if (dataCrystal < 1 || dataCrystal > 5) throw new IllegalArgumentException("dataCrystal must be 1-5, got " + dataCrystal);
+        if (!(scanned instanceof ItemStack) && !(scanned instanceof FluidStack)) throw new IllegalArgumentException("scanned must be ItemStack or FluidStack");
+        String scanningId = (scanned instanceof ItemStack itemStack) ? itemStackToString(itemStack) : fluidStackToString((FluidStack) scanned);
+        int serial = generateSerialId(scanningId);
         CompoundTag compound = new CompoundTag();
-        String ScanningId = itemStackToString(Scanned);
-        int Serial = generateSerialId(ScanningId, dataTier, dataCrystal);
-        compound.putString(SCANNING_ID_NBT_TAG, ScanningId);
-        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
+        compound.putString(SCANNING_ID_NBT_TAG, scanningId);
+        compound.putInt(SCANNING_SERIAL_NBT_TAG, serial);
         stackCompound.put(SCANNING_NBT_TAG, compound);
-        ScanningMap.put(Serial, ScanningId);
-    }
-
-    public static void writeScanningResearchToNBT(@NotNull CompoundTag stackCompound, @NotNull FluidStack Scanned, int dataTier, int dataCrystal) {
-        CompoundTag compound = new CompoundTag();
-        String ScanningId = fluidStackToString(Scanned);
-        int Serial = generateSerialId(ScanningId, dataTier, dataCrystal);
-        compound.putString(SCANNING_ID_NBT_TAG, ScanningId);
-        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
-        stackCompound.put(SCANNING_NBT_TAG, compound);
-        ScanningMap.put(Serial, ScanningId);
-    }
-
-    public static ItemStack getScanningData(int Serial) {
-        var data = DataCrystalMap.get(ExtractDataCrystal(Serial)).getDefaultInstance();
-        CompoundTag stackCompound = data.getOrCreateTag();
-        String AnalyzeId = ScanningMap.get(Serial);
-        CompoundTag compound = new CompoundTag();
-        compound.putString(SCANNING_ID_NBT_TAG, AnalyzeId);
-        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
-        stackCompound.put(SCANNING_NBT_TAG, compound);
-        return data;
-    }
-
-    public static void writeAnalyzeResearchToMap(String AnalyzeId, int dataTier, int dataCrystal) {
-        int Serial = generateSerialId(AnalyzeId, dataTier, dataCrystal);
-        AnalyzeMap.put(Serial, AnalyzeId);
-    }
-
-    public static ItemStack getAnalyzeData(int Serial) {
-        var data = DataCrystalMap.get(ExtractDataCrystal(Serial)).getDefaultInstance();
-        CompoundTag stackCompound = data.getOrCreateTag();
-        String AnalyzeId = AnalyzeMap.get(Serial);
-        CompoundTag compound = new CompoundTag();
-        compound.putString(ANALYZE_ID_NBT_TAG, AnalyzeId);
-        compound.putInt(ANALYZE_SERIAL_NBT_TAG, Serial);
-        stackCompound.put(ANALYZE_NBT_TAG, compound);
-        return data;
-    }
-
-    public static ItemStack getEmptyCrystal(int tire) {
-        var data = DataCrystalMap.get(tire).getDefaultInstance();
-        CompoundTag stackCompound = data.getOrCreateTag();
-        CompoundTag compound = new CompoundTag();
-        compound.putInt(EMPTY_ID_NBT_TAG, 0);
-        stackCompound.put(EMPTY_NBT_TAG, compound);
-        return data;
-    }
-
-    public static String itemStackToString(@NotNull ItemStack stack) {
-        ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(stack.getItem());
-        return stack.getCount() + "i-" + itemId.getNamespace() + "-" + itemId.getPath();
-    }
-
-    public static String fluidStackToString(@NotNull FluidStack stack) {
-        ResourceLocation fluidId = ForgeRegistries.FLUIDS.getKey(stack.getFluid());
-        return stack.getAmount() + "f-" + fluidId.getNamespace() + "-" + fluidId.getPath();
+        scanningMap.put(serial, new DataCrystal(scanningId, serial, dataTier, dataCrystal));
     }
 
     /**
-     * 使用FNV-1a算法生成压缩序列号（6位哈希 + 2位前缀）
-     *
-     * @param scanningId  输入字符串
-     * @param dataTier    层级标识 (0-15)
-     * @param dataCrystal 数据标识 (0-15)
-     * @return 32位整数，高8位为(tier+dataCrystal)，低24位为压缩哈希
+     * 写入分析数据到Map
      */
-    private static int generateSerialId(String scanningId, int dataTier, int dataCrystal) {
-        int hash = FNV_OFFSET_BASIS;
-        byte[] bytes = scanningId.getBytes(StandardCharsets.UTF_8);
+    public static void writeAnalyzeResearchToMap(@NotNull String analyzeId, int dataTier, int dataCrystal) {
+        if (dataCrystal < 1 || dataCrystal > 5) throw new IllegalArgumentException("dataCrystal must be 1-5, got " + dataCrystal);
+        int serial = generateSerialId(analyzeId);
+        analyzeMap.put(serial, new DataCrystal(analyzeId, serial, dataTier, dataCrystal));
+    }
 
+    /**
+     * 根据序列号生成带数据的晶体物品
+     */
+    public static ItemStack getDataCrystal(int serial) {
+        DataCrystal data;
+        if ((data = analyzeMap.get(serial)) != null) return createCrystalWithData(data, ANALYZE_NBT_TAG, ANALYZE_ID_NBT_TAG, ANALYZE_SERIAL_NBT_TAG);
+        if ((data = scanningMap.get(serial)) != null) return createCrystalWithData(data, SCANNING_NBT_TAG, SCANNING_ID_NBT_TAG, SCANNING_SERIAL_NBT_TAG);
+        return Items.BARRIER.getDefaultInstance();
+    }
+
+    /**
+     * 将物品栈转换为唯一字符串ID
+     */
+    public static String itemStackToString(@NotNull ItemStack stack) {
+        return stack.getCount() + "i-" + Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(stack.getItem())).toString().replace(":", "-");
+    }
+
+    /**
+     * 将流体栈转换为唯一字符串ID
+     */
+    public static String fluidStackToString(@NotNull FluidStack stack) {
+        return stack.getAmount() + "f-" + Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(stack.getFluid())).toString().replace(":", "-");
+    }
+
+    /**
+     * 生成序列号：仅基于dataId的FNV哈希（保证唯一性）
+     */
+    private static int generateSerialId(@NotNull String dataId) {
+        int hash = FNV_OFFSET_BASIS;
+        byte[] bytes = dataId.getBytes(StandardCharsets.UTF_8);
         for (byte b : bytes) {
             hash ^= (b & 0xFF);
             hash *= FNV_PRIME;
         }
-
-        int prefix = ((dataTier & 0x0F) << 4) | (dataCrystal & 0x0F);
-
-        return (prefix << 24) | (hash & 0xFFFFFF);
+        return hash;
     }
 
-    public static int ExtractDataTier(int serialId) {
-        return (serialId >>> 28) & 0x0F;
-    }
-
-    public static int ExtractDataCrystal(int serialId) {
-        return (serialId >>> 24) & 0x0F;
+    /**
+     * 辅助方法：根据DataCrystal生成带NBT数据的晶体物品
+     */
+    private static ItemStack createCrystalWithData(@NotNull DataCrystal data, String nbtTag, String idTag, String serialTag) {
+        ItemStack crystalStack = getDataCrystalItem(data.crystal());
+        CompoundTag stackTag = crystalStack.getOrCreateTag();
+        CompoundTag dataTag = new CompoundTag();
+        dataTag.putString(idTag, data.data());
+        dataTag.putInt(serialTag, data.serial());
+        stackTag.put(nbtTag, dataTag);
+        return crystalStack;
     }
 }

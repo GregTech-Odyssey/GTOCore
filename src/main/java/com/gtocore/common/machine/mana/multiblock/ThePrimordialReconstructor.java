@@ -135,7 +135,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         if (!inputsItems.isEmpty() || !outputsItems.isEmpty()) {
             inputsItems.forEach(disassembleRecipeBuilder::inputItems);
             outputsItems.forEach(disassembleRecipeBuilder::outputItems);
-            disassembleRecipeBuilder.duration(count.value);
+            disassembleRecipeBuilder.duration(20);
             return disassembleRecipeBuilder.buildRawRecipe();
         }
         return null;
@@ -422,7 +422,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             enchantmentsLoadRecipeBuilder.inputItems(Items.BOOK);
             enchantmentsLoadRecipeBuilder.inputItems(essence.value, 1 << (lvl - 1));
             enchantmentsLoadRecipeBuilder.outputItems(Enchantment.getEnchantedBookByEnchantmentId(enchantment, (short) lvl));
-            enchantmentsLoadRecipeBuilder.duration(lvl);
+            enchantmentsLoadRecipeBuilder.duration(20);
             enchantmentsLoadRecipeBuilder.MANAt(256);
             return enchantmentsLoadRecipeBuilder.buildRawRecipe();
         }
@@ -542,7 +542,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             mergeRecipeBuilder.inputItems(Items.BOOK, -remainingBooks);
         }
 
-        mergeRecipeBuilder.duration(totalBooks.value);
+        mergeRecipeBuilder.duration(20);
         mergeRecipeBuilder.MANAt(512);
 
         return mergeRecipeBuilder.buildRawRecipe();
@@ -576,7 +576,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         affixCanvasLoadRecipeBuilder.inputItems(GTOItems.AFFIX_CANVAS);
         affixCanvasLoadRecipeBuilder.outputItems(affixCanvas);
-        affixCanvasLoadRecipeBuilder.duration(uniqueItems.size());
+        affixCanvasLoadRecipeBuilder.duration(20);
         affixCanvasLoadRecipeBuilder.MANAt(512);
 
         return affixCanvasLoadRecipeBuilder.buildRawRecipe();
@@ -643,7 +643,6 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             if (!gemsByRarity[i].isEmpty()) break;
             if (i == 4) return null;
         }
-        int timeMultiplier = 0;
         for (int i = 0; i < 5; i++) {
             ObjectArrayList<ItemStack> gems = gemsByRarity[i];
             if (gems.isEmpty()) continue;
@@ -670,11 +669,10 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                     CompoundTag affixData = tag.getCompound("affix_data");
                     affixData.putString("rarity", upgradedRarity);
                 }
-                timeMultiplier += count;
                 GemSynthesisRecipeBuilder.outputItems(upgradedGem, count);
             }
         }
-        GemSynthesisRecipeBuilder.duration(timeMultiplier);
+        GemSynthesisRecipeBuilder.duration(20);
         return GemSynthesisRecipeBuilder.buildRawRecipe();
     }
 
@@ -881,7 +879,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         ForcedAddSocketRecipeBuilder.inputItems(Adventure.Items.SIGIL_OF_SOCKETING.get(), costSigil);
         ForcedAddSocketRecipeBuilder.outputItems(inputAddSocketItem, 1);
-        ForcedAddSocketRecipeBuilder.duration(costSigil);
+        ForcedAddSocketRecipeBuilder.duration(5);
         ForcedAddSocketRecipeBuilder.MANAt(512);
 
         return ForcedAddSocketRecipeBuilder.buildRawRecipe();
@@ -960,7 +958,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         for (ItemStack inputGemItem : inputGemItems) ForcedMosaicGemRecipeBuilder.inputItems(inputGemItem, 1);
 
         ForcedMosaicGemRecipeBuilder.outputItems(inputAddGemItem, 1);
-        ForcedMosaicGemRecipeBuilder.duration(inputGemItems.size());
+        ForcedMosaicGemRecipeBuilder.duration(5);
         ForcedMosaicGemRecipeBuilder.MANAt(512);
 
         return ForcedMosaicGemRecipeBuilder.buildRawRecipe();
