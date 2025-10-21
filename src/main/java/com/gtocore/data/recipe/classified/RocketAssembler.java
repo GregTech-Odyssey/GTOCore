@@ -131,7 +131,7 @@ final class RocketAssembler {
 
         ROCKET_ASSEMBLER_RECIPES.builder("space_station")
                 .inputItems("ad_astra:tier_1_rocket")
-                .inputItems(GTItems.FIELD_GENERATOR_HV.asItem())
+                .inputItems(GTItems.FIELD_GENERATOR_MV.asItem())
                 .inputItems(GTItems.SENSOR_HV.asItem())
                 .inputItems(CustomTags.IV_CIRCUITS, 4)
                 .inputItems(GTOTagPrefix.wireGtSingle, GTOMaterials.VibrantAlloy, 16)
