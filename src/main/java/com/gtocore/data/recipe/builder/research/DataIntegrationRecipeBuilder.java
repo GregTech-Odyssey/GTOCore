@@ -78,10 +78,10 @@ public final class DataIntegrationRecipeBuilder {
                 .notConsumable(catalyst1)
                 .notConsumable(catalyst2)
                 .inputItems(getEmptyCrystal(crystalTire));
-        for (int inputAnalyzeDatum : inputData) build.notConsumable(getAnalyzeData(inputAnalyzeDatum));
+        for (int inputAnalyzeDatum : inputData) build.notConsumable(getDataCrystal(inputAnalyzeDatum));
         build
-                .chancedOutput(getAnalyzeData(outputData), chanced, 0)
-                .chancedOutput(getAnalyzeData(ErrorDataMap.get(crystalTire)), 2000, 0)
+                .chancedOutput(getDataCrystal(outputData), chanced, 0)
+                .chancedOutput(getDataCrystal(ErrorDataMap.get(crystalTire)), 2000, 0)
                 .EUt(eut)
                 .CWUt(cwut)
                 .totalCWU(totalCWU)

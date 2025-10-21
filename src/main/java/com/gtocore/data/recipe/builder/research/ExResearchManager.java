@@ -21,8 +21,6 @@ import java.nio.charset.StandardCharsets;
 
 public final class ExResearchManager {
 
-    public static final boolean SCANNING_DEBUG = false;
-
     private static final int FNV_OFFSET_BASIS = 0x811C9DC5;
     private static final int FNV_PRIME = 0x01000193;
 
@@ -93,30 +91,34 @@ public final class ExResearchManager {
         ScanningMap.put(Serial, ScanningId);
     }
 
-    public static ItemStack getScanningData(int Serial) {
-        var data = DataCrystalMap.get(ExtractDataCrystal(Serial)).getDefaultInstance();
-        CompoundTag stackCompound = data.getOrCreateTag();
-        String AnalyzeId = ScanningMap.get(Serial);
-        CompoundTag compound = new CompoundTag();
-        compound.putString(SCANNING_ID_NBT_TAG, AnalyzeId);
-        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
-        stackCompound.put(SCANNING_NBT_TAG, compound);
-        return data;
-    }
-
     public static void writeAnalyzeResearchToMap(String AnalyzeId, int dataTier, int dataCrystal) {
         int Serial = generateSerialId(AnalyzeId, dataTier, dataCrystal);
         AnalyzeMap.put(Serial, AnalyzeId);
     }
 
-    public static ItemStack getAnalyzeData(int Serial) {
+    public static ItemStack getDataCrystal(int Serial) {
         var data = DataCrystalMap.get(ExtractDataCrystal(Serial)).getDefaultInstance();
+        String AnalyzeId;
+        if ((AnalyzeId = AnalyzeMap.get(Serial)) != null) {
+            CompoundTag stackCompound = data.getOrCreateTag();
+            CompoundTag compound = new CompoundTag();
+            compound.putString(ANALYZE_ID_NBT_TAG, AnalyzeId);
+            compound.putInt(ANALYZE_SERIAL_NBT_TAG, Serial);
+            stackCompound.put(ANALYZE_NBT_TAG, compound);
+            return data;
+        } else if ((AnalyzeId = ScanningMap.get(Serial)) != null) {
+            CompoundTag stackCompound = data.getOrCreateTag();
+            CompoundTag compound = new CompoundTag();
+            compound.putString(SCANNING_ID_NBT_TAG, AnalyzeId);
+            compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
+            stackCompound.put(SCANNING_NBT_TAG, compound);
+            return data;
+        }
         CompoundTag stackCompound = data.getOrCreateTag();
-        String AnalyzeId = AnalyzeMap.get(Serial);
         CompoundTag compound = new CompoundTag();
-        compound.putString(ANALYZE_ID_NBT_TAG, AnalyzeId);
-        compound.putInt(ANALYZE_SERIAL_NBT_TAG, Serial);
-        stackCompound.put(ANALYZE_NBT_TAG, compound);
+        compound.putString(SCANNING_ID_NBT_TAG, "§m unknown §r");
+        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
+        stackCompound.put(SCANNING_NBT_TAG, compound);
         return data;
     }
 

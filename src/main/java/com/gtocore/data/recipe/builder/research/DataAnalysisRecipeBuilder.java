@@ -65,17 +65,17 @@ public final class DataAnalysisRecipeBuilder {
         if (cwut > totalCWU) throw new IllegalStateException("Total CWU cannot be greater than CWU/t!");
         if (catalyst == null) throw new IllegalStateException("Catalyst input required");
         int crystalTire = ExtractDataCrystal(inputData);
-        if (crystalTire < 1 || crystalTire > 5) throw new IllegalStateException("DataCrystal Out of index");
+        if (crystalTire < 0 || crystalTire > 5) throw new IllegalStateException("DataCrystal Out of index");
 
         var build = DATA_ANALYSIS_RECIPES.recipeBuilder(ScanningMap.get(inputData));
         build
                 .notConsumable(catalyst)
                 .inputItems(getEmptyCrystal(crystalTire))
-                .notConsumable(getScanningData(inputData));
+                .notConsumable(getDataCrystal(inputData));
         for (int i = 0; i < outputData.length; i++)
-            build.chancedOutput(getAnalyzeData(outputData[i]), chance[i], 0);
+            build.chancedOutput(getDataCrystal(outputData[i]), chance[i], 0);
         build
-                .chancedOutput(getAnalyzeData(ErrorDataMap.get(crystalTire)), 2000, 0)
+                .chancedOutput(getDataCrystal(ErrorDataMap.get(crystalTire)), 2000, 0)
                 .EUt(eut)
                 .CWUt(cwut)
                 .totalCWU(totalCWU)

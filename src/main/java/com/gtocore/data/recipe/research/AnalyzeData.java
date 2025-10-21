@@ -13,9 +13,7 @@ public final class AnalyzeData {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
-    static {
-        addData("empty", "空", "empty", 0, 0);
-
+    public static void init() {
         addData("error1", "§k1§r错误§k1§r", "§k1§rError§k1§r", 0, 1);
         addTooltip("error1", "只是一个意外罢了", "It was just an accident");
         addData("error2", "§k22§r错误§k22§r", "§k22§rError§k22§r", 0, 2);

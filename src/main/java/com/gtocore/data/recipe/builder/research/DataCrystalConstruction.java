@@ -81,7 +81,7 @@ public final class DataCrystalConstruction {
 
     public DataCrystalConstruction CWUt(int cwut) {
         this.cwut = cwut;
-        this.totalCWU = cwut * 4000;
+        this.totalCWU = cwut * 800;
         return this;
     }
 
