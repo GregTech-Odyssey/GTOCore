@@ -2,8 +2,8 @@ package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.data.machines.SpaceMultiblock;
-
 import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
+
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
