@@ -32,14 +32,16 @@ public final class ExResearchManager {
         DataCrystalMap.put(4, GTOItems.DATA_CRYSTAL_MK4.asItem());
         DataCrystalMap.put(5, GTOItems.DATA_CRYSTAL_MK5.asItem());
     }
+
     public static final Int2IntMap ErrorDataMap = new Int2IntOpenHashMap();
     static {
-        ErrorDataMap.put(1, 0x01181C20);
-        ErrorDataMap.put(2, 0x021820D9);
-        ErrorDataMap.put(3, 0x03181F46);
-        ErrorDataMap.put(4, 0x041823FF);
-        ErrorDataMap.put(5, 0x0518226C);
+        ErrorDataMap.put(1, 0x38181C20);
+        ErrorDataMap.put(2, 0x3B1820D9);
+        ErrorDataMap.put(3, 0x3A181F46);
+        ErrorDataMap.put(4, 0x3D1823FF);
+        ErrorDataMap.put(5, 0x3C18226C);
     }
+
     public static final Int2ObjectMap<Item> DataItemMap = new Int2ObjectOpenHashMap<>();
     static {
         DataItemMap.put(1, GTItems.TOOL_DATA_STICK.get());
@@ -54,120 +56,134 @@ public final class ExResearchManager {
     public static final String SCANNING_NBT_TAG = "scanning_research";
     public static final String SCANNING_ID_NBT_TAG = "scanning_id";
     public static final String SCANNING_SERIAL_NBT_TAG = "scanning_serial";
-    public static final Int2ObjectMap<String> ScanningMap = new Int2ObjectOpenHashMap<>();
-    static {
-        ScanningMap.defaultReturnValue(null);
-    }
+    public static final Int2ObjectMap<DataCrystal> scanningMap = new Int2ObjectOpenHashMap<>();
 
     public static final String ANALYZE_NBT_TAG = "analyze_research";
     public static final String ANALYZE_ID_NBT_TAG = "analyze_id";
     public static final String ANALYZE_SERIAL_NBT_TAG = "analyze_serial";
-    public static final Int2ObjectMap<String> AnalyzeMap = new Int2ObjectOpenHashMap<>();
+    public static final Int2ObjectMap<DataCrystal> analyzeMap = new Int2ObjectOpenHashMap<>();
     static {
-        AnalyzeMap.defaultReturnValue(null);
-        AnalyzeMap.put(0, "empty");
+        analyzeMap.put(0, new DataCrystal("empty", 0, 0, 0));
     }
 
     public static final String EMPTY_NBT_TAG = "empty_crystal";
     public static final String EMPTY_ID_NBT_TAG = "empty_id";
 
-    public static void writeScanningResearchToNBT(@NotNull CompoundTag stackCompound, @NotNull ItemStack Scanned, int dataTier, int dataCrystal) {
+    public record DataCrystal(
+                              String data,
+                              int serial,
+                              int tier,
+                              int crystal) {}
+
+    /**
+     * 向物品NBT写入扫描数据（物品）
+     */
+    public static void writeScanningResearchToNBT(@NotNull CompoundTag stackCompound, @NotNull ItemStack scanned, int dataTier, int dataCrystal) {
         CompoundTag compound = new CompoundTag();
-        String ScanningId = itemStackToString(Scanned);
-        int Serial = generateSerialId(ScanningId, dataTier, dataCrystal);
-        compound.putString(SCANNING_ID_NBT_TAG, ScanningId);
-        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
+        String scanningId = itemStackToString(scanned);
+        int serial = generateSerialId(scanningId);
+        compound.putString(SCANNING_ID_NBT_TAG, scanningId);
+        compound.putInt(SCANNING_SERIAL_NBT_TAG, serial);
         stackCompound.put(SCANNING_NBT_TAG, compound);
-        ScanningMap.put(Serial, ScanningId);
+        scanningMap.put(serial, new DataCrystal(scanningId, serial, dataTier, dataCrystal));
     }
 
-    public static void writeScanningResearchToNBT(@NotNull CompoundTag stackCompound, @NotNull FluidStack Scanned, int dataTier, int dataCrystal) {
+    /**
+     * 向物品NBT写入扫描数据（流体）
+     */
+    public static void writeScanningResearchToNBT(@NotNull CompoundTag stackCompound, @NotNull FluidStack scanned, int dataTier, int dataCrystal) {
         CompoundTag compound = new CompoundTag();
-        String ScanningId = fluidStackToString(Scanned);
-        int Serial = generateSerialId(ScanningId, dataTier, dataCrystal);
-        compound.putString(SCANNING_ID_NBT_TAG, ScanningId);
-        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
+        String scanningId = fluidStackToString(scanned);
+        int serial = generateSerialId(scanningId);
+        compound.putString(SCANNING_ID_NBT_TAG, scanningId);
+        compound.putInt(SCANNING_SERIAL_NBT_TAG, serial);
         stackCompound.put(SCANNING_NBT_TAG, compound);
-        ScanningMap.put(Serial, ScanningId);
+        scanningMap.put(serial, new DataCrystal(scanningId, serial, dataTier, dataCrystal));
     }
 
-    public static void writeAnalyzeResearchToMap(String AnalyzeId, int dataTier, int dataCrystal) {
-        int Serial = generateSerialId(AnalyzeId, dataTier, dataCrystal);
-        AnalyzeMap.put(Serial, AnalyzeId);
+    /**
+     * 写入分析数据到Map
+     */
+    public static void writeAnalyzeResearchToMap(String analyzeId, int dataTier, int dataCrystal) {
+        int serial = generateSerialId(analyzeId);
+        analyzeMap.put(serial, new DataCrystal(analyzeId, serial, dataTier, dataCrystal));
     }
 
-    public static ItemStack getDataCrystal(int Serial) {
-        var data = DataCrystalMap.get(ExtractDataCrystal(Serial)).getDefaultInstance();
-        String AnalyzeId;
-        if ((AnalyzeId = AnalyzeMap.get(Serial)) != null) {
-            CompoundTag stackCompound = data.getOrCreateTag();
-            CompoundTag compound = new CompoundTag();
-            compound.putString(ANALYZE_ID_NBT_TAG, AnalyzeId);
-            compound.putInt(ANALYZE_SERIAL_NBT_TAG, Serial);
-            stackCompound.put(ANALYZE_NBT_TAG, compound);
-            return data;
-        } else if ((AnalyzeId = ScanningMap.get(Serial)) != null) {
-            CompoundTag stackCompound = data.getOrCreateTag();
-            CompoundTag compound = new CompoundTag();
-            compound.putString(SCANNING_ID_NBT_TAG, AnalyzeId);
-            compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
-            stackCompound.put(SCANNING_NBT_TAG, compound);
-            return data;
+    /**
+     * 根据序列号生成带数据的晶体物品
+     */
+    public static ItemStack getDataCrystal(int serial) {
+        DataCrystal analyzeData = analyzeMap.get(serial);
+        if (analyzeData != null) {
+            return createCrystalWithData(analyzeData, ANALYZE_NBT_TAG, ANALYZE_ID_NBT_TAG, ANALYZE_SERIAL_NBT_TAG);
         }
-        CompoundTag stackCompound = data.getOrCreateTag();
-        CompoundTag compound = new CompoundTag();
-        compound.putString(SCANNING_ID_NBT_TAG, "§m unknown §r");
-        compound.putInt(SCANNING_SERIAL_NBT_TAG, Serial);
-        stackCompound.put(SCANNING_NBT_TAG, compound);
-        return data;
+        DataCrystal scanningData = scanningMap.get(serial);
+        if (scanningData != null) {
+            return createCrystalWithData(scanningData, SCANNING_NBT_TAG, SCANNING_ID_NBT_TAG, SCANNING_SERIAL_NBT_TAG);
+        }
+        Item defaultCrystal = DataCrystalMap.getOrDefault(1, GTOItems.DATA_CRYSTAL_MK1.asItem());
+        ItemStack unknownStack = defaultCrystal.getDefaultInstance();
+        CompoundTag unknownTag = unknownStack.getOrCreateTag();
+        CompoundTag dataTag = new CompoundTag();
+        dataTag.putString(SCANNING_ID_NBT_TAG, "§m unknown §r");
+        dataTag.putInt(SCANNING_SERIAL_NBT_TAG, serial);
+        unknownTag.put(SCANNING_NBT_TAG, dataTag);
+        return unknownStack;
     }
 
-    public static ItemStack getEmptyCrystal(int tire) {
-        var data = DataCrystalMap.get(tire).getDefaultInstance();
-        CompoundTag stackCompound = data.getOrCreateTag();
-        CompoundTag compound = new CompoundTag();
-        compound.putInt(EMPTY_ID_NBT_TAG, 0);
-        stackCompound.put(EMPTY_NBT_TAG, compound);
-        return data;
+    /**
+     * 生成指定等级的空晶体
+     */
+    public static ItemStack getEmptyCrystal(int tier) {
+        Item crystalItem = DataCrystalMap.getOrDefault(tier, GTOItems.DATA_CRYSTAL_MK1.asItem());
+        ItemStack emptyStack = crystalItem.getDefaultInstance();
+        CompoundTag stackTag = emptyStack.getOrCreateTag();
+        CompoundTag emptyTag = new CompoundTag();
+        emptyTag.putInt(EMPTY_ID_NBT_TAG, 0);
+        stackTag.put(EMPTY_NBT_TAG, emptyTag);
+        return emptyStack;
     }
 
+    /**
+     * 将物品栈转换为唯一字符串ID
+     */
     public static String itemStackToString(@NotNull ItemStack stack) {
         ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(stack.getItem());
         return stack.getCount() + "i-" + itemId.getNamespace() + "-" + itemId.getPath();
     }
 
+    /**
+     * 将流体栈转换为唯一字符串ID
+     */
     public static String fluidStackToString(@NotNull FluidStack stack) {
         ResourceLocation fluidId = ForgeRegistries.FLUIDS.getKey(stack.getFluid());
         return stack.getAmount() + "f-" + fluidId.getNamespace() + "-" + fluidId.getPath();
     }
 
     /**
-     * 使用FNV-1a算法生成压缩序列号（6位哈希 + 2位前缀）
-     *
-     * @param scanningId  输入字符串
-     * @param dataTier    层级标识 (0-15)
-     * @param dataCrystal 数据标识 (0-15)
-     * @return 32位整数，高8位为(tier+dataCrystal)，低24位为压缩哈希
+     * 生成序列号：仅基于dataId的FNV哈希（保证唯一性）
      */
-    private static int generateSerialId(String scanningId, int dataTier, int dataCrystal) {
+    private static int generateSerialId(String dataId) {
         int hash = FNV_OFFSET_BASIS;
-        byte[] bytes = scanningId.getBytes(StandardCharsets.UTF_8);
-
+        byte[] bytes = dataId.getBytes(StandardCharsets.UTF_8);
         for (byte b : bytes) {
             hash ^= (b & 0xFF);
             hash *= FNV_PRIME;
         }
-
-        int prefix = ((dataTier & 0x0F) << 4) | (dataCrystal & 0x0F);
-
-        return (prefix << 24) | (hash & 0xFFFFFF);
+        return hash;
     }
 
-    public static int ExtractDataTier(int serialId) {
-        return (serialId >>> 28) & 0x0F;
-    }
-
-    public static int ExtractDataCrystal(int serialId) {
-        return (serialId >>> 24) & 0x0F;
+    /**
+     * 辅助方法：根据DataCrystal生成带NBT数据的晶体物品
+     */
+    private static ItemStack createCrystalWithData(DataCrystal data, String nbtTag, String idTag, String serialTag) {
+        Item crystalItem = DataCrystalMap.getOrDefault(data.crystal(), GTOItems.DATA_CRYSTAL_MK1.asItem());
+        ItemStack crystalStack = crystalItem.getDefaultInstance();
+        CompoundTag stackTag = crystalStack.getOrCreateTag();
+        CompoundTag dataTag = new CompoundTag();
+        dataTag.putString(idTag, data.data());
+        dataTag.putInt(serialTag, data.serial());
+        stackTag.put(nbtTag, dataTag);
+        return crystalStack;
     }
 }

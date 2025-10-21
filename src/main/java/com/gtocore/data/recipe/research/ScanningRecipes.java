@@ -17,7 +17,7 @@ public final class ScanningRecipes {
         /// input 需要输入输入被扫描的物品或流体Stack, 数据等级(0-15), 晶片等级(1-5)
         /// EUt 消耗电量
         /// 扫描仪需要输入一个时间 .duration
-        /// 基元扫描需要输入一个算力消耗 .CWUt(16) 或 .CWUt(16,2048) 和一个催化剂 .catalyst
+        /// 基元扫描需要输入一个算力消耗 .CWUt( ) 或 .CWUt( , ) 和一个催化剂 .catalyst
         DataCrystalConstruction.buildDataCrystal(false)
                 .input(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Naquadah, 1), 1, 1)
                 .EUt(VA[IV])

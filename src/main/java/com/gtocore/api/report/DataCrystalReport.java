@@ -26,9 +26,10 @@ public class DataCrystalReport {
         report.append("|   扫描 ID  | 数据等级 | 介质等级 |    扫描物    |   数量   |\n  ");
         report.append("|-----------|--------|---------|-------------|---------|\n  ");
 
-        for (var entry : ScanningMap.int2ObjectEntrySet()) {
+        for (var entry : scanningMap.int2ObjectEntrySet()) {
             int serial = entry.getIntKey();
-            String scanningId = entry.getValue();
+            DataCrystal dataCrystal = entry.getValue();
+            String scanningId = dataCrystal.data();
             String[] parts = scanningId.split("-", 3);
             String countPart = parts[0];
             int count = Integer.parseInt(countPart.substring(0, countPart.length() - 1));
@@ -38,7 +39,7 @@ public class DataCrystalReport {
                 Item item = getItem(parts[1], parts[2]);
                 ItemStack stack = new ItemStack(item, 1);
                 String scanningThing = "item  - " + stack.getHoverName().getString();
-                report.append(String.format("|0x%08X|%d|%d|%s|%d|\n  ", serial, ExtractDataTier(serial), ExtractDataCrystal(serial), scanningThing, count));
+                report.append(String.format("|0x%08X|%d|%d|%s|%d|\n  ", serial, dataCrystal.tier(), dataCrystal.crystal(), scanningThing, count));
                 continue;
             }
 
@@ -51,7 +52,7 @@ public class DataCrystalReport {
                 else if (parts[2].contains("plasma")) fluidState = "等离子态 ";
                 else fluidState = "";
                 String scanningThing = "fluid - " + fluidState + I18n.get(fluid.getFluidType().getDescriptionId());
-                report.append(String.format("|0x%08X|%d|%d|%s|%d|\n  ", serial, ExtractDataTier(serial), ExtractDataCrystal(serial), scanningThing, count));
+                report.append(String.format("|0x%08X|%d|%d|%s|%d|\n  ", serial, dataCrystal.tier(), dataCrystal.crystal(), scanningThing, count));
             }
         }
 
@@ -61,10 +62,11 @@ public class DataCrystalReport {
         report.append("|   研究 ID  | 数据等级 | 介质等级 |    研究名    |\n  ");
         report.append("|-----------|--------|---------|-------------|\n  ");
 
-        for (var entry : AnalyzeMap.int2ObjectEntrySet()) {
+        for (var entry : analyzeMap.int2ObjectEntrySet()) {
             int serial = entry.getIntKey();
-            String analyzeId = "data." + entry.getValue();
-            report.append(String.format("|0x%08X|%d|%d|%s|\n  ", serial, ExtractDataTier(serial), ExtractDataCrystal(serial), I18n.get(analyzeId)));
+            DataCrystal dataCrystal = entry.getValue();
+            String analyzeId = "gtocore.data." + dataCrystal.data();
+            report.append(String.format("|0x%08X|%d|%d|%s|\n  ", serial, dataCrystal.tier(), dataCrystal.crystal(), I18n.get(analyzeId)));
         }
 
         try {

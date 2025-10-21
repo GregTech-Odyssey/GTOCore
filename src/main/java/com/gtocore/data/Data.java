@@ -151,7 +151,7 @@ public final class Data {
         Temporary.init();
         if (GTCEu.isDev()) {
             ScanningRecipes.init();
-            AnalyzeData.init();
+            AnalyzeData.INSTANCE.init();
             if (true) {
                 AnalyzeRecipes.init();
                 DataGenerateRecipe.init();

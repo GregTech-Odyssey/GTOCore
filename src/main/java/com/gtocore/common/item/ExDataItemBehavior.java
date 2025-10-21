@@ -1,5 +1,8 @@
 package com.gtocore.common.item;
 
+import com.gtocore.api.lang.ComponentListSupplier;
+import com.gtocore.data.recipe.research.AnalyzeData;
+
 import com.gtolib.api.item.tool.IExDataItem;
 import com.gtolib.utils.RLUtils;
 
@@ -80,10 +83,11 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
             tooltip.add(Component.translatable("gtocore.tooltip.item.analyze_serial",
                     Component.literal(String.format("%08X", serial)).withStyle(ChatFormatting.YELLOW)));
 
-            String tooltipKey = "gtocore.data." + analyzeId + ".tooltip";
-            String localized = I18n.get(tooltipKey);
-            if (!localized.equals(tooltipKey)) tooltip.add(Component.translatable("- " + localized));
-
+            ComponentListSupplier tooltipSupplier = AnalyzeData.INSTANCE.getTooltip(analyzeId);
+            if (tooltipSupplier != null) {
+                List<Component> researchComponents = tooltipSupplier.get();
+                tooltip.addAll(researchComponents);
+            }
         }
     }
 
