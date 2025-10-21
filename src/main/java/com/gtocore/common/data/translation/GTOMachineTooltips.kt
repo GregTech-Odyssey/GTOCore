@@ -443,7 +443,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("photovoltaic_plant")
 
         section(RunningRequirements)
-        function("根据维度和天气输出EU或魔力" translatedTo "Output EU or Mana based on dimensions and weather")
+        function("维度和天气决定输出功率" translatedTo "Calculate power output based on dimension and weather")
         command("在空间站运行时可保持最大功率，但需提供每秒功率/4mB的蒸馏水保持运行" translatedTo "The space station can maintain full power operation, requires a distilled water supply of Power/4 mB per second")
 
         section(ComponentSlang.RecommendedUseAs("生产魔力" translatedTo "mana production"))
