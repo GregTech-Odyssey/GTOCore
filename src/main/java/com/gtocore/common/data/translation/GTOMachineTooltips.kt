@@ -811,16 +811,12 @@ object GTOMachineTooltips {
         setTranslationPrefix("slaughterhouse")
 
         section("电动刷怪塔，自动杀怪" translatedTo "Electric Spawner, automatically kills mobs")
-        increase("电压等级每高出MV1级，每次处理次数+8" translatedTo "Voltage tier above MV1 increases the number of processes by 8 each time")
+        increase("电压等级每高出LV1级，每次处理次数x3" translatedTo "Voltage tier above LV1 increases the number of processes x3")
+        info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
         content("如果在机器GUI内放置了电动刷怪笼则只会刷出刷怪笼里的内容" translatedTo "If an electric spawner is placed in the machine GUI, only the contents of the spawner will spawn")
-        info("实体生成模式为玩家击杀的实际掉落，性能较差，可获取经验" translatedTo "Entity generation mode is based on actual drops from player kills, performance is lower, can gain experience")
-        info("非实体生成模式为虚拟掉落，如果存在刷怪笼则使用并行处理" translatedTo "Non-entity generation mode is virtual drops; if a spawner exists, it uses parallel processing")
-
-        increase("当设置电路为3号电路时，启用专业屠宰模式" translatedTo "When the circuit is set to circuit 3, the professional slaughter mode is enabled")
-        command("此时将不会继续生成生物，你或许需要自己将生物送进去" translatedTo "No more creatures will be spawned at this time, you may need to send the creatures in yourself")
         content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
-        info("每次最多能击杀20个生物" translatedTo "A maximum of 20 creatures can be killed each time")
+        info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")
     }
 
     // 基岩钻机

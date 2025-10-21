@@ -26,10 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ExportBusPart.class)
 public abstract class ExportBusPartMixin extends IOBusPart implements ICraftingRequester {
@@ -51,17 +47,6 @@ public abstract class ExportBusPartMixin extends IOBusPart implements ICraftingR
 
     protected ExportBusPartMixin(TickRates tickRates, @Nullable AEKeyFilter filter, IPartItem<?> partItem) {
         super(tickRates, filter, partItem);
-    }
-
-    @Unique
-    private int gtolib$delay = 0;
-
-    @Inject(method = "attemptCrafting", at = @At("HEAD"), remap = false, cancellable = true)
-    private void attemptCrafting(StackTransferContext context, ICraftingService cg, int slotToExport, AEKey what, CallbackInfo ci) {
-        if (gtolib$delay == 0) {
-            gtolib$delay = 20;
-            ci.cancel();
-        } else gtolib$delay--;
     }
 
     /**

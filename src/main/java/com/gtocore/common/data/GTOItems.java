@@ -331,16 +331,16 @@ public final class GTOItems {
             .model(NonNullBiConsumer.noop())
             .register();
 
-    public static final ItemEntry<Item> COMMAND_WAND = item("command_wand", "命令权杖", Item::new)
+    public static final ItemEntry<Item> COMMAND_WAND = item("command_wand", "命令权杖")
             .properties(p -> p.stacksTo(1))
             .model(NonNullBiConsumer.noop())
             .register();
 
-    public static final ItemEntry<Item> GRINDBALL_SOAPSTONE = item("grindball_soapstone", "皂石研磨球", Item::new)
+    public static final ItemEntry<Item> GRINDBALL_SOAPSTONE = item("grindball_soapstone", "皂石研磨球")
             .properties(p -> p.stacksTo(1).defaultDurability(50))
             .register();
 
-    public static final ItemEntry<Item> GRINDBALL_ALUMINIUM = item("grindball_aluminium", "铝研磨球", Item::new)
+    public static final ItemEntry<Item> GRINDBALL_ALUMINIUM = item("grindball_aluminium", "铝研磨球")
             .properties(p -> p.stacksTo(1).defaultDurability(100))
             .register();
 
@@ -867,7 +867,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> HIGH_PURITY_SINGLE_CRYSTAL_SILICON = register("high_purity_single_crystal_silicon", "超高纯单晶硅");
     public static final ItemEntry<Item> HIGH_PURITY_SILICA_COLUMN = register("high_purity_silica_column", "高纯二氧化硅柱");
     public static final ItemEntry<Item> HIGH_PURITY_SILICA_TUBE = register("high_purity_silica_tube", "高纯二氧化硅管");
-    public static final ItemEntry<Item> SIMPLE_OPTICAL_FIBER_PREFORM = item("simple_optical_fiber_preform", "简易光纤预制棒", Item::new)
+    public static final ItemEntry<Item> SIMPLE_OPTICAL_FIBER_PREFORM = item("simple_optical_fiber_preform", "简易光纤预制棒")
             .properties(p -> p.stacksTo(1)).register();
     public static final ItemEntry<Item> SIMPLE_FIBER_OPTIC_ROUGH = register("simple_fiber_optic_rough", "简易光纤粗胚");
     public static final ItemEntry<Item> SIMPLE_FIBER_OPTIC = register("simple_fiber_optic", "简易光纤");
@@ -880,13 +880,13 @@ public final class GTOItems {
 
     public static final ItemEntry<Item> COLORFUL_MYSTICAL_FLOWER = register("colorful_mystical_flower", "多彩神秘花瓣");
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
-    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = item("unstable_gaia_soul", "不稳定的盖亚之魂", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
-    public static final ItemEntry<Item> WILDEN_SLATE = item("wilden_slate", "荒野石板", Item::new).properties(p -> p.rarity(Rarity.EPIC)).register();
+    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = item("unstable_gaia_soul", "不稳定的盖亚之魂").properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+    public static final ItemEntry<Item> WILDEN_SLATE = item("wilden_slate", "荒野石板").properties(p -> p.rarity(Rarity.EPIC)).register();
     public static final ItemEntry<Item> HELIO_COAL = register("helio_coal", "日耀煤");
     public static final ItemEntry<Item> ENDER_DIAMOND = register("ender_diamond", "末影钻石");
     public static final ItemEntry<Item> RIBBON = register("ribbon", "绶带");
-    public static final ItemEntry<Item> GOLD_MEDAL = item("gold_medal", "金制勋章", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
-    public static final ItemEntry<Item> HEROS_SOUL = item("heros_soul", "英雄之魂", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+    public static final ItemEntry<Item> GOLD_MEDAL = item("gold_medal", "金制勋章").properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+    public static final ItemEntry<Item> HEROS_SOUL = item("heros_soul", "英雄之魂").properties(p -> p.rarity(Rarity.UNCOMMON)).register();
 
     @SuppressWarnings("unchecked")
     public static final ItemEntry<Item> PHILOSOPHERS_STONE = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("philosophers_stone", "贤者之石", p -> new Item(p) {
@@ -991,28 +991,28 @@ public final class GTOItems {
     public static final ItemEntry<UpgradeModuleItem> SPEED_UPGRADE_MODULE = item("speed_upgrade_module", "速度升级模块", UpgradeModuleItem::new).register();
     public static final ItemEntry<UpgradeModuleItem> ENERGY_UPGRADE_MODULE = item("energy_upgrade_module", "能量升级模块", UpgradeModuleItem::new).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_FILE = item("disposable_file", "一次性锉刀", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_FILE = item("disposable_file", "一次性锉刀")
             .tag(CustomTags.CRAFTING_FILES).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_WRENCH = item("disposable_wrench", "一次性扳手", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_WRENCH = item("disposable_wrench", "一次性扳手")
             .tag(CustomTags.CRAFTING_WRENCHES).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_CROWBAR = item("disposable_crowbar", "一次性撬棍", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_CROWBAR = item("disposable_crowbar", "一次性撬棍")
             .tag(CustomTags.CRAFTING_CROWBARS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_WIRE_CUTTER = item("disposable_wire_cutter", "一次性剪线钳", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_WIRE_CUTTER = item("disposable_wire_cutter", "一次性剪线钳")
             .tag(CustomTags.CRAFTING_WIRE_CUTTERS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_HAMMER = item("disposable_hammer", "一次性锤子", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_HAMMER = item("disposable_hammer", "一次性锤子")
             .tag(CustomTags.CRAFTING_HAMMERS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_MALLET = item("disposable_mallet", "一次性软锤", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_MALLET = item("disposable_mallet", "一次性软锤")
             .tag(CustomTags.CRAFTING_MALLETS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_SCREWDRIVER = item("disposable_screwdriver", "一次性螺丝刀", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_SCREWDRIVER = item("disposable_screwdriver", "一次性螺丝刀")
             .tag(CustomTags.CRAFTING_SCREWDRIVERS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_SAW = item("disposable_saw", "一次性锯子", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_SAW = item("disposable_saw", "一次性锯子")
             .tag(CustomTags.CRAFTING_SAWS).register();
 
     public static final ItemEntry<Item> DISPOSABLE_FILE_MOLD = register("disposable_file_mold", "一次性锉刀模具");
@@ -1049,13 +1049,13 @@ public final class GTOItems {
     // 原子级聚丙烯腈原丝
     // 预氧化原子级聚丙烯腈原丝
     // 石墨化原子级聚丙烯腈原丝
-    public static final ItemEntry<Item> MICRON_PAN_FIBER = item("micron_pan_fiber", "微米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
-    public static final ItemEntry<Item> PREOXIDIZED_MICRON_PAN_FIBER = item("preoxidized_micron_pan_fiber", "预氧化微米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
-    public static final ItemEntry<Item> NANO_PAN_FIBER = item("nano_pan_fiber", "纳米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
-    public static final ItemEntry<Item> PREOXIDIZED_NANO_PAN_FIBER = item("preoxidized_nano_pan_fiber", "预氧化纳米级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
-    public static final ItemEntry<Item> ATOMIC_PAN_FIBER = item("atomic_pan_fiber", "原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
-    public static final ItemEntry<Item> PREOXIDIZED_ATOMIC_PAN_FIBER = item("preoxidized_atomic_pan_fiber", "预氧化原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
-    public static final ItemEntry<Item> GRAPHITIZED_ATOMIC_PAN_FIBER = item("graphitized_atomic_pan_fiber", "石墨化原子级聚丙烯腈原丝", Item::new).model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> MICRON_PAN_FIBER = item("micron_pan_fiber", "微米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_MICRON_PAN_FIBER = item("preoxidized_micron_pan_fiber", "预氧化微米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> NANO_PAN_FIBER = item("nano_pan_fiber", "纳米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_NANO_PAN_FIBER = item("preoxidized_nano_pan_fiber", "预氧化纳米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> ATOMIC_PAN_FIBER = item("atomic_pan_fiber", "原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_ATOMIC_PAN_FIBER = item("preoxidized_atomic_pan_fiber", "预氧化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> GRAPHITIZED_ATOMIC_PAN_FIBER = item("graphitized_atomic_pan_fiber", "石墨化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
 
     // 能量控制模块mk123
     public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK1 = register("energy_control_module_mk1", "能量控制模块 MK-I");
@@ -1101,7 +1101,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
-    public static final ItemEntry<ComponentItem> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计", ComponentItem::create)
+    public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
             .register();
 }
