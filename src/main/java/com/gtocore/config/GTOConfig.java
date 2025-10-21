@@ -156,6 +156,12 @@ public final class GTOConfig {
     public boolean disableMufflerPart = false;
 
     @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Recipe Duration Multiplier", cn = "配方时间乘数")
+    @Configurable.Comment({ "修改它可能会导致部分机器运行异常，开发人员不对此负责", "Modify it may cause some machines to malfunction, developer is not responsible for this" })
+    @Configurable.DecimalRange(min = 0.01, max = 10)
+    public double recipeDurationMultiplier = 1.0;
+
+    @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
     @Configurable.Comment({ "在装配线模式编码带有重命名物品的样板时使用的默认名字", "The default name used when encoding patterns with renamed items in assembly line mode" })
     public String renamePatternDefaultString = "";

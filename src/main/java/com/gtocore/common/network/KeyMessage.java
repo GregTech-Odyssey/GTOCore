@@ -32,18 +32,18 @@ final class KeyMessage {
         float speed = IEnhancedPlayer.of(player).getPlayerData().flySpeedAble;
         if (speed == 0F) return;
         CompoundTag data = player.getPersistentData();
-        int speedFactor = data.getInt("fly_speed");
+        int speedFactor = data.getInt("fly_speed") + 1;
         if (player.isShiftKeyDown()) {
             player.getAbilities().setFlyingSpeed(0.05F);
             player.onUpdateAbilities();
             player.displayClientMessage(Component.translatable("gtocore.fly_speed_reset"), true);
-            data.putInt("fly_speed", 1);
+            data.remove("fly_speed");
         } else {
             float currentSpeed = player.getAbilities().getFlyingSpeed();
             if (currentSpeed < speed) {
                 player.getAbilities().setFlyingSpeed(0.05F * speedFactor);
                 player.onUpdateAbilities();
-                data.putInt("fly_speed", speedFactor + 1);
+                data.putInt("fly_speed", speedFactor);
                 player.displayClientMessage(Component.translatable("gtocore.fly_speed", (speedFactor + 1)), true);
             } else {
                 player.displayClientMessage(Component.translatable("gtocore.reach_limit"), true);

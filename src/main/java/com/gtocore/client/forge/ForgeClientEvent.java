@@ -16,7 +16,7 @@ import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
+import com.gregtechceu.gtceu.core.ILevel;
 import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.client.Camera;
@@ -178,7 +178,7 @@ public final class ForgeClientEvent {
                         RenderHelper.highlightBlock(camera, poseStack, color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, entry.getKey().start, entry.getKey().end);
                     });
             if (ClientCache.machineNotFormedHighlight) {
-                MultiblockControllerMachine.HIGHLIGHT_CACHE.forEach(p -> {
+                ((ILevel) level).gtceu$getHighlightCache().forEach(p -> {
                     var pos = BlockPos.of(p);
                     RenderHelper.highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos);
                 });

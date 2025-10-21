@@ -936,7 +936,7 @@ public final class MultiBlockH {
                 if (m instanceof ITierCasingMachine tm) {
                     r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(BlockMap.hermetic_casing)), 1);
                 }
-                return r;
+                return RecipeModifierFunction.overclocking(m, RecipeModifierFunction.hatchParallel(m, r));
             })
             .block(GTOBlocks.COMPRESSOR_CONTROLLER_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -967,9 +967,10 @@ public final class MultiBlockH {
     // 纺丝机
     public static final MultiblockMachineDefinition FIBER_EXTRUDER = multiblock("fiber_extruder", "纺丝机", CoilCustomParallelMultiblockMachine.createParallelCoil(m -> 1L << (long) (m.getTemperature() / 900.0D), true, true, true))
             .nonYAxisRotation()
-            .parallelizableTooltips()
+            .coilParallelTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getFiberExtruderTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.FIBER_EXTRUSION_RECIPES)
+            .overclock()
             .block(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAAA", "ABBBA", "ABBBA", "AAAAA", "     ")
@@ -999,7 +1000,6 @@ public final class MultiBlockH {
     // 砖窑
     public static final MultiblockMachineDefinition BRICK_KILN = multiblock("brick_kiln", "砖窑", NoEnergyMultiblockMachine::new)
             .nonYAxisRotation()
-            .parallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getBrickKilnTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.BRICK_FURNACE_RECIPES)
             .block(GTBlocks.CASING_PRIMITIVE_BRICKS)
