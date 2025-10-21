@@ -739,6 +739,13 @@ public class CompositeMaterialsProcessing {
                 .EUt(8388608)
                 .duration(2500)
                 .save();
+        SINTERING_FURNACE_RECIPES.builder("titanium_dioxide_nanotube_reinfor3ce1d_titanium_matrix_composite_block")
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.OxideDispersionStrengthenedNickelBaseSuperalloy)
+                .outputItems(GTOTagPrefix.block, GTOMaterials.OxideDispersionStrengthenedNickelBaseSuperalloy)
+                .EUt(528200)
+                .blastFurnaceTemp(14200)
+                .duration(500)
+                .save();
 
         REACTION_FURNACE_RECIPES.builder("aluminum_nitride_dust")
                 .inputItems(GTOTagPrefix.dust, GTOMaterials.Alumina)

@@ -655,7 +655,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             checkGroup = 0;
             saveGroup = 0;
-            return presets.get(0);
+            return presets.getFirst();
         }
     }
 
@@ -665,7 +665,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             checkId = 0;
             saveId = 0;
-            return getPlatformPreset(group).structures().get(0);
+            return getPlatformPreset(group).structures().getFirst();
         }
     }
 

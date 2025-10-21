@@ -35,12 +35,10 @@
     ]
   },
     "ldlib": {
-        "emissive": true
+        "emissive": true,
+      "connection": "gtocore:block/coil/infinity_coil_block_ctm"
     },
     "shimmer": {
         "bloom": true
-    },
-    "ldlib": {
-        "connection": "gtocore:block/coil/infinity_coil_block_ctm"
-  }
+    }
 }

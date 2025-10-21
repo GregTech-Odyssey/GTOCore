@@ -81,10 +81,61 @@ public final class GTOBlocks {
             .build()
             .register();
 
-    public static final BlockEntry<Block> BLAZE_CASING = createCasingBlock("blaze_casing", "烈焰机械方块", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
-            () -> RenderType::cutoutMipped);
-    public static final BlockEntry<Block> COLD_ICE_CASING = createCasingBlock("cold_ice_casing", "寒冰机械方块", NonNullBiConsumer.noop(), Block::new, () -> Blocks.IRON_BLOCK,
-            () -> RenderType::cutoutMipped);
+    public static final BlockEntry<Block> BLAZE_CASING = createTwoLayerCasingBlock(
+            "blaze_casing",
+            "烈焰机械方块",
+            GTOCore.id("block/casings/blaze_casing"),
+            GTOCore.id("block/casings/blaze_casing_bloom"));
+    public static final BlockEntry<Block> COLD_ICE_CASING = createTwoLayerCasingBlock(
+            "cold_ice_casing",
+            "寒冰机械方块",
+            GTOCore.id("block/casings/cold_ice_casing"),
+            GTOCore.id("block/casings/cold_ice_casing_bloom"));
+    public static final BlockEntry<Block> MOLECULAR_CASING = createTwoLayerCasingBlock(
+            "molecular_casing",
+            "分子机械方块",
+            GTOCore.id("block/casings/molecular_casing"),
+            GTOCore.id("block/casings/molecular_casing_bloom"));
+    public static final BlockEntry<Block> OPTICAL_RESONANCE_CHAMBER = createTwoLayerCasingBlock(
+            "optical_resonance_chamber",
+            "光学谐振仓",
+            GTOCore.id("block/casings/optical_resonance_chamber"),
+            GTOCore.id("block/casings/optical_resonance_chamber_bloom"));
+    public static final BlockEntry<Block> DIMENSIONAL_STABILITY_CASING = createTwoLayerCasingBlock(
+            "dimensional_stability_casing",
+            "维度稳定方块",
+            GTOCore.id("block/dimensional_stability_casing"),
+            GTOCore.id("block/dimensional_stability_casing_bloom"));
+    public static final BlockEntry<Block> ACCELERATOR_PARTICLE_CONSTRAINED_CASING = createTwoLayerCasingBlock(
+            "accelerator_particle_constrained_casing",
+            "加速器粒子约束机械方块",
+            GTOCore.id("block/casings/accelerator/accelerator_particle_constrained_casing"),
+            GTOCore.id("block/casings/accelerator/accelerator_particle_constrained_casing_bloom"));
+    public static final BlockEntry<Block> ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING = createTwoLayerCasingBlock(
+            "accelerator_magnetic_constrained_rail_casing",
+            "加速器磁约束磁轨机械方块",
+            GTOCore.id("block/casings/accelerator/accelerator_magnetic_constrained_rail_casing"),
+            GTOCore.id("block/casings/accelerator/accelerator_magnetic_constrained_rail_casing_bloom"));
+    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_LUV = createTwoLayerCasingBlock(
+            "accelerator_rf_chamber_casing_luv",
+            "LuV加速器射频仓体机械方块",
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_luv"),
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_luv_bloom"));
+    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_ZPM = createTwoLayerCasingBlock(
+            "accelerator_rf_chamber_casing_zpm",
+            "ZPM加速器射频仓体机械方块",
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_zpm"),
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_zpm_bloom"));
+    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_UV = createTwoLayerCasingBlock(
+            "accelerator_rf_chamber_casing_uv",
+            "UV加速器射频仓体机械方块",
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_uv"),
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_uv_bloom"));
+    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_UHV = createTwoLayerCasingBlock(
+            "accelerator_rf_chamber_casing_uhv",
+            "UHV加速器射频仓体机械方块",
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_uhv"),
+            GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_uhv_bloom"));
 
     public static final BlockEntry<Block> LAW_FILTER_CASING = createCleanroomFilter();
 
@@ -287,7 +338,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> HIGH_ENERGY_LASER_EMITTER = createCasingBlock("high_energy_laser_emitter", "高能激光发射器", GTOCore.id("block/high_energy_laser_emitter"));
     public static final BlockEntry<Block> SPACETIME_COMPRESSION_FIELD_GENERATOR = createCasingBlock("spacetime_compression_field_generator", "压缩时空力场发生器", GTOCore.id("block/spacetime_compression_field_generator"));
     public static final BlockEntry<Block> DIMENSIONAL_BRIDGE_CASING = createCasingBlock("dimensional_bridge_casing", "维度桥接方块", GTOCore.id("block/dimensional_bridge_casing"));
-    public static final BlockEntry<Block> DIMENSIONAL_STABILITY_CASING = createCasingBlock("dimensional_stability_casing", "维度稳定方块", GTOCore.id("block/dimensional_stability_casing"));
     public static final BlockEntry<Block> MACHINE_CASING_CIRCUIT_ASSEMBLY_LINE = createCasingBlock("machine_casing_circuit_assembly_line", "电路装配线控制外壳", GTOCore.id("block/machine_casing_circuit_assembly_line"));
     public static final BlockEntry<Block> HIGH_STRENGTH_CONCRETE = createCasingBlock("high_strength_concrete", "高强度混凝土", GTOCore.id("block/casings/space_elevator_module_base/side"));
     public static final BlockEntry<Block> AGGREGATIONE_CORE = createCasingBlock("aggregatione_core", "聚合核心", GTOCore.id("block/aggregatione_core"));
@@ -313,7 +363,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> CREATE_CASING = createCasingBlock("create_casing", "创造机械方块", GTOCore.id("block/casings/create_casing"));
     public static final BlockEntry<Block> SUPERCRITICAL_TURBINE_CASING = createCasingBlock("supercritical_turbine_casing", "超临界涡轮机械方块", GTOCore.id("block/casings/supercritical_turbine_casing"));
     public static final BlockEntry<Block> RED_STEEL_CASING = createCasingBlock("red_steel_casing", "高气密红钢机器外壳", GTOCore.id("block/casings/red_steel_casing"));
-    public static final BlockEntry<Block> MOLECULAR_CASING = createCasingBlock("molecular_casing", "分子机械方块", GTOCore.id("block/casings/molecular_casing"));
     public static final BlockEntry<Block> MULTI_FUNCTIONAL_CASING = createCasingBlock("multi_functional_casing", "多功能机械方块", GTOCore.id("block/casings/multi_functional_casing"));
     public static final BlockEntry<Block> INCONEL_625_CASING = createCasingBlock("inconel_625_casing", "防震镍铬基合金-625机器外壳", GTOCore.id("block/casings/inconel_625_casing"));
     public static final BlockEntry<Block> HASTELLOY_N_75_CASING = createCasingBlock("hastelloy_n_75_casing", "哈斯特洛依合金-N75防水机器外壳", GTOCore.id("block/casings/hastelloy_n_75_casing"));
@@ -430,16 +479,9 @@ public final class GTOBlocks {
 
     public static final BlockEntry<GlowingBlock>[] STAR_STONE = createStarStone();
 
-    public static final BlockEntry<Block> ACCELERATOR_PARTICLE_CONSTRAINED_CASING = createCasingBlock("accelerator_particle_constrained_casing", "加速器粒子约束机械方块", GTOCore.id("block/casings/accelerator/accelerator_particle_constrained_casing"));
     public static final BlockEntry<Block> ACCELERATOR_PROTECTION_CASING = createCasingBlock("accelerator_protection_casing", "加速器防护机械方块", GTOCore.id("block/casings/accelerator/accelerator_protection_casing"));
     public static final BlockEntry<Block> ACCELERATOR_OBSERVATION_GLASS = createGlassCasingBlock("accelerator_observation_glass", "加速器观察玻璃", GTOCore.id("block/casings/accelerator/accelerator_observation_glass"));
-    public static final BlockEntry<Block> ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING = createCasingBlock("accelerator_magnetic_constrained_rail_casing", "加速器磁约束磁轨机械方块", GTOCore.id("block/casings/accelerator/accelerator_magnetic_constrained_rail_casing"));
     public static final BlockEntry<Block> ACCELERATOR_PARTICLE_INSTANT_CONDENSATION_CASING = createCasingBlock("accelerator_particle_instant_condensation_casing", "加速器线圈冷凝机械方块", GTOCore.id("block/casings/accelerator/accelerator_particle_instant_condensation_casing"));
-
-    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_LUV = createCasingBlock("accelerator_rf_chamber_casing_luv", "LuV加速器射频仓体机械方块", GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_luv"));
-    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_ZPM = createCasingBlock("accelerator_rf_chamber_casing_zpm", "ZPM加速器射频仓体机械方块", GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_zpm"));
-    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_UV = createCasingBlock("accelerator_rf_chamber_casing_uv", "UV加速器射频仓体机械方块", GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_uv"));
-    public static final BlockEntry<Block> ACCELERATOR_RF_CHAMBER_CASING_UHV = createCasingBlock("accelerator_rf_chamber_casing_uhv", "UHV加速器射频仓体机械方块", GTOCore.id("block/casings/accelerator/accelerator_rf_chamber_casing_uhv"));
 
     public static final BlockEntry<Block> ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_LUV = createCasingBlock("accelerator_electromagnetic_coil_constraint_casing_luv", "LuV加速器磁约束线圈机械方块", GTOCore.id("block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_luv"));
     public static final BlockEntry<Block> ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_ZPM = createCasingBlock("accelerator_electromagnetic_coil_constraint_casing_zpm", "ZPM加速器磁约束线圈机械方块", GTOCore.id("block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_zpm"));
@@ -467,8 +509,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> PRECISION_PROCESSING_MECHANICAL_CASING = createCasingBlock("precision_processing_mechanical_casing", "精密加工机械方块", GTOCore.id("block/casings/precision_processing_mechanical_casing"));
     // 宇宙探测接收器物质射线吸收阵面
     public static final BlockEntry<Block> COSMIC_DETECTION_RECEIVER_MATERIAL_RAY_ABSORBING_ARRAY = createCasingBlock("cosmic_detection_receiver_material_ray_absorbing_array", "宇宙探测接收器物质射线吸收阵面", GTOCore.id("block/casings/cosmic_detection_receiver_material_ray_absorbing_array"));
-    // 光学谐振仓
-    public static final BlockEntry<Block> OPTICAL_RESONANCE_CHAMBER = createCasingBlock("optical_resonance_chamber", "光学谐振仓", GTOCore.id("block/casings/optical_resonance_chamber"));
     // 真空室防护外壳
     public static final BlockEntry<Block> VACUUM_CHAMBER_PROTECTION_CASING = createCasingBlock("vacuum_chamber_protection_casing", "真空室防护外壳", GTOCore.id("block/casings/vacuum_chamber/vacuum_chamber_protection_casing"));
     // 真空室观察玻璃
