@@ -72,12 +72,12 @@ public final class DataAnalysisRecipeBuilder {
         var build = DATA_ANALYSIS_RECIPES.recipeBuilder(dataCrystal.data());
         build
                 .notConsumable(catalyst)
-                .inputItems(getEmptyCrystal(crystalTire))
+                .inputItems(EmptyDataCrystalMap.get(crystalTire))
                 .notConsumable(getDataCrystal(inputData));
         for (int i = 0; i < outputData.length; i++)
             build.chancedOutput(getDataCrystal(outputData[i]), chance[i], 0);
         build
-                .chancedOutput(getDataCrystal(ErrorDataMap.get(crystalTire)), 2000, 0)
+                .chancedOutput(ErrorDataCrystalMap.get(crystalTire), 2000, 0)
                 .EUt(eut)
                 .CWUt(cwut)
                 .totalCWU(totalCWU)

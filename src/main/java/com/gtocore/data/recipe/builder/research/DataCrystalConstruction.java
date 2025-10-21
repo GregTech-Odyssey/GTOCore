@@ -3,7 +3,6 @@ package com.gtocore.data.recipe.builder.research;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -24,7 +23,7 @@ public final class DataCrystalConstruction {
     private ItemStack itemStack;
     private FluidStack fluidStack;
     private int dataTier;
-    private Item dataItem;
+    private ItemStack dataItem;
     private int dataCrystal;
 
     private final Boolean recipe;
@@ -42,7 +41,7 @@ public final class DataCrystalConstruction {
         this.itemStack = itemStack;
         this.dataTier = dataTier;
         this.dataCrystal = dataCrystal;
-        this.dataItem = DataCrystalMap.get(dataCrystal);
+        this.dataItem = getDataCrystalItem(dataCrystal);
         return this;
     }
 
@@ -52,7 +51,7 @@ public final class DataCrystalConstruction {
         this.fluidStack = fluidStack;
         this.dataTier = dataTier;
         this.dataCrystal = dataCrystal;
-        this.dataItem = DataCrystalMap.get(dataCrystal);
+        this.dataItem = getDataCrystalItem(dataCrystal);
         ItemStack cell = GTItems.FLUID_CELL.asStack(amount);
         CompoundTag fluidTag = cell.getOrCreateTag();
         CompoundTag fluid = new CompoundTag();
@@ -95,7 +94,7 @@ public final class DataCrystalConstruction {
         if (dataItem == null) throw new IllegalStateException("Missing data crystal");
         if (dataCrystal < 1 || dataCrystal > 5) throw new IllegalStateException("DataCrystal Out of index");
 
-        var dataStack = dataItem.getDefaultInstance();
+        var dataStack = dataItem;
         if (fluidStack != null) {
             ExResearchManager.writeScanningResearchToNBT(dataStack.getOrCreateTag(), fluidStack, dataTier, dataCrystal);
         } else if (itemStack != null) {
@@ -107,7 +106,7 @@ public final class DataCrystalConstruction {
         if (recipe == null) return;
         if (!recipe) {
             SCANNER_RECIPES.recipeBuilder(itemStackToString(itemStack))
-                    .inputItems(getEmptyCrystal(dataCrystal))
+                    .inputItems(EmptyDataCrystalMap.get(dataCrystal))
                     .inputItems(itemStack)
                     .outputItems(dataStack)
                     .duration(duration)
@@ -118,7 +117,7 @@ public final class DataCrystalConstruction {
             if (catalyst == null) throw new IllegalStateException("Catalyst input required");
             CRYSTAL_SCAN_RECIPES.recipeBuilder(itemStackToString(itemStack))
                     .notConsumable(catalyst)
-                    .inputItems(getEmptyCrystal(dataCrystal))
+                    .inputItems(EmptyDataCrystalMap.get(dataCrystal))
                     .inputItems(itemStack)
                     .outputItems(dataStack)
                     .EUt(eut)

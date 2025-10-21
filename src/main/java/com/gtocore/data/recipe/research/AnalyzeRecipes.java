@@ -44,7 +44,7 @@ public final class AnalyzeRecipes {
                 .inputData(0x38181C20)
                 .inputData(0x3A181F46)
                 .inputData(0x3C18226C)
-                .outputData(0x3D1823FF, 5000)
+                .outputData(0x03B31AA9, 5000)
                 .EUt(VA[LuV])
                 .CWUt(16)
                 .save();
