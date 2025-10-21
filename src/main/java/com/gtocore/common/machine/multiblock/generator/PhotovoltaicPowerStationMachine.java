@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.generator;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.forge.ForgeClientEvent;
+import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
@@ -40,7 +41,6 @@ import net.minecraft.world.level.block.Block;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import earth.terrarium.adastra.api.planets.PlanetApi;
-import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -68,11 +68,16 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
 
     private int refreshSky = 0;
     private boolean canSeeSky;
+    private IdleReason idleReason = null;
 
     @DescSynced
-    private BlockPos highlightStartPos = BlockPos.ZERO;
+    private BlockPos highlightStartPos_1 = BlockPos.ZERO;
     @DescSynced
-    private BlockPos highlightEndPos = BlockPos.ZERO;
+    private BlockPos highlightEndPos_1 = BlockPos.ZERO;
+    @DescSynced
+    private BlockPos highlightStartPos_2 = BlockPos.ZERO;
+    @DescSynced
+    private BlockPos highlightEndPos_2 = BlockPos.ZERO;
 
     public PhotovoltaicPowerStationMachine(MetaMachineBlockEntity holder, int basicRate, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock) {
         super(holder, 64, i -> i.getItem() == BotaniaBlocks.motifDaybloom.asItem());
@@ -105,43 +110,60 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     }
 
     private boolean canSeeSky(Level level) {
+        BlockPos pos;
         if (isInSpace()) {
-            if (getFrontFacing().getAxis() != Direction.Axis.Y) {
+            if (getFrontFacing().getAxis() == Direction.Axis.Y) {
                 setIdleReason(INCORRECT_DIRECTION_VOLTA);
+                idleReason = INCORRECT_DIRECTION_VOLTA;
                 return false;
             }
-            BlockPos pos = getPos().above();
-            Direction facing = getUpwardsFacing();
-            boolean permuteXZ = facing.getAxis() == Direction.Axis.Z;
-            int z = !BooleanUtils.xor(new boolean[] { isFlipped(), (getFrontFacing() == Direction.UP) }) ? -11 : 11;
-            z *= (facing == Direction.SOUTH || facing == Direction.EAST) ? 1 : -1;
-            pos = pos.offset(permuteXZ ? -z : 0, 0, permuteXZ ? 0 : z);
-            highlightStartPos = pos.offset(permuteXZ ? -7 : -2, 0, permuteXZ ? -2 : -7);
-            highlightEndPos = pos.offset(permuteXZ ? 7 : 2, 0, permuteXZ ? 2 : 7);
-            for (int x0 = highlightStartPos.getX(); x0 <= highlightEndPos.getX(); x0++) {
-                for (int z0 = highlightStartPos.getZ(); z0 <= highlightEndPos.getZ(); z0++) {
-                    BlockPos checkPos = new BlockPos(x0, pos.getY(), z0);
-                    if (!level.canSeeSky(checkPos)) {
-                        setIdleReason(OBSTRUCTED_VOLTA);
-                        return false;
-                    }
-                }
+            pos = MachineUtils.getOffsetPos(-11, 0, 0, getFrontFacing(), getPos());
+            Direction upwards = getFrontFacing();
+            boolean permuteXZ = upwards.getAxis() == Direction.Axis.Z;
+            if (permuteXZ) {
+                highlightStartPos_1 = pos.offset(-1, 0, -7);
+                highlightEndPos_1 = pos.offset(1, 0, -1);
+                highlightStartPos_2 = pos.offset(-1, 0, 1);
+                highlightEndPos_2 = pos.offset(1, 0, 7);
+            } else {
+                highlightStartPos_1 = pos.offset(-7, 0, -1);
+                highlightEndPos_1 = pos.offset(-1, 0, 1);
+                highlightStartPos_2 = pos.offset(1, 0, -1);
+                highlightEndPos_2 = pos.offset(7, 0, 1);
             }
         } else {
             if (getFrontFacing().getAxis() == Direction.Axis.Y || getUpwardsFacing() != Direction.NORTH) {
                 setIdleReason(INCORRECT_DIRECTION_VOLTA);
+                idleReason = INCORRECT_DIRECTION_VOLTA;
                 return false;
             }
-            BlockPos pos = MachineUtils.getOffsetPos(1, 5, getFrontFacing(), getPos());
-            highlightStartPos = pos.offset(-3, 0, -3);
-            highlightEndPos = pos.offset(3, 0, 3);
-            for (int i = -3; i < 4; i++) {
-                for (int j = -3; j < 4; j++) {
-                    if (!level.canSeeSky(pos.offset(i, 0, j))) {
-                        setIdleReason(OBSTRUCTED_VOLTA);
-                        return false;
-                    }
-                }
+            pos = MachineUtils.getOffsetPos(1, 4, getFrontFacing(), getPos());
+            Direction upwards = getFrontFacing();
+            boolean permuteXZ = upwards.getAxis() == Direction.Axis.Z;
+            if (permuteXZ) {
+                highlightStartPos_1 = pos.offset(-3, 0, 1);
+                highlightEndPos_1 = pos.offset(3, 0, 2);
+                highlightStartPos_2 = pos.offset(-3, 0, -2);
+                highlightEndPos_2 = pos.offset(3, 0, -1);
+            } else {
+                highlightStartPos_1 = pos.offset(1, 0, -3);
+                highlightEndPos_1 = pos.offset(2, 0, 3);
+                highlightStartPos_2 = pos.offset(-2, 0, -3);
+                highlightEndPos_2 = pos.offset(-1, 0, 3);
+            }
+        }
+        for (BlockPos checkPos : BlockPos.betweenClosed(highlightStartPos_1, highlightEndPos_1)) {
+            if (!level.canSeeSky(new BlockPos(checkPos.getX(), pos.getY() + 1, checkPos.getZ()))) {
+                setIdleReason(OBSTRUCTED_VOLTA);
+                idleReason = OBSTRUCTED_VOLTA;
+                return false;
+            }
+        }
+        for (BlockPos checkPos : BlockPos.betweenClosed(highlightStartPos_2, highlightEndPos_2)) {
+            if (!level.canSeeSky(new BlockPos(checkPos.getX(), pos.getY() + 1, checkPos.getZ()))) {
+                setIdleReason(OBSTRUCTED_VOLTA);
+                idleReason = OBSTRUCTED_VOLTA;
+                return false;
             }
         }
         return true;
@@ -164,7 +186,10 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 this.canSeeSky = canSeeSky = canSeeSky(level);
                 refreshSky = 10;
             }
-            if (!canSeeSky) return null;
+            if (!canSeeSky) {
+                setIdleReason(idleReason);
+                return null;
+            }
             int eut;
             int basic = (int) (basic_rate * PlanetApi.API.getSolarPower(level));
             if (PlanetApi.API.isSpace(level)) {
@@ -242,26 +267,26 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
 
     public static BlockPattern getPatternInSpace(MultiblockMachineDefinition definition, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock) {
         return FactoryBlockPattern.start(definition)
-                .aisle("AAAAA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("AAAAA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("ABBBA")
-                .aisle("AAAAA")
-                .aisle("C   C")
-                .aisle("CC CC")
                 .aisle(" CDC ")
+                .aisle("CC CC")
+                .aisle("C   C")
+                .aisle("AAAAA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("AAAAA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("ABBBA")
+                .aisle("AAAAA")
                 .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Aluminium)))
                 .where('B', blocks(photovoltaicBlock.get()))
                 .where('C', blocks(casing.get())
@@ -305,7 +330,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 .where('o', FLUID_IMPORT_HATCH[HV], Direction.UP)
                 .where('p', CONTROL_HATCH, Direction.UP)
                 .where('q', MAINTENANCE_HATCH, Direction.UP)
-                .where('D', definition, Direction.WEST)
+                .where('D', definition.defaultBlockState())
                 .where(' ', AIR)
                 .build();
     }
@@ -323,7 +348,9 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
 
     @Override
     public List<ForgeClientEvent.HighlightNeed> getCustomHighlights() {
-        return List.of(new ForgeClientEvent.HighlightNeed(highlightStartPos, highlightEndPos, ChatFormatting.YELLOW.getColor()));
+        return List.of(
+                new ForgeClientEvent.HighlightNeed(highlightStartPos_1, highlightEndPos_1, ChatFormatting.YELLOW.getColor()),
+                new ForgeClientEvent.HighlightNeed(highlightStartPos_2, highlightEndPos_2, ChatFormatting.YELLOW.getColor()));
     }
 
     @Override
