@@ -1,9 +1,6 @@
 package com.gtocore.common.forge;
 
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOCommands;
-import com.gtocore.common.data.GTOEffects;
-import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.*;
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gtocore.common.network.ServerMessage;
@@ -47,6 +44,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -55,6 +53,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -67,14 +66,17 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.MissingMappingsEvent;
 
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import org.apache.logging.log4j.core.config.Configurator;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -365,6 +367,21 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.asItem());
             }
         });
+    }
+
+    @SubscribeEvent
+    public static void registerTrades(VillagerTradesEvent event) {
+        if (event.getType() == GTOVillagerRegistry.EXOTIC_TRADER.get()) {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+            List<VillagerTrades.ItemListing> level1 = trades.get(1);
+            List<VillagerTrades.ItemListing> level2 = trades.get(2);
+            List<VillagerTrades.ItemListing> level3 = trades.get(3);
+            List<VillagerTrades.ItemListing> level4 = trades.get(4);
+            List<VillagerTrades.ItemListing> level5 = trades.get(5);
+
+            level1.add(new BasicItemListing(10, GTOOrganItems.INSTANCE.getFAIRY_WING().asStack(), 1, 16, 2));
+
+        }
     }
 
     // ===================== CLIENT ONLY HOOKS =====================

@@ -6,6 +6,7 @@ import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.forge.ForgeCommonEvent;
+import com.gtocore.common.forge.GTOVillagerRegistry;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
@@ -74,6 +75,8 @@ public class CommonProxy {
         GTOFluids.FLUID_TYPE.register(eventBus);
         GTOFluids.FLUID.register(eventBus);
         GTOEffects.init(eventBus);
+        GTOVillagerRegistry.POIs.register(eventBus);
+        GTOVillagerRegistry.VILLAGERS.register(eventBus);
         eventBus.addListener(CommonProxy::commonSetup);
         eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);

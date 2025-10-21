@@ -1,6 +1,7 @@
 package com.gtocore.data;
 
 import com.gtocore.data.lang.LangHandler;
+import com.gtocore.data.tag.GtoPoiTypeTagsProvider;
 import com.gtocore.data.tag.TagsHandler;
 
 import com.gtolib.GTOCore;
@@ -12,6 +13,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -39,8 +41,10 @@ public final class Datagen {
     public static void onGatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         CompletableFuture<HolderLookup.Provider> future = event.getLookupProvider();
+        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         if (event.includeServer()) {
             generator.addProvider(true, new DatapackBuiltinEntriesProvider(generator.getPackOutput(), future, DAMAGE_TYPES_BUILDER, Set.of("minecraft", GTOCore.MOD_ID)));
+            generator.addProvider(true, new GtoPoiTypeTagsProvider(generator.getPackOutput(), future, existingFileHelper));
         }
     }
 }
