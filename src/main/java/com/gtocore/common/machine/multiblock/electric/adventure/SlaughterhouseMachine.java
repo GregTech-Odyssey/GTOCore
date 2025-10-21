@@ -33,6 +33,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import appeng.util.Platform;
@@ -166,6 +167,29 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         super.customText(textList);
         textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
         textList.add(Component.translatable("gtocore.machine.slaughterhouse.active_weapon", activeWeapon.getDisplayName()));
+    }
+
+    @Override
+    public boolean onWorking() {
+        if (getLevel() instanceof ServerLevel serverLevel && getOffsetTimer() % 200 == 0) {
+            var blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());
+            List<Entity> entities = serverLevel.getEntitiesOfClass(Entity.class, new AABB(
+                    blockPos.getX() - 3.5,
+                    blockPos.getY() - 1,
+                    blockPos.getZ() - 3.5,
+                    blockPos.getX() + 3.5,
+                    blockPos.getY() + 6,
+                    blockPos.getZ() + 3.5));
+
+            for (Entity entity : entities) {
+                if (entity instanceof LivingEntity) {
+                    entity.hurt(getDamageSource(serverLevel, getFakePlayer(serverLevel)), attackDamage);
+                } else {
+                    entity.kill();
+                }
+            }
+        }
+        return super.onWorking();
     }
 
     @Nullable
