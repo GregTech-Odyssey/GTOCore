@@ -154,5 +154,7 @@ final class ItemLang {
         addCNEN("item.gtocore.globe.earth", "地球仪的球体", "Earth Globe Sphere");
 
         addCNEN("tooltip.item.pattern.uuid", "编码者：%s", "Encoded by: %s");
+
+        addCNEN("tooltip.item.reward_bag.fortune", "时运每级增加奖励次数", "Each level of fortune increases the number of rewards");
     }
 }

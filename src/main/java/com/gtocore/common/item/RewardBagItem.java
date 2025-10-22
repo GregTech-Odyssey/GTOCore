@@ -24,79 +24,47 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * 1.20.1 Forge 兼容版奖励袋物品，支持时运附魔（运行时根据时运等级增加抽奖次数）
- */
 public class RewardBagItem extends Item {
 
     public static final String TAG_LOOT_TABLE = "LootTable";
-    private final ResourceLocation defaultLootTable; // 关联的战利品表ID
+    private final ResourceLocation defaultLootTable;
 
-    // 构造函数：初始化物品属性并绑定默认战利品表
     public RewardBagItem(Properties properties, ResourceLocation defaultLootTable) {
         super(properties
-                .stacksTo(64)
+                .stacksTo(16)
                 .rarity(Rarity.UNCOMMON));
         this.defaultLootTable = defaultLootTable;
     }
 
-    /**
-     * 核心：允许物品被时运附魔
-     */
-    @Override
-    public boolean canApplyAtEnchantingTable(@NotNull ItemStack stack, @NotNull Enchantment enchantment) {
-        return enchantment == Enchantments.BLOCK_FORTUNE;
-    }
-
-    /**
-     * 确保物品可被附魔
-     */
-    @Override
-    public boolean isEnchantable(@NotNull ItemStack stack) {
-        return true;
-    }
-
-    /**
-     * 打开奖励袋逻辑：根据时运等级增加额外抽奖次数
-     */
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack bagStack = player.getItemInHand(usedHand);
         if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
             // 获取关联的战利品表
             ResourceLocation lootTableId = getLootTableId(bagStack);
-            if (lootTableId == null) {
-                return InteractionResultHolder.fail(bagStack);
-            }
+            if (lootTableId == null) return InteractionResultHolder.fail(bagStack);
             LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(lootTableId);
-            if (lootTable == LootTable.EMPTY) {
-                return InteractionResultHolder.fail(bagStack);
-            }
+            if (lootTable == LootTable.EMPTY) return InteractionResultHolder.fail(bagStack);
 
-            // 1. 计算消耗数量（Shift+右键消耗全部）
+            // 1. 计算消耗数量
             int consumeCount = player.isShiftKeyDown() ? bagStack.getCount() : 1;
-            if (!player.isCreative()) {
-                bagStack.shrink(consumeCount);
-            }
+            if (!player.isCreative()) bagStack.shrink(consumeCount);
 
-            // 2. 获取时运等级（从奖励袋自身附魔中读取）
-            int fortuneLevel = getFortuneLevel(bagStack);
+            // 2. 获取时运奖励
+            int fortuneRewards = 1 << getFortuneLevel(bagStack);
 
-            // 3. 计算总抽奖次数：基础次数（消耗数量） + 额外次数（消耗数量 × 时运等级）
-            int bonusRolls = consumeCount * fortuneLevel;
-            int totalRolls = consumeCount + bonusRolls;
+            // 3. 计算总抽奖次数：消耗数量 × 时运奖励
+            int totalRolls = consumeCount * fortuneRewards;
 
             // 4. 构建战利品上下文
             LootParams params = new LootParams.Builder(serverLevel)
                     .withParameter(LootContextParams.THIS_ENTITY, player)
                     .withParameter(LootContextParams.ORIGIN, player.position())
-                    .withParameter(LootContextParams.TOOL, bagStack) // 传入自身（冗余但兼容之前逻辑）
                     .create(LootContextParamSets.CHEST);
 
             // 5. 执行总次数的抽奖
             for (int i = 0; i < totalRolls; i++) {
-                lootTable.getRandomItems(params, player.getLootTableSeed(),
-                        item -> Objects.requireNonNull(player.spawnAtLocation(item)).setNoPickUpDelay());
+                lootTable.getRandomItems(params, player.getLootTableSeed(), item -> Objects.requireNonNull(player.spawnAtLocation(item)).setNoPickUpDelay());
             }
 
             // 播放打开音效
@@ -107,24 +75,20 @@ public class RewardBagItem extends Item {
         return InteractionResultHolder.consume(bagStack);
     }
 
-    /**
-     * 物品 tooltip：显示时运提示和额外次数规则
-     */
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        ResourceLocation lootTableId = getLootTableId(stack);
-        if (lootTableId != null) {
-            tooltip.add(Component.literal("战利品表: " + lootTableId).withStyle(ChatFormatting.GRAY));
-        }
-        // 明确提示时运与额外次数的关系
-        tooltip.add(Component.literal("时运每级增加等量额外奖励").withStyle(ChatFormatting.BLUE));
-        int fortuneLevel = getFortuneLevel(stack);
-        if (fortuneLevel > 0) {
-            tooltip.add(Component.translatable("enchantment.minecraft.block_fortune")
-                    .append(" " + fortuneLevel)
-                    .withStyle(ChatFormatting.GREEN));
-        }
+        tooltip.add(Component.translatable("tooltip.item.reward_bag.fortune").withStyle(ChatFormatting.BLUE));
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(@NotNull ItemStack stack, @NotNull Enchantment enchantment) {
+        return enchantment == Enchantments.BLOCK_FORTUNE;
+    }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return true;
     }
 
     /**
@@ -140,9 +104,7 @@ public class RewardBagItem extends Item {
     @Nullable
     public ResourceLocation getLootTableId(ItemStack stack) {
         String tableKey = stack.getOrCreateTag().getString(TAG_LOOT_TABLE);
-        if (!tableKey.isEmpty()) {
-            return ResourceLocation.tryParse(tableKey);
-        }
+        if (!tableKey.isEmpty()) return ResourceLocation.tryParse(tableKey);
         return defaultLootTable;
     }
 }

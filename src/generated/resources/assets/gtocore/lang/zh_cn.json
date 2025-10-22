@@ -7365,5 +7365,6 @@
   "tooltip.ad_astra.unknown_tag": "§c未知标签§r: %s",
   "tooltip.gtocore.hold_for_more": "§1按住 %s 显示更多信息。§r",
   "tooltip.item.pattern.uuid": "编码者：%s",
+  "tooltip.item.reward_bag.fortune": "时运每级增加奖励次数",
   "tooltip.jade.current_gravity": "当前重力: %s"
 }

@@ -7363,5 +7363,6 @@
   "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
   "tooltip.gtocore.hold_for_more": "§1Hold %s for more info.§r",
   "tooltip.item.pattern.uuid": "Encoded by: %s",
+  "tooltip.item.reward_bag.fortune": "Each level of fortune increases the number of rewards",
   "tooltip.jade.current_gravity": "Current Gravity: %s"
 }

@@ -1104,6 +1104,12 @@ public final class GTOItems {
             .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
             .register();
 
+    public static ItemEntry<RewardBagItem> registerRewardBag(String id ,String en,String cn) {
+        return item("id", "cn", p -> new RewardBagItem(p, GTOCore.id("reward_bags/" + id)))
+                .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+                .register();
+    }
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())

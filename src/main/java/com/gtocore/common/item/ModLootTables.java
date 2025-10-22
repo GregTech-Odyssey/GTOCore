@@ -32,15 +32,14 @@ import static com.gtolib.utils.RegistriesUtils.getItem;
 public class ModLootTables implements LootTableSubProvider {
 
     // 战利品表ID
-    public static final ResourceLocation VIER_REWARD_BAG = GTOCore.id("reward_bags/vier");
-    public static final ResourceLocation NINE_AND_THREE_QUARTERS = GTOCore.id("reward_bags/nine_and_three_quarters");
     public static final ResourceLocation ADVENTURER_BAG = GTOCore.id("reward_bags/adventurer");
-    public static final ResourceLocation BASIC_RESOURCES = GTOCore.id("common/basic_resources");
-    // 替换为1.20.1中存在的vanilla战利品表（废弃矿井）
-    public static final ResourceLocation VANILLA_DUNGEON_REFERENCE = new ResourceLocation("minecraft:chests/bastion_treasure");
+    public static final ResourceLocation BASIC_RESOURCES = GTOCore.id("reward_bags/basic_resources");
 
-    // 必要的战利品表集合
-    private static final Set<ResourceLocation> REQUIRED_TABLES = Sets.newHashSet(BASIC_RESOURCES);
+    // 必要的战利品表集合：包含所有引用的外部表
+    // 数据生成器会验证这些表是否存在，若不存在则报错
+    // TODO 不知道为什么为什么无法引用其他模组包括 MC本体的战利品表
+    private static final Set<ResourceLocation> REQUIRED_TABLES = Sets.newHashSet(
+            BASIC_RESOURCES);
 
     @SubscribeEvent
     public static void onGatherData(GatherDataEvent event) {
@@ -54,27 +53,22 @@ public class ModLootTables implements LootTableSubProvider {
                 new net.minecraft.data.loot.LootTableProvider(
                         event.getGenerator().getPackOutput(),
                         REQUIRED_TABLES,
-                        subProviders));
+                        subProviders
+                ));
     }
 
     @Override
     public void generate(BiConsumer<ResourceLocation, LootTable.Builder> registrar) {
         registrar.accept(BASIC_RESOURCES, createBasicResourcesTable());
-        registrar.accept(VIER_REWARD_BAG, createVierLootTable());
-        registrar.accept(NINE_AND_THREE_QUARTERS, createNineAndThreeQuartersLootTable());
         registrar.accept(ADVENTURER_BAG, createAdventurerLootTable());
     }
 
-    /**
-     * 修复：将minecraft:wooden_planks替换为实际存在的橡木木板
-     */
     private LootTable.Builder createBasicResourcesTable() {
         LootPool.Builder pool = LootPool.lootPool()
                 .setRolls(UniformGenerator.between(2, 4))
                 .setBonusRolls(ConstantValue.exactly(0));
 
         pool.add(getLootItemWithRange(getItem("minecraft:stone"), 60, 3, 6));
-        // 替换为minecraft:oak_planks（橡木木板，1.20.1中存在）
         pool.add(getLootItemWithRange(getItem("minecraft:oak_planks"), 50, 2, 5));
         pool.add(getLootItemWithRange(getItem("minecraft:coal"), 45, 1, 4));
         pool.add(getLootItemWithRange(getItem("minecraft:iron_nugget"), 40, 2, 8));
@@ -85,77 +79,32 @@ public class ModLootTables implements LootTableSubProvider {
                 .setParamSet(LootContextParamSets.EMPTY);
     }
 
-    private LootTable.Builder createVierLootTable() {
-        LootPool.Builder pool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
-                .setBonusRolls(ConstantValue.exactly(0));
-
-        pool.add(getLootItem(getItem("minecraft:coal"), 40, 6));
-        pool.add(getLootItem(getItem("minecraft:iron_ingot"), 36, 4));
-        pool.add(getLootItem(getItem("minecraft:gold_ingot"), 24, 4));
-        pool.add(getLootItem(getItem("minecraft:redstone"), 22, 8));
-        pool.add(getLootItem(getItem("minecraft:ender_pearl"), 20, 4));
-        pool.add(getLootItem(getItem("minecraft:diamond"), 18, 1));
-        pool.add(getLootItem(getItem("botania:blacker_lotus"), 16, 2));
-        pool.add(getLootItem(getItem("botania:overgrowth_seed"), 12, 1));
-        pool.add(getLootItem(getItem("extrabotany:void_archives"), 1, 1));
-
-        return LootTable.lootTable()
-                .withPool(pool)
-                .setRandomSequence(VIER_REWARD_BAG)
-                .setParamSet(LootContextParamSets.EMPTY);
-    }
-
-    private LootTable.Builder createNineAndThreeQuartersLootTable() {
-        LootPool.Builder pool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
-                .setBonusRolls(ConstantValue.exactly(0));
-
-        pool.add(getLootItem(getItem("extrabotany:hero_medal"), 1, 1));
-        pool.add(getLootItem(getItem("extrabotany:eins_reward_bag"), 30, 16));
-        pool.add(getLootItem(getItem("extrabotany:zwei_reward_bag"), 20, 10));
-        pool.add(getLootItem(getItem("extrabotany:drei_reward_bag"), 10, 6));
-        pool.add(getLootItem(getItem("extrabotany:vier_reward_bag"), 10, 6));
-        pool.add(getLootItem(getItem("botania:gaia_ingot"), 14, 1));
-        pool.add(getLootItem(getItem("botania:life_essence"), 20, 4));
-        pool.add(getLootItem(getItem("extrabotany:challenge_ticket"), 45, 1));
-
-        return LootTable.lootTable()
-                .withPool(pool)
-                .setRandomSequence(NINE_AND_THREE_QUARTERS)
-                .setParamSet(LootContextParamSets.EMPTY);
-    }
-
-    /**
-     * 修复：替换gtocore:adventurer_token为已存在物品，修正引用的vanilla表
-     */
+    // 冒险家用战利品袋表
     private LootTable.Builder createAdventurerLootTable() {
         LootPool.Builder basicPool = LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))
                 .add(getLootTableReference(BASIC_RESOURCES, 100));
 
-        // 引用修正后的vanilla战利品表（废弃矿井）
-        LootPool.Builder dungeonPool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
-                .add(getLootTableReference(VANILLA_DUNGEON_REFERENCE, 80));
+        // 引用mc原版的某个战利品表
+        /// LootPool.Builder dungeonPool = LootPool.lootPool()
+        /// .setRolls(ConstantValue.exactly(1))
+        /// .add(getLootTableReference(VANILLA_DUNGEON_REFERENCE, 80));
 
         LootPool.Builder rarePool = LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))
                 .add(getLootItem(getItem("minecraft:ender_pearl"), 30, 1))
-                // 替换未注册的adventurer_token为minecraft:gold_nugget（临时解决方案）
                 .add(getLootItem(getItem("minecraft:gold_nugget"), 20, 5))
                 .add(getEnchantedLootItem(getItem("minecraft:iron_axe"), 10, 2))
                 .add(getEnchantedLootItem(getItem("minecraft:iron_axe"), 15, 1));
 
         return LootTable.lootTable()
                 .withPool(basicPool)
-                .withPool(dungeonPool)
+                // .withPool(dungeonPool)
                 .withPool(rarePool)
                 .setRandomSequence(ADVENTURER_BAG)
                 .setParamSet(LootContextParamSets.EMPTY);
     }
 
-    // 工具方法（保持不变）
     private LootPoolEntryContainer.Builder<?> getLootItem(Item item, int weight, int count) {
         return LootItem.lootTableItem(item)
                 .setWeight(weight)
