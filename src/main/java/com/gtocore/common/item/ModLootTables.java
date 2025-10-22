@@ -53,8 +53,7 @@ public class ModLootTables implements LootTableSubProvider {
                 new net.minecraft.data.loot.LootTableProvider(
                         event.getGenerator().getPackOutput(),
                         REQUIRED_TABLES,
-                        subProviders
-                ));
+                        subProviders));
     }
 
     @Override

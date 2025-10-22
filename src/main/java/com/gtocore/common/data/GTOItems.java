@@ -1100,12 +1100,11 @@ public final class GTOItems {
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
     public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
 
-    public static final ItemEntry<RewardBagItem> ADVENTURER_BAG = item("adventurer", "冒险家用战利品袋表", p -> new RewardBagItem(p, GTOCore.id("reward_bags/adventurer")))
-            .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
-            .register();
+    public static final ItemEntry<RewardBagItem> ADVENTURER_BAG = registerRewardBag("adventurer", "adventurer", "冒险家用战利品袋表");
 
-    public static ItemEntry<RewardBagItem> registerRewardBag(String id ,String en,String cn) {
-        return item("id", "cn", p -> new RewardBagItem(p, GTOCore.id("reward_bags/" + id)))
+    public static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn) {
+        return item(id, cn, p -> new RewardBagItem(p, GTOCore.id("reward_bags/" + id)))
+                .lang(en)
                 .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
                 .register();
     }
