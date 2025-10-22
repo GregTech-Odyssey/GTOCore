@@ -11,14 +11,14 @@ import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
 
 public final class DataAnalysisRecipeBuilder {
 
-    // 数据分析
     public static DataAnalysisRecipeBuilder buildRecipe() {
         return new DataAnalysisRecipeBuilder();
     }
 
     private int inputData = 0;
     private int[] outputData = {};
-    private int[] chance = {};
+    private int[] outputWeights = {};
+    private int errorWeight = 2000;
 
     private ItemStack catalyst;
     private long eut = VA[LuV];
@@ -35,12 +35,19 @@ public final class DataAnalysisRecipeBuilder {
         return this;
     }
 
-    public DataAnalysisRecipeBuilder outputData(int data, int chance) {
+    public DataAnalysisRecipeBuilder outputData(int data, int weight) {
         if (outputData.length > 5) return this;
+        if (weight < 0) throw new IllegalArgumentException("Output weights cannot be negative");
         this.outputData = Arrays.copyOf(this.outputData, this.outputData.length + 1);
         this.outputData[this.outputData.length - 1] = data;
-        this.chance = Arrays.copyOf(this.chance, this.chance.length + 1);
-        this.chance[this.chance.length - 1] = chance;
+        this.outputWeights = Arrays.copyOf(this.outputWeights, this.outputWeights.length + 1);
+        this.outputWeights[this.outputWeights.length - 1] = weight;
+        return this;
+    }
+
+    public DataAnalysisRecipeBuilder errorWeight(int weight) {
+        if (weight < 0) throw new IllegalArgumentException("错误数据权重不能为负数");
+        this.errorWeight = weight;
         return this;
     }
 
@@ -69,15 +76,30 @@ public final class DataAnalysisRecipeBuilder {
         int crystalTire = dataCrystal.tier();
         if (crystalTire < 0 || crystalTire > 5) throw new IllegalStateException("DataCrystal Out of index");
 
+        int totalWeight = errorWeight;
+        for (int w : outputWeights) totalWeight += w;
+        int[] outputChances = new int[outputWeights.length];
+        int sumNormalized = 0;
+        for (int i = 0; i < outputWeights.length; i++) {
+            outputChances[i] = (int) (((double) outputWeights[i] / totalWeight) * 10000);
+            sumNormalized += outputChances[i];
+        }
+        int errorChance = (int) (((double) errorWeight / totalWeight) * 10000);
+        sumNormalized += errorChance;
+        int difference = 10000 - sumNormalized;
+        if (difference != 0) {
+            if (errorWeight > 0) errorChance += difference;
+            else if (outputWeights.length > 0) outputChances[0] += difference;
+        }
+
         var build = DATA_ANALYSIS_RECIPES.recipeBuilder(dataCrystal.data());
         build
                 .notConsumable(catalyst)
                 .inputItems(EmptyDataCrystalMap.get(crystalTire))
                 .notConsumable(getDataCrystal(inputData));
-        for (int i = 0; i < outputData.length; i++)
-            build.chancedOutput(getDataCrystal(outputData[i]), chance[i], 0);
+        for (int i = 0; i < outputData.length; i++) build.chancedOutput(getDataCrystal(outputData[i]), outputChances[i], 0);
         build
-                .chancedOutput(ErrorDataCrystalMap.get(crystalTire), 2000, 0)
+                .chancedOutput(ErrorDataCrystalMap.get(crystalTire), errorChance, 0)
                 .EUt(eut)
                 .CWUt(cwut)
                 .totalCWU(totalCWU)

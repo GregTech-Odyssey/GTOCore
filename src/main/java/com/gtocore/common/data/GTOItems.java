@@ -1100,6 +1100,10 @@ public final class GTOItems {
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
     public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
 
+    public static final ItemEntry<RewardBagItem> ADVENTURER_BAG = item("adventurer", "冒险家用战利品袋表", p -> new RewardBagItem(p, GTOCore.id("reward_bags/adventurer")))
+            .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+            .register();
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
