@@ -3483,6 +3483,7 @@
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.6.-1581329868": "超頻模塊僅允許安裝一個",
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.7.-284371967": "多方塊預覽中的前三個預覽位分別對應前三級高能模塊安裝後的狀態",
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.8.495261470": "最後一個預覽位對應安裝超頻模塊後的狀態",
+  "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.9.-1520687352": "若高能模塊與超頻模塊存在衝突，請先安裝高能模塊，再安裝超頻模塊",
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor_energy_storage.0.-660993605": " [可安裝模塊擴容]",
   "gtocore.lang.large_alchemical_device.1.-524313294": "激活完美嬗變模式",
   "gtocore.lang.large_alchemical_device.2.461331471": "獲得0.01x耗時減免",

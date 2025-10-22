@@ -32,6 +32,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         command("超频模块仅允许安装一个" translatedTo "Only one overclock module is allowed to be installed")
         info("多方块预览中的前三个预览位分别对应前三级高能模块安装后的状态" translatedTo "The first three preview slots in the multiblock preview correspond to the states after installing the first three high-energy modules")
         info("最后一个预览位对应安装超频模块后的状态" translatedTo "The last preview slot corresponds to the state after installing the overclock module")
+
+        command("若高能模块与超频模块存在冲突，请先安装高能模块，再安装超频模块" translatedTo "If there is a conflict between the high-energy module and the overclock module, please install the high-energy module first, then install the overclock module")
     }
     val KuangbiaoGiantNuclearFusionReactorEnergyStorageTooltip = { eut: Long ->
         ComponentListSupplier {
