@@ -36,6 +36,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
@@ -1100,10 +1101,10 @@ public final class GTOItems {
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
     public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
 
-    public static final ItemEntry<RewardBagItem> ADVENTURER_BAG = registerRewardBag("adventurer", "adventurer", "冒险家用战利品袋表");
+    public static final ItemEntry<RewardBagItem> ADVENTURER = registerRewardBag("adventurer", "adventurer", "冒险家用战利品袋表", GTOLootTables.ADVENTURER_BAG);
 
-    public static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn) {
-        return item(id, cn, p -> new RewardBagItem(p, GTOCore.id("reward_bags/" + id)))
+    public static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn, ResourceLocation rewardBag) {
+        return item(id, cn, p -> new RewardBagItem(p, rewardBag))
                 .lang(en)
                 .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
                 .register();

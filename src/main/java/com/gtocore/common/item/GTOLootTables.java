@@ -29,23 +29,26 @@ import java.util.function.BiConsumer;
 import static com.gtolib.utils.RegistriesUtils.getItem;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModLootTables implements LootTableSubProvider {
+public class GTOLootTables implements LootTableSubProvider {
 
     // 战利品表ID
     public static final ResourceLocation ADVENTURER_BAG = GTOCore.id("reward_bags/adventurer");
     public static final ResourceLocation BASIC_RESOURCES = GTOCore.id("reward_bags/basic_resources");
 
+    private static final ResourceLocation VANILLA_DUNGEON_REFERENCE = new ResourceLocation("minecraft", "chests/simple_dungeon");
     // 必要的战利品表集合：包含所有引用的外部表
     // 数据生成器会验证这些表是否存在，若不存在则报错
     // TODO 不知道为什么为什么无法引用其他模组包括 MC本体的战利品表
     private static final Set<ResourceLocation> REQUIRED_TABLES = Sets.newHashSet(
-            BASIC_RESOURCES);
+            BASIC_RESOURCES
+    // VANILLA_DUNGEON_REFERENCE // 包含引用的外部表，避免生成时报错
+    );
 
     @SubscribeEvent
     public static void onGatherData(GatherDataEvent event) {
         List<net.minecraft.data.loot.LootTableProvider.SubProviderEntry> subProviders = Lists.newArrayList(
                 new net.minecraft.data.loot.LootTableProvider.SubProviderEntry(
-                        ModLootTables::new,
+                        GTOLootTables::new,
                         LootContextParamSets.EMPTY));
 
         event.getGenerator().addProvider(
@@ -84,7 +87,6 @@ public class ModLootTables implements LootTableSubProvider {
                 .setRolls(ConstantValue.exactly(1))
                 .add(getLootTableReference(BASIC_RESOURCES, 100));
 
-        // 引用mc原版的某个战利品表
         /// LootPool.Builder dungeonPool = LootPool.lootPool()
         /// .setRolls(ConstantValue.exactly(1))
         /// .add(getLootTableReference(VANILLA_DUNGEON_REFERENCE, 80));
@@ -93,8 +95,7 @@ public class ModLootTables implements LootTableSubProvider {
                 .setRolls(ConstantValue.exactly(1))
                 .add(getLootItem(getItem("minecraft:ender_pearl"), 30, 1))
                 .add(getLootItem(getItem("minecraft:gold_nugget"), 20, 5))
-                .add(getEnchantedLootItem(getItem("minecraft:iron_axe"), 10, 2))
-                .add(getEnchantedLootItem(getItem("minecraft:iron_axe"), 15, 1));
+                .add(getEnchantedLootItem(getItem("minecraft:iron_axe"), 25, 1));
 
         return LootTable.lootTable()
                 .withPool(basicPool)

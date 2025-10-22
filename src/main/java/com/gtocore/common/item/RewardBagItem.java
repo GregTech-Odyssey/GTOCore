@@ -45,28 +45,22 @@ public class RewardBagItem extends Item {
             if (lootTableId == null) return InteractionResultHolder.fail(bagStack);
             LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(lootTableId);
             if (lootTable == LootTable.EMPTY) return InteractionResultHolder.fail(bagStack);
-
             // 1. 计算消耗数量
             int consumeCount = player.isShiftKeyDown() ? bagStack.getCount() : 1;
             if (!player.isCreative()) bagStack.shrink(consumeCount);
-
             // 2. 获取时运奖励
             int fortuneRewards = 1 << getFortuneLevel(bagStack);
-
             // 3. 计算总抽奖次数：消耗数量 × 时运奖励
             int totalRolls = consumeCount * fortuneRewards;
-
             // 4. 构建战利品上下文
             LootParams params = new LootParams.Builder(serverLevel)
                     .withParameter(LootContextParams.THIS_ENTITY, player)
                     .withParameter(LootContextParams.ORIGIN, player.position())
                     .create(LootContextParamSets.CHEST);
-
             // 5. 执行总次数的抽奖
             for (int i = 0; i < totalRolls; i++) {
-                lootTable.getRandomItems(params, player.getLootTableSeed(), item -> Objects.requireNonNull(player.spawnAtLocation(item)).setNoPickUpDelay());
+                lootTable.getRandomItems(params, serverLevel.getRandom().nextLong(), item -> Objects.requireNonNull(player.spawnAtLocation(item)).setNoPickUpDelay());
             }
-
             // 播放打开音效
             level.playSound(null, player.blockPosition(), SoundEvents.ALLAY_ITEM_GIVEN,
                     SoundSource.PLAYERS, 0.8F, 1.0F);
@@ -83,7 +77,7 @@ public class RewardBagItem extends Item {
 
     @Override
     public boolean canApplyAtEnchantingTable(@NotNull ItemStack stack, @NotNull Enchantment enchantment) {
-        return enchantment == Enchantments.BLOCK_FORTUNE;
+        return enchantment == Enchantments.BLOCK_FORTUNE || enchantment == Enchantments.BLOCK_EFFICIENCY;
     }
 
     @Override
