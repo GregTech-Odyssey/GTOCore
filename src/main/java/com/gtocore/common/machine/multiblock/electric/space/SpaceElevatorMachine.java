@@ -75,7 +75,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     private ServerPlayer player;
 
     protected void update(boolean promptly) {
-        if (promptly || getOffsetTimer() % 40 == 0) {
+        if (promptly || getOffsetTimer() % 80 == 0) {
             moduleCount = 0;
             if (spoolCount < getMaxSpoolCount()) {
                 forEachInputItems((stack, amount) -> {

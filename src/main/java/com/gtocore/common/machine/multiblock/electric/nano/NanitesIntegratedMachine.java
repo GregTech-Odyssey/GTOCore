@@ -143,13 +143,14 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     }
 
     private void update(Level level, boolean immediately) {
-        if (immediately || getOffsetTimer() % 20 == 0 && level != null) poss.forEach(p -> {
+        if (immediately || getOffsetTimer() % 80 == 0 && level != null) poss.forEach(p -> {
             MetaMachine machine = getMachine(level, p);
             if (machine instanceof NanitesModuleMachine moduleMachine && moduleMachine.isFormed()) {
-                if (module.add(moduleMachine.type)) {
+                module.add(moduleMachine.type);
+                if (moduleMachine.nanitesIntegratedMachine != this) {
+                    moduleMachine.getRecipeLogic().updateTickSubscription();
                     getRecipeLogic().updateTickSubscription();
                 }
-                if (moduleMachine.nanitesIntegratedMachine != this) moduleMachine.getRecipeLogic().updateTickSubscription();
                 moduleMachine.nanitesIntegratedMachine = this;
             }
         });
