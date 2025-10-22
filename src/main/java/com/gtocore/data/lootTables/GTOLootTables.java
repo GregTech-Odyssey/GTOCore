@@ -1,4 +1,4 @@
-package com.gtocore.common.item;
+package com.gtocore.data.lootTables;
 
 import com.gtolib.GTOCore;
 
