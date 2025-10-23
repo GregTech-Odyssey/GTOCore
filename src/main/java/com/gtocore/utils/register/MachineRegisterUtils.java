@@ -583,7 +583,7 @@ public final class MachineRegisterUtils {
                     .recipeType(recipeType)
                     .tooltips(Component.translatable("gtocore.machine.mana_eu").withStyle(ChatFormatting.GREEN))
                     .tooltips(Component.translatable("gtceu.machine.perfect_oc").withStyle(ChatFormatting.YELLOW))
-                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(FormattingUtil.formatNumbers(GTOValues.MANA[tier]) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .workableManaTieredHullRenderer(tier, workableModel)
                     .tooltips(workableNoEnergy(recipeType, tankScalingFunction.apply(tier)))
                     .register();
