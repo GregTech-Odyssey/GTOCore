@@ -51,7 +51,7 @@ public class CustomLogicNumberProvider implements NumberProvider {
     }
 
     @Override
-    public int getInt(LootContext context) {
+    public int getInt(@NotNull LootContext context) {
         return getNumberProvider(context).getInt(context);
     }
 

@@ -13,18 +13,18 @@ import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.world.level.storage.loot.functions.SetItemCountFunction.setCount;
 
-public class lootRegistrationTool {
+public class LootRegistrationTool {
 
     /**
      * 创建设定数量的物品战利品条目
      */
-    public static @NotNull LootItem.Builder getLootItem(Item item, int weight, NumberProvider countValue) {
+    public static @NotNull LootItem.Builder<?> getLootItem(Item item, int weight, NumberProvider countValue) {
         return LootItem.lootTableItem(item)
                 .setWeight(weight)
                 .apply(setCount(countValue));
     }
 
-    public static @NotNull LootItem.Builder getLootItem(String item, int weight, NumberProvider countValue) {
+    public static @NotNull LootItem.Builder<?> getLootItem(String item, int weight, NumberProvider countValue) {
         return LootItem.lootTableItem(RegistriesUtils.getItem(item))
                 .setWeight(weight)
                 .apply(setCount(countValue));
@@ -33,7 +33,7 @@ public class lootRegistrationTool {
     /**
      * 创建带随机附魔的物品战利品条目
      */
-    public static @NotNull LootItem.Builder getEnchantedLootItem(Item item, int weight, NumberProvider countValue) {
+    public static @NotNull LootItem.Builder<?> getEnchantedLootItem(Item item, int weight, NumberProvider countValue) {
         return LootItem.lootTableItem(item)
                 .setWeight(weight)
                 .apply(setCount(countValue))
@@ -43,7 +43,7 @@ public class lootRegistrationTool {
     /**
      * 创建引用其他战利品表的条目
      */
-    public static @NotNull LootTableReference.Builder getLootTableReference(ResourceLocation tableId, int weight) {
+    public static @NotNull LootTableReference.Builder<?> getLootTableReference(ResourceLocation tableId, int weight) {
         return LootTableReference.lootTableReference(tableId)
                 .setWeight(weight);
     }

@@ -5,7 +5,6 @@ import com.gtocore.data.lootTables.GTOLootTool.CustomLogicFunction;
 import com.gtocore.data.lootTables.GTOLootTool.CustomLogicNumberProvider;
 
 import com.gtolib.GTOCore;
-import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -21,8 +20,6 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,23 +28,13 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOLoots.addToot;
 import static com.gtocore.common.data.GTOMaterials.RedstoneAlloy;
-import static com.gtocore.data.lootTables.GTOLootTool.lootRegistrationTool.*;
-import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
+import static com.gtocore.data.lootTables.GTOLootTool.LootRegistrationTool.*;
 import static net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly;
 import static net.minecraft.world.level.storage.loot.providers.number.UniformGenerator.between;
 
 public final class RewardBagLoot {
 
-    // 引用的
-    private static final ResourceLocation VANILLA_DUNGEON_REFERENCE = fromNamespaceAndPath("minecraft", "chests/simple_dungeon");
-
-    // 注册的
-    public static final ResourceLocation ADVENTURER_BAG_LOOT = GTOCore.id("reward_bags/adventurer");
-    public static final ResourceLocation BASIC_RESOURCES_LOOT = GTOCore.id("reward_bags/basic_resources");
-
     public static void init() {
-        addToot(BASIC_RESOURCES_LOOT, createBasicResourcesTable());
-        addToot(ADVENTURER_BAG_LOOT, createAdventurerLootTable());
         addToot(LV_REWARD_BAG_LOOT, create_LV_REWARD_BAG_LOOT());
     }
 
@@ -60,7 +47,7 @@ public final class RewardBagLoot {
             }).build();
 
     // 根据时运等级获得稀有物品
-    public static @NotNull LootItem.Builder getLootItemRelyFortune(Item item, int weight, int count) {
+    public static @NotNull LootItem.Builder<?> getLootItemRelyFortune(Item item, int weight, int count) {
         return LootItem.lootTableItem(Items.AIR)
                 .setWeight(weight)
                 .apply(
@@ -138,47 +125,6 @@ public final class RewardBagLoot {
         return LootTable.lootTable()
                 .withPool(pool)
                 .setParamSet(LootContextParamSets.FISHING)
-                .build();
-    }
-
-    // 构建基础资源表
-    private static LootTable createBasicResourcesTable() {
-        LootPool.Builder pool = LootPool.lootPool()
-                .setRolls(UniformGenerator.between(2, 4))
-                .setBonusRolls(ConstantValue.exactly(0))
-                .add(getLootItem("minecraft:stone", 60, between(3, 6)))
-                .add(getLootItem("minecraft:oak_planks", 50, between(2, 5)))
-                .add(getLootItem("minecraft:coal", 45, between(1, 4)))
-                .add(getLootItem("minecraft:iron_nugget", 40, between(2, 8)));
-
-        return LootTable.lootTable()
-                .withPool(pool)
-                .setParamSet(LootContextParamSets.EMPTY)
-                .build();
-    }
-
-    // 构建冒险家袋表
-    private static LootTable createAdventurerLootTable() {
-        LootPool.Builder basicPool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(5))
-                .add(getLootTableReference(BASIC_RESOURCES_LOOT, 100));
-
-        LootPool.Builder dungeonPool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1));
-        // .add(getLootTableReference(VANILLA_DUNGEON_REFERENCE, 80).apply(SPAWN_CHEST_LOGIC));
-
-        LootPool.Builder rarePool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:ender_pearl"), 30, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:gold_nugget"), 20, exactly(5)))
-                .add(getEnchantedLootItem(RegistriesUtils.getItem("minecraft:iron_axe"), 25, exactly(1)));
-
-        return LootTable.lootTable()
-                .withPool(basicPool)
-                .withPool(dungeonPool)
-                .withPool(rarePool)
-                // .withPool(createa())
-                .setParamSet(LootContextParamSets.EMPTY)
                 .build();
     }
 }

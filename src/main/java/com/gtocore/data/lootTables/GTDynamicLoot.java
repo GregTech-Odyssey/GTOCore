@@ -36,7 +36,7 @@ import java.util.Map;
 
 import static com.gtocore.common.data.GTOLoots.addToot;
 
-public class GTDynamicLoot {
+public final class GTDynamicLoot {
 
     private static VanillaBlockLoot BLOCK_LOOT = new VanillaBlockLoot();
 

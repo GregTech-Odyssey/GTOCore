@@ -1102,7 +1102,6 @@ public final class GTOItems {
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
     public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
 
-    public static final ItemEntry<RewardBagItem> ADVENTURER = registerRewardBag("adventurer", "adventurer", "冒险家用战利品袋表", RewardBagLoot.ADVENTURER_BAG_LOOT);
     public static final ItemEntry<RewardBagItem> LV_REWARD_BAG = registerRewardBag("lv_reward_bag", "lv Reward Bag", "LV 战利品袋", RewardBagLoot.LV_REWARD_BAG_LOOT);
 
     private static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn, ResourceLocation rewardBag) {
