@@ -7,6 +7,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.ClientUtil;
 
 import net.minecraft.client.KeyMapping;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 
@@ -20,7 +21,7 @@ import org.lwjgl.glfw.GLFW;
 public final class KeyBind {
 
     private static final KeyMapping flyingspeedKey = new KeyMap("key.gtocore.flyingspeed", InputConstants.KEY_X, 0);
-    private static final KeyMapping nightvisionKey = new KeyMap("key.gtocore.nightvision", InputConstants.KEY_Z, 1) {
+    private static final KeyMapping nightvisionKey = new KeyMap("key.gtocore.nightvision", InputConstants.KEY_Z, -1) {
 
         @Override
         public void setDown(boolean isDown) {
@@ -30,6 +31,9 @@ public final class KeyBind {
                     ConfigIO.saveClientValues(config);
                     ConfigIO.reloadClientValues(config);
                 });
+                ClientUtil.getPlayer().displayClientMessage(GTOConfig.INSTANCE.nightVision ?
+                        Component.translatable("metaarmor.message.nightvision.enabled") :
+                        Component.translatable("metaarmor.message.nightvision.disabled"), true);
             }
             super.setDown(isDown);
         }
@@ -60,7 +64,7 @@ public final class KeyBind {
         @Override
         public void setDown(boolean isDown) {
             super.setDown(isDown);
-            if (isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
+            if (type >= 0 && isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
                 ClientMessage.send("key", buf -> buf.writeVarInt(type));
             }
             isDownOld = isDown;

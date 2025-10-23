@@ -25,6 +25,8 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTOreVeinEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
+import fzzyhmstrs.emi_loot.EMILoot;
+import fzzyhmstrs.emi_loot.emi.EmiClientPlugin;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -106,6 +108,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         list.add(new EmiPluginContainer(new MeteoritesEmiPlugin(), ArsMeteorites.MOD_ID));
         list.add(new EmiPluginContainer(new AppEngEmiPlugin(), AppEng.MOD_ID));
+        list.add(new EmiPluginContainer(new EmiClientPlugin(), EMILoot.MOD_ID));
     }
 
     @Override

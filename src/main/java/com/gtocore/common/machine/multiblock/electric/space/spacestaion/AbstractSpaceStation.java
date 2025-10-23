@@ -69,6 +69,9 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
                 clearOxygenBlocks();
             }
         }
+        if (getOffsetTimer() % 200 == 0) {
+            updateSpaceMachines();
+        }
     }
 
     @Override

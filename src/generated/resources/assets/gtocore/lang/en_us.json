@@ -1575,7 +1575,7 @@
   "config.gtocore.option.disableEmbeddiumBECulling": "Disable Embeddium Global BE Culling",
   "config.gtocore.option.disableMufflerPart": "disable Muffler Part",
   "config.gtocore.option.emiGlobalFavorites": "EMI Global Favorites",
-  "config.gtocore.option.exPatternSize": "[Debug] Extended Pattern Provider Size",
+  "config.gtocore.option.exPatternSize": "Extended Pattern Provider Size",
   "config.gtocore.option.fastMultiBlockPage": "Fast Multiblock Page Loading",
   "config.gtocore.option.ftbUltimineRange": "Chain Mining Range",
   "config.gtocore.option.lightningRodEffect": "Lightning Rod Effect",

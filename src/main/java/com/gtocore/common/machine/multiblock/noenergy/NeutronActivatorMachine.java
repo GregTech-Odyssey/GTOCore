@@ -59,18 +59,20 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     @Override
     public void onPartScan(IMultiPart part) {
         super.onPartScan(part);
-        if (part instanceof ItemBusPartMachine itemBusPart) {
-            IO io = itemBusPart.getInventory().getHandlerIO();
-            if (io == IO.IN || io == IO.BOTH) {
-                busMachines.add(itemBusPart);
-                for (var handler : part.getRecipeHandlers()) {
-                    traitSubscriptions.add(handler.subscribe(this::absorptionUpdate));
+        switch (part) {
+            case ItemBusPartMachine itemBusPart -> {
+                IO io = itemBusPart.getInventory().getHandlerIO();
+                if (io == IO.IN || io == IO.BOTH) {
+                    busMachines.add(itemBusPart);
+                    for (var handler : part.getRecipeHandlers()) {
+                        traitSubscriptions.add(handler.subscribe(this::absorptionUpdate));
+                    }
                 }
             }
-        } else if (part instanceof NeutronAcceleratorPartMachine neutronAccelerator) {
-            acceleratorMachines.add(neutronAccelerator);
-        } else if (part instanceof SensorPartMachine sensorPartMachine) {
-            sensorMachine = sensorPartMachine;
+            case NeutronAcceleratorPartMachine neutronAccelerator -> acceleratorMachines.add(neutronAccelerator);
+            case SensorPartMachine sensorPartMachine -> sensorMachine = sensorPartMachine;
+            default -> {
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import com.gtocore.config.GTOConfig;
 
 import appeng.helpers.patternprovider.PatternProviderLogic;
 import com.glodblock.github.extendedae.common.tileentities.TileExPatternProvider;
+import com.gtolib.GTOCore;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,7 @@ public abstract class TileExPatternProviderMixin {
     private void modifyCreateLogic(CallbackInfoReturnable<PatternProviderLogic> cir) {
         // This method is intentionally left empty to prevent the original logic from executing.
         // The logic is handled in the XModUtils class.
-        if (GTOConfig.INSTANCE.dev && GTOConfig.INSTANCE.exPatternSize > 36) {
+        if (!GTOCore.isExpert() && GTOConfig.INSTANCE.exPatternSize > 36) {
             cir.setReturnValue(new PatternProviderLogic(exae$getSelf().getMainNode(), exae$getSelf(), GTOConfig.INSTANCE.exPatternSize));
         }
     }

@@ -50,8 +50,7 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
-import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
-import static com.gtocore.api.machine.part.GTOPartAbility.OVERCLOCK_HATCH;
+import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.CALMAP;
 import static com.gtocore.common.block.BlockMap.SCMAP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
@@ -1546,7 +1545,7 @@ public final class MultiBlockA {
             .tooltips(GTOMachineStories.INSTANCE.getPetrochemicalPlantTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
-            .multipleRecipesTooltips()
+            .moduleTooltips(OVERCLOCK_HATCH, THREAD_HATCH)
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
@@ -1568,7 +1567,6 @@ public final class MultiBlockA {
                     .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
                     .where('O', blocks(GTBlocks.COMPUTER_CASING.get()))
                     .where('P', blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
-                    .where('Q', blocks(RegistriesUtils.getBlock("ae2:quartz_vibrant_glass")))
                     .where('R', blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
                     .where('S', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('T', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
@@ -1585,6 +1583,29 @@ public final class MultiBlockA {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .addSubPattern(definition -> MultiBlockFileReader.builder().name("petrochem_crossrecipe").startBuild(definition)
+                    .where('A', controller(blocks(definition.get())))
+                    .where('B', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
+                    .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get())
+                            .or(Predicates.abilities(THREAD_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                    .where('D', blocks(GTOBlocks.TUNGSTEN_ALLOY_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
+                    .where('E', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
+                    .where('F', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
+                    .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('H', blocks(GTOBlocks.COOLANT_PIPE_CASING.get()))
+                    .where('I', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
+                    .where('J', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('K', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
+                    .where('L', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
+                    .where('M', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('N', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
+                    .where('O', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
+                    .where('P', blocks(GTOBlocks.MOLECULAR_CASING.get()))
+                    .where('Q', blocks(GTOBlocks.HOLLOW_CASING.get()))
+                    .where('R', blocks(GTOBlocks.INDUSTRIAL_FRAMELESS_GLASS.get()))
+                    .where(' ', any())
+                    .build())
             .register();
 
     public static final MultiblockMachineDefinition LARGE_PYROLYSE_OVEN = multiblock("large_pyrolyse_oven", "大型热解炉", CoilMultiblockMachine.createCoilMachine(false, false))

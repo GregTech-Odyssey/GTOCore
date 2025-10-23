@@ -152,6 +152,10 @@ dependencies {
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 
     modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
+    modRuntimeOnly("curse.maven:imblocker-483760:6922546")
+//    modRuntimeOnly("curse.maven:effortless-building-302113:6330928")
+
+    modRuntimeOnly("curse.maven:huge-structure-blocks-474114:4803547")
 
 //    modRuntimeOnly("curse.maven:mouse-tweaks-60089:4581240")
 //    modRuntimeOnly("curse.maven:inventory-essentials-368825:6977231")
@@ -159,6 +163,10 @@ dependencies {
 //    modCompileOnly("curse.maven:mouse-tweaks-60089:4581240")
     modCompileOnly("curse.maven:inventory-essentials-368825:6977231")
     modCompileOnly("curse.maven:balm-531761:6978679")
+
+    modRuntimeOnly("curse.maven:fzzy-config-1005914:7085017")
+    modRuntimeOnly("curse.maven:emi-loot-681783:6449092")
+    modCompileOnly("curse.maven:emi-loot-681783:6449092")
 
     modCompileOnly("dev:gtoepp:1.0.0")
 }

@@ -22,7 +22,7 @@ final class KeyMessage {
         }
         switch (type) {
             case 0 -> handleFlightSpeed(player);
-            case 1 -> toggleNightVision(player);
+//            case 1 -> toggleNightVision(player); //已改为纯客户端实现
             case 2 -> upgradeToolSpeed(player);
             case 3 -> drift(player);
         }
@@ -51,18 +51,20 @@ final class KeyMessage {
         }
     }
 
-    private static void toggleNightVision(Player player) {
-        CompoundTag data = player.getPersistentData();
-        boolean nightVisionEnabled = data.getBoolean("night_vision");
-        data.putBoolean("night_vision", !nightVisionEnabled);
 
-        if (nightVisionEnabled) {
-            player.removeEffect(MobEffects.NIGHT_VISION);
-            player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.disabled"), true);
-        } else {
-            player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.enabled"), true);
-        }
-    }
+    //已改为纯客户端实现
+//    private static void toggleNightVision(Player player) {
+//        CompoundTag data = player.getPersistentData();
+//        boolean nightVisionEnabled = data.getBoolean("night_vision");
+//        data.putBoolean("night_vision", !nightVisionEnabled);
+//
+//        if (nightVisionEnabled) {
+//            player.removeEffect(MobEffects.NIGHT_VISION);
+//            player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.disabled"), true);
+//        } else {
+//            player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.enabled"), true);
+//        }
+//    }
 
     private static void upgradeToolSpeed(Player player) {
         ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
