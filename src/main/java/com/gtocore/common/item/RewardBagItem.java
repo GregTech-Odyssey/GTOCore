@@ -38,9 +38,9 @@ public class RewardBagItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand usedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack bagStack = player.getItemInHand(usedHand);
-        if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
+        if (level instanceof ServerLevel serverLevel) {
             // 获取关联的战利品表
             LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(defaultLootTable);
             if (lootTable == LootTable.EMPTY) {

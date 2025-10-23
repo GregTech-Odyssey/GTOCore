@@ -36,10 +36,12 @@ public final class RewardBagLoot {
 
     public static void init() {
         addToot(LV_REWARD_BAG_LOOT, create_LV_REWARD_BAG_LOOT());
+
+        getEfficiencyLuckLevel = null;
     }
 
     // 获取物品的效率等级
-    public static final CustomLogicNumberProvider getEfficiencyLuckLevel = new CustomLogicNumberProvider.Builder(
+    public static CustomLogicNumberProvider getEfficiencyLuckLevel = new CustomLogicNumberProvider.Builder(
             (thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
              origin, blockState, blockEntity, tool, explosionRadius, level) -> {
                 int result = tool.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY);
