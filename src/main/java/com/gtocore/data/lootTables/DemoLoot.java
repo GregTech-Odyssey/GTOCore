@@ -1,5 +1,7 @@
 package com.gtocore.data.lootTables;
 
+import com.gtocore.data.lootTables.GTOLootItemFunction.CustomLogicNumberProvider;
+
 import com.gtolib.utils.RegistriesUtils;
 
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -10,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.storage.loot.IntRange;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -21,10 +24,10 @@ import net.minecraft.world.level.storage.loot.functions.SetNameFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import static com.gtocore.data.lootTables.GTOLootItemFunction.lootRegistrationTool.*;
-import static com.gtocore.data.lootTables.GTOLootItemFunction.lootRegistrationTool.diamondEntry;
 import static com.gtocore.data.lootTables.RewardBagLoot.*;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 import static net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition.invert;
@@ -63,7 +66,7 @@ public class DemoLoot {
                 // MatchTool.toolMatches()用于匹配工具类型，ItemPredicate定义工具条件
                 .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(RegistriesUtils.getItem("minecraft:diamond_pickaxe"))))
                 // 物品1：下界之星（权重30，低概率稀有物品）
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:nether_star"), 30, 1))
+                .add(getLootItemExactly(RegistriesUtils.getItem("minecraft:nether_star"), 30, 1))
                 // 物品2：引用地牢战利品表（权重70，较高概率获取地牢稀有物品）
                 // LootTableReference用于嵌套其他战利品表，复用已有掉落规则
                 .add(getLootTableReference(VANILLA_DUNGEON_REFERENCE, 70));
@@ -77,7 +80,7 @@ public class DemoLoot {
                 // 触发条件2：未使用钻石镐（对稀有池的条件取反）
                 .when(invert(MatchTool.toolMatches(ItemPredicate.Builder.item().of(RegistriesUtils.getItem("minecraft:diamond_pickaxe")))))
                 // 惩罚物品：10个腐肉（权重100，必出）
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:rotten_flesh"), 100, 10));
+                .add(getLootItemExactly(RegistriesUtils.getItem("minecraft:rotten_flesh"), 100, 10));
 
         // 构建最终战利品表
         return LootTable.lootTable()
@@ -110,7 +113,7 @@ public class DemoLoot {
                 .add(LootItem.lootTableItem(Items.EMERALD) // 绿宝石（基础货币奖励）
                         .setWeight(100) // 高权重
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5)))) // 数量：2-5个
-                .add(LootTableReference.lootTableReference(ADVENTURER_BAG_LOOT[0]) // 引用冒险者背包战利品表
+                .add(LootTableReference.lootTableReference(ADVENTURER_BAG_LOOT) // 引用冒险者背包战利品表
                         .setWeight(50)); // 权重50（与绿宝石的抽取概率比为1:2）
 
         // 构建战利品表
@@ -289,5 +292,64 @@ public class DemoLoot {
                 .add(diamondEntry)
                 .add(subTableEntry)
                 .build();
+    }
+
+    // 场景 1：根据玩家等级决定掉落数量（等级越高，掉落越多）
+    public static LootPool.Builder createa() {
+        // 自定义数值逻辑：玩家等级 → 掉落数量
+        CustomLogicNumberProvider levelNumberProvider = new CustomLogicNumberProvider.Builder(
+                (player, level, entity, pos, tool) -> {
+                    if (player == null) return 1; // 无玩家时默认1个
+                    return Math.max(player.experienceLevel / 2, 1); // 等级/2，最低1
+                }).build();
+
+        return LootPool.lootPool()
+                .name("player_level_based_pool")
+                .setRolls(ConstantValue.exactly(1)) // 固定抽取1次
+                .add(
+                        LootItem.lootTableItem(Items.EMERALD) // 掉落绿宝石
+                                .apply(SetItemCountFunction.setCount(levelNumberProvider)) // 数量由玩家等级决定
+                );
+    }
+
+    // 场景 2：根据工具类型决定额外掉落（手持钻石镐时多掉铁矿）
+    public static LootPool.Builder createb() {
+        // 自定义数值逻辑：工具类型 → 掉落数量
+        CustomLogicNumberProvider toolNumberProvider = new CustomLogicNumberProvider.Builder(
+                (player, level, entity, pos, tool) -> {
+                    if (tool != null && tool.is(Items.DIAMOND_PICKAXE)) {
+                        return level.random.nextInt(3) + 3; // 3-5个
+                    } else {
+                        return level.random.nextInt(2) + 1; // 1-2个
+                    }
+                }).build();
+
+        return LootPool.lootPool()
+                .name("tool_based_pool")
+                .setRolls(ConstantValue.exactly(1))
+                .add(
+                        LootItem.lootTableItem(Items.IRON_ORE) // 掉落铁矿
+                                .apply(SetItemCountFunction.setCount(toolNumberProvider)) // 数量由工具决定
+                );
+    }
+
+    public static LootPool.Builder createc() {
+        // 自定义数值逻辑：生物群系 → 抽取次数
+        NumberProvider biomeRollsProvider = new CustomLogicNumberProvider.Builder(
+                (player, level, entity, pos, tool) -> {
+                    // 判断当前生物群系是否为沙漠
+                    if (level.getBiome(pos).is(Biomes.DESERT)) {
+                        return 2; // 沙漠抽2次
+                    } else {
+                        return 1; // 其他抽1次
+                    }
+                }).build();
+
+        return LootPool.lootPool()
+                .name("biome_based_pool")
+                .setRolls(biomeRollsProvider) // 抽取次数由生物群系决定
+                .add(
+                        LootItem.lootTableItem(Items.SAND) // 掉落沙子
+                );
     }
 }

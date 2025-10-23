@@ -10,6 +10,7 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
 import com.gtocore.data.Datagen;
+import com.gtocore.data.lootTables.GTOLootItemFunction.GTONumberProviders;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbu.AreaShape;
 
@@ -74,6 +75,7 @@ public class CommonProxy {
         GTOFluids.FLUID_TYPE.register(eventBus);
         GTOFluids.FLUID.register(eventBus);
         GTOEffects.init(eventBus);
+        GTONumberProviders.NUMBER_PROVIDERS.register(eventBus);
         eventBus.addListener(CommonProxy::commonSetup);
         eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);

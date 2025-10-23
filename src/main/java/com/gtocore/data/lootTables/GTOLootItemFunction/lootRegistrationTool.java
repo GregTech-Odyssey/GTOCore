@@ -13,10 +13,12 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 
 import org.jetbrains.annotations.NotNull;
+
+import static net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly;
+import static net.minecraft.world.level.storage.loot.providers.number.UniformGenerator.between;
 
 public class lootRegistrationTool {
 
@@ -31,21 +33,53 @@ public class lootRegistrationTool {
     }
 
     /**
-     * 创建固定数量的物品战利品条目
+     * 输入自定义逻辑获取 NumberProvider
      */
-    public static @NotNull LootItem.Builder getLootItem(Item item, int weight, int count) {
+    public static CustomLogicNumberProvider appendCustomNumberProvider(CustomLogicNumberProvider.NumberLogic logic) {
+        return new CustomLogicNumberProvider.Builder(logic).build();
+    }
+
+    /**
+     * 创建设定数量的物品战利品条目
+     */
+    public static @NotNull LootItem.Builder getLootItem(Item item, int weight, NumberProvider countValue) {
         return LootItem.lootTableItem(item)
                 .setWeight(weight)
-                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(count)));
+                .apply(SetItemCountFunction.setCount(countValue));
+    }
+
+    /**
+     * 创建设定数量带品质的物品战利品条目
+     */
+    public static @NotNull LootItem.Builder getLootItemWithQuality(Item item, int weight, NumberProvider countValue,int quality,NumberProvider dynamicValue) {
+        return LootItem.lootTableItem(item)
+                .setWeight(weight)
+                .apply(SetItemCountFunction.setCount(countValue))
+                .setQuality(quality);
+    }
+
+    /**
+     * 创建固定数量的物品战利品条目
+     */
+    @Deprecated(
+                forRemoval = true,
+                since = "0.5.0")
+    public static @NotNull LootItem.Builder getLootItemExactly(Item item, int weight, int count) {
+        return LootItem.lootTableItem(item)
+                .setWeight(weight)
+                .apply(SetItemCountFunction.setCount(exactly(count)));
     }
 
     /**
      * 创建随机数量范围的物品战利品条目
      */
+    @Deprecated(
+                forRemoval = true,
+                since = "0.5.0")
     public static @NotNull LootItem.Builder getLootItemWithRange(Item item, int weight, int minCount, int maxCount) {
         return LootItem.lootTableItem(item)
                 .setWeight(weight)
-                .apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)));
+                .apply(SetItemCountFunction.setCount(between(minCount, maxCount)));
     }
 
     /**
@@ -54,7 +88,7 @@ public class lootRegistrationTool {
     public static @NotNull LootItem.Builder getEnchantedLootItem(Item item, int weight, int count) {
         return LootItem.lootTableItem(item)
                 .setWeight(weight)
-                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(count)))
+                .apply(SetItemCountFunction.setCount(exactly(count)))
                 .apply(EnchantRandomlyFunction.randomEnchantment());
     }
 
@@ -105,6 +139,15 @@ public class lootRegistrationTool {
             (player, level, entity, pos, tool, stack) -> {
                 if (player != null) {
                     player.sendSystemMessage(Component.literal("发现了钻石！"));
+                }
+            });
+
+    public static final CustomLogicNumberProvider toolNumber = appendCustomNumberProvider(
+            (player, level, entity, pos, tool) -> {
+                if (tool != null && tool.is(Items.DIAMOND_PICKAXE)) {
+                    return level.random.nextInt(3) + 3; // 3-5个
+                } else {
+                    return level.random.nextInt(2) + 1; // 1-2个
                 }
             });
 }
