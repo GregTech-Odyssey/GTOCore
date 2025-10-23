@@ -103,6 +103,9 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
                 .relative(getFrontFacing().getCounterClockWise(), 3);
         return List.of(new ForgeClientEvent.HighlightNeed(corner0, corner1, ChatFormatting.GRAY.getColor()));
     }
+    public List<Component> getHighlightText() {
+        return List.of(Component.translatable("tooltip.ad_astra.oxygen_distribution_area"));
+    }
 
     private Recipe getRecipe() {
         if (!PlanetApi.API.isSpace(getLevel()))

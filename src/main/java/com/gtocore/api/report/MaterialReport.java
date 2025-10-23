@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProperties;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
@@ -54,8 +55,10 @@ public class MaterialReport {
             // 生成gson报告
             report_json.append(GSON.toJson(entry)).append("\n");
             // 生成CSV表格报告
+            String cnNameInCsv = entry.cnName.contains(",") ? "\"" + entry.cnName + "\"" : entry.cnName;
+            String enNameInCsv = entry.enName.contains(",") ? "\"" + entry.enName + "\"" : entry.enName;
             report_table.append(String.format("%s,%s,%s,%s,%s,%s,%s,%d,",
-                    entry.cnName, entry.enName, entry.symbol, entry.hexColor1, entry.hexColor2,
+                    cnNameInCsv, enNameInCsv, entry.symbol, entry.hexColor1, entry.hexColor2,
                     entry.iconSetName, entry.baseType.en, entry.mass));
             report_table.append(entry.hasFluidPipe ? entry.fluidPipeThroughput : "").append(",");
             report_table.append(entry.hasItemPipe ? entry.itemPipePriority : "").append(",");
@@ -92,7 +95,7 @@ public class MaterialReport {
 
             String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
             Path reportPath = logDir.resolve("ore_report_" + timestamp + ".md");
-            Path reportPath_arrays = logDir.resolve("mat_report_arrays_" + timestamp + ".txt");
+            Path reportPath_arrays = logDir.resolve("mat_report_arrays_" + timestamp + ".json");
             Path reportPath_table = logDir.resolve("mat_report_table_" + timestamp + ".csv");
 
             try (BufferedWriter writer = Files.newBufferedWriter(reportPath)) {
@@ -250,7 +253,9 @@ public class MaterialReport {
                 return WOOD;
             if (material.hasProperty(PropertyKey.POLYMER))
                 return POLYMER;
-            if (material.hasProperty(PropertyKey.BLAST) || material.hasProperty(PropertyKey.ALLOY_BLAST))
+            if (material.hasProperty(PropertyKey.BLAST) ||
+                    material.hasProperty(PropertyKey.ALLOY_BLAST) ||
+            material.getMaterialIconSet() == MaterialIconSet.METALLIC)
                 return METAL;
             return CHEMICAL;
         }
