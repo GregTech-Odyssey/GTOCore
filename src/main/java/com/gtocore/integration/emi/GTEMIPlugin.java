@@ -25,8 +25,6 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTOreVeinEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
-import fzzyhmstrs.emi_loot.EMILoot;
-import fzzyhmstrs.emi_loot.emi.EmiClientPlugin;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -61,6 +59,8 @@ import dev.shadowsoffire.apotheosis.adventure.compat.AdventureJEIPlugin;
 import dev.shadowsoffire.apotheosis.ench.compat.EnchJEIPlugin;
 import dev.shadowsoffire.apotheosis.potion.compat.PotionJEIPlugin;
 import dev.shadowsoffire.apotheosis.village.compat.VillageJEIPlugin;
+import fzzyhmstrs.emi_loot.EMILoot;
+import fzzyhmstrs.emi_loot.emi.EmiClientPlugin;
 import io.github.lounode.extrabotany.api.ExtraBotanyAPI;
 import io.github.lounode.extrabotany.client.integration.emi.EmiExtrabotanyPlugin;
 import io.github.prismwork.emitrades.EMITradesPlugin;

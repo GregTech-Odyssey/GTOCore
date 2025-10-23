@@ -71,8 +71,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
             }
             case NeutronAcceleratorPartMachine neutronAccelerator -> acceleratorMachines.add(neutronAccelerator);
             case SensorPartMachine sensorPartMachine -> sensorMachine = sensorPartMachine;
-            default -> {
-            }
+            default -> {}
         }
     }
 

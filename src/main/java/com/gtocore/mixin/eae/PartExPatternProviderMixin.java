@@ -2,9 +2,10 @@ package com.gtocore.mixin.eae;
 
 import com.gtocore.config.GTOConfig;
 
+import com.gtolib.GTOCore;
+
 import appeng.helpers.patternprovider.PatternProviderLogic;
 import com.glodblock.github.extendedae.common.parts.PartExPatternProvider;
-import com.gtolib.GTOCore;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

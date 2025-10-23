@@ -4,10 +4,12 @@ import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+
+import net.minecraft.network.chat.Component;
+
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public final class IntegratedOreProcessor extends CrossRecipeMultiblockMachine {
     public void customText(@NotNull List<Component> list) {
         super.customText(list);
         if (getSubFormedAmount() > 0) {
-            list.add(Component.translatable("gtocore.machine.repeated_recipes", ComponentPanelWidget.withButton(repeatedRecipes ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off"),"toggle")));
+            list.add(Component.translatable("gtocore.machine.repeated_recipes", ComponentPanelWidget.withButton(repeatedRecipes ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off"), "toggle")));
         }
     }
 

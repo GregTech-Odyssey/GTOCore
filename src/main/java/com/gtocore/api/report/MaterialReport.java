@@ -1,7 +1,12 @@
 package com.gtocore.api.report;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.gtocore.api.data.material.GTOMaterialFlags;
+import com.gtocore.client.forge.GTOComponentHandler;
+
+import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterEnumLang;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -9,11 +14,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProperties;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
-import com.gtocore.api.data.material.GTOMaterialFlags;
-import com.gtocore.client.forge.GTOComponentHandler;
-import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.DataGeneratorScanned;
-import com.gtolib.api.annotation.language.RegisterEnumLang;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedWriter;
@@ -27,6 +30,7 @@ import java.util.Date;
 
 @DataGeneratorScanned
 public class MaterialReport {
+
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static void generateReport() {
@@ -85,10 +89,9 @@ public class MaterialReport {
         writeReportsToFiles(report, report_json, report_table);
     }
 
-
     // 将报告写入文件
     private static void writeReportsToFiles(
-            StringBuilder report, StringBuilder json, StringBuilder report_table) {
+                                            StringBuilder report, StringBuilder json, StringBuilder report_table) {
         try {
             Path logDir = Paths.get("logs", "report");
             if (!Files.exists(logDir)) Files.createDirectories(logDir);
@@ -116,8 +119,10 @@ public class MaterialReport {
             GTOCore.LOGGER.error("写入报告文件时发生错误", e);
         }
     }
+
     // Gson Serializable Entry class
     public static class Entry {
+
         public String cnName;
         public String enName;
         public String symbol;
@@ -127,22 +132,22 @@ public class MaterialReport {
         public BaseType baseType;
         public long mass;
 
-        //fluid pipe properties
+        // fluid pipe properties
         public boolean hasFluidPipe;
         public int fluidPipeThroughput;
 
-        //item pipe properties
+        // item pipe properties
         public boolean hasItemPipe;
         public int itemPipePriority;
         public float itemPipeTransferRate;
 
-        //wire properties
+        // wire properties
         public boolean isWireMaterial;
         public int wireMaxAmperes;
         public long wireVoltage;
         public int wireLossPerMeter;
 
-        //tool properties
+        // tool properties
         public boolean isToolMaterial;
         public float harvestSpeedTool;
         public int durabilityTool;
@@ -151,16 +156,16 @@ public class MaterialReport {
         public boolean isUnbreakableTool;
         public int durabilityMultiplierTool;
 
-        //rotor properties
+        // rotor properties
         public boolean isRotorMaterial;
         public int durabilityRotor;
         public int powerRotor;
         public int efficiencyRotor;
 
-        //blast properties
+        // blast properties
         public int blastTemperature;
 
-        //hazard properties
+        // hazard properties
         public boolean isHazard;
 
         public static Entry fromMaterial(Material material) {
@@ -207,11 +212,12 @@ public class MaterialReport {
                 entry.efficiencyRotor = material.getProperty(PropertyKey.ROTOR).getEfficiency();
             }
             entry.blastTemperature = material.hasProperty(PropertyKey.BLAST) ? material.getProperty(PropertyKey.BLAST).getBlastTemperature() :
-            material.hasProperty(PropertyKey.ALLOY_BLAST) ? material.getProperty(PropertyKey.ALLOY_BLAST).getTemperature() : 0;
+                    material.hasProperty(PropertyKey.ALLOY_BLAST) ? material.getProperty(PropertyKey.ALLOY_BLAST).getTemperature() : 0;
             entry.isHazard = material.hasProperty(PropertyKey.HAZARD);
             return entry;
         }
     }
+
     protected static String getHexColorString(int color) {
         String var10000 = Integer.toHexString(color);
         boolean alpha = (color >> 24 & 255) != 0;
@@ -221,21 +227,23 @@ public class MaterialReport {
 
     @RegisterEnumLang(keyPrefix = "gtocore.material.base_type")
     public enum BaseType {
-        METAL("金属", "Metal" ),
-        GEM("宝石", "Gem" ),
-        CHEMICAL("化学品", "Chemical" ),
-        POLYMER("高分子材料", "Polymer" ),
-        COMPOSITE("复合材料", "Composite" ),
-        CERAMIC("陶瓷", "Ceramic" ),
-        WOOD("木材", "Wood" ),
-        MAGIC("魔法材料", "Magic" ),
-        OTHER("其他", "Other" );
+
+        METAL("金属", "Metal"),
+        GEM("宝石", "Gem"),
+        CHEMICAL("化学品", "Chemical"),
+        POLYMER("高分子材料", "Polymer"),
+        COMPOSITE("复合材料", "Composite"),
+        CERAMIC("陶瓷", "Ceramic"),
+        WOOD("木材", "Wood"),
+        MAGIC("魔法材料", "Magic"),
+        OTHER("其他", "Other");
+
         @RegisterEnumLang.CnValue("name")
         final String cn;
         @RegisterEnumLang.EnValue("name")
         final String en;
-        BaseType(String cn, String en) {
 
+        BaseType(String cn, String en) {
             this.cn = cn;
             this.en = en;
         }
@@ -255,10 +263,9 @@ public class MaterialReport {
                 return POLYMER;
             if (material.hasProperty(PropertyKey.BLAST) ||
                     material.hasProperty(PropertyKey.ALLOY_BLAST) ||
-            material.getMaterialIconSet() == MaterialIconSet.METALLIC)
+                    material.getMaterialIconSet() == MaterialIconSet.METALLIC)
                 return METAL;
             return CHEMICAL;
         }
-
     }
 }
