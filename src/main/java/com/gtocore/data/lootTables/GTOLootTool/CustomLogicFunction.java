@@ -1,4 +1,4 @@
-package com.gtocore.data.lootTables.GTOLootItemFunction;
+package com.gtocore.data.lootTables.GTOLootTool;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;

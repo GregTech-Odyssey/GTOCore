@@ -1,4 +1,4 @@
-package com.gtocore.data.lootTables.GTOLootItemFunction;
+package com.gtocore.data.lootTables.GTOLootTool;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.phys.Vec3;
@@ -24,24 +25,23 @@ public class CustomLogicNumberProvider implements NumberProvider {
 
     public static final CustomLogicNumberProvider INSTANCE = new CustomLogicNumberProvider((
                                                                                             thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
-                                                                                            origin, blockState, blockEntity, tool, explosionRadius,
-                                                                                            level) -> 0);
+                                                                                            origin, blockState, blockEntity, tool, explosionRadius, level) -> ConstantValue.exactly(0));
 
     @FunctionalInterface
     public interface NumberLogic {
 
-        int calculate(
-                      @Nullable Entity thisEntity,
-                      @Nullable Player lastDamagePlayer,
-                      @Nullable DamageSource damageSource,
-                      @Nullable Entity killerEntity,
-                      @Nullable Entity directKiller,
-                      @Nullable Vec3 origin,
-                      @Nullable BlockState blockState,
-                      @Nullable BlockEntity blockEntity,
-                      @NotNull ItemStack tool,
-                      @Nullable Float explosionRadius,
-                      @NotNull ServerLevel level);
+        NumberProvider calculate(
+                                 @Nullable Entity thisEntity,
+                                 @Nullable Player lastDamagePlayer,
+                                 @Nullable DamageSource damageSource,
+                                 @Nullable Entity killerEntity,
+                                 @Nullable Entity directKiller,
+                                 @Nullable Vec3 origin,
+                                 @Nullable BlockState blockState,
+                                 @Nullable BlockEntity blockEntity,
+                                 @NotNull ItemStack tool,
+                                 @Nullable Float explosionRadius,
+                                 @NotNull ServerLevel level);
     }
 
     private final NumberLogic logic;
@@ -52,8 +52,19 @@ public class CustomLogicNumberProvider implements NumberProvider {
 
     @Override
     public int getInt(LootContext context) {
+        return getNumberProvider(context).getInt(context);
+    }
+
+    @Override
+    public float getFloat(@NotNull LootContext context) {
+        return getNumberProvider(context).getFloat(context);
+    }
+
+    private NumberProvider getNumberProvider(LootContext context) {
         ServerLevel level = context.getLevel();
-        if (level.isClientSide()) return 0;
+        if (level.isClientSide()) {
+            return ConstantValue.exactly(0);
+        }
 
         Entity thisEntity = getParam(context, LootContextParams.THIS_ENTITY);
         Player lastDamagePlayer = getParam(context, LootContextParams.LAST_DAMAGE_PLAYER);
@@ -69,11 +80,6 @@ public class CustomLogicNumberProvider implements NumberProvider {
         return logic.calculate(
                 thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
                 origin, blockState, blockEntity, tool, explosionRadius, level);
-    }
-
-    @Override
-    public float getFloat(@NotNull LootContext context) {
-        return (float) getInt(context);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.gtocore.data.lootTables.GTOLootItemFunction;
+package com.gtocore.data.lootTables.GTOLootTool;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

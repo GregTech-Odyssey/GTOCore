@@ -1,7 +1,8 @@
 package com.gtocore.data.lootTables;
 
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.data.lootTables.GTOLootItemFunction.CustomLogicNumberProvider;
+import com.gtocore.data.lootTables.GTOLootTool.CustomLogicFunction;
+import com.gtocore.data.lootTables.GTOLootTool.CustomLogicNumberProvider;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
@@ -10,22 +11,27 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+
+import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOLoots.addToot;
 import static com.gtocore.common.data.GTOMaterials.RedstoneAlloy;
-import static com.gtocore.data.lootTables.DemoLoot.SPAWN_CHEST_LOGIC;
-import static com.gtocore.data.lootTables.DemoLoot.createa;
-import static com.gtocore.data.lootTables.GTOLootItemFunction.lootRegistrationTool.*;
+import static com.gtocore.data.lootTables.GTOLootTool.lootRegistrationTool.*;
 import static net.minecraft.resources.ResourceLocation.fromNamespaceAndPath;
 import static net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly;
 import static net.minecraft.world.level.storage.loot.providers.number.UniformGenerator.between;
@@ -45,20 +51,29 @@ public final class RewardBagLoot {
         addToot(LV_REWARD_BAG_LOOT, create_LV_REWARD_BAG_LOOT());
     }
 
-    // 获取物品的时运等级
-    public static final CustomLogicNumberProvider getFortuneLevel = new CustomLogicNumberProvider.Builder(
-            (thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
-             origin, blockState, blockEntity, tool, explosionRadius, level) -> {
-                int fortune = 1 + tool.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE);
-                return Math.max(fortune, 1);
-            }).build();
     // 获取物品的效率等级
     public static final CustomLogicNumberProvider getEfficiencyLuckLevel = new CustomLogicNumberProvider.Builder(
             (thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
              origin, blockState, blockEntity, tool, explosionRadius, level) -> {
-                int result = 1 + tool.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY) / 2;
-                return Math.max(result, 1);
+                int result = tool.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY);
+                return between(Mth.clamp(result - 2, 1, 18), Mth.clamp(result + 4, 1, 18));
             }).build();
+
+    // 根据时运等级获得稀有物品
+    public static @NotNull LootItem.Builder getLootItemRelyFortune(Item item, int weight, int count) {
+        return LootItem.lootTableItem(Items.AIR)
+                .setWeight(weight)
+                .apply(
+                        new CustomLogicFunction.Builder((
+                                                         level, thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
+                                                         origin, blockState, blockEntity, tool, explosionRadius, stack) -> {
+                            if (origin != null) {
+                                float probability = 0.2f * (1 + tool.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE));
+                                if (probability >= 1 || level.random.nextFloat() < probability)
+                                    level.addFreshEntity(new ItemEntity(level, origin.x(), origin.y(), origin.z(), new ItemStack(item, count)));
+                            }
+                        }));
+    }
 
     // LV 战利品袋子
     public static final ResourceLocation LV_REWARD_BAG_LOOT = GTOCore.id("reward_bags/lv_reward_bag_loot");
@@ -66,7 +81,7 @@ public final class RewardBagLoot {
     private static LootTable create_LV_REWARD_BAG_LOOT() {
         LootPool.Builder pool = LootPool.lootPool()
                 .setRolls(getEfficiencyLuckLevel)
-                .setBonusRolls(getFortuneLevel)
+                .setBonusRolls(between(0, 3))
                 .add(getLootItem(RegistriesUtils.getItem("farmersrespite:black_cod"), 60, between(8, 16)))
                 .add(getLootItem(RegistriesUtils.getItem("farmersrespite:tea_curry"), 60, between(8, 16)))
                 .add(getLootItem(RegistriesUtils.getItem("farmersrespite:blazing_chili"), 60, between(8, 16)))
@@ -103,9 +118,9 @@ public final class RewardBagLoot {
                 .add(getLootItem(GTItems.FLUID_REGULATOR_LV.asItem(), 80, exactly(1)))
                 .add(getLootItem(GTItems.ELECTRIC_PISTON_LV.asItem(), 80, exactly(1)))
                 .add(getLootItem(GTItems.ROBOT_ARM_LV.asItem(), 80, exactly(1)))
-                .add(getLootItem(GTItems.EMITTER_LV.asItem(), 80, exactly(1)))
-                .add(getLootItem(GTItems.SENSOR_LV.asItem(), 80, exactly(1)))
-                .add(getLootItem(GTItems.FIELD_GENERATOR_LV.asItem(), 5, exactly(1)))
+                .add(getLootItemRelyFortune(GTItems.EMITTER_LV.asItem(), 80, 1))
+                .add(getLootItemRelyFortune(GTItems.SENSOR_LV.asItem(), 80, 1))
+                .add(getLootItemRelyFortune(GTItems.FIELD_GENERATOR_LV.asItem(), 5, 1))
 
                 .add(getLootItem(GTItems.VOLTAGE_COIL_LV.asItem(), 80, exactly(1)))
                 .add(getLootItem(GTItems.RESISTOR.asItem(), 80, exactly(1)))
@@ -146,8 +161,8 @@ public final class RewardBagLoot {
                 .add(getLootTableReference(BASIC_RESOURCES_LOOT, 100));
 
         LootPool.Builder dungeonPool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
-                .add(getLootTableReference(VANILLA_DUNGEON_REFERENCE, 80).apply(SPAWN_CHEST_LOGIC));
+                .setRolls(ConstantValue.exactly(1));
+        // .add(getLootTableReference(VANILLA_DUNGEON_REFERENCE, 80).apply(SPAWN_CHEST_LOGIC));
 
         LootPool.Builder rarePool = LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))
@@ -159,7 +174,7 @@ public final class RewardBagLoot {
                 .withPool(basicPool)
                 .withPool(dungeonPool)
                 .withPool(rarePool)
-                .withPool(createa())
+                // .withPool(createa())
                 .setParamSet(LootContextParamSets.EMPTY)
                 .build();
     }

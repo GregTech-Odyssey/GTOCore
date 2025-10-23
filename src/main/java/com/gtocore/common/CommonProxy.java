@@ -10,7 +10,7 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
 import com.gtocore.data.Datagen;
-import com.gtocore.data.lootTables.GTOLootItemFunction.GTONumberProviders;
+import com.gtocore.data.lootTables.GTOLootTool.GTONumberProviders;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbu.AreaShape;
 
