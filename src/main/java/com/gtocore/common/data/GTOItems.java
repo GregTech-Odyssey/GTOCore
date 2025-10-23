@@ -9,7 +9,7 @@ import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
-import com.gtocore.data.lootTables.GTOLootTables;
+import com.gtocore.data.lootTables.RewardBagLoot;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
@@ -906,11 +906,11 @@ public final class GTOItems {
     public static final ItemEntry<ApothItem>[] ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
     public static final ItemEntry<ApothItem>[] AFFIX_ESSENCE = registerAffixEssence();
 
-    static String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
-    static String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };
-    static int[] ComponentsColors = { 0xaa66fd3c, 0xaa3844f4, 0xaae700ef, 0xaaf54314 };
-    static String[] ComponentSizes = { "small", "medium", "large" };
-    static String[] ComponentSizes2 = { "小", "中", "大" };
+    private static final String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
+    private static final String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };
+    private static final int[] ComponentsColors = { 0xaa66fd3c, 0xaa3844f4, 0xaae700ef, 0xaaf54314 };
+    private static final String[] ComponentSizes = { "small", "medium", "large" };
+    private static final String[] ComponentSizes2 = { "小", "中", "大" };
     public static final ItemEntry<ColoringItems>[][] INDUSTRIAL_COMPONENTS = registerIndustrialComponents();
 
     public static ItemEntry<ColoringItems>[][] registerIndustrialComponents() {
@@ -1102,9 +1102,9 @@ public final class GTOItems {
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
     public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
 
-    public static final ItemEntry<RewardBagItem> ADVENTURER = registerRewardBag("adventurer", "adventurer", "冒险家用战利品袋表", GTOLootTables.ADVENTURER_BAG);
+    public static final ItemEntry<RewardBagItem> ADVENTURER = registerRewardBag("adventurer", "adventurer", "冒险家用战利品袋表", RewardBagLoot.ADVENTURER_BAG_LOOT);
 
-    public static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn, ResourceLocation rewardBag) {
+    private static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn, ResourceLocation[] rewardBag) {
         return item(id, cn, p -> new RewardBagItem(p, rewardBag))
                 .lang(en)
                 .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))

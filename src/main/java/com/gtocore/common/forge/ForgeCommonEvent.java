@@ -11,7 +11,6 @@ import com.gtocore.common.saved.DysonSphereSavaedData;
 import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 import com.gtocore.common.saved.WirelessSavedData;
 import com.gtocore.config.GTOConfig;
-import com.gtocore.data.lootTables.GTOLootTables;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
@@ -86,7 +85,6 @@ public final class ForgeCommonEvent {
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
         MinecraftForge.EVENT_BUS.register(AnimalsRevengeEvent.class);
         MinecraftForge.EVENT_BUS.register(TravelStaffItemMixinLikeForge.class);
-        MinecraftForge.EVENT_BUS.register(GTOLootTables.class);
     }
 
     @SubscribeEvent

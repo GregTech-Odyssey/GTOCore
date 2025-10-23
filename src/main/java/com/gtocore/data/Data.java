@@ -169,7 +169,7 @@ public final class Data {
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
         GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
         GTOLoots.BLOCKS = null;
-        GTOLoots.generateGTDynamicLoot();
+        GTOLoots.init();
         MixinHelpers.registryGTDynamicTags();
         GTOCore.LOGGER.info("Data loading took {}ms", System.currentTimeMillis() - time);
     }

@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -27,9 +28,9 @@ import java.util.Objects;
 public class RewardBagItem extends Item {
 
     public static final String TAG_LOOT_TABLE = "LootTable";
-    private final ResourceLocation defaultLootTable;
+    private final ResourceLocation[] defaultLootTable;
 
-    public RewardBagItem(Properties properties, ResourceLocation defaultLootTable) {
+    public RewardBagItem(Properties properties, ResourceLocation[] defaultLootTable) {
         super(properties
                 .stacksTo(16)
                 .rarity(Rarity.UNCOMMON));
@@ -40,16 +41,17 @@ public class RewardBagItem extends Item {
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack bagStack = player.getItemInHand(usedHand);
         if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
-            // 获取关联的战利品表
-            ResourceLocation lootTableId = getLootTableId(bagStack);
+            // 获取关联的战利品表，根据时运选择
+            int c = Mth.clamp(getFortuneLevel(bagStack), 0, 3);
+            ResourceLocation lootTableId = defaultLootTable[c];
             if (lootTableId == null) return InteractionResultHolder.fail(bagStack);
             LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(lootTableId);
             if (lootTable == LootTable.EMPTY) return InteractionResultHolder.fail(bagStack);
             // 1. 计算消耗数量
             int consumeCount = player.isShiftKeyDown() ? bagStack.getCount() : 1;
             if (!player.isCreative()) bagStack.shrink(consumeCount);
-            // 2. 获取时运奖励
-            int fortuneRewards = 1 << getFortuneLevel(bagStack);
+            // 2. 获取效率奖励
+            int fortuneRewards = 1 + getEfficiencyLevel(bagStack);
             // 3. 计算总抽奖次数：消耗数量 × 时运奖励
             int totalRolls = consumeCount * fortuneRewards;
             // 4. 构建战利品上下文
@@ -85,20 +87,13 @@ public class RewardBagItem extends Item {
         return true;
     }
 
-    /**
-     * 获取物品的时运等级
-     */
+    // 获取物品的时运等级
     private int getFortuneLevel(ItemStack stack) {
         return stack.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE);
     }
 
-    /**
-     * 获取关联的战利品表ID
-     */
-    @Nullable
-    public ResourceLocation getLootTableId(ItemStack stack) {
-        String tableKey = stack.getOrCreateTag().getString(TAG_LOOT_TABLE);
-        if (!tableKey.isEmpty()) return ResourceLocation.tryParse(tableKey);
-        return defaultLootTable;
+    // 获取物品的效率等级
+    private int getEfficiencyLevel(ItemStack stack) {
+        return stack.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY);
     }
 }
