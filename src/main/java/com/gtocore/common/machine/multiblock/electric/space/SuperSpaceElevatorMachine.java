@@ -70,13 +70,14 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
     @Override
     protected void update(boolean promptly) {
         super.update(promptly);
-        if (promptly || getOffsetTimer() % 40 == 0) {
+        if (promptly || getOffsetTimer() % 80 == 0) {
             megaModuleCount = 0;
             Level level = getLevel();
             if (level == null) return;
             for (BlockPos blockPoss : megaPoss) {
                 MetaMachine metaMachine = getMachine(level, blockPoss);
                 if (metaMachine instanceof MegaSpaceElevatorModuleMachine moduleMachine && moduleMachine.isFormed()) {
+                    if (moduleMachine.spaceElevatorMachine != this) moduleMachine.getRecipeLogic().updateTickSubscription();
                     moduleMachine.spaceElevatorMachine = this;
                     moduleCount++;
                     megaModuleCount++;

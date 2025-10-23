@@ -26,6 +26,18 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine {
     }
 
     @Override
+    public void onUnload() {
+        super.onUnload();
+        nanitesIntegratedMachine = null;
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        nanitesIntegratedMachine = null;
+    }
+
+    @Override
     public Recipe fullModifyRecipe(@NotNull Recipe recipe) {
         if (nanitesIntegratedMachine == null) return null;
         recipe = super.fullModifyRecipe(recipe);

@@ -53,6 +53,18 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
         return spaceElevatorMachine instanceof SuperSpaceElevatorMachine;
     }
 
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        spaceElevatorMachine = null;
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        spaceElevatorMachine = null;
+    }
+
     @Nullable
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {

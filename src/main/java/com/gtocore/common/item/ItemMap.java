@@ -29,7 +29,7 @@ public final class ItemMap {
 
     public static final ImmutableSet<Item> UNIVERSAL_CIRCUITS = ImmutableSet.copyOf(Arrays.stream(GTOItems.UNIVERSAL_CIRCUIT).filter(Objects::nonNull).map(RegistryEntry::get).toList());
 
-    private static final Object2IntMap<Item> SCRAP_MAP = new O2IOpenCacheHashMap<>();
+    private static Object2IntMap<Item> SCRAP_MAP = new O2IOpenCacheHashMap<>();
     private static final int TOTAL_PROBABILITY;
 
     static {
@@ -99,7 +99,7 @@ public final class ItemMap {
             index++;
         }
         TOTAL_PROBABILITY = cumulativeProbability;
-        SCRAP_MAP.clear();
+        SCRAP_MAP = null;
     }
 
     public static ItemStack getScrapItem() {

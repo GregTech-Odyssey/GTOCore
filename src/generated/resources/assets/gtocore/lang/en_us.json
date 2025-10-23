@@ -3481,6 +3481,7 @@
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.6.-1581329868": "Only one overclock module is allowed to be installed",
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.7.-284371967": "The first three preview slots in the multiblock preview correspond to the states after installing the first three high-energy modules",
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.8.495261470": "The last preview slot corresponds to the state after installing the overclock module",
+  "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor.9.-1520687352": "If there is a conflict between the high-energy module and the overclock module, please install the high-energy module first, then install the overclock module",
   "gtocore.lang.kuangbiao_giant_nuclear_fusion_reactor_energy_storage.0.-660993605": " [can be expanded by installing modules]",
   "gtocore.lang.large_alchemical_device.1.-524313294": "Activate perfect transmutation mode",
   "gtocore.lang.large_alchemical_device.2.461331471": "Gain 0.01x Duration reduction",

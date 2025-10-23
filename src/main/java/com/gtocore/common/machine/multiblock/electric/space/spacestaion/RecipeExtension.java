@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.data.machines.SpaceMultiblock;
+import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.trait.CrossRecipeTrait;
@@ -66,6 +67,10 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     public void onPartScan(@NotNull IMultiPart iMultiPart) {
         super.onPartScan(iMultiPart);
         if (hasLaserInput) return;
+        else if (iMultiPart instanceof WirelessEnergyHatchPartMachine) {
+            hasLaserInput = true;
+            return;
+        }
         for (var partAbility : new PartAbility[] {
                 PartAbility.INPUT_LASER, GTOPartAbility.OVERCLOCK_HATCH, GTOPartAbility.THREAD_HATCH }) {
             if (partAbility.isApplicable(iMultiPart.self().getBlockState().getBlock()))

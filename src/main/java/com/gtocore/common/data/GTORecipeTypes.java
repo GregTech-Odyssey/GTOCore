@@ -980,21 +980,25 @@ public final class GTORecipeTypes {
     public static final RecipeType CRYSTAL_SCAN_RECIPES = register("crystal_scan", "晶片扫描", ELECTRIC)
             .setMaxIOSize(3, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType DATA_ANALYSIS_RECIPES = register("data_analysis", "数据分析", ELECTRIC)
             .setMaxIOSize(3, 6, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType DATA_INTEGRATION_RECIPES = register("data_integration", "数据统合", ELECTRIC)
             .setMaxIOSize(13, 2, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType RECIPES_DATA_GENERATE_RECIPES = register("recipes_data_generate", "配方数据生成", ELECTRIC)
             .setMaxIOSize(11, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType SPACE_STATION_CONSTRUCTION_RECIPES = register("space_station_construction", "空间站建造", MULTIBLOCK)

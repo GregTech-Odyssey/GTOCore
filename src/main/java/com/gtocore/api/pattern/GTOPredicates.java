@@ -105,7 +105,8 @@ public final class GTOPredicates {
                 .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
                 .or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
                 .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1));
+                .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1))
+                .or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1));
     }
 
     public static TraceabilityPredicate tierBlock(Int2ObjectMap<Supplier<?>> map, String tierType) {
