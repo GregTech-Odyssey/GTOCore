@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -24,11 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
 
 public class RewardBagItem extends Item {
 
-    public static final String TAG_LOOT_TABLE = "LootTable";
     private final ResourceLocation defaultLootTable;
 
     public RewardBagItem(Properties properties, ResourceLocation defaultLootTable) {
@@ -55,14 +54,18 @@ public class RewardBagItem extends Item {
             LootParams params = new LootParams.Builder(serverLevel)
                     .withParameter(LootContextParams.TOOL, bagStack)
                     .withParameter(LootContextParams.ORIGIN, player.position())
+                    .withParameter(LootContextParams.THIS_ENTITY, player)
                     .create(LootContextParamSets.FISHING);
             // 3. 执行总次数的抽奖
             for (int i = 0; i < consumeCount; i++) {
-                lootTable.getRandomItems(params, serverLevel.getRandom().nextLong(), item -> Objects.requireNonNull(player.spawnAtLocation(item)).setNoPickUpDelay());
+                lootTable.getRandomItems(params, serverLevel.getRandom().nextLong(), item -> {
+                    if (item.isEmpty()) return;
+                    ItemEntity itemEntity = player.spawnAtLocation(item);
+                    if (itemEntity != null) itemEntity.setNoPickUpDelay();
+                });
             }
             // 播放打开音效
-            level.playSound(null, player.blockPosition(), SoundEvents.ALLAY_ITEM_GIVEN,
-                    SoundSource.PLAYERS, 0.8F, 1.0F);
+            level.playSound(null, player.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.PLAYERS, 0.8F, 1.0F);
             return InteractionResultHolder.success(bagStack);
         }
         return InteractionResultHolder.consume(bagStack);

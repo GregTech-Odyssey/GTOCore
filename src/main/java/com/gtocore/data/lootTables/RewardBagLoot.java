@@ -69,8 +69,11 @@ public final class RewardBagLoot {
                                                          origin, blockState, blockEntity, tool, explosionRadius, stack) -> {
                             if (origin != null) {
                                 float probability = 0.2f * (1 + tool.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE));
-                                if (probability >= 1 || level.random.nextFloat() < probability)
-                                    level.addFreshEntity(new ItemEntity(level, origin.x(), origin.y(), origin.z(), new ItemStack(item, count)));
+                                if (probability >= 1 || level.random.nextFloat() < probability) {
+                                    ItemEntity itemEntity = new ItemEntity(level, origin.x(), origin.y(), origin.z(), new ItemStack(item, count));
+                                    itemEntity.setNoPickUpDelay();
+                                    level.addFreshEntity(itemEntity);
+                                }
                             }
                         }));
     }
@@ -82,15 +85,15 @@ public final class RewardBagLoot {
         LootPool.Builder pool = LootPool.lootPool()
                 .setRolls(getEfficiencyLuckLevel)
                 .setBonusRolls(between(0, 3))
-                .add(getLootItem(RegistriesUtils.getItem("farmersrespite:black_cod"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersrespite:tea_curry"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersrespite:blazing_chili"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersrespite:coffee_cake"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersrespite:rose_hip_pie"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersdelight:beef_patty"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersdelight:hamburger"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersdelight:roasted_mutton_chops"), 60, between(8, 16)))
-                .add(getLootItem(RegistriesUtils.getItem("farmersdelight:hot_cocoa"), 60, between(8, 16)))
+                .add(getLootItem("farmersrespite:black_cod", 60, between(8, 16)))
+                .add(getLootItem("farmersrespite:tea_curry", 60, between(8, 16)))
+                .add(getLootItem("farmersrespite:blazing_chili", 60, between(8, 16)))
+                .add(getLootItem("farmersrespite:coffee_cake", 60, between(8, 16)))
+                .add(getLootItem("farmersrespite:rose_hip_pie", 60, between(8, 16)))
+                .add(getLootItem("farmersdelight:beef_patty", 60, between(8, 16)))
+                .add(getLootItem("farmersdelight:hamburger", 60, between(8, 16)))
+                .add(getLootItem("farmersdelight:roasted_mutton_chops", 60, between(8, 16)))
+                .add(getLootItem("farmersdelight:hot_cocoa", 60, between(8, 16)))
 
                 .add(getLootItem(ChemicalHelper.getItem(ingot, Iron), 80, exactly(1)))
                 .add(getLootItem(ChemicalHelper.getItem(ingot, Copper), 80, exactly(1)))
@@ -102,15 +105,15 @@ public final class RewardBagLoot {
                 .add(getLootItem(Items.REDSTONE, 80, exactly(1)))
                 .add(getLootItem(Items.COAL, 80, exactly(1)))
                 .add(getLootItem(Items.ENDER_PEARL, 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("functionalstorage:copper_upgrade"), 60, between(8, 16)))
+                .add(getLootItem("functionalstorage:copper_upgrade", 60, between(8, 16)))
                 .add(getLootItem(GTItems.FLUID_CELL_LARGE_STEEL.asItem(), 60, between(8, 16)))
 
-                .add(getLootItem(RegistriesUtils.getItem("gtceu:steel_wrench"), 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("gtceu:steel_wire_cutter"), 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("gtceu:steel_hammer"), 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("gtceu:steel_screwdriver"), 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("gtceu:steel_file"), 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("gtceu:silicone_rubber_mallet"), 80, exactly(1)))
+                .add(getLootItem("gtceu:steel_wrench", 80, exactly(1)))
+                .add(getLootItem("gtceu:steel_wire_cutter", 80, exactly(1)))
+                .add(getLootItem("gtceu:steel_hammer", 80, exactly(1)))
+                .add(getLootItem("gtceu:steel_screwdriver", 80, exactly(1)))
+                .add(getLootItem("gtceu:steel_file", 80, exactly(1)))
+                .add(getLootItem("gtceu:silicone_rubber_mallet", 80, exactly(1)))
 
                 .add(getLootItem(GTItems.ELECTRIC_MOTOR_LV.asItem(), 80, exactly(1)))
                 .add(getLootItem(GTItems.CONVEYOR_MODULE_LV.asItem(), 80, exactly(1)))
@@ -129,8 +132,8 @@ public final class RewardBagLoot {
                 .add(getLootItem(GTOItems.UNIVERSAL_CIRCUIT[LV].asItem(), 80, exactly(1)))
                 .add(getLootItem(GTItems.GLASS_TUBE.asItem(), 80, exactly(1)))
                 .add(getLootItem(GTItems.COATED_BOARD.asItem(), 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("sophisticatedbackpacks:upgrade_base"), 80, exactly(1)))
-                .add(getLootItem(RegistriesUtils.getItem("sophisticatedbackpacks:stack_upgrade_tier_1"), 80, exactly(1)));
+                .add(getLootItem("sophisticatedbackpacks:upgrade_base", 80, exactly(1)))
+                .add(getLootItem("sophisticatedbackpacks:stack_upgrade_tier_1", 80, exactly(1)));
 
         return LootTable.lootTable()
                 .withPool(pool)
@@ -143,10 +146,10 @@ public final class RewardBagLoot {
         LootPool.Builder pool = LootPool.lootPool()
                 .setRolls(UniformGenerator.between(2, 4))
                 .setBonusRolls(ConstantValue.exactly(0))
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:stone"), 60, between(3, 6)))
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:oak_planks"), 50, between(2, 5)))
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:coal"), 45, between(1, 4)))
-                .add(getLootItem(RegistriesUtils.getItem("minecraft:iron_nugget"), 40, between(2, 8)));
+                .add(getLootItem("minecraft:stone", 60, between(3, 6)))
+                .add(getLootItem("minecraft:oak_planks", 50, between(2, 5)))
+                .add(getLootItem("minecraft:coal", 45, between(1, 4)))
+                .add(getLootItem("minecraft:iron_nugget", 40, between(2, 8)));
 
         return LootTable.lootTable()
                 .withPool(pool)
@@ -168,7 +171,7 @@ public final class RewardBagLoot {
                 .setRolls(ConstantValue.exactly(1))
                 .add(getLootItem(RegistriesUtils.getItem("minecraft:ender_pearl"), 30, exactly(1)))
                 .add(getLootItem(RegistriesUtils.getItem("minecraft:gold_nugget"), 20, exactly(5)))
-                .add(getEnchantedLootItem(RegistriesUtils.getItem("minecraft:iron_axe"), 25, 1));
+                .add(getEnchantedLootItem(RegistriesUtils.getItem("minecraft:iron_axe"), 25, exactly(1)));
 
         return LootTable.lootTable()
                 .withPool(basicPool)

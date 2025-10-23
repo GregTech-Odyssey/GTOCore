@@ -812,6 +812,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     }
 
     private void highlightArea(boolean light) {
+        if (!(getLevel() instanceof ServerLevel)) return;
         ResourceKey<Level> dimension = getLevel().dimension();
         if (canExport) {
             BlockPos pos1 = null;
