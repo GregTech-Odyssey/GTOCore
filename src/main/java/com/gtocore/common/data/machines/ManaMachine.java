@@ -81,7 +81,7 @@ public final class ManaMachine {
                     .langValue(MANAN[tier] + " Mana Extract Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.EXTRACT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal((GTOValues.MANA[tier] << 2) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(FormattingUtil.formatNumbers(GTOValues.MANA[tier] << 2) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayManaTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -92,7 +92,7 @@ public final class ManaMachine {
                     .langValue(MANAN[tier] + " Mana Input Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.INPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(4 * GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(FormattingUtil.formatNumbers(4 * GTOValues.MANA[tier]) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayManaTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -103,7 +103,7 @@ public final class ManaMachine {
                     .langValue(MANAN[tier] + " Mana Output Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.OUTPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_output", Component.literal(4 * GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_output", Component.literal(FormattingUtil.formatNumbers(4 * GTOValues.MANA[tier]) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayManaTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -114,7 +114,7 @@ public final class ManaMachine {
                     .langValue(MANAN[tier] + " Wireless Mana Input Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.INPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(4 * GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(FormattingUtil.formatNumbers(4 * GTOValues.MANA[tier]) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayManaTieredMachineRenderer(tier, GTOCore.id("block/machine/part/" + "wireless_mana_hatch")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -125,7 +125,7 @@ public final class ManaMachine {
                     .langValue(MANAN[tier] + " Wireless Mana Output Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.OUTPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_output", Component.literal(4 * GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_output", Component.literal(FormattingUtil.formatNumbers(4 * GTOValues.MANA[tier]) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayManaTieredMachineRenderer(tier, GTOCore.id("block/machine/part/" + "wireless_mana_hatch")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
