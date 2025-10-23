@@ -7366,6 +7366,6 @@
   "tooltip.ad_astra.unknown_tag": "§c未知標簽§r: %s",
   "tooltip.gtocore.hold_for_more": "§1按住 %s 顯示更多信息。§r",
   "tooltip.item.pattern.uuid": "編碼者：%s",
-  "tooltip.item.reward_bag.fortune": "時運每級增加獎勵次數",
+  "tooltip.item.reward_bag.increases": "附魔時運或效率以提升獎勵與品質",
   "tooltip.jade.current_gravity": "當前重力: %s"
 }

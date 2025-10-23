@@ -155,6 +155,6 @@ final class ItemLang {
 
         addCNEN("tooltip.item.pattern.uuid", "编码者：%s", "Encoded by: %s");
 
-        addCNEN("tooltip.item.reward_bag.fortune", "时运每级增加奖励次数", "Each level of fortune increases the number of rewards");
+        addCNEN("tooltip.item.reward_bag.increases", "附魔时运或效率以提升奖励与品质", "Enchant Fortune or Efficiency to increase rewards and quality");
     }
 }

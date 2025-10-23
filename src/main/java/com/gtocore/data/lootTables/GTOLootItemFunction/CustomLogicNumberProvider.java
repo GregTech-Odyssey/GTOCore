@@ -1,28 +1,47 @@
 package com.gtocore.data.lootTables.GTOLootItemFunction;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
+import net.minecraft.world.phys.Vec3;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CustomLogicNumberProvider implements NumberProvider {
 
-    public static final CustomLogicNumberProvider INSTANCE = new CustomLogicNumberProvider((p, l, e, pos, t) -> 0);
+    public static final CustomLogicNumberProvider INSTANCE = new CustomLogicNumberProvider((
+                                                                                            thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
+                                                                                            origin, blockState, blockEntity, tool, explosionRadius,
+                                                                                            level) -> 0);
 
     @FunctionalInterface
     public interface NumberLogic {
 
-        int calculate(ServerPlayer player, ServerLevel level, Entity entity, BlockPos pos, ItemStack tool);
+        int calculate(
+                      @Nullable Entity thisEntity,
+                      @Nullable Player lastDamagePlayer,
+                      @Nullable DamageSource damageSource,
+                      @Nullable Entity killerEntity,
+                      @Nullable Entity directKiller,
+                      @Nullable Vec3 origin,
+                      @Nullable BlockState blockState,
+                      @Nullable BlockEntity blockEntity,
+                      @NotNull ItemStack tool,
+                      @Nullable Float explosionRadius,
+                      @NotNull ServerLevel level);
     }
 
     private final NumberLogic logic;
@@ -36,12 +55,20 @@ public class CustomLogicNumberProvider implements NumberProvider {
         ServerLevel level = context.getLevel();
         if (level.isClientSide()) return 0;
 
-        ServerPlayer player = extractPlayer(context);
-        Entity relatedEntity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
-        BlockPos pos = extractPosition(context);
-        ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
+        Entity thisEntity = getParam(context, LootContextParams.THIS_ENTITY);
+        Player lastDamagePlayer = getParam(context, LootContextParams.LAST_DAMAGE_PLAYER);
+        DamageSource damageSource = getParam(context, LootContextParams.DAMAGE_SOURCE);
+        Entity killerEntity = getParam(context, LootContextParams.KILLER_ENTITY);
+        Entity directKiller = getParam(context, LootContextParams.DIRECT_KILLER_ENTITY);
+        Vec3 origin = getParam(context, LootContextParams.ORIGIN);
+        BlockState blockState = getParam(context, LootContextParams.BLOCK_STATE);
+        BlockEntity blockEntity = getParam(context, LootContextParams.BLOCK_ENTITY);
+        ItemStack tool = getParamOrDefault(context, LootContextParams.TOOL, ItemStack.EMPTY);
+        Float explosionRadius = getParam(context, LootContextParams.EXPLOSION_RADIUS);
 
-        return logic.calculate(player, level, relatedEntity, pos, tool);
+        return logic.calculate(
+                thisEntity, lastDamagePlayer, damageSource, killerEntity, directKiller,
+                origin, blockState, blockEntity, tool, explosionRadius, level);
     }
 
     @Override
@@ -54,13 +81,13 @@ public class CustomLogicNumberProvider implements NumberProvider {
         return GTONumberProviders.CUSTOM_LOGIC.get();
     }
 
-    private ServerPlayer extractPlayer(LootContext context) {
-        Entity looter = context.getParamOrNull(LootContextParams.LAST_DAMAGE_PLAYER);
-        return looter instanceof ServerPlayer ? (ServerPlayer) looter : null;
+    private <T> T getParam(LootContext context, LootContextParam<T> param) {
+        return context.getParamOrNull(param);
     }
 
-    private BlockPos extractPosition(LootContext context) {
-        return context.getParamOrNull(LootContextParams.ORIGIN) != null ? BlockPos.containing(context.getParam(LootContextParams.ORIGIN)) : BlockPos.ZERO;
+    private <T> T getParamOrDefault(LootContext context, LootContextParam<T> param, T defaultValue) {
+        T value = context.getParamOrNull(param);
+        return value != null ? value : defaultValue;
     }
 
     public static class Builder {

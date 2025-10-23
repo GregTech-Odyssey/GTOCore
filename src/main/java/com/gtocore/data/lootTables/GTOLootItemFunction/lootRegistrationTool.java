@@ -1,14 +1,7 @@
 package com.gtocore.data.lootTables.GTOLootItemFunction;
 
-import com.gtolib.utils.RegistriesUtils;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraft.world.level.storage.loot.functions.EnchantRandomlyFunction;
@@ -18,26 +11,8 @@ import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly;
-import static net.minecraft.world.level.storage.loot.providers.number.UniformGenerator.between;
 
 public class lootRegistrationTool {
-
-    /**
-     * 为任意 LootPoolSingletonContainer 子类的 Builder 追加自定义逻辑
-     * 泛型约束 T extends LootPoolSingletonContainer.Builder<T>：匹配递归泛型（T 是自身 Builder 的子类型）
-     */
-    public static <T extends LootItem.Builder<T>> @NotNull T appendCustomLogic(
-                                                                               @NotNull T baseBuilder,
-                                                                               CustomLogicFunction.LootLogic logic) {
-        return baseBuilder.apply(new CustomLogicFunction.Builder(logic));
-    }
-
-    /**
-     * 输入自定义逻辑获取 NumberProvider
-     */
-    public static CustomLogicNumberProvider appendCustomNumberProvider(CustomLogicNumberProvider.NumberLogic logic) {
-        return new CustomLogicNumberProvider.Builder(logic).build();
-    }
 
     /**
      * 创建设定数量的物品战利品条目
@@ -46,40 +21,6 @@ public class lootRegistrationTool {
         return LootItem.lootTableItem(item)
                 .setWeight(weight)
                 .apply(SetItemCountFunction.setCount(countValue));
-    }
-
-    /**
-     * 创建设定数量带品质的物品战利品条目
-     */
-    public static @NotNull LootItem.Builder getLootItemWithQuality(Item item, int weight, NumberProvider countValue,int quality,NumberProvider dynamicValue) {
-        return LootItem.lootTableItem(item)
-                .setWeight(weight)
-                .apply(SetItemCountFunction.setCount(countValue))
-                .setQuality(quality);
-    }
-
-    /**
-     * 创建固定数量的物品战利品条目
-     */
-    @Deprecated(
-                forRemoval = true,
-                since = "0.5.0")
-    public static @NotNull LootItem.Builder getLootItemExactly(Item item, int weight, int count) {
-        return LootItem.lootTableItem(item)
-                .setWeight(weight)
-                .apply(SetItemCountFunction.setCount(exactly(count)));
-    }
-
-    /**
-     * 创建随机数量范围的物品战利品条目
-     */
-    @Deprecated(
-                forRemoval = true,
-                since = "0.5.0")
-    public static @NotNull LootItem.Builder getLootItemWithRange(Item item, int weight, int minCount, int maxCount) {
-        return LootItem.lootTableItem(item)
-                .setWeight(weight)
-                .apply(SetItemCountFunction.setCount(between(minCount, maxCount)));
     }
 
     /**
@@ -99,55 +40,4 @@ public class lootRegistrationTool {
         return LootTableReference.lootTableReference(tableId)
                 .setWeight(weight);
     }
-
-    // -------------------------- 自定义逻辑示例（泛型类型匹配） --------------------------
-    // 示例1：给玩家添加10个钻石
-    public static final CustomLogicFunction.LootLogic GIVE_DIAMONDS_LOGIC = (player, level, entity, pos, tool, stack) -> {
-        if (player != null) {
-            ItemStack diamonds = new ItemStack(RegistriesUtils.getItem("minecraft:diamond"), 10);
-            if (!player.getInventory().add(diamonds)) {
-                player.drop(diamonds, false); // 背包满则掉落
-            }
-            player.sendSystemMessage(Component.literal("你获得了10个钻石！"));
-        }
-    };
-
-    // 示例2：在战利品位置生成一个宝箱
-    public static final CustomLogicFunction.LootLogic SPAWN_CHEST_LOGIC = (player, level, entity, pos, tool, stack) -> {
-        BlockPos chestPos = pos.above();
-        if (level.isEmptyBlock(chestPos)) { // 检查位置是否可放置
-            level.setBlockAndUpdate(chestPos, RegistriesUtils.getBlock("minecraft:chest").defaultBlockState());
-            if (player != null) {
-                player.sendSystemMessage(Component.literal("附近生成了宝箱：" + chestPos));
-            }
-        }
-    };
-
-    // 示例3：删除相关实体
-    public static final CustomLogicFunction.LootLogic REMOVE_ENTITY_LOGIC = (player, level, entity, pos, tool, stack) -> {
-        if (entity != null && !entity.isRemoved()) {
-            entity.remove(Entity.RemovalReason.DISCARDED);
-            if (player != null) {
-                player.sendSystemMessage(Component.literal("已清除实体：" + entity.getType().getDescriptionId()));
-            }
-        }
-    };
-
-    // 示例4：基于 getLootItemWithRange 添加自定义逻辑（泛型自动匹配）
-    public static final LootItem.Builder diamondEntry = appendCustomLogic(
-            getLootItemWithRange(Items.DIAMOND, 80, 2, 4),
-            (player, level, entity, pos, tool, stack) -> {
-                if (player != null) {
-                    player.sendSystemMessage(Component.literal("发现了钻石！"));
-                }
-            });
-
-    public static final CustomLogicNumberProvider toolNumber = appendCustomNumberProvider(
-            (player, level, entity, pos, tool) -> {
-                if (tool != null && tool.is(Items.DIAMOND_PICKAXE)) {
-                    return level.random.nextInt(3) + 3; // 3-5个
-                } else {
-                    return level.random.nextInt(2) + 1; // 1-2个
-                }
-            });
 }

@@ -1,6 +1,7 @@
 package com.gtocore.common.item;
 
 import com.gtolib.GTOCore;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -41,12 +42,10 @@ public class RewardBagItem extends Item {
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack bagStack = player.getItemInHand(usedHand);
         if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
-            // 获取关联的战利品表，根据时运选择
-            ResourceLocation lootTableId = defaultLootTable;
-            if (lootTableId == null) return InteractionResultHolder.fail(bagStack);
-            LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(lootTableId);
+            // 获取关联的战利品表
+            LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(defaultLootTable);
             if (lootTable == LootTable.EMPTY) {
-                GTOCore.LOGGER.error("Loot table not registered: {}", lootTableId);
+                GTOCore.LOGGER.error("Loot table not registered: {}", defaultLootTable);
                 return InteractionResultHolder.fail(bagStack);
             }
             // 1. 计算消耗数量
@@ -72,7 +71,7 @@ public class RewardBagItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.translatable("tooltip.item.reward_bag.fortune").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("tooltip.item.reward_bag.increases").withStyle(ChatFormatting.BLUE));
     }
 
     @Override
