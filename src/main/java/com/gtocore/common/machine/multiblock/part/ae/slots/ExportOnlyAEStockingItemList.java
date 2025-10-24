@@ -8,6 +8,7 @@ import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
 import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
@@ -81,7 +82,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    public IntIngredientMap getIngredientMap() {
+    public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
         if (machine.isWorkingEnabled()) {
             if (changed) {
                 if (!machine.isOnline()) return IntIngredientMap.EMPTY;

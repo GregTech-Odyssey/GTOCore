@@ -3,24 +3,31 @@ package com.gtocore.common.item;
 import com.gtocore.api.placeholder.IPlaceholder;
 
 import com.gtolib.IItem;
+import com.gtolib.api.recipe.lookup.IngredientConverter;
 import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.FluidUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.RLUtils;
 
+import com.gregtechceu.gtceu.core.mixins.StrictNBTIngredientAccessor;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
+
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import kotlin.Unit;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,8 +39,38 @@ import javax.annotation.Nullable;
 
 public final class DiscItem extends Item implements IPlaceholder<Object, ItemStack, Unit> {
 
+    private static Item DATA_DISC;
+
+    private static final Object2IntOpenHashMap<String> NBTS = new O2IOpenCacheHashMap<>();
+
+    public static final IngredientConverter<Ingredient> INGREDIENT_CONVERTER = (ingredient, amount, map) -> {
+        if (ingredient instanceof StrictNBTIngredientAccessor nbtIngredient) {
+            var nbt = nbtIngredient.getStack().getTag();
+            if (nbt != null && nbtIngredient.getStack().getItem() == DATA_DISC) {
+                if (nbt.tags.get("n") instanceof StringTag stringTag) {
+                    var in = NBTS.getInt(stringTag.getAsString());
+                    map.add(in, amount);
+                    return;
+                }
+            }
+        }
+        MapIngredient.INGREDIENT_CONVERTER.convert(ingredient, amount, map);
+    };
+
+    public static final IngredientConverter<ItemStack> ITEM_CONVERTER = (stack, amount, map) -> {
+        var nbt = stack.getTag();
+        if (nbt != null && stack.getItem() == DATA_DISC) {
+            if (nbt.tags.get("n") instanceof StringTag stringTag) {
+                map.add(NBTS.getInt(stringTag.getAsString()), amount);
+                return;
+            }
+        }
+        MapIngredient.ITEM_CONVERTER.convert(stack, amount, map);
+    };
+
     public DiscItem(Properties properties) {
         super(properties);
+        DATA_DISC = this;
     }
 
     private static final Object EMPTY_CONTENT = ItemStack.EMPTY;
@@ -43,7 +80,7 @@ public final class DiscItem extends Item implements IPlaceholder<Object, ItemSta
         ResourceLocation id = ItemUtils.getIdLocation(itemStack.getItem());
         stack.getOrCreateTag().putString("i", id.getNamespace());
         stack.getOrCreateTag().putString("n", id.getPath());
-        MapIngredient.add(id.getPath());
+        NBTS.computeIfAbsent(id.getPath(), k -> MapIngredient.getCount(null));
         return stack;
     }
 
@@ -52,7 +89,7 @@ public final class DiscItem extends Item implements IPlaceholder<Object, ItemSta
         ResourceLocation id = FluidUtils.getIdLocation(fluid);
         stack.getOrCreateTag().putString("f", id.getNamespace());
         stack.getOrCreateTag().putString("n", id.getPath());
-        MapIngredient.add(id.getPath());
+        NBTS.computeIfAbsent(id.getPath(), k -> MapIngredient.getCount(null));
         return stack;
     }
 

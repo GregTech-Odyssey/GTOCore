@@ -8,6 +8,7 @@ import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
@@ -82,7 +83,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    public IntIngredientMap getIngredientMap() {
+    public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
         if (machine.isWorkingEnabled()) {
             if (changed) {
                 if (!machine.isOnline()) return IntIngredientMap.EMPTY;

@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -228,13 +229,13 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         }
 
         @Override
-        public IntIngredientMap getIngredientMap() {
+        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
             if (changed) {
                 changed = false;
                 intIngredientMap.clear();
                 var amount = ((HugeCustomItemStackHandler) storage).count;
                 if (amount > 0) {
-                    IntIngredientMap.ITEM_CONVERSION.convert(getStackInSlot(0), amount, intIngredientMap);
+                    type.convertItem(getStackInSlot(0), amount, intIngredientMap);
                 }
             }
             return intIngredientMap;

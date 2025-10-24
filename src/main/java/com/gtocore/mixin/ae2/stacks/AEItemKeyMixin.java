@@ -3,6 +3,7 @@ package com.gtocore.mixin.ae2.stacks;
 import com.gtolib.IItem;
 import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.misc.IMapValueCache;
+import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
@@ -167,7 +168,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     public void gtolib$convert(long amount, IntIngredientMap map) {
         if (gtocore$is == null) {
             var m = new IntIngredientMap();
-            IntIngredientMap.ITEM_CONVERSION.convert(getReadOnlyStack(), 1, m);
+            MapIngredient.ITEM_CONVERTER.convert(getReadOnlyStack(), 1, m);
             gtocore$is = m.toIntArray();
         }
         for (var i : gtocore$is) {

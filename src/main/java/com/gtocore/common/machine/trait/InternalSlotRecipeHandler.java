@@ -38,6 +38,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -344,7 +345,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public IntIngredientMap getIngredientMap() {
+        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
             if (slot.itemChanged) {
                 slot.itemChanged = false;
                 slot.itemIngredientMap.clear();
@@ -433,7 +434,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public IntIngredientMap getIngredientMap() {
+        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
             if (slot.fluidChanged) {
                 slot.fluidChanged = false;
                 slot.fluidIngredientMap.clear();

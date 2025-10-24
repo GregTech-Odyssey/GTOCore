@@ -1,5 +1,7 @@
 package com.gtocore.common.data;
 
+import com.gtocore.common.item.DimensionDataItem;
+import com.gtocore.common.item.DiscItem;
 import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
 import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 import com.gtocore.common.recipe.RecipeTypeModify;
@@ -261,6 +263,8 @@ public final class GTORecipeTypes {
             .setMaxIOSize(1, 1, 1, 1)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
+            .ingredientConverter(DiscItem.INGREDIENT_CONVERTER)
+            .itemConverter(DiscItem.ITEM_CONVERTER)
             .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType INTEGRATED_ORE_PROCESSOR = register("integrated_ore_processor", "集成矿石处理", MULTIBLOCK)
@@ -400,6 +404,8 @@ public final class GTORecipeTypes {
             .setMaxIOSize(1, 120, 1, 24)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
+            .ingredientConverter(DimensionDataItem.INGREDIENT_CONVERTER)
+            .itemConverter(DimensionDataItem.ITEM_CONVERTER)
             .addDataInfo(data -> I18n.get("tooltip.avaritia.tier", data.getInt("tier")));
 
     public static final RecipeType SPACE_PROBE_SURFACE_RECEPTION_RECIPES = register("space_probe_surface_reception", "宇宙射线搜集", MULTIBLOCK)
@@ -523,6 +529,8 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(2, 0, 0, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .ingredientConverter(DimensionDataItem.INGREDIENT_CONVERTER)
+            .itemConverter(DimensionDataItem.ITEM_CONVERTER)
             .setSound(GTSoundEntries.COOLING);
 
     public static final RecipeType AGGREGATION_DEVICE_RECIPES = register("aggregation_device", "聚合装置", MULTIBLOCK)
@@ -755,6 +763,8 @@ public final class GTORecipeTypes {
             .setMaxIOSize(3, 1, 3, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .ingredientConverter(DiscItem.INGREDIENT_CONVERTER)
+            .itemConverter(DiscItem.ITEM_CONVERTER)
             .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType SINTERING_FURNACE_RECIPES = register("sintering_furnace", "烧结炉", MULTIBLOCK)
