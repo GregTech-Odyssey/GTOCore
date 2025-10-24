@@ -1101,6 +1101,11 @@ public final class GTOItems {
                 .register();
     }
 
+    public static final ItemEntry<SlotBoostingItems> SLOT_BOOSTING_ITEMS = item("slot_boosting_items", "槽位提升物品", SlotBoostingItems::new)
+            .lang("Slot-Boosting Items")
+            .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+            .register();
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
