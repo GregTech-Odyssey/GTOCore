@@ -155,7 +155,7 @@ public final class PlatformBlockType {
                 int[] sizes;
                 try {
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(PlatformBlockType.class.getClassLoader()
-                            .getResourceAsStream("data/gtocore/platforms/" + name))))) {
+                            .getResourceAsStream("assets/" + resource.toString().replace(":", "/")))))) {
 
                         String line = reader.readLine().trim();
                         if (line.startsWith(".size(") && line.endsWith(")")) {
@@ -186,19 +186,6 @@ public final class PlatformBlockType {
                         sizes[2]);
             }
         }
-    }
-
-    private static @NotNull ResourceManager getResourceManager() throws IOException {
-        ResourceManager resourceManager;
-        if (FMLLoader.getDist().isClient()) {
-            Minecraft minecraft = Minecraft.getInstance();
-            resourceManager = minecraft.getResourceManager();
-        } else {
-            net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            if (server == null) throw new IOException("Server instance is not running");
-            resourceManager = server.getResourceManager();
-        }
-        return resourceManager;
     }
 
     // ===================================================================

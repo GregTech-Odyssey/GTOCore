@@ -414,7 +414,7 @@ final class PlatformStructurePlacer {
                                     int rotation,
                                     IntConsumer onBatch,
                                     Runnable onFinished) throws IOException {
-        String resourcePath = "data/" + structure.resource().getNamespace() + "/" + structure.resource().getPath();
+        String resourcePath = "assets/" + structure.resource().toString().replace(":", "/");
         try (InputStream input = PlatformStructurePlacer.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (input == null) {
                 throw new FileNotFoundException("Structure file not found: " + structure.resource());
