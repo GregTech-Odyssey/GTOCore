@@ -53,7 +53,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
      * @reason .
      */
     @Overwrite(remap = false)
-    public static AEFluidKey of(FluidStack fluidVariant) {
+    public static @Nullable AEFluidKey of(FluidStack fluidVariant) {
         if (fluidVariant.isEmpty()) {
             return null;
         }
