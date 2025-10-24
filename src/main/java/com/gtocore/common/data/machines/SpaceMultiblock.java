@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.*;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.OrbitalSmeltingFacility;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.SpaceDroneDock;
@@ -35,6 +36,7 @@ import net.minecraft.core.BlockPos;
 
 import com.google.common.collect.ImmutableSet;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -244,31 +246,58 @@ public class SpaceMultiblock {
             .register();
     // 工业空间站六向衔接舱
     public static final MachineDefinition SPACE_STATION_DOCKING_MODULE = multiblock("space_station_docking_module", "工业空间站六向衔接舱", (c) -> new Conjunction(c, machine -> {
-
-        var pos = machine.getPos();
-        var fFacing = machine.getFrontFacing();
-        var uFacing = machine.getUpwardsFacing();
-        boolean isFlipped = machine.isFlipped();
-        var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped), 11);
-        ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
-        for (RelativeDirection dir : RelativeDirection.values()) {
-            if (dir == RelativeDirection.RIGHT) continue;
-            var newFFacing = dir.getRelative(fFacing, uFacing, isFlipped);
-            var newUFacing = RelativeDirection.UP.getRelative(newFFacing, uFacing, isFlipped);
-            var shiftedPos = hallwayCenter.relative(newFFacing, dir == RelativeDirection.LEFT ? 8 : 5);
-            builder.add(shiftedPos.relative(RelativeDirection.UP.getRelative(newFFacing, newUFacing, isFlipped), 2));
-            builder.add(shiftedPos.relative(RelativeDirection.DOWN.getRelative(newFFacing, newUFacing, isFlipped), 2));
-            builder.add(shiftedPos.relative(RelativeDirection.LEFT.getRelative(newFFacing, newUFacing, isFlipped), 2));
-            builder.add(shiftedPos.relative(RelativeDirection.RIGHT.getRelative(newFFacing, newUFacing, isFlipped), 2));
+        var machine1 = (Conjunction) machine;
+        if (machine1.getSubFormed()[0]) {
+            var pos = machine.getPos();
+            var fFacing = machine.getFrontFacing();
+            var uFacing = machine.getUpwardsFacing();
+            boolean isFlipped = machine.getIsFormedsFlipped()[0];
+            var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped), 11);
+            ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
+            for (RelativeDirection dir : RelativeDirection.values()) {
+                if (dir == RelativeDirection.RIGHT) continue;
+                var newFFacing = dir.getRelative(fFacing, uFacing, isFlipped);
+                var newUFacing = RelativeDirection.UP.getRelative(newFFacing, uFacing, isFlipped);
+                var shiftedPos = hallwayCenter.relative(newFFacing, dir == RelativeDirection.LEFT ? 8 : 5);
+                builder.add(shiftedPos.relative(RelativeDirection.UP.getRelative(newFFacing, newUFacing, isFlipped), 2));
+                builder.add(shiftedPos.relative(RelativeDirection.DOWN.getRelative(newFFacing, newUFacing, isFlipped), 2));
+                builder.add(shiftedPos.relative(RelativeDirection.LEFT.getRelative(newFFacing, newUFacing, isFlipped), 2));
+                builder.add(shiftedPos.relative(RelativeDirection.RIGHT.getRelative(newFFacing, newUFacing, isFlipped), 2));
+            }
+            return builder.build();
         }
-        return builder.build();
+        if (machine1.getSubFormed()[1]) {
+            var pos = machine.getPos();
+            var fFacing = machine.getFrontFacing();
+            var uFacing = machine.getUpwardsFacing();
+            boolean isFlipped = machine.getIsFormedsFlipped()[1];
+            var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.LEFT.getRelative(fFacing, uFacing, isFlipped), 8);
+            ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
+            for (RelativeDirection dir : RelativeDirection.values()) {
+                if (dir == RelativeDirection.RIGHT) continue;
+                var newFFacing = dir.getRelative(fFacing, uFacing, isFlipped);
+                var newUFacing = RelativeDirection.UP.getRelative(newFFacing, uFacing, isFlipped);
+                var shiftedPos = hallwayCenter.relative(newFFacing, dir == RelativeDirection.BACK || dir == RelativeDirection.FRONT ? 8 : 5);
+                builder.add(shiftedPos.relative(RelativeDirection.UP.getRelative(newFFacing, newUFacing, isFlipped), 2));
+                builder.add(shiftedPos.relative(RelativeDirection.DOWN.getRelative(newFFacing, newUFacing, isFlipped), 2));
+                builder.add(shiftedPos.relative(RelativeDirection.LEFT.getRelative(newFFacing, newUFacing, isFlipped), 2));
+                builder.add(shiftedPos.relative(RelativeDirection.RIGHT.getRelative(newFFacing, newUFacing, isFlipped), 2));
+            }
+            return builder.build();
+        }
+        return Set.of();
     }))
             .allRotation()
             .workableInSpace()
             .tooltips(GTOMachineTooltips.INSTANCE.getConjunctionSpaceStationModuleTooltips().getSupplier())
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getSpaceStationDockingModule().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("M")
+                    .where('M', controller(blocks(definition.get())))
+                    .build())
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACDCA       ", "         ACpppCA      ", "         BDpppDB      ", "         ACpppCA      ", "          ACDCA       ", "           ABA        ", "                      ", "                      ", "                      ")
                     .aisle("                      ", "                      ", "                      ", "           ABA        ", "          ACcCA       ", "         ACpppCA      ", "         BcpppcB      ", "         ACpppCA      ", "          ACcCA       ", "           ABA        ", "                      ", "                      ", "                      ")
                     .aisle("                      ", "                      ", "                      ", "           EEE        ", "       EEEECCCEEEE    ", "      EEEECpppCEEEE   ", "      EEEECpppCEEEE   ", "      EEEECpppCEEEE   ", "       EEEECCCEEEE    ", "           EEE        ", "                      ", "                      ", "                      ")
@@ -293,6 +322,35 @@ public class SpaceMultiblock {
                     .where('H', GTOPredicates.light())
                     .where('I', controller(blocks(definition.get())))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where(' ', any())
+                    .build())
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+                    .aisle("                   ", "                   ", "                   ", "        ABA        ", "       ACDCA       ", "      ACpppCA      ", "      BDpppDB      ", "      ACpppCA      ", "       ACDCA       ", "        ABA        ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "        ABA        ", "       ACcCA       ", "      ACpppCA      ", "      BcpppcB      ", "      ACpppCA      ", "       ACcCA       ", "        ABA        ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "        EEE        ", "    EEEECCCEEEE    ", "   EEEECpppCEEEE   ", "   EEEECpppCEEEE   ", "   EEEECpppCEEEE   ", "    EEEECCCEEEE    ", "        EEE        ", "                   ", "                   ", "                   ")
+                    .aisle("        ABA        ", "        ABA        ", "        EEE        ", "    EEEECCCEEEE    ", "   EEEEEGGGEEEEE   ", "AAECGGGGpppGGGGCEAA", "BBECGHHGpppGHHGCEBB", "AAECGGGGpppGGGGCEAA", "   EEEEEGGGEEEEE   ", "    EEEECCCEEEE    ", "        EEE        ", "        ABA        ", "        ABA        ")
+                    .aisle("       ACDCA       ", "       ACcCA       ", "    EEEECCCEEEE    ", "   EEEEEGGGEEEEE   ", "AAEFFFFFFFFFFFFFEAA", "CCCpppppppppppppCCC", "DcCpppppppppppppCcD", "CCCpppppppppppppCCC", "AAEFFFFFFFFFFFFFEAA", "   EEEEEGGGEEEEE   ", "    EEEECCCEEEE    ", "       ACcCA       ", "       ACDCA       ")
+                    .aisle("      ACpppCA      ", "      ACpppCA      ", "   EEEECpppCEEEE   ", "AAECGGGGpppGGGGCEAA", "CCCpppppppppppppCCC", "ppppppppppppppppppp", "ppppppppppppppppppp", "ppppppppppppppppppp", "CCCpppppppppppppCCC", "AAECGGGGpppGGGGCEAA", "   EEEECpppCEEEE   ", "      ACpppCA      ", "      ACpppCA      ")
+                    .aisle("      BDpppDB      ", "      BcpppcB      ", "   EEEECpppCEEEE   ", "BBECGHHGpppGHHGCEBB", "DcCpppppppppppppCcD", "ppppppppppppppppppp", "ppppppppppppppppppp", "ppppppppppppppppppp", "DcCpppppppppppppCcD", "BBECGHHGpppGHHGCEBB", "   EEEECpppCEEEE   ", "      BcpppcB      ", "      BDpppDB      ")
+                    .aisle("      ACpppCA      ", "      ACpppCA      ", "   EEEECpppCEEEE   ", "AAECGGGGpppGGGGCEAA", "CCCpppppppppppppCCC", "ppppppppppppppppppp", "ppppppppppppppppppp", "ppppppppppppppppppp", "CCCpppppppppppppCCC", "AAECGGGGpppGGGGCEAA", "   EEEECpppCEEEE   ", "      ACpppCA      ", "      ACpppCA      ")
+                    .aisle("       ACDCA       ", "       ACcCA       ", "    EEEECCCEEEE    ", "   EEEEEGGGEEEEE   ", "AAEFFFFFFFFFFFFFEAA", "CCCpppppppppppppCCC", "DcCpppppppppppppCcD", "CCCpppppppppppppCCC", "AAEFFFFFFFFFFFFFEAA", "   EEEEEGGGEEEEE   ", "    EEEECCCEEEE    ", "       ACcCA       ", "       ACDCA       ")
+                    .aisle("        ABA        ", "        ABA        ", "        EEE        ", "    EEEECCCEEEE    ", "   EEEEEGGGEEEEE   ", "AAECGGGGpppGGGGCEAA", "BBECGHHGpppGHHGCEBB", "AAECGGGGpppGGGGCEAA", "   EEEEEGGGEEEEE   ", "    EEEECCCEEEE    ", "        EEE        ", "        ABA        ", "        ABA        ")
+                    .aisle("                   ", "                   ", "                   ", "        EEE        ", "    EEEECCCEEEE    ", "   EEEECpppCEEEE   ", "   EEEECpppCEEEE   ", "   EEEECpppCEEEE   ", "    EEEECCCEEEE    ", "        EEE        ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "        ABA        ", "       ACcCA       ", "      ACpppCA      ", "      BcpppcB      ", "      ACpppCA      ", "       ACcCA       ", "        ABA        ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "        ABA        ", "       ACDCA       ", "      ACpppCA      ", "      BDpppDB      ", "      ACpppCA      ", "       ACDCA       ", "        ABA        ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "       D           ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .aisle("                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "       I           ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ")
+                    .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('c', CONJUNCTION.traceabilityPredicate.get())
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('F', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('G', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('H', GTOPredicates.light())
+                    .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('I', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))

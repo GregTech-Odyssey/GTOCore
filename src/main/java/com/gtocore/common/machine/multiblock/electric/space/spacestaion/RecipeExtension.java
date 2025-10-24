@@ -49,18 +49,8 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
-        if (!isWorkspaceReady()) {
-            setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
-            return false;
-        }
-        if (hasLaserInput && !core.canUseLaser()) {
-            ((IEnhancedRecipeLogic) getRecipeLogic())
-                    .gtolib$setIdleReason(Component.translatable("gtocore.machine.spacestation.require_module", Component.translatable(SpaceMultiblock.SPACE_STATION_ENERGY_CONVERSION_MODULE.getDescriptionId())));
-            return false;
-        }
-
-        return super.beforeWorking(recipe);
+    protected final boolean beforeWorking(@Nullable Recipe recipe) {
+        return true;
     }
 
     @Override
@@ -111,6 +101,16 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
 
     @Override
     public Recipe getRealRecipe(@NotNull Recipe recipe) {
+        if (!isWorkspaceReady()) {
+            setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
+            return null;
+        }
+        if (hasLaserInput && !core.canUseLaser()) {
+            ((IEnhancedRecipeLogic) getRecipeLogic())
+                    .gtolib$setIdleReason(Component.translatable("gtocore.machine.spacestation.require_module", Component.translatable(SpaceMultiblock.SPACE_STATION_ENERGY_CONVERSION_MODULE.getDescriptionId())));
+            return null;
+        }
+
         return ICrossRecipeMachine.super.getRealRecipe(recipe);
     }
 

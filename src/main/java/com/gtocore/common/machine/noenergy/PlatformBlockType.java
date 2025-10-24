@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,9 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public final class PlatformBlockType {
@@ -157,12 +154,8 @@ public final class PlatformBlockType {
 
                 int[] sizes;
                 try {
-                    ResourceManager resourceManager = getResourceManager();
-                    Optional<Resource> optionalResource = resourceManager.getResource(resource);
-                    if (optionalResource.isEmpty()) throw new IOException("Resource not found: " + resource);
-                    Resource res = optionalResource.get();
-                    try (InputStream inputStream = res.open();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(PlatformBlockType.class.getClassLoader()
+                            .getResourceAsStream("data/gtocore/platforms/" + name))))) {
 
                         String line = reader.readLine().trim();
                         if (line.startsWith(".size(") && line.endsWith(")")) {

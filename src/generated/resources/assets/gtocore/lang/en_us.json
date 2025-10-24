@@ -4080,6 +4080,8 @@
   "gtocore.lang.space_station.6.-802288837": "Must be constructed in space",
   "gtocore.lang.space_station.8.-137832514": "Operation requires a base energy consumption of 1920EU/t",
   "gtocore.lang.space_station.9.1164388326": "Fixed consumption every 10 seconds:",
+  "gtocore.lang.space_station_docking_module.0.-680245480": "Use the module building function of the advanced terminal to select different forms of this chamber",
+  "gtocore.lang.space_station_docking_module.1.-817645016": "Cannot form multiple shapes at the same time",
   "gtocore.lang.space_station_energy_conversion_module.1.-655739246": "When installed, other expansion modules in the space station will be able to use advanced modules such as §dLaser Chamber§r/§dOverclocking Chamber§r/§dThread Chamber§r",
   "gtocore.lang.space_station_environmental_maintenance_module.1.-195370703": "Provides a super clean environment for all machines in the current space station",
   "gtocore.lang.space_station_environmental_maintenance_module.2.704079179": "The level of environment provided depends on the types of filter blocks installed",

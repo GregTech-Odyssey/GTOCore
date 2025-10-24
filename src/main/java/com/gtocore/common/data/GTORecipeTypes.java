@@ -1017,6 +1017,7 @@ public final class GTORecipeTypes {
             .addDataInfo(data -> LocalizationUtils.format(BUILD_SPACE_STATION_DESC_1))
             .addDataInfo(data -> LocalizationUtils.format(BUILD_SPACE_STATION_DESC_2))
             .setSound(GTSoundEntries.ASSEMBLER)
+            .noSearch(true)
             .setIconSupplier(() -> TIER_1_ROCKET.get().getDefaultInstance());
 
     //////////////////////////////////////
