@@ -15,14 +15,10 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.Set;
 
 @MethodsReturnNonnullByDefault
 abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements IIWirelessInteractor<WaterPurificationPlantMachine> {
@@ -84,8 +80,8 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     }
 
     @Override
-    public Map<ResourceLocation, Set<WaterPurificationPlantMachine>> getMachineNet() {
-        return WaterPurificationPlantMachine.NETWORK;
+    public Class<WaterPurificationPlantMachine> getProviderClass() {
+        return WaterPurificationPlantMachine.class;
     }
 
     @Override

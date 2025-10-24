@@ -26,10 +26,13 @@ import com.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMac
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
-import com.gtolib.api.ae2.machine.MECPUMachine;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.lang.CNEN;
+import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
+import com.gtolib.api.machine.impl.DroneControlCenterMachine;
+import com.gtolib.api.machine.impl.MECPUMachine;
+import com.gtolib.api.machine.impl.WirelessChargerMachine;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;

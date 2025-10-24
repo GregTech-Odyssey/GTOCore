@@ -7,6 +7,7 @@ import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Abstract
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.Core;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.ISpacePredicateMachine;
 
+import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
 import com.gtolib.api.machine.feature.multiblock.ICustomHighlightMachine;
 import com.gtolib.api.recipe.Recipe;
@@ -57,7 +58,7 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
 
     default void markDirty(boolean dirty) {
         if (getRoot() != null) getRoot().markDirty(dirty);
-        else Core.NETWORK.getOrDefault(getLevel().dimension().location(), Set.of()).forEach(core -> core.markDirty(dirty));
+        else IIWirelessInteractor.getMachineNet(getLevel(), Core.class).forEach(core -> core.markDirty(dirty));
     }
 
     @Nullable

@@ -2,7 +2,7 @@ package com.gtocore.common.machine.trait;
 
 import com.gtocore.common.machine.multiblock.electric.voidseries.AdvancedInfiniteDrillMachine;
 
-import com.gtolib.api.machine.multiblock.DrillingControlCenterMachine;
+import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;
 import com.gtolib.api.recipe.Recipe;

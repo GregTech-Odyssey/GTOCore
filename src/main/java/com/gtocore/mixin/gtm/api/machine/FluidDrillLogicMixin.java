@@ -1,6 +1,6 @@
 package com.gtocore.mixin.gtm.api.machine;
 
-import com.gtolib.api.machine.multiblock.DrillingControlCenterMachine;
+import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;
 
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;

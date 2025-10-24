@@ -1,7 +1,7 @@
 package com.gtocore.common.cover;
 
 import com.gtolib.api.capability.IWirelessChargerInteraction;
-import com.gtolib.api.machine.multiblock.WirelessChargerMachine;
+import com.gtolib.api.machine.impl.WirelessChargerMachine;
 
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;

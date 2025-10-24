@@ -1,7 +1,6 @@
 package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.capability.IIWirelessInteractor;
-import com.gtolib.api.machine.feature.IAirScrubberInteractor;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
@@ -21,19 +20,19 @@ public class AirScrubberMachineMixin extends SimpleTieredMachine {
     @Override
     public void afterWorking() {
         super.afterWorking();
-        IIWirelessInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+        IIWirelessInteractor.removeFromNet(this, AirScrubberMachine.class);
     }
 
     @Override
     public void onWaiting() {
         super.onWaiting();
-        IIWirelessInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+        IIWirelessInteractor.removeFromNet(this, AirScrubberMachine.class);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        IIWirelessInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+        IIWirelessInteractor.removeFromNet(this, AirScrubberMachine.class);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class AirScrubberMachineMixin extends SimpleTieredMachine {
     @Override
     public boolean beforeWorking(GTRecipe recipe) {
         if (super.beforeWorking(recipe)) {
-            IIWirelessInteractor.addToNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+            IIWirelessInteractor.addToNet(this, AirScrubberMachine.class);
             return true;
         }
         return false;

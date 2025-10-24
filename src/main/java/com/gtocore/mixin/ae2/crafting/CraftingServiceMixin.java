@@ -1,7 +1,7 @@
 package com.gtocore.mixin.ae2.crafting;
 
 import com.gtolib.api.ae2.crafting.OptimizedCalculation;
-import com.gtolib.api.ae2.machine.CraftingInterfacePartMachine;
+import com.gtolib.api.machine.impl.CraftingInterfacePartMachine;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;

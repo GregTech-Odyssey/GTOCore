@@ -17,12 +17,10 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -43,8 +41,6 @@ import static com.gtocore.common.data.GTOMaterials.FlocculationWasteSolution;
 import static com.gtolib.utils.ServerUtils.getServer;
 
 public class Core extends AbstractSpaceStation implements ILargeSpaceStationMachine, IWirelessDimensionProvider {
-
-    public static final Map<ResourceLocation, Set<Core>> NETWORK = new O2OOpenCacheHashMap<>();
 
     private @Nullable CleanroomProvider provider = null;
     private @Nullable SpaceStationEnergyConversionModule laserProvider = null;
@@ -82,7 +78,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     public void onStructureFormed() {
         super.onStructureFormed();
         onFormed();
-        IIWirelessInteractor.addToNet(NETWORK, this);
+        IIWirelessInteractor.addToNet(this);
         markDirty(true);
         loadContainer();
     }
@@ -90,7 +86,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     @Override
     public void onUnload() {
         unloadContainer();
-        IIWirelessInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractor.removeFromNet(this);
         super.onUnload();
     }
 
@@ -114,7 +110,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     public void onStructureInvalid() {
         delayedUnload();
         super.onStructureInvalid();
-        IIWirelessInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractor.removeFromNet(this);
         onInvalid();
     }
 

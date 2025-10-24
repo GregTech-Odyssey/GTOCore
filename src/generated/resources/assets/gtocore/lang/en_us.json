@@ -703,6 +703,7 @@
   "block.gtocore.lv_wireless_output_hatch_4a": "§7LV§r 4A Wireless Dynamo Hatch",
   "block.gtocore.lv_world_data_scanner": "Basic World Data Scanner §r",
   "block.gtocore.machine_access_interface": "Machine Access Interface",
+  "block.gtocore.machine_access_link": "Machine Access Link",
   "block.gtocore.machine_access_terminal": "Machine Access Terminal",
   "block.gtocore.machine_casing_circuit_assembly_line": "Machine Casing Circuit Assembly Line",
   "block.gtocore.machine_casing_grinding_head": "Machine Casing Grinding Head",

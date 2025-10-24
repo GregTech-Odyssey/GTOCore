@@ -5,7 +5,7 @@ import com.gtocore.api.machine.IGTOMufflerMachine;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IAirScrubberInteractor;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
-import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
+import com.gtolib.api.machine.feature.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.utils.MachineUtils;
 

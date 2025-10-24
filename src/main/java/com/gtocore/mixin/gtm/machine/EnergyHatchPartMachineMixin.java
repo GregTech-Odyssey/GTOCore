@@ -2,7 +2,7 @@ package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.capability.IWirelessChargerInteraction;
 import com.gtolib.api.machine.feature.IElectricMachine;
-import com.gtolib.api.machine.multiblock.WirelessChargerMachine;
+import com.gtolib.api.machine.impl.WirelessChargerMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;

@@ -4,8 +4,8 @@ import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.CMHatchPartMachine;
 
 import com.gtolib.api.capability.IIWirelessInteractor;
-import com.gtolib.api.machine.multiblock.IDroneControlCenterMachine;
-import com.gtolib.api.machine.part.DroneHatchPartMachine;
+import com.gtolib.api.machine.feature.multiblock.IDroneControlCenterMachine;
+import com.gtolib.api.machine.impl.DroneHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.block.IFilterType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -31,7 +31,6 @@ import java.util.Set;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CLEANROOM_NOT_SET;
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CURRENT_CLEANROOM;
-import static com.gtolib.api.machine.feature.IDroneInteractionMachine.NETWORK;
 
 public class CleanroomProvider extends Extension implements IDroneControlCenterMachine {
 
@@ -54,7 +53,7 @@ public class CleanroomProvider extends Extension implements IDroneControlCenterM
                 default -> CMHatchPartMachine.DUMMY_CLEANROOM;
             };
         }
-        IIWirelessInteractor.addToNet(NETWORK, this);
+        IIWirelessInteractor.addToNet(this, IDroneControlCenterMachine.class);
     }
 
     @Override
@@ -62,14 +61,14 @@ public class CleanroomProvider extends Extension implements IDroneControlCenterM
         super.onStructureInvalid();
         this.cleanroomType = null;
         droneHatchPartMachine.clear();
-        IIWirelessInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractor.removeFromNet(this, IDroneControlCenterMachine.class);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
         this.cleanroomType = null;
-        IIWirelessInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractor.removeFromNet(this, IDroneControlCenterMachine.class);
     }
 
     @Override

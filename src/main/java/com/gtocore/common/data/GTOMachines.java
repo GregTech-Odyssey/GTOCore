@@ -26,7 +26,9 @@ import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
-import com.gtolib.api.machine.part.DroneHatchPartMachine;
+import com.gtolib.api.machine.impl.DroneHatchPartMachine;
+import com.gtolib.api.machine.impl.MachineAccessLinkPartMachine;
+import com.gtolib.api.machine.impl.MachineAccessTerminalPartMachine;
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.api.registries.GTORegistration;
@@ -767,11 +769,18 @@ public final class GTOMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
-    public static final MachineDefinition MACHINE_ACCESS_TERMINAL = machine("machine_access_terminal", "机器访问终端", GTOMachineBuilder::encapsulatorPart)
+    public static final MachineDefinition MACHINE_ACCESS_TERMINAL = machine("machine_access_terminal", "机器访问终端", MachineAccessTerminalPartMachine::new)
             .tier(UEV)
             .allRotation()
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(UEV, GTCEu.id("block/machine/part/data_access_hatch")))
+            .register();
+
+    public static final MachineDefinition MACHINE_ACCESS_LINK = machine("machine_access_link", "机器访问链接仓", MachineAccessLinkPartMachine::new)
+            .tier(UIV)
+            .allRotation()
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(UIV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
     public static final MachineDefinition THERMAL_CONDUCTOR_HATCH = machine("thermal_conductor_hatch", "导热剂仓", ThermalConductorHatchPartMachine::new)

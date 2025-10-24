@@ -3,6 +3,7 @@ package com.gtocore.common.data.machines;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.FluidRenderer;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.electric.gcym.*;
 import com.gtocore.common.machine.multiblock.part.ParallelHatchPartMachine;
@@ -1156,6 +1157,7 @@ public final class GCYMMachines {
                     .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('X', blocks(GCYMBlocks.CASING_SECURE_MACERATION.get())
                             .or(GTOPredicates.autoGCYMAbilities(definition.getRecipeTypes()))
+                            .or(blocks(GTOMachines.MACHINE_ACCESS_LINK.getBlock()).setMaxGlobalLimited(1, 0))
                             .or(autoAbilities(true, false, true)))
                     .where(' ', any())
                     .where('a', GTOPredicates.integralFramework())

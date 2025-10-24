@@ -5,7 +5,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.DimensionDataItem;
 
 import com.gtolib.api.data.GTODimensions;
-import com.gtolib.api.machine.multiblock.DrillingControlCenterMachine;
+import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;

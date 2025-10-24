@@ -703,6 +703,7 @@
   "block.gtocore.lv_wireless_output_hatch_4a": "4安§7LV§r无线动力仓",
   "block.gtocore.lv_world_data_scanner": "基础世界信息扫描仪 §r",
   "block.gtocore.machine_access_interface": "机器访问接口",
+  "block.gtocore.machine_access_link": "机器访问链接仓",
   "block.gtocore.machine_access_terminal": "机器访问终端",
   "block.gtocore.machine_casing_circuit_assembly_line": "电路装配线控制外壳",
   "block.gtocore.machine_casing_grinding_head": "坚固钻头",

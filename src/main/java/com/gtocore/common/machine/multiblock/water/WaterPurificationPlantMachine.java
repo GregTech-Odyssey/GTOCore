@@ -14,13 +14,11 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -32,16 +30,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class WaterPurificationPlantMachine extends ElectricMultiblockMachine {
-
-    static final Map<ResourceLocation, Set<WaterPurificationPlantMachine>> NETWORK = new O2OOpenCacheHashMap<>();
 
     static final int DURATION = 2400;
 
@@ -66,18 +60,18 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        IIWirelessInteractor.addToNet(NETWORK, this);
+        IIWirelessInteractor.addToNet(this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        IIWirelessInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractor.removeFromNet(this);
     }
 
     @Override
     public void onStructureInvalid() {
-        IIWirelessInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractor.removeFromNet(this);
         for (var entry : waterPurificationUnitMachineMap.object2BooleanEntrySet()) {
             if (entry.getBooleanValue()) {
                 entry.getKey().getRecipeLogic().resetRecipeLogic();

@@ -492,6 +492,7 @@ public final class MultiBlockA {
                             .or(abilities(GTOPartAbility.CATALYST_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(GTOPredicates.autoAccelerateAbilities(definition.getRecipeTypes()))
+                            .or(blocks(GTOMachines.MACHINE_ACCESS_LINK.getBlock()).setMaxGlobalLimited(1, 0))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('c', heatingCoils())
                     .where('d', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
