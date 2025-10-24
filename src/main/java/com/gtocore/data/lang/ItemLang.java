@@ -157,23 +157,13 @@ final class ItemLang {
 
         addCNEN("tooltip.item.reward_bag.increases", "附魔时运或效率以提升奖励与品质", "Enchant Fortune or Efficiency to increase rewards and quality");
 
-        // 物品名称（含当前选中槽位）
         addCNEN("item.slot_boost.name", "槽位强化器（当前：%s）", "Slot Booster (Current: %s)");
-        // 切换槽位提示（含当前数量）
-        addCNEN("item.slot_boost.switch_hint", "已选择%s槽，当前数量：%d", "Selected %s Slot, Current Count: %d");
-        // 无效槽位错误提示
+        addCNEN("item.slot_boost.switch_hint", "已选择%s槽，当前数量：%d，需要经验%d点", "Selected %s Slot, Current Count: %d, Requires %d XP");
         addCNEN("item.slot_boost.invalid_slot", "错误：%s槽未注册", "Error: %s Slot Not Registered");
-        // 经验消耗前提示（含消耗、当前/预期数量）
-        addCNEN("item.slot_boost.cost_hint", "添加1个%s槽需要消耗%d经验（将从%d个扩展到%d个）", "Adding 1 %s Slot Costs %d XP (Expands from %d to %d)");
-        // 经验不足提示
         addCNEN("item.slot_boost.xp_shortage", "经验不足！需要%d点，当前仅有%d点", "Insufficient XP! Requires %d, Currently Has %d");
-        // 添加槽位成功提示
-        addCNEN("item.slot_boost.success", "成功添加1个%s槽！消耗%d经验，当前共%d个", "Successfully Added 1 %s Slot! Cost %d XP, Now Has %d Total");
-        // 物品tooltip说明1（切换操作）
+        addCNEN("item.slot_boost.success", "成功添加1个%s槽！当前共%d个", "Successfully Added 1 %s Slot! Now Has %d Total");
         addCNEN("item.slot_boost.tooltip1", "右键点击：切换目标槽位", "Right Click: Switch Target Slot");
-        // 物品tooltip说明2（添加操作）
-        addCNEN("item.slot_boost.tooltip2", "Shift+右键：消耗经验扩展槽位（消耗=当前数量×10）", "Shift+Right Click: Expand Slot with XP (Cost = Current Count × 10)");
-        // 物品tooltip说明3（当前目标槽位）
+        addCNEN("item.slot_boost.tooltip2", "Shift+右键：消耗经验扩展槽位（消耗=当前数量×2000）", "Shift+Right Click: Expand Slot with XP (Cost = Current Count × 2000)");
         addCNEN("item.slot_boost.tooltip3", "当前目标：%s槽", "Current Target: %s Slot");
     }
 }

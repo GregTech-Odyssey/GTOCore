@@ -1101,8 +1101,7 @@ public final class GTOItems {
                 .register();
     }
 
-    public static final ItemEntry<SlotBoostingItems> SLOT_BOOSTING_ITEMS = item("slot_boosting_items", "槽位提升物品", SlotBoostingItems::new)
-            .lang("Slot-Boosting Items")
+    public static final ItemEntry<SlotBoostingItems> SLOT_ENHANCER = item("slot_enhancer", "槽位强化器", SlotBoostingItems::new)
             .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
             .register();
 

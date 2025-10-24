@@ -1227,8 +1227,8 @@ public final class MagicRecipesA {
                     'D', Items.RED_STAINED_GLASS_PANE, 'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite), 'F', Items.MAGENTA_STAINED_GLASS_PANE,
                     'G', RegistriesUtils.getItemStack("botania:tornado_rod"), 'H', Items.CHISELED_DEEPSLATE, 'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
 
-            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("slot_boosting_items"), SLOT_BOOSTING_ITEMS,
-                    "A  ", "   ", "   ",
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("slot_boosting_items"), SLOT_ENHANCER,
+                    "   ", " A ", "   ",
                     'A', PHILOSOPHERS_STONE);
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
