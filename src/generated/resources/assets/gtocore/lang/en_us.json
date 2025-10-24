@@ -5559,6 +5559,7 @@
   "item.gtocore.lubricant_vein_essence": "Lubricant Vein Essence",
   "item.gtocore.luv_power_amplifiers": "Luv Power Amplifiers",
   "item.gtocore.lv_power_amplifiers": "Lv Power Amplifiers",
+  "item.gtocore.lv_reward_bag": "lv Reward Bag",
   "item.gtocore.machining_control_module_mk1": "Machining Control Module Mk1",
   "item.gtocore.machining_control_module_mk2": "Machining Control Module Mk2",
   "item.gtocore.machining_control_module_mk3": "Machining Control Module Mk3",
@@ -7363,5 +7364,6 @@
   "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
   "tooltip.gtocore.hold_for_more": "§1Hold %s for more info.§r",
   "tooltip.item.pattern.uuid": "Encoded by: %s",
+  "tooltip.item.reward_bag.increases": "Enchant Fortune or Efficiency to increase rewards and quality",
   "tooltip.jade.current_gravity": "Current Gravity: %s"
 }

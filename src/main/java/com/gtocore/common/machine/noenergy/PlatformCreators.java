@@ -24,6 +24,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
@@ -470,7 +472,12 @@ class PlatformCreators {
      */
     static Char2ReferenceOpenHashMap<BlockState> loadMappingFromJson(ResourceLocation resLoc) {
         try {
-            ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+            ResourceManager resourceManager;
+            if (FMLLoader.getDist().isClient()) {
+                resourceManager = Minecraft.getInstance().getResourceManager();
+            } else {
+                resourceManager = ServerLifecycleHooks.getCurrentServer().getResourceManager();
+            }
             Optional<Resource> optionalResource = resourceManager.getResource(resLoc);
 
             if (optionalResource.isPresent()) {

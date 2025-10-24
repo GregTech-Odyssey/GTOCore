@@ -5561,6 +5561,7 @@
   "item.gtocore.lubricant_vein_essence": "皂滑精華",
   "item.gtocore.luv_power_amplifiers": "LuV功率增幅器",
   "item.gtocore.lv_power_amplifiers": "LV功率增幅器",
+  "item.gtocore.lv_reward_bag": "LV 戰利品袋",
   "item.gtocore.machining_control_module_mk1": "運行控製模塊 MK-I",
   "item.gtocore.machining_control_module_mk2": "運行控製模塊 MK-II",
   "item.gtocore.machining_control_module_mk3": "運行控製模塊 MK-III",
@@ -7365,5 +7366,6 @@
   "tooltip.ad_astra.unknown_tag": "§c未知標簽§r: %s",
   "tooltip.gtocore.hold_for_more": "§1按住 %s 顯示更多信息。§r",
   "tooltip.item.pattern.uuid": "編碼者：%s",
+  "tooltip.item.reward_bag.increases": "附魔時運或效率以提升獎勵與品質",
   "tooltip.jade.current_gravity": "當前重力: %s"
 }

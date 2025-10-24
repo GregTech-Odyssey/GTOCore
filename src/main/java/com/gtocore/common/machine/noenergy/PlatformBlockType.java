@@ -8,17 +8,22 @@ import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public final class PlatformBlockType {
 
@@ -138,23 +143,37 @@ public final class PlatformBlockType {
             public PlatformBlockStructure build() {
                 if (GTCEu.isDataGen()) return null;
                 if (name == null || name.isEmpty()) {
+                    GTOCore.LOGGER.error("Platform registration error: missing name");
                     return null;
                 }
                 if (resource == null) {
+                    GTOCore.LOGGER.error("Platform registration error: missing Structural Resources: {}", name);
                     return null;
                 }
                 if (symbolMap == null) {
+                    GTOCore.LOGGER.error("Platform registration error: missing Block Mapping: {}", name);
                     return null;
                 }
 
-                int[] sizes = new int[2];
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getInstance().getResourceManager().getResource(resource).get().open()))) {
-                    String line = reader.readLine().trim();
-                    if (line.startsWith(".size(") && line.endsWith(")")) {
-                        String[] parts = line.substring(6, line.length() - 1).split(",");
-                        sizes = new int[] { Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()), Integer.parseInt(parts[2].trim()) };
+                int[] sizes;
+                try {
+                    ResourceManager resourceManager = getResourceManager();
+                    Optional<Resource> optionalResource = resourceManager.getResource(resource);
+                    if (optionalResource.isEmpty()) throw new IOException("Resource not found: " + resource);
+                    Resource res = optionalResource.get();
+                    try (InputStream inputStream = res.open();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+
+                        String line = reader.readLine().trim();
+                        if (line.startsWith(".size(") && line.endsWith(")")) {
+                            String[] parts = line.substring(6, line.length() - 1).split(",");
+                            sizes = new int[] { Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()), Integer.parseInt(parts[2].trim()) };
+                        } else {
+                            throw new IOException("Missing .size(...) definition in: " + resource);
+                        }
                     }
                 } catch (Exception e) {
+                    GTOCore.LOGGER.error("Failed to read structure size for {}: {}", resource, e.getMessage());
                     return null;
                 }
 
@@ -174,6 +193,19 @@ public final class PlatformBlockType {
                         sizes[2]);
             }
         }
+    }
+
+    private static @NotNull ResourceManager getResourceManager() throws IOException {
+        ResourceManager resourceManager;
+        if (FMLLoader.getDist().isClient()) {
+            Minecraft minecraft = Minecraft.getInstance();
+            resourceManager = minecraft.getResourceManager();
+        } else {
+            net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+            if (server == null) throw new IOException("Server instance is not running");
+            resourceManager = server.getResourceManager();
+        }
+        return resourceManager;
     }
 
     // ===================================================================
@@ -238,8 +270,12 @@ public final class PlatformBlockType {
 
             public PlatformPreset build() {
                 if (GTCEu.isDataGen()) return null;
+                if (name == null || name.isEmpty()) {
+                    GTOCore.LOGGER.error("Platform registration group error: missing name");
+                    return null;
+                }
                 if (structures.isEmpty()) {
-                    GTOCore.LOGGER.error("Preset must contain at least one structure");
+                    GTOCore.LOGGER.error("Platform registration group error: preset must contain at least one structure");
                     return null;
                 }
                 return new PlatformPreset(name, displayName, description, source, structures);

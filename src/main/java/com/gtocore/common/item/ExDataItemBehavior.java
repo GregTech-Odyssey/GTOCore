@@ -85,8 +85,7 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
 
             ComponentListSupplier tooltipSupplier = AnalyzeData.INSTANCE.getTooltip(analyzeId);
             if (tooltipSupplier != null) {
-                List<Component> researchComponents = tooltipSupplier.get();
-                tooltip.addAll(researchComponents);
+                tooltip.addAll(tooltipSupplier.get());
             }
         }
     }

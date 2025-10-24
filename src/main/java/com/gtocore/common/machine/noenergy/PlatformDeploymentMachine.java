@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -48,6 +49,7 @@ import static com.gtocore.client.forge.ForgeClientEvent.highlightRegion;
 import static com.gtocore.client.forge.ForgeClientEvent.stopHighlight;
 import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinates;
 import static com.gtocore.common.machine.noenergy.PlatformCreators.PlatformCreationAsync;
+import static com.gtolib.utils.GTOUtils.fastRemoveBlock;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -99,8 +101,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Persisted
     private boolean presetConfirm = false;
     // 当前查看的预设组索引
+    @Persisted
     private int checkGroup = 0;
     // 显示的预设编号
+    @Persisted
     private int checkId = 0;
     // 保存的预设组编号
     @Persisted
@@ -109,8 +113,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Persisted
     private int saveId = 0;
     // 是否显示预览
+    @Persisted
     private boolean preview = false;
     // 是否高亮
+    @Persisted
     private boolean highlight = false;
 
     // ------------------- 第二步：选择偏移 -------------------
@@ -163,6 +169,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // ------------------- 第四步：运行中 -------------------
     // 任务是否完成
+    @Persisted
     private boolean taskCompleted = true;
     // 跳过空气
     @Persisted
@@ -183,6 +190,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Persisted
     private int rotation = 0;
     // 可导出
+    @Persisted
     private boolean canExport = false;
 
     private int progress = 0;
@@ -655,7 +663,13 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             checkGroup = 0;
             saveGroup = 0;
-            return presets.getFirst();
+            try {
+                return presets.getFirst();
+            } catch (IndexOutOfBoundsException | NullPointerException a) {
+                fastRemoveBlock(Objects.requireNonNull(getLevel()), getPos(), false, true);
+                GTOCore.LOGGER.error("You encountered some problems, the presets list is empty: {}", a.getMessage());
+                return presets.getFirst();
+            }
         }
     }
 
@@ -798,6 +812,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     }
 
     private void highlightArea(boolean light) {
+        if (!(getLevel() instanceof ServerLevel)) return;
         ResourceKey<Level> dimension = getLevel().dimension();
         if (canExport) {
             BlockPos pos1 = null;

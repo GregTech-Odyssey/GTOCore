@@ -5559,6 +5559,7 @@
   "item.gtocore.lubricant_vein_essence": "ǝɔuǝssƎ uıǝΛ ʇuɐɔıɹqnꞀ",
   "item.gtocore.luv_power_amplifiers": "sɹǝıɟıןdɯⱯ ɹǝʍoԀ ʌnꞀ",
   "item.gtocore.lv_power_amplifiers": "sɹǝıɟıןdɯⱯ ɹǝʍoԀ ʌꞀ",
+  "item.gtocore.lv_reward_bag": "bɐᗺ pɹɐʍǝᴚ ʌן",
   "item.gtocore.machining_control_module_mk1": "ƖʞW ǝןnpoW ןoɹʇuoƆ buıuıɥɔɐW",
   "item.gtocore.machining_control_module_mk2": "ᄅʞW ǝןnpoW ןoɹʇuoƆ buıuıɥɔɐW",
   "item.gtocore.machining_control_module_mk3": "ƐʞW ǝןnpoW ןoɹʇuoƆ buıuıɥɔɐW",
@@ -7363,5 +7364,6 @@
   "tooltip.ad_astra.unknown_tag": "%s :ɹ§bɐʇ uʍouʞu∩ɔ§",
   "tooltip.gtocore.hold_for_more": "ɹ§˙oɟuı ǝɹoɯ ɹoɟ %s pןoHƖ§",
   "tooltip.item.pattern.uuid": "%s :ʎq pǝpoɔuƎ",
+  "tooltip.item.reward_bag.increases": "ʎʇıןɐnb puɐ spɹɐʍǝɹ ǝsɐǝɹɔuı oʇ ʎɔuǝıɔıɟɟƎ ɹo ǝunʇɹoℲ ʇuɐɥɔuƎ",
   "tooltip.jade.current_gravity": "%s :ʎʇıʌɐɹ⅁ ʇuǝɹɹnƆ"
 }
