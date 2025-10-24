@@ -227,9 +227,11 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             int enchantmentCount = enchantments.size();
             for (int i = 0; i < enchantmentCount; i++) {
                 CompoundTag enchantment = enchantments.getCompound(i);
-                int id = EnchantmentRecord.getSerialNumberByEnchantmentId(enchantment.getString("id"));
-                int lvl = 1 << (enchantment.getInt("lvl") - 1);
-                outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE[id], lvl));
+                if (enchantment.contains("id", 8) && enchantment.contains("lvl", 2)) {
+                    int id = EnchantmentRecord.getSerialNumberByEnchantmentId(enchantment.getString("id"));
+                    int lvl = 1 << (enchantment.getShort("lvl") - 1);
+                    outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE[id], lvl));
+                }
             }
             return true;
         }
@@ -415,7 +417,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             return false;
         });
 
-        int lvl = 64 - Long.numberOfLeadingZeros(count.value);
+        int lvl = Math.max(64 - Long.numberOfLeadingZeros(count.value), 30);
         if (essence.value != null && lvl > 0) {
             String enchantment = EnchantmentRecord.getEnchantmentIdBySerialNumber(extractNumber(essence.value.toString()));
 

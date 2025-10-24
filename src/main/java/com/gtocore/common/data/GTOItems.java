@@ -386,21 +386,11 @@ public final class GTOItems {
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK4 = register("data_crystal_component_mk4", "数据晶片组件 mk4");
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK5 = register("data_crystal_component_mk5", "数据晶片组件 mk5");
 
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 mk1", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 mk2", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 mk3", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 mk4", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 mk5", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 mk1", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 mk2", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 mk3", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 mk4", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 mk5", DataCrystalItem::new).register();
 
     public static final ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_kinetic_rotor", "木", 2400, 4, 10, 0);
     public static final ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_kinetic_rotor", "铁", 14000, 10, 20, 1);
