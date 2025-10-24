@@ -1575,7 +1575,7 @@
   "config.gtocore.option.disableEmbeddiumBECulling": "禁用Embbedium Global方塊實體剔除",
   "config.gtocore.option.disableMufflerPart": "禁用消聲倉",
   "config.gtocore.option.emiGlobalFavorites": "EMI 全局收藏夾",
-  "config.gtocore.option.exPatternSize": "[調試] 擴展樣板供應器容量",
+  "config.gtocore.option.exPatternSize": "擴展樣板供應器容量",
   "config.gtocore.option.fastMultiBlockPage": "快速多方塊頁面加載",
   "config.gtocore.option.ftbUltimineRange": "連鎖挖掘檢查范圍",
   "config.gtocore.option.lightningRodEffect": "引雷針特效",

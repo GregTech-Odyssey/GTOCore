@@ -52,6 +52,7 @@ public class SpaceMultiblock {
     public static final MultiblockMachineDefinition SPACE_STATION = multiblock("space_station", "空间站", SimpleSpaceStationMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getSpaceStationTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceStationTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .workableInSpace()

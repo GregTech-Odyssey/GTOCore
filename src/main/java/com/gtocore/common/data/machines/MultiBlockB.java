@@ -25,6 +25,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -40,7 +41,7 @@ import committee.nova.mods.avaritia.init.registry.ModBlocks;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
+import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
@@ -121,6 +122,7 @@ public final class MultiBlockB {
             .coilParallelTooltips()
             .parallelizableOverclock()
             .block(GTBlocks.HIGH_POWER_CASING)
+            .moduleTooltips(OVERCLOCK_HATCH, THREAD_HATCH)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
                     .where('B', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
@@ -152,6 +154,26 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/blast_furnace"))
+            .addSubPattern(definition -> MultiBlockFileReader.builder().name("wood_dist_crossrecipe").startBuild(definition)
+                    .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
+                    .where('B', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
+                    .where('C', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
+                    .where('D', blocks(GTBlocks.HIGH_POWER_CASING.get())
+                            .or(abilities(THREAD_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                    .where('E', controller(blocks(definition.get())))
+                    .where('F', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('G', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
+                    .where('H', blocks(GTOBlocks.COOLANT_PIPE_CASING.get()))
+                    .where('I', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
+                    .where('J', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('K', blocks(GTOBlocks.TUNGSTEN_ALLOY_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
+                    .where('L', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where('M', blocks(GTOBlocks.INSULATION_TILE_MECHANICAL_BLOCK.get()))
+                    .where('N', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('O', blocks(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.get()))
+                    .where(' ', any())
+                    .build())
             .register();
 
     public static final MultiblockMachineDefinition DESULFURIZER = multiblock("desulfurizer", "脱硫机", CoilCrossRecipeMultiblockMachine::createInfiniteCoilParallel)
@@ -308,11 +330,11 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition FUEL_REFINING_COMPLEX = multiblock("fuel_refining_complex", "燃料精炼复合体", CoilCrossRecipeMultiblockMachine.createCoilParallelEBF())
             .nonYAxisRotation()
-            .parallelizableTooltips()
             .laserTooltips()
             .coilParallelTooltips()
             .recipeTypes(FUEL_REFINING_RECIPES)
             .parallelizableOverclock()
+            .moduleTooltips(OVERCLOCK_HATCH, THREAD_HATCH)
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
@@ -351,6 +373,24 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/gcym/large_brewer"))
+            .addSubPattern(definition -> MultiBlockFileReader.builder().name("fuel_refining_crossrecipe").startBuild(definition)
+                    .where('A', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
+                    .where('B', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
+                    .where('C', controller(blocks(definition.get())))
+                    .where('D', blocks(GTBlocks.HIGH_POWER_CASING.get())
+                            .or(Predicates.abilities(THREAD_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                    .where('E', blocks(GTOBlocks.STABLE_BASE_CASING.get()))
+                    .where('F', blocks(GTOBlocks.HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING.get()))
+                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelJbk75)))
+                    .where('H', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
+                    .where('I', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('K', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
+                    .where('L', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_PIPE_CASING.get()))
+                    .where('M', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where(' ', any())
+                    .build())
             .register();
 
     public static final MultiblockMachineDefinition MICROORGANISM_MASTER = multiblock("microorganism_master", "微生物之主", CrossRecipeMultiblockMachine::createHatchParallel)
