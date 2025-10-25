@@ -870,6 +870,12 @@ public final class GTOItems {
     public static final ItemEntry<Item> SPOOLS_LARGE = register("spools_large", "大型线轴");
     public static final ItemEntry<Item> SPOOLS_JUMBO = register("spools_jumbo", "巨型线轴");
 
+    public static final ItemEntry<Item> RO_MEMBRANE = register("ro_membrane", "ro膜");
+    public static final ItemEntry<Item> NON_WOVEN_FABRIC = register("non_woven_fabric", "无纺布");
+    public static final ItemEntry<Item> ION_EXCHANGE_MEMBRANE = register("ion_exchange_membrane", "离子交换膜");
+    public static final ItemEntry<Item> HOMOGENEOUS_MEMBRANE = register("homogeneous_membrane", "均相膜");
+    public static final ItemEntry<Item> DUAL_UV_LIGHT = register("dual_uv_light", "双波段紫外灯");
+
     public static final ItemEntry<Item> COLORFUL_MYSTICAL_FLOWER = register("colorful_mystical_flower", "多彩神秘花瓣");
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = item("unstable_gaia_soul", "不稳定的盖亚之魂").properties(p -> p.rarity(Rarity.UNCOMMON)).register();

@@ -3457,5 +3457,31 @@ final class ChemicaRreactor {
                 .EUt(8100)
                 .duration(300)
                 .save();
+
+        CHEMICAL_RECIPES.builder("divinylbenzene")
+                .inputItems(GTOTagPrefix.CATALYST, GTOMaterials.ZnFeAlClCatalyst)
+                .inputFluids(GTMaterials.Ethylbenzene, 1000)
+                .inputFluids(GTMaterials.Ethylene, 1000)
+                .outputFluids(GTOMaterials.Divinylbenzene, 2000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        CHEMICAL_RECIPES.builder("Sodium_polystyrene_sulfonate")
+                .inputFluids(GTOMaterials.Polystyrene, 1000)
+                .inputFluids(GTMaterials.Dichloroethane, 1000)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .outputFluids(GTOMaterials.SodiumPolystyreneSulfonate, 3000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        CHEMICAL_RECIPES.builder("trimethy_lamine")
+                .inputFluids(GTOMaterials.Trimethylamine, 1000)
+                .inputFluids(GTMaterials.Chloromethane, 1000)
+                .outputFluids(GTOMaterials.TrimethyLamine, 1000)
+                .EUt(400)
+                .duration(100)
+                .save();
     }
 }

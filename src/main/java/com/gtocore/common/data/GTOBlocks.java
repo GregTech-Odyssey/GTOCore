@@ -488,6 +488,9 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_UV = createCasingBlock("accelerator_electromagnetic_coil_constraint_casing_uv", "UV加速器磁约束线圈机械方块", GTOCore.id("block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_uv"));
     public static final BlockEntry<Block> ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_UHV = createCasingBlock("accelerator_electromagnetic_coil_constraint_casing_uhv", "UHV加速器磁约束线圈机械方块", GTOCore.id("block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_uhv"));
 
+    public static final BlockEntry<Block> ANODE_ADSORPTION_RESIN = createCasingBlock("anode_adsorption_resin", "阳极吸附树脂", GTOCore.id("block/anode_adsorption_resin"));
+    public static final BlockEntry<Block> CATHODE_ADSORPTION_RESIN = createCasingBlock("cathode_adsorption_resin", "阴极吸附树脂", GTOCore.id("block/cathode_adsorption_resin"));
+
     // 耐高压管道机械方块
     public static final BlockEntry<Block> HIGH_PRESSURE_PIPE_CASING = createCasingBlock("high_pressure_pipe_casing", "耐高压管道机械方块", GTOCore.id("block/casings/high_pressure_pipe_casing"));
     // 耐化学腐蚀管道机械方块
