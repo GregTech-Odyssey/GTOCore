@@ -7,8 +7,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gtocore.api.data.material.GTOMaterialFlags.GENERATE_FIBER;
-import static com.gtocore.api.data.material.GTOMaterialFlags.HAS_NANOSCALE_FORM;
+import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -4872,6 +4871,14 @@ public final class MaterialB {
                 .temp(2700)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("Al2O3");
+
+        ZirconiumDiboride = material("zirconium_diboride", "二硼化锆")
+                .dust()
+                .components(Zirconium, 1, Boron, 2)
+                .color(0x4e5166)
+                .iconSet(BRIGHT)
+                .flags(GENERATE_CERAMIC)
+                .buildAndRegister();
 
         BariumTitanateCeramic = material("barium_titanate_ceramic", "钛酸钡陶瓷")
                 .dust()

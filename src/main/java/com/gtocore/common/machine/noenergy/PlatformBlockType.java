@@ -6,23 +6,15 @@ import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.GTCEu;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public final class PlatformBlockType {
@@ -157,12 +149,8 @@ public final class PlatformBlockType {
 
                 int[] sizes;
                 try {
-                    ResourceManager resourceManager = getResourceManager();
-                    Optional<Resource> optionalResource = resourceManager.getResource(resource);
-                    if (optionalResource.isEmpty()) throw new IOException("Resource not found: " + resource);
-                    Resource res = optionalResource.get();
-                    try (InputStream inputStream = res.open();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(PlatformBlockType.class.getClassLoader()
+                            .getResourceAsStream("assets/" + resource.toString().replace(":", "/")))))) {
 
                         String line = reader.readLine().trim();
                         if (line.startsWith(".size(") && line.endsWith(")")) {
@@ -193,19 +181,6 @@ public final class PlatformBlockType {
                         sizes[2]);
             }
         }
-    }
-
-    private static @NotNull ResourceManager getResourceManager() throws IOException {
-        ResourceManager resourceManager;
-        if (FMLLoader.getDist().isClient()) {
-            Minecraft minecraft = Minecraft.getInstance();
-            resourceManager = minecraft.getResourceManager();
-        } else {
-            net.minecraft.server.MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-            if (server == null) throw new IOException("Server instance is not running");
-            resourceManager = server.getResourceManager();
-        }
-        return resourceManager;
     }
 
     // ===================================================================

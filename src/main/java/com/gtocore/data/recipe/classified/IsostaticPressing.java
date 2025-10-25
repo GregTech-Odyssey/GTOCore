@@ -146,5 +146,23 @@ final class IsostaticPressing {
                 .EUt(500)
                 .duration(200)
                 .save();
+
+        ISOSTATIC_PRESSING_RECIPES.builder("zirconium_diboride_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Zirconium, 3)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Boron, 6)
+                .inputItems(GTOTagPrefix.dustTiny, GTOMaterials.CubicZirconia)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.ZirconiumDiboride)
+                .inputFluids(GTMaterials.Epoxy, 1000)
+                .EUt(504)
+                .duration(200)
+                .save();
+
+        ISOSTATIC_PRESSING_RECIPES.builder("titanium3_carbide_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.Titanium3Carbide, 9)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.Titanium3Carbide)
+                .inputFluids(GTMaterials.Epoxy, 1000)
+                .EUt(504)
+                .duration(200)
+                .save();
     }
 }

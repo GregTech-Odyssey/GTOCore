@@ -50,7 +50,7 @@ public class SpaceStationRecipes {
                 .inputItems(SpaceMultiblock.SPACE_STATION.asItem())
                 .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asItem(), 64)
                 .inputItems(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.asItem(), 64)
-                .inputItems(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.asItem(), 32)
+                .inputItems(GTBlocks.CASING_TITANIUM_STABLE.asItem(), 32)
                 .inputItems(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.asItem(), 16)
                 .inputItems(GTOBlocks.PRESSURE_CONTAINMENT_CASING.asItem(), 16)
                 .inputItems(GTBlocks.FILTER_CASING.asItem(), 16)
@@ -180,7 +180,7 @@ public class SpaceStationRecipes {
             });
             var recipe = SPACE_STATION_CONSTRUCTION_RECIPES.builder(id.getPath()).dimension(dimension.getLocation());
             ingredients.forEach(i -> recipe.inputItems(i.ingredient(), i.count()));
-            recipe.circuitMeta(circuitMeta.incrementAndGet()).save();
+            recipe.save();
         }
     }
 }

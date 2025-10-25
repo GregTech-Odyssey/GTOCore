@@ -1042,15 +1042,6 @@ public final class MaterialA {
                 .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GENERATE_FIBER, HAS_NANOSCALE_FORM)
                 .buildAndRegister();
 
-        ZirconiumDiboride = material("zirconium_diboride", "二硼化锆")
-                .ingot()
-                .fluid()
-                .blastTemp(3245, HIGH)
-                .components(Zirconium, 1, Boron, 2)
-                .color(0x4e5166)
-                .iconSet(BRIGHT)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_CERAMIC)
-                .buildAndRegister();
         LeadZirconateTitanateCeramic = material("lead_zirconate_titanate_ceramic", "钛酸铅锆")
                 .dust()
                 .components(Lead, 1, Zirconium, 1, Titanium, 1, Oxygen, 3)
