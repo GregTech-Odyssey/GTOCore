@@ -40,7 +40,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -50,7 +50,6 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,14 +63,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, DummyEnergyMachine {
 
     private static final DummyContainer CONTAINER = new DummyContainer(120);
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrimitiveDistillationTowerMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
+
     @NotNull
     private List<IFluidHandler> fluidOutputs = Collections.emptyList();
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     public Widget createUIWidget() {
@@ -82,9 +76,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         return group;
     }
 
-    private static final ItemStack COAL = Items.COAL.getDefaultInstance();
-    private static final ItemStack COAL_BLOCK = Items.COAL_BLOCK.getDefaultInstance();
-    private static final ItemStack COAL_DUST = ChemicalHelper.get(TagPrefix.dust, GTMaterials.Coal);
+    private static final Item COAL_DUST = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
     @Persisted
     @DescSynced
     @RequireRerender
@@ -99,8 +91,6 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private int tier;
     @Persisted
     private long time;
-    @Persisted
-    private boolean isActive;
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;
 
@@ -180,10 +170,8 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * 如果机器当前未激活，将其状态设为激活并更新激活的区块。
      */
     private void activateMachine() {
-        if (!isActive) {
-            isActive = true;
-            updateActiveBlocks(true);
-        }
+        activated = true;
+        this.requestSync();
     }
 
     /**
@@ -257,10 +245,8 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * 如果机器当前处于激活状态，则将其状态设为非激活，并更新相关的活动块标志。
      */
     private void deactivateMachine() {
-        if (isActive) {
-            isActive = false;
-            updateActiveBlocks(false);
-        }
+        activated = false;
+        this.requestSync();
     }
 
     /**
@@ -270,13 +256,13 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      */
     private void checkAndRefuel(long offsetTimer) {
         if (isWorkingEnabled() && offsetTimer % 10 == 0) {
-            if (inputItem(COAL)) {
+            if (inputItem(Items.COAL, 1)) {
                 tier = TIER_INCREASE;
                 time += 1200;
-            } else if (inputItem(COAL_BLOCK)) {
+            } else if (inputItem(Items.COAL_BLOCK, 1)) {
                 tier = TIER_DECREASE;
                 time += 21600;
-            } else if (inputItem(COAL_DUST)) {
+            } else if (inputItem(COAL_DUST, 1)) {
                 tier = 4;
                 time += 500;
             }
@@ -362,7 +348,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     public void onStructureFormed() {
         super.onStructureFormed();
         int startY = getPos().getY() + 1;
-        List<IMultiPart> parts = getParts().stream().filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
+        List<IMultiPart> parts = Arrays.stream(getParts()).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
         if (!parts.isEmpty()) {
             int maxY = parts.get(parts.size() - 1).self().getPos().getY();
             fluidOutputs = new ObjectArrayList<>(maxY - startY);

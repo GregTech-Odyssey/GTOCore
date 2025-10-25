@@ -11,6 +11,8 @@ import com.gregtechceu.gtceu.client.util.TooltipHelper
 import com.gtolib.api.annotation.NewDataAttributes
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider
 import com.gtolib.utils.StringUtils
+import dev.shadowsoffire.placebo.color.GradientColor
+
 class ComponentListSupplier(var list: MutableList<ComponentSupplier> = mutableListOf()) : Supplier<List<Component>> {
     var translationPrefix: String = ""
         private set
@@ -160,6 +162,7 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
     fun blue(): ComponentSupplier = operatorComponent {
         withStyle { it.withColor(ChatFormatting.BLUE) }
     }
+
     fun rainbow(): ComponentSupplier = operatorComponent {
         withStyle { it.withColor(TooltipHelper.RAINBOW.current) }
     }
@@ -172,42 +175,38 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
         withStyle { it.withColor(TooltipHelper.RAINBOW_SLOW.current) }
     }
 
-    // 数据类 - 统一金色系
-    fun InfoData() = transformComponent { text: ComponentSupplier -> text.gold() }
-    fun InfoDataImportant() = transformComponent { text: ComponentSupplier -> text.gold().bold() }
+    fun rainbowGradient(): ComponentSupplier = operatorComponent {
+        withStyle { it.withColor(GradientColor.RAINBOW) }
+    }
 
-    // 功能类 - 青色系
-    fun InfoFunction() = transformComponent { text: ComponentSupplier -> text.aqua() }
-    fun InfoFunctionPrimary() = transformComponent { text: ComponentSupplier -> text.aqua().bold() }
+    fun rainbowGradient(float: Float, int: Int, boolean: Boolean): ComponentSupplier = operatorComponent {
+        withStyle { it.withColor(OffsetGradientColor(float, int, boolean)) }
+    }
 
-    // 安全类 - 绿色系
-    fun InfoSafe() = transformComponent { text: ComponentSupplier -> text.green() }
-    fun InfoRecommend() = transformComponent { text: ComponentSupplier -> text.green().bold() }
-
-    // 警告类 - 黄色系
-    fun InfoWarning() = transformComponent { text: ComponentSupplier -> text.yellow() }
-    fun InfoCaution() = transformComponent { text: ComponentSupplier -> text.yellow().bold() }
-
-    // 危险类 - 红色系
-    fun InfoDanger() = transformComponent { text: ComponentSupplier -> text.red() }
-    fun InfoCritical() = transformComponent { text: ComponentSupplier -> text.red().bold() }
-
-    // 交互类 - 白色系
-    fun InfoOperation() = transformComponent { text: ComponentSupplier -> text.white() }
-    fun InfoOperationKey() = transformComponent { text: ComponentSupplier -> text.white().bold() }
-
-    // 辅助类 - 灰色系
-    fun InfoSupport() = transformComponent { text: ComponentSupplier -> text.gray() }
-    fun InfoBrand() = transformComponent { text: ComponentSupplier -> text.gray().italic() }
+    fun rainbowGradient(int: Int): ComponentSupplier = operatorComponent {
+        withStyle { it.withColor(OffsetGradientColor(1f, int)) }
+    }
 
     // ////////////////////////////////
     // ****** 滚动 ******//
     // //////////////////////////////
-    fun scrollWhiteBlue(): ComponentSupplier = transformComponent { supplier ->
+    fun scrollSuprachronal(): ComponentSupplier = transformComponent { supplier ->
         StringUtils.white_blue(supplier.component.string).toLiteralSupplier()
     }
     fun scrollFullColor(): ComponentSupplier = transformComponent { supplier ->
         StringUtils.full_color(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollBioware(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.dark_green(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollOptical(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.golden(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollExotic(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.purplish_red(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollCosmic(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.dark_purplish_red(supplier.component.string).toLiteralSupplier()
     }
 
     // ////////////////////////////////

@@ -73,6 +73,5 @@ final class Distillery {
                 .EUt(400)
                 .duration(100)
                 .save();
-
     }
 }

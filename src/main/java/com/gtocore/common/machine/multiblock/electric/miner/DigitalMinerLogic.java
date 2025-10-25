@@ -1,11 +1,12 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gtolib.IItem;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.capability.recipe.*;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
@@ -25,15 +26,15 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
-
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DigitalMinerLogic.class, CustomRecipeLogic.MANAGED_FIELD_HOLDER);
 
     @Persisted
     protected int x = Integer.MAX_VALUE;
@@ -71,6 +72,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
 
     // ===================== 矿块搜索线程相关 =====================
     private Thread minerSearchThread;
+    private PathNavigationRegion chunkCache;
     private volatile boolean isSearchingBlocks = false;
 
     public DigitalMinerLogic(@NotNull IRecipeLogicMachine machine,
@@ -179,10 +181,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     // ===================== 生命周期相关方法 =====================
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     public void onMachineUnLoad() {
@@ -258,7 +256,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         }
     }
 
-    public void onBlocksFound(List<BlockPos> foundBlocks) {
+    private void onBlocksFound(List<BlockPos> foundBlocks) {
         synchronized (oresToMine) {
             oresToMine.clear();
             oresToMine.addAll(foundBlocks);
@@ -275,6 +273,51 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         }
     }
 
+    private LinkedList<BlockPos> getBlocksToMine() {
+        LinkedList<BlockPos> blocks = new LinkedList<>();
+        int calcAmount = Integer.MAX_VALUE;
+        int calculated = 0;
+        int x = startX, y = startY, z = startZ;
+        final int endX = getMaxX(), endZ = getMaxZ(), minHeight = getMinY();
+        ItemFilter itemFilter = (this.filter instanceof ItemFilter filter) ? filter : null;
+        FluidFilter fluidFilter = (this.filter instanceof FluidFilter filter) ? filter : null;
+        while (calculated < calcAmount) {
+            if (y >= minHeight) {
+                if (z < endZ) {
+                    if (x < endX) {
+                        BlockPos blockPos = new BlockPos(x, y, z);
+                        BlockState state = chunkCache.getBlockState(blockPos);
+                        if (!isInMultiblock(blockPos) &&
+                                state.getBlock() != Blocks.AIR &&
+                                (!state.hasBlockEntity() || (itemFilter != null && itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack()))) &&
+                                state.getBlock().defaultDestroyTime() >= 0) {
+                            if (state.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore && itemFilter == null) {
+                                if (fluidFilter == null || fluidFilter.test(new FluidStack(liq.getFluidState(state).getType(), 1))) {
+                                    blocks.addLast(blockPos);
+                                }
+                            } else if (fluidFilter == null) {
+                                if (itemFilter == null || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
+                                    blocks.addLast(blockPos);
+                                }
+                            }
+                        }
+                        ++x;
+                    } else {
+                        x = startX;
+                        ++z;
+                    }
+                } else {
+                    z = startZ;
+                    --y;
+                }
+            } else
+                return blocks;
+            if (!blocks.isEmpty())
+                calculated = blocks.size();
+        }
+        return blocks;
+    }
+
     private boolean isInMultiblock(BlockPos pos) {
         var x = pos.getX();
         var y = pos.getY();
@@ -287,81 +330,20 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     // ===================== 矿块搜索线程相关方法 =====================
-    public void checkBlocksToMine() {
+    private void checkBlocksToMine() {
         if (oresToMine.isEmpty() && !isSearchingBlocks) {
             synchronized (oresToMine) {
                 isSearchingBlocks = true;
-                minerSearchThread = new SearcherThread();
-                minerSearchThread.start();
+                minerSearchThread = Thread.ofVirtual().name("DigitalMiner-BlockSearchThread at " + DigitalMinerLogic.this.getMachine().getPos().toShortString()).start(() -> {
+                    if (minBuildHeight == Integer.MAX_VALUE) minBuildHeight = getMachine().getLevel().getMinBuildHeight();
+                    chunkCache = new PathNavigationRegion(getMiner().getLevel(),
+                            new BlockPos(startX - 1, startY - 1, startZ - 1),
+                            new BlockPos((int) (area.maxX + 1), (int) (area.maxY + 1), (int) (area.maxZ + 1)));
+                    var foundBlocks = getBlocksToMine();
+                    chunkCache = null;
+                    onBlocksFound(foundBlocks);
+                });
             }
-        }
-    }
-
-    private class SearcherThread extends Thread {
-
-        private PathNavigationRegion chunkCache;
-
-        public SearcherThread() {
-            super("DigitalMiner-BlockSearchThread at " + DigitalMinerLogic.this.getMachine().getPos().toShortString());
-            if (minBuildHeight == Integer.MAX_VALUE)
-                minBuildHeight = getMachine().getLevel().getMinBuildHeight();
-            this.chunkCache = new PathNavigationRegion(
-                    getMiner().getLevel(),
-                    new BlockPos(startX - 1, startY - 1, startZ - 1),
-                    new BlockPos((int) (area.maxX + 1), (int) (area.maxY + 1), (int) (area.maxZ + 1)));
-            setDaemon(true);
-        }
-
-        @Override
-        public void run() {
-            List<BlockPos> foundBlocks = getBlocksToMine();
-            chunkCache = null;
-            onBlocksFound(foundBlocks);
-        }
-
-        private LinkedList<BlockPos> getBlocksToMine() {
-            LinkedList<BlockPos> blocks = new LinkedList<>();
-            int calcAmount = Integer.MAX_VALUE;
-            int calculated = 0;
-            int x = startX, y = startY, z = startZ;
-            final int endX = getMaxX(), endZ = getMaxZ(), minHeight = getMinY();
-            ItemFilter itemFilter = (DigitalMinerLogic.this.filter instanceof ItemFilter filter) ? filter : null;
-            FluidFilter fluidFilter = (DigitalMinerLogic.this.filter instanceof FluidFilter filter) ? filter : null;
-            while (calculated < calcAmount) {
-                if (y >= minHeight) {
-                    if (z < endZ) {
-                        if (x < endX) {
-                            BlockPos blockPos = new BlockPos(x, y, z);
-                            BlockState state = chunkCache.getBlockState(blockPos);
-                            if (!isInMultiblock(blockPos) &&
-                                    state.getBlock() != Blocks.AIR &&
-                                    chunkCache.getBlockEntity(blockPos) == null &&
-                                    state.getBlock().defaultDestroyTime() >= 0) {
-                                if (state.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore && itemFilter == null) {
-                                    if (fluidFilter == null || fluidFilter.test(new FluidStack(liq.getFluidState(state).getType(), 1))) {
-                                        blocks.addLast(blockPos);
-                                    }
-                                } else if (fluidFilter == null) {
-                                    if (itemFilter == null || itemFilter.test(state.getBlock().asItem().getDefaultInstance())) {
-                                        blocks.addLast(blockPos);
-                                    }
-                                }
-                            }
-                            ++x;
-                        } else {
-                            x = startX;
-                            ++z;
-                        }
-                    } else {
-                        z = startZ;
-                        --y;
-                    }
-                } else
-                    return blocks;
-                if (!blocks.isEmpty())
-                    calculated = blocks.size();
-            }
-            return blocks;
         }
     }
 
@@ -418,9 +400,8 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     protected void getRegularBlockDrops(NonNullList<ItemStack> blockDrops, BlockState blockState, BlockPos blockPos) {
-        blockDrops.addAll(
-                lootCache.computeIfAbsent(blockState, state -> Block.getDrops(state, (ServerLevel) getMachine().getLevel(),
-                        blockPos, null).stream().map(ItemStack::copy).toList()));
+        Function<BlockState, List<ItemStack>> mappingFunction = state -> Block.getDrops(state, (ServerLevel) getMachine().getLevel(), blockPos, null).stream().map(ItemStack::copy).toList();
+        blockDrops.addAll(blockState.hasBlockEntity() ? mappingFunction.apply(blockState) : lootCache.computeIfAbsent(blockState, mappingFunction));
     }
 
     protected static void getSilkTouchDrops(NonNullList<ItemStack> blockDrops, BlockState blockState) {
@@ -443,8 +424,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     private boolean mineAndInsertFluids(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos) {
         if (blockState.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore) {
             boolean isSource = liq.getFluidState(blockState).isSource();
-            if (isSource && fluidMode == DigitalMiner.FluidMode.Harvest &&
-                    !MachineUtils.outputFluid(miner, new FluidStack(liq.getFluidState(blockState).getType(), 1000))) {
+            if (isSource && fluidMode == DigitalMiner.FluidMode.Harvest && !MachineUtils.outputFluid(miner, liq.getFluidState(blockState).getType(), 1000)) {
                 this.isInventoryFull = true;
                 return true;
             }

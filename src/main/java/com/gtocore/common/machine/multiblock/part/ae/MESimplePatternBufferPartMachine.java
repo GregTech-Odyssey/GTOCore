@@ -14,7 +14,7 @@ public class MESimplePatternBufferPartMachine extends MEPatternBufferPartMachine
                          enComment = "The number of AE patterns that can be stored inside the machine",
                          cn = "插槽数量",
                          cnComment = "内部可以放入的AE样板个数",
-                         simpleValue = "9",
+                         easyValue = "9",
                          normalValue = "0",
                          expertValue = "0")
     private static int slotCount = 9;

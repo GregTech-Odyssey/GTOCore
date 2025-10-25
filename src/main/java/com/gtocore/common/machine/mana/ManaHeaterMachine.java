@@ -15,19 +15,17 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.core.Direction;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachine {
 
-    private static final FluidStack SALAMANDER = GTOMaterials.Salamander.getFluid(FluidStorageKeys.GAS, 10);
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ManaHeaterMachine.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
+    private static final Fluid SALAMANDER = GTOMaterials.Salamander.getFluid(FluidStorageKeys.GAS);
 
     @Persisted
     @DescSynced
@@ -103,7 +101,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     public boolean onWorking() {
         if (super.onWorking()) {
             if (getOffsetTimer() % 10 == 0 && getMaxTemperature() > temperature + 10) {
-                var hasSalamander = inputFluid(SALAMANDER);
+                var hasSalamander = inputFluid(SALAMANDER, 10);
                 this.salamanderInput = hasSalamander;
                 raiseTemperature(hasSalamander ? 10 : 2);
             }
@@ -121,12 +119,6 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     @Override
     public int getMaxTemperature() {
         return 2400;
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

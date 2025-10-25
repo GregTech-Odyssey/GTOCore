@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import com.enderio.base.common.init.EIOItems;
@@ -50,10 +49,10 @@ final class Autoclave {
 
         AUTOCLAVE_RECIPES.recipeBuilder("soul_soil")
                 .inputItems(EIOItems.FILLED_SOUL_VIAL.asItem())
-                .inputItems(new ItemStack(Blocks.ROOTED_DIRT.asItem()))
+                .inputItems(Blocks.ROOTED_DIRT.asItem())
                 .inputFluids(GTMaterials.LiquidNetherAir.getFluid(100))
                 .outputItems(EIOItems.EMPTY_SOUL_VIAL.asItem())
-                .outputItems(new ItemStack(Blocks.SOUL_SOIL.asItem()))
+                .outputItems(Blocks.SOUL_SOIL.asItem())
                 .EUt(480)
                 .duration(240)
                 .save();
@@ -99,8 +98,8 @@ final class Autoclave {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("super_mutated_living_solder")
-                .inputItems(GTOItems.SPACE_ESSENCE.asStack(64))
-                .inputItems(GTOItems.DRACONIUM_DIRT.asStack(64))
+                .inputItems(GTOItems.SPACE_ESSENCE.asItem(), 64)
+                .inputItems(GTOItems.DRACONIUM_DIRT.asItem(), 64)
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(10000))
                 .outputItems(GTOBlocks.ESSENCE_BLOCK.asItem())
                 .outputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(10000))
@@ -162,6 +161,35 @@ final class Autoclave {
                 .EUt(30)
                 .duration(100)
                 .addCondition(new VacuumCondition(2))
+                .save();
+        AUTOCLAVE_RECIPES.builder("impregnated_alkane_filled_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.BasicMFPC)
+                .inputItems(TagPrefix.dustSmall, GTOMaterials.Cetane)
+                .outputItems(TagPrefix.dust, GTOMaterials.ImpregnatedAlkaneFilledMFPC)
+                .inputFluids(GTOMaterials.LiquidNitrogen, 2000)
+                .outputFluids(GTMaterials.Nitrogen, 2000)
+                .EUt(9000)
+                .duration(1600)
+                .addCondition(new VacuumCondition(4))
+                .save();
+        AUTOCLAVE_RECIPES.builder("impregnated_alkane_filled_recycled_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.RecycleBasicMFPC)
+                .inputItems(TagPrefix.dustSmall, GTOMaterials.Cetane)
+                .outputItems(TagPrefix.dust, GTOMaterials.ImpregnatedAlkaneFilledMFPC)
+                .inputFluids(GTOMaterials.LiquidNitrogen, 2000)
+                .outputFluids(GTMaterials.Nitrogen, 2000)
+                .EUt(9000)
+                .duration(160)
+                .addCondition(new VacuumCondition(4))
+                .save();
+        AUTOCLAVE_RECIPES.builder("etched_carbon_nanotube_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.CarbonNanotubes)
+                .inputItems(TagPrefix.dustTiny, GTMaterials.RockSalt)
+                .outputItems(TagPrefix.dust, GTOMaterials.EtchedCarbonNanotube)
+                .inputFluids(GTOMaterials.SodiumHydroxideSolution, 1000)
+                .EUt(1222)
+                .duration(1222)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
 }

@@ -3,7 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.NaturalGas;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.RefineryGas;
 import static com.gtocore.common.data.GTORecipeTypes.DESULFURIZER_RECIPES;
 

@@ -630,6 +630,16 @@ public final class Lanthanidetreatment {
                     .addData("special", true)
                     .save();
 
+            DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder("make_extraction_nano_resin_" + i)
+                    .inputItems(NANITES, Carbon, 1)
+                    .notConsumable(lens, NetherStar, 1)
+                    .inputFluids(rareEarthElement.getFluid(4000))
+                    .inputFluids(P507.getFluid(4000))
+                    .outputFluids(nanoResin.getFluid(1000))
+                    .duration(1200)
+                    .EUt(491520)
+                    .save();
+
             LARGE_CHEMICAL_RECIPES.recipeBuilder("extraction_nano_resin_a_" + i)
                     .inputFluids(nanoResin.getFluid(1000))
                     .inputFluids(ConcentratedRareEarthChlorideSolution.getFluid(1000))

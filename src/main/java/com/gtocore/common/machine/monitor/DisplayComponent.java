@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.monitor;
 
+import com.gtocore.api.gui.graphic.impl.GTOLineChartClientComponent;
+import com.gtocore.api.gui.graphic.impl.GTOLineChartToolTipComponent;
 import com.gtocore.api.gui.graphic.impl.GTOProgressClientComponent;
 import com.gtocore.api.gui.graphic.impl.GTOProgressToolTipComponent;
 import com.gtocore.api.gui.helper.GuiIn3DHelper;
@@ -17,6 +19,10 @@ import appeng.api.stacks.GenericStack;
 import appeng.client.gui.me.common.StackSizeRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class DisplayComponent implements IDisplayComponent {
 
@@ -82,41 +88,40 @@ public abstract class DisplayComponent implements IDisplayComponent {
 
     public static class ProgressBar extends DisplayComponent {
 
-        private float progress; // 0.0 to 1.0
-        private int width;
-        private String text = ""; // Optional text to display on the progress bar
-        private ProgressBarColorStyle style = ProgressBarColorStyle.Companion.getDEFAULT_GREEN(); // Default style
+        private final GTOProgressToolTipComponent toolTipComponent;
 
         private ProgressBar(ResourceLocation id) {
             super(id);
+            this.toolTipComponent = new GTOProgressToolTipComponent(0, "", ProgressBarColorStyle.Companion.getDEFAULT_GREEN());
+        }
+
+        public ProgressBar setInformation(float progress, String text, ProgressBarColorStyle style, int height) {
+            return setInformation(progress, height, text, style);
         }
 
         @Override
-        public IDisplayComponent setInformation(Object... information) {
-            if (information.length >= 3 && information[0] instanceof Float progressValue && information[1] instanceof Integer widthValue && information[2] instanceof Integer heightValue) {
-                this.progress = progressValue;
-                this.width = widthValue;
-                if (information.length >= 5 && information[3] instanceof String text0 &&
-                        information[4] instanceof ProgressBarColorStyle style0) {
-                    // Optionally handle text if needed, currently unused
-                    this.text = text0;
-                    this.style = style0;
+        public ProgressBar setInformation(Object... information) {
+            if (information.length >= 2 && information[0] instanceof Float progressValue && information[1] instanceof Integer heightValue) {
+                if (information.length >= 4 && information[2] instanceof String textValue && information[3] instanceof ProgressBarColorStyle styleValue) {
+                    toolTipComponent.setText(textValue);
+                    toolTipComponent.setProgressColorStyle(styleValue);
                 }
+                toolTipComponent.setPercentage(progressValue);
+                toolTipComponent.setHeight(heightValue);
             } else {
-                this.progress = 0.0f; // Default to 0 if no valid values provided
-                this.width = 100; // Default width
+                toolTipComponent.setPercentage(0);
             }
             return this;
         }
 
         @Override
         public int getVisualWidth() {
-            return width;
+            return toolTipComponent.getWidth();
         }
 
         @Override
         public int getVisualHeight() {
-            return 16;
+            return toolTipComponent.getHeight();
         }
 
         @Override
@@ -135,25 +140,110 @@ public abstract class DisplayComponent implements IDisplayComponent {
                                   int combinedOverlay,
                                   int lastLineX,
                                   int startY) {
-            GuiIn3DHelper.renderIn3D(
-                    stack,
-                    (gui, pose) -> {
-
-                        // guiPose.translate(0, 0, -400);
-                        pose.scale(1f, 1f, 1e-3f);
-                        new GTOProgressClientComponent(new GTOProgressToolTipComponent(progress, text, style)).renderImage(Minecraft.getInstance().font, 0, startY, gui);
-                    });
+            GuiIn3DHelper.renderIn3D(stack, (gui, pose) -> {
+                pose.scale(1f, 1f, 0.01f);
+                new GTOProgressClientComponent(toolTipComponent).renderImage(Minecraft.getInstance().font, 0, startY, gui);
+            });
         }
     }
 
-    public static ProgressBar progressBar(ResourceLocation id, float progress, int width, int height) {
-        return (ProgressBar) new ProgressBar(id)
-                .setInformation(progress, width, height);
+    public static ProgressBar progressBar(ResourceLocation id, float progress) {
+        return progressBar(id, progress, 15);
     }
 
-    public static ProgressBar progressBar(ResourceLocation id, float progress, int width, int height, String text, ProgressBarColorStyle style) {
-        return (ProgressBar) new ProgressBar(id)
-                .setInformation(progress, width, height, text, style);
+    public static ProgressBar progressBar(ResourceLocation id, float progress, int height) {
+        return new ProgressBar(id).setInformation(progress, height);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text) {
+        return progressBar(id, progress, text, 15);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text, int height) {
+        return new ProgressBar(id).setInformation(progress, text, ProgressBarColorStyle.Companion.getDEFAULT_GREEN(), height);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text, ProgressBarColorStyle style) {
+        return progressBar(id, progress, text, style, 15);
+    }
+
+    public static ProgressBar progressBar(ResourceLocation id, float progress, String text, ProgressBarColorStyle style, int height) {
+        return new ProgressBar(id).setInformation(progress, text, style, height);
+    }
+
+    public static class LineChart extends DisplayComponent {
+
+        private final GTOLineChartToolTipComponent toolTipComponent;
+
+        private LineChart(ResourceLocation id) {
+            super(id);
+            // 初始化一个空的图表数据容器
+            this.toolTipComponent = new GTOLineChartToolTipComponent(
+                    new ArrayList<>(), // 初始数据为空
+                    0xFF2ECC71,      // 默认线条颜色
+                    true             // 默认填充区域
+            );
+        }
+
+        @Override
+        public LineChart setInformation(Object... information) {
+            // 解析传入的数据
+            if (information.length > 0 && information[0] instanceof List) {
+                try {
+                    // 进行类型安全的转换
+                    @SuppressWarnings("unchecked")
+                    List<BigInteger> dataList = (List<BigInteger>) information[0];
+                    toolTipComponent.setData(dataList);
+                } catch (ClassCastException e) {
+                    // 如果传入的 List 不是 BigInteger 类型，则清空数据以避免错误
+                    toolTipComponent.setData(new ArrayList<>());
+                }
+            } else {
+                toolTipComponent.setData(new ArrayList<>());
+            }
+            // 未来可以扩展，从 information 中解析更多参数，如颜色、高度等
+            return this;
+        }
+
+        @Override
+        public int getVisualWidth() {
+            return toolTipComponent.getWidth();
+        }
+
+        @Override
+        public int getVisualHeight() {
+            return toolTipComponent.getHeight();
+        }
+
+        @Override
+        public DisplayType getDisplayType() {
+            return DisplayType.CUSTOM_RENDERER;
+        }
+
+        @Override
+        public void renderDisplay(
+                                  Manager.GridNetwork network,
+                                  BlockEntity blockEntity,
+                                  float partialTicks,
+                                  PoseStack stack,
+                                  MultiBufferSource buffer,
+                                  int combinedLight,
+                                  int combinedOverlay,
+                                  int lastLineX,
+                                  int startY) {
+            // 与 ProgressBar 类似, 创建渲染器并调用其渲染方法
+            GuiIn3DHelper.renderIn3D(stack, (gui, pose) -> {
+                pose.scale(1f, 1f, 0.01f);
+                new GTOLineChartClientComponent(toolTipComponent).renderImage(Minecraft.getInstance().font, 0, startY, gui);
+            });
+        }
+    }
+
+    /**
+     * 静态工厂方法，用于方便地创建 LineChart 组件.
+     */
+    public static LineChart lineChart(ResourceLocation id, List<BigInteger> data) {
+        return new LineChart(id).setInformation(data);
     }
 
     public static class TextWithStack extends Text {

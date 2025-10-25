@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -21,6 +22,8 @@ import appeng.core.definitions.AEItems;
 import com.enderio.base.common.init.EIOFluids;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
+import static com.gregtechceu.gtceu.api.GTValues.UEV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.INCUBATOR_RECIPES;
 
 final class Incubator {
@@ -33,7 +36,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/barite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.CERTUS_QUARTZ_ESSENCE.asStack(64))
+                .outputItems(GTOItems.CERTUS_QUARTZ_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -45,14 +48,14 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/neodymium"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.MONAZITE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.MONAZITE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("biomediumraw")
-                .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(64))
-                .inputItems(GTOItems.TCETIESEAWEEDEXTRACT.asStack(16))
+                .inputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 64)
+                .inputItems(GTOItems.TCETIESEAWEEDEXTRACT.asItem(), 16)
                 .inputFluids(GTMaterials.RawGrowthMedium.getFluid(10000))
                 .outputFluids(GTOMaterials.BiomediumRaw.getFluid(10000))
                 .EUt(1920)
@@ -69,23 +72,37 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/malachite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.IRON_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.IRON_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("variation_wood")
-                .inputItems(GTOBlocks.BARNARDA_C_LOG.asStack(64))
-                .inputItems(new ItemStack(Blocks.CRIMSON_STEM.asItem(), 16))
+                .inputItems(GTOBlocks.BARNARDA_C_LOG.asItem(), 64)
+                .inputItems(Blocks.CRIMSON_STEM.asItem(), 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Wood, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Lapotron)
                 .inputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .inputFluids(GTMaterials.Biomass.getFluid(1000))
-                .outputItems(GTOBlocks.VARIATION_WOOD.asStack(64))
+                .outputItems(GTOBlocks.VARIATION_WOOD.asItem(), 64)
                 .EUt(1966080)
                 .duration(2400)
                 .addData("filter_casing", 3)
                 .addData("radioactivity", 440)
+                .save();
+
+        INCUBATOR_RECIPES.builder("barnarda_c_log_from_echo")
+                .inputItems("deeperdarker:echo_sapling", 4)
+                .inputItems("deeperdarker:echo_log", 32)
+                .inputItems(GTOBlocks.BARNARDA_C_LOG.asItem(), 32)
+                .inputItems(TagPrefix.dust, GTOMaterials.StreptococcusPyogenes, 16)
+                .inputItems(TagPrefix.dust, GTOMaterials.Shewanella, 16)
+                .outputItems(GTOBlocks.BARNARDA_C_LOG.asItem(), 64)
+                .inputFluids(GTOMaterials.BarnardaAir, 10000)
+                .EUt(VA[UEV])
+                .addData("filter_casing", 3)
+                .addData("radioactivity", 440)
+                .duration(1200)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("lubricant_vein_essence")
@@ -96,7 +113,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/pentlandite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.LUBRICANT_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.LUBRICANT_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -109,16 +126,16 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/calcite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.LAPIS_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.LAPIS_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("stem_cells")
-                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 2000, 100)
-                .inputItems(GTItems.STEM_CELLS.asStack(32))
+                .chancedInput(GTOItems.GLACIO_SPIRIT.asItem(), 2000, 100)
+                .inputItems(GTItems.STEM_CELLS.asItem(), 32)
                 .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(400))
-                .outputItems(GTItems.STEM_CELLS.asStack(64))
+                .outputItems(GTItems.STEM_CELLS.asItem(), 64)
                 .EUt(30720)
                 .duration(300)
                 .addData("filter_casing", 2)
@@ -132,7 +149,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/copper"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.COPPER_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.COPPER_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -145,7 +162,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/pentlandite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.NICKEL_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.NICKEL_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -155,7 +172,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/oilsands"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.OILSANDS_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.OILSANDS_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -168,16 +185,16 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/gold"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.BANDED_IRON_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.BANDED_IRON_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("chorus_fruit")
-                .notConsumable(new ItemStack(Blocks.CHORUS_FLOWER.asItem(), 64))
+                .notConsumable(Blocks.CHORUS_FLOWER.asItem(), 64)
                 .inputFluids(GTOMaterials.UnknowWater.getFluid(1000))
                 .inputFluids(GTMaterials.EnderPearl.getFluid(100))
-                .outputItems(new ItemStack(Items.CHORUS_FRUIT.asItem(), 64))
+                .outputItems(Items.CHORUS_FRUIT.asItem(), 64)
                 .EUt(120)
                 .duration(1200)
                 .addData("radioactivity", 230)
@@ -191,7 +208,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/gold"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.MAGNETITE_VEIN_END_ESSENCE.asStack(64))
+                .outputItems(GTOItems.MAGNETITE_VEIN_END_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -202,16 +219,16 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/uraninite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.PITCHBLENDE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.PITCHBLENDE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("seaweedbroth")
-                .inputItems(new ItemStack(Blocks.KELP.asItem(), 64))
+                .inputItems(Blocks.KELP.asItem(), 64)
                 .inputItems(TagPrefix.dust, GTOMaterials.AlienAlgae, 32)
                 .inputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract, 16)
-                .inputItems(GTItems.ENERGIUM_DUST.asStack(8))
+                .inputItems(GTItems.ENERGIUM_DUST.asItem(), 8)
                 .inputItems(TagPrefix.dust, GTOMaterials.Mithril)
                 .inputFluids(GTOMaterials.UnknownNutrientAgar.getFluid(50000))
                 .inputFluids(GTMaterials.Methane.getFluid(50000))
@@ -229,7 +246,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/lead"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.GALENA_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.GALENA_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -242,7 +259,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/alunite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.SALTPETER_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.SALTPETER_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -255,16 +272,16 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/powellite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.MOLYBDENUM_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.MOLYBDENUM_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("dragon_cells")
-                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 6000, 100)
-                .inputItems(GTOItems.DRAGON_CELLS.asStack(32))
+                .chancedInput(GTOItems.GLACIO_SPIRIT.asItem(), 6000, 100)
+                .inputItems(GTOItems.DRAGON_CELLS.asItem(), 32)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(4000))
-                .outputItems(GTOItems.DRAGON_CELLS.asStack(64))
+                .outputItems(GTOItems.DRAGON_CELLS.asItem(), 64)
                 .EUt(491520)
                 .duration(1600)
                 .addData("filter_casing", 3)
@@ -278,7 +295,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/spodumene"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.SALTS_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.SALTS_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -290,7 +307,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/cinnabar"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.REDSTONE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.REDSTONE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -302,7 +319,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/pyrochlore"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.APATITE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.APATITE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -326,7 +343,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/palladium"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.SHELDONITE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.SHELDONITE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -339,7 +356,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/pollucite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.MICA_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.MICA_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -348,10 +365,10 @@ final class Incubator {
                 .inputItems(GTOItems.ESSENCE_SEED.asItem())
                 .inputItems(TagUtils.createTGTag("ores/nether_quartz"))
                 .inputItems(TagUtils.createTGTag("ores/quartzite"))
-                .inputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 5))
+                .inputItems(Blocks.ANCIENT_DEBRIS.asItem(), 5)
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.NETHER_QUARTZ_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.NETHER_QUARTZ_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -364,7 +381,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/glauconite_sand"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.OLIVINE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.OLIVINE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -375,7 +392,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/emerald"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.BERYLLIUM_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.BERYLLIUM_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -388,7 +405,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/gypsum"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.MINERAL_SAND_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.MINERAL_SAND_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -401,7 +418,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/bornite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.TOPAZ_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.TOPAZ_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -413,7 +430,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/tantalite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.MANGANESE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.MANGANESE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -424,7 +441,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/cassiterite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.CASSITERITE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.CASSITERITE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -435,7 +452,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/plutonium"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.NAQUADAH_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.NAQUADAH_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -448,7 +465,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/green_sapphire"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.SAPPHIRE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.SAPPHIRE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -459,7 +476,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/diamond"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.DIAMOND_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.DIAMOND_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -471,7 +488,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/aluminium"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.BAUXITE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.BAUXITE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -484,7 +501,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/opal"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.GARNET_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.GARNET_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -497,28 +514,28 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/diatomite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.GARNET_TIN_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.GARNET_TIN_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("biological_cells")
-                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 4000, 100)
-                .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(32))
+                .chancedInput(GTOItems.GLACIO_SPIRIT.asItem(), 4000, 100)
+                .inputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 32)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(400))
-                .outputItems(GTOItems.BIOLOGICAL_CELLS.asStack(64))
+                .outputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 64)
                 .EUt(122880)
                 .duration(800)
                 .addData("filter_casing", 2)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("glacio_spirit")
-                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(4), 1000, 100)
+                .chancedInput(GTOItems.GLACIO_SPIRIT.asItem(), 4, 1000, 100)
                 .inputItems(TagPrefix.dust, GTOMaterials.Celestine, 16)
                 .inputItems(GTOItems.ESSENCE.asItem())
                 .inputFluids(new FluidStack(ModFluids.CRYO_FUEL.get(), 100))
                 .inputFluids(GTMaterials.Ice.getFluid(900))
-                .outputItems(GTOItems.GLACIO_SPIRIT.asStack(64))
+                .outputItems(GTOItems.GLACIO_SPIRIT.asItem(), 64)
                 .EUt(30720)
                 .duration(2000)
                 .addData("radioactivity", 40)
@@ -531,7 +548,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/stibnite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.TETRAHEDRITE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.TETRAHEDRITE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -544,14 +561,14 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/realgar"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.COPPER_TIN_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.COPPER_TIN_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("space_essence")
                 .inputItems(TagUtils.createTag(GTOCore.id("vein_essence")))
-                .inputItems(new ItemStack(AEItems.SKY_DUST.asItem()))
+                .inputItems(AEItems.SKY_DUST.asItem())
                 .inputItems(TagPrefix.dustTiny, GTMaterials.NetherStar)
                 .inputFluids(GTMaterials.Biomass.getFluid(100))
                 .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(10))
@@ -562,10 +579,10 @@ final class Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("echo")
-                .notConsumable(new ItemStack(Blocks.SCULK_SHRIEKER.asItem(), 64))
-                .notConsumable(new ItemStack(Blocks.SCULK_SENSOR.asItem(), 64))
-                .inputItems(new ItemStack(Blocks.DIRT.asItem(), 64))
-                .inputItems(new ItemStack(Blocks.SCULK_VEIN.asItem(), 64))
+                .notConsumable(Blocks.SCULK_SHRIEKER.asItem(), 64)
+                .notConsumable(Blocks.SCULK_SENSOR.asItem(), 64)
+                .inputItems(Blocks.DIRT.asItem(), 64)
+                .inputItems(Blocks.SCULK_VEIN.asItem(), 64)
                 .inputFluids(GTOMaterials.UnknowWater.getFluid(1000))
                 .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 1000))
                 .outputItems(TagPrefix.block, GTMaterials.Sculk, 64)
@@ -583,19 +600,19 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/sphalerite"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.SULFUR_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.SULFUR_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("variation_wood1")
-                .inputItems(GTOBlocks.BARNARDA_C_LOG.asStack(64))
-                .inputItems(new ItemStack(Blocks.WARPED_STEM.asItem(), 16))
+                .inputItems(GTOBlocks.BARNARDA_C_LOG.asItem(), 64)
+                .inputItems(Blocks.WARPED_STEM.asItem(), 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Wood, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Lapotron)
                 .inputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .inputFluids(GTMaterials.Biomass.getFluid(1000))
-                .outputItems(GTOBlocks.VARIATION_WOOD.asStack(64))
+                .outputItems(GTOBlocks.VARIATION_WOOD.asItem(), 64)
                 .EUt(1966080)
                 .duration(2400)
                 .addData("filter_casing", 3)
@@ -607,7 +624,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/coal"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.COAL_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.COAL_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -619,7 +636,7 @@ final class Incubator {
                 .inputItems(TagUtils.createTGTag("ores/lithium"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
                 .inputFluids(GTMaterials.Milk.getFluid(10000))
-                .outputItems(GTOItems.SCHEELITE_VEIN_ESSENCE.asStack(64))
+                .outputItems(GTOItems.SCHEELITE_VEIN_ESSENCE.asItem(), 64)
                 .EUt(480)
                 .duration(12000)
                 .save();
@@ -691,6 +708,17 @@ final class Incubator {
                 .addData("filter_casing", 2)
                 .save();
 
+        INCUBATOR_RECIPES.recipeBuilder("clostridium_pasteurianum")
+                .notConsumable(GTOItems.CLOSTRIDIUM_PASTEURIANUM_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.ClostridiumPasteurianum, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.ClostridiumPasteurianum, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+
         INCUBATOR_RECIPES.recipeBuilder("shewanella")
                 .notConsumable(GTOItems.SHEWANELLA_PETRI_DISH.asItem())
                 .inputItems(TagPrefix.dust, GTOMaterials.Shewanella, 16)
@@ -699,6 +727,29 @@ final class Incubator {
                 .inputFluids(GTMaterials.Bacteria.getFluid(100))
                 .EUt(480)
                 .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+        INCUBATOR_RECIPES.builder("spider_eye")
+                .chancedInput(new ItemStack(Items.SPIDER_EYE.asItem()), 4000, 100)
+                .inputItems(GTItems.STEM_CELLS.asItem())
+                .inputItems("botania:mutated_seeds", 4)
+                .outputItems(Items.SPIDER_EYE.asItem(), 64)
+                .inputFluids(GTOMaterials.BiohmediumSterilized, 50)
+                .inputFluids(GTOMaterials.BloodCells, 100)
+                .outputFluids(GTOMaterials.AnimalCells, 400)
+                .EUt(1920)
+                .duration(400)
+                .save();
+        INCUBATOR_RECIPES.builder("dopamine")
+                .chancedInput(GTOItems.CEREBRUM.asItem(), 32, 2000, 100)
+                .chancedInput(RegistriesUtils.getItemStack("enderio:zombie_electrode", 32), 100, 0)
+                .inputItems(TagPrefix.dustTiny, GTMaterials.RockSalt)
+                .inputItems(TagPrefix.dustTiny, GTMaterials.Salt)
+                .chancedInput(GTOMaterials.Perfluorobenzene.getFluid(1000), 1000, 0)
+                .inputFluids(GTOMaterials.BiohmediumSterilized, 400)
+                .outputFluids(GTOMaterials.Dopamine, 1000)
+                .EUt(7200)
+                .duration(1440)
                 .addData("filter_casing", 2)
                 .save();
     }

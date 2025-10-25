@@ -1,12 +1,12 @@
 package com.gtocore.common.data;
 
-import com.gtocore.client.ClientCache;
 import com.gtocore.common.saved.DysonSphereSavaedData;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
+import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.StringConverter;
@@ -39,10 +39,17 @@ public final class GTOCommands {
 
     public static void init(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal(GTOCore.MOD_ID)
+                .then(Commands.literal("gc").executes(ctx -> {
+                    ctx.getSource().sendSuccess(() -> Component.literal("Start garbage cleanup"), false);
+                    GTOUtils.gc();
+                    return 1;
+                }))
                 .then(Commands.literal("spark").then(Commands.literal("start").executes(ctx -> {
+                    ctx.getSource().sendSuccess(() -> Component.literal("Started profiling"), false);
                     SparkLaunchProfiler.start("all");
                     return 1;
                 })).then(Commands.literal("stop").executes(ctx -> {
+                    ctx.getSource().sendSuccess(() -> Component.literal("Stopped profiling"), false);
                     SparkLaunchProfiler.stop("all");
                     return 1;
                 })))
@@ -51,11 +58,11 @@ public final class GTOCommands {
                             ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
                             ResourceLocation id = RLUtils.parse(StringArgumentType.getString(ctx, "id"));
                             PlanetManagement.unlock(player.getUUID(), id);
-                            ctx.getSource().sendSuccess(() -> Component.translatable(PlanetManagement.isUnlocked(player, id) ? "gtocore.unlocked" : "gtocore.ununlocked"), true);
+                            ctx.getSource().sendSuccess(() -> Component.translatable(PlanetManagement.isUnlocked(player, id) ? "gtocore.unlocked" : "gtocore.ununlocked"), false);
                             return 1;
                         })))))
                         .then(Commands.literal("dyson").then(Commands.literal("info").executes(ctx -> {
-                            DysonSphereSavaedData.INSTANCE.getDysonLaunchData().forEach((g, p) -> ctx.getSource().sendSuccess(() -> Component.literal("\nGalaxy: ").append(g).append("\nCount: " + p).append("\nDamage: " + DysonSphereSavaedData.INSTANCE.getDysonDamageData().getOrDefault(g, 0)).append("\nIn use: " + DysonSphereSavaedData.INSTANCE.getDysonUse().getOrDefault(g, false)), false));
+                            DysonSphereSavaedData.INSTANCE.getDysonLaunchData().forEach((g, p) -> ctx.getSource().sendSuccess(() -> Component.literal("\nGalaxy: ").append(g.name()).append("\nCount: " + p).append("\nDamage: " + DysonSphereSavaedData.INSTANCE.getDysonDamageData().getOrDefault(g, 0)).append("\nIn use: " + DysonSphereSavaedData.INSTANCE.getDysonUse().getOrDefault(g, false)), false));
                             return 1;
                         })).then(Commands.literal("clean").requires(source -> source.hasPermission(2)).executes(ctx -> {
                             DysonSphereSavaedData.INSTANCE.getDysonLaunchData().clear();
@@ -71,26 +78,6 @@ public final class GTOCommands {
                     }
                     return 1;
                 })));
-    }
-
-    public static void initClient(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal(GTOCore.MOD_ID + "c")
-                .then(Commands.literal("spark").then(Commands.literal("start").executes(ctx -> {
-                    SparkLaunchProfiler.start("all");
-                    return 1;
-                })).then(Commands.literal("stop").executes(ctx -> {
-                    SparkLaunchProfiler.stop("all");
-                    return 1;
-                })))
-                .then(Commands.literal("multiblock").then(
-                        Commands.literal("on").executes((ctx) -> {
-                            ClientCache.machineNotFormedHighlight = true;
-                            return 1;
-                        })).then(
-                                Commands.literal("off").executes((ctx) -> {
-                                    ClientCache.machineNotFormedHighlight = false;
-                                    return 1;
-                                }))));
     }
 
     private static Component copy(Component c) {

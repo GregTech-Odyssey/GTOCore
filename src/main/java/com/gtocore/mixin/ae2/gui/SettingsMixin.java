@@ -24,7 +24,7 @@ public class SettingsMixin {
 
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
     private static void init(CallbackInfo ci) {
-        GTOSettings.BLOCKING_TYPE = register("blocking_type", BlockingType.NONE, BlockingType.ALL, BlockingType.CONTAIN, BlockingType.NON_CONTAIN);
+        GTOSettings.BLOCKING_TYPE = register("blocking_type", BlockingType.NONE, BlockingType.ALL, BlockingType.CONTAIN, BlockingType.NON_CONTAIN, BlockingType.PARALLEL);
         GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS = register("show_molecular_assemblers", ShowMolecularAssembler.ALL, ShowMolecularAssembler.ONLY_MOLECULAR_ASSEMBLER, ShowMolecularAssembler.EXPECT_MOLECULAR_ASSEMBLER);
         GTOSettings.ME2IN1_SHIFT_TRANSFER_TO = register("me2in1_shift_transfer_to", ShiftTransferTo.INVENTORY_OR_BUFFER, ShiftTransferTo.CURRENTLY_VISIBLE_ACCESSOR);
     }

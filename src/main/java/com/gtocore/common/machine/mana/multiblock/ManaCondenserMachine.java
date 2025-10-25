@@ -83,9 +83,9 @@ public final class ManaCondenserMachine extends ManaMultiblockMachine implements
                         .where('N', blocks(GTOBlocks.MANASTEEL_CASING.get())
                                 .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16, 1))
                                 .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                                .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1, 1))
-                                .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1, 1))
-                                .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(3, 1)))
+                                .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4, 1))
+                                .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
+                                .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4, 1)))
                         .where('O', controller(blocks(definition.get())))
                         .build();
             } else {
@@ -139,9 +139,9 @@ public final class ManaCondenserMachine extends ManaMultiblockMachine implements
                         .where('U', blocks(GTOBlocks.MANASTEEL_CASING.get())
                                 .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(32, 1))
                                 .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                                .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1, 1))
-                                .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1, 1))
-                                .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(3, 1)))
+                                .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4, 1))
+                                .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
+                                .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4, 1)))
                         .where('V', controller(blocks(definition.get())))
                         .where(' ', any())
                         .build();

@@ -11,9 +11,9 @@ import net.minecraft.world.entity.player.Inventory;
 import appeng.api.stacks.AEKey;
 import appeng.client.gui.implementations.UpgradeableScreen;
 import appeng.client.gui.style.ScreenStyle;
-import appeng.client.gui.widgets.AETextField;
 import appeng.menu.slot.FakeSlot;
 import com.glodblock.github.extendedae.client.gui.GuiTagExportBus;
+import com.glodblock.github.extendedae.client.gui.widget.MultilineTextFieldWidget;
 import com.glodblock.github.extendedae.container.ContainerTagExportBus;
 import com.lowdragmc.lowdraglib.core.mixins.accessor.SlotAccessor;
 import org.jetbrains.annotations.Nullable;
@@ -29,13 +29,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GuiTagExportBusMixin extends UpgradeableScreen<ContainerTagExportBus> implements ITagSelectableScreen {
 
     @Unique
-    AEListBox gtolib$listBox;
+    private AEListBox gtolib$listBox;
     @Final
     @Shadow(remap = false)
-    private AETextField filterInputs;
+    private MultilineTextFieldWidget filterInputs;
     @Final
     @Shadow(remap = false)
-    private AETextField filterInputs2;
+    private MultilineTextFieldWidget filterInputs2;
     @Unique
     private FakeSlot gtolib$whitelistSlot;
     @Unique

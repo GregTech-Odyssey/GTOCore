@@ -18,7 +18,6 @@ import net.minecraft.util.Mth;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -28,9 +27,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
-
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            BaseSteamMultiblockMachine.class, SteamParallelMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     boolean isOC;
 
@@ -48,11 +44,6 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
 
     BaseSteamMultiblockMachine(MetaMachineBlockEntity holder, int maxParallels, double durationMultiplier) {
         this(holder, maxParallels, 32, durationMultiplier);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Nullable

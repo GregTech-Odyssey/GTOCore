@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.water;
 import com.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 
 import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.utils.holder.IntHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -14,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import java.util.List;
 
@@ -23,14 +23,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class ResidualDecontaminantDegasserPurificationUnitMachine extends WaterPurificationUnitMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ResidualDecontaminantDegasserPurificationUnitMachine.class, WaterPurificationUnitMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final List<FluidStack> FLUIDS = List.of(
             GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 10000),
@@ -90,18 +82,19 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     @Override
     public boolean onWorking() {
         if (!super.onWorking()) return false;
-        if (getOffsetTimer() % 20 == 0) {
-            forEachInputFluids(stack -> {
-                if (stack.getAmount() > 0) {
-                    if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= stack.getAmount()) {
-                        successful = true;
-                    } else {
-                        failed = true;
-                    }
-                    inputFluid(stack);
+        if (!failed && getOffsetTimer() % 20 == 0) {
+            IntHolder nonEmpty = new IntHolder(0);
+            fastForEachInputFluids((stack, amount) -> {
+                if (stack.getFluid() == WaterPurificationPlantMachine.GradePurifiedWater6) return;
+                nonEmpty.value++;
+                if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= amount) {
+                    successful = true;
+                } else {
+                    failed = true;
                 }
-                return false;
+                inputFluid(stack.getFluid(), amount);
             });
+            if (fluidStack.isEmpty() && nonEmpty.value == 0) successful = true;
         }
         return true;
     }

@@ -11,7 +11,7 @@ import com.gtolib.api.annotation.SyncedManager
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.button
 import com.gtolib.api.gui.ktflexible.root
-import com.gtolib.syncdata.SyncManagedFieldHolder
+import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 
 import java.util.*

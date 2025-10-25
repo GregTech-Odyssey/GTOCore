@@ -9,13 +9,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.world.item.BlockItem;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -23,24 +21,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class BlockBusPartMachine extends TieredIOPartMachine implements IMachineLife {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BlockBusPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
     public BlockBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 6, IO.BOTH);
-        inventory = createInventoryItemHandler();
-    }
-
-    private NotifiableItemStackHandler createInventoryItemHandler() {
-        NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 81, IO.NONE, IO.BOTH);
-        storage.setFilter(i -> i.getItem() instanceof BlockItem);
-        return storage;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
+        inventory = new NotifiableItemStackHandler(this, 81, IO.NONE, IO.BOTH);
     }
 
     @Override

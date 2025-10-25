@@ -7,6 +7,7 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.world.level.block.Block;
 
@@ -18,7 +19,9 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @DataGeneratorScanned
 public final class BlockMap {
@@ -29,7 +32,7 @@ public final class BlockMap {
     public static Block[] ME_STORAGE_CORE;
     public static Block[] CRAFTING_STORAGE_CORE;
 
-    public static final Object2ObjectOpenHashMap<String, Block[]> MAP = new Object2ObjectOpenHashMap<>();
+    public static final Object2ObjectOpenHashMap<String, Block[]> MAP = new O2OOpenCacheHashMap<>();
 
     public static final Int2ObjectMap<Supplier<?>> SCMAP = new Int2ObjectOpenHashMap<>();
 
@@ -48,6 +51,8 @@ public final class BlockMap {
     public static final Int2ObjectMap<Supplier<?>> COMPUTER_CASING_MAP = new Int2ObjectOpenHashMap<>();
 
     public static final Int2ObjectMap<Supplier<?>> COMPUTER_HEAT_MAP = new Int2ObjectOpenHashMap<>();
+
+    public static final Int2ObjectMap<Supplier<?>> HERMETIC_CASING = new Int2ObjectOpenHashMap<>();
 
     public static void init() {
         GLASSMAP.put(2, GTBlocks.CASING_TEMPERED_GLASS);
@@ -112,6 +117,9 @@ public final class BlockMap {
     @RegisterLanguage(namePrefix = namePrefix, cn = "灯", en = "Light")
     private static final String light = "light";
 
+    @RegisterLanguage(namePrefix = namePrefix, cn = "密封机械方块", en = "Hermetic Casing")
+    public static final String hermetic_casing = "hermetic_casing";
+
     public static void build() {
         var coils = new ArrayList<>(GTCEuAPI.HEATING_COILS.entrySet());
         coils.sort(Comparator.comparingInt(entry -> entry.getKey().getTier()));
@@ -168,11 +176,16 @@ public final class BlockMap {
         CRAFTING_STORAGE_CORE = arr(GTOBlocks.T1_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T2_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T3_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T4_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T5_CRAFTING_STORAGE_CORE.get());
         MAP.put(crafting_storage_core, CRAFTING_STORAGE_CORE);
 
-        ABS_CASING = arr(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RAD_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
+        ABS_CASING = arr(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RED_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
         MAP.put(abs_casing, ABS_CASING);
 
         LIGHT = GTBlocks.LAMPS.values().stream().map(RegistryEntry::get).toArray(Block[]::new);
         MAP.put(light, LIGHT);
+
+        AtomicInteger idx = new AtomicInteger(1);
+        Block[] hermeticCasings = arr(GTBlocks.HERMETIC_CASING_LV.get(), GTBlocks.HERMETIC_CASING_MV.get(), GTBlocks.HERMETIC_CASING_HV.get(), GTBlocks.HERMETIC_CASING_EV.get(), GTBlocks.HERMETIC_CASING_IV.get(), GTBlocks.HERMETIC_CASING_LuV.get(), GTBlocks.HERMETIC_CASING_ZPM.get(), GTBlocks.HERMETIC_CASING_UV.get(), GTBlocks.HERMETIC_CASING_UHV.get(), GTOBlocks.HERMETIC_CASING_UEV.get(), GTOBlocks.HERMETIC_CASING_UIV.get(), GTOBlocks.HERMETIC_CASING_UXV.get(), GTOBlocks.HERMETIC_CASING_OpV.get());
+        Stream.of(hermeticCasings).forEach(b -> HERMETIC_CASING.put(idx.getAndIncrement(), () -> b));
+        MAP.put(hermetic_casing, hermeticCasings);
     }
 
     public static Block[] arr(Block... blocks) {

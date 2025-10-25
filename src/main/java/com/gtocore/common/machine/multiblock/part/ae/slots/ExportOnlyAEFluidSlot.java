@@ -58,6 +58,13 @@ public class ExportOnlyAEFluidSlot extends ExportOnlyAESlot implements IFluidHan
         onContentsChanged();
     }
 
+    public FluidStack getReadOnlyStack() {
+        if (this.stock != null && this.stock.what() instanceof AEFluidKey fluidKey) {
+            return fluidKey.getReadOnlyStack();
+        }
+        return FluidStack.EMPTY;
+    }
+
     @Override
     public FluidStack getFluid() {
         if (this.stock != null && this.stock.what() instanceof AEFluidKey fluidKey) {

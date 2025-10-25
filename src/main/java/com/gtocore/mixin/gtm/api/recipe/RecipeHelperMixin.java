@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import org.jetbrains.annotations.Contract;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -90,10 +91,8 @@ public final class RecipeHelperMixin {
      */
     @Contract(pure = true)
     @Overwrite(remap = false)
-    public static GTRecipe trimRecipeOutputs(GTRecipe recipe, Object2IntMap<RecipeCapability<?>> trimLimits) {
-        if (trimLimits.isEmpty() || trimLimits.values().intStream().allMatch(integer -> integer == -1)) {
-            return recipe;
-        }
+    public static GTRecipe trimRecipeOutputs(GTRecipe recipe, Reference2IntOpenHashMap<RecipeCapability<?>> trimLimits) {
+        if (trimLimits.isEmpty()) return recipe;
         var output = RecipeHelper.doTrim(recipe.outputs, trimLimits);
         recipe.outputs.clear();
         recipe.outputs.putAll(output);

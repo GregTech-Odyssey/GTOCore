@@ -3,8 +3,10 @@ package com.gtocore.common.machine.multiblock.electric.adventure;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.item.ItemStackSet;
+import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
+import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
@@ -19,14 +21,12 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -34,14 +34,17 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import appeng.util.Platform;
+import com.enderio.api.capability.StoredEntityData;
 import com.enderio.base.common.init.EIOFluids;
 import com.enderio.machines.common.init.MachineBlocks;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
+import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
+import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.util.CommonProxy;
@@ -51,17 +54,17 @@ import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gtolib.api.GTOValues.GLASS_TIER;
+
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class SlaughterhouseMachine extends StorageMultiblockMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            SlaughterhouseMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
+public final class SlaughterhouseMachine extends StorageMultiblockMachine implements ITierCasingMachine {
 
     private int attackDamage;
-    @Persisted
-    private boolean isSpawn;
     private DamageSource damageSource;
+    private ItemStack activeWeapon = ItemStack.EMPTY;
+    private StoredEntityData data;
+    private String entityId;
     private static final String[] mobList1 = {
             "minecraft:chicken",
             "minecraft:rabbit",
@@ -102,32 +105,49 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             "minecraft:enderman"
     };
 
+    private final TierCasingTrait tierCasingTrait;
+
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> i.is(MachineBlocks.POWERED_SPAWNER.asItem()));
+        tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
     }
 
     @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
+    public boolean hasBatchConfig() {
+        return false;
     }
 
     private static Player getFakePlayer(ServerLevel level) {
         return Platform.getFakePlayer(level, null);
     }
 
-    private DamageSource getDamageSource(ServerLevel level) {
+    private DamageSource getDamageSource(ServerLevel level, Player player) {
         if (damageSource == null) {
-            damageSource = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.GENERIC_KILL), getFakePlayer(level));
+            damageSource = new DamageSources(level.getServer().registryAccess()).mobAttack(player);
         }
         return damageSource;
+    }
+
+    @Override
+    public void onMachineChanged() {
+        data = null;
+        entityId = null;
+        ItemStack itemStack = getStorageStack();
+        if (itemStack.isEmpty() || !itemStack.hasTag()) return;
+        data = new StoredEntityData(itemStack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("EntityStorage").getCompound("Entity"), 1);
+        entityId = itemStack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("EntityStorage").getCompound("Entity").getString("id");
     }
 
     @Override
     public void onContentChanges(RecipeHandlerList handlerList) {
         if (handlerList.getHandlerIO() == IO.IN) {
             attackDamage = 1;
-            forEachInputItems(itemStack -> {
-                if (itemStack.getItem() instanceof SwordItem swordItem) {
+            activeWeapon = ItemStack.EMPTY;
+            forEachInputItems((stack, amount) -> {
+                if (stack.getItem() instanceof SwordItem swordItem) {
+                    if (activeWeapon.isEmpty()) {
+                        activeWeapon = stack;
+                    }
                     attackDamage += (int) swordItem.getDamage();
                 }
                 return false;
@@ -136,93 +156,105 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    public void customText(List<Component> textList) {
-        super.customText(textList);
-        textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
-        textList.add(Component.translatable("gtocore.machine.slaughterhouse.is_spawn").append(ComponentPanelWidget.withButton(Component.literal("[").append(isSpawn ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "spawn_switch")));
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        tier = Math.min(getCasingTier(GLASS_TIER), tier);
+        onMachineChanged();
     }
 
     @Override
-    public void handleDisplayClick(String componentData, ClickData clickData) {
-        if (!clickData.isRemote) {
-            if ("spawn_switch".equals(componentData)) {
-                isSpawn = !isSpawn;
+    public void customText(List<Component> textList) {
+        super.customText(textList);
+        textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
+        textList.add(Component.translatable("gtocore.machine.slaughterhouse.active_weapon", activeWeapon.getDisplayName()));
+    }
+
+    @Override
+    public boolean onWorking() {
+        if (getLevel() instanceof ServerLevel serverLevel && getOffsetTimer() % 200 == 0) {
+            var blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());
+            List<Entity> entities = serverLevel.getEntitiesOfClass(Entity.class, new AABB(
+                    blockPos.getX() - 3.5,
+                    blockPos.getY() - 1,
+                    blockPos.getZ() - 3.5,
+                    blockPos.getX() + 3.5,
+                    blockPos.getY() + 6,
+                    blockPos.getZ() + 3.5));
+
+            for (Entity entity : entities) {
+                if (entity instanceof LivingEntity) {
+                    entity.hurt(getDamageSource(serverLevel, getFakePlayer(serverLevel)), attackDamage);
+                } else {
+                    entity.kill();
+                }
             }
         }
+        return super.onWorking();
     }
 
     @Nullable
     private Recipe getRecipe() {
         if (getLevel() instanceof ServerLevel serverLevel) {
-            if (getTier() < 2) {
+            if (getTier() < 1) {
                 setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
                 return null;
             }
             int c = checkingCircuit(false);
-            if (c == 0) {
+            if (c != 1 && c != 2) {
                 setIdleReason(IdleReason.SET_CIRCUIT);
                 return null;
             }
+            Player player = getFakePlayer(serverLevel);
             ItemStackSet itemStacks = new ItemStackSet();
-            BlockPos blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());
-            ItemStack itemStack = getStorageStack();
-            boolean isFixed = !itemStack.isEmpty();
-            String[] mobList = isFixed ? null : c == 1 ? mobList1 : mobList2;
-            int tierMultiplier = Math.min(16, (getTier() - 2) << 3);
-
-            List<Entity> entities = serverLevel.getEntitiesOfClass(Entity.class, new AABB(
-                    blockPos.getX() - 3,
-                    blockPos.getY() - 1,
-                    blockPos.getZ() - 3,
-                    blockPos.getX() + 3,
-                    blockPos.getY() + 6,
-                    blockPos.getZ() + 3));
-
-            long xp = 0;
-            for (Entity entity : entities) {
-                if (entity instanceof LivingEntity) {
-                    if (CommonProxy.isBoss(entity)) continue;
-                    entity.hurt(getDamageSource(serverLevel), attackDamage);
-                } else if (entity instanceof ItemEntity itemEntity) {
-                    itemStacks.add(itemEntity.getItem());
-                    itemEntity.discard();
-                } else if (entity instanceof ExperienceOrb experienceOrb) {
-                    xp += experienceOrb.value;
-                    experienceOrb.discard();
-                }
+            Vec3 origin = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos()).getCenter();
+            Entity entity = null;
+            if (data != null) {
+                entity = EntityType.loadEntityRecursive(data.getEntityTag(), serverLevel, (entity1) -> {
+                    entity1.moveTo(origin.x, origin.y, origin.z, entity1.getYRot(), entity1.getXRot());
+                    return entity1;
+                });
             }
+            boolean isFixed = entity != null;
+            String[] mobList = isFixed ? null : c == 1 ? mobList1 : mobList2;
+            int parallel = (int) Math.pow(3, tier - 1);
+            int tierMultiplier = Math.min(16, parallel);
+            int multiplier = Math.max(1, parallel / tierMultiplier);
+            long xp = 0;
 
-            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
+            var lootParams = new LootParams.Builder(serverLevel)
+                    .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, player)
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, getDamageSource(serverLevel, player))
+                    .withParameter(LootContextParams.KILLER_ENTITY, player)
+                    .withParameter(LootContextParams.DIRECT_KILLER_ENTITY, player)
+                    .withParameter(LootContextParams.ORIGIN, origin)
+                    .withParameter(LootContextParams.BLOCK_STATE, getBlockState())
+                    .withParameter(LootContextParams.BLOCK_ENTITY, holder)
+                    .withParameter(LootContextParams.TOOL, activeWeapon)
+                    .withParameter(LootContextParams.EXPLOSION_RADIUS, 0F);
 
             for (int i = 0; i <= tierMultiplier; i++) {
-                String mob = isFixed ? itemStack.getOrCreateTag().getCompound("BlockEntityTag")
-                        .getCompound("EntityStorage").getCompound("Entity").getString("id") : mobList[GTValues.RNG.nextInt(mobList.length)];
-                Optional<EntityType<?>> entityType = EntityType.byString(mob);
-                if (entityType.isEmpty()) continue;
-                Entity entity = entityType.get().create(serverLevel);
-                if (!(entity instanceof Mob mob1)) continue;
-                if (CommonProxy.isBoss(entity)) continue;
-                if (isSpawn) {
-                    mob1.setPos(blockPos.getCenter());
-                    mob1.setNoAi(true);
-                    serverLevel.addFreshEntity(mob1);
-                } else {
-                    String[] mobParts = StringUtils.decompose(mob);
-                    if (mobParts.length < 2) continue;
-                    LootTable lootTable = serverLevel.getServer().getLootData()
-                            .getLootTable(RLUtils.fromNamespaceAndPath(mobParts[0], "entities/" + mobParts[1]));
-                    LootParams lootParams = new LootParams.Builder(serverLevel)
-                            .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, getFakePlayer(serverLevel))
-                            .withParameter(LootContextParams.THIS_ENTITY, entity)
-                            .withParameter(LootContextParams.DAMAGE_SOURCE, getDamageSource(serverLevel))
-                            .withParameter(LootContextParams.ORIGIN, blockPos.getCenter())
-                            .create(lootTable.getParamSet());
-
-                    lootTable.getRandomItems(lootParams).forEach(stack -> itemStacks.add(isFixed ? stack.copyWithCount(tierMultiplier) : stack));
-                    if (isFixed) break;
+                if (!isFixed) {
+                    entityId = mobList[GTValues.RNG.nextInt(mobList.length)];
+                    Optional<EntityType<?>> entityType = EntityType.byString(entityId);
+                    if (entityType.isEmpty()) continue;
+                    entity = entityType.get().create(serverLevel);
                 }
+                if (!(entity instanceof Mob mob)) continue;
+                if (CommonProxy.isBoss(entity)) continue;
+                xp += mob.getExperienceReward() * multiplier;
+                String[] mobParts = StringUtils.decompose(entityId);
+                if (mobParts.length < 2) continue;
+                LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(RLUtils.fromNamespaceAndPath(mobParts[0], "entities/" + mobParts[1]));
+                lootTable.getRandomItems(lootParams.withParameter(LootContextParams.THIS_ENTITY, entity).create(lootTable.getParamSet())).forEach(stack -> {
+                    int count = stack.getCount();
+                    itemStacks.add(isFixed ? stack.copyWithCount(parallel * count) : multiplier > 1 ? stack.copyWithCount(multiplier * count) : stack);
+                });
+                createRandomGemStack(serverLevel, entity, player, itemStacks, Math.max(1, (int) Math.sqrt(multiplier)));
+                if (isFixed) break;
             }
-            RecipeBuilder builder = getRecipeBuilder().duration(isSpawn ? 20 : Math.max(20, 20 * (1 << getTier()) - attackDamage)).EUt(getOverclockVoltage());
+            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
+            int duration = Math.max(20, 200 - attackDamage);
+            RecipeBuilder builder = getRecipeBuilder().duration(duration).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
             Recipe recipe = builder.buildRawRecipe();
             if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
@@ -230,8 +262,25 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         return null;
     }
 
+    private static void createRandomGemStack(ServerLevel level, Entity entity, Player player, ItemStackSet set, int m) {
+        if (entity instanceof Monster) {
+            float chance = AdventureConfig.gemDropChance + (entity.getPersistentData().contains("apoth.boss") ? AdventureConfig.gemBossBonus : 0);
+            if (player.getRandom().nextFloat() <= chance) {
+                var item = GemRegistry.createRandomGemStack(player.getRandom(), level, player.getLuck(), WeightedDynamicRegistry.IDimensional.matches(level), GameStagesCompat.IStaged.matches(player));
+                if (item.isEmpty()) return;
+                item.setCount(item.getCount() * m);
+                set.add(item);
+            }
+        }
+    }
+
     @Override
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
+    }
+
+    @Override
+    public Object2IntMap<String> getCasingTiers() {
+        return tierCasingTrait.getCasingTiers();
     }
 }

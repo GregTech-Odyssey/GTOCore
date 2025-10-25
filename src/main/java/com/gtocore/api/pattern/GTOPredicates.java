@@ -39,6 +39,8 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.INPUT_LASER;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gtocore.common.block.BlockMap.*;
 import static com.gtolib.api.GTOValues.*;
 
@@ -62,6 +64,10 @@ public final class GTOPredicates {
 
     public static TraceabilityPredicate light() {
         return Predicates.blocks(LIGHT);
+    }
+
+    public static TraceabilityPredicate hermeticCasing() {
+        return tierBlock(HERMETIC_CASING, hermetic_casing);
     }
 
     public static TraceabilityPredicate autoIOAbilities(GTRecipeType... recipeType) {
@@ -92,6 +98,15 @@ public final class GTOPredicates {
 
     public static TraceabilityPredicate autoThreadLaserAbilities(GTRecipeType... recipeType) {
         return autoLaserAbilities(recipeType).or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1)).or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)).or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1));
+    }
+
+    public static TraceabilityPredicate autoSpaceMachineAbilities(GTRecipeType... recipeType) {
+        return autoGCYMAbilities(recipeType)
+                .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
+                .or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
+                .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1))
+                .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1))
+                .or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1));
     }
 
     public static TraceabilityPredicate tierBlock(Int2ObjectMap<Supplier<?>> map, String tierType) {

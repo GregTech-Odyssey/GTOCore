@@ -3,8 +3,9 @@ package com.gtocore.integration.jade.provider;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
+import com.gtolib.api.machine.feature.ICustomElectricMachine;
+import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
-import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.utils.NumberUtils;
@@ -59,7 +60,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             if (!recipeInfo.isEmpty()) {
                 double totalEu = recipeInfo.getDouble("totalEu");
                 if (totalEu > 0) {
-                    var text = Component.translatable("gtceu.top.energy_consumption").append(" ").append(Component.literal(NumberUtils.formatDouble(totalEu)).withStyle(ChatFormatting.RED)).append(Component.literal(" EU").withStyle(ChatFormatting.RESET))
+                    var text = Component.translatable(recipeInfo.getBoolean("isGenerator") ? "gtceu.top.energy_production" : "gtceu.top.energy_consumption").append(" ").append(Component.literal(NumberUtils.formatDouble(totalEu)).withStyle(ChatFormatting.RED)).append(Component.literal(" EU").withStyle(ChatFormatting.RESET))
                             .append(Component.literal(" (").withStyle(ChatFormatting.GREEN));
                     var tier = GTUtil.getOCTierByVoltage(totalEu > Long.MAX_VALUE ? Long.MAX_VALUE : (long) totalEu);
                     text = text.append(Component.literal(String.format("%sA",
@@ -105,14 +106,51 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
 
                     if (Manat != 0) {
                         boolean isInput = Manat > 0;
-                        Manat = Math.abs(Manat);
-                        MutableComponent text = Component.literal(FormattingUtil.formatNumbers(Manat)).withStyle(ChatFormatting.AQUA)
+                        MutableComponent text = Component.literal(FormattingUtil.formatNumbers(Math.abs(Manat))).withStyle(ChatFormatting.AQUA)
                                 .append(Component.literal(" Mana/t").withStyle(ChatFormatting.RESET));
 
                         if (isInput) {
                             tooltip.add(Component.translatable("gtocore.recipe.mana_consumption").append(" ").append(text));
                         } else {
                             tooltip.add(Component.translatable("gtocore.recipe.mana_production").append(" ").append(text));
+                        }
+                    }
+                    if (recipeInfo.contains("Origin")) {
+                        long parallel = capData.getLong("parallel");
+                        parallel = Math.max(1, parallel);
+                        long batchParallel = capData.getLong("batch_parallel");
+                        batchParallel = Math.max(1, batchParallel);
+                        var origin = recipeInfo.getCompound("Origin");
+                        if (!origin.isEmpty()) {
+                            var originEUt = origin.getLong("EUt");
+                            var originManat = origin.getLong("Manat");
+                            double energyEfficiency = 0;
+                            if (originEUt != 0 && EUt != 0) {
+                                energyEfficiency = (double) EUt * batchParallel / (parallel * originEUt) * 100;
+                            }
+                            double manaEfficiency = 0;
+                            if (originManat != 0 && Manat != 0) {
+                                manaEfficiency = (double) Manat * batchParallel / (parallel * originManat) * 100;
+                            }
+                            if (energyEfficiency != 0) {
+                                String key = EUt > 0 ? "gtocore.recipe.efficiency" : "gtocore.recipe.efficiency.o";
+                                tooltip.add(Component.translatable(key, Component.literal(
+                                        String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(energyEfficiency)))).withStyle(ChatFormatting.GOLD)));
+                            }
+                            if (manaEfficiency != 0) {
+                                String key = Manat > 0 ? "gtocore.recipe.mana_efficiency" : "gtocore.recipe.mana_efficiency.o";
+                                tooltip.add(Component.translatable(key, Component.literal(
+                                        String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(manaEfficiency)))).withStyle(ChatFormatting.GOLD)));
+                            }
+                            if (origin.contains("MaxProgress")) {
+                                var originMaxProgress = origin.getInt("MaxProgress");
+                                var currentProgress = getCurrentMaxProgress(capData);
+                                if (originMaxProgress > 0 && currentProgress > 0) {
+                                    double timeCost = currentProgress / (double) batchParallel / (double) originMaxProgress * 100;
+                                    tooltip.add(Component.translatable("gtocore.recipe.time_cost_multiplier", Component.literal(
+                                            String.format("%s%%", FormattingUtil.formatNumber2Places(timeCost))).withStyle(ChatFormatting.GOLD)));
+                                }
+                            }
                         }
                     }
                 }
@@ -125,6 +163,17 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             if (c == null) return;
             tooltip.add(c.withStyle(ChatFormatting.GRAY));
         }
+    }
+
+    private static int getCurrentMaxProgress(CompoundTag capData) {
+        if (capData.contains(GTCEu.id("workable_provider").toString())) {
+            var workable = capData.getCompound(GTCEu.id("workable_provider").toString());
+            if (workable.contains("null")) {
+                var progress = workable.getCompound("null");
+                return progress.getInt("MaxProgress");
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -166,8 +215,31 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             recipeInfo.putLong("EUt", inputEUt - outputEUt);
             recipeInfo.putLong("Manat", inputManat - outputManat);
 
-            if (capability.machine instanceof CrossRecipeMultiblockMachine machine && machine.getEnergyInterfacePartMachine() != null) {
+            if (capability.machine instanceof ICustomElectricMachine machine && machine.isActivated()) {
                 recipeInfo.putDouble("totalEu", machine.getTotalEu());
+                if (machine.isGenerator()) {
+                    recipeInfo.putBoolean("isGenerator", true);
+                }
+            }
+            var originRecipe = capability.getLastOriginRecipe();
+            if (originRecipe == null && capability.machine instanceof ICrossRecipeMachine c) {
+                originRecipe = c.getLastRecipes().stream().findFirst().orElse(null);
+            }
+            if (originRecipe != null) {
+                var originInputEUt = originRecipe.getInputEUt();
+                var originOutputEUt = originRecipe.getOutputEUt();
+                var originInputManat = RecipeHelper.getInputMANAt(originRecipe);
+                var originOutputManat = RecipeHelper.getOutputMANAt(originRecipe);
+                var origin = new CompoundTag();
+                if (originInputEUt != inputEUt || originOutputEUt != outputEUt || originInputManat != inputManat || originOutputManat != outputManat) {
+                    origin.putLong("EUt", originInputEUt - originOutputEUt);
+                    origin.putLong("Manat", originInputManat - originOutputManat);
+                }
+                var maxProgress = originRecipe.duration;
+                if (maxProgress > 0) {
+                    origin.putInt("MaxProgress", maxProgress);
+                }
+                recipeInfo.put("Origin", origin);
             }
 
         }

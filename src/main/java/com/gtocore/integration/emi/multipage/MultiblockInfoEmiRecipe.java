@@ -1,16 +1,20 @@
 package com.gtocore.integration.emi.multipage;
 
 import com.gtocore.client.gui.PatternPreview;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.item.OrderItem;
 
 import com.gtolib.api.machine.MultiblockDefinition;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
-import com.gregtechceu.gtceu.integration.emi.multipage.MultiblockInfoEmiCategory;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
@@ -21,8 +25,8 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.ListEmiIngredient;
+import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -32,10 +36,19 @@ import java.util.Set;
 
 public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
+    public static final EmiRecipeCategory CATEGORY = new EmiRecipeCategory(GTCEu.id("multiblock_info"), EmiStack.of(GTMultiMachines.ELECTRIC_BLAST_FURNACE.asItem())) {
+
+        @Override
+        public Component getName() {
+            return Component.translatable("gtceu.jei.multiblock_info");
+        }
+    };
+
     private static final Widget MULTIBLOCK = new Widget(0, 0, 160, 160);
 
-    private final MultiblockMachineDefinition definition;
-    public List<ItemStack> itemList = null;
+    public final MultiblockMachineDefinition definition;
+    public int i;
+    public PatternPreview.MBPattern[] patterns = null;
 
     public MultiblockInfoEmiRecipe(MultiblockMachineDefinition definition) {
         super(() -> MULTIBLOCK);
@@ -43,13 +56,13 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         widget = () -> PatternPreview.getPatternWidget(this, definition);
         var pattern = definition.getPatternFactory().get();
         if (pattern != null && pattern.predicates != null) {
-            Set<Set<Item>> parts = new ObjectOpenHashSet<>();
+            Set<Set<Item>> parts = new OpenCacheHashSet<>();
             for (var predicate : pattern.predicates) {
                 ArrayList<SimplePredicate> predicates = new ArrayList<>(predicate.common);
                 predicates.addAll(predicate.limited);
                 for (SimplePredicate simplePredicate : predicates) {
                     if (simplePredicate == null || simplePredicate.candidates == null) continue;
-                    Set<Item> items = new ObjectOpenHashSet<>();
+                    Set<Item> items = new OpenCacheHashSet<>();
                     for (var itemStack : simplePredicate.getCandidates()) {
                         var item = itemStack.getItem();
                         if (item == Items.AIR) continue;
@@ -63,13 +76,25 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         MultiblockDefinition.of(definition).getPatterns()[0].parts().forEach(i -> super.inputs.add(EmiStack.of(i)));
     }
 
-    @Override
-    public List<EmiIngredient> getInputs() {
-        if (itemList != null) {
-            return itemList.stream().map(EmiStack::of).map(s -> (EmiIngredient) s).toList();
+    public List<EmiIngredient> getInputs(int i) {
+        if (patterns != null && i >= 0 && patterns.length > i) {
+            return patterns[i].parts.stream().map(EmiStack::of).map(s -> (EmiIngredient) s).toList();
         } else {
             return super.getInputs();
         }
+    }
+
+    @Override
+    public List<EmiIngredient> getInputs() {
+        return getInputs(i);
+    }
+
+    @Override
+    public List<EmiStack> getOutputs() {
+        if (definition != null) {
+            return List.of(EmiStack.of(OrderItem.setTarget(GTOItems.ORDER.asStack(), definition.asStack())));
+        }
+        return super.getOutputs();
     }
 
     @Override
@@ -79,7 +104,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return MultiblockInfoEmiCategory.CATEGORY;
+        return CATEGORY;
     }
 
     @Override
@@ -98,6 +123,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         }
         widgets.add(new CustomModularEmiRecipe(modular, Collections.emptyList()));
         widgets.add(new ModularForegroundRenderWidget(modular));
+        widgets.add(new SlotWidget(EmiStack.of(OrderItem.setTarget(GTOItems.ORDER.asStack(), definition.asStack())), 1000, 1000).recipeContext(this));
     }
 
     @Override

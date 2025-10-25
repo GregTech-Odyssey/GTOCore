@@ -1,9 +1,11 @@
 package com.gtocore.mixin.ae2.crafting;
 
-import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
+import com.gtocore.integration.eio.ITravelHandlerHook;
 
 import com.gtolib.api.ae2.*;
+import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
+import com.gtolib.utils.holder.BooleanHolder;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -11,6 +13,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 import appeng.api.config.Actionable;
 import appeng.api.config.LockCraftingMode;
@@ -31,7 +34,6 @@ import appeng.util.ConfigManager;
 import appeng.util.inv.AppEngInternalInventory;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,11 +43,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
-import java.util.function.IntSupplier;
+import java.util.function.Supplier;
 
 @Mixin(value = PatternProviderLogic.class, remap = false)
 public abstract class PatternProviderLogicMixin implements IPatternProviderLogic {
 
+    @Unique
+    private final Long2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternPos = new Long2ObjectOpenHashMap<>();
+    @Unique
+    private final Int2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternDir = new Int2ObjectOpenHashMap<>();
     @Final
     @Shadow
     private PatternProviderLogicHost host;
@@ -64,14 +70,22 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     @Final
     @Shadow
     private Set<AEKey> patternInputs;
-
     @Shadow
     @Final
     private AppEngInternalInventory patternInventory;
-
     @Shadow
     @Final
     private List<GenericStack> sendList;
+    @Unique
+    private int gtocore$pushedCount = 1024;
+    @Shadow
+    private Direction sendDirection;
+    @Unique
+    private PatternProviderTargetCache[] gtolib$targetCaches;
+    @Unique
+    private IPatternDetails gtolib$currentPattern;
+    @Unique
+    private GlobalPos gto$pos;
 
     @Shadow
     public abstract LockCraftingMode getCraftingLockedReason();
@@ -91,20 +105,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     @Shadow
     protected abstract void addToSendList(AEKey what, long amount);
 
-    @Shadow
-    private Direction sendDirection;
-
-    @Unique
-    private PatternProviderTargetCache[] gtolib$targetCaches;
-
-    @Unique
-    private IPatternDetails gtolib$currentPattern;
-
-    @Unique
-    private final Long2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternPos = new Long2ObjectOpenHashMap<>();
-    @Unique
-    private final Int2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternDir = new Int2ObjectOpenHashMap<>();
-
     @Inject(method = "<init>(Lappeng/api/networking/IManagedGridNode;Lappeng/helpers/patternprovider/PatternProviderLogicHost;I)V", at = @At("TAIL"), remap = false)
     private void init(IManagedGridNode mainNode, PatternProviderLogicHost host, int patternInventorySize, CallbackInfo ci) {
         configManager.registerSetting(GTOSettings.BLOCKING_TYPE, BlockingType.NONE);
@@ -119,22 +119,35 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         }
     }
 
-    /// -1 means the provider doesn't contain this pattern or is not active.
-    /// -2 means the provider contains this pattern, but for some reason it can't push it now.
+    @Inject(method = "configChanged", at = @At("TAIL"), remap = false)
+    private void onSave(CallbackInfo ci) {
+        Level level = host.getBlockEntity().getLevel();
+        if (level != null) {
+            ITravelHandlerHook.requireResync(level);
+        }
+    }
+
     @Override
-    public int gtolib$pushPattern(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, IntSupplier pushPatternSuccess) {
-        if (!this.mainNode.isActive() || !this.patterns.contains(patternDetails)) return -1;
+    public PushResult gtolib$pushPattern(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess) {
+        if (!this.mainNode.isActive()) return PushResult.GRID_NODE_MISSING;
+        if (!this.patterns.contains(patternDetails)) return PushResult.PATTERN_DOES_NOT_EXIST;
         var be = host.getBlockEntity();
         var cache = IDirectionCacheBlockEntity.getBlockEntityDirectionCache(be);
-        if (cache == null) return -2;
-
+        if (cache == null) return PushResult.REJECTED;
+        var setting = configManager.getSetting(GTOSettings.BLOCKING_TYPE);
+        if (setting == BlockingType.ALL || setting == BlockingType.CONTAIN) {
+            gtocore$pushedCount = 1;
+        } else {
+            gtocore$pushedCount = 1024;
+        }
         BooleanSupplier canPush = () -> getCraftingLockedReason() == LockCraftingMode.NONE && sendList.isEmpty();
-        if (!canPush.getAsBoolean()) return -2;
+        if (!canPush.getAsBoolean()) return PushResult.PATTERN_PROVIDER_LOCKED;
 
         gtolib$currentPattern = patternDetails;
 
         var level = be.getLevel();
         var pos = be.getBlockPos();
+        BooleanHolder success = new BooleanHolder(false);
         boolean molecular = !patternDetails.supportsPushInputsToExternalInventory();
         for (var direction : getActiveSides()) {
             var adjBe = cache.getAdjacentBlockEntity(level, pos, direction);
@@ -144,46 +157,31 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                 var craftingMachine = ICraftingMachine.of(level, pos.relative(direction), adjBeSide, adjBe);
                 if (craftingMachine != null) {
                     var result = gtolib$pushCraftingMachine(craftingMachine, patternDetails, inputHolder, pushPatternSuccess, adjBeSide);
-                    if (result > 0) return result;
+                    if (result.success()) success.value = true;
+                    if (result.needBreak()) return result;
                 }
             } else {
                 if (adjBe instanceof MetaMachineBlockEntity machineBlockEntity) {
-                    if (machineBlockEntity.metaMachine instanceof AdvancedTesseractMachine machine && machine.roundRobin) {
-                        var size = machine.poss.size();
-                        List<PatternProviderTarget> targets = new ObjectArrayList<>(size);
-                        for (int i = 0; i < size; ++i) {
-                            var targetPos = machine.poss.get(i);
-                            var target = PatternProviderTargetCache.find(machine.getBlockEntity(targetPos, i), this, adjBeSide, actionSource, targetPos.asLong());
-                            if (target == null) continue;
-                            targets.add(target);
-                        }
-                        int count = 1000;
-                        while (count > 0) {
-                            count--;
-                            boolean done = true;
-                            for (var target : targets) {
-                                if (target.containsPatternInput(patternInputs)) continue;
-                                var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, false);
-                                if (result > 0) return result;
-                                if (result == 0) done = false;
-                            }
-                            if (done) break;
-                        }
+                    if (machineBlockEntity.metaMachine instanceof ICustomCraftingMachine craftingMachine && craftingMachine.customPush()) {
+                        var result = craftingMachine.pushPattern(this, actionSource, success, this::gtolib$pushTarget, patternInputs, patternDetails, inputHolder, pushPatternSuccess, canPush, direction, adjBeSide);
+                        if (result.needBreak()) return result;
                     } else {
                         var target = PatternProviderTargetCache.find(adjBe, this, adjBeSide, actionSource, 0);
                         if (target == null || target.containsPatternInput(patternInputs)) continue;
                         var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
-                        if (result > 0) return result;
+                        if (result.success()) success.value = true;
+                        if (result.needBreak()) return result;
                     }
                 } else {
                     var target = findAdapter(direction);
                     if (target == null || target.containsPatternInput(patternInputs)) continue;
                     var result = gtolib$pushTarget(patternDetails, inputHolder, pushPatternSuccess, canPush, direction, target, true);
-                    if (result > 0) return result;
+                    if (result.success()) success.value = true;
+                    if (result.needBreak()) return result;
                 }
             }
         }
-        return -2;
+        return success.value ? PushResult.SUCCESS : PushResult.NOWHERE_TO_PUSH;
     }
 
     /**
@@ -196,21 +194,24 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     }
 
     @Unique
-    private int gtolib$pushCraftingMachine(ICraftingMachine craftingMachine, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, IntSupplier pushPatternSuccess, Direction adjBeSide) {
+    private PushResult gtolib$pushCraftingMachine(ICraftingMachine craftingMachine, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, Direction adjBeSide) {
+        boolean success = false;
         while (true) {
             if (inputHolder.value != null && craftingMachine.acceptsPlans() && craftingMachine.pushPattern(patternDetails, inputHolder.value, adjBeSide)) {
                 onPushPatternSuccess(patternDetails);
-                var result = pushPatternSuccess.getAsInt();
-                if (result > 0) return result;
+                success = true;
+                var result = pushPatternSuccess.get();
+                if (result.needBreak()) return result;
                 continue;
             }
-            return -1;
+            return success ? PushResult.SUCCESS : PushResult.REJECTED;
         }
     }
 
     @Unique
-    private int gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, IntSupplier pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
-        int count = 1000;
+    private PushResult gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
+        int count = this.gtocore$pushedCount;
+        boolean success = false;
         while (count > 0) {
             count--;
             if (inputHolder.value != null && this.adapterAcceptsAll(adapter, inputHolder.value)) {
@@ -225,17 +226,18 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
                     else gtolib$cachePatternDir.put(storage.dir(), patternDetails);
                 }
                 onPushPatternSuccess(patternDetails);
+                success = true;
                 this.sendDirection = direction;
-                var result = pushPatternSuccess.getAsInt();
-                if (result > 0) return result;
+                var result = pushPatternSuccess.get();
+                if (result.needBreak()) return result;
                 if (canPush.getAsBoolean()) {
                     if (continuous) continue;
-                    return 0;
+                    return PushResult.SUCCESS;
                 }
             }
-            return -1;
+            break;
         }
-        return -1;
+        return success ? PushResult.SUCCESS : PushResult.REJECTED;
     }
 
     /**
@@ -294,9 +296,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
         ICraftingProvider.requestUpdate(mainNode);
     }
-
-    @Unique
-    private GlobalPos gto$pos;
 
     @Override
     public GlobalPos gto$getPos() {

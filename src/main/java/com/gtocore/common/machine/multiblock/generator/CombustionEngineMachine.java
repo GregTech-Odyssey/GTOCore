@@ -27,7 +27,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -38,7 +37,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class CombustionEngineMachine extends ElectricMultiblockMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(CombustionEngineMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final FluidStack OXYGEN_STACK = GTMaterials.Oxygen.getFluid(20);
     private static final FluidStack LIQUID_OXYGEN_STACK = GTMaterials.Oxygen.getFluid(FluidStorageKeys.LIQUID, 80);
     private static final FluidStack LUBRICANT_STACK = GTMaterials.Lubricant.getFluid(1);
@@ -75,14 +73,9 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
                 tankSubs.unsubscribe();
                 return;
             }
-            tank.fillInternal(new FluidStack(fluid, 8000), IFluidHandler.FluidAction.EXECUTE);
+            tank.fillInternal(new FluidStack(fluid, (formedCount * 8000) + 8000), IFluidHandler.FluidAction.EXECUTE);
             tankSubs.updateSubscription();
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -123,8 +116,8 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
     @Override
     public long getOverclockVoltage() {
-        if (isOxygenBoosted) return GTValues.V[tier] << 2;
-        else return GTValues.V[tier] << 1;
+        if (isOxygenBoosted) return GTValues.V[tier] << (2 + formedCount);
+        else return GTValues.V[tier] << (1 + formedCount);
     }
 
     @Nullable
@@ -132,7 +125,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     protected Recipe getRealRecipe(Recipe recipe) {
         long EUt = recipe.getOutputEUt();
         if (EUt > 0 && notConsumableFluid(LUBRICANT_STACK) && !isIntakesObstructed()) {
-            recipe = ParallelLogic.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
+            recipe = ParallelLogic.accurateContentParallel(this, recipe, getOverclockVoltage() / EUt);
             if (recipe == null) return null;
             if (isOxygenBoosted) {
                 recipe.setOutputEUt((long) (recipe.getOutputEUt() * (isExtreme() ? 2 : 1.5)));

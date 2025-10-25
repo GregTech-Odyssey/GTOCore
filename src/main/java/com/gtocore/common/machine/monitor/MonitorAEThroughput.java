@@ -5,6 +5,8 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEItemList;
 import com.gtocore.common.machine.multiblock.part.ae.widget.AEFluidConfigWidget;
 import com.gtocore.common.machine.multiblock.part.ae.widget.AEItemConfigWidget;
 
+import com.gtolib.api.ae2.IExpandedStorageService;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 
@@ -57,6 +59,8 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
 
     public MonitorAEThroughput(MetaMachineBlockEntity holder) {
         super(holder);
+        aeItem.addChangedListener(() -> onFilterChanged(0));
+        aeFluid.addChangedListener(() -> onFilterChanged(1));
     }
 
     public MonitorAEThroughput(Object o) {
@@ -82,7 +86,7 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
                 continue;
             }
             hasConfig = true;
-            long amount = grid.getStorageService().getCachedInventory().get(current);
+            long amount = IExpandedStorageService.of(grid.getStorageService()).getLazyKeyCounter().get(current);
             var change = amount - lastAmount[i];
             if (stats[i] == null) {
                 stats[i] = new EnergyStat(lastUpdateTime);
@@ -94,9 +98,9 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
             lastAmount[i] = currentAmount[i];
             currentAmount[i] = amount;
 
-            lastMinuteStat[i] = stats[i].getMinuteAvg().longValue();
-            lastHourStat[i] = stats[i].getHourAvg().longValue();
-            lastDayStat[i] = stats[i].getDayAvg().longValue();
+            lastMinuteStat[i] = stats[i].minute.getAvgByTick().longValue();
+            lastHourStat[i] = stats[i].hour.getAvgByTick().longValue();
+            lastDayStat[i] = stats[i].day.getAvgByTick().longValue();
 
             nowStat[i] = change;
             // displayingName[i] = current.getDisplayName();
@@ -209,6 +213,10 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
                 .setCenter(true)
                 .setClientSideWidget();
         return (new WidgetGroup(0, 0, 200, 216)).addWidget(superWidget).addWidget(itemWidget).addWidget(fluidWidget).addWidget(panel);
+    }
+
+    private void onFilterChanged(int slot) {
+        stats[slot] = null;
     }
 
     private class AEItem extends ExportOnlyAEItemList implements CurrentGettable {

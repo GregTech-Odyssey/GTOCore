@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/material_sets/dull/carbon_fiber_mesh",
+    "layer1": "gtocore:item/material_sets/dull/carbon_fiber_mesh_secondary",
+    "layer2": "gtocore:item/material_sets/dull/carbon_fiber_mesh_overlay"
+  }
+}

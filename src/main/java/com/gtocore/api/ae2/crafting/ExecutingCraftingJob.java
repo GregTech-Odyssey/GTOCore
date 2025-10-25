@@ -1,14 +1,13 @@
 package com.gtocore.api.ae2.crafting;
 
-import com.gtolib.api.ae2.IKeyCounter;
-import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.utils.holder.LongHolder;
+
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.level.Level;
 
 import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
@@ -20,15 +19,10 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 import appeng.crafting.CraftingLink;
-import appeng.crafting.execution.CraftingCpuHelper;
 import appeng.crafting.execution.ElapsedTimeTracker;
-import appeng.crafting.inv.ICraftingInventory;
 import appeng.crafting.inv.ListCraftingInventory;
 import appeng.me.service.CraftingService;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 
 class ExecutingCraftingJob {
@@ -44,17 +38,48 @@ class ExecutingCraftingJob {
 
     final CraftingLink link;
     final ListCraftingInventory waitingFor;
-    final Object2ObjectOpenHashMap<IPatternDetails, LongHolder> tasks = new Object2ObjectOpenHashMap<>();
+    final Object2ObjectOpenHashMap<IPatternDetails, LongHolder> tasks = new O2OOpenCacheHashMap<>();
     final ElapsedTimeTracker timeTracker;
     final IElapsedTimeTracker tt;
     GenericStack finalOutput;
     long remainingAmount;
     Integer playerId;
 
-    ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId, OptimizedCraftingCpuLogic cpu) {
+    final KeyCounter expectedOutputs = new KeyCounter();
+    final ReferenceOpenHashSet<AEKey> defsToPurge = new ReferenceOpenHashSet<>();
+    final Reference2LongOpenHashMap<AEKey> totalConsumed = new Reference2LongOpenHashMap<>();
+    final Reference2LongOpenHashMap<AEKey> currentConsumed = new Reference2LongOpenHashMap<>();
+    final ReferenceOpenHashSet<AEKey> purgeDefsLocal = new ReferenceOpenHashSet<>();
+
+    final Reference2ObjectOpenHashMap<AEKey, Object2LongOpenHashMap<IPatternDetails>> allocations = new Reference2ObjectOpenHashMap<>();
+
+    ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId, KeyCounter missingIng) {
+        this(plan, changeListener, link, playerId);
+        for (var what : missingIng.keySet()) {
+            long amount = missingIng.get(what);
+            waitingFor.insert(what, amount, Actionable.MODULATE);
+            tt.gtolib$addMaxItems(amount, what.getType());
+        }
+    }
+
+    private ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
         this.finalOutput = plan.finalOutput();
         this.remainingAmount = this.finalOutput.amount();
         this.waitingFor = new ListCraftingInventory(changeListener);
+
+        if (plan instanceof ICraftingPlanAllocationAccessor accessor) {
+            var src = accessor.getGtocore$allocations();
+            if (src != null && !src.isEmpty()) {
+                src.reference2ObjectEntrySet().fastForEach(e -> {
+                    var map = new Object2LongOpenHashMap<IPatternDetails>();
+                    var inner = e.getValue();
+                    if (inner != null && !inner.isEmpty()) {
+                        map.putAll(inner);
+                    }
+                    this.allocations.put(e.getKey(), map);
+                });
+            }
+        }
 
         // Fill waiting for and tasks
         this.timeTracker = new ElapsedTimeTracker();
@@ -63,20 +88,15 @@ class ExecutingCraftingJob {
             waitingFor.insert(entry.getKey(), entry.getLongValue(), Actionable.MODULATE);
             tt.gtolib$addMaxItems(entry.getLongValue(), entry.getKey().getType());
         }
-        for (var it = ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastIterator(); it.hasNext();) {
-            var entry = it.next();
+        ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastForEach(entry -> {
             var key = entry.getKey();
             long value = entry.getLongValue();
-            if (value > 1 && key instanceof IParallelPatternDetails parallelPatternDetails) {
-                key = parallelPatternDetails.parallel(value, cpu.cluster.getLevel());
-                value = 1;
-            }
             tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
             for (var output : key.getOutputs()) {
                 var amount = output.amount() * value * output.what().getAmountPerUnit();
                 tt.gtolib$addMaxItems(amount, output.what().getType());
             }
-        }
+        });
         this.link = link;
         this.playerId = playerId;
     }
@@ -114,6 +134,29 @@ class ExecutingCraftingJob {
                 this.tasks.put(details, tp);
             }
         }
+
+        if (data.contains("allocations", Tag.TAG_LIST)) {
+            ListTag allocs = data.getList("allocations", Tag.TAG_COMPOUND);
+            for (int i = 0; i < allocs.size(); i++) {
+                CompoundTag alloc = allocs.getCompound(i);
+                AEKey itemKey = AEKey.fromTagGeneric(alloc.getCompound("item"));
+                if (itemKey == null) continue;
+                Object2LongOpenHashMap<IPatternDetails> patMap = new Object2LongOpenHashMap<>();
+                ListTag pats = alloc.getList("patterns", Tag.TAG_COMPOUND);
+                for (int j = 0; j < pats.size(); j++) {
+                    CompoundTag p = pats.getCompound(j);
+                    long quota = p.getLong("quota");
+                    var pdKey = AEItemKey.fromTag(p);
+                    var det = PatternDetailsHelper.decodePattern(pdKey, cpu.cluster.getLevel());
+                    if (det != null) {
+                        patMap.put(det, quota);
+                    }
+                }
+                if (!patMap.isEmpty()) {
+                    this.allocations.put(itemKey, patMap);
+                }
+            }
+        }
     }
 
     CompoundTag writeToNBT() {
@@ -129,8 +172,7 @@ class ExecutingCraftingJob {
         data.put(NBT_TIME_TRACKER, timeTracker.writeToNBT());
 
         final ListTag list = new ListTag();
-        for (ObjectIterator<Object2ObjectMap.Entry<IPatternDetails, LongHolder>> it = this.tasks.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
-            var e = it.next();
+        this.tasks.object2ObjectEntrySet().fastForEach(e -> {
             var details = e.getKey();
             var item = details.getDefinition().toTag();
             item.putLong(NBT_CRAFTING_PROGRESS, e.getValue().value);
@@ -138,8 +180,25 @@ class ExecutingCraftingJob {
                 item.putLong("parallel", parallelPatternDetails.getParallel());
             }
             list.add(item);
-        }
+        });
         data.put(NBT_TASKS, list);
+
+        ListTag allocs = new ListTag();
+        this.allocations.reference2ObjectEntrySet().fastForEach(e -> {
+            CompoundTag alloc = new CompoundTag();
+            alloc.put("item", e.getKey().toTagGeneric());
+            ListTag pats = new ListTag();
+            var map = e.getValue();
+            map.object2LongEntrySet().fastForEach(pe -> {
+                var details = pe.getKey();
+                var ptag = details.getDefinition().toTag();
+                ptag.putLong("quota", pe.getLongValue());
+                pats.add(ptag);
+            });
+            alloc.put("patterns", pats);
+            allocs.add(alloc);
+        });
+        data.put("allocations", allocs);
 
         data.putLong(NBT_REMAINING_AMOUNT, remainingAmount);
         if (this.playerId != null) {
@@ -147,75 +206,5 @@ class ExecutingCraftingJob {
         }
 
         return data;
-    }
-
-    static KeyCounter[] extractPatternInputs(IPatternDetails details, ListCraftingInventory sourceInv, Level level, KeyCounter expectedOutputs, KeyCounter expectedContainerItems) {
-        var inputs = details.getInputs();
-        KeyCounter[] inputHolder = getInputHolder((IDetails) details);
-        boolean found = true;
-
-        var counter = IKeyCounter.of(sourceInv.list);
-        for (int x = 0; x < inputs.length; x++) {
-            var list = inputHolder[x];
-            var input = inputs[x];
-            long remainingMultiplier = input.getMultiplier();
-            var possibleInputs = input.getPossibleInputs();
-            for (var stack : possibleInputs) {
-                var amount = stack.amount();
-                var fuzz = stack.what();
-                if (counter.gtolib$contains(fuzz) && input.isValid(fuzz, level)) {
-                    long extracted = extractTemplates(sourceInv, fuzz, amount, remainingMultiplier);
-                    list.add(fuzz, extracted * amount);
-                    var containerItem = input.getRemainingKey(fuzz);
-                    if (containerItem != null) {
-                        expectedContainerItems.add(containerItem, extracted);
-                    }
-                    remainingMultiplier -= extracted;
-                    if (remainingMultiplier == 0) break;
-                }
-            }
-
-            if (remainingMultiplier > 0) {
-                found = false;
-                break;
-            }
-        }
-
-        if (!found) {
-            CraftingCpuHelper.reinjectPatternInputs(sourceInv, inputHolder);
-            return null;
-        }
-
-        for (var output : details.getOutputs()) {
-            expectedOutputs.add(output.what(), output.amount());
-        }
-
-        return inputHolder;
-    }
-
-    private static KeyCounter[] getInputHolder(IDetails details) {
-        int length = details.getInputs().length;
-        var inputHolder = new KeyCounter[length];
-        var ih = details.gtolib$getInputHolder();
-        for (int x = 0; x < length; x++) {
-            var kc = ih[x];
-            kc.clear();
-            inputHolder[x] = kc;
-        }
-        return inputHolder;
-    }
-
-    private static long extractTemplates(ICraftingInventory inv, AEKey key, long amount, long multiplier) {
-        long maxTotal = amount * multiplier;
-        var extracted = inv.extract(key, maxTotal, Actionable.SIMULATE);
-        if (extracted == 0) return 0;
-        multiplier = extracted / amount;
-        maxTotal = amount * multiplier;
-        if (maxTotal == 0) return 0;
-        extracted = inv.extract(key, maxTotal, Actionable.MODULATE);
-        if (extracted == 0 || extracted != maxTotal) {
-            throw new IllegalStateException("Failed to correctly extract whole number. Invalid simulation!");
-        }
-        return multiplier;
     }
 }

@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.List;
 
@@ -24,14 +24,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends WaterPurificationUnitMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ExtremeTemperatureFluctuationPurificationUnitMachine.class, WaterPurificationUnitMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final Fluid STEAM = GTOMaterials.SupercriticalSteam.getFluid();
     private static final Fluid HELIUM = GTMaterials.Helium.getFluid();
@@ -50,7 +42,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     @Persisted
     private boolean cycle;
 
-    private SensorPartMachine sensorMachine;
+    private final List<SensorPartMachine> sensorMachine = new ObjectArrayList<>();
 
     public ExtremeTemperatureFluctuationPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 16);
@@ -59,15 +51,21 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     @Override
     public void onPartScan(IMultiPart part) {
         super.onPartScan(part);
-        if (sensorMachine == null && part instanceof SensorPartMachine sensorPartMachine) {
-            sensorMachine = sensorPartMachine;
+        if (part instanceof SensorPartMachine sensorPartMachine) {
+            sensorMachine.add(sensorPartMachine);
         }
+    }
+
+    @Override
+    public void onStructureFormed() {
+        sensorMachine.clear();
+        super.onStructureFormed();
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        sensorMachine = null;
+        sensorMachine.clear();
     }
 
     @Override
@@ -81,9 +79,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
 
     @Override
     public void afterWorking() {
-        if (sensorMachine != null) {
-            sensorMachine.update(heat);
-        }
+        sensorMachine.forEach(s -> s.update(heat));
         super.afterWorking();
     }
 
@@ -113,9 +109,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
                 cycle = false;
                 chance += 33;
             }
-            if (sensorMachine != null) {
-                sensorMachine.update(heat);
-            }
+            sensorMachine.forEach(s -> s.update(heat));
         }
         return true;
     }
@@ -139,9 +133,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
                 calculateVoltage(inputCount);
             }
         }
-        if (sensorMachine != null) {
-            sensorMachine.update(heat);
-        }
+        sensorMachine.forEach(s -> s.update(heat));
         return eut;
     }
 }

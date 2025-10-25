@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -63,8 +64,8 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
             if (recipeLogic.machine.getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) return;
             var recipe = recipeLogic.getLastRecipe();
             if (recipe == null) return;
-            Object2LongOpenCustomHashMap<Content> items = new Object2LongOpenCustomHashMap<>(ContentBuilder.HASH_STRATEGY);
-            Object2LongOpenCustomHashMap<Content> fluids = new Object2LongOpenCustomHashMap<>(ContentBuilder.HASH_STRATEGY);
+            Object2LongOpenCustomHashMap<Content> items = new O2LOpenCustomCacheHashMap<>(ContentBuilder.HASH_STRATEGY);
+            Object2LongOpenCustomHashMap<Content> fluids = new O2LOpenCustomCacheHashMap<>(ContentBuilder.HASH_STRATEGY);
             for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
                 items.addTo(content, ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content.content)));
             }

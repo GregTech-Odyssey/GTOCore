@@ -1,6 +1,9 @@
 package com.gtocore.common.data;
 
-import com.gtocore.common.cover.*;
+import com.gtocore.common.cover.AirVentCover;
+import com.gtocore.common.cover.PowerAmplifierCover;
+import com.gtocore.common.cover.SteamPumpCover;
+import com.gtocore.common.cover.WirelessChargerCover;
 
 import com.gtolib.GTOCore;
 

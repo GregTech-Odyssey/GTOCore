@@ -58,14 +58,14 @@ public final class AssemblerRecipeLoader {
         ASSEMBLER_RECIPES.recipeBuilder("stable_titanium_casing")
                 .inputItems(rotor, Titanium, 2)
                 .inputItems(pipeNormalFluid, Titanium, 4)
-                .inputItems(CASING_TITANIUM_STABLE.asStack())
+                .inputItems(CASING_TITANIUM_STABLE.asItem())
                 .outputItems(CASING_ENGINE_INTAKE.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("stable_tungstensteel_casing")
                 .inputItems(rotor, TungstenSteel, 2)
                 .inputItems(pipeNormalFluid, TungstenSteel, 4)
-                .inputItems(CASING_TUNGSTENSTEEL_ROBUST.asStack())
+                .inputItems(CASING_TUNGSTENSTEEL_ROBUST.asItem())
                 .outputItems(CASING_EXTREME_ENGINE_INTAKE.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft))
                 .duration(50).EUt(16).save();
 
@@ -216,14 +216,6 @@ public final class AssemblerRecipeLoader {
                 .circuitMeta(1)
                 .outputItems(VOLTAGE_COIL_UV)
                 .save();
-
-        // Neutron Reflector
-        ASSEMBLER_RECIPES.recipeBuilder("neutron_reflector").duration(4000).EUt(VA[MV])
-                .inputItems(plate, Ruridit)
-                .inputItems(plateDouble, Beryllium, 4)
-                .inputItems(plateDouble, TungstenCarbide, 2)
-                .inputFluids(TinAlloy.getFluid(L << 5))
-                .outputItems(NEUTRON_REFLECTOR).save();
 
         // hazmat pieces
         ASSEMBLER_RECIPES.recipeBuilder("hazmat_boots").duration(200).EUt(VA[LV])

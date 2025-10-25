@@ -8,49 +8,41 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 final class KeyMessage {
 
-    public static void pressAction(ServerPlayer player, int type) {
+    static void pressAction(ServerPlayer player, int type) {
         Level level = player.level();
         if (!level.hasChunkAt(player.blockPosition())) {
             return;
         }
         switch (type) {
             case 0 -> handleFlightSpeed(player);
-            case 1 -> toggleNightVision(player);
+            // case 1 -> toggleNightVision(player); //已改为纯客户端实现
             case 2 -> upgradeToolSpeed(player);
             case 3 -> drift(player);
         }
     }
 
     private static void handleFlightSpeed(Player player) {
-        float speed;
-        String armorSlots = player.getArmorSlots().toString();
-        if (armorSlots.contains("warden_")) {
-            speed = 0.2F;
-        } else if (armorSlots.contains("infinity_")) {
-            speed = 0.3F;
-        } else {
-            return;
-        }
+        float speed = IEnhancedPlayer.of(player).getPlayerData().flySpeedAble;
+        if (speed == 0F) return;
         CompoundTag data = player.getPersistentData();
-        int speedFactor = data.getInt("fly_speed");
+        int speedFactor = data.getInt("fly_speed") + 1;
         if (player.isShiftKeyDown()) {
             player.getAbilities().setFlyingSpeed(0.05F);
             player.onUpdateAbilities();
             player.displayClientMessage(Component.translatable("gtocore.fly_speed_reset"), true);
-            data.putInt("fly_speed", 1);
+            data.remove("fly_speed");
         } else {
             float currentSpeed = player.getAbilities().getFlyingSpeed();
             if (currentSpeed < speed) {
                 player.getAbilities().setFlyingSpeed(0.05F * speedFactor);
                 player.onUpdateAbilities();
-                data.putInt("fly_speed", speedFactor + 1);
+                data.putInt("fly_speed", speedFactor);
                 player.displayClientMessage(Component.translatable("gtocore.fly_speed", (speedFactor + 1)), true);
             } else {
                 player.displayClientMessage(Component.translatable("gtocore.reach_limit"), true);
@@ -58,42 +50,46 @@ final class KeyMessage {
         }
     }
 
-    private static void toggleNightVision(Player player) {
-        if (IEnhancedPlayer.of(player).getPlayerData().wardenState) {
-            CompoundTag data = player.getPersistentData();
-            boolean nightVisionEnabled = data.getBoolean("night_vision");
-            data.putBoolean("night_vision", !nightVisionEnabled);
-
-            if (nightVisionEnabled) {
-                player.removeEffect(MobEffects.NIGHT_VISION);
-                player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.disabled"), true);
-            } else {
-                player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.enabled"), true);
-            }
-        }
-    }
+    // 已改为纯客户端实现
+    // private static void toggleNightVision(Player player) {
+    // CompoundTag data = player.getPersistentData();
+    // boolean nightVisionEnabled = data.getBoolean("night_vision");
+    // data.putBoolean("night_vision", !nightVisionEnabled);
+    //
+    // if (nightVisionEnabled) {
+    // player.removeEffect(MobEffects.NIGHT_VISION);
+    // player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.disabled"), true);
+    // } else {
+    // player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.enabled"), true);
+    // }
+    // }
 
     private static void upgradeToolSpeed(Player player) {
         ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
         if (itemStack.getItem() instanceof IGTTool gtTool && gtTool.getToolType().name.contains("_vajra")) {
-            int value = player.isShiftKeyDown() ? 10 : 1;
-            float speed = itemStack.getOrCreateTag().getCompound("GT.Tool").getFloat("ToolSpeed");
-            float newSpeed = adjustToolSpeed(speed, value, (int) gtTool.getMaterialToolSpeed(itemStack));
-            itemStack.getOrCreateTag().getCompound("GT.Tool").putFloat("ToolSpeed", newSpeed);
+            if (player.isShiftKeyDown()) {
+                itemStack.getOrCreateTag().putBoolean("MinersFervor", !itemStack.getOrCreateTag().getBoolean("MinersFervor"));
+                player.displayClientMessage(Component.translatable(itemStack.getOrCreateTag().getBoolean("MinersFervor") ?
+                        "tooltip.avaritia.active" : "tooltip.avaritia.inactive",
+                        Component.translatable("enchantment.apotheosis.miners_fervor")), true);
+                return;
+            }
+            float speed = itemStack.getOrCreateTag().getFloat("ToolSpeed");
+            float newSpeed = adjustToolSpeed(speed, 4, (int) gtTool.getMaterialToolSpeed(itemStack));
+            itemStack.getOrCreateTag().putFloat("ToolSpeed", newSpeed);
             player.displayClientMessage(Component.translatable("jade.horseStat.speed", newSpeed), true);
         }
     }
 
-    private static float adjustToolSpeed(float speed, int value, int max) {
-        if (speed < max) {
-            if (speed < 100) {
-                return speed + value;
-            } else {
-                return speed + value * 10;
+    private static float adjustToolSpeed(float speed, int fallback, int max) {
+        if (speed > 0.0F) {
+            if (speed * 2 < max) {
+                return speed * 2;
+            } else if (speed < max) {
+                return max;
             }
-        } else {
-            return 10;
         }
+        return fallback;
     }
 
     private static void drift(ServerPlayer player) {

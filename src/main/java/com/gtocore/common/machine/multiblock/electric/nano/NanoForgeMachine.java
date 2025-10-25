@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,14 +38,6 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class NanoForgeMachine extends StorageMultiblockMachine implements IParallelMachine, IMultiStructureMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            NanoForgeMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(4, 0.9F);
 
@@ -63,7 +54,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
         if (recipe.data.getInt("nano_forge_tier") > machineTier) {
             return null;
         }
-        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel() * (1 << (machineTier - recipe.data.getInt("nano_forge_tier"))));
+        recipe = ParallelLogic.accurateParallel(this, recipe, getParallel() * (1L << (machineTier - recipe.data.getInt("nano_forge_tier"))));
         if (recipe == null) return null;
         return RecipeModifierFunction.overclocking(this, recipe, false, 1, 1, machineTier > recipe.data.getInt("nano_forge_tier") ? 0.25 : 0.5);
     }

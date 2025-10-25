@@ -1,5 +1,8 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTOMaterials;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -31,7 +34,7 @@ public final class BatteryRecipes {
                 .duration(30).EUt(4).save();
 
         // :trol:
-        VanillaRecipeHelper.addShapedRecipe("tantalum_capacitor", BATTERY_ULV_TANTALUM.asStack(2),
+        VanillaRecipeHelper.addShapedRecipe("tantalum_capacitor", BATTERY_ULV_TANTALUM.asItem(), 2,
                 " F ", "FDF", "B B",
                 'F', new MaterialEntry(foil, Manganese),
                 'D', new MaterialEntry(dust, Tantalum),
@@ -40,7 +43,7 @@ public final class BatteryRecipes {
         // Battery Hull Recipes
 
         // LV
-        VanillaRecipeHelper.addShapedRecipe("battery_hull_lv", BATTERY_HULL_LV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("battery_hull_lv", BATTERY_HULL_LV.asItem(),
                 "C", "P", "P",
                 'C', new MaterialEntry(cableGtSingle, Tin),
                 'P', new MaterialEntry(plate, BatteryAlloy));
@@ -53,7 +56,7 @@ public final class BatteryRecipes {
                 .duration(400).EUt(1).save();
 
         // MV
-        VanillaRecipeHelper.addShapedRecipe("battery_hull_mv", BATTERY_HULL_MV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("battery_hull_mv", BATTERY_HULL_MV.asItem(),
                 "C C", "PPP", "PPP",
                 'C', new MaterialEntry(cableGtSingle, Copper),
                 'P', new MaterialEntry(plate, BatteryAlloy));
@@ -351,23 +354,25 @@ public final class BatteryRecipes {
 
         // Lapotronic EV
         CANNER_RECIPES.recipeBuilder("ev_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asStack(1))
+                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asItem(), 1)
                 .inputItems(LAPOTRON_CRYSTAL)
                 .outputItems(GTBlocks.BATTERY_LAPOTRONIC_EV)
                 .duration(200).EUt(VA[HV]).save();
 
         PACKER_RECIPES.recipeBuilder("unpackage_ev_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_EV.asStack(1))
-                .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asStack(1))
+                .inputItems(GTBlocks.BATTERY_LAPOTRONIC_EV.asItem(), 1)
+                .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asItem(), 1)
                 .outputItems(LAPOTRON_CRYSTAL)
                 .circuitMeta(2)
                 .duration(200).EUt(VA[LV]).save();
 
         // Lapotronic IV
         CANNER_RECIPES.recipeBuilder("iv_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asStack(1))
+                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asItem(), 1)
                 .inputItems(ENERGY_LAPOTRONIC_ORB)
-                .outputItems(GTBlocks.BATTERY_LAPOTRONIC_IV.asStack(1))
+                .inputFluids(GTOMaterials.IronChromiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 1000))
+                .inputFluids(GTOMaterials.IronChromiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 1000))
+                .outputItems(GTBlocks.BATTERY_LAPOTRONIC_IV.asItem(), 1)
                 .duration(400).EUt(VA[HV]).save();
 
         // Empty Tier II
@@ -380,15 +385,19 @@ public final class BatteryRecipes {
 
         // Lapotronic LuV
         CANNER_RECIPES.recipeBuilder("luv_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_II.asStack(1))
+                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_II.asItem(), 1)
                 .inputItems(ENERGY_LAPOTRONIC_ORB_CLUSTER)
+                .inputFluids(GTOMaterials.VanadiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 1000))
+                .inputFluids(GTOMaterials.VanadiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 1000))
                 .outputItems(GTBlocks.BATTERY_LAPOTRONIC_LuV)
                 .duration(200).EUt(VA[EV]).save();
 
         // Lapotronic ZPM
         CANNER_RECIPES.recipeBuilder("zpm_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_II.asStack(1))
+                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_II.asItem(), 1)
                 .inputItems(ENERGY_MODULE)
+                .inputFluids(GTOMaterials.ZincIodideFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 1000))
+                .inputFluids(GTOMaterials.ZincIodideFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 1000))
                 .outputItems(GTBlocks.BATTERY_LAPOTRONIC_ZPM)
                 .duration(400).EUt(VA[EV]).save();
 
@@ -402,15 +411,19 @@ public final class BatteryRecipes {
 
         // Lapotronic UV
         CANNER_RECIPES.recipeBuilder("uv_lapotronic_battery")
-                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_III.asStack(1))
+                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_III.asItem(), 1)
                 .inputItems(ENERGY_CLUSTER)
+                .inputFluids(GTOMaterials.OrganicMoleculeRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 1000))
+                .inputFluids(GTOMaterials.OrganicMoleculeRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 1000))
                 .outputItems(GTBlocks.BATTERY_LAPOTRONIC_UV)
                 .duration(200).EUt(VA[IV]).save();
 
         // Ultimate UHV
         CANNER_RECIPES.recipeBuilder("uhv_ultimate_battery")
-                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_III.asStack(1))
+                .inputItems(GTBlocks.BATTERY_EMPTY_TIER_III.asItem(), 1)
                 .inputItems(ULTIMATE_BATTERY)
+                .inputFluids(GTOMaterials.SuperconductingIonRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 1000))
+                .inputFluids(GTOMaterials.SuperconductingIonRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 1000))
                 .outputItems(GTBlocks.BATTERY_ULTIMATE_UHV)
                 .duration(400).EUt(VA[IV]).save();
     }

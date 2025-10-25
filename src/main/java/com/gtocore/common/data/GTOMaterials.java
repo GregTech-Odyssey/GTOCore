@@ -21,6 +21,10 @@ public final class GTOMaterials {
     public static Material LiquidNitrogen;
     public static Material HighPressureNitrogen;
     public static Material HighPressureSteam;
+    public static Material HighPressureHelium;
+    public static Material HighPressureNeon;
+    public static Material HighPressureArgon;
+    public static Material HighPressureKrypton;
     public static Material AcidicBromineSolution;
     public static Material ConcentratedBromineSolution;
     public static Material HydrogenIodide;
@@ -91,6 +95,52 @@ public final class GTOMaterials {
     public static Material TungstenTrioxide;
     public static Material SpaceTime;
     public static Material Infinity;
+    public static Material BlazeCube;
+    public static Material Etrium;
+    public static Material StainlessSteelJbk75;
+    public static Material Inconel242;
+    public static Material PlatinumRhodiumAlloy;
+    public static Material ScalmAlloyS;
+    public static Material Grcop84;
+    public static Material ThermalConductiveAlloy;
+    public static Material Titanium5553;
+    public static Material UltraLightweightCompositeSteel;
+    public static Material BerylliumAluminiumAlloy;
+    public static Material MoonGoddessTitanium;
+    public static Material AluminumAlloy2090;
+    public static Material AluminumAlloy8090;
+    public static Material AluminumAlloy7050;
+    public static Material AluminumAlloy5A06;
+    public static Material StructuralSteel45;
+    public static Material StainlessSteel420;
+    public static Material StainlessSteelGC4;
+    public static Material TitaniumTi64;
+    public static Material StainlessSteel155Ph;
+    public static Material StainlessSteel316;
+    public static Material StructuralSteelQ690;
+    public static Material InconelX750;
+    public static Material TungstenAlloyYW3;
+    public static Material TungstenAlloyYG10;
+    public static Material Inconel617;
+    public static Material BerylliumAluminumZ;
+    public static Material TitaniumTB6;
+    public static Material Inconel718;
+    public static Material BerylliumAluminumF;
+    public static Material TitaniumTC11;
+    public static Material Nitinol50ShapeMemoryAlloy;
+    public static Material NickelTitaniumTinHeuslerAlloy;
+    public static Material TitaniumTi53311S;
+    public static Material TitaniumTC21;
+    public static Material CobaltManganeseGalliumHeuslerAlloy;
+    public static Material RutheniumIronSiliconHeuslerAlloy;
+    public static Material MagneticControlledShapeMemoryAlloy;
+    public static Material HighTemperatureShapeMemoryAlloy;
+    public static Material PlatinumManganeseAntimonyHeuslerAlloy;
+    public static Material StarliteSteel;
+    public static Material HighEntropyShapeMemoryAlloy;
+    public static Material RadiationShieldingHighDensityTungstenSteel;
+    public static Material OdysseyNanoSuperalloy;
+    public static Material NanoStrengthenedShapeMemoryAlloy;
 
     public static Material TriniumCompound;
     public static Material FumingNitricAcid;
@@ -126,6 +176,8 @@ public final class GTOMaterials {
     public static Material PotassiumFluoride;
     public static Material SodiumHydride;
     public static Material Trimethylamine;
+    public static Material HexadecylBromide;
+    public static Material Cetane;
     public static Material BoraneDimethylSulfide;
     public static Material Tetrahydrofuran;
     public static Material CesiumCarboranePrecursor;
@@ -144,7 +196,146 @@ public final class GTOMaterials {
     public static Material BoronTrifluorideAcetate;
     public static Material SodiumHexafluoroaluminate;
     public static Material PhosphorusPentasulfide;
+    public static Material DyeCarrierResin;
+    public static Material EmulsifiedDyeCarrierResin;
+    public static Material ZirconiumDiboride;
+    public static Material LeadZirconateTitanateCeramic;
+    public static Material LeadNiobateMagnesiumNiobateCeramic;
+    public static Material PhosphoricAcidMagnesiumPhosphateCement;
+    public static Material PhosphoricAcidChromiumPhosphateCement;
+    public static Material SodiumMolybdate;
+    public static Material AluminumAcetylacetonate;
+    public static Material Acetylacetonate;
+    public static Material Mestitylene;
+    public static Material LeadOxide;
+    public static Material NiobiumOxide;
 
+    public static Material TrisHydrochlorideSolution;
+    public static Material Tris;
+    public static Material EDTA;
+    public static Material ChloroaceticAcid;
+    public static Material CTAB;
+    public static Material DNAExtractionBuffer;
+    public static Material DiethyleneGlycol;
+
+    public static Material MetallicHydrogen;
+    public static Material TrimethylBoron;
+    public static Material Phosphine;
+    public static Material BoronDopedDiamond;
+    public static Material PhosphorusDopedDiamond;
+    public static Material SiliconDopedDiamond;
+    public static Material WideBandgapSemiconductorGradeDiamond;
+
+    public static Material IronChromiumRedoxFlowBatteryElectrolyte;// iv 2a uev
+    public static Material VanadiumRedoxFlowBatteryElectrolyte;// luv 1a uxv
+    public static Material ZincIodideFlowBatteryElectrolyte;// zpm 2a opv
+    public static Material OrganicMoleculeRedoxFlowBatteryElectrolyte;// uv 4a max
+    // public static Material LithiumSulfurRedoxFlowBatteryElectrolyte;// 32a max
+    public static Material SuperconductingIonRedoxFlowBatteryElectrolyte;// uhv 32a max
+    public static Material AntimatterRedoxFlowBatteryElectrolyte;// uev 256a max
+
+    public static Material Tempo;
+    public static Material Tetramethylpiperidine;
+    public static Material ChromiumSulfate;
+    public static Material MercuryAcetate;
+    public static Material Polyvinylpyrrolidone;
+    public static Material PolousPolyolefinSulfonate;
+    public static Material AmmoniumBromide;
+    public static Material DitertButyl1MethoxyMethoxyethoxyBenzene;
+    public static Material TertButylChloride;
+    public static Material ParaBenzoquinone;
+    public static Material Chloroethoxyethane;
+    public static Material NMethylphthalimide;
+    public static Material LithiumBisTrifluoromethanesulfonylimide;
+    public static Material TetraethylammoniumTetrafluoroborate;
+    public static Material TrifluoromethanesulfonylChloride;
+    public static Material ChlorosulfonicAcid;
+    public static Material TrifluoromethanesulfonicAcid;
+    public static Material PhosphorusPentachloride;
+    public static Material SodiumAllylsulfonate;
+    public static Material PerfluorosulfonicAcidPolytetrafluoroethyleneCopolymer;
+    public static Material CeOxPolyDopamineReinforcedPolytetrafluoroethylene;
+    public static Material NanocrackRegulatedSelfHumidifyingCompositeMaterial;
+    public static Material PerfluorooctanesulfonicAcid;
+    public static Material Dopamine;
+    public static Material PolyDopamine;
+    public static Material Cerium4Sulfate;
+    public static Material SulfonatedPolyAryleneEtherSulfoneRandomCopolymer;
+    public static Material Dichlorodiphenylsulfone;
+    public static Material Difluorodiphenylsulfone;
+    public static Material Dihydroxybiphenyl;
+    public static Material TetramethylBisphenolA;
+    public static Material DisulfonateDichlorodiphenylsulfone;
+    public static Material Dimethylacetamide;
+    public static Material Tetrachloroethane;
+    public static Material BenzoylPeroxide;
+    public static Material BenzoicAcid;
+    public static Material BenzoicAnhydride;
+    public static Material BenzenesulfonicAcid;
+    public static Material PropyleneCarbonate;
+    public static Material UltraLowViscosityIonicCarrier;
+    public static Material LightEmittingChargedSuspiciousWaste;
+    public static Material EnrichedLightEmittingChargedSuspiciousWaste;
+
+    public static Material FiberglassReinforcedPlastic;
+    public static Material QuartzFiberReinforcedSilica;
+    public static Material AluminumReinforcedWithSiliconCarbideParticles;
+    public static Material AluminumReinforcedWithSiliconCarbideParticlesPre;
+    public static Material AluminaFiberReinforcedAluminumMatrixComposite;
+    public static Material GraphiteCopperComposite;
+    public static Material GraphiteCopperCompositePre;
+    public static Material BorosilicateFiberReinforcedAluminumMatrixComposite;
+    public static Material DispersionStrengthenedCopper;
+    public static Material DispersionStrengthenedCopperPre;
+    public static Material OxideDispersionStrengthenedNickelBasedAlloy;
+    public static Material TitaniumSteelComposite;
+    public static Material SilicaCarbonComposite;
+    public static Material CarbonFiberEpoxyComposite;
+    public static Material CarbonFiberReinforcedEpoxyComposite;
+    public static Material CarbonFiberPhenolicResinComposite;
+    public static Material CarbonFiberPolyphenyleneSulfideComposite;
+    public static Material AluminumOxynitrideGlassCeramic;
+    public static Material SiliconCarbideFiberReinforcedNickelBasedComposite;
+    public static Material SiliconCarbideFiberReinforcedTitaniumMatrixComposite;
+    public static Material TungstenFiberReinforcedCobaltBasedComposite;
+    public static Material CarbonFiberPolyimideComposite;
+    public static Material CarbonFiberPolyetheretherketoneComposite;
+    public static Material UHTCX1000UltraHighTemperatureComposite;
+    public static Material ZirconiaNickelBaseGradedComposite;
+    public static Material LeadZirconateTitanateShapePiezoelectricCeramic;
+    public static Material LeadMagnesiumNiobateShapePiezoelectricCeramic;
+    public static Material BoronCarbideCompositeProtectiveCeramic;
+    public static Material CarbonNanotubeReinforcedNickelMatrixComposite;
+    public static Material CarbonNanotubeReinforcedAluminumMatrixComposite;
+    public static Material FGMTPSThermalProtectionComposite;
+    public static Material CFCSIC1500CarbonFiberReinforcedComposite;
+    public static Material UHTCX2000UltraHighTemperatureComposite;
+    public static Material TitaniumDioxideNanotubeReinforcedTitaniumMatrixComposite;
+    public static Material OxideDispersionStrengthenedNickelBaseSuperalloy;
+
+    public static Material NanoScaleSiliconCarbide;
+    public static Material NanoScaleTungsten;
+    public static Material NanoScaleAlumina;
+    public static Material NanoScaleYttria;
+    public static Material NanoScaleNiobium;
+    public static Material NanoScaleZirconium;
+    public static Material NanoScaleRhenium;
+    public static Material NanoScaleMolybdenum;
+    public static Material NanoAluminum;
+    public static Material T300CarbonFiber;
+    public static Material T400CarbonFiber;
+    public static Material T600CarbonFiber;
+    public static Material T700CarbonFiber;
+    public static Material T800CarbonFiber;
+    public static Material T900CarbonFiber;
+    public static Material T1000CarbonFiber;
+    public static Material T1200CarbonFiber;
+    public static Material T1500CarbonFiber;
+
+    public static Material MethylAcrylate;
+    public static Material SilicaSol;
+    public static Material AluminumNitride;
+    public static Material Polyacrylonitrile;
     public static Material DirtyHexafluorosilicicAcid;
     public static Material DiluteHexafluorosilicicAcid;
     public static Material StoneDustResidue;
@@ -183,11 +374,24 @@ public final class GTOMaterials {
     public static Material DustyLiquidHeliumIII;
     public static Material Ozone;
     public static Material RareEarthChlorides;
+    public static Material ChromicAcid;
+    public static Material ChromicAcidWaste;
 
     public static Material PentlanditeFront;
     public static Material EnrichedNaquadahFront;
     public static Material TriniumCompoundFront;
     public static Material ResidualTriniiteFront;
+    public static Material MetalCompoundParticleFront;
+    public static Material AlmandineFront;
+    public static Material ChalcopyriteFront;
+    public static Material GrossularFront;
+    public static Material MonaziteFront;
+    public static Material NickelFront;
+    public static Material PlatinumFront;
+    public static Material PyropeFront;
+    public static Material RedstoneFront;
+    public static Material SpessartineFront;
+    public static Material SphaleriteFront;
     public static Material CarbonDisulfide;
     public static Material SpecialCeramics;
     public static Material HydroiodicAcid;
@@ -315,6 +519,8 @@ public final class GTOMaterials {
     public static Material WoodsGlass;
     public static Material Polyetheretherketone;
     public static Material CarbonNanotubes;
+    public static Material TitaniumDioxideNanotubes;
+    public static Material TitaniumNanotubePrecursor;
     public static Material FullerenePolymerMatrixPulp;
     public static Material Zylon;
     public static Material Kevlar;
@@ -359,6 +565,9 @@ public final class GTOMaterials {
     public static Material SuccinamidylAcetate;
     public static Material Hexabenzylhexaazaisowurtzitane;
     public static Material NHydroxysuccinimide;
+    public static Material NHydroxysuccinimideLipoicEster;
+    public static Material LipoicAcid;
+    public static Material ChloroauricAcid;
     public static Material SuccinicAnhydride;
     public static Material SuccinicAcid;
     public static Material Acetonitrile;
@@ -419,6 +628,8 @@ public final class GTOMaterials {
     public static Material Cyclooctadiene;
     public static Material SeaborgiumDopedNanotubes;
     public static Material Ethylenediamine;
+    public static Material Triphenylphosphine;
+    public static Material RhodiumTriphenylphosphineChloride;
     public static Material Ethanolamine;
     public static Material EthyleneOxide;
     public static Material Benzaldehyde;
@@ -726,16 +937,6 @@ public final class GTOMaterials {
     public static Material Turpentine;
     public static Material SteamCrackedTurpentine;
     public static Material LeachedTurpentine;
-    public static Material AlmandineFront;
-    public static Material ChalcopyriteFront;
-    public static Material GrossularFront;
-    public static Material MonaziteFront;
-    public static Material NickelFront;
-    public static Material PlatinumFront;
-    public static Material PyropeFront;
-    public static Material RedstoneFront;
-    public static Material SpessartineFront;
-    public static Material SphaleriteFront;
     public static Material Acrylonitrile;
     public static Material LithiumIodide;
     public static Material SilicaAluminaGel;
@@ -755,6 +956,14 @@ public final class GTOMaterials {
     public static Material PolyAluminiumChloride;
     public static Material FlocculationWasteSolution;
     public static Material ChromaticGlass;
+
+    public static Material CosmicDust;
+    public static Material FrozenVolatileIce;
+    public static Material PlasmaQuenchedBeads;
+    public static Material DarkMatterBoundNodes;
+    public static Material AerogelPorousParticles;
+    public static Material StellarMatterRemnantDust;
+    public static Material MetalCompoundParticles;
 
     public static Material SamariumRefinedPowder;
     public static Material SamariumRrareEearthTurbidLiquid;
@@ -915,6 +1124,7 @@ public final class GTOMaterials {
     public static Material BifidobacteriumBreve;
     public static Material BrevibacteriumFlavium;
     public static Material CupriavidusNecator;
+    public static Material ClostridiumPasteurianum;
     public static Material Yeast;
     public static Material BetaPinene;
     public static Material Glutamine;
@@ -935,6 +1145,14 @@ public final class GTOMaterials {
     public static Material InvalidationBasicMFPC;
     public static Material InvalidationCascadeMFPC;
     public static Material RecycleBasicMFPC;
+    public static Material ImpregnatedAlkaneFilledMFPC;
+    public static Material HighPressureStaticAdsorptionMFPC;
+    public static Material SolGelQDInterfaceModifiedMFPC;
+    public static Material InterfaceSupramolecularSelfAssemblyMFPC;
+    public static Material ExtremeTemperatureInterfaceStabilizedMFPC;
+    public static Material EtchedCarbonNanotube;
+    public static Material NanoGoldDepositedCarbonNanotube;
+    public static Material NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot;
     public static Material HollowCeramicMicrosphereRoughEmbryo;
     public static Material HollowCeramicMicrospheres;
     public static Material SilverCoatedHollowCeramicMicrospheres;
@@ -951,9 +1169,12 @@ public final class GTOMaterials {
     public static Material Polystyrene;
     public static Material Trimethylsilanol;
     public static Material Hexamethyldisiloxane;
+    public static Material Hexamethyldisilazane;
+    public static Material LiquidAmmonia;
     public static Material Triethoxysilane;
     public static Material Chloropropyltriethoxysilane;
     public static Material KH550SilaneCouplingAgent;
+    public static Material Titanium3Carbide;
 
     public static Material AlphaParticleSource;
     public static Material Calcium48Source;
@@ -976,6 +1197,7 @@ public final class GTOMaterials {
     public static Material Livingrock;
     public static Material Runerock;
     public static Material Shimmerrock;
+    public static Material StarStone;
     public static Material ManaGlass;
     public static Material ElfGlass;
     public static Material BifrostPerm;
@@ -1000,6 +1222,9 @@ public final class GTOMaterials {
     public static Material OmniFloraElixir;
     public static Material GaiaSolvent;
     public static Material WildenEssence;
+    public static Material HerosBrawlers;
+    public static Material HerosBreach;
+    public static Material HerosSplendor;
     public static Material Animium;
     public static Material TheWaterFromTheWellOfWisdom;
     public static Material FlowingCiphers;
@@ -1007,6 +1232,7 @@ public final class GTOMaterials {
     public static Material Orichalcos;
     public static Material Shadowium;
     public static Material Aerialite;
+    public static Material PhantomicElectrolyteBuffer;
     /// 新1-4级水
     public static Material ReverseOsmosisWater;
     public static Material ElectrodeionizationWater;
@@ -1029,7 +1255,10 @@ public final class GTOMaterials {
         MaterialA.init();
         MaterialB.init();
         MaterialC.init();
+        MaterialSpaceEra.init();
+        MaterialComposite.init();
         MaterialIgnored.init();
+        FiberExtruderTempDefinitions.init();
 
         MATERIAL_VOLTAGE = Map.of(
                 GTMaterials.Gold, VA[LV],

@@ -53,7 +53,7 @@ public final class OzonationPurificationUnitMachine extends WaterPurificationUni
 
     private int getChance(long count, long ozoneCount) {
         int a = (int) (80 * Math.log(1 + ozoneCount / 10000.0) / Math.log(103.0));
-        if (inputFluid(WaterPurificationPlantMachine.GradePurifiedWater2, count / 4)) {
+        if (inputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, count / 4)) {
             return a + 20;
         } else if (inputFluid(WaterPurificationPlantMachine.GradePurifiedWater2, count)) {
             return a + 15;

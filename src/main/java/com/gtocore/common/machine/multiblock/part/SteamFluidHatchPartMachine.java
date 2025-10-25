@@ -28,7 +28,7 @@ public class SteamFluidHatchPartMachine extends FluidHatchPartMachine {
     private final String autoTooltipKey;
 
     public SteamFluidHatchPartMachine(MetaMachineBlockEntity holder, IO io) {
-        super(holder, 1, io, 16000, 1);
+        super(holder, 1, io, 8000, 1);
         autoTooltipKey = io == IO.IN ? "gtceu.gui.fluid_auto_input.tooltip" : "gtceu.gui.fluid_auto_output.tooltip";
     }
 
@@ -37,7 +37,7 @@ public class SteamFluidHatchPartMachine extends FluidHatchPartMachine {
         return new ModularUI(176, 166, this, entityPlayer)
                 .background(GuiTextures.BACKGROUND_STEAM.get(IS_STEEL))
                 .widget(new ImageWidget(7, 16, 81, 55, GuiTextures.DISPLAY_STEAM.get(IS_STEEL)))
-                .widget(new ToggleButtonWidget(7, 72, 18, 18,
+                .widget(new ToggleButtonWidget(7, 64, 18, 18,
                         GuiTextures.BUTTON_FLUID_OUTPUT, this::isWorkingEnabled, this::setWorkingEnabled)
                         .setShouldUseBaseBackground()
                         .setTooltipText(autoTooltipKey))

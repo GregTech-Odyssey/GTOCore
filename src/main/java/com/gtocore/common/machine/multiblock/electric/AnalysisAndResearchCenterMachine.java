@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,8 +39,8 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
         super.onStructureFormed();
         for (IMultiPart part : getParts()) {
             if (part instanceof AnalyzeHolderMachine analyzeHolder) {
-                // 修改这里：检查是否面向上方 (Direction.UP)
-                if (analyzeHolder.getFrontFacing() != Direction.UP) {
+                // 修改这里：检查是否面与机器方向相同
+                if (analyzeHolder.getFrontFacing() != getFrontFacing()) {
                     onStructureInvalid();
                     return;
                 }
@@ -51,7 +50,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
                 mode = 1;
             }
             if (part instanceof ResearchHolderMachine researchHolder) {
-                if (researchHolder.getFrontFacing() != Direction.UP) {
+                if (researchHolder.getFrontFacing() != getFrontFacing()) {
                     onStructureInvalid();
                     return;
                 }

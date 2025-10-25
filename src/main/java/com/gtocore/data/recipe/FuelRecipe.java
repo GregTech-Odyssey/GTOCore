@@ -7,6 +7,7 @@ import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BucketItem;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
 import earth.terrarium.adastra.common.registry.ModFluids;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Set;
 
@@ -27,7 +27,7 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 public final class FuelRecipe {
 
     public static void init() {
-        Set<Item> addedItems = new ObjectOpenHashSet<>();
+        Set<Item> addedItems = new OpenCacheHashSet<>();
         for (var fuelEntry : FurnaceBlockEntity.getFuel().entrySet()) {
             if (fuelEntry.getKey() instanceof BucketItem) continue;
             addedItems.add(fuelEntry.getKey());
@@ -180,8 +180,8 @@ public final class FuelRecipe {
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("cetane_diesel")
                 .inputFluids(CetaneBoostedDiesel.getFluid(2))
-                .inputFluids(Air.getFluid(90))
-                .duration(90)
+                .inputFluids(Air.getFluid(120))
+                .duration(120)
                 .EUt(-V[LV])
                 .save();
 
@@ -721,7 +721,7 @@ public final class FuelRecipe {
                 .save();
 
         DYSON_SPHERE_RECIPES.recipeBuilder("a")
-                .inputItems(GTOItems.DYSON_SWARM_MODULE.asStack(64))
+                .inputItems(GTOItems.DYSON_SWARM_MODULE.asItem(), 64)
                 .CWUt(512)
                 .duration(200)
                 .EUt(VA[UIV])

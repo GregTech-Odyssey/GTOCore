@@ -1,7 +1,12 @@
 package com.gtocore.data.lang;
 
+import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
+import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTORecipeCategories;
+import com.gtocore.common.data.translation.GTOItemTooltips;
+import com.gtocore.common.machine.noenergy.PlatformTemplateStorage;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.GTOCore;
@@ -23,17 +28,16 @@ import com.gtolib.utils.register.RecipeTypeRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraftforge.common.data.LanguageProvider;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.Arrays;
 import java.util.Map;
 
 public final class LangHandler {
 
-    private static final Map<String, CNEN> LANGS = new Object2ObjectOpenHashMap<>();
+    private static final Map<String, CNEN> LANGS = new O2OOpenCacheHashMap<>();
 
     private static void addCNEN(String key, CNEN CNEN) {
         if (LANGS.containsKey(key)) throw new IllegalArgumentException("Duplicate key: " + key);
@@ -44,19 +48,25 @@ public final class LangHandler {
         addCNEN(key, new CNEN(cn, en));
     }
 
-    private static void addCN(String key, String cn) {
+    public static void addCN(String key, String cn) {
         addCNEN(key, cn, null);
     }
 
     private static void init() {
+        GTOItemTooltips.INSTANCE.initLanguage();
         MaterialsRegisterUtils.LANG.forEach((k, v) -> addCNEN("material.gtocore." + k, v));
         RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addCNEN("gtceu." + k, v));
         GTOBedrockFluids.LANG.forEach((k, v) -> addCNEN("gtceu.jei.bedrock_fluid." + k, v));
         ItemRegisterUtils.LANG.forEach((k, v) -> addCN("item.gtocore." + k, v));
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
+        GTORecipeCategories.LANG.forEach((k, v) -> addCNEN("gtceu.recipe.category." + k, v));
+        GTOFluidStorageKey.initLang();
         GTOMachineBuilder.LANG.forEach(LangHandler::addCNEN);
         MultiblockBuilder.LANG.forEach(LangHandler::addCNEN);
         Tooltips.LANG.forEach(LangHandler::addCNEN);
+        PlatformTemplateStorage.LANG.forEach((k, v) -> addCNEN("gtocore.platform." + k, v));
+        AnalyzeData.INSTANCE.getLangMap().forEach((k, v) -> addCNEN("gtocore.data." + k, v));
+        GTOPartAbility.LANG.forEach(LangHandler::addCNEN);
         ScanningClass.LANG.forEach(LangHandler::addCNEN);
         DynamicInitialData.LANG.forEach(LangHandler::addCNEN);
         TranslationKeyProvider.LANG.forEach(LangHandler::addCNEN);
@@ -80,7 +90,6 @@ public final class LangHandler {
             int a = (1 << (2 * (tier - 4)));
             addCNEN("gtceu.machine.parallel_hatch_mk" + tier + ".tooltip", "允许同时处理至多" + a + "个配方。", "Allows to run up to " + a + " recipes in parallel.");
         }
-
         addCNEN("gtceu.machine.available_recipe_map_5.tooltip", "可用配方类型：%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s");
         addCNEN("gtceu.machine.available_recipe_map_6.tooltip", "可用配方类型：%s，%s，%s，%s，%s，%s", "Available Recipe Types: %s, %s, %s, %s, %s, %s");
 
@@ -91,17 +100,33 @@ public final class LangHandler {
         addCNEN("key.gtocore.debug_inspect", "调试检查GUI槽位", "Debug Inspect GUI Slot");
         addCNEN("key.keybinding.gtocore", "GTO按键绑定", "GTO Key Bindings");
 
+        addCNEN("selectWorld.self_restraint_mode.enabled", "自我约束模式开！", "Self-restraint mode enabled!");
+        addCNEN("selectWorld.gto_difficulty", "GTO难度：%s", "GTO Difficulty: %s");
+        addCNEN("selectWorld.gto_difficulty.no_suffix", "GTO难度", "GTO Difficulty");
+        addCNEN("selectWorld.dev_mode", "开发者模式已启用", "Developer Mode Enabled");
+        addCNEN("selectWorld.gto_difficulty.current", "与当前游戏难度匹配", "Matches current game difficulty");
+        addCNEN("selectWorld.gto_difficulty.not_current", "与当前游戏难度不匹配", "Does not match current game difficulty");
+        addCNEN("message.gtocore.difficulty_mismatch", "服务器难度与当前客户端不符，无法加入游戏！（服务器：%s，当前：%s）", "The server difficulty does not match the current client and cannot join the game! (Server: %s, Current: %s)");
+
+        addCNEN("selectWorld.gto_difficulty.tooltip.easy", "简单模式：游戏流程的各环节（资源获取，制作，自动化等）均有大量简化，游戏难度低。", "Easy Mode: All aspects of the game process (resource acquisition, crafting, automation, etc.) are greatly simplified, making the game easier. ");
+        addCNEN("selectWorld.gto_difficulty.tooltip.normal", "普通模式：标准的GTO体验，机制玩法均为默认设定。", "Normal Mode: Standard GTO experience, with all mechanics and gameplay set to default. ");
+        addCNEN("selectWorld.gto_difficulty.tooltip.expert", "专家模式：具有更难的游戏机制和更复杂的配方，适合寻求挑战的玩家。", "Expert Mode: Features more difficult game mechanics and complex recipes, suitable for players seeking a challenge. ");
+        addCNEN("selectWorld.gto_difficulty.tooltip.generic", "具体机制可在config/gtocore/gtocore_startup.cfg中查看。", "Specific mechanics can be found in config/gtocore/gtocore_startup.cfg. ");
+
         addCNEN("structure_writer.export_order", "导出顺序： C:%s  S:%s  A:%s", "Export Order: C:%s  S:%s  A:%s");
         addCNEN("structure_writer.structural_scale", "结构规模： X:%s  Y:%s  Z:%s", "Structural Scale: X:%s  Y:%s  Z:%s");
 
         addCNEN("gtocore.pattern.blocking_mode", "容器有任何内容时阻止插入", "Block insertion when the container has any content");
         addCNEN("gtocore.pattern.blocking_reverse", "非同一样板时阻止插入", "Prevent insertion when not using the same pattern");
+        addCNEN("gtocore.pattern.blocking_parallel", "并行发配后容器内存在合成材料时暂停发送", "Prevent insertion after parallel allocation if container has synthetic materials");
         addCNEN("gtocore.pattern.multiply", "样板配方 x %s", "Pattern Recipe x %s");
         addCNEN("gtocore.pattern.tooltip.multiply", "将样板材料数量 x %s", "Multiply Pattern materials amount by %s");
         addCNEN("gtocore.pattern.divide", "样板配方 ÷ %s", "Pattern Recipe ÷ %s");
         addCNEN("gtocore.pattern.tooltip.divide", "将样板材料数量 ÷ %s", "Divide Pattern materials amount by %s");
+        addCNEN("gtocore.pattern.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
+        addCNEN("gtocore.pattern.tooltip.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
 
-        addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
+        addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energetics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energetics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
         addCNEN("gtocore.fly_speed_reset", "飞行速度已重置", "fly Speed Reset");
         addCNEN("gtocore.fly_speed", "飞行速度 x%s", "fly Speed x%s");
@@ -112,7 +137,7 @@ public final class LangHandler {
         addCNEN("gtocore.ununlocked", "未解锁", "Ununlocked");
         addCNEN("gtocore.build", "构建", "Build");
 
-        addCNEN("item.gtocore.pattern_modifier_pro.name", "模组修改器 Pro", "Pattern Modifier Pro");
+        addCNEN("item.gtocore.pattern_modifier_pro.name", "样板修改器 Pro", "Pattern Modifier Pro");
         addCNEN("gtocore.patternModifierPro.0", "设置完成后，潜行右击样板供应器以应用", "After setup,shift + right-click template provider to apply");
         addCNEN("gtocore.patternModifierPro.1", "模板乘数：所有物品和流体乘以指定倍数", "Set Item and Fluid Multiplier");
         addCNEN("gtocore.patternModifierPro.2", "模板除数：所有物品和流体除以指定倍数", "Set Item and Fluid Divider");
@@ -132,6 +157,7 @@ public final class LangHandler {
         addCNEN("gtceu.jei.ore_vein.zircon_vein", "锆石矿脉", "Zircon Vein");
         addCNEN("gtceu.jei.ore_vein.crystal_vein_water_fire", "魔晶矿脉(水-火)", "Crystal Vein(Water-Fire)");
         addCNEN("gtceu.jei.ore_vein.crystal_vein_earth_wind", "魔晶矿脉(地-风)", "Crystal Vein(Earth-Wind)");
+        addCNEN("gtceu.jei.ore_vein.borax_vein", "硼砂矿脉", "Borax Vein");
 
         addCNEN("gtocore.recipe.ev_max", "最大中子动能：%s MeV", "Maximum Neutron Energy: %s MeV");
         addCNEN("gtocore.recipe.ev_min", "最小中子动能：%s MeV", "Minimum Neutron Energy: %s MeV");
@@ -148,24 +174,40 @@ public final class LangHandler {
         addCNEN("gtocore.recipe.runlimit.count", "运行次数限制：%s", "Run Limit: %s times");
         addCNEN("gtocore.recipe.mana_consumption", "魔力消耗", "Mana Consumption");
         addCNEN("gtocore.recipe.mana_production", "魔力产出", "Mana Production");
+        addCNEN("gtocore.recipe.efficiency", "总耗能倍率：%s", "Total Energy Cost Multiplier: %s");
+        addCNEN("gtocore.recipe.efficiency.o", "总产能倍率：%s", "Total Energy Cost Multiplier: %s");
+        addCNEN("gtocore.recipe.mana_efficiency", "总耗魔倍率：%s", "Total Mana Cost Multiplier: %s");
+        addCNEN("gtocore.recipe.mana_efficiency.o", "总产魔倍率：%s", "Total Mana Cost Multiplier: %s");
+        addCNEN("gtocore.recipe.time_cost_multiplier", "总耗时倍率：%s", "Total Time Cost Multiplier: %s");
+        addCNEN("gtceu.multiblock.batch_parallel_multiplier", "(批处理/超频补偿 %s)", "(Batch/OC Compensation %s)");
         addCNEN("gtocore.condition.gravity", "需要强重力环境", "Requires Strong Gravity Environment");
         addCNEN("gtocore.condition.zero_gravity", "需要无重力环境", "Requires Zero Gravity Environment");
+        addCNEN("gtocore.condition.within_galaxy", "需要在%s内", "Requires within Galaxy: %s");
 
         addCNEN("gtocore.tier.advanced", "高级", "Advanced");
         addCNEN("gtocore.tier.base", "基础", "Basic");
         addCNEN("gtocore.tier.ultimate", "终极", "Ultimate");
+        addCNEN("gtocore.tier.hermetic_casing", "密封机械方块等级：%s", "Hermetic Casing Tier: %s");
 
         addCNEN("config.jade.plugin_gtocore.accelerate_provider", "[GTOCore] 加速条", "[GTOCore] Accelerated Bar");
         addCNEN("config.jade.plugin_gtocore.wireless_data_hatch_provider", "[GTOCore] 无线数据", "[GTOCore] Wireless Data");
         addCNEN("config.jade.plugin_gtocore.mana_container_provider", "[GTOCore] 魔力容器", "[GTOCore] Mana Container");
         addCNEN("config.jade.plugin_gtocore.vacuum_tier_provider", "[GTOCore] 真空等级", "[GTOCore] Vacuum Tier");
         addCNEN("config.jade.plugin_gtocore.temperature_provider", "[GTOCore] 机器温度", "[GTOCore] Machine Temperature");
+        addCNEN("config.jade.plugin_gtocore.ae_grid_provider", "[GTOCore] AE网络信息", "[GTOCore] AE Grid Info");
         addCNEN("config.jade.plugin_gtocore.tick_time_provider", "[GTOCore] Tick时间", "[GTOCore] Tick Time");
         addCNEN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] 无线交互机器信息", "[GTOCore] Wireless Interactive Machine Info");
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
+        addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
+        addCNEN("config.jade.plugin_gtocore.celestial_energy_provider", "[GTOCore] 天体能量", "[GTOCore] Celestial Energy");
+
+        addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
+                "Hatch types unlocked by installing auxiliary modules : %s");
+        addCNEN("gtocore.applicable_recipes", "安装附属模块后可解锁的配方类型 : %s",
+                "Recipe types unlocked by installing auxiliary modules : %s");
 
         addCNEN("fluid.gtocore.gelid_cryotheum", "极寒之凛冰", "Gelid Cryotheum");
 
@@ -174,7 +216,7 @@ public final class LangHandler {
         addCNEN("biome.gtocore.ceres_biome", "谷神星", "Ceres");
         addCNEN("biome.gtocore.enceladus_biome", "土卫二", "Enceladus");
         addCNEN("biome.gtocore.ganymede_biome", "木卫三", "Ganymede");
-        addCNEN("biome.gtocore.io_biome", "木卫二", "Io");
+        addCNEN("biome.gtocore.io_biome", "木卫一", "Io");
         addCNEN("biome.gtocore.pluto_biome", "冥王星", "Pluto");
         addCNEN("biome.gtocore.titan_biome", "土卫六", "Titan");
         addCNEN("biome.gtocore.create", "创造", "Create");
@@ -195,6 +237,9 @@ public final class LangHandler {
         addCNEN("planet.gtocore.titan", "土卫六", "Titan");
         addCNEN("planet.gtocore.titan_orbit", "土卫六轨道", "Titan Orbit");
         addCNEN("gui.ad_astra.text.barnarda", "巴纳德", "Barnarda");
+
+        addCNEN("gtocore.tooltip.fluid.electrolyte_energy_density", "§d电解液能量密度：§r%s EU/mB", "§dElectrolyte Energy Density:§r %s EU/mB");
+        addCNEN("gtocore.tooltip.fluid.electrolyte_energy_density.va", "§d相当于：§r%s @ §b%s§rA/mB", "§dEquivalent to§r %s @ §b%sA§r/mB");
 
         addCNEN("key.ae2.me2in1_wireless_locating_service", "打开ME2合1无线终端", "Open ME2in1 Wireless Terminal");
 
@@ -237,7 +282,6 @@ public final class LangHandler {
 
         addCNEN("gtocore.not_safe", "现在不安全", "It's not safe now");
 
-        addCNEN("gtceu.recipe.category.mana_assembler", "魔力组装", "Mana Assembler");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.main", "检测到循环依赖，自动合成无法进行", "Cyclic dependency detected, automatic crafting cannot proceed");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.count", "\n发现 %s 个环:", "\nFound %s cycles:");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.more_cycles", "\n    ... 还有 %s 个环未显示", "\n    ... and %s more cycles not shown");
@@ -277,11 +321,25 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position", "重置面板位置", "Reset Panel Position");
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position.1", "重置所有面板位置到默认位置", "Reset all panel positions to default");
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern", "点击移除以此为主产物的处理样板至缓冲槽", "Click to remove patterns with this main product to the buffer slot");
-        addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its synthesis tree that are not involved in other patterns");
+        addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its crafting tree that are not involved in other patterns");
+        addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge", "安装纠缠奇点", "Install Quantum Entangled Singularity");
+        addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "量子环已内置", "Quantum ring is built-in");
+        addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi", "收藏缺失", "Bookmark Missing");
+        addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi.desc", "将缺失的物品添加到EMI书签页", "Add missing items to EMI bookmark page");
+        addCNEN("gtocore.ae.appeng.craft.missing_start", "缺失合成", "Missing Crafting");
+        addCNEN("gtocore.ae.appeng.craft.missing_start.desc", "在材料不足的情况下仍然开始合成，缺失的原料将被等待", "Start crafting even when materials are insufficient, missing ingredients will be waited for");
+        addCNEN("gtocore.ae.appeng.craft.used_percent", "已使用 %s%%", "Used %s%%");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");
         addCNEN("gtocore.adv_terminal.category.select", "选择类别", "Select Category");
+
+        addCNEN("gtocore.travel.mode.all", "所有目标", "All Targets");
+        addCNEN("gtocore.travel.mode.one_per_chunk", "每个区块一个目标", "One Target per Chunk");
+        addCNEN("gtocore.travel.mode.filter_by_block", "从目标类型筛选", "Filter by block type");
+        addCNEN("gtocore.travel.mode.switched", "切换模式", "Switch Mode");
+        addCNEN("gtocore.travel.mode.filter.noblock", "你的视线没有可作为目标的方块", "Your view does not have a block that can be used as a target");
+        addCNEN("gtocore.travel.missing_block", "[未设置方块]", "[No block set]");
 
         addCNEN("ftbultimine.shape.area", "不定形 (不连续)", "Shapeless (Area)");
 
@@ -293,6 +351,23 @@ public final class LangHandler {
         addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
 
         addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
+
+        addCNEN("gtocore.celestial_condenser.solaris", "曦煌：%s", "Solaris: %s");
+        addCNEN("gtocore.celestial_condenser.lunara", "胧华：%s", "Lunara: %s");
+        addCNEN("gtocore.celestial_condenser.voidflux", "虚湮：%s", "Voidflux: %s");
+        addCNEN("gtocore.celestial_condenser.any", "任意：%s", "Any: %s");
+
+        addCNEN("tooltip.gtocore.hold_for_more", "§1按住 %s 显示更多信息。§r", "§1Hold %s for more info.§r");
+
+        addCNEN("gtocore.pattern.recipe", "配方已缓存", "Recipe cached");
+        addCNEN("gtocore.pattern.type", "机器模式：%s", "Machine recipe type:%s");
+
+        // 配方信息按钮翻译
+        addCNEN("gtocore.pattern.recipeInfoButton.title.enabled", "配方信息已启用", "Recipe Info Recording");
+        addCNEN("gtocore.pattern.recipeInfoButton.title.disabled", "配方信息已禁用", "Recipe Info Not Recorded");
+        addCNEN("gtocore.pattern.recipeInfoButton.clickToEnable", "点击启用配方信息写入", "Click to start recording recipe info");
+        addCNEN("gtocore.pattern.recipeInfoButton.clickToDisable", "点击禁用配方信息写入", "Click to stop recording recipe info");
+        addCNEN("gtocore.pattern.recipeInfoButton.clickToClear", "点击清除已记录的配方信息", "Click to clear recorded recipe info");
     }
 
     public static void enInitialize(LanguageProvider provider) {
@@ -300,7 +375,6 @@ public final class LangHandler {
         MachineLang.init();
         BlockLang.init();
         ItemLang.init();
-        AnalyzeData.init();
         LANGS.forEach((k, v) -> {
             if (v.en() == null) return;
             provider.add(k, v.en());
@@ -316,7 +390,7 @@ public final class LangHandler {
 
     public static void twInitialize(TraditionalChineseLanguageProvider provider) {
         LANGS.forEach((k, v) -> {
-            if (v.en() == null) return;
+            if (v.cn() == null) return;
             provider.add(k, ChineseConverter.convert(v.cn()));
         });
     }

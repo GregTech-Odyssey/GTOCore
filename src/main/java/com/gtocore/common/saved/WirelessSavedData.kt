@@ -23,7 +23,7 @@ import com.hepdd.gtmthings.utils.TeamUtil
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
-import java.util.UUID
+import java.util.*
 
 class WirelessSavedData : SavedData() {
 

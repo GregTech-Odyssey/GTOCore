@@ -30,12 +30,12 @@ public final class MiscRecipeLoader {
 
     public static void init() {
         // Basic Terminal Recipe
-        VanillaRecipeHelper.addShapedRecipe(true, "basic_terminal", TERMINAL.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "basic_terminal", TERMINAL.asItem(),
                 "SGS", "PBP", "PWP", 'S', new MaterialEntry(screw, WroughtIron), 'G', Tags.Items.GLASS_PANES, 'B',
                 new ItemStack(Items.BOOK),
                 'P', new MaterialEntry(plate, WroughtIron), 'W', new MaterialEntry(wireGtSingle, RedAlloy));
         // Machine Memory Card Recipe
-        VanillaRecipeHelper.addShapedRecipe(true, "machine_memory_card", MACHINE_MEMORY_CARD.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "machine_memory_card", MACHINE_MEMORY_CARD.asItem(),
                 "PWP", "SLS", "PPP", 'P', new MaterialEntry(plate, Steel), 'W',
                 new MaterialEntry(wireGtSingle, Copper), 'S', new MaterialEntry(screw, RedAlloy), 'L',
                 CustomTags.LV_CIRCUITS);
@@ -53,20 +53,20 @@ public final class MiscRecipeLoader {
 
         MIXER_RECIPES.recipeBuilder("fermented_spider_eye_brown").duration(100).EUt(VA[ULV])
                 .inputItems(dust, Sugar)
-                .inputItems(new ItemStack(Blocks.BROWN_MUSHROOM))
-                .inputItems(new ItemStack(Items.SPIDER_EYE))
-                .outputItems(new ItemStack(Items.FERMENTED_SPIDER_EYE))
+                .inputItems(Blocks.BROWN_MUSHROOM)
+                .inputItems(Items.SPIDER_EYE)
+                .outputItems(Items.FERMENTED_SPIDER_EYE)
                 .save();
 
         MIXER_RECIPES.recipeBuilder("fermented_spider_eye_red").duration(100).EUt(VA[ULV])
                 .inputItems(dust, Sugar)
-                .inputItems(new ItemStack(Blocks.RED_MUSHROOM))
-                .inputItems(new ItemStack(Items.SPIDER_EYE))
-                .outputItems(new ItemStack(Items.FERMENTED_SPIDER_EYE))
+                .inputItems(Blocks.RED_MUSHROOM)
+                .inputItems(Items.SPIDER_EYE)
+                .outputItems(Items.FERMENTED_SPIDER_EYE)
                 .save();
 
         SIFTER_RECIPES.recipeBuilder("gravel_sifting").duration(100).EUt(16)
-                .inputItems(new ItemStack(Blocks.GRAVEL))
+                .inputItems(Blocks.GRAVEL)
                 .outputItems(gem, Flint)
                 .chancedOutput(gem, Flint, 9000, 0)
                 .chancedOutput(gem, Flint, 8000, 0)
@@ -217,7 +217,7 @@ public final class MiscRecipeLoader {
                 .inputItems(CustomTags.LuV_CIRCUITS, 2)
                 .inputItems(wireGtQuadruple, Tungsten, 8)
                 .inputItems(ENERGY_LAPOTRONIC_ORB)
-                .inputItems(EMITTER_IV.asStack(2))
+                .inputItems(EMITTER_IV.asItem(), 2)
                 .inputItems(FIELD_GENERATOR_IV)
                 .inputItems(screw, TungstenSteel, 4)
                 .inputItems(plate, Iridium, 8)
@@ -306,9 +306,9 @@ public final class MiscRecipeLoader {
 
         // Fertilizer
         MIXER_RECIPES.recipeBuilder("fertilizer")
-                .inputItems(new ItemStack(Blocks.DIRT))
+                .inputItems(Blocks.DIRT)
                 .inputItems(dust, Wood, 2)
-                .inputItems(new ItemStack(Blocks.SAND, 4))
+                .inputItems(Blocks.SAND, 4)
                 .inputFluids(Water.getFluid(1000))
                 .outputItems(FERTILIZER, 4)
                 .duration(100).EUt(VA[LV]).save();
@@ -451,26 +451,26 @@ public final class MiscRecipeLoader {
                 0.35f);
 
         FORMING_PRESS_RECIPES.recipeBuilder("laminated_glass")
-                .inputItems(GTBlocks.CASING_TEMPERED_GLASS.asStack(2))
+                .inputItems(GTBlocks.CASING_TEMPERED_GLASS.asItem(), 2)
                 .inputItems(plate, PolyvinylButyral)
-                .outputItems(GTBlocks.CASING_LAMINATED_GLASS.asStack())
+                .outputItems(GTBlocks.CASING_LAMINATED_GLASS.asItem())
                 .duration(200).EUt(VA[HV]).save();
 
         LATHE_RECIPES.recipeBuilder("treated_wood_sticks")
-                .inputItems(GTBlocks.TREATED_WOOD_PLANK.asStack())
+                .inputItems(GTBlocks.TREATED_WOOD_PLANK.asItem())
                 .outputItems(rod, TreatedWood, 2)
                 .duration(10).EUt(VA[ULV])
                 .save();
 
         // Coke Brick and Firebrick decomposition
         EXTRACTOR_RECIPES.recipeBuilder("extract_coke_oven_bricks")
-                .inputItems(GTBlocks.CASING_COKE_BRICKS.asStack())
+                .inputItems(GTBlocks.CASING_COKE_BRICKS.asItem())
                 .outputItems(COKE_OVEN_BRICK, 4)
                 .duration(300).EUt(2)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("extract_primitive_bricks")
-                .inputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asStack())
+                .inputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem())
                 .outputItems(FIRECLAY_BRICK, 4)
                 .duration(300).EUt(2)
                 .save();

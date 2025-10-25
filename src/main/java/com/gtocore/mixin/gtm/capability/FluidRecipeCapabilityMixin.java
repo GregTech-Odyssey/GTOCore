@@ -3,7 +3,9 @@ package com.gtocore.mixin.gtm.capability;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
@@ -48,5 +50,10 @@ public abstract class FluidRecipeCapabilityMixin extends RecipeCapability<FluidI
 
         fluids.add(new FluidStack(f, ingredient.getAmount(), ingredient.getNbt()));
         return fluids;
+    }
+
+    @Override
+    public boolean isTickSlot(int index, IO io, GTRecipe recipe) {
+        return false;
     }
 }

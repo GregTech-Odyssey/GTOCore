@@ -28,9 +28,9 @@ import net.minecraft.world.item.ItemStack;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -46,17 +46,15 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.max_parallel",
                          typeKey = DynamicInitialValueTypes.KEY_MAX_PARALLEL,
                          en = "Max Parallels",
-                         enComment = "The maximum number of parallel machines that can be used in this multiblock",
                          cn = "最大并行数",
-                         cnComment = "此多方块机器可以使用的最大并行数",
-                         simpleValue = "8",
+                         easyValue = "8",
                          normalValue = "4",
                          expertValue = "4")
     private static int MAX_PARALLELS = 4;
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.reduction_duration",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
-                         simpleValue = "2",
+                         easyValue = "2",
                          normalValue = "4",
                          expertValue = "6",
                          cn = "增产模式耗时为普通的 : %s 倍",
@@ -67,53 +65,40 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.steam_cost",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
-                         simpleValue = "2",
+                         easyValue = "2",
                          normalValue = "4",
                          expertValue = "6",
-                         cn = "增产模式消耗为普通的 : %s 倍",
-                         cnComment = "开启增产模式后，配方所需蒸汽将乘以此倍率",
-                         en = "Multiply Mode Steam Cost: x %s",
-                         enComment = "After enabling multiply mode, the steam cost of recipes will be multiplied by this value")
+                         cn = "增产模式蒸汽消耗为普通的 : %s 倍",
+                         en = "Multiply Mode Steam Cost: x %s")
     private static int COST_STEAM_MULTIPLY = 4;
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.multiply",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
-                         simpleValue = "4",
+                         easyValue = "4",
                          normalValue = "2",
                          expertValue = "2",
                          cn = "增产模式倍率为普通的 : %s 倍",
-                         cnComment = "开启增产模式后，配方输出物品数量将乘以此倍率",
-                         en = "Multiply Mode Multiply Output: x %s",
-                         enComment = "After enabling multiply mode, the output item amount of recipes will be multiplied by this value")
+                         en = "Multiply Mode Multiply Output: x %s")
     private static int PRODUCT_MULTIPLY = 4;
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.engraving_needed_amount",
                          typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
                          cn = "蚀刻电路所需数量",
                          cnComment = """
-                                 执行相应电路组装配方前，需要蚀刻此电路所需的物品数量
-                                 此机器只能执行此机器所铭刻了的电路组装配方""",
+                                 执行相应电路组装配方前，需要蚀刻此电路所需的物品数量""",
                          en = "Engraving Circuit Needed Amount",
                          enComment = """
                                  The amount of items needed to engrave the circuit before executing the corresponding circuit assembly recipe
-                                 Only recipes for circuit assembly that have been engraved in this machine can be executed""",
-                         simpleValue = "8",
+                                 """,
+                         easyValue = "8",
                          normalValue = "16",
                          expertValue = "32")
     private static int Engraving_needed_amount = 16;
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            LargeSteamCircuitAssemblerMachine.class, BaseSteamMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        isOC = getParts().stream().anyMatch(LargeSteamHatchPartMachine.class::isInstance);
+        isOC = Arrays.stream(getParts()).anyMatch(LargeSteamHatchPartMachine.class::isInstance);
     }
 
     @Persisted

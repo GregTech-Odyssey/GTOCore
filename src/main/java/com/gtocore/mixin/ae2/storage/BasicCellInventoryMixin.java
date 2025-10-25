@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.storage;
 
-import com.gtolib.api.ae2.IKeyCounter;
+import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -11,7 +11,10 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
+import appeng.api.config.IncludeExclude;
+import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.cells.IBasicCellItem;
@@ -19,10 +22,8 @@ import appeng.api.storage.cells.ISaveProvider;
 import appeng.api.storage.cells.StorageCell;
 import appeng.items.tools.powered.PortableCellItem;
 import appeng.me.cells.BasicCellInventory;
+import appeng.util.prioritylist.IPartitionList;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -55,6 +56,9 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Unique
     private long gtolib$totalAmount;
 
+    @Unique
+    private boolean gtocore$change = true;
+
     @Shadow(remap = false)
     @Final
     private ItemStack i;
@@ -70,6 +74,21 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Shadow(remap = false)
     @Final
     private AEKeyType keyType;
+
+    @Shadow(remap = false)
+    @Final
+    private boolean hasVoidUpgrade;
+
+    @Shadow(remap = false)
+    public abstract boolean isPreformatted();
+
+    @Shadow(remap = false)
+    @Final
+    private IPartitionList partitionList;
+
+    @Shadow(remap = false)
+    @Final
+    private IncludeExclude partitionListMode;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(IBasicCellItem cellType, ItemStack o, ISaveProvider container, CallbackInfo ci) {
@@ -94,11 +113,11 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
 
     @Unique
     @NotNull
-    private Object2LongOpenHashMap<AEKey> gtolib$getCellStoredMap() {
+    private AEKeyMap<AEKey> gtolib$getCellStoredMap() {
         CellDataStorage storage = gtolib$getCellStorage();
         var map = storage.getStoredMap();
         if (map == null) {
-            map = new Object2LongOpenHashMap<>();
+            map = new AEKeyMap<>();
             storage.setStoredMap(map);
             long[] amounts = storage.getAmounts();
             double totalAmount = 0;
@@ -125,9 +144,8 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         if (gtolib$cache != null) return gtolib$cache;
         if (GTCEu.isClientThread()) return CellDataStorage.EMPTY;
         UUID uuid = gtolib$getUUID();
-        if (uuid == null) return CellDataStorage.EMPTY;
-        gtolib$cache = CellDataStorage.get(uuid);
-        return gtolib$cache;
+        if (uuid == null) return gtolib$cache = CellDataStorage.EMPTY;
+        return gtolib$cache = CellDataStorage.get(uuid);
     }
 
     /**
@@ -191,15 +209,6 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
      * @reason .
      */
     @Overwrite(remap = false)
-    protected Object2LongMap<AEKey> getCellItems() {
-        return gtolib$getCellStoredMap();
-    }
-
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
     public void persist() {
         CellDataStorage storage = gtolib$getCellStorage();
         if (storage.isPersisted()) return;
@@ -220,8 +229,8 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         double totalAmount = 0;
         LongArrayList amounts = new LongArrayList(gtolib$getCellStoredMap().size());
         ListTag keys = new ListTag();
-        for (ObjectIterator<Object2LongMap.Entry<AEKey>> it = gtolib$getCellStoredMap().object2LongEntrySet().fastIterator(); it.hasNext();) {
-            Object2LongOpenHashMap.Entry<AEKey> entry = it.next();
+        for (var it = gtolib$getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
+            var entry = it.next();
             long amount = entry.getLongValue();
             if (amount > 0) {
                 var key = entry.getKey();
@@ -250,7 +259,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     protected void saveChanges() {
         CellDataStorage storage = gtolib$getCellStorage();
         double totalAmount = 0;
-        for (ObjectIterator<Object2LongMap.Entry<AEKey>> it = gtolib$getCellStoredMap().object2LongEntrySet().fastIterator(); it.hasNext();) {
+        for (var it = gtolib$getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
             var entry = it.next();
             totalAmount += (double) entry.getLongValue() / keyType.getAmountPerByte();
         }
@@ -268,18 +277,23 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         KeyCounter keyCounter;
         if (cellType instanceof PortableCellItem) {
             keyCounter = new KeyCounter();
+            gtocore$change = true;
         } else {
             var data = gtolib$getCellStorage();
             keyCounter = data.getKeyCounter();
             if (keyCounter == null) {
                 keyCounter = new KeyCounter();
                 data.setKeyCounter(keyCounter);
-            } else {
+                gtocore$change = true;
+            } else if (gtocore$change) {
                 keyCounter.clear();
             }
         }
-        getAvailableStacks(keyCounter);
-        keyCounter.removeEmptySubmaps();
+        if (gtocore$change) {
+            getAvailableStacks(keyCounter);
+            keyCounter.removeEmptySubmaps();
+            gtocore$change = false;
+        }
         return keyCounter;
     }
 
@@ -289,7 +303,24 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
      */
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
-        IKeyCounter.addAll(out, gtolib$getCellStoredMap());
+        var map = gtolib$getCellStoredMap();
+        IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
+        if (amount == 0 || !keyType.contains(what)) return 0;
+        if (!this.partitionList.matchesFilter(what, this.partitionListMode)) return 0;
+        if (this.cellType.isBlackListed(this.i, what)) return 0;
+        long inserted = innerInsert(what, amount, mode);
+        if (!isPreformatted() && hasVoidUpgrade && !canHoldNewItem()) {
+            return gtolib$getCellStoredMap().containsKey(what) ? amount : inserted;
+        }
+        return hasVoidUpgrade ? amount : inserted;
     }
 
     /**
@@ -301,17 +332,46 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         if (gtolib$getUUID() == null) {
             UUID uuid = UUID.randomUUID();
             i.getOrCreateTag().putUUID(CELL_UUID, uuid);
-            CellDataStorage.get(uuid);
+            gtolib$cache = CellDataStorage.get(uuid);
         }
         var data = gtolib$getCellStorage();
         if (data == CellDataStorage.EMPTY) return 0;
         amount = Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount);
         if (amount < 1) return 0;
         if (mode == Actionable.MODULATE) {
+            gtocore$change = true;
             gtolib$getCellStoredMap().addTo(what, amount);
             saveChanges();
         }
 
         return amount;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
+        var map = gtolib$getCellStoredMap();
+        var currentAmount = map.getLong(what);
+        if (currentAmount > 0) {
+            if (amount >= currentAmount) {
+                if (mode == Actionable.MODULATE) {
+                    map.remove(what, currentAmount);
+                    gtocore$change = true;
+                    this.saveChanges();
+                }
+                return currentAmount;
+            } else {
+                if (mode == Actionable.MODULATE) {
+                    map.put(what, currentAmount - amount);
+                    gtocore$change = true;
+                    this.saveChanges();
+                }
+                return amount;
+            }
+        }
+        return 0;
     }
 }

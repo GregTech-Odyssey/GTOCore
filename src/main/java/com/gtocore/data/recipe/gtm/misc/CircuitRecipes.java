@@ -1,5 +1,7 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOItems;
+
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color;
@@ -14,6 +16,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.common.data.GTOMaterials.TitaniumDioxideNanotubes;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class CircuitRecipes {
@@ -41,6 +44,18 @@ public final class CircuitRecipes {
         CUTTER_RECIPES.recipeBuilder("cut_naquadah_boule")
                 .inputItems(NAQUADAH_BOULE)
                 .outputItems(NAQUADAH_WAFER, 64)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .duration(1600).EUt(VA[EV]).save();
+
+        CUTTER_RECIPES.recipeBuilder("cut_sic_boule")
+                .inputItems(GTOItems.SIC_WIDE_BANDGAP_SEMICONDUCTOR_SINGLE_CRYSTAL)
+                .outputItems(GTOItems.SIC_WIDE_BANDGAP_SEMICONDUCTOR_WAFER, 64)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .duration(1600).EUt(VA[EV]).save();
+
+        CUTTER_RECIPES.recipeBuilder("cut_ge_boule")
+                .inputItems(GTOItems.GERMANIUM_DOPED_SINGLE_CRYSTAL_SILICON)
+                .outputItems(GTOItems.GERMANIUM_DOPED_SILICON_WAFER, 64)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(1600).EUt(VA[EV]).save();
 
@@ -200,6 +215,10 @@ public final class CircuitRecipes {
         // Wafer cutting
         CUTTER_RECIPES.recipeBuilder("cut_hasoc").duration(900).EUt(VA[IV]).inputItems(HIGHLY_ADVANCED_SOC_WAFER)
                 .outputItems(HIGHLY_ADVANCED_SOC, 6).cleanroom(CleanroomType.CLEANROOM).save();
+        CUTTER_RECIPES.recipeBuilder("cut_igbt").duration(900).EUt(VA[IV]).inputItems(GTOItems.IGBT_WAFER)
+                .outputItems(GTOItems.IGBT_CHIP, 6).cleanroom(CleanroomType.CLEANROOM).save();
+        CUTTER_RECIPES.recipeBuilder("cut_fpga").duration(900).EUt(VA[IV]).inputItems(GTOItems.FPGA_WAFER)
+                .outputItems(GTOItems.FPGA_CHIP, 6).cleanroom(CleanroomType.CLEANROOM).save();
         CUTTER_RECIPES.recipeBuilder("cut_asoc").duration(900).EUt(VA[EV]).inputItems(ADVANCED_SYSTEM_ON_CHIP_WAFER)
                 .outputItems(ADVANCED_SYSTEM_ON_CHIP, 6).cleanroom(CleanroomType.CLEANROOM).save();
         CUTTER_RECIPES.recipeBuilder("cut_soc").duration(900).EUt(VA[HV]).inputItems(SYSTEM_ON_CHIP_WAFER)
@@ -253,8 +272,8 @@ public final class CircuitRecipes {
                 .duration(200).EUt(24).save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("press_glass_tube")
-                .inputItems(dust, Glass)
                 .notConsumable(SHAPE_MOLD_BALL)
+                .inputItems(dust, Glass)
                 .outputItems(GLASS_TUBE)
                 .duration(80).EUt(VA[ULV]).save();
 
@@ -449,7 +468,7 @@ public final class CircuitRecipes {
         // Advanced SMD Capacitor
         ASSEMBLER_RECIPES.recipeBuilder("asmd_capacitor")
                 .inputItems(foil, Polybenzimidazole, 2)
-                .inputItems(foil, HSSS)
+                .inputItems(foil, TitaniumDioxideNanotubes)
                 .inputFluids(Polybenzimidazole.getFluid(L / 4))
                 .outputItems(ADVANCED_SMD_CAPACITOR, 16)
                 .EUt(3840).duration(80).save();
@@ -497,14 +516,14 @@ public final class CircuitRecipes {
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_emerald")
                 .inputItems(gemExquisite, Emerald)
                 .inputFluids(Europium.getFluid(L / 9))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 1000, 2000)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 1000, 2000)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(320).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_olivine")
                 .inputItems(gemExquisite, Olivine)
                 .inputFluids(Europium.getFluid(L / 9))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 1000, 2000)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 1000, 2000)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(320).save();
 
@@ -523,14 +542,14 @@ public final class CircuitRecipes {
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_from_part_mutagen")
                 .inputItems(RAW_CRYSTAL_CHIP_PART)
                 .inputFluids(Mutagen.getFluid(250))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 8000, 250)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 8000, 250)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(VA[HV]).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_from_part_bacterial_sludge")
                 .inputItems(RAW_CRYSTAL_CHIP_PART)
                 .inputFluids(BacterialSludge.getFluid(250))
-                .chancedOutput(RAW_CRYSTAL_CHIP.asStack(), 8000, 250)
+                .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 8000, 250)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(VA[HV]).save();
     }
@@ -645,22 +664,22 @@ public final class CircuitRecipes {
         // T1: Electronic ==============================================================================================
 
         // LV
-        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_lv", ELECTRONIC_CIRCUIT_LV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_lv", ELECTRONIC_CIRCUIT_LV.asItem(),
                 "RPR", "VBV", "CCC",
-                'R', RESISTOR.asStack(),
+                'R', RESISTOR.asItem(),
                 'P', new MaterialEntry(plate, Steel),
-                'V', VACUUM_TUBE.asStack(),
-                'B', BASIC_CIRCUIT_BOARD.asStack(),
+                'V', VACUUM_TUBE.asItem(),
+                'B', BASIC_CIRCUIT_BOARD.asItem(),
                 'C', new MaterialEntry(cableGtSingle, RedAlloy));
 
         // MV
-        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_mv", ELECTRONIC_CIRCUIT_MV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_mv", ELECTRONIC_CIRCUIT_MV.asItem(),
                 "DPD", "CBC", "WCW",
                 'W', new MaterialEntry(wireGtSingle, Copper),
                 'P', new MaterialEntry(plate, Steel),
-                'C', ELECTRONIC_CIRCUIT_LV.asStack(),
-                'B', GOOD_CIRCUIT_BOARD.asStack(),
-                'D', DIODE.asStack());
+                'C', ELECTRONIC_CIRCUIT_LV.asItem(),
+                'B', GOOD_CIRCUIT_BOARD.asItem(),
+                'D', DIODE.asItem());
 
         CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("electronic_circuit_mv").EUt(VA[LV]).duration(300)
                 .inputItems(GOOD_CIRCUIT_BOARD)
@@ -1094,7 +1113,7 @@ public final class CircuitRecipes {
                 .inputFluids(Neon.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(CRYSTAL_MAINFRAME_UV)
                 .researchStation(b -> b
-                        .researchStack(CRYSTAL_COMPUTER_ZPM.asStack())
+                        .researchStack(CRYSTAL_COMPUTER_ZPM.asItem())
                         .CWUt(16))
                 .save();
 
@@ -1153,7 +1172,7 @@ public final class CircuitRecipes {
                 .inputFluids(Zinc.getFluid(FluidStorageKeys.PLASMA, 144))
                 .outputItems(WETWARE_SUPER_COMPUTER_UV)
                 .researchStation(b -> b
-                        .researchStack(WETWARE_PROCESSOR_ASSEMBLY_ZPM.asStack())
+                        .researchStack(WETWARE_PROCESSOR_ASSEMBLY_ZPM.asItem())
                         .CWUt(16))
                 .save();
 
@@ -1176,7 +1195,7 @@ public final class CircuitRecipes {
                 .inputFluids(Xenon.getFluid(FluidStorageKeys.PLASMA, 576))
                 .outputItems(WETWARE_MAINFRAME_UHV)
                 .researchStation(b -> b
-                        .researchStack(WETWARE_SUPER_COMPUTER_UV.asStack())
+                        .researchStack(WETWARE_SUPER_COMPUTER_UV.asItem())
                         .CWUt(96)
                         .EUt(VA[UV]))
                 .EUt(300000).duration(2000).save();

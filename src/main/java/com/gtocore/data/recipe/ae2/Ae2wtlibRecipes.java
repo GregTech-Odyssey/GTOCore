@@ -21,11 +21,11 @@ import de.mari_023.ae2wtlib.wut.recipe.Upgrade;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-final class Ae2wtlibRecipes {
+public final class Ae2wtlibRecipes {
 
     private final static ResourceLocation wtId = GTOCore.id("me2in1");
 
-    static void init() {
+    public static void init() {
         // Upgrade
         GTDynamicDataPack.addRecipe(new FinishedRecipe() {
 
@@ -68,7 +68,7 @@ final class Ae2wtlibRecipes {
 
             private final Combine recipe = new Combine(
                     Ingredient.of(GTOItems.WIRELESS_ME2IN1), Ingredient.of(terminalItem),
-                    Wireless.ID, "pattern_encoding", wtId.withSuffix("_combined_with_" + terminalName));
+                    Wireless.ID, terminalName, wtId.withSuffix("_combined_with_" + terminalName));
 
             @Override
             public void serializeRecipeData(@NotNull JsonObject jsonObject) {

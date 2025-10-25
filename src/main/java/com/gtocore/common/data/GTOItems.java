@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
@@ -8,14 +9,11 @@ import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
+import com.gtocore.data.lootTables.RewardBagLoot;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
-import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
-import com.gtolib.api.annotation.component_builder.ComponentSupplier;
-import com.gtolib.api.annotation.component_builder.StyleBuilder;
-import com.gtolib.api.lang.CNEN;
 import com.gtolib.utils.StringUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -39,6 +37,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
@@ -50,10 +49,10 @@ import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
-import static com.gregtechceu.gtceu.common.data.GTItems.attach;
+import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
+import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
+import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.ItemRegisterUtils.*;
 
@@ -97,21 +96,10 @@ public final class GTOItems {
     public static final ItemEntry<StorageComponentItem> CELL_COMPONENT_64M = registerStorageComponentItem(64);
     public static final ItemEntry<StorageComponentItem> CELL_COMPONENT_256M = registerStorageComponentItem(256);
 
-    private static final ComponentSupplier ORDER_TOOLTIPS = NewDataAttributes.MIRACULOUS_TOOLS.create(CNEN.create("AE2 Order", "AE2 订单"), b -> b.addCommentLines("""
-            右键可以放入一个虚拟物品，例如多方块主机
-            不需要再在铁砧使用告示牌命名
-            可以作为AE自动合成的大型机器产物
-            当此合成完成时，会自动取消，无需手动取消""",
-            """
-                    Right click to put a virtual item, such as a multi-block machine
-                    No longer need to use a sign to name it in anvil
-                    Can be used as a large machine product for AE2 automatic synthesis
-                    When the synthesis is completed, it will automatically cancel, no need to cancel manually"""));
-    private static final List<Component> ORDER_TOOLTIPS_DATA_GEN_INITIALIZATION = ORDER_TOOLTIPS.get();
     public static final ItemEntry<ComponentItem> ORDER = item("order", "%s 订单", ComponentItem::create)
+            .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(OrderItem.INSTANCE))
-            .onRegister(attach(new TooltipBehavior(a -> a.addAll(ORDER_TOOLTIPS.get()))))
             .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
             .register();
     public static final ItemEntry<ComponentItem> REALLY_MAX_BATTERY = item("really_max_battery", "真·终极电池", ComponentItem::create)
@@ -323,18 +311,7 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> WIRELESS_ENERGY_RECEIVE_COVER_MAX_4A = registerTieredCover(4);
 
     public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister", "时间扭曲者", ComponentItem::create)
-            .toolTips(ComponentBuilder.create()
-                    .addLines(NewDataAttributes.MIRACULOUS_TOOLS.create(CNEN.create("时间扭曲者", "Time Twister")), a -> a)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("启动加速：", "Acceleration for normal block entities:")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通点击：消耗8192 EU能量，加速一次", "Normal click: Consume 8192 EU energy, accelerate once (200 extra ticks)")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("Shift点击：消耗819200 EU能量，持续100刻内加速目标方块，每tick一次", "Shift click: Consume 819200 EU energy, accelerate the target block once per tick for 100 ticks")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("加速方式：", "Acceleration methods:")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通机器：不额外消耗EU能量，每次200tick", "For normal machines: No extra EU consumption, 200 ticks per acceleration")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("GT机器：根据模式消耗相应倍数EU能量，每次使当前正在工作的机器进度立即增加最多50%", "For GT machines: Consume EU energy corresponding to the mode, immediately increase current progress by up to 50% per use")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("能量消耗：", "Energy consumption:")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("使用无线能量系统作为能量来源", "Use wireless energy system as energy source")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("不同操作消耗不同数量的EU", "Different operations consume different amounts of EU")), StyleBuilder::setAqua)
-                    .build().getArray())
+            .toolTips(GTOItemTooltips.INSTANCE.getTimeTwisterTooltips().getArray())
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(TimeTwisterBehavior.INSTANCE))
             .register();
@@ -356,16 +333,16 @@ public final class GTOItems {
             .model(NonNullBiConsumer.noop())
             .register();
 
-    public static final ItemEntry<Item> COMMAND_WAND = item("command_wand", "命令权杖", Item::new)
+    public static final ItemEntry<Item> COMMAND_WAND = item("command_wand", "命令权杖")
             .properties(p -> p.stacksTo(1))
             .model(NonNullBiConsumer.noop())
             .register();
 
-    public static final ItemEntry<Item> GRINDBALL_SOAPSTONE = item("grindball_soapstone", "皂石研磨球", Item::new)
+    public static final ItemEntry<Item> GRINDBALL_SOAPSTONE = item("grindball_soapstone", "皂石研磨球")
             .properties(p -> p.stacksTo(1).defaultDurability(50))
             .register();
 
-    public static final ItemEntry<Item> GRINDBALL_ALUMINIUM = item("grindball_aluminium", "铝研磨球", Item::new)
+    public static final ItemEntry<Item> GRINDBALL_ALUMINIUM = item("grindball_aluminium", "铝研磨球")
             .properties(p -> p.stacksTo(1).defaultDurability(100))
             .register();
 
@@ -409,21 +386,11 @@ public final class GTOItems {
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK4 = register("data_crystal_component_mk4", "数据晶片组件 mk4");
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK5 = register("data_crystal_component_mk5", "数据晶片组件 mk5");
 
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 mk1", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 mk2", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 mk3", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 mk4", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
-    public static final ItemEntry<ComponentItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 mk5", ComponentItem::create)
-            .onRegister(attach(new ExDataItemBehavior()))
-            .register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 mk1", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 mk2", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 mk3", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 mk4", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 mk5", DataCrystalItem::new).register();
 
     public static final ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_kinetic_rotor", "木", 2400, 4, 10, 0);
     public static final ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_kinetic_rotor", "铁", 14000, 10, 20, 1);
@@ -841,6 +808,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> STREPTOCOCCUS_PETRI_DISH = registerTexture("streptococcus_petri_dish", "酿脓链球菌培养皿", "germ");
     public static final ItemEntry<Item> CUPRIAVIDUS_PETRI_DISH = registerTexture("cupriavidus_petri_dish", "贪铜钩虫菌培养皿", "germ");
     public static final ItemEntry<Item> SHEWANELLA_PETRI_DISH = registerTexture("shewanella_petri_dish", "希瓦氏菌培养皿", "germ");
+    public static final ItemEntry<Item> CLOSTRIDIUM_PASTEURIANUM_DISH = registerTexture("clostridium_pasteurianum_dish", "巴氏梭菌培养皿", "germ");
 
     public static final ItemEntry<Item> CONVERSION_SIMULATE_CARD = register("conversion_simulate_card", "转换模拟卡");
     public static final ItemEntry<Item> ACTIVATED_CARBON_FILTER_MESH = register("activated_carbon_filter_mesh", "活性炭过滤网");
@@ -848,8 +816,8 @@ public final class GTOItems {
     public static final ItemEntry<Item> UNALIGNED_QUARK_RELEASING_CATALYST = register("unaligned_quark_releasing_catalyst", "未对齐夸克释放催化剂");
     public static final ItemEntry<Item> UP_QUARK_RELEASING_CATALYST = register("up_quark_releasing_catalyst", "上夸克释放催化剂");
     public static final ItemEntry<Item> DOWN_QUARK_RELEASING_CATALYST = register("down_quark_releasing_catalyst", "下夸克释放催化剂");
-    public static final ItemEntry<Item> BOTTOM_QUARK_RELEASING_CATALYST = register("bottom_quark_releasing_catalyst", "顶夸克释放催化剂");
-    public static final ItemEntry<Item> TOP_QUARK_RELEASING_CATALYST = register("top_quark_releasing_catalyst", "底夸克释放催化剂");
+    public static final ItemEntry<Item> BOTTOM_QUARK_RELEASING_CATALYST = register("bottom_quark_releasing_catalyst", "底夸克释放催化剂");
+    public static final ItemEntry<Item> TOP_QUARK_RELEASING_CATALYST = register("top_quark_releasing_catalyst", "顶夸克释放催化剂");
     public static final ItemEntry<Item> STRANGE_QUARK_RELEASING_CATALYST = register("strange_quark_releasing_catalyst", "奇夸克释放催化剂");
     public static final ItemEntry<Item> CHARM_QUARK_RELEASING_CATALYST = register("charm_quark_releasing_catalyst", "粲夸克释放催化剂");
 
@@ -891,8 +859,8 @@ public final class GTOItems {
     public static final ItemEntry<Item> HIGH_PURITY_SINGLE_CRYSTAL_SILICON = register("high_purity_single_crystal_silicon", "超高纯单晶硅");
     public static final ItemEntry<Item> HIGH_PURITY_SILICA_COLUMN = register("high_purity_silica_column", "高纯二氧化硅柱");
     public static final ItemEntry<Item> HIGH_PURITY_SILICA_TUBE = register("high_purity_silica_tube", "高纯二氧化硅管");
-    public static final ItemEntry<Item> SIMPLE_OPTICAL_FIBER_PREFORM = item("simple_optical_fiber_preform", "简易光纤预制棒", Item::new)
-            .properties(p -> p.stacksTo(1).defaultDurability(1024)).register();
+    public static final ItemEntry<Item> SIMPLE_OPTICAL_FIBER_PREFORM = item("simple_optical_fiber_preform", "简易光纤预制棒")
+            .properties(p -> p.stacksTo(1)).register();
     public static final ItemEntry<Item> SIMPLE_FIBER_OPTIC_ROUGH = register("simple_fiber_optic_rough", "简易光纤粗胚");
     public static final ItemEntry<Item> SIMPLE_FIBER_OPTIC = register("simple_fiber_optic", "简易光纤");
 
@@ -902,12 +870,61 @@ public final class GTOItems {
     public static final ItemEntry<Item> SPOOLS_LARGE = register("spools_large", "大型线轴");
     public static final ItemEntry<Item> SPOOLS_JUMBO = register("spools_jumbo", "巨型线轴");
 
+    public static final ItemEntry<Item> RO_MEMBRANE = register("ro_membrane", "ro膜");
+    public static final ItemEntry<Item> NON_WOVEN_FABRIC = register("non_woven_fabric", "无纺布");
+    public static final ItemEntry<Item> ION_EXCHANGE_MEMBRANE = register("ion_exchange_membrane", "离子交换膜");
+    public static final ItemEntry<Item> HOMOGENEOUS_MEMBRANE = register("homogeneous_membrane", "均相膜");
+    public static final ItemEntry<Item> DUAL_UV_LIGHT = register("dual_uv_light", "双波段紫外灯");
+
     public static final ItemEntry<Item> COLORFUL_MYSTICAL_FLOWER = register("colorful_mystical_flower", "多彩神秘花瓣");
-    public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
-    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
-    public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
-    public static final ItemEntry<Item> PHILOSOPHERS_STONE = register("philosophers_stone", "贤者之石");
+    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = item("unstable_gaia_soul", "不稳定的盖亚之魂").properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+    public static final ItemEntry<Item> WILDEN_SLATE = item("wilden_slate", "荒野石板").properties(p -> p.rarity(Rarity.EPIC)).register();
+    public static final ItemEntry<Item> HELIO_COAL = register("helio_coal", "日耀煤");
+    public static final ItemEntry<Item> ENDER_DIAMOND = register("ender_diamond", "末影钻石");
+    public static final ItemEntry<Item> RIBBON = register("ribbon", "绶带");
+    public static final ItemEntry<Item> GOLD_MEDAL = item("gold_medal", "金制勋章").properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+    public static final ItemEntry<Item> HEROS_SOUL = item("heros_soul", "英雄之魂").properties(p -> p.rarity(Rarity.UNCOMMON)).register();
+
+    @SuppressWarnings("unchecked")
+    public static final ItemEntry<Item> PHILOSOPHERS_STONE = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("philosophers_stone", "贤者之石", p -> new Item(p) {
+
+        @Override
+        public @NotNull Component getName(@NotNull ItemStack pStack) {
+            return Component.translatable(this.getDescriptionId(pStack)).withStyle(s -> s.withColor(new OffsetGradientColor(2f)));
+        }
+    }).register();
+
+    @SuppressWarnings("rawtypes")
+    public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
+
+    public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
+    public static final ItemEntry<ApothItem>[] ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
+    public static final ItemEntry<ApothItem>[] AFFIX_ESSENCE = registerAffixEssence();
+
+    private static final String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
+    private static final String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };
+    private static final int[] ComponentsColors = { 0xaa66fd3c, 0xaa3844f4, 0xaae700ef, 0xaaf54314 };
+    private static final String[] ComponentSizes = { "small", "medium", "large" };
+    private static final String[] ComponentSizes2 = { "小", "中", "大" };
+    public static final ItemEntry<ColoringItems>[][] INDUSTRIAL_COMPONENTS = registerIndustrialComponents();
+
+    public static ItemEntry<ColoringItems>[][] registerIndustrialComponents() {
+        ItemEntry<ColoringItems>[][] entries = new ItemEntry[IndustrialComponents.length][ComponentSizes.length];
+        for (int i = 0; i < IndustrialComponents.length; i++) {
+            for (int k = 0; k < ComponentSizes.length; k++) {
+                int finalI = i;
+                int finalK = k;
+                entries[i][k] = item(IndustrialComponents[i] + "_industrial_components_" + ComponentSizes[k], IndustrialComponents2[i] + "工业组件" + ComponentSizes2[k], p -> ColoringItems.create(p, ComponentsColors[finalI], 1))
+                        .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/industrial_components_" + ComponentSizes[finalK] + "_0"), GTOCore.id("item/industrial_components_" + ComponentSizes[finalK] + "_1")))
+                        .color(() -> ColoringItems::color)
+                        .register();
+            }
+        }
+        return entries;
+    }
+
+    public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
 
     public static final ItemEntry<Item> RO_MEMBRANE = register("ro_membrane", "ro膜");
     public static final ItemEntry<Item> NON_WOVEN_FABRIC = register("non_woven_fabric", "无纺布");
@@ -978,28 +995,28 @@ public final class GTOItems {
     public static final ItemEntry<UpgradeModuleItem> SPEED_UPGRADE_MODULE = item("speed_upgrade_module", "速度升级模块", UpgradeModuleItem::new).register();
     public static final ItemEntry<UpgradeModuleItem> ENERGY_UPGRADE_MODULE = item("energy_upgrade_module", "能量升级模块", UpgradeModuleItem::new).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_FILE = item("disposable_file", "一次性锉刀", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_FILE = item("disposable_file", "一次性锉刀")
             .tag(CustomTags.CRAFTING_FILES).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_WRENCH = item("disposable_wrench", "一次性扳手", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_WRENCH = item("disposable_wrench", "一次性扳手")
             .tag(CustomTags.CRAFTING_WRENCHES).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_CROWBAR = item("disposable_crowbar", "一次性撬棍", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_CROWBAR = item("disposable_crowbar", "一次性撬棍")
             .tag(CustomTags.CRAFTING_CROWBARS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_WIRE_CUTTER = item("disposable_wire_cutter", "一次性剪线钳", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_WIRE_CUTTER = item("disposable_wire_cutter", "一次性剪线钳")
             .tag(CustomTags.CRAFTING_WIRE_CUTTERS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_HAMMER = item("disposable_hammer", "一次性锤子", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_HAMMER = item("disposable_hammer", "一次性锤子")
             .tag(CustomTags.CRAFTING_HAMMERS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_MALLET = item("disposable_mallet", "一次性软锤", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_MALLET = item("disposable_mallet", "一次性软锤")
             .tag(CustomTags.CRAFTING_MALLETS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_SCREWDRIVER = item("disposable_screwdriver", "一次性螺丝刀", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_SCREWDRIVER = item("disposable_screwdriver", "一次性螺丝刀")
             .tag(CustomTags.CRAFTING_SCREWDRIVERS).register();
 
-    public static final ItemEntry<Item> DISPOSABLE_SAW = item("disposable_saw", "一次性锯子", Item::new)
+    public static final ItemEntry<Item> DISPOSABLE_SAW = item("disposable_saw", "一次性锯子")
             .tag(CustomTags.CRAFTING_SAWS).register();
 
     public static final ItemEntry<Item> DISPOSABLE_FILE_MOLD = register("disposable_file_mold", "一次性锉刀模具");
@@ -1029,26 +1046,79 @@ public final class GTOItems {
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(new CoordinateCardBehavior()))
             .register();
+    // 微米级聚丙烯腈原丝
+    // 预氧化微米级聚丙烯腈原丝
+    // 纳米级聚丙烯腈原丝
+    // 预氧化纳米级聚丙烯腈原丝
+    // 原子级聚丙烯腈原丝
+    // 预氧化原子级聚丙烯腈原丝
+    // 石墨化原子级聚丙烯腈原丝
+    public static final ItemEntry<Item> MICRON_PAN_FIBER = item("micron_pan_fiber", "微米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_MICRON_PAN_FIBER = item("preoxidized_micron_pan_fiber", "预氧化微米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> NANO_PAN_FIBER = item("nano_pan_fiber", "纳米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_NANO_PAN_FIBER = item("preoxidized_nano_pan_fiber", "预氧化纳米级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> ATOMIC_PAN_FIBER = item("atomic_pan_fiber", "原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> PREOXIDIZED_ATOMIC_PAN_FIBER = item("preoxidized_atomic_pan_fiber", "预氧化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
+    public static final ItemEntry<Item> GRAPHITIZED_ATOMIC_PAN_FIBER = item("graphitized_atomic_pan_fiber", "石墨化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
 
-    @SuppressWarnings("unchecked")
-    public static final ItemEntry<Item> AFFIX_CANVAS = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("affix_canvas", "铭刻之布", p -> new Item(p) {
+    // 能量控制模块mk123
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK1 = register("energy_control_module_mk1", "能量控制模块 MK-I");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK2 = register("energy_control_module_mk2", "能量控制模块 MK-II");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK3 = register("energy_control_module_mk3", "能量控制模块 MK-III");
+    // 运行控制模块mk123
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK1 = register("machining_control_module_mk1", "运行控制模块 MK-I");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK2 = register("machining_control_module_mk2", "运行控制模块 MK-II");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK3 = register("machining_control_module_mk3", "运行控制模块 MK-III");
+    // 小型太空梭mk12
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK1 = item("small_shuttle_mk1", "小型太空梭 MK-I", ComponentItem::create)
+            .onRegister(attach(ElectricStats.createRechargeableBattery(3_600_000L, GTValues.HV)))
+            .register();
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK2 = item("small_shuttle_mk2", "小型太空梭 MK-II", ComponentItem::create)
+            .onRegister(attach(ElectricStats.createRechargeableBattery(10_240_000L, GTValues.EV)))
+            .register();
+    // 激光陀螺仪mk12
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK1 = register("laser_gyroscope_mk1", "激光陀螺仪 MK-I");
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK2 = register("laser_gyroscope_mk2", "激光陀螺仪 MK-II");
 
-        @Override
-        public boolean isFoil(@NotNull ItemStack stack) {
-            return true;
-        }
-    })
-            .properties(p -> p.stacksTo(1).rarity(Rarity.UNCOMMON))
+    // 奇怪的45钢钢板
+    public static final ItemEntry<Item> STRANGE_STRUCTURE_STEEL_45_PLATE = register("strange_structure_steel_45_plate", "奇怪的45钢钢板");
+
+    // 碳化硅宽禁带半导体单晶硅
+    public static final ItemEntry<Item> SIC_WIDE_BANDGAP_SEMICONDUCTOR_SINGLE_CRYSTAL = register("sic_wide_bandgap_semiconductor_single_crystal", "碳化硅宽禁带半导体单晶硅");
+    // 碳化硅宽禁带半导体晶圆
+    public static final ItemEntry<Item> SIC_WIDE_BANDGAP_SEMICONDUCTOR_WAFER = register("sic_wide_bandgap_semiconductor_wafer", "碳化硅宽禁带半导体晶圆");
+    // IGBT晶圆
+    public static final ItemEntry<Item> IGBT_WAFER = register("igbt_wafer", "IGBT晶圆");
+    // IGBT芯片
+    public static final ItemEntry<Item> IGBT_CHIP = register("igbt_chip", "IGBT芯片");
+    // 锗调节单晶硅
+    public static final ItemEntry<Item> GERMANIUM_DOPED_SINGLE_CRYSTAL_SILICON = register("germanium_doped_single_crystal_silicon", "锗调节单晶硅");
+    // 锗调节硅晶圆
+    public static final ItemEntry<Item> GERMANIUM_DOPED_SILICON_WAFER = register("germanium_doped_silicon_wafer", "锗调节硅晶圆");
+    // FPGA晶圆
+    public static final ItemEntry<Item> FPGA_WAFER = register("fpga_wafer", "FPGA晶圆");
+    // FPGA芯片
+    public static final ItemEntry<Item> FPGA_CHIP = register("fpga_chip", "FPGA芯片");
+
+    public static final ItemEntry<Item> RED_DYE_MASTERBATCH = register("red_dye_masterbatch", "红色染料色母");
+    public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
+    public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
+
+    public static final ItemEntry<RewardBagItem> LV_REWARD_BAG = registerRewardBag("lv_reward_bag", "lv Reward Bag", "LV 战利品袋", RewardBagLoot.LV_REWARD_BAG_LOOT);
+
+    private static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn, ResourceLocation rewardBag) {
+        return item(id, cn, p -> new RewardBagItem(p, rewardBag))
+                .lang(en)
+                .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+                .register();
+    }
+
+    public static final ItemEntry<SlotBoostingItems> SLOT_ENHANCER = item("slot_enhancer", "槽位强化器", SlotBoostingItems::new)
+            .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
             .register();
 
-    public static final ItemEntry<ApothItem> ENCHANTMENT_ESSENCE = item("enchantment_essence", "附魔精粹", ApothItem::create)
-            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
-            .color(() -> ApothItem::color)
-            .model(NonNullBiConsumer.noop())
-            .register();
-    public static final ItemEntry<ApothItem> AFFIX_ESSENCE = item("affix_essence", "刻印精粹", ApothItem::create)
-            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
-            .color(() -> ApothItem::color)
-            .model(NonNullBiConsumer.noop())
+    // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
+    public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
+            .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
             .register();
 }

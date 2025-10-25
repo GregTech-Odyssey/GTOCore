@@ -7,9 +7,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
-import static com.gregtechceu.gtceu.api.GTValues.L;
-import static com.gregtechceu.gtceu.api.GTValues.ULV;
-import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.block;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.plate;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
@@ -58,7 +56,7 @@ public final class DecorationRecipes {
             var color = DyeColor.values()[i];
             var colorName = color.getName();
             CHEMICAL_BATH_RECIPES.recipeBuilder("metal_sheet_%s".formatted(colorName))
-                    .inputItems(METAL_SHEETS.get(DyeColor.WHITE).asStack())
+                    .inputItems(METAL_SHEETS.get(DyeColor.WHITE).asItem())
                     .inputFluids(CHEMICAL_DYES[i].getFluid(9))
                     .outputItems(METAL_SHEETS.get(color))
                     .EUt(2).duration(10)
@@ -66,7 +64,7 @@ public final class DecorationRecipes {
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("large_metal_sheet_%s".formatted(colorName))
-                    .inputItems(LARGE_METAL_SHEETS.get(DyeColor.WHITE).asStack())
+                    .inputItems(LARGE_METAL_SHEETS.get(DyeColor.WHITE).asItem())
                     .inputFluids(CHEMICAL_DYES[i].getFluid(9))
                     .outputItems(LARGE_METAL_SHEETS.get(color))
                     .EUt(2).duration(10)
@@ -74,7 +72,7 @@ public final class DecorationRecipes {
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("studs_%s".formatted(colorName))
-                    .inputItems(STUDS.get(DyeColor.BLACK).asStack())
+                    .inputItems(STUDS.get(DyeColor.BLACK).asItem())
                     .inputFluids(CHEMICAL_DYES[i].getFluid(9))
                     .outputItems(STUDS.get(color))
                     .EUt(2).duration(10)

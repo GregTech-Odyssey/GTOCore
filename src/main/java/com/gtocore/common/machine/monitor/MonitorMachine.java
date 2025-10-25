@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
@@ -63,7 +64,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class MonitorMachine extends AbstractInfoProviderMonitor {
+public class MonitorMachine extends AbstractInfoProviderMonitor implements IMachineModifyDrops {
 
     @DescSynced
     private Component[] bufferCache = new Component[0];
@@ -123,8 +124,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
                         var c = bufferCache[i];
                         informationList.addIfAbsent(
                                 DISPLAY_REGISTRY.get(i).id(),
-                                DisplayComponent.progressBar(
-                                        DISPLAY_REGISTRY.get(i).id(), progress, 50, 16, c.getString(), ProgressBarColorStyle.Companion.getDURATION()));
+                                DisplayComponent.progressBar(DISPLAY_REGISTRY.get(i).id(), progress, c.getString(), ProgressBarColorStyle.Companion.getDURATION()));
                     } else {
                         informationList.addIfAbsent(
                                 DISPLAY_REGISTRY.get(i).id(),
@@ -578,4 +578,9 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
     }
 
     private static final IGuiTexture MACHINE_COORDS_OVERLAY = new ResourceTexture(GTOCore.id("textures/gui/machine_coords_overlay.png")).scale(15 / 16f);
+
+    @Override
+    public void onDrops(List<ItemStack> drops) {
+        clearInventory(inventory);
+    }
 }

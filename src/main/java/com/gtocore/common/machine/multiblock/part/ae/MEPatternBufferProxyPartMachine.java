@@ -25,7 +25,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine implements IMachineLife, IDataStickInteractable {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEPatternBufferProxyPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
     private ProxySlotRecipeHandler proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
     @Persisted
     @DescSynced
@@ -59,11 +57,22 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
     }
 
     @Override
+    public void onUnload() {
+        super.onUnload();
+        var buf = getBuffer();
+        if (buf != null) {
+            buf.removeProxy(this);
+            proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
+            bufferResolved = false;
+        }
+    }
+
+    @Override
     public List<RecipeHandlerList> getRecipeHandlers() {
         return proxySlotRecipeHandler.getProxySlotHandlers();
     }
 
-    private void setBuffer(@Nullable BlockPos pos) {
+    public void setBuffer(@Nullable BlockPos pos) {
         bufferResolved = true;
         var level = getLevel();
         if (level == null || pos == null) {
@@ -102,16 +111,11 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
     }
 
     @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
     public void onMachineRemoved() {
         var buf = getBuffer();
         if (buf != null) {
             buf.removeProxy(this);
-            proxySlotRecipeHandler.clearProxy();
+            proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
         }
     }
 
@@ -129,12 +133,7 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         return InteractionResult.PASS;
     }
 
-    @Nullable
-    public BlockPos getBufferPos() {
-        return this.bufferPos;
-    }
-
-    public ProxySlotRecipeHandler getProxySlotRecipeHandler() {
+    ProxySlotRecipeHandler getProxySlotRecipeHandler() {
         return this.proxySlotRecipeHandler;
     }
 }

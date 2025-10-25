@@ -1,1 +1,6 @@
-{"animation":{"frametime":1}}
+{
+   "animation":{
+    "interpolate": true,"frametime":1},
+    "ldlib": {
+        "connection": "gtocore:block/dimension_creation_casing_ctm"
+    }}

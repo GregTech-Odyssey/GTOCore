@@ -1,8 +1,10 @@
 package com.gtocore.common.data.material;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
+import com.gtocore.common.data.GTOFluidStorageKey;
 
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
+import com.gregtechceu.gtceu.api.fluids.FluidState;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_FOIL;
@@ -85,6 +87,38 @@ public final class MaterialC {
                 .color(0xEEF2E9)
                 .iconSet(DULL)
                 .components(Hydrogen, 2, Oxygen, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureHelium = material("high_pressure_helium", "高压氦气")
+                .gas()
+                .color(0xFEF3D2)
+                .iconSet(DULL)
+                .components(Helium, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureNeon = material("high_pressure_neon", "高压氖气")
+                .gas()
+                .color(0xFF6E40)
+                .iconSet(DULL)
+                .components(Neon, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureArgon = material("high_pressure_argon", "高压氩气")
+                .gas()
+                .color(0xB3D9BD)
+                .iconSet(DULL)
+                .components(Argon, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureKrypton = material("high_pressure_krypton", "高压氪气")
+                .gas()
+                .color(0x3ACA32)
+                .iconSet(DULL)
+                .components(Krypton, 1)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
@@ -282,6 +316,12 @@ public final class MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        ClostridiumPasteurianum = material("clostridium_pasteurianum", "巴氏梭菌")
+                .dust()
+                .color(0x6B8E23)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         Yeast = material("yeast", "酵母")
                 .dust()
                 .color(0xAE9C00)
@@ -399,7 +439,46 @@ public final class MaterialC {
                 .iconSet(DULL)
                 // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
                 .buildAndRegister();
-
+        ImpregnatedAlkaneFilledMFPC = material("impregnated_alkane_filled_mfpc", "浸渍烷烃填充MFPC")
+                .dust()
+                .color(0xB2B0B0)
+                .iconSet(DULL)
+                .buildAndRegister();
+        HighPressureStaticAdsorptionMFPC = material("high_pressure_static_adsorption_mfpc", "高压静态吸附MFPC")
+                .dust()
+                .color(0xA4A0A0)
+                .iconSet(DULL)
+                .buildAndRegister();
+        SolGelQDInterfaceModifiedMFPC = material("sol_gel_qd_interface_modified_mfpc", "溶胶-凝胶量子点界面改性MFPC")
+                .dust()
+                .color(0x868080)
+                .iconSet(DULL)
+                .buildAndRegister();
+        InterfaceSupramolecularSelfAssemblyMFPC = material("interface_supramolecular_self_assembly_mfpc", "界面超分子自组装MFPC")
+                .dust()
+                .color(0x646260)
+                .iconSet(DULL)
+                .buildAndRegister();
+        ExtremeTemperatureInterfaceStabilizedMFPC = material("extreme_temperature_interface_stabilized_mfpc", "极端温度界面稳定MFPC")
+                .dust()
+                .color(0x404042)
+                .iconSet(DULL)
+                .buildAndRegister();
+        EtchedCarbonNanotube = material("etched_carbon_nanotube", "蚀刻碳纳米管")
+                .dust()
+                .color(0x303030)
+                .iconSet(DULL)
+                .buildAndRegister();
+        NanoGoldDepositedCarbonNanotube = material("nano_gold_deposited_carbon_nanotube", "纳米金沉积碳纳米管")
+                .dust()
+                .color(0x3cada8)
+                .iconSet(DULL)
+                .buildAndRegister();
+        NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot = material("nano_gold_deposited_carbon_nanotube_modified_nhs_lipoic_ester_q_dot", "纳米金沉积碳纳米管修饰的NHS-脂肪酰基酯量子点")
+                .dust()
+                .color(0x57acad)
+                .iconSet(DULL)
+                .buildAndRegister();
         RecycleBasicMFPC = material("recycle_basic_mfpc", "回收的多功能相变(MFPC)")
                 .dust()
                 .color(0xC0C0C0)
@@ -503,6 +582,20 @@ public final class MaterialC {
                 .color(0xffffff)
                 .buildAndRegister().setFormula("(CH₃)₆OSi₂", false);
 
+        Hexamethyldisilazane = material("hexamethyldisilazane", "六甲基二硅氨烷")
+                .fluid()
+                .iconSet(DULL)
+                .color(0xe0e0e0)
+                .buildAndRegister().setFormula("(CH₃)₆NHSi₂", false);
+
+        LiquidAmmonia = material("liquid_ammonia", "液态氨")
+                .liquid(new FluidBuilder().temperature(240))
+                .color(0x4fc4a2)
+                .components(Ammonia, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(FLUID)
+                .buildAndRegister();
+
         Triethoxysilane = material("triethoxysilane", "三乙氧基氢硅烷")
                 .fluid()
                 .iconSet(DULL)
@@ -565,6 +658,55 @@ public final class MaterialC {
                 .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
                 .color(0xA85A12).iconSet(RADIOACTIVE).radioactiveHazard(75)
                 .buildAndRegister().setFormula("Cf²⁵²", false);
+
+        IronChromiumRedoxFlowBatteryElectrolyte = material("iron_chromium", "铁铬液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0xB7410E)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        VanadiumRedoxFlowBatteryElectrolyte = material("all_vanadium", "全钒液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0xFF4D00)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        ZincIodideFlowBatteryElectrolyte = material("zinc_iodide", "锌碘液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0xFFFF00)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        OrganicMoleculeRedoxFlowBatteryElectrolyte = material("organic_molecule", "有机液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0x00FF00)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        SuperconductingIonRedoxFlowBatteryElectrolyte = material("superconducting_ion", "超导液流")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0x0000FF)
+                .iconSet(FLUID)
+                .buildAndRegister();
+        AntimatterRedoxFlowBatteryElectrolyte = material("antimatter-ion", "反电荷载电")
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, FluidState.LIQUID)
+                .fluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, FluidState.LIQUID)
+                .color(0x8B00FF)
+                .iconSet(FLUID)
+                .buildAndRegister();
 
         Polyamide = material("polyamide", "聚酰胺")
                 .fluid()

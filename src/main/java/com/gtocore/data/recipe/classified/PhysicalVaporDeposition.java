@@ -131,5 +131,15 @@ final class PhysicalVaporDeposition {
                 .EUt(122880)
                 .duration(640)
                 .save();
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("high_pressure_static_adsorption_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.ImpregnatedAlkaneFilledMFPC)
+                .notConsumable(TagPrefix.plate, GTOMaterials.Laurenium, 4)
+                .outputItems(TagPrefix.dust, GTOMaterials.HighPressureStaticAdsorptionMFPC)
+                .inputFluids(GTMaterials.Hydrogen, 4000)
+                .inputFluids(GTMaterials.Magnesium, 1152)
+                .inputFluids(GTMaterials.Nickel.getFluid(FluidStorageKeys.PLASMA, 1152))
+                .EUt(9000)
+                .duration(1200)
+                .save();
     }
 }

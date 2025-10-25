@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -17,7 +16,7 @@ final class FuelRefining {
 
     public static void init() {
         FUEL_REFINING_RECIPES.recipeBuilder("stellar_energy_rocket_fuel")
-                .inputItems(new ItemStack(Items.FIRE_CHARGE.asItem(), 64))
+                .inputItems(Items.FIRE_CHARGE.asItem(), 64)
                 .inputItems(TagPrefix.dust, GTOMaterials.HmxExplosive, 8)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 4)
                 .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(8000))
@@ -92,6 +91,7 @@ final class FuelRefining {
                 .inputFluids(GTMaterials.Oxygen.getFluid(5000))
                 .inputFluids(GTMaterials.BioDiesel.getFluid(16000))
                 .inputFluids(GTMaterials.NitrationMixture.getFluid(4000))
+                .inputFluids(GTOMaterials.Cetane.getFluid(400))
                 .outputFluids(GTMaterials.CetaneBoostedDiesel.getFluid(14000))
                 .EUt(1920)
                 .duration(600)
@@ -129,6 +129,7 @@ final class FuelRefining {
                 .inputFluids(GTMaterials.LightFuel.getFluid(10000))
                 .inputFluids(GTMaterials.HeavyFuel.getFluid(2000))
                 .inputFluids(GTMaterials.NitrationMixture.getFluid(4000))
+                .inputFluids(GTOMaterials.Cetane.getFluid(400))
                 .outputFluids(GTMaterials.CetaneBoostedDiesel.getFluid(18000))
                 .EUt(1920)
                 .duration(400)

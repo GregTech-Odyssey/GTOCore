@@ -15,7 +15,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -23,7 +22,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class ThermalConductorHatchPartMachine extends TieredIOPartMachine implements IMachineLife {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ThermalConductorHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
@@ -36,11 +34,6 @@ public class ThermalConductorHatchPartMachine extends TieredIOPartMachine implem
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 25, IO.NONE, IO.BOTH);
         storage.setFilter(i -> i.getItem() instanceof Item);
         return storage;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

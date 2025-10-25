@@ -32,7 +32,7 @@ public abstract class ExResearchBasePartMachine extends HPCAComponentPartMachine
     public void onDrops(List<ItemStack> drops) {
         for (int i = 0; i < drops.size(); ++i) {
             ItemStack drop = drops.get(i);
-            if (drop.getItem() == this.getDefinition().getItem()) {
+            if (drop.getItem() == this.getDefinition().asItem()) {
                 if (canBeDamaged() && isDamaged()) {
                     if (tier == 3) drops.set(i, GTOBlocks.BIOCOMPUTER_CASING.asStack());
                     else if (tier == 4) drops.set(i, GTOBlocks.GRAVITON_COMPUTER_CASING.asStack());

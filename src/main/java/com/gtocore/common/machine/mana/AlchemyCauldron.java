@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.recipe.content.Content;
 import net.minecraft.util.Mth;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,7 +21,6 @@ import static com.lowdragmc.lowdraglib.LDLib.random;
 
 public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AlchemyCauldron.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private int temperature = 293;
     private TickableSubscription tickSubs;
@@ -89,12 +87,6 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     @Override
     public int getMaxTemperature() {
         return 1600;
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     /**

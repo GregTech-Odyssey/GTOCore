@@ -1,5 +1,7 @@
 package com.gtocore.integration.emi;
 
+import com.gtocore.common.item.ItemMap;
+import com.gtocore.data.tag.Tags;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
@@ -19,26 +21,33 @@ import com.hepdd.gtmthings.data.CustomItems;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.ItemEmiStack;
+import dev.emi.emi.api.stack.TagEmiIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class GTEmiEncodingHelper { // also accessed by gtolib
 
     @Nullable
-    private static GenericStack ofVirtual(EmiStack stack, long amount) {
+    private static GenericStack ofVirtual(EmiStack stack) {
         if (stack.getKey() instanceof Item) {
-            var itemKey = AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack(), stack.getItemStack()));
-            itemKey.getTag().putBoolean("marked", true);
-            return new GenericStack(itemKey, amount);
+            var item = CustomItems.VIRTUAL_ITEM_PROVIDER.asStack();
+            item.getOrCreateTag().putBoolean("marked", true);
+            return new GenericStack(AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(item, stack.getItemStack())), 1);
         }
         return null;
     }
 
     private static List<GenericStack> intoGenericStack(EmiIngredient ingredient, boolean virtual) {
         if (ingredient.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptyList();
+        }
+        if (ingredient instanceof TagEmiIngredient tag && Tags.CIRCUITS_ARRAY.containsKey(tag.key)) {
+            return ingredient.getEmiStacks().stream().filter(stack -> stack instanceof ItemEmiStack itemEmiStack && ItemMap.UNIVERSAL_CIRCUITS.contains(itemEmiStack.getKey())).map(stack -> fromEmiStackVirtualConvertible(stack, ingredient.getAmount(), virtual)).toList();
         }
         return ingredient.getEmiStacks().stream().map(stack -> fromEmiStackVirtualConvertible(stack, ingredient.getAmount(), virtual)).toList();
     }
@@ -46,7 +55,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
     private static GenericStack fromEmiStackVirtualConvertible(EmiStack stack, long amount, boolean virtual) {
         if (stack.getKey() instanceof Item) {
             if (virtual) {
-                return ofVirtual(stack, amount);
+                return ofVirtual(stack);
             }
             return new GenericStack(AEItemKey.of(stack.getItemStack()), amount);
         } else if (stack.getKey() instanceof Fluid fluid) {
@@ -60,12 +69,18 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
     }
 
     public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
-        if (emiRecipe instanceof MultiblockInfoEmiRecipe) {
-            return emiRecipe.getInputs()
+        if (emiRecipe instanceof MultiblockInfoEmiRecipe recipe) {
+            var stream = emiRecipe.getInputs()
                     .stream()
                     .filter(GTEmiEncodingHelper::isNotHatch)
-                    .map(GTEmiEncodingHelper::intoGenericStack)
-                    .toList();
+                    .map(GTEmiEncodingHelper::intoGenericStack);
+            if (recipe.i > 0 && recipe.definition.getSubPatternFactory() != null && GTUtil.isCtrlDown()) {
+                stream = Stream.concat(recipe.getInputs(0)
+                        .stream()
+                        .filter(GTEmiEncodingHelper::isNotHatch)
+                        .map(GTEmiEncodingHelper::intoGenericStack), stream);
+            }
+            return stream.toList();
         }
         var list = new ArrayList<List<GenericStack>>();
         if (GTUtil.isShiftDown() || GTUtil.isCtrlDown()) {

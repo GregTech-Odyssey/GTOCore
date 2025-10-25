@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,7 +26,7 @@ final class Canner {
 
     public static void init() {
         CANNER_RECIPES.recipeBuilder("ender_air")
-                .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
+                .inputItems(Items.GLASS_BOTTLE.asItem())
                 .inputFluids(GTMaterials.EnderAir.getFluid(1000))
                 .outputItems("botania:ender_air_bottle")
                 .EUt(30)
@@ -44,8 +43,8 @@ final class Canner {
                 .save();
 
         CANNER_RECIPES.recipeBuilder("sculk")
-                .inputItems(new ItemStack(Blocks.DIRT.asItem()))
-                .inputItems(new ItemStack(Blocks.SCULK_VEIN.asItem()))
+                .inputItems(Blocks.DIRT.asItem())
+                .inputItems(Blocks.SCULK_VEIN.asItem())
                 .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 10))
                 .outputItems(TagPrefix.block, GTMaterials.Sculk)
                 .EUt(480)
@@ -80,7 +79,7 @@ final class Canner {
                 .save();
 
         CANNER_RECIPES.recipeBuilder("infused_breath")
-                .inputItems(new ItemStack(Items.DRAGON_BREATH.asItem()))
+                .inputItems(Items.DRAGON_BREATH.asItem())
                 .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 1000))
                 .outputItems(Ench.Items.INFUSED_BREATH.get(), 3)
                 .EUt(480)
@@ -177,7 +176,7 @@ final class Canner {
                 .save();
 
         CANNER_RECIPES.builder("coolant_cell_10k")
-                .inputItems(GTItems.FLUID_CELL.asStack())
+                .inputItems(GTItems.FLUID_CELL.asItem())
                 .outputItems(GTOItems.COOLANT_CELL_10K.asItem())
                 .inputFluids(GTOMaterials.CoolantLiquid, 1000)
                 .EUt(30)

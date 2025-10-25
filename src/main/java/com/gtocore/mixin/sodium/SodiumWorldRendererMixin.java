@@ -18,6 +18,6 @@ public class SodiumWorldRendererMixin {
     @ModifyExpressionValue(method = "renderGlobalBlockEntities", at = @At(value = "INVOKE", target = "Lme/jellysquid/mods/sodium/client/render/viewport/Viewport;isBoxVisible(Lnet/minecraft/world/phys/AABB;)Z", remap = false), remap = false)
     private boolean renderGlobalBlockEntities(boolean original, @Local BlockEntity blockEntity) {
         if (original) return true;
-        return !GTOConfig.INSTANCE.EmbeddiumBECulling && blockEntity instanceof MetaMachineBlockEntity;
+        return GTOConfig.INSTANCE.disableEmbeddiumBECulling && blockEntity instanceof MetaMachineBlockEntity;
     }
 }

@@ -5,6 +5,8 @@ import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.chemical.material.GTOMaterialBuilder;
 import com.gtolib.utils.RLUtils;
 
@@ -15,27 +17,37 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
 import com.kyanite.deeperdarker.DeeperDarker;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import earth.terrarium.adastra.common.registry.ModBlocks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.BotaniaBlocks;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.hasOreProperty;
+import java.util.regex.Pattern;
 
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Boron;
+
+@DataGeneratorScanned
 @SuppressWarnings("unused")
 public final class GTOTagPrefix extends TagPrefix {
 
-    private int maxDamage;
+    @RegisterLanguage(cn = "使用扳手shift右键以设置§e自动抽取§r和§e限制传输方向§r", en = "Use wrench press and hold shift while right clicking to set §eAuto Pull§r and §eRestrict Flow Direction§r")
+    public static final String PIPE_TOOLTIP = "metaitem.pipe.tooltip";
+
+    private static final Pattern BoronFormula = Pattern.compile("^[A-Za-z0-9]+B[0-9]*$");
 
     private ICustomRenderer customRenderer;
 
@@ -54,8 +66,9 @@ public final class GTOTagPrefix extends TagPrefix {
     }
 
     public static void init() {
-        TagPrefix.dustTiny.generationCondition(Conditions.hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_TINY_DUST)));
-        TagPrefix.dustSmall.generationCondition(Conditions.hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_SMALL_DUST)));
+        TagPrefix.dustTiny.generationCondition(hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_TINY_DUST)));
+        TagPrefix.dustSmall.generationCondition(hasDustProperty.and(mat -> needSmall(mat) || mat.hasFlag(GTOMaterialFlags.GENERATE_SMALL_DUST)));
+        TagPrefix.ingotHot.generationCondition(hasBlastProperty.and(mat -> mat.getProperty(PropertyKey.BLAST).getBlastTemperature() > 1750).and(mat -> !mat.hasFlag(GTOMaterialFlags.COMPOSITE_MATERIAL)));
     }
 
     private static TagPrefix ore(String name) {
@@ -77,7 +90,7 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix GLOOMSLATE = ore("gloomslate").registerOre(() -> DDBlocks.GLOOMSLATE.get().defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BROWN).requiresCorrectToolForDrops().strength(4.0F, 5.0F), DeeperDarker.rl("block/gloomslate"));
     public static final TagPrefix LIVING_STONE = ore("living_rock").registerOre(() -> BotaniaBlocks.livingrock.defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), RLUtils.bot("block/livingrock"));
     private static final MaterialIconType NANITES_ICON = new MaterialIconType("nanites");
-    public static final TagPrefix CATALYST = new GTOTagPrefix("catalyst").maxDamage(10000).idPattern("%s_catalyst").defaultTagPath("catalyst/%s").unformattedTagPath("catalyst").materialAmount(GTValues.M).materialIconType(new MaterialIconType("catalyst")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CATALYST));
+    public static final TagPrefix CATALYST = new GTOTagPrefix("catalyst").idPattern("%s_catalyst").defaultTagPath("catalyst/%s").unformattedTagPath("catalyst").materialAmount(GTValues.M).materialIconType(new MaterialIconType("catalyst")).unificationEnabled(true).generateItem(true).maxDamage(m -> 10000).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CATALYST));
     public static final TagPrefix NANITES = new GTOTagPrefix("nanites").idPattern("%s_nanites").defaultTagPath("nanites/%s").unformattedTagPath("nanites").materialAmount(GTValues.M).materialIconType(NANITES_ICON).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_NANITES));
     public static final TagPrefix CONTAMINABLE_NANITES = new GTOTagPrefix("contaminable_nanites").idPattern("contaminable_%s_nanites").defaultTagPath("contaminable_nanites/%s").unformattedTagPath("contaminable_nanites").materialAmount(GTValues.M).materialIconType(NANITES_ICON).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_NANITES));
     public static final TagPrefix MILLED = new GTOTagPrefix("milled").idPattern("milled_%s").defaultTagPath("milleds/%s").unformattedTagPath("milleds").materialAmount(GTValues.M).materialIconType(new MaterialIconType("milled")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MILLED));
@@ -88,7 +101,7 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix EMITTER_BASES = new GTOTagPrefix("emitter_base").idPattern("%s_emitter_base").defaultTagPath("emitter_bases/%s").unformattedTagPath("emitter_bases").materialAmount(GTValues.M << 2).materialIconType(new MaterialIconType("emitter_base")).unificationEnabled(true).generateItem(true).enableRecycling().generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
     public static final TagPrefix SENSOR_CASING = new GTOTagPrefix("sensor_casing").idPattern("%s_sensor_casing").defaultTagPath("sensor_casings/%s").unformattedTagPath("sensor_casings").materialAmount(GTValues.M * 9 / 2).materialIconType(new MaterialIconType("sensor_casing")).unificationEnabled(true).generateItem(true).enableRecycling().generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
     public static final TagPrefix FIELD_GENERATOR_CASING = new GTOTagPrefix("field_generator_casing").idPattern("%s_field_generator_casing").defaultTagPath("field_generator_casing/%s").unformattedTagPath("field_generator_casing").materialAmount(GTValues.M << 3).materialIconType(new MaterialIconType("field_generator_casing")).unificationEnabled(true).generateItem(true).enableRecycling().generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
-    public static final TagPrefix ROUGH_BLANK = new GTOTagPrefix("rough_blank").idPattern("%s_rough_blank").defaultTagPath("rough_blank/%s").unformattedTagPath("rough_blank").materialAmount(GTValues.M * 9).materialIconType(MaterialIconType.rawOreBlock).miningToolTag(BlockTags.MINEABLE_WITH_PICKAXE).unificationEnabled(true).generateBlock(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
+    public static final TagPrefix ROUGH_BLANK = new GTOTagPrefix("rough_blank").idPattern("%s_rough_blank").defaultTagPath("rough_blank/%s").unformattedTagPath("rough_blank").materialAmount(GTValues.M * 9).materialIconType(MaterialIconType.rawOreBlock).miningToolTag(BlockTags.MINEABLE_WITH_PICKAXE).unificationEnabled(true).generateBlock(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC) || mat.hasFlag(GTOMaterialFlags.COMPOSITE_MATERIAL));
     public static final TagPrefix BRICK = new GTOTagPrefix("brick").idPattern("%s_brick").defaultTagPath("brick/%s").unformattedTagPath("brick").materialAmount(GTValues.M).materialIconType(MaterialIconType.ingot).unificationEnabled(true).generateItem(true).enableRecycling().generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
     public static final TagPrefix FLAKES = new GTOTagPrefix("flake").idPattern("%s_flake").defaultTagPath("flake/%s").unformattedTagPath("flake").materialAmount(GTValues.M / 4).materialIconType(new MaterialIconType("flake")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
     public static final TagPrefix ARTIFICIAL_GEM = new GTOTagPrefix("artificial_gem").idPattern("artificial_%s_gem").defaultTagPath("artificial_gem/%s").unformattedTagPath("artificial_gem").materialAmount(GTValues.M << 2).materialIconType(new MaterialIconType("artificial_gem")).unificationEnabled(true).generateItem(true).enableRecycling().tooltip((m, l) -> l.add(Component.translatable("gtocore.tooltip.artificial_gem").withStyle(ChatFormatting.GRAY))).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM));
@@ -116,17 +129,24 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix BREEDER_ROD = new GTOTagPrefix("breeder_rod").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_breeder_rod").defaultTagPath("breeder_rod/%s").unformattedTagPath("breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
     public static final TagPrefix DEPLETED_BREEDER_ROD = new GTOTagPrefix("depleted_breeder_rod").idPattern("%s_depleted_breeder_rod").defaultTagPath("depleted_breeder_rod/%s").unformattedTagPath("depleted_breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
 
-    public int maxDamage() {
-        return this.maxDamage;
-    }
+    public static final TagPrefix MXene = new GTOTagPrefix("mxene").idPattern("%s_mxene").defaultTagPath("mxenes/%s").unformattedTagPath("mxenes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("mxene")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MXene)).itemConstructor(
+            (p, t, m) -> new TagPrefixItem(p, t, m) {
 
-    /**
-     * @return {@code this}.
-     */
-    private GTOTagPrefix maxDamage(final int maxDamage) {
-        this.maxDamage = maxDamage;
-        return this;
-    }
+                @Override
+                public @NotNull Component getName(@NotNull ItemStack stack) {
+                    return BoronFormula.matcher(m.getChemicalFormula()).matches() ||
+                            m.getMaterialComponents().stream().anyMatch(ms -> ms.material() == Boron) ?
+                                    Component.translatable("tagprefix.mborene", m) :
+                                    super.getName(stack);
+                }
+            });
+    public static final TagPrefix AluminumContainedMXenePrecursor = new GTOTagPrefix("aluminium_contained_mxene_precursor").idPattern("aluminium_contained_%s_mxene_precursor").defaultTagPath("aluminium_contained_mxene_precursors/%s").unformattedTagPath("aluminium_contained_mxene_precursors").materialAmount(GTValues.M).materialIconType(new MaterialIconType("mxene_precursor")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MXene));
+    public static final TagPrefix FIBER = new GTOTagPrefix("carbon_fiber").idPattern("%s_carbon_fiber").defaultTagPath("carbon_fibers/%s").unformattedTagPath("carbon_fibers").materialAmount(GTValues.M).materialIconType(new MaterialIconType("carbon_fiber")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_FIBER));
+    public static final TagPrefix FIBER_TOW = new GTOTagPrefix("carbon_fibres").idPattern("%s_carbon_fibres").defaultTagPath("carbon_fibres/%s").unformattedTagPath("carbon_fibres").materialAmount(GTValues.M).materialIconType(new MaterialIconType("carbon_fibres")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.IS_CARBON_FIBER));
+    public static final TagPrefix FIBER_MESH = new GTOTagPrefix("carbon_fiber_mesh").idPattern("%s_carbon_fiber_mesh").defaultTagPath("carbon_fiber_meshes/%s").unformattedTagPath("carbon_fiber_meshes").materialAmount(GTValues.M * 2).materialIconType(new MaterialIconType("carbon_fiber_mesh")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_FIBER));
+    public static final TagPrefix NANO = new GTOTagPrefix("nano").idPattern("nano_%s").defaultTagPath("nanos/%s").unformattedTagPath("nanos").materialAmount(GTValues.M / 16).materialIconType(MaterialIconType.dust).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.HAS_NANOSCALE_FORM));
+
+    public static final TagPrefix MEMBRANE_ELECTRODE = new GTOTagPrefix("membrane_electrode").idPattern("%s_membrane_electrode").defaultTagPath("membrane_electrodes/%s").unformattedTagPath("membrane_electrodes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("membrane_electrode")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE));
 
     private GTOTagPrefix useRenderer(final ICustomRenderer renderer) {
         this.customRenderer = renderer;

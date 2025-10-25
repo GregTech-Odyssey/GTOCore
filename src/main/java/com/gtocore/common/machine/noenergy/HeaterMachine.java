@@ -14,13 +14,11 @@ import net.minecraft.world.level.Level;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeaterMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HeaterMachine.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
     public static final int MaxTemperature = 800;
 
     @Persisted
@@ -98,12 +96,6 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
     @Override
     public int getMaxTemperature() {
         return MaxTemperature;
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

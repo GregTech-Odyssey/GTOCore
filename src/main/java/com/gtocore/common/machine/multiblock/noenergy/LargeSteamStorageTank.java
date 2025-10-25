@@ -23,7 +23,7 @@ public class LargeSteamStorageTank extends MultiblockTankMachine {
                          enComment = "The capacity of the large steam storage tank in mB",
                          cn = "容量",
                          cnComment = "大型蒸汽储存罐的容量，单位为mB",
-                         simpleValue = "1296000000", // 360分钟青铜锅炉x2x3
+                         easyValue = "1296000000", // 360分钟青铜锅炉x2x3
                          normalValue = "216000000", // 60分钟青铜锅炉x2x3
                          expertValue = "162000000") // 45分钟青铜锅炉x2x3
     private static int capacity = 120000000;

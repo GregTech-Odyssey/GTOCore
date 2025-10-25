@@ -34,11 +34,10 @@ import com.gtolib.api.annotation.SyncedManager
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.machine.feature.IMEPartMachine
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
-import com.gtolib.syncdata.SyncManagedFieldHolder
+import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import com.mojang.datafixers.util.Pair
 
 import java.util.*
@@ -109,13 +108,11 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         }
         if (isRemote) return
         onWirelessMachineLoad()
-        handlerList.isDistinct = distinctField
-        handlerList.setColor(paintingColor)
+        getHandlerList().isDistinct = distinctField
+        getHandlerList().setColor(paintingColor)
     }
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
-
-    override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
 
     override fun onPaintingColorChanged(color: Int) {
         for (c in getControllers()) {
@@ -129,7 +126,7 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun setDistinct(isDistinct: Boolean) {
         this.distinctField = isDistinct
-        handlerList.isDistinct = isDistinct
+        getHandlerList().isDistinct = isDistinct
         for (controller in getControllers()) {
             if (controller is IExtendedRecipeCapabilityHolder) {
                 controller.arrangeDistinct()
@@ -162,16 +159,12 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     }
 
     companion object {
-        val MANAGED_FIELD_HOLDER: ManagedFieldHolder = ManagedFieldHolder(
-            MEPartMachine::class.java,
-            TieredIOPartMachine.MANAGED_FIELD_HOLDER,
-        )
-        val sync = SyncManagedFieldHolder(MEPartMachine::class.java)
+        val syncFieldHolder = SyncManagedFieldHolder(MEPartMachine::class.java)
 
         const val CONFIG_SIZE: Int = 16
     }
 
-    override fun getSyncHolder(): SyncManagedFieldHolder = sync
+    override fun getSyncHolder(): SyncManagedFieldHolder = syncFieldHolder
 
     // ////////////////////////////////
     // ****** 无线连接设置 ******//
@@ -180,7 +173,7 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         .widget(
             InitFancyMachineUIWidget(this, 176, 166) {
                 if (!isRemote) {
-                    syncDataToClientInServer()
+                    refreshCachesOnServer()
                 }
             },
         )
@@ -194,6 +187,5 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     override fun attachSideTabs(sideTabs: TabsWidget) {
         super<TieredIOPartMachine>.attachSideTabs(sideTabs)
         sideTabs.attachSubTab(getSetupFancyUIProvider())
-        sideTabs.attachSubTab(getDetailFancyUIProvider())
     }
 }

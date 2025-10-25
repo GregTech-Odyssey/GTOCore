@@ -116,7 +116,7 @@ public final class WoodMachineRecipesMixin {
             // log -> plank cutting
             CUTTER_RECIPES.recipeBuilder(name + "_planks")
                     .inputItems(logTag)
-                    .outputItems(new ItemStack(entry.planks, 6))
+                    .outputItems(entry.planks, 6)
                     .outputItems(dust, Wood, 2)
                     .duration(200)
                     .EUt(VA[ULV])
@@ -138,7 +138,7 @@ public final class WoodMachineRecipesMixin {
                 // plank -> door assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_door")
                         .inputItems(entry.trapdoor)
-                        .inputItems(new ItemStack(entry.planks, 4))
+                        .inputItems(entry.planks, 4)
                         .inputFluids(Iron.getFluid(GTValues.L / 9))
                         .outputItems(entry.door)
                         .duration(400).EUt(4).save();
@@ -153,7 +153,7 @@ public final class WoodMachineRecipesMixin {
                 // plank -> door assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_door")
                         .inputItems(ItemTags.WOODEN_TRAPDOORS)
-                        .inputItems(new ItemStack(entry.planks, 4))
+                        .inputItems(entry.planks, 4)
                         .inputFluids(Iron.getFluid(GTValues.L / 9))
                         .outputItems(entry.door)
                         .duration(400).EUt(4).save();
@@ -174,7 +174,7 @@ public final class WoodMachineRecipesMixin {
             // plank -> sign assembling
             ASSEMBLER_RECIPES.recipeBuilder(recipeName)
                     .circuitMeta(4)
-                    .inputItems(new ItemStack(entry.slab, 1))
+                    .inputItems(entry.slab, 1)
                     .inputItems(entry.getStick(), 1)
                     .inputFluids(Iron.getFluid(GTValues.L / 9))
                     .outputItems(entry.sign, 3)
@@ -215,7 +215,7 @@ public final class WoodMachineRecipesMixin {
             // plank -> trapdoor assembling
             ASSEMBLER_RECIPES.recipeBuilder(recipeName)
                     .circuitMeta(3)
-                    .inputItems(new ItemStack(entry.planks, 2))
+                    .inputItems(entry.planks, 2)
                     .inputFluids(Iron.getFluid(GTValues.L / 9))
                     .outputItems(entry.trapdoor)
                     .duration(200).EUt(4).save();
@@ -234,8 +234,8 @@ public final class WoodMachineRecipesMixin {
 
             // plank -> stairs assembling
             ASSEMBLER_RECIPES.recipeBuilder(name + "_stairs")
-                    .inputItems(new ItemStack(entry.planks, 3))
-                    .outputItems(new ItemStack(entry.stairs, 4))
+                    .inputItems(entry.planks, 3)
+                    .outputItems(entry.stairs, 4)
                     .circuitMeta(7)
                     .EUt(1).duration(100).save();
         }
@@ -249,7 +249,7 @@ public final class WoodMachineRecipesMixin {
             // plank -> slab cutting
             CUTTER_RECIPES.recipeBuilder(name + "_slab")
                     .inputItems(entry.planks)
-                    .outputItems(new ItemStack(entry.slab, 2))
+                    .outputItems(entry.slab, 2)
                     .duration(200).EUt(VA[ULV])
                     .save();
         }
@@ -292,7 +292,7 @@ public final class WoodMachineRecipesMixin {
 
             // plank -> fence gate assembling
             ASSEMBLER_RECIPES.recipeBuilder(name + "_fence_gate")
-                    .inputItems(new ItemStack(entry.planks, 2))
+                    .inputItems(entry.planks, 2)
                     .inputItems(Tags.Items.RODS_WOODEN, 2)
                     .outputItems(entry.fenceGate)
                     .circuitMeta(2)
@@ -313,7 +313,7 @@ public final class WoodMachineRecipesMixin {
 
             // plank -> boat assembling
             ASSEMBLER_RECIPES.recipeBuilder(name + "_boat")
-                    .inputItems(new ItemStack(entry.planks, 5))
+                    .inputItems(entry.planks, 5)
                     .outputItems(entry.boat)
                     .circuitMeta(15)
                     .duration(100).EUt(4).save();
@@ -331,7 +331,7 @@ public final class WoodMachineRecipesMixin {
 
                 // boat -> chest boat assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_chest_boat")
-                        .inputItems(new ItemStack(entry.boat))
+                        .inputItems(entry.boat)
                         .inputItems(Tags.Items.CHESTS_WOODEN)
                         .outputItems(entry.chestBoat)
                         .circuitMeta(16)
@@ -346,7 +346,7 @@ public final class WoodMachineRecipesMixin {
 
             // plank -> button cutting
             CUTTER_RECIPES.recipeBuilder(name + "_button")
-                    .inputItems(new ItemStack(entry.pressurePlate))
+                    .inputItems(entry.pressurePlate)
                     .outputItems(entry.button, 12)
                     .duration(250).EUt(VA[ULV]).save();
         }
@@ -360,7 +360,7 @@ public final class WoodMachineRecipesMixin {
                     'C', new MaterialEntry(spring, GTMaterials.Iron));
 
             ASSEMBLER_RECIPES.recipeBuilder(name + "_pressure_plate")
-                    .inputItems(new ItemStack(entry.slab, 2))
+                    .inputItems(entry.slab, 2)
                     .inputItems(spring, Iron)
                     .outputItems(entry.pressurePlate)
                     .circuitMeta(7)

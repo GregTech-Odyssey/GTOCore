@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "powered=false,waterlogged=false": { "model": "ad_astra:block/ceres_globe" },
+    "powered=false,waterlogged=true": { "model": "ad_astra:block/ceres_globe" },
+    "powered=true,waterlogged=false": { "model": "ad_astra:block/ceres_globe" },
+    "powered=true,waterlogged=true": { "model": "ad_astra:block/ceres_globe" }
+  }
+}
+

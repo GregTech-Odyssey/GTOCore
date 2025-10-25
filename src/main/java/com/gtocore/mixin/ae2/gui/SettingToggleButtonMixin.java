@@ -53,10 +53,12 @@ public class SettingToggleButtonMixin {
                 ButtonToolTips.CondenserOutput,
                 ButtonToolTips.Trash);
 
+        registerApp(Icon.BLOCKING_MODE_NO, GTOSettings.BLOCKING_TYPE, BlockingType.NONE, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gui.tooltips.ae2.NonBlocking"));
         registerApp(Icon.BLOCKING_MODE_YES, GTOSettings.BLOCKING_TYPE, BlockingType.ALL, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gtocore.pattern.blocking_mode"));
         registerApp(Icon.BLOCKING_MODE_YES, GTOSettings.BLOCKING_TYPE, BlockingType.CONTAIN, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gui.tooltips.ae2.Blocking"));
         registerApp(Icon.BLOCKING_MODE_YES, GTOSettings.BLOCKING_TYPE, BlockingType.NON_CONTAIN, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gtocore.pattern.blocking_reverse"));
-        registerApp(Icon.BLOCKING_MODE_NO, GTOSettings.BLOCKING_TYPE, BlockingType.NONE, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gui.tooltips.ae2.NonBlocking"));
+        registerApp(Icon.BLOCKING_MODE_YES, GTOSettings.BLOCKING_TYPE, BlockingType.PARALLEL, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gtocore.pattern.blocking_parallel"));
+
         registerApp(Icon.LEVEL_ITEM, GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS, ShowMolecularAssembler.ALL, ButtonToolTips.InterfaceTerminalDisplayMode, Component.translatable("gtocore.ae.appeng.crafting.show_molecular_assembler_all"));
         registerApp(Icon.PATTERN_ACCESS_SHOW, GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS, ShowMolecularAssembler.ONLY_MOLECULAR_ASSEMBLER, ButtonToolTips.InterfaceTerminalDisplayMode, Component.translatable("gtocore.ae.appeng.crafting.show_molecular_assembler_only"));
         registerApp(Icon.PATTERN_ACCESS_HIDE, GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS, ShowMolecularAssembler.EXPECT_MOLECULAR_ASSEMBLER, ButtonToolTips.InterfaceTerminalDisplayMode, Component.translatable("gtocore.ae.appeng.crafting.show_molecular_assembler_expect"));

@@ -17,6 +17,9 @@ import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.VeinedVeinGenerat
 import com.gregtechceu.gtceu.common.data.GTBedrockFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTOres;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -24,8 +27,6 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
@@ -39,13 +40,14 @@ import static com.gtolib.api.data.GTOWorldGenLayers.ALL_LAYER;
 @SuppressWarnings("unused")
 public final class GTOOres {
 
-    private static final Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new Object2ObjectOpenHashMap<>();
-    public static final Map<ResourceLocation, Object2IntOpenHashMap<Material>> ALL_ORES = new Object2ObjectOpenHashMap<>();
+    private static final Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new O2OOpenCacheHashMap<>();
+    public static final Map<ResourceLocation, Object2IntOpenHashMap<Material>> ALL_ORES = new O2OOpenCacheHashMap<>();
 
+    @SuppressWarnings("ConstantConditions")
     public static void init() {
         GTBedrockFluids.init();
         if (false) {
-            Map<ResourceLocation, Set<String>> ORE_MAP = new Object2ObjectOpenHashMap<>();
+            Map<ResourceLocation, Set<String>> ORE_MAP = new O2OOpenCacheHashMap<>();
             ORE_MAP.put(THE_NETHER, Set.of("TagPrefix.oreNetherrack"));
             ORE_MAP.put(THE_END, Set.of("TagPrefix.oreEndstone"));
             ORE_MAP.put(MOON, Set.of("GTOTagPrefix.MOON_STONE"));
@@ -60,9 +62,9 @@ public final class GTOOres {
             ORE_MAP.put(ENCELADUS, Set.of("GTOTagPrefix.ENCELADUS_STONE"));
             ORE_MAP.put(CERES, Set.of("GTOTagPrefix.CERES_STONE"));
             StringBuilder stringBuilder = new StringBuilder();
-            Map<String, Set<String>> a = new Object2ObjectOpenHashMap<>();
+            Map<String, Set<String>> a = new O2OOpenCacheHashMap<>();
             GTOOres.ALL_ORES.forEach((k, v) -> v.keySet().forEach(m -> {
-                Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new ObjectOpenHashSet<>());
+                Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new OpenCacheHashSet<>());
                 if (ORE_MAP.containsKey(k)) b.addAll(ORE_MAP.get(k));
                 a.put(StringIndex.MATERIAL_MAP.get(m), b);
             }));
@@ -134,6 +136,20 @@ public final class GTOOres {
                     .spread(b -> b.mat(Uraninite)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Pitchblende)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
+
+    private static final GTOreDefinition BORAX_VEIN = create("borax_vein", vein -> vein
+            .clusterSize(UniformInt.of(32, 64)).density(0.25f).weight(30)
+            .layer(ALL_LAYER)
+            .dimensions(VENUS, MARS, CERES, OTHERSIDE)
+            .heightRangeUniform(30, 60)
+            .cuboidVeinGenerator(generator -> generator
+                    .top(b -> b.mat(RockSalt).size(2))
+                    .middle(b -> b.mat(Borax).size(3))
+                    .bottom(b -> b.mat(Salt).size(2))
+                    .spread(b -> b.mat(Lepidolite)))
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Borax)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition SCHEELITE_VEIN = create("scheelite_vein", vein -> vein
@@ -800,7 +816,7 @@ public final class GTOOres {
         ResourceLocation id = GTCEu.id(name);
         GTOreDefinition definition = GTOres.create(id, config);
         List<VeinGenerator.VeinEntry> entries = definition.veinGenerator().getAllEntries();
-        Object2IntOpenHashMap<Material> materialMap = new Object2IntOpenHashMap<>();
+        Object2IntOpenHashMap<Material> materialMap = new O2IOpenCacheHashMap<>();
         List<WeightedMaterial> materials = new ArrayList<>(entries.size());
         for (VeinGenerator.VeinEntry entry : entries) {
             Material material = entry.vein().right().orElse(null);
@@ -811,7 +827,7 @@ public final class GTOOres {
             }
         }
         for (ResourceKey<Level> dimension : definition.dimensionFilter()) {
-            Object2IntOpenHashMap<Material> materialIntegerMap = ALL_ORES.computeIfAbsent(dimension.location(), k -> new Object2IntOpenHashMap<>());
+            Object2IntOpenHashMap<Material> materialIntegerMap = ALL_ORES.computeIfAbsent(dimension.location(), k -> new O2IOpenCacheHashMap<>());
             materialMap.forEach((material, amount) -> materialIntegerMap.mergeInt(material, amount, Math::max));
             ALL_ORES.put(dimension.location(), materialIntegerMap);
         }

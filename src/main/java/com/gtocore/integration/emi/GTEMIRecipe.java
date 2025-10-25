@@ -1,13 +1,12 @@
 package com.gtocore.integration.emi;
 
-import com.gtocore.common.data.GTORecipes;
-
 import com.gtolib.api.recipe.ContentBuilder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
@@ -17,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -32,6 +30,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.jei.ModularWrapper;
+import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -40,21 +39,25 @@ import dev.emi.emi.api.stack.TagEmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.IntSupplier;
 
 public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
+
+    private static final Map<GTRecipeType, Widget> EMI_RECIPE_WIDGETS = new Reference2ReferenceOpenHashMap<>();
 
     private final EmiRecipeCategory category;
     private final Recipe recipe;
     public final IntSupplier displayPriority;
 
     public GTEMIRecipe(Recipe recipe, EmiRecipeCategory category) {
-        super(() -> GTORecipes.EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, type.getRecipeUI().getJEISize().height)));
+        super(() -> EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, getHeight(recipe))));
         this.recipe = recipe;
         this.category = category;
         displayPriority = () -> recipe.displayPriority;
@@ -62,7 +65,11 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         widget = () -> new GTRecipeWidget(recipe);
     }
 
-    public RecipeType<?> getRecipeType() {
+    public int getTier() {
+        return recipe.tier;
+    }
+
+    public GTRecipeType getRecipeType() {
         return recipe.recipeType;
     }
 
@@ -72,6 +79,15 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                     recipe.recipeType.getRecipeUI().getOriginalWidth()) / 2;
         }
         return 0;
+    }
+
+    private static int getHeight(Recipe recipe) {
+        return recipe.recipeType.getRecipeUI().getJEISize().height + recipe.conditions.size() * 10;
+    }
+
+    @Override
+    public int getDisplayHeight() {
+        return getHeight(recipe);
     }
 
     @SuppressWarnings("all")
@@ -92,10 +108,12 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
             } else {
                 Item item = itemStack.getItem();
                 CompoundTag nbt = itemStack.getTag();
-                if (nbt == null) {
+                if (nbt == null || nbt.isEmpty()) {
                     return new ItemEmiStack(item, null, amount);
                 }
-                return new StrictNBTEmiIngredient(item, nbt, amount);
+                var stack = new ItemEmiStack(item, nbt, amount);
+                stack.comparison(EmiPort.compareStrict());
+                return stack;
             }
         }
         return EmiStack.EMPTY;

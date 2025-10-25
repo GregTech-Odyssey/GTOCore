@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.MathUtil;
-import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -15,16 +14,18 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
+import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -33,18 +34,15 @@ import net.minecraft.world.level.block.Block;
 
 import com.hepdd.gtmthings.api.machine.fancyconfigurator.ButtonConfigurator;
 import com.hepdd.gtmthings.api.transfer.UnlimitItemTransferHelper;
+import com.lowdragmc.lowdraglib.gui.editor.Icons;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,7 +54,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class HugeBusPartMachine extends TieredIOPartMachine implements IMachineLife {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HugeBusPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private final HugeNotifiableItemStackHandler inventory;
     @Nullable
@@ -68,11 +65,6 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         super(holder, GTValues.IV, IO.IN);
         this.inventory = new HugeNotifiableItemStackHandler(this);
         workingEnabled = false;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -94,10 +86,9 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
     }
 
     private void refundAll(ClickData clickData) {
-        if (ItemTransferHelper.getItemTransfer(getLevel(), getPos().relative(getFrontFacing()), getFrontFacing().getOpposite()) != null) {
-            setWorkingEnabled(false);
-            exportToNearby(inventory, getFrontFacing());
-        }
+        if (clickData.isRemote) return;
+        setWorkingEnabled(false);
+        exportToNearby(inventory, getFrontFacing());
     }
 
     @Override
@@ -119,7 +110,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
 
     @Override
     public void onMachineRemoved() {
-        clearInventory(inventory);
+        clearInventory(inventory.storage);
     }
 
     private void updateInventorySubscription() {
@@ -140,13 +131,11 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         }
     }
 
-    private void exportToNearby(NotifiableItemStackHandler handler, @NotNull Direction... facings) {
-        if (handler.isEmpty()) return;
+    private void exportToNearby(HugeNotifiableItemStackHandler handler, @NotNull Direction facing) {
+        if (handler.getCount() < 1) return;
         var level = getLevel();
         var pos = getPos();
-        for (Direction facing : facings) {
-            UnlimitItemTransferHelper.exportToTarget(handler, Integer.MAX_VALUE, f -> true, level, pos.relative(facing), facing.getOpposite());
-        }
+        UnlimitItemTransferHelper.exportToTarget(handler.storage, Integer.MAX_VALUE, f -> true, level, pos.relative(facing), facing.getOpposite());
     }
 
     @Override
@@ -163,29 +152,45 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
 
     @Override
     public Widget createUIWidget() {
-        int height = 117;
-        int width = 178;
-        var group = new WidgetGroup(0, 0, width + 8, height + 4);
-        var componentPanel = new ComponentPanelWidget(8, 5, this::addDisplayText).setMaxWidthLimit(width - 16);
-        var screen = new DraggableScrollableWidgetGroup(4, 4, width, height).setBackground(GuiTextures.DISPLAY).addWidget(componentPanel);
-        group.addWidget(screen);
+        var group = new WidgetGroup(0, 0, 109, 63);
+        var importItems = createImportItems();
+        group.addWidget(new ImageWidget(4, 4, 82, 55, GuiTextures.DISPLAY))
+                .addWidget(new LabelWidget(8, 8, "gtceu.machine.quantum_chest.items_stored"))
+                .addWidget(new LabelWidget(8, 18, () -> FormattingUtil.formatNumbers(inventory.getCount())))
+                .addWidget(new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(importItems, 0, 87, 4, false, true).setBackgroundTexture(new GuiTextureGroup(GuiTextures.SLOT, GuiTextures.IN_SLOT_OVERLAY)))
+                .addWidget(new com.gregtechceu.gtceu.api.gui.widget.SlotWidget(inventory, 0, 87, 22, false, false).setItemHook(s -> s.copyWithCount((int) Math.min(inventory.getCount(), s.getMaxStackSize()))).setBackgroundTexture(GuiTextures.SLOT))
+                .addWidget(new ButtonWidget(87, 41, 18, 18, new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, Icons.DOWN.scale(0.7F)), cd -> {
+                    if (!cd.isRemote) {
+                        if (!inventory.isEmpty()) {
+                            var extracted = inventory.extractItemInternal(0, (int) Math.min(inventory.getCount(), inventory.getStackInSlot(0).getMaxStackSize()), false);
+                            if (!group.getGui().entityPlayer.addItem(extracted)) {
+                                Block.popResource(group.getGui().entityPlayer.level(), group.getGui().entityPlayer.getOnPos(), extracted);
+                            }
+                        }
+                    }
+                }));
+        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
 
-    private void addDisplayText(@NotNull List<Component> textList) {
-        var is = inventory.getStackInSlot(0);
-        if (inventory.getCount() > 0 && !is.isEmpty()) {
-            textList.add(is.getDisplayName().copy().setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)).append(NumberUtils.numberText(inventory.getCount()).setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA))));
-        }
-        if (textList.isEmpty()) {
-            textList.add(Component.translatable("gtmthings.machine.huge_item_bus.tooltip.3"));
-        }
+    private CustomItemStackHandler createImportItems() {
+        var importItems = new CustomItemStackHandler();
+        importItems.setFilter(itemStack -> inventory.canCapInput() && (inventory.insertItem(0, itemStack, true).getCount() != itemStack.getCount()));
+        importItems.setOnContentsChanged(() -> {
+            var item = importItems.getStackInSlot(0).copy();
+            if (!item.isEmpty()) {
+                importItems.setStackInSlot(0, ItemStack.EMPTY);
+                importItems.onContentsChanged(0);
+                inventory.insertItem(0, item.copy(), false);
+            }
+        });
+        return importItems;
     }
 
     private static final class HugeNotifiableItemStackHandler extends NotifiableItemStackHandler {
 
         private HugeNotifiableItemStackHandler(MetaMachine machine) {
-            super(machine, 1, IO.IN, IO.IN, i -> new HugeCustomItemStackHandler());
+            super(machine, 1, IO.IN, IO.BOTH, i -> new HugeCustomItemStackHandler());
         }
 
         private long getCount() {
@@ -198,19 +203,42 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         }
 
         @Override
-        @Nullable
-        public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
-            long c = getCount();
-            if (c < 1) return null;
-            if (itemMap == null) {
-                itemMap = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
+        public boolean forEachItems(ObjectLongPredicate<ItemStack> function) {
+            var amount = ((HugeCustomItemStackHandler) storage).count;
+            if (amount > 0) {
+                return function.test(getStackInSlot(0), amount);
             }
+            return false;
+        }
+
+        @Override
+        public void fastForEachItems(ObjectLongConsumer<ItemStack> function) {
+            var amount = ((HugeCustomItemStackHandler) storage).count;
+            if (amount > 0) {
+                function.accept(getStackInSlot(0), amount);
+            }
+        }
+
+        @Override
+        public boolean isEmpty() {
+            if (this.isEmpty == null) {
+                this.isEmpty = ((HugeCustomItemStackHandler) storage).stack.isEmpty();
+            }
+
+            return this.isEmpty;
+        }
+
+        @Override
+        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
             if (changed) {
                 changed = false;
-                itemMap.clear();
-                itemMap.put(getStackInSlot(0), getCount());
+                intIngredientMap.clear();
+                var amount = ((HugeCustomItemStackHandler) storage).count;
+                if (amount > 0) {
+                    type.convertItem(getStackInSlot(0), amount, intIngredientMap);
+                }
             }
-            return itemMap;
+            return intIngredientMap;
         }
 
         @Override
@@ -274,7 +302,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
 
         @Override
         public void setStackInSlot(int index, @NotNull ItemStack stack) {
-            this.stack = stack.copy();
+            this.stack = stack;
             count = stack.getCount();
             onContentsChanged(index);
         }

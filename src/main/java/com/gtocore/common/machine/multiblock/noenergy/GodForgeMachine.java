@@ -10,6 +10,7 @@ import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.utils.ClientUtil;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -28,7 +29,6 @@ import net.minecraft.world.level.material.Fluids;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -39,14 +39,6 @@ import static com.gtolib.api.GTOValues.GRAVITON_FLOW_TIER;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class GodForgeMachine extends NoEnergyMultiblockMachine implements ITierCasingMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            GodForgeMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @DescSynced
     @Persisted
@@ -122,8 +114,8 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
                     if (letter == ' ') continue;
                     BlockPos realPos = getRealPos(x, y, z);
                     if (!getLevel().isLoaded(realPos)) return false;
-                    int flags = Block.UPDATE_MOVE_BY_PISTON | Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_CLIENTS | Block.UPDATE_IMMEDIATE;
-                    getLevel().setBlock(realPos, Blocks.AIR.defaultBlockState(), flags);
+                    getLevel().setBlock(realPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_KNOWN_SHAPE);
+                    ClientUtil.getPreventUpdate(getLevel()).add(realPos.asLong());
                 }
             }
         }
@@ -159,8 +151,8 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
                     BlockPos realPos = getRealPos(x, y, z);
                     if (!getLevel().isLoaded(realPos)) return false;
                     BlockState blockState = ringStructure.mapper.get(letter).defaultBlockState();
-                    int flags = Block.UPDATE_MOVE_BY_PISTON | Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_CLIENTS | Block.UPDATE_IMMEDIATE;
-                    getLevel().setBlock(realPos, blockState, flags);
+                    ClientUtil.getPreventUpdate(getLevel()).remove(realPos.asLong());
+                    getLevel().setBlock(realPos, blockState, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_KNOWN_SHAPE);
                 }
             }
         }

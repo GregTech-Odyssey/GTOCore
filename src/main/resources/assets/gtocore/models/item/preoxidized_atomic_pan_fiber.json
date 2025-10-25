@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/fiber/atomic",
+    "layer1": "gtocore:item/fiber/pre_oxidized"
+  }
+}

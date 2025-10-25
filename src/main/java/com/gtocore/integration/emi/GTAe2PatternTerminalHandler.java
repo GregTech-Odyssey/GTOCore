@@ -2,6 +2,10 @@ package com.gtocore.integration.emi;
 
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
+import com.gtolib.api.ae2.IPatterEncodingTermMenu;
+import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.utils.ClientUtil;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,11 +16,11 @@ import net.minecraft.world.inventory.Slot;
 
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+import appeng.integration.modules.emi.EmiStackHelper;
 import appeng.integration.modules.jeirei.EncodingHelper;
 import appeng.integration.modules.jeirei.TransferHelper;
 import appeng.menu.me.common.GridInventoryEntry;
 import appeng.menu.me.items.PatternEncodingTermMenu;
-import com.hepdd.ae2emicraftingforge.client.helper.mapper.EmiStackHelper;
 import dev.emi.emi.api.recipe.EmiPlayerInventory;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.EmiCraftContext;
@@ -35,8 +39,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.hepdd.ae2emicraftingforge.client.helper.rendering.Rendering.getInnerBounds;
-import static com.hepdd.ae2emicraftingforge.client.helper.rendering.Rendering.isInputSlot;
+import static appeng.integration.modules.emi.AbstractRecipeHandler.getInnerBounds;
+import static appeng.integration.modules.emi.AbstractRecipeHandler.isInputSlot;
 
 final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> implements EmiRecipeHandler<T> {
 
@@ -121,9 +125,15 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
     @Override
     public boolean craft(EmiRecipe recipe, EmiCraftContext<T> context) {
         T menu = context.getScreenHandler();
+        ((IPatterEncodingTermMenu) menu).gtolib$addUUID(ClientUtil.getUUID());
         if (isCrafting(recipe)) {
             EncodingHelper.encodeCraftingRecipe(menu, recipe.getBackingRecipe(), GTEmiEncodingHelper.ofInputs(recipe), i -> true);
         } else {
+            if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.RECIPE_MAP.containsKey(gtemiRecipe.getId())) {
+                ((IPatterEncodingTermMenu) menu).gtolib$addRecipe(gtemiRecipe.getId().toString());
+            } else {
+                ((IPatterEncodingTermMenu) menu).gtolib$addRecipe("");
+            }
             EncodingHelper.encodeProcessingRecipe(menu,
                     GTEmiEncodingHelper.ofInputs(recipe),
                     ofOutputs(recipe));

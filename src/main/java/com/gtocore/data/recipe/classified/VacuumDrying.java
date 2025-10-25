@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.GTOCore;
@@ -52,6 +53,23 @@ final class VacuumDrying {
                 .outputItems(TagPrefix.dust, GTMaterials.Indium, 32)
                 .outputFluids(GTOMaterials.RedMud.getFluid(200))
                 .outputFluids(GTMaterials.Water.getFluid(2000))
+                .EUt(7680)
+                .duration(2400)
+                .blastFurnaceTemp(4500)
+                .save();
+
+        VACUUM_DRYING_RECIPES.builder("rarest_metal_mixture_dust")
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.ParamagneticResidues, 48)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.FerromagneticResidues, 128)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.HeavyDiamagneticResidues, 48)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.HeavyFerromagneticResidues, 48)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.HeavyParamagneticResidues, 24)
+                .outputItems(GTOTagPrefix.dust, GTMaterials.RarestMetalMixture, 24)
+                .outputItems(GTOTagPrefix.dust, GTMaterials.MetalMixture, 128)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.NanoScaleTungsten, 32)
+                .inputFluids(GTOMaterials.MetalCompoundParticleFront, 4000)
+                .outputFluids(GTOMaterials.RedMud, 200)
+                .outputFluids(GTMaterials.Water, 2000)
                 .EUt(7680)
                 .duration(2400)
                 .blastFurnaceTemp(4500)

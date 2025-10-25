@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gtocore.api.machine.part.ITempPartMachine;
-import com.gtocore.api.machine.part.IVacuumPartMachine;
+import com.gtocore.api.machine.ITempPartMachine;
+import com.gtocore.api.machine.IVacuumPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -9,19 +9,11 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 public class TempVacuumInterfacePartMachine extends TieredPartMachine implements ITempPartMachine, IVacuumPartMachine {
 
     @Persisted
     private int temperature = 293;
-    protected ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(TempVacuumInterfacePartMachine.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private TickableSubscription tickableSubscription;
 
@@ -32,10 +24,7 @@ public class TempVacuumInterfacePartMachine extends TieredPartMachine implements
     @Override
     public void onLoad() {
         super.onLoad();
-        tickableSubscription = subscribeServerTick(tickableSubscription, () -> {
-            this.update();
-            this.tickUpdate();
-        });
+        tickableSubscription = subscribeServerTick(tickableSubscription, this::tickUpdate);
     }
 
     @Override

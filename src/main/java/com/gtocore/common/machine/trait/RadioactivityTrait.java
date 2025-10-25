@@ -9,12 +9,11 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,18 +22,10 @@ import java.util.Set;
 
 public final class RadioactivityTrait extends MultiblockTrait {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            RadioactivityTrait.class, MultiblockTrait.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
     @Persisted
     private int recipeRadioactivity;
 
-    private final Set<RadiationHatchPartMachine> radiationHatchPartMachines = new ObjectOpenHashSet<>();
+    private final Set<RadiationHatchPartMachine> radiationHatchPartMachines = new OpenCacheHashSet<>();
 
     public RadioactivityTrait(IMultiblockTraitHolder machine) {
         super(machine);

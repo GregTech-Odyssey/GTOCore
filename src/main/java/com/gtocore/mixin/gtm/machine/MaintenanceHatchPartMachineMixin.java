@@ -2,13 +2,12 @@ package com.gtocore.mixin.gtm.machine;
 
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
-import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
+import com.gtolib.api.machine.feature.multiblock.IDroneControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
@@ -37,17 +36,17 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     protected int timeActive;
 
     @Unique
-    private DroneControlCenterMachine gtolib$cache;
+    private IDroneControlCenterMachine gtolib$cache;
 
     @Unique
     @SuppressWarnings("all")
-    public DroneControlCenterMachine getNetMachineCache() {
+    public IDroneControlCenterMachine getNetMachineCache() {
         return gtolib$cache;
     }
 
     @Unique
     @SuppressWarnings("all")
-    public void setNetMachineCache(DroneControlCenterMachine cache) {
+    public void setNetMachineCache(IDroneControlCenterMachine cache) {
         gtolib$cache = cache;
     }
 
@@ -56,16 +55,14 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
         if (maintenanceMachine.isFullAuto()) return;
         var pa = 1;
         for (var c : getControllers()) {
-            pa += c.getParts().size();
+            pa += c.getParts().length;
         }
         timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getDurationMultiplier() * pa * pa)));
         var value = timeActive - MINIMUM_MAINTENANCE_TIME;
         if (value > 0) {
             timeActive = value;
-            if (GTValues.RNG.nextBoolean()) {
-                causeRandomMaintenanceProblems();
-                maintenanceMachine.setTaped(false);
-            }
+            causeRandomMaintenanceProblems();
+            maintenanceMachine.setTaped(false);
         }
     }
 
@@ -88,10 +85,11 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)
     private void update(CallbackInfo ci) {
-        DroneControlCenterMachine centerMachine = getNetMachine();
+        IDroneControlCenterMachine centerMachine = getNetMachine();
         if (centerMachine != null) {
-            Drone drone = getFirstUsableDrone();
-            if (drone != null && drone.start(10, getNumMaintenanceProblems() << 6, GTOValues.MAINTAINING)) {
+            var eu = getNumMaintenanceProblems() << 6;
+            Drone drone = getFirstUsableDrone(d -> d.getCharge() >= eu);
+            if (drone != null && drone.start(10, eu, GTOValues.MAINTAINING)) {
                 fixAllMaintenanceProblems();
                 ci.cancel();
             }

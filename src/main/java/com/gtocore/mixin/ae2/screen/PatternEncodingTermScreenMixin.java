@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.Slot;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.client.gui.Icon;
+import appeng.client.gui.me.common.MEStorageScreen;
 import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.core.definitions.AEItems;
@@ -27,10 +28,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(PatternEncodingTermScreen.class)
-public class PatternEncodingTermScreenMixin implements IAEBaseScreenLifecycle {
+public class PatternEncodingTermScreenMixin<C extends PatternEncodingTermMenu> extends MEStorageScreen<C> implements IAEBaseScreenLifecycle {
 
     @Unique
     private FixedRepoSlot gtolib$fixedSlot;
+
+    public PatternEncodingTermScreenMixin(C menu, Inventory playerInventory, Component title, ScreenStyle style) {
+        super(menu, playerInventory, title, style);
+    }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$onInit(PatternEncodingTermMenu menu, Inventory playerInventory, Component title, ScreenStyle style, CallbackInfo ci) {
@@ -39,8 +44,6 @@ public class PatternEncodingTermScreenMixin implements IAEBaseScreenLifecycle {
                 List.of(Component.translatable("ldlib.gui.editor.name.canPutItems")
                         .append(AEItemKey.of(AEItems.BLANK_PATTERN).getDisplayName()).withStyle(ChatFormatting.AQUA)));
         gtolib$fixedSlot.setIcon(Icon.BACKGROUND_BLANK_PATTERN);
-        // var slots = ((IFixedRepoSlotHandlingScreen) this).gtolib$getMenu().slots;
-        // slots.add(gtolib$fixedSlot);
     }
 
     @Override

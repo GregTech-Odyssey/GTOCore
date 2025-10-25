@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -437,7 +438,7 @@ public final class NewResearchSystem {
                     .save();
 
             Material[] forSpools = { Iron, Steel, StainlessSteel, TungstenSteel, Osmiridium };
-            ItemStack[] Spools = { SPOOLS_MICRO.asStack(), SPOOLS_SMALL.asStack(), SPOOLS_MEDIUM.asStack(), SPOOLS_LARGE.asStack(), SPOOLS_JUMBO.asStack() };
+            Item[] Spools = { SPOOLS_MICRO.asItem(), SPOOLS_SMALL.asItem(), SPOOLS_MEDIUM.asItem(), SPOOLS_LARGE.asItem(), SPOOLS_JUMBO.asItem() };
             for (int n = 0; n < 5; n++) {
                 ASSEMBLER_RECIPES.recipeBuilder("make_spool_" + n)
                         .inputItems(plate, forSpools[n], 24)
@@ -477,6 +478,14 @@ public final class NewResearchSystem {
                         .addCondition(new VacuumCondition(4))
                         .save();
             }
+
+            LOOM_RECIPES.recipeBuilder("drawing_simple_fiber_optic")
+                    .inputItems(MultiStepItemHelper.locateStep(stack1, 4))
+                    .inputItems(SPOOLS_JUMBO)
+                    .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, 16384)
+                    .duration(1200)
+                    .EUt(VA[UIV])
+                    .save();
 
             LAMINATOR_RECIPES.recipeBuilder("make_simple_fiber_optic")
                     .inputItems(SIMPLE_FIBER_OPTIC_ROUGH)
@@ -701,7 +710,7 @@ public final class NewResearchSystem {
                     .inputItems(NICH_EMPTY_COMPONENT)
                     .inputItems(CustomTags.UEV_CIRCUITS, 2)
                     .inputItems(EMITTER_UHV)
-                    .inputItems(OPTICAL_PIPES[0].asStack(32))
+                    .inputItems(OPTICAL_PIPES[0].asItem(), 32)
                     .inputFluids(Helium.getFluid(LIQUID, 8000))
                     .outputItems(NICH_BRIDGE_COMPONENT)
                     .cleanroom(CleanroomType.CLEANROOM)

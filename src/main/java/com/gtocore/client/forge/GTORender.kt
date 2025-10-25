@@ -5,8 +5,6 @@ import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RenderLevelStageEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
-import java.util.*
-
 @OnlyIn(Dist.CLIENT)
 object GTORender {
     @SubscribeEvent

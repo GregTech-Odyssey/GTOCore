@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.item.component.IDurabilityBar;
 import com.gregtechceu.gtceu.api.item.component.IItemLifeCycle;
 import com.gregtechceu.gtceu.api.item.component.forge.IComponentCapability;
 import com.gregtechceu.gtceu.common.item.ProspectorScannerBehavior;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -172,12 +173,12 @@ public final class ManaProspectorBehavior extends ProspectorScannerBehavior impl
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
+    public void appendTooltips(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+        super.appendTooltips(stack, level, tooltipComponents, isAdvanced);
         int mana = getMana(stack);
         String formattedManaPool = String.format("%.2f", mana / (double) ManaPoolBlockEntity.MAX_MANA);
         String formattedMaxMana = String.format("%.2f", maxMana / (double) ManaPoolBlockEntity.MAX_MANA);
-        tooltipComponents.add(Component.translatable("gtocore.tooltip.item.prospector.mana.1", mana, maxMana));
+        tooltipComponents.add(Component.translatable("gtocore.tooltip.item.prospector.mana.1", FormattingUtil.formatNumbers(mana), FormattingUtil.formatNumbers(maxMana)));
         tooltipComponents.add(Component.translatable("gtocore.tooltip.item.prospector.mana.2", formattedManaPool, formattedMaxMana));
     }
 

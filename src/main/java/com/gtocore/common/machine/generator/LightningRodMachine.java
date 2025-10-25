@@ -29,7 +29,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class LightningRodMachine extends TieredEnergyMachine {
 
     private TickableSubscription energySubs;
-    @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_PROBABILITY, key = "lightning_rod.break_probability", simpleValue = "0.2D", normalValue = "0.3D", expertValue = "0.4D", cn = "雷击杆破坏概率", cnComment = "雷击杆被雷击后，被破坏的概率为%s。", en = "Lightning Rod Break Probability", enComment = "Probability of the lightning rod being destroyed after being struck by lightning: %s.")
+    @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_PROBABILITY, key = "lightning_rod.break_probability", easyValue = "0.2D", normalValue = "0.3D", expertValue = "0.4D", cn = "雷击杆破坏概率", cnComment = "雷击杆被雷击后，被破坏的概率为%s。", en = "Lightning Rod Break Probability", enComment = "Probability of the lightning rod being destroyed after being struck by lightning: %s.")
     private static double breakProbability = 1.0;
 
     public LightningRodMachine(MetaMachineBlockEntity holder, int tier, Object... args) {

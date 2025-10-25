@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -495,7 +494,7 @@ final class ReactorRecipes {
         CHEMICAL_RECIPES.recipeBuilder("itnt_from_toluene")
                 .inputItems(GELLED_TOLUENE, 4)
                 .inputFluids(NitrationMixture.getFluid(200))
-                .outputItems(new ItemStack(GTBlocks.INDUSTRIAL_TNT))
+                .outputItems(GTBlocks.INDUSTRIAL_TNT)
                 .outputFluids(DilutedSulfuricAcid.getFluid(150))
                 .duration(80).EUt(VA[HV]).save();
 

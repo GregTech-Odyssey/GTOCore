@@ -5,6 +5,7 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,19 +13,15 @@ import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implements IFluidRendererMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(LargeChemicalBathMachine.class, GCYMMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DescSynced
     @RequireRerender
-    private final Set<BlockPos> fluidBlockOffsets = new ObjectOpenHashSet<>();
+    private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
     @DescSynced
     private Fluid cachedFluid;
 
@@ -36,12 +33,6 @@ public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implem
     protected boolean beforeWorking(@Nullable Recipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
         return super.beforeWorking(recipe);
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

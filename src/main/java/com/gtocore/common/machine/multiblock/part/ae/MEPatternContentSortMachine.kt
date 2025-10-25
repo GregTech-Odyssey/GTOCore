@@ -5,7 +5,6 @@ import com.gtocore.api.gui.ktflexible.progressBar
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.FLUID
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.ITEM
-import com.gtocore.mixin.ae2.GridAccessor
 
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
@@ -27,7 +26,8 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
-import com.gtolib.api.annotation.Scanned
+import com.gtolib.api.ae2.IExpandedGrid
+import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.button
 import com.gtolib.api.gui.ktflexible.rootFresh
@@ -39,7 +39,6 @@ import com.lowdragmc.lowdraglib.misc.ItemTransferList
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
@@ -49,14 +48,13 @@ import kotlinx.coroutines.flow.*
 
 import java.util.concurrent.ConcurrentHashMap
 
-@Scanned
+@DataGeneratorScanned
 class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
     IFancyUIMachine,
     IGridConnectedMachine {
-    @Scanned
+    @DataGeneratorScanned
     companion object {
-        val manager = ManagedFieldHolder(MEPatternContentSortMachine::class.java, MANAGED_FIELD_HOLDER)
         const val PAGE_WIDTH = 276
         const val PAGE_HEIGHT = 166
 
@@ -72,8 +70,6 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
         @RegisterLanguage(cn = "模式 : 物品替换", en = "Mode : Item Replacement")
         const val mode_item = "gtocore.tooltip.pattern_content_sort_machine.mode.item"
     }
-
-    override fun getFieldHolder() = manager
 
     @DescSynced
     var isGridOnline: Boolean = false
@@ -123,7 +119,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
             grid.getActiveMachines(PatternProviderBlockEntity::class.java).forEach {
                 runnable.add { it.logic.updatePatterns() }
             }
-            if (grid is Grid && grid is GridAccessor) {
+            if (grid is Grid && grid is IExpandedGrid) {
                 val machinesPart = mutableListOf<MEPatternPartMachineKt<*>>()
                 grid.machines.forEach { _, node ->
                     if (node.isActive) {
@@ -244,8 +240,23 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
 
     override fun onLoad() {
         super.onLoad()
+        // Wire content-changed hooks so any ghost insert/remove persists immediately.
+        if (itemTransferList is MyItemTransferList) {
+            (itemTransferList as MyItemTransferList).onContentsChanged = Runnable {
+                externalLogic.fullyRefresh()
+                if (!isRemote) requestSync() else freshUI.run()
+            }
+        }
+        itemTransferList.transfers.forEach { t ->
+            if (t is MyItemStackTransfer) {
+                t.onContentsChanged = Runnable {
+                    externalLogic.fullyRefresh()
+                    if (!isRemote) requestSync() else freshUI.run()
+                }
+            }
+        }
         tickableSubscription = subscribeServerTick(tickableSubscription, {
-            if (!isRemote && !isInitialize && offsetTimer % 20 == 0L && gridNodeHolder.mainNode.isActive) {
+            if (!isRemote && !isInitialize && offsetTimer % 20 == 0 && gridNodeHolder.mainNode.isActive) {
                 level?.server?.tell(
                     TickTask(40) {
                         externalLogic.fullyRefresh()
@@ -277,7 +288,21 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
     @Persisted
     @DescSynced
     var itemTransferList: ItemTransferList = MyItemTransferList(*Array(10) { MyItemStackTransfer(10) })
-    private class MyItemStackTransfer(size: Int, var mode: MODE = ITEM) : ItemStackTransfer(size)
+    private inner class MyItemStackTransfer(size: Int, var mode: MODE = ITEM) :
+        ItemStackTransfer(size),
+        IContentChangeAware {
+        private var change: Runnable? = null
+        override fun setOnContentsChanged(a: Runnable?) {
+            change = a
+        }
+        override fun getOnContentsChanged(): Runnable? = change
+        override fun onContentsChanged(slot: Int) {
+            super.onContentsChanged(slot)
+            externalLogic.fullyRefresh()
+            if (!isRemote) requestSync() else freshUI.run()
+            change?.run()
+        }
+    }
     private class MyItemTransferList(vararg transfers: MyItemStackTransfer) :
         ItemTransferList(*transfers),
         IContentChangeAware {
@@ -334,6 +359,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
                                     PhantomSlotWidget(transfer, slotIndexInHandler, 0, 0).apply {
                                         setChangeListener {
                                             externalLogic.fullyRefresh()
+                                            if (!isRemote) requestSync()
                                             if (isRemote) freshUI.run()
                                         }
                                     },

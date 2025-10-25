@@ -2,7 +2,7 @@ package com.gtocore.common.machine.trait;
 
 import com.gtocore.common.machine.multiblock.electric.voidseries.INFFluidDrillMachine;
 
-import com.gtolib.api.machine.multiblock.DrillingControlCenterMachine;
+import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.IFluidDrillLogic;
 import com.gtolib.api.recipe.Recipe;
@@ -148,9 +148,5 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
     @Nullable
     public Fluid getVeinFluid() {
         return this.veinFluid;
-    }
-
-    public DrillingControlCenterMachine getCache() {
-        return this.cache;
     }
 }

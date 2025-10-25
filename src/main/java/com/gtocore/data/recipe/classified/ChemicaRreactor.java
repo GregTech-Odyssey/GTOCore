@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -13,9 +14,11 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.foil;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.tag.GTOTagPrefix.NANO;
+import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 
@@ -142,7 +145,7 @@ final class ChemicaRreactor {
 
         CHEMICAL_RECIPES.recipeBuilder("coated_board")
                 .inputItems(TagPrefix.plate, GTMaterials.Wood)
-                .inputItems(GTItems.STICKY_RESIN.asStack(2))
+                .inputItems(GTItems.STICKY_RESIN.asItem(), 2)
                 .outputItems(GTItems.COATED_BOARD.asItem())
                 .inputFluids(GTMaterials.Oxygen.getFluid(100))
                 .EUt(7)
@@ -361,7 +364,7 @@ final class ChemicaRreactor {
         CHEMICAL_RECIPES.recipeBuilder("hexanitrohexaaxaisowurtzitane_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.CrudeHexanitrohexaaxaisowurtzitane, 36)
                 .inputItems(TagPrefix.dust, GTOMaterials.SilicaGel, 3)
-                .inputFluids(GTOMaterials.Ethylenediamine.getFluid(1000))
+                .inputFluids(Ethylenediamine.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.Hexanitrohexaaxaisowurtzitane, 36)
                 .EUt(1920)
                 .duration(100)
@@ -754,6 +757,63 @@ final class ChemicaRreactor {
                 .EUt(480)
                 .duration(300)
                 .save();
+        CHEMICAL_RECIPES.recipeBuilder("diethyleneglycol")
+                .circuitMeta(2)
+                .inputFluids(GTOMaterials.EthyleneGlycol.getFluid(1000))
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputFluids(GTOMaterials.DiethyleneGlycol.getFluid(1000))
+                .EUt(480)
+                .duration(300)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("edta_dust")
+                .inputFluids(Ethylenediamine.getFluid(1000))
+                .inputFluids(ChloroaceticAcid.getFluid(4000))
+                .inputFluids(Water.getFluid(2000))
+                .outputItems(TagPrefix.dust, GTOMaterials.EDTA, 5)
+                .outputFluids(GTMaterials.DilutedHydrochloricAcid.getFluid(6000))
+                .EUt(480)
+                .duration(400)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("chloroaceticacid")
+                .inputFluids(AceticAcid.getFluid(1000))
+                .inputFluids(Chlorine.getFluid(1000))
+                .circuitMeta(6)
+                .outputFluids(ChloroaceticAcid.getFluid(1000))
+                .outputFluids(HydrochloricAcid.getFluid(1000))
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("ctab_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.HexadecylBromide, 1)
+                .inputFluids(GTOMaterials.Trimethylamine.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.CTAB, 1)
+                .outputFluids(GTOMaterials.HydrobromicAcid.getFluid(1000))
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("trimethylamine")
+                .inputItems(TagPrefix.dust, GTMaterials.SodaAsh, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Salt, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.SodiumBicarbonate, 3)
+                .inputFluids(GTMaterials.Ammonia, 1000)
+                .inputFluids(GTMaterials.Chloromethane, 3000)
+                .outputFluids(GTOMaterials.Trimethylamine, 4000)
+                .EUt(30)
+                .duration(111)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("hexadecyl_bromide")
+                .inputItems(TagPrefix.dust, GTOMaterials.Cetane, 1)
+                .inputFluids(GTMaterials.Bromine.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.HexadecylBromide, 1)
+                .outputFluids(GTOMaterials.HydrobromicAcid.getFluid(1000))
+                .EUt(480)
+                .duration(200)
+                .save();
 
         CHEMICAL_RECIPES.recipeBuilder("butane_1_4_diol")
                 .inputItems(GTOTagPrefix.CATALYST, GTOMaterials.MolybdenumTrioxide)
@@ -1122,13 +1182,24 @@ final class ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("succinic_acid_dust")
-                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.RhodiumPlatedPalladium)
+                .inputItems(GTOTagPrefix.CATALYST, GTOMaterials.RhodiumTriphenylphosphineChloride)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .inputFluids(GTMaterials.Hydrogen.getFluid(1000))
                 .inputFluids(GTOMaterials.MaleicAnhydride.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 14)
                 .EUt(1920)
                 .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("rhodium_triphenylphosphine_chloride")
+                .inputItems(TagPrefix.dust, GTMaterials.Rhodium, 1)
+                .inputFluids(GTOMaterials.Triphenylphosphine.getFluid(3000))
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.RhodiumTriphenylphosphineChloride, 1)
+                .outputFluids(GTMaterials.Hydrogen.getFluid(1000))
+                .EUt(1920)
+                .duration(300)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("lithium_chloride_dust")
@@ -1232,6 +1303,7 @@ final class ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("ethanolamine")
+                .circuitMeta(2)
                 .inputFluids(GTMaterials.Ammonia.getFluid(1000))
                 .inputFluids(GTOMaterials.EthyleneOxide.getFluid(1000))
                 .outputFluids(GTOMaterials.Ethanolamine.getFluid(1000))
@@ -1316,7 +1388,7 @@ final class ChemicaRreactor {
                 .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Palladium)
                 .inputFluids(GTMaterials.Ammonia.getFluid(1000))
                 .inputFluids(GTOMaterials.Ethanolamine.getFluid(1000))
-                .outputFluids(GTOMaterials.Ethylenediamine.getFluid(1000))
+                .outputFluids(Ethylenediamine.getFluid(1000))
                 .outputFluids(GTMaterials.Water.getFluid(1000))
                 .EUt(120)
                 .duration(180)
@@ -1397,8 +1469,9 @@ final class ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("sodium_azanide_dust")
+                .circuitMeta(1)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium)
-                .inputFluids(GTMaterials.Ammonia.getFluid(1000))
+                .inputFluids(LiquidAmmonia.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumAzanide, 4)
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000))
                 .EUt(120)
@@ -1489,13 +1562,326 @@ final class ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("isopropyl_alcohol")
-                .notConsumable(TagPrefix.dust, GTMaterials.Tungstate)
-                .notConsumable(TagPrefix.dust, GTOMaterials.SodiumSeaborgate)
+                .notConsumableFluid(MercuryAcetate.getFluid(75))
                 .inputFluids(GTMaterials.Propene.getFluid(1000))
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputFluids(GTOMaterials.IsopropylAlcohol.getFluid(1000))
                 .EUt(480)
                 .duration(400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("magnesium_chloride_dust0propylene_carbonate")
+                .inputItems(TagPrefix.dust, GTMaterials.Magnesium, 2)
+                .outputItems(TagPrefix.dust, GTMaterials.MagnesiumChloride, 2)
+                .inputFluids(GTOMaterials.Phosgene, 1000)
+                .inputFluids(GTMaterials.AllylChloride, 2000)
+                .outputFluids(GTOMaterials.PropyleneCarbonate, 1000)
+                .EUt(2400)
+                .duration(120)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("mecury_acetate")
+                .inputFluids(GTMaterials.Mercury.getFluid(1000))
+                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(GTMaterials.AceticAcid.getFluid(1000))
+                .outputFluids(MercuryAcetate.getFluid(1000))
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("iron_chromium_energy_release_cathode")
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumSulfate)
+                .inputFluids(GTOMaterials.ChromiumSulfate, 4000)
+                .inputFluids(GTOMaterials.IsopropylAlcohol, 100)
+                .outputFluids(IronChromiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 16000))
+                .EUt(40)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("hydrogen_vanadium_energy_release_cathode")
+                .inputItems(TagPrefix.dust, GTMaterials.Vanadium, 4)
+                .inputItems(TagPrefix.dust, SodiumSulfate, 4)
+                .inputFluids(GTMaterials.SulfuricAcid, 4000)
+                .inputFluids(GTMaterials.PhosphoricAcid, 3000)
+                .inputFluids(GTOMaterials.Tempo, 1000)
+                .outputFluids(GTMaterials.Hydrogen, 4000)
+                .outputFluids(VanadiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 16000))
+                .EUt(400)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("all_vanadium_energy_release_anode")
+                .inputItems(TagPrefix.dust, GTMaterials.Vanadium, 4)
+                .inputFluids(GTMaterials.SulfuricAcid, 4000)
+                .inputFluids(GTMaterials.PhosphoricAcid, 3000)
+                .inputFluids(GTOMaterials.Tempo, 500)
+                .inputFluids(GTMaterials.Oxygen, 8000)
+                .inputFluids(GTMaterials.Acetone, 500)
+                .outputFluids(VanadiumRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 16000))
+                .EUt(400)
+                .duration(120)
+                .save();
+        CHEMICAL_RECIPES.builder("ammonium_bromide_dust")
+                .circuitMeta(1)
+                .outputItems(TagPrefix.dust, GTOMaterials.AmmoniumBromide, 6)
+                .inputFluids(GTOMaterials.HydrobromicAcid, 1000)
+                .inputFluids(GTMaterials.Ammonia, 1000)
+                .EUt(60)
+                .duration(120)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("tempo")
+                .inputFluids(GTOMaterials.Tetramethylpiperidine.getFluid(1000))
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumHypochlorite, 2)
+                .notConsumable(BLACKLIGHT)
+                .outputFluids(Tempo.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .outputItems(TagPrefix.dust, Salt, 2)
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("tetramethylpiperidine")
+                .inputFluids(GTMaterials.Acetone.getFluid(4000))
+                .notConsumable(dust, Alumina)
+                .inputFluids(GTMaterials.Ammonia.getFluid(1000))
+                .inputFluids(GTMaterials.Formaldehyde.getFluid(2000))
+                .outputFluids(GTOMaterials.Tetramethylpiperidine.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(5000))
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("zinc_iodide_energy_release_cathode")
+                .inputItems(TagPrefix.dust, GTMaterials.Zinc, 4)
+                .inputItems(TagPrefix.dust, GTOMaterials.AmmoniumBromide)
+                .inputItems(TagPrefix.dust, GTMaterials.PotassiumIodide)
+                .inputFluids(GTMaterials.Water, 6000)
+                .inputFluids(GTMaterials.AceticAcid, 1000)
+                .inputFluids(GTOMaterials.IsopropylAlcohol, 1000)
+                .inputFluids(Mercury, 72)
+                .inputFluids(Tritanium, 72)
+                .outputFluids(ZincIodideFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 16000))
+                .EUt(800)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("zinc_iodide_energy_release_anode")
+                .inputItems(TagPrefix.dust, GTMaterials.Iodine, 4)
+                .inputItems(TagPrefix.dust, GTMaterials.PotassiumIodide, 4)
+                .inputFluids(GTMaterials.Bromine, 1000)
+                .inputFluids(GTMaterials.Water, 6000)
+                .inputFluids(GTOMaterials.Polyvinylpyrrolidone, 1000)
+                .outputFluids(ZincIodideFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 16000))
+                .EUt(800)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("superconducting_ion_energy_release_cathode")
+                .inputItems(GTOItems.AEROGRAPHENE.asItem())
+                .inputFluids(GTOMaterials.PhantomicElectrolyteBuffer, 10000)
+                .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 10000)
+                .inputFluids(GTOMaterials.PropyleneCarbonate, 2000)
+                .inputFluids(Etrium, 800)
+                .outputFluids(SuperconductingIonRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 32000))
+                .EUt(2400)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("superconducting_ion_energy_release_anode")
+                .inputFluids(GTOMaterials.PhantomicElectrolyteBuffer, 10000)
+                .inputFluids(GTOMaterials.UltraLowViscosityIonicCarrier, 10000)
+                .inputFluids(GTOMaterials.PropyleneCarbonate, 2000)
+                .inputFluids(GTOMaterials.Quantanium, 800)
+                .inputFluids(GTOMaterials.Sunnarium, 10)
+                .outputFluids(SuperconductingIonRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 32000))
+                .EUt(2400)
+                .duration(120)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("n_methylphthalimide")
+                .inputItems(TagPrefix.dust, GTOMaterials.PhthalicAnhydride)
+                .inputFluids(GTOMaterials.Methylamine, 1000)
+                .outputFluids(GTOMaterials.NMethylphthalimide, 1000)
+                .EUt(192)
+                .duration(180)
+                .save();
+        CHEMICAL_RECIPES.builder("para_benzoquinone")
+                .inputFluids(GTMaterials.Phenol, 1000)
+                .inputFluids(GTMaterials.Oxygen, 1000)
+                .outputFluids(GTOMaterials.ParaBenzoquinone, 1000)
+                .circuitMeta(4)
+                .EUt(198)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("salt_dust_ditert_butyl_1_methoxy_methoxyethoxy_benzene")
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumAluminiumHydride, 2)
+                .outputItems(TagPrefix.dust, GTMaterials.Salt, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.AluminiumChloride, 2)
+                .inputFluids(GTOMaterials.ParaBenzoquinone, 1000)
+                .inputFluids(GTMaterials.Chloromethane, 1000)
+                .inputFluids(GTOMaterials.Chloroethoxyethane, 1000)
+                .inputFluids(GTOMaterials.TertButylChloride, 2000)
+                .outputFluids(GTOMaterials.DitertButyl1MethoxyMethoxyethoxyBenzene, 1000)
+                .EUt(1048576)
+                .duration(1920)
+                .save();
+        CHEMICAL_RECIPES.builder("chloroethoxyethane")
+                .inputFluids(GTMaterials.Methanol, 1000)
+                .inputFluids(GTOMaterials.EthyleneOxide, 1000)
+                .inputFluids(GTMaterials.HydrochloricAcid, 2000)
+                .outputFluids(GTOMaterials.Chloroethoxyethane, 1000)
+                .outputFluids(GTMaterials.DilutedHydrochloricAcid, 1000)
+                .circuitMeta(4)
+                .EUt(1980)
+                .duration(1200)
+                .save();
+        CHEMICAL_RECIPES.recipeBuilder("trifluoromethanesulfonyl_chloride")
+                .inputFluids(GTOMaterials.TrifluoromethanesulfonicAcid.getFluid(5000))
+                .inputFluids(GTOMaterials.PhosphorusPentachloride.getFluid(1000))
+                .outputFluids(GTOMaterials.TrifluoromethanesulfonylChloride.getFluid(5000))
+                .outputFluids(GTMaterials.PhosphoricAcid.getFluid(1000))
+                .EUt(480)
+                .duration(300)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("phosphorus_pentachloride")
+                .inputFluids(GTOMaterials.PhosphorusTrichloride, 1000)
+                .inputFluids(GTMaterials.Chlorine, 1000)
+                .outputFluids(GTOMaterials.PhosphorusPentachloride, 1000)
+                .circuitMeta(2)
+                .EUt(480)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("lithium_bis_trifluoromethanesulfonylimide_dust")
+                .outputItems(TagPrefix.dust, GTOMaterials.LithiumBisTrifluoromethanesulfonylimide)
+                .outputItems(TagPrefix.dust, GTMaterials.LithiumChloride)
+                .inputFluids(GTOMaterials.TrifluoromethanesulfonylChloride, 2000)
+                .inputFluids(GTOMaterials.LiquidAmmonia, 1000)
+                .inputFluids(GTOMaterials.ButylLithium, 2000)
+                .outputFluids(GTMaterials.Butane, 2000)
+                .EUt(48000)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("organic_molecule_energy_storage_cathode")
+                .inputItems(TagPrefix.dust, GTOMaterials.LithiumBisTrifluoromethanesulfonylimide)
+                .inputItems(TagPrefix.dust, CTAB)
+                .notConsumable(GTOTagPrefix.NANITES, Copper)
+                .inputFluids(GTOMaterials.DitertButyl1MethoxyMethoxyethoxyBenzene, 2000)
+                .inputFluids(GTOMaterials.Dimethoxyethane, 4000)
+                .outputFluids(OrganicMoleculeRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE, 16000))
+                .EUt(2400)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("organic_molecule_energy_storage_anode")
+                .inputItems(TagPrefix.dust, GTOMaterials.LithiumBisTrifluoromethanesulfonylimide)
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumTetrafluoroborate)
+                .inputFluids(GTOMaterials.Dimethoxyethane, 4000)
+                .inputFluids(GTOMaterials.NMethylphthalimide, 1000)
+                .outputFluids(OrganicMoleculeRedoxFlowBatteryElectrolyte.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE, 16000))
+                .EUt(2400)
+                .duration(120)
+                .save();
+        CHEMICAL_RECIPES.builder("sodium_sulfate_dust")
+                .inputItems(TagPrefix.dust, GTMaterials.Sodium)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumSulfate)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .outputFluids(GTMaterials.Hydrogen, 1000)
+                .EUt(7)
+                .duration(120)
+                .save();
+
+        CHEMICAL_RECIPES.builder("chlorosulfonic_acid")
+                .inputFluids(GTMaterials.HydrochloricAcid, 1000)
+                .inputFluids(GTMaterials.SulfurTrioxide, 1000)
+                .outputFluids(GTOMaterials.ChlorosulfonicAcid, 1000)
+                .circuitMeta(2)
+                .EUt(120)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("magnesium_chloride_dustsodium_allylsulfonate")
+                .inputItems(TagPrefix.dust, GTMaterials.Magnesium)
+                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide)
+                .outputItems(TagPrefix.dust, GTMaterials.MagnesiumChloride)
+                .inputFluids(GTMaterials.AllylChloride, 1000)
+                .inputFluids(GTOMaterials.ChlorosulfonicAcid, 1000)
+                .outputFluids(GTOMaterials.SodiumAllylsulfonate, 1000)
+                .EUt(1200)
+                .duration(1600)
+                .save();
+        CHEMICAL_RECIPES.builder("benzenesulfonic_acid")
+                .inputFluids(GTMaterials.Benzene, 1000)
+                .inputFluids(GTOMaterials.ChlorosulfonicAcid, 1000)
+                .outputFluids(GTOMaterials.BenzenesulfonicAcid, 1000)
+                .outputFluids(GTMaterials.HydrochloricAcid, 1000)
+                .EUt(120)
+                .duration(120)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("disulfonate_dichlorodiphenylsulfone")
+                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Copper)
+                .inputFluids(GTOMaterials.BenzenesulfonicAcid, 2000)
+                .inputFluids(GTMaterials.Chlorine, 2000)
+                .inputFluids(GTOMaterials.ThionylChloride, 1000)
+                .outputFluids(GTOMaterials.DisulfonateDichlorodiphenylsulfone, 1000)
+                .outputFluids(GTMaterials.HydrochloricAcid, 4000)
+                .EUt(1400)
+                .duration(1400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("dichlorodiphenylsulfone")
+                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Copper)
+                .inputFluids(GTMaterials.Chlorobenzene, 2000)
+                .inputFluids(GTOMaterials.ThionylChloride, 1000)
+                .outputFluids(GTOMaterials.Dichlorodiphenylsulfone, 1000)
+                .outputFluids(GTMaterials.Hydrogen, 1000)
+                .EUt(1400)
+                .duration(1400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("difluorodiphenylsulfone")
+                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Copper)
+                .inputFluids(GTOMaterials.FluoroBenzene, 3000)
+                .inputFluids(GTOMaterials.ThionylChloride, 1000)
+                .outputFluids(GTOMaterials.Difluorodiphenylsulfone, 1000)
+                .outputFluids(GTMaterials.Hydrogen, 1000)
+                .EUt(1400)
+                .duration(1400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("dimethylacetamide")
+                .inputFluids(GTOMaterials.AcetylChloride, 1000)
+                .inputFluids(GTMaterials.Dimethylamine, 1000)
+                .outputFluids(GTOMaterials.Dimethylacetamide, 1000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .EUt(140)
+                .duration(1400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("benzoic_acid")
+                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Silver)
+                .inputFluids(GTOMaterials.Benzaldehyde, 4000)
+                .inputFluids(GTMaterials.Oxygen, 1000)
+                .outputFluids(GTOMaterials.BenzoicAcid, 4000)
+                .EUt(140)
+                .duration(1400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("benzoic_anhydride")
+                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.PhosphorusPentoxide)
+                .inputFluids(GTOMaterials.BenzoicAcid, 4000)
+                .outputFluids(GTOMaterials.BenzoicAnhydride, 2000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .EUt(140)
+                .duration(1400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("benzoyl_peroxide_dust")
+                .outputItems(TagPrefix.dust, GTOMaterials.BenzoylPeroxide)
+                .inputFluids(GTOMaterials.BenzoicAnhydride, 1000)
+                .inputFluids(GTMaterials.HydrogenPeroxide, 1000)
+                .outputFluids(GTOMaterials.BenzoicAcid, 1000)
+                .EUt(1403)
+                .duration(1400)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("sulfonated_poly_arylene_ether_sulfone_random_copolymer_dust")
+                .inputItems(TagPrefix.dust, GTMaterials.PotassiumCarbonate)
+                .inputItems(TagPrefix.dust, GTOMaterials.BenzoylPeroxide)
+                .outputItems(TagPrefix.dust, GTOMaterials.SulfonatedPolyAryleneEtherSulfoneRandomCopolymer, 26)
+                .inputFluids(GTOMaterials.Dichlorodiphenylsulfone, 6000)
+                .inputFluids(GTOMaterials.Difluorodiphenylsulfone, 4000)
+                .inputFluids(GTOMaterials.DisulfonateDichlorodiphenylsulfone, 4000)
+                .inputFluids(GTOMaterials.Dimethylacetamide, 8000)
+                .inputFluids(GTMaterials.Toluene, 2000)
+                .outputFluids(GTMaterials.Water, 10000)
+                .EUt(140300)
+                .duration(1400)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("nitronium_tetrafluoroborate_dust")
@@ -1506,6 +1892,15 @@ final class ChemicaRreactor {
                 .outputFluids(GTMaterials.Water.getFluid(1000))
                 .EUt(1920)
                 .duration(40)
+                .save();
+        CHEMICAL_RECIPES.builder("tert_butyl_chloride")
+                .inputFluids(GTOMaterials.TertButanol, 1000)
+                .inputFluids(GTMaterials.HydrochloricAcid, 2000)
+                .outputFluids(GTOMaterials.TertButylChloride, 2000)
+                .outputFluids(GTMaterials.DilutedHydrochloricAcid, 1000)
+                .circuitMeta(4)
+                .EUt(198)
+                .duration(1200)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("ethylene_sulfide")
@@ -1740,7 +2135,7 @@ final class ChemicaRreactor {
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder("mutated_living_solder")
                 .notConsumable(GTItems.GRAVI_STAR.asItem())
-                .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(16))
+                .inputItems(GTOItems.BIOLOGICAL_CELLS.asItem(), 16)
                 .inputItems(GTItems.QUANTUM_STAR.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(FluidStorageKeys.PLASMA, 2000))
@@ -2851,7 +3246,7 @@ final class ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.builder("ethylenedioxythiophene")
-                .notConsumable(GTItems.GELLED_TOLUENE.asStack())
+                .notConsumable(GTItems.GELLED_TOLUENE.asItem())
                 .inputFluids(GTOMaterials.Dietoxythiophene, 1000)
                 .inputFluids(GTOMaterials.EthyleneGlycol, 1000)
                 .outputFluids(GTOMaterials.Ethylenedioxythiophene, 1000)
@@ -2887,6 +3282,181 @@ final class ChemicaRreactor {
                 .outputFluids(HydrogenSulfide.getFluid(480))
                 .outputFluids(RefineryGas.getFluid(8000))
                 .duration(400).EUt(VA[ULV]).save();
+
+        CHEMICAL_RECIPES.builder("chromic_acid_waste_recycle")
+                .inputFluids(GTOMaterials.ChromicAcidWaste.getFluid(2500))
+                .inputItems(dust, Zinc, 4)
+                .inputItems(dust, Iron, 4)
+                .outputFluids(Iron3Chloride.getFluid(3000))
+                .outputItems(dust, GTOMaterials.ZincSulfate, 3)
+                .outputItems(dustSmall, Chromium, 2)
+                .duration(400).EUt(VA[HV]).save();
+
+        CHEMICAL_RECIPES.builder("triphenylphosphine")
+                .inputFluids(Benzene.getFluid(3000))
+                .inputFluids(GTOMaterials.PhosphorusTrichloride.getFluid(1000))
+                .inputItems(dust, Zinc, 4)
+                .outputFluids(GTOMaterials.Triphenylphosphine.getFluid(1000))
+                .outputItems(dust, GTOMaterials.ZincChloride, 3)
+                .duration(400).EUt(VA[HV]).save();
+
+        CHEMICAL_RECIPES.builder("tris_hydrochloride")
+                .inputFluids(GTOMaterials.Tris.getFluid(5000))
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(500))
+                .outputFluids(GTOMaterials.TrisHydrochlorideSolution.getFluid(5000))
+                .outputFluids(GTMaterials.Water.getFluid(500))
+                .EUt(120)
+                .duration(60)
+                .save();
+
+        CHEMICAL_RECIPES.builder("tris")
+                .inputFluids(GTMaterials.Ammonia.getFluid(1000))
+                .inputFluids(GTOMaterials.EthyleneOxide.getFluid(3000))
+                .circuitMeta(3)
+                .outputFluids(GTOMaterials.Tris.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("n_hydroxysuccinimide_lipoic_ester_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.NHydroxysuccinimide)
+                .outputItems(TagPrefix.dust, GTOMaterials.NHydroxysuccinimideLipoicEster)
+                .inputFluids(GTOMaterials.LipoicAcid, 1000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .EUt(1666)
+                .duration(1666)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("nano_gold_deposited_carbon_nanotube_modified_nhs_lipoic_ester_q_dot_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.NanoGoldDepositedCarbonNanotube)
+                .inputItems(TagPrefix.dust, GTOMaterials.NHydroxysuccinimideLipoicEster)
+                .outputItems(TagPrefix.dust, GTOMaterials.NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot)
+                .notConsumableFluid(GTMaterials.Cyclohexane, 3000)
+                .notConsumableFluid(GTOMaterials.Pyridine, 1000)
+                .EUt(1638)
+                .duration(1222)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("interface_supramolecular_self_assembly_mfpc_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.SolGelQDInterfaceModifiedMFPC)
+                .notConsumable(GTItems.BLACKLIGHT.asItem())
+                .outputItems(TagPrefix.dust, GTOMaterials.InterfaceSupramolecularSelfAssemblyMFPC)
+                .inputFluids(GTOMaterials.PolyurethaneResin, 1000)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .outputFluids(GTMaterials.DilutedSulfuricAcid, 1000)
+                .EUt(1638)
+                .duration(1222)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("ammonia")
+                .inputFluids(GTOMaterials.LiquidAmmonia, 1000)
+                .inputFluids(GTOMaterials.Trimethylchlorosilane, 4000)
+                .outputFluids(GTMaterials.Ammonia, 3000)
+                .outputFluids(GTOMaterials.Hexamethyldisilazane, 1000)
+                .EUt(1200)
+                .duration(1200)
+                .save();
+
+        CHEMICAL_RECIPES.builder("chloroauric_acid")
+                .inputItems(TagPrefix.ingot, GTMaterials.Gold)
+                .inputFluids(GTMaterials.AquaRegia, 4000)
+                .outputFluids(GTOMaterials.ChloroauricAcid, 4000)
+                .outputFluids(GTMaterials.NitrogenDioxide, 1000)
+                .EUt(120)
+                .duration(200)
+                .save();
+        CHEMICAL_RECIPES.builder("hydrogenchromatesolution")
+                .inputItems(TagPrefix.dust, GTMaterials.Chromium, 2)
+                .inputFluids(GTMaterials.SulfuricAcid, 3000)
+                .outputFluids(GTMaterials.Hydrogen, 3000)
+                .outputFluids(GTOMaterials.ChromiumSulfate, 3000)
+                .EUt(30)
+                .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.builder("benzaldehyde")
+                .inputFluids(GTMaterials.Toluene, 1000)
+                .inputFluids(GTMaterials.Oxygen, 2000)
+                .outputFluids(GTOMaterials.Benzaldehyde, 1000)
+                .outputFluids(GTMaterials.Water, 1000)
+                .EUt(480)
+                .duration(600)
+                .save();
+
+        // doi:10.1007/s42864-020-00057-3
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("rhenium_nanoparticle_radiation_reduction")
+                .inputFluids(GTOMaterials.AmmoniumPerrhenate, 1000)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .notConsumable(GTOTagPrefix.PARTICLE_SOURCE, Nickel64Source)
+                .outputItems(NANO, Rhenium, 10)
+                .outputFluids(GTMaterials.Ammonia.getFluid(1000))
+                .EUt(1920)
+                .duration(400)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("sodium_molybdate")
+                .inputItems(TagPrefix.dust, GTMaterials.Molybdenum)
+                .inputFluids(SodiumHydroxideSolution.getFluid(2000))
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumMolybdate, 3)
+                .outputFluids(GTMaterials.Hydrogen.getFluid(1000))
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("acac")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.SodiumHydride)
+                .outputItems(GTOTagPrefix.dust, GTMaterials.Salt)
+                .inputFluids(GTOMaterials.AcetylChloride, 1000)
+                .inputFluids(GTMaterials.Acetone, 1000)
+                .outputFluids(GTOMaterials.Acetylacetonate, 1000)
+                .EUt(122)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("aluminum_acetylacetonate_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AluminiumChloride, 2)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.AluminumAcetylacetonate, 2)
+                .inputFluids(GTOMaterials.Acetylacetonate, 6000)
+                .outputFluids(GTMaterials.HydrochloricAcid, 6000)
+                .EUt(122)
+                .duration(100)
+                .save();
+        LARGE_CHEMICAL_RECIPES.builder("nano_scale_aluminum_dust")
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.LithiumAluminiumHydride, 3)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.AluminumAcetylacetonate)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.NanoAluminum, 4)
+                .outputFluids(GTOMaterials.Acetylacetonate, 2000)
+                .EUt(122)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("phosphoric_acid_chromium_phosphate_cement")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.ChromiumTrioxide, 4)
+                .inputFluids(GTMaterials.PhosphoricAcid, 864)
+                .outputFluids(GTOMaterials.PhosphoricAcidChromiumPhosphateCement, 576)
+                .outputFluids(GTMaterials.Water, 720)
+                .outputFluids(GTMaterials.Oxygen, 432)
+                .EUt(8100)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("phosphoric_acid_magnesium_phosphate_cement")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Magnesia)
+                .inputFluids(GTMaterials.PhosphoricAcid, 144)
+                .outputFluids(GTOMaterials.PhosphoricAcidMagnesiumPhosphateCement, 144)
+                .outputFluids(GTMaterials.Water, 144)
+                .EUt(8100)
+                .duration(100)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("emulsified_dye_carrier_resin")
+                .inputFluids(GTMaterials.Styrene, 5000)
+                .inputFluids(GTOMaterials.AcrylicAcid, 2000)
+                .inputFluids(GTOMaterials.EthylAcrylate, 3000)
+                .outputFluids(GTOMaterials.EmulsifiedDyeCarrierResin, 10000)
+                .EUt(8100)
+                .duration(300)
+                .save();
 
         CHEMICAL_RECIPES.builder("divinylbenzene")
                 .inputItems(GTOTagPrefix.CATALYST, GTOMaterials.ZnFeAlClCatalyst)

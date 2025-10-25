@@ -15,6 +15,7 @@ import appeng.client.gui.me.crafting.CraftingCPUScreen;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.menu.me.crafting.CraftingCPUMenu;
 import com.glodblock.github.extendedae.client.render.EAEHighlightHandler;
+import com.glodblock.github.extendedae.util.MessageUtil;
 import com.glodblock.github.glodium.network.packet.sync.IActionHolder;
 import com.glodblock.github.glodium.network.packet.sync.Paras;
 import com.google.common.base.Preconditions;
@@ -45,9 +46,8 @@ public class CraftingCPUScreenMixin<T extends CraftingCPUMenu> extends AEBaseScr
         for (int i = 0; i < size / 2; i++) {
             BlockPos pos = BlockPos.of(params.<Long>get(2 * i));
             ResourceKey<Level> dim = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(params.get(2 * i + 1)));
-            getPlayer().sendSystemMessage(Component.translatable("chat.ex_pattern_access_terminal.pos",
-                    pos.toShortString(),
-                    Component.translatable("gtocore.dimension." + dim.location().getPath())));
+            Component message = MessageUtil.createEnhancedHighlightMessage(getPlayer(), pos, dim, "chat.ex_pattern_access_terminal.pos");
+            getPlayer().displayClientMessage(message, false);
             EAEHighlightHandler.highlight(pos, dim, System.currentTimeMillis() + (long) (20 * 1000));
         }
     }

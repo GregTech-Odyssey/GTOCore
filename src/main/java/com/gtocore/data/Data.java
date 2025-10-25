@@ -1,22 +1,31 @@
 package com.gtocore.data;
 
-import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.data.recipe.*;
 import com.gtocore.data.recipe.ae2.AE2;
+import com.gtocore.data.recipe.ae2.Ae2wtlibRecipes;
 import com.gtocore.data.recipe.classified.$ClassifiedRecipe;
 import com.gtocore.data.recipe.generated.*;
 import com.gtocore.data.recipe.gtm.chemistry.ChemistryRecipes;
 import com.gtocore.data.recipe.gtm.configurable.RecipeAddition;
 import com.gtocore.data.recipe.gtm.misc.*;
-import com.gtocore.data.recipe.misc.*;
+import com.gtocore.data.recipe.magic.ArsNouveauRecipes;
+import com.gtocore.data.recipe.magic.BotaniaRecipes;
+import com.gtocore.data.recipe.magic.MagicRecipesA;
+import com.gtocore.data.recipe.magic.MagicRecipesB;
+import com.gtocore.data.recipe.misc.ComponentRecipes;
+import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.mod.MeteoriteRecipe;
+import com.gtocore.data.recipe.mod.Sophisticated;
 import com.gtocore.data.recipe.processing.*;
-import com.gtocore.data.recipe.research.*;
+import com.gtocore.data.recipe.research.AnalyzeData;
+import com.gtocore.data.recipe.research.AnalyzeRecipes;
+import com.gtocore.data.recipe.research.DataGenerateRecipe;
+import com.gtocore.data.recipe.research.ScanningRecipes;
 import com.gtocore.integration.emi.GTEMIRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
@@ -45,6 +54,7 @@ import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Block;
 
 import com.google.common.collect.ImmutableSet;
@@ -54,12 +64,13 @@ import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
-import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import me.jellysquid.mods.sodium.mixin.core.render.MinecraftAccessor;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.util.Collections;
 
 import static com.gtocore.common.data.GTORecipes.EMI_RECIPES;
-import static com.gtocore.common.data.GTORecipes.EMI_RECIPE_WIDGETS;
 
 public final class Data {
 
@@ -111,6 +122,7 @@ public final class Data {
         GCYRecipes.init();
         MachineRecipe.init();
         MiscRecipe.init();
+        SpaceStationRecipes.init();
         OrganRecipes.INSTANCE.init();
         BotaniaRecipes.init();
         ArsNouveauRecipes.init();
@@ -120,6 +132,7 @@ public final class Data {
         BrineRecipes.init();
         NaquadahProcess.init();
         PlatGroupMetals.init();
+        CompositeMaterialsProcessing.init();
         ElementCopying.init();
         StoneDustProcess.init();
         Lanthanidetreatment.init();
@@ -133,16 +146,19 @@ public final class Data {
         Ae2wtlibRecipes.init();
         ImmersiveAircraft.init();
         FunctionalStorage.init();
+        Sophisticated.init();
         $ClassifiedRecipe.init();
         Temporary.init();
         if (GTCEu.isDev()) {
             ScanningRecipes.init();
-            AnalyzeData.init();
-            AnalyzeRecipes.init();
-            DataGenerateRecipe.init();
+            AnalyzeData.INSTANCE.init();
+            if (true) {
+                AnalyzeRecipes.init();
+                DataGenerateRecipe.init();
+            }
         }
-        if (GTCEu.isDev() || GTOCore.isSimple()) {
-            SimpleModeRecipe.init();
+        if (GTCEu.isDev() || GTOCore.isEasy()) {
+            EasyModeRecipe.init();
         }
 
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
@@ -153,7 +169,7 @@ public final class Data {
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
         GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
         GTOLoots.BLOCKS = null;
-        GTOLoots.generateGTDynamicLoot();
+        GTOLoots.init();
         MixinHelpers.registryGTDynamicTags();
         GTOCore.LOGGER.info("Data loading took {}ms", System.currentTimeMillis() - time);
     }
@@ -168,7 +184,6 @@ public final class Data {
                 EmiConfig.logUntranslatedTags = false;
                 EmiConfig.workstationLocation = SidebarSide.LEFT;
                 EmiRepairItemRecipe.TOOLS.clear();
-                EMI_RECIPE_WIDGETS = new Reference2ReferenceOpenHashMap<>();
                 ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
                 for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
                     if (!category.shouldRegisterDisplays()) continue;
@@ -182,7 +197,6 @@ public final class Data {
                         recipes.add(new MultiblockInfoEmiRecipe(definition));
                     }
                 }
-                EMI_RECIPE_WIDGETS = null;
                 EMI_RECIPES = recipes.build();
                 for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
                     if (type == GTORecipeTypes.FURNACE_RECIPES) {
@@ -194,8 +208,17 @@ public final class Data {
                 GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
             }
         } catch (Exception e) {
+            Configurator.setRootLevel(Level.DEBUG);
             e.printStackTrace();
-            CommonProxy.setException(e);
+            Client.interrupt();
+            Configurator.setRootLevel(Level.OFF);
+        }
+    }
+
+    private static class Client {
+
+        private static void interrupt() {
+            ((MinecraftAccessor) Minecraft.getInstance()).embeddium$getGameThread().interrupt();
         }
     }
 }

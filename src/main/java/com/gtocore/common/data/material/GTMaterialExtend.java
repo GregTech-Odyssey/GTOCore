@@ -2,6 +2,7 @@ package com.gtocore.common.data.material;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
 import com.gtocore.api.data.material.GTOMaterialIconSet;
+import com.gtocore.common.data.GTOFluidStorageKey;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -21,6 +22,7 @@ import java.util.List;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
 
@@ -31,6 +33,10 @@ public final class GTMaterialExtend {
         Neutron.setMaterialARGB(0x10102);
         Electrum.setProperty(BLAST, new BlastProperty(740));
         Neutron.setProperty(BLAST, new BlastProperty(17690));
+        Neutron.getProperties().removeProperty(TOOL);
+        Neutron.getProperties().removeProperty(ROTOR);
+        Neutron.setProperty(TOOL, ToolProperty.Builder.of(800.0F, 800.0F, 6553500, 6).attackSpeed(10F).enchantability(180).unbreakable().magnetic().build());
+        Neutron.setProperty(ROTOR, new RotorProperty(2000, 1500, 24.0F, 10485760));
         Neutron.getMaterialInfo().setIconSet(GTOMaterialIconSet.NEUTRONIUM);
         Neutronium = material("amprosium", "安普洛")
                 .ingot(6)
@@ -70,7 +76,7 @@ public final class GTMaterialExtend {
                 .buildAndRegister();
 
         Cooperite.setComponents(new MaterialStack(PlatinumMetal, 3), new MaterialStack(Nickel, 1), new MaterialStack(Sulfur, 1), new MaterialStack(PalladiumMetal, 1));
-        RutheniumTriniumAmericiumNeutronate.setComponents(new MaterialStack(Ruthenium, 1), new MaterialStack(Trinium, 2), new MaterialStack(Americium, 1), new MaterialStack(Neutronium, 2), new MaterialStack(Oxygen, 8));
+        RutheniumTriniumAmericiumNeutronate.setComponents(new MaterialStack(Ruthenium, 1), new MaterialStack(Trinium, 2), new MaterialStack(Americium, 1), new MaterialStack(Amprosium, 2), new MaterialStack(Oxygen, 8));
         Clay.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         Brick.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         SodiumHydroxide.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
@@ -102,6 +108,7 @@ public final class GTMaterialExtend {
         Cadmium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Iron.setProperty(PropertyKey.TOOL, ToolProperty.Builder.of(2.0F, 2.0F, 256, 2, GTToolType.MINING_HAMMER, GTToolType.SPADE, GTToolType.SAW, GTToolType.HARD_HAMMER, GTToolType.WRENCH, GTToolType.FILE, GTToolType.CROWBAR, GTToolType.SCREWDRIVER, GTToolType.WIRE_CUTTER, GTToolType.SCYTHE, GTToolType.BUTCHERY_KNIFE, GTToolType.DRILL_LV, GTToolType.DRILL_MV, GTToolType.DRILL_HV, GTToolType.DRILL_EV, GTToolType.DRILL_IV, GTToolType.CHAINSAW_LV, GTToolType.WRENCH_LV, GTToolType.WRENCH_HV, GTToolType.WRENCH_IV, GTToolType.BUZZSAW, GTToolType.SCREWDRIVER_LV, GTToolType.WIRE_CUTTER_LV, GTToolType.WIRE_CUTTER_HV, GTToolType.WIRE_CUTTER_IV).enchantability(14).addTypes(GTToolType.MORTAR).build());
         Platinum.setProperty(BLAST, new BlastProperty(1810, BlastProperty.GasTier.MID, 480, 820, 120, 110));
+        Graphene.addFlags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE);
         RedAlloy.addFlags(GENERATE_SPRING_SMALL);
         Lead.addFlags(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET);
         Bismuth.addFlags(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET);
@@ -132,7 +139,7 @@ public final class GTMaterialExtend {
         Silver.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Platinum.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Palladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
-        RhodiumPlatedPalladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
+        RhodiumPlatedPalladium.getProperties().removeProperty(PropertyKey.BLAST);
         Brass.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         HastelloyC276.addFlags(GENERATE_ROTOR);
         Steel.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
@@ -165,8 +172,19 @@ public final class GTMaterialExtend {
         Aluminium.addFlags(GENERATE_ROTOR);
         Neutronium.addFlags(GTOMaterialFlags.GENERATE_NANITES);
         Carbon.setProperty(INGOT, new IngotProperty());
+        Carbon.addFlags(GENERATE_FIBER, IS_CARBON_FIBER);
+        Quartzite.addFlags(GENERATE_FIBER);
+        TitaniumCarbide.addFlags(GENERATE_FIBER);
+        Titanium.addFlags(GENERATE_FIBER);
+        TungstenCarbide.addFlags(GENERATE_FIBER);
+        Tantalum.addFlags(GENERATE_FIBER);
+        Copper.addFlags(GENERATE_FIBER);
+        Tungsten.addFlags(GENERATE_FIBER);
+        Aluminium.addFlags(GENERATE_FIBER);
+        BorosilicateGlass.addFlags(GENERATE_FIBER);
         RadAway.addFlags(DISABLE_DECOMPOSITION);
         Platinum.addFlags(GENERATE_SPRING);
+        Polytetrafluoroethylene.addFlags(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE);
         Chromium.addFlags(GENERATE_GEAR);
         Naquadah.addFlags(GTOMaterialFlags.GENERATE_NANITES, GENERATE_FRAME);
         NaquadahAlloy.addFlags(GENERATE_FINE_WIRE);
@@ -290,6 +308,8 @@ public final class GTMaterialExtend {
         Tungsten.getProperty(ORE).setOreByProducts(Lithium, Calcium);
         Indium.setProperty(ORE, new OreProperty());
         Indium.getProperty(ORE).setOreByProducts(Aluminium, Zinc);
+        Borax.setProperty(PropertyKey.ORE, new OreProperty(2, 1, false));
+        Borax.getProperty(ORE).setOreByProducts(Lithium, Boron);
         NaquadahEnriched.setProperty(ORE, new OreProperty());
         NaquadahEnriched.getProperty(ORE).setOreByProducts(Naquadah, Sulfur);
         Naquadah.getProperty(ORE).setOreByProducts(List.of(NaquadahOxideMixture));
@@ -307,7 +327,7 @@ public final class GTMaterialExtend {
         Cupronickel.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t1 白铜币
         Silver.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN); // coin t2 银币
         Gold.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN); // coin t3 金币
-        Osmium.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN); // coin t4 锇币
+        Osmium.addFlags(GTOMaterialFlags.GENERATE_NANITES, GTOMaterialFlags.GENERATE_COIN, GENERATE_FRAME); // coin t4锇币
         Naquadah.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t5 硅岩币
         // Amprosium.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t6 安普洛币
         // Adamantine.addFlags(GTOMaterialFlags.GENERATE_COIN); // coin t7 精金币
@@ -325,8 +345,25 @@ public final class GTMaterialExtend {
         Sphalerite.addFlags(GTOMaterialFlags.GENERATE_MILLED);
         Monazite.addFlags(GTOMaterialFlags.GENERATE_MILLED);
         Redstone.addFlags(GTOMaterialFlags.GENERATE_MILLED);
+        NiobiumTitanium.addFlags(GENERATE_FRAME);
+        RhodiumPlatedPalladium.addFlags(GENERATE_FRAME);
+        TitaniumCarbide.addFlags(GENERATE_FRAME);
         NaquadahEnriched.addFlags(GTOMaterialFlags.GENERATE_MILLED);
         Titanium.addFlags(GENERATE_FINE_WIRE);
+        TantalumCarbide.addFlags(GTOMaterialFlags.GENERATE_MXene);
+        TungstenCarbide.addFlags(GTOMaterialFlags.GENERATE_MXene);
+        NiobiumNitride.addFlags(GTOMaterialFlags.GENERATE_MXene);
+        BlueSteel.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        BlackSteel.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        RedSteel.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        Silicon.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        Kanthal.addFlags(CAN_BE_COOLED_DOWN_BY_BATHING);
+        Rhenium.addFlags(HAS_NANOSCALE_FORM);
+        Molybdenum.addFlags(HAS_NANOSCALE_FORM);
+        Tungsten.addFlags(HAS_NANOSCALE_FORM);
+        Niobium.addFlags(HAS_NANOSCALE_FORM);
+        Zirconium.addFlags(HAS_NANOSCALE_FORM);
+        Aluminium.addFlags(HAS_NANOSCALE_FORM);
         Titanium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Boron.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Boron.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
@@ -340,6 +377,23 @@ public final class GTMaterialExtend {
         Thorium.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Xenon.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
         Neon.getProperty(FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, (new FluidBuilder()).state(FluidState.PLASMA));
+        Helium.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Neon.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Argon.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Krypton.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Nitrogen.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Hydrogen.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Oxygen.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+        Steam.getProperty(FLUID).enqueueRegistration(GTOFluidStorageKey.HIGH_PRESSURE_GAS, (new FluidBuilder()).state(FluidState.GAS));
+
+        Oxygen.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureOxygen.getFluid(), null);
+        Hydrogen.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureHydrogen.getFluid(), null);
+        Nitrogen.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureNitrogen.getFluid(), null);
+        Steam.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureSteam.getFluid(), null);
+        Helium.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureHelium.getFluid(), null);
+        Neon.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureNeon.getFluid(), null);
+        Argon.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureArgon.getFluid(), null);
+        Krypton.getProperty(FLUID).getStorage().store(GTOFluidStorageKey.HIGH_PRESSURE_GAS, () -> HighPressureKrypton.getFluid(), null);
 
         Americium.setProperty(HAZARD, new HazardProperty(HazardProperty.HazardTrigger.ANY,
                 GTMedicalConditions.CARCINOGEN, 1, true));

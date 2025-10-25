@@ -17,7 +17,7 @@ public final class DataIntegrationRecipeBuilder {
     }
 
     private int[] inputData = {};
-    private int outputData = 0;
+    private int outputData;
     private int chanced = 10000;
 
     private ItemStack catalyst1;
@@ -56,7 +56,7 @@ public final class DataIntegrationRecipeBuilder {
 
     public DataIntegrationRecipeBuilder CWUt(int cwut) {
         this.cwut = cwut;
-        this.totalCWU = cwut * 4000;
+        this.totalCWU = cwut * 800;
         return this;
     }
 
@@ -70,18 +70,19 @@ public final class DataIntegrationRecipeBuilder {
         if (cwut > totalCWU) throw new IllegalStateException("Total CWU cannot be greater than CWU/t!");
         if (catalyst1 == null || catalyst2 == null) throw new IllegalStateException("Catalyst input required");
         if (inputData == null) throw new IllegalStateException("Missing input items");
-        if (outputData == 0) throw new IllegalStateException("Missing output items");
-        int crystalTire = ExtractDataCrystal(outputData);
+        DataCrystal dataCrystal = analyzeMap.get(outputData);
+        if (dataCrystal == null) throw new IllegalStateException("Unknown output items");
+        int crystalTire = dataCrystal.tier();
 
-        var build = DATA_INTEGRATION_RECIPES.recipeBuilder(AnalyzeMap.get(outputData));
+        var build = DATA_INTEGRATION_RECIPES.recipeBuilder(dataCrystal.data());
         build
                 .notConsumable(catalyst1)
                 .notConsumable(catalyst2)
-                .inputItems(getEmptyCrystal(crystalTire));
-        for (int inputAnalyzeDatum : inputData) build.notConsumable(getAnalyzeData(inputAnalyzeDatum));
+                .inputItems(EmptyDataCrystalMap.get(crystalTire));
+        for (int inputAnalyzeDatum : inputData) build.notConsumable(getDataCrystal(inputAnalyzeDatum));
         build
-                .chancedOutput(getAnalyzeData(outputData), chanced, 0)
-                .chancedOutput(getAnalyzeData(ErrorDataMap.get(crystalTire)), 2000, 0)
+                .chancedOutput(getDataCrystal(outputData), chanced, 0)
+                .chancedOutput(ErrorDataCrystalMap.get(crystalTire), 2000, 0)
                 .EUt(eut)
                 .CWUt(cwut)
                 .totalCWU(totalCWU)

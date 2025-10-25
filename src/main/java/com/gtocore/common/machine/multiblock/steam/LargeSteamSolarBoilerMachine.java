@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.config.ConfigHolder;
@@ -33,40 +32,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.EXPORT_FLUIDS;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.IMPORT_FLUIDS;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Steam;
 
 @Scanned
 public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine implements IExplosionMachine, IDisplayUIMachine, IEnhancedRecipeLogicMachine {
 
-    private static final TraceabilityPredicate INNER_PREDICATE = new TraceabilityPredicate(
-            blockWorldState -> true, null, null) {
-
-        @Override
-        public boolean testOnly() {
-            return true;
-        }
-
-        @Override
-        public boolean isAny() {
-            return false;
-        }
-
-        @Override
-        public boolean isAir() {
-            return false;
-        }
-    };
-
-    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "30", normalValue = "18", expertValue = "10", cn = "基础蒸汽产率 : %s / t", cnComment = """
-             根据集热管数量决定蒸汽产量，只有在阳光下才会运行。
-            大小 ：3×3 到 13×13.""", en = "Basic steam production : %s / t", enComment = """
-            The steam production is determined by the number of heat collector tubes and it only operates when there is sunlight.
-            Size: 3×3 to 13×13.""")
+    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "30", normalValue = "18", expertValue = "12", cn = "基础蒸汽产率 : %s / t", en = "Basic steam production : %s / t")
     private static int basicSteamProduction = 10;
 
-    private static final int MAX_LR_DIST = 5, MAX_B_DIST = 11;
+    private static final int MAX_LR_DIST = 62, MAX_B_DIST = 125;
     private static final int MIN_LR_DIST = 1, MIN_B_DIST = 3;
     private static final int STEAM_GENERATION_INTERVAL = 20;
 
@@ -162,9 +139,9 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
                 .aisle(boundaryRow)
                 .aisle(middleRow).setRepeatable(safeBDist)
                 .aisle(controllerRow)
-                .where('a', blocks(GTBlocks.STEEL_HULL.get()).or(abilities(EXPORT_FLUIDS_1X)).or(abilities(IMPORT_FLUIDS_1X)))
+                .where('a', blocks(GTBlocks.STEEL_HULL.get()).or(abilities(EXPORT_FLUIDS)).or(abilities(IMPORT_FLUIDS)))
                 .where('b', blocks(GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get()))
-                .where('~', controller(INNER_PREDICATE))
+                .where('~', controller(this.getDefinition()))
                 .build();
     }
 

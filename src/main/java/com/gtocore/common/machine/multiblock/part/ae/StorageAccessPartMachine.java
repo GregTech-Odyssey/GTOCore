@@ -1,12 +1,19 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gtolib.api.ae2.IKeyCounter;
+import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IControllable;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
+import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
@@ -18,26 +25,33 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 
 import appeng.api.config.Actionable;
+import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
+import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
+import appeng.api.storage.StorageHelper;
+import com.hepdd.gtmthings.utils.BigIntegerUtils;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.UUID;
 
+@DataGeneratorScanned
 public abstract class StorageAccessPartMachine extends AmountConfigurationHatchPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IStorageProvider {
 
     public static StorageAccessPartMachine create(MetaMachineBlockEntity holder) {
@@ -48,8 +62,9 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         return new StorageAccessPartMachine.Big(holder);
     }
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StorageAccessPartMachine.class, AmountConfigurationHatchPartMachine.MANAGED_FIELD_HOLDER);
+    public static StorageAccessPartMachine createIO(MetaMachineBlockEntity holder) {
+        return new StorageAccessPartMachine.IO(holder);
+    }
 
     boolean observe;
 
@@ -64,7 +79,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
     @DescSynced
     boolean isOnline;
     @Persisted
-    UUID uuid;
+    public UUID uuid;
 
     @Persisted
     private final GridNodeHolder nodeHolder;
@@ -76,12 +91,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         getMainNode().addService(IStorageProvider.class, this);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> true);
         current = 0;
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -135,7 +144,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     @Override
     public Component getDescription() {
-        return getDefinition().getItem().getDescription();
+        return getDefinition().asItem().getDescription();
     }
 
     @Override
@@ -169,7 +178,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         return this.isOnline;
     }
 
-    private static final class LONG extends StorageAccessPartMachine {
+    private static class LONG extends StorageAccessPartMachine {
 
         private CellDataStorage dataStorage;
 
@@ -201,6 +210,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 dirty = false;
                 getCellStorage().setPersisted(false);
                 onChanged();
+                CellDataStorage.setDirty();
             }
             if (uuid == null || capacity == 0 || !isOnline) return;
             if (!check) {
@@ -216,7 +226,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 observe = false;
                 CellDataStorage storage = getCellStorage();
                 double totalAmount = 0;
-                for (ObjectIterator<Object2LongMap.Entry<AEKey>> it = getCellStoredMap().object2LongEntrySet().fastIterator(); it.hasNext();) {
+                for (var it = getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
                     totalAmount += (double) entry.getLongValue() / entry.getKey().getType().getAmountPerByte();
                 }
@@ -226,18 +236,18 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             }
         }
 
-        private CellDataStorage getCellStorage() {
+        protected CellDataStorage getCellStorage() {
             if (dataStorage != null) return dataStorage;
             if (uuid == null || isRemote()) return CellDataStorage.EMPTY;
             dataStorage = CellDataStorage.get(uuid);
             return dataStorage;
         }
 
-        private Object2LongOpenHashMap<AEKey> getCellStoredMap() {
+        private AEKeyMap<AEKey> getCellStoredMap() {
             var data = getCellStorage();
             var map = data.getStoredMap();
             if (map == null) {
-                map = new Object2LongOpenHashMap<>();
+                map = new AEKeyMap<>();
                 data.setStoredMap(map);
             }
             return map;
@@ -258,8 +268,8 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             double totalAmount = 0;
             LongArrayList amounts = new LongArrayList(getCellStoredMap().size());
             ListTag keys = new ListTag();
-            for (ObjectIterator<Object2LongMap.Entry<AEKey>> it = getCellStoredMap().object2LongEntrySet().fastIterator(); it.hasNext();) {
-                Object2LongOpenHashMap.Entry<AEKey> entry = it.next();
+            for (var it = getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
+                var entry = it.next();
                 long amount = entry.getLongValue();
                 if (amount > 0) {
                     var key = entry.getKey();
@@ -280,7 +290,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             super.loadCustomPersistedData(tag);
             if (uuid == null) return;
             CellDataStorage storage = getCellStorage();
-            Object2LongOpenHashMap<AEKey> map = getCellStoredMap();
+            var map = getCellStoredMap();
             long[] amounts = storage.getAmounts();
             double totalAmount = 0;
             for (int i = 0; i < amounts.length; i++) {
@@ -342,7 +352,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             if (data == CellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map);
+            IKeyCounter.addAll(out, map.size(), m -> map.reference2LongEntrySet().fastForEach(e -> m.addTo(e.getKey(), e.getLongValue())));
         }
 
         @Override
@@ -358,6 +368,151 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             getAvailableStacks(keyCounter);
             keyCounter.removeEmptySubmaps();
             return keyCounter;
+        }
+    }
+
+    private static class IO extends LONG implements IControllable {
+
+        @Persisted
+        private boolean isWorkingEnabled;
+        @Persisted
+        private boolean export;
+        @Persisted
+        private long rate = 33554432L;
+
+        private final IActionSource mySrc;
+        IFancyConfiguratorButton.Toggle toggle;
+
+        private IO(MetaMachineBlockEntity holder) {
+            super(holder);
+            mySrc = IActionSource.ofMachine(this);
+        }
+
+        @Override
+        public Widget createUIWidget() {
+            var longInput = new LongInputWidget(() -> rate, (v) -> rate = v);
+            longInput.setMax(Long.MAX_VALUE);
+            longInput.setMin(0L);
+            return new WidgetGroup(0, 0, 100, 20).addWidget(longInput).addWidget(new LabelWidget(24, -16, () -> LANG_RATE_SETTING));
+        }
+
+        @Override
+        public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+            super.attachConfigurators(configuratorPanel);
+            configuratorPanel.attachConfigurators(toggle = new IFancyConfiguratorButton.Toggle(
+                    new GuiTextureGroup(GuiTextures.BUTTON, GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(true).copy()
+                            .getSubTexture(0, 0, 1, 0.5)),
+
+                    new GuiTextureGroup(GuiTextures.BUTTON, GuiTextures.PROGRESS_BAR_SOLAR_STEAM.get(true).copy()
+                            .getSubTexture(0, 0.5, 1, 0.5)),
+                    () -> export,
+                    (cd, b) -> export = b
+
+            ));
+            if (isRemote()) {
+                toggle.setTooltipsSupplier((export) -> Collections.singletonList(export ?
+                        Component.translatable(LANG_EXPORT) :
+                        Component.translatable(LANG_IMPORT)));
+            }
+        }
+
+        @Override
+        public boolean isWorkingEnabled() {
+            return isWorkingEnabled;
+        }
+
+        @Override
+        public void setWorkingEnabled(boolean isWorkingAllowed) {
+            isWorkingEnabled = isWorkingAllowed;
+        }
+
+        /// do not allow insertion when exporting and working enabled
+        @Override
+        public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
+            return (export && isWorkingEnabled()) ? 0 : super.insert(what, amount, mode, source);
+        }
+
+        /// do not allow extraction when importing and working enabled
+        @Override
+        public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
+            return (!export && isWorkingEnabled()) ? 0 : super.extract(what, amount, mode, source);
+        }
+
+        @Override
+        void tickUpdate() {
+            super.tickUpdate();
+            if (!this.getMainNode().isActive() || !isWorkingEnabled()) {
+                return;
+            }
+
+            // check if the controller has any other storage parts than this one
+            if (this.controllers.isEmpty() || Arrays.stream(this.controllers.first().getParts()).anyMatch(
+                    p -> p instanceof StorageAccessPartMachine && p != this)) {
+                setWorkingEnabled(false);
+                return;
+            }
+
+            var grid = getMainNode().getGrid();
+            if (grid == null) {
+                setWorkingEnabled(false);
+                return;
+            }
+
+            transferContents(grid);
+        }
+
+        /// logic from {@link appeng.blockentity.storage.IOPortBlockEntity#transferContents(IGrid, StorageCell, long)}
+        private void transferContents(IGrid grid) {
+            var networkInv = grid.getStorageService().getInventory();
+            long itemsToMove = rate;
+
+            KeyCounter srcList;
+            MEStorage src, destination;
+            if (export) {
+                src = this;
+                srcList = this.getAvailableStacks();
+                destination = networkInv;
+            } else {
+                src = networkInv;
+                srcList = grid.getStorageService().getCachedInventory();
+                destination = this;
+            }
+
+            var energy = grid.getEnergyService();
+            boolean didStuff;
+
+            do {
+                didStuff = false;
+
+                for (var srcEntry : srcList) {
+                    var totalStackSize = srcEntry.getLongValue();
+                    if (totalStackSize > 0) {
+                        var what = srcEntry.getKey();
+                        var possible = destination.insert(what, totalStackSize, Actionable.SIMULATE, this.mySrc);
+
+                        if (possible > 0) {
+                            possible = Math.min(possible, itemsToMove * what.getAmountPerOperation());
+
+                            possible = src.extract(what, possible, Actionable.MODULATE, this.mySrc);
+                            if (possible > 0) {
+                                var inserted = StorageHelper.poweredInsert(energy, destination, what, possible, this.mySrc);
+
+                                if (inserted < possible) {
+                                    src.insert(what, possible - inserted, Actionable.MODULATE, this.mySrc);
+                                }
+
+                                if (inserted > 0) {
+                                    itemsToMove -= Math.max(1, inserted / what.getAmountPerOperation());
+                                    didStuff = true;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            } while (itemsToMove > 0 && didStuff);
+            setWorkingEnabled(didStuff);
         }
     }
 
@@ -393,6 +548,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 dirty = false;
                 getCellStorage().setPersisted(false);
                 onChanged();
+                CellDataStorage.setDirty();
             }
             if (uuid == null || capacity == 0 || !isOnline) return;
             if (!check) {
@@ -411,7 +567,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 var map = data.getStoredMap();
                 if (map == null) return;
                 double totalAmount = 0;
-                for (ObjectIterator<Object2ObjectMap.Entry<AEKey, BigInteger>> it = map.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
+                for (var it = map.reference2ReferenceEntrySet().fastIterator(); it.hasNext();) {
                     var entry = it.next();
                     totalAmount += entry.getValue().doubleValue() / entry.getKey().getType().getAmountPerByte();
                 }
@@ -428,11 +584,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             return dataStorage;
         }
 
-        private Object2ObjectOpenHashMap<AEKey, BigInteger> getCellStoredMap() {
+        private Reference2ReferenceOpenHashMap<AEKey, BigInteger> getCellStoredMap() {
             var data = getCellStorage();
             var map = data.getStoredMap();
             if (map == null) {
-                map = new Object2ObjectOpenHashMap<>();
+                map = new Reference2ReferenceOpenHashMap<>();
                 data.setStoredMap(map);
             }
             return map;
@@ -456,8 +612,8 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             double totalAmount = 0;
             ListTag amounts = new ListTag();
             ListTag keys = new ListTag();
-            for (ObjectIterator<Object2ObjectMap.Entry<AEKey, BigInteger>> it = map.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
-                Object2ObjectMap.Entry<AEKey, BigInteger> entry = it.next();
+            for (var it = map.reference2ReferenceEntrySet().fastIterator(); it.hasNext();) {
+                var entry = it.next();
                 var amount = entry.getValue();
                 if (amount.signum() > 0) {
                     var key = entry.getKey();
@@ -551,7 +707,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             if (data == BigCellDataStorage.EMPTY) return;
             var map = data.getStoredMap();
             if (map == null) return;
-            IKeyCounter.addAll(out, map);
+            IKeyCounter.addAll(out, map.size(), m -> map.reference2ReferenceEntrySet().fastForEach(e -> m.addTo(e.getKey(), BigIntegerUtils.getLongValue(e.getValue()))));
         }
 
         @Override
@@ -569,4 +725,11 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             return keyCounter;
         }
     }
+
+    @RegisterLanguage(cn = "从ME存储器导出", en = "Export from ME Storage")
+    public static final String LANG_EXPORT = "gtocore.machine.part.ae.storage_access.export";
+    @RegisterLanguage(cn = "导入到ME存储器", en = "Import to ME Storage")
+    public static final String LANG_IMPORT = "gtocore.machine.part.ae.storage_access.import";
+    @RegisterLanguage(cn = "导入/导出速率设置", en = "Import/Export Rate Setting")
+    public static final String LANG_RATE_SETTING = "gtocore.machine.part.ae.storage_access.rate_setting";
 }

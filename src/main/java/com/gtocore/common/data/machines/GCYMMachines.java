@@ -3,14 +3,15 @@ package com.gtocore.common.data.machines;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.FluidRenderer;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.electric.gcym.*;
 import com.gtocore.common.machine.multiblock.part.ParallelHatchPartMachine;
+import com.gtocore.utils.register.MachineRegisterUtils;
 
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.register.MachineRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -44,8 +45,9 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gtocore.common.data.GTOBlocks.INTEGRAL_FRAMEWORK_MV;
+import static com.gtocore.common.data.GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.registries.GTORegistration.GTM;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 
 public final class GCYMMachines {
 
@@ -63,6 +65,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_MACERATION_TOWER = GTM
             .multiblock("large_maceration_tower", LargeMacerationTowerMachine::new)
+            .genLang("大型研磨塔")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -90,6 +93,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_CHEMICAL_BATH = GTM
             .multiblock("large_chemical_bath", LargeChemicalBathMachine::new)
+            .genLang("大型化学浸洗机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -119,6 +123,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_CENTRIFUGE = GTM
             .multiblock("large_centrifuge", GCYMMultiblockMachine::new)
+            .genLang("大型离心机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -147,6 +152,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_MIXER = GTM
             .multiblock("large_mixer", LargeMixerMachine::new)
+            .genLang("大型搅拌罐")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -177,6 +183,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_ELECTROLYZER = GTM
             .multiblock("large_electrolyzer", GCYMMultiblockMachine::new)
+            .genLang("大型电解槽")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -202,6 +209,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_ELECTROMAGNET = GTM
             .multiblock("large_electromagnet", GCYMMultiblockMachine::new)
+            .genLang("大型电磁工厂")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -227,6 +235,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_PACKER = GTM
             .multiblock("large_packer", GCYMMultiblockMachine::new)
+            .genLang("大型打包机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -255,6 +264,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_ASSEMBLER = GTM
             .multiblock("large_assembler", GCYMMultiblockMachine::new)
+            .genLang("大型组装机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -281,6 +291,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_CIRCUIT_ASSEMBLER = GTM
             .multiblock("large_circuit_assembler", GCYMMultiblockMachine::new)
+            .genLang("大型电路组装机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -311,6 +322,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_ARC_SMELTER = GTM
             .multiblock("large_arc_smelter", GCYMMultiblockMachine::new)
+            .genLang("大型电弧炉")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -339,6 +351,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_ENGRAVING_LASER = GTM
             .multiblock("large_engraving_laser", GCYMMultiblockMachine::new)
+            .genLang("大型激光蚀刻机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -368,6 +381,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_SIFTING_FUNNEL = GTM
             .multiblock("large_sifting_funnel", GCYMMultiblockMachine::new)
+            .genLang("大型筛选漏斗")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -401,6 +415,7 @@ public final class GCYMMachines {
                 }
                 return 1;
             }, true, true, false))
+            .genLang("合金冶炼炉")
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_blast_smelter"))
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
@@ -408,7 +423,7 @@ public final class GCYMMachines {
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_smelter"))
             .tooltipsText("安装附属模块后运行速度翻倍", "The running speed doubles after installing the auxiliary module")
             .coilParallelTooltips()
-            .moduleTooltips()
+            .moduleTooltips(new PartAbility[0])
             .allRotation()
             .recipeTypes(ALLOY_BLAST_RECIPES)
             .recipeTypes(ALLOY_SMELTER_RECIPES)
@@ -470,6 +485,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_AUTOCLAVE = GTM
             .multiblock("large_autoclave", GCYMMultiblockMachine::new)
+            .genLang("大型高压釜")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -497,6 +513,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_MATERIAL_PRESS = GTM
             .multiblock("large_material_press", GCYMMultiblockMachine::new)
+            .genLang("大型挤压机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -522,6 +539,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_BREWER = GTM
             .multiblock("large_brewer", GCYMMultiblockMachine::new)
+            .genLang("大型酿造厂")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -552,6 +570,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_CUTTER = GTM
             .multiblock("large_cutter", GCYMMultiblockMachine::new)
+            .genLang("大型切割机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -580,6 +599,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_DISTILLERY = GTM
             .multiblock("large_distillery", largeLDistillationTowerMachine::new)
+            .genLang("大型蒸馏塔")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -664,10 +684,12 @@ public final class GCYMMachines {
             })
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/watertight_casing"),
                     GTCEu.id("block/multiblock/gcym/large_distillery"))
+            .recoveryStacks(GTMachineModify::tinydustFromDustOutput)
             .register();
 
     public static final MultiblockMachineDefinition LARGE_EXTRACTOR = GTM
             .multiblock("large_extractor", GCYMMultiblockMachine::new)
+            .genLang("大型提取机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -692,6 +714,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_EXTRUDER = GTM
             .multiblock("large_extruder", GCYMMultiblockMachine::new)
+            .genLang("大型压模机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -720,6 +743,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_SOLIDIFIER = GTM
             .multiblock("large_solidifier", GCYMMultiblockMachine::new)
+            .genLang("大型固化器")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -748,6 +772,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition LARGE_WIREMILL = GTM
             .multiblock("large_wiremill", GCYMMultiblockMachine::new)
+            .genLang("大型线材工厂")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -774,6 +799,7 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition MEGA_BLAST_FURNACE = GTM
             .multiblock("mega_blast_furnace", MegaBlastFurnaceMachine::new)
+            .genLang("转底炉")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
@@ -820,11 +846,13 @@ public final class GCYMMachines {
 
     public static final MultiblockMachineDefinition MEGA_VACUUM_FREEZER = GTM
             .multiblock("mega_vacuum_freezer", GCYMMultiblockMachine::new)
+            .genLang("巨型真空冷冻机")
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .allRotation()
             .recipeTypes(VACUUM_RECIPES)
+            .recipeTypes(ATOMIZATION_CONDENSATION_RECIPES)
             .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .block(CASING_ALUMINIUM_FROSTPROOF)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -1129,6 +1157,7 @@ public final class GCYMMachines {
                     .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('X', blocks(GCYMBlocks.CASING_SECURE_MACERATION.get())
                             .or(GTOPredicates.autoGCYMAbilities(definition.getRecipeTypes()))
+                            .or(blocks(GTOMachines.MACHINE_ACCESS_LINK.getBlock()).setMaxGlobalLimited(1, 0))
                             .or(autoAbilities(true, false, true)))
                     .where(' ', any())
                     .where('a', GTOPredicates.integralFramework())

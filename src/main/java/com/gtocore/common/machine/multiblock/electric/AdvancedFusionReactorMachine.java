@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.machine.trait.EnergyContainerTrait;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
@@ -21,8 +22,6 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -36,7 +35,6 @@ import static com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionRea
 @MethodsReturnNonnullByDefault
 public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AdvancedFusionReactorMachine.class, CrossRecipeMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DescSynced
     private int color = -1;
     private final int tier;
@@ -51,11 +49,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         this.tier = tier;
         this.energyContainer = createEnergyContainer();
         preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, () -> isFormed || heat > 0);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private EnergyContainerTrait createEnergyContainer() {
@@ -73,8 +66,28 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
                 size++;
             }
         }
-        energyContainer.resetBasicInfo(calculateEnergyStorageFactor(tier, size));
+        var bonusTier = calculateBonusTier();
+        energyContainer.resetBasicInfo(calculateEnergyStorageFactor(tier + bonusTier, size));
         preHeatSubs.initialize(getLevel());
+    }
+
+    private int calculateBonusTier() {
+        if (formeds == null || getSubFormed().length <= 1) {
+            return 0;
+        }
+        int bonusTier;
+        for (bonusTier = 0; bonusTier < getSubFormed().length - 1; bonusTier++) {
+            // the last index is for special uses, ignore it
+            if (!getSubFormed()[bonusTier]) {
+                break;
+            }
+        }
+        return bonusTier;
+    }
+
+    @Override
+    public CrossRecipeTrait getCrossRecipeTrait() {
+        return super.getCrossRecipeTrait();
     }
 
     @Override
@@ -87,7 +100,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
 
     @Override
     @Nullable
-    public Recipe getRealRecipe(@NotNull Recipe recipe) {
+    public Recipe getRealRecipe(Recipe recipe) {
         long eu_to_start = recipe.data.getLong("eu_to_start");
         if (eu_to_start > energyContainer.getEnergyCapacity()) {
             setIdleReason(IdleReason.INSUFFICIENT_ENERGY_BUFFER);
@@ -159,6 +172,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
 
     @Override
     public int getTier() {
-        return this.tier;
+        return this.tier + calculateBonusTier();
     }
 }

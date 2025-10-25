@@ -65,7 +65,7 @@ final class TitaniumRecipes {
                 .inputItems(dust, Calcite, 5)
                 .outputItems(dust, Quicklime, 2)
                 .outputFluids(CarbonDioxide.getFluid(1000))
-                .temperature(1250)
+                .blastFurnaceTemp(1250)
                 .duration(200).EUt(VA[LV]).save();
 
         // NaCl(H2O) + CO2 + NH3 -> NH4Cl + NaHCO3

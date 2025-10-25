@@ -5,7 +5,8 @@ import com.gtocore.integration.ae.WirelessMachine
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
 
-import kotlin.math.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 // 双层结构，主节点为环形连接，子节点为星形连接
 class WirelessNetworkTopologyManager {

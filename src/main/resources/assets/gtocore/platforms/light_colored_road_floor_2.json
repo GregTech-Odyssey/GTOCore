@@ -1,0 +1,36 @@
+{
+  " ": {
+    "id": "minecraft:air",
+    "properties": {}
+  },
+  "A": {
+    "id": "chisel:weaver/white_concrete",
+    "properties": {}
+  },
+  "B": {
+    "id": "chisel:weaver/black_concrete",
+    "properties": {}
+  },
+  "C": {
+    "id": "chisel:dent/yellow_concrete",
+    "properties": {}
+  },
+  "D": {
+    "id": "chisel:dent/white_concrete",
+    "properties": {}
+  },
+  "E": {
+    "id": "chisel:dent/black_concrete",
+    "properties": {}
+  },
+  "F": {
+    "id": "chisel:weaver/yellow_concrete",
+    "properties": {}
+  },
+  "G": {
+    "id": "ad_astra:glowing_calorite_pillar",
+    "properties": {
+      "axis": "y"
+    }
+  }
+}

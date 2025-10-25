@@ -8,13 +8,15 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
+import java.util.Arrays;
+
 @Scanned
 public final class LargeSteamMultiblockMachine extends BaseSteamMultiblockMachine {
 
     @DynamicInitialValue(
                          key = "gtocore.multiblock.large_steam.duration_multiplier",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
-                         simpleValue = "1.0D",
+                         easyValue = "1.0D",
                          normalValue = "1.2D",
                          expertValue = "1.5D",
                          cn = "蒸汽耗时为普通的 : %s 倍",
@@ -29,7 +31,7 @@ public final class LargeSteamMultiblockMachine extends BaseSteamMultiblockMachin
                          enComment = "The maximum number of parallel machines that can be used in this multiblock",
                          cn = "最大并行数",
                          cnComment = "此多方块机器可以使用的最大并行数",
-                         simpleValue = "64",
+                         easyValue = "64",
                          normalValue = "32",
                          expertValue = "32")
     public static int STEAM_MULTIBLOCK_MAX_PARALLELS = 32;
@@ -45,6 +47,6 @@ public final class LargeSteamMultiblockMachine extends BaseSteamMultiblockMachin
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        isOC = getParts().stream().anyMatch(LargeSteamHatchPartMachine.class::isInstance);
+        isOC = Arrays.stream(getParts()).anyMatch(LargeSteamHatchPartMachine.class::isInstance);
     }
 }

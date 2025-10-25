@@ -8,7 +8,6 @@ import com.gtocore.common.machine.multiblock.part.research.ExResearchComputation
 import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
 
 import com.gtolib.api.GTOValues;
-import com.gtolib.api.data.chemical.GTOChemicalHelper;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
@@ -17,6 +16,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -34,13 +34,11 @@ import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -54,24 +52,23 @@ import static com.gtocore.common.data.GTOMaterials.*;
 @MethodsReturnNonnullByDefault
 public final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SupercomputingCenterMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final Map<Item, Integer> MAINFRAME = Map.of(GTOItems.BIOWARE_MAINFRAME.asItem(), 2, GTOItems.SUPRACAUSAL_MAINFRAME.asItem(), 3);
     private static final Map<Integer, Integer> GLASS_MAP = Map.of(1, GTValues.IV, 2, GTValues.UHV, 3, GTValues.UIV);
     private static final Map<Item, Item> MFPCs;
 
     static {
         ImmutableMap.Builder<Item, Item> mfpcRecipe = ImmutableMap.builder();
-        mfpcRecipe.put(GTOChemicalHelper.getItem(block, CascadeMFPC), GTOChemicalHelper.getItem(block, InvalidationCascadeMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(block, BasicMFPC), GTOChemicalHelper.getItem(block, InvalidationBasicMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(ingot, CascadeMFPC), GTOChemicalHelper.getItem(ingot, InvalidationCascadeMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(ingot, BasicMFPC), GTOChemicalHelper.getItem(ingot, InvalidationBasicMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(nugget, CascadeMFPC), GTOChemicalHelper.getItem(nugget, InvalidationCascadeMFPC));
-        mfpcRecipe.put(GTOChemicalHelper.getItem(nugget, BasicMFPC), GTOChemicalHelper.getItem(nugget, InvalidationBasicMFPC));
-        mfpcRecipe.put(ModItems.ICE_SHARD.get().asItem(), GTOChemicalHelper.getItem(dustTiny, Ice));
+        mfpcRecipe.put(ChemicalHelper.getItem(block, CascadeMFPC), ChemicalHelper.getItem(block, InvalidationCascadeMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(block, BasicMFPC), ChemicalHelper.getItem(block, InvalidationBasicMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(ingot, CascadeMFPC), ChemicalHelper.getItem(ingot, InvalidationCascadeMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(ingot, BasicMFPC), ChemicalHelper.getItem(ingot, InvalidationBasicMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(nugget, CascadeMFPC), ChemicalHelper.getItem(nugget, InvalidationCascadeMFPC));
+        mfpcRecipe.put(ChemicalHelper.getItem(nugget, BasicMFPC), ChemicalHelper.getItem(nugget, InvalidationBasicMFPC));
+        mfpcRecipe.put(ModItems.ICE_SHARD.get().asItem(), ChemicalHelper.getItem(dustTiny, Ice));
         MFPCs = mfpcRecipe.build();
     }
 
-    private static final Map<Item, Integer> ITEM_INDEX_MAP = Map.of(GTOChemicalHelper.getItem(block, CascadeMFPC), 0, GTOChemicalHelper.getItem(block, BasicMFPC), 1, GTOChemicalHelper.getItem(ingot, CascadeMFPC), 2, GTOChemicalHelper.getItem(ingot, BasicMFPC), 3, GTOChemicalHelper.getItem(nugget, CascadeMFPC), 4, GTOChemicalHelper.getItem(nugget, BasicMFPC), 5, ModItems.ICE_SHARD.get().asItem(), 6);
+    private static final Map<Item, Integer> ITEM_INDEX_MAP = Map.of(ChemicalHelper.getItem(block, CascadeMFPC), 0, ChemicalHelper.getItem(block, BasicMFPC), 1, ChemicalHelper.getItem(ingot, CascadeMFPC), 2, ChemicalHelper.getItem(ingot, BasicMFPC), 3, ChemicalHelper.getItem(nugget, CascadeMFPC), 4, ChemicalHelper.getItem(nugget, BasicMFPC), 5, ModItems.ICE_SHARD.get().asItem(), 6);
     private ThermalConductorHatchPartMachine ThermalConductorHatchPart;
     private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
     @Persisted
@@ -91,11 +88,6 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     public SupercomputingCenterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, stack -> MAINFRAME.containsKey(stack.getItem()));
         maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, () -> isFormed);
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private void clean() {
@@ -128,6 +120,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             incompatible = true;
             return;
         }
+        if (machineTier == 3) canBridge = true;
         for (IMultiPart part : getParts()) {
             if (incompatible) return;
             if (part instanceof HPCAComponentPartMachine componentPartMachine) {
@@ -222,7 +215,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         allocatedCWUt = 0;
         if (coolingAmount > maxCoolingAmount) {
             int damaged = coolingAmount - maxCoolingAmount;
-            for (IMultiPart part : Set.copyOf(getParts())) {
+            for (IMultiPart part : getParts()) {
                 if (part instanceof HPCAComponentPartMachine componentPartMachine && componentPartMachine.canBeDamaged()) {
                     damaged -= GTValues.RNG.nextInt(256);
                     componentPartMachine.setDamaged(true);

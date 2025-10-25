@@ -6,7 +6,6 @@ import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.DummyMachine;
-import com.gtolib.api.recipe.CombinedRecipeType;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
@@ -38,7 +37,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -46,6 +44,8 @@ import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.AETextInputButtonWidget;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -79,8 +79,7 @@ import com.lowdragmc.lowdraglib.gui.widget.ProgressWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2CharLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
@@ -90,7 +89,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
     public static final RecipeEditorBehavior INSTANCE = new RecipeEditorBehavior();
 
     private static final Map<MetaMachine, DummyMachine> CACHE = new Reference2ObjectOpenHashMap<>();
-    private static final Map<BlockPos, DummyMachine> POS_CACHE = new Object2ObjectOpenHashMap<>();
+    private static final Map<BlockPos, DummyMachine> POS_CACHE = new O2OOpenCacheHashMap<>();
 
     private boolean isGT;
     private DummyMachine machine;
@@ -105,22 +104,14 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     if (recipeType == GTRecipeTypes.BREWING_RECIPES) continue;
                     if (recipeType == GTRecipeTypes.SCANNER_RECIPES) continue;
                     if (recipeType == GTORecipeTypes.LARGE_GAS_COLLECTOR_RECIPES) continue;
-                    recipeMap.computeIfAbsent(recipeType, k -> new ObjectOpenHashSet<>()).add(recipe);
+                    recipeMap.computeIfAbsent(recipeType, k -> new OpenCacheHashSet<>()).add(recipe);
                 }
-                for (var recipeType : GTRegistries.RECIPE_TYPES) {
-                    if (recipeType instanceof CombinedRecipeType combinedRecipeType) {
-                        var set = recipeMap.computeIfAbsent(combinedRecipeType, k -> new ObjectOpenHashSet<>());
-                        for (var type : combinedRecipeType.getTypes()) {
-                            set.addAll(recipeMap.get(type));
-                        }
-                    }
-                }
-                Set<BiCache> cache = new ObjectOpenHashSet<>();
+                Set<BiCache> cache = new OpenCacheHashSet<>();
                 for (Set<Recipe> recipes : recipeMap.values()) {
-                    var stringSetMap = new Object2ObjectOpenHashMap<ResourceLocation, Set<String>>(recipeMap.size());
+                    var stringSetMap = new O2OOpenCacheHashMap<ResourceLocation, Set<String>>(recipeMap.size());
                     for (GTRecipe recipe : recipes) {
                         var id = recipe.id;
-                        var input = new ObjectOpenHashSet<String>();
+                        var input = new OpenCacheHashSet<String>();
                         if (recipe.inputs.containsKey(ItemRecipeCapability.CAP)) {
                             for (Content content : recipe.inputs.get(ItemRecipeCapability.CAP)) {
                                 Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
@@ -174,7 +165,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                         stringSetMap.put(id, input);
                     }
                     stringSetMap.forEach((id, set) -> {
-                        var map = new Object2ObjectOpenHashMap<>(stringSetMap);
+                        var map = new O2OOpenCacheHashMap<>(stringSetMap);
                         map.remove(id);
                         map.forEach((k, v) -> {
                             var object = new BiCache(id, k);
@@ -431,18 +422,18 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
             } else {
                 String id = machine.id;
                 if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
-                stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe( ");
+                stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(");
                 stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
                 stringBuilder.append(StringConverter.fromItem(Ingredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
                 char c = 'A';
-                Map<Item, Character> map = new LinkedHashMap<>();
+                Reference2CharLinkedOpenHashMap<Item> map = new Reference2CharLinkedOpenHashMap<>();
                 for (int i = 0, j = 0; i < machine.importItems.getSlots(); i++, j++) {
                     Item item = machine.importItems.getStackInSlot(i).getItem();
                     if (item != Items.AIR && !map.containsKey(item)) {
                         map.put(item, c);
                         c++;
                     }
-                    char d = item == Items.AIR ? ' ' : map.get(item);
+                    char d = item == Items.AIR ? ' ' : map.getChar(item);
                     if (j > 2) {
                         stringBuilder.append("\",\n\"").append(d);
                         j = 0;

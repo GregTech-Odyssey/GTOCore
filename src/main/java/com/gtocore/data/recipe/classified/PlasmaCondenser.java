@@ -107,7 +107,7 @@ final class PlasmaCondenser {
                 .notConsumable(GTOItems.BALL_FIELD_SHAPE.asItem())
                 .inputItems(GTOItems.NEUTRON_PLASMA_CONTAINMENT_CELL.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 32000))
-                .outputItems(GTOItems.NEUTRONIUM_SPHERE.asStack(4))
+                .outputItems(GTOItems.NEUTRONIUM_SPHERE.asItem(), 4)
                 .outputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asItem())
                 .outputFluids(GTMaterials.Helium.getFluid(32000))
                 .EUt(1966080)
@@ -371,6 +371,26 @@ final class PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
+                .save();
+
+        PLASMA_CONDENSER_RECIPES.recipeBuilder("americium_condenser")
+                .circuitMeta(1)
+                .inputFluids(GTMaterials.Americium.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
+                .outputFluids(GTMaterials.Americium.getFluid(1000))
+                .outputFluids(GTMaterials.Helium.getFluid(100000))
+                .EUt(1966080)
+                .duration(600)
+                .save();
+
+        PLASMA_CONDENSER_RECIPES.recipeBuilder("americium_ingot_condenser")
+                .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asItem())
+                .inputFluids(GTMaterials.Americium.getFluid(FluidStorageKeys.PLASMA, 144))
+                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 14400))
+                .outputItems(TagPrefix.ingot, GTMaterials.Americium)
+                .outputFluids(GTMaterials.Helium.getFluid(14400))
+                .EUt(1966080)
+                .duration(60)
                 .save();
     }
 }

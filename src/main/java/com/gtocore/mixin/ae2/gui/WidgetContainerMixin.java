@@ -3,6 +3,8 @@ package com.gtocore.mixin.ae2.gui;
 import com.gtolib.api.ae2.gui.hooks.IStylelessCompositeWidget;
 import com.gtolib.api.ae2.gui.hooks.IWidgetsGetter;
 
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
@@ -14,7 +16,6 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.ICompositeWidget;
 import appeng.client.gui.WidgetContainer;
 import com.google.common.base.Preconditions;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -59,7 +60,7 @@ public class WidgetContainerMixin implements IWidgetsGetter {
     @Shadow(remap = false)
     private Map<String, ICompositeWidget> compositeWidgets;
     @Unique
-    private final Map<String, IStylelessCompositeWidget> gtolib$compositeStylelessWidgets = new Object2ObjectOpenHashMap<>();
+    private final Map<String, IStylelessCompositeWidget> gtolib$compositeStylelessWidgets = new O2OOpenCacheHashMap<>();
 
     @Inject(method = "add(Ljava/lang/String;Lappeng/client/gui/ICompositeWidget;)V",
             at = @At(value = "HEAD"),
@@ -252,7 +253,7 @@ public class WidgetContainerMixin implements IWidgetsGetter {
         if (this.compositeWidgets.isEmpty() && gtolib$compositeStylelessWidgets.isEmpty()) {
             return Optional.empty();
         }
-        Map<String, ICompositeWidget> mixed = new Object2ObjectOpenHashMap<>(this.compositeWidgets);
+        Map<String, ICompositeWidget> mixed = new O2OOpenCacheHashMap<>(this.compositeWidgets);
         mixed.putAll(gtolib$compositeStylelessWidgets);
         return Optional.of(mixed);
     }

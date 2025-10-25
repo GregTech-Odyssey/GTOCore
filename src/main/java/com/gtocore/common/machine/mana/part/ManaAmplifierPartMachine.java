@@ -17,7 +17,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 @DataGeneratorScanned
@@ -26,7 +25,6 @@ public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPart
     @RegisterLanguage(cn = "最大魔力", en = "Max Mana")
     private static final String MAX = "gtocore.machine.mana_amplifier_part.max_mana";
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ManaAmplifierPartMachine.class, AmountConfigurationHatchPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     private final NotifiableManaContainer manaContainer;
 
@@ -39,12 +37,6 @@ public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPart
     @Override
     public Widget createUIWidget() {
         return ((WidgetGroup) super.createUIWidget()).addWidget(new LabelWidget(24, -16, () -> MAX));
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

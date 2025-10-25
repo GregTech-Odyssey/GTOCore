@@ -1,23 +1,26 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
+import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
-import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
+import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -25,10 +28,8 @@ import java.util.function.Supplier;
 
 public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements IConfigurableSlotList {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ExportOnlyAEItemList.class, NotifiableItemStackHandler.MANAGED_FIELD_HOLDER);
-
     @Persisted
-    protected final ExportOnlyAEItemSlot[] inventory;
+    final ExportOnlyAEItemSlot[] inventory;
 
     public ExportOnlyAEItemList(MetaMachine holder, int slots) {
         this(holder, slots, ExportOnlyAEItemSlot::new);
@@ -52,7 +53,17 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
 
     @Override
     public boolean isEmpty() {
-        return getItemMap() == null;
+        if (isEmpty == null) {
+            isEmpty = true;
+            for (var i : inventory) {
+                if (i.config == null) continue;
+                var stock = i.stock;
+                if (stock == null || stock.amount() == 0) continue;
+                isEmpty = false;
+                break;
+            }
+        }
+        return isEmpty;
     }
 
     @Override
@@ -108,7 +119,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
                     if (stored == null) continue;
                     long count = stored.amount();
                     if (count == 0) continue;
-                    if (ingredient.test(i.getStack())) {
+                    if (ingredient.test(i.getReadOnlyStack())) {
                         var extracted = i.extractItem(Math.min(count, amount), simulate, false);
                         if (extracted > 0) {
                             changed = true;
@@ -134,24 +145,41 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     }
 
     @Override
-    public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
-        if (itemMap == null) {
-            itemMap = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
+    public boolean forEachItems(ObjectLongPredicate<ItemStack> function) {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            if (function.test(i.getReadOnlyStack(), stock.amount())) return true;
         }
+        return false;
+    }
+
+    @Override
+    public void fastForEachItems(ObjectLongConsumer<ItemStack> function) {
+        for (var i : inventory) {
+            if (i.config == null) continue;
+            var stock = i.stock;
+            if (stock == null || stock.amount() == 0) continue;
+            function.accept(i.getReadOnlyStack(), stock.amount());
+        }
+    }
+
+    @Override
+    public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
         if (changed) {
             changed = false;
-            itemMap.clear();
+            intIngredientMap.clear();
             for (var i : inventory) {
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
-                var stack = i.getStack();
-                if (stack.isEmpty()) continue;
-                itemMap.addTo(stack, stock.amount());
+                if (stock.what() instanceof AEItemKey itemKey) {
+                    ((IAEItemKey) (Object) itemKey).gtolib$convert(stock.amount(), intIngredientMap);
+                }
             }
-            isEmpty = itemMap.isEmpty();
         }
-        return isEmpty ? null : itemMap;
+        return intIngredientMap;
     }
 
     @Override
@@ -170,11 +198,6 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
 
     public boolean isStocking() {
         return false;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private static final class ItemStackHandlerDelegate extends CustomItemStackHandler {

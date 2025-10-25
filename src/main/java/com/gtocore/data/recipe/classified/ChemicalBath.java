@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
@@ -11,7 +12,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
@@ -92,7 +92,7 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("end_stone")
-                .inputItems(new ItemStack(Blocks.ANDESITE.asItem()))
+                .inputItems(Blocks.ANDESITE.asItem())
                 .inputFluids(GTMaterials.LiquidEnderAir.getFluid(1000))
                 .outputItems(TagPrefix.rock, GTMaterials.Endstone)
                 .EUt(480)
@@ -116,34 +116,10 @@ final class ChemicalBath {
                 .duration(80)
                 .save();
 
-        CHEMICAL_BATH_RECIPES.recipeBuilder("vibrant_alloy_ingot")
-                .inputItems(TagPrefix.ingotHot, GTOMaterials.VibrantAlloy)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .outputItems(TagPrefix.ingot, GTOMaterials.VibrantAlloy)
-                .EUt(120)
-                .duration(280)
-                .save();
-
-        CHEMICAL_BATH_RECIPES.recipeBuilder("electronic_grade_silicon")
-                .inputItems(TagPrefix.ingotHot, GTOMaterials.ElectronicGradeSilicon)
-                .outputItems(TagPrefix.ingot, GTOMaterials.ElectronicGradeSilicon)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .EUt(120)
-                .duration(250)
-                .save();
-
-        CHEMICAL_BATH_RECIPES.recipeBuilder("terrasteel_silicon")
-                .inputItems(TagPrefix.ingotHot, GTOMaterials.Terrasteel)
-                .outputItems(TagPrefix.ingot, GTOMaterials.Terrasteel)
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
-                .EUt(120)
-                .duration(230)
-                .save();
-
         CHEMICAL_BATH_RECIPES.recipeBuilder("sculk_vein")
-                .inputItems(new ItemStack(Blocks.VINE.asItem()))
+                .inputItems(Blocks.VINE.asItem())
                 .inputFluids(GTMaterials.EchoShard.getFluid(10))
-                .outputItems(new ItemStack(Blocks.SCULK_VEIN.asItem()))
+                .outputItems(Blocks.SCULK_VEIN.asItem())
                 .EUt(120)
                 .duration(200)
                 .save();
@@ -158,7 +134,7 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("netherrack")
-                .inputItems(new ItemStack(Blocks.GRANITE.asItem()))
+                .inputItems(Blocks.GRANITE.asItem())
                 .inputFluids(GTMaterials.LiquidNetherAir.getFluid(1000))
                 .outputItems(TagPrefix.rock, GTMaterials.Netherrack)
                 .EUt(120)
@@ -175,9 +151,9 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("black_candle")
-                .inputItems(new ItemStack(Blocks.TRIPWIRE.asItem()))
+                .inputItems(Blocks.TRIPWIRE.asItem())
                 .inputFluids(GTMaterials.Oil.getFluid(100))
-                .outputItems(new ItemStack(Blocks.BLACK_CANDLE.asItem()))
+                .outputItems(Blocks.BLACK_CANDLE.asItem())
                 .EUt(120)
                 .duration(200)
                 .save();
@@ -216,9 +192,9 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("flawless_budding_quartz")
-                .inputItems(new ItemStack(AEBlocks.FLAWED_BUDDING_QUARTZ.block().asItem()))
+                .inputItems(AEBlocks.FLAWED_BUDDING_QUARTZ.block().asItem())
                 .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(AEBlocks.FLAWLESS_BUDDING_QUARTZ.block().asItem()))
+                .outputItems(AEBlocks.FLAWLESS_BUDDING_QUARTZ.block().asItem())
                 .EUt(30)
                 .duration(400)
                 .save();
@@ -229,6 +205,30 @@ final class ChemicalBath {
                 .outputItems(GTOItems.ETERNITY_CATALYST.asItem())
                 .EUt(8053063680L)
                 .duration(1600)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("yellow_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeYellow, 3)
+                .outputItems(GTOItems.YELLOW_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("blue_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeBlue, 3)
+                .outputItems(GTOItems.BLUE_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("red_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeRed, 3)
+                .outputItems(GTOItems.RED_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
                 .save();
     }
 }

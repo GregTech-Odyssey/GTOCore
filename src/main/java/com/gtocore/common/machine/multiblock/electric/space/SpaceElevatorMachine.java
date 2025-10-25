@@ -31,7 +31,6 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.common.menus.base.PlanetsMenuProvider;
 import earth.terrarium.botarium.common.menu.MenuHooks;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +42,6 @@ import java.util.List;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements IHighlightMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceElevatorMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public SpaceElevatorMachine(MetaMachineBlockEntity holder) {
         super(holder, POWER_MODULE_TIER);
@@ -67,32 +64,26 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         poss.add(blockPos.offset(-2, 2, -7));
     }
 
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
     @DescSynced
-    private double high;
+    protected double high;
     @Persisted
     @DescSynced
-    private int spoolCount;
-    private int moduleCount;
+    protected int spoolCount;
+    protected int moduleCount;
     @DescSynced
     final List<BlockPos> poss = new ArrayList<>();
     private ServerPlayer player;
 
-    private void update(boolean promptly) {
-        if (promptly || getOffsetTimer() % 40 == 0) {
+    protected void update(boolean promptly) {
+        if (promptly || getOffsetTimer() % 80 == 0) {
             moduleCount = 0;
             if (spoolCount < getMaxSpoolCount()) {
-                forEachInputItems(stack -> {
+                forEachInputItems((stack, amount) -> {
                     if (stack.getItem() == GTOItems.NANOTUBE_SPOOL.get()) {
                         int count = Math.min(stack.getCount(), getMaxSpoolCount() - spoolCount);
                         if (count < 1) return true;
                         spoolCount += count;
-                        stack.shrink(count);
+                        inputItem(stack.getItem(), count);
                     }
                     return false;
                 });
@@ -103,6 +94,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
             for (BlockPos blockPoss : poss) {
                 MetaMachine metaMachine = getMachine(level, blockPoss);
                 if (metaMachine instanceof SpaceElevatorModuleMachine moduleMachine && moduleMachine.isFormed()) {
+                    if (moduleMachine.spaceElevatorMachine != this) moduleMachine.getRecipeLogic().updateTickSubscription();
                     moduleMachine.spaceElevatorMachine = this;
                     moduleCount++;
                 }
@@ -119,11 +111,16 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
+    protected void onStructureFormedAfter() {
+        super.onStructureFormedAfter();
+        update(true);
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         initialize();
         high = getBaseHigh();
-        update(true);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOMaterials;
+
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gtocore.common.data.GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES;
@@ -81,6 +83,66 @@ final class PetrochemicalPlant {
                 .outputFluids(GTMaterials.Helium.getFluid(10))
                 .EUt(1920)
                 .duration(200)
+                .save();
+        PETROCHEMICAL_PLANT_RECIPES.builder("hydro1")
+                .inputFluids(GTMaterials.Oil, 1000)
+                .inputFluids(GTMaterials.Hydrogen, 1000)
+                .outputFluids(GTMaterials.Methane, 250)
+                .outputFluids(GTMaterials.Butane, 800)
+                .outputFluids(GTMaterials.Propane, 300)
+                .outputFluids(GTMaterials.Ethane, 250)
+                .outputFluids(GTMaterials.Helium, 20)
+                .outputFluids(GTMaterials.Cyclohexane, 140)
+                .outputFluids(GTMaterials.Benzene, 40)
+                .outputFluids(GTMaterials.Octane, 60)
+                .outputFluids(GTOMaterials.Cetane, 30)
+                .EUt(1920)
+                .duration(600)
+                .save();
+        PETROCHEMICAL_PLANT_RECIPES.builder("hydro2")
+                .inputFluids(GTMaterials.RawOil, 1000)
+                .inputFluids(GTMaterials.Hydrogen, 1000)
+                .outputFluids(GTMaterials.Methane, 150)
+                .outputFluids(GTMaterials.Butane, 850)
+                .outputFluids(GTMaterials.Propane, 350)
+                .outputFluids(GTMaterials.Ethane, 150)
+                .outputFluids(GTMaterials.Helium, 70)
+                .outputFluids(GTMaterials.Cyclohexane, 240)
+                .outputFluids(GTMaterials.Benzene, 140)
+                .outputFluids(GTMaterials.Octane, 120)
+                .outputFluids(GTOMaterials.Cetane, 60)
+                .EUt(1920)
+                .duration(600)
+                .save();
+        PETROCHEMICAL_PLANT_RECIPES.builder("hydro3")
+                .inputFluids(GTMaterials.OilHeavy, 1000)
+                .inputFluids(GTMaterials.Hydrogen, 1000)
+                .outputFluids(GTMaterials.Methane, 180)
+                .outputFluids(GTMaterials.Butane, 800)
+                .outputFluids(GTMaterials.Propane, 300)
+                .outputFluids(GTMaterials.Ethane, 200)
+                .outputFluids(GTMaterials.Helium, 50)
+                .outputFluids(GTMaterials.Cyclohexane, 200)
+                .outputFluids(GTMaterials.Benzene, 120)
+                .outputFluids(GTMaterials.Octane, 90)
+                .outputFluids(GTOMaterials.Cetane, 45)
+                .EUt(1920)
+                .duration(600)
+                .save();
+        PETROCHEMICAL_PLANT_RECIPES.builder("hydro4")
+                .inputFluids(GTMaterials.OilLight, 1000)
+                .inputFluids(GTMaterials.Hydrogen, 1000)
+                .outputFluids(GTMaterials.Methane, 500)
+                .outputFluids(GTMaterials.Butane, 200)
+                .outputFluids(GTMaterials.Propane, 600)
+                .outputFluids(GTMaterials.Ethane, 400)
+                .outputFluids(GTMaterials.Helium, 10)
+                .outputFluids(GTMaterials.Cyclohexane, 30)
+                .outputFluids(GTMaterials.Benzene, 6)
+                .outputFluids(GTMaterials.Octane, 30)
+                .outputFluids(GTOMaterials.Cetane, 15)
+                .EUt(1920)
+                .duration(600)
                 .save();
     }
 }

@@ -145,5 +145,29 @@ final class Crystallization {
                 .duration(24000)
                 .blastFurnaceTemp(10500)
                 .save();
+
+        CRYSTALLIZATION_RECIPES.builder("sic_wide_bandgap_semiconductor_single_crystal")
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.ElectronicGradeSilicon)
+                .inputItems(GTOTagPrefix.ingot, GTOMaterials.NanoScaleSiliconCarbide)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.GalliumArsenide)
+                .outputItems(GTOItems.SIC_WIDE_BANDGAP_SEMICONDUCTOR_SINGLE_CRYSTAL.asItem())
+                .inputFluids(GTOMaterials.ElectronicGradeSilicon, 20736)
+                .inputFluids(GTMaterials.Argon, 8000)
+                .EUt(131000)
+                .blastFurnaceTemp(8800)
+                .duration(15000)
+                .save();
+
+        CRYSTALLIZATION_RECIPES.builder("germanium_doped_single_crystal_silicon")
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.ElectronicGradeSilicon)
+                .inputItems(GTOTagPrefix.ingot, GTMaterials.Germanium)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.GalliumArsenide)
+                .outputItems(GTOItems.GERMANIUM_DOPED_SINGLE_CRYSTAL_SILICON.asItem())
+                .inputFluids(GTOMaterials.ElectronicGradeSilicon, 20736)
+                .inputFluids(GTMaterials.Argon, 8000)
+                .EUt(131000)
+                .blastFurnaceTemp(8800)
+                .duration(15000)
+                .save();
     }
 }

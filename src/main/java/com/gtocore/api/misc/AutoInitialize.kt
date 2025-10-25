@@ -1,12 +1,7 @@
 package com.gtocore.api.misc
 
-import com.gtocore.common.data.translation.ComponentSlang
-import com.gtocore.common.data.translation.EnumTranslation
-import com.gtocore.common.data.translation.GTOItemTooltips
-import com.gtocore.common.data.translation.GTOMachineTranslation
-import com.gtocore.common.data.translation.MachineSlang
-import com.gtocore.common.data.translation.MultiblockSlang
-import com.gtocore.common.data.translation.OrganTranslation
+import com.gtocore.common.data.translation.*
+import com.gtocore.data.recipe.research.AnalyzeData
 
 import kotlin.reflect.KProperty1
 
@@ -14,11 +9,13 @@ open class AutoInitialize<T> {
     fun originInit() {
         GTOItemTooltips.init()
         OrganTranslation.init()
-        GTOMachineTranslation.init()
+        GTOMachineStories.init()
         ComponentSlang.init()
         EnumTranslation.init()
         MachineSlang.init()
         MultiblockSlang.init()
+        GTOTarotArcanumTooltips.init()
+        AnalyzeData.init()
     }
     open fun init() {}
     init {

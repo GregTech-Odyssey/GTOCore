@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/load_bearing_structural_steel_casing_ctm"
+    }
+}

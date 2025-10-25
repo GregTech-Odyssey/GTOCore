@@ -1,6 +1,7 @@
 package com.gtocore.common.forge
 
 import com.gtocore.api.misc.AnimalsRevengeAttackGoal
+import com.gtocore.common.data.GTOLoots
 import com.gtocore.config.GTOConfig
 
 import net.minecraft.core.RegistryAccess
@@ -8,11 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.Mob
-import net.minecraft.world.entity.MobCategory
-import net.minecraft.world.entity.PathfinderMob
+import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -35,15 +32,9 @@ import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.DataGeneratorScanned
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.*
 
-import java.util.UUID
+import java.util.*
 import kotlin.math.max
 
 @DataGeneratorScanned
@@ -228,9 +219,11 @@ object AnimalsRevengeEvent {
             .create(LootContextParamSets.ENTITY)
 
         repeat(32) {
+            GTOLoots.modifyLoot = false
             for (stack in table.getRandomItems(params)) {
                 if (!stack.isEmpty) result.add(stack.item)
             }
+            GTOLoots.modifyLoot = true
         }
         return result
     }

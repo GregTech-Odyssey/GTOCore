@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import java.util.List;
 
@@ -20,14 +19,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class FlocculationPurificationUnitMachine extends WaterPurificationUnitMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            FlocculationPurificationUnitMachine.class, WaterPurificationUnitMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private static final Fluid PolyAluminiumChloride = GTOMaterials.PolyAluminiumChloride.getFluid();
     private static final Fluid FlocculationWasteSolution = GTOMaterials.FlocculationWasteSolution.getFluid();
@@ -74,7 +65,9 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     public void onRecipeFinish() {
         super.onRecipeFinish();
         outputFluid(FlocculationWasteSolution, outputCount);
-        if (Math.random() * 100 <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, inputCount * 9 / 10);
+        long outputCount = inputCount * 9 / 10;
+        if (Math.random() * 100 <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, outputCount);
+        else outputFluid(WaterPurificationPlantMachine.GradePurifiedWater2, outputCount);
     }
 
     @Override

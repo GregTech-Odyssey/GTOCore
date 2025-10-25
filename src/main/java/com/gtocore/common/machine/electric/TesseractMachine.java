@@ -4,10 +4,12 @@ import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,10 +19,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,9 +32,6 @@ import java.util.Set;
 public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
     private static final Set<Capability<?>> CAPABILITIES = Set.of(ForgeCapabilities.ITEM_HANDLER, ForgeCapabilities.FLUID_HANDLER);
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            TesseractMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     @Override
     public void onMachineRemoved() {
@@ -67,13 +66,20 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
     }
 
     @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
+    public Widget createUIWidget() {
+        return ItemHatchPartMachine.createSLOTWidget(inventory);
     }
 
     @Override
-    public Widget createUIWidget() {
-        return ItemHatchPartMachine.createSLOTWidget(inventory);
+    public @Nullable IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+        var cap = getCapability(ForgeCapabilities.ITEM_HANDLER, side);
+        return cap != null ? cap.orElse(null) instanceof IItemHandlerModifiable m ? m : null : null;
+    }
+
+    @Override
+    public @Nullable IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
+        var cap = getCapability(ForgeCapabilities.FLUID_HANDLER, side);
+        return cap != null ? cap.orElse(null) instanceof IFluidHandlerModifiable m ? m : null : null;
     }
 
     @Override
@@ -106,6 +112,16 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
                 }
             }
             call = false;
+            if (side != null && result != null) {
+                var handler = result.orElse(null);
+                if (handler instanceof IItemHandlerModifiable modifiable) {
+                    CoverBehavior cover = getCoverContainer().getCoverAtSide(side);
+                    return cover != null ? ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> cover.getItemHandlerCap(modifiable))) : result;
+                } else if (handler instanceof IFluidHandlerModifiable modifiable) {
+                    CoverBehavior cover = getCoverContainer().getCoverAtSide(side);
+                    return cover != null ? ForgeCapabilities.FLUID_HANDLER.orEmpty(cap, LazyOptional.of(() -> cover.getFluidHandlerCap(modifiable))) : result;
+                }
+            }
             return result;
         }
         return null;

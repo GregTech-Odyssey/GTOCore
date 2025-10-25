@@ -1,0 +1,11 @@
+{
+  "parent": "gtceu:block/cube_2_layer/bottom_top",
+  "textures": {
+    "bot_bottom": "gtocore:block/casings/sided/energy_control_casing_mk3/top",
+    "bot_side": "gtocore:block/casings/sided/energy_control_casing_mk3/side",
+    "bot_top": "gtocore:block/casings/sided/energy_control_casing_mk3/top",
+    "top_bottom": "gtocore:block/casings/sided/energy_control_casing_mk3/top",
+    "top_side": "gtocore:block/casings/sided/energy_control_casing_mk3/side_bloom",
+    "top_top": "gtocore:block/casings/sided/energy_control_casing_mk3/top"
+  }
+}

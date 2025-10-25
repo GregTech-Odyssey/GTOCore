@@ -21,7 +21,7 @@ final class FluidHeater {
                 .inputFluids(GTMaterials.CarbonDioxide.getFluid(1000))
                 .outputFluids(GTOMaterials.SupercriticalCarbonDioxide.getFluid(1000))
                 .EUt(480)
-                .duration(200)
+                .duration(40000)
                 .save();
 
         FLUID_HEATER_RECIPES.recipeBuilder("azafullerene")
@@ -64,7 +64,7 @@ final class FluidHeater {
                 .save();
 
         FLUID_HEATER_RECIPES.recipeBuilder("cloud_seed")
-                .inputItems(GTOItems.GOLD_ALGAE.asStack(4))
+                .inputItems(GTOItems.GOLD_ALGAE.asItem(), 4)
                 .inputFluids(GTOMaterials.CoolantLiquid.getFluid(1000))
                 .outputFluids(new FluidStack(EIOFluids.CLOUD_SEED.getSource(), 1000))
                 .EUt(30)

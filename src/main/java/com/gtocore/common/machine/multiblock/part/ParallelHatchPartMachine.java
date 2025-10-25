@@ -13,7 +13,7 @@ import it.unimi.dsi.fastutil.ints.Int2LongFunction;
 
 public final class ParallelHatchPartMachine extends AmountConfigurationHatchPartMachine implements IParallelHatch {
 
-    public static final Int2LongFunction PARALLEL_FUNCTION = tier -> 1L << ((tier - 3 + (GTOCore.isSimple() ? 1 : 0)) << 1);
+    public static final Int2LongFunction PARALLEL_FUNCTION = tier -> 1L << ((tier - 3 + (GTOCore.isEasy() ? 1 : 0)) << 1);
 
     public ParallelHatchPartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier < 0 ? GTValues.MAX : tier, 1, tier < 0 ? IParallelMachine.MAX_PARALLEL : PARALLEL_FUNCTION.apply(tier));

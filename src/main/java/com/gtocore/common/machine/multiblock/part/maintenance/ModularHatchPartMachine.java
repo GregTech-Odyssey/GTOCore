@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -18,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.SingleCustomItemStackHandler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -28,11 +28,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import com.google.common.base.Joiner;
-import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -42,18 +43,22 @@ import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
 @DataGeneratorScanned
-public class ModularHatchPartMachine extends ACMHatchPartMachine implements IModularMaintenance, IMachineModifyDrops, IFancyTooltip {
-
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ModularHatchPartMachine.class, ACMHatchPartMachine.MANAGED_FIELD_HOLDER);
+public class ModularHatchPartMachine extends ACMHatchPartMachine implements IModularMaintenance, IMachineModifyDrops {
 
     private TickableSubscription tickSubs;
 
     @Persisted
-    private final NotifiableItemStackHandler inventory;
+    private final NotifiableItemStackHandler temperatureModuleInv;
     @Persisted
-    private int temperature = 298;
+    private final NotifiableItemStackHandler gravityModuleInv;
     @Persisted
-    private int activeTemperature = 298;
+    private final NotifiableItemStackHandler vacuumModuleInv;
+    @Persisted
+    private final NotifiableItemStackHandler cleanroomModuleInv;
+    @Persisted
+    private int temperature = 293;
+    @Persisted
+    private int activeTemperature = 293;
     @Persisted
     @DescSynced
     private int currentGravity = 0;
@@ -72,29 +77,31 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     private IntInputWidget gravityWidget;
     private IntInputWidget temperatureWidget;
 
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
     public ModularHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
-        inventory = new NotifiableItemStackHandler(this, 4, IO.IN, IO.BOTH); // 3 for CLEAN, 2 for VACUUM, 1 for
-                                                                             // GRAVITY, 0 for TEMPERATURE
-        inventory.addChangedListener(this::onConditionChange);
+
+        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        temperatureModuleInv.setFilter(stack -> stack.getItem() == Wrapper.TEMPERATURE_CHECK);
+        temperatureModuleInv.addChangedListener(this::onConditionChange);
+
+        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        gravityModuleInv.setFilter(stack -> stack.getItem() == Wrapper.GRAVITY_CHECK);
+        gravityModuleInv.addChangedListener(this::onConditionChange);
+
+        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        vacuumModuleInv.setFilter(stack -> stack.getItem() == Wrapper.VACUUM_CHECK);
+        vacuumModuleInv.addChangedListener(this::onConditionChange);
+
+        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        cleanroomModuleInv.setFilter(stack -> Wrapper.CLEAN_CHECK.containsKey(stack.getItem()));
+        cleanroomModuleInv.addChangedListener(this::onConditionChange);
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, () -> {
-                /// from {@link com.gtolib.api.machine.feature.IReceiveHeatMachine}
-                tickUpdate();
-                /// from {@link com.gtolib.api.machine.feature.IVacuumMachine}
-                update();
-
-            });
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
         }
     }
 
@@ -165,21 +172,21 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                         () -> Component.translatable("gtceu.maintenance.configurable_duration.modify"),
                         this::incInternalMultiplier, this::decInternalMultiplier, () -> true, getMIN_DURATION_MULTIPLIER(), getMAX_DURATION_MULTIPLIER()))
                 // Temperature
-                .addWidget(new SlotWidget(inventory.storage, 0, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(temperatureModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
-                        .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.TEMPERATURE_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(TEMPERATURE_FUNC).getString())))
+                        .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.TEMPERATURE_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(TEMPERATURE_FUNC))))
                 .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
                         () -> Component.translatable("gtocore.machine.current_temperature", getTemperature()),
                         () -> temperatureMode ?
                                 Component.translatable(TEMPERATURE_CONFIG) :
                                 Component.translatable(TOOLTIP_REQUIRED_KEY, Wrapper.TEMPERATURE_CHECK.getDefaultInstance().getDisplayName()),
-                        v -> setActiveTemperature(getActiveTemperature() + v),
-                        v -> setActiveTemperature(getActiveTemperature() - v),
+                        v -> setActiveTemperature(activeTemperature + v),
+                        v -> setActiveTemperature(activeTemperature - v),
                         () -> temperatureMode, MIN_TEMPERATURE, MAX_TEMPERATURE))
                 // Gravity
-                .addWidget(new SlotWidget(inventory.storage, 1, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(gravityModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
-                        .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.GRAVITY_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(GRAVITY_FUNC).getString())))
+                        .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.GRAVITY_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(GRAVITY_FUNC))))
                 .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
                         () -> Component.translatable("forge.entity_gravity").append(": %s".formatted(getCurrentGravity())),
                         () -> gravityMode ?
@@ -189,27 +196,27 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                         v -> setCurrentGravity(getCurrentGravity() - v),
                         () -> gravityMode, MIN_GRAVITY, MAX_GRAVITY))
                 // Vacuum
-                .addWidget(new SlotWidget(inventory.storage, 2, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(vacuumModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
-                        .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.VACUUM_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(VACUUM_TIER_4).getString())))
-                .addWidget(new LabelWidget(xlabel, ylabel + y++ * 22 + 11, () -> Component.translatable("gtocore.recipe.vacuum.tier", getVacuumTier()).getString()))
+                        .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.VACUUM_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(VACUUM_TIER_4))))
+                .addWidget(new ComponentPanelWidget(xlabel, ylabel + y++ * 22 + 11, (list) -> list.add(Component.translatable("gtocore.recipe.vacuum.tier", getVacuumTier()))))
                 // Cleanroom
-                .addWidget(new SlotWidget(inventory.storage, 3, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(cleanroomModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY_CLEANROOM)))
                 .addWidget(new ComponentPanelWidget(xlabel, ylabel + y++ * 22, (list) -> {
                     list.add(Component.translatable(CURRENT_CLEANROOM));
-                    list.add(Component.literal(getCurrentCleanroom()).withStyle(ChatFormatting.GREEN));
+                    list.add(getCurrentCleanroom().withStyle(ChatFormatting.GREEN));
                 }))
                 .setBackground(GuiTextures.BACKGROUND_INVERSE));
         return group;
     }
 
-    private ComponentPanelWidget getConfigPanel(int x, int y,
-                                                Supplier<Component> firstLine, Supplier<Component> secondLineTitle,
-                                                IntConsumer onAdd, IntConsumer onSub,
-                                                BooleanSupplier enableWrite,
-                                                float min, float max) {
+    private static ComponentPanelWidget getConfigPanel(int x, int y,
+                                                       Supplier<Component> firstLine, Supplier<Component> secondLineTitle,
+                                                       IntConsumer onAdd, IntConsumer onSub,
+                                                       BooleanSupplier enableWrite,
+                                                       float min, float max) {
         return new ComponentPanelWidget(x, y, list -> {
             list.add(firstLine.get());
             MutableComponent buttonText = secondLineTitle.get().copy();
@@ -233,30 +240,46 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         });
     }
 
-    private String getCurrentCleanroom() {
+    private MutableComponent getCurrentCleanroom() {
         if (!getControllers().isEmpty() &&
                 getControllers().first() instanceof ICleanroomReceiver receiver) {
             if (receiver.getCleanroom() != null) {
-                return Joiner.on(", ").join(receiver.getCleanroom().getTypes().stream()
-                        .map(type -> Component.translatable(type.getTranslationKey()).getString()).toList());
+                List<MutableComponent> cleanroomTypes = receiver.getCleanroom().getTypes().stream()
+                        .map(type -> Component.translatable(type.getTranslationKey()))
+                        .toList();
+                if (cleanroomTypes.isEmpty()) {
+                    return Component.translatable(CLEANROOM_NOT_SET);
+                }
+                MutableComponent result = Component.empty();
+                for (int i = 0; i < cleanroomTypes.size(); i++) {
+                    result.append(cleanroomTypes.get(i));
+                    if (i < cleanroomTypes.size() - 1) {
+                        result.append(", ");
+                    }
+                }
+                return result;
+
             } else {
-                return Component.translatable(CLEANROOM_NOT_SET).getString();
+                return Component.translatable(CLEANROOM_NOT_SET);
             }
         }
-        return Component.translatable(CLEANROOM_NOT_APPLICABLE).getString();
+        return Component.translatable(CLEANROOM_NOT_APPLICABLE);
     }
 
-    public int getActiveTemperature() {
+    private int getActiveTemperature() {
         return activeTemperature;
     }
 
-    public void setActiveTemperature(int activeTemperature) {
+    private void setActiveTemperature(int activeTemperature) {
         this.activeTemperature = Mth.clamp(activeTemperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
     @Override
     public void onDrops(List<ItemStack> drops) {
-        clearInventory(inventory);
+        clearInventory(temperatureModuleInv);
+        clearInventory(gravityModuleInv);
+        clearInventory(vacuumModuleInv);
+        clearInventory(cleanroomModuleInv);
     }
 
     @Override
@@ -274,10 +297,10 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     }
 
     private void onConditionChange() {
-        temperatureMode = inventory.getStackInSlot(0).getItem() == Wrapper.TEMPERATURE_CHECK;
-        gravityMode = inventory.getStackInSlot(1).getItem() == Wrapper.GRAVITY_CHECK;
-        vacuumMode = inventory.getStackInSlot(2).getItem() == Wrapper.VACUUM_CHECK;
-        var cleanroom = Wrapper.CLEAN_CHECK.get(inventory.getStackInSlot(3).getItem());
+        temperatureMode = !temperatureModuleInv.getStackInSlot(0).isEmpty();
+        gravityMode = !gravityModuleInv.getStackInSlot(0).isEmpty();
+        vacuumMode = !vacuumModuleInv.getStackInSlot(0).isEmpty();
+        var cleanroom = Wrapper.CLEAN_CHECK.get(cleanroomModuleInv.getStackInSlot(0).getItem());
         if (!getControllers().isEmpty() &&
                 getControllers().first() instanceof ICleanroomReceiver receiver && receiver.getCleanroom() != cleanroom) {
             receiver.setCleanroom(cleanroom);
@@ -299,15 +322,20 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         return super.showFancyTooltip();
     }
 
+    @Override
+    public int getMaxTemperature() {
+        return MAX_TEMPERATURE;
+    }
+
     private static class Wrapper {
 
-        private static final Item VACUUM_CHECK = GTOMachines.VACUUM_HATCH.getItem();
-        private static final Item GRAVITY_CHECK = GTOMachines.GRAVITY_CONFIGURATION_HATCH.getItem();
-        private static final Item TEMPERATURE_CHECK = GTOMachines.ELECTRIC_HEATER.getItem();
+        private static final Item VACUUM_CHECK = GTOMachines.VACUUM_CONFIGURATION_HATCH.asItem();
+        private static final Item GRAVITY_CHECK = GTOMachines.GRAVITY_CONFIGURATION_HATCH.asItem();
+        private static final Item TEMPERATURE_CHECK = GTOMachines.ELECTRIC_HEATER.asItem();
         private static final Map<Item, ICleanroomProvider> CLEAN_CHECK = Map.of(
-                GTOMachines.CLEANING_CONFIGURATION_MAINTENANCE_HATCH.getItem(), CMHatchPartMachine.DUMMY_CLEANROOM,
-                GTOMachines.STERILE_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.getItem(), CMHatchPartMachine.STERILE_DUMMY_CLEANROOM,
-                GTOMachines.LAW_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.getItem(), CMHatchPartMachine.LAW_DUMMY_CLEANROOM);
+                GTOMachines.CLEANING_CONFIGURATION_MAINTENANCE_HATCH.asItem(), CMHatchPartMachine.DUMMY_CLEANROOM,
+                GTOMachines.STERILE_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.asItem(), CMHatchPartMachine.STERILE_DUMMY_CLEANROOM,
+                GTOMachines.LAW_CONFIGURATION_CLEANING_MAINTENANCE_HATCH.asItem(), CMHatchPartMachine.LAW_DUMMY_CLEANROOM);
     }
 
     @RegisterLanguage(cn = "在槽位放入%s以启用%s功能", en = "Place %s in the corresponding slot to enable %s functionality")
@@ -321,13 +349,13 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @RegisterLanguage(cn = "调节温度：", en = "Adjust Temperature：")
     private static final String TEMPERATURE_CONFIG = "gtocore.machine.modular_maintenance.temperature_config";
     @RegisterLanguage(cn = "未设置超净环境", en = "Cleanroom Not Set")
-    private static final String CLEANROOM_NOT_SET = "gtocore.machine.modular_maintenance.no_cleanroom";
+    public static final String CLEANROOM_NOT_SET = "gtocore.machine.modular_maintenance.no_cleanroom";
     @RegisterLanguage(cn = "无控制器或不接受超净", en = "No Controller or Not Accepting Cleanroom")
     private static final String CLEANROOM_NOT_APPLICABLE = "gtocore.machine.modular_maintenance.no_controller";
     @RegisterLanguage(cn = "调节范围限制：%s~%s", en = "Adjustment Range Limit: %s~%s")
     private static final String RANGE_LIMIT = "gtocore.machine.modular_maintenance.range_limit";
     @RegisterLanguage(cn = "当前的超净环境：", en = "Current Cleanroom: ")
-    private static final String CURRENT_CLEANROOM = "gtocore.machine.modular_maintenance.current_cleanroom";
+    public static final String CURRENT_CLEANROOM = "gtocore.machine.modular_maintenance.current_cleanroom";
     @RegisterLanguage(cn = "4级真空", en = "Tier 4 Vacuum")
     private static final String VACUUM_TIER_4 = "gtocore.machine.modular_maintenance.vacuum_tier_4";
     @RegisterLanguage(cn = "可控温度", en = "Controllable Temperature")

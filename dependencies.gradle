@@ -1,26 +1,37 @@
 dependencies {
     compileOnly libs.jetbrains.annotations
 
+    implementation("org.lwjgl:lwjgl:3.3.2")
+    implementation("org.lwjgl:lwjgl-opengl:3.3.2")
+    implementation("dev:gtonativelib:1.0")//jarJar无法加载
+
     implementation("curse.maven:kotlin-for-forge-351264:5402061")
 
     jarJar("dev:terrific_trash_cans:1.0.0")
 
     modImplementation(jarJar("dev:gtolib:1.0"))
-    modImplementation(jarJar("com.hepdd:ae2emicraftingforge:1.0.0"))
+//    modImplementation(jarJar("dev.mineland:item-interactions-mod-forge+1.20.1:2.1.4"))
 
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
-    modImplementation("curse.maven:ldlib-626676:6899193")
+    compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.2-beta.4"))
+    implementation("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.2-beta.4")
+
+    modImplementation("curse.maven:ldlib-626676:6995785")
 
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
 
-    modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}") { transitive false }
-    modImplementation("org.appliedenergistics:guideme:20.1.7")
+    jarJar(modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}"))
+    modImplementation("org.appliedenergistics:guideme:20.1.13")
+    modImplementation("curse.maven:applied-energistics-2-wireless-terminals-459929:7014805")
+    modImplementation("curse.maven:applied-botanics-addon-610632:7024180")
 
     modImplementation("dev.architectury:architectury-forge:${project.architectury_version}")
 
-    modImplementation("curse.maven:configuration-444699:4710266")
+    modImplementation("curse.maven:building-gadgets-298187:6850495")
+
+    modImplementation("curse.maven:configuration-444699:5840405")
 
     modImplementation("com.teamresourceful:yabn:1.0.3")
     modImplementation("com.teamresourceful:bytecodecs:1.0.2")
@@ -28,6 +39,7 @@ dependencies {
     modImplementation("com.teamresourceful.resourcefulconfig:resourcefulconfig-forge-${project.minecraft_version}:${project.resourcefulconfig_version}") { transitive false }
     modImplementation("earth.terrarium.botarium:botarium-forge-${project.minecraft_version}:${project.botarium_version}") { transitive false }
     modImplementation("earth.terrarium.adastra:ad_astra-forge-${project.minecraft_version}:${ad_astra_version}") { transitive false }
+    modImplementation("curse.maven:ad-astra-rocketed-996980:5245376")
 
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive false }
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive false }
@@ -46,7 +58,8 @@ dependencies {
 
     modRuntimeOnly("dev.shadowsoffire:ApothicAttributes:${project.minecraft_version}-1.3.7")
     modImplementation("dev.shadowsoffire:Placebo:${project.minecraft_version}-8.6.2")
-    modImplementation("dev.shadowsoffire:Apotheosis:${project.minecraft_version}-7.4.7")
+    modImplementation("dev.shadowsoffire:Apotheosis:${project.minecraft_version}-7.4.8")
+    modImplementation("dev.shadowsoffire:FastSuite:${project.minecraft_version}-5.1.0")
 
     modCompileOnly("com.hollingsworth.ars_nouveau:ars_nouveau-${project.minecraft_version}:4.12.6.256")
     modRuntimeOnly("curse.maven:ars-nouveau-401955:5894609")
@@ -54,32 +67,33 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:6714970")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:6870350")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7064210")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 
     modImplementation("curse.maven:functional-storage-556861:5650296")
     modImplementation("curse.maven:titanium-287342:5468426")
 
-    modImplementation("curse.maven:ae2wtlib-459929:5217955")
-
     modImplementation("curse.maven:deeperdarker-659011:5906086")
 
     modImplementation("curse.maven:modernfix-790626:6719008")
 
-    modImplementation("curse.maven:re-avaritia-623969:6418092")
+    modImplementation("curse.maven:re-avaritia-623969:7044775")
+//    modImplementation("curse.maven:render-blender-1346485:6993848")
+//    modImplementation("curse.maven:avaritia-integration-1347675:7001596")
 
-    modImplementation("curse.maven:EnderIO-64578:5780352")
+    modImplementation("curse.maven:ender-io-64578:7004092")
 
-    modImplementation("curse.maven:farmers-delight-398521:6154802")
-
+    modImplementation("curse.maven:farmers-delight-398521:6917255")
     modImplementation("curse.maven:farmers-respite-551453:5543547")
 
-     modImplementation("curse.maven:spark-361579:4738952")
+    modImplementation("curse.maven:endremastered-404183:5598990")
 
-    modCompileOnly("curse.maven:libx-412525:5207625")
+    modImplementation("curse.maven:spark-361579:4738952")
 
-    modCompileOnly("curse.maven:mythicbotany-400058:5101899")
+    modImplementation("curse.maven:libx-412525:5207625")
+
+    modImplementation("curse.maven:mythicbotany-400058:6702112")
 
     modImplementation("curse.maven:ftb-library-forge-404465:6807424")
 
@@ -87,7 +101,7 @@ dependencies {
 
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
 
-    modCompileOnly("curse.maven:ftb-ultimine-forge-386134:5363345")
+    modImplementation("curse.maven:ftb-ultimine-forge-386134:5363345")
 
     modCompileOnly("curse.maven:ftb-essentials-410811:4896152")
 
@@ -119,15 +133,41 @@ dependencies {
 
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 
+    modRuntimeOnly("curse.maven:redstone-pen-461710:5242883")
+    modRuntimeOnly("curse.maven:more-red-387638:4691333")
+
+//    modRuntimeOnly("curse.maven:worldedit-225608:4586218")
+
+    modImplementation("curse.maven:ars-energistique-905641:5504444")
+
+    modRuntimeOnly("curse.maven:torchmaster-254268:5849456")
+
     modImplementation("curse.maven:embeddium-908741:5681725")
 
-    // modRuntimeOnly("curse.maven:modern-ui-352491:5977000")
+//     modRuntimeOnly("curse.maven:modern-ui-352491:5977000")
 
     jarJar(modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version"))
 
-    jarJar(modImplementation("dev:gtmthings:1.5.4-GTO-Port"))
+    jarJar(modImplementation("dev:gtmthings:1.5.5-GTO-Port"))
 
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 
     modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
+    modRuntimeOnly("curse.maven:imblocker-483760:6922546")
+//    modRuntimeOnly("curse.maven:effortless-building-302113:6330928")
+
+    modRuntimeOnly("curse.maven:huge-structure-blocks-474114:4803547")
+
+//    modRuntimeOnly("curse.maven:mouse-tweaks-60089:4581240")
+//    modRuntimeOnly("curse.maven:inventory-essentials-368825:6977231")
+//    modRuntimeOnly("curse.maven:balm-531761:6978679")
+//    modCompileOnly("curse.maven:mouse-tweaks-60089:4581240")
+    modCompileOnly("curse.maven:inventory-essentials-368825:6977231")
+    modCompileOnly("curse.maven:balm-531761:6978679")
+
+    modRuntimeOnly("curse.maven:fzzy-config-1005914:7085017")
+    modRuntimeOnly("curse.maven:emi-loot-681783:6449092")
+    modCompileOnly("curse.maven:emi-loot-681783:6449092")
+
+    modCompileOnly("dev:gtoepp:1.0.0")
 }

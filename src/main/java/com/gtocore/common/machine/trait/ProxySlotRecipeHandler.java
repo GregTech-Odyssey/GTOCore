@@ -32,12 +32,6 @@ public final class ProxySlotRecipeHandler {
         }
     }
 
-    public void clearProxy() {
-        for (var slotHandler : proxySlotHandlers) {
-            ((ProxyRHL) slotHandler).clearBuffer();
-        }
-    }
-
     private static final class ProxyRHL extends InternalSlotRecipeHandler.AbstractRHL {
 
         private final ProxyItemRecipeHandler circuit;

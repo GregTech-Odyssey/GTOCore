@@ -1,6 +1,6 @@
 package com.gtocore.client.renderer.machine;
 
-import com.gtocore.client.renderer.RenderBufferHelper;
+import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.client.renderer.StructurePattern;
 import com.gtocore.client.renderer.StructureVBO;
 import com.gtocore.client.renderer.TextureUpdateRequester;
@@ -181,7 +181,7 @@ public final class GodforgeRenderer extends WorkableCasingMachineRenderer {
 
     @OnlyIn(Dist.CLIENT)
     private static void renderCurvedCone(PoseStack poseStack, MultiBufferSource buffer, float color) {
-        RenderBufferHelper.renderCone(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0.5f, 2, 61, 10, 20, color, color, 1, 1);
+        RenderHelper.renderCone(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0.5f, 2, 61, 10, 20, color, color, 1, 1);
     }
 
     @OnlyIn(Dist.CLIENT)

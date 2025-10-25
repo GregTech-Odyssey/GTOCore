@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -37,7 +38,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (GTOCore.isSimple() || level().getDifficulty().getId() == 0) return;
+        if (GTOCore.isEasy() || level().getDifficulty().getId() == 0) return;
         boolean isBoss = CommonProxy.isBoss(this);
         if (!isBoss && getRandom().nextBoolean()) return;
         double difficultyValue = (double) level().getDifficulty().getId() / 2;
@@ -80,7 +81,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Redirect(method = "checkDespawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getDifficulty()Lnet/minecraft/world/Difficulty;"))
     private Difficulty getDifficulty(Level instance) {
-        return Difficulty.HARD;
+        return FMLLoader.isProduction() ? Difficulty.HARD : instance.getDifficulty();
     }
 
     @Override

@@ -69,7 +69,7 @@ public final class FunctionalStorage {
                     "ABA",
                     "CDC",
                     "CBC",
-                    'A', GTItems.FLUID_REGULATOR_LV.asStack(), 'B', GTItems.ROBOT_ARM_LV.asStack(), 'C', CustomTags.LV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
+                    'A', GTItems.FLUID_REGULATOR_LV.asItem(), 'B', GTItems.ROBOT_ARM_LV.asItem(), 'C', CustomTags.LV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
         }
     }
 

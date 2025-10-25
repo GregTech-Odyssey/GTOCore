@@ -27,7 +27,7 @@ public class StackWorldBehaviorsMixin {
      */
     @Overwrite(remap = false)
     public static StackImportStrategy createImportFacade(ServerLevel level, BlockPos fromPos, Direction fromSide) {
-        return StorageImportCacheStrategy.createImportFacade(level.getBlockEntity(fromPos.relative(fromSide)), fromPos, fromSide.getOpposite(), fromSide);
+        return StorageImportCacheStrategy.createImportFacade(level, level.getBlockEntity(fromPos.relative(fromSide)), fromPos, fromSide.getOpposite(), fromSide);
     }
 
     /**
@@ -36,7 +36,7 @@ public class StackWorldBehaviorsMixin {
      */
     @Overwrite(remap = false)
     public static StackExportStrategy createExportFacade(ServerLevel level, BlockPos fromPos, Direction fromSide) {
-        return StorageExportCacheStrategy.createExportFacade(level.getBlockEntity(fromPos.relative(fromSide)), fromPos, fromSide.getOpposite(), fromSide);
+        return StorageExportCacheStrategy.createExportFacade(level, level.getBlockEntity(fromPos.relative(fromSide)), fromPos, fromSide.getOpposite(), fromSide);
     }
 
     /**

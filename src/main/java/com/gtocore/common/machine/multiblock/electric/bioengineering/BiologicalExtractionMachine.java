@@ -23,7 +23,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMachine {
 
-    private static final FluidStack NUTRIENT_DISTILLATION = new FluidStack(EIOFluids.NUTRIENT_DISTILLATION.getSource(), 1000);
     private static final FluidStack CLOUD_SEED_CONCENTRATED = new FluidStack(EIOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 1000);
     private static final FluidStack FIRE_WATER = new FluidStack(EIOFluids.FIRE_WATER.getSource(), 1000);
     private static final FluidStack VAPOR_OF_LEVITY = new FluidStack(EIOFluids.VAPOR_OF_LEVITY.getSource(), 1000);
@@ -58,7 +57,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
                 }
             }
             if (getRecipeLogic().getProgress() % 20 == 0) {
-                if (inputFluid(NUTRIENT_DISTILLATION)) {
+                if (inputFluid(EIOFluids.NUTRIENT_DISTILLATION.getSource(), 1000)) {
                     redstoneSignalOutput = 15;
                     updateSignal();
                 } else {
@@ -78,11 +77,11 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     private boolean input(FluidStack stack) {
         AtomicBoolean success = new AtomicBoolean(false);
         AtomicBoolean failed = new AtomicBoolean(false);
-        forEachInputFluids(fluidStack -> {
+        forEachInputFluids((fluidStack, amount) -> {
             var fluid = fluidStack.getFluid();
             if (FLUIDS.contains(fluid)) {
                 if (fluid == stack.getFluid()) {
-                    if (fluidStack.getAmount() >= stack.getAmount()) {
+                    if (amount >= stack.getAmount()) {
                         inputFluid(stack);
                         success.set(true);
                     }

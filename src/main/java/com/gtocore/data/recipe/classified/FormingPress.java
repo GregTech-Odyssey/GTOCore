@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
@@ -22,41 +21,41 @@ final class FormingPress {
 
     public static void init() {
         FORMING_PRESS_RECIPES.builder("mica_based_sheet")
-                .inputItems(GTOItems.MICA_BASED_PULP.asStack(3))
+                .inputItems(GTOItems.MICA_BASED_PULP.asItem(), 3)
                 .inputItems(TagPrefix.dust, GTMaterials.Asbestos, 2)
-                .outputItems(GTOItems.MICA_BASED_SHEET.asStack(2))
+                .outputItems(GTOItems.MICA_BASED_SHEET.asItem(), 2)
                 .EUt(30)
                 .duration(400)
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("carbon_rotor")
-                .inputItems(new ItemStack(Blocks.CHAIN.asItem()))
+                .inputItems(Blocks.CHAIN.asItem())
                 .inputItems(TagPrefix.rod, GTMaterials.Magnalium, 2)
                 .inputItems(TagPrefix.bolt, GTMaterials.Magnalium, 8)
-                .inputItems(GTItems.CARBON_FIBER_PLATE.asStack(18))
+                .inputItems(GTItems.CARBON_FIBER_PLATE.asItem(), 18)
                 .outputItems(GTOItems.CARBON_ROTOR.asItem())
                 .EUt(120)
                 .duration(200)
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("logic_processor1")
-                .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
-                .notConsumable(new ItemStack(AEItems.LOGIC_PROCESSOR_PRESS.asItem()))
+                .notConsumable(AEItems.SILICON_PRESS.asItem())
+                .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Gold)
                 .inputItems(TagPrefix.dust, GTMaterials.Silicon)
                 .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .outputItems(AEItems.LOGIC_PROCESSOR.asItem())
                 .EUt(480)
                 .duration(20)
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("logic_processor")
-                .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
-                .notConsumable(new ItemStack(AEItems.LOGIC_PROCESSOR_PRESS.asItem()))
+                .notConsumable(AEItems.SILICON_PRESS.asItem())
+                .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Gold)
-                .inputItems(new ItemStack(AEItems.SILICON.asItem()))
+                .inputItems(AEItems.SILICON.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
-                .outputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .outputItems(AEItems.LOGIC_PROCESSOR.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -85,12 +84,12 @@ final class FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("engineering_processor1")
-                .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
-                .notConsumable(new ItemStack(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem()))
+                .notConsumable(AEItems.SILICON_PRESS.asItem())
+                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Diamond)
-                .inputItems(new ItemStack(AEItems.SILICON.asItem()))
+                .inputItems(AEItems.SILICON.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
-                .outputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
+                .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -104,12 +103,12 @@ final class FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("calculation_processor1")
-                .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
-                .notConsumable(new ItemStack(AEItems.CALCULATION_PROCESSOR_PRESS.asItem()))
+                .notConsumable(AEItems.SILICON_PRESS.asItem())
+                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz)
                 .inputItems(TagPrefix.dust, GTMaterials.Silicon)
                 .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .outputItems(AEItems.CALCULATION_PROCESSOR.asItem())
                 .EUt(480)
                 .duration(20)
                 .save();
@@ -173,23 +172,23 @@ final class FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("calculation_processor")
-                .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
-                .notConsumable(new ItemStack(AEItems.CALCULATION_PROCESSOR_PRESS.asItem()))
+                .notConsumable(AEItems.SILICON_PRESS.asItem())
+                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.CertusQuartz)
-                .inputItems(new ItemStack(AEItems.SILICON.asItem()))
+                .inputItems(AEItems.SILICON.asItem())
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
-                .outputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .outputItems(AEItems.CALCULATION_PROCESSOR.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("engineering_processor")
-                .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
-                .notConsumable(new ItemStack(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem()))
+                .notConsumable(AEItems.SILICON_PRESS.asItem())
+                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Diamond)
                 .inputItems(TagPrefix.dust, GTMaterials.Silicon)
                 .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
+                .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem())
                 .EUt(480)
                 .duration(20)
                 .save();
@@ -251,7 +250,7 @@ final class FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.builder("beryllium_target_base")
-                .notConsumable(GTItems.SHAPE_MOLD_CYLINDER.asStack())   // 模具不消耗
+                .notConsumable(GTItems.SHAPE_MOLD_CYLINDER.asItem())   // 模具不消耗
                 .inputItems(TagPrefix.ingot, GTMaterials.Beryllium, 2)
                 .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.Beryllium)
                 .EUt(30720)
@@ -259,7 +258,7 @@ final class FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.builder("stainless_steel_target_base")
-                .notConsumable(GTItems.SHAPE_MOLD_CYLINDER.asStack())   // 模具不消耗
+                .notConsumable(GTItems.SHAPE_MOLD_CYLINDER.asItem())   // 模具不消耗
                 .inputItems(TagPrefix.ingot, GTMaterials.StainlessSteel, 2)
                 .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
                 .EUt(30720)
@@ -267,7 +266,7 @@ final class FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.builder("zirconium_carbide_target_base")
-                .notConsumable(GTItems.SHAPE_MOLD_CYLINDER.asStack())   // 模具不消耗
+                .notConsumable(GTItems.SHAPE_MOLD_CYLINDER.asItem())   // 模具不消耗
                 .inputItems(TagPrefix.ingot, GTOMaterials.ZirconiumCarbide, 2)
                 .outputItems(GTOTagPrefix.TARGET_BASE, GTOMaterials.ZirconiumCarbide)
                 .EUt(30720)

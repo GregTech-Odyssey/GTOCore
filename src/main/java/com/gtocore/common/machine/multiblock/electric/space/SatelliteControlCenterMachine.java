@@ -27,7 +27,6 @@ import net.minecraftforge.fluids.FluidStack;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import earth.terrarium.adastra.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
@@ -40,9 +39,6 @@ import java.util.Map;
 @DataGeneratorScanned
 public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            SatelliteControlCenterMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
     @RegisterLanguage(en = "Selected planet: ", cn = "已选择的星球：")
     private static final String PLANET = "gtocore.satellite_control_center.planet";
 
@@ -51,6 +47,13 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
 
     @RegisterLanguage(en = "The required fuel: ", cn = "需要的燃料：")
     private static final String FUEL = "gtocore.satellite_control_center.fuel";
+
+    @RegisterLanguage(cn = "建造空间站", en = "Build Space Station")
+    private static final String BUILD_SPACE_STATION = "gtocore.satellite_control_center.emi.space_station";
+    @RegisterLanguage(cn = "在该星球建造空间站时，", en = "When building a space station on this planet,")
+    public static final String BUILD_SPACE_STATION_DESC_1 = "gtocore.satellite_control_center.emi.space_station.desc.1";
+    @RegisterLanguage(cn = "需要将这些材料带入太空中。", en = "you need to bring these materials into space.")
+    public static final String BUILD_SPACE_STATION_DESC_2 = "gtocore.satellite_control_center.emi.space_station.desc.2";
 
     private boolean launch;
 
@@ -96,7 +99,16 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
             launch = false;
             Item item = getRocket(Wrapper.LIST[index].getTier());
             if (item == null) return null;
-            Recipe recipe = getRecipeBuilder().duration(6000).inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack()).outputItems(item).inputFluids(getFuel(Wrapper.LIST[index].getTier())).inputItems(item).inputItems(GTOItems.PLANET_DATA_CHIP.asStack()).outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation())).EUt(getOverclockVoltage()).buildRawRecipe();
+            Recipe recipe = getRecipeBuilder()
+                    .inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack())
+                    .inputFluids(getFuel(Wrapper.LIST[index].getTier()))
+                    .inputItems(item)
+                    .inputItems(GTOItems.PLANET_DATA_CHIP.asStack())
+                    .outputItems(item)
+                    .outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation()))
+                    .EUt(getOverclockVoltage())
+                    .duration(6000)
+                    .buildRawRecipe();
             if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         }
         return null;
@@ -105,12 +117,6 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     @Override
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe, true);
-    }
-
-    @Override
-    @NotNull
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     public static Dimension[] getPlanets() {

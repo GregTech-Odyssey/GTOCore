@@ -10,9 +10,9 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,6 +31,13 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
 
     @RegisterLanguage(cn = "需要10级经验", en = "Requires 10 levels of experience")
     public static final String experience_not_enough = "gtocore.machine.upgrade.experience_not_enough";
+
+    static {
+        if (GTCEu.isDataGen()) {
+            GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(0D, 0D).getArray();
+            GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0D, 0D).getArray();
+        }
+    }
 
     public UpgradeModuleItem(Properties properties) {
         super(properties);
@@ -110,18 +117,24 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
         var tag = itemStack.getTag();
         if (tag != null) {
             if (tag.contains("speed")) {
-                for (Component component : GTOItemTooltips.INSTANCE.getSpeed_upgrade_module().invoke(FormattingUtil.formatNumbers(Math.max(0.5, tag.getDouble("speed"))), FormattingUtil.formatNumbers(tag.getDouble("speed"))).getArray()) {
+                for (Component component : GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(Math.max(0.5, tag.getDouble("speed")), tag.getDouble("speed")).getArray()) {
                     tooltips.add(new GTOComponentTooltipComponent(component));
                 }
             }
             if (tag.contains("energy")) {
-                for (Component component : GTOItemTooltips.INSTANCE.getEnergy_upgrade_module().invoke(FormattingUtil.formatNumbers(Math.max(0.5, tag.getDouble("energy"))), FormattingUtil.formatNumbers(tag.getDouble("energy"))).getArray()) {
+                for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(Math.max(0.5, tag.getDouble("energy")), tag.getDouble("energy")).getArray()) {
                     tooltips.add(new GTOComponentTooltipComponent(component));
                 }
             }
         } else {
-            for (Component component : GTOItemTooltips.INSTANCE.getEnergy_upgrade_module().invoke("-", "-").getArray()) {
-                tooltips.add(new GTOComponentTooltipComponent(component));
+            if (this == GTOItems.SPEED_UPGRADE_MODULE.get()) {
+                for (Component component : GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(0d, 0d).getArray())
+                    tooltips.add(new GTOComponentTooltipComponent(component));
+            } else {
+                for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0d, 0d).getArray()) {
+                    tooltips.add(new GTOComponentTooltipComponent(component));
+                }
+
             }
         }
     }

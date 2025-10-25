@@ -8,13 +8,12 @@ import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidDefiniti
 import com.gregtechceu.gtceu.common.data.GTBedrockFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +25,9 @@ import static com.gtolib.api.data.GTODimensions.*;
 @SuppressWarnings("unused")
 public final class GTOBedrockFluids {
 
-    public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new Object2ObjectOpenHashMap<>() : null;
+    public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
-    public static final Map<ResourceKey<Level>, List<FluidStack>> ALL_BEDROCK_FLUID = new Object2ObjectOpenHashMap<>();
+    public static final Map<ResourceKey<Level>, List<FluidStack>> ALL_BEDROCK_FLUID = new O2OOpenCacheHashMap<>();
 
     private static final BedrockFluidDefinition VOID_HEAVY_OIL = create(GTCEu.id("void_heavy_oil_deposit"),
             "虚空重油矿藏",

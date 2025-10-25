@@ -29,7 +29,7 @@ public class AbstractSkeletonMixin extends Monster {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        gtolib$intensify = (GTOCore.isSimple() || level().getDifficulty().getId() == 0) ? 1 : 1 + getRandom().nextInt(level().getDifficulty().getId());
+        gtolib$intensify = (GTOCore.isEasy() || level().getDifficulty().getId() == 0) ? 1 : 1 + getRandom().nextInt(level().getDifficulty().getId());
     }
 
     @ModifyArg(method = "performRangedAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;shoot(DDDFF)V"), index = 3)

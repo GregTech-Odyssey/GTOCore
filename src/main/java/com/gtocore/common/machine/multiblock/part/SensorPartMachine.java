@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.FloatInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.ToggleButtonWidget;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
-import com.gregtechceu.gtceu.data.lang.LangHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
@@ -15,7 +14,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
@@ -29,7 +27,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class SensorPartMachine extends MultiblockPartMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SensorPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     @Persisted
     @DescSynced
     private float min;
@@ -88,11 +85,6 @@ public final class SensorPartMachine extends MultiblockPartMachine {
     }
 
     @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
     public boolean canShared() {
         return false;
     }
@@ -106,7 +98,7 @@ public final class SensorPartMachine extends MultiblockPartMachine {
         @Override
         public void updateScreen() {
             super.updateScreen();
-            setHoverTooltips(List.copyOf(LangHandler.getMultiLang("gtocore.machine.sensor.invert." + (isPressed ? "enabled" : "disabled"))));
+            setHoverTooltips("gtocore.machine.sensor.invert." + (isPressed ? "enabled" : "disabled"));
         }
     }
 

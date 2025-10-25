@@ -4,7 +4,8 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineStories;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.processing.CompoundExtremeCoolingMachine;
 
 import com.gtolib.GTOCore;
@@ -24,12 +25,16 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.*;
 
+import net.minecraft.network.chat.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.common.data.GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.VACUUM_RECIPES;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockF {
 
@@ -37,7 +42,7 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition SUPER_BLAST_SMELTER = multiblock("super_blast_smelter", "超级冶炼炉", CoilCrossRecipeMultiblockMachine.createHatchParallel(true))
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getSuperBlastSmelterTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getSuperBlastSmelterTooltips().getSupplier())
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
             .parallelizableTooltips()
             .laserTooltips()
@@ -100,11 +105,12 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition COMPOUND_EXTREME_COOLING_UNIT = multiblock("compound_extreme_cooling_unit", "复合式极端冷却装置", CompoundExtremeCoolingMachine::new)
             .allRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getCompoundExtremeCoolingUnitTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCompoundExtremeCoolingUnitTooltips().getSupplier())
+            .combinedTooltips(Component.translatable("gtocore.compound_extreme_cooling_unit.tooltips.combined"))
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
-            .recipeTypes(GTRecipeTypes.VACUUM_RECIPES)
+            .recipeTypes(VACUUM_RECIPES, ATOMIZATION_CONDENSATION_RECIPES)
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
             .pattern(definition -> CompoundExtremeCoolingMachine.getBlockPattern(0, definition))
@@ -120,7 +126,7 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition COMPOUND_DISTILLATION_FRACTIONATOR = multiblock("compound_distillation_fractionator", "复合式蒸馏分馏塔", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getCompoundDistillationTowerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCompoundDistillationTowerTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -152,13 +158,12 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition SUPERCONDUCTING_ELECTROMAGNETISM = multiblock("superconducting_electromagnetism", "超导电磁工厂", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getSuperconductingElectromagnetismTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getSuperconductingElectromagnetismTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .recipeTypes(GTRecipeTypes.POLARIZER_RECIPES)
             .recipeTypes(GTRecipeTypes.ELECTROMAGNETIC_SEPARATOR_RECIPES)
-            .recipeTypes(GTRecipeTypes.ELECTROLYZER_RECIPES)
             .block(GTOBlocks.LAFIUM_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.LAFIUM_MECHANICAL_CASING.get()))
@@ -179,7 +184,7 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition CRYSTAL_BUILDER = multiblock("crystal_builder", "晶体构建者", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getCrystalBuilderTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCrystalBuilderTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -214,7 +219,7 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition HOLY_SEPARATOR = multiblock("holy_separator", "神圣分离者", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getHolySeparatorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHolySeparatorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -248,7 +253,7 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition FIELD_EXTRUDER_FACTORY = multiblock("field_extruder_factory", "力场压模工厂", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getFieldExtruderFactoryTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getFieldExtruderFactoryTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -278,9 +283,8 @@ public final class MultiBlockF {
 
     public static final MultiblockMachineDefinition SWARM_CORE = multiblock("swarm_core", "蜂群之心", CustomParallelMultiblockMachine.createParallel(m -> 8192, true))
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getSwarmCoreTooltips().getSupplier())
-            .tooltipsText("能够运行任意等级的纳米锻炉配方", "Can run any tier of nano forge recipes")
-            .tooltipsText("处理速度固定为20倍", "Processing speed is fixed at 20 times")
+            .tooltips(GTOMachineStories.INSTANCE.getSwarmCoreTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getSwarmCoreTooltips().getSupplier())
             .perfectOCTooltips()
             .laserTooltips()
             .recipeTypes(GTORecipeTypes.NANO_FORGE_RECIPES)

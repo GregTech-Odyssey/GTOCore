@@ -4,15 +4,15 @@ import com.gtocore.common.data.GTODamageTypes
 import com.gtocore.common.data.GTOOrganItems.FAIRY_WING
 import com.gtocore.common.data.GTOOrganItems.MANA_STEEL_WING
 import com.gtocore.common.data.GTOOrganItems.MECHANICAL_WING
+import com.gtocore.common.item.misc.OrganType
 import com.gtocore.common.item.misc.TierData.Companion.BlockReachFunction
 import com.gtocore.common.item.misc.TierData.Companion.MovementSpeedFunction
+import com.gtocore.utils.getSetOrganTier
 import com.gtocore.utils.ktGetOrganStack
 
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
@@ -29,36 +29,26 @@ import com.gtolib.api.player.PlayerData
 import earth.terrarium.adastra.api.planets.Planet
 import earth.terrarium.adastra.api.planets.PlanetApi
 
-import java.util.UUID
+import java.util.*
 
 interface IOrganService {
     fun tick(player: ServerPlayer)
 }
 class OrganService : IOrganService {
     override fun tick(player: ServerPlayer) {
-        if (player.tickCount % 20 != 0) return
         val playerData = IEnhancedPlayer.of(player).playerData
         playerData.wingState = false
-        // Night Vision
-        when (playerData.organTierCache.contains(1)) {
-            true -> run {
-                val shouldAdd = player.getEffect(MobEffects.NIGHT_VISION)?.let { it.duration < 20 * 45 - 20 * 15 } ?: true
-                if (!shouldAdd)return@run
-                player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 45, 0, false, false, true))
-            }
-            false -> {}
-        }
         // Movement Speed
         (0..4).forEach { tier ->
             val modifierNAME = "gtocore:organ_speed_tier_$tier"
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.contains(tier)) {
+            when (playerData.organTierCache.getInt(OrganType.LeftLeg) > tier && playerData.organTierCache.getInt(OrganType.RightLeg) > tier) {
                 true -> run {
                     val modifierAmplify = MovementSpeedFunction(tier)
                     val shouldAdd = player.getAttribute(Attributes.MOVEMENT_SPEED)?.modifiers?.all { it.name != modifierNAME } ?: true
                     if (!shouldAdd)return@run
                     player.getAttribute(Attributes.MOVEMENT_SPEED)?.addPermanentModifier(
-                        AttributeModifier(modifierUUID, modifierNAME, modifierAmplify.toDouble(), AttributeModifier.Operation.ADDITION),
+                        AttributeModifier(modifierUUID, modifierNAME, modifierAmplify, AttributeModifier.Operation.ADDITION),
                     )
                 }
                 false -> run {
@@ -70,7 +60,7 @@ class OrganService : IOrganService {
         run {
             val modifierNAME = "gtocore:organ_reach"
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.contains(2)) {
+            when (playerData.organTierCache.getInt(OrganType.RightArm) > 1) {
                 true -> run {
                     val modifierAmplify = BlockReachFunction
                     val shouldAdd = player.getAttribute(BLOCK_REACH.get())?.modifiers?.all { it.name != modifierNAME } ?: true
@@ -85,7 +75,7 @@ class OrganService : IOrganService {
             }
         }
         // Fly
-        when (playerData.organTierCache.contains(4)) { // 四级器官创造飞
+        when (playerData.getSetOrganTier() >= 4) { // 四级器官创造飞
             true -> run {
                 playerData.wingState = true
             }
@@ -112,13 +102,14 @@ class OrganService : IOrganService {
             val planet: Planet = PlanetApi.API.getPlanet(player.level()) ?: return@run
             if (!player.gameMode.isSurvival) return@run
             if (GTODimensions.OVERWORLD.equals(planet.dimension().location())) return@run
+            if (GTODimensions.GLACIO.equals(planet.dimension().location())) return@run
             if (!GTODimensions.isPlanet(planet.dimension().location())) return@run
 
             val tier: Int = planet.tier()
             val lowerTierTag = ((tier - 1) / 2) + 1
             val cache = playerData
 
-            if (!playerData.organTierCache.contains(lowerTierTag)) {
+            if (playerData.getSetOrganTier() < lowerTierTag) {
                 val customComponent: Component = Component.translatable(
                     "gtocore.death.attack.turbulence_of_another_star",
                     player.name,
@@ -145,12 +136,80 @@ class OrganService : IOrganService {
                 }
             }
         }
+        // t3+ 永久饱和（不显示图标）
+        run {
+            val needsFood = playerData.getSetOrganTier() >= 3
+            when (needsFood) {
+                true -> {
+                    player.getFoodData().foodLevel = 20
+                    player.getFoodData().setSaturation(20.0f)
+                    player.getFoodData().setExhaustion(0.0f)
+                }
+                false -> {}
+            }
+        }
+        // t2+的肺部屏蔽中毒Effect效果
+        run {
+            val needsRemove = playerData.organTierCache.getInt(OrganType.Liver) >= 2
+            when (needsRemove) {
+                true -> {
+                    if (player.hasEffect(net.minecraft.world.effect.MobEffects.POISON)) {
+                        player.removeEffect(net.minecraft.world.effect.MobEffects.POISON)
+                    }
+                    if (player.hasEffect(net.minecraft.world.effect.MobEffects.WITHER)) {
+                        player.removeEffect(net.minecraft.world.effect.MobEffects.WITHER)
+                    }
+                }
+                false -> {}
+            }
+        }
+        // t2+的肺部将提供水下无限氧气
+        run {
+            val needsWaterBreath = (playerData.organTierCache.getInt(OrganType.Lung) >= 2) && player.isInWater
+            when (needsWaterBreath) {
+                true -> player.airSupply = 300
+                false -> {}
+            }
+        }
+        // Tn提供5n护甲，5n韧性
+        run {
+            (1..4).forEach { tier ->
+                val armorModifierNAME = "gtocore:organ_armor_tier_$tier"
+                val armorModifierUUID = UUID.nameUUIDFromBytes(armorModifierNAME.toByteArray())
+                val toughnessModifierNAME = "gtocore:organ_toughness_tier_$tier"
+                val toughnessModifierUUID = UUID.nameUUIDFromBytes(toughnessModifierNAME.toByteArray())
+                when (playerData.getSetOrganTier() == tier) {
+                    true -> run {
+                        val armorAmplify = 5.0 * (tier)
+                        val toughnessAmplify = 5.0 * (tier)
+                        val shouldAddArmor = player.getAttribute(Attributes.ARMOR)?.modifiers?.all { it.name != armorModifierNAME } ?: true
+                        if (shouldAddArmor) {
+                            player.getAttribute(Attributes.ARMOR)?.addPermanentModifier(
+                                AttributeModifier(armorModifierUUID, armorModifierNAME, armorAmplify, AttributeModifier.Operation.ADDITION),
+                            )
+                        }
+                        val shouldAddToughness = player.getAttribute(Attributes.ARMOR_TOUGHNESS)?.modifiers?.all { it.name != toughnessModifierNAME } ?: true
+                        if (shouldAddToughness) {
+                            player.getAttribute(Attributes.ARMOR_TOUGHNESS)
+                                ?.addPermanentModifier(
+                                    AttributeModifier(toughnessModifierUUID, toughnessModifierNAME, toughnessAmplify, AttributeModifier.Operation.ADDITION),
+                                )
+                        }
+                    }
+                    false -> run {
+                        player.getAttribute(Attributes.ARMOR)?.removeModifier(armorModifierUUID)
+                        player.getAttribute(Attributes.ARMOR_TOUGHNESS)?.removeModifier(toughnessModifierUUID)
+                    }
+                }
+            }
+        }
     }
 
     private fun whenUsingElectricWing(stack: ItemStack, player: ServerPlayer, playerData: PlayerData?): Boolean {
         val item = GTCapabilityHelper.getElectricItem(stack) ?: return false
         if (item.charge <= 0) return false
         playerData?.wingState = true
+        playerData?.flySpeedAble = 0.25f
         IWirelessChargerInteraction.charge(playerData?.getNetMachine(), stack)
         if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
             item.discharge(GTValues.V[GTValues.EV], item.tier, true, false, false)
@@ -175,6 +234,7 @@ class OrganService : IOrganService {
                     }
                 }
                 playerData?.wingState = true
+                playerData?.flySpeedAble = 0.15f
                 return true
             }
         }

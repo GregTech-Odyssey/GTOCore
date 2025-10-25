@@ -2,7 +2,7 @@ package com.gtocore.mixin.adastra;
 
 import com.gtocore.common.network.ClientMessage;
 
-import com.gtolib.adastra.IAdDisplayTagName;
+import com.gtolib.api.adastra.IAdDisplayTagName;
 import com.gtolib.api.misc.PlanetManagement;
 
 import com.gregtechceu.gtceu.GTCEu;

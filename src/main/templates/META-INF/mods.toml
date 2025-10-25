@@ -10,14 +10,21 @@ description='''${mod_description}'''
 
 [[dependencies.${mod_id}]]
 modId = "gtceu"
-mandatory = false
+mandatory = true
 versionRange = "[1,)"
 ordering = "BEFORE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
+modId = "gtolib"
+mandatory = true
+versionRange = "[1,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
 modId = "ad_astra"
-mandatory = false
+mandatory = true
 versionRange = "[1,)"
 ordering = "AFTER"
 side = "BOTH"

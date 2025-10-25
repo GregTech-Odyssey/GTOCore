@@ -30,7 +30,6 @@ import net.minecraft.world.level.block.Block;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import java.util.List;
 
@@ -40,13 +39,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class ProcessingArrayMachine extends TierCasingMultiblockMachine implements IParallelMachine, IArrayMachine {
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ProcessingArrayMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     private MachineDefinition machineDefinitionCache;
     private GTRecipeType[] RecipeTypeCache;
@@ -107,7 +99,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     @Nullable
     public Recipe getRealRecipe(Recipe recipe) {
         if (!inventory.getStackInSlot(0).isEmpty()) {
-            return RecipeModifierFunction.laserLossOverclocking(this, ParallelLogic.accurateParallel(this, recipe, (int) getMaxParallel()));
+            return RecipeModifierFunction.laserLossOverclocking(this, ParallelLogic.accurateParallel(this, recipe, getMaxParallel()));
         }
         return null;
     }

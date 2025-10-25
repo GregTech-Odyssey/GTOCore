@@ -15,20 +15,13 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.Set;
 
 @MethodsReturnNonnullByDefault
 abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements IIWirelessInteractor<WaterPurificationPlantMachine> {
-
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(WaterPurificationUnitMachine.class, NoEnergyCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     abstract long before();
 
@@ -36,13 +29,14 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     Recipe recipe;
     @Persisted
     long eut;
-    private final long multiple;
+    public final long multiple;
     private final ConditionalSubscriptionHandler tickSubs;
 
     WaterPurificationUnitMachine(MetaMachineBlockEntity holder, long multiple) {
         super(holder, false, m -> IParallelMachine.MAX_PARALLEL);
         this.multiple = multiple;
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, this::isFormed);
+        customParallelTrait.setDefaultMax(false);
     }
 
     private void tickUpdate() {
@@ -60,7 +54,13 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     long parallel() {
         WaterPurificationPlantMachine machine = getNetMachine();
         if (machine != null) {
-            return Math.min(super.getParallelLong(), (machine.availableEu << 1) / multiple);
+            var p = super.getParallel();
+            if (p < 1000) {
+                p = 1000;
+                super.setParallel(p);
+            }
+            p = Math.min(p, (machine.availableEu << 1) / multiple);
+            return p >= 1000 ? p : 0;
         }
         return 0;
     }
@@ -80,8 +80,8 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     }
 
     @Override
-    public Map<ResourceLocation, Set<WaterPurificationPlantMachine>> getMachineNet() {
-        return WaterPurificationPlantMachine.NETWORK;
+    public Class<WaterPurificationPlantMachine> getProviderClass() {
+        return WaterPurificationPlantMachine.class;
     }
 
     @Override
@@ -136,11 +136,6 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
     @Override
     public void setWorkingEnabled(boolean isWorkingAllowed) {}
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Override
     @NotNull
