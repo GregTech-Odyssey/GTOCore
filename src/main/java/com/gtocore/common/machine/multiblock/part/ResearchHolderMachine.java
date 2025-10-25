@@ -19,6 +19,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
+import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -76,7 +77,7 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
         WidgetGroup group = new WidgetGroup(new Position(0, 0));
         int centerX = 60;
         int centerY = 55;
-        group.addWidget(new ImageWidget(centerX - 33, centerY - 21, 84, 60, GuiTextures.PROGRESS_BAR_RESEARCH_STATION_BASE))
+        group.addWidget(new ImageWidget(centerX - 40, centerY - 28, 98, 74, new ResourceTexture("gtocore:textures/gui/progress_bar_research_base.png")))
 
                 .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 60, centerY, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
@@ -88,34 +89,34 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
 
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[0], centerX - 38, centerY - 30, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[0], centerX - 40, centerY - 30, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[1], centerX - 19, centerY - 40, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[1], centerX - 20, centerY - 40, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
                 .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[2], centerX - 0, centerY - 46, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[3], centerX + 19, centerY - 40, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[3], centerX + 20, centerY - 40, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[4], centerX + 38, centerY - 30, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[4], centerX + 40, centerY - 30, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[5], centerX + 38, centerY + 30, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[5], centerX + 40, centerY + 30, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[6], centerX + 19, centerY + 40, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[6], centerX + 20, centerY + 40, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
                 .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[7], centerX + 0, centerY + 46, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[8], centerX - 19, centerY + 40, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[8], centerX - 20, centerY + 40, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY))
-                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[9], centerX - 38, centerY + 30, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, DATA_SLOT[9], centerX - 40, centerY + 30, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GTOGuiTextures.DATA_CRYSTAL_OVERLAY));
 

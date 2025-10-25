@@ -23,8 +23,8 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.Silver;
 import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
-import static com.gtocore.data.record.ApotheosisAffix.getAffixSize;
-import static com.gtocore.data.record.Enchantment.getEnchantmentSize;
+import static com.gtocore.data.record.ApotheosisAffixRecord.getAffixSize;
+import static com.gtocore.data.record.EnchantmentRecord.getEnchantmentSize;
 
 public class MagicRecipesB {
 

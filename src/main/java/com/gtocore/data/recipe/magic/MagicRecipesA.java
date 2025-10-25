@@ -7,7 +7,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
-import com.gtocore.data.record.Enchantment;
+import com.gtocore.data.record.EnchantmentRecord;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
@@ -567,15 +567,15 @@ public final class MagicRecipesA {
                     .save();
 
             ASSEMBLER_RECIPES.builder("heretical_mechanical_casing")
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(2, 1))
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(9, 1))
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(14, 1))
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(34, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(2, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(9, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(14, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(34, 1))
                     .inputItems(GTOBlocks.ORIGINAL_BRONZE_CASING, 4)
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(35, 1))
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(37, 1))
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(40, 1))
-                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(76, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(35, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(37, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(40, 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(76, 1))
                     .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
                     .inputFluids(Aether.getFluid(LIQUID, 1000))
                     .duration(200)
@@ -1226,6 +1226,10 @@ public final class MagicRecipesA {
                     'A', Items.YELLOW_STAINED_GLASS_PANE, 'B', Items.WHITE_STAINED_GLASS_PANE, 'C', Items.PINK_STAINED_GLASS_PANE,
                     'D', Items.RED_STAINED_GLASS_PANE, 'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite), 'F', Items.MAGENTA_STAINED_GLASS_PANE,
                     'G', RegistriesUtils.getItemStack("botania:tornado_rod"), 'H', Items.CHISELED_DEEPSLATE, 'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("slot_boosting_items"), SLOT_ENHANCER,
+                    "   ", " A ", "   ",
+                    'A', PHILOSOPHERS_STONE);
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
                     "BBB", "BAB", "BBB",
