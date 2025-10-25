@@ -7,15 +7,12 @@ import com.gtocore.data.recipe.research.AnalyzeData;
 import com.gtolib.api.item.tool.IExDataItem;
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.api.item.component.IAddInformation;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
@@ -31,7 +28,7 @@ import java.util.List;
 import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
 import static com.gtolib.utils.RegistriesUtils.getItem;
 
-public class DataCrystalItem extends Item implements IAddInformation, IExDataItem, IPlaceholder<Object, ItemStack, Void> {
+public class DataCrystalItem extends Item implements IExDataItem, IPlaceholder<Object, ItemStack, Void> {
 
     public DataCrystalItem(Properties properties) {
         super(properties);
@@ -117,7 +114,7 @@ public class DataCrystalItem extends Item implements IAddInformation, IExDataIte
     }
 
     @Nullable
-    private Object parseTargetFromScanningId(String idString) {
+    private static Object parseTargetFromScanningId(String idString) {
         String[] parts = idString.split("-", 3);
         if (parts.length != 3) return null;
         String countPart = parts[0];

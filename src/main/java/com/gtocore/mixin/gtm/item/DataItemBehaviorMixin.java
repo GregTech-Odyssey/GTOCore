@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(DataItemBehavior.class)
 public abstract class DataItemBehaviorMixin {
 
-    @Redirect(method = "appendHoverText", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/Component;translatable(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 0))
+    @Redirect(method = "appendTooltips", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/Component;translatable(Ljava/lang/String;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 0))
     private MutableComponent replaceTitleComponent(String key, ItemStack stack) {
         ResearchManager.ResearchItem researchData = ResearchManager.readResearchId(stack);
         if (researchData != null) {

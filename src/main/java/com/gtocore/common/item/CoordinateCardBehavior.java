@@ -60,7 +60,7 @@ public class CoordinateCardBehavior implements IInteractionItem, IAddInformation
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+    public void appendTooltips(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
         list.add(Component.translatable("gtocore.tooltip.item.machine_coordinate_card.tooltip.1"));
         CompoundTag tag = itemStack.getTag();
         if (tag != null) {

@@ -173,8 +173,8 @@ public final class ManaProspectorBehavior extends ProspectorScannerBehavior impl
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
+    public void appendTooltips(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+        super.appendTooltips(stack, level, tooltipComponents, isAdvanced);
         int mana = getMana(stack);
         String formattedManaPool = String.format("%.2f", mana / (double) ManaPoolBlockEntity.MAX_MANA);
         String formattedMaxMana = String.format("%.2f", maxMana / (double) ManaPoolBlockEntity.MAX_MANA);
