@@ -14,7 +14,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 
-public final class ComponentAssemblerMachine extends CrossRecipeMultiblockMachine implements ITierCasingMachine {
+public class ComponentAssemblerMachine extends CrossRecipeMultiblockMachine implements ITierCasingMachine {
 
     private int maxCasingTier = GTValues.IV;
     private final TierCasingTrait tierCasingTrait;
@@ -38,11 +38,15 @@ public final class ComponentAssemblerMachine extends CrossRecipeMultiblockMachin
 
     @Override
     public Recipe getRealRecipe(Recipe recipe) {
-        if (recipe.data.getInt(COMPONENT_ASSEMBLY_CASING_TIER) > maxCasingTier) {
+        if (recipe.data.getInt(COMPONENT_ASSEMBLY_CASING_TIER) > getCasingTier()) {
             setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
             return null;
         }
         return super.getRealRecipe(recipe);
+    }
+
+    public int getCasingTier() {
+        return Math.min(maxCasingTier, getCasingTier(COMPONENT_ASSEMBLY_CASING_TIER));
     }
 
     @Override
