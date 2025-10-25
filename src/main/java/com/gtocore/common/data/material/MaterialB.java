@@ -5193,5 +5193,37 @@ public final class MaterialB {
                 .color(0x283301)
                 .iconSet(DULL)
                 .buildAndRegister().setFormula("YBa2Cu3O6");
+
+        ReverseOsmosisWater = material("ro_water", "ro水")
+                .fluid()
+                .components(Hydrogen, 2, Oxygen, 1)
+                .color(0x0058cd)
+                .iconSet(FLUID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        ElectrodeionizationWater = material("edi_water", "edi水")
+                .fluid()
+                .components(Hydrogen, 2, Oxygen, 1)
+                .color(0x0058cd)
+                .iconSet(FLUID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        UltravioletWater = material("uv_water", "uv水")
+                .fluid()
+                .components(Hydrogen, 2, Oxygen, 1)
+                .color(0x0058cd)
+                .iconSet(FLUID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        MixedBedPolishingWater = material("mbp_water", "混床抛光水")
+                .fluid()
+                .components(Hydrogen, 2, Oxygen, 1)
+                .color(0x0058cd)
+                .iconSet(FLUID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
     }
 }
