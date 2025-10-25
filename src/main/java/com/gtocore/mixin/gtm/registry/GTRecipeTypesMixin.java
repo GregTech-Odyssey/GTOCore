@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeType;
 
-import com.hepdd.gtmthings.data.GTMTRecipeTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +35,6 @@ public final class GTRecipeTypesMixin {
     public static void init() {
         GCYMRecipeTypes.init();
         GTORecipeTypes.init();
-        GTMTRecipeTypes.init();
         GTRegistries.RECIPE_TYPES.freeze();
         GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, GTCEu.id("crafting_facade_cover"),
                 FacadeCoverRecipe.SERIALIZER);

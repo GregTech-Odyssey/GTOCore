@@ -256,7 +256,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
             }
         }
         tickableSubscription = subscribeServerTick(tickableSubscription, {
-            if (!isRemote && !isInitialize && offsetTimer % 20 == 0L && gridNodeHolder.mainNode.isActive) {
+            if (!isRemote && !isInitialize && offsetTimer % 20 == 0 && gridNodeHolder.mainNode.isActive) {
                 level?.server?.tell(
                     TickTask(40) {
                         externalLogic.fullyRefresh()

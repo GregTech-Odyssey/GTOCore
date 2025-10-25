@@ -57,7 +57,6 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.CHEMICAL_PLANT_DISPLAY;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.*;
-import static com.hepdd.gtmthings.data.GTMTRecipeTypes.DIGITAL_MINER_RECIPE;
 
 public final class MultiBlockA {
 
@@ -68,7 +67,7 @@ public final class MultiBlockA {
             .tooltips(GTOMachineStories.INSTANCE.getDigitalMinerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getDigitalMinerTooltips().getSupplier())
             .block(GTBlocks.CASING_STEEL_SOLID)
-            .recipeTypes(DIGITAL_MINER_RECIPE)
+            .recipeTypes(DUMMY_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAAA", "CDCDC", "C C C", "  C  ", " CCC ", "     ", "     ", "     ")
                     .aisle("AEEEA", "D   D", "     ", "     ", "     ", " CDC ", "     ", "     ")

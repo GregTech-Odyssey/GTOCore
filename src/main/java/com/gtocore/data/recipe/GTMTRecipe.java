@@ -521,47 +521,8 @@ public final class GTMTRecipe {
                 .EUt(GTValues.VA[GTValues.MAX])
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("lv_digital_miner")
-                .inputItems(GTMachines.MINER[GTValues.LV].asItem())
-                .inputItems(GTItems.CONVEYOR_MODULE_LV.asItem(), 2)
-                .inputItems(GTItems.ROBOT_ARM_LV.asItem(), 2)
-                .inputItems(GTItems.EMITTER_LV.asItem())
-                .inputItems(GTItems.SENSOR_LV.asItem())
-                .inputItems(CustomTags.MV_CIRCUITS, 2)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(CustomMachines.DIGITAL_MINER[GTValues.LV].asItem())
-                .duration(200)
-                .EUt(GTValues.VA[GTValues.LV])
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("mv_digital_miner")
-                .inputItems(GTMachines.MINER[GTValues.MV].asItem())
-                .inputItems(GTItems.CONVEYOR_MODULE_MV.asItem(), 2)
-                .inputItems(GTItems.ROBOT_ARM_MV.asItem(), 2)
-                .inputItems(GTItems.EMITTER_MV.asItem())
-                .inputItems(GTItems.SENSOR_MV.asItem())
-                .inputItems(CustomTags.HV_CIRCUITS, 2)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(CustomMachines.DIGITAL_MINER[GTValues.MV].asItem())
-                .duration(200)
-                .EUt(GTValues.VA[GTValues.MV])
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("hv_digital_miner")
-                .inputItems(GTMachines.MINER[GTValues.HV].asItem())
-                .inputItems(GTItems.CONVEYOR_MODULE_HV.asItem(), 2)
-                .inputItems(GTItems.ROBOT_ARM_HV.asItem(), 2)
-                .inputItems(GTItems.EMITTER_HV.asItem())
-                .inputItems(GTItems.SENSOR_HV.asItem())
-                .inputItems(CustomTags.EV_CIRCUITS, 2)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(CustomMachines.DIGITAL_MINER[GTValues.HV].asItem())
-                .duration(200)
-                .EUt(GTValues.VA[GTValues.HV])
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder("mv_bedrock_ore_miner")
-                .inputItems(CustomMachines.DIGITAL_MINER[GTValues.LV].asItem(), 4)
+                .inputItems(GTMachines.MINER[GTValues.LV].asItem(), 4)
                 .inputItems(GTItems.FIELD_GENERATOR_LV.asItem(), 4)
                 .inputItems(GTItems.CONVEYOR_MODULE_MV.asItem(), 4)
                 .inputItems(GTItems.EMITTER_MV.asItem(), 2)
@@ -574,7 +535,7 @@ public final class GTMTRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hv_bedrock_ore_miner")
-                .inputItems(CustomMachines.DIGITAL_MINER[GTValues.MV].asItem(), 4)
+                .inputItems(GTMachines.MINER[GTValues.MV].asItem(), 4)
                 .inputItems(GTItems.FIELD_GENERATOR_MV.asItem(), 4)
                 .inputItems(GTItems.CONVEYOR_MODULE_HV.asItem(), 4)
                 .inputItems(GTItems.EMITTER_HV.asItem(), 2)
@@ -587,7 +548,7 @@ public final class GTMTRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("ev_bedrock_ore_miner")
-                .inputItems(CustomMachines.DIGITAL_MINER[GTValues.HV].asItem(), 4)
+                .inputItems(GTMachines.MINER[GTValues.HV].asItem(), 4)
                 .inputItems(GTItems.FIELD_GENERATOR_HV.asItem(), 4)
                 .inputItems(GTItems.CONVEYOR_MODULE_EV.asItem(), 4)
                 .inputItems(GTItems.EMITTER_EV.asItem(), 2)

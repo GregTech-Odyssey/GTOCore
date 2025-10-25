@@ -193,7 +193,7 @@ interface WirelessMachine :
     fun onWirelessMachineLoad() {
         if (self().isRemote) return
         wirelessMachineRunTime.initTickableSubscription = TaskHandler.enqueueServerTick(level as ServerLevel, {
-            if (mainNode.node != null && self().offsetTimer % 20 == 0L) {
+            if (mainNode.node != null && self().holder.offsetTimer % 20 == 0) {
                 if (!wirelessMachinePersisted.beSet && wirelessMachineRunTime.shouldAutoConnect) {
                     // 使用按请求者计算的可访问列表，寻找“当前玩家”的默认网格
                     WirelessSavedData.accessibleGridsFor(self().ownerUUID ?: uuid)

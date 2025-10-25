@@ -299,7 +299,7 @@ public final class GeneratorMultiblock {
                     .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                     .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
                     .where('H', blocks(GTBlocks.FILTER_CASING.get()))
-                    .where('I', blocks(GTOBlocks.NAQUADAH_BOROSILICATE_GLASS.get()))
+                    .where('I', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
                     .where('K', controller(blocks(definition.get())))
                     .where(' ', any())

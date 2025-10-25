@@ -101,7 +101,7 @@ public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanro
 
     Level getLevel();
 
-    long getOffsetTimer();
+    int getOffsetTimer();
 
     void resetLastDistributedBlocks(Set<BlockPos> positions);
 
