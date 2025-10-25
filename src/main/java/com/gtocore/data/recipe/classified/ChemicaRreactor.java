@@ -3467,7 +3467,7 @@ final class ChemicaRreactor {
                 .duration(100)
                 .save();
 
-        CHEMICAL_RECIPES.builder("Sodium_polystyrene_sulfonate")
+        CHEMICAL_RECIPES.builder("sodium_polystyrene_sulfonate")
                 .inputFluids(GTOMaterials.Polystyrene, 1000)
                 .inputFluids(GTMaterials.Dichloroethane, 1000)
                 .inputFluids(GTMaterials.SulfuricAcid, 1000)
