@@ -9,7 +9,9 @@ dependencies {
 
     jarJar("dev:terrific_trash_cans:1.0.0")
 
-    modImplementation(jarJar("dev:gtolib:1.0"))
+//    modImplementation(jarJar("dev:gtolib:1.0"))
+    modImplementation("dev:gtolib:1.0")
+
 //    modImplementation(jarJar("dev.mineland:item-interactions-mod-forge+1.20.1:2.1.4"))
 
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
