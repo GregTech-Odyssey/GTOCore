@@ -2581,6 +2581,7 @@
   "gtocore.lang.1961950737": "1048576",
   "gtocore.lang.2.-1749267724": "Second mode: Can select one target per block",
   "gtocore.lang.2.357711854": "Capacity: Determines the total task size the CPU can handle",
+  "gtocore.lang.2033261997": "The self-incrementing algorithm may cause stuck crafting issues; use cautiously for now.",
   "gtocore.lang.206509868": "17,179.87M (17.2G) Bytes",
   "gtocore.lang.207321486": "Number of Fuel Components",
   "gtocore.lang.209383949": "Core Module",

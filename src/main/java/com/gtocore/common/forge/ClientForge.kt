@@ -152,6 +152,7 @@ object ClientForge {
                 ("新ME算法对比原ME算法的区别和迁移指南" translatedTo "Differences between the new me algorithm and the original me algorithm, and migration guide").red().bold().get(),
                 ("1. 新算法支持模糊合成样板，可以使用多种输入进行合成。" translatedTo "1. The new algorithm supports fuzzy crafting patterns, which can use multiple inputs for crafting.").yellow().get(),
                 ("2. 新算法支持自增功能，可以自动计算初始需求并进行循环计算。" translatedTo "2. The new algorithm supports self-incrementing functionality, which can automatically calculate initial requirements and perform iterative calculations.").yellow().get(),
+                ("自增殖算法可能有卡合成问题，暂时谨慎使用" translatedTo "The self-incrementing algorithm may cause stuck crafting issues; use cautiously for now.").red().bold().get(),
                 ("3. 新算法支持催化剂输入，可以智能提出需求。" translatedTo "3. The new algorithm supports catalyst inputs, which can intelligently propose requirements.").yellow().get(),
                 ("4. 新算法的算子并行数可设置，默认为1。" translatedTo "4. The operator parallelism of the new algorithm is configurable, with a default value of 1.").yellow().get(),
                 ("5. 迁移指南：" translatedTo "5. Migration Guide:").green().get(),
