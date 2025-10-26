@@ -12,6 +12,7 @@ import net.minecraft.util.FormattedCharSequence
 
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
+import com.gtocore.client.screen.MessageListScreen as MessageListScreen1
 
 @DataGeneratorScanned
 class MessageScreen(private val message: ClientForge.MessageDefinition, private val currentPage: Int, private val totalPages: Int, private val onConfirm: () -> Unit, private val onExpand: (() -> Unit)? = null, private val onMarkAll: (() -> Unit)? = null) : Screen(Component.translatable(title_Key)) {
@@ -102,7 +103,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         val listButton = Button.builder(
             Component.translatable(listIcon_Key),
         ) { button ->
-            this.minecraft?.setScreen(com.gtocore.client.screen.MessageListScreen())
+            this.minecraft?.setScreen(MessageListScreen1())
         }.bounds(
             this.width - 30,
             5,

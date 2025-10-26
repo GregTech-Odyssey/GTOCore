@@ -3,18 +3,24 @@ package com.gtocore.common.machine.mana;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 
-public class CelestialCondenser extends SimpleNoEnergyMachine {
+public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaDisplayProvider {
 
     @Persisted
     private int solaris = 0;
@@ -124,19 +130,29 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
         return true;
     }
 
-    public int getSolaris() {
-        return solaris;
+    @Override
+    public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
+        int solaris = data.getInt("solaris");
+        int lunara = data.getInt("lunara");
+        int voidflux = data.getInt("voidflux");
+        int maxCapacity = data.getInt("max_capacity");
+
+        if (solaris > 0) {
+            iTooltip.add(Component.translatable("gtocore.celestial_condenser.solaris", (solaris + "/" + maxCapacity)));
+        }
+        if (lunara > 0) {
+            iTooltip.add(Component.translatable("gtocore.celestial_condenser.lunara", (lunara + "/" + maxCapacity)));
+        }
+        if (voidflux > 0) {
+            iTooltip.add(Component.translatable("gtocore.celestial_condenser.voidflux", (voidflux + "/" + maxCapacity)));
+        }
     }
 
-    public int getLunara() {
-        return lunara;
-    }
-
-    public int getVoidflux() {
-        return voidflux;
-    }
-
-    public int getMaxMapacity() {
-        return max_capacity;
+    @Override
+    public void appendWailaData(CompoundTag data, BlockAccessor blockAccessor) {
+        data.putInt("solaris", solaris);
+        data.putInt("lunara", lunara);
+        data.putInt("voidflux", voidflux);
+        data.putInt("max_capacity", max_capacity);
     }
 }

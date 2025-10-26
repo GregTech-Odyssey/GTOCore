@@ -50,17 +50,22 @@ public abstract class NetworkStorageMixin {
 
     @Inject(method = "mount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;computeIfAbsent(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;"), remap = false, cancellable = true)
     private void gtolib$mount(int priority, MEStorage inventory, CallbackInfo ci) {
+        ci.cancel();
         if (inventory instanceof StorageAccessPartMachine m1) {
             for (var inv : gtolib$inventory) {
                 if (inv.obj instanceof StorageAccessPartMachine m2 && m1.getClass() == m2.getClass() && m1.uuid.equals(m2.uuid)) {
-                    ci.cancel();
                     return;
                 }
             }
+        } else {
+            var owner = inventory.getOwner();
+            for (var inv : gtolib$inventory)
+                if (inv.obj.getOwner() == owner) {
+                    return;
+                }
         }
         gtolib$inventory.add(new IntObjectHolder<>(priority, inventory));
         gtolib$inventory.sort(IntObjectHolder.PRIORITY_SORTER);
-        ci.cancel();
     }
 
     @Inject(method = "unmount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;entrySet()Ljava/util/Set;"), remap = false, cancellable = true)
