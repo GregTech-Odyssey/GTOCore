@@ -1594,8 +1594,6 @@
   "config.gtocore.option.startSpark": "Spark 分析器啟動階段",
   "config.jade.plugin_gtocore.accelerate_provider": "[GTOCore] 加速條",
   "config.jade.plugin_gtocore.ae_grid_provider": "[GTOCore] AE網絡信息",
-  "config.jade.plugin_gtocore.celestial_energy_provider": "[GTOCore] 天體能量",
-  "config.jade.plugin_gtocore.computation_container_provider": "[GTOCore] 算力容器信息",
   "config.jade.plugin_gtocore.destroy_time_provider": "[GTOCore] 硬度信息",
   "config.jade.plugin_gtocore.maintenance_hatch_provider": "[GTOCore] 維護倉信息",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] 魔力容器",

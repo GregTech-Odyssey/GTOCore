@@ -12,6 +12,7 @@ import net.minecraft.util.FormattedCharSequence
 
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
+
 import com.gtocore.client.screen.MessageListScreen as MessageListScreen1
 
 @DataGeneratorScanned

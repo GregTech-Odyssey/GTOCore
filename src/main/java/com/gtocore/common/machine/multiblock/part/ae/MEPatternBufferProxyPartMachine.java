@@ -4,16 +4,21 @@ import com.gtocore.common.machine.trait.ProxySlotRecipeHandler;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -26,14 +31,20 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine.readBufferTag;
+import static com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine.writeBufferTag;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine implements IMachineLife, IDataStickInteractable {
+public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine implements IMachineLife, IDataStickInteractable, IWailaDisplayProvider {
 
     private ProxySlotRecipeHandler proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
     @Persisted
@@ -135,5 +146,40 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
 
     ProxySlotRecipeHandler getProxySlotRecipeHandler() {
         return this.proxySlotRecipeHandler;
+    }
+
+    @Override
+    public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
+        CompoundTag serverData = blockAccessor.getServerData();
+        if (!serverData.getBoolean("formed")) return;
+        if (!serverData.getBoolean("bound")) {
+            iTooltip.add(Component.translatable("gtceu.top.buffer_not_bound").withStyle(ChatFormatting.RED));
+            return;
+        }
+
+        int[] pos = serverData.getIntArray("pos");
+        iTooltip.add(Component.translatable("gtceu.top.buffer_bound_pos", pos[0], pos[1], pos[2])
+                .withStyle(TooltipHelper.RAINBOW_HSL_SLOW));
+
+        readBufferTag(iTooltip, serverData);
+    }
+
+    @Override
+    public void appendWailaData(CompoundTag data, BlockAccessor blockAccessor) {
+        if (!isFormed()) {
+            data.putBoolean("formed", false);
+            return;
+        }
+        data.putBoolean("formed", true);
+        var buffer = getBuffer();
+        if (buffer == null) {
+            data.putBoolean("bound", false);
+            return;
+        }
+        data.putBoolean("bound", true);
+
+        var pos = buffer.getPos();
+        data.putIntArray("pos", new int[] { pos.getX(), pos.getY(), pos.getZ() });
+        writeBufferTag(data, buffer);
     }
 }

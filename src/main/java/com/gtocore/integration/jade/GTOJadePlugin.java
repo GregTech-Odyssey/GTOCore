@@ -51,8 +51,6 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new AutoOutputBlockProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new MachineModeProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new StainedColorProvider(), MetaMachineBlockEntity.class);
-        registration.registerBlockDataProvider(new MEPatternBufferProxyProvider(), MetaMachineBlockEntity.class);
-        registration.registerBlockDataProvider(new MEPatternBufferProvider(), MetaMachineBlockEntity.class);
 
         registration.registerItemStorage(GTItemStorageProvider.INSTANCE, MetaMachineBlockEntity.class);
         registration.registerFluidStorage(GTFluidStorageProvider.INSTANCE, MetaMachineBlockEntity.class);
@@ -88,8 +86,6 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new AutoOutputBlockProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new MachineModeProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new StainedColorProvider(), MetaMachineBlock.class);
-        registration.registerBlockComponent(new MEPatternBufferProxyProvider(), MetaMachineBlock.class);
-        registration.registerBlockComponent(new MEPatternBufferProvider(), MetaMachineBlock.class);
 
         registration.registerItemStorageClient(GTItemStorageProvider.INSTANCE);
         registration.registerFluidStorageClient(GTFluidStorageProvider.INSTANCE);

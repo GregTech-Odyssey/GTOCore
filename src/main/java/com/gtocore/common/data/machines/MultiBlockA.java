@@ -9,7 +9,6 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
 import com.gtocore.common.machine.multiblock.electric.MoltenCoreMachine;
 import com.gtocore.common.machine.multiblock.electric.StellarForgeMachine;
-import com.gtocore.common.machine.multiblock.electric.assembly.ComponentAssemblerMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.PrecisionAssemblerMachine;
 import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
 import com.gtocore.common.machine.multiblock.electric.processing.IntegratedOreProcessor;
@@ -26,6 +25,7 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
 
@@ -2175,13 +2175,7 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", h -> new ComponentAssemblerMachine(h) {
-
-        @Override
-        public int getCasingTier() {
-            return getCasingTier(COMPONENT_ASSEMBLY_CASING_TIER);
-        }
-    })
+    public static final MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配车间", TierCasingCrossRecipeMultiblockMachine.createParallel(MachineUtils::getHatchParallel, COMPONENT_ASSEMBLY_CASING_TIER))
             .allRotation()
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblyLineTooltips().getSupplier())

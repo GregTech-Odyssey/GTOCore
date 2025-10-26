@@ -199,10 +199,8 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] 无线交互机器信息", "[GTOCore] Wireless Interactive Machine Info");
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
-        addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
-        addCNEN("config.jade.plugin_gtocore.celestial_energy_provider", "[GTOCore] 天体能量", "[GTOCore] Celestial Energy");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
                 "Hatch types unlocked by installing auxiliary modules : %s");
