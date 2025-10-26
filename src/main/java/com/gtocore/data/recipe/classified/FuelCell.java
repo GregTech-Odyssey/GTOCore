@@ -29,7 +29,7 @@ public class FuelCell {
             var euPerMb = materialSet.getValue();
             var membrane = ChemicalHelper.get(GTOTagPrefix.MEMBRANE_ELECTRODE, MEMBRANE_MATS.get(i++));
             FUEL_CELL_ENERGY_RELEASE_RECIPES.recipeBuilder(material.getName() + "_release")
-                    .notConsumable(membrane.copy())
+                    .chancedInput(membrane.copy(), 500, 0)
                     .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), 20)
                     .inputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), 20)
                     .outputFluids(material.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), 19)
