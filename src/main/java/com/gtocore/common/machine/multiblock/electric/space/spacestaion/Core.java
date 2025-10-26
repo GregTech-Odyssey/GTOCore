@@ -125,7 +125,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
         super.customText(list);
         list.add(Component.translatable("gui.ae2.PowerUsageRate", "%s EU/t".formatted(FormattingUtil.formatNumbers(getEUt()))).withStyle(ChatFormatting.YELLOW));
         list.add(Component.translatable("gtocore.machine.spacestation.energy_consumption.total", FormattingUtil.formatNumbers(Optional.ofNullable(getRecipeLogic().getLastRecipe()).map(GTRecipe::getInputEUt).orElse(0L))).withStyle(ChatFormatting.GOLD));
-        list.add(Component.translatable("gtocore.machine.modules_amount", subMachinesFlat.size()));
+        list.add(Component.translatable("gtocore.machine.spacestation.module_count", subMachinesFlat.size()));
     }
 
     private void removeAllSubMachines() {

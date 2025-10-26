@@ -225,6 +225,7 @@ final class MachineLang {
         addCN("gtceu.combined", "仓室模式");
         addCN("gtocore.compound_extreme_cooling_unit.tooltips.combined", "选择等离子冷凝模式以启用");
         addCNEN("gtocore.machine.spacestation.ready", "空间站准备： %s%%就绪", "Space Station Readiness: %s%% Ready");
+        addCNEN("gtocore.machine.spacestation.module_count", "连接的舱室模块数量： %s", "Number of Connected Module Hatches: %s");
         addCNEN("gtocore.machine.spacestation.energy_consumption.total", "所有空间站舱室总能量消耗： %s EU/t", "Total Energy Consumption of All Space Station Modules: %s EU/t");
         addCNEN("gtocore.machine.spacestation.require_module", "当前空间站缺少必要的舱室模块： %s", "The current space station is missing the required module: %s");
         addCNEN("gtocore.machine.space_shield_hatch.info", "机器太空护盾：运转正常", "Machine Space Shield: Operating Normally");
