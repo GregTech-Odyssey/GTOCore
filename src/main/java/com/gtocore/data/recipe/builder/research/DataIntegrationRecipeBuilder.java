@@ -18,7 +18,8 @@ public final class DataIntegrationRecipeBuilder {
 
     private int[] inputData = {};
     private int outputData;
-    private int chanced = 10000;
+    private int chanced;
+    private int errorWeight = 2000;
 
     private ItemStack catalyst1;
     private ItemStack catalyst2;
@@ -49,6 +50,12 @@ public final class DataIntegrationRecipeBuilder {
         return this;
     }
 
+    public DataIntegrationRecipeBuilder errorWeight(int weight) {
+        if (weight < 0) throw new IllegalArgumentException("错误数据权重不能为负数");
+        this.errorWeight = weight;
+        return this;
+    }
+
     public DataIntegrationRecipeBuilder EUt(long eut) {
         this.eut = eut;
         return this;
@@ -74,6 +81,12 @@ public final class DataIntegrationRecipeBuilder {
         if (dataCrystal == null) throw new IllegalStateException("Unknown output items");
         int crystalTire = dataCrystal.tier();
 
+        int originalTotalWeight = chanced + errorWeight;
+        int normalizedOutput = (int) (((double) chanced / originalTotalWeight) * 10000);
+        int normalizedError = (int) (((double) errorWeight / originalTotalWeight) * 10000);
+        int difference = 10000 - normalizedOutput - normalizedError;
+        if (difference != 0) normalizedError += difference;
+
         var build = DATA_INTEGRATION_RECIPES.recipeBuilder(dataCrystal.data());
         build
                 .notConsumable(catalyst1)
@@ -81,8 +94,8 @@ public final class DataIntegrationRecipeBuilder {
                 .inputItems(EmptyDataCrystalMap.get(crystalTire));
         for (int inputAnalyzeDatum : inputData) build.notConsumable(getDataCrystal(inputAnalyzeDatum));
         build
-                .chancedOutput(getDataCrystal(outputData), chanced, 0)
-                .chancedOutput(ErrorDataCrystalMap.get(crystalTire), 2000, 0)
+                .chancedOutput(getDataCrystal(outputData), normalizedOutput, 0)
+                .chancedOutput(ErrorDataCrystalMap.get(crystalTire), normalizedError, 0)
                 .EUt(eut)
                 .CWUt(cwut)
                 .totalCWU(totalCWU)

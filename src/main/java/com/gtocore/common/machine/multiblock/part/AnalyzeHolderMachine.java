@@ -1,15 +1,13 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.common.item.DataCrystalItem;
+
 import com.gtolib.api.gui.GTOGuiTextures;
-import com.gtolib.api.item.tool.IExDataItem;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
-import com.gregtechceu.gtceu.api.item.IComponentItem;
-import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -27,7 +25,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.jetbrains.annotations.NotNull;
 
-public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMachineLife, IControllable {
+public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMachineLife {
 
     public boolean isLocked() {
         return isLocked;
@@ -90,9 +88,7 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
         super.setFrontFacing(frontFacing);
         var controllers = getControllers();
         for (var controller : controllers) {
-            if (controller != null && controller.isFormed()) {
-                controller.checkPatternWithLock();
-            }
+            if (controller != null && controller.isFormed()) controller.checkPatternWithLock();
         }
     }
 
@@ -119,33 +115,24 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
         @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (!machine.isLocked()) {
-                return super.extractItem(slot, amount, simulate);
-            }
+            if (!machine.isLocked()) return super.extractItem(slot, amount, simulate);
             return ItemStack.EMPTY;
         }
 
         // 槽位物品验证
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            if (stack.isEmpty()) {
-                return true;
-            }
+            if (stack.isEmpty()) return true;
 
             // 检查是否为数据物品
             boolean isDataItem = false;
             boolean hasNBT = false;
             boolean emptyNBT = false;
-            if (stack.getItem() instanceof IComponentItem metaItem) {
-                for (IItemComponent behaviour : metaItem.getComponents()) {
-                    if (behaviour instanceof IExDataItem) {
-                        isDataItem = true;
-                        hasNBT = stack.hasTag();
-                        if (stack.getTag() != null && stack.hasTag() && stack.getTag().contains("empty_crystal", CompoundTag.TAG_COMPOUND))
-                            emptyNBT = true;
-                        break;
-                    }
-                }
+            if (stack.getItem() instanceof DataCrystalItem) {
+                isDataItem = true;
+                hasNBT = stack.hasTag();
+                if (stack.getTag() != null && stack.hasTag() && stack.getTag().contains("empty_crystal", CompoundTag.TAG_COMPOUND))
+                    emptyNBT = true;
             }
 
             return switch (slot) {
