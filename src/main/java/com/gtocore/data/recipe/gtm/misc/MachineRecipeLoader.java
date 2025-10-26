@@ -478,7 +478,7 @@ public final class MachineRecipeLoader {
                     .outputItems(COVER_MACHINE_CONTROLLER)
                     .EUt(7).duration(400).save();
             ASSEMBLER_RECIPES.recipeBuilder("cover_energy_detector_exp")
-                    .inputItems(cableGtSingle, Copper, 4)
+                    .inputItems(cableGtSingle, RedAlloy, 4)
                     .inputItems(CustomTags.ULV_CIRCUITS, 2)
                     .inputItems(plate, Iron, 16)
                     .inputItems(plate, WroughtIron, 16)
