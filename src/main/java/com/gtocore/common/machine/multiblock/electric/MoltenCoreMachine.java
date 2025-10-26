@@ -17,6 +17,6 @@ public final class MoltenCoreMachine extends CoilCrossRecipeMultiblockMachine {
 
     @NotNull
     public RecipeType getRecipeType() {
-        return formedCount > 0 ? super.getRecipeType() : GTORecipeTypes.FLUID_HEATER_RECIPES;
+        return formedAmount > 0 ? super.getRecipeType() : GTORecipeTypes.FLUID_HEATER_RECIPES;
     }
 }

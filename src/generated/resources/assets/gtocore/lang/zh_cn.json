@@ -4704,7 +4704,7 @@
   "gtocore.machine.module.have": "该模块已成功安装",
   "gtocore.machine.module.mega": "大型模块数量: %s",
   "gtocore.machine.module.null": "该模块未成功安装",
-  "gtocore.machine.modules_amount": "成型的模块数: %s",
+  "gtocore.machine.modules_amount": "成型的模块数: %s / %s",
   "gtocore.machine.monitor.adjust_component.move_down": "下移",
   "gtocore.machine.monitor.adjust_component.move_up": "上移",
   "gtocore.machine.monitor.adjust_component.reset": "清除显示顺序配置",

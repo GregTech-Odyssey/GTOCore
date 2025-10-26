@@ -4702,7 +4702,7 @@
   "gtocore.machine.module.have": "This module has been successfully installed",
   "gtocore.machine.module.mega": "Number of Mega Modules: %s",
   "gtocore.machine.module.null": "This module has not been successfully installed",
-  "gtocore.machine.modules_amount": "Formed modules: %s",
+  "gtocore.machine.modules_amount": "Formed modules: %s / %s",
   "gtocore.machine.monitor.adjust_component.move_down": "Move Down",
   "gtocore.machine.monitor.adjust_component.move_up": "Move Up",
   "gtocore.machine.monitor.adjust_component.reset": "Clear Display Order Configuration",
