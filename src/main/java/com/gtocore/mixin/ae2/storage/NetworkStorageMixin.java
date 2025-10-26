@@ -48,7 +48,7 @@ public abstract class NetworkStorageMixin {
         priorityInventory = null;
     }
 
-    @Inject(method = "mount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;computeIfAbsent(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;"), remap = false, cancellable = true)
+    @Inject(method = "mount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;values()Ljava/util/Collection;"), remap = false, cancellable = true)
     private void gtolib$mount(int priority, MEStorage inventory, CallbackInfo ci) {
         ci.cancel();
         if (inventory instanceof StorageAccessPartMachine m1) {
