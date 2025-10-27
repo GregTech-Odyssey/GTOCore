@@ -1,8 +1,5 @@
 package com.gtocore.common.data;
 
-import com.gregtechceu.gtceu.common.data.GTMedicalConditions;
-import com.gregtechceu.gtceu.common.data.materials.GTFoods;
-import com.gregtechceu.gtceu.common.item.AntidoteBehavior;
 import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
@@ -29,6 +26,8 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
 import com.gregtechceu.gtceu.common.data.GTFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTMedicalConditions;
+import com.gregtechceu.gtceu.common.item.AntidoteBehavior;
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
@@ -41,6 +40,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
@@ -53,7 +55,6 @@ import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
-import static com.gregtechceu.gtceu.common.registry.GTRegistration.REGISTRATE;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
 import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
 import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
@@ -1113,7 +1114,15 @@ public final class GTOItems {
             .toolTips(ComponentBuilder.create()
                     .addLines("§7昔为安魂之冠，今作疗身之药。§r", "§7Once a crown for the weary soul, now a cure for the ailing whole.§r")
                     .build().getArray())
-            .properties(p -> p.food(GTFoods.ANTIDOTE))
+            .properties(p -> p.food(new FoodProperties.Builder()
+                    .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 1), 0.9F)
+                    .effect(() -> new MobEffectInstance(MobEffects.LUCK, 100, 1), 0.2F)
+                    .alwaysEat()
+                    .nutrition(1)
+                    .saturationMod(0.2F)
+                    .alwaysEat()
+                    .fast()
+                    .build()))
             .onRegister(attach(new AntidoteBehavior(5,
                     GTMedicalConditions.CHEMICAL_BURNS,
                     GTMedicalConditions.POISON,
@@ -1126,8 +1135,7 @@ public final class GTOItems {
                     GTMedicalConditions.SILICOSIS,
                     GTMedicalConditions.BERYLLIOSIS,
                     GTMedicalConditions.METHANOL_POISONING,
-                    GTMedicalConditions.CARBON_MONOXIDE_POISONING
-                    )))
+                    GTMedicalConditions.CARBON_MONOXIDE_POISONING)))
             .register();
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除

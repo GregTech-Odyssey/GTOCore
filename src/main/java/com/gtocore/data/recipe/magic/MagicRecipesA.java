@@ -1234,7 +1234,7 @@ public final class MagicRecipesA {
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wreath"), GTOItems.WREATH.asStack(),
                     "AAA", "ABA", "AAA",
-                    'A', ItemTags.FLOWERS,'B', GTOItems.COLORFUL_MYSTICAL_FLOWER.asStack());
+                    'A', ItemTags.FLOWERS, 'B', GTOItems.COLORFUL_MYSTICAL_FLOWER.asStack());
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
                     "BBB", "BAB", "BBB",
