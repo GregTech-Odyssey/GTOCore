@@ -82,14 +82,14 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(new Position(0, 0));
-        int centerX = 75;
+        int centerX = 65;
         int centerY = 48;
         group.addWidget(new ImageWidget(centerX - 33, centerY - 21, 84, 60, new ResourceTexture("gtocore:textures/gui/progress_bar_data_generate_base.png")))
 
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 70, centerY - 39)
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 65, centerY - 39)
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, centerX - 70, centerY + 39)
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, centerX - 65, centerY + 39)
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
                 .addWidget(new BlockableSlotWidget(heldItems, EMPTY_SLOT, centerX, centerY)

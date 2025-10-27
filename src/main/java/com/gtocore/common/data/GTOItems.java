@@ -1,5 +1,8 @@
 package com.gtocore.common.data;
 
+import com.gregtechceu.gtceu.common.data.GTMedicalConditions;
+import com.gregtechceu.gtceu.common.data.materials.GTFoods;
+import com.gregtechceu.gtceu.common.item.AntidoteBehavior;
 import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
@@ -50,6 +53,7 @@ import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.registry.GTRegistration.REGISTRATE;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
 import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
 import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
@@ -1103,6 +1107,27 @@ public final class GTOItems {
 
     public static final ItemEntry<SlotBoostingItems> SLOT_ENHANCER = item("slot_enhancer", "槽位强化器", SlotBoostingItems::new)
             .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+            .register();
+
+    public static final ItemEntry<ComponentItem> WREATH = item("wreath", "花环", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7昔为安魂之冠，今作疗身之药。§r", "§7Once a crown for the weary soul, now a cure for the ailing whole.§r")
+                    .build().getArray())
+            .properties(p -> p.food(GTFoods.ANTIDOTE))
+            .onRegister(attach(new AntidoteBehavior(5,
+                    GTMedicalConditions.CHEMICAL_BURNS,
+                    GTMedicalConditions.POISON,
+                    GTMedicalConditions.WEAK_POISON,
+                    GTMedicalConditions.IRRITANT,
+                    GTMedicalConditions.NAUSEA,
+                    GTMedicalConditions.CARCINOGEN,
+                    GTMedicalConditions.ASBESTOSIS,
+                    GTMedicalConditions.ARSENICOSIS,
+                    GTMedicalConditions.SILICOSIS,
+                    GTMedicalConditions.BERYLLIOSIS,
+                    GTMedicalConditions.METHANOL_POISONING,
+                    GTMedicalConditions.CARBON_MONOXIDE_POISONING
+                    )))
             .register();
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除

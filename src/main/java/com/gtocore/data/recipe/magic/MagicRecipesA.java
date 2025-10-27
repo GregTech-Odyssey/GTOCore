@@ -25,6 +25,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -1230,6 +1231,10 @@ public final class MagicRecipesA {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("slot_boosting_items"), SLOT_ENHANCER,
                     "   ", " A ", "   ",
                     'A', PHILOSOPHERS_STONE);
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wreath"), GTOItems.WREATH.asStack(),
+                    "AAA", "ABA", "AAA",
+                    'A', ItemTags.FLOWERS,'B', GTOItems.COLORFUL_MYSTICAL_FLOWER.asStack());
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
                     "BBB", "BAB", "BBB",
