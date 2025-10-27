@@ -5169,6 +5169,7 @@
   "gtocore.satellite_control_center.fuel": "需要的燃料：",
   "gtocore.satellite_control_center.planet": "已選擇的星球：",
   "gtocore.satellite_control_center.rocket": "需要的火箭：",
+  "gtocore.shape": "形態%s",
   "gtocore.source": "結構來源：%s",
   "gtocore.structure_detect.module": "可能的模塊錯誤",
   "gtocore.tier.advanced": "高級",

@@ -136,6 +136,7 @@ public final class LangHandler {
         addCNEN("gtocore.unlocked", "解锁的", "Unlocked");
         addCNEN("gtocore.ununlocked", "未解锁", "Ununlocked");
         addCNEN("gtocore.build", "构建", "Build");
+        addCNEN("gtocore.shape", "形态%s", "Shape %s");
 
         addCNEN("item.gtocore.pattern_modifier_pro.name", "样板修改器 Pro", "Pattern Modifier Pro");
         addCNEN("gtocore.patternModifierPro.0", "设置完成后，潜行右击样板供应器以应用", "After setup,shift + right-click template provider to apply");
