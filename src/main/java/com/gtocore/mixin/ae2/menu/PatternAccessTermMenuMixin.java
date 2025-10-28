@@ -41,6 +41,9 @@ public abstract class PatternAccessTermMenuMixin implements IPatternAccessTermMe
     @GuiSync(2)
     private ShowMolecularAssembler gtolib$showMolecularAssembler;
 
+    @Unique
+    private ShowMolecularAssembler gtolib$lastShownMolecularAssembler;
+
     @Shadow(remap = false)
     protected abstract boolean isFull(PatternContainer logic);
 
@@ -54,6 +57,9 @@ public abstract class PatternAccessTermMenuMixin implements IPatternAccessTermMe
     @Shadow(remap = false)
     @Final
     private Set<PatternContainer> pinnedHosts;
+
+    @Shadow(remap = false)
+    protected boolean updatePatterns;
 
     @Override
     public @NotNull ShowMolecularAssembler gtolib$getShownMolecularAssemblers() {
@@ -76,6 +82,14 @@ public abstract class PatternAccessTermMenuMixin implements IPatternAccessTermMe
             gtolib$showMolecularAssembler = this.host.getConfigManager().getSetting(GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS);
         } else {
             gtolib$showMolecularAssembler = ShowMolecularAssembler.ALL;
+        }
+    }
+
+    @Inject(method = "broadcastChanges", at = @At(value = "INVOKE", target = "Lappeng/menu/AEBaseMenu;broadcastChanges()V"))
+    private void broadcastChanges(CallbackInfo ci) {
+        if (gtolib$lastShownMolecularAssembler != gtolib$showMolecularAssembler) {
+            gtolib$lastShownMolecularAssembler = gtolib$showMolecularAssembler;
+            updatePatterns = true;
         }
     }
 

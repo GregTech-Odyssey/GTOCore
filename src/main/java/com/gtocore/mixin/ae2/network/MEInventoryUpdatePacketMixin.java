@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.network;
 
-import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
+import com.gtocore.integration.ae.hooks.IConfirmStartMenu;
 
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 
@@ -48,7 +48,7 @@ public class MEInventoryUpdatePacketMixin {
 
                 clientRepo.handleUpdate(fullUpdate, entries);
                 ci.cancel();
-            } else if (player.containerMenu instanceof IConfirmLongMenu.IConfirmLongStartMenu cc) {
+            } else if (player.containerMenu instanceof IConfirmStartMenu cc) {
                 var clientRepo = cc.gtocore$getClientRepo();
                 if (clientRepo == null) {
                     AELog.info("Ignoring ME inventory update packet because no client repo is available.");

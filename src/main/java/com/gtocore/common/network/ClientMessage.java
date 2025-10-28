@@ -1,7 +1,6 @@
 package com.gtocore.common.network;
 
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
-import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
 
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.player.IEnhancedPlayer;
@@ -56,11 +55,6 @@ public final class ClientMessage {
                             machine.onMouseClicked(data.readVarInt());
                         }
                     }
-                }
-            }
-            case "craftLongTask" -> {
-                if (serverPlayer.containerMenu instanceof IConfirmLongMenu menu) {
-                    menu.gtocore$confirmLong(data.readVarLong(), data.readBoolean(), data.readBoolean());
                 }
             }
         }

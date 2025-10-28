@@ -58,11 +58,12 @@ public abstract class NetworkStorageMixin {
                 }
             }
         } else {
-            var owner = inventory.getOwner();
-            for (var inv : gtolib$inventory)
-                if (inv.obj.getOwner() == owner) {
+            var owner = inventory.getStorageOwner();
+            for (var inv : gtolib$inventory) {
+                if (inv.obj.getStorageOwner() == owner) {
                     return;
                 }
+            }
         }
         gtolib$inventory.add(new IntObjectHolder<>(priority, inventory));
         gtolib$inventory.sort(IntObjectHolder.PRIORITY_SORTER);
