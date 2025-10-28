@@ -9,13 +9,10 @@ import com.gtolib.utils.StringUtils;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.packs.resources.Resource;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
@@ -24,8 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
@@ -472,25 +467,16 @@ class PlatformCreators {
      */
     static Char2ReferenceOpenHashMap<BlockState> loadMappingFromJson(ResourceLocation resLoc) {
         try {
-            ResourceManager resourceManager;
-            if (FMLLoader.getDist().isClient()) {
-                resourceManager = Minecraft.getInstance().getResourceManager();
-            } else {
-                resourceManager = ServerLifecycleHooks.getCurrentServer().getResourceManager();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(PlatformBlockType.class.getClassLoader()
+                    .getResourceAsStream("assets/" + resLoc.toString().replace(":", "/"))), StandardCharsets.UTF_8))) {
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter())
+                        .create();
+                Type type = new TypeToken<Char2ReferenceOpenHashMap<BlockState>>() {}.getType();
+                return gson.fromJson(reader, type);
+            } catch (Exception e) {
+                GTOCore.LOGGER.error("Resource not found: {}", resLoc);
             }
-            Optional<Resource> optionalResource = resourceManager.getResource(resLoc);
-
-            if (optionalResource.isPresent()) {
-                Resource resource = optionalResource.get();
-                try (Reader reader = new InputStreamReader(resource.open(), StandardCharsets.UTF_8)) {
-                    Gson gson = new GsonBuilder()
-                            .registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter())
-                            .create();
-                    Type type = new TypeToken<Char2ReferenceOpenHashMap<BlockState>>() {}.getType();
-                    return gson.fromJson(reader, type);
-                }
-            }
-            GTOCore.LOGGER.error("Resource not found: {}", resLoc);
         } catch (Exception e) {
             GTOCore.LOGGER.error("Failed to load mapping from resource", e);
         }
