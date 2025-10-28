@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.gui;
 
-import com.gtocore.integration.ae.hooks.IConfirmLongMenu;
+import com.gtocore.integration.ae.hooks.IConfirmStartMenu;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -56,7 +56,7 @@ public abstract class CraftConfirmTableRendererMixin extends AbstractTableRender
 
     @WrapMethod(method = "getEntryDescription(Lappeng/menu/me/crafting/CraftingPlanSummaryEntry;)Ljava/util/List;", remap = false)
     private List<Component> gto$modifyGetEntryDescription2(CraftingPlanSummaryEntry entry, Operation<List<Component>> original) {
-        IClientRepo repo = (screen.getMenu()) instanceof IConfirmLongMenu.IConfirmLongStartMenu me ? me.gtocore$getClientRepo() : null;
+        IClientRepo repo = (screen.getMenu()) instanceof IConfirmStartMenu me ? me.gtocore$getClientRepo() : null;
         if (repo == null) return original.call(entry);
         gto$cachedKeys = new KeyCounter();
         repo.getAllEntries().stream().filter(e -> e.getWhat() != null && e.getStoredAmount() > 0)
