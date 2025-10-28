@@ -451,11 +451,10 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     @Override
     public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        CompoundTag serverData = blockAccessor.getServerData();
-        if (!serverData.getBoolean("formed")) return;
-        var proxies = serverData.getInt("proxies");
-        if (proxies > 0) iTooltip.add(Component.translatable("gtceu.top.proxies_bound", serverData.getInt("proxies")).withStyle(TooltipHelper.RAINBOW_HSL_SLOW));
-        readBufferTag(iTooltip, serverData);
+        if (!data.getBoolean("formed")) return;
+        var proxies = data.getInt("proxies");
+        if (proxies > 0) iTooltip.add(Component.translatable("gtceu.top.proxies_bound", data.getInt("proxies")).withStyle(TooltipHelper.RAINBOW_HSL_SLOW));
+        readBufferTag(iTooltip, data);
     }
 
     @Override
@@ -470,7 +469,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         writeBufferTag(data, this);
     }
 
-    static void writeBufferTag(CompoundTag compoundTag, MEPatternBufferPartMachine buffer) {
+    static void writeBufferTag(CompoundTag data, MEPatternBufferPartMachine buffer) {
         var items = new ExpandedR2LMap<AEItemKey>();
         var fluids = new ExpandedR2LMap<AEFluidKey>();
         for (InternalSlot slot : buffer.getInternalInventory()) {
@@ -484,7 +483,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             ct.putLong("real", entry.getLongValue());
             itemsTag.add(ct);
         }
-        if (!itemsTag.isEmpty()) compoundTag.put("items", itemsTag);
+        if (!itemsTag.isEmpty()) data.put("items", itemsTag);
 
         ListTag fluidsTag = new ListTag();
         for (var entry : fluids.reference2LongEntrySet()) {
@@ -492,13 +491,13 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             ct.putLong("real", entry.getLongValue());
             fluidsTag.add(ct);
         }
-        if (!fluidsTag.isEmpty()) compoundTag.put("fluids", fluidsTag);
+        if (!fluidsTag.isEmpty()) data.put("fluids", fluidsTag);
     }
 
-    static void readBufferTag(ITooltip iTooltip, CompoundTag serverData) {
+    static void readBufferTag(ITooltip iTooltip, CompoundTag data) {
         IElementHelper helper = iTooltip.getElementHelper();
 
-        ListTag itemsTag = serverData.getList("items", Tag.TAG_COMPOUND);
+        ListTag itemsTag = data.getList("items", Tag.TAG_COMPOUND);
         for (Tag t : itemsTag) {
             if (!(t instanceof CompoundTag ct)) continue;
             var stack = AEItemKey.fromTag(ct);
@@ -513,7 +512,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                 iTooltip.append(text);
             }
         }
-        ListTag fluidsTag = serverData.getList("fluids", Tag.TAG_COMPOUND);
+        ListTag fluidsTag = data.getList("fluids", Tag.TAG_COMPOUND);
         for (Tag t : fluidsTag) {
             if (!(t instanceof CompoundTag ct)) continue;
             var stack = AEFluidKey.fromTag(ct);
