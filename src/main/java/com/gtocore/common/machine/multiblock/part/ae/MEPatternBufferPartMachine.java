@@ -341,6 +341,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                 input.add(stack);
             }
             if (input.size() < sparseInput.length) {
+                if (input.isEmpty()) {
+                    return null;
+                }
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
                 return MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
             }
