@@ -150,18 +150,17 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
 
     @Override
     public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        CompoundTag serverData = blockAccessor.getServerData();
-        if (!serverData.getBoolean("formed")) return;
-        if (!serverData.getBoolean("bound")) {
+        if (!data.getBoolean("formed")) return;
+        if (!data.getBoolean("bound")) {
             iTooltip.add(Component.translatable("gtceu.top.buffer_not_bound").withStyle(ChatFormatting.RED));
             return;
         }
 
-        int[] pos = serverData.getIntArray("pos");
+        int[] pos = data.getIntArray("pos");
         iTooltip.add(Component.translatable("gtceu.top.buffer_bound_pos", pos[0], pos[1], pos[2])
                 .withStyle(TooltipHelper.RAINBOW_HSL_SLOW));
 
-        readBufferTag(iTooltip, serverData);
+        readBufferTag(iTooltip, data);
     }
 
     @Override
