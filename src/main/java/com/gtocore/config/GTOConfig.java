@@ -18,6 +18,7 @@ import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 
 @DataGeneratorScanned
 @Config(id = GTOCore.MOD_ID, group = GTOCore.MOD_ID)
+@SuppressWarnings("unused")
 public final class GTOConfig {
 
     @RegisterLanguage(en = "GTO Core Config", cn = "GTO Core 配置")
@@ -182,6 +183,16 @@ public final class GTOConfig {
     @Configurable.Comment({ "启用后，样板供应器/样板总成会显示在旅行权杖的节点列表中，以便捷传送", "When enabled, Pattern Providers/Pattern Assemblers will appear in the node list of the Staff Of Travelling for easy teleportation" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff Of Travelling Pattern Nodes", cn = "旅行权杖样板节点")
     public boolean staffOfTravellingPatternNodes = true;
+
+    @Configurable
+    @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，EMI 的作弊交互功能将转为试图从现有的ME终端/无线终端中提取物品", "When enabled, and EMI cheats are not enabled, EMI's cheat interaction feature will attempt to extract items from existing ME Terminals/Wireless Terminals" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Non-Cheat EMI Interaction", cn = "非作弊时EMI交互")
+    public boolean nonCheatEmiInteraction = true;
+
+    @Configurable
+    @Configurable.Comment({ "启用后，选取方块时，若AE终端没有相关物品，但相关物品可合成，则自动触发合成请求", "When enabled, when picking a block, if the AE terminal does not have the relevant item but it can be crafted, an automatic crafting request is triggered" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Auto Craft on Pick Block", cn = "选取方块自动合成")
+    public boolean pickCraft = true;
 
     // 性能优化设置
     @Configurable
