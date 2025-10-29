@@ -4876,6 +4876,7 @@ public final class MaterialB {
                 .dust()
                 .components(Zirconium, 1, Boron, 2)
                 .color(0x4e5166)
+                .temp(4492)
                 .iconSet(BRIGHT)
                 .flags(GENERATE_CERAMIC)
                 .buildAndRegister();

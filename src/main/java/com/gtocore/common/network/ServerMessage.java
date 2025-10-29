@@ -17,19 +17,24 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import appeng.api.stacks.AEKey;
+import appeng.client.gui.me.common.ContentToast;
 import dev.emi.emi.runtime.EmiPersistentData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.patchouli.client.book.BookContentResourceListenerLoader;
 import vazkii.patchouli.client.book.ClientBookRegistry;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gtolib.utils.ServerUtils.getServer;
@@ -122,6 +127,28 @@ public final class ServerMessage {
                 var start = data.readBlockPos();
                 var end = data.readBlockPos();
                 ForgeClientEvent.stopHighlight(start, end);
+            }
+            case "pickCraftToast" -> {
+                AEKey aeKey = AEKey.readKey(data);
+                int stateCode = data.readInt();
+                Minecraft.getInstance().getToasts().addToast(new ContentToast(aeKey) {
+
+                    @Override
+                    protected Component getTitle() {
+                        if (stateCode == 0) {
+                            return Component.translatable("gtocore.ae.appeng.pick_craft.all_right.title");
+                        }
+                        return Component.translatable("gtocore.ae.appeng.pick_craft.error.title");
+                    }
+
+                    @Override
+                    protected void addInfoLines(List<FormattedCharSequence> lines) {
+                        var text = stateCode == 0 ?
+                                Component.translatable("gtocore.ae.appeng.pick_craft.all_right") :
+                                Component.translatable("gtocore.ae.appeng.pick_craft.error." + stateCode);
+                        lines.addAll(Minecraft.getInstance().font.split(text, width() - 30 - 5));
+                    }
+                });
             }
         }
     }
