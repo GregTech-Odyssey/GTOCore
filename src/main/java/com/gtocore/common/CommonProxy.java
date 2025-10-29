@@ -89,7 +89,6 @@ public class CommonProxy {
         GTOCreativeModeTabs.init();
         ScanningClass.init();
         GTOEntityTypes.init();
-        GTONet.init();
     }
 
     private static void modConstruct(FMLConstructModEvent event) {

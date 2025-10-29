@@ -1,7 +1,8 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gtocore.common.network.ServerMessage;
 import com.gtocore.config.GTOConfig;
+
+import com.gtolib.api.network.NetworkPack;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -46,11 +47,26 @@ import static com.gtocore.client.renderer.machine.MonitorRenderer.gridToNetworkC
 public final class Manager {
 
     private static final Queue<Runnable> Loading = new LinkedList<>();
-    static final Map<GridFacedPoint, GridNetwork> gridToNetwork = new ConcurrentHashMap<>();
+    private static final Map<GridFacedPoint, GridNetwork> gridToNetwork = new ConcurrentHashMap<>();
+
+    private static final NetworkPack MONITOR_CHANGED = NetworkPack.registerS2C(7, (p, buf) -> {
+        CompoundTag tag = new CompoundTag();
+        AtomicInteger i = new AtomicInteger(0);
+        gridToNetwork.values().forEach(network -> {
+            CompoundTag networkTag = network.serializeNBT();
+            tag.put(String.valueOf(i.getAndIncrement()), networkTag);
+        });
+        buf.writeNbt(tag);
+    }, (p, b) -> {
+        var monitorData = b.readNbt();
+        if (monitorData != null && p.level().isClientSide) {
+            Manager.onClientReceived(monitorData);
+        }
+    });
 
     private Manager() {}
 
-    static void requireQueue(Runnable runnable) {
+    private static void requireQueue(Runnable runnable) {
         if (!Loading.contains(runnable)) {
             Loading.add(runnable);
         }
@@ -62,7 +78,7 @@ public final class Manager {
         }
     }
 
-    public static void addBlock(MetaMachine be) {
+    static void addBlock(MetaMachine be) {
         addBlock(be.getBlockState(), be.getPos(), be.getLevel());
     }
 
@@ -75,7 +91,7 @@ public final class Manager {
         }
     }
 
-    public static void addBlock(BlockState blockState, BlockPos pos, @Nullable Level level, int color) {
+    static void addBlock(BlockState blockState, BlockPos pos, @Nullable Level level, int color) {
         if (level == null || level.isClientSide() || !level.isLoaded(pos)) {
             return;
         }
@@ -90,11 +106,11 @@ public final class Manager {
         });
     }
 
-    public static void addBlock(BlockState blockState, BlockPos pos, @Nullable Level level) {
+    static void addBlock(BlockState blockState, BlockPos pos, @Nullable Level level) {
         addBlock(blockState, pos, level, -1);
     }
 
-    public static void removeBlock(BlockState pState, BlockPos pPos, @Nullable Level pLevel) {
+    static void removeBlock(BlockState pState, BlockPos pPos, @Nullable Level pLevel) {
         if (pLevel != null && !pLevel.isClientSide) {
             requireQueue(() -> {
                 Direction facing = getFrontFacing(pState);
@@ -115,7 +131,7 @@ public final class Manager {
         }
     }
 
-    public static void removeBlock(MetaMachine be) {
+    static void removeBlock(MetaMachine be) {
         if (be.getLevel() != null && !be.getLevel().isClientSide()) {
             removeBlock(be.getBlockState(), be.getPos(), be.getLevel());
         }
@@ -262,7 +278,7 @@ public final class Manager {
             this.facing = facing;
         }
 
-        public static GridNetwork fromBlock(Direction facing, BlockPos pos, ResourceKey<Level> level, int color) {
+        static GridNetwork fromBlock(Direction facing, BlockPos pos, ResourceKey<Level> level, int color) {
             GridFacing axis = GridFacing.of(facing, level, GridFacing.getThirdValue(facing, pos));
             var point = axis.getPoint(pos);
             if (gridToNetwork.containsKey(point)) {
@@ -281,7 +297,7 @@ public final class Manager {
             return points;
         }
 
-        public static GridNetwork createSingleBlockNetwork(Direction facing, BlockPos pos, ResourceKey<Level> level, int color) {
+        static GridNetwork createSingleBlockNetwork(Direction facing, BlockPos pos, ResourceKey<Level> level, int color) {
             GridFacing axis = GridFacing.of(facing, level, GridFacing.getThirdValue(facing, pos));
             var point = axis.getPoint(pos);
             if (gridToNetwork.containsKey(point)) {
@@ -387,7 +403,7 @@ public final class Manager {
             if (shiftedPoints.isEmpty()) {
                 return false;
             } else {
-                var otherNetwork = gridToNetwork.get(shiftedPoints.get(0));
+                var otherNetwork = gridToNetwork.get(shiftedPoints.getFirst());
                 boolean canMerge = shiftedPoints.stream()
                         .allMatch(newPoint -> gridToNetwork.get(newPoint) == otherNetwork) &&
                         canMerge(otherNetwork, direction);
@@ -594,7 +610,7 @@ public final class Manager {
     }
 
     /// 这个将会被客户端所用到！！！
-    public static void updateAllNetworkDisplayMachines(Level level) {
+    static void updateAllNetworkDisplayMachines(Level level) {
         if (level == null) return;
         gridToNetworkCLIENT.values().forEach(network -> network.refreshDisplayingMachine(level));
     }
@@ -683,21 +699,13 @@ public final class Manager {
         }
     }
 
-    public static void broadcast(MinecraftServer server) {
+    private static void broadcast(MinecraftServer server) {
         // check if runtime is in dedicated server mode
-        ServerMessage.send(server, null, "monitorChanged", buf -> {
-            CompoundTag tag = new CompoundTag();
-            AtomicInteger i = new AtomicInteger(0);
-            gridToNetwork.values().forEach(network -> {
-                CompoundTag networkTag = network.serializeNBT();
-                tag.put(String.valueOf(i.getAndIncrement()), networkTag);
-            });
-            buf.writeNbt(tag);
-        });
+        MONITOR_CHANGED.send(server);
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void onClientReceived(CompoundTag tag) {
+    private static void onClientReceived(CompoundTag tag) {
         gridToNetworkCLIENT.clear();
         for (String key : tag.getAllKeys()) {
             CompoundTag networkTag = tag.getCompound(key);
@@ -732,8 +740,8 @@ public final class Manager {
         private final int v;
 
         MonitorCTM() {
-            this.u = ordinal() % 4 * 16; // 每个纹理占16个像素
-            this.v = ordinal() / 4 * 16; // 每四个纹理一行
+            this.u = ordinal() % 4 << 4; // 每个纹理占16个像素
+            this.v = ordinal() / 4 << 4; // 每四个纹理一行
         }
 
         @NotNull

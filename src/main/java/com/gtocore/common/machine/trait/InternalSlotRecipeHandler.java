@@ -145,11 +145,9 @@ public final class InternalSlotRecipeHandler {
                         }
                     };
                 }
-                return Collections.emptyIterator();
-            } else {
-                this.recipeType = slot.machine.recipeType == GTORecipeTypes.HATCH_COMBINED ? null : slot.machine.recipeType;
-                return SEARCH.search(holder, type, this, canHandle);
             }
+            this.recipeType = slot.machine.recipeType == GTORecipeTypes.HATCH_COMBINED ? null : slot.machine.recipeType;
+            return SEARCH.search(holder, type, this, canHandle);
         }
 
         @Override

@@ -3,16 +3,14 @@ package com.gtocore.common.network;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
-import com.gtolib.api.misc.PlanetManagement;
+import com.gtolib.api.network.NetworkPack;
 import com.gtolib.api.player.IEnhancedPlayer;
-import com.gtolib.utils.SortUtils;
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,40 +28,30 @@ import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
 import de.mari_023.ae2wtlib.wct.CraftingTerminalHandler;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
+// todo 重构
+@Deprecated
 public final class ClientMessage {
+
+    private static final Int2ObjectOpenHashMap<NetworkPack> PACKS = new Int2ObjectOpenHashMap<>();
 
     public static void sendData(String channel, @Nullable CompoundTag data) {
         send(channel, buf -> buf.writeNbt(data));
     }
 
     public static void send(String channel, @NotNull Consumer<FriendlyByteBuf> data) {
-        new FromClientMessage(channel, data).sendToServer();
+        PACKS.computeIfAbsent(channel.hashCode(), k -> NetworkPack.registerC2S(k, (p, b) -> handle(channel, p, b))).send(data);
     }
 
-    public static void checkPlanetIsUnlocked(ResourceLocation planet) {
-        if (PlanetManagement.isClientUnlocked(planet)) return;
-        send("planetIsUnlocked", buf -> buf.writeResourceLocation(planet));
-    }
-
-    public static void organCapAsync(CompoundTag tag) { // ServerToClient 全量同步
-        sendData("organCapAsync", tag);
-    }
-
-    static void handle(String channel, @NotNull ServerPlayer serverPlayer, FriendlyByteBuf data) {
+    private static void handle(String channel, @NotNull ServerPlayer serverPlayer, FriendlyByteBuf data) {
         switch (channel) {
             case "key" -> KeyMessage.pressAction(serverPlayer, data.readVarInt());
-            case "planetIsUnlocked" -> PlanetManagement.checkIsUnlocked(serverPlayer, data.readResourceLocation());
             case "shiftKeypress" -> IEnhancedPlayer.of(serverPlayer).getPlayerData().shiftState = data.readBoolean();
-            case "sortInventory" -> {
-                if (serverPlayer.containerMenu instanceof ModularUIContainer container) {
-                    SortUtils.sort(container);
-                }
-            }
             case "pattern_buffer_index" -> {
                 if (serverPlayer.containerMenu instanceof ModularUIContainer container) {
                     for (var widget : container.getModularUI().mainGroup.widgets) {
