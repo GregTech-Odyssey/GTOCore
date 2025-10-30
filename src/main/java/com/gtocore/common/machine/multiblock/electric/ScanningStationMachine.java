@@ -8,6 +8,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -18,6 +19,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 
@@ -43,12 +45,12 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
                     return;
                 }
                 this.objectHolder = scanningHolder;
-                // 添加物品处理器（包含扫描槽、催化剂槽和数据槽）
-                addHandlerList(RecipeHandlerList.of(IO.IN, scanningHolder.getAsHandler()));
+                // 添加物品流体处理器（包含扫描槽、催化剂槽和数据槽）
+                addHandlerList(RecipeHandlerList.of(IO.IN, scanningHolder.getAsHandler(), scanningHolder.getCatalystFluidTank()));
             }
         }
 
-        // 必须同时有扫描部件和计算提供者
+        // 必须同时有扫描部件
         if (objectHolder == null) {
             onStructureInvalid();
         }
@@ -101,13 +103,14 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
             return true;
         }
 
-        if (getRecipeLogic().getLastRecipe() == null) {
+        var lastRecipe = getRecipeLogic().getLastRecipe();
+        if (lastRecipe == null) {
             objectHolder.setLocked(false);
             return true;
         }
 
-        var catalyst = getRecipeLogic().getLastRecipe().getInputContents(ItemRecipeCapability.CAP);
-        if (ItemRecipeCapability.CAP.of(catalyst.get(0).content).getItems()[0].getItem() != objectHolder.getCatalystItem(false).getItem()) {
+        var catalyst = lastRecipe.getInputContents(ItemRecipeCapability.CAP);
+        if (ItemRecipeCapability.CAP.of(catalyst.getFirst().content).getItems()[0].getItem() != objectHolder.getCatalystItem(false).getItem()) {
             ItemStack hold = objectHolder.getHeldItem(true);
             objectHolder.setHeldItem(objectHolder.getCatalystItem(true));
             objectHolder.setCatalystItem(hold);
@@ -115,16 +118,23 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
             return true;
         }
 
-        objectHolder.setHeldItem(ItemStack.EMPTY);
-        ItemStack outputItem = ItemStack.EMPTY;
-        var contents = getRecipeLogic().getLastRecipe().getOutputContents(ItemRecipeCapability.CAP);
-        if (!contents.isEmpty()) {
-            outputItem = ItemUtils.getFirstSized((Ingredient) contents.get(0).content).copy();
-        }
-        if (!outputItem.isEmpty()) {
-            objectHolder.setDataItem(outputItem);
+        var fluidInputs = lastRecipe.getInputContents(FluidRecipeCapability.CAP);
+        if (!fluidInputs.isEmpty()) {
+            FluidStack requiredFluid = FluidRecipeCapability.CAP.of(fluidInputs.getFirst().content).getStacks()[0];
+            FluidStack currentFluid = objectHolder.getCatalystFluidTank().getFluidInTank(0);
+            if (currentFluid.isEmpty() || !requiredFluid.isFluidEqual(currentFluid) || currentFluid.getAmount() < requiredFluid.getAmount()) {
+                objectHolder.setLocked(false);
+                return true;
+            }
         }
 
+        objectHolder.setHeldItem(ItemStack.EMPTY);
+        ItemStack outputItem = ItemStack.EMPTY;
+        var contents = lastRecipe.getOutputContents(ItemRecipeCapability.CAP);
+        if (!contents.isEmpty()) outputItem = ItemUtils.getFirstSized((Ingredient) contents.getFirst().content).copy();
+        if (!outputItem.isEmpty()) objectHolder.setDataItem(outputItem);
+
+        objectHolder.getCatalystFluidTank().setFluidInTank(0, FluidStack.EMPTY);
         objectHolder.setLocked(false);
         return true;
     }

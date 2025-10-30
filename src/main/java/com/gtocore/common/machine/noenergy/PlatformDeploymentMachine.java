@@ -212,12 +212,35 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         group.addWidget(group_title);
 
         // 主页
-        DraggableScrollableWidgetGroup mainContentGroup = new DraggableScrollableWidgetGroup(4, 18, totalLangWidth, 146);
+        DraggableScrollableWidgetGroup mainContentGroup = new DraggableScrollableWidgetGroup(4, 20, totalLangWidth, 144);
 
-        ComponentPanelWidget mainTextPanel = new ComponentPanelWidget(4, 0, this::addDisplayText)
+        mainContentGroup.addWidget(new ComponentPanelWidget(4, 0, this::addDisplayText)
                 .clickHandler(this::handleDisplayClick)
-                .setMaxWidthLimit(langWidth);
-        mainContentGroup.addWidget(mainTextPanel);
+                .setMaxWidthLimit(langWidth));
+
+        mainContentGroup.addWidget(new ComponentPanelWidget(4 + langWidth / 2, 0, this::addDisplayText2)
+                .clickHandler(this::handleDisplayClick)
+                .setMaxWidthLimit(langWidth / 2));
+
+        mainContentGroup.addWidget(new ComponentPanelWidget(4 + langWidth / 4, 0, this::addDisplayText3)
+                .clickHandler(this::handleDisplayClick)
+                .setMaxWidthLimit(langWidth / 4 * 3));
+
+        mainContentGroup.addWidget(new ComponentPanelWidget(4 + langWidth / 4 * 3, 0, this::addDisplayText4)
+                .clickHandler(this::handleDisplayClick)
+                .setMaxWidthLimit(langWidth / 4));
+
+        mainContentGroup.addWidget(new ComponentPanelWidget(4 + 80, 0, this::addDisplayText5)
+                .clickHandler(this::handleDisplayClick)
+                .setMaxWidthLimit(langWidth / 2));
+
+        mainContentGroup.addWidget(new ComponentPanelWidget(4 + langWidth / 2, 0, this::addDisplayText6)
+                .clickHandler(this::handleDisplayClick)
+                .setMaxWidthLimit(langWidth / 2));
+
+        mainContentGroup.addWidget(new ComponentPanelWidget(4 + langWidth - 62, 0, this::addDisplayText7)
+                .clickHandler(this::handleDisplayClick)
+                .setMaxWidthLimit(langWidth / 4));
 
         mainContentGroup.addWidget(new ImageWidget(166, 46, 100, 100, this::getIGuiTexture));
 
@@ -228,9 +251,9 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
         group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
                 .clickHandler((a, b) -> handleDisplayClickStep(a, mainContentGroup)));
-        group_start.addWidget(new ComponentPanelWidget(2, 20, this::addDisplayTextStart)
+        group_start.addWidget(new ComponentPanelWidget(8, 20, this::addDisplayTextStart)
                 .clickHandler(this::handleDisplayClickStart)
-                .setMaxWidthLimit(50));
+                .setMaxWidthLimit(38));
         group.addWidget(group_start);
 
         // 物品槽
@@ -248,9 +271,11 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         return group;
     }
 
+    private static final Component empty = Component.empty();
+
     // 步骤标题显示
     private void addDisplayTextTitle(List<Component> textList) {
-        textList.add(centerComponent(langWidth, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.title." + step)));
+        textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.title." + step));
     }
 
     // 步骤控制工具
@@ -280,27 +305,22 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 PlatformBlockType.PlatformPreset group = getPlatformPreset(checkGroup);
                 PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(checkGroup, checkId);
 
-                textList.add(createPageNavigation(langWidth,
-                        createPageNavigation(langWidth - 60, Component.literal("<" + (checkGroup + 1) + "/" + maxGroup + ">"), "group"),
-                        "group_plas"));
+                Component leftBtn1 = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_group_plas");
+                Component leftBtn2 = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_group");
+                Component empty1 = Component.literal(" ".repeat(15 - ((checkGroup + 1) / 10 + maxGroup / 10 + 5) / 2));
+                textList.add(Component.empty().append(leftBtn1).append(leftBtn2).append(empty1).append(Component.literal("<" + (checkGroup + 1) + "/" + maxGroup + ">")));
 
                 int totalIds = getPlatformPreset(checkGroup).structures().size();
-                textList.add(createPageNavigation(langWidth,
-                        createPageNavigation(langWidth - 60, Component.literal("<" + (checkId + 1) + "/" + totalIds + ">"), "id"),
-                        "id_plas"));
+                Component leftBtn3 = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_id_plas");
+                Component leftBtn4 = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_id");
+                Component empty2 = Component.literal(" ".repeat(15 - ((checkId + 1) / 10 + totalIds / 10 + 5) / 2));
+                textList.add(Component.empty().append(leftBtn3).append(leftBtn4).append(empty2).append(Component.literal("<" + (checkId + 1) + "/" + totalIds + ">")));
 
-                textList.add(createEqualColumns(langWidth, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.choose_this")
-                        .append(ComponentPanelWidget.withButton(Component.literal("[§b⭕§r]"), "choose_this")),
-                        presetConfirm ?
-                                Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.selected", saveGroup + 1, saveId + 1) :
-                                Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.choose_this")
+                        .append(ComponentPanelWidget.withButton(Component.literal("[§b⭕§r]"), "choose_this")));
 
-                textList.add(createEqualColumns(langWidth,
-                        structure.preview() ? Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.preview")
-                                .append(ComponentPanelWidget.withButton(Component.literal("[§b🖼§r]"), "preview")) :
-                                Component.empty(),
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.highlight")
-                                .append(ComponentPanelWidget.withButton(Component.literal("[§b🔆§r]"), "highlight"))));
+                textList.add(structure.preview() ? Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.preview")
+                        .append(ComponentPanelWidget.withButton(Component.literal("[§b🖼§r]"), "preview")) : empty);
                 textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.size", structure.xSize(), structure.ySize(), structure.zSize(),
                         structure.xSize() >> 4, structure.zSize() >> 4));
 
@@ -321,32 +341,17 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 if (structSource != null) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.source", structSource));
             }
             case ConfirmConsumables -> {
-                textList.add(createEqualColumns(langWidth,
-                        ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.loading"), "loading"),
-                        ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.unloading"), "unloading")));
+                textList.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.loading"), "loading"));
 
-                textList.add(createEqualColumns(langWidth, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves"),
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.0"),
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.1"),
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.2")));
-                textList.add(createEqualColumns(langWidth, Component.empty(),
-                        Component.literal(String.valueOf(materialInventory[0])),
-                        Component.literal(String.valueOf(materialInventory[1])),
-                        Component.literal(String.valueOf(materialInventory[2]))));
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.reserves"));
+                textList.add(empty);
 
                 if (!presetConfirm) textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
                 else {
                     PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
 
-                    int[] costMaterial = structure.materials();
-                    textList.add(createEqualColumns(langWidth, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand"),
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.0"),
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.1"),
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.2")));
-                    textList.add(createEqualColumns(langWidth, Component.empty(),
-                            Component.literal(String.valueOf(costMaterial[0])),
-                            Component.literal(String.valueOf(costMaterial[1])),
-                            Component.literal(String.valueOf(costMaterial[2]))));
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.demand"));
+                    textList.add(empty);
 
                     List<IntObjectHolder<ItemStack>> extraMaterials = structure.extraMaterials();
                     if (!extraMaterials.isEmpty()) {
@@ -359,42 +364,15 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 }
             }
             case AdjustSettings -> {
-                Component empty = Component.empty();
-
-                Component X_change_1 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "x_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "x_add"));
-                Component Y_change_1 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "y_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "y_add"));
-                Component Z_change_1 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "z_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "z_add"));
-
-                Component X_change_2 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_x_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustX + "]"), "x_minus_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustX + "]"), "x_add_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_x_add"));
-                Component Y_change_2 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_y_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustY + "]"), "y_minus_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustY + "]"), "y_add_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_y_add"));
-                Component Z_change_2 = Component.empty()
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_z_minus"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustZ + "]"), "z_minus_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustZ + "]"), "z_add_plas"))
-                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_z_add"));
 
                 Component x_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", offsetX);
                 Component y_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", offsetY);
                 Component z_offset = Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", offsetZ);
 
                 textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset"));
-                textList.add(createEqualColumns(langWidth - 20, x_offset, X_change_1, X_change_2));
-                textList.add(createEqualColumns(langWidth - 20, y_offset, Y_change_1, Y_change_2));
-                textList.add(createEqualColumns(langWidth - 20, z_offset, Z_change_1, Z_change_2));
+                textList.add(x_offset);
+                textList.add(y_offset);
+                textList.add(z_offset);
 
                 textList.add(empty);
 
@@ -402,46 +380,183 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 else {
                     textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.boundary"));
 
-                    textList.add(createEqualColumns(langWidth,
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", pos2.getX()),
-                            Component.literal(String.valueOf(pos1.getX()))));
-                    textList.add(createEqualColumns(langWidth,
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", pos2.getY()),
-                            Component.literal(String.valueOf(pos1.getY()))));
-                    textList.add(createEqualColumns(langWidth,
-                            Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", pos2.getZ()),
-                            Component.literal(String.valueOf(pos1.getZ()))));
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.x", pos2.getX()));
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.y", pos2.getY()));
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.offset.z", pos2.getZ()));
                 }
                 textList.add(empty);
-                textList.add(createEqualColumns(langWidth,
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.skipAir")
-                                .append(ComponentPanelWidget.withButton(skipAir ?
-                                        Component.translatable("gtocore.machine.on") :
-                                        Component.translatable("gtocore.machine.off"), "skipAir")),
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.updateLight")
-                                .append(ComponentPanelWidget.withButton(updateLight ?
-                                        Component.translatable("gtocore.machine.on") :
-                                        Component.translatable("gtocore.machine.off"), "updateLight"))));
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.skipAir")
+                        .append(ComponentPanelWidget.withButton(skipAir ?
+                                Component.translatable("gtocore.machine.on") :
+                                Component.translatable("gtocore.machine.off"), "skipAir")));
 
-                textList.add(createEqualColumns(langWidth,
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.xMirror")
-                                .append(ComponentPanelWidget.withButton(xMirror ?
-                                        Component.translatable("gtocore.machine.on") :
-                                        Component.translatable("gtocore.machine.off"), "xMirror")),
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.zMirror")
-                                .append(ComponentPanelWidget.withButton(zMirror ?
-                                        Component.translatable("gtocore.machine.on") :
-                                        Component.translatable("gtocore.machine.off"), "zMirror"))));
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.xMirror")
+                        .append(ComponentPanelWidget.withButton(xMirror ?
+                                Component.translatable("gtocore.machine.on") :
+                                Component.translatable("gtocore.machine.off"), "xMirror")));
 
-                textList.add(createEqualColumns(langWidth,
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.rotation")
-                                .append(ComponentPanelWidget.withButton(
-                                        Component.literal(String.valueOf(rotation)), "rotation")),
-                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.speed")
-                                .append(String.valueOf(speed))
-                                .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "+speed"))
-                                .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "-speed"))));
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.rotation")
+                        .append(ComponentPanelWidget.withButton(
+                                Component.literal(String.valueOf(rotation)), "rotation")));
             }
+        }
+    }
+
+    private void addDisplayText2(List<Component> textList) {
+        switch (step) {
+            case PresetSelection -> {
+                textList.add(empty);
+                textList.add(empty);
+                textList.add(presetConfirm ?
+                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.selected", saveGroup + 1, saveId + 1) :
+                        Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
+
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.highlight")
+                        .append(ComponentPanelWidget.withButton(Component.literal("[§b🔆§r]"), "highlight")));
+
+            }
+            case ConfirmConsumables -> {
+                textList.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.unloading"), "unloading"));
+
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.1"));
+                textList.add(Component.literal(String.valueOf(materialInventory[1])));
+
+                if (!presetConfirm) textList.add(empty);
+                else {
+                    PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+
+                    int[] costMaterial = structure.materials();
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.1"));
+                    textList.add(Component.literal(String.valueOf(costMaterial[1])));
+                }
+            }
+            case AdjustSettings -> {
+                textList.add(empty);
+
+                textList.add(empty);
+                textList.add(empty);
+                textList.add(empty);
+
+                textList.add(empty);
+
+                if (!presetConfirm) textList.add(empty);
+                else {
+                    textList.add(empty);
+
+                    textList.add(Component.literal(String.valueOf(pos1.getX())));
+                    textList.add(Component.literal(String.valueOf(pos1.getY())));
+                    textList.add(Component.literal(String.valueOf(pos1.getZ())));
+                }
+                textList.add(empty);
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.updateLight")
+                        .append(ComponentPanelWidget.withButton(updateLight ?
+                                Component.translatable("gtocore.machine.on") :
+                                Component.translatable("gtocore.machine.off"), "updateLight")));
+
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.zMirror")
+                        .append(ComponentPanelWidget.withButton(zMirror ?
+                                Component.translatable("gtocore.machine.on") :
+                                Component.translatable("gtocore.machine.off"), "zMirror")));
+
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.speed")
+                        .append(String.valueOf(speed))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "+speed"))
+                        .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "-speed")));
+            }
+        }
+    }
+
+    private void addDisplayText3(List<Component> textList) {
+        if (step == ConfirmConsumables) {
+            textList.add(empty);
+
+            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.0"));
+            textList.add(Component.literal(String.valueOf(materialInventory[0])));
+
+            if (!presetConfirm) textList.add(empty);
+            else {
+                PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+
+                int[] costMaterial = structure.materials();
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.0"));
+                textList.add(Component.literal(String.valueOf(costMaterial[0])));
+            }
+        }
+    }
+
+    private void addDisplayText4(List<Component> textList) {
+        if (step == ConfirmConsumables) {
+            textList.add(empty);
+
+            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.2"));
+            textList.add(Component.literal(String.valueOf(materialInventory[2])));
+
+            if (!presetConfirm) textList.add(empty);
+            else {
+                PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
+
+                int[] costMaterial = structure.materials();
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.2"));
+                textList.add(Component.literal(String.valueOf(costMaterial[2])));
+            }
+        }
+    }
+
+    private void addDisplayText5(List<Component> textList) {
+        if (step == AdjustSettings) {
+            textList.add(empty);
+
+            Component X_change_1 = Component.empty()
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "x_minus"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "x_add"));
+            Component Y_change_1 = Component.empty()
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "y_minus"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "y_add"));
+            Component Z_change_1 = Component.empty()
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "z_minus"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "z_add"));
+
+            textList.add(X_change_1);
+            textList.add(Y_change_1);
+            textList.add(Z_change_1);
+        }
+    }
+
+    private void addDisplayText6(List<Component> textList) {
+        if (step == AdjustSettings) {
+            textList.add(empty);
+
+            Component X_change_2 = Component.empty()
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_x_minus"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustX + "]"), "x_minus_plas"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustX + "]"), "x_add_plas"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_x_add"));
+            Component Y_change_2 = Component.empty()
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_y_minus"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustY + "]"), "y_minus_plas"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustY + "]"), "y_add_plas"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_y_add"));
+            Component Z_change_2 = Component.empty()
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-]"), "adjust_z_minus"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[-" + adjustZ + "]"), "z_minus_plas"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+" + adjustZ + "]"), "z_add_plas"))
+                    .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "adjust_z_add"));
+
+            textList.add(X_change_2);
+            textList.add(Y_change_2);
+            textList.add(Z_change_2);
+        }
+    }
+
+    private void addDisplayText7(List<Component> textList) {
+        if (step == PresetSelection) {
+            Component rightBtn1 = ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_group");
+            Component rightBtn2 = ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_group_plas");
+            textList.add(Component.empty().append(rightBtn1).append(rightBtn2));
+
+            Component rightBtn3 = ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_id");
+            Component rightBtn4 = ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_id_plas");
+            textList.add(Component.empty().append(rightBtn3).append(rightBtn4));
         }
     }
 
@@ -580,17 +695,17 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     // 启动控制工具
     private void addDisplayTextStart(List<Component> textList) {
-        if (canExport) textList.add(centerComponent(50, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.export"), "export")));
+        if (canExport) textList.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.export"), "export"));
         else if (!presetConfirm) {
-            textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected")));
+            textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.text.unselected"));
         } else {
             if (!insufficient) {
-                textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient")));
+                textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.material.insufficient"));
             } else {
                 if (!taskCompleted) {
-                    textList.add(centerComponent(50, Component.translatable("gtocore.machine.industrial_platform_deployment_tools.doing", progress)));
+                    textList.add(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.doing", progress));
                 } else {
-                    textList.add(centerComponent(50, ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.start"), "start")));
+                    textList.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.industrial_platform_deployment_tools.start"), "start"));
                 }
             }
         }
@@ -609,13 +724,13 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     private static Component createPageNavigation(int totalWidth, Component titleComp, String string) {
         Component leftBtn = ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_" + string);
         Component rightBtn = ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_" + string);
-        int middleSpace = totalWidth - widthOfString(leftBtn) - widthOfString(titleComp) - widthOfString(rightBtn);
+        int middleSpace = totalWidth - 60 - widthOfString(titleComp);
         if (middleSpace <= 0) return Component.empty().append(leftBtn).append(titleComp).append(rightBtn);
         int leftSpace = middleSpace / 2;
         int rightSpace = middleSpace - leftSpace;
-        int spacePixel = charWidth;
-        Component leftPad = Component.literal(" ".repeat(spacePixel > 0 ? leftSpace / spacePixel : leftSpace));
-        Component rightPad = Component.literal(" ".repeat(spacePixel > 0 ? rightSpace / spacePixel : rightSpace));
+        int spacePixel = 6;
+        Component leftPad = Component.literal(" ".repeat(leftSpace / spacePixel));
+        Component rightPad = Component.literal(" ".repeat(rightSpace / spacePixel));
         return Component.empty().append(leftBtn).append(leftPad).append(titleComp).append(rightPad).append(rightBtn);
     }
 
@@ -722,7 +837,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     private void posChanged() {
         BlockPos pos = getPos();
-        highlightArea(false);
+        if (highlight) {
+            highlight = false;
+            highlightArea(false);
+        }
         PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
 
         int sizeX = structure.xSize();
@@ -815,7 +933,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     private void highlightArea(boolean light) {
         if (!(getLevel() instanceof ServerLevel)) return;
-        ResourceKey<Level> dimension = getLevel().dimension();
+        ResourceKey<Level> dimension = Objects.requireNonNull(getLevel()).dimension();
         if (canExport) {
             BlockPos pos1 = null;
             BlockPos pos2 = null;
@@ -826,9 +944,16 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                     else pos2 = getStoredCoordinates(stack);
                 }
             }
-            if (light) {
-                highlightRegion(dimension, pos1, pos2, 0x660099CC, 1200);
-            } else stopHighlight(pos1, pos2);
+            if (pos1 != null && pos2 != null) {
+                if (light) {
+                    highlightRegion(dimension,
+                            new BlockPos(Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ())),
+                            new BlockPos(Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ())),
+                            0x660099CC, 1200);
+                } else
+                    stopHighlight(new BlockPos(Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ())),
+                            new BlockPos(Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ())));
+            }
         } else if (presetConfirm) {
             if (light) {
                 highlightRegion(dimension, pos1, pos2, 0x2277FF77, 600);

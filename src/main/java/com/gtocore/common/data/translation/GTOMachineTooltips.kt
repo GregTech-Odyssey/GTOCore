@@ -80,17 +80,23 @@ object GTOMachineTooltips {
 
         miraculousTools("工业平台展开工具" translatedTo "Industrial Platform Deployment Tools")
 
-        section("只能使用预设蓝图，无法自定义复杂结构" translatedTo "• Only preset blueprints are supported; complex customization is not available")
+        section("使用预设蓝图部署基地" translatedTo "Deploy the base using the preset blueprint.")
         section(
-            "平台结构相对简单，不支持自动扩展、道路或连接柱等复杂设施" translatedTo
-                "Platform structures are relatively simple; automatic expansion, road placement, or connecting pillars are not supported.",
+            "需要使用指定的工业组件作为材料" translatedTo
+                "Specific industrial components are required as materials.",
         )
         section(
-            "必须使用指定的工业组件作为材料" translatedTo
-                "Must use specified industrial components as materials.",
+            "有时需要根据需求提供额外的物品作为材料" translatedTo
+                "Sometimes it is necessary to provide additional items as materials based on demand.",
         )
 
-        highlight("尽管如此它依旧是专业的基地平台展开工具" translatedTo "It remains a professional base-platform deployment tool") { rainbowSlow() }
+        highlight("专业的基地平台展开工具" translatedTo "Professional base platform deployment tools") { rainbowSlow() }
+        highlight("来自泛银河系格雷科技销售部的拳头产品" translatedTo "Flagship product from the sales department of Pan-Galaxy Gray Technology") { rainbowSlow() }
+
+        story(
+            "可以添加扩展平台预设以获得更多预设蓝图。" translatedTo
+                "You can add extended platform presets to get more preset blueprints.",
+        )
 
         guide("详细操作请查看机器内简介" translatedTo "For detailed instructions, see the in-machine introduction")
     }
@@ -110,6 +116,11 @@ object GTOMachineTooltips {
             "适用于快速搭建基础生产基地和复杂工业设施" translatedTo
                 "making it ideal for rapidly establishing both basic production bases and complex industrial facilities.",
         )
+
+        section("界面简介" translatedTo "Interface Introduction")
+        content("一：主界面 - 用于选择预设，调整位置，浏览材料需求，修改展开设置。" translatedTo "1. Main Interface - Used to select presets, adjust positions, browse material requirements, and modify expansion settings.")
+        content("二：控制区 - 右上角一块，用于控制翻页，启动和进度监控" translatedTo "2. Control Area - The upper right corner, used to control page turning, startup, and progress monitoring.")
+        content("三：物品槽区 - 拥有27格存储，前9格可以通过GUI访问，用来输入材料需求" translatedTo "3. Item Slots - Has 27 storage slots, the first 9 of which can be accessed through the GUI and used to input material requirements.")
 
         section("使用流程" translatedTo "Usage Process")
         content("第一步：选择预设蓝图" translatedTo "1. Select a preset blueprint")
@@ -150,6 +161,9 @@ object GTOMachineTooltips {
             "请按照步骤操作，完成后点击确认按钮开始放置" translatedTo
                 "Please follow the steps and click the confirm button to start placement.",
         )
+
+        section("导出功能" translatedTo "Export function")
+        content("放入两张坐标卡开启导出模式，可导出平台与GT多方块结构" translatedTo "Insert two coordinate cards and enable export mode to export the platform and GT multi-block structure.")
     }
 
     // 魔力增幅仓

@@ -25,6 +25,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -203,13 +204,24 @@ public final class MagicRecipesA {
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_ender_eye")
-                    .inputItems(RegistriesUtils.getItem("torchmaster:frozen_pearl"))
-                    .chancedInput(new ItemStack(RegistriesUtils.getItem("mythicbotany:muspelheim_rune")), 2000, 0)
-                    .inputFluids(Salamander.getFluid(GAS, 8000))
-                    .chancedOutput(new ItemStack(Items.ENDER_EYE), 3000, 0)
+                    .inputItems("torchmaster:frozen_pearl")
+                    .chancedInput("mythicbotany:muspelheim_rune", 2000, 0)
+                    .inputFluids(Salamander, GAS, 8000)
+                    .outputItems(Items.ENDER_EYE)
                     .duration(650)
                     .MANAt(1)
                     .temperature(800)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.builder("blaze_rod")
+                    .notConsumable("ars_nouveau:fire_essence")
+                    .inputItems(rod, Wood, 2)
+                    .inputItems(dust, Blaze, 4)
+                    .outputItems(rod, Blaze, 2)
+                    .inputFluids(Salamander, GAS, 5)
+                    .blastFurnaceTemp(400)
+                    .duration(200)
+                    .MANAt(1)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_herbs_ingot")
@@ -1230,6 +1242,10 @@ public final class MagicRecipesA {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("slot_boosting_items"), SLOT_ENHANCER,
                     "   ", " A ", "   ",
                     'A', PHILOSOPHERS_STONE);
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wreath"), GTOItems.WREATH.asStack(),
+                    "AAA", "ABA", "AAA",
+                    'A', ItemTags.FLOWERS, 'B', GTOItems.COLORFUL_MYSTICAL_FLOWER.asStack());
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
                     "BBB", "BAB", "BBB",

@@ -1,15 +1,13 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.common.item.DataCrystalItem;
+
 import com.gtolib.api.gui.GTOGuiTextures;
-import com.gtolib.api.item.tool.IExDataItem;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
-import com.gregtechceu.gtceu.api.item.IComponentItem;
-import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -28,7 +26,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import org.jetbrains.annotations.NotNull;
 
-public class ResearchHolderMachine extends MultiblockPartMachine implements IMachineLife, IControllable {
+public class ResearchHolderMachine extends MultiblockPartMachine implements IMachineLife {
 
     public boolean isLocked() {
         return isLocked;
@@ -79,10 +77,10 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
         int centerY = 55;
         group.addWidget(new ImageWidget(centerX - 40, centerY - 28, 98, 74, new ResourceTexture("gtocore:textures/gui/progress_bar_research_base.png")))
 
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 60, centerY, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 64, centerY, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, centerX + 60, centerY, true, io.support(IO.IN))
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, centerX + 64, centerY, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
                 .addWidget(new BlockableSlotWidget(heldItems, EMPTY_SLOT, centerX, centerY, true, io.support(IO.IN))
@@ -146,57 +144,39 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
         // 各槽位容量限制
         @Override
         public int getSlotLimit(int slot) {
-            if (slot == EMPTY_SLOT) {
-                return 64;
-            } else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2 || (slot >= 3 && slot <= 12)) {
-                return 1;
-            } else {
-                return super.getSlotLimit(slot);
-            }
+            if (slot == EMPTY_SLOT) return 64;
+            else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2 || (slot >= 3 && slot <= 12)) return 1;
+            else return super.getSlotLimit(slot);
         }
 
         // 防止在锁定状态下提取物品
         @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (!machine.isLocked()) {
-                return super.extractItem(slot, amount, simulate);
-            }
+            if (!machine.isLocked()) return super.extractItem(slot, amount, simulate);
             return ItemStack.EMPTY;
         }
 
         // 槽位物品验证
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            if (stack.isEmpty()) {
-                return true;
-            }
+            if (stack.isEmpty()) return true;
 
             // 检查是否为数据物品
             boolean isDataItem = false;
             boolean hasNBT = false;
             boolean emptyNBT = false;
-            if (stack.getItem() instanceof IComponentItem metaItem) {
-                for (IItemComponent behaviour : metaItem.getComponents()) {
-                    if (behaviour instanceof IExDataItem) {
-                        isDataItem = true;
-                        hasNBT = stack.hasTag();
-                        if (stack.getTag() != null && stack.hasTag() && stack.getTag().contains("empty_crystal", CompoundTag.TAG_COMPOUND))
-                            emptyNBT = true;
-                        break;
-                    }
-                }
+            if (stack.getItem() instanceof DataCrystalItem) {
+                isDataItem = true;
+                hasNBT = stack.hasTag();
+                if (stack.getTag() != null && stack.hasTag() && stack.getTag().contains("empty_crystal", CompoundTag.TAG_COMPOUND))
+                    emptyNBT = true;
             }
 
-            if (slot == EMPTY_SLOT) {
-                return emptyNBT;
-            } else if (slot >= 3 && slot <= 12) {
-                return hasNBT && !emptyNBT;
-            } else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2) {
-                return !isDataItem;
-            } else {
-                return super.isItemValid(slot, stack);
-            }
+            if (slot == EMPTY_SLOT) return emptyNBT;
+            else if (slot >= 3 && slot <= 12) return hasNBT && !emptyNBT;
+            else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2) return !isDataItem;
+            else return super.isItemValid(slot, stack);
         }
 
         private static final class MyCustomItemStackHandler extends CustomItemStackHandler {
@@ -207,13 +187,9 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
 
             @Override
             public int getSlotLimit(int slot) {
-                if (slot == EMPTY_SLOT) {
-                    return 64;
-                } else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2 || (slot >= 3 && slot <= 12)) {
-                    return 1;
-                } else {
-                    return super.getSlotLimit(slot);
-                }
+                if (slot == EMPTY_SLOT) return 64;
+                else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2 || (slot >= 3 && slot <= 12)) return 1;
+                else return super.getSlotLimit(slot);
             }
         }
     }

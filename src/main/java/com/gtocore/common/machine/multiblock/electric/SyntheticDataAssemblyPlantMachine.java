@@ -81,8 +81,7 @@ public class SyntheticDataAssemblyPlantMachine extends ElectricMultiblockMachine
     public void addDisplayText(List<Component> textList) {
         MultiblockDisplayText.builder(textList, isFormed())
                 .setWorkingStatus(recipeLogic.isWorkingEnabled(), recipeLogic.isActive())
-                .setWorkingStatusKeys("gtceu.multiblock.idling", "gtceu.multiblock.work_paused",
-                        "gtocore.machine.assembling")
+                .setWorkingStatusKeys("gtceu.multiblock.idling", "gtceu.multiblock.work_paused", "gtocore.machine.assembling")
                 .addEnergyUsageLine(energyContainer)
                 .addEnergyTierLine(tier)
                 .addWorkingStatusLine()
@@ -109,12 +108,8 @@ public class SyntheticDataAssemblyPlantMachine extends ElectricMultiblockMachine
 
         ItemStack outputItem = ItemStack.EMPTY;
         var contents = getRecipeLogic().getLastRecipe().getOutputContents(ItemRecipeCapability.CAP);
-        if (!contents.isEmpty()) {
-            outputItem = ItemUtils.getFirstSized((Ingredient) contents.get(0).content).copy();
-        }
-        if (!outputItem.isEmpty()) {
-            objectHolder.setDataItem(outputItem);
-        }
+        if (!contents.isEmpty()) outputItem = ItemUtils.getFirstSized((Ingredient) contents.getFirst().content).copy();
+        if (!outputItem.isEmpty()) objectHolder.setDataItem(outputItem);
 
         objectHolder.setLocked(false);
         return true;
