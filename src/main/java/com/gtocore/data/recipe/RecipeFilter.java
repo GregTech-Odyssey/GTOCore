@@ -48,7 +48,7 @@ public final class RecipeFilter {
 
         List<Predicate<ResourceLocation>> filters = new ObjectArrayList<>();
         addFilter(filters);
-        Predicate<ResourceLocation> filter = filters.get(0);
+        Predicate<ResourceLocation> filter = filters.getFirst();
         for (int i = 1; i < filters.size(); i++) {
             filter = filter.or(filters.get(i));
         }
@@ -444,16 +444,17 @@ public final class RecipeFilter {
         filters.add(RLUtils.eio("pulsating_crystal"));
         filters.add(RLUtils.eio("vibrant_crystal"));
         filters.add(RLUtils.eio("stick"));
-        filters.add(RLUtils.eio("sag_milling/ender_crystal"));
-        filters.add(RLUtils.eio("sag_milling/precient_crystal"));
-        filters.add(RLUtils.eio("sag_milling/pulsating_crystal"));
-        filters.add(RLUtils.eio("sag_milling/vibrant_crystal"));
-        filters.add(RLUtils.eio("sag_milling/soularium"));
         filters.add(RLUtils.eio("alloy_smelting/energetic_alloy_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/vibrant_alloy_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/dark_steel_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/end_steel_ingot"));
-        filters.add(RLUtils.eio("sag_milling/ender_pearl"));
+        for (String eio : new String[] {
+                "coal", "blaze_powder", "quartz", "glass", "bone", "ender_pearl",
+                "ender_crystal", "precient_crystal", "pulsating_crystal", "vibrant_crystal",
+                "obsidian", "soularium"
+        }) {
+            filters.add(RLUtils.eio("sag_milling/" + eio));
+        }
 
         if (!GTOCore.isEasy()) {
             filters.add(RLUtils.eio("copper_alloy_block"));
