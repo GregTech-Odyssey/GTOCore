@@ -3,12 +3,15 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gtolib.api.machine.trait.WirelessComputationContainerTrait;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -19,12 +22,18 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.ui.BoxStyle;
+import snownee.jade.api.ui.IElementHelper;
 
 import java.util.UUID;
 
+import static com.gtocore.integration.jade.GTOJadePlugin.getProgress;
 import static com.hepdd.gtmthings.utils.TeamUtil.GetName;
 
-public final class WirelessNetworkComputationHatchMachine extends MultiblockPartMachine implements IInteractedMachine, IBindable {
+public final class WirelessNetworkComputationHatchMachine extends MultiblockPartMachine implements IInteractedMachine, IBindable, IWailaDisplayProvider {
 
     private final WirelessComputationContainerTrait trait;
 
@@ -73,7 +82,20 @@ public final class WirelessNetworkComputationHatchMachine extends MultiblockPart
         return trait.getUUID();
     }
 
-    public WirelessComputationContainerTrait getTrait() {
-        return this.trait;
+    @Override
+    public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
+        long capacity = data.getLong("capacity");
+        if (capacity == 0) return;
+        long storage = data.getLong("storage");
+        IElementHelper helper = iTooltip.getElementHelper();
+        iTooltip.add(helper.progress(getProgress(storage, capacity), Component.literal(storage + " / " + capacity + " CWU"), iTooltip.getElementHelper().progressStyle().color(0xFF006D6A).textColor(-1), Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555), true));
+    }
+
+    @Override
+    public void appendWailaData(CompoundTag data, BlockAccessor blockAccessor) {
+        var c = trait.getWirelessComputationContainer();
+        if (c == null) return;
+        data.putLong("capacity", c.getCapacity());
+        data.putLong("storage", c.getStorage());
     }
 }

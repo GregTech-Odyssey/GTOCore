@@ -1,11 +1,7 @@
 package com.gtocore.data.recipe.builder.research;
 
-import com.gregtechceu.gtceu.common.data.GTItems;
-
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
@@ -38,6 +34,7 @@ public final class DataCrystalConstruction {
     }
 
     public DataCrystalConstruction input(ItemStack itemStack, int dataTier, int dataCrystal) {
+        if (fluidStack != null) fluidStack = null;
         this.itemStack = itemStack;
         this.dataTier = dataTier;
         this.dataCrystal = dataCrystal;
@@ -46,20 +43,13 @@ public final class DataCrystalConstruction {
     }
 
     public DataCrystalConstruction input(FluidStack fluidStack, int dataTier, int dataCrystal) {
-        int amount = fluidStack.getAmount() / 1000 + (fluidStack.getAmount() % 1000 > 1 ? 1 : 0);
+        if (itemStack != null) itemStack = null;
+        int amount = (fluidStack.getAmount() + 999) / 1000;
         fluidStack.setAmount(amount * 1000);
         this.fluidStack = fluidStack;
         this.dataTier = dataTier;
         this.dataCrystal = dataCrystal;
         this.dataItem = getDataCrystalItem(dataCrystal);
-        ItemStack cell = GTItems.FLUID_CELL.asStack(amount);
-        CompoundTag fluidTag = cell.getOrCreateTag();
-        CompoundTag fluid = new CompoundTag();
-        fluid.putString("FluidName", ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid()).toString());
-        fluid.putInt("Amount", 1000);
-        fluidTag.put("Fluid", fluid);
-        cell.setTag(fluidTag);
-        this.itemStack = cell;
         return this;
     }
 
@@ -96,18 +86,19 @@ public final class DataCrystalConstruction {
 
         var dataStack = dataItem;
         String recipeId;
-        if (fluidStack != null) {
-            ExResearchManager.writeScanningResearchToNBT(dataStack.getOrCreateTag(), fluidStack, dataTier, dataCrystal);
-            recipeId = fluidStackToString(fluidStack);
-        } else if (itemStack != null) {
+        if (itemStack != null) {
             ExResearchManager.writeScanningResearchToNBT(dataStack.getOrCreateTag(), itemStack, dataTier, dataCrystal);
             recipeId = itemStackToString(itemStack);
+        } else if (fluidStack != null) {
+            ExResearchManager.writeScanningResearchToNBT(dataStack.getOrCreateTag(), fluidStack, dataTier, dataCrystal);
+            recipeId = fluidStackToString(fluidStack);
         } else {
             throw new IllegalStateException("The scanned item or fluid is missing");
         }
 
         if (recipe == null) return;
         if (!recipe) {
+            if (itemStack == null) throw new IllegalStateException("The scanned recipe can only use item");
             SCANNER_RECIPES.recipeBuilder(recipeId)
                     .inputItems(EmptyDataCrystalMap.get(dataCrystal))
                     .inputItems(itemStack)
@@ -118,11 +109,12 @@ public final class DataCrystalConstruction {
         } else {
             if (cwut > totalCWU) throw new IllegalStateException("Total CWU cannot be greater than CWU/t!");
             if (catalyst == null) throw new IllegalStateException("Catalyst input required");
-            CRYSTAL_SCAN_RECIPES.recipeBuilder(recipeId)
+            var builder = CRYSTAL_SCAN_RECIPES.recipeBuilder(recipeId)
                     .notConsumable(catalyst)
-                    .inputItems(EmptyDataCrystalMap.get(dataCrystal))
-                    .inputItems(itemStack)
-                    .outputItems(dataStack)
+                    .inputItems(EmptyDataCrystalMap.get(dataCrystal));
+            if (itemStack != null) builder.inputItems(itemStack);
+            else builder.inputFluids(fluidStack);
+            builder.outputItems(dataStack)
                     .EUt(eut)
                     .CWUt(cwut)
                     .totalCWU(totalCWU)

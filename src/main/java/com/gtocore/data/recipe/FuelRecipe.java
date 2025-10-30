@@ -221,6 +221,13 @@ public final class FuelRecipe {
                 .EUt(-V[MV])
                 .save();
 
+        SUPERCRITICAL_STEAM_TURBINE_FUELS.recipeBuilder("supercritical_steam")
+                .inputFluids(GTOMaterials.SupercriticalSteam.getFluid(80))
+                .outputFluids(DistilledWater.getFluid(8))
+                .duration(30)
+                .EUt(-V[MV])
+                .save();
+
         // gas turbine fuels
         GAS_TURBINE_FUELS.recipeBuilder("natural_gas")
                 .inputFluids(NaturalGas.getFluid(32))
@@ -487,13 +494,6 @@ public final class FuelRecipe {
                 .outputFluids(Thorium.getFluid(4))
                 .duration(986)
                 .EUt(-V[EV])
-                .save();
-
-        SUPERCRITICAL_STEAM_TURBINE_FUELS.recipeBuilder("supercritical_steam")
-                .inputFluids(GTOMaterials.SupercriticalSteam.getFluid(80))
-                .outputFluids(DistilledWater.getFluid(8))
-                .duration(30)
-                .EUt(-V[MV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("seed_oil")

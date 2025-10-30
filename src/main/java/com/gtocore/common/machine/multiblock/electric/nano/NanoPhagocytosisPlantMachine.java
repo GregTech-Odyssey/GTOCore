@@ -18,6 +18,6 @@ public final class NanoPhagocytosisPlantMachine extends CrossRecipeMultiblockMac
 
     @NotNull
     public RecipeType getRecipeType() {
-        return formedCount > 0 ? super.getRecipeType() : GTORecipeTypes.MACERATOR_RECIPES;
+        return formedAmount > 0 ? super.getRecipeType() : GTORecipeTypes.MACERATOR_RECIPES;
     }
 }

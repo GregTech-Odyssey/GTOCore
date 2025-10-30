@@ -1,7 +1,5 @@
 package com.gtocore.mixin.adastra;
 
-import com.gtocore.common.network.ClientMessage;
-
 import com.gtolib.api.adastra.IAdDisplayTagName;
 import com.gtolib.api.misc.PlanetManagement;
 
@@ -72,7 +70,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
         boolean close = false;
         Player player = getMenu().player();
         ResourceLocation planet = dimension.location();
-        ClientMessage.checkPlanetIsUnlocked(planet);
+        PlanetManagement.checkPlanetIsUnlocked(planet);
         if (!PlanetManagement.isClientUnlocked(planet)) {
             close = true;
             player.displayClientMessage(Component.translatable("gtocore.ununlocked"), false);
@@ -95,7 +93,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
             ResourceLocation resourceLocation = planet.dimension().location();
             int tier = PlanetManagement.calculateTier(planet, getMenu().player().level().dimension().location());
             if (menu.tier() < tier) continue;
-            ClientMessage.checkPlanetIsUnlocked(resourceLocation);
+            PlanetManagement.checkPlanetIsUnlocked(resourceLocation);
             Button widget = addWidget(new LabeledImageButton(10, 0, 99, 20, 0, 0, 20, BUTTON, 99, 40, b -> {
                 pageIndex = 2;
                 selectedPlanet = planet;

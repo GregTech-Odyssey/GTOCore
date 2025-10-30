@@ -18,6 +18,7 @@ import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 
 @DataGeneratorScanned
 @Config(id = GTOCore.MOD_ID, group = GTOCore.MOD_ID)
+@SuppressWarnings("unused")
 public final class GTOConfig {
 
     @RegisterLanguage(en = "GTO Core Config", cn = "GTO Core 配置")
@@ -183,6 +184,16 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff Of Travelling Pattern Nodes", cn = "旅行权杖样板节点")
     public boolean staffOfTravellingPatternNodes = true;
 
+    @Configurable
+    @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，EMI 的作弊交互功能将转为试图从现有的ME终端/无线终端中提取物品", "When enabled, and EMI cheats are not enabled, EMI's cheat interaction feature will attempt to extract items from existing ME Terminals/Wireless Terminals" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Non-Cheat EMI Interaction", cn = "非作弊时EMI交互")
+    public boolean nonCheatEmiInteraction = true;
+
+    @Configurable
+    @Configurable.Comment({ "启用后，选取方块时，若AE终端没有相关物品，但相关物品可合成，则自动触发合成请求", "When enabled, when picking a block, if the AE terminal does not have the relevant item but it can be crafted, an automatic crafting request is triggered" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Auto Craft on Pick Block", cn = "选取方块自动合成")
+    public boolean pickCraft = true;
+
     // 性能优化设置
     @Configurable
     @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })
@@ -220,7 +231,10 @@ public final class GTOConfig {
     public boolean emiGlobalFavorites = true;
 
     @Configurable
-    @Configurable.Comment({ "禁用爆弹物品的使用", "Disable the use of Charge Bomb items" })
+    @Configurable.Comment({ "禁用爆弹物品的使用",
+            "警告：爆弹会造成极大范围的破坏！如果你不想爆弹破坏重要的东西，请确保提前备份存档。",
+            "Disable the use of Charge Bomb items",
+            "Warning: Charge Bombs can cause massive destruction! If you don't want Charge Bombs to destroy important things, make sure to back up your save in advance." })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
     public boolean disableChargeBomb = false;
 

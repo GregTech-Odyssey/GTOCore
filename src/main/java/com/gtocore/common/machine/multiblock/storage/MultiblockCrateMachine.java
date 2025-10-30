@@ -1,9 +1,7 @@
 package com.gtocore.common.machine.multiblock.storage;
 
-import com.gtocore.common.network.ClientMessage;
-
 import com.gtolib.GTOCore;
-import com.gtolib.utils.GTOUtils;
+import com.gtolib.utils.SortUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -95,7 +93,7 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
 
         modularUI.widget(new ButtonWidget(176 - 15, 3, 14, 14,
                 new ResourceTexture(GTOCore.id("textures/gui/sort.png")),
-                (press) -> ClientMessage.send("sortInventory", GTOUtils.noopConsumer())));
+                (press) -> SortUtils.sort()));
         int x = 0;
         int y = 0;
         for (int slot = 0; slot < Capacity; slot++) {

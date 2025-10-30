@@ -1,15 +1,14 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.common.item.DataCrystalItem;
+
 import com.gtolib.api.gui.GTOGuiTextures;
-import com.gtolib.api.item.tool.IExDataItem;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
-import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IDataItem;
-import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -83,14 +82,14 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(new Position(0, 0));
-        int centerX = 75;
+        int centerX = 65;
         int centerY = 48;
         group.addWidget(new ImageWidget(centerX - 33, centerY - 21, 84, 60, new ResourceTexture("gtocore:textures/gui/progress_bar_data_generate_base.png")))
 
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 75, centerY - 39)
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 65, centerY - 39)
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
-                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, centerX - 75, centerY + 39)
+                .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_2, centerX - 65, centerY + 39)
                         .setIsBlocked(this::isLocked)
                         .setBackground(GuiTextures.SLOT, GuiTextures.MOLECULAR_OVERLAY_1))
                 .addWidget(new BlockableSlotWidget(heldItems, EMPTY_SLOT, centerX, centerY)
@@ -130,9 +129,7 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
         super.setFrontFacing(frontFacing);
         var controllers = getControllers();
         for (var controller : controllers) {
-            if (controller != null && controller.isFormed()) {
-                controller.checkPatternWithLock();
-            }
+            if (controller != null && controller.isFormed()) controller.checkPatternWithLock();
         }
     }
 
@@ -155,18 +152,14 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
         @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (!machine.isLocked()) {
-                return super.extractItem(slot, amount, simulate);
-            }
+            if (!machine.isLocked()) return super.extractItem(slot, amount, simulate);
             return ItemStack.EMPTY;
         }
 
         // 槽位物品验证
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            if (stack.isEmpty()) {
-                return true;
-            }
+            if (stack.isEmpty()) return true;
 
             // 检查是否为数据物品
             boolean isExDataItem = false;
@@ -174,32 +167,20 @@ public class DataGenerateHolderMachine extends MultiblockPartMachine implements 
             boolean hasExNBT = false;
             boolean hasNBT = false;
             boolean emptyNBT = false;
-            if (stack.getItem() instanceof IComponentItem metaItem) {
-                for (IItemComponent behaviour : metaItem.getComponents()) {
-                    if (behaviour instanceof IExDataItem) {
-                        isExDataItem = true;
-                        hasExNBT = stack.hasTag();
-                        if (stack.getTag() != null && stack.hasTag() && stack.getTag().contains("empty_crystal", CompoundTag.TAG_COMPOUND))
-                            emptyNBT = true;
-                        break;
-                    }
-                    if (behaviour instanceof IDataItem) {
-                        isDataItem = true;
-                        hasNBT = !stack.hasTag();
-                        break;
-                    }
-                }
+            if (stack.getItem() instanceof DataCrystalItem) {
+                isExDataItem = true;
+                hasExNBT = stack.hasTag();
+                if (stack.getTag() != null && stack.hasTag() && stack.getTag().contains("empty_crystal", CompoundTag.TAG_COMPOUND))
+                    emptyNBT = true;
+            } else if (stack.getItem() instanceof IDataItem) {
+                isDataItem = true;
+                hasNBT = !stack.hasTag();
             }
 
-            if (slot == EMPTY_SLOT) {
-                return hasNBT;
-            } else if (slot >= 3 && slot <= 10) {
-                return hasExNBT && !emptyNBT;
-            } else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2) {
-                return !isExDataItem && !isDataItem;
-            } else {
-                return super.isItemValid(slot, stack);
-            }
+            if (slot == EMPTY_SLOT) return hasNBT;
+            else if (slot >= 3 && slot <= 10) return hasExNBT && !emptyNBT;
+            else if (slot == CATALYST_SLOT_1 || slot == CATALYST_SLOT_2) return !isExDataItem && !isDataItem;
+            else return super.isItemValid(slot, stack);
         }
 
         private static final class MyCustomItemStackHandler extends CustomItemStackHandler {

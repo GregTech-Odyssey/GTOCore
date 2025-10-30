@@ -11,6 +11,7 @@ import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
 
 public final class DataAnalysisRecipeBuilder {
 
+    // 数据分析
     public static DataAnalysisRecipeBuilder buildRecipe() {
         return new DataAnalysisRecipeBuilder();
     }
@@ -85,12 +86,8 @@ public final class DataAnalysisRecipeBuilder {
             sumNormalized += outputChances[i];
         }
         int errorChance = (int) (((double) errorWeight / totalWeight) * 10000);
-        sumNormalized += errorChance;
-        int difference = 10000 - sumNormalized;
-        if (difference != 0) {
-            if (errorWeight > 0) errorChance += difference;
-            else if (outputWeights.length > 0) outputChances[0] += difference;
-        }
+        int difference = 10000 - sumNormalized - errorChance;
+        if (difference != 0) errorChance += difference;
 
         var build = DATA_ANALYSIS_RECIPES.recipeBuilder(dataCrystal.data());
         build

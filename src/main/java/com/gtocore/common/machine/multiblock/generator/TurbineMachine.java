@@ -145,7 +145,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
                 damageBase = Math.max(2.2 - 0.08 * ((MegaTurbine) this).getCasingTier(GLASS_TIER), 1.2);
             }
         }
-        if (formedCount > 0) {
+        if (formedAmount > 0) {
             if (mega) {
                 extraOutput = 3;
                 extraDamage = 3;

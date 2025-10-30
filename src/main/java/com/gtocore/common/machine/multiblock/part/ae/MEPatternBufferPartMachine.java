@@ -22,6 +22,7 @@ import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
@@ -42,11 +43,15 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
+import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -84,6 +89,11 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.fluid.JadeFluidObject;
+import snownee.jade.api.ui.IElementHelper;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -93,7 +103,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @DataGeneratorScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable {
+public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable, IWailaDisplayProvider {
 
     private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
             MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
@@ -142,7 +152,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     protected ConfiguratorPanel configuratorPanel;
 
-    public MEPatternBufferPartMachine(MetaMachineBlockEntity holder, int maxPatternCount) {
+    MEPatternBufferPartMachine(MetaMachineBlockEntity holder, int maxPatternCount) {
         super(holder, maxPatternCount);
         this.caches = new boolean[maxPatternCount];
         this.shareInventory = createShareInventory();
@@ -331,6 +341,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 input.add(stack);
             }
             if (input.size() < sparseInput.length) {
+                if (input.isEmpty()) {
+                    return null;
+                }
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
                 return MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
             }
@@ -439,16 +452,85 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         return InteractionResult.SUCCESS;
     }
 
-    public record BufferData(ExpandedR2LMap<AEItemKey> items, ExpandedR2LMap<AEFluidKey> fluids) {}
+    @Override
+    public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
+        if (!data.getBoolean("formed")) return;
+        var proxies = data.getInt("proxies");
+        if (proxies > 0) iTooltip.add(Component.translatable("gtceu.top.proxies_bound", data.getInt("proxies")).withStyle(TooltipHelper.RAINBOW_HSL_SLOW));
+        readBufferTag(iTooltip, data);
+    }
 
-    public BufferData mergeInternalSlots() {
+    @Override
+    public void appendWailaData(CompoundTag data, BlockAccessor blockAccessor) {
+        if (!isFormed()) {
+            data.putBoolean("formed", false);
+            return;
+        }
+        data.putBoolean("formed", true);
+        var proxies = getProxies().size();
+        if (proxies > 0) data.putInt("proxies", proxies);
+        writeBufferTag(data, this);
+    }
+
+    static void writeBufferTag(CompoundTag data, MEPatternBufferPartMachine buffer) {
         var items = new ExpandedR2LMap<AEItemKey>();
         var fluids = new ExpandedR2LMap<AEFluidKey>();
-        for (InternalSlot slot : getInternalInventory()) {
+        for (InternalSlot slot : buffer.getInternalInventory()) {
             slot.itemInventory.reference2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
             slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
         }
-        return new BufferData(items, fluids);
+
+        ListTag itemsTag = new ListTag();
+        for (var entry : items.reference2LongEntrySet()) {
+            var ct = entry.getKey().toTag();
+            ct.putLong("real", entry.getLongValue());
+            itemsTag.add(ct);
+        }
+        if (!itemsTag.isEmpty()) data.put("items", itemsTag);
+
+        ListTag fluidsTag = new ListTag();
+        for (var entry : fluids.reference2LongEntrySet()) {
+            var ct = entry.getKey().toTag();
+            ct.putLong("real", entry.getLongValue());
+            fluidsTag.add(ct);
+        }
+        if (!fluidsTag.isEmpty()) data.put("fluids", fluidsTag);
+    }
+
+    static void readBufferTag(ITooltip iTooltip, CompoundTag data) {
+        IElementHelper helper = iTooltip.getElementHelper();
+
+        ListTag itemsTag = data.getList("items", Tag.TAG_COMPOUND);
+        for (Tag t : itemsTag) {
+            if (!(t instanceof CompoundTag ct)) continue;
+            var stack = AEItemKey.fromTag(ct);
+            if (stack == null) continue;
+            var amount = ct.getLong("real");
+            if (amount > 0) {
+                iTooltip.add(helper.smallItem(stack.getReadOnlyStack()));
+                Component text = Component.literal(" ")
+                        .append(Component.literal(String.valueOf(amount)).withStyle(ChatFormatting.DARK_PURPLE))
+                        .append(Component.literal("× ").withStyle(ChatFormatting.WHITE))
+                        .append(stack.getDisplayName().copy().withStyle(ChatFormatting.GOLD));
+                iTooltip.append(text);
+            }
+        }
+        ListTag fluidsTag = data.getList("fluids", Tag.TAG_COMPOUND);
+        for (Tag t : fluidsTag) {
+            if (!(t instanceof CompoundTag ct)) continue;
+            var stack = AEFluidKey.fromTag(ct);
+            if (stack == null) continue;
+            var amount = ct.getLong("real");
+            if (amount > 0) {
+                iTooltip.add(GTElementHelper.smallFluid(JadeFluidObject.of(stack.getFluid())));
+                Component text = Component.literal(" ")
+                        .append(Component.literal(FormattingUtil.formatBuckets(amount)))
+                        .withStyle(ChatFormatting.DARK_PURPLE)
+                        .append(Component.literal(" ").withStyle(ChatFormatting.WHITE))
+                        .append(stack.getDisplayName().copy().withStyle(ChatFormatting.DARK_AQUA));
+                iTooltip.append(text);
+            }
+        }
     }
 
     public static final class InternalSlot extends AbstractInternalSlot {
