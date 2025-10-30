@@ -43,6 +43,7 @@ import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.lowdragmc.lowdraglib.utils.BlockPosFace;
@@ -116,11 +117,8 @@ public final class PatternPreview extends WidgetGroup {
             CACHE.put(controllerDefinition, patterns);
             MultiblockDefinition.of(controllerDefinition).clear();
         }
-        addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> "P:" + index)), x -> {
-            index = (index + 1 >= patterns.length) ? 0 : index + 1;
-            setPage();
-        }).setHoverBorderTexture(1, -1));
-        addWidget(new ButtonWidget(138, 50, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> layer >= 0 ? "L:" + layer : "ALL")), cd -> updateLayer()).setHoverBorderTexture(1, -1));
+        addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> "P:" + index)), this::updatePatternIndex).setHoverBorderTexture(1, -1));
+        addWidget(new ButtonWidget(138, 50, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> layer >= 0 ? "L:" + layer : "ALL")), this::updateLayer).setHoverBorderTexture(1, -1));
         addWidget(new ButtonWidget(138, 70, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> isPartHighlighting ? "H:ON" : "H:OFF")), cd -> isPartHighlighting = !isPartHighlighting).setHoverBorderTexture(1, -1));
 
         sceneWidget.setAfterWorldRender((w) -> {
@@ -153,17 +151,55 @@ public final class PatternPreview extends WidgetGroup {
         recipe.patterns = patterns;
     }
 
-    private void updateLayer() {
+    private void updatePatternIndex(ClickData clickData) {
+        switch (clickData.button) {
+            case 0: // 鼠标左键: 增加 index
+                index = (index + 1 >= patterns.length) ? 0 : index + 1;
+                break;
+            case 1: // 鼠标右键: 减少 index
+                index = (index - 1 < 0) ? patterns.length - 1 : index - 1;
+                break;
+            case 2: // 鼠标中键: 复位 index 到 0
+                index = 0;
+                break;
+        }
+        setPage(); // 在改变 index 后更新页面
+    }
+
+    private void updateLayer(ClickData clickData) {
         MBPattern pattern = patterns[index];
-        if (layer + 1 >= -1 && layer + 1 <= pattern.maxY - pattern.minY) {
-            layer += 1;
-            if (pattern.controllerBase.isFormed()) {
-                onFormedSwitch(false);
-            }
-        } else {
-            layer = -1;
+        int maxLayerIndex = pattern.maxY - pattern.minY;
+
+        // 根据鼠标按键更新 layer 的值
+        switch (clickData.button) {
+            case 0: // 鼠标左键: 增加 layer (循环)
+                layer++;
+                if (layer > maxLayerIndex) {
+                    layer = -1; // 超出最大值，回到 "ALL"
+                }
+                break;
+            case 1: // 鼠标右键: 减少 layer (循环)
+                layer--;
+                if (layer < -1) {
+                    layer = maxLayerIndex; // 低于 "ALL"，回到最大值
+                }
+                break;
+            case 2: // 鼠标中键: 复位 layer
+                layer = -1; // 直接回到 "ALL"
+                break;
+        }
+
+        // 在 layer 值更新后，处理相关的状态切换逻辑
+        // 这段逻辑是从您原来的方法中平移过来的，现在它能正确处理所有情况
+        if (layer == -1) {
+            // 如果当前是 "ALL" 视图，且机器结构未显示为“已形成”，则切换
             if (!pattern.controllerBase.isFormed()) {
                 onFormedSwitch(true);
+            }
+        } else {
+            // 如果当前是单层视图，且机器结构显示为“已形成”，则切换
+            if (pattern.controllerBase.isFormed()) {
+                onFormedSwitch(false);
             }
         }
         setupScene(pattern);

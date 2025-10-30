@@ -136,6 +136,7 @@ public final class LangHandler {
         addCNEN("gtocore.unlocked", "解锁的", "Unlocked");
         addCNEN("gtocore.ununlocked", "未解锁", "Ununlocked");
         addCNEN("gtocore.build", "构建", "Build");
+        addCNEN("gtocore.shape", "形态%s", "Shape %s");
 
         addCNEN("item.gtocore.pattern_modifier_pro.name", "样板修改器 Pro", "Pattern Modifier Pro");
         addCNEN("gtocore.patternModifierPro.0", "设置完成后，潜行右击样板供应器以应用", "After setup,shift + right-click template provider to apply");
@@ -327,6 +328,11 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.missing_start", "缺失合成", "Missing Crafting");
         addCNEN("gtocore.ae.appeng.craft.missing_start.desc", "在材料不足的情况下仍然开始合成，缺失的原料将被等待", "Start crafting even when materials are insufficient, missing ingredients will be waited for");
         addCNEN("gtocore.ae.appeng.craft.used_percent", "已使用 %s%%", "Used %s%%");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.title", "Pick-Craft 错误", "Pick-Craft Error");
+        addCNEN("gtocore.ae.appeng.pick_craft.all_right.title", "Pick-Craft 成功", "Pick-Craft Success");
+        addCNEN("gtocore.ae.appeng.pick_craft.all_right", "已启动合成！", "Crafting started!");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.1", "计算合成路径时发生错误。", "An error occurred while calculating the crafting path.");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");

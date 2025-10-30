@@ -12,6 +12,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+// todo 重构
+@Deprecated
 final class KeyMessage {
 
     static void pressAction(ServerPlayer player, int type) {
