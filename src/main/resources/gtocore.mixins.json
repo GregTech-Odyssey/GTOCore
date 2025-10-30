@@ -192,7 +192,6 @@
     "gtm.machine.OpticalDataHatchMachineMixin",
     "gtm.machine.PrimitiveBlastFurnaceMachineMixin",
     "gtm.machine.ResearchStationRecipeLogicMixin",
-    "gtm.machine.SteamParallelMultiblockMachineMixin",
     "gtm.map.OreVeinElementRendererMixin",
     "gtm.map.XaeroWaypointHandlerMixin",
     "gtm.recipe.AlloyBlastRecipeProducerMixin",

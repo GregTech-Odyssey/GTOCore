@@ -47,6 +47,15 @@ public abstract class SimpleSteamMachineMixin extends SteamWorkableMachine imple
      * @reason .
      */
     @Overwrite(remap = false)
+    public void onLoad() {
+        super.onLoad();
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
     public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (!(machine instanceof SimpleSteamMachine steamMachine)) {
             return RecipeModifier.nullWrongType(SimpleSteamMachine.class, machine);

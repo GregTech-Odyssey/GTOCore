@@ -561,5 +561,21 @@ final class AssemblyLineA {
                         .EUt(GTValues.VA[GTValues.ZPM])
                         .CWUt(512))
                 .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("supercritical_steam_input_hatch")
+                .inputItems(GTOTagPrefix.frameGt, GTOMaterials.MarM200Steel, 4)
+                .inputItems(GTOMachines.HIGH_PRESSURE_STEAM_INPUT_HATCH.asItem())
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.CarbonFiberPolyetheretherketoneComposite, 32)
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.SiliconCarbideFiberReinforcedNickelBasedComposite, 32)
+                .inputItems(GTOTagPrefix.rotor, GTOMaterials.SiliconCarbideFiberReinforcedTitaniumMatrixComposite, 16)
+                .inputItems(GTOTagPrefix.screw, GTOMaterials.DuraniumAlloy, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.MarM200Steel, 32)
+                .outputItems(GTOMachines.SUPERCRITICAL_STEAM_INPUT_HATCH.asItem())
+                .inputFluids(GTOMaterials.TitaniumTC11, 2304)
+                .inputFluids(GTOMaterials.TungstenAlloyYW3, 2304)
+                .EUt(30720)
+                .duration(400)
+                .scanner(GeneratorMultiblock.SUPERCRITICAL_MEGA_STEAM_TURBINE.asItem())
+                .save();
     }
 }

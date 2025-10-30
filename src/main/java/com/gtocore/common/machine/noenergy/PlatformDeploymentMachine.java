@@ -47,7 +47,6 @@ import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinate
 import static com.gtocore.common.machine.noenergy.PlatformCreators.PlatformCreationAsync;
 import static com.gtocore.common.network.ServerMessage.highlightRegion;
 import static com.gtocore.common.network.ServerMessage.stopHighlight;
-import static com.gtolib.utils.GTOUtils.fastRemoveBlock;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -780,13 +779,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         } catch (IndexOutOfBoundsException | NullPointerException e) {
             checkGroup = 0;
             saveGroup = 0;
-            try {
-                return presets.getFirst();
-            } catch (IndexOutOfBoundsException | NullPointerException a) {
-                fastRemoveBlock(Objects.requireNonNull(getLevel()), getPos(), false, true);
-                GTOCore.LOGGER.error("You encountered some problems, the presets list is empty: {}", a.getMessage());
-                return presets.getFirst();
-            }
+            return presets.getFirst();
         }
     }
 
