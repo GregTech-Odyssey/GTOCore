@@ -1,14 +1,10 @@
 package com.gtocore.common.machine.multiblock.steam;
 
-import com.gtocore.common.machine.multiblock.part.LargeSteamHatchPartMachine;
-
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-
-import java.util.Arrays;
 
 @Scanned
 public final class LargeSteamMultiblockMachine extends BaseSteamMultiblockMachine {
@@ -45,8 +41,7 @@ public final class LargeSteamMultiblockMachine extends BaseSteamMultiblockMachin
     }
 
     @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
-        isOC = Arrays.stream(getParts()).anyMatch(LargeSteamHatchPartMachine.class::isInstance);
+    boolean oc() {
+        return true;
     }
 }

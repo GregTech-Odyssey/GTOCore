@@ -94,7 +94,7 @@ public final class RewardBagLoot {
                 .add(getLootItem(Items.REDSTONE, 80, exactly(1)))
                 .add(getLootItem(Items.COAL, 80, exactly(1)))
                 .add(getLootItem(Items.ENDER_PEARL, 80, exactly(1)))
-                .add(getLootItem("functionalstorage:copper_upgrade", 60, between(8, 16)))
+                .add(getLootItem("functionalstorage:copper_upgrade", 60, exactly(1)))
                 .add(getLootItem(GTItems.FLUID_CELL_LARGE_STEEL.asItem(), 60, between(8, 16)))
 
                 .add(getLootItem("gtceu:steel_wrench", 80, exactly(1)))
