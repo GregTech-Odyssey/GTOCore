@@ -837,7 +837,10 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     private void posChanged() {
         BlockPos pos = getPos();
-        highlightArea(false);
+        if (highlight) {
+            highlight = false;
+            highlightArea(false);
+        }
         PlatformBlockType.PlatformBlockStructure structure = getPlatformBlockStructure(saveGroup, saveId);
 
         int sizeX = structure.xSize();
