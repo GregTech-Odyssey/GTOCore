@@ -231,7 +231,10 @@ public final class GTOConfig {
     public boolean emiGlobalFavorites = true;
 
     @Configurable
-    @Configurable.Comment({ "禁用爆弹物品的使用", "Disable the use of Charge Bomb items" })
+    @Configurable.Comment({ "禁用爆弹物品的使用",
+            "警告：爆弹会造成极大范围的破坏！如果你不想爆弹破坏重要的东西，请确保提前备份存档。",
+            "Disable the use of Charge Bomb items",
+            "Warning: Charge Bombs can cause massive destruction! If you don't want Charge Bombs to destroy important things, make sure to back up your save in advance." })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
     public boolean disableChargeBomb = false;
 
