@@ -228,6 +228,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     /////////////////////////////////////
     // ************ UI组件 ************ //
+    /////////////////////////////////////
     private static final int langWidth = 282 - 8;
 
     // 创建UI组件
@@ -238,7 +239,6 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
         // 步骤标题
-        /// //////////////////////////////////
         int totalLangWidth = 282;
 
         WidgetGroup group_title = new DraggableScrollableWidgetGroup(4, 4, totalLangWidth, height)
