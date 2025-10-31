@@ -2,46 +2,42 @@ package com.gtocore.common.machine.noenergy;
 
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
+import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.machine.trait.CustomRecipeLogic;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.utils.RegistriesUtils;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
-import com.gregtechceu.gtceu.api.machine.feature.IAutoOutputItem;
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class VillageTradingStationMachine extends MetaMachine implements IAutoOutputItem, IFancyUIMachine {
-
-    // 固定缓冲区槽位数量：9格
-    private static final int BUFFER_SLOT_COUNT = 9;
+public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
 
     public VillageTradingStationMachine(MetaMachineBlockEntity holder) {
-        super(holder);
+        super(holder, 14, i -> 0);
         this.setAutoOutputItems(true);
-
-        importItems = createImportItemHandler();
-        exportItems = createExportItemHandler();
+        villagers = new VillageHolder(this);
     }
 
     /////////////////////////////////////
@@ -51,9 +47,10 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private TickableSubscription tickSubs;
 
     @Persisted
-    private final NotifiableItemStackHandler importItems;
+    private final VillageHolder villagers;
     @Persisted
-    private final NotifiableItemStackHandler exportItems;
+    @DescSynced
+    private boolean[] isLocked = new boolean[9];
 
     /////////////////////////////////////
     // *********** 配方运行 *********** //
@@ -78,8 +75,17 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     private void tickUpdate() {
         if (getOffsetTimer() % 100 == 0 && !isRemote()) {
-
+            getRecipeLogic().updateTickSubscription();
         }
+    }
+
+    @Override
+    public RecipeLogic createRecipeLogic(Object... args) {
+        return new CustomRecipeLogic(this, this::getRecipe);
+    }
+
+    private Recipe getRecipe() {
+        return null;
     }
 
     /////////////////////////////////////
@@ -132,21 +138,36 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 group_title.addWidget(new ComponentPanelWidget(4, 4, this::addDisplayTextTitle));
                 group.addWidget(group_title);
 
+                group.addWidget(getLockButton());
+
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
                 return group;
             }
 
+            private @NotNull WidgetGroup getLockButton() {
+                int xSize = 18;
+                int ySize = 18 * 6;
+                int buttonSpacing = 6;
+                int startX = 32;
+                int startY = 32;
+                WidgetGroup lockButtonsGroup = new WidgetGroup(startX, startY, (xSize + buttonSpacing) * 9 - buttonSpacing, ySize);
+                for (int i = 0; i < 9; i++) {
+                    final int slotIndex = i;
+                    int buttonX = i * (xSize + buttonSpacing);
+                    lockButtonsGroup.addWidget(new ComponentPanelWidget(buttonX + 3, 2,
+                            (textList) -> textList.add(ComponentPanelWidget.withButton(isLocked(slotIndex) ?
+                                    Component.literal("[\uD83D\uDD12]") : Component.literal("[\uD83D\uDD13]"), String.valueOf(slotIndex))))
+                            .clickHandler((a, b) -> setLocked(Integer.parseInt(a))));
+                    lockButtonsGroup.addWidget(new SlotWidget(villagers, i, buttonX, 18, true, true)
+                            .setBackground(GuiTextures.SLOT));
+                }
+                return lockButtonsGroup;
+            }
+
             private void addDisplayTextTitle(List<Component> textList) {
-                textList.add(Component.literal("输入物品"));
-                importItems.forEachItems((index, stack) -> {
-                    textList.add(Component.empty().append(index.getDisplayName()).append(String.valueOf(index.getCount())));
-                    return false;
-                });
-                textList.add(Component.literal("输出物品"));
-                exportItems.forEachItems((index, stack) -> {
-                    textList.add(Component.empty().append(index.getDisplayName()).append(String.valueOf(index.getCount())));
-                    return false;
-                });
+                int lockedCount = 0;
+                for (int i = 0; i < 9; i++) if (isLocked(i)) lockedCount++;
+                textList.add(Component.literal(String.valueOf(lockedCount)));
             }
         });
 
@@ -178,147 +199,49 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             }
         });
 
-        CombinedDirectionalFancyConfigurator directionalConfigurator = CombinedDirectionalFancyConfigurator.of(this.self(), this.self());
-        if (directionalConfigurator != null) {
-            sideTabs.attachSubTab(directionalConfigurator);
+        sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
+    }
+
+    /////////////////////////////////////
+    // ************ 辅助方法 ************ //
+    /////////////////////////////////////
+
+    private static class VillageHolder extends NotifiableItemStackHandler {
+
+        private final VillageTradingStationMachine machine;
+
+        private VillageHolder(VillageTradingStationMachine machine) {
+            super(machine, 9, IO.NONE, IO.BOTH, CustomItemStackHandler::new);
+            this.machine = machine;
+            setFilter(i -> i.getItem().equals(RegistriesUtils.getItem("easy_villagers:villager")));
+        }
+
+        @NotNull
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            if (machine.isLocked(slot)) return ItemStack.EMPTY;
+            return super.extractItem(slot, amount, simulate);
+        }
+
+        @NotNull
+        @Override
+        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            if (machine.isLocked(slot)) return stack;
+            return super.insertItem(slot, stack, simulate);
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return stack.getItem().equals(RegistriesUtils.getItem("easy_villagers:villager"));
         }
     }
 
-    /////////////////////////////////////
-    // *********** 实现方法 *********** //
-    /////////////////////////////////////
-
-    public boolean isAutoOutputItems() {
-        return true;
+    public boolean isLocked(int slot) {
+        return isLocked[slot];
     }
 
-    public void setAllowInputFromOutputSideItems(final boolean allowInputFromOutputSideItems) {}
-
-    public boolean isAllowInputFromOutputSideItems() {
-        return true;
-    }
-
-    @Override
-    public void setAutoOutputItems(boolean allow) {}
-
-    @Override
-    @Nullable
-    public Direction getOutputFacingItems() {
-        return Direction.DOWN;
-    }
-
-    @Override
-    public void setOutputFacingItems(@Nullable Direction outputFacing) {}
-
-    /////////////////////////////////////
-    // *********** 缓冲区配置 *********** //
-    /////////////////////////////////////
-
-    protected NotifiableItemStackHandler createImportItemHandler() {
-        return new NotifiableItemStackHandler(this, BUFFER_SLOT_COUNT, IO.IN) {
-
-            @Override
-            public int getSlotLimit(int slot) {
-                return Integer.MAX_VALUE;
-            }
-
-            @Override
-            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return !(stack.hasTag() && stack.is(com.hepdd.gtmthings.data.CustomItems.VIRTUAL_ITEM_PROVIDER.get()));
-            }
-
-            @Override
-            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                if (stack.isEmpty() || slot < 0 || slot >= getSlots()) {
-                    return stack;
-                }
-
-                if (!isItemValid(slot, stack)) {
-                    return stack;
-                }
-
-                ItemStack existing = getStackInSlot(slot);
-                int maxInsert = getSlotLimit(slot) - existing.getCount();
-
-                if (maxInsert <= 0) {
-                    return stack;
-                }
-
-                if (!existing.isEmpty() && !ItemStack.isSameItemSameTags(existing, stack)) {
-                    return stack;
-                }
-
-                int insertAmount = Math.min(stack.getCount(), maxInsert);
-
-                if (!simulate) {
-                    if (existing.isEmpty()) {
-                        ItemStack newStack = stack.copy();
-                        newStack.setCount(insertAmount);
-                        setStackInSlot(slot, newStack);
-                    } else {
-                        existing.grow(insertAmount);
-                    }
-                    onContentsChanged();
-                }
-
-                ItemStack remaining = stack.copy();
-                remaining.setCount(stack.getCount() - insertAmount);
-                return remaining.isEmpty() ? ItemStack.EMPTY : remaining;
-            }
-        };
-    }
-
-    protected NotifiableItemStackHandler createExportItemHandler() {
-        return new NotifiableItemStackHandler(this, BUFFER_SLOT_COUNT, IO.OUT) {
-
-            @Override
-            public int getSlotLimit(int slot) {
-                return Integer.MAX_VALUE;
-            }
-
-            @Override
-            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                return true;
-            }
-
-            @Override
-            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                if (stack.isEmpty() || slot < 0 || slot >= getSlots()) {
-                    return stack;
-                }
-
-                if (!isItemValid(slot, stack)) {
-                    return stack;
-                }
-
-                ItemStack existing = getStackInSlot(slot);
-                int maxInsert = getSlotLimit(slot) - existing.getCount();
-
-                if (maxInsert <= 0) {
-                    return stack;
-                }
-
-                if (!existing.isEmpty() && !ItemStack.isSameItemSameTags(existing, stack)) {
-                    return stack;
-                }
-
-                int insertAmount = Math.min(stack.getCount(), maxInsert);
-
-                if (!simulate) {
-                    if (existing.isEmpty()) {
-                        ItemStack newStack = stack.copy();
-                        newStack.setCount(insertAmount);
-                        setStackInSlot(slot, newStack);
-                    } else {
-                        existing.grow(insertAmount);
-                    }
-                    onContentsChanged();
-                }
-
-                ItemStack remaining = stack.copy();
-                remaining.setCount(stack.getCount() - insertAmount);
-                return remaining.isEmpty() ? ItemStack.EMPTY : remaining;
-            }
-        };
+    public void setLocked(int slot) {
+        isLocked[slot] = !isLocked[slot];
+        this.onChanged();
     }
 }
