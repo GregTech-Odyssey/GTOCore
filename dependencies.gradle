@@ -172,5 +172,7 @@ dependencies {
     modRuntimeOnly("curse.maven:emi-loot-681783:6449092")
     modCompileOnly("curse.maven:emi-loot-681783:6449092")
 
-    modCompileOnly("dev:gtoepp:1.0.0")
+    modCompileOnly("dev:gtoepp:1.0.1")
+
+    modImplementation("curse.maven:easy-villagers-400514:6831415")
 }

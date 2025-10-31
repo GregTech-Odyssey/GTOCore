@@ -15,7 +15,8 @@ import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.BoilWaterMachine;
 import com.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
-import com.gtocore.common.machine.noenergy.PlatformDeploymentMachine;
+import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
+import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
 import com.gtocore.integration.ae.SyncTesterMachine;
@@ -930,6 +931,13 @@ public final class GTOMachines {
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
             .nonYAxisRotation()
             .workableManaTieredHullRenderer(2, GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    public static final MachineDefinition VILLAGE_TRADING_STATION = machine("village_trading_station", "村民交易站", VillageTradingStationMachine::new)
+            .tier(LV)
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getVillageTradingStationTooltips().apply(list))
+            .nonYAxisRotation()
+            .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)

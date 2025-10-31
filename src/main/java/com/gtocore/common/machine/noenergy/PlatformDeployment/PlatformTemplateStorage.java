@@ -1,6 +1,6 @@
-package com.gtocore.common.machine.noenergy;
+package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
-import com.gtocore.common.machine.noenergy.PlatformBlockType.PlatformPreset;
+import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformBlockType.PlatformPreset;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.lang.CNEN;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.gtocore.common.machine.noenergy.PlatformBlockType.PlatformBlockStructure.structure;
+import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformBlockType.PlatformBlockStructure.structure;
 
 public final class PlatformTemplateStorage {
 
