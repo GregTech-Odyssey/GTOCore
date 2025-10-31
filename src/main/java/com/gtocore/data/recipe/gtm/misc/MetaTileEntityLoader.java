@@ -724,6 +724,9 @@ public final class MetaTileEntityLoader {
         VanillaRecipeHelper.addShapedRecipe(true, "wood_multiblock_tank",
                 GTMultiMachines.WOODEN_MULTIBLOCK_TANK.asItem(), " R ", "rCs", " R ", 'R',
                 new MaterialEntry(TagPrefix.ring, GTMaterials.Copper), 'C', GTBlocks.CASING_WOOD_WALL.asItem());
+        VanillaRecipeHelper.addShapedRecipe(true, "bronze_multiblock_tank",
+                GTMultiMachines.BRONZE_MULTIBLOCK_TANK.asStack(), " R ", "hCw", " R ", 'R',
+                new MaterialEntry(TagPrefix.ring, GTMaterials.Bronze), 'C', GTBlocks.CASING_BRONZE_BRICKS.asStack());
         VanillaRecipeHelper.addShapedRecipe(true, "steel_multiblock_tank",
                 GTMultiMachines.STEEL_MULTIBLOCK_TANK.asItem(), " R ", "hCw", " R ", 'R',
                 new MaterialEntry(TagPrefix.ring, GTMaterials.Steel), 'C', GTBlocks.CASING_STEEL_SOLID.asItem());
@@ -731,6 +734,10 @@ public final class MetaTileEntityLoader {
                 GTMultiMachines.WOODEN_TANK_VALVE.asItem(),
                 " R ", "rCs", " O ", 'O', new MaterialEntry(TagPrefix.rotor, GTMaterials.Copper), 'R',
                 new MaterialEntry(TagPrefix.ring, GTMaterials.Copper), 'C', GTBlocks.CASING_WOOD_WALL.asItem());
+        VanillaRecipeHelper.addShapedRecipe(true, "bronze_tank_valve",
+                GTMultiMachines.BRONZE_TANK_VALVE.asStack(),
+                " R ", "hCw", " O ", 'O', new MaterialEntry(TagPrefix.rotor, GTMaterials.Bronze), 'R',
+                new MaterialEntry(TagPrefix.ring, GTMaterials.Bronze), 'C', GTBlocks.CASING_BRONZE_BRICKS);
         VanillaRecipeHelper.addShapedRecipe(true, "steel_tank_valve",
                 GTMultiMachines.STEEL_TANK_VALVE.asItem(),
                 " R ", "hCw", " O ", 'O', new MaterialEntry(TagPrefix.rotor, GTMaterials.Steel), 'R',
@@ -849,24 +856,16 @@ public final class MetaTileEntityLoader {
 
         registerMachineRecipe(ArrayUtils.subarray(GTMachines.TRANSFORMER, GTValues.ULV, GTValues.MV), " CC",
                 "TH ", " CC", 'C', CABLE, 'T', CABLE_TIER_UP, 'H', HULL);
-        registerMachineRecipe(ArrayUtils.subarray(GTMachines.TRANSFORMER, GTValues.MV, GTValues.UHV), "WCC",
+        registerMachineRecipe(ArrayUtils.subarray(GTMachines.TRANSFORMER, GTValues.MV, GTValues.MAX), "WCC",
                 "TH ", "WCC", 'W', POWER_COMPONENT, 'C', CABLE, 'T', CABLE_TIER_UP, 'H', HULL);
-        registerMachineRecipe(
-                ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_2A, GTValues.ULV, GTValues.MV), " CC", "TH ", " CC",
-                'C', CABLE_DOUBLE, 'T', CABLE_TIER_UP_DOUBLE, 'H', HULL);
-        registerMachineRecipe(
-                ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_2A, GTValues.MV, GTValues.UHV), "WCC", "TH ", "WCC",
-                'W', POWER_COMPONENT, 'C', CABLE_DOUBLE, 'T', CABLE_TIER_UP_DOUBLE, 'H', HULL);
-        registerMachineRecipe(
-                ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_4A, GTValues.ULV, GTValues.MV), " CC", "TH ", " CC",
-                'C', CABLE_QUAD, 'T', CABLE_TIER_UP_QUAD, 'H', HULL);
-        registerMachineRecipe(
-                ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_4A, GTValues.MV, GTValues.UHV), "WCC", "TH ", "WCC",
-                'W', POWER_COMPONENT, 'C', CABLE_QUAD, 'T', CABLE_TIER_UP_QUAD, 'H', HULL);
-        registerMachineRecipe(ArrayUtils.subarray(GTMachines.POWER_TRANSFORMER, GTValues.ULV, GTValues.MV),
-                " CC", "TH ", " CC", 'C', CABLE_HEX, 'T', CABLE_TIER_UP_HEX, 'H', HULL);
-        registerMachineRecipe(ArrayUtils.subarray(GTMachines.POWER_TRANSFORMER, GTValues.MV, GTValues.UHV),
-                "WCC", "TH ", "WCC", 'W', POWER_COMPONENT, 'C', CABLE_HEX, 'T', CABLE_TIER_UP_HEX, 'H', HULL);
+        registerMachineRecipe(ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_2A, GTValues.ULV, GTValues.MV), " CC", "TH ", " CC",
+                'C', CABLE_DOUBLE, 'T', CABLE_TIER_UP_DOUBLE, 'H', GTMachines.TRANSFORMER);
+        registerMachineRecipe(ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_2A, GTValues.MV, GTValues.MAX), "WCC", "TH ", "WCC",
+                'W', POWER_COMPONENT, 'C', CABLE_DOUBLE, 'T', CABLE_TIER_UP_DOUBLE, 'H', GTMachines.TRANSFORMER);
+        registerMachineRecipe(ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_4A, GTValues.ULV, GTValues.MV), " CC", "TH ", " CC",
+                'C', CABLE_QUAD, 'T', CABLE_TIER_UP_QUAD, 'H', GTMachines.HI_AMP_TRANSFORMER_2A);
+        registerMachineRecipe(ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_4A, GTValues.MV, MAX), "WCC", "TH ", "WCC",
+                'W', POWER_COMPONENT, 'C', CABLE_QUAD, 'T', CABLE_TIER_UP_QUAD, 'H', GTMachines.HI_AMP_TRANSFORMER_2A);
 
         registerMachineRecipe(GTMachines.BATTERY_BUFFER_4, "WTW", "WMW", 'M', HULL, 'W', WIRE_QUAD, 'T',
                 Tags.Items.CHESTS_WOODEN);
@@ -1149,15 +1148,16 @@ public final class MetaTileEntityLoader {
 
     private static Object[] prepareRecipe(int tier, Object @NotNull... recipe) {
         for (int i = 3; i < recipe.length; i++) {
-            if (recipe[i] instanceof CraftingComponent) {
-                Object component = ((CraftingComponent) recipe[i]).get(tier);
-                recipe[i] = component;
+            if (recipe[i] instanceof CraftingComponent component) {
+                recipe[i] = component.get(tier);
             } else if (recipe[i] instanceof Item item) {
                 recipe[i] = item;
             } else if (recipe[i] instanceof Block block) {
                 recipe[i] = block.asItem();
             } else if (recipe[i] instanceof ItemProviderEntry<?> itemEntry) {
                 recipe[i] = itemEntry.asItem();
+            } else if (recipe[i] instanceof MachineDefinition[] definitions) {
+                recipe[i] = definitions[tier].asItem();
             }
         }
         return recipe;

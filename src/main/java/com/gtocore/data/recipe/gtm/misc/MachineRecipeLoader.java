@@ -45,6 +45,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class MachineRecipeLoader {
@@ -553,6 +554,30 @@ public final class MachineRecipeLoader {
                 .inputFluids(Polyethylene, L << 1)
                 .outputItems(COVER_ENDER_FLUID_LINK)
                 .EUt(VA[HV]).duration(320).save();
+
+        ASSEMBLER_RECIPES.recipeBuilder("cover_ender_item_link")
+                .inputItems(plate, EnderPearl, 9)
+                .inputItems(plateDouble, StainlessSteel)
+                .inputItems(SENSOR_HV)
+                .inputItems(EMITTER_HV)
+                .inputItems(CONVEYOR_MODULE_HV)
+                .inputFluids(Polytetrafluoroethylene, L * 2)
+                .outputItems(COVER_ENDER_ITEM_LINK)
+                .EUt(VA[HV]).duration(320)
+                .addMaterialInfo(true, true)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder("cover_ender_redstone_link")
+                .inputItems(plate, EnderPearl, 4)
+                .inputItems(plateDouble, Aluminium)
+                .inputItems(SENSOR_MV)
+                .inputItems(EMITTER_MV)
+                .inputItems(CustomTags.MV_CIRCUITS)
+                .inputFluids(SolderingAlloy, L * 2)
+                .outputItems(COVER_ENDER_REDSTONE_LINK)
+                .EUt(VA[MV]).duration(320)
+                .addMaterialInfo(true, true)
+                .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_storage")
                 .inputItems(Tags.Items.CHESTS_WOODEN)

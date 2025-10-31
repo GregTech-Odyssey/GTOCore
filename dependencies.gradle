@@ -5,6 +5,9 @@ dependencies {
     implementation("org.lwjgl:lwjgl-opengl:3.3.2")
     implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
+    compileOnly('org.projectlombok:lombok:1.18.42')
+    annotationProcessor('org.projectlombok:lombok:1.18.42')
+
     implementation("curse.maven:kotlin-for-forge-351264:5402061")
 
     jarJar("dev:terrific_trash_cans:1.0.0")

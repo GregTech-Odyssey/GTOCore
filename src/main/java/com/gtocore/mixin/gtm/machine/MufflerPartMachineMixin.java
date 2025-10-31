@@ -122,6 +122,11 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     }
 
     @Override
+    public boolean hasOnWorkingMethod() {
+        return true;
+    }
+
+    @Override
     public void onLoad() {
         super.onLoad();
         gto$chanceOfNotProduceAsh = Math.min(Math.max(gto$chanceOfNotProduceAsh, 0), getTier() * 10);

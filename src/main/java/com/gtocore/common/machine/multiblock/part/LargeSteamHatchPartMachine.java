@@ -16,19 +16,21 @@ public final class LargeSteamHatchPartMachine extends SteamHatchPartMachine {
     public static final String ACCEPTED_FLUID = "gtocore.machine.accepted_fluid";
 
     public final int o;
+    public final int m;
     public final double c;
     public final FluidStack f;
 
-    public LargeSteamHatchPartMachine(MetaMachineBlockEntity holder, int o, double c, FluidStack f, Object... args) {
+    public LargeSteamHatchPartMachine(MetaMachineBlockEntity holder, int o, int m, double c, FluidStack f, Object... args) {
         super(holder, args);
         this.o = o;
+        this.m = m;
         this.c = c;
         this.f = f;
     }
 
     @Override
     protected NotifiableFluidTank createTank(int initialCapacity, int slots, Object... args) {
-        return super.createTank(initialCapacity << 6, slots)
+        return super.createTank(initialCapacity << m, slots)
                 .setFilter(fluidStack -> fluidStack.getFluid() == f.getFluid());
     }
 }

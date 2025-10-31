@@ -488,7 +488,7 @@ public final class GTOMachines {
                     .register(),
             GTMachineUtils.ALL_TIERS);
 
-    public static final MachineDefinition LARGE_STEAM_HATCH = machine("large_steam_input_hatch", "大型蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 2, 2, GTMaterials.Steam.getFluid(1)))
+    public static final MachineDefinition LARGE_STEAM_HATCH = machine("large_steam_input_hatch", "大型蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 2, 6, 2, GTMaterials.Steam.getFluid(1)))
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
@@ -497,20 +497,20 @@ public final class GTOMachines {
             .allowCoverOnFront(true)
             .register();
 
-    public static final MachineDefinition HIGH_PRESSURE_STEAM_INPUT_HATCH = machine("high_pressure_steam_input_hatch", "高压蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 4, 0.125, GTOMaterials.HighPressureSteam.getFluid(1)))
+    public static final MachineDefinition HIGH_PRESSURE_STEAM_INPUT_HATCH = machine("high_pressure_steam_input_hatch", "高压蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 4, 8, 0.25, GTOMaterials.HighPressureSteam.getFluid(1)))
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 65536000),
                     Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()))
             .allowCoverOnFront(true)
             .register();
 
-    public static final MachineDefinition SUPERCRITICAL_STEAM_INPUT_HATCH = machine("supercritical_steam_input_hatch", "超临界蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 6, 0.03125, GTOMaterials.SupercriticalSteam.getFluid(1)))
+    public static final MachineDefinition SUPERCRITICAL_STEAM_INPUT_HATCH = machine("supercritical_steam_input_hatch", "超临界蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 6, 10, 0.125, GTOMaterials.SupercriticalSteam.getFluid(1)))
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 1048576000),
                     Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()))
             .allowCoverOnFront(true)
             .register();
