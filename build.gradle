@@ -3,6 +3,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     alias libs.plugins.modDevGradleLegacy
+    alias libs.plugins.lombok
     alias libs.plugins.spotless
     alias libs.plugins.kotlin.jvm
     alias libs.plugins.kotlin.plugin

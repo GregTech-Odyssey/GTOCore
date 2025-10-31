@@ -4,7 +4,6 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.machines.GTAEMachines;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -237,14 +236,14 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             MachineDefinition transformer;
-            if (tier == (GTCEuAPI.isHighTier() ? MAX : UHV)) {
-                transformer = HI_AMP_TRANSFORMER_4A[tier - 1];
+            if (tier == MAX) {
+                transformer = TRANSFORMER[tier - 1];
             } else {
                 transformer = TRANSFORMER[tier];
             }
 
             ASSEMBLER_RECIPES.recipeBuilder("energy_hatch_16a_" + GTValues.VN[tier].toLowerCase(Locale.ROOT))
-                    .inputItems(transformer)
+                    .inputItems(transformer, tier == MAX ? 4 : 1)
                     .inputItems(ENERGY_INPUT_HATCH_4A[tier])
                     .inputItems(GTCraftingComponents.WIRE_OCT.get(tier), 2)
                     .inputItems(GTCraftingComponents.PLATE.get(tier), 4)
@@ -259,14 +258,14 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             MachineDefinition transformer;
-            if (tier == (GTCEuAPI.isHighTier() ? MAX : UHV)) {
+            if (tier == MAX) {
                 transformer = POWER_TRANSFORMER[tier - 1];
             } else {
                 transformer = POWER_TRANSFORMER[tier];
             }
 
             ASSEMBLER_RECIPES.recipeBuilder("substation_energy_hatch_" + GTValues.VN[tier].toLowerCase(Locale.ROOT))
-                    .inputItems(transformer)
+                    .inputItems(transformer, tier == MAX ? 4 : 1)
                     .inputItems(ENERGY_INPUT_HATCH_16A[tier])
                     .inputItems(GTCraftingComponents.WIRE_HEX.get(tier), 2)
                     .inputItems(GTCraftingComponents.PLATE.get(tier), 6)
@@ -295,14 +294,14 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             MachineDefinition transformer;
-            if (tier == (GTCEuAPI.isHighTier() ? MAX : UHV)) {
-                transformer = HI_AMP_TRANSFORMER_4A[tier - 1];
+            if (tier == MAX) {
+                transformer = TRANSFORMER[tier - 1];
             } else {
                 transformer = TRANSFORMER[tier];
             }
 
             ASSEMBLER_RECIPES.recipeBuilder("dynamo_hatch_16a_" + GTValues.VN[tier].toLowerCase(Locale.ROOT))
-                    .inputItems(transformer)
+                    .inputItems(transformer, tier == MAX ? 4 : 1)
                     .inputItems(ENERGY_OUTPUT_HATCH_4A[tier])
                     .inputItems(GTCraftingComponents.WIRE_OCT.get(tier), 2)
                     .inputItems(GTCraftingComponents.PLATE.get(tier), 4)
@@ -317,7 +316,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             MachineDefinition transformer;
-            if (tier == (GTCEuAPI.isHighTier() ? MAX : UHV)) {
+            if (tier == MAX) {
                 transformer = POWER_TRANSFORMER[tier - 1];
             } else {
                 transformer = POWER_TRANSFORMER[tier];
@@ -325,7 +324,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (transformer == null) continue;
 
             ASSEMBLER_RECIPES.recipeBuilder("substation_dynamo_hatch_" + GTValues.VN[tier].toLowerCase(Locale.ROOT))
-                    .inputItems(transformer)
+                    .inputItems(transformer, tier == MAX ? 4 : 1)
                     .inputItems(ENERGY_OUTPUT_HATCH_16A[tier])
                     .inputItems(GTCraftingComponents.WIRE_HEX.get(tier), 2)
                     .inputItems(GTCraftingComponents.PLATE.get(tier), 6)
@@ -537,7 +536,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             ASSEMBLER_RECIPES.recipeBuilder(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_256a_laser_target_hatch")
-                    .inputItems(HULL[tier])
+                    .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                     .inputItems(lens, Diamond)
                     .inputItems(GTCraftingComponents.SENSOR.get(tier))
                     .inputItems(GTCraftingComponents.PUMP.get(tier))
@@ -554,7 +553,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             ASSEMBLER_RECIPES.recipeBuilder(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_256a_laser_source_hatch")
-                    .inputItems(HULL[tier])
+                    .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                     .inputItems(lens, Diamond)
                     .inputItems(GTCraftingComponents.EMITTER.get(tier))
                     .inputItems(GTCraftingComponents.PUMP.get(tier))
@@ -571,7 +570,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             ASSEMBLER_RECIPES.recipeBuilder(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_1024a_laser_target_hatch")
-                    .inputItems(HULL[tier])
+                    .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                     .inputItems(lens, Diamond, 2)
                     .inputItems(GTCraftingComponents.SENSOR.get(tier), 2)
                     .inputItems(GTCraftingComponents.PUMP.get(tier), 2)
@@ -588,7 +587,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             ASSEMBLER_RECIPES.recipeBuilder(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_1024a_laser_source_hatch")
-                    .inputItems(HULL[tier])
+                    .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                     .inputItems(lens, Diamond, 2)
                     .inputItems(GTCraftingComponents.EMITTER.get(tier), 2)
                     .inputItems(GTCraftingComponents.PUMP.get(tier), 2)
@@ -605,7 +604,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             ASSEMBLER_RECIPES.recipeBuilder(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_4096a_laser_target_hatch")
-                    .inputItems(HULL[tier])
+                    .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                     .inputItems(lens, Diamond, 4)
                     .inputItems(GTCraftingComponents.SENSOR.get(tier), 4)
                     .inputItems(GTCraftingComponents.PUMP.get(tier), 4)
@@ -622,7 +621,7 @@ public final class MetaTileEntityMachineRecipeLoader {
             if (hatch == null) continue;
 
             ASSEMBLER_RECIPES.recipeBuilder(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_4096a_laser_output_hatch")
-                    .inputItems(HULL[tier])
+                    .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                     .inputItems(lens, Diamond, 4)
                     .inputItems(GTCraftingComponents.EMITTER.get(tier), 4)
                     .inputItems(GTCraftingComponents.PUMP.get(tier), 4)
