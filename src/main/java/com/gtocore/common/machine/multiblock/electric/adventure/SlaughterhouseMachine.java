@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.adventure;
 
+import com.gtocore.api.entity.ILivingEntity;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.item.ItemStackSet;
@@ -11,8 +13,6 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
-import com.gtolib.utils.RLUtils;
-import com.gtolib.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -44,6 +44,7 @@ import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
+import earth.terrarium.adastra.common.entities.mob.GlacianRam;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,6 +52,7 @@ import snownee.jade.util.CommonProxy;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -173,21 +175,14 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     public boolean onWorking() {
         if (getLevel() instanceof ServerLevel serverLevel && getOffsetTimer() % 200 == 0) {
             var blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());
-            List<Entity> entities = serverLevel.getEntitiesOfClass(Entity.class, new AABB(
-                    blockPos.getX() - 3.5,
+            for (Entity entity : serverLevel.getEntitiesOfClass(Entity.class, new AABB(
+                    blockPos.getX() - 3,
                     blockPos.getY() - 1,
-                    blockPos.getZ() - 3.5,
-                    blockPos.getX() + 3.5,
+                    blockPos.getZ() - 3,
+                    blockPos.getX() + 3,
                     blockPos.getY() + 6,
-                    blockPos.getZ() + 3.5));
-
-            for (Entity entity : entities) {
-                if (entity instanceof LivingEntity) {
-                    entity.hurt(getDamageSource(serverLevel, getFakePlayer(serverLevel)), attackDamage);
-                } else {
-                    entity.kill();
-                }
-            }
+                    blockPos.getZ() + 3)))
+                entity.kill();
         }
         return super.onWorking();
     }
@@ -205,6 +200,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 return null;
             }
             Player player = getFakePlayer(serverLevel);
+            DamageSource source = getDamageSource(serverLevel, player);
             ItemStackSet itemStacks = new ItemStackSet();
             Vec3 origin = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos()).getCenter();
             Entity entity = null;
@@ -223,7 +219,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
 
             var lootParams = new LootParams.Builder(serverLevel)
                     .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, player)
-                    .withParameter(LootContextParams.DAMAGE_SOURCE, getDamageSource(serverLevel, player))
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, source)
                     .withParameter(LootContextParams.KILLER_ENTITY, player)
                     .withParameter(LootContextParams.DIRECT_KILLER_ENTITY, player)
                     .withParameter(LootContextParams.ORIGIN, origin)
@@ -242,18 +238,10 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 if (!(entity instanceof Mob mob)) continue;
                 if (CommonProxy.isBoss(entity)) continue;
                 xp += mob.getExperienceReward() * multiplier;
-                String[] mobParts = StringUtils.decompose(entityId);
-                if (mobParts.length < 2) continue;
-                LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(RLUtils.fromNamespaceAndPath(mobParts[0], "entities/" + mobParts[1]));
-                lootTable.getRandomItems(lootParams.withParameter(LootContextParams.THIS_ENTITY, entity).create(lootTable.getParamSet())).forEach(stack -> {
-                    int count = stack.getCount();
-                    itemStacks.add(isFixed ? stack.copyWithCount(parallel * count) : multiplier > 1 ? stack.copyWithCount(multiplier * count) : stack);
-                });
-                createRandomGemStack(serverLevel, entity, player, itemStacks, Math.max(1, (int) Math.sqrt(multiplier)));
-                if (isFixed) break;
+                getAllDeathLoot(player, serverLevel, mob, source, lootParams, itemStacks, multiplier);
             }
             if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
-            int duration = Math.max(20, 200 - attackDamage);
+            int duration = Math.max(60, 600 - attackDamage);
             RecipeBuilder builder = getRecipeBuilder().duration(duration).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
             Recipe recipe = builder.buildRawRecipe();
@@ -262,14 +250,30 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         return null;
     }
 
-    private static void createRandomGemStack(ServerLevel level, Entity entity, Player player, ItemStackSet set, int m) {
+    private static void getAllDeathLoot(Player player, ServerLevel level, LivingEntity entity, DamageSource source, LootParams.Builder lootParams, Set<ItemStack> itemStacks, int multiplier) {
+        LootTable lootTable = level.getServer().getLootData().getLootTable(entity.getLootTable());
+        lootTable.getRandomItems(lootParams.withParameter(LootContextParams.THIS_ENTITY, entity).create(lootTable.getParamSet())).forEach(item -> {
+            var count = item.getCount();
+            if (count < 1) return;
+            item.setCount(count * multiplier);
+            itemStacks.add(item);
+        });
+        var sqrt = (int) Math.sqrt(multiplier);
+        ((ILivingEntity) entity).gtocore$getAllDeathLoot(source, itemStacks, sqrt);
         if (entity instanceof Monster) {
             float chance = AdventureConfig.gemDropChance + (entity.getPersistentData().contains("apoth.boss") ? AdventureConfig.gemBossBonus : 0);
             if (player.getRandom().nextFloat() <= chance) {
+                sqrt = sqrt * 2;
                 var item = GemRegistry.createRandomGemStack(player.getRandom(), level, player.getLuck(), WeightedDynamicRegistry.IDimensional.matches(level), GameStagesCompat.IStaged.matches(player));
+                var count = item.getCount();
+                if (count < 1) return;
+                item.setCount(count * entity.getRandom().nextInt(sqrt / 2, sqrt));
                 if (item.isEmpty()) return;
-                item.setCount(item.getCount() * m);
-                set.add(item);
+                itemStacks.add(item);
+            }
+        } else if (entity instanceof GlacianRam glacianRam) {
+            if (glacianRam.getRandom().nextInt(Math.max(10, 20 - sqrt)) == 1) {
+                itemStacks.add(GTOItems.GLACIO_SPIRIT.asStack());
             }
         }
     }
