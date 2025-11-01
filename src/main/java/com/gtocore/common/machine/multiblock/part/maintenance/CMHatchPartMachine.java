@@ -6,10 +6,8 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.DummyCleanroom;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.AutoMaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
@@ -63,16 +61,6 @@ public final class CMHatchPartMachine extends AutoMaintenanceHatchPartMachine {
         if (controller instanceof ICleanroomReceiver receiver && receiver.getCleanroom() == cleanroomTypes) {
             receiver.setCleanroom(null);
         }
-    }
-
-    @Override
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
-        return recipe;
-    }
-
-    @Override
-    public boolean afterWorking(IWorkableMultiController controller) {
-        return true;
     }
 
     public static ImmutableSet<CleanroomType> getCleanroomTypes(ICleanroomProvider p) {

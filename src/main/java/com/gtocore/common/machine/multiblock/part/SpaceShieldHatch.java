@@ -6,7 +6,6 @@ import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 
 import net.minecraft.ChatFormatting;
@@ -35,17 +34,12 @@ public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspa
         if (controller instanceof IWorkInSpaceMachine machine) {
             machine.setWorkspaceProvider(this);
         }
+        hasLaser = Stream.of(controller.getParts()).anyMatch(p -> p instanceof LaserHatchPartMachine || p instanceof CreativeLaserHatchPartMachine);
     }
 
     @Override
     public boolean canShared() {
         return false;
-    }
-
-    @Override
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
-        hasLaser = Stream.of(getControllers().first().getParts()).anyMatch(p -> p instanceof LaserHatchPartMachine || p instanceof CreativeLaserHatchPartMachine);
-        return super.modifyRecipe(recipe);
     }
 
     @Override

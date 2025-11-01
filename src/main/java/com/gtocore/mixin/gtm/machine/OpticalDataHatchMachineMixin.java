@@ -3,6 +3,7 @@ package com.gtocore.mixin.gtm.machine;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.capability.IOpticalDataAccessHatch;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.OpticalDataHatchMachine;
 
@@ -18,7 +19,7 @@ public abstract class OpticalDataHatchMachineMixin implements IOpticalDataAccess
      * @reason .
      */
     @Overwrite(remap = false)
-    public @Nullable GTRecipe modifyRecipe(GTRecipe recipe) {
+    public @Nullable GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         if (recipe instanceof Recipe gtoRecipe) {
             var root = gtoRecipe.rootRecipe;
             if (root == null || root.researchData == null) return recipe;

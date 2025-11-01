@@ -4,7 +4,6 @@ import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExhaustVentMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -74,14 +73,12 @@ public class SteamVentHatchMachine extends MultiblockPartMachine implements IExh
 
     @Override
     @Nullable
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         if (needsVenting && isVentingBlocked()) {
-            for (var controller : getControllers()) {
-                ((IEnhancedRecipeLogic) ((IRecipeLogicMachine) controller).getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails").append(": ").append(Component.translatable("recipe.condition.steam_vent.tooltip")));
-            }
+            ((IEnhancedRecipeLogic) controller.getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails").append(": ").append(Component.translatable("recipe.condition.steam_vent.tooltip")));
             return null;
         }
-        return super.modifyRecipe(recipe);
+        return recipe;
     }
 
     @Override

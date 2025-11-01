@@ -9,8 +9,8 @@ import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
@@ -67,13 +67,14 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     }
 
     @Override
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
+    public boolean hasModifyRecipeMethod() {
+        return true;
+    }
+
+    @Override
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         if (hasMaintenanceProblems()) {
-            for (var c : getControllers()) {
-                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                    enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MAINTENANCE_BROKEN.reason());
-                }
-            }
+            ((IEnhancedRecipeLogic) controller.getRecipeLogic()).gtolib$setIdleReason(IdleReason.MAINTENANCE_BROKEN.reason());
             return null;
         }
         var durationMultiplier = getDurationMultiplier();
