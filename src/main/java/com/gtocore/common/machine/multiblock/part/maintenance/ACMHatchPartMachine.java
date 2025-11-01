@@ -92,7 +92,7 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
 
     @Override
     @Nullable
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         recipe.duration = Math.max(1, (int) (recipe.duration * durationMultiplier));
         return recipe;
     }

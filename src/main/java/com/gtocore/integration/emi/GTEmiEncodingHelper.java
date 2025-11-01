@@ -70,7 +70,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
 
     public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
         if (emiRecipe instanceof MultiblockInfoEmiRecipe recipe) {
-            var stream = recipe.getInputs(0)
+            var stream = recipe.getInputs(recipe.i)
                     .stream()
                     .filter(GTEmiEncodingHelper::isNotHatch)
                     .map(GTEmiEncodingHelper::intoGenericStack);

@@ -7,6 +7,7 @@ import com.gtolib.api.machine.part.ItemHatchPartMachine;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Item;
@@ -42,9 +43,9 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
     }
 
     @Override
-    public boolean beforeWorking(IWorkableMultiController controller) {
+    public boolean beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
         isWorking = true;
-        return super.beforeWorking(controller);
+        return true;
     }
 
     @Override

@@ -35,7 +35,7 @@ public final class GravityHatchPartMachine extends AutoMaintenanceHatchPartMachi
     }
 
     @Override
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         return recipe;
     }
 

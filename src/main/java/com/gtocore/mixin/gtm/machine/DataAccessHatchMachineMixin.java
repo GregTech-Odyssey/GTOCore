@@ -6,6 +6,7 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -77,7 +78,7 @@ public class DataAccessHatchMachineMixin extends TieredPartMachine {
      * @reason .
      */
     @Overwrite(remap = false)
-    public @Nullable GTRecipe modifyRecipe(GTRecipe recipe) {
+    public @Nullable GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         if (this.isCreative) return recipe;
         if (recipe instanceof Recipe gtoRecipe) {
             var root = gtoRecipe.rootRecipe;

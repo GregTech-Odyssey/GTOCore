@@ -21,7 +21,7 @@ public final class LargeSteamHatchPartMachine extends SteamHatchPartMachine {
     public final FluidStack f;
 
     public LargeSteamHatchPartMachine(MetaMachineBlockEntity holder, int o, int m, double c, FluidStack f, Object... args) {
-        super(holder, args);
+        super(holder, INITIAL_TANK_CAPACITY << m);
         this.o = o;
         this.m = m;
         this.c = c;
@@ -30,7 +30,7 @@ public final class LargeSteamHatchPartMachine extends SteamHatchPartMachine {
 
     @Override
     protected NotifiableFluidTank createTank(int initialCapacity, int slots, Object... args) {
-        return super.createTank(initialCapacity << m, slots)
+        return super.createTank(initialCapacity, slots, args)
                 .setFilter(fluidStack -> fluidStack.getFluid() == f.getFluid());
     }
 }

@@ -10,7 +10,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -40,12 +40,7 @@ public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPart
     }
 
     @Override
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
-        IMultiController controller = null;
-        for (var c : getControllers()) {
-            controller = c;
-            break;
-        }
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         if (controller instanceof IOverclockMachine overclockMachine) {
             if (manaContainer.removeMana(overclockMachine.getOverclockVoltage(), 1, true) == overclockMachine.getOverclockVoltage()) {
                 manaContainer.removeMana(overclockMachine.getOverclockVoltage(), 1, false);

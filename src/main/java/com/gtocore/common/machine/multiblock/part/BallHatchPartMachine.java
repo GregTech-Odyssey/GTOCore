@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -61,9 +62,9 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
     }
 
     @Override
-    public boolean beforeWorking(IWorkableMultiController controller) {
+    public boolean beforeWorking(IWorkableMultiController controller, GTRecipe recipe) {
         isWorking = true;
-        return super.beforeWorking(controller);
+        return true;
     }
 
     @Override
