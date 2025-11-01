@@ -650,7 +650,7 @@ public final class MiscRecipe {
                 .duration(100)
                 .save();
 
-        if (GTOCore.isExpert()) {
+        if (GTOCore.isExpert("recipe.gtceu")) {
 
             BRICK_FURNACE_RECIPES.builder("firebricks")
                     .inputItems(GTItems.FIRECLAY_BRICK.asItem(), 6)

@@ -60,7 +60,7 @@ public final class GTOOreRecipeHandler {
         }
         ItemStack crushedStack = ChemicalHelper.get(crushed, material);
         int oreMultiplier = property.getOreMultiplier();
-        int oreTypeMultiplier = GTOCore.isExpert() ? 4 : 6;
+        int oreTypeMultiplier = GTOCore.isExpert("recipe.ore") ? 4 : 6;
         long mass = material.getMass();
         int dur = (int) Math.max(8, Math.sqrt(mass) * 2 * oreTypeMultiplier);
         crushedStack.setCount(Math.max(oreTypeMultiplier * oreMultiplier, 1));
@@ -345,7 +345,7 @@ public final class GTOOreRecipeHandler {
     private static void processRawOre(Material material, OreProperty property) {
         ItemStack stack = ChemicalHelper.get(TagPrefix.rawOre, material);
         if (stack.isEmpty()) return;
-        int oreTypeMultiplier = GTOCore.isExpert() ? 4 : 6;
+        int oreTypeMultiplier = GTOCore.isExpert("recipe.normal") ? 4 : 6;
         long mass = material.getMass();
         int dur = (int) Math.max(6, Math.sqrt(mass) * oreTypeMultiplier * 2 / 3);
         ItemStack crushedStack = ChemicalHelper.get(crushed, material, Math.max(1, property.getOreMultiplier() * oreTypeMultiplier / 2));

@@ -41,7 +41,7 @@ public class FluidPipeTypeMixin {
      */
     @Overwrite(remap = false)
     public FluidPipeProperties modifyProperties(FluidPipeProperties fluidPipeData) {
-        return new FluidPipeProperties((4 - GTOCore.difficulty) * fluidPipeData.getThroughput() * capacityMultiplier * channels);
+        return new FluidPipeProperties((4 - GTOCore.diffInt("machine.normal")) * fluidPipeData.getThroughput() * capacityMultiplier * channels);
     }
 
     /**

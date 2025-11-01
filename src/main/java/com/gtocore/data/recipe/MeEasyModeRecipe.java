@@ -12,7 +12,7 @@ import appeng.core.definitions.AEItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
-public final class EasyModeRecipe {
+public final class MeEasyModeRecipe {
 
     public static void init() {
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("me_simple_pattern_buffer", OptionalMachine.ME_SIMPLE_PATTERN_BUFFER.asStack(),

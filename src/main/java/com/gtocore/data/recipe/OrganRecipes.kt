@@ -22,7 +22,6 @@ import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
 import com.gtolib.GTOCore
 
-import java.util.function.IntConsumer
 import java.util.function.IntUnaryOperator
 import java.util.stream.IntStream
 
@@ -79,7 +78,7 @@ object OrganRecipes {
         IntStream.rangeClosed(1, 4).forEachOrdered { OrganTier: Int ->
             val tier = OrganTier shl 1
             val scaleOperator =
-                IntUnaryOperator { n: Int -> if (OrganTier == 1) n shl GTOCore.difficulty - 1 else n shl GTOCore.difficulty } // OrganTier==1
+                IntUnaryOperator { n: Int -> if (OrganTier == 1 && GTOCore.isExpert("recipe.organ")) n shl GTOCore.diffInt("recipe.organ") - 1 else n shl GTOCore.diffInt("recipe.organ") } // OrganTier==1
             // 为MV,没自动化，降点难度
             val motor = GTCraftingComponents.MOTOR.get(tier) as Item
             val conveyor = GTCraftingComponents.CONVEYOR.get(tier) as Item

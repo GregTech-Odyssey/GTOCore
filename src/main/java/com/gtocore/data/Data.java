@@ -157,8 +157,8 @@ public final class Data {
                 DataGenerateRecipe.init();
             }
         }
-        if (GTCEu.isDev() || GTOCore.isEasy()) {
-            EasyModeRecipe.init();
+        if (GTCEu.isDev() || GTOCore.isEasy("machine.ae2")) {
+            MeEasyModeRecipe.init();
         }
 
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();

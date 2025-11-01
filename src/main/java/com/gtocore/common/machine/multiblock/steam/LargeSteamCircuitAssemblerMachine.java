@@ -42,6 +42,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.max_parallel",
                          typeKey = DynamicInitialValueTypes.KEY_MAX_PARALLEL,
+                         difficultyType = "machine.steam",
                          en = "Max Parallels",
                          cn = "最大并行数",
                          easyValue = "8",
@@ -51,6 +52,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.reduction_duration",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
+                         difficultyType = "machine.normal",
                          easyValue = "2",
                          normalValue = "4",
                          expertValue = "6",
@@ -62,6 +64,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.steam_cost",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
+                         difficultyType = "machine.normal",
                          easyValue = "2",
                          normalValue = "4",
                          expertValue = "6",
@@ -71,6 +74,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.multiply",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
+                         difficultyType = "machine.normal",
                          easyValue = "4",
                          normalValue = "2",
                          expertValue = "2",
@@ -80,6 +84,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @DynamicInitialValue(
                          key = "gtceu.machine.multiblock.steam.large_circuit_assembler.engraving_needed_amount",
                          typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
+                         difficultyType = "machine.normal",
                          cn = "蚀刻电路所需数量",
                          cnComment = """
                                  执行相应电路组装配方前，需要蚀刻此电路所需的物品数量""",

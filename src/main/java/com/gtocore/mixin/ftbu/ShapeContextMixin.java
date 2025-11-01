@@ -46,7 +46,8 @@ public class ShapeContextMixin {
         }
         ItemStack stack = player.getMainHandItem();
         Item item = stack.getItem();
-        int base = 128 >> GTOCore.difficulty;
+        var diff = GTOCore.diffInt("player.ultimine");
+        int base = 128 >> diff;
         if (item instanceof SpellBook spellBook) {
             base <<= spellBook.tier.value;
             ret = Math.min(base, maxBlocks);
@@ -57,7 +58,7 @@ public class ShapeContextMixin {
             if (gtTool.isElectric()) base *= 1 << (gtTool.getElectricTier());
             ret = Math.min(base, maxBlocks);
         } else if (item instanceof DiggerItem) {
-            ret = Math.min(64 >> GTOCore.difficulty, maxBlocks);
+            ret = Math.min(64 >> diff, maxBlocks);
         } else {
             ret = 1;
         }

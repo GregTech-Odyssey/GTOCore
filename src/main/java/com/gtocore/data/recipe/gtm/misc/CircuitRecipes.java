@@ -659,7 +659,7 @@ public final class CircuitRecipes {
 
     private static void circuitRecipes() {
         int outputAmount = ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 1 : 2;
-        int amount = GTOCore.isExpert() ? 4 : 3;
+        int amount = GTOCore.isExpert("recipe.normal") ? 4 : 3;
 
         // T1: Electronic ==============================================================================================
 

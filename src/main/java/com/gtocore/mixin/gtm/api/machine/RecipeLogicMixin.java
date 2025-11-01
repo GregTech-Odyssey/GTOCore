@@ -207,12 +207,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Override
     public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
         if (forDrop) return;
-        tag.putInt("difficulty", GTOCore.difficulty);
+        tag.putInt("difficulty", GTOCore.diffInt(null));// TODO ???
     }
 
     @Override
     public void loadCustomPersistedData(@NotNull CompoundTag tag) {
-        if (tag.tags.get("difficulty") instanceof IntTag intTag && intTag.getAsInt() != GTOCore.difficulty) {
+        if (tag.tags.get("difficulty") instanceof IntTag intTag && intTag.getAsInt() != GTOCore.diffInt(null)) {
             throw new IllegalStateException("Difficulty mismatch");
         }
     }

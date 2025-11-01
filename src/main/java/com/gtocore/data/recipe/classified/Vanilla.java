@@ -44,37 +44,45 @@ final class Vanilla {
         VanillaRecipeHelper.addSmeltingRecipe(GTOCore.id("raw_aluminum"), GTOItems.RAW_ALUMINUM.asStack(), ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium), 0);
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("pattern_modifier_pro"), GTOItems.PATTERN_MODIFIER_PRO.asItem(), RegistriesUtils.getItemStack("expatternprovider:pattern_modifier"));
 
-        switch (GTOCore.difficulty) {
-            case 1 -> {
-                VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ender_eye"), ChemicalHelper.get(TagPrefix.gem, GTMaterials.EnderEye),
-                        " A ",
-                        "ABA",
-                        " A ",
-                        'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl));
+        switch (GTOCore.getDifficulty("recipe.gto")) {
+            case Easy -> {
                 VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
                         "ABA",
                         "DCD",
                         "ADA",
                         'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze), 'D', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
             }
-            case 2 -> {
-                VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ender_eye"), ChemicalHelper.get(TagPrefix.gem, GTMaterials.EnderEye),
-                        "AAA",
-                        "ABA",
-                        "AAA",
-                        'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl));
+            case Normal -> {
                 VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
                         "ABA",
                         "DCD",
                         "ABA",
                         'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze), 'D', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
             }
-            case 3 -> {
+            case Expert -> {
                 VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asItem(),
                         "ABA",
                         "BCB",
                         "ABA",
                         'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze));
+            }
+        }
+        switch (GTOCore.getDifficulty("recipe.vanilla")) {
+            case Easy -> {
+                VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ender_eye"), ChemicalHelper.get(TagPrefix.gem, GTMaterials.EnderEye),
+                        " A ",
+                        "ABA",
+                        " A ",
+                        'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl));
+
+            }
+            case Normal -> {
+                VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ender_eye"), ChemicalHelper.get(TagPrefix.gem, GTMaterials.EnderEye),
+                        "AAA",
+                        "ABA",
+                        "AAA",
+                        'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl));
+
             }
         }
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_wireless_connection_machine"), GTOMachines.ME_WIRELESS_CONNECTION_MACHINE.asItem(),
@@ -828,13 +836,13 @@ final class Vanilla {
                 "CDC",
                 "ABA",
                 'A', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.StainlessSteel), 'B', new MaterialEntry(TagPrefix.rodLong, GTMaterials.StainlessSteel), 'C', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Aluminium), 'D', GTMachines.FERMENTER[GTValues.HV].asItem());
-        if (GTOCore.isExpert()) {
+        if (GTOCore.isExpert("recipe.gto")) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asItem(),
                     "ABA",
                     "CDC",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.plateDouble, GTOMaterials.Gaia), 'B', RegistriesUtils.getItemStack("gtmthings:ev_4a_wireless_energy_receive_cover"), 'C', RegistriesUtils.getItemStack("ars_nouveau:manipulation_essence"), 'D', GTItems.FIELD_GENERATOR_EV.asItem());
-        } else if (GTOCore.isNormal()) {
+        } else if (GTOCore.isNormal("recipe.gto")) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asItem(),
                     "ABA",
                     "CDC",

@@ -18,6 +18,7 @@ public class LargeSteamStorageTank extends MultiblockTankMachine {
 
     @DynamicInitialValue(
                          key = "gtocore.machine.multiblock.noenergy.large_steam_storage_tank.capacity",
+                         difficultyType = "machine.normal",
                          typeKey = DynamicInitialValueTypes.KEY_CAPACITY,
                          en = "Capacity",
                          enComment = "The capacity of the large steam storage tank in mB",

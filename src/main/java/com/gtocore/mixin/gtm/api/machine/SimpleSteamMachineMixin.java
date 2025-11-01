@@ -65,7 +65,7 @@ public abstract class SimpleSteamMachineMixin extends SteamWorkableMachine imple
         }
         return r -> {
             if (steamMachine.isHighPressure) return r;
-            return RecipeModifierFunction.recipeReduction((Recipe) r, 0.5 * GTOCore.difficulty, 2);
+            return RecipeModifierFunction.recipeReduction((Recipe) r, 0.5 * GTOCore.diffInt("machine.steam"), 2);
         };
     }
 }

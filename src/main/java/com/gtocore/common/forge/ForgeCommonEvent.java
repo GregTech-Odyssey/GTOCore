@@ -32,14 +32,11 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -302,7 +299,7 @@ public final class ForgeCommonEvent {
     public static void onCommandExecution(CommandEvent event) {
         var command = event.getParseResults().getReader().getString();
         if (command.contains("ae2") && command.contains("channelmode")) {
-            if (GTOCore.isExpert()) {
+            if (GTOCore.isExpert("machine.ae2")) {
                 event.setCanceled(true);
                 if (event.getParseResults().getContext().getSource().isPlayer()) {
                     Player player = event.getParseResults().getContext().getSource().getPlayer();

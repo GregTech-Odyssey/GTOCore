@@ -456,7 +456,7 @@ public final class RecipeFilter {
             filters.add(RLUtils.eio("sag_milling/" + eio));
         }
 
-        if (!GTOCore.isEasy()) {
+        if (!GTOCore.isEasy("recipe.mods")) {
             filters.add(RLUtils.eio("copper_alloy_block"));
             filters.add(RLUtils.eio("copper_alloy_ingot"));
             filters.add(RLUtils.eio("copper_alloy_nugget"));

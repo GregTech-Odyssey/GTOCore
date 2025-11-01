@@ -99,7 +99,7 @@ public class CommonProxy {
     private static void commonSetup(FMLCommonSetupEvent event) {
         BlockMap.build();
         GTOPartAbility.init();
-        if (GTOCore.isExpert()) {
+        if (GTOCore.isExpert("machine.ae2")) {
             AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
         } else {
             AEConfig.instance().setChannelModel(ChannelMode.INFINITE);

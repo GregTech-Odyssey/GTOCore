@@ -65,6 +65,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     private int muffler_tier = 0;
     @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
                          key = "me_muffler_hatch.amplifier_max_amount",
+                         difficultyType = "machine.normal",
                          easyValue = "4",
                          normalValue = "16",
                          expertValue = "64",
@@ -74,6 +75,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     private static int COUNT = 16;
     @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
                          key = "me_muffler_hatch.amplifier_min_amount",
+                         difficultyType = "machine.normal",
                          easyValue = "1",
                          normalValue = "4",
                          expertValue = "16",
@@ -187,7 +189,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
         WidgetGroup muffler = new WidgetGroup(0, 0, 170, 25);
         muffler.addWidget(new SlotWidget(mufflerHatchInv.storage, 0, 140, 10, true, true)
                 .setBackground(GuiTextures.SLOT)
-                .setHoverTooltips(Component.translatable(GTOCore.isExpert() ? MUFFLER_TOOLTIP_KEY_EXPERT : MUFFLER_TOOLTIP_KEY)));
+                .setHoverTooltips(Component.translatable(GTOCore.isExpert("machine.normal") ? MUFFLER_TOOLTIP_KEY_EXPERT : MUFFLER_TOOLTIP_KEY)));
         muffler.addWidget(new SlotWidget(amplifierInv.storage, 0, 120, 10, true, true)
                 .setBackground(GuiTextures.SLOT)
                 .setHoverTooltips(Component.translatable(AMPLIFIER_TOOLTIP_KEY)));

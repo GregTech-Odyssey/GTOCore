@@ -84,7 +84,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         }
 
         int maxReducedDuration = Math.max((int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5), 10);
-        int energyMultiplier = 2 << GTOCore.difficulty;
+        int energyMultiplier = 2 << GTOCore.diffInt("machine.normal");
 
         if (machine instanceof IOverclockMachine) {
             var eut = BigInteger.valueOf(recipe.getInputEUt());

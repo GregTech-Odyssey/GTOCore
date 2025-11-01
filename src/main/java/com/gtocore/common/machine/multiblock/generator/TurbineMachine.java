@@ -63,11 +63,11 @@ import static com.gtolib.api.GTOValues.GLASS_TIER;
 @Scanned
 public class TurbineMachine extends ElectricMultiblockMachine {
 
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_output_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4.0F", normalValue = "3.0F", expertValue = "2.5F", cn = "高速模式输出倍率 : %s 倍", en = "High Speed Mode Output Multiplier : %s Multiplier")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_output_multiplier", difficultyType = "machine.generator", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4.0F", normalValue = "3.0F", expertValue = "2.5F", cn = "高速模式输出倍率 : %s 倍", en = "High Speed Mode Output Multiplier : %s Multiplier")
     private static float highSpeedModeOutputMultiplier = 3.0F;
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_rotor_damage_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4", normalValue = "10", expertValue = "12", cn = "高速模式转子损坏倍率 : %s 倍", en = "High Speed Mode Rotor Damage Multiplier : %s Multiplier")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_rotor_damage_multiplier", difficultyType = "machine.generator", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4", normalValue = "10", expertValue = "12", cn = "高速模式转子损坏倍率 : %s 倍", en = "High Speed Mode Rotor Damage Multiplier : %s Multiplier")
     private static int highSpeedModeRotorDamageMultiplier = 10;
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_machine_fault", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4F", normalValue = "8F", expertValue = "10F", cn = "高速模式机器故障倍率 : %s 倍", en = "High Speed Mode Machine Fault Multiplier : %s Multiplier")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_machine_fault", difficultyType = "machine.generator", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "4F", normalValue = "8F", expertValue = "10F", cn = "高速模式机器故障倍率 : %s 倍", en = "High Speed Mode Machine Fault Multiplier : %s Multiplier")
     private static float highSpeedModeMachineFault = 8.0F;
 
     private final long baseEUOutput;
@@ -141,7 +141,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         super.onStructureFormed();
         if (mega) {
             rotorSubs.initialize(getLevel());
-            if (GTOCore.isExpert() && this instanceof MegaTurbine) {
+            if (GTOCore.isExpert("machine.generator") && this instanceof MegaTurbine) {
                 damageBase = Math.max(2.2 - 0.08 * ((MegaTurbine) this).getCasingTier(GLASS_TIER), 1.2);
             }
         }
@@ -273,7 +273,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
             highSpeedMode = pressed;
         }).setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.mega_turbine.high_speed_mode").append("[").append(Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")).append("]"))));
 
-        if (mega && GTOCore.isExpert()) {
+        if (mega && GTOCore.isExpert("machine.generator")) {
             configuratorPanel.attachConfigurators(new IFancyConfigurator() {
 
                 @Override
@@ -385,14 +385,14 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     private float getHighSpeedModeOutputMultiplier() {
-        if (!GTOCore.isExpert()) {
+        if (!GTOCore.isExpert("machine.generator")) {
             return highSpeedModeOutputMultiplier;
         }
         return highSpeedModeOutputMultiplier * highSpeedFactor;
     }
 
     private float getHighSpeedModeDamageMultiplier() {
-        if (!GTOCore.isExpert()) {
+        if (!GTOCore.isExpert("machine.generator")) {
             return highSpeedModeRotorDamageMultiplier;
         }
         return Math.max(1f, (float) (highSpeedModeRotorDamageMultiplier * Math.pow(damageBase, highSpeedFactor - 1)));
@@ -432,7 +432,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         public void customText(List<Component> textList) {
             super.customText(textList);
             textList.add(Component.translatable(COIL_BONUS, getCoilTier(), getCoilTier() * 20));
-            if (GTOCore.isExpert())
+            if (GTOCore.isExpert("machine.generator"))
                 textList.add(Component.translatable(GLASS_BONUS, getCasingTier(GLASS_TIER), FormattingUtil.formatNumber2Places(damageBase)));
         }
 

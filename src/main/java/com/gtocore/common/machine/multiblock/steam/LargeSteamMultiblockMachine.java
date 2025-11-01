@@ -12,6 +12,7 @@ public final class LargeSteamMultiblockMachine extends BaseSteamMultiblockMachin
     @DynamicInitialValue(
                          key = "gtocore.multiblock.large_steam.duration_multiplier",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
+                         difficultyType = "machine.steam",
                          easyValue = "1.0D",
                          normalValue = "1.2D",
                          expertValue = "1.5D",
@@ -23,6 +24,7 @@ public final class LargeSteamMultiblockMachine extends BaseSteamMultiblockMachin
     @DynamicInitialValue(
                          key = "gtocore.machine.multiblock.large_steam.max_parallels",
                          typeKey = DynamicInitialValueTypes.KEY_MAX_PARALLEL,
+                         difficultyType = "machine.steam",
                          en = "Max Parallels",
                          enComment = "The maximum number of parallel machines that can be used in this multiblock",
                          cn = "最大并行数",

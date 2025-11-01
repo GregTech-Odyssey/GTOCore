@@ -470,7 +470,7 @@ public final class MachineRecipeLoader {
                 .inputFluids(SolderingAlloy, L / 2)
                 .outputItems(COVER_ENERGY_DETECTOR)
                 .EUt(16).duration(100).save();
-        if (GTOCore.isExpert()) {
+        if (GTOCore.isExpert("recipe.gtceu")) {
             ASSEMBLER_RECIPES.recipeBuilder("cover_machine_controller_exp")
                     .inputItems(Blocks.LEVER)
                     .inputItems(plate, Iron, 16)

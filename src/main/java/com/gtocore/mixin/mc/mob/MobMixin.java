@@ -38,7 +38,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (GTOCore.isEasy() || level().getDifficulty().getId() == 0) return;
+        if (GTOCore.isEasy("world.monster") || level().getDifficulty().getId() == 0) return;
         boolean isBoss = CommonProxy.isBoss(this);
         if (!isBoss && getRandom().nextBoolean()) return;
         double difficultyValue = (double) level().getDifficulty().getId() / 2;

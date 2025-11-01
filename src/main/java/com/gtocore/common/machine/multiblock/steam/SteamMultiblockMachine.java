@@ -12,6 +12,7 @@ public final class SteamMultiblockMachine extends BaseSteamMultiblockMachine {
     @DynamicInitialValue(
                          key = "gtocore.multiblock.steam.duration_multiplier",
                          typeKey = DynamicInitialValueTypes.KEY_MULTIPLY,
+                         difficultyType = "machine.steam",
                          easyValue = "1.2D",
                          normalValue = "1.5D",
                          expertValue = "1.6D",
@@ -23,6 +24,7 @@ public final class SteamMultiblockMachine extends BaseSteamMultiblockMachine {
     @DynamicInitialValue(
                          key = "gtocore.machine.multiblock.steam.max_parallels",
                          typeKey = DynamicInitialValueTypes.KEY_MAX_PARALLEL,
+                         difficultyType = "machine.steam",
                          en = "Max Parallels",
                          cn = "最大并行数",
                          easyValue = "16",

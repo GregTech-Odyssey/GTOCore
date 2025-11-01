@@ -20,6 +20,7 @@ final class CircuitAssemblyLine {
     @DynamicInitialValue(
                          key = "circuit_assembly_line.amount",
                          typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
+                         difficultyType = "machine.normal",
                          easyValue = "3",
                          normalValue = "3",
                          expertValue = "4",

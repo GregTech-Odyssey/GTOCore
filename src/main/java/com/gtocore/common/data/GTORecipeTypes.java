@@ -295,7 +295,7 @@ public final class GTORecipeTypes {
                 };
                 return LocalizationUtils.format(TierCasingTrait.getTierTranslationKey(STELLAR_CONTAINMENT_TIER), tierString);
             })
-            .onRecipeBuild(b -> b.duration(b.duration * GTOCore.difficulty / 3));
+            .onRecipeBuild(b -> b.duration(b.duration * GTOCore.diffInt("recipe.gto") / 3));
 
     public static final RecipeType COMPONENT_ASSEMBLY_RECIPES = register("component_assembly", "部件装配", MULTIBLOCK)
             .setMaxIOSize(9, 1, 9, 0)

@@ -32,7 +32,7 @@ public final class OptionalMachine {
 
     public static void init() {}
 
-    public static final MachineDefinition ME_SIMPLE_PATTERN_BUFFER = GTCEu.isDev() || GTOCore.isEasy() ?
+    public static final MachineDefinition ME_SIMPLE_PATTERN_BUFFER = GTCEu.isDev() || GTOCore.isEasy("machine.ae2") ?
 
             machine("me_simple_pattern_buffer", "ME简单样板总成", MESimplePatternBufferPartMachine::new)
                     .langValue("ME Simple Pattern Buffer")

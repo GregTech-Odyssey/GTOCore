@@ -10,6 +10,7 @@ public class MESimplePatternBufferPartMachine extends MEPatternBufferPartMachine
 
     @DynamicInitialValue(
                          key = "gtceu.machine.part.ae.simple_pattern_buffer.slot_count",
+                         difficultyType = "machine.ae2",
                          en = "Slot Count",
                          enComment = "The number of AE patterns that can be stored inside the machine",
                          cn = "插槽数量",

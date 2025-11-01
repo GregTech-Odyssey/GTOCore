@@ -67,7 +67,7 @@ public final class ManaMachine {
                             GTOCore.id("block/generators/primitive_magic_energy")))
                     .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.1"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 16 >> GTOCore.difficulty))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 16 >> GTOCore.diffInt("machine.generator")))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
