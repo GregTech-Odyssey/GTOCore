@@ -45,7 +45,7 @@ public final class DyeRecipes {
                 .EUt(2)
                 .save();
 
-        if (Mods.biomeswevegone()) {
+        if (Mods.BIOMESWEVEGONE.isLoaded()) {
             BWG.put("white", true);
             BWG.put("orange", false);
             BWG.put("magenta", false);

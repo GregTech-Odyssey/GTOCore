@@ -1,12 +1,9 @@
 package com.gtocore.common.network;
 
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
-
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.network.NetworkPack;
 import com.gtolib.api.player.IEnhancedPlayer;
 
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +23,6 @@ import appeng.api.storage.MEStorage;
 import appeng.me.helpers.PlayerSource;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
 import de.mari_023.ae2wtlib.wct.CraftingTerminalHandler;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -50,17 +46,7 @@ public final class ClientMessage {
 
     private static void handle(String channel, @NotNull ServerPlayer serverPlayer, FriendlyByteBuf data) {
         switch (channel) {
-            case "key" -> KeyMessage.pressAction(serverPlayer, data.readVarInt());
             case "shiftKeypress" -> IEnhancedPlayer.of(serverPlayer).getPlayerData().shiftState = data.readBoolean();
-            case "pattern_buffer_index" -> {
-                if (serverPlayer.containerMenu instanceof ModularUIContainer container) {
-                    for (var widget : container.getModularUI().mainGroup.widgets) {
-                        if (widget instanceof FancyMachineUIWidget uiWidget && uiWidget.getMainPage() instanceof MEPatternBufferPartMachine machine) {
-                            machine.onMouseClicked(data.readVarInt());
-                        }
-                    }
-                }
-            }
             case "emiStackInteraction" -> {
                 if (data.readVarInt() != serverPlayer.containerMenu.containerId) return;
                 MEStorage ae = null;

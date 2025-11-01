@@ -1,5 +1,6 @@
 package com.gtocore.common.network;
 
+import com.gtolib.api.network.NetworkPack;
 import com.gtolib.api.player.IEnhancedPlayer;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
@@ -12,18 +13,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-// todo 重构
-@Deprecated
-final class KeyMessage {
+public final class KeyMessage {
 
-    static void pressAction(ServerPlayer player, int type) {
+    public static void init() {}
+
+    public static final NetworkPack NETWORK_PACK = NetworkPack.registerC2S(5, (p, b) -> pressAction(p, b.readVarInt()));
+
+    private static void pressAction(ServerPlayer player, int type) {
         Level level = player.level();
         if (!level.hasChunkAt(player.blockPosition())) {
             return;
         }
         switch (type) {
             case 0 -> handleFlightSpeed(player);
-            // case 1 -> toggleNightVision(player); //已改为纯客户端实现
             case 2 -> upgradeToolSpeed(player);
             case 3 -> drift(player);
         }
@@ -51,20 +53,6 @@ final class KeyMessage {
             }
         }
     }
-
-    // 已改为纯客户端实现
-    // private static void toggleNightVision(Player player) {
-    // CompoundTag data = player.getPersistentData();
-    // boolean nightVisionEnabled = data.getBoolean("night_vision");
-    // data.putBoolean("night_vision", !nightVisionEnabled);
-    //
-    // if (nightVisionEnabled) {
-    // player.removeEffect(MobEffects.NIGHT_VISION);
-    // player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.disabled"), true);
-    // } else {
-    // player.displayClientMessage(Component.translatable("metaarmor.message.nightvision.enabled"), true);
-    // }
-    // }
 
     private static void upgradeToolSpeed(Player player) {
         ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);

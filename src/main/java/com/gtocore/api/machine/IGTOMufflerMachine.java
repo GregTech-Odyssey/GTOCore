@@ -2,10 +2,10 @@ package com.gtocore.api.machine;
 
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.config.GTOConfig;
+import com.gtocore.data.IdleReason;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
@@ -38,7 +38,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     default boolean beforeWorking(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
         var tier = getTier();
         if (controller instanceof WorkableElectricMultiblockMachine machine && machine.getTier() < tier) {
-            IdleReason.setIdleReason(machine, IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
+            IdleReason.setIdleReason(machine, IdleReason.MUFFLER_NOT_SUPPORTED);
             return false;
         }
         if (isMufflerPulseDisabled()) return true;

@@ -96,7 +96,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         if (GTCEu.isProd()) {
             list.add(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
         }
-        if (Mods.sophisticatedbackpacks()) {
+        if (Mods.SOPHISTICATEDBACKPACKS.isLoaded()) {
             list.add(new EmiPluginContainer(new net.p3pp3rf1y.sophisticatedbackpacks.compat.recipeviewers.emi.BackpackEmiPlugin(), "backpack"));
         }
         list.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Const.MOD_ID));
@@ -115,7 +115,7 @@ public final class GTEMIPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
-        if (Mods.chisel()) ChiselRecipe.register(registry);
+        if (Mods.CHISEL.isLoaded()) ChiselRecipe.register(registry);
 
         registry.addCategory(MultiblockInfoEmiRecipe.CATEGORY);
         registry.addCategory(OreProcessingEmiCategory.CATEGORY);
