@@ -2,6 +2,7 @@ package com.gtocore.mixin.gtm.machine;
 
 import com.gtocore.api.machine.IGTOMufflerMachine;
 
+import com.gtocore.common.item.ItemMap;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IAirScrubberInteractor;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
@@ -189,7 +190,8 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     public boolean gtolib$checkAshFull() {
-        return inventory.getStackInSlot(inventory.getSlots() - 1).getCount() > 63;
+        var item=inventory.getStackInSlot(inventory.getSlots() - 1);
+        return item.getCount()==64 || item.getItem() != ItemMap.ASH.getItem();
     }
 
     @Override
