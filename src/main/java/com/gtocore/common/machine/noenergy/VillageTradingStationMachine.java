@@ -91,7 +91,6 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            // 启动服务器端定时更新（每刻执行）
             tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
         }
         // 初始化村民交易数据
@@ -115,7 +114,7 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
      */
     private void tickUpdate() {
         if (getOffsetTimer() % 100 != 0 || isRemote()) {
-            return; // 每100刻（约5秒）执行一次，且只在服务器端运行
+            return;
         }
 
         int daytime = getOffsetTimer() % 24000;
@@ -128,58 +127,41 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     }
 
     /**
-     * 直接执行交易：检查输入物品，扣除材料，添加产物
+     * 执行交易
      */
     private void executeTrades() {
         for (int slot = 0; slot < 9; slot++) {
             // 跳过未锁定、未启动或无配方的村民
-            if (!isLocked(slot) || !isStartUp(slot) || VillagersDataset[slot] == null) {
-                continue;
-            }
+            if (!isLocked(slot) || !isStartUp(slot) || VillagersDataset[slot] == null) continue;
 
             List<VillagerRecipe> recipes = VillagersDataset[slot].recipes;
-            if (recipes.isEmpty() || selected[slot] >= recipes.size()) {
-                continue;
-            }
+            if (recipes.isEmpty() || selected[slot] >= recipes.size()) continue;
 
             VillagerRecipe trade = recipes.get(selected[slot]);
             int remainingUses = trade.maxUses - trade.uses;
-            if (remainingUses <= 0) {
-                continue;
+            if (remainingUses <= 0) continue;
+
+            // 计算输入物品能支持的最大交易次数（考虑两个输入物品堆）
+            int maxPossibleTrades = getMaxPossibleTrades(input, trade.buy, trade.buyB);
+            if (maxPossibleTrades <= 0) continue;
+
+            // 考虑交易倍数（批量处理）
+            int actualTrades = Math.min((maxPossibleTrades / tradingMultiple), remainingUses) * tradingMultiple;
+            if (actualTrades <= 0) continue;
+
+            // 扣除输入物品（总数量 = 单次所需 * 实际交易次数）
+            deductItems(input, trade.buy, actualTrades);
+            if (!trade.buyB.isEmpty()) {
+                deductItems(input, trade.buyB, actualTrades);
             }
 
-            for (int i = 0; i < remainingUses; i++) {
-                // 1. 检查输入物品是否足够（考虑交易倍数）
-                int requiredBuyCount = trade.buy.getCount() * tradingMultiple;
-                int requiredBuyBCount = trade.buyB.isEmpty() ? 0 : trade.buyB.getCount() * tradingMultiple;
+            // 添加输出物品（总数量 = 单次产出 * 实际交易次数）
+            ItemStack outputStack = trade.sell.copy();
+            outputStack.setCount(trade.sell.getCount() * actualTrades);
+            addItems(output, outputStack);
 
-                boolean hasEnoughBuy = hasEnoughItems(input, trade.buy, requiredBuyCount);
-                boolean hasEnoughBuyB = requiredBuyBCount == 0 || hasEnoughItems(input, trade.buyB, requiredBuyBCount);
-
-                if (!hasEnoughBuy || !hasEnoughBuyB) {
-                    break; // 材料不足，跳过交易
-                }
-
-                // 再次确认材料是否足够maxPossibleTrades次
-                if (!hasEnoughItems(input, trade.buy, trade.buy.getCount() * tradingMultiple) ||
-                        (requiredBuyBCount > 0 && !hasEnoughItems(input, trade.buyB, trade.buyB.getCount() * tradingMultiple))) {
-                    continue;
-                }
-
-                // 3. 扣除输入物品
-                deductItems(input, trade.buy, trade.buy.getCount() * tradingMultiple);
-                if (requiredBuyBCount > 0) {
-                    deductItems(input, trade.buyB, trade.buyB.getCount() * tradingMultiple);
-                }
-
-                // 4. 添加输出物品
-                ItemStack outputStack = trade.sell.copy();
-                outputStack.setCount(outputStack.getCount() * tradingMultiple);
-                addItems(output, outputStack);
-
-                // 5. 更新交易次数
-                trade.uses++;
-            }
+            // 更新交易次数
+            trade.uses += actualTrades / tradingMultiple;
         }
     }
 
@@ -188,42 +170,49 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     /////////////////////////////////////
 
     /**
-     * 检查物品处理器中是否有足够数量的目标物品
-     * 
-     * @param handler       物品处理器（如input）
-     * @param target        目标物品
-     * @param requiredCount 所需数量
-     * @return 是否足够
+     * 计算两个输入物品堆能支持的最大交易次数
+     * 逻辑：分别计算每个输入物品能支持的次数，取最小值（同时不超过剩余可交易次数）
+     *
+     * @param input 输入物品处理器
+     * @param buy   第一个输入物品
+     * @param buyB  第二个输入物品
+     * @return 最大可执行的交易次数
      */
-    private boolean hasEnoughItems(NotifiableItemStackHandler handler, ItemStack target, int requiredCount) {
-        if (target.isEmpty() || requiredCount <= 0) {
-            return true;
-        }
-        int total = 0;
-        for (int i = 0; i < handler.getSlots(); i++) {
-            ItemStack stack = handler.getStackInSlot(i);
-            if (ItemStack.isSameItemSameTags(stack, target)) {
-                total += stack.getCount();
-                if (total >= requiredCount) {
-                    return true;
-                }
+    private int getMaxPossibleTrades(NotifiableItemStackHandler input, ItemStack buy, ItemStack buyB) {
+        // 1. 计算第一个输入物品（buy）能支持的次数
+        int totalBuy = 0;
+        for (int i = 0; i < input.getSlots(); i++) {
+            ItemStack stack = input.getStackInSlot(i);
+            if (ItemStack.isSameItemSameTags(stack, buy)) {
+                totalBuy += stack.getCount();
             }
         }
-        return false;
+        int maxByBuy = buy.getCount() > 0 ? totalBuy / buy.getCount() : Integer.MAX_VALUE; // 除以单次所需，向下取整
+
+        // 2. 计算第二个输入物品（buyB）能支持的次数（若不为空）
+        int maxByBuyB = Integer.MAX_VALUE;
+        if (!buyB.isEmpty() && buyB.getCount() > 0) {
+            int totalBuyB = 0;
+            for (int i = 0; i < input.getSlots(); i++) {
+                ItemStack stack = input.getStackInSlot(i);
+                if (ItemStack.isSameItemSameTags(stack, buyB)) {
+                    totalBuyB += stack.getCount();
+                }
+            }
+            maxByBuyB = totalBuyB / buyB.getCount(); // 除以单次所需，向下取整
+        }
+
+        // 3. 最大可执行次数 = 两个物品支持次数的最小值，且不超过剩余可交易次数
+        return Math.min(Math.min(maxByBuy, maxByBuyB), 128);
     }
 
     /**
      * 从物品处理器中扣除指定数量的物品
-     * 
-     * @param handler 物品处理器（如input）
-     * @param target  目标物品
-     * @param count   扣除数量
      */
     private void deductItems(NotifiableItemStackHandler handler, ItemStack target, int count) {
-        if (target.isEmpty() || count <= 0) {
-            return;
-        }
-        int remaining = count;
+        if (target.isEmpty() || count <= 0) return;
+
+        int remaining = target.getCount() * count;
         for (int i = 0; i < handler.getSlots() && remaining > 0; i++) {
             ItemStack stack = handler.getStackInSlot(i);
             if (ItemStack.isSameItemSameTags(stack, target)) {
@@ -239,24 +228,17 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
 
     /**
      * 向物品处理器中添加物品
-     *
-     * @param handler 物品处理器（如output）
-     * @param stack   要添加的物品
      */
     private void addItems(NotifiableItemStackHandler handler, ItemStack stack) {
-        if (stack.isEmpty()) {
-            return;
-        }
-        ItemStack remaining = stack.copy();
-        int maxStackSize = remaining.getMaxStackSize(); // 获取该物品的最大堆叠数
+        if (stack.isEmpty()) return;
 
-        // 第一步：尝试堆叠到已有相同物品的槽位
+        ItemStack remaining = stack.copy();
+        int maxStackSize = remaining.getMaxStackSize();
+
+        // 第一步：堆叠到已有相同物品的槽位
         for (int i = 0; i < handler.getSlots() && !remaining.isEmpty(); i++) {
             ItemStack existing = handler.getStackInSlot(i);
-            if (existing.isEmpty()) {
-                continue; // 空槽位留到第二步处理
-            }
-            // 仅堆叠相同物品且未达最大堆叠
+            if (existing.isEmpty()) continue;
             if (ItemStack.isSameItemSameTags(existing, remaining) && existing.getCount() < maxStackSize) {
                 int addAmount = Math.min(remaining.getCount(), maxStackSize - existing.getCount());
                 existing.grow(addAmount);
@@ -264,28 +246,20 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
             }
         }
 
-        // 第二步：处理剩余物品（拆分到空槽位，确保不超过最大堆叠）
+        // 第二步：拆分剩余物品到空槽位
         while (!remaining.isEmpty()) {
             boolean foundSlot = false;
-            // 遍历所有槽位找空槽
             for (int i = 0; i < handler.getSlots() && !remaining.isEmpty(); i++) {
-                ItemStack existing = handler.getStackInSlot(i);
-                if (existing.isEmpty()) {
-                    // 计算当前空槽能放的最大数量（不超过物品最大堆叠）
+                if (handler.getStackInSlot(i).isEmpty()) {
                     int putAmount = Math.min(remaining.getCount(), maxStackSize);
-                    // 创建新的物品栈放入空槽
                     ItemStack toPut = remaining.copy();
                     toPut.setCount(putAmount);
                     handler.setStackInSlot(i, toPut);
-                    // 减少剩余数量
                     remaining.shrink(putAmount);
                     foundSlot = true;
                 }
             }
-            // 如果没找到空槽且还有剩余，跳出循环（无法继续放置）
-            if (!foundSlot) {
-                break;
-            }
+            if (!foundSlot) break; // 无空槽位，无法继续放置
         }
     }
 
@@ -400,7 +374,7 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
 
-        // 交易控制页（显示村民和配方）
+        // 交易控制页
         sideTabs.attachSubTab(new IFancyUIProvider() {
 
             @Override
@@ -433,7 +407,7 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
             private void addDisplayTextTitle(List<Component> textList) {
                 int lockedCount = 0;
                 for (int i = 0; i < 9; i++) if (isLocked(i)) lockedCount++;
-                textList.add(Component.literal(String.valueOf(lockedCount)));
+                textList.add(Component.literal("Locked villagers: " + lockedCount));
             }
 
             private @NotNull WidgetGroup getLockButton() {
@@ -496,16 +470,14 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
                 return group;
             }
 
-            // 显示输入输出槽位（简化为前8个槽位预览）
+            // 输入输出槽位预览
             private Widget getInputOutputSlots() {
                 WidgetGroup group = new WidgetGroup(10, 100, 240, 40);
-                // 输入槽位预览
                 group.addWidget(new LabelWidget(0, 0, Component.literal("Input:")));
                 for (int i = 0; i < 4; i++) {
                     group.addWidget(new SlotWidget(input, i, 40 + i * 18, 0, true, false)
                             .setBackground(GuiTextures.SLOT));
                 }
-                // 输出槽位预览
                 group.addWidget(new LabelWidget(0, 20, Component.literal("Output:")));
                 for (int i = 0; i < 4; i++) {
                     group.addWidget(new SlotWidget(output, i, 40 + i * 18, 20, false, true)
@@ -587,7 +559,7 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
 
         private int restocksToday;
         private int maxRestocksToday;
-        private List<VillagerRecipe> recipes;
+        private final List<VillagerRecipe> recipes;
 
         public VillagerTradeRecord(int restocksToday, int maxRestocksToday, List<VillagerRecipe> recipes) {
             this.restocksToday = restocksToday;
