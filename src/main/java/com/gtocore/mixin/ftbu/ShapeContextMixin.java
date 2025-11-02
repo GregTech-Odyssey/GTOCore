@@ -48,19 +48,20 @@ public class ShapeContextMixin {
         Item item = stack.getItem();
         var diff = GTOCore.diffInt("player.ultimine");
         int base = 128 >> diff;
-        if (item instanceof SpellBook spellBook) {
-            base <<= spellBook.tier.value;
-            ret = Math.min(base, maxBlocks);
-        } else if (item instanceof IGTTool gtTool) {
-            String type = gtTool.getToolType().name;
-            if (type.contains("_vajra") || (original.getBlock() instanceof OreBlock && ("mining_hammer".equals(type) || type.contains("_drill"))) || (original.getSoundType() == SoundType.WOOD && "lv_chainsaw".equals(type)))
-                base <<= 2;
-            if (gtTool.isElectric()) base *= 1 << (gtTool.getElectricTier());
-            ret = Math.min(base, maxBlocks);
-        } else if (item instanceof DiggerItem) {
-            ret = Math.min(64 >> diff, maxBlocks);
-        } else {
-            ret = 1;
+        switch (item) {
+            case SpellBook spellBook -> {
+                base <<= spellBook.tier.value;
+                ret = Math.min(base, maxBlocks);
+            }
+            case IGTTool gtTool -> {
+                String type = gtTool.getToolType().name;
+                if (type.contains("_vajra") || (original.getBlock() instanceof OreBlock && ("mining_hammer".equals(type) || type.contains("_drill"))) || (original.getSoundType() == SoundType.WOOD && "lv_chainsaw".equals(type)))
+                    base <<= 2;
+                if (gtTool.isElectric()) base *= 1 << (gtTool.getElectricTier());
+                ret = Math.min(base, maxBlocks);
+            }
+            case DiggerItem diggerItem -> ret = Math.min(64 >> diff, maxBlocks);
+            default -> ret = 1;
         }
         return ret;
     }
