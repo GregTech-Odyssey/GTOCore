@@ -111,7 +111,7 @@ fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, 
 class MultiPageDSLBuilder {
     private val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
     fun page(box: VBoxBuilder.() -> Unit) {
-        pageSuppliers.add({ box })
+        pageSuppliers.add { box }
     }
     fun build(): List<Supplier<VBoxBuilder.() -> Unit>> = pageSuppliers
 }

@@ -183,7 +183,7 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
 
         override fun getScrollbarPosition(): Int {
             // 滚动条位置：内容宽度的右侧 + 10像素边距
-            return this.width / 2 + getRowWidth() / 2 + 10
+            return this.width / 2 + rowWidth / 2 + 10
         }
 
         class MessageEntry(private val message: ClientForge.MessageDefinition, private val config: ClientForge.MessageConfig) : Entry<MessageEntry>() {

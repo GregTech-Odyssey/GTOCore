@@ -17,7 +17,6 @@ import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.VeinedVeinGenerat
 import com.gregtechceu.gtceu.common.data.GTBedrockFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTOres;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
@@ -26,7 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
@@ -41,7 +40,7 @@ import static com.gtolib.api.data.GTOWorldGenLayers.ALL_LAYER;
 public final class GTOOres {
 
     private static final Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new O2OOpenCacheHashMap<>();
-    public static final Map<ResourceLocation, Object2IntOpenHashMap<Material>> ALL_ORES = new O2OOpenCacheHashMap<>();
+    public static final Map<ResourceLocation, Reference2IntOpenHashMap<Material>> ALL_ORES = new O2OOpenCacheHashMap<>();
 
     @SuppressWarnings("ConstantConditions")
     public static void init() {
@@ -816,7 +815,7 @@ public final class GTOOres {
         ResourceLocation id = GTCEu.id(name);
         GTOreDefinition definition = GTOres.create(id, config);
         List<VeinGenerator.VeinEntry> entries = definition.veinGenerator().getAllEntries();
-        Object2IntOpenHashMap<Material> materialMap = new O2IOpenCacheHashMap<>();
+        Reference2IntOpenHashMap<Material> materialMap = new Reference2IntOpenHashMap<>();
         List<WeightedMaterial> materials = new ArrayList<>(entries.size());
         for (VeinGenerator.VeinEntry entry : entries) {
             Material material = entry.vein().right().orElse(null);
@@ -827,7 +826,7 @@ public final class GTOOres {
             }
         }
         for (ResourceKey<Level> dimension : definition.dimensionFilter()) {
-            Object2IntOpenHashMap<Material> materialIntegerMap = ALL_ORES.computeIfAbsent(dimension.location(), k -> new O2IOpenCacheHashMap<>());
+            var materialIntegerMap = ALL_ORES.computeIfAbsent(dimension.location(), k -> new Reference2IntOpenHashMap<>());
             materialMap.forEach((material, amount) -> materialIntegerMap.mergeInt(material, amount, Math::max));
             ALL_ORES.put(dimension.location(), materialIntegerMap);
         }
@@ -837,7 +836,7 @@ public final class GTOOres {
 
     public static Material selectMaterial(ResourceLocation dimension) {
         MaterialSelector selector = RANDOM_ORES.computeIfAbsent(dimension, k -> {
-            Object2IntOpenHashMap<Material> ores = ALL_ORES.get(k);
+            var ores = ALL_ORES.get(k);
             if (ores == null) return null;
             return new MaterialSelector(ores);
         });
@@ -851,11 +850,11 @@ public final class GTOOres {
         private final List<Integer> cumulativeWeights;
         private int totalWeight;
 
-        private MaterialSelector(Object2IntOpenHashMap<Material> materials) {
+        private MaterialSelector(Reference2IntOpenHashMap<Material> materials) {
             this.materialList = new ArrayList<>(materials.keySet());
             this.cumulativeWeights = new ArrayList<>();
             this.totalWeight = 0;
-            for (Integer weight : materials.values()) {
+            for (int weight : materials.values()) {
                 this.totalWeight += weight;
                 this.cumulativeWeights.add(this.totalWeight);
             }

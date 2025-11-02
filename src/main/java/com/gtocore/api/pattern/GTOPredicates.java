@@ -195,7 +195,7 @@ public final class GTOPredicates {
             if (block == GTOBlocks.FISSION_FUEL_COMPONENT.get()) {
                 integer[0]++;
                 integer[2] += GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get());
-            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 1) {
+            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 0) {
                 integer[1]++;
                 integer[3] += GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
             }

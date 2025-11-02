@@ -1,4 +1,4 @@
-package com.gtocore.common.network
+package com.gtocore.api.misc
 
 import com.gtocore.integration.ae.WirelessMachine
 

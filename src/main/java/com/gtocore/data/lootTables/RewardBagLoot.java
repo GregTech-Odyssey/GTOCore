@@ -23,12 +23,13 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
 import org.jetbrains.annotations.NotNull;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.api.GTValues.LV;
+import static com.gregtechceu.gtceu.api.GTValues.ULV;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOLoots.addToot;
 import static com.gtocore.common.data.GTOMaterials.RedstoneAlloy;
-import static com.gtocore.data.lootTables.GTOLootTool.LootRegistrationTool.*;
+import static com.gtocore.data.lootTables.GTOLootTool.LootRegistrationTool.getLootItem;
 import static net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly;
 import static net.minecraft.world.level.storage.loot.providers.number.UniformGenerator.between;
 

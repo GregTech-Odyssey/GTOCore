@@ -17,6 +17,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public final class SensorPartMachine extends MultiblockPartMachine {
     private float max;
     @Persisted
     private boolean isInverted;
+    @Getter
     @Persisted
     private int redstoneSignalOutput;
 
@@ -124,9 +126,5 @@ public final class SensorPartMachine extends MultiblockPartMachine {
 
     private void setInverted(final boolean isInverted) {
         this.isInverted = isInverted;
-    }
-
-    public int getRedstoneSignalOutput() {
-        return this.redstoneSignalOutput;
     }
 }

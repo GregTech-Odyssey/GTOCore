@@ -16,6 +16,8 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.level.material.Fluid;
 
+import lombok.Getter;
+
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -25,6 +27,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
 
     private final int t;
+    @Getter
     private final int basis;
 
     public INFFluidDrillMachine(MetaMachineBlockEntity holder, int tier, int basis) {
@@ -75,9 +78,5 @@ public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
     @Override
     public int getTier() {
         return this.t;
-    }
-
-    public int getBasis() {
-        return this.basis;
     }
 }

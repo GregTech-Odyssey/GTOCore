@@ -3,6 +3,7 @@ package com.gtocore.api.travel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 public enum TravelMode implements StringRepresentable {
@@ -12,6 +13,7 @@ public enum TravelMode implements StringRepresentable {
     FILTER_BY_BLOCK("filter_by_block", Component.translatable("gtocore.travel.mode.filter_by_block"));
 
     private final String name;
+    @Getter
     private final Component displayName;
 
     TravelMode(String name, Component displayName) {
@@ -22,10 +24,6 @@ public enum TravelMode implements StringRepresentable {
     @Override
     public @NotNull String getSerializedName() {
         return name;
-    }
-
-    public Component getDisplayName() {
-        return displayName;
     }
 
     public TravelMode next() {

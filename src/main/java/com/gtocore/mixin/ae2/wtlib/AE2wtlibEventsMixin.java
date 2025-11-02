@@ -1,7 +1,12 @@
 package com.gtocore.mixin.ae2.wtlib;
 
-import com.gtocore.common.network.ServerMessage;
+import com.gtocore.client.Message;
 import com.gtocore.config.GTOConfig;
+
+import com.gtolib.api.network.NetworkPack;
+import com.gtolib.utils.GTOUtils;
+
+import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.server.level.ServerPlayer;
 
@@ -26,6 +31,9 @@ import java.util.concurrent.Future;
 
 @Mixin(AE2wtlibEvents.class)
 public class AE2wtlibEventsMixin {
+
+    @Unique
+    private static final NetworkPack PICK_CRAFT_TOAST = NetworkPack.registerS2C(11, GTCEu.isClientSide() ? (p, b) -> Message.pickCraftToast(b) : GTOUtils.NOOP_BI_CONSUMER);
 
     @Redirect(method = "pickBlock(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/item/ItemStack;)V",
               at = @At(value = "INVOKE", target = "Lappeng/api/storage/MEStorage;extract(Lappeng/api/stacks/AEKey;JLappeng/api/config/Actionable;Lappeng/api/networking/security/IActionSource;)J", remap = false),
@@ -76,10 +84,10 @@ public class AE2wtlibEventsMixin {
 
     @Unique
     private static void gto$packet(ServerPlayer player, AEKey what, int code) {
-        ServerMessage.send(player.getServer(), player, "pickCraftToast",
+        PICK_CRAFT_TOAST.send(
                 buf -> {
                     AEKey.writeKey(buf, what);
                     buf.writeInt(code);
-                });
+                }, player);
     }
 }

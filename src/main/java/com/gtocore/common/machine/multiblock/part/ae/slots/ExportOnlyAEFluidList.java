@@ -20,11 +20,13 @@ import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.AEFluidKey;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Supplier;
 
+@Getter
 public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfigurableSlotList {
 
     @Persisted
@@ -237,9 +239,5 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
         public boolean supportsFill(int tank) {
             return false;
         }
-    }
-
-    public ExportOnlyAEFluidSlot[] getInventory() {
-        return this.inventory;
     }
 }

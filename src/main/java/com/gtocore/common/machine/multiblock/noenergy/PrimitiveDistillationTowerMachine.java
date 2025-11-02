@@ -51,6 +51,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,13 +78,16 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     }
 
     private static final Item COAL_DUST = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Coal);
+    @Getter
     @Persisted
     @DescSynced
     @RequireRerender
     private int heat = 298;
+    @Getter
     @DescSynced
     @RequireRerender
     private WaterState waterState = WaterState.NO_WATER;
+    @Getter
     @DescSynced
     @RequireRerender
     private int waterLevel = 0; // Used for rendering water level in the machine
@@ -398,24 +402,12 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         return false;
     }
 
-    public WaterState getWaterState() {
-        return waterState;
-    }
-
     public static int getMaxHeat() {
         return EXPLOSION;
     }
 
     public static int getMaxWaterUsage() {
         return MAX_WATER_USAGE;
-    }
-
-    public int getHeat() {
-        return heat;
-    }
-
-    public int getWaterLevel() {
-        return waterLevel;
     }
 
     private static final class DistillationTowerLogic extends RecipeLogic {

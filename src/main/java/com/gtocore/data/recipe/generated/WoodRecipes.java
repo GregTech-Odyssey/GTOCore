@@ -336,7 +336,7 @@ public final class WoodRecipes {
                 .fenceGate(BotaniaBlocks.dreamwoodFenceGate.asItem(), "dreamwood_fence_gate")
                 .stairs(BotaniaBlocks.dreamwoodPlankStairs.asItem(), "dreamwood_planks_stairs")
                 .build());
-        if (Mods.biomesoplenty()) {
+        if (Mods.BIOMESOPLENTY.isLoaded()) {
             entries.add(new WoodTypeEntry.Builder("biomesoplenty", "fir")
                     .planks(BOPItems.FIR_PLANKS, "fir_planks")
                     .log(BOPItems.FIR_LOG)
@@ -585,7 +585,7 @@ public final class WoodRecipes {
                     .pressurePlate(BOPItems.MAGIC_PRESSURE_PLATE, "magic_pressure_plate")
                     .build());
         }
-        if (Mods.biomeswevegone()) {
+        if (Mods.BIOMESWEVEGONE.isLoaded()) {
             entries.add(new WoodTypeEntry.Builder("biomeswevegone", "sakura")
                     .planks(BWGWood.SAKURA.planks().asItem(), "sakura_planks")
                     .log(BWGWood.SAKURA.logstem().asItem())
@@ -1092,7 +1092,7 @@ public final class WoodRecipes {
         add("ars_nouveau", "purple_archwood", "bastion_pod");
         add("ars_nouveau", "green_archwood", "mendosteen_pod");
 
-        if (Mods.biomesoplenty()) {
+        if (Mods.BIOMESOPLENTY.isLoaded()) {
             add("biomesoplenty", "fir");
             add("biomesoplenty", "redwood");
             add("biomesoplenty", "mahogany");
@@ -1105,7 +1105,7 @@ public final class WoodRecipes {
             add("biomesoplenty", "magic");
         }
 
-        if (Mods.biomeswevegone()) {
+        if (Mods.BIOMESWEVEGONE.isLoaded()) {
             add("biomeswevegone", "skyris");
             add("biomeswevegone", "white_mangrove");
             add("biomeswevegone", "willow");

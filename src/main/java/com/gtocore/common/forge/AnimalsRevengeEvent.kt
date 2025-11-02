@@ -264,7 +264,7 @@ object AnimalsRevengeEvent {
             // 烹饪派生
             fillCookedOutputs(level.recipeManager, level.registryAccess(), base, derived)
             // 合成派生（允许使用由基础烹饪得到的物品）
-            val cookedFromBase = ObjectOpenHashSet<Item>(derived)
+            val cookedFromBase = ObjectOpenHashSet(derived)
             cookedFromBase.removeAll(base)
             fillCraftingOutputs(level.recipeManager, level.registryAccess(), base, cookedFromBase, derived)
         }

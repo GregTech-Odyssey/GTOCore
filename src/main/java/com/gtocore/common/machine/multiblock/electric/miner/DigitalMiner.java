@@ -42,6 +42,8 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -63,23 +65,31 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     @Persisted
     @DescSynced
     private int zRadialLength;
+    @Getter
     @Persisted
     @DescSynced
     private int xOffset;
+    @Getter
     @Persisted
     @DescSynced
     private int zOffset;
 
+    @Setter
+    @Getter
     @Persisted
     @DescSynced
     private int minHeight;
+    @Setter
+    @Getter
     @Persisted
     @DescSynced
     private int maxHeight;
+    @Getter
     @Persisted
     private int silkLevel;
     @DescSynced
     private long energyPerTickBase = 0L;
+    @Getter
     @DescSynced
     private int parallelMining = 0;
     @DescSynced
@@ -87,6 +97,8 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     @DescSynced
     @Persisted
     private int maxRadius = 1;
+    // ===================== Getter/Setter =====================
+    @Getter
     @DescSynced
     @Persisted
     private boolean showRange = false;
@@ -94,6 +106,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     protected ISubscription energySubs;
 
     protected Filter<?, ?> filter;
+    @Getter
     private long energyPerTick;
 
     // ===================== UI组件 =====================
@@ -429,15 +442,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
         return level.getSignal(frontPos, getFrontFacing()) | level.getSignal(underPos, Direction.UP);
     }
 
-    // ===================== Getter/Setter =====================
-    public boolean isShowRange() {
-        return showRange;
-    }
-
-    public long getEnergyPerTick() {
-        return energyPerTick;
-    }
-
     public int getMinerXRadius() {
         return xRadialLength;
     }
@@ -454,41 +458,9 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
         this.zRadialLength = minerRadius;
     }
 
-    public int getMinHeight() {
-        return minHeight;
-    }
-
-    public int getXOffset() {
-        return xOffset;
-    }
-
-    public int getZOffset() {
-        return zOffset;
-    }
-
-    public void setMinHeight(int minHeight) {
-        this.minHeight = minHeight;
-    }
-
-    public int getMaxHeight() {
-        return maxHeight;
-    }
-
-    public void setMaxHeight(int maxHeight) {
-        this.maxHeight = maxHeight;
-    }
-
-    public int getSilkLevel() {
-        return silkLevel;
-    }
-
     @Override
     public DigitalMinerLogic getRecipeLogic() {
         return (DigitalMinerLogic) super.getRecipeLogic();
-    }
-
-    public int getParallelMining() {
-        return parallelMining;
     }
 
     public int getSpeed() {

@@ -29,6 +29,7 @@ import earth.terrarium.adastra.api.planets.PlanetApi;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,11 +50,8 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
 
+    @Getter
     private boolean dirty = false;
-
-    public boolean isDirty() {
-        return dirty;
-    }
 
     @Override
     public void markDirty(boolean dirty) {

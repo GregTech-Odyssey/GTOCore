@@ -23,17 +23,11 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMachineLife {
-
-    public boolean isLocked() {
-        return isLocked;
-    }
-
-    public void setLocked(boolean locked) {
-        isLocked = locked;
-    }
 
     public static final int CATALYST_SLOT = 0;
     public static final int EMPTY_SLOT = 1;
@@ -43,6 +37,8 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
 
     @Persisted
     private final AnalyzeHolder heldItems;
+    @Setter
+    @Getter
     @Persisted
     @DescSynced
     private boolean isLocked;

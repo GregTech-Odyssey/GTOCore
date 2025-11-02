@@ -6,11 +6,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
+import lombok.Getter;
+
 import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 @ParametersAreNonnullByDefault
 public final class KineticRotorItem extends Item {
 
@@ -30,17 +33,5 @@ public final class KineticRotorItem extends Item {
         super.appendHoverText(itemstack, world, list, flag);
         list.add(Component.translatable("gtocore.tooltip.item.kinetic_rotor.min", MinWind));
         list.add(Component.translatable("gtocore.tooltip.item.kinetic_rotor.max", MaxWind));
-    }
-
-    public int getMinWind() {
-        return this.MinWind;
-    }
-
-    public int getMaxWind() {
-        return this.MaxWind;
-    }
-
-    public int getMaterial() {
-        return this.material;
     }
 }

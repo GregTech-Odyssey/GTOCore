@@ -7,11 +7,13 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 
 public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements IVacuumMachine {
 
     @Persisted
     private int vacuumTier;
+    @Getter
     private TickableSubscription tickSubs;
 
     public SteamVacuumPumpMachine(MetaMachineBlockEntity holder, boolean isHighPressure, Object... args) {
@@ -55,9 +57,5 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
     @Override
     public int getVacuumTier() {
         return this.vacuumTier;
-    }
-
-    public TickableSubscription getTickSubs() {
-        return this.tickSubs;
     }
 }

@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -22,7 +21,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 
 import java.util.Collections;
 import java.util.List;
@@ -184,17 +183,17 @@ final class CosmosSimulation {
                 .addData("tier", 10)
                 .save();
 
-        Int2ObjectOpenHashMap<Object2IntOpenHashMap<Material>> dustContent = new Int2ObjectOpenHashMap<>();
-        Int2ObjectOpenHashMap<Object2IntOpenHashMap<Fluid>> fluidContent = new Int2ObjectOpenHashMap<>();
+        Int2ObjectOpenHashMap<Reference2IntOpenHashMap<Material>> dustContent = new Int2ObjectOpenHashMap<>();
+        Int2ObjectOpenHashMap<Reference2IntOpenHashMap<Fluid>> fluidContent = new Int2ObjectOpenHashMap<>();
 
-        for (Map.Entry<ResourceLocation, Object2IntOpenHashMap<Material>> entry : GTOOres.ALL_ORES.entrySet()) {
+        for (var entry : GTOOres.ALL_ORES.entrySet()) {
             ResourceLocation dimension = entry.getKey();
             if (dimension.equals(GTODimensions.THE_NETHER)) continue;
             int tier = GTODimensions.getTier(dimension);
             if (tier == 0) tier = 1;
             if (tier > 9) tier = 9;
-            Object2IntOpenHashMap<Material> materialMap = new O2IOpenCacheHashMap<>();
-            Object2IntOpenHashMap<Fluid> fluid = new O2IOpenCacheHashMap<>();
+            Reference2IntOpenHashMap<Material> materialMap = new Reference2IntOpenHashMap<>();
+            Reference2IntOpenHashMap<Fluid> fluid = new Reference2IntOpenHashMap<>();
             RecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(dimension.getPath())
                     .addData("tier", tier)
                     .inputFluids(GTOMaterials.CosmicElement.getFluid(1024000))
@@ -208,36 +207,36 @@ final class CosmosSimulation {
                 builder.outputFluids(GTOMaterials.SpaceTime.getFluid(tier << 4));
             }
 
-            for (Object2IntOpenHashMap.Entry<Material> ore : entry.getValue().object2IntEntrySet()) {
-                Object2IntOpenHashMap<Material> map = getOreMaterial(ore.getKey(), ore.getIntValue());
+            for (var ore : entry.getValue().reference2IntEntrySet()) {
+                var map = getOreMaterial(ore.getKey(), ore.getIntValue());
                 if (map == null) continue;
-                for (Object2IntOpenHashMap.Entry<Material> material : getOreMaterial(map).object2IntEntrySet()) {
+                for (var material : getOreMaterial(map).reference2IntEntrySet()) {
                     materialMap.merge(material.getKey(), (int) (Math.sqrt(material.getIntValue() << 20)) << 8, (a, b) -> (int) (a + b / 1.5));
                 }
             }
             for (FluidStack fluidStack : GTOBedrockFluids.ALL_BEDROCK_FLUID.getOrDefault(GTODimensions.getDimensionKey(entry.getKey()), Collections.emptyList())) {
                 fluid.merge(fluidStack.getFluid(), (int) Math.sqrt(fluidStack.getAmount() << 16) << 8, Integer::sum);
             }
-            materialMap.putAll(dustContent.getOrDefault(tier, new O2IOpenCacheHashMap<>()));
-            Object2IntOpenHashMap<Item> dust = new O2IOpenCacheHashMap<>();
-            for (Object2IntOpenHashMap.Entry<Material> material : materialMap.object2IntEntrySet()) {
+            materialMap.putAll(dustContent.getOrDefault(tier, new Reference2IntOpenHashMap<>()));
+            Reference2IntOpenHashMap<Item> dust = new Reference2IntOpenHashMap<>();
+            for (var material : materialMap.reference2IntEntrySet()) {
                 Item item = ChemicalHelper.getItem(TagPrefix.dust, material.getKey());
                 if (item != Items.AIR) {
                     dust.mergeInt(item, material.getIntValue(), Integer::sum);
                 }
             }
-            dust.object2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
-            fluid.putAll(fluidContent.getOrDefault(tier, new O2IOpenCacheHashMap<>()));
-            for (Object2IntOpenHashMap.Entry<Fluid> content : fluid.object2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList()) {
+            dust.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getIntValue()));
+            fluid.putAll(fluidContent.getOrDefault(tier, new Reference2IntOpenHashMap<>()));
+            for (var content : fluid.reference2IntEntrySet().stream().sorted(Map.Entry.comparingByValue()).toList()) {
                 builder.outputFluids(new FluidStack(content.getKey(), content.getIntValue()));
             }
             builder.duration((int) Math.sqrt(tier * dust.size() << 16)).save();
         }
     }
 
-    private static Object2IntOpenHashMap<Material> getOreMaterial(Object2IntOpenHashMap<Material> ore) {
-        Object2IntOpenHashMap<Material> map = new O2IOpenCacheHashMap<>();
-        for (Object2IntOpenHashMap.Entry<Material> entry : ore.object2IntEntrySet()) {
+    private static Reference2IntOpenHashMap<Material> getOreMaterial(Reference2IntOpenHashMap<Material> ore) {
+        Reference2IntOpenHashMap<Material> map = new Reference2IntOpenHashMap<>();
+        for (var entry : ore.reference2IntEntrySet()) {
             List<MaterialStack> components = entry.getKey().getMaterialComponents();
             if (components.isEmpty()) {
                 map.mergeInt(entry.getKey(), entry.getIntValue(), Integer::sum);
@@ -250,10 +249,10 @@ final class CosmosSimulation {
         return map;
     }
 
-    private static Object2IntOpenHashMap<Material> getOreMaterial(Material material, int multiplier) {
+    private static Reference2IntOpenHashMap<Material> getOreMaterial(Material material, int multiplier) {
         OreProperty property = material.getProperty(PropertyKey.ORE);
         if (property == null) return null;
-        Object2IntOpenHashMap<Material> ore = new O2IOpenCacheHashMap<>();
+        Reference2IntOpenHashMap<Material> ore = new Reference2IntOpenHashMap<>();
         ore.put(material, multiplier);
         ore.merge(property.getOreByProduct(0, material), property.getByProductMultiplier() * multiplier / 3, Integer::sum);
         ore.merge(property.getOreByProduct(1, material), property.getByProductMultiplier() * multiplier / 4, Integer::sum);

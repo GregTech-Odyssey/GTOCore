@@ -33,6 +33,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.common.menus.base.PlanetsMenuProvider;
 import earth.terrarium.botarium.common.menu.MenuHooks;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,8 +65,10 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         poss.add(blockPos.offset(-2, 2, -7));
     }
 
+    @Getter
     @DescSynced
     protected double high;
+    @Getter
     @Persisted
     @DescSynced
     protected int spoolCount;
@@ -188,13 +191,5 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     @Override
     public List<BlockPos> getHighlightPos() {
         return poss;
-    }
-
-    public double getHigh() {
-        return this.high;
-    }
-
-    public int getSpoolCount() {
-        return this.spoolCount;
     }
 }

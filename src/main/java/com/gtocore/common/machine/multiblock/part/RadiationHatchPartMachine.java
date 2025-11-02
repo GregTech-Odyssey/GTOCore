@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -26,6 +25,7 @@ import net.minecraft.util.Mth;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -41,6 +41,7 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
 
     @Persisted
     private final NotifiableItemStackHandler inventory;
+    @Getter
     @Persisted
     private int radioactivity;
     @Persisted
@@ -137,17 +138,10 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
         return false;
     }
 
-    public int getRadioactivity() {
-        return this.radioactivity;
-    }
-
     @Override
     public @Nullable RecipeHandlerList getCurrentHandlerList() {
         return currentHandlerList;
     }
-
-    @Override
-    public void setCurrentHandlerList(RecipeHandlerList list, GTRecipe recipe) {}
 
     @Override
     public Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {

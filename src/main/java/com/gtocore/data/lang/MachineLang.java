@@ -7,7 +7,6 @@ import com.gtolib.GTOCore;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 
-import static com.gtocore.data.lang.LangHandler.addCN;
 import static com.gtocore.data.lang.LangHandler.addCNEN;
 
 final class MachineLang {
@@ -222,8 +221,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式: 强行添加镶孔", "Working Mode: Forced addition of sockets");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式: 强行镶嵌宝石", "Working Mode: Forced gem inlay");
         addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
-        addCN("gtceu.combined", "仓室模式");
-        addCN("gtocore.compound_extreme_cooling_unit.tooltips.combined", "选择等离子冷凝模式以启用");
+        addCNEN("gtocore.compound_extreme_cooling_unit.tooltips.combined", "选择等离子冷凝模式以启用", "Select plasma condensation mode to enable");
         addCNEN("gtocore.machine.spacestation.ready", "空间站准备： %s%%就绪", "Space Station Readiness: %s%% Ready");
         addCNEN("gtocore.machine.spacestation.module_count", "连接的舱室模块数量： %s", "Number of Connected Module Hatches: %s");
         addCNEN("gtocore.machine.spacestation.energy_consumption.total", "所有空间站舱室总能量消耗： %s EU/t", "Total Energy Consumption of All Space Station Modules: %s EU/t");

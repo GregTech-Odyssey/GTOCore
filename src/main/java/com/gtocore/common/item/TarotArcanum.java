@@ -10,6 +10,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import dev.shadowsoffire.placebo.color.GradientColor;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,6 +19,7 @@ import java.util.function.Consumer;
 
 public final class TarotArcanum extends ColoringItems {
 
+    @Getter
     private final int serialNumber;
     private final List<Consumer<List<Component>>> tooltipConsumers;
 
@@ -51,10 +53,6 @@ public final class TarotArcanum extends ColoringItems {
     @Override
     public boolean isFoil(@NotNull ItemStack stack) {
         return true;
-    }
-
-    public int getSerialNumber() {
-        return serialNumber;
     }
 
     @Override

@@ -43,7 +43,8 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.DRONE_HATCH;
 import static com.gtocore.api.machine.part.ILargeSpaceStationMachine.ConnectType.*;
-import static com.gtocore.api.pattern.GTOPredicates.*;
+import static com.gtocore.api.pattern.GTOPredicates.autoSpaceMachineAbilities;
+import static com.gtocore.api.pattern.GTOPredicates.light;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.machine.MultiblockDefinition.getBlockInfos;
 

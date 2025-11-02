@@ -7,6 +7,7 @@ import com.gtocore.common.data.GTOMachines;
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunctionList;
+import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.RLUtils;
 
@@ -31,7 +32,6 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -39,7 +39,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
@@ -194,15 +193,14 @@ public final class GTMachineModify {
             ash = GTMachineModify.ash;
         }
         if (machine.getLevel() == null) return ash;
-        RandomSource random = machine.getLevel().getRandom();
         if (gtRecipe != null && gtRecipe.outputs.get(ItemRecipeCapability.CAP) != null) {
             var pool = gtRecipe.outputs.get(ItemRecipeCapability.CAP)
-                    .stream().flatMap(ing -> Stream.of(((Ingredient) ing.content).getItems()))
-                    .filter(i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.dust)
+                    .stream().map(ing -> ItemUtils.getFirstSized((Ingredient) ing.content))
+                    .filter(i -> !i.isEmpty() && ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.dust)
                     .map(i -> ChemicalHelper.get(TagPrefix.dustTiny, ChemicalHelper.getMaterialStack(i).material()))
                     .toList();
             if (!pool.isEmpty()) {
-                return pool.get(random.nextInt(pool.size()));
+                return pool.get(GTValues.RNG.nextInt(pool.size())).copyWithCount(1);
             }
         }
         return ash;

@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae
 
-import com.gtocore.api.gui.ktflexible.InitFancyMachineUIWidget
+import com.gtocore.api.gui.ktflexible.misc.InitFancyMachineUIWidget
 import com.gtocore.integration.ae.WirelessMachine
 import com.gtocore.integration.ae.WirelessMachinePersisted
 import com.gtocore.integration.ae.WirelessMachineRunTime
@@ -109,7 +109,7 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         if (isRemote) return
         onWirelessMachineLoad()
         getHandlerList().isDistinct = distinctField
-        getHandlerList().setColor(paintingColor)
+        getHandlerList().color = paintingColor
     }
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()

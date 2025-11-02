@@ -1,9 +1,12 @@
 package com.gtocore.common.machine.noenergy;
 
+import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.network.NetworkPack;
+import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.holder.IntObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -16,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -45,12 +49,42 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinates;
 import static com.gtocore.common.machine.noenergy.PlatformCreators.PlatformCreationAsync;
-import static com.gtocore.common.network.ServerMessage.highlightRegion;
-import static com.gtocore.common.network.ServerMessage.stopHighlight;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine {
+
+    private static final NetworkPack HIGHLIGHT_REGION = NetworkPack.registerS2C(9, (p, b) -> {
+        var dimension = b.readResourceKey(Registries.DIMENSION);
+        var start = b.readBlockPos();
+        var end = b.readBlockPos();
+        var color = b.readInt();
+        var durationTicks = b.readInt();
+        ForgeClientEvent.highlightRegion(dimension, start, end, color, durationTicks);
+    });
+
+    private static final NetworkPack STOP_HIGHLIGHT = NetworkPack.registerS2C(10, (p, b) -> {
+        var start = b.readBlockPos();
+        var end = b.readBlockPos();
+        ForgeClientEvent.stopHighlight(start, end);
+    });
+
+    public static void highlightRegion(ResourceKey<Level> dimension, BlockPos start, BlockPos end, int color, int durationTicks) {
+        HIGHLIGHT_REGION.send(buf -> {
+            buf.writeResourceKey(dimension);
+            buf.writeBlockPos(start);
+            buf.writeBlockPos(end);
+            buf.writeInt(color);
+            buf.writeInt(durationTicks);
+        }, ServerUtils.getServer());
+    }
+
+    public static void stopHighlight(BlockPos start, BlockPos end) {
+        STOP_HIGHLIGHT.send(buf -> {
+            buf.writeBlockPos(start);
+            buf.writeBlockPos(end);
+        }, ServerUtils.getServer());
+    }
 
     @Persisted
     private final NotifiableItemStackHandler inventory;

@@ -84,8 +84,8 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                     nbt.putInt("c", entry.getKey().chance);
                     nbt.putString("id", ItemUtils.getId(stack));
                     nbt.putLong("a", entry.getLongValue());
-                    if (stack.getTag() != null) {
-                        nbt.put("tag", stack.getTag().copy());
+                    if (stack.hasTag()) {
+                        nbt.put("tag", stack.getTag());
                     }
                     itemTags.add(nbt);
                 });
@@ -103,7 +103,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                     nbt.putString("FluidName", FluidUtils.getId(stacks[0].getFluid()));
                     nbt.putLong("a", entry.getLongValue());
                     if (stacks[0].getTag() != null) {
-                        nbt.put("tag", stacks[0].getTag().copy());
+                        nbt.put("tag", stacks[0].getTag());
                     }
                     fluidTags.add(nbt);
                 });
@@ -188,7 +188,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
     }
 
     private static Component getItemName(ItemStack stack) {
-        return ComponentUtils.wrapInSquareBrackets(stack.getItem().getDescription()).withStyle(ChatFormatting.WHITE);
+        return stack.getDisplayName().copy().withStyle(ChatFormatting.WHITE);
     }
 
     private static Component getFluidName(FluidStack stack) {

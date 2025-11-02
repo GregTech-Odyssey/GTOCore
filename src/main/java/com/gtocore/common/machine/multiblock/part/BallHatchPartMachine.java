@@ -25,11 +25,13 @@ import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import lombok.Getter;
 
 import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class BallHatchPartMachine extends ItemHatchPartMachine implements IInteractedMachine {
@@ -87,9 +89,5 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
         if (!isWorking) {
             super.onMachineRemoved();
         }
-    }
-
-    public boolean isWorking() {
-        return this.isWorking;
     }
 }

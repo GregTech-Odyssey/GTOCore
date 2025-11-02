@@ -21,7 +21,6 @@ object GTOComponentRegistry {
         )
         event.register(
             GTOComponentTooltipComponent::class.java,
-            { ClientTooltipComponent.create(it.component.visualOrderText) },
-        )
+        ) { ClientTooltipComponent.create(it.component.visualOrderText) }
     }
 }

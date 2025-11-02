@@ -2,7 +2,8 @@ package com.gtocore.data.recipe.research
 
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.misc.AutoInitialize
-import com.gtocore.common.data.translation.*
+import com.gtocore.common.data.translation.info
+import com.gtocore.common.data.translation.section
 import com.gtocore.data.recipe.builder.research.ExResearchManager.writeAnalyzeResearchToMap
 
 import com.gregtechceu.gtceu.GTCEu

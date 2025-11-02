@@ -33,7 +33,7 @@ import static com.gtocore.common.data.GTOItems.SPOOLS_LARGE;
 final class Vanilla {
 
     public static void init() {
-        if (Mods.chisel() || GTCEu.isDev()) {
+        if (Mods.CHISEL.isLoaded() || GTCEu.isDev()) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("automatic_chisel"), OptionalMachine.CARVING_CENTER.asItem(),
                     "ABA",
                     "CDC",
