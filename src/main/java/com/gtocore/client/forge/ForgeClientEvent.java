@@ -7,11 +7,11 @@ import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
-import com.gtocore.common.network.ClientMessage;
 
 import com.gtolib.GTOCore;
 import com.gtolib.IItem;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.api.player.PlayerData;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -120,7 +120,7 @@ public final class ForgeClientEvent {
         if (Minecraft.getInstance().player instanceof IEnhancedPlayer) {
             boolean isShiftDown = Screen.hasShiftDown();
             if (isShiftDown != lastShiftState) {
-                ClientMessage.send("shiftKeypress", buf -> buf.writeBoolean(isShiftDown));
+                PlayerData.SHIFT_KEY.send(buf -> buf.writeBoolean(isShiftDown));
                 lastShiftState = isShiftDown;
             }
         }

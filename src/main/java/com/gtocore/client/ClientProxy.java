@@ -18,9 +18,12 @@ import com.gtolib.api.ae2.me2in1.Wireless;
 
 import com.gregtechceu.gtceu.GTCEu;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,12 +35,16 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.api.parts.PartModels;
+import appeng.api.stacks.AEKey;
+import appeng.client.gui.me.common.ContentToast;
 import appeng.init.client.InitScreens;
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
 import com.lowdragmc.shimmer.client.light.LightManager;
 import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
 import com.lowdragmc.shimmer.forge.event.ForgeShimmerReloadEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+
+import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy extends CommonProxy {
@@ -61,6 +68,29 @@ public final class ClientProxy extends CommonProxy {
     private static void init() {
         KeyBind.init();
         ClientForge.INSTANCE.getMESSAGE_DEFINITIONS().forEach(ClientForge.MessageDefinition::getContentHash);
+        KeyMessage.init();
+        Message.PICK_CRAFT_TOAST_READ = (p, b) -> {
+            AEKey aeKey = AEKey.readKey(b);
+            int stateCode = b.readInt();
+            Minecraft.getInstance().getToasts().addToast(new ContentToast(aeKey) {
+
+                @Override
+                protected Component getTitle() {
+                    if (stateCode == 0) {
+                        return Component.translatable("gtocore.ae.appeng.pick_craft.all_right.title");
+                    }
+                    return Component.translatable("gtocore.ae.appeng.pick_craft.error.title");
+                }
+
+                @Override
+                protected void addInfoLines(List<FormattedCharSequence> lines) {
+                    var text = stateCode == 0 ?
+                            Component.translatable("gtocore.ae.appeng.pick_craft.all_right") :
+                            Component.translatable("gtocore.ae.appeng.pick_craft.error." + stateCode);
+                    lines.addAll(Minecraft.getInstance().font.split(text, width() - 30 - 5));
+                }
+            });
+        };
     }
 
     @SuppressWarnings("all")

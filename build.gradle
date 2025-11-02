@@ -41,3 +41,10 @@ jar {
 java {
     withSourcesJar()
 }
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

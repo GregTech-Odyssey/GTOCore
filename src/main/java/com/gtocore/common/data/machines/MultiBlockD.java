@@ -726,7 +726,7 @@ public final class MultiBlockD {
             .workableCasingRenderer(GTOCore.id("block/casings/inconel_625_casing"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
             .recoveryStacks((m, r) -> {
                 if (r == null) return ItemStack.EMPTY;
-                return ((Ingredient) r.outputs.get(ItemRecipeCapability.CAP).get(0).content).getItems()[0].copyWithCount(1);
+                return ItemUtils.getFirstSized((Ingredient) r.outputs.get(ItemRecipeCapability.CAP).getFirst().content).copyWithCount(1);
             })
             .register();
 

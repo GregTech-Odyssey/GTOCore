@@ -1,6 +1,5 @@
 package com.gtocore.client;
 
-import com.gtocore.common.network.KeyMessage;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;

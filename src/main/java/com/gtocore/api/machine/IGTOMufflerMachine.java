@@ -37,7 +37,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     @Override
     default boolean beforeWorking(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
         var tier = getTier();
-        if (GTOCore.isExpert() && controller instanceof WorkableElectricMultiblockMachine machine && machine.getTier() < tier) {
+        if (controller instanceof WorkableElectricMultiblockMachine machine && machine.getTier() < tier + 1) {
             IdleReason.setIdleReason(machine, IdleReason.MUFFLER_NOT_SUPPORTED);
             return false;
         }

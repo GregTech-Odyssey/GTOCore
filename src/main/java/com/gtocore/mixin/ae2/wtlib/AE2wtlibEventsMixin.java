@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.wtlib;
 
-import com.gtocore.common.network.ServerMessage;
+import com.gtocore.client.Message;
 import com.gtocore.config.GTOConfig;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -76,10 +76,10 @@ public class AE2wtlibEventsMixin {
 
     @Unique
     private static void gto$packet(ServerPlayer player, AEKey what, int code) {
-        ServerMessage.send(player.getServer(), player, "pickCraftToast",
+        Message.PICK_CRAFT_TOAST.send(
                 buf -> {
                     AEKey.writeKey(buf, what);
                     buf.writeInt(code);
-                });
+                }, player);
     }
 }

@@ -1,13 +1,11 @@
 package com.gtocore.mixin.ae2.menu;
 
 import com.gtocore.api.ae2.crafting.OptimizedCraftingCpuLogic;
-import com.gtocore.common.network.ServerMessage;
 import com.gtocore.integration.ae.hooks.IPushResultsHandler;
 
 import com.gtolib.api.ae2.IPatternProviderLogic;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -35,7 +33,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 @Mixin(CraftingCPUMenu.class)
@@ -79,8 +76,7 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
         var logic = (OptimizedCraftingCpuLogic) cpu.craftingLogic;
         gto$lastCraftingResults = HashMultimap.create(logic.getCraftingResults());
         ServerPlayer player = (ServerPlayer) getPlayer();
-        MinecraftServer server = Objects.requireNonNull(player.getServer());
-        ServerMessage.send(server, player, "craftMenuPushResults", (buf -> {
+        CRAFT_MENU_PUSH_RESULTS.send(buf -> {
             buf.writeInt(containerId);
             // results map
             buf.writeInt(gto$lastCraftingResults.keySet().size());
@@ -89,7 +85,7 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
                 buf.writeInt(results.size());
                 results.forEach(r -> buf.writeInt(r.ordinal()));
             });
-        }));
+        }, player);
     }
 
     @Override
