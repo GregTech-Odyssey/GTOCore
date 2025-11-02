@@ -41,6 +41,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.api.planets.PlanetApi;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -53,14 +54,18 @@ import static com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes.KEY_AMP
 @MethodsReturnNonnullByDefault
 public final class WindMillTurbineMachine extends TieredEnergyMachine implements IMachineLife, IFancyUIMachine {
 
+    @Getter
     @Persisted
     @DescSynced
     private float spinSpeed;
     @DynamicInitialValue(key = "wind_mill_turbine.amperage_out", typeKey = KEY_AMPERAGE_OUT, easyValue = "2", normalValue = "1", expertValue = "1", cn = "输出电流", cnComment = "风力涡轮机的最大输出电流。", en = "Output Amperage", enComment = "The maximum output amperage of the wind turbine.")
     private static int amperage_out = 2;
+    @Getter
     private float bladeAngle;
+    @Getter
     @DescSynced
     private int material;
+    @Getter
     @DescSynced
     private boolean hasRotor;
     @DescSynced
@@ -227,21 +232,5 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
 
     private boolean isObstructed() {
         return this.obstructed;
-    }
-
-    public float getSpinSpeed() {
-        return this.spinSpeed;
-    }
-
-    public float getBladeAngle() {
-        return this.bladeAngle;
-    }
-
-    public int getMaterial() {
-        return this.material;
-    }
-
-    public boolean isHasRotor() {
-        return this.hasRotor;
     }
 }

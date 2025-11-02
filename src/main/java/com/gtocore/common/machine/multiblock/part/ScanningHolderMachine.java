@@ -30,6 +30,8 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -41,14 +43,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class ScanningHolderMachine extends MultiblockPartMachine implements IMachineLife {
 
-    public boolean isLocked() {
-        return isLocked;
-    }
-
-    public void setLocked(boolean locked) {
-        isLocked = locked;
-    }
-
     public static final int CATALYST_SLOT = 0;
     public static final int DATA_SLOT = 1;
     public static final int SCAN_SLOT = 2;
@@ -56,9 +50,12 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
 
     @Persisted
     private final ScanningHolder heldItems;
+    @Setter
+    @Getter
     @Persisted
     @DescSynced
     private boolean isLocked;
+    @Getter
     @Persisted
     private final NotifiableFluidTank catalystFluidTank;
 
@@ -66,10 +63,6 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
         super(holder);
         heldItems = new ScanningHolder(this);
         catalystFluidTank = new NotifiableFluidTank(this, 1, FLUID_TANK_CAPACITY, IO.IN, IO.BOTH);
-    }
-
-    public NotifiableFluidTank getCatalystFluidTank() {
-        return catalystFluidTank;
     }
 
     public @NotNull ItemStack getHeldItem(boolean remove) {

@@ -30,12 +30,14 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
             int parallel = MathUtil.saturatedCast(MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0]);
             builder.duration(20 * parallel).inputItems(GTOItems.SCRAP_BOX.asStack(parallel));
             Reference2IntOpenHashMap<Item> map = new Reference2IntOpenHashMap<>();
-            for (int i = 0; i < parallel; i++) {
-                ItemStack stack = ItemMap.getScrapItem();
-                if (map.containsKey(stack.getItem())) {
-                    map.put(stack.getItem(), map.getInt(stack.getItem()) + 1);
-                } else {
-                    map.put(stack.getItem(), 1);
+            int cycle = Math.min(64, parallel);
+            int multiplier = Math.max(1, parallel / cycle);
+            for (int i = 0; i < cycle; i++) {
+                map.addTo(ItemMap.getScrapItem(), multiplier);
+            }
+            if (multiplier > 1) {
+                for (int i = 0, remainder = parallel % cycle; i < remainder; i++) {
+                    map.addTo(ItemMap.getScrapItem(), 1);
                 }
             }
             map.forEach(builder::outputItems);

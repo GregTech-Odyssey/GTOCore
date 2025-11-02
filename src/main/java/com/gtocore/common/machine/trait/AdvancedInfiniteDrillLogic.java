@@ -21,6 +21,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +30,8 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
 
     private static final int MAX_PROGRESS = 20;
     private final Reference2IntOpenHashMap<Fluid> veinFluids = new Reference2IntOpenHashMap<>();
+    @Setter
+    @Getter
     private int range;
     private DrillingControlCenterMachine cache;
 
@@ -164,14 +168,6 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
 
     private int getChunkZ() {
         return SectionPos.blockToSectionCoord(getMachine().getPos().getZ());
-    }
-
-    public void setRange(final int range) {
-        this.range = range;
-    }
-
-    public int getRange() {
-        return this.range;
     }
 
     @Override

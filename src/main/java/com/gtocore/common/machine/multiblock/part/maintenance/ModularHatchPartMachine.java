@@ -34,6 +34,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -62,14 +63,17 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @Persisted
     @DescSynced
     private int currentGravity = 0;
+    @Getter
     @Persisted
     @DescSynced
     private boolean vacuumMode = false;
+    @Getter
     @Persisted
     @DescSynced
     private boolean gravityMode = false;
     /// indicates whether player could set temperature
     /// notice that even if temperatureMode is false, the temperature could be set passively by other machines
+    @Getter
     @Persisted
     @DescSynced
     private boolean temperatureMode = false;
@@ -147,18 +151,6 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     private static final int MAX_TEMPERATURE = 2273;
     private static final int MIN_GRAVITY = 0;
     private static final int MAX_GRAVITY = 100;
-
-    public boolean isVacuumMode() {
-        return vacuumMode;
-    }
-
-    public boolean isGravityMode() {
-        return gravityMode;
-    }
-
-    public boolean isTemperatureMode() {
-        return temperatureMode;
-    }
 
     @Override
     public @NotNull Widget createUIWidget() {

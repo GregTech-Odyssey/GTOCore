@@ -9,12 +9,14 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 
+@Getter
 public class MEStorageCoreBlock extends Block {
 
     private final long capacity;
@@ -30,13 +32,5 @@ public class MEStorageCoreBlock extends Block {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         tooltip.addAll(tooltips);
-    }
-
-    public long getCapacity() {
-        return this.capacity;
-    }
-
-    public List<Component> getTooltips() {
-        return this.tooltips;
     }
 }

@@ -39,7 +39,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;

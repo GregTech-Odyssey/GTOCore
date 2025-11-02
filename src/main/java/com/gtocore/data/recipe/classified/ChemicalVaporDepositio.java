@@ -13,7 +13,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOMaterials.*;
-import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
 
 final class ChemicalVaporDepositio {
 

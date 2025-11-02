@@ -1,4 +1,4 @@
-package com.gtocore.api.gui.ktflexible
+package com.gtocore.api.gui.ktflexible.misc
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider

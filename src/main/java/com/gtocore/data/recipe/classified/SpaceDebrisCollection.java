@@ -19,7 +19,8 @@ import net.minecraft.world.level.ItemLike;
 
 import java.util.function.IntFunction;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.GTValues.ZPM;
 import static com.gtocore.common.data.GTORecipeTypes.SPACE_DEBRIS_COLLECTION_RECIPES;
 
 final class SpaceDebrisCollection {

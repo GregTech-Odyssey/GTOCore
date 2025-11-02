@@ -1,6 +1,6 @@
 package com.gtocore.integration.ae
 
-import com.gtocore.api.gui.ktflexible.InitFancyMachineUIWidget
+import com.gtocore.api.gui.ktflexible.misc.InitFancyMachineUIWidget
 
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.LivingEntity

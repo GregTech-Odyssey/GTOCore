@@ -301,7 +301,7 @@ object ClientForge {
     // 【入口】登录时显示消息
     @SubscribeEvent(priority = EventPriority.LOWEST)
     @JvmStatic
-    fun onClientLoggedIn(@Suppress("UNUSED_PARAMETER") event: ClientPlayerNetworkEvent.LoggingIn) {
+    fun onClientLoggedIn(event: ClientPlayerNetworkEvent.LoggingIn) {
         val mc = Minecraft.getInstance()
         val langCode = mc.languageManager.selected
         val config = loadConfig()

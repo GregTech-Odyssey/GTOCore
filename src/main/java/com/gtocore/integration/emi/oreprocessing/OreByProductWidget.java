@@ -45,6 +45,7 @@ import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,11 @@ final class OreByProductWrapper {
             // GTMachines.MACERATOR[GTValues.LV].asStack(),
             MultiBlockC.STEAM_CRUSHER.asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.CENTRIFUGE[GTValues.LV].asStack(), GTMachines.ORE_WASHER[GTValues.LV].asStack(), GTMachines.THERMAL_CENTRIFUGE[GTValues.LV].asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.CENTRIFUGE[GTValues.LV].asStack());
     private final Int2ObjectMap<Content> chances = new Int2ObjectOpenHashMap<>();
+    @Getter
     private final List<ItemEntryList> itemInputs = new ArrayList<>();
+    @Getter
     private final NonNullList<ItemStack> itemOutputs = NonNullList.create();
+    @Getter
     private final List<FluidEntryList> fluidInputs = new ArrayList<>();
     private boolean hasDirectSmelt = false;
     private boolean hasChemBath = false;
@@ -313,18 +317,6 @@ final class OreByProductWrapper {
         } else {
             addChance(baseLow, tierLow);
         }
-    }
-
-    public List<ItemEntryList> getItemInputs() {
-        return this.itemInputs;
-    }
-
-    public NonNullList<ItemStack> getItemOutputs() {
-        return this.itemOutputs;
-    }
-
-    public List<FluidEntryList> getFluidInputs() {
-        return this.fluidInputs;
     }
 }
 

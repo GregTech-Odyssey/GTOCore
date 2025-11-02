@@ -101,12 +101,12 @@ public final class ItemMap {
         SCRAP_MAP = null;
     }
 
-    public static ItemStack getScrapItem() {
+    public static Item getScrapItem() {
         int randomValue = GTValues.RNG.nextInt(TOTAL_PROBABILITY);
         int searchIndex = Arrays.binarySearch(CUMULATIVE_PROBABILITIES, randomValue);
         if (searchIndex < 0) {
             searchIndex = -(searchIndex + 1);
         }
-        return SCRAP_ITEMS[searchIndex].getDefaultInstance();
+        return SCRAP_ITEMS[searchIndex];
     }
 }

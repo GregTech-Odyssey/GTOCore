@@ -69,12 +69,14 @@ import net.minecraft.world.phys.AABB;
 
 import earth.terrarium.adastra.common.registry.ModItems;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.UEV;
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;

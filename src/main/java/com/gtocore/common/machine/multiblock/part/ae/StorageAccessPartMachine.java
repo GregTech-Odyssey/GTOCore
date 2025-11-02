@@ -43,7 +43,9 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -66,14 +68,20 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         return new StorageAccessPartMachine.IO(holder);
     }
 
+    @Setter
     boolean observe;
 
     int counter;
+    @Setter
     boolean check;
     boolean dirty = false;
 
+    @Setter
+    @Getter
     @Persisted
     double capacity;
+    @Setter
+    @Getter
     @Persisted
     boolean isInfinite;
     @DescSynced
@@ -128,14 +136,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     public abstract double getBytes();
 
-    public void setCapacity(double capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setInfinite(boolean isInfinite) {
-        this.isInfinite = isInfinite;
-    }
-
     @Override
     public void mountInventories(IStorageMounts storageMounts) {
         if (uuid == null) return;
@@ -150,22 +150,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
     @Override
     public IManagedGridNode getMainNode() {
         return nodeHolder.getMainNode();
-    }
-
-    public void setObserve(final boolean observe) {
-        this.observe = observe;
-    }
-
-    public void setCheck(final boolean check) {
-        this.check = check;
-    }
-
-    public double getCapacity() {
-        return this.capacity;
-    }
-
-    public boolean isInfinite() {
-        return this.isInfinite;
     }
 
     @Override

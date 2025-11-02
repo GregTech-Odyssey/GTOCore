@@ -38,6 +38,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
+@Getter
 public final class InternalSlotRecipeHandler {
 
     private final List<RecipeHandlerList> slotHandlers;
@@ -449,9 +451,5 @@ public final class InternalSlotRecipeHandler {
         public boolean isRecipeOnly() {
             return true;
         }
-    }
-
-    public List<RecipeHandlerList> getSlotHandlers() {
-        return this.slotHandlers;
     }
 }

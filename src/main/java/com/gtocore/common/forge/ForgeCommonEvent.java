@@ -263,11 +263,11 @@ public final class ForgeCommonEvent {
             int count = itemStack.getCount();
             if (player.isShiftKeyDown()) {
                 for (int i = 0; i < count; i++) {
-                    level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
+                    level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem().getDefaultInstance()));
                 }
                 player.setItemInHand(event.getHand(), ItemStack.EMPTY);
             } else {
-                level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
+                level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem().getDefaultInstance()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));
             }
         }

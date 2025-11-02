@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,8 +27,10 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     @Persisted
     @DescSynced
     private int vacuumTier;
+    @Getter
     @Persisted
     private int totalEU;
+    @Getter
     private TickableSubscription tickSubs;
 
     public VacuumPumpMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
@@ -85,13 +88,5 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     @Override
     public int getVacuumTier() {
         return this.vacuumTier;
-    }
-
-    public int getTotalEU() {
-        return this.totalEU;
-    }
-
-    public TickableSubscription getTickSubs() {
-        return this.tickSubs;
     }
 }

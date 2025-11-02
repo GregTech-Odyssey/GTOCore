@@ -30,6 +30,7 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import lombok.Getter;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -716,6 +717,7 @@ public final class Manager {
         }
     }
 
+    @Getter
     public enum MonitorCTM {
 
         NONE, // 四面均无连接
@@ -818,14 +820,6 @@ public final class Manager {
             if (x == toX) return RIGHT;
             // 中心
             return CENTER;
-        }
-
-        public int getV() {
-            return v;
-        }
-
-        public int getU() {
-            return u;
         }
     }
 }

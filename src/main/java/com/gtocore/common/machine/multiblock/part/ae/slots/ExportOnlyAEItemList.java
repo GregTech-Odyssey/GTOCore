@@ -21,11 +21,13 @@ import net.minecraft.world.item.crafting.Ingredient;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Supplier;
 
+@Getter
 public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements IConfigurableSlotList {
 
     @Persisted
@@ -244,9 +246,5 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return false;
         }
-    }
-
-    public ExportOnlyAEItemSlot[] getInventory() {
-        return this.inventory;
     }
 }

@@ -6,10 +6,12 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class IndicatorHatchPartMachine extends MultiblockPartMachine {
@@ -43,9 +45,5 @@ public final class IndicatorHatchPartMachine extends MultiblockPartMachine {
     @Override
     public boolean canShared() {
         return false;
-    }
-
-    public int getRedstoneSignalOutput() {
-        return this.redstoneSignalOutput;
     }
 }

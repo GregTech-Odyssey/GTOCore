@@ -9,9 +9,14 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.KeyCounter;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2LongMap;
+import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.Collection;
 import java.util.Collections;

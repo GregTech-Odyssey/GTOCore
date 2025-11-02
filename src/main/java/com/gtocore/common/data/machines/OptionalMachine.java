@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.MAINTENANCE;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.machine;

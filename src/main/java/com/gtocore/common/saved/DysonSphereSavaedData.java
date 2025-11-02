@@ -13,10 +13,12 @@ import net.minecraft.world.level.saveddata.SavedData;
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gtolib.api.GTOValues.*;
 
+@Getter
 public final class DysonSphereSavaedData extends SavedData {
 
     private final Reference2IntOpenHashMap<Galaxy> dysonLaunchData;
@@ -89,17 +91,5 @@ public final class DysonSphereSavaedData extends SavedData {
         });
         compoundTag.put(DYSON_LIST, listTag);
         return compoundTag;
-    }
-
-    public Reference2IntOpenHashMap<Galaxy> getDysonLaunchData() {
-        return this.dysonLaunchData;
-    }
-
-    public Reference2IntOpenHashMap<Galaxy> getDysonDamageData() {
-        return this.dysonDamageData;
-    }
-
-    public Reference2BooleanOpenHashMap<Galaxy> getDysonUse() {
-        return this.dysonUse;
     }
 }

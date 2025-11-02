@@ -13,11 +13,13 @@ import net.minecraft.world.item.ItemStack;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 class FaceCulledRenderBlocks extends ItemRenderer {
 
     private List<Direction> directions = new ArrayList<>();
@@ -35,9 +37,5 @@ class FaceCulledRenderBlocks extends ItemRenderer {
         }
         randomsource.setSeed(42L);
         this.renderQuadList(poseStack, buffer, model.getQuads(null, null, randomsource), stack, combinedLight, combinedOverlay);
-    }
-
-    public void setDirections(final List<Direction> directions) {
-        this.directions = directions;
     }
 }

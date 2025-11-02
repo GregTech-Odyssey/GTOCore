@@ -27,6 +27,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -36,36 +37,54 @@ import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
 
+    @Getter
     @Persisted
     protected int x = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int y = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int z = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int startX = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int startZ = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int startY = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int mineX = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int mineZ = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int mineY = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     private boolean isDone;
 
     private AABB area;
 
+    // ===================== Getter/Setter =====================
+    @Getter
     protected final DigitalMiner miner;
+    @Getter
     private int silk;
+    @Getter
     private final int speed;
     private final LinkedList<BlockPos> oresToMine = new LinkedList<>();
+    @Getter
     private int minBuildHeight = Integer.MAX_VALUE;
+    @Getter
     private boolean isInventoryFull;
+    @Getter
     private int oreAmount;
+    @Getter
     private Filter<?, ?> filter;
     private DigitalMiner.FluidMode fluidMode;
     private final Map<BlockState, List<ItemStack>> lootCache = new Reference2ReferenceOpenHashMap<>();
@@ -85,59 +104,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         this.area = aabb;
         this.filter = filter;
         this.fluidMode = fluidMode;
-    }
-
-    // ===================== Getter/Setter =====================
-    public DigitalMiner getMiner() {
-        return miner;
-    }
-
-    public int getSilk() {
-        return silk;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    public int getStartX() {
-        return startX;
-    }
-
-    public int getStartZ() {
-        return startZ;
-    }
-
-    public int getStartY() {
-        return startY;
-    }
-
-    public int getMineX() {
-        return mineX;
-    }
-
-    public int getMineZ() {
-        return mineZ;
-    }
-
-    public int getMineY() {
-        return mineY;
-    }
-
-    public int getMinBuildHeight() {
-        return minBuildHeight;
     }
 
     public int getMinY() {
@@ -162,22 +128,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
 
     public int getMaxZ() {
         return (int) area.maxZ;
-    }
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public boolean isInventoryFull() {
-        return isInventoryFull;
-    }
-
-    public int getOreAmount() {
-        return oreAmount;
-    }
-
-    public Filter<?, ?> getFilter() {
-        return filter;
     }
 
     // ===================== 生命周期相关方法 =====================
