@@ -4,10 +4,6 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
-import com.gtolib.api.machine.trait.CustomRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -20,7 +16,6 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.nbt.CompoundTag;
@@ -68,13 +63,13 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     // 村民配方选择
     @Persisted
     private int[] selected = new int[9];
-    // 村民配方锁定
+    // 村民配方锁定（是否启动交易）
     @Persisted
     private boolean[] startUp = new boolean[9];
 
-    // 村民信息存储
+    // 村民信息存储（交易配方等）
     private final VillagerTradeRecord[] VillagersDataset = new VillagerTradeRecord[9];
-    // 村民交易存储
+    // 村民当前选中的交易配方（展示用）
     private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 9);
 
     // 补货时间间隔
@@ -84,9 +79,9 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
 
     // 输入输出物品存储
     @Persisted
-    private NotifiableItemStackHandler input = new NotifiableItemStackHandler(this, 256, IO.IN, IO.IN, CustomItemStackHandler::new);
+    private final NotifiableItemStackHandler input = new NotifiableItemStackHandler(this, 256, IO.IN, IO.IN, CustomItemStackHandler::new);
     @Persisted
-    private NotifiableItemStackHandler output = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.OUT, CustomItemStackHandler::new);
+    private final NotifiableItemStackHandler output = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.OUT, CustomItemStackHandler::new);
 
     /////////////////////////////////////
     // *********** 核心方法 *********** //
@@ -96,8 +91,10 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
+            // 启动服务器端定时更新（每刻执行）
             tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
         }
+        // 初始化村民交易数据
         for (int i = 0; i < 9; i++) {
             incomingVillagersDataset(i);
             selectedRecipes(i);
@@ -113,57 +110,188 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         }
     }
 
+    /**
+     * 定时更新逻辑：处理交易执行和补货
+     */
     private void tickUpdate() {
-        if (getOffsetTimer() % 100 == 0 && !isRemote()) {
-            int daytime = getOffsetTimer() % 24000;
-            if (daytime == 0) dailyRestockingAttempts();
-            if (daytime % replenishmentInterval == 0) villagersRestock();
-            getRecipeLogic().updateTickSubscription();
+        if (getOffsetTimer() % 100 != 0 || isRemote()) {
+            return; // 每100刻（约5秒）执行一次，且只在服务器端运行
         }
+
+        int daytime = getOffsetTimer() % 24000;
+        // 每天0点重置补货次数
+        if (daytime == 0) dailyRestockingAttempts();
+        // 到达补货间隔时，重置村民交易次数
+        if (daytime % replenishmentInterval == 0) villagersRestock();
+        // 执行交易逻辑
+        executeTrades();
     }
 
-    @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        System.out.println("Village Trading Station Create Recipe Logic");
-        return new CustomRecipeLogic(this, this::getRecipe);
-    }
-
-    private Recipe getRecipe() {
-        System.out.println("Village Trading Station Get Recipe");
+    /**
+     * 直接执行交易：检查输入物品，扣除材料，添加产物
+     */
+    private void executeTrades() {
         for (int slot = 0; slot < 9; slot++) {
-
-            if (!isLocked(slot) || !isStartUp(slot)) continue;
+            // 跳过未锁定、未启动或无配方的村民
+            if (!isLocked(slot) || !isStartUp(slot) || VillagersDataset[slot] == null) {
+                continue;
+            }
 
             List<VillagerRecipe> recipes = VillagersDataset[slot].recipes;
-            if (recipes.isEmpty()) continue;
+            if (recipes.isEmpty() || selected[slot] >= recipes.size()) {
+                continue;
+            }
 
             VillagerRecipe trade = recipes.get(selected[slot]);
-            int margin = trade.maxUses - trade.uses;
-            if (margin <= 0) continue;
+            int remainingUses = trade.maxUses - trade.uses;
+            if (remainingUses <= 0) {
+                continue;
+            }
 
-            System.out.println("Village Trading Station Matching Recipe in Slot " + slot);
+            for (int i = 0; i < remainingUses; i++) {
+                // 1. 检查输入物品是否足够（考虑交易倍数）
+                int requiredBuyCount = trade.buy.getCount() * tradingMultiple;
+                int requiredBuyBCount = trade.buyB.isEmpty() ? 0 : trade.buyB.getCount() * tradingMultiple;
 
-            RecipeBuilder recipeBuilder = getRecipeBuilder();
-            recipeBuilder.inputItems(RecipesHandler.getStackInSlot(slot * 3));
-            if (!RecipesHandler.getStackInSlot(slot * 3 + 1).isEmpty())
-                recipeBuilder.inputItems(RecipesHandler.getStackInSlot(slot * 3 + 1));
-            recipeBuilder.outputItems(RecipesHandler.getStackInSlot(slot * 3 + 2));
-            recipeBuilder.duration(5);
-            Recipe recipe = recipeBuilder.buildRawRecipe();
+                boolean hasEnoughBuy = hasEnoughItems(input, trade.buy, requiredBuyCount);
+                boolean hasEnoughBuyB = requiredBuyBCount == 0 || hasEnoughItems(input, trade.buyB, requiredBuyBCount);
 
-            System.out.println("Village Trading Station Built Recipe: " + recipe);
+                if (!hasEnoughBuy || !hasEnoughBuyB) {
+                    break; // 材料不足，跳过交易
+                }
 
-            // int parallels = Math.toIntExact(getMaxContentParallel(this, recipe));
-            // int frequency = Math.min(parallels / tradingMultiple, margin);
+                // 再次确认材料是否足够maxPossibleTrades次
+                if (!hasEnoughItems(input, trade.buy, trade.buy.getCount() * tradingMultiple) ||
+                        (requiredBuyBCount > 0 && !hasEnoughItems(input, trade.buyB, trade.buyB.getCount() * tradingMultiple))) {
+                    continue;
+                }
 
-            // recipe = ParallelLogic.accurateParallel(this, recipe, (long) frequency * tradingMultiple);
-            if (RecipeRunner.matchRecipe(this, recipe)) {
-                System.out.println("Village Trading Station Recipe Matched: " + recipe);
-                return recipe;
+                // 3. 扣除输入物品
+                deductItems(input, trade.buy, trade.buy.getCount() * tradingMultiple);
+                if (requiredBuyBCount > 0) {
+                    deductItems(input, trade.buyB, trade.buyB.getCount() * tradingMultiple);
+                }
+
+                // 4. 添加输出物品
+                ItemStack outputStack = trade.sell.copy();
+                outputStack.setCount(outputStack.getCount() * tradingMultiple);
+                addItems(output, outputStack);
+
+                // 5. 更新交易次数
+                trade.uses++;
             }
         }
-        return null;
     }
+
+    /////////////////////////////////////
+    // ******** 物品操作工具方法 ******** //
+    /////////////////////////////////////
+
+    /**
+     * 检查物品处理器中是否有足够数量的目标物品
+     * 
+     * @param handler       物品处理器（如input）
+     * @param target        目标物品
+     * @param requiredCount 所需数量
+     * @return 是否足够
+     */
+    private boolean hasEnoughItems(NotifiableItemStackHandler handler, ItemStack target, int requiredCount) {
+        if (target.isEmpty() || requiredCount <= 0) {
+            return true;
+        }
+        int total = 0;
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack stack = handler.getStackInSlot(i);
+            if (ItemStack.isSameItemSameTags(stack, target)) {
+                total += stack.getCount();
+                if (total >= requiredCount) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 从物品处理器中扣除指定数量的物品
+     * 
+     * @param handler 物品处理器（如input）
+     * @param target  目标物品
+     * @param count   扣除数量
+     */
+    private void deductItems(NotifiableItemStackHandler handler, ItemStack target, int count) {
+        if (target.isEmpty() || count <= 0) {
+            return;
+        }
+        int remaining = count;
+        for (int i = 0; i < handler.getSlots() && remaining > 0; i++) {
+            ItemStack stack = handler.getStackInSlot(i);
+            if (ItemStack.isSameItemSameTags(stack, target)) {
+                int take = Math.min(stack.getCount(), remaining);
+                stack.shrink(take);
+                if (stack.isEmpty()) {
+                    handler.setStackInSlot(i, ItemStack.EMPTY);
+                }
+                remaining -= take;
+            }
+        }
+    }
+
+    /**
+     * 向物品处理器中添加物品
+     *
+     * @param handler 物品处理器（如output）
+     * @param stack   要添加的物品
+     */
+    private void addItems(NotifiableItemStackHandler handler, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return;
+        }
+        ItemStack remaining = stack.copy();
+        int maxStackSize = remaining.getMaxStackSize(); // 获取该物品的最大堆叠数
+
+        // 第一步：尝试堆叠到已有相同物品的槽位
+        for (int i = 0; i < handler.getSlots() && !remaining.isEmpty(); i++) {
+            ItemStack existing = handler.getStackInSlot(i);
+            if (existing.isEmpty()) {
+                continue; // 空槽位留到第二步处理
+            }
+            // 仅堆叠相同物品且未达最大堆叠
+            if (ItemStack.isSameItemSameTags(existing, remaining) && existing.getCount() < maxStackSize) {
+                int addAmount = Math.min(remaining.getCount(), maxStackSize - existing.getCount());
+                existing.grow(addAmount);
+                remaining.shrink(addAmount);
+            }
+        }
+
+        // 第二步：处理剩余物品（拆分到空槽位，确保不超过最大堆叠）
+        while (!remaining.isEmpty()) {
+            boolean foundSlot = false;
+            // 遍历所有槽位找空槽
+            for (int i = 0; i < handler.getSlots() && !remaining.isEmpty(); i++) {
+                ItemStack existing = handler.getStackInSlot(i);
+                if (existing.isEmpty()) {
+                    // 计算当前空槽能放的最大数量（不超过物品最大堆叠）
+                    int putAmount = Math.min(remaining.getCount(), maxStackSize);
+                    // 创建新的物品栈放入空槽
+                    ItemStack toPut = remaining.copy();
+                    toPut.setCount(putAmount);
+                    handler.setStackInSlot(i, toPut);
+                    // 减少剩余数量
+                    remaining.shrink(putAmount);
+                    foundSlot = true;
+                }
+            }
+            // 如果没找到空槽且还有剩余，跳出循环（无法继续放置）
+            if (!foundSlot) {
+                break;
+            }
+        }
+    }
+
+    /////////////////////////////////////
+    // ********* 村民与配方管理 ********* //
+    /////////////////////////////////////
 
     public boolean isLocked(int slot) {
         return isLocked[slot];
@@ -186,14 +314,9 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     }
 
     private void selectedNext(int slot) {
-        if (!isLocked(slot)) return;
-        if (isStartUp(slot)) return;
-        if (!VillagersDataset[slot].recipes.isEmpty()) {
-            if (selected[slot] < VillagersDataset[slot].recipes.size() - 1) {
-                selected[slot]++;
-            } else {
-                selected[slot] = 0;
-            }
+        if (!isLocked(slot) || isStartUp(slot)) return;
+        if (VillagersDataset[slot] != null && !VillagersDataset[slot].recipes.isEmpty()) {
+            selected[slot] = (selected[slot] + 1) % VillagersDataset[slot].recipes.size();
             selectedRecipes(slot);
         } else {
             releaseStartUp(slot);
@@ -207,7 +330,9 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     private void setStartUp(int slot) {
         if (isLocked(slot)) {
             startUp[slot] = !startUp[slot];
-            if (VillagersDataset[slot].recipes.isEmpty()) releaseStartUp(slot);
+            if (VillagersDataset[slot] != null && VillagersDataset[slot].recipes.isEmpty()) {
+                releaseStartUp(slot);
+            }
         } else {
             startUp[slot] = false;
         }
@@ -230,21 +355,23 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     private void selectedRecipes(int slot) {
         if (VillagersDataset[slot] != null && isLocked(slot)) {
             List<VillagerRecipe> recipes = VillagersDataset[slot].recipes;
-            if (!recipes.isEmpty()) {
+            if (!recipes.isEmpty() && selected[slot] < recipes.size()) {
                 VillagerRecipe recipe = recipes.get(selected[slot]);
-                RecipesHandler.setStackInSlot(slot * 3, recipe.buy);
-                RecipesHandler.setStackInSlot(slot * 3 + 1, recipe.buyB);
-                RecipesHandler.setStackInSlot(slot * 3 + 2, recipe.sell);
+                RecipesHandler.setStackInSlot(slot * 3, recipe.buy.copy());
+                RecipesHandler.setStackInSlot(slot * 3 + 1, recipe.buyB.copy());
+                RecipesHandler.setStackInSlot(slot * 3 + 2, recipe.sell.copy());
             } else {
-                RecipesHandler.setStackInSlot(slot * 3, ItemStack.EMPTY);
-                RecipesHandler.setStackInSlot(slot * 3 + 1, ItemStack.EMPTY);
-                RecipesHandler.setStackInSlot(slot * 3 + 2, ItemStack.EMPTY);
+                clearRecipeSlots(slot);
             }
         } else {
-            RecipesHandler.setStackInSlot(slot * 3, ItemStack.EMPTY);
-            RecipesHandler.setStackInSlot(slot * 3 + 1, ItemStack.EMPTY);
-            RecipesHandler.setStackInSlot(slot * 3 + 2, ItemStack.EMPTY);
+            clearRecipeSlots(slot);
         }
+    }
+
+    private void clearRecipeSlots(int slot) {
+        RecipesHandler.setStackInSlot(slot * 3, ItemStack.EMPTY);
+        RecipesHandler.setStackInSlot(slot * 3 + 1, ItemStack.EMPTY);
+        RecipesHandler.setStackInSlot(slot * 3 + 2, ItemStack.EMPTY);
     }
 
     /////////////////////////////////////
@@ -265,7 +392,6 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
                 .setMaxWidthLimit(width - 8));
 
         group.addWidget(group_title);
-
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
@@ -274,6 +400,7 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
 
+        // 交易控制页（显示村民和配方）
         sideTabs.attachSubTab(new IFancyUIProvider() {
 
             @Override
@@ -297,11 +424,16 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
                         .setBackground(GuiTextures.DISPLAY);
                 group_title.addWidget(new ComponentPanelWidget(4, 4, this::addDisplayTextTitle));
                 group.addWidget(group_title);
-
                 group.addWidget(getLockButton());
-
+                group.addWidget(getInputOutputSlots());
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
                 return group;
+            }
+
+            private void addDisplayTextTitle(List<Component> textList) {
+                int lockedCount = 0;
+                for (int i = 0; i < 9; i++) if (isLocked(i)) lockedCount++;
+                textList.add(Component.literal(String.valueOf(lockedCount)));
             }
 
             private @NotNull WidgetGroup getLockButton() {
@@ -318,44 +450,45 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
                     int buttonX = i * (xSize + buttonSpacing);
                     WidgetGroup VillagerGroup = new WidgetGroup(buttonX, 0, xSize, ySize);
                     VillagerGroup.setLayout(Layout.VERTICAL_CENTER);
+                    // 锁定按钮
                     VillagerGroup.addWidget(new ComponentPanelWidget(0, 2,
-                            (textList) -> textList.add(ComponentPanelWidget.withButton(isLocked(slotIndex) ?
-                                    Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"), String.valueOf(slotIndex))))
+                            (textList) -> textList.add(ComponentPanelWidget.withButton(
+                                    isLocked(slotIndex) ? Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"),
+                                    String.valueOf(slotIndex))))
                             .clickHandler((a, b) -> setLocked(Integer.parseInt(a))));
+                    // 村民槽位
                     VillagerGroup.addWidget(new SlotWidget(villagers, i, 0, 18 - 6, true, true)
                             .setBackground(GuiTextures.SLOT));
-
+                    // 配方输入1、输入2、输出槽位
                     for (int j = 0; j < 3; j++) {
                         SlotWidget itemWidget = new SlotWidget(RecipesHandler, 3 * i + j, 0, 18 * (j + 2) - 6)
                                 .setCanPutItems(false).setCanTakeItems(false)
                                 .setBackgroundTexture(new ResourceTexture(GTOCore.id("textures/gui/villager_recipe_slot_" + j + ".png")));
                         VillagerGroup.addWidget(itemWidget);
                     }
-
+                    // 切换配方按钮
                     VillagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 - 6,
                             (textList) -> textList.add(ComponentPanelWidget.withButton(
                                     Component.literal("\uD83D\uDD01"), String.valueOf(slotIndex))))
                             .clickHandler((a, b) -> selectedNext(Integer.parseInt(a))));
-
+                    // 启动交易按钮
                     VillagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 + 6,
-                            (textList) -> textList.add(ComponentPanelWidget.withButton(isStartUp(slotIndex) ?
-                                    Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"), String.valueOf(slotIndex))))
+                            (textList) -> textList.add(ComponentPanelWidget.withButton(
+                                    isStartUp(slotIndex) ? Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"),
+                                    String.valueOf(slotIndex))))
                             .clickHandler((a, b) -> setStartUp(Integer.parseInt(a))));
-
+                    // 交易次数显示
                     VillagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 + 18,
                             (textList) -> {
-                                int uses = 0;
-                                int maxUses = 0;
-                                if (VillagersDataset[slotIndex] != null && isLocked(slotIndex)) {
-                                    List<VillagerRecipe> recipes = VillagersDataset[slotIndex].recipes;
-                                    if (!recipes.isEmpty()) {
-                                        VillagerRecipe recipe = recipes.get(selected[slotIndex]);
-                                        uses = recipe.uses;
-                                        maxUses = recipe.maxUses;
-                                    }
+                                if (VillagersDataset[slotIndex] != null && isLocked(slotIndex) &&
+                                        !VillagersDataset[slotIndex].recipes.isEmpty() && selected[slotIndex] < VillagersDataset[slotIndex].recipes.size()) {
+                                    VillagerRecipe recipe = VillagersDataset[slotIndex].recipes.get(selected[slotIndex]);
+                                    textList.add(Component.literal(String.valueOf(recipe.uses)));
+                                    textList.add(Component.literal(String.valueOf(recipe.maxUses)));
+                                } else {
+                                    textList.add(Component.literal(String.valueOf(0)));
+                                    textList.add(Component.literal(String.valueOf(0)));
                                 }
-                                textList.add(Component.literal(String.valueOf(uses)));
-                                textList.add(Component.literal(String.valueOf(maxUses)));
                             }));
 
                     group.addWidget(VillagerGroup);
@@ -363,10 +496,22 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
                 return group;
             }
 
-            private void addDisplayTextTitle(List<Component> textList) {
-                int lockedCount = 0;
-                for (int i = 0; i < 9; i++) if (isLocked(i)) lockedCount++;
-                textList.add(Component.literal(String.valueOf(lockedCount)));
+            // 显示输入输出槽位（简化为前8个槽位预览）
+            private Widget getInputOutputSlots() {
+                WidgetGroup group = new WidgetGroup(10, 100, 240, 40);
+                // 输入槽位预览
+                group.addWidget(new LabelWidget(0, 0, Component.literal("Input:")));
+                for (int i = 0; i < 4; i++) {
+                    group.addWidget(new SlotWidget(input, i, 40 + i * 18, 0, true, false)
+                            .setBackground(GuiTextures.SLOT));
+                }
+                // 输出槽位预览
+                group.addWidget(new LabelWidget(0, 20, Component.literal("Output:")));
+                for (int i = 0; i < 4; i++) {
+                    group.addWidget(new SlotWidget(output, i, 40 + i * 18, 20, false, true)
+                            .setBackground(GuiTextures.SLOT));
+                }
+                return group;
             }
         });
 
@@ -399,11 +544,12 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
             }
         });
 
+        // 方向配置页
         sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
     }
 
     /////////////////////////////////////
-    // ************ 辅助方法 ************ //
+    // ************ 辅助类与方法 ************ //
     /////////////////////////////////////
 
     private static class VillageHolder extends NotifiableItemStackHandler {
@@ -436,7 +582,7 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         }
     }
 
-    // 可变的村民交易记录类
+    // 村民交易记录类
     private static class VillagerTradeRecord {
 
         private int restocksToday;
@@ -448,27 +594,15 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
             this.maxRestocksToday = maxRestocksToday;
             this.recipes = recipes;
         }
-
-        public void setRestocksToday(int restocksToday) {
-            this.restocksToday = restocksToday;
-        }
-
-        public void setMaxRestocksToday(int maxRestocksToday) {
-            this.maxRestocksToday = maxRestocksToday;
-        }
-
-        public void setRecipes(List<VillagerRecipe> recipes) {
-            this.recipes = recipes;
-        }
     }
 
-    // 可变的村民配方类
+    // 村民交易配方类
     private static class VillagerRecipe {
 
-        private ItemStack buy;
-        private ItemStack buyB;
-        private ItemStack sell;
-        private int maxUses;
+        private final ItemStack buy;
+        private final ItemStack buyB;
+        private final ItemStack sell;
+        private final int maxUses;
         private int uses;
 
         public VillagerRecipe(ItemStack buy, ItemStack buyB, ItemStack sell, int maxUses, int uses) {
@@ -478,28 +612,9 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
             this.maxUses = maxUses;
             this.uses = uses;
         }
-
-        public void setBuy(ItemStack buy) {
-            this.buy = buy;
-        }
-
-        public void setBuyB(ItemStack buyB) {
-            this.buyB = buyB;
-        }
-
-        public void setSell(ItemStack sell) {
-            this.sell = sell;
-        }
-
-        public void setMaxUses(int maxUses) {
-            this.maxUses = maxUses;
-        }
-
-        public void setUses(int uses) {
-            this.uses = uses;
-        }
     }
 
+    // 解析村民NBT数据获取交易配方
     private static VillagerTradeRecord parseTradeData(CompoundTag originalOuterNbt) {
         if (!originalOuterNbt.contains("villager", 10)) {
             return new VillagerTradeRecord(0, 2, new ArrayList<>());
@@ -507,14 +622,13 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         CompoundTag villagerCoreNbt = originalOuterNbt.getCompound("villager");
 
         int restocksToday = villagerCoreNbt.getInt("RestocksToday");
-        int maxRestocksToday = villagerCoreNbt.contains("MaxRestocksToday", 3) ? villagerCoreNbt.getInt("MaxRestocksToday") : 2; // 默认2次
+        int maxRestocksToday = villagerCoreNbt.contains("MaxRestocksToday", 3) ? villagerCoreNbt.getInt("MaxRestocksToday") : 2;
 
         List<VillagerRecipe> recipes = new ArrayList<>();
         if (!villagerCoreNbt.contains("Offers", 10)) {
             return new VillagerTradeRecord(restocksToday, maxRestocksToday, recipes);
         }
         CompoundTag offersTag = villagerCoreNbt.getCompound("Offers");
-
         if (!offersTag.contains("Recipes", 9)) {
             return new VillagerTradeRecord(restocksToday, maxRestocksToday, recipes);
         }
@@ -533,6 +647,7 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         return new VillagerTradeRecord(restocksToday, maxRestocksToday, recipes);
     }
 
+    // 解析NBT为物品栈
     private static ItemStack parseItemStack(CompoundTag itemTag) {
         String itemId = itemTag.getString("id");
         ItemStack item = RegistriesUtils.getItemStack(itemId);
@@ -542,27 +657,27 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         return item;
     }
 
+    // 村民补货：重置交易次数
     private void villagersRestock() {
         for (VillagerTradeRecord record : VillagersDataset) {
-            if (record == null) continue;
-            List<VillagerRecipe> recipes = record.recipes;
-            if (recipes == null) continue;
-
-            for (VillagerRecipe recipe : recipes) {
+            if (record == null || record.recipes == null) continue;
+            // if (record.restocksToday < record.maxRestocksToday)continue;
+            for (VillagerRecipe recipe : record.recipes) {
                 if (recipe != null && recipe.uses != 0) {
-                    record.setRestocksToday(record.restocksToday + 1);
+                    record.restocksToday = record.restocksToday + 1;
                     break;
                 }
             }
-            for (VillagerRecipe recipe : recipes) {
-                if (recipe != null) recipe.setUses(0);
+            for (VillagerRecipe recipe : record.recipes) {
+                if (recipe != null) recipe.uses = 0;
             }
         }
     }
 
+    // 每日重置补货次数
     private void dailyRestockingAttempts() {
         for (VillagerTradeRecord record : VillagersDataset) {
-            record.setMaxRestocksToday(0);
+            if (record != null) record.restocksToday = 0;
         }
     }
 
