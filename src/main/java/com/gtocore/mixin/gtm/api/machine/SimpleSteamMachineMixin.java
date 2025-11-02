@@ -1,5 +1,6 @@
 package com.gtocore.mixin.gtm.api.machine;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.SteamEnergyContainer;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
@@ -65,7 +66,7 @@ public abstract class SimpleSteamMachineMixin extends SteamWorkableMachine imple
         }
         return r -> {
             if (steamMachine.isHighPressure) return r;
-            return RecipeModifierFunction.recipeReduction((Recipe) r, 0.5 * GTOCore.diffInt("machine.steam"), 2);
+            return RecipeModifierFunction.recipeReduction((Recipe) r, 0.5 * DiffConfig.get().machine.steam.getInt(), 2);
         };
     }
 }

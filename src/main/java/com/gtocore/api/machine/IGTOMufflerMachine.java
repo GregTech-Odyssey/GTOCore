@@ -1,6 +1,7 @@
 package com.gtocore.api.machine;
 
 import com.gtocore.common.item.ItemMap;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
@@ -23,7 +24,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     int gtolib$getRecoveryChance();
 
     default boolean isMufflerPulseDisabled() {
-        return (GTOConfig.INSTANCE.disableMufflerPart && !GTOCore.isExpert("machine.normal")) || gtolib$getRecoveryChance() == 100;
+        return (GTOConfig.INSTANCE.disableMufflerPart && !DiffConfig.get().machine.normal.isExpert()) || gtolib$getRecoveryChance() == 100;
     }
 
     @Override
@@ -34,7 +35,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     @Override
     default boolean beforeWorking(IWorkableMultiController controller) {
         if (isMufflerPulseDisabled()) return true;
-        if (GTOCore.isExpert("machine.normal") && controller instanceof ITieredMachine machine && machine.getTier() > getTier() + 1) {
+        if (DiffConfig.get().machine.normal.isExpert() && controller instanceof ITieredMachine machine && machine.getTier() > getTier() + 1) {
             if (controller.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
                 enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_INSUFFICIENT.reason());
             }
@@ -53,7 +54,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     default boolean onWorking(IWorkableMultiController controller) {
         if (isMufflerPulseDisabled() && !isWorkingEnabled()) return true;
         if (controller.getRecipeLogic().getTotalContinuousRunningTime() % 80 == 0) {
-            if (GTOCore.isExpert("machine.normal") && !isMufflerPulseDisabled() && gtolib$checkAshFull()) return false;
+            if (DiffConfig.get().machine.normal.isExpert() && !isMufflerPulseDisabled() && gtolib$checkAshFull()) return false;
             gtolib$addMufflerEffect();
             gtolib$insertAsh(controller.self(), controller.getRecipeLogic().getLastRecipe());
         }
@@ -89,7 +90,7 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
                     }
                 }
             }
-        } else if (GTOCore.isExpert("machine.normal") || GTValues.RNG.nextBoolean()) {
+        } else if (DiffConfig.get().machine.normal.isExpert() || GTValues.RNG.nextBoolean()) {
             recoverItemsTable(ItemMap.ASH);
         }
     }

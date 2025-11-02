@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -193,7 +194,7 @@ public final class MetaTileEntityLoader {
                 'M', GTItems.ELECTRIC_MOTOR_MV, 'V', new MaterialEntry(TagPrefix.rotor, GTMaterials.Steel));
         VanillaRecipeHelper.addShapedRecipe(true, "casing_assembly_control",
                 GTBlocks.CASING_ASSEMBLY_CONTROL.asStack(ConfigHolder.INSTANCE.recipes.casingsPerCraft), "CPC", "SFE",
-                "CMC", 'C', GTOCore.isExpert("recipe.gtceu") ? CustomTags.LuV_CIRCUITS : CustomTags.EV_CIRCUITS, 'P', GTItems.HIGH_POWER_INTEGRATED_CIRCUIT, 'S',
+                "CMC", 'C', DiffConfig.get().recipe.gtceu.isExpert() ? CustomTags.LuV_CIRCUITS : CustomTags.EV_CIRCUITS, 'P', GTItems.HIGH_POWER_INTEGRATED_CIRCUIT, 'S',
                 GTItems.SENSOR_IV.asItem(), 'F', new MaterialEntry(TagPrefix.frameGt, GTMaterials.TungstenSteel),
                 'E', GTItems.EMITTER_IV.asItem(), 'M', GTItems.ELECTRIC_MOTOR_IV);
         VanillaRecipeHelper.addShapedRecipe(true, "casing_assembly_line",
@@ -394,12 +395,12 @@ public final class MetaTileEntityLoader {
                 GTMachines.CONFIGURABLE_MAINTENANCE_HATCH.asItem(), "   ", "CMC", "VHV", 'C',
                 CIRCUIT.get(HV), 'M', GTMachines.MAINTENANCE_HATCH.asItem(), 'V', CONVEYOR.get(HV),
                 'H', GTMachines.HULL[HV].asItem());
-        if (GTOCore.isExpert("recipe.gtceu")) {
+        if (DiffConfig.get().recipe.gtceu.isExpert()) {
             VanillaRecipeHelper.addShapedRecipe(true, "maintenance_hatch_automatic",
                     GTMachines.AUTO_MAINTENANCE_HATCH.asItem(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(IV), 'M',
                     GTMachines.MAINTENANCE_HATCH.asItem(), 'R', ROBOT_ARM.get(EV), 'H',
                     GTMachines.HULL[HV].asItem());
-        } else if (GTOCore.isNormal("recipe.gtceu")) {
+        } else if (DiffConfig.get().recipe.gtceu.isNormal()) {
             VanillaRecipeHelper.addShapedRecipe(true, "maintenance_hatch_automatic",
                     GTMachines.AUTO_MAINTENANCE_HATCH.asItem(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(EV), 'M',
                     GTMachines.MAINTENANCE_HATCH.asItem(), 'R', ROBOT_ARM.get(HV), 'H',

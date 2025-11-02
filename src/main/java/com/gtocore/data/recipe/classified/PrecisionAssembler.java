@@ -5,6 +5,7 @@ import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.GeneratorMultiblock;
 import com.gtocore.common.data.machines.MultiBlockD;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.GTOCleanroomType;
 
@@ -613,9 +614,9 @@ final class PrecisionAssembler {
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.ZPM].asItem())
                 .inputItems(GTItems.ROBOT_ARM_ZPM.asItem(), 4)
                 .inputItems(GTMachines.QUANTUM_CHEST[GTValues.LuV].asItem(), 4)
-                .inputItems(GTOCore.isExpert("recipe.gto") ? GTOItems.CELL_COMPONENT_256M : GTOItems.CELL_COMPONENT_64M)
+                .inputItems(DiffConfig.get().recipe.gto.isExpert() ? GTOItems.CELL_COMPONENT_256M : GTOItems.CELL_COMPONENT_64M)
                 .inputFluids(GTMaterials.SolderingAlloy, 144 * 16)
-                .inputFluids(GTMaterials.Duranium, 144 * (GTOCore.isExpert("recipe.gto") ? 5 : 2))
+                .inputFluids(GTMaterials.Duranium, 144 * (DiffConfig.get().recipe.gto.isExpert() ? 5 : 2))
                 .outputItems(GTOMachines.HUGE_ITEM_IMPORT_BUS.asItem())
                 .EUt(122880)
                 .duration(300)

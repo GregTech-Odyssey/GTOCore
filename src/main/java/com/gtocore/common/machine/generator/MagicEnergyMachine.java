@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.generator;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.api.capability.IManaContainer;
 import com.gtolib.api.machine.mana.feature.IManaMachine;
@@ -99,7 +100,7 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
 
     @Override
     protected long getMaxInputOutputAmperage() {
-        return 16 >> GTOCore.diffInt("machine.generator");
+        return 16 >> DiffConfig.get().machine.generator.getInt();
     }
 
     @Override

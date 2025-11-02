@@ -3,6 +3,7 @@ package com.gtocore.common.data.machines;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MESimplePatternBufferPartMachine;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
@@ -32,7 +33,7 @@ public final class OptionalMachine {
 
     public static void init() {}
 
-    public static final MachineDefinition ME_SIMPLE_PATTERN_BUFFER = GTCEu.isDev() || GTOCore.isEasy("machine.ae2") ?
+    public static final MachineDefinition ME_SIMPLE_PATTERN_BUFFER = GTCEu.isDev() || DiffConfig.get().machine.ae2.isEasy() ?
 
             machine("me_simple_pattern_buffer", "ME简单样板总成", MESimplePatternBufferPartMachine::new)
                     .langValue("ME Simple Pattern Buffer")

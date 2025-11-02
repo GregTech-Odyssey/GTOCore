@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.gtm.misc;
 
 import com.gtocore.common.data.GTOItems;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color;
@@ -659,7 +660,7 @@ public final class CircuitRecipes {
 
     private static void circuitRecipes() {
         int outputAmount = ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 1 : 2;
-        int amount = GTOCore.isExpert("recipe.normal") ? 4 : 3;
+        int amount = DiffConfig.get().recipe.normal.isExpert() ? 4 : 3;
 
         // T1: Electronic ==============================================================================================
 

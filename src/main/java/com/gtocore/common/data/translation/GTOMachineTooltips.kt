@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component
 
 import com.google.common.collect.ImmutableMap
 import com.gregtechceu.gtceu.api.GTValues
+import com.gtocore.config.DiffConfig
 import com.gtolib.GTOCore
 import com.gtolib.utils.NumberUtils
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
@@ -692,7 +693,7 @@ object GTOMachineTooltips {
             val ci2 = ("专家模式下，玻璃等级每一级，高速调节器的损坏基数-0.08" translatedTo "In expert mode, each glass tier reduces the damage base of the high-speed regulator by 0.08")
             val cf2 = ("最低的损坏基数为1.2" translatedTo "The minimum damage base is 1.2")
 
-            if (GTOCore.isExpert("machine.generator")) {
+            if (DiffConfig.get().machine.generator.isExpert()) {
                 section(cs1)
                 function(cf1)
                 info(ci1)

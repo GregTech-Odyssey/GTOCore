@@ -2,6 +2,7 @@ package com.gtocore.common.item;
 
 import com.gtocore.common.entity.TaskEntity;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
@@ -84,7 +85,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         }
 
         int maxReducedDuration = Math.max((int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5), 10);
-        int energyMultiplier = 2 << GTOCore.diffInt("machine.normal");
+        int energyMultiplier = 2 << DiffConfig.get().machine.normal.getInt();
 
         if (machine instanceof IOverclockMachine) {
             var eut = BigInteger.valueOf(recipe.getInputEUt());

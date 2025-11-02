@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.api.machine.IGTOMufflerMachine;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
@@ -189,7 +190,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
         WidgetGroup muffler = new WidgetGroup(0, 0, 170, 25);
         muffler.addWidget(new SlotWidget(mufflerHatchInv.storage, 0, 140, 10, true, true)
                 .setBackground(GuiTextures.SLOT)
-                .setHoverTooltips(Component.translatable(GTOCore.isExpert("machine.normal") ? MUFFLER_TOOLTIP_KEY_EXPERT : MUFFLER_TOOLTIP_KEY)));
+                .setHoverTooltips(Component.translatable(DiffConfig.get().machine.normal.isExpert() ? MUFFLER_TOOLTIP_KEY_EXPERT : MUFFLER_TOOLTIP_KEY)));
         muffler.addWidget(new SlotWidget(amplifierInv.storage, 0, 120, 10, true, true)
                 .setBackground(GuiTextures.SLOT)
                 .setHoverTooltips(Component.translatable(AMPLIFIER_TOOLTIP_KEY)));

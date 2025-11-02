@@ -7,6 +7,7 @@ import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 import com.gtocore.common.recipe.RecipeTypeModify;
 import com.gtocore.common.recipe.custom.RecyclerLogic;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gtolib.GTOCore;
@@ -295,7 +296,7 @@ public final class GTORecipeTypes {
                 };
                 return LocalizationUtils.format(TierCasingTrait.getTierTranslationKey(STELLAR_CONTAINMENT_TIER), tierString);
             })
-            .onRecipeBuild(b -> b.duration(b.duration * GTOCore.diffInt("recipe.gto") / 3));
+            .onRecipeBuild(b -> b.duration(b.duration * DiffConfig.get().recipe.gto.getInt() / 3));
 
     public static final RecipeType COMPONENT_ASSEMBLY_RECIPES = register("component_assembly", "部件装配", MULTIBLOCK)
             .setMaxIOSize(9, 1, 9, 0)

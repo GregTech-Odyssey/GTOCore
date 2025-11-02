@@ -9,6 +9,7 @@ import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporter
 import com.gtocore.common.saved.DysonSphereSavaedData;
 import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 import com.gtocore.common.saved.WirelessSavedData;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.utils.OrganUtilsKt;
 
@@ -299,7 +300,7 @@ public final class ForgeCommonEvent {
     public static void onCommandExecution(CommandEvent event) {
         var command = event.getParseResults().getReader().getString();
         if (command.contains("ae2") && command.contains("channelmode")) {
-            if (GTOCore.isExpert("machine.ae2")) {
+            if (DiffConfig.get().machine.ae2.isExpert()) {
                 event.setCanceled(true);
                 if (event.getParseResults().getContext().getSource().isPlayer()) {
                     Player player = event.getParseResults().getContext().getSource().getPlayer();

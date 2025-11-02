@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials
 import com.gregtechceu.gtceu.data.recipe.CustomTags
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
+import com.gtocore.config.DiffConfig
 import com.gtolib.GTOCore
 
 import java.util.function.IntUnaryOperator
@@ -78,7 +79,7 @@ object OrganRecipes {
         IntStream.rangeClosed(1, 4).forEachOrdered { OrganTier: Int ->
             val tier = OrganTier shl 1
             val scaleOperator =
-                IntUnaryOperator { n: Int -> if (OrganTier == 1 && GTOCore.isExpert("recipe.organ")) n shl GTOCore.diffInt("recipe.organ") - 1 else n shl GTOCore.diffInt("recipe.organ") } // OrganTier==1
+                IntUnaryOperator { n: Int -> if (OrganTier == 1 && DiffConfig.get().recipe.gto.isExpert()) n shl DiffConfig.get().recipe.normal.getInt() - 1 else n shl DiffConfig.get().recipe.normal.getInt() } // OrganTier==1
             // 为MV,没自动化，降点难度
             val motor = GTCraftingComponents.MOTOR.get(tier) as Item
             val conveyor = GTCraftingComponents.CONVEYOR.get(tier) as Item

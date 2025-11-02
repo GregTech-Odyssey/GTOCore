@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.generator;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
@@ -141,7 +142,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         super.onStructureFormed();
         if (mega) {
             rotorSubs.initialize(getLevel());
-            if (GTOCore.isExpert("machine.generator") && this instanceof MegaTurbine) {
+            if (DiffConfig.get().machine.generator.isExpert() && this instanceof MegaTurbine) {
                 damageBase = Math.max(2.2 - 0.08 * ((MegaTurbine) this).getCasingTier(GLASS_TIER), 1.2);
             }
         }
@@ -273,7 +274,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
             highSpeedMode = pressed;
         }).setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.mega_turbine.high_speed_mode").append("[").append(Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")).append("]"))));
 
-        if (mega && GTOCore.isExpert("machine.generator")) {
+        if (mega && DiffConfig.get().machine.generator.isExpert()) {
             configuratorPanel.attachConfigurators(new IFancyConfigurator() {
 
                 @Override
@@ -385,14 +386,14 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     private float getHighSpeedModeOutputMultiplier() {
-        if (!GTOCore.isExpert("machine.generator")) {
+        if (!DiffConfig.get().machine.generator.isExpert()) {
             return highSpeedModeOutputMultiplier;
         }
         return highSpeedModeOutputMultiplier * highSpeedFactor;
     }
 
     private float getHighSpeedModeDamageMultiplier() {
-        if (!GTOCore.isExpert("machine.generator")) {
+        if (!DiffConfig.get().machine.generator.isExpert()) {
             return highSpeedModeRotorDamageMultiplier;
         }
         return Math.max(1f, (float) (highSpeedModeRotorDamageMultiplier * Math.pow(damageBase, highSpeedFactor - 1)));
@@ -432,7 +433,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         public void customText(List<Component> textList) {
             super.customText(textList);
             textList.add(Component.translatable(COIL_BONUS, getCoilTier(), getCoilTier() * 20));
-            if (GTOCore.isExpert("machine.generator"))
+            if (DiffConfig.get().machine.generator.isExpert())
                 textList.add(Component.translatable(GLASS_BONUS, getCasingTier(GLASS_TIER), FormattingUtil.formatNumber2Places(damageBase)));
         }
 

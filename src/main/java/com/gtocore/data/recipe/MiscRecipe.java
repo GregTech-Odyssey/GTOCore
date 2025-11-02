@@ -10,6 +10,7 @@ import com.gtocore.common.recipe.condition.GravityCondition;
 import com.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gtocore.common.recipe.condition.VacuumCondition;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
@@ -650,7 +651,7 @@ public final class MiscRecipe {
                 .duration(100)
                 .save();
 
-        if (GTOCore.isExpert("recipe.gtceu")) {
+        if (DiffConfig.get().recipe.gtceu.isExpert()) {
 
             BRICK_FURNACE_RECIPES.builder("firebricks")
                     .inputItems(GTItems.FIRECLAY_BRICK.asItem(), 6)

@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.*;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -88,7 +89,7 @@ public final class MachineRecipe {
         LASER_WELDER_RECIPES.recipeBuilder("casing_max").EUt(16).inputItems(plate, GTOMaterials.ChaosInfinityAlloy, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_MAX.asItem()).circuitMeta(8).duration(50).save();
 
-        int multiplier = GTOCore.difficultyValue("recipe.normal", 4, 2, 1);
+        int multiplier = DiffConfig.get().recipe.normal.value(4,2,1);
         ASSEMBLER_RECIPES.recipeBuilder("hull_ulv").duration(25).EUt(16)
                 .inputItems(GTBlocks.MACHINE_CASING_ULV.asItem()).inputItems(cableGtSingle, RedAlloy, 2)
                 .inputFluids(Polyethylene.getFluid(L * multiplier)).outputItems(GTMachines.HULL[0]).save();

@@ -1,5 +1,6 @@
 package com.gtocore.mixin.eae;
 
+import com.gtocore.config.DiffConfig;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
@@ -28,7 +29,7 @@ public abstract class PartExPatternProviderMixin {
     private void modifyCreateLogic(CallbackInfoReturnable<PatternProviderLogic> cir) {
         // This method is intentionally left empty to prevent the original logic from executing.
         // The logic is handled in the XModUtils class.
-        if (!GTOCore.isExpert("machine.ae2") && GTOConfig.INSTANCE.exPatternSize > 36) {
+        if (!DiffConfig.get().machine.ae2.isExpert() && GTOConfig.INSTANCE.exPatternSize > 36) {
             cir.setReturnValue(new PatternProviderLogic(exae$getSelf().getMainNode(), exae$getSelf(), GTOConfig.INSTANCE.exPatternSize));
         }
     }

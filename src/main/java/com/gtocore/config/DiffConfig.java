@@ -1,13 +1,12 @@
 package com.gtocore.config;
 
-import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import dev.toma.configuration.config.Configurable;
 
 import java.lang.reflect.Field;
 
-public class GTODiffConfig {
+public class DiffConfig {
 
     @Configurable
     @Configurable.Comment("Config options for Game Recipe")
@@ -46,6 +45,11 @@ public class GTODiffConfig {
         @Configurable.Comment("gto配方难度")
         @RegisterLanguage(namePrefix = "config.gtocore.option.diff.recipe", en = "Not IMPL", cn = "ae2配方难度")
         public ConfigDifficulty gto = ConfigDifficulty.Default;
+
+        @Configurable
+        @Configurable.Comment("gtceu配方难度")
+        @RegisterLanguage(namePrefix = "config.gtocore.option.diff.recipe", en = "Not IMPL", cn = "ae2配方难度")
+        public ConfigDifficulty gtceu = ConfigDifficulty.Default;
 
         @Configurable
         @Configurable.Comment("mods配方难度")
@@ -117,12 +121,21 @@ public class GTODiffConfig {
         public ConfigDifficulty ore = ConfigDifficulty.Default;
     }
 
-    public static ConfigDifficulty getDifficulty(String path) {
+    public static DiffConfig get(){
+        return GTOConfig.INSTANCE.diffInfo;
+    }
+
+    public static ConfigDifficulty getDefault(){
+        return ConfigDifficulty.Default;
+    }
+
+
+    public static Difficulty resolve(String path) {//为DynamicInitialValue使用
         try {
             String[] parts = path.split("\\.");
 
             // 支持多层嵌套访问，如 "category.subcategory.field"
-            Object currentObject = GTOCore.CONFIG_INSTANCE;
+            Object currentObject = GTOConfig.INSTANCE.diffInfo;
 
             for (int i = 0; i < parts.length; i++) {
                 String part = parts[i];
@@ -137,16 +150,16 @@ public class GTODiffConfig {
                 if (i == parts.length - 1) {
                     Object value = field.get(currentObject);
                     if (value instanceof ConfigDifficulty) {
-                        return (ConfigDifficulty) value;
+                        return ((ConfigDifficulty) value).get();
                     } else {
-                        return ConfigDifficulty.Default;
+                        return ConfigDifficulty.Default.get();
                     }
                 }
                 // 否则继续深入嵌套对象
                 else {
                     currentObject = field.get(currentObject);
                     if (currentObject == null) {
-                        return ConfigDifficulty.Default;
+                        return ConfigDifficulty.Default.get();
                     }
                 }
             }
@@ -154,7 +167,6 @@ public class GTODiffConfig {
             // 记录日志（可选）
             System.err.println("Failed to get difficulty for path: " + path + ", error: " + e.getMessage());
         }
-
-        return ConfigDifficulty.Default;
+        return ConfigDifficulty.Default.get();
     }
 }

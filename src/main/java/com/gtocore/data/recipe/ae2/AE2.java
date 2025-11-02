@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
@@ -37,7 +38,7 @@ public final class AE2 {
 
     public static void init() {
         Ae2wtlibRecipes.init();
-        if (GTOCore.isEasy("recipe.ae2")) return;
+        if (DiffConfig.get().recipe.ae2.isEasy()) return;
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
                 'A', AEItems.ANNIHILATION_CORE.asItem(), 'B', GTItems.ROBOT_ARM_LV.asItem(), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"));
@@ -335,7 +336,7 @@ public final class AE2 {
                 'D', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()),
                 'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
 
-        if (GTOCore.isExpert("recipe.ae2")) {
+        if (DiffConfig.get().recipe.ae2.isExpert()) {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ex_pattern_provider"), RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider"),
                     "ABA",
                     "CDC",
@@ -545,7 +546,7 @@ public final class AE2 {
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
-        if (GTOCore.isEasy("recipe.ae2")) return;
+        if (DiffConfig.get().recipe.ae2.isEasy()) return;
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_1k_part"));
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_4k_part"));
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_16k_part"));

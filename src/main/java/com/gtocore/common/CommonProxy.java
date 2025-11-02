@@ -6,6 +6,7 @@ import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.forge.ForgeCommonEvent;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
@@ -99,7 +100,7 @@ public class CommonProxy {
     private static void commonSetup(FMLCommonSetupEvent event) {
         BlockMap.build();
         GTOPartAbility.init();
-        if (GTOCore.isExpert("machine.ae2")) {
+        if (DiffConfig.get().machine.ae2.isExpert()) {
             AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
         } else {
             AEConfig.instance().setChannelModel(ChannelMode.INFINITE);

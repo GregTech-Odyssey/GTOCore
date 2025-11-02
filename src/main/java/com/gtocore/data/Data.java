@@ -3,6 +3,7 @@ package com.gtocore.data;
 import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.data.recipe.*;
 import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.ae2.Ae2wtlibRecipes;
@@ -157,7 +158,7 @@ public final class Data {
                 DataGenerateRecipe.init();
             }
         }
-        if (GTCEu.isDev() || GTOCore.isEasy("machine.ae2")) {
+        if (GTCEu.isDev() || DiffConfig.get().machine.ae2.isEasy()) {
             MeEasyModeRecipe.init();
         }
 

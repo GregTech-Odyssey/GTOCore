@@ -1,5 +1,6 @@
 package com.gtocore.mixin.ftbu;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.block.OreBlock;
@@ -46,7 +47,7 @@ public class ShapeContextMixin {
         }
         ItemStack stack = player.getMainHandItem();
         Item item = stack.getItem();
-        var diff = GTOCore.diffInt("player.ultimine");
+        var diff = DiffConfig.get().player.ultimine.getInt();
         int base = 128 >> diff;
         switch (item) {
             case SpellBook spellBook -> {

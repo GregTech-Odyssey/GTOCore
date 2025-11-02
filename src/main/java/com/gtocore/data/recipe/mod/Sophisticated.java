@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.mod;
 
+import com.gtocore.config.DiffConfig;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
@@ -23,7 +24,7 @@ import java.util.Set;
 public final class Sophisticated {
 
     public static void init() {
-        if (!Mods.sophisticatedbackpacks() || GTOCore.isEasy("recipe.mods")) return;
+        if (!Mods.sophisticatedbackpacks() || DiffConfig.get().recipe.mods.isEasy()) return;
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("stack_upgrade_tier_1"), RegistriesUtils.getItemStack("sophisticatedbackpacks:stack_upgrade_tier_1"), RegistriesUtils.getItemStack("sophisticatedbackpacks:stack_upgrade_starter_tier"), GTMachines.SUPER_CHEST[GTValues.MV].asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("advanced_compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:advanced_compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:compacting_upgrade"), GTItems.ELECTRIC_PISTON_MV.asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("void_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:void_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:upgrade_base"), GTItems.COVER_ITEM_VOIDING.asItem());
@@ -55,7 +56,7 @@ public final class Sophisticated {
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
-        if (!Mods.sophisticatedbackpacks() || GTOCore.isEasy("recipe.mods")) return;
+        if (!Mods.sophisticatedbackpacks() || DiffConfig.get().recipe.mods.isEasy()) return;
         filters.add(RLUtils.sp("backpack"));
         filters.add(RLUtils.sp("pickup_upgrade"));
         filters.add(RLUtils.sp("filter_upgrade"));

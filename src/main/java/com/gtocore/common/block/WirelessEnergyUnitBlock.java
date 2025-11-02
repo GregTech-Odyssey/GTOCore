@@ -1,5 +1,6 @@
 package com.gtocore.common.block;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -27,11 +28,11 @@ public class WirelessEnergyUnitBlock extends Block {
 
     public WirelessEnergyUnitBlock(Properties properties, int tier) {
         super(properties);
-        var diff = GTOCore.diffInt("machine.normal");
+        var diff = DiffConfig.get().machine.normal.getInt();
         var sec_base = 60 << 4 - diff;
         this.capacity = BigInteger.valueOf(GTValues.VEX[tier << 1]).divide(BigInteger.valueOf(diff))
                 .add(BigInteger.valueOf(GTValues.VEX[tier] * 20 * sec_base)).multiply(BigInteger.valueOf(tier));
-        int loss_tmp = GTOCore.isEasy("machine.normal") ? 0 : (GTValues.MAX - tier) << diff;
+        int loss_tmp = DiffConfig.get().machine.normal.isEasy() ? 0 : (GTValues.MAX - tier) << diff;
         if (tier < 6) {
             loss_tmp += 10 * (diff << 2) / tier;
         }

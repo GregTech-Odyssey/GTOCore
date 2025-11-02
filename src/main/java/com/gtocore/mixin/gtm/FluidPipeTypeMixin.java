@@ -2,6 +2,7 @@ package com.gtocore.mixin.gtm;
 
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gtocore.config.DiffConfig;
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -41,7 +42,7 @@ public class FluidPipeTypeMixin {
      */
     @Overwrite(remap = false)
     public FluidPipeProperties modifyProperties(FluidPipeProperties fluidPipeData) {
-        return new FluidPipeProperties((4 - GTOCore.diffInt("machine.normal")) * fluidPipeData.getThroughput() * capacityMultiplier * channels);
+        return new FluidPipeProperties((4 - DiffConfig.get().machine.normal.getInt()) * fluidPipeData.getThroughput() * capacityMultiplier * channels);
     }
 
     /**

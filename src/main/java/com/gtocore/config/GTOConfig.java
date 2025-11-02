@@ -35,15 +35,15 @@ public final class GTOConfig {
         if (INSTANCE.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
         int difficulty = INSTANCE.difficulty.ordinal() + 1;
         GTOCore.setDifficulty(difficulty);
-        var recipe_vanilla = GTOCore.diffInt("recipe.vanilla");
-        var recipe_normal = GTOCore.diffInt("recipe.normal");
-        var recipe_gtceu = GTOCore.diffInt("recipe.gtceu");
-        var machine_ae2 = GTOCore.diffInt("machine.ae2");
-        var world_ore = GTOCore.diffInt("world.ore");
-        var machine_normal = GTOCore.diffInt("machine.normal");
-        var machine_baby = GTOCore.diffInt("machine.baby");
-        var machine_steam = GTOCore.diffInt("machine.steam");
-        var player_tool = GTOCore.diffInt("player.tool");
+        var recipe_vanilla = DiffConfig.get().recipe.vanilla.getInt();
+        var recipe_normal = DiffConfig.get().recipe.normal.getInt();
+        var recipe_gtceu = DiffConfig.get().recipe.gtceu.getInt();
+        var machine_ae2 = DiffConfig.get().machine.ae2.getInt();
+        var world_ore = DiffConfig.get().world.ore.getInt();
+        var machine_normal = DiffConfig.get().machine.normal.getInt();
+        var machine_baby = DiffConfig.get().machine.baby.getInt();
+        var machine_steam = DiffConfig.get().machine.steam.getInt();
+        var player_tool = DiffConfig.get().player.tool.getInt();
         RecipeLogic.SEARCH_MAX_INTERVAL = GTOConfig.INSTANCE.recipeSearchMaxInterval;
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = recipe_vanilla > 1;
@@ -141,7 +141,7 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberBaseDamage = 1;
         ConfigHolder.INSTANCE.tools.nanoSaber.zombieSpawnWithSabers = true;
         ConfigHolder.INSTANCE.tools.nanoSaber.energyConsumption = 64;
-        if (GTOCore.isEasy("player.hazards")) {
+        if (DiffConfig.get().player.hazards.isEasy()) {
             ConfigHolder.INSTANCE.gameplay.hazardsEnabled = false;
         }
         ConfigHolder.INSTANCE.dev.debug = INSTANCE.dev;
@@ -158,7 +158,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment({ "游戏难度详细配置", "Game difficulty level" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度详细配置")
-    public GTODiffConfig diff = new GTODiffConfig();
+    public DiffConfig diffInfo = new DiffConfig();
 
     @Configurable
     @Configurable.Comment({ "启用自我约束模式以限制任何形式的作弊指令使用（警告：一旦开启，游玩的存档将永久锁定自我约束模式！）", "Enable Self Restraint Mode to restrict the use of any form of cheat commands (Warning: Once enabled, the played save will be permanently locked in Self Restraint Mode!)" })

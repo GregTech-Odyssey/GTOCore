@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe;
 
+import com.gtocore.config.DiffConfig;
 import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.generated.DyeRecipes;
 import com.gtocore.data.recipe.misc.SpaceStationRecipes;
@@ -456,7 +457,7 @@ public final class RecipeFilter {
             filters.add(RLUtils.eio("sag_milling/" + eio));
         }
 
-        if (!GTOCore.isEasy("recipe.mods")) {
+        if (!DiffConfig.get().recipe.mods.isEasy()) {
             filters.add(RLUtils.eio("copper_alloy_block"));
             filters.add(RLUtils.eio("copper_alloy_ingot"));
             filters.add(RLUtils.eio("copper_alloy_nugget"));

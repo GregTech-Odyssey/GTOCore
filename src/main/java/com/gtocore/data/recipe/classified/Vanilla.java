@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.*;
+import com.gtocore.config.DiffConfig;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
@@ -836,13 +837,13 @@ final class Vanilla {
                 "CDC",
                 "ABA",
                 'A', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.StainlessSteel), 'B', new MaterialEntry(TagPrefix.rodLong, GTMaterials.StainlessSteel), 'C', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Aluminium), 'D', GTMachines.FERMENTER[GTValues.HV].asItem());
-        if (GTOCore.isExpert("recipe.gto")) {
+        if (DiffConfig.get().recipe.gto.isExpert()) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asItem(),
                     "ABA",
                     "CDC",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.plateDouble, GTOMaterials.Gaia), 'B', RegistriesUtils.getItemStack("gtmthings:ev_4a_wireless_energy_receive_cover"), 'C', RegistriesUtils.getItemStack("ars_nouveau:manipulation_essence"), 'D', GTItems.FIELD_GENERATOR_EV.asItem());
-        } else if (GTOCore.isNormal("recipe.gto")) {
+        } else if (DiffConfig.get().recipe.gto.isNormal()) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asItem(),
                     "ABA",
                     "CDC",
