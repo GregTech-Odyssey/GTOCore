@@ -6,6 +6,8 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -57,17 +59,34 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
 
     private TickableSubscription tickSubs;
 
+    // 村民存储
     @Persisted
     private VillageHolder villagers;
+    // 村民锁定
     @Persisted
     private boolean[] isLocked = new boolean[9];
+    // 村民配方选择
     @Persisted
     private int[] selected = new int[9];
+    // 村民配方锁定
     @Persisted
     private boolean[] startUp = new boolean[9];
 
+    // 村民信息存储
     private final VillagerTradeRecord[] VillagersDataset = new VillagerTradeRecord[9];
+    // 村民交易存储
     private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 9);
+
+    // 补货时间间隔
+    private int replenishmentInterval = 2400;
+    // 交易倍数
+    private int tradingMultiple = 1;
+
+    // 输入输出物品存储
+    @Persisted
+    private NotifiableItemStackHandler input = new NotifiableItemStackHandler(this, 256, IO.IN, IO.IN, CustomItemStackHandler::new);
+    @Persisted
+    private NotifiableItemStackHandler output = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.OUT, CustomItemStackHandler::new);
 
     /////////////////////////////////////
     // *********** 核心方法 *********** //
@@ -96,16 +115,53 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
 
     private void tickUpdate() {
         if (getOffsetTimer() % 100 == 0 && !isRemote()) {
+            int daytime = getOffsetTimer() % 24000;
+            if (daytime == 0) dailyRestockingAttempts();
+            if (daytime % replenishmentInterval == 0) villagersRestock();
             getRecipeLogic().updateTickSubscription();
         }
     }
 
     @Override
     public RecipeLogic createRecipeLogic(Object... args) {
+        System.out.println("Village Trading Station Create Recipe Logic");
         return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     private Recipe getRecipe() {
+        System.out.println("Village Trading Station Get Recipe");
+        for (int slot = 0; slot < 9; slot++) {
+
+            if (!isLocked(slot) || !isStartUp(slot)) continue;
+
+            List<VillagerRecipe> recipes = VillagersDataset[slot].recipes;
+            if (recipes.isEmpty()) continue;
+
+            VillagerRecipe trade = recipes.get(selected[slot]);
+            int margin = trade.maxUses - trade.uses;
+            if (margin <= 0) continue;
+
+            System.out.println("Village Trading Station Matching Recipe in Slot " + slot);
+
+            RecipeBuilder recipeBuilder = getRecipeBuilder();
+            recipeBuilder.inputItems(RecipesHandler.getStackInSlot(slot * 3));
+            if (!RecipesHandler.getStackInSlot(slot * 3 + 1).isEmpty())
+                recipeBuilder.inputItems(RecipesHandler.getStackInSlot(slot * 3 + 1));
+            recipeBuilder.outputItems(RecipesHandler.getStackInSlot(slot * 3 + 2));
+            recipeBuilder.duration(5);
+            Recipe recipe = recipeBuilder.buildRawRecipe();
+
+            System.out.println("Village Trading Station Built Recipe: " + recipe);
+
+            // int parallels = Math.toIntExact(getMaxContentParallel(this, recipe));
+            // int frequency = Math.min(parallels / tradingMultiple, margin);
+
+            // recipe = ParallelLogic.accurateParallel(this, recipe, (long) frequency * tradingMultiple);
+            if (RecipeRunner.matchRecipe(this, recipe)) {
+                System.out.println("Village Trading Station Recipe Matched: " + recipe);
+                return recipe;
+            }
+        }
         return null;
     }
 
@@ -125,18 +181,55 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         selectedRecipes(slot);
     }
 
+    public void releaseLocked(int slot) {
+        isLocked[slot] = false;
+    }
+
+    private void selectedNext(int slot) {
+        if (!isLocked(slot)) return;
+        if (isStartUp(slot)) return;
+        if (!VillagersDataset[slot].recipes.isEmpty()) {
+            if (selected[slot] < VillagersDataset[slot].recipes.size() - 1) {
+                selected[slot]++;
+            } else {
+                selected[slot] = 0;
+            }
+            selectedRecipes(slot);
+        } else {
+            releaseStartUp(slot);
+        }
+    }
+
+    private boolean isStartUp(int slot) {
+        return startUp[slot];
+    }
+
+    private void setStartUp(int slot) {
+        if (isLocked(slot)) {
+            startUp[slot] = !startUp[slot];
+            if (VillagersDataset[slot].recipes.isEmpty()) releaseStartUp(slot);
+        } else {
+            startUp[slot] = false;
+        }
+    }
+
+    private void releaseStartUp(int slot) {
+        startUp[slot] = false;
+    }
+
     private void incomingVillagersDataset(int slot) {
-        if (!villagers.getStackInSlot(slot).isEmpty() && isLocked[slot]) {
-            VillagersDataset[slot] = parseTradeData(villagers.getStackInSlot(slot).getOrCreateTag());
+        ItemStack villager = villagers.getStackInSlot(slot);
+        if (!villager.isEmpty() && isLocked[slot]) {
+            VillagersDataset[slot] = parseTradeData(villager.getOrCreateTag());
         } else {
             VillagersDataset[slot] = null;
+            releaseLocked(slot);
         }
     }
 
     private void selectedRecipes(int slot) {
-        VillagerTradeRecord VillagersData = VillagersDataset[slot];
-        if (VillagersData != null && isLocked(slot)) {
-            List<VillagerRecipe> recipes = VillagersData.recipes;
+        if (VillagersDataset[slot] != null && isLocked(slot)) {
+            List<VillagerRecipe> recipes = VillagersDataset[slot].recipes;
             if (!recipes.isEmpty()) {
                 VillagerRecipe recipe = recipes.get(selected[slot]);
                 RecipesHandler.setStackInSlot(slot * 3, recipe.buy);
@@ -151,30 +244,6 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
             RecipesHandler.setStackInSlot(slot * 3, ItemStack.EMPTY);
             RecipesHandler.setStackInSlot(slot * 3 + 1, ItemStack.EMPTY);
             RecipesHandler.setStackInSlot(slot * 3 + 2, ItemStack.EMPTY);
-        }
-    }
-
-    private void selectedNext(int slot) {
-        VillagerTradeRecord VillagersData = VillagersDataset[slot];
-        if (!isStartUp(slot) && VillagersData != null && !VillagersData.recipes.isEmpty()) {
-            if (selected[slot] < VillagersData.recipes.size() - 1) {
-                selected[slot]++;
-            } else {
-                selected[slot] = 0;
-            }
-            selectedRecipes(slot);
-        }
-    }
-
-    private boolean isStartUp(int slot) {
-        return startUp[slot];
-    }
-
-    private void setStartUp(int slot) {
-        if (isLocked(slot)) {
-            startUp[slot] = !startUp[slot];
-        } else {
-            startUp[slot] = false;
         }
     }
 
@@ -277,9 +346,8 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
                             (textList) -> {
                                 int uses = 0;
                                 int maxUses = 0;
-                                VillagerTradeRecord VillagersData = VillagersDataset[slotIndex];
-                                if (VillagersData != null && isLocked(slotIndex)) {
-                                    List<VillagerRecipe> recipes = VillagersData.recipes;
+                                if (VillagersDataset[slotIndex] != null && isLocked(slotIndex)) {
+                                    List<VillagerRecipe> recipes = VillagersDataset[slotIndex].recipes;
                                     if (!recipes.isEmpty()) {
                                         VillagerRecipe recipe = recipes.get(selected[slotIndex]);
                                         uses = recipe.uses;
@@ -368,17 +436,69 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         }
     }
 
-    private record VillagerTradeRecord(
-                                       int restocksToday,
-                                       int maxRestocksToday,
-                                       List<VillagerRecipe> recipes) {}
+    // 可变的村民交易记录类
+    private static class VillagerTradeRecord {
 
-    private record VillagerRecipe(
-                                  ItemStack buy,
-                                  ItemStack buyB,
-                                  ItemStack sell,
-                                  int maxUses,
-                                  int uses) {}
+        private int restocksToday;
+        private int maxRestocksToday;
+        private List<VillagerRecipe> recipes;
+
+        public VillagerTradeRecord(int restocksToday, int maxRestocksToday, List<VillagerRecipe> recipes) {
+            this.restocksToday = restocksToday;
+            this.maxRestocksToday = maxRestocksToday;
+            this.recipes = recipes;
+        }
+
+        public void setRestocksToday(int restocksToday) {
+            this.restocksToday = restocksToday;
+        }
+
+        public void setMaxRestocksToday(int maxRestocksToday) {
+            this.maxRestocksToday = maxRestocksToday;
+        }
+
+        public void setRecipes(List<VillagerRecipe> recipes) {
+            this.recipes = recipes;
+        }
+    }
+
+    // 可变的村民配方类
+    private static class VillagerRecipe {
+
+        private ItemStack buy;
+        private ItemStack buyB;
+        private ItemStack sell;
+        private int maxUses;
+        private int uses;
+
+        public VillagerRecipe(ItemStack buy, ItemStack buyB, ItemStack sell, int maxUses, int uses) {
+            this.buy = buy;
+            this.buyB = buyB;
+            this.sell = sell;
+            this.maxUses = maxUses;
+            this.uses = uses;
+        }
+
+        public void setBuy(ItemStack buy) {
+            this.buy = buy;
+        }
+
+        public void setBuyB(ItemStack buyB) {
+            this.buyB = buyB;
+        }
+
+        public void setSell(ItemStack sell) {
+            this.sell = sell;
+        }
+
+        public void setMaxUses(int maxUses) {
+            this.maxUses = maxUses;
+        }
+
+        public void setUses(int uses) {
+            this.uses = uses;
+        }
+    }
 
     private static VillagerTradeRecord parseTradeData(CompoundTag originalOuterNbt) {
         if (!originalOuterNbt.contains("villager", 10)) {
@@ -420,6 +540,30 @@ public class VillageTradingStationMachine extends SimpleNoEnergyMachine {
         int count = Math.max(1, itemTag.getByte("Count"));
         item.setCount(count);
         return item;
+    }
+
+    private void villagersRestock() {
+        for (VillagerTradeRecord record : VillagersDataset) {
+            if (record == null) continue;
+            List<VillagerRecipe> recipes = record.recipes;
+            if (recipes == null) continue;
+
+            for (VillagerRecipe recipe : recipes) {
+                if (recipe != null && recipe.uses != 0) {
+                    record.setRestocksToday(record.restocksToday + 1);
+                    break;
+                }
+            }
+            for (VillagerRecipe recipe : recipes) {
+                if (recipe != null) recipe.setUses(0);
+            }
+        }
+    }
+
+    private void dailyRestockingAttempts() {
+        for (VillagerTradeRecord record : VillagersDataset) {
+            record.setMaxRestocksToday(0);
+        }
     }
 
     // 最大交易次数 32*

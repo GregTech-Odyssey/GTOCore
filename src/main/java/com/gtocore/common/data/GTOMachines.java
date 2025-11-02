@@ -933,7 +933,7 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition VILLAGE_TRADING_STATION = machine("village_trading_station", "村民交易站", VillageTradingStationMachine::new)
-            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES.setMaxIOSize(256, 256, 0, 0))
+            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getVillageTradingStationTooltips().apply(list))
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
