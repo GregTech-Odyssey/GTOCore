@@ -85,6 +85,14 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
     }
 
     @Override
+    public List<EmiIngredient> getInputs() {
+        if (i > 0) {
+            return getInputs(i);
+        }
+        return super.getInputs();
+    }
+
+    @Override
     public List<EmiStack> getOutputs() {
         if (definition != null) {
             var stack = definition.asStack();
