@@ -18,8 +18,8 @@ import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFa
 import com.gregtechceu.gtceu.api.machine.feature.IAutoOutputItem;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -41,17 +41,19 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gtocore.common.data.GTOItems.*;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class VillageTradingStationMachine extends MetaMachine implements IAutoOutputItem, IFancyUIMachine {
 
     // 定时任务订阅
@@ -69,7 +71,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     // 村民存储与配置
     @Persisted
-    private VillageHolder villagers;
+    private final VillageHolder villagers;
     @Persisted
     private boolean[] isLocked = new boolean[9];
     @Persisted
@@ -77,22 +79,19 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     @Persisted
     private boolean[] startUp = new boolean[9];
     @Persisted
-    private final ObjectArrayList<VillagerTradeRecord> villagersDataset = new ObjectArrayList<>();
+    private final List<List<VillagerRecipe>> villagersDataset =  new ArrayList<>();
     private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 9);
 
     // 补货与交易参数
+    @Persisted
     private int replenishmentInterval = 2400;
+    @Persisted
     private int tradingMultiple = 1;
 
     // 最大交易次数 32*
     private static final Item[] FIELD_GENERATOR = {
             FIELD_GENERATOR_LV.asItem(), FIELD_GENERATOR_MV.asItem(), FIELD_GENERATOR_HV.asItem(), FIELD_GENERATOR_EV.asItem(),
             FIELD_GENERATOR_IV.asItem(), FIELD_GENERATOR_LuV.asItem(), FIELD_GENERATOR_ZPM.asItem(), FIELD_GENERATOR_UV.asItem() };
-
-    // 最大补货次数 5*
-    private static final Item[] SENSOR = {
-            SENSOR_LV.asItem(), SENSOR_MV.asItem(), SENSOR_HV.asItem(), SENSOR_EV.asItem(),
-            SENSOR_IV.asItem(), SENSOR_LuV.asItem(), SENSOR_ZPM.asItem(), SENSOR_UV.asItem() };
 
     // 补货时间间隔 -200*
     private static final Item[] EMITTER = {
@@ -106,10 +105,10 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     public VillageTradingStationMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        input = new NotifiableItemStackHandler(this, 256, IO.IN, IO.IN, CustomItemStackHandler::new);
-        output = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.OUT, CustomItemStackHandler::new);
+        input = new NotifiableItemStackHandler(this, 256, IO.IN, IO.IN);
+        output = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.OUT);
         villagers = new VillageHolder(this);
-        outputFacingItems = hasFrontFacing() ? getFrontFacing().getOpposite() : Direction.UP;
+        outputFacingItems = hasFrontFacing() ? getFrontFacing().getOpposite() : Direction.DOWN;
     }
 
     /////////////////////////////////////
@@ -119,7 +118,10 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     @Override
     public void onLoad() {
         super.onLoad();
-        initializeDataset();
+        villagers.notifyListeners();
+        input.notifyListeners();
+        output.notifyListeners();
+        while (villagersDataset.size() < 9) villagersDataset.add(null);
         if (!isRemote()) {
             tickSubs = subscribeServerTick(this::tickUpdate);
             exportItemSubs = output.addChangedListener(this::updateAutoOutputSubscription);
@@ -138,11 +140,6 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         if (autoOutputSubs != null) autoOutputSubs.unsubscribe();
     }
 
-    private void initializeDataset() {
-        while (villagersDataset.size() < 9) villagersDataset.add(null);
-        if (villagersDataset.size() > 9) villagersDataset.size(9);
-    }
-
     /////////////////////////////////////
     // ********* 核心交易逻辑 ********* //
     /////////////////////////////////////
@@ -154,9 +151,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         if (getOffsetTimer() % 100 != 0) return;
 
         int daytime = getOffsetTimer() % 24000;
-        // 每天0点重置补货次数
-        if (daytime == 0) dailyRestockingAttempts();
-        // 定时补货
+        // 定时补货（删除每日重置补货次数逻辑）
         if (daytime % replenishmentInterval == 0) villagersRestock();
         // 执行交易
         if (daytime % 200 == 0) {
@@ -167,13 +162,13 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     /**
-     * 执行交易逻辑（与原逻辑一致）
+     * 执行交易逻辑
      */
     private void executeTrades(int slot) {
-        if (!isLocked(slot) || !isStartUp(slot) || villagersDataset.get(slot) == null) return;
+        if (!isLocked(slot) || !isStartUp(slot) || villagersDataset.get(slot) == null || villagersDataset.get(slot).isEmpty()) return;
 
-        List<VillagerRecipe> recipes = villagersDataset.get(slot).recipes;
-        if (recipes.isEmpty() || selected[slot] >= recipes.size()) return;
+        List<VillagerRecipe> recipes = villagersDataset.get(slot);
+        if (selected[slot] >= recipes.size()) return;
 
         VillagerRecipe trade = recipes.get(selected[slot]);
         int remainingUses = trade.maxUses - trade.uses;
@@ -300,8 +295,9 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     private void selectedNext(int slot) {
         if (!isLocked(slot) || isStartUp(slot)) return;
-        if (villagersDataset.get(slot) != null && !villagersDataset.get(slot).recipes.isEmpty()) {
-            selected[slot] = (selected[slot] + 1) % villagersDataset.get(slot).recipes.size();
+        List<VillagerRecipe> recipes = villagersDataset.get(slot);
+        if (recipes != null && !recipes.isEmpty()) {
+            selected[slot] = (selected[slot] + 1) % recipes.size();
             selectedRecipes(slot);
         } else {
             isLocked[slot] = false;
@@ -315,7 +311,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private void setStartUp(int slot) {
         if (isLocked(slot)) {
             startUp[slot] = !startUp[slot];
-            if (villagersDataset.get(slot) != null && villagersDataset.get(slot).recipes.isEmpty()) {
+            List<VillagerRecipe> recipes = villagersDataset.get(slot);
+            if (recipes == null || recipes.isEmpty()) {
                 startUp[slot] = false;
             }
             if (startUp[slot]) executeTrades(slot);
@@ -324,6 +321,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         }
     }
 
+    // 加载村民的配方数据到数据集
     private void incomingVillagersDataset(int slot) {
         ItemStack villager = villagers.getStackInSlot(slot);
         if (!villager.isEmpty() && isLocked[slot]) {
@@ -334,17 +332,14 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         }
     }
 
+    // 选中配方并更新UI显示
     private void selectedRecipes(int slot) {
-        if (villagersDataset.get(slot) != null && isLocked(slot)) {
-            List<VillagerRecipe> recipes = villagersDataset.get(slot).recipes;
-            if (!recipes.isEmpty() && selected[slot] < recipes.size()) {
-                VillagerRecipe recipe = recipes.get(selected[slot]);
-                RecipesHandler.setStackInSlot(slot * 3, recipe.buy.copy());
-                RecipesHandler.setStackInSlot(slot * 3 + 1, recipe.buyB.copy());
-                RecipesHandler.setStackInSlot(slot * 3 + 2, recipe.sell.copy());
-            } else {
-                clearRecipeSlots(slot);
-            }
+        List<VillagerRecipe> recipes = villagersDataset.get(slot);
+        if (recipes != null && isLocked(slot) && !recipes.isEmpty() && selected[slot] < recipes.size()) {
+            VillagerRecipe recipe = recipes.get(selected[slot]);
+            RecipesHandler.setStackInSlot(slot * 3, recipe.buy.copy());
+            RecipesHandler.setStackInSlot(slot * 3 + 1, recipe.buyB.copy());
+            RecipesHandler.setStackInSlot(slot * 3 + 2, recipe.sell.copy());
         } else {
             clearRecipeSlots(slot);
         }
@@ -387,7 +382,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
             @Override
             public IGuiTexture getTabIcon() {
-                return new ItemStackTexture(Objects.requireNonNull(getDefinition().asItem()));
+                return new ItemStackTexture(RegistriesUtils.getItem("easy_villagers:villager"));
             }
 
             @Override
@@ -423,8 +418,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 int ySize = 128;
                 int buttonSpacing = 0;
                 int groupXSize = (xSize + buttonSpacing) * 9 - buttonSpacing;
-                int startX = (width + 8 - groupXSize) / 2;
-                int startY = 4;
+                int startX = (width - groupXSize) / 2;
+                int startY = 16;
                 WidgetGroup group = new WidgetGroup(startX, startY, groupXSize, ySize);
 
                 for (int i = 0; i < 9; i++) {
@@ -465,21 +460,17 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                                     String.valueOf(slot))))
                             .clickHandler((a, b) -> setStartUp(Integer.parseInt(a))));
 
-                    // 交易次数显示
+                    // 交易次数显示（仅保留配方本身的次数）
                     villagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 + 18,
                             (textList) -> {
-                                VillagerTradeRecord record = villagersDataset.get(slot);
-                                if (record != null && isLocked(slot)) {
-                                    if (!record.recipes.isEmpty() && selected[slot] < record.recipes.size()) {
-                                        VillagerRecipe recipe = record.recipes.get(selected[slot]);
-                                        textList.add(Component.literal(String.valueOf(recipe.uses)));
-                                        textList.add(Component.literal(String.valueOf(recipe.maxUses)));
-                                    } else {
-                                        textList.add(Component.literal(String.valueOf(0)));
-                                        textList.add(Component.literal(String.valueOf(0)));
-                                    }
-                                    textList.add(Component.literal(String.valueOf(record.restocksToday)));
-                                    textList.add(Component.literal(String.valueOf(record.maxRestocksToday)));
+                                List<VillagerRecipe> recipes = villagersDataset.get(slot);
+                                if (recipes != null && isLocked(slot) && !recipes.isEmpty() && selected[slot] < recipes.size()) {
+                                    VillagerRecipe recipe = recipes.get(selected[slot]);
+                                    textList.add(Component.literal(String.valueOf(recipe.uses))); // 已用次数
+                                    textList.add(Component.literal(String.valueOf(recipe.maxUses))); // 最大次数
+                                } else {
+                                    textList.add(Component.literal("0"));
+                                    textList.add(Component.literal("0"));
                                 }
                             }));
 
@@ -531,7 +522,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         private final VillageTradingStationMachine machine;
 
         private VillageHolder(VillageTradingStationMachine machine) {
-            super(machine, 9, IO.NONE, IO.BOTH, CustomItemStackHandler::new);
+            super(machine, 9, IO.NONE, IO.BOTH);
             this.machine = machine;
             setFilter(i -> i.getItem().equals(RegistriesUtils.getItem("easy_villagers:villager")));
         }
@@ -599,60 +590,21 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         }
     }
 
-    // 村民交易类
-    private static class VillagerTradeRecord implements IManaged {
-
-        private final VillageTradingStationMachine machine;
-
-        @Persisted
-        private int restocksToday;
-        @Persisted
-        private int maxRestocksToday;
-        @Persisted
-        private final ObjectArrayList<VillagerRecipe> recipes;
-
-        public VillagerTradeRecord(VillageTradingStationMachine machine, int restocksToday, int maxRestocksToday, List<VillagerRecipe> recipes) {
-            this.machine = machine;
-            this.restocksToday = restocksToday;
-            this.maxRestocksToday = maxRestocksToday;
-            this.recipes = new ObjectArrayList<>(recipes);
-        }
-
-        private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(VillagerTradeRecord.class);
-
-        @Override
-        public ManagedFieldHolder getFieldHolder() {
-            return MANAGED_FIELD_HOLDER;
-        }
-
-        @Override
-        public IManagedStorage getSyncStorage() {
-            return machine.getSyncStorage();
-        }
-
-        @Override
-        public void onChanged() {
-            machine.onChanged();
-        }
-    }
-
-    // 解析村民NBT数据获取交易配方
-    private VillagerTradeRecord parseTradeData(CompoundTag originalOuterNbt) {
+    // 解析村民NBT数据获取交易配方（仅返回配方列表）
+    private List<VillagerRecipe> parseTradeData(CompoundTag originalOuterNbt) {
+        List<VillagerRecipe> recipes = new ArrayList<>();
         if (!originalOuterNbt.contains("villager", 10)) {
-            return new VillagerTradeRecord(this, 0, 2, new ArrayList<>());
+            return recipes;
         }
         CompoundTag villagerCoreNbt = originalOuterNbt.getCompound("villager");
 
-        int restocksToday = villagerCoreNbt.getInt("RestocksToday");
-        int maxRestocksToday = villagerCoreNbt.contains("MaxRestocksToday", 3) ? villagerCoreNbt.getInt("MaxRestocksToday") : 2;
-
-        List<VillagerRecipe> recipes = new ArrayList<>();
+        // 解析配方列表（移除补货次数相关解析）
         if (!villagerCoreNbt.contains("Offers", 10)) {
-            return new VillagerTradeRecord(this, restocksToday, maxRestocksToday, recipes);
+            return recipes;
         }
         CompoundTag offersTag = villagerCoreNbt.getCompound("Offers");
         if (!offersTag.contains("Recipes", 9)) {
-            return new VillagerTradeRecord(this, restocksToday, maxRestocksToday, recipes);
+            return recipes;
         }
         ListTag recipesList = offersTag.getList("Recipes", 10);
 
@@ -666,7 +618,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             recipes.add(new VillagerRecipe(this, buy, buyB, sell, maxUses, uses));
         }
 
-        return new VillagerTradeRecord(this, restocksToday, maxRestocksToday, recipes);
+        return recipes;
     }
 
     // 解析NBT为物品栈
@@ -679,27 +631,14 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         return item;
     }
 
-    // 村民补货：重置交易次数
+    // 村民补货：直接重置所有配方的使用次数（无次数限制）
     private void villagersRestock() {
-        for (VillagerTradeRecord record : villagersDataset) {
-            if (record == null) continue;
-            // if (record.restocksToday < record.maxRestocksToday) continue;
-            for (VillagerRecipe recipe : record.recipes) {
-                if (recipe != null && recipe.uses != 0) {
-                    record.restocksToday = record.restocksToday + 1;
-                    break;
-                }
-            }
-            for (VillagerRecipe recipe : record.recipes) {
+        for (int slot = 0; slot < 9; slot++) {
+            List<VillagerRecipe> recipes = villagersDataset.get(slot);
+            if (recipes == null || recipes.isEmpty()) continue;
+            for (VillagerRecipe recipe : recipes) {
                 if (recipe != null) recipe.uses = 0;
             }
-        }
-    }
-
-    // 每日重置补货次数
-    private void dailyRestockingAttempts() {
-        for (VillagerTradeRecord record : villagersDataset) {
-            if (record != null) record.restocksToday = 0;
         }
     }
 
