@@ -191,7 +191,9 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     public boolean gtolib$checkAshFull() {
         var item = inventory.getStackInSlot(inventory.getSlots() - 1);
-        return item.getCount() == 64 || item.getItem() != ItemMap.ASH.getItem();
+        var count = item.getCount();
+        if (count == 0) return false;
+        return count == 64 || item.getItem() != ItemMap.ASH.getItem();
     }
 
     @Override
