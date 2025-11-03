@@ -73,14 +73,14 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     @Persisted
     private final VillageHolder villagers;
     @Persisted
-    private boolean[] isLocked = new boolean[9];
+    private boolean[] isLocked = new boolean[10];
     @Persisted
-    private int[] selected = new int[9];
+    private int[] selected = new int[10];
     @Persisted
-    private boolean[] startUp = new boolean[9];
-    @Persisted
-    private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[9][];
-    private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 9);
+    private boolean[] startUp = new boolean[10];
+
+    private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[10][];
+    private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 10);
 
     // 补货与交易参数
     @Persisted
