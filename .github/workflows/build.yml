@@ -19,7 +19,8 @@ jobs:
           GTO_KEYPASS: ${{ secrets.GTOKEY }}
           GTO_CERTIFICATE: ${{ secrets.GTO_CERT }}
         run: |
-          echo $GTO_CERTIFICATE #| base64 --decode > keystore.jks
+          echo $GTO_CERTIFICATE | base64 --decode > keystore.jks
+          chmod +x ./gradlew
           ./gradlew build
 
       - name: Upload build artifacts
