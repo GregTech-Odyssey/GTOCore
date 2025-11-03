@@ -1250,6 +1250,10 @@ public final class MagicRecipesA {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
                     "BBB", "BAB", "BBB",
                     'A', Items.DIAMOND, 'B', Items.NETHER_STAR);
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("village_trading_station"), GTOMachines.VILLAGE_TRADING_STATION.asStack(),
+                    "ABA", "CDC", "EFE",
+                    'A', RegistriesUtils.getItemStack("easy_villagers:villager"), 'B', new MaterialEntry(foil, GTMaterials.Polytetrafluoroethylene), 'C', new ItemStack(Items.RED_CARPET), 'D', RegistriesUtils.getItemStack("gtceu:chemical_cyan_dye"), 'E', RegistriesUtils.getItemStack("easy_villagers:auto_trader"), 'F', GTOBlocks.INFUSED_GOLD_REINFORCED_WOODEN_CASING.asStack());
         }
 
         // 工具配方

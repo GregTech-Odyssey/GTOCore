@@ -212,7 +212,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         outputStack.setCount(trade.sell.getCount() * actualTrades);
         addItems(output, outputStack);
 
-        trade.uses += actualTrades / tradingMultiple;
+        villagersDataset[slot][selected[slot]].uses += actualTrades / tradingMultiple;
         syncUsesAndMaxUsesToVillagerItem(slot);
     }
 
@@ -348,6 +348,12 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         ItemStack villager = villagers.getStackInSlot(slot);
         if (!villager.isEmpty() && isLocked[slot]) {
             List<VillagerRecipe> recipeList = parseTradeData(villager.getOrCreateTag());
+            CompoundTag villagerCoreNbt = villager.getOrCreateTag().getCompound("villager");
+            CompoundTag offersTag = villagerCoreNbt.getCompound("Offers");
+            ListTag nbtRecipes = offersTag.getList("Recipes", CompoundTag.TAG_COMPOUND);
+            if (recipeList.size() != nbtRecipes.size()) {
+                recipeList = recipeList.subList(0, Math.min(recipeList.size(), nbtRecipes.size()));
+            }
             villagersDataset[slot] = recipeList.toArray(new VillagerRecipe[0]);
         } else {
             villagersDataset[slot] = null;
@@ -464,7 +470,13 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
-                mainGroup.addWidget(getVillagerGroups());
+
+                WidgetGroup villagerGroups = new WidgetGroup(15, 16, 162, 128);
+                villagerGroups.addWidget(VillagerGroup(9, 0));
+
+                mainGroup.addWidget(villagerGroups);
+                mainGroup.addWidget(getUpgradeGroup());
+                mainGroup.addWidget(getEnhanceGroup());
 
                 group.addWidget(mainGroup);
 
@@ -472,31 +484,19 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 return group;
             }
 
-            private @NotNull WidgetGroup getVillagerGroups() {
-                int xSize = 18;
-                int groupXSize = xSize * 9;
-                int startX = (width - groupXSize) / 2;
-                int startY = 16;
-                WidgetGroup group = new WidgetGroup(startX, startY, groupXSize, 128);
-                group.addWidget(VillagerGroup(9, 0));
-                group.addWidget(getUpgradeGroup());
-                group.addWidget(getEnhanceGroup());
-                return group;
-            }
-
             private @NotNull WidgetGroup getUpgradeGroup() {
-                WidgetGroup villagerGroup = new WidgetGroup(22, 18 * 5 - 9, 140, 50);
+                WidgetGroup villagerGroup = new WidgetGroup(22 + 15, 18 * 5 - 9 + 16, 150, 50);
 
-                int slot = 9;
-                VillagerRecipe[] recipes = villagersDataset[slot];
+                VillagerRecipe[] recipes = villagersDataset[9];
                 villagerGroup.addWidget(new ComponentPanelWidget(20, 0,
                         (textList) -> {
-                            if (recipes != null && isLocked(slot) && recipes.length > 0 && selected[slot] < recipes.length) {
-                                VillagerRecipe recipe = recipes[selected[slot]];
-                                int upGread = recipe.maxUses / 32;
-                                if (recipe.maxUses < 256) {
+                            if (recipes != null && isLocked(9)) {
+                                int upGread = recipes[selected[9]].maxUses / 32;
+                                if (recipes[selected[9]].maxUses < 256) {
                                     ItemStack item = FIELD_GENERATOR[upGread].getDefaultInstance();
-                                    textList.add(ComponentPanelWidget.withButton(Component.literal("[ + ]"), "add_max_uses"));
+                                    int count = Math.min(getMaxPossibleTrades(upgrade, item, ItemStack.EMPTY), (upGread + 1) * 32 - recipes[selected[9]].maxUses);
+                                    textList.add(ComponentPanelWidget.withButton(
+                                            Component.literal("[ + " + count + " → " + (recipes[selected[9]].maxUses + count) + " ]"), "add_max_uses"));
                                     textList.add(Component.translatable("gtocore.machine.village_trading_station.increase", item.getDisplayName()));
                                 } else {
                                     textList.add(Component.empty());
@@ -504,16 +504,15 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                                 }
                             }
                         }).clickHandler((a, b) -> {
-                            if (recipes != null && isLocked(slot) && recipes.length > 0 && selected[slot] < recipes.length) {
-                                VillagerRecipe recipe = recipes[selected[slot]];
-                                int upGread = recipe.maxUses / 32;
-                                if (recipe.maxUses < 256) {
+                            if (recipes != null && isLocked(9)) {
+                                int upGread = recipes[selected[9]].maxUses / 32;
+                                if (recipes[selected[9]].maxUses < 256) {
                                     ItemStack item = FIELD_GENERATOR[upGread].getDefaultInstance();
-                                    int count = Math.min(getMaxPossibleTrades(upgrade, item, ItemStack.EMPTY), (upGread + 1) * 32 - recipe.maxUses);
+                                    int count = Math.min(getMaxPossibleTrades(upgrade, item, ItemStack.EMPTY), (upGread + 1) * 32 - recipes[selected[9]].maxUses);
                                     if (count > 0) {
                                         deductItems(upgrade, item, count);
-                                        recipe.maxUses += count;
-                                        syncUsesAndMaxUsesToVillagerItem(slot);
+                                        villagersDataset[9][selected[9]].maxUses += count;
+                                        syncUsesAndMaxUsesToVillagerItem(9);
                                     }
                                 }
                             }
@@ -526,9 +525,9 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             }
 
             private @NotNull WidgetGroup getEnhanceGroup() {
-                WidgetGroup villagerGroup = new WidgetGroup(22, 18 - 9, 140, 100);
+                WidgetGroup villagerGroup = new WidgetGroup(22 + 15, 18 - 9 + 16, 150, 100);
 
-                villagerGroup.addWidget(new ComponentPanelWidget(0, 8,
+                villagerGroup.addWidget(new ComponentPanelWidget(0, 9,
                         (textList) -> {
                             if (tire < 12) {
                                 textList.add(Component.literal("     ")
@@ -660,20 +659,20 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     // 解析村民NBT数据获取交易配方（仅返回配方列表）
     private List<VillagerRecipe> parseTradeData(CompoundTag originalOuterNbt) {
         List<VillagerRecipe> recipes = new ArrayList<>();
-        if (!originalOuterNbt.contains("villager", 10)) {
+        if (!originalOuterNbt.contains("villager", CompoundTag.TAG_COMPOUND)) {
             return recipes;
         }
         CompoundTag villagerCoreNbt = originalOuterNbt.getCompound("villager");
 
-        // 解析配方列表（移除补货次数相关解析）
-        if (!villagerCoreNbt.contains("Offers", 10)) {
+        if (!villagerCoreNbt.contains("Offers", CompoundTag.TAG_COMPOUND)) {
             return recipes;
         }
         CompoundTag offersTag = villagerCoreNbt.getCompound("Offers");
-        if (!offersTag.contains("Recipes", 9)) {
+
+        if (!offersTag.contains("Recipes", ListTag.TAG_LIST)) {
             return recipes;
         }
-        ListTag recipesList = offersTag.getList("Recipes", 10);
+        ListTag recipesList = offersTag.getList("Recipes", CompoundTag.TAG_COMPOUND);
 
         for (int i = 0; i < recipesList.size(); i++) {
             CompoundTag recipeTag = recipesList.getCompound(i);
@@ -684,7 +683,6 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             int uses = recipeTag.getInt("uses");
             recipes.add(new VillagerRecipe(buy, buyB, sell, maxUses, uses));
         }
-
         return recipes;
     }
 
@@ -692,7 +690,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private static ItemStack parseItemStack(CompoundTag itemTag) {
         String itemId = itemTag.getString("id");
         ItemStack item = RegistriesUtils.getItemStack(itemId);
-        if (item.getItem().equals(Items.BARRIER)) return ItemStack.EMPTY;
+        if (item.getItem().equals(Items.AIR)) return ItemStack.EMPTY;
         int count = Math.max(1, itemTag.getByte("Count"));
         item.setCount(count);
         return item;
@@ -728,8 +726,9 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         CompoundTag outerNbt = villagerStack.getOrCreateTag();
         CompoundTag villagerCoreNbt = outerNbt.getCompound("villager");
         CompoundTag offersTag = villagerCoreNbt.getCompound("Offers");
-        ListTag recipesList = offersTag.getList("Recipes", 10);
-        for (int i = 0; i < datasetRecipes.length && i < recipesList.size(); i++) {
+        ListTag recipesList = offersTag.getList("Recipes", CompoundTag.TAG_COMPOUND);
+        int syncCount = Math.min(datasetRecipes.length, recipesList.size());
+        for (int i = 0; i < syncCount; i++) {
             VillagerRecipe datasetRecipe = datasetRecipes[i];
             CompoundTag nbtRecipe = recipesList.getCompound(i);
             nbtRecipe.putInt("uses", datasetRecipe.uses);
