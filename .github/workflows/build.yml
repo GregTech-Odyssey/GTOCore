@@ -11,23 +11,18 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+        cache-read-only: false
 
-      - name: Release Cert
+      - name: Build Java
         working-directory: ./
-        env:
-          GTO_CERTIFICATE: ${{ secrets.GTO_CERT }}
-        run: |
-          echo $GTO_CERTIFICATE | base64 --decode > keystore.jks
-
-      - uses: burrunan/gradle-cache-action@v3
-        name: Build GTOCore
         env:
           GTO_STOREPASS: ${{ secrets.GTOKEY }}
           GTO_KEYPASS: ${{ secrets.GTOKEY }}
-        with:
-          job-id: jdk21
-          arguments: build
-          gradle-version: wrapper
+          GTO_CERTIFICATE: ${{ secrets.GTO_CERT }}
+        run: |
+          echo $GTO_CERTIFICATE | base64 --decode > keystore.jks
+          chmod +x ./gradlew
+          ./gradlew build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
