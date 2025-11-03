@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/stellar_energy_siphon_casing"
+    }
+  }
+}

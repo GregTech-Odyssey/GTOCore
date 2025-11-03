@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/non_photonic_matter_exclusion_glass"
+    }
+  }
+}

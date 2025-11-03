@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/calcium_oxide_ceramic_anti_metal_corrosion_mechanical_block"
+  }
+}

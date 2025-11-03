@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/solar_heat_collector_pipe_casing"
+    }
+  }
+}

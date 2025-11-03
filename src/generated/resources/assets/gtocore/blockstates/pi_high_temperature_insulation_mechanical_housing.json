@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/pi_high_temperature_insulation_mechanical_housing"
+    }
+  }
+}

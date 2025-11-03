@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/magic_core"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/magic_core_active"
+    }
+  }
+}

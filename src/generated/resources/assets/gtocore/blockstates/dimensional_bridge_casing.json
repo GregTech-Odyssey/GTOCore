@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/dimensional_bridge_casing"
+    }
+  }
+}

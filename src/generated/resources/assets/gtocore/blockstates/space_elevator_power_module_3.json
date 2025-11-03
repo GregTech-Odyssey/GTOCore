@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/space_elevator_power_module_3"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/space_elevator_power_module_3_active"
+    }
+  }
+}

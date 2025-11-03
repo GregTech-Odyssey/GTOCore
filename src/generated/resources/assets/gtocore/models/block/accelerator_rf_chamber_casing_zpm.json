@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "gtocore:block/casings/accelerator/accelerator_rf_chamber_casing_zpm",
+    "top_all": "gtocore:block/casings/accelerator/accelerator_rf_chamber_casing_zpm_bloom"
+  }
+}

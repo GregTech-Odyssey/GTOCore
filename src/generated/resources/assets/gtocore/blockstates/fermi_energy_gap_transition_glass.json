@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/fermi_energy_gap_transition_glass"
+    }
+  }
+}

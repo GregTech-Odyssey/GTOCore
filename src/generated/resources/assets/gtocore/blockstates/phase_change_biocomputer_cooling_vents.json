@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/phase_change_biocomputer_cooling_vents"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/phase_change_biocomputer_cooling_vents_active"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/coil/infinity_coil_block"
+    },
+    "active=true": {
+      "model": "gtocore:block/coil/infinity_coil_block_bloom"
+    }
+  }
+}

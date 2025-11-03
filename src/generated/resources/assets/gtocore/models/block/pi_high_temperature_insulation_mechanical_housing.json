@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/pi_high_temperature_insulation_mechanical_housing"
+  }
+}

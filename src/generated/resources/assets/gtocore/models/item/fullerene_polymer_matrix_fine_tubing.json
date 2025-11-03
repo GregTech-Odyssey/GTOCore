@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/fullerene_polymer_matrix_fine_tubing"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/compressor_controller_casing"
+    }
+  }
+}

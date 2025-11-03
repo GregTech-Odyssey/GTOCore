@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "gtocore:block/casings/optical_resonance_chamber",
+    "top_all": "gtocore:block/casings/optical_resonance_chamber_bloom"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/creep_resistant_smelting_casing"
+    }
+  }
+}

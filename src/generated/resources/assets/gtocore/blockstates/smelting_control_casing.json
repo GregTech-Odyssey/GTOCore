@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/smelting_control_casing"
+    }
+  }
+}

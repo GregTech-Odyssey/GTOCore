@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/spacecraft_sealing_casing"
+    }
+  }
+}

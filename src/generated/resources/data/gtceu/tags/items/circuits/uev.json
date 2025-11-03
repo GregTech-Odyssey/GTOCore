@@ -1,0 +1,11 @@
+{
+  "values": [
+    "gtocore:bioware_mainframe",
+    "gtocore:optical_computer",
+    "gtocore:exotic_assembly",
+    "gtocore:cosmic_processor",
+    "gtocore:suprachronal_circuit_uev",
+    "gtocore:magneto_resonatic_circuit_uev",
+    "gtocore:universal_circuit_uev"
+  ]
+}
