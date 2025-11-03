@@ -42,7 +42,34 @@ jar {
 java {
     withSourcesJar()
 }
+afterEvaluate {
+    tasks.register("signJar") {
+        doLast {
+            def destDir = "$buildDir/libs"
+            def originalJar = "${buildDir}/libs/${mod_id}-${version}.jar"
+            mkdir(destDir)
+            ant.signjar(
+                    jar: originalJar,
+                    destDir: "$destDir",
+                    alias: "gtokey",
+                    storetype: "jks",
+                    keystore: "keystore.jks",
+                    storepass: System.getenv('GTO_STOREPASS'),
+                    keypass: System.getenv('GTO_KEYPASS'),
+                    preservelastmodified: "true",
+                    tsaurl: "http://timestamp.sectigo.com?td=sha256",
+            )
+        }
+        outputs.upToDateWhen {
+            false
+        }
+        onlyIf {
+            new File("${projectDir}/keystore.jks").exists()
+        }
+    }
 
+    jar.finalizedBy signJar
+}
 idea {
     module {
         downloadSources = true
