@@ -50,7 +50,7 @@ afterEvaluate {
             mkdir(destDir)
             ant.signjar(
                     jar: originalJar,
-                    destDir: "$destDir",
+                    destDir: destDir,
                     alias: "gtokey",
                     storetype: "jks",
                     keystore: "keystore.jks",
@@ -68,7 +68,7 @@ afterEvaluate {
         }
     }
 
-    jar.finalizedBy signJar
+    reobfJar.finalizedBy signJar
 }
 idea {
     module {
