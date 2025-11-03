@@ -23,7 +23,7 @@ jobs:
           GTO_CERTIFICATE: ${{ secrets.GTO_CERT }}
         run: |
           echo $GTO_CERTIFICATE | base64 --decode > keystore.jks
-          gradle build --configuration-cache
+          gradle build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
