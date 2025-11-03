@@ -79,7 +79,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     @Persisted
     private boolean[] startUp = new boolean[9];
     @Persisted
-    private final List<List<VillagerRecipe>> villagersDataset =  new ArrayList<>();
+    private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[9][];
     private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 9);
 
     // 补货与交易参数
@@ -121,7 +121,6 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         villagers.notifyListeners();
         input.notifyListeners();
         output.notifyListeners();
-        while (villagersDataset.size() < 9) villagersDataset.add(null);
         if (!isRemote()) {
             tickSubs = subscribeServerTick(this::tickUpdate);
             exportItemSubs = output.addChangedListener(this::updateAutoOutputSubscription);
@@ -165,12 +164,12 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
      * 执行交易逻辑
      */
     private void executeTrades(int slot) {
-        if (!isLocked(slot) || !isStartUp(slot) || villagersDataset.get(slot) == null || villagersDataset.get(slot).isEmpty()) return;
+        if (!isLocked(slot) || !isStartUp(slot) || villagersDataset[slot] == null || villagersDataset[slot].length == 0) return;
 
-        List<VillagerRecipe> recipes = villagersDataset.get(slot);
-        if (selected[slot] >= recipes.size()) return;
+        VillagerRecipe[] recipes = villagersDataset[slot];
+        if (selected[slot] >= recipes.length) return;
 
-        VillagerRecipe trade = recipes.get(selected[slot]);
+        VillagerRecipe trade = recipes[selected[slot]];
         int remainingUses = trade.maxUses - trade.uses;
         if (remainingUses <= 0) return;
 
@@ -287,7 +286,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         if (isLocked[slot]) {
             incomingVillagersDataset(slot);
         } else {
-            villagersDataset.set(slot, null);
+            villagersDataset[slot] = null;
             setStartUp(slot);
         }
         selectedRecipes(slot);
@@ -295,9 +294,10 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     private void selectedNext(int slot) {
         if (!isLocked(slot) || isStartUp(slot)) return;
-        List<VillagerRecipe> recipes = villagersDataset.get(slot);
-        if (recipes != null && !recipes.isEmpty()) {
-            selected[slot] = (selected[slot] + 1) % recipes.size();
+        VillagerRecipe[] recipes = villagersDataset[slot];
+        // 数组长度判断
+        if (recipes != null && recipes.length > 0) {
+            selected[slot] = (selected[slot] + 1) % recipes.length;
             selectedRecipes(slot);
         } else {
             isLocked[slot] = false;
@@ -311,8 +311,9 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private void setStartUp(int slot) {
         if (isLocked(slot)) {
             startUp[slot] = !startUp[slot];
-            List<VillagerRecipe> recipes = villagersDataset.get(slot);
-            if (recipes == null || recipes.isEmpty()) {
+            VillagerRecipe[] recipes = villagersDataset[slot];
+            // 数组判断
+            if (recipes == null || recipes.length == 0) {
                 startUp[slot] = false;
             }
             if (startUp[slot]) executeTrades(slot);
@@ -325,18 +326,19 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private void incomingVillagersDataset(int slot) {
         ItemStack villager = villagers.getStackInSlot(slot);
         if (!villager.isEmpty() && isLocked[slot]) {
-            villagersDataset.set(slot, parseTradeData(villager.getOrCreateTag()));
+            List<VillagerRecipe> recipeList = parseTradeData(villager.getOrCreateTag());
+            villagersDataset[slot] = recipeList.toArray(new VillagerRecipe[0]);
         } else {
-            villagersDataset.set(slot, null);
+            villagersDataset[slot] = null;
             isLocked[slot] = false;
         }
     }
 
     // 选中配方并更新UI显示
     private void selectedRecipes(int slot) {
-        List<VillagerRecipe> recipes = villagersDataset.get(slot);
-        if (recipes != null && isLocked(slot) && !recipes.isEmpty() && selected[slot] < recipes.size()) {
-            VillagerRecipe recipe = recipes.get(selected[slot]);
+        VillagerRecipe[] recipes = villagersDataset[slot];
+        if (recipes != null && isLocked(slot) && recipes.length > 0 && selected[slot] < recipes.length) {
+            VillagerRecipe recipe = recipes[selected[slot]];
             RecipesHandler.setStackInSlot(slot * 3, recipe.buy.copy());
             RecipesHandler.setStackInSlot(slot * 3 + 1, recipe.buyB.copy());
             RecipesHandler.setStackInSlot(slot * 3 + 2, recipe.sell.copy());
@@ -400,7 +402,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
                 mainGroup.addWidget(new ComponentPanelWidget(4, 4, this::addDisplayTextTitle));
-                mainGroup.addWidget(getLockButton());
+                mainGroup.addWidget(getVillagerGroups());
 
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -413,69 +415,19 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 textList.add(Component.literal(String.valueOf(lockedCount)));
             }
 
-            private @NotNull WidgetGroup getLockButton() {
+            private @NotNull WidgetGroup getVillagerGroups() {
                 int xSize = 18;
-                int ySize = 128;
                 int buttonSpacing = 0;
                 int groupXSize = (xSize + buttonSpacing) * 9 - buttonSpacing;
                 int startX = (width - groupXSize) / 2;
                 int startY = 16;
-                WidgetGroup group = new WidgetGroup(startX, startY, groupXSize, ySize);
+                WidgetGroup group = new WidgetGroup(startX, startY, groupXSize, 128);
 
                 for (int i = 0; i < 9; i++) {
-                    final int slot = i;
-                    int buttonX = i * (xSize + buttonSpacing);
-                    WidgetGroup villagerGroup = new WidgetGroup(buttonX, 0, xSize, ySize);
-                    villagerGroup.setLayout(Layout.VERTICAL_CENTER);
-
-                    // 锁定按钮
-                    villagerGroup.addWidget(new ComponentPanelWidget(0, 2,
-                            (textList) -> textList.add(ComponentPanelWidget.withButton(
-                                    isLocked(slot) ? Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"),
-                                    String.valueOf(slot))))
-                            .clickHandler((a, b) -> setLocked(Integer.parseInt(a))));
-
-                    // 村民槽位
-                    villagerGroup.addWidget(new SlotWidget(villagers, i, 0, 18 - 6, true, true)
-                            .setBackground(GuiTextures.SLOT));
-
-                    // 配方输入1、输入2、输出槽位
-                    for (int j = 0; j < 3; j++) {
-                        SlotWidget itemWidget = new SlotWidget(RecipesHandler, 3 * i + j, 0, 18 * (j + 2) - 6)
-                                .setCanPutItems(false).setCanTakeItems(false)
-                                .setBackgroundTexture(new ResourceTexture(GTOCore.id("textures/gui/villager_recipe_slot_" + j + ".png")));
-                        villagerGroup.addWidget(itemWidget);
-                    }
-
-                    // 切换配方按钮
-                    villagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 - 6,
-                            (textList) -> textList.add(ComponentPanelWidget.withButton(
-                                    Component.literal("\uD83D\uDD01"), String.valueOf(slot))))
-                            .clickHandler((a, b) -> selectedNext(Integer.parseInt(a))));
-
-                    // 启动交易按钮
-                    villagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 + 6,
-                            (textList) -> textList.add(ComponentPanelWidget.withButton(
-                                    isStartUp(slot) ? Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"),
-                                    String.valueOf(slot))))
-                            .clickHandler((a, b) -> setStartUp(Integer.parseInt(a))));
-
-                    // 交易次数显示（仅保留配方本身的次数）
-                    villagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 + 18,
-                            (textList) -> {
-                                List<VillagerRecipe> recipes = villagersDataset.get(slot);
-                                if (recipes != null && isLocked(slot) && !recipes.isEmpty() && selected[slot] < recipes.size()) {
-                                    VillagerRecipe recipe = recipes.get(selected[slot]);
-                                    textList.add(Component.literal(String.valueOf(recipe.uses))); // 已用次数
-                                    textList.add(Component.literal(String.valueOf(recipe.maxUses))); // 最大次数
-                                } else {
-                                    textList.add(Component.literal("0"));
-                                    textList.add(Component.literal("0"));
-                                }
-                            }));
-
-                    group.addWidget(villagerGroup);
+                    int X = i * (xSize + buttonSpacing);
+                    group.addWidget(VillagerGroup(i, X, 0));
                 }
+
                 return group;
             }
         });
@@ -511,6 +463,58 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
         // 方向配置页
         sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
+    }
+
+    private @NotNull WidgetGroup VillagerGroup(int slot, int X, int Y) {
+        WidgetGroup villagerGroup = new WidgetGroup(X, Y, 18, 128);
+        villagerGroup.setLayout(Layout.VERTICAL_CENTER);
+
+        // 锁定按钮
+        villagerGroup.addWidget(new ComponentPanelWidget(0, 2,
+                (textList) -> textList.add(ComponentPanelWidget.withButton(
+                        isLocked(slot) ? Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"),
+                        String.valueOf(slot))))
+                .clickHandler((a, b) -> setLocked(Integer.parseInt(a))));
+
+        // 村民槽位
+        villagerGroup.addWidget(new SlotWidget(villagers, slot, 0, 18 - 6, true, true)
+                .setBackground(GuiTextures.SLOT));
+
+        // 配方输入1、输入2、输出槽位
+        for (int j = 0; j < 3; j++) {
+            SlotWidget itemWidget = new SlotWidget(RecipesHandler, 3 * slot + j, 0, 18 * (j + 2) - 6)
+                    .setCanPutItems(false).setCanTakeItems(false)
+                    .setBackgroundTexture(new ResourceTexture(GTOCore.id("textures/gui/villager_recipe_slot_" + j + ".png")));
+            villagerGroup.addWidget(itemWidget);
+        }
+
+        // 切换配方按钮
+        villagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 - 6,
+                (textList) -> textList.add(ComponentPanelWidget.withButton(
+                        Component.literal("\uD83D\uDD01"), String.valueOf(slot))))
+                .clickHandler((a, b) -> selectedNext(Integer.parseInt(a))));
+
+        // 启动交易按钮
+        villagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 + 6,
+                (textList) -> textList.add(ComponentPanelWidget.withButton(
+                        isStartUp(slot) ? Component.literal("\uD83D\uDD12") : Component.literal("\uD83D\uDD13"),
+                        String.valueOf(slot))))
+                .clickHandler((a, b) -> setStartUp(Integer.parseInt(a))));
+
+        // 交易次数显示
+        villagerGroup.addWidget(new ComponentPanelWidget(0, 2 + 18 * 5 + 18,
+                (textList) -> {
+                    VillagerRecipe[] recipes = villagersDataset[slot];
+                    if (recipes != null && isLocked(slot) && recipes.length > 0 && selected[slot] < recipes.length) {
+                        VillagerRecipe recipe = recipes[selected[slot]];
+                        textList.add(Component.literal(String.valueOf(recipe.uses)));
+                        textList.add(Component.literal(String.valueOf(recipe.maxUses)));
+                    } else {
+                        textList.add(Component.literal("0"));
+                        textList.add(Component.literal("0"));
+                    }
+                }));
+        return villagerGroup;
     }
 
     /////////////////////////////////////
@@ -634,8 +638,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     // 村民补货：直接重置所有配方的使用次数（无次数限制）
     private void villagersRestock() {
         for (int slot = 0; slot < 9; slot++) {
-            List<VillagerRecipe> recipes = villagersDataset.get(slot);
-            if (recipes == null || recipes.isEmpty()) continue;
+            VillagerRecipe[] recipes = villagersDataset[slot];
+            if (recipes == null) continue;
             for (VillagerRecipe recipe : recipes) {
                 if (recipe != null) recipe.uses = 0;
             }
