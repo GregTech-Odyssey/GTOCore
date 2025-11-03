@@ -699,7 +699,7 @@ public final class CircuitRecipes {
                 .inputItems(CustomTags.DIODES, 2)
                 .inputItems(wireFine, Copper, 2)
                 .inputItems(bolt, Tin, 2)
-                .outputItems(INTEGRATED_CIRCUIT_LV, outputAmount)
+                .outputItems(INTEGRATED_CIRCUIT_LV, ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 3 : 4)
                 .save();
 
         // MV
@@ -740,7 +740,7 @@ public final class CircuitRecipes {
                 .inputItems(CustomTags.CAPACITORS, 2)
                 .inputItems(CustomTags.TRANSISTORS, 2)
                 .inputItems(wireFine, Copper, 2)
-                .outputItems(MICROPROCESSOR_LV, ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 2 : 3)
+                .outputItems(MICROPROCESSOR_LV, ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 4 : 6)
                 .save();
 
         // Microprocessor LV SoC
@@ -749,7 +749,7 @@ public final class CircuitRecipes {
                 .inputItems(SYSTEM_ON_CHIP)
                 .inputItems(wireFine, Copper, 2)
                 .inputItems(bolt, Tin, 2)
-                .outputItems(MICROPROCESSOR_LV, ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 3 : 6)
+                .outputItems(MICROPROCESSOR_LV, ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 6 : 8)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
@@ -785,7 +785,7 @@ public final class CircuitRecipes {
                 .inputItems(CustomTags.CAPACITORS, 8)
                 .inputItems(RANDOM_ACCESS_MEMORY, 4)
                 .inputItems(wireFine, RedAlloy, 8)
-                .outputItems(PROCESSOR_ASSEMBLY_HV, outputAmount << 1)
+                .outputItems(PROCESSOR_ASSEMBLY_HV, 2)
                 .solderMultiplier(2)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
