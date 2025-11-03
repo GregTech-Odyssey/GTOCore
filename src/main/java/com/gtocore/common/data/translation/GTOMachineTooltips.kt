@@ -199,11 +199,6 @@ object GTOMachineTooltips {
         highlight("政企村协同发展的核心装备" translatedTo "Core equipment for company-village collaborative development") { rainbowSlow() }
         highlight("泛银河格雷科技研发部匠心研发" translatedTo "Crafted with care by Pan-Galaxy Gray Technology R&D") { rainbowSlow() }
 
-        story(
-            "可通过功能扩展模块解锁更多协作场景(如预约交易、需求预警)" translatedTo
-                "More collaboration scenarios (e.g., scheduled trading, demand alerts) can be unlocked via expansion modules.",
-        )
-
         guide("详细操作说明请查阅机器内置手册" translatedTo "For detailed instructions, refer to the in-machine manual")
     }
 
@@ -265,12 +260,8 @@ object GTOMachineTooltips {
 
         section("升级参数" translatedTo "Upgrade Parameters")
         content(
-            "全局升级：补货间隔、多倍交易" translatedTo
-                "Global Upgrades: Restock interval; Multi-trade.",
-        )
-        content(
-            "村民协作升级：每日补货上限、单轮交易上限、专属折扣" translatedTo
-                "Villager Collaboration Upgrades: Daily restock limit; Single-round trade limit; Exclusive discounts.",
+            "升级：补货间隔、多倍交易、单轮交易上限" translatedTo
+                "Upgrades: Replenishment interval, multiple trades, single-round trade limit",
         )
 
         section("材料说明" translatedTo "Material Instructions")
@@ -300,12 +291,6 @@ object GTOMachineTooltips {
         guide(
             "按流程完成配置后，锁定村民并启用协作交易即可自动运行" translatedTo
                 "After completing configuration as per the process, lock villagers and enable collaborative trading to run automatically.",
-        )
-
-        section("扩展能力" translatedTo "Expansion Capabilities")
-        content(
-            "支持通过扩展模块提升缓冲区容量(最高27格/组)及村民对接数量(最高27名)" translatedTo
-                "Supports increasing buffer capacity (max 27 slots/set) and villager capacity (max 27) via expansion modules.",
         )
 
         highlight("智能协同，共赢高效" translatedTo "Intelligent collaboration for win-win efficiency") { rainbowSlow() }
