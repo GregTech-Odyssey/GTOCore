@@ -15,6 +15,8 @@ import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Me2in1Screen;
 import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart;
 import com.gtolib.api.ae2.me2in1.Wireless;
+import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
+import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubScreen;
 
 import com.gregtechceu.gtceu.GTCEu;
 
@@ -103,6 +105,10 @@ public final class ClientProxy extends CommonProxy {
                     Wireless.TYPE,
                     Wireless.Screen::new,
                     "/screens/ex_pattern_access_terminal.json");
+            InitScreens.register(
+                    CategoryMappingSubMenu.TYPE,
+                    CategoryMappingSubScreen::new,
+                    "/screens/categoru_mapping_config.json");
         });
     }
 

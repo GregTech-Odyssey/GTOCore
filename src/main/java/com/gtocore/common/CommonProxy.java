@@ -19,6 +19,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.IItem;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Wireless;
+import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.registries.ScanningClass;
@@ -171,6 +172,7 @@ public class CommonProxy {
         if (event.getRegistryKey() == Registries.MENU) {
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1").toString(), Me2in1Menu.TYPE);
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1wireless").toString(), Wireless.TYPE);
+            Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("category_mapping_sub_menu").toString(), CategoryMappingSubMenu.TYPE);
         }
     }
 }

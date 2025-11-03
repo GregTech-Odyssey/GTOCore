@@ -1022,6 +1022,11 @@ public final class GTORecipeTypes {
             .noSearch(true)
             .setIconSupplier(() -> TIER_1_ROCKET.get().getDefaultInstance());
 
+    public static final RecipeType PIGMENT_MIXING_RECIPES = register("pigment_mixing", "染料混合", MULTIBLOCK)
+            .setMaxIOSize(5, 1, 1, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_MIXER, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MIXER);
+
     //////////////////////////////////////
     // ********** Magic **********//
     //////////////////////////////////////

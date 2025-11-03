@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -221,5 +222,29 @@ public final class GTOPredicates {
 
     private static BlockState getBlockState(MultiblockState state, BlockPos pos) {
         return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos));
+    }
+
+    public static TraceabilityPredicate recordPosition(String name, TraceabilityPredicate original) {
+        return new TraceabilityPredicate(original) {
+
+            @Override
+            public boolean test(MultiblockState blockWorldState) {
+                if (super.test(blockWorldState)) {
+                    blockWorldState.getMatchContext().getOrCreate(name, ObjectOpenHashSet::new).add(blockWorldState.getPos());
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean testOnly() {
+                return true;
+            }
+
+            @Override
+            public boolean isAir() {
+                return false;
+            }
+        };
     }
 }

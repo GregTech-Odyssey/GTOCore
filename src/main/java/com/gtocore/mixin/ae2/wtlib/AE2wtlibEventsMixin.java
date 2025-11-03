@@ -4,9 +4,12 @@ import com.gtocore.client.Message;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.api.network.NetworkPack;
+import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 
 import net.minecraft.server.level.ServerPlayer;
 
@@ -15,8 +18,10 @@ import appeng.api.networking.crafting.CalculationStrategy;
 import appeng.api.networking.crafting.ICraftingPlan;
 import appeng.api.networking.crafting.ICraftingService;
 import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.storage.MEStorage;
+import appeng.crafting.CraftingLink;
 import appeng.me.helpers.PlayerSource;
 import com.llamalad7.mixinextras.sugar.Local;
 import de.mari_023.ae2wtlib.AE2wtlibEvents;
@@ -26,6 +31,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
@@ -47,14 +53,23 @@ public class AE2wtlibEventsMixin {
                 var amountExtractable = instance.extract(what, amount, Actionable.SIMULATE, source);
                 if (amountExtractable == 0) {
                     final ICraftingService craftingService = cTHandler.getTargetGrid().getCraftingService();
+                    final long amountNeeded = what instanceof AEItemKey itemKey &&
+                            itemKey.toStack().getItem() instanceof MetaMachineItem mmItem &&
+                            mmItem.getDefinition() instanceof MultiblockMachineDefinition ?
+                                    1 : amount;
                     boolean isCraftable = craftingService.isCraftable(what);
                     if (isCraftable) {
+                        Set<CraftingLink> playerLinks = IEnhancedPlayer.of(player).getPlayerData().craftingLinks;
+                        if (playerLinks.size() >= GTOConfig.INSTANCE.pickCraftMaxTasks) {
+                            gto$packet(player, what, 3);
+                            return 0;
+                        }
                         CompletableFuture.supplyAsync(() -> {
                             Future<ICraftingPlan> task = craftingService.beginCraftingCalculation(
                                     player.level(),
                                     () -> playerSource,
                                     what,
-                                    amount,
+                                    amountNeeded,
                                     CalculationStrategy.REPORT_MISSING_ITEMS);
                             try {
                                 return task.get();
@@ -63,8 +78,13 @@ public class AE2wtlibEventsMixin {
                             }
                         }).thenAcceptAsync(plan -> {
                             if (plan != null && !plan.simulation()) {
+                                var job = craftingService.submitJob(plan, IEnhancedPlayer.of(player), null, true, playerSource);
+                                if (job == null || !job.successful()) {
+                                    gto$packet(player, what, 2);
+                                    return;
+                                }
+                                playerLinks.add((CraftingLink) job.link());
                                 gto$packet(player, what, 0);
-                                craftingService.submitJob(plan, null, null, true, playerSource);
                             } else {
                                 gto$packet(player, what, plan == null ? 1 : 2);
                             }
