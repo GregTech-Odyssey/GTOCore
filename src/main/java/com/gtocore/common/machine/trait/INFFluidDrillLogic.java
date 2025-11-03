@@ -9,6 +9,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -103,7 +104,7 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
     public void onRecipeFinish() {
         machine.afterWorking();
         if (lastRecipe != null) {
-            RecipeRunner.handleRecipeOutput(machine, (Recipe) lastRecipe);
+            handleRecipeIO(lastRecipe, IO.OUT);
         }
         var match = getFluidDrillRecipe();
         if (match != null) {

@@ -1,0 +1,6 @@
+{
+  "effects": "burning",
+  "exhaustion": 0.0,
+  "message_id": "machine_heat_wave",
+  "scaling": "never"
+}

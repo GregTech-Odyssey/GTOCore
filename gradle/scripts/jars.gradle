@@ -10,6 +10,8 @@ afterEvaluate {
                 'Specification-Version': mod_version,
                 'Implementation-Title': base.archivesName,
                 'Implementation-Version': version,
+                'Name': 'com/gtocore/mixin',
+                'Sealed': 'true'
         ])
     }
 }

@@ -194,6 +194,12 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Auto Craft on Pick Block", cn = "选取方块自动合成")
     public boolean pickCraft = true;
 
+    @Configurable
+    @Configurable.Comment({ "选取方块时，自动触发的最大合成任务数", "The maximum number of crafting tasks automatically triggered when picking a block" })
+    @Configurable.Range(min = 1, max = 100)
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Pick Block Craft Max Tasks", cn = "选取方块合成最大任务数")
+    public int pickCraftMaxTasks = 3;
+
     // 性能优化设置
     @Configurable
     @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })

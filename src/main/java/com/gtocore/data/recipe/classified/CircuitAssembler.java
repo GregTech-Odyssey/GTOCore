@@ -303,10 +303,10 @@ final class CircuitAssembler {
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("electronic_circuit_lv").EUt(16).duration(200)
                 .inputItems(BASIC_CIRCUIT_BOARD)
-                .inputItems(CustomTags.RESISTORS, 2)
-                .inputItems(wireGtSingle, RedAlloy, 2)
-                .inputItems(CustomTags.ULV_CIRCUITS, 2)
-                .outputItems(ELECTRONIC_CIRCUIT_LV, outputAmount << 1)
+                .inputItems(CustomTags.RESISTORS, 4)
+                .inputItems(wireGtSingle, RedAlloy, 4)
+                .inputItems(VACUUM_TUBE, 2)
+                .outputItems(ELECTRONIC_CIRCUIT_LV, 2)
                 .save();
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("wetware_processor_luv_soc").EUt(150000).duration(100)

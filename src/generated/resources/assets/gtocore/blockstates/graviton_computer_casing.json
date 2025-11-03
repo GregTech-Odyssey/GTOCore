@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/graviton_computer_casing"
+    }
+  }
+}

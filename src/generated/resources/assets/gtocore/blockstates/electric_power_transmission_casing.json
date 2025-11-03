@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/electric_power_transmission_casing"
+    }
+  }
+}

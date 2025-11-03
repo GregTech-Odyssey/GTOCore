@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/accelerator_rf_chamber_casing_zpm"
+    }
+  }
+}

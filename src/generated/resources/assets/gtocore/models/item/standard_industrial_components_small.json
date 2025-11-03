@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/industrial_components_small_0",
+    "layer1": "gtocore:item/industrial_components_small_1"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/accelerator_magnetic_constrained_rail_casing"
+    }
+  }
+}

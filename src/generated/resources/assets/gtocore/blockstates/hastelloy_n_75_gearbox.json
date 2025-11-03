@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/hastelloy_n_75_gearbox"
+    }
+  }
+}

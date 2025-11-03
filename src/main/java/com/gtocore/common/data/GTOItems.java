@@ -1093,9 +1093,11 @@ public final class GTOItems {
     // FPGA芯片
     public static final ItemEntry<Item> FPGA_CHIP = register("fpga_chip", "FPGA芯片");
 
-    public static final ItemEntry<Item> RED_DYE_MASTERBATCH = register("red_dye_masterbatch", "红色染料色母");
+    public static final ItemEntry<Item> MAGENTA_DYE_MASTERBATCH = register("magenta_dye_masterbatch", "品红色染料色母");
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
-    public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
+    public static final ItemEntry<Item> CYAN_DYE_MASTERBATCH = register("cyan_dye_masterbatch", "青色染料色母");
+    public static final ItemEntry<Item> BLACK_DYE_MASTERBATCH = register("black_dye_masterbatch", "黑色染料色母");
+    public static final ItemEntry<Item> WHITE_DYE_MASTERBATCH = register("white_dye_masterbatch", "白色染料色母");
 
     public static final ItemEntry<RewardBagItem> LV_REWARD_BAG = registerRewardBag("lv_reward_bag", "lv Reward Bag", "LV 战利品袋", RewardBagLoot.LV_REWARD_BAG_LOOT);
 

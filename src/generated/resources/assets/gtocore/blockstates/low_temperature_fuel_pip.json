@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/low_temperature_fuel_pip"
+    }
+  }
+}

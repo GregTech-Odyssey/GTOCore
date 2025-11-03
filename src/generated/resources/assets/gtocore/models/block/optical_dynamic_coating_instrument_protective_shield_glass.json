@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/casings/optical_dynamic_coating_instrument_protective_shield_glass"
+  }
+}

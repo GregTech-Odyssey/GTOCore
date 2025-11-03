@@ -52,7 +52,7 @@ public final class ThreadHatchPartMachine extends AmountConfigurationHatchPartMa
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0, 1, 0.5), () -> repeatedRecipes, (clickData, pressed) -> repeatedRecipes = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(REPEATED_RECIPES, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
-        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_CHUNK_MODE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0, 1, 0.5), () -> compressThread, (clickData, pressed) -> compressThread = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(COMPRESS_THREAD, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
+        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_CHUNK_MODE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_CHUNK_MODE.getSubTexture(0, 0, 1, 0.5), () -> compressThread, (clickData, pressed) -> compressThread = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(COMPRESS_THREAD, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
     }
 
     @Override

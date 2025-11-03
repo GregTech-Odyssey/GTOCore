@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/crystal_matrix_plasma_containment_cell"
+  }
+}

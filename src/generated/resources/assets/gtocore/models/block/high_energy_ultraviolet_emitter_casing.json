@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/high_energy_ultraviolet_emitter_casing"
+  }
+}

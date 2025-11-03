@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/accelerator_protection_casing"
+    }
+  }
+}

@@ -216,16 +216,32 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.builder("blue_dye_masterbatch")
-                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeBlue, 3)
-                .outputItems(GTOItems.BLUE_DYE_MASTERBATCH.asItem())
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeCyan, 3)
+                .outputItems(GTOItems.CYAN_DYE_MASTERBATCH.asItem())
                 .inputFluids(GTMaterials.Polyethylene, 2000)
                 .EUt(2040)
                 .duration(150)
                 .save();
 
         CHEMICAL_BATH_RECIPES.builder("red_dye_masterbatch")
-                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeRed, 3)
-                .outputItems(GTOItems.RED_DYE_MASTERBATCH.asItem())
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeMagenta, 3)
+                .outputItems(GTOItems.MAGENTA_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("black_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeBlack, 3)
+                .outputItems(GTOItems.BLACK_DYE_MASTERBATCH.asItem())
+                .inputFluids(GTMaterials.Polyethylene, 2000)
+                .EUt(2040)
+                .duration(150)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("white_dye_masterbatch")
+                .inputItems(GTOTagPrefix.dye, GTMaterials.DyeWhite, 3)
+                .outputItems(GTOItems.WHITE_DYE_MASTERBATCH.asItem())
                 .inputFluids(GTMaterials.Polyethylene, 2000)
                 .EUt(2040)
                 .duration(150)

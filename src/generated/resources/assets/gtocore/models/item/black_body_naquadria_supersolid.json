@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/black_body_naquadria_supersolid"
+  }
+}

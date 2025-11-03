@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/awakened_draconium_plasma_containment_cell"
+  }
+}

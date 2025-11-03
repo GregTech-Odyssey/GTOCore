@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/spatially_transcendent_gravitational_lens_block"
+  }
+}

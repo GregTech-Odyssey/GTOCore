@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/titanium_nitride_ceramic_impact_resistant_mechanical_block"
+  }
+}

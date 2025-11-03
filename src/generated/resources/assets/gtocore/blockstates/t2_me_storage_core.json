@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/t2_me_storage_core"
+    }
+  }
+}

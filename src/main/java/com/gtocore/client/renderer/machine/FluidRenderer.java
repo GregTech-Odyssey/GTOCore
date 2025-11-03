@@ -3,6 +3,7 @@ package com.gtocore.client.renderer.machine;
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.client.renderer.block.FluidBlockRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.RenderUtil;
@@ -22,15 +23,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import java.util.function.Supplier;
 
-public final class FluidRenderer extends WorkableCasingMachineRenderer {
+public class FluidRenderer extends WorkableCasingMachineRenderer {
 
-    private final FluidBlockRenderer fluidBlockRenderer;
+    protected final FluidBlockRenderer fluidBlockRenderer;
 
     public static Supplier<IRenderer> create(ResourceLocation baseCasing, ResourceLocation workableModel) {
         return () -> new FluidRenderer(baseCasing, workableModel);
     }
 
-    private FluidRenderer(ResourceLocation baseCasing, ResourceLocation workableModel) {
+    protected FluidRenderer(ResourceLocation baseCasing, ResourceLocation workableModel) {
         super(baseCasing, workableModel);
         fluidBlockRenderer = FluidBlockRenderer.Builder.create()
                 .setForcedLight(LightTexture.FULL_BRIGHT)
@@ -40,7 +41,7 @@ public final class FluidRenderer extends WorkableCasingMachineRenderer {
     @Override
     @OnlyIn(Dist.CLIENT)
     public int getViewDistance() {
-        return 32;
+        return 96;
     }
 
     @Override
@@ -61,13 +62,18 @@ public final class FluidRenderer extends WorkableCasingMachineRenderer {
         super.render(blockEntity, partialTicks, stack, buffer, combinedLight, combinedOverlay);
         if (!ConfigHolder.INSTANCE.client.renderer.renderFluids) return;
         if (blockEntity instanceof MetaMachineBlockEntity mm) {
-            if (mm.metaMachine instanceof IFluidRendererMachine machine) {
-                var cachedFluid = machine.getCachedFluid();
-                if (cachedFluid == null) return;
-                stack.pushPose();
-                fluidBlockRenderer.drawBlocks(machine.getFluidBlockOffsets(), stack.last().pose(), buffer.getBuffer(RenderTypeHelper.getEntityRenderType(ItemBlockRenderTypes.getRenderLayer(cachedFluid.defaultFluidState()), false)), cachedFluid, RenderUtil.FluidTextureType.STILL, combinedOverlay, combinedLight);
-                stack.popPose();
-            }
+            renderFluid(mm.getMetaMachine(), stack, buffer, combinedLight, combinedOverlay);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected void renderFluid(MetaMachine metaMachine, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+        if (metaMachine instanceof IFluidRendererMachine machine) {
+            var cachedFluid = machine.getCachedFluid();
+            if (cachedFluid == null) return;
+            stack.pushPose();
+            fluidBlockRenderer.drawBlocks(machine.getFluidBlockOffsets(), stack.last().pose(), buffer.getBuffer(RenderTypeHelper.getEntityRenderType(ItemBlockRenderTypes.getRenderLayer(cachedFluid.defaultFluidState()), false)), cachedFluid, RenderUtil.FluidTextureType.STILL, combinedOverlay, combinedLight);
+            stack.popPose();
         }
     }
 }

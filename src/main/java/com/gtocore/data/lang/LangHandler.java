@@ -314,6 +314,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.auto_search", "使用EMI填充配方时，", "When using EMI to fill recipes,");
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.on", "自动填充配方的目录名称到样板搜索栏中", "automatically fills the directory name of the recipe into the pattern search bar");
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.off", "不自动在样板终端中搜索", "does not automatically search in the pattern terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.auto_search.config", "中键点击以配置自定义目录名称搜索映射", "Middle-click to configure custom directory name search mapping");
         addCNEN("gtocore.ae.appeng.me2in1.vanilla_craft_station", "分子装配", "Molecular Assembl");
         addCNEN("gtocore.ae.appeng.me2in1.wireless", "无线2合1终端", "Wireless 2-in-1 Terminal");
         addCNEN("gtocore.ae.appeng.me2in1", "ME2合1终端", "ME 2-in-1 Terminal");
@@ -323,6 +324,9 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its crafting tree that are not involved in other patterns");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge", "安装纠缠奇点", "Install Quantum Entangled Singularity");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "量子环已内置", "Quantum ring is built-in");
+        addCNEN("gtocore.ae.appeng.me2in1.add_mapping", "添加配方搜索映射", "Add Recipe Search Mapping");
+        addCNEN("gtocore.ae.appeng.me2in1.add_mapping.desc", "单击打开EMI中的配方，然后点击想要自定义映射的目录中配方的\"+\"按钮以添加映射。自定义的配方映射保存于config/me2in1category.json中。", "Click to open the recipe in EMI, then click the \"+\" button of the recipe in the directory you want to customize the mapping for to add the mapping. The custom recipe mappings are saved in config/me2in1category.json.");
+        addCNEN("gtocore.ae.appeng.me2in1.config_mapping", "配置配方搜索映射", "Configure Recipe Search Mapping");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi", "收藏缺失", "Bookmark Missing");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi.desc", "将缺失的物品添加到EMI书签页", "Add missing items to EMI bookmark page");
         addCNEN("gtocore.ae.appeng.craft.missing_start", "缺失合成", "Missing Crafting");
@@ -333,6 +337,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.pick_craft.all_right", "已启动合成！", "Crafting started!");
         addCNEN("gtocore.ae.appeng.pick_craft.error.1", "计算合成路径时发生错误。", "An error occurred while calculating the crafting path.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.3", "创建的任务数已达上限。", "The number of created tasks has reached the limit.");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/ev_wireless_energy_unit"
+    }
+  }
+}

@@ -605,7 +605,7 @@ public final class MultiBlockC {
             .register();
 
     public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统",
-            TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+            TierCasingParallelMultiblockMachine.createParallel(m -> 1L << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getPhysicalVaporDepositionTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES)

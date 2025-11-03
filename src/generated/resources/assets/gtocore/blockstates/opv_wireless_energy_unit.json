@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/opv_wireless_energy_unit"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/bioactive_mechanical_casing"
+    }
+  }
+}

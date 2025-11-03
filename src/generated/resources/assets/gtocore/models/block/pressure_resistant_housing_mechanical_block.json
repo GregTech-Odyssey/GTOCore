@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/casings/pressure_resistant_housing_mechanical_block"
+  }
+}
