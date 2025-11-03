@@ -2,6 +2,7 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
     alias libs.plugins.modDevGradleLegacy
     alias libs.plugins.lombok
     alias libs.plugins.spotless
