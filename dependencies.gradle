@@ -3,14 +3,14 @@ dependencies {
 
     implementation("org.lwjgl:lwjgl:3.3.2")
     implementation("org.lwjgl:lwjgl-opengl:3.3.2")
-    implementation("dev:gtonativelib:1.0-debug")//jarJar无法加载
+    implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
     implementation("curse.maven:kotlin-for-forge-351264:5402061")
 
     jarJar("dev:terrific_trash_cans:1.0.0")
 
-//    modImplementation(jarJar("dev:gtolib:1.0"))
-    modImplementation("dev:gtolib:1.0-debug")
+    modImplementation(jarJar("dev:gtolib:1.0"))
+//    modImplementation("dev:gtolib:1.0-debug")
 
 //    modImplementation(jarJar("dev.mineland:item-interactions-mod-forge+1.20.1:2.1.4"))
 
