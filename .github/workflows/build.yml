@@ -15,9 +15,9 @@ jobs:
       - name: Build Java
         working-directory: ./
         env:
-          GTO_STOREPASS:"${{ secrets.GTOKEY }}"
-          GTO_KEYPASS:"${{ secrets.GTOKEY }}"
-          GTO_CERTIFICATE:"${{ secrets.GTO_CERT }}"
+          GTO_STOREPASS: "${{ secrets.GTOKEY }}"
+          GTO_KEYPASS: "${{ secrets.GTOKEY }}"
+          GTO_CERTIFICATE: "${{ secrets.GTO_CERT }}"
         run: |
           echo $GTO_CERTIFICATE | base64 --decode > keystore.jks
           ./gradlew build
