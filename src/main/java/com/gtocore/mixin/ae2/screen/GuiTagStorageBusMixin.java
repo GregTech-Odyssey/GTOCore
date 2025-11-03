@@ -5,10 +5,13 @@ import com.gtolib.api.ae2.gui.hooks.ITagSelectableScreen;
 import com.gtolib.api.ae2.gui.widgets.AEListBox;
 import com.gtolib.api.ae2.gui.widgets.AESlotWidget;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 import appeng.api.stacks.AEKey;
+import appeng.client.Point;
 import appeng.client.gui.implementations.UpgradeableScreen;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.menu.slot.FakeSlot;
@@ -49,7 +52,14 @@ public abstract class GuiTagStorageBusMixin extends UpgradeableScreen<ContainerT
     private void onInit(ContainerTagStorageBus menu, Inventory playerInventory, Component title, ScreenStyle style, CallbackInfo ci) {
         var screen = (GuiTagStorageBus) (Object) this;
         ITagSelectableMenu hookedMenu = (ITagSelectableMenu) menu;
-        gtolib$listBox = new AEListBox(screen);
+        gtolib$listBox = new AEListBox(screen) {
+
+            @Override
+            public void drawForegroundLayer(GuiGraphics guiGraphics, Rect2i rect2i, Point point) {
+                guiGraphics.fill(getX(), getY(), getX() + width(), getY() + height(), 0xcc7777aa); // Draw background
+                super.drawForegroundLayer(guiGraphics, rect2i, point);
+            }
+        };
         gtolib$listBox.setVisible(false);
         gtolib$listBox.setCatchScrollbar(false);
         gtolib$whitelistSlot = hookedMenu.gtolib$getWhitelistSlot();

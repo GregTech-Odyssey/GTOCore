@@ -19,6 +19,12 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 尽量使用**灰色**
     // 类GCYM机器(如大热解/裂化/电弧)不要写
 
+    val PigmentMixerTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("pigment_mixer")
+        story("将三种颜色调配成更多的颜色" translatedTo "Mixing three colors into more colors")
+    }
+
+    // 砖窑
     val brickKilnTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("brick_kiln")
         story("古法窑炉，原始工艺" translatedTo "Ancient kiln, primitive craftsmanship")
