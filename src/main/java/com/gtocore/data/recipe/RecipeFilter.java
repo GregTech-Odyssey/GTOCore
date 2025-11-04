@@ -342,12 +342,6 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("diamond_lattice_block"));
         filters.add(RLUtils.mc("diamond_lattice"));
 
-        filters.add(RLUtils.mc("dragon_egg"));
-        filters.add(RLUtils.mc("crying_obsidian"));
-        filters.add(RLUtils.mc("echo_shard"));
-        filters.add(RLUtils.mc("dragon_breath"));
-        filters.add(RLUtils.mc("reinforced_deepslate"));
-
         filters.add(RLUtils.ad("refining/fuel_from_refining_oil"));
         filters.add(RLUtils.ad("oxygen_loading/oxygen_from_oxygen_loading_oxygen"));
         filters.add(RLUtils.ad("oxygen_loading/oxygen_from_oxygen_loading_water"));

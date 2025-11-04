@@ -70,12 +70,20 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     // 村民存储与配置
     @Persisted
+    @DescSynced
+    @RequireRerender
     private final VillageHolder villagers;
     @Persisted
+    @DescSynced
+    @RequireRerender
     private boolean[] isLocked = new boolean[10];
     @Persisted
+    @DescSynced
+    @RequireRerender
     private int[] selected = new int[10];
     @Persisted
+    @DescSynced
+    @RequireRerender
     private boolean[] startUp = new boolean[10];
 
     private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[10][];
@@ -491,7 +499,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 VillagerRecipe[] recipes = villagersDataset[9];
                 villagerGroup.addWidget(new ComponentPanelWidget(20, 0,
                         (textList) -> {
-                            if (recipes != null && isLocked(9)) {
+                            if (recipes != null && isLocked(9) && recipes.length > 0 && selected[9] < recipes.length) {
                                 int upGread = recipes[selected[9]].maxUses / 32;
                                 if (recipes[selected[9]].maxUses < 256) {
                                     ItemStack item = FIELD_GENERATOR[upGread].getDefaultInstance();
@@ -505,7 +513,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                                 }
                             }
                         }).clickHandler((a, b) -> {
-                            if (recipes != null && isLocked(9)) {
+                            if (recipes != null && isLocked(9) && recipes.length > 0 && selected[9] < recipes.length) {
                                 int upGread = recipes[selected[9]].maxUses / 32;
                                 if (recipes[selected[9]].maxUses < 256) {
                                     ItemStack item = FIELD_GENERATOR[upGread].getDefaultInstance();
