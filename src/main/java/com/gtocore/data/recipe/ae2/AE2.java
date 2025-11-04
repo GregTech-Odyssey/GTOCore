@@ -295,7 +295,7 @@ public final class AE2 {
                 .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
                 .outputItems("expatternprovider:assembler_matrix_frame")
                 .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
-                .EUt(120)
+                .EUt(GTValues.VA[GTValues.HV])
                 .duration(100)
                 .save();
 
@@ -307,7 +307,7 @@ public final class AE2 {
                 .inputItems(CustomTags.HV_CIRCUITS)
                 .outputItems("expatternprovider:assembler_matrix_wall", 2)
                 .inputFluids(GTMaterials.PolyvinylChloride, 288)
-                .EUt(120)
+                .EUt(GTValues.VA[GTValues.HV])
                 .duration(100)
                 .save();
 
@@ -319,7 +319,7 @@ public final class AE2 {
                 .inputItems(AEItems.LOGIC_PROCESSOR.asItem(), 4)
                 .outputItems("expatternprovider:assembler_matrix_pattern")
                 .inputFluids(GTMaterials.SolderingAlloy, 288)
-                .EUt(120)
+                .EUt(GTValues.VA[GTValues.HV])
                 .duration(100)
                 .save();
 
@@ -331,7 +331,7 @@ public final class AE2 {
                 .inputItems(AEItems.CALCULATION_PROCESSOR.asItem(), 4)
                 .outputItems("expatternprovider:assembler_matrix_crafter")
                 .inputFluids(GTMaterials.SolderingAlloy, 576)
-                .EUt(120)
+                .EUt(GTValues.VA[GTValues.HV])
                 .duration(100)
                 .save();
 
@@ -475,7 +475,7 @@ public final class AE2 {
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 8)
                     .outputItems("expatternprovider:assembler_matrix_speed")
                     .inputFluids(GTMaterials.SolderingAlloy, 288)
-                    .EUt(480)
+                    .EUt(GTValues.VA[GTValues.EV])
                     .duration(100)
                     .save();
 
@@ -598,7 +598,7 @@ public final class AE2 {
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 8)
                     .outputItems("expatternprovider:assembler_matrix_speed")
                     .inputFluids(GTMaterials.SolderingAlloy, 288)
-                    .EUt(480)
+                    .EUt(GTValues.VA[GTValues.HV])
                     .duration(100)
                     .save();
 
