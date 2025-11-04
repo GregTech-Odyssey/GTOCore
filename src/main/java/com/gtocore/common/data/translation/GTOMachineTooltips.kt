@@ -169,35 +169,35 @@ object GTOMachineTooltips {
         setTranslationPrefix("village_trading_station")
 
         story(
-            "泛银河格雷科技的田野调查员在走访村庄时发现，供需对接的不畅始终困扰着双方——村民急需的工具总难以及时送达，公司筹备的绿宝石补给也常因信息差滞留在仓库" translatedTo
-                "Field investigators from Pan-Galaxy Gray Technology found during village visits that poor supply-demand alignment troubled both sides: tools urgently needed by villagers rarely arrived on time, and emerald supplies prepared by the company often stagnated in warehouses due to information gaps.",
+            "泛银河格雷科技的田野调查员在走访村庄时发现，供需对接的不畅始终困扰着双方——村民急需的工具总难以及时送达，公司筹备的绿宝石补给也常因信息差滞滞留在仓库" translatedTo
+                "Field investigators from Pan-Galaxy Gray Technology noticed during village visits that poor supply-demand coordination plagued both sides: tools urgently needed by villagers rarely arrived on time, and emerald stockpiles prepared by the company often languished in warehouses due to information gaps.",
         )
         story(
             "研发部员工艾拉带着团队扎根村庄三月，深度调研后决定打造一款‘会沟通’的工具，让交易不再依赖繁琐的人工传递" translatedTo
-                "Ella, a R&D employee, led her team to settle in the village for three months. After in-depth research, they resolved to create a 'communicative' tool, freeing transactions from tedious manual delivery.",
+                "Ella, a researcher from the R&D department, led her team to embed in the village for three months. After in-depth studies, they resolved to create a 'communicative' tool that would free transactions from tedious manual delivery.",
         )
         story(
-            "最终诞生的贸易站机器彻底简化了流程：无需匹配工作方块，只需录入村民信息，内置的交易站系统便会自动协调补货节奏" translatedTo
-                "The resulting Village Trading Station simplified the process entirely: no need for matching work blocks—just input villager information, and the built-in trading station system automatically coordinates restock rhythms.",
+            "最终诞生的贸易站机器实现了全自动化交易流程：无需匹配工作方块，只需放入村民并锁定信息，内置系统便会按设定节奏自动完成交易与补货" translatedTo
+                "The resulting Village Trading Station enabled fully automated transactions: no need for matching work blocks—simply place villagers, lock their information, and the built-in system automatically handles trades and restocks at set intervals.",
         )
         story(
             "升级后的批量交易与智能补货功能，让村民们常笑着称赞：“格雷科技的机器，比跑断腿的信使还贴心”" translatedTo
-                "With upgraded bulk trading and intelligent restock features, villagers often praised with smiles: 'Gray Tech's machine is more thoughtful than messengers who run themselves ragged'.",
+                "With upgraded bulk trading and intelligent restocking, villagers often smiled and praised: 'Gray Tech's machine is more reliable than messengers who wear themselves out running'.",
         )
         story(
             "如今它已成为联结公司与村庄的友好纽带，既让资源流转效率提升数倍，也让双方的信任在顺畅交易中日益深厚" translatedTo
-                "Now it has become a friendly bond between the company and villages, boosting resource flow efficiency several times over while deepening mutual trust through smooth transactions.",
+                "Now it serves as a friendly bridge between the company and villages, boosting resource circulation efficiency manifold while deepening mutual trust through seamless transactions.",
         )
 
         miraculousTools("村民贸易站" translatedTo "Village Trading Station")
 
-        section("企业与村庄友好协作的智能交易枢纽" translatedTo "Intelligent trading hub for friendly company-village collaboration")
-        section("支持9名村民同步对接，配备9组独立输入输出缓冲区" translatedTo "Supports 9 villagers simultaneously with 9 independent input-output buffer sets")
-        section("无需工作方块匹配，录入村民信息即可启动运行" translatedTo "No work block matching required—starts by inputting villager information")
-        section("交易站系统自动协调补货，双维度升级强化协作效率" translatedTo "Trading station system auto-coordinates restocks; dual-dimensional upgrades enhance collaboration efficiency")
+        section("企业与村庄友好协作的智能交易枢纽" translatedTo "Intelligent trading hub for friendly enterprise-village collaboration")
+        section("支持9名村民同步对接，配备256槽大容量共享输入输出仓库" translatedTo "Supports 9 simultaneous villagers with 256-slot high-capacity shared input/output warehouses")
+        section("无需工作方块匹配，放入村民并锁定信息即可启动运行" translatedTo "No work block matching required—starts by placing villagers and locking their information")
+        section("交易站系统自动协调补货，通过增强模块可优化补货间隔与交易倍数" translatedTo "Trading station system auto-coordinates restocks; enhancement modules optimize restock intervals and trade multiples")
 
-        highlight("政企村协同发展的核心装备" translatedTo "Core equipment for company-village collaborative development") { rainbowSlow() }
-        highlight("泛银河格雷科技研发部匠心研发" translatedTo "Crafted with care by Pan-Galaxy Gray Technology R&D") { rainbowSlow() }
+        highlight("政企村协同发展的核心装备" translatedTo "Core equipment for enterprise-village collaborative development") { rainbowSlow() }
+        highlight("泛银河格雷科技研发部匠心研发" translatedTo "Crafted with precision by Pan-Galaxy Gray Technology R&D") { rainbowSlow() }
 
         guide("详细操作说明请查阅机器内置手册" translatedTo "For detailed instructions, refer to the in-machine manual")
     }
@@ -211,86 +211,94 @@ object GTOMachineTooltips {
         section("核心功能" translatedTo "Core Functions")
         content(
             "作为优化政企村协作的智能工具，其核心优势在于‘无缝对接+自主协同’" translatedTo
-                "As an intelligent tool for optimizing company-village collaboration, its core strengths lie in 'seamless connection + autonomous coordination'.",
+                "As an intelligent tool for optimizing enterprise-village collaboration, its core strengths lie in 'seamless integration + autonomous coordination'.",
         )
         content(
-            "支持9名村民信息录入，无需工作方块，由交易站系统自动执行补货与交易流程" translatedTo
-                "Supports information input for 9 villagers; no work blocks needed. The trading station system automatically executes restock and transaction processes.",
+            "支持9名村民信息录入与锁定，无需工作方块，由交易站系统按设定周期自动执行补货（重置交易次数）与交易操作" translatedTo
+                "Supports information input and locking for 9 villagers; no work blocks needed. The trading station system automatically executes restocks (resetting trade counts) and transactions at set intervals.",
+        )
+        content(
+            "配备自动输出功能，可将交易成果自动输送至指定方向的外部容器（如储物箱）" translatedTo
+                "Equipped with auto-output functionality to automatically transfer trade results to external containers (e.g., chests) in the specified direction.",
         )
 
         section("界面说明" translatedTo "Interface Explanation")
         content(
-            "一：主页 - 实时展示协作动态(当前交易、缓冲区状态、补货倒计时等)" translatedTo
-                "1. Home Page - Real-time display of collaboration dynamics (active trades, buffer status, restock countdown, etc.)",
+            "一：主页 - 展示机器基础信息与功能介绍" translatedTo
+                "1. Home Page - Displays basic machine information and function descriptions.",
         )
         content(
-            "二：交易配置区 - 核心操作界面，用于录入村民信息、锁定交易数据、选择交易项目" translatedTo
-                "2. Trade Configuration Area - Core interface for inputting villager information, locking trade data, and selecting trade items.",
+            "二：交易控制页 - 核心操作界面，包含9个村民槽位，支持村民放置/锁定、配方切换、交易启停等核心操作" translatedTo
+                "2. Trade Control Page - Core interface with 9 villager slots, supporting key operations like villager placement/locking, recipe switching, and trade activation/deactivation.",
         )
         content(
-            "三：全局升级区 - 提升整体效能，可调整补货间隔与多倍交易系数" translatedTo
-                "3. Global Upgrade Area - Enhances overall performance; adjusts restock intervals and multi-trade coefficients.",
+            "三：升级控制页 - 包含增强槽与升级槽：增强槽调控全局补货间隔与交易倍数，升级槽可提升村民单次交易上限" translatedTo
+                "3. Upgrade Control Page - Features enhancement and upgrade slots: enhancement slots adjust global restock intervals and trade multiples; upgrade slots increase villagers' single-trade limits.",
         )
         content(
-            "四：村民协作配置 - 个性化优化，提升单个村民的每日补货上限、交易次数及专属折扣" translatedTo
-                "4. Villager Collaboration Settings - Personalized optimization; increases daily restock limits, trade counts, and exclusive discounts for individual villagers.",
+            "四：方向配置页 - 可设置输出物品的方向，灵活适配基地物流布局" translatedTo
+                "4. Direction Configuration Page - Configures item output direction to flexibly adapt to base logistics layouts.",
         )
 
         section("操作流程" translatedTo "Operation Process")
         content(
-            "第一步：打开IFancyUIMachine界面，进入交易配置区" translatedTo
-                "Step 1: Open the IFancyUIMachine interface and navigate to the Trade Configuration Area.",
+            "第一步：打开机器界面（IFancyUIMachine），默认显示交易控制页" translatedTo
+                "Step 1: Open the machine interface (IFancyUIMachine), which defaults to the Trade Control Page.",
         )
         content(
-            "第二步：在村民信息槽放入村民(最多9名)，点击锁定按钮录入其交易数据" translatedTo
-                "Step 2: Place villagers in the information slots (max 9), click the lock button to input their trade data.",
+            "第二步：在村民槽位放入村民（最多9名），点击锁定按钮录入其交易配方信息" translatedTo
+                "Step 2: Place villagers in the slots (max 9) and click the lock button to input their trade recipe data.",
         )
         content(
-            "第三步：通过左右箭头选择目标交易项，点击“启用协作交易”激活自动流程" translatedTo
-                "Step 3: Select target trade items with left/right arrows, click 'Enable Collaborative Trading' to activate auto-process.",
+            "第三步：通过切换按钮选定目标交易配方，点击“启动交易”按钮激活自动交易流程" translatedTo
+                "Step 3: Select target trade recipes using the switch button, then click 'Start Trading' to activate the automatic transaction process.",
         )
         content(
-            "第四步：向对应输入缓冲区投放交易物品(如绿宝石)，系统自动启动匹配交易" translatedTo
-                "Step 4: Place trading items (e.g., emeralds) into corresponding input buffers; the system automatically starts matching trades.",
+            "第四步：向输入仓库投放交易所需物品（如绿宝石），系统将按周期自动执行交易" translatedTo
+                "Step 4: Place required trading items (e.g., emeralds) into the input warehouse; the system will automatically execute trades at set intervals.",
         )
         content(
-            "第五步：按需在升级区提升效能，交易成果可从输出缓冲区直接提取" translatedTo
-                "Step 5: Upgrade performance in the upgrade area as needed; trade results can be directly retrieved from output buffers.",
+            "第五步：按需在升级控制页放入增强物品（优化效率）或升级物品（提升交易上限），交易成果可从输出仓库直接提取或通过自动输出转移" translatedTo
+                "Step 5: Place enhancement items (to optimize efficiency) or upgrade items (to increase trade limits) in the Upgrade Control Page as needed. Trade results can be directly retrieved from the output warehouse or transferred via auto-output.",
         )
 
         section("升级参数" translatedTo "Upgrade Parameters")
         content(
-            "升级：补货间隔、多倍交易、单轮交易上限" translatedTo
-                "Upgrades: Replenishment interval, multiple trades, single-round trade limit",
+            "增强模块（增强槽）：随等级提升逐步缩短补货间隔（最低可至600游戏刻），高等级可解锁多倍交易（最高4倍）" translatedTo
+                "Enhancement modules (enhancement slot): Gradually shorten restock intervals with higher levels (minimum 600 game ticks); high levels unlock bulk trading (maximum 4x).",
+        )
+        content(
+            "升级模块（升级槽）：通过能量发生器提升村民单次交易上限，最高可扩展至256次交易额度" translatedTo
+                "Upgrade modules (upgrade slot): Increase villagers' single-trade limits via field generators, with a maximum expansion to 256 uses per trade.",
         )
 
         section("材料说明" translatedTo "Material Instructions")
         content(
-            "升级需消耗对应科技组件，具体需求随升级等级动态显示" translatedTo
-                "Upgrades require corresponding tech components; specific requirements are dynamically displayed with upgrade levels.",
+            "增强需消耗对应等级的发射器或集成控制核心，升级需消耗不同电压的能量发生器" translatedTo
+                "Enhancements require emitters or integrated control cores of corresponding tiers; upgrades require field generators of various voltage ratings.",
         )
         content(
-            "交易物品需放入对应村民的输入缓冲区，各缓冲区独立运作互不干扰" translatedTo
-                "Trading items must be placed in the input buffer of the corresponding villager; each buffer operates independently without interference.",
+            "交易物品需放入共享输入仓库，系统会自动匹配各村民的需求；输出物品统一存入共享输出仓库" translatedTo
+                "Trading items must be placed in the shared input warehouse—the system automatically matches each villager's requirements. Output items are uniformly stored in the shared output warehouse.",
         )
 
         section("注意事项" translatedTo "Cautions")
         content(
-            "村民信息锁定后，需先解锁才能更换，解锁将清空该村民的交易配置数据" translatedTo
-                "After locking villager information, unlocking is required for replacement—unlocking clears the villager's trade configuration data.",
+            "村民信息锁定后，需先解锁才能更换，解锁会清空该村民的交易配置及已加载的配方数据" translatedTo
+                "Once villager information is locked, unlocking is required for replacement—this will clear the villager's trade configuration and loaded recipe data.",
         )
         content(
-            "输出缓冲区满载时系统将暂停交易，清空后需重新启用协作流程" translatedTo
-                "The system pauses trading when output buffers are full; collaboration process must be re-enabled after clearing.",
+            "输出仓库满载时，对应交易将自动暂停；启用自动输出功能可减少此问题，清空后需确保交易处于启动状态以恢复运行" translatedTo
+                "Corresponding trades will automatically pause when the output warehouse is full. Enabling auto-output reduces this issue; after clearing, ensure trades are active to resume operation.",
         )
         content(
-            "多倍交易系数会等比例增加输入物品消耗与输出物品数量" translatedTo
-                "Multi-trade coefficients proportionally increase input consumption and output quantity.",
+            "多倍交易系数会等比例增加输入物品消耗与输出物品数量（如2倍交易需消耗2倍输入，获得2倍输出）" translatedTo
+                "Bulk trade coefficients proportionally increase input consumption and output quantity (e.g., 2x trading requires 2x input and yields 2x output).",
         )
 
         guide(
-            "按流程完成配置后，锁定村民并启用协作交易即可自动运行" translatedTo
-                "After completing configuration as per the process, lock villagers and enable collaborative trading to run automatically.",
+            "按流程完成配置后，锁定村民并启用交易即可自动运行，系统会按设定周期执行补货与交易" translatedTo
+                "After configuration as per the process, lock villagers and enable trading to start automatic operation—the system will execute restocks and trades at set intervals.",
         )
 
         highlight("智能协同，共赢高效" translatedTo "Intelligent collaboration for win-win efficiency") { rainbowSlow() }
