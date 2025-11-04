@@ -71,19 +71,15 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     // 村民存储与配置
     @Persisted
     @DescSynced
-    @RequireRerender
     private final VillageHolder villagers;
     @Persisted
     @DescSynced
-    @RequireRerender
     private boolean[] isLocked = new boolean[10];
     @Persisted
     @DescSynced
-    @RequireRerender
     private int[] selected = new int[10];
     @Persisted
     @DescSynced
-    @RequireRerender
     private boolean[] startUp = new boolean[10];
 
     private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[10][];
