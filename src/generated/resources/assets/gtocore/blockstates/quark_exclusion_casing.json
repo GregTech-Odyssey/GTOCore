@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/quark_exclusion_casing"
+    }
+  }
+}

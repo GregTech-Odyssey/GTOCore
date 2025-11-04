@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/raw_imprinted_resonatic_circuit_board"
+  }
+}

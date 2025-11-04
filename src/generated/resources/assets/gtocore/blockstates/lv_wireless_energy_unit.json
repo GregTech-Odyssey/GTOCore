@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/lv_wireless_energy_unit"
+    }
+  }
+}

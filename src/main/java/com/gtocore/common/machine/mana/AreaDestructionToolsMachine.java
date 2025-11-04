@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -37,7 +38,7 @@ import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinate
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUIMachine {
+public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
     @Persisted
     private final NotifiableItemStackHandler inventory;
@@ -95,6 +96,11 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
     public void onLoad() {
         super.onLoad();
         inventory.notifyListeners();
+    }
+
+    @Override
+    public void onMachineRemoved() {
+        clearInventory(inventory.storage);
     }
 
     private void triggerExplosion() {

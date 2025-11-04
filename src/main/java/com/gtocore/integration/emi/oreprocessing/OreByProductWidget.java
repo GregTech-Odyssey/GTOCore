@@ -135,12 +135,9 @@ final class OreByProductWrapper {
         if (hasDirectSmelt) {
             ItemStack smeltingResult;
             Material smeltingMaterial = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
-            /*
-             * if (smeltingMaterial.hasProperty(PropertyKey.INGOT)) {
-             * smeltingResult = ChemicalHelper.get(TagPrefix.ingot, smeltingMaterial);
-             * } else
-             */
-            if (smeltingMaterial.hasProperty(PropertyKey.GEM)) {
+            if (smeltingMaterial.hasProperty(PropertyKey.INGOT)) {
+                smeltingResult = ChemicalHelper.get(TagPrefix.ingot, smeltingMaterial);
+            } else if (smeltingMaterial.hasProperty(PropertyKey.GEM)) {
                 smeltingResult = ChemicalHelper.get(TagPrefix.gem, smeltingMaterial);
             } else {
                 smeltingResult = ChemicalHelper.get(TagPrefix.dust, smeltingMaterial);

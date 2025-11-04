@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/spacetime_bending_core"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/spacetime_bending_core_active"
+    }
+  }
+}

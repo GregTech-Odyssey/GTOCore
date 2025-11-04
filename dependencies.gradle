@@ -13,6 +13,8 @@ dependencies {
     jarJar("dev:terrific_trash_cans:1.0.0")
 
     modImplementation(jarJar("dev:gtolib:1.0"))
+//    modImplementation("dev:gtolib:1.0-debug")
+
 //    modImplementation(jarJar("dev.mineland:item-interactions-mod-forge+1.20.1:2.1.4"))
 
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
@@ -27,7 +29,7 @@ dependencies {
 
     jarJar(modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}"))
     modImplementation("org.appliedenergistics:guideme:20.1.13")
-    modImplementation("curse.maven:applied-energistics-2-wireless-terminals-459929:7014805")
+    modImplementation("curse.maven:applied-energistics-2-wireless-terminals-459929:7154316")
     modImplementation("curse.maven:applied-botanics-addon-610632:7024180")
 
     modImplementation("dev.architectury:architectury-forge:${project.architectury_version}")
@@ -56,8 +58,8 @@ dependencies {
 
     modImplementation("vazkii.patchouli:Patchouli:${project.minecraft_version}-84.1-FORGE")
 
-    modImplementation("curse.maven:extrabotany-reburn-1271869:6818025")
-    modImplementation("curse.maven:event-wrapper-1256971:6788387")
+    modImplementation("curse.maven:extrabotany-reburn-1271869:7182385")
+    modImplementation("curse.maven:event-wrapper-1256971:7182179")
 
     modRuntimeOnly("dev.shadowsoffire:ApothicAttributes:${project.minecraft_version}-1.3.7")
     modImplementation("dev.shadowsoffire:Placebo:${project.minecraft_version}-8.6.2")
@@ -85,7 +87,7 @@ dependencies {
 //    modImplementation("curse.maven:render-blender-1346485:6993848")
 //    modImplementation("curse.maven:avaritia-integration-1347675:7001596")
 
-    modImplementation("curse.maven:ender-io-64578:7004092")
+    modImplementation("curse.maven:ender-io-64578:7183516")
 
     modImplementation("curse.maven:farmers-delight-398521:6917255")
     modImplementation("curse.maven:farmers-respite-551453:5543547")
@@ -172,5 +174,7 @@ dependencies {
     modRuntimeOnly("curse.maven:emi-loot-681783:6449092")
     modCompileOnly("curse.maven:emi-loot-681783:6449092")
 
-    modCompileOnly("dev:gtoepp:1.0.0")
+    modCompileOnly("dev:gtoepp:1.0.1")
+
+    modImplementation("curse.maven:easy-villagers-400514:6831415")
 }

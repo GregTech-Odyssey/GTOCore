@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/dimension_connection_casing"
+    }
+  }
+}

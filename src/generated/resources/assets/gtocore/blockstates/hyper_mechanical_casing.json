@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/hyper_mechanical_casing"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/dyson_deployment_casing"
+    }
+  }
+}

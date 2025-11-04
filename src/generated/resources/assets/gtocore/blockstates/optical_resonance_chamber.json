@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/optical_resonance_chamber"
+    }
+  }
+}

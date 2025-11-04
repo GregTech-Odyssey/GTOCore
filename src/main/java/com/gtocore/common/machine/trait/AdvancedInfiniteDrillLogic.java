@@ -9,6 +9,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -18,7 +19,6 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import lombok.Getter;
@@ -72,7 +72,11 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
     private Recipe getFluidDrillRecipe() {
         if (getMachine().isEmpty() || !getMachine().canRunnable()) return null;
         if (!veinFluids.isEmpty()) {
-            var recipe = gtolib$getRecipeBuilder().duration(MAX_PROGRESS).EUt(20000).outputFluids(veinFluids.reference2IntEntrySet().stream().map(entry -> new FluidStack(entry.getKey(), entry.getIntValue())).toArray(FluidStack[]::new)).buildRawRecipe();
+            var builder = gtolib$getRecipeBuilder().duration(MAX_PROGRESS).EUt(20000);
+            veinFluids.reference2IntEntrySet().fastForEach(e -> {
+                builder.outputFluids(e.getKey(), e.getIntValue());
+            });
+            var recipe = builder.buildRawRecipe();
             recipe.modifier(new ContentModifier(getParallel() * efficiency(getMachine().getRate() * 500), 0), true);
             RecipeModifierFunction.overclocking(getMachine(), recipe);
             if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
@@ -147,7 +151,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
     public void onRecipeFinish() {
         machine.afterWorking();
         if (lastRecipe != null) {
-            RecipeRunner.handleRecipeOutput(machine, (Recipe) lastRecipe);
+            handleRecipeIO(lastRecipe, IO.OUT);
         }
         // try it again
         var match = getFluidDrillRecipe();

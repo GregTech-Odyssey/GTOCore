@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/stainless_evaporation_casing"
+    }
+  }
+}

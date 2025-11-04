@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/chain_command_block_broken"
+    }
+  }
+}

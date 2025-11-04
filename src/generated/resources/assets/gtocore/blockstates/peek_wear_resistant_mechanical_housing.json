@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/peek_wear_resistant_mechanical_housing"
+    }
+  }
+}

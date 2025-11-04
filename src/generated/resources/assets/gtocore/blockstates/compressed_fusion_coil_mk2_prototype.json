@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/compressed_fusion_coil_mk2_prototype"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/compressed_fusion_coil_mk2_prototype_active"
+    }
+  }
+}

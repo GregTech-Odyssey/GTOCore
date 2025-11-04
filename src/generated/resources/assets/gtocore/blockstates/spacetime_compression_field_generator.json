@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/spacetime_compression_field_generator"
+    }
+  }
+}

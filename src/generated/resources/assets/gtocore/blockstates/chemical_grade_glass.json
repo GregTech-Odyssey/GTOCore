@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/chemical_grade_glass"
+    }
+  }
+}

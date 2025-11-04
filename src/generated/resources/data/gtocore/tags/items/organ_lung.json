@@ -1,0 +1,9 @@
+{
+  "values": [
+    "gtocore:tier_0_lung",
+    "gtocore:tier_1_lung",
+    "gtocore:tier_2_lung",
+    "gtocore:tier_3_lung",
+    "gtocore:tier_4_lung"
+  ]
+}

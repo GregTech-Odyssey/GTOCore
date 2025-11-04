@@ -114,11 +114,10 @@ public final class GTOOres {
             .layer(ALL_LAYER)
             .dimensions(IO, PLUTO, BARNARDA_C, OTHERSIDE)
             .heightRangeUniform(10, 90)
-            .cuboidVeinGenerator(generator -> generator
-                    .top(b -> b.mat(Naquadah).size(2))
-                    .middle(b -> b.mat(Naquadah).size(3))
-                    .bottom(b -> b.mat(Naquadah).size(2))
-                    .spread(b -> b.mat(Plutonium239)))
+            .dikeVeinGenerator(generator -> generator
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Plutonium239, 1, 10, 20))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Naquadah, 3, 5, 35))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Naquadah, 2, 15, 30)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Naquadah)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
@@ -128,11 +127,10 @@ public final class GTOOres {
             .layer(ALL_LAYER)
             .dimensions(MOON, TITAN, PLUTO, OTHERSIDE)
             .heightRangeUniform(30, 60)
-            .cuboidVeinGenerator(generator -> generator
-                    .top(b -> b.mat(Pitchblende).size(2))
-                    .middle(b -> b.mat(Pitchblende).size(3))
-                    .bottom(b -> b.mat(Pitchblende).size(2))
-                    .spread(b -> b.mat(Uraninite)))
+            .dikeVeinGenerator(generator -> generator
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Uraninite, 2, 5, 30))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Pitchblende, 3, 5, 35))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Pitchblende, 2, 10, 30)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Pitchblende)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
@@ -142,11 +140,11 @@ public final class GTOOres {
             .layer(ALL_LAYER)
             .dimensions(VENUS, MARS, CERES, OTHERSIDE)
             .heightRangeUniform(30, 60)
-            .cuboidVeinGenerator(generator -> generator
-                    .top(b -> b.mat(RockSalt).size(2))
-                    .middle(b -> b.mat(Borax).size(3))
-                    .bottom(b -> b.mat(Salt).size(2))
-                    .spread(b -> b.mat(Lepidolite)))
+            .dikeVeinGenerator(generator -> generator
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(RockSalt, 1, 5, 30))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Borax, 3, 5, 40))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Salt, 1, 10, 30))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Lepidolite, 1, 10, 30)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Borax)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));

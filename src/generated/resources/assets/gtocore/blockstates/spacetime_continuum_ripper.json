@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/spacetime_continuum_ripper"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/spacetime_continuum_ripper_active"
+    }
+  }
+}

@@ -67,6 +67,7 @@ public final class RecipeFilter {
 
     private static void initModFilter(Set<String> filters) {
         filters.add("itemfilters");
+        filters.add("avaritia");
     }
 
     private static void initIdFilter(Set<ResourceLocation> filters) {
@@ -341,22 +342,12 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("diamond_lattice_block"));
         filters.add(RLUtils.mc("diamond_lattice"));
 
-        filters.add(RLUtils.avaritia("eternal_singularity"));
-        filters.add(RLUtils.avaritia("enhancement_core"));
-        filters.add(RLUtils.avaritia("infinity_catalyst"));
-        filters.add(RLUtils.avaritia("crystal_matrix_ingot"));
-        filters.add(RLUtils.avaritia("diamond_lattice"));
-        filters.add(RLUtils.avaritia("botania_mana_tablet"));
-        filters.add(RLUtils.avaritia("eio_creative_power"));
-        filters.add(RLUtils.avaritia("botania_creative_pool"));
-        filters.add(RLUtils.avaritia("compressed_chest"));
-        filters.add(RLUtils.avaritia("infinity_catalyst_eternal"));
-        filters.add(RLUtils.avaritia("ae2_creative_energy_cell"));
+        // avaritia
         filters.add(RLUtils.mc("dragon_egg"));
         filters.add(RLUtils.mc("crying_obsidian"));
         filters.add(RLUtils.mc("echo_shard"));
         filters.add(RLUtils.mc("dragon_breath"));
-        filters.add(RLUtils.mc("end_portal_frame"));
+        filters.add(RLUtils.mc("reinforced_deepslate"));
 
         filters.add(RLUtils.ad("refining/fuel_from_refining_oil"));
         filters.add(RLUtils.ad("oxygen_loading/oxygen_from_oxygen_loading_oxygen"));
@@ -532,7 +523,6 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "black_tea_leaves_sack"));
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "coffee_beans_sack"));
 
-        filters.add(RLUtils.fromNamespaceAndPath("avaritia", "neutron_gear"));
         if (Mods.BIOMESWEVEGONE.isLoaded()) {
             DyeRecipes.BWG.forEach((k, v) -> {
                 filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_dye_tag"));

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/load_bearing_structural_steel_casing"
+    }
+  }
+}

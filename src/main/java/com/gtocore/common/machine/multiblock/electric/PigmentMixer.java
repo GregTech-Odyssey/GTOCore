@@ -7,14 +7,14 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -22,15 +22,15 @@ import java.util.Set;
 public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFluidRendererMachine {
 
     @DescSynced
-    final Set<BlockPos> cachedYellowOffsets = new ObjectOpenHashSet<>();
+    final Set<BlockPos> cachedYellowOffsets = new OpenCacheHashSet<>();
     @DescSynced
-    final Set<BlockPos> cachedCyanOffsets = new ObjectOpenHashSet<>();
+    final Set<BlockPos> cachedCyanOffsets = new OpenCacheHashSet<>();
     @DescSynced
-    final Set<BlockPos> cachedMagentaOffsets = new ObjectOpenHashSet<>();
+    final Set<BlockPos> cachedMagentaOffsets = new OpenCacheHashSet<>();
     @DescSynced
-    final Set<BlockPos> cachedBlackOffsets = new ObjectOpenHashSet<>();
+    final Set<BlockPos> cachedBlackOffsets = new OpenCacheHashSet<>();
     @DescSynced
-    final Set<BlockPos> cachedWhiteOffsets = new ObjectOpenHashSet<>();
+    final Set<BlockPos> cachedWhiteOffsets = new OpenCacheHashSet<>();
 
     public PigmentMixer(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
@@ -38,12 +38,22 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
 
     @Override
     protected boolean beforeWorking(@Nullable Recipe recipe) {
-        cachedYellowOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("yellow", new ObjectOpenHashSet<>()));
-        cachedCyanOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("cyan", new ObjectOpenHashSet<>()));
-        cachedMagentaOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("magenta", new ObjectOpenHashSet<>()));
-        cachedBlackOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("black", new ObjectOpenHashSet<>()));
-        cachedWhiteOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("white", new ObjectOpenHashSet<>()));
+        cachedYellowOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("yellow", new OpenCacheHashSet<>()));
+        cachedCyanOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("cyan", new OpenCacheHashSet<>()));
+        cachedMagentaOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("magenta", new OpenCacheHashSet<>()));
+        cachedBlackOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("black", new OpenCacheHashSet<>()));
+        cachedWhiteOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("white", new OpenCacheHashSet<>()));
         return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        cachedYellowOffsets.clear();
+        cachedCyanOffsets.clear();
+        cachedMagentaOffsets.clear();
+        cachedBlackOffsets.clear();
+        cachedWhiteOffsets.clear();
     }
 
     @Override
@@ -58,7 +68,7 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
 
     @Override
     public Multimap<Fluid, BlockPos> getFluidBlockOffsets() {
-        Multimap<Fluid, BlockPos> map = Multimaps.newMultimap(new Object2ObjectOpenHashMap<>(), ObjectOpenHashSet::new);
+        Multimap<Fluid, BlockPos> map = Multimaps.newMultimap(new Reference2ObjectOpenHashMap<>(), OpenCacheHashSet::new);
         map.putAll(Wrapper.Yellow, cachedYellowOffsets);
         map.putAll(Wrapper.Cyan, cachedCyanOffsets);
         map.putAll(Wrapper.Magenta, cachedMagentaOffsets);

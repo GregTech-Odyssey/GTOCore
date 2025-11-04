@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/central_graviton_flow_modulator"
+    }
+  }
+}

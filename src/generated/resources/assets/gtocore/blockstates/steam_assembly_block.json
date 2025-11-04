@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/steam_assembly_block"
+    }
+  }
+}

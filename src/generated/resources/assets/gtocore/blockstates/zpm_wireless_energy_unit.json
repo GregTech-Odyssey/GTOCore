@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/zpm_wireless_energy_unit"
+    }
+  }
+}
