@@ -261,7 +261,7 @@ public final class AE2 {
                 .save();
 
         ASSEMBLER_RECIPES.builder("interface_lv")
-                .inputItems(TagPrefix.frameGt, GTOMaterials.Livingsteel)
+                .inputItems("gtocore:lv_mana_machine_hull")
                 .inputItems(AEItems.FORMATION_CORE.asItem())
                 .inputItems(AEItems.ANNIHILATION_CORE.asItem())
                 .inputItems(GTItems.CONVEYOR_MODULE_LV.asItem())
@@ -275,14 +275,14 @@ public final class AE2 {
                 .save();
 
         ASSEMBLER_RECIPES.builder("interface_mv")
-                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
+                .inputItems(GTMachines.HULL[GTValues.MV].asItem())
                 .inputItems(AEItems.FORMATION_CORE.asItem())
                 .inputItems(AEItems.ANNIHILATION_CORE.asItem())
                 .inputItems(GTItems.CONVEYOR_MODULE_MV.asItem())
                 .inputItems(CustomTags.MV_CIRCUITS, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium, 4)
                 .inputItems(GTOBlocks.BOROSILICATE_GLASS.asItem(), 2)
-                .outputItems(AEBlocks.INTERFACE.block().asItem(), 2)
+                .outputItems(AEBlocks.INTERFACE.block().asItem(), GTOCore.isExpert()?4:8)
                 .inputFluids(GTMaterials.Polyethylene, 576)
                 .EUt(120)
                 .duration(200)
