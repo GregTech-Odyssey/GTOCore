@@ -1,51 +1,83 @@
 package com.gtocore.common.machine.multiblock.storage;
 
-import com.gtolib.GTOCore;
-import com.gtolib.utils.SortUtils;
-
+import appeng.api.storage.MEStorage;
+import appeng.me.cells.BasicCellInventory;
+import appeng.menu.slot.AppEngSlot;
+import appeng.menu.slot.CellPartitionSlot;
+import appeng.util.inv.AppEngInternalInventory;
+import com.google.common.base.Preconditions;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
-
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.items.IItemHandlerModifiable;
-
+import com.gtolib.GTOCore;
+import com.gtolib.utils.SortUtils;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.stream.Stream;
 
 public class MultiblockCrateMachine extends MultiblockControllerMachine implements IUIMachine, IDropSaveMachine {
 
-    public static final int Capacity = 576;
+    public static final int Capacity = 243;
 
-    @Persisted
-    private final NotifiableItemStackHandler inventory;
+    public final AppEngInternalInventory inv;
     private final LockableItemStackHandler itemStackHandler;
 
     public MultiblockCrateMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        this.inventory = new NotifiableItemStackHandler(this, Capacity, IO.BOTH);
-        itemStackHandler = new LockableItemStackHandler(inventory).setLock(true);
+        this.inv = new AppEngInternalInventory(null, Capacity, 1024) {
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                Preconditions.checkArgument(slot >= 0 && slot < this.size(), "slot out of range");
+                if (!stack.isEmpty() && this.isItemValid(slot, stack)) {
+                    ItemStack inSlot = this.getStackInSlot(slot);
+                    int maxSpace = this.getSlotLimit(slot);
+                    int freeSpace = maxSpace - inSlot.getCount();
+                    if (freeSpace <= 0) {
+                        return stack;
+                    } else if (!inSlot.isEmpty() && !ItemStack.isSameItemSameTags(inSlot, stack)) {
+                        return stack;
+                    } else {
+                        int insertAmount = Math.min(stack.getCount(), freeSpace);
+                        if (!simulate) {
+                            ItemStack newItem = inSlot.isEmpty() ? stack.copy() : inSlot.copy();
+                            newItem.setCount(inSlot.getCount() + insertAmount);
+                            this.setItemDirect(slot, newItem);
+                        }
+
+                        if (freeSpace >= stack.getCount()) {
+                            return ItemStack.EMPTY;
+                        } else {
+                            ItemStack r = stack.copy();
+                            r.shrink(insertAmount);
+                            return r;
+                        }
+                    }
+                } else {
+                    return stack;
+                }
+            }
+        };
+        this.itemStackHandler = new LockableItemStackHandler((IItemHandlerModifiable) inv.toItemHandler());
     }
 
     @Override
@@ -56,7 +88,7 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
     @Override
     @Nullable
     public IItemHandlerModifiable getItemHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
-        return itemStackHandler;
+        return (IItemHandlerModifiable) inv.toItemHandler();
     }
 
     @Override
@@ -84,8 +116,7 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
         // int yOffset = (Capacity - 3 * yOverflow) / yOverflow * 18;
         var modularUI = new ModularUI(xOffset + 19, 244, this, entityPlayer)
                 .background(GuiTextures.BACKGROUND)
-                .widget(new LabelWidget(5, 5, () -> Component.translatable(getBlockState().getBlock().getDescriptionId()).getString() +
-                        "(" + Stream.of(inventory.storage.stacks).filter(i -> !i.isEmpty()).count() + "/" + Capacity + ")"))
+                .widget(new LabelWidget(5, 5, () -> Component.translatable(getBlockState().getBlock().getDescriptionId()).getString()))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 162, true));
 
         var innerContainer = new DraggableScrollableWidgetGroup(4, 4, xOffset + 6, 130)
@@ -97,13 +128,13 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
         int x = 0;
         int y = 0;
         for (int slot = 0; slot < Capacity; slot++) {
-            innerContainer.addWidget(new SlotWidget(inventory.storage, slot, x * 18, y * 18) {
-
+            var widget = new SlotWidget((IItemHandlerModifiable) inv.toItemHandler(), slot, x * 18, y * 18) {
                 @Override
-                public boolean isEnabled() {
-                    return true;
+                protected Slot createSlot(IItemHandlerModifiable itemHandler, int index) {
+                    return new AppEngSlot(inv, index);
                 }
-            }.setBackgroundTexture(GuiTextures.SLOT));
+            };
+            innerContainer.addWidget(widget);
             x++;
             if (x == yOverflow) {
                 x = 0;
@@ -117,12 +148,14 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
     }
 
     @Override
-    public void loadFromItem(CompoundTag tag) {
-        inventory.storage.deserializeNBT(tag.getCompound("inventory"));
+    public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
+        super.saveCustomPersistedData(tag, forDrop);
+        inv.writeToNBT(tag, "inv");
     }
 
     @Override
-    public void saveToItem(CompoundTag tag) {
-        tag.put("inventory", inventory.storage.serializeNBT());
+    public void loadCustomPersistedData(@NotNull CompoundTag tag) {
+        super.loadCustomPersistedData(tag);
+        inv.readFromNBT(tag, "inv");
     }
 }
