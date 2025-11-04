@@ -67,6 +67,7 @@ public final class RecipeFilter {
 
     private static void initModFilter(Set<String> filters) {
         filters.add("itemfilters");
+        filters.add("avaritia");
     }
 
     private static void initIdFilter(Set<ResourceLocation> filters) {
@@ -341,22 +342,6 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("diamond_lattice_block"));
         filters.add(RLUtils.mc("diamond_lattice"));
 
-        filters.add(RLUtils.avaritia("eternal_singularity"));
-        filters.add(RLUtils.avaritia("enhancement_core"));
-        filters.add(RLUtils.avaritia("infinity_catalyst"));
-        filters.add(RLUtils.avaritia("crystal_matrix_ingot"));
-        filters.add(RLUtils.avaritia("diamond_lattice"));
-        filters.add(RLUtils.avaritia("botania_mana_tablet"));
-        filters.add(RLUtils.avaritia("eio_creative_power"));
-        filters.add(RLUtils.avaritia("botania_creative_pool"));
-        filters.add(RLUtils.avaritia("compressed_chest"));
-        filters.add(RLUtils.avaritia("infinity_catalyst_eternal"));
-        filters.add(RLUtils.avaritia("ae2_creative_energy_cell"));
-        filters.add(RLUtils.avaritia("diamond_lattice_normal"));
-        filters.add(RLUtils.avaritia("crystal_matrix_ingot_normal"));
-        filters.add(RLUtils.avaritia("infinity_ingot"));
-        filters.add(RLUtils.avaritia("heart_of_the_sea"));
-        filters.add(RLUtils.avaritia("netherite_ingot_too"));
         filters.add(RLUtils.mc("dragon_egg"));
         filters.add(RLUtils.mc("crying_obsidian"));
         filters.add(RLUtils.mc("echo_shard"));
@@ -537,7 +522,6 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "black_tea_leaves_sack"));
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "coffee_beans_sack"));
 
-        filters.add(RLUtils.fromNamespaceAndPath("avaritia", "neutron_gear"));
         if (Mods.BIOMESWEVEGONE.isLoaded()) {
             DyeRecipes.BWG.forEach((k, v) -> {
                 filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_dye_tag"));
