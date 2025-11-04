@@ -50,11 +50,6 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     }
 
     @Override
-    protected final boolean beforeWorking(@Nullable Recipe recipe) {
-        return true;
-    }
-
-    @Override
     public void onPartScan(@NotNull IMultiPart iMultiPart) {
         super.onPartScan(iMultiPart);
         if (hasLaserInput) return;

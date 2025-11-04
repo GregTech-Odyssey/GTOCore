@@ -328,11 +328,9 @@ public final class GTOOreRecipeHandler {
                 }
             }
 
-            ItemStack ingotStack = material.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial) :
-                    material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial) :
-                            ChemicalHelper.get(dust, smeltingMaterial);
-
-            ingotStack.setCount(crushedStack.getCount());
+            ItemStack ingotStack = smeltingMaterial.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, property.getOreMultiplier()) :
+                    material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial, property.getOreMultiplier()) :
+                            ChemicalHelper.get(dust, smeltingMaterial, property.getOreMultiplier());
 
             if (!ingotStack.isEmpty() && doesMaterialUseNormalFurnace(smeltingMaterial) && !TagPrefix.ore.isIgnored(material)) {
                 float xp = Math.round(((1 + oreTypeMultiplier * 0.5f) * 0.5f - 0.05f) * 10.0f) / 10.0f;
@@ -350,7 +348,7 @@ public final class GTOOreRecipeHandler {
         int dur = (int) Math.max(6, Math.sqrt(mass) * oreTypeMultiplier * 2 / 3);
         ItemStack crushedStack = ChemicalHelper.get(crushed, material, Math.max(1, property.getOreMultiplier() * oreTypeMultiplier / 2));
         Material smeltingMaterial = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
-        ItemStack ingotStack = material.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, property.getOreMultiplier()) :
+        ItemStack ingotStack = smeltingMaterial.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, property.getOreMultiplier()) :
                 material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial, property.getOreMultiplier()) :
                         ChemicalHelper.get(dust, smeltingMaterial, property.getOreMultiplier());
 

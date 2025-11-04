@@ -91,7 +91,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
 
     // ===================== 矿块搜索线程相关 =====================
     private Thread minerSearchThread;
-    private PathNavigationRegion chunkCache;
     private volatile boolean isSearchingBlocks = false;
 
     public DigitalMinerLogic(@NotNull IRecipeLogicMachine machine,
@@ -223,7 +222,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         }
     }
 
-    private LinkedList<BlockPos> getBlocksToMine() {
+    private LinkedList<BlockPos> getBlocksToMine(PathNavigationRegion chunkCache) {
         LinkedList<BlockPos> blocks = new LinkedList<>();
         int calcAmount = Integer.MAX_VALUE;
         int calculated = 0;
@@ -284,15 +283,11 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         if (oresToMine.isEmpty() && !isSearchingBlocks) {
             synchronized (oresToMine) {
                 isSearchingBlocks = true;
-                minerSearchThread = Thread.ofVirtual().name("DigitalMiner-BlockSearchThread at " + DigitalMinerLogic.this.getMachine().getPos().toShortString()).start(() -> {
-                    if (minBuildHeight == Integer.MAX_VALUE) minBuildHeight = getMachine().getLevel().getMinBuildHeight();
-                    chunkCache = new PathNavigationRegion(getMiner().getLevel(),
-                            new BlockPos(startX - 1, startY - 1, startZ - 1),
-                            new BlockPos((int) (area.maxX + 1), (int) (area.maxY + 1), (int) (area.maxZ + 1)));
-                    var foundBlocks = getBlocksToMine();
-                    chunkCache = null;
-                    onBlocksFound(foundBlocks);
-                });
+                if (minBuildHeight == Integer.MAX_VALUE) minBuildHeight = getMachine().getLevel().getMinBuildHeight();
+                var chunkCache = new PathNavigationRegion(getMiner().getLevel(),
+                        new BlockPos(startX - 1, startY - 1, startZ - 1),
+                        new BlockPos((int) (area.maxX + 1), (int) (area.maxY + 1), (int) (area.maxZ + 1)));
+                minerSearchThread = Thread.startVirtualThread(() -> onBlocksFound(getBlocksToMine(chunkCache)));
             }
         }
     }
