@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.noenergy;
+package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;

@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.noenergy;
+package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.common.data.GTOItems;
@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -48,11 +49,11 @@ import java.util.Objects;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gtocore.common.item.CoordinateCardBehavior.getStoredCoordinates;
-import static com.gtocore.common.machine.noenergy.PlatformCreators.PlatformCreationAsync;
+import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformCreators.PlatformCreationAsync;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine {
+public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
     private static final NetworkPack HIGHLIGHT_REGION = NetworkPack.registerS2C(9, (p, b) -> {
         var dimension = b.readResourceKey(Registries.DIMENSION);
@@ -109,6 +110,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Override
     public void onUnload() {
         super.onUnload();
+    }
+
+    @Override
+    public void onMachineRemoved() {
+        unloadingMaterial();
+        clearInventory(inventory.storage);
     }
 
     /////////////////////////////////////
@@ -228,24 +235,26 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
 
     /////////////////////////////////////
     // ************ UI组件 ************ //
-    private static final int langWidth = 266 - 8;
+    /////////////////////////////////////
+    private static final int langWidth = 282 - 8;
 
     // 创建UI组件
     @Override
     public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 320 + 8, 160 + 8);
+        int width = 336;
+        int height = 160;
+        var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
         // 步骤标题
-        /// //////////////////////////////////
-        int totalLangWidth = 266;
+        int totalLangWidth = 282;
 
-        WidgetGroup group_title = new DraggableScrollableWidgetGroup(4, 4, totalLangWidth, 160)
+        WidgetGroup group_title = new DraggableScrollableWidgetGroup(4, 4, totalLangWidth, height)
                 .setBackground(GuiTextures.DISPLAY);
         group_title.addWidget(new ComponentPanelWidget(4, 5, this::addDisplayTextTitle));
         group.addWidget(group_title);
 
         // 主页
-        DraggableScrollableWidgetGroup mainContentGroup = new DraggableScrollableWidgetGroup(4, 20, totalLangWidth, 144);
+        DraggableScrollableWidgetGroup mainContentGroup = new DraggableScrollableWidgetGroup(4, 20, totalLangWidth, height - 16);
 
         mainContentGroup.addWidget(new ComponentPanelWidget(4, 0, this::addDisplayText)
                 .clickHandler(this::handleDisplayClick)
@@ -263,7 +272,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 .clickHandler(this::handleDisplayClick)
                 .setMaxWidthLimit(langWidth / 4));
 
-        mainContentGroup.addWidget(new ComponentPanelWidget(4 + 80, 0, this::addDisplayText5)
+        mainContentGroup.addWidget(new ComponentPanelWidget(4 + 88, 0, this::addDisplayText5)
                 .clickHandler(this::handleDisplayClick)
                 .setMaxWidthLimit(langWidth / 2));
 
@@ -275,12 +284,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
                 .clickHandler(this::handleDisplayClick)
                 .setMaxWidthLimit(langWidth / 4));
 
-        mainContentGroup.addWidget(new ImageWidget(166, 46, 100, 100, this::getIGuiTexture));
+        mainContentGroup.addWidget(new ImageWidget(totalLangWidth - 100, 46, 100, 100, this::getIGuiTexture));
 
         group.addWidget(mainContentGroup);
 
         // 启动区
-        WidgetGroup group_start = new DraggableScrollableWidgetGroup(271, 4, 54, 105)
+        WidgetGroup group_start = new DraggableScrollableWidgetGroup(width - 49, 4, 54, 105)
                 .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
         group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
                 .clickHandler((a, b) -> handleDisplayClickStep(a, mainContentGroup)));
@@ -290,7 +299,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         group.addWidget(group_start);
 
         // 物品槽
-        WidgetGroup group_slot = new DraggableScrollableWidgetGroup(271, 110, 54, 54);
+        WidgetGroup group_slot = new DraggableScrollableWidgetGroup(width - 49, 110, 54, 54);
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 3; x++) {
                 int slotIndex = y * 3 + x;

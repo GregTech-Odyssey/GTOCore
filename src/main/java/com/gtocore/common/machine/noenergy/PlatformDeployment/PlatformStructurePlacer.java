@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.noenergy;
+package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
 import com.gtocore.common.data.GTOMachines;
 
@@ -30,7 +30,7 @@ import java.util.function.IntConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.gtocore.common.machine.noenergy.PlatformCreators.loadMappingFromJson;
+import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformCreators.loadMappingFromJson;
 
 final class PlatformStructurePlacer {
 
