@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
 import com.gregtechceu.gtceu.api.machine.feature.IAutoOutputItem;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -52,7 +53,7 @@ import static com.gtocore.common.data.GTOItems.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class VillageTradingStationMachine extends MetaMachine implements IAutoOutputItem, IFancyUIMachine {
+public class VillageTradingStationMachine extends MetaMachine implements IAutoOutputItem, IFancyUIMachine, IMachineLife {
 
     // 定时任务订阅
     private TickableSubscription tickSubs;
@@ -822,5 +823,14 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             }
         }
         updateAutoOutputSubscription();
+    }
+
+    @Override
+    public void onMachineRemoved() {
+        clearInventory(input.storage);
+        clearInventory(output.storage);
+        clearInventory(villagers.storage);
+        clearInventory(upgrade.storage);
+        clearInventory(enhance.storage);
     }
 }

@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -52,7 +53,7 @@ import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformCre
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine {
+public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
     private static final NetworkPack HIGHLIGHT_REGION = NetworkPack.registerS2C(9, (p, b) -> {
         var dimension = b.readResourceKey(Registries.DIMENSION);
@@ -109,6 +110,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     @Override
     public void onUnload() {
         super.onUnload();
+    }
+
+    @Override
+    public void onMachineRemoved() {
+        unloadingMaterial();
+        clearInventory(inventory.storage);
     }
 
     /////////////////////////////////////
