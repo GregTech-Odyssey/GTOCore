@@ -38,6 +38,7 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
 
     @Override
     protected boolean beforeWorking(@Nullable Recipe recipe) {
+        if (recipe == null) return false;
         cachedYellowOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("yellow", new OpenCacheHashSet<>()));
         cachedCyanOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("cyan", new OpenCacheHashSet<>()));
         cachedMagentaOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("magenta", new OpenCacheHashSet<>()));
@@ -46,9 +47,14 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
         return super.beforeWorking(recipe);
     }
 
+
     @Override
-    public void onStructureInvalid() {
-        super.onStructureInvalid();
+    public void afterWorking() {
+        super.afterWorking();
+        invalid();
+    }
+
+    private void invalid() {
         cachedYellowOffsets.clear();
         cachedCyanOffsets.clear();
         cachedMagentaOffsets.clear();
@@ -57,13 +63,9 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
     }
 
     @Override
-    public void afterWorking() {
-        super.afterWorking();
-        cachedYellowOffsets.clear();
-        cachedCyanOffsets.clear();
-        cachedMagentaOffsets.clear();
-        cachedBlackOffsets.clear();
-        cachedWhiteOffsets.clear();
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        invalid();
     }
 
     @Override

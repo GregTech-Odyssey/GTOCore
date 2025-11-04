@@ -29,6 +29,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 
+import appeng.api.behaviors.ContainerItemStrategies;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
+import appeng.api.stacks.GenericStack;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
@@ -77,7 +82,29 @@ public final class GTOCommands {
                         hand(player);
                     }
                     return 1;
-                })));
+                }))
+                .then(Commands.literal("givecell").requires(ctx -> ctx.hasPermission(2))
+                        .executes(ctx -> {
+                            ServerPlayer player = ctx.getSource().getPlayer();
+                            if (player != null) {
+                                giveCell(player);
+                            }
+                            return 1;
+                        })));
+    }
+
+    private static void giveCell(ServerPlayer player) {
+        ItemStack stack = player.getMainHandItem();
+        if (stack.isEmpty()) {
+            return;
+        }
+        GenericStack contained = ContainerItemStrategies.getContainedStack(stack);
+        AEKey key = contained == null ? AEItemKey.of(stack) : contained.what();
+        ItemStack cell = EPPItemAndBlock.INFINITY_CELL.getRecordCell(key);
+        if (!player.getInventory().add(cell)) {
+            player.drop(cell, false);
+        }
+        player.sendSystemMessage(Component.literal("Given an Infinity Cell containing: ").append(Component.literal(key.getId().toString()).withStyle(ChatFormatting.GREEN)));
     }
 
     private static Component copy(Component c) {

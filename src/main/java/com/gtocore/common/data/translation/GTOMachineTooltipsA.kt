@@ -1,7 +1,9 @@
 package com.gtocore.common.data.translation
 
+import com.gtocore.api.data.Algae
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
+import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
@@ -53,5 +55,86 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 //        important("因该机器为多形态机器，故不支持镜像搭建" translatedTo "As this machine is a multi-form machine, mirror building is not supported")
 //        important("请通过旋转主机来调整对接口方向" translatedTo "Please adjust the docking port direction by rotating the main machine")
         error("无法同时成型多个形态" translatedTo "Cannot form multiple shapes at the same time")
+    }
+
+    // 大型藻类养殖中心
+    val LargeAlgaeFarmTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_algae_farm")
+
+        section(RunningRequirements)
+        command("耗能：(电压等级对应电压/2) EU/t" translatedTo "Energy consumption: (voltage level corresponding voltage / 2) EU/t")
+        important(
+            "每种藻类每次繁殖需要消耗1mb/个体/秒的生物素，请确保输入总线提供足够的生物素，否则藻类可能会死亡" translatedTo
+                "Each type of algae requires 1mb/individual/second of biotin for each reproduction. Please ensure that the input bus provides enough biotin, otherwise the algae may die",
+        )
+        section("藻类生长机制" translatedTo "Algae Growth Mechanism")
+
+        command("每秒更新一次藻类生长状态" translatedTo "Updates algae growth status once per second")
+        important("每次更新，藻类种群会根据其环境最大容量与种群权重呈S型增长" translatedTo "With each update, the algae population grows in an S-curve based on its environmental maximum capacity and population weight")
+        command("注意：每种藻类仅对其互补颜色的光源有最大提升效果" translatedTo "Note: Each type of algae only has the maximum enhancement effect on its complementary color light source")
+
+        info("公式：增长量 = x(cap-x)(1-f)/(x+f(cap-x))" translatedTo "Formula: Growth amount = x(cap-x)(1-f)/(x+f(cap-x))")
+        info(
+            "其中x为当前种群数量" translatedTo
+                "where x is the current population",
+        )
+        info(
+            "cap决定环境最大容量,其值为(4^玻璃等级)*藻类权重" translatedTo
+                "cap determines the environmental maximum capacity, its value is (4^[glass level])*[algae weight]",
+        )
+        info(
+            "f为藻类的增长因子（越接近0越快），其值为0.1+0.9*e^(-(电压等级 + 1.0) * 藻类吸光/2)" translatedTo
+                "f is the growth factor of algae(the closer to 0, the faster), where its value is 0.1+0.9*e^(-([voltage level] + 1.0) * [algae light absorption]/2)",
+        )
+
+        section("光吸收与权重机制" translatedTo "Light absorption & weight mechanics")
+        info("藻类生长速度受环境光照强度影响" translatedTo "Algae growth rate is affected by environmental light intensity")
+        info("每种颜色的卤素灯可以为对应波长范围的藻类提供额外光照，提升其种群权重" translatedTo "Each color of halogen lamp can provide additional illumination for algae in the corresponding wavelength range, increasing its population weight")
+        info("向输入总线提供红/绿/蓝三种卤素灯以提升光照强度" translatedTo "Provide red/green/blue halogen lights to the input bus to enhance light intensity")
+        command("每种颜色的卤素灯最多安装16个" translatedTo "A maximum of 16 halogen lights of each color can be installed")
+        command(
+            "光照强度 = min( min( 红色卤素灯数量,16 ) + min( 绿色卤素灯数量,16 ) + min( 蓝色卤素灯数量,16 ),16)" translatedTo
+                "Light intensity = min( min( redHalogenLampCount,16 ) + min( greenHalogenLampCount,16 ) + min( blueHalogenLampCount,16 ),16 )",
+        )
+
+        info(
+            "每次更新先按红/绿/蓝三色累计吸收：藻类的单色光吸收率 = (单色吸收数据(列于下表) / 255) * 单色光占比" translatedTo
+                "In each update, first accumulate absorption by red/green/blue: Algae's monochromatic light absorption rate = (monochromatic absorption data (listed in the table below) / 255) * colorWeight",
+        )
+        info(
+            "单色光占比为当前卤素灯数量占所有输入的卤素灯数量的比例" translatedTo
+                "colorWeight is the proportion of the current halogen lamp count to the total input halogen lamp count",
+        )
+
+        info(
+            "每种藻类的权重 = max( 红色光吸收率, 绿色光吸收率, 蓝色光吸收率 )，用于决定环境容量的占比：cap = 4^玻璃等级 * 权重" translatedTo
+                "Algae weight = max( redRatio, greenRatio, blueRatio ), used to determine the proportion of environmental capacity: cap = 4^[glass level] * weight",
+        )
+
+        info(
+            "当前光吸收值 = (r/255*红色光吸收率 + g/255*绿色光吸收率 + b/255*蓝色光吸收率) * (光照强度 / 16)" translatedTo
+                "Current light absorption = (r/255*redRatio + g/255*greenRatio + b/255*blueRatio) * (lightIntensity / 16)",
+        )
+        info(
+            "该吸收值用于决定藻类的增长因子f" translatedTo
+                "This absorption value is used to determine the growth factor f of algae",
+        )
+
+        section("藻类卤素灯光波段吸收数据" translatedTo "Algae Halogen Lamp Light Wavelength Absorption Data")
+        info("可养殖的藻类为：红藻、褐藻、金藻、绿藻、蓝藻" translatedTo "The cultivable algae are: red algae, brown algae, golden algae, green algae, blue algae")
+        info("使用专用的藻类访问仓来收集或投放藻类" translatedTo "Use a dedicated algae access hatch to collect or release algae")
+        Algae.entries.forEach { algae ->
+            val colorName = when (algae) {
+                Algae.RedAlge -> "红藻" translatedTo "Red"
+                Algae.BrownAlge -> "褐藻" translatedTo "Brown"
+                Algae.GoldAlge -> "金藻" translatedTo "Golden"
+                Algae.GreenAlge -> "绿藻" translatedTo "Green"
+                Algae.BlueAlge -> "蓝藻" translatedTo "Blue"
+            }.color(algae.color)
+            info(
+                colorName +
+                    ("r:" + algae.redAbsorption + " g:" + algae.greenAbsorption + " b:" + algae.blueAbsorption).toLiteralSupplier(),
+            )
+        }
     }
 }

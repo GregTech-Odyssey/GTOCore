@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gtocore.api.data.Algae;
+
 import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
@@ -28,6 +30,7 @@ import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.KeyCounter;
@@ -66,6 +69,10 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     public static StorageAccessPartMachine createIO(MetaMachineBlockEntity holder) {
         return new StorageAccessPartMachine.IO(holder);
+    }
+
+    public static StorageAccessPartMachine createAlgae(MetaMachineBlockEntity holder) {
+        return new StorageAccessPartMachine.AlgaeAccessHatch(holder);
     }
 
     @Setter
@@ -164,7 +171,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     private static class LONG extends StorageAccessPartMachine {
 
-        private CellDataStorage dataStorage;
+        protected CellDataStorage dataStorage;
 
         private LONG(MetaMachineBlockEntity holder) {
             super(holder);
@@ -445,7 +452,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             transferContents(grid);
         }
 
-        /// logic from {@link appeng.blockentity.storage.IOPortBlockEntity#transferContents(IGrid, StorageCell, long)}
         private void transferContents(IGrid grid) {
             var networkInv = grid.getStorageService().getInventory();
             long itemsToMove = rate;
@@ -707,6 +713,27 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             getAvailableStacks(keyCounter);
             keyCounter.removeEmptySubmaps();
             return keyCounter;
+        }
+    }
+
+    public static final class AlgaeAccessHatch extends LONG {
+
+        private AlgaeAccessHatch(MetaMachineBlockEntity holder) {
+            super(holder);
+            uuid = UUID.randomUUID();
+        }
+
+        @Override
+        public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
+            if (!(what instanceof AEItemKey i && Algae.isAlgae(i))) {
+                return 0;
+            }
+            return super.insert(what, amount, mode, source);
+        }
+
+        @Override
+        public boolean isPreferredStorageFor(AEKey what, IActionSource source) {
+            return (what instanceof AEItemKey i && Algae.isAlgae(i)) && super.isPreferredStorageFor(what, source);
         }
     }
 
