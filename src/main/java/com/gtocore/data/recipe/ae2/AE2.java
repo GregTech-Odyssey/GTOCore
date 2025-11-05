@@ -94,7 +94,7 @@ public final class AE2 {
         var t2 = GTOCore.isExpert() ? GTMaterials.GalliumArsenide : GTMaterials.Redstone;
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("calculation_processor")
-                .inputItems(AEItems.CALCULATION_PROCESSOR_PRINT.asItem())
+                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRINT.asItem())
                 .inputItems(AEItems.SILICON_PRINT.asItem())
                 .inputItems(t1, t2)
                 .inputItems(GTOCore.isExpert() ? CustomTags.LV_CIRCUITS : CustomTags.ULV_CIRCUITS)
@@ -105,7 +105,7 @@ public final class AE2 {
                 .save();
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("engineering_processor")
-                .inputItems(AEItems.ENGINEERING_PROCESSOR_PRINT.asItem())
+                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRINT.asItem())
                 .inputItems(AEItems.SILICON_PRINT.asItem())
                 .inputItems(t1, t2)
                 .inputItems(GTOCore.isExpert() ? CustomTags.LV_CIRCUITS : CustomTags.ULV_CIRCUITS)
@@ -116,7 +116,7 @@ public final class AE2 {
                 .save();
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("logic_processor")
-                .inputItems(AEItems.LOGIC_PROCESSOR_PRINT.asItem())
+                .notConsumable(AEItems.LOGIC_PROCESSOR_PRINT.asItem())
                 .inputItems(AEItems.SILICON_PRINT.asItem())
                 .inputItems(t1, t2)
                 .inputItems(GTOCore.isExpert() ? CustomTags.LV_CIRCUITS : CustomTags.ULV_CIRCUITS)
