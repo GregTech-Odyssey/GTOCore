@@ -1,5 +1,10 @@
 package com.gtocore.data.recipe.generated;
 
+import com.gtocore.common.data.GTOMaterials;
+
+import com.gtolib.GTOCore;
+import com.gtolib.api.recipe.RecipeBuilder;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -12,14 +17,13 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtolib.GTOCore;
-import com.gtolib.api.recipe.RecipeBuilder;
-import it.unimi.dsi.fastutil.objects.ObjectIntPair;
+
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+
+import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -332,16 +336,15 @@ public final class GTOOreRecipeHandler {
                 float xp = Math.round(((1 + oreTypeMultiplier * 0.5f) * 0.5f - 0.05f) * 10.0f) / 10.0f;
                 VanillaRecipeHelper.addSmeltingRecipe(material.getName(), tag, ingotStack, xp);
                 VanillaRecipeHelper.addBlastingRecipe(material.getName(), tag, ingotStack, xp);
-                if (material.hasProperty(PropertyKey.GEM)){
+                if (material.hasProperty(PropertyKey.GEM)) {
                     AUTOCLAVE_RECIPES.builder("ore_" + material.getName())
-                            .inputItems(crushedPurified.getItemTags(material)[0],GTOCore.isExpert()?2:1)
+                            .inputItems(crushedPurified.getItemTags(material)[0], GTOCore.isExpert() ? 2 : 1)
                             .outputItems(ingotStack)
-                            .inputFluids(GTMaterials.DistilledWater, GTOCore.isExpert()?50:10)
-                            .EUt(GTOCore.isExpert()?8:2)
+                            .inputFluids(GTMaterials.DistilledWater, GTOCore.isExpert() ? 50 : 10)
+                            .EUt(GTOCore.isExpert() ? 8 : 2)
                             .duration(400)
                             .save();
                 }
-
 
             }
         }
