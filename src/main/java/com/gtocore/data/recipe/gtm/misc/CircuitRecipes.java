@@ -196,7 +196,7 @@ public final class CircuitRecipes {
                 .cleanroom(CleanroomType.CLEANROOM).save();
 
         // Wafer chemical refining recipes
-        CHEMICAL_RECIPES.recipeBuilder("hpic_wafer")
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("hpic_wafer")
                 .inputItems(POWER_INTEGRATED_CIRCUIT_WAFER)
                 .inputItems(dust, IndiumGalliumPhosphide, 2)
                 .inputFluids(VanadiumGallium.getFluid(L))
@@ -204,7 +204,7 @@ public final class CircuitRecipes {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(1200).EUt(VA[IV]).save();
 
-        CHEMICAL_RECIPES.recipeBuilder("uhpic_wafer")
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("uhpic_wafer")
                 .inputItems(HIGH_POWER_INTEGRATED_CIRCUIT_WAFER)
                 .inputItems(dust, IndiumGalliumPhosphide, 8)
                 .inputFluids(Naquadah.getFluid(L >> 1))
