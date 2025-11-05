@@ -127,7 +127,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
         // 3. 创建新的唯一输出列表
         if (selectedContent != null) {
             Object selectedStack = selectedContent.content;
-            Content newContent = new Content(selectedStack, 10000, 10000, 0);
+            Content newContent = new Content(selectedStack, 10000, 0);
             List<Content> newOutputs = Collections.singletonList(newContent);
             recipe.outputs.clear();
             recipe.outputs.put(ItemRecipeCapability.CAP, newOutputs);

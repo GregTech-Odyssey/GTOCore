@@ -152,11 +152,11 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         // electrolyte consumption adjustment
         long actuallyConsumedmB = result.parallels * fuelEnergyPerUnit / euPermB;
         var input = new ArrayList<>(result.inputs.get(FluidRecipeCapability.CAP));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE)), 10000, 10000, 0));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE)), 10000, 10000, 0));
+        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE)), 10000, 0));
+        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE)), 10000, 0));
         var output = new ArrayList<Content>();
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE)), 10000, 10000, 0));
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE)), 10000, 10000, 0));
+        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE)), 10000, 0));
+        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE)), 10000, 0));
         result.inputs.put(FluidRecipeCapability.CAP, input);
         result.outputs.put(FluidRecipeCapability.CAP, output);
 
