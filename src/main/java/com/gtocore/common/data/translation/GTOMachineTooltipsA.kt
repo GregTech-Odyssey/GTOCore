@@ -64,8 +64,8 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         section(RunningRequirements)
         command("耗能：(电压等级对应电压/2) EU/t" translatedTo "Energy consumption: (voltage level corresponding voltage / 2) EU/t")
         important(
-            "每种藻类每次繁殖需要消耗1mb/个体/秒的生物素，请确保输入总线提供足够的生物素，否则藻类可能会死亡" translatedTo
-                "Each type of algae requires 1mb/individual/second of biotin for each reproduction. Please ensure that the input bus provides enough biotin, otherwise the algae may die",
+            "每种藻类每次繁殖需要消耗1mb/个体/秒的生物质，请确保输入总线提供足够的生物质，否则藻类可能会死亡" translatedTo
+                "Each type of algae requires 1mb/individual/second of biomass for each reproduction. Please ensure that the input bus provides enough biomass, otherwise the algae may die",
         )
         section("藻类生长机制" translatedTo "Algae Growth Mechanism")
 
