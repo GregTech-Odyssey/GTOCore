@@ -128,7 +128,11 @@ public abstract class RunicAltarBlockEntityMixin extends SimpleInventoryBlockEnt
 
     @Shadow(remap = false)
     private void saveLastRecipe() {
-        lastRecipe = new ObjectArrayList<>();
+        if (lastRecipe == null) {
+            lastRecipe = new ObjectArrayList<>();
+        } else {
+            lastRecipe.clear();
+        }
         for (int i = 0; i < inventorySize(); i++) {
             ItemStack stack = getItemHandler().getItem(i);
             if (stack.isEmpty()) {

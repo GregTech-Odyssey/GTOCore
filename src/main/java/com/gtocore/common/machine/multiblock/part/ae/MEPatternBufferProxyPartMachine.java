@@ -144,10 +144,6 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         return InteractionResult.PASS;
     }
 
-    ProxySlotRecipeHandler getProxySlotRecipeHandler() {
-        return this.proxySlotRecipeHandler;
-    }
-
     @Override
     public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
         if (!data.getBoolean("formed")) return;

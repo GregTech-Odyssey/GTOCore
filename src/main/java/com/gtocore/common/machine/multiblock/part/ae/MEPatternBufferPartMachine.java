@@ -207,7 +207,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         proxyMachines.remove(proxy);
     }
 
-    public Set<MEPatternBufferProxyPartMachine> getProxies() {
+    private Set<MEPatternBufferProxyPartMachine> getProxies() {
         if (proxyMachines.size() != proxies.size() && getLevel() != null) {
             proxyMachines.clear();
             for (var pos : proxies) {
