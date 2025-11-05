@@ -304,7 +304,7 @@ final class OreByProductWrapper {
     private void addChance(int base, int tier) {
         // this is solely for the chance overlay and tooltip, neither of which care
         // about the ItemStack
-        chances.put(currentSlot - 1, new Content(ItemStack.EMPTY, base, ContentBuilder.maxChance, tier));
+        chances.put(currentSlot - 1, new Content(ItemStack.EMPTY, base, tier));
     }
 
     // make the code less :weary:

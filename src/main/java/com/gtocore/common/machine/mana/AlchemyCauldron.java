@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.util.Mth;
@@ -95,11 +94,11 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     private Recipe enhanceRecipe(Recipe recipe, int[] recipeParams) {
         int matchRate = calculateMatchRate(recipeParams);
         recipe.outputs.put(ItemRecipeCapability.CAP, recipe.getOutputContents(ItemRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, ChanceLogic.getMaxChancedValue(), 0);
+            if (content.chance < 11) return new Content(content.content, matchRate, 0);
             else return content;
         }).toList());
         recipe.outputs.put(FluidRecipeCapability.CAP, recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, ChanceLogic.getMaxChancedValue(), 0);
+            if (content.chance < 11) return new Content(content.content, matchRate, 0);
             else return content;
         }).toList());
         return recipe;
