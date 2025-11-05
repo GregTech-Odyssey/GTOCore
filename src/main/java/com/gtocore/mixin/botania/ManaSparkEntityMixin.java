@@ -5,11 +5,13 @@ import net.minecraft.world.level.Level;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import sun.misc.Unsafe;
 import vazkii.botania.common.entity.ManaSparkEntity;
 import vazkii.botania.common.entity.SparkBaseEntity;
+
+import java.lang.reflect.Field;
 
 @Mixin(ManaSparkEntity.class)
 public abstract class ManaSparkEntityMixin extends SparkBaseEntity {
@@ -26,4 +28,10 @@ public abstract class ManaSparkEntityMixin extends SparkBaseEntity {
         if (this.firstTick || tickCount % 10 == 0) return;
         ci.cancel();
     }
+
+    @ModifyConstant(method = "tick", constant = @Constant(intValue = 1000))
+    public int tick_rate(int constant){
+        return 10000;
+    }
+
 }
