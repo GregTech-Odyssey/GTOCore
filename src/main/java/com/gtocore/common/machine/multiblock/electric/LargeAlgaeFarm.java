@@ -38,6 +38,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
+import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
@@ -50,20 +51,18 @@ import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCasingMachine {
 
-    Map<Algae, List<Long>> statistics = new EnumMap<>(Algae.class);
-    static final int statMaxSeconds = 30;
-    int lastStatTick = 0;
-    boolean statsChanged = false;
-
-    StorageAccessPartMachine.AlgaeAccessHatch algaeAccessHatch;
-    final TierCasingTrait tierCasingTrait;
-    int lightIntensity = 0;
-    float redWeight = 1.0f;
-    float greenWeight = 1.0f;
-    float blueWeight = 1.0f;
+    private final Map<Algae, LongList> statistics = new EnumMap<>(Algae.class);
+    private static final int statMaxSeconds = 30;
+    private boolean statsChanged = false;
+    private StorageAccessPartMachine.AlgaeAccessHatch algaeAccessHatch;
+    private final TierCasingTrait tierCasingTrait;
+    private int lightIntensity = 0;
+    private float redWeight = 1.0f;
+    private float greenWeight = 1.0f;
+    private float blueWeight = 1.0f;
 
     @DescSynced
-    Algae selectedAlgae = Algae.BlueAlge;
+    private Algae selectedAlgae = Algae.BlueAlge;
 
     public LargeAlgaeFarm(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
@@ -228,8 +227,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     private void updateStatistics(Algae algae, long amount) {
-        lastStatTick = getOffsetTimer();
-        List<Long> stat = statistics.computeIfAbsent(algae, (a) -> new LongArrayList(31));
+        var stat = statistics.computeIfAbsent(algae, (a) -> new LongArrayList(31));
         stat.add(amount);
         if (stat.size() > statMaxSeconds) {
             stat.removeFirst();
@@ -256,7 +254,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
 
         ComponentPanelWidget panelWidget;
 
-        public StatisticWidget(int x, int y, int width, int height) {
+        private StatisticWidget(int x, int y, int width, int height) {
             super(x, y, width, height);
             addWidget(panelWidget = new ComponentPanelWidget(3, 3, l -> l.add(
                     Component.translatable("config.jade.display_mode").append(" ")
@@ -286,7 +284,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
             graphics.pose().translate(getPositionX(), getPositionY(), 0f);
             LineChartHelper.INSTANCE.drawLineChart(
                     graphics,
-                    statistics.getOrDefault(selectedAlgae, List.of()),
+                    statistics.getOrDefault(selectedAlgae, LongList.of()),
                     getSizeWidth(),
                     getSizeHeight(),
                     selectedAlgae.getColor() | 0xFF000000);
@@ -301,11 +299,11 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
                 statsChanged = false;
                 writeUpdateInfo(6, (buf) -> {
                     buf.writeInt(statistics.size());
-                    for (Algae algae : statistics.keySet()) {
-                        buf.writeInt(algae.ordinal());
-                        List<Long> stat = statistics.get(algae);
+                    for (Map.Entry<Algae, LongList> entry : statistics.entrySet()) {
+                        buf.writeInt(entry.getKey().ordinal());
+                        var stat = entry.getValue();
                         buf.writeInt(stat.size());
-                        for (Long v : stat) {
+                        for (var v : stat) {
                             buf.writeLong(v);
                         }
                     }

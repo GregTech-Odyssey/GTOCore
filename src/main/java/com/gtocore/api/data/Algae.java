@@ -18,6 +18,8 @@ public enum Algae {
     GreenAlge(180, 40, 220, GTOItems.GREEN_ALGAE),
     RedAlge(40, 200, 230, GTOItems.RED_ALGAE);
 
+    private static final Algae[] VALUES = values();
+
     public final int redAbsorption;
     public final int greenAbsorption;
     public final int blueAbsorption;
@@ -35,8 +37,9 @@ public enum Algae {
     }
 
     public static boolean isAlgae(AEItemKey key) {
-        for (Algae algae : values()) {
-            if (algae.aeKey().equals(key)) {
+        var item = key.getItem();
+        for (Algae algae : VALUES) {
+            if (algae.itemSupplier.get() == item) {
                 return true;
             }
         }
