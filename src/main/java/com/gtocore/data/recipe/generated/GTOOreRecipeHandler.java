@@ -334,7 +334,7 @@ public final class GTOOreRecipeHandler {
                 VanillaRecipeHelper.addBlastingRecipe(material.getName(), tag, ingotStack, xp);
                 if (material.hasProperty(PropertyKey.GEM)){
                     AUTOCLAVE_RECIPES.builder("ore_" + material.getName())
-                            .inputItems(crushedPurified.getItemTags(material)[0])
+                            .inputItems(crushedPurified.getItemTags(material)[0],GTOCore.isExpert()?2:1)
                             .outputItems(ingotStack)
                             .inputFluids(GTMaterials.DistilledWater, GTOCore.isExpert()?50:10)
                             .EUt(GTOCore.isExpert()?8:2)
