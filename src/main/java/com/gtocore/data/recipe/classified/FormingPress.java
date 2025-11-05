@@ -13,8 +13,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.block.Blocks;
 
-import appeng.core.definitions.AEItems;
-
 import static com.gtocore.common.data.GTORecipeTypes.FORMING_PRESS_RECIPES;
 
 final class FormingPress {
@@ -35,28 +33,6 @@ final class FormingPress {
                 .inputItems(GTItems.CARBON_FIBER_PLATE.asItem(), 18)
                 .outputItems(GTOItems.CARBON_ROTOR.asItem())
                 .EUt(120)
-                .duration(200)
-                .save();
-
-        FORMING_PRESS_RECIPES.recipeBuilder("logic_processor1")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.dust, GTMaterials.Gold)
-                .inputItems(TagPrefix.dust, GTMaterials.Silicon)
-                .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(AEItems.LOGIC_PROCESSOR.asItem())
-                .EUt(480)
-                .duration(20)
-                .save();
-
-        FORMING_PRESS_RECIPES.recipeBuilder("logic_processor")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.plate, GTMaterials.Gold)
-                .inputItems(AEItems.SILICON.asItem())
-                .inputItems(TagPrefix.plate, GTMaterials.Redstone)
-                .outputItems(AEItems.LOGIC_PROCESSOR.asItem())
-                .EUt(30)
                 .duration(200)
                 .save();
 
@@ -83,34 +59,12 @@ final class FormingPress {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        FORMING_PRESS_RECIPES.recipeBuilder("engineering_processor1")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.plate, GTMaterials.Diamond)
-                .inputItems(AEItems.SILICON.asItem())
-                .inputItems(TagPrefix.plate, GTMaterials.Redstone)
-                .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem())
-                .EUt(30)
-                .duration(200)
-                .save();
-
         FORMING_PRESS_RECIPES.recipeBuilder("reactor_fuel_rod")
                 .notConsumable(GTItems.SHAPE_EXTRUDER_CELL.asItem())
                 .inputItems(TagPrefix.ingot, GTMaterials.SteelMagnetic)
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asItem())
                 .EUt(30)
                 .duration(200)
-                .save();
-
-        FORMING_PRESS_RECIPES.recipeBuilder("calculation_processor1")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz)
-                .inputItems(TagPrefix.dust, GTMaterials.Silicon)
-                .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(AEItems.CALCULATION_PROCESSOR.asItem())
-                .EUt(480)
-                .duration(20)
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("grindball_soapstone")
@@ -169,28 +123,6 @@ final class FormingPress {
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_2.asItem())
                 .EUt(480)
                 .duration(200)
-                .save();
-
-        FORMING_PRESS_RECIPES.recipeBuilder("calculation_processor")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.plate, GTMaterials.CertusQuartz)
-                .inputItems(AEItems.SILICON.asItem())
-                .inputItems(TagPrefix.plate, GTMaterials.Redstone)
-                .outputItems(AEItems.CALCULATION_PROCESSOR.asItem())
-                .EUt(30)
-                .duration(200)
-                .save();
-
-        FORMING_PRESS_RECIPES.recipeBuilder("engineering_processor")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.dust, GTMaterials.Diamond)
-                .inputItems(TagPrefix.dust, GTMaterials.Silicon)
-                .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem())
-                .EUt(480)
-                .duration(20)
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("grindball_aluminium")
