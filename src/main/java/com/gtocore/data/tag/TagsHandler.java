@@ -1,5 +1,6 @@
 package com.gtocore.data.tag;
 
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -17,6 +18,7 @@ import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import earth.terrarium.adastra.common.registry.ModBlocks;
+import vazkii.botania.common.lib.BotaniaTags;
 
 public final class TagsHandler {
 
@@ -77,6 +79,10 @@ public final class TagsHandler {
                 BlockRegistry.ALTERATION_TABLE.get(),
                 BlockRegistry.ITEM_DETECTOR.get(),
                 BlockRegistry.REPOSITORY.get());
+
+        create(provider, BotaniaTags.Blocks.UNETHICAL_TNT_CHECK,
+                GTBlocks.INDUSTRIAL_TNT.get(),
+                GTBlocks.POWDERBARREL.get());
     }
 
     public static void initItem(RegistrateTagsProvider<Item> provider) {
