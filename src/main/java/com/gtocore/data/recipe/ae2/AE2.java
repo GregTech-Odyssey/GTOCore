@@ -125,15 +125,16 @@ public final class AE2 {
                 .duration(200)
                 .EUt(30)
                 .save();
+        var buffer=GTOCore.isExpert()?16:32;
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("engineering_processor_magic")
                 .notConsumable((Item) FIELD_GENERATOR.get(GTValues.HV))
                 .notConsumable(AEItems.SILICON_PRESS.asItem())
                 .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
-                .inputItems(GTOTagPrefix.dust, GTOMaterials.ManaDiamond, 16)
-                .inputItems(GTOTagPrefix.dust, GTOMaterials.ElectronicGradeSilicon, 16)
+                .inputItems(GTOTagPrefix.dust, GTOCore.isExpert()?GTOMaterials.ManaDiamond:GTMaterials.Diamond, buffer)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.ElectronicGradeSilicon, buffer)
                 .inputItems("botania:rune_mana")
-                .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 16)
+                .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), buffer)
                 .duration(400)
                 .EUt(GTValues.VA[GTValues.HV])
                 .save();
@@ -142,10 +143,10 @@ public final class AE2 {
                 .notConsumable((Item) FIELD_GENERATOR.get(GTValues.HV))
                 .notConsumable(AEItems.SILICON_PRESS.asItem())
                 .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
-                .inputItems(GTOTagPrefix.dust, GTMaterials.CertusQuartz, 16)
-                .inputItems(GTOTagPrefix.dust, GTOMaterials.ElectronicGradeSilicon, 16)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.CertusQuartz, buffer)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.ElectronicGradeSilicon, buffer)
                 .inputItems("botania:rune_mana")
-                .outputItems(AEItems.CALCULATION_PROCESSOR.asItem(), 16)
+                .outputItems(AEItems.CALCULATION_PROCESSOR.asItem(), buffer)
                 .duration(400)
                 .EUt(GTValues.VA[GTValues.HV])
                 .save();
@@ -154,10 +155,10 @@ public final class AE2 {
                 .notConsumable((Item) FIELD_GENERATOR.get(GTValues.HV))
                 .notConsumable(AEItems.SILICON_PRESS.asItem())
                 .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
-                .inputItems(GTOTagPrefix.dust, GTOMaterials.InfusedGold, 16)
-                .inputItems(GTOTagPrefix.dust, GTOMaterials.ElectronicGradeSilicon, 16)
+                .inputItems(GTOTagPrefix.dust, GTOCore.isExpert()?GTOMaterials.InfusedGold:GTMaterials.Gold, buffer)
+                .inputItems(GTOTagPrefix.dust, GTOMaterials.ElectronicGradeSilicon, buffer)
                 .inputItems("botania:rune_mana")
-                .outputItems(AEItems.LOGIC_PROCESSOR.asItem(), 16)
+                .outputItems(AEItems.LOGIC_PROCESSOR.asItem(), buffer)
                 .duration(400)
                 .EUt(GTValues.VA[GTValues.HV])
                 .save();
