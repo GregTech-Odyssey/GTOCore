@@ -356,6 +356,7 @@
     "gtocore:spacecraft_thermal_shielding_casing",
     "gtocore:space_engine_nozzle",
     "gtocore:spacecraft_dynamic_protective_mechanical_casing",
+    "gtocore:spacetime_structure_maintenance_casing",
     "ars_nouveau:scribes_table",
     "ars_nouveau:relay",
     "ars_nouveau:arcane_core",

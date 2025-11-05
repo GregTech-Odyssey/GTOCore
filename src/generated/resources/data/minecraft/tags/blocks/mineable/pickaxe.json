@@ -357,6 +357,7 @@
     "gtocore:spacecraft_thermal_shielding_casing",
     "gtocore:space_engine_nozzle",
     "gtocore:spacecraft_dynamic_protective_mechanical_casing",
+    "gtocore:spacetime_structure_maintenance_casing",
     "gtocore:reactor_core"
   ]
 }

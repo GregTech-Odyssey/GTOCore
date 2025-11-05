@@ -47,7 +47,6 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
         return super.beforeWorking(recipe);
     }
 
-
     @Override
     public void afterWorking() {
         super.afterWorking();
