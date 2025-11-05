@@ -11,12 +11,10 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.GTOUtils;
-import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -80,18 +78,17 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     @Override
-    public RecipeLogic createRecipeLogic(Object... args) {
-        return new CustomRecipeLogic(this, this::getRecipe) {
+    public boolean onWorking() {
+        if (super.onWorking()) {
+            if (getOffsetTimer() % 20 == 0) produceAlgae();
+            return true;
+        }
+        return false;
+    }
 
-            @Override
-            public boolean handleTickRecipe(GTRecipe recipe) {
-                if (super.handleTickRecipe(recipe)) {
-                    if (getOffsetTimer() % 20 == 0) produceAlgae();
-                    return true;
-                }
-                return false;
-            }
-        };
+    @Override
+    public RecipeLogic createRecipeLogic(Object... args) {
+        return new CustomRecipeLogic(this, this::getRecipe, true);
     }
 
     @Override
@@ -186,8 +183,8 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
                             algaeGreenAbsorptions.get(algae) +
                             algaeBlueAbsorptions.get(algae)) * lightIntensity / 16,
                     algaeWeight);
-            long total = Math.min(MachineUtils.getFluidAmount(this, Biomass.getFluid())[0], currentCount + increasement);
-            MachineUtils.inputFluid(this, Biomass.getFluid(), total);
+            long total = Math.min(getFluidAmount(Biomass.getFluid())[0], currentCount + increasement);
+            inputFluid(Biomass.getFluid(), total);
             if (total - currentCount > 0) {
                 algaeAccessHatch.insert(algae.aeKey(), total - currentCount, Actionable.MODULATE, IActionSource.ofMachine(algaeAccessHatch));
             } else {
@@ -197,24 +194,20 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
         }
     }
 
-    private long getRedIntensity() {
-        return Math.min(MachineUtils.getItemAmount(this, GTOItems.RED_HALIDE_LAMP.get())[0], 16);
-    }
-
-    private long getGreenIntensity() {
-        return Math.min(MachineUtils.getItemAmount(this, GTOItems.GREEN_HALIDE_LAMP.get())[0], 16);
-    }
-
-    private long getBlueIntensity() {
-        return Math.min(MachineUtils.getItemAmount(this, GTOItems.BLUE_HALIDE_LAMP.get())[0], 16);
+    private long[] getRGBIntensity() {
+        return getItemAmount(GTOItems.RED_HALIDE_LAMP.get(), GTOItems.GREEN_HALIDE_LAMP.get(), GTOItems.BLUE_HALIDE_LAMP.get());
     }
 
     private void updateLightIntensity() {
-        long total = getRedIntensity() + getGreenIntensity() + getBlueIntensity();
-        this.lightIntensity = (int) Math.min(16, total);
-        this.redWeight = getRedIntensity() / (float) total;
-        this.greenWeight = getGreenIntensity() / (float) total;
-        this.blueWeight = getBlueIntensity() / (float) total;
+        var rgb = getRGBIntensity();
+        var r = (int) Math.min(16, rgb[0]);
+        var g = (int) Math.min(16, rgb[1]);
+        var b = (int) Math.min(16, rgb[2]);
+        int total = r + g + b;
+        this.lightIntensity = Math.min(16, total);
+        this.redWeight = r / (float) total;
+        this.greenWeight = g / (float) total;
+        this.blueWeight = b / (float) total;
     }
 
     @Override
