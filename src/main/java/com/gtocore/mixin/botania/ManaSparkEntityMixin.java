@@ -7,11 +7,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import sun.misc.Unsafe;
 import vazkii.botania.common.entity.ManaSparkEntity;
 import vazkii.botania.common.entity.SparkBaseEntity;
-
-import java.lang.reflect.Field;
 
 @Mixin(ManaSparkEntity.class)
 public abstract class ManaSparkEntityMixin extends SparkBaseEntity {
@@ -24,14 +21,13 @@ public abstract class ManaSparkEntityMixin extends SparkBaseEntity {
     }
 
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lvazkii/botania/common/entity/ManaSparkEntity;getAttachedTile()Lvazkii/botania/api/mana/spark/SparkAttachable;", remap = false), cancellable = true)
-    public void tick(CallbackInfo ci) {
-        if (this.firstTick || tickCount % 10 == 0) return;
+    private void tick(CallbackInfo ci) {
+        if (this.firstTick || tickCount % 20 == 0) return;
         ci.cancel();
     }
 
     @ModifyConstant(method = "tick", constant = @Constant(intValue = 1000))
-    public int tick_rate(int constant){
-        return 10000;
+    private int tick_rate(int constant) {
+        return 20000;
     }
-
 }

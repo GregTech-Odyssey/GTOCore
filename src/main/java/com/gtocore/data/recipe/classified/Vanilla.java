@@ -939,5 +939,17 @@ final class Vanilla {
                 "CDC",
                 "EDE",
                 'A', new MaterialEntry(GTOTagPrefix.plateDouble, GTOMaterials.StainlessSteel316), 'B', CustomTags.EV_CIRCUITS, 'C', GTItems.ELECTRIC_MOTOR_EV.asStack(), 'D', new MaterialEntry(GTOTagPrefix.plateDouble, GTOMaterials.AluminumAlloy7050), 'E', GTOItems.SPOOLS_MICRO.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("algae_access_hatch"), RegistriesUtils.getItemStack("gtocore:algae_access_hatch"),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', GTOBlocks.BIOACTIVE_MECHANICAL_CASING.asStack(), 'B', new MaterialEntry(GTOTagPrefix.pipeNormalRestrictive, GTMaterials.Americium), 'C', GTItems.ROBOT_ARM_UHV.asStack(), 'D', RegistriesUtils.getItemStack("gtocore:me_storage_access_hatch"), 'E', new MaterialEntry(GTOTagPrefix.pipeLargeFluid, GTOMaterials.Amprosium));
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("pigment_mixer"), RegistriesUtils.getItemStack("gtocore:pigment_mixer"),
+                "ABA",
+                "CDC",
+                "EEE",
+                'A', new MaterialEntry(GTOTagPrefix.pipeQuadrupleFluid, GTOMaterials.GraphiteCopperComposite), 'B', new MaterialEntry(GTOTagPrefix.rotor, GTMaterials.TungstenSteel), 'C', GTItems.FLUID_REGULATOR_IV.asStack(), 'D', GTMachines.MIXER[GTValues.IV].asStack(), 'E', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
     }
 }

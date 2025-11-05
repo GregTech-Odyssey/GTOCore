@@ -187,6 +187,10 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
         withStyle { it.withColor(OffsetGradientColor(1f, int)) }
     }
 
+    fun color(int: Int): ComponentSupplier = operatorComponent {
+        withStyle { it.withColor(int) }
+    }
+
     // ////////////////////////////////
     // ****** 滚动 ******//
     // //////////////////////////////

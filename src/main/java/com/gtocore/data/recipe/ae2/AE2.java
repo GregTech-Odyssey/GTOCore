@@ -282,7 +282,7 @@ public final class AE2 {
                 .inputItems(CustomTags.MV_CIRCUITS, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium, 4)
                 .inputItems(GTOBlocks.BOROSILICATE_GLASS.asItem(), 2)
-                .outputItems(AEBlocks.INTERFACE.block().asItem(), GTOCore.isExpert()?4:8)
+                .outputItems(AEBlocks.INTERFACE.block().asItem(), GTOCore.isExpert() ? 4 : 8)
                 .inputFluids(GTMaterials.Polyethylene, 576)
                 .EUt(120)
                 .duration(200)
