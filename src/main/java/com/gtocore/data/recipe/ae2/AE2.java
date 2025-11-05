@@ -63,7 +63,7 @@ public final class AE2 {
                 .inputItems(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
                 .outputItems(AEItems.CALCULATION_PROCESSOR_PRINT.asItem())
                 .EUt(30)
-                .duration(300)
+                .duration(200)
                 .save();
 
         LASER_ENGRAVER_RECIPES.builder("printed_engineering_processor")
