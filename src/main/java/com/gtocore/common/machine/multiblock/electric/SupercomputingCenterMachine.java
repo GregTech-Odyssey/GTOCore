@@ -239,11 +239,11 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     @Override
     public long requestCWU(long cwu, boolean simulate) {
         if (incompatible) return 0;
-        if (runRecipe != null) {
+        if (runRecipe != null && isFormed) {
             if (simulate) return requestCWUt(true, cwu);
             if (getRecipeLogic().isWorking()) {
                 return requestCWUt(false, cwu);
-            } else if (RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
+            } else if (!getRecipeLogic().isSuspend() && RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
                 getRecipeLogic().setupRecipe(runRecipe);
                 if (getRecipeLogic().isWorking()) {
                     return requestCWUt(false, cwu);
