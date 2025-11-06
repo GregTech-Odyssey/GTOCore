@@ -317,15 +317,15 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                 if (stack != null && stack.what() instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
                     ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
                     if (virtualItem.isEmpty()) continue;
+                    if (!locked) {
+                        slot.setLock(true);
+                        locked = true;
+                    }
                     if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
                         slot.circuitInventory.storage.setStackInSlot(0, virtualItem);
                     } else {
                         var grid = getGrid();
                         if (grid != null && grid.getStorageService().getInventory().extract(what, 1, Actionable.SIMULATE, getActionSource()) == 1) {
-                            if (!locked) {
-                                slot.setLock(true);
-                                locked = true;
-                            }
                             var storage = slot.shareInventory.storage;
                             var inSlot = storage.getStackInSlot(in);
                             if (!inSlot.isEmpty()) {
