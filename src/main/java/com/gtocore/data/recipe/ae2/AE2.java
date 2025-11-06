@@ -84,7 +84,7 @@ public final class AE2 {
 
         LASER_ENGRAVER_RECIPES.builder("printed_silicon")
                 .inputItems(GTOTagPrefix.plate, GTMaterials.Silicon)
-                .inputItems(AEItems.SILICON_PRESS.asItem())
+                .notConsumable(AEItems.SILICON_PRESS.asItem())
                 .outputItems(AEItems.SILICON_PRINT.asItem())
                 .EUt(30)
                 .duration(200)
