@@ -206,18 +206,5 @@ public final class RuneRitualRecipeBuilder {
     }
 
     // 内部辅助类：存储外围符文临时数据（序列化前）
-    private static class RunePositionData {
-
-        final Ingredient ingredient;
-        final int x;
-        final int z;
-        final boolean consume;
-
-        RunePositionData(Ingredient ingredient, int x, int z, boolean consume) {
-            this.ingredient = ingredient;
-            this.x = x;
-            this.z = z;
-            this.consume = consume;
-        }
-    }
+    private record RunePositionData(Ingredient ingredient, int x, int z, boolean consume) {}
 }

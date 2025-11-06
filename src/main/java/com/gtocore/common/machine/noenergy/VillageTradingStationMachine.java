@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.noenergy;
 
-import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
 import com.gtolib.GTOCore;
@@ -20,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IAutoOutputItem;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
