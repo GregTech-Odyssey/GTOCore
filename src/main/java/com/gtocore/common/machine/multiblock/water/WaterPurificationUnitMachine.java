@@ -35,16 +35,14 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     WaterPurificationUnitMachine(MetaMachineBlockEntity holder, long multiple) {
         super(holder, false, m -> IParallelMachine.MAX_PARALLEL);
         this.multiple = multiple;
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, this::isFormed);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 80, this::isFormed);
         customParallelTrait.setDefaultMax(false);
     }
 
     private void tickUpdate() {
-        if (getOffsetTimer() % 80 == 0) {
-            WaterPurificationPlantMachine machine = getNetMachine();
-            if (machine == null) getRecipeLogic().resetRecipeLogic();
-            tickSubs.updateSubscription();
-        }
+        WaterPurificationPlantMachine machine = getNetMachine();
+        if (machine == null) getRecipeLogic().resetRecipeLogic();
+        tickSubs.updateSubscription();
     }
 
     void calculateVoltage(long input) {

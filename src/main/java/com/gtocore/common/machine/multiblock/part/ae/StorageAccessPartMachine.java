@@ -104,7 +104,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         super(holder, GTValues.EV, -1000000, 1000000);
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> true);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, () -> true);
         current = 0;
     }
 

@@ -62,7 +62,7 @@ final class PlatformStructurePlacer {
         this.onBatch = onBatch;
         this.onFinished = onFinished;
 
-        this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, this::onComplete, 0);
+        this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, 0, 0);
     }
 
     /**
@@ -150,12 +150,9 @@ final class PlatformStructurePlacer {
 
         if (!blockIterator.hasNext()) {
             subscription.unsubscribe();
-        }
-    }
-
-    private void onComplete() {
-        if (onFinished != null) {
-            onFinished.run();
+            if (onFinished != null) {
+                onFinished.run();
+            }
         }
     }
 

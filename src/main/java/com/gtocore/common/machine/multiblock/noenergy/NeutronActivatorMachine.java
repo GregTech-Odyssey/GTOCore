@@ -55,7 +55,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     public NeutronActivatorMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, () -> isFormed || eV > 0);
+        neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, 0, () -> isFormed || eV > 0);
     }
 
     @Override

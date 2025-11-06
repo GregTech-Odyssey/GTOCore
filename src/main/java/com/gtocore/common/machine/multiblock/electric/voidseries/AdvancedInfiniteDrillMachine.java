@@ -50,7 +50,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
 
     public AdvancedInfiniteDrillMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.toolHeadDrill);
-        heatSubs = new ConditionalSubscriptionHandler(this, this::heatUpdate, this::isFormed);
+        heatSubs = new ConditionalSubscriptionHandler(this, this::heatUpdate, 5, this::isFormed);
     }
 
     @Override
@@ -59,7 +59,6 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     }
 
     private void heatUpdate() {
-        if (getOffsetTimer() % 5 != 0) return;
         heatSubs.updateSubscription();
 
         boolean isWorking = getRecipeLogic().isWorking();

@@ -65,7 +65,6 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new MaintenanceHatchProvider(), MetaMachineBlockEntity.class);
 
         registration.registerBlockDataProvider(new AEGridProvider(), BlockEntity.class);
-        registration.registerBlockDataProvider(new TickTimeProvider(), MetaMachineBlockEntity.class);
     }
 
     @Override
@@ -100,7 +99,6 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new MaintenanceHatchProvider(), MetaMachineBlock.class);
 
         registration.registerBlockComponent(new AEGridProvider(), Block.class);
-        registration.registerBlockComponent(new TickTimeProvider(), MetaMachineBlock.class);
     }
 
     static {

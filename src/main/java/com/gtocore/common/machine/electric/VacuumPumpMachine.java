@@ -41,7 +41,7 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tick);
+            tickSubs = subscribeServerTick(tickSubs, this::tick, 20);
         }
     }
 
@@ -55,7 +55,6 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     }
 
     private void tick() {
-        if (getOffsetTimer() % 20 != 0) return;
         if (getRecipeLogic().isWorking()) {
             if (totalEU < 12000) totalEU += 2 * GTValues.VA[getTier()];
         } else if (totalEU > 0) {

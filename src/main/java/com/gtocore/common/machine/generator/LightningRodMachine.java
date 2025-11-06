@@ -40,7 +40,7 @@ public final class LightningRodMachine extends TieredEnergyMachine {
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            energySubs = subscribeServerTick(energySubs, this::checkEnergy);
+            energySubs = subscribeServerTick(energySubs, this::checkEnergy, 10);
         }
     }
 
@@ -54,17 +54,15 @@ public final class LightningRodMachine extends TieredEnergyMachine {
     }
 
     private void checkEnergy() {
-        if (getOffsetTimer() % 10 == 0) {
-            BlockState state = Objects.requireNonNull(getLevel()).getBlockState(getPos().offset(0, 1, 0));
-            if (state.getBlock() == Blocks.LIGHTNING_ROD && state.getValue(BlockStateProperties.FACING) == Direction.UP && state.getValue(LightningRodBlock.POWERED)) {
-                if (energyContainer.getEnergyStored() == getCharge()) {
-                    doExplosion(getTier());
-                } else {
-                    energyContainer.addEnergy(getCharge() / 2 + GTValues.RNG.nextInt());
-                }
-                if (GTOUtils.probability(breakProbability)) {
-                    getLevel().setBlockAndUpdate(getPos().offset(0, 1, 0), Blocks.AIR.defaultBlockState());
-                }
+        BlockState state = Objects.requireNonNull(getLevel()).getBlockState(getPos().offset(0, 1, 0));
+        if (state.getBlock() == Blocks.LIGHTNING_ROD && state.getValue(BlockStateProperties.FACING) == Direction.UP && state.getValue(LightningRodBlock.POWERED)) {
+            if (energyContainer.getEnergyStored() == getCharge()) {
+                doExplosion(getTier());
+            } else {
+                energyContainer.addEnergy(getCharge() / 2 + GTValues.RNG.nextInt());
+            }
+            if (GTOUtils.probability(breakProbability)) {
+                getLevel().setBlockAndUpdate(getPos().offset(0, 1, 0), Blocks.AIR.defaultBlockState());
             }
         }
     }

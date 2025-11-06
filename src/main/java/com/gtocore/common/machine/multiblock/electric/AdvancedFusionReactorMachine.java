@@ -50,7 +50,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         super(holder, false, true, MachineUtils::getHatchParallel);
         this.tier = tier;
         this.energyContainer = createEnergyContainer();
-        preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, () -> isFormed || heat > 0);
+        preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, 0, () -> isFormed || heat > 0);
     }
 
     private EnergyContainerTrait createEnergyContainer() {

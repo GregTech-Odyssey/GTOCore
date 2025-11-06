@@ -89,7 +89,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     public SupercomputingCenterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, stack -> MAINFRAME.containsKey(stack.getItem()));
-        maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, () -> isFormed);
+        maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, 10, () -> isFormed);
     }
 
     private void clean() {
@@ -261,40 +261,38 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private void maxCWUtModificationUpdate() {
         if (isFormed) {
             if (machineTier > 1) {
-                if (getOffsetTimer() % 10 == 0) {
-                    int max = (machineTier == 2) ? 40000 : 160000;
-                    maxCWUtModification -= (int) ((Math.pow(maxCWUtModification - 4000, 2) / 500000) * (0.8 / (Math.log(maxCWUtModification + 600000) - Math.log(10000))));
-                    if ((maxCWUtModification <= max) && (ThermalConductorHatchPart != null)) {
-                        CustomItemStackHandler stackTransfer = ThermalConductorHatchPart.getInventory().storage;
-                        for (int i = 0; i < stackTransfer.getSlots(); i++) {
-                            ItemStack itemStack = stackTransfer.getStackInSlot(i);
-                            Item valueItem = MFPCs.get(itemStack.getItem());
-                            if (valueItem != null) {
-                                int count = itemStack.getCount();
-                                int index = getIndexForItem(itemStack.getItem());
-                                int consumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
-                                stackTransfer.setStackInSlot(i, itemStack.copyWithCount(count - consumption));
-                                maxCWUtModification += N_MFPCs[index] * consumption;
-                                for (int j = 0; j < stackTransfer.getSlots(); j++) {
-                                    if (stackTransfer.getStackInSlot(j).getItem() == valueItem) {
-                                        int count2 = stackTransfer.getStackInSlot(j).getCount();
-                                        if (count2 + consumption <= 64) {
-                                            stackTransfer.setStackInSlot(j, new ItemStack(valueItem, count2 + consumption));
-                                            break;
-                                        }
-                                    }
-                                    if (stackTransfer.getStackInSlot(j).isEmpty()) {
-                                        ItemStack convertedStack = new ItemStack(valueItem, consumption);
-                                        stackTransfer.setStackInSlot(j, convertedStack);
+                int max = (machineTier == 2) ? 40000 : 160000;
+                maxCWUtModification -= (int) ((Math.pow(maxCWUtModification - 4000, 2) / 500000) * (0.8 / (Math.log(maxCWUtModification + 600000) - Math.log(10000))));
+                if ((maxCWUtModification <= max) && (ThermalConductorHatchPart != null)) {
+                    CustomItemStackHandler stackTransfer = ThermalConductorHatchPart.getInventory().storage;
+                    for (int i = 0; i < stackTransfer.getSlots(); i++) {
+                        ItemStack itemStack = stackTransfer.getStackInSlot(i);
+                        Item valueItem = MFPCs.get(itemStack.getItem());
+                        if (valueItem != null) {
+                            int count = itemStack.getCount();
+                            int index = getIndexForItem(itemStack.getItem());
+                            int consumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
+                            stackTransfer.setStackInSlot(i, itemStack.copyWithCount(count - consumption));
+                            maxCWUtModification += N_MFPCs[index] * consumption;
+                            for (int j = 0; j < stackTransfer.getSlots(); j++) {
+                                if (stackTransfer.getStackInSlot(j).getItem() == valueItem) {
+                                    int count2 = stackTransfer.getStackInSlot(j).getCount();
+                                    if (count2 + consumption <= 64) {
+                                        stackTransfer.setStackInSlot(j, new ItemStack(valueItem, count2 + consumption));
                                         break;
                                     }
                                 }
+                                if (stackTransfer.getStackInSlot(j).isEmpty()) {
+                                    ItemStack convertedStack = new ItemStack(valueItem, consumption);
+                                    stackTransfer.setStackInSlot(j, convertedStack);
+                                    break;
+                                }
                             }
-                            if (maxCWUtModification >= max) break;
                         }
+                        if (maxCWUtModification >= max) break;
                     }
-                    if (maxCWUtModification < 8000) maxCWUtModification = 8000;
                 }
+                if (maxCWUtModification < 8000) maxCWUtModification = 8000;
             } else maxCWUtModification = 10000;
         }
         maxCWUtModificationSubs.updateSubscription();

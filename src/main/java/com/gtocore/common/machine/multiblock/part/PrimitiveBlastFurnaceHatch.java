@@ -106,7 +106,7 @@ public final class PrimitiveBlastFurnaceHatch extends MultiblockPartMachine {
 
     private void updateAutoIOSubscription() {
         if ((!outputInventory.isEmpty() && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing()))) {
-            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
+            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 20);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
             autoIOSubs = null;
@@ -114,10 +114,8 @@ public final class PrimitiveBlastFurnaceHatch extends MultiblockPartMachine {
     }
 
     private void autoIO() {
-        if (getOffsetTimer() % 20 == 0) {
-            outputInventory.exportToNearby(getFrontFacing());
-            updateAutoIOSubscription();
-        }
+        outputInventory.exportToNearby(getFrontFacing());
+        updateAutoIOSubscription();
     }
 
     //////////////////////////////////////

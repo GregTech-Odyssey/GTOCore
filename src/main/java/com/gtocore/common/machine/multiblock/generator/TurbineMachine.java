@@ -93,11 +93,11 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         this.mega = mega;
         this.tier = tier;
         baseEUOutput = (long) (GTValues.V[tier] * (mega ? 4 : 1) * (special ? 2.5 : 2));
-        rotorSubs = new ConditionalSubscriptionHandler(this, this::rotorUpdate, () -> rotorHatchPartMachine != null);
+        rotorSubs = new ConditionalSubscriptionHandler(this, this::rotorUpdate, 20, () -> rotorHatchPartMachine != null);
     }
 
     private void rotorUpdate() {
-        if (getOffsetTimer() % 20 == 0 && !isActive()) {
+        if (!isActive()) {
             rotorSubs.updateSubscription();
             if (rotorHatchPartMachine == null || rotorHatchPartMachine.getInventory().isEmpty()) return;
             boolean full = true;
