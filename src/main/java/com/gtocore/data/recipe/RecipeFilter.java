@@ -179,8 +179,8 @@ public final class RecipeFilter {
         filters.add(RLUtils.bot("conversions/manasteel_from_nuggets"));
         filters.add(RLUtils.bot("conversions/manasteel_to_nuggets"));
         filters.add(RLUtils.bot("conversions/terrasteel_block_deconstruct"));
-        filters.add(RLUtils.bot("conversions/terrasteel_from_nuggets"));
-        filters.add(RLUtils.bot("conversions/terrasteel_to_nuggets"));
+        filters.add(RLUtils.bot("conversions/terrasteel_from_nugget"));
+        filters.add(RLUtils.bot("conversions/terrasteel_to_nugget"));
         filters.add(RLUtils.bot("conversions/elementium_block_deconstruct"));
         filters.add(RLUtils.bot("conversions/elementium_from_nuggets"));
         filters.add(RLUtils.bot("conversions/elementium_to_nuggets"));

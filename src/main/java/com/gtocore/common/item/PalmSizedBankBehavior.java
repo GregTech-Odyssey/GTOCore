@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,14 +23,15 @@ import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
+
+import java.awt.*;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
     public static final PalmSizedBankBehavior INSTANCE = new PalmSizedBankBehavior();
+
+    private static final String TEXT_HEADER = "gtocore.palm_sized_bank.textList.";
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
@@ -60,22 +62,27 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         WidgetGroup group = new WidgetGroup(0, 0, width + 8, height + 8);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
-        DraggableScrollableWidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, 192, 144)
+        DraggableScrollableWidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                 .setBackground(GuiTextures.DISPLAY); // 内容区域背景
 
         group.addWidget(mainGroup);
 
         // 2. 获取玩家实例并处理异常
         Player player = getPlayerFromWidget(widget);
-        if (player == null) {
-            LabelWidget errorLabel = new LabelWidget(10, 10, Component.literal("无法获取玩家信息"))
-                    .setTextColor(0xFF5555); // 红色错误文本
-            mainGroup.addWidget(errorLabel);
-            return group;
-        }
 
-        // 3. 添加玩家信息组件（抽取为独立方法）
-        addPlayerBasicInfo(mainGroup, player);    // 基础信息（名称、UUID）
+        mainGroup.addWidget(new ComponentPanelWidget(10, 10, textList -> {
+            textList.add(Component.translatable(TEXT_HEADER + 1));
+            textList.add(Component.translatable(TEXT_HEADER + 2));
+            textList.add(Component.translatable(TEXT_HEADER + 3));
+            textList.add(Component.translatable(TEXT_HEADER + 4));
+            textList.add(Component.empty());
+            if (player == null) {
+                textList.add(Component.translatable(TEXT_HEADER + 5).withStyle(ChatFormatting.RED));
+            } else {
+                textList.add(Component.translatable(TEXT_HEADER + 6, player.getName().getString()).withStyle(ChatFormatting.WHITE));
+                textList.add(Component.translatable(TEXT_HEADER + 7, player.getUUID().toString()));
+            }
+        }).setMaxWidthLimit(width - 20));
 
         return group;
     }
@@ -112,23 +119,5 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         ModularUI modularUI = widget.getGui();
         if (modularUI == null) return null;
         return modularUI.entityPlayer;
-    }
-
-    /** 添加玩家基础信息（名称、UUID） */
-    private void addPlayerBasicInfo(DraggableScrollableWidgetGroup parent, Player player) {
-        // 用户名
-        LabelWidget nameLabel = new LabelWidget(10, 10,
-                Component.literal("当前用户：" + player.getName().getString()))
-                .setTextColor(0xFFFFFF); // 白色文本
-        parent.addWidget(nameLabel);
-
-        // UUID（简化显示+悬停完整显示）
-        String fullUuid = player.getUUID().toString();
-        String shortUuid = fullUuid.substring(0, 8) + "...";
-        LabelWidget uuidLabel = new LabelWidget(10, 30,
-                Component.literal("用户UUID：" + shortUuid))
-                .setTextColor(0xAAAAAA); // 灰色文本
-        uuidLabel.setHoverTooltips(Component.literal("完整UUID：" + fullUuid));
-        parent.addWidget(uuidLabel);
     }
 }
