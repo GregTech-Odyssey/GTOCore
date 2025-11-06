@@ -1140,6 +1140,13 @@ public final class GTOItems {
                     GTMedicalConditions.CARBON_MONOXIDE_POISONING)))
             .register();
 
+    public static final ItemEntry<ComponentItem> PALM_SIZED_BANK = item("palm_sized_bank", "泛银河系格雷科技掌上银行", ComponentItem::create)
+            .toolTips(GTOItemTooltips.INSTANCE.getPalmSizedBankTooltips().getArray())
+            .properties(p -> p.stacksTo(1))
+            .lang("Pan-Galactic Grey Technology Palm-Sized Bank")
+            .onRegister(attach(PalmSizedBankBehavior.INSTANCE))
+            .register();
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
