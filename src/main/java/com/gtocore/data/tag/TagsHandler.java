@@ -23,8 +23,6 @@ import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 import vazkii.botania.common.lib.BotaniaTags;
 
-import static vazkii.botania.common.item.BotaniaItems.*;
-
 public final class TagsHandler {
 
     public static void initBlock(RegistrateTagsProvider<Block> provider) {
