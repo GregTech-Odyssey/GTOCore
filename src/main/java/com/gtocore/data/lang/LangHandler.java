@@ -318,6 +318,8 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.vanilla_craft_station", "分子装配", "Molecular Assembl");
         addCNEN("gtocore.ae.appeng.me2in1.wireless", "无线2合1终端", "Wireless 2-in-1 Terminal");
         addCNEN("gtocore.ae.appeng.me2in1", "ME2合1终端", "ME 2-in-1 Terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar", "折叠/展开 工具栏", "Collapse/Expand Toolbar");
+        addCNEN("gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar.desc", "折叠或展开显示元件与网络工具槽", "Collapse or expand the display components and network tool slots");
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position", "重置面板位置", "Reset Panel Position");
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position.1", "重置所有面板位置到默认位置", "Reset all panel positions to default");
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern", "点击移除以此为主产物的处理样板至缓冲槽", "Click to remove patterns with this main product to the buffer slot");

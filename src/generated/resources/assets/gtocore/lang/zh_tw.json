@@ -2073,6 +2073,8 @@
   "gtocore.ae.appeng.me2in1.auto_search.config": "中鍵點擊以配置自定義目錄名稱搜索映射",
   "gtocore.ae.appeng.me2in1.auto_search.off": "不自動在樣板終端中搜索",
   "gtocore.ae.appeng.me2in1.auto_search.on": "自動填充配方的目錄名稱到樣板搜索欄中",
+  "gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar": "摺疊/展開 工具欄",
+  "gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar.desc": "摺疊或展開顯示元件與網絡工具槽",
   "gtocore.ae.appeng.me2in1.config_mapping": "配置配方搜索映射",
   "gtocore.ae.appeng.me2in1.draggable_mark.tooltip": "按住併拖動以調整該面板位置",
   "gtocore.ae.appeng.me2in1.emi.catalyst": "編碼默認不填充催化劑",

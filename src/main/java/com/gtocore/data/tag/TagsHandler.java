@@ -1,13 +1,16 @@
 package com.gtocore.data.tag;
 
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
 
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -19,6 +22,8 @@ import com.kyanite.deeperdarker.content.DDBlocks;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 import vazkii.botania.common.lib.BotaniaTags;
+
+import static vazkii.botania.common.item.BotaniaItems.*;
 
 public final class TagsHandler {
 
@@ -87,6 +92,8 @@ public final class TagsHandler {
 
     public static void initItem(RegistrateTagsProvider<Item> provider) {
         create(provider, Tags.HUMAN_EGG, Items.VILLAGER_SPAWN_EGG, Items.WITCH_SPAWN_EGG);
+        create(provider, ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "curio")),
+                GTOItems.WIRELESS_ME2IN1.asItem());
     }
 
     private static void create(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, Block... rls) {
