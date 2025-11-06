@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.noenergy;
 
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
 import com.gtolib.GTOCore;
