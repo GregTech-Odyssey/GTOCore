@@ -328,9 +328,11 @@ public final class GTOOreRecipeHandler {
                 }
             }
 
-            ItemStack ingotStack = smeltingMaterial.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, property.getOreMultiplier()) :
-                    material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial, property.getOreMultiplier()) :
-                            ChemicalHelper.get(dust, smeltingMaterial, property.getOreMultiplier());
+            crushedAmount = Math.max(crushedAmount / 3, 1);
+
+            ItemStack ingotStack = smeltingMaterial.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, crushedAmount) :
+                    material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial, crushedAmount) :
+                            ChemicalHelper.get(dust, smeltingMaterial, crushedAmount);
 
             if (!ingotStack.isEmpty() && doesMaterialUseNormalFurnace(smeltingMaterial) && !TagPrefix.ore.isIgnored(material)) {
                 float xp = Math.round(((1 + oreTypeMultiplier * 0.5f) * 0.5f - 0.05f) * 10.0f) / 10.0f;
