@@ -1,8 +1,8 @@
 package com.gtocore.data.tag;
 
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gtocore.common.data.GTOBlocks;
 
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.core.registries.BuiltInRegistries;

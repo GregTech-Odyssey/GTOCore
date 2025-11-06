@@ -1,6 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import appeng.core.definitions.AEItems;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
@@ -15,42 +14,44 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.block.Blocks;
 
+import appeng.core.definitions.AEItems;
+
 import static com.gtocore.common.data.GTORecipeTypes.FORMING_PRESS_RECIPES;
 
 final class FormingPress {
 
     public static void init() {
-        if(GTOCore.isEasy()){
+        if (GTOCore.isEasy()) {
             FORMING_PRESS_RECIPES.recipeBuilder("engineering_processor_p")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.dust, GTMaterials.Diamond)
-                .inputItems(TagPrefix.dust, GTMaterials.Silicon)
-                .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem())
-                .EUt(480)
-                .duration(20)
-                .save();
+                    .notConsumable(AEItems.SILICON_PRESS.asItem())
+                    .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
+                    .inputItems(TagPrefix.dust, GTMaterials.Diamond)
+                    .inputItems(TagPrefix.dust, GTMaterials.Silicon)
+                    .inputItems(TagPrefix.dust, GTMaterials.Redstone)
+                    .outputItems(AEItems.ENGINEERING_PROCESSOR.asItem())
+                    .EUt(480)
+                    .duration(20)
+                    .save();
             FORMING_PRESS_RECIPES.recipeBuilder("calculation_processor_p")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz)
-                .inputItems(TagPrefix.dust, GTMaterials.Silicon)
-                .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(AEItems.CALCULATION_PROCESSOR.asItem())
-                .EUt(480)
-                .duration(20)
-                .save();
+                    .notConsumable(AEItems.SILICON_PRESS.asItem())
+                    .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
+                    .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz)
+                    .inputItems(TagPrefix.dust, GTMaterials.Silicon)
+                    .inputItems(TagPrefix.dust, GTMaterials.Redstone)
+                    .outputItems(AEItems.CALCULATION_PROCESSOR.asItem())
+                    .EUt(480)
+                    .duration(20)
+                    .save();
             FORMING_PRESS_RECIPES.recipeBuilder("logic_processor_p")
-                .notConsumable(AEItems.SILICON_PRESS.asItem())
-                .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
-                .inputItems(TagPrefix.dust, GTMaterials.Gold)
-                .inputItems(TagPrefix.dust, GTMaterials.Silicon)
-                .inputItems(TagPrefix.dust, GTMaterials.Redstone)
-                .outputItems(AEItems.LOGIC_PROCESSOR.asItem())
-                .EUt(480)
-                .duration(20)
-                .save();
+                    .notConsumable(AEItems.SILICON_PRESS.asItem())
+                    .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
+                    .inputItems(TagPrefix.dust, GTMaterials.Gold)
+                    .inputItems(TagPrefix.dust, GTMaterials.Silicon)
+                    .inputItems(TagPrefix.dust, GTMaterials.Redstone)
+                    .outputItems(AEItems.LOGIC_PROCESSOR.asItem())
+                    .EUt(480)
+                    .duration(20)
+                    .save();
         }
         FORMING_PRESS_RECIPES.builder("mica_based_sheet")
                 .inputItems(GTOItems.MICA_BASED_PULP.asItem(), 3)
