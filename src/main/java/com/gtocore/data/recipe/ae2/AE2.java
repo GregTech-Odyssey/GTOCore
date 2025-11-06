@@ -336,19 +336,6 @@ public final class AE2 {
                 .duration(100)
                 .save();
 
-        ASSEMBLER_RECIPES.builder("crafting_unit")
-                .inputItems(TagPrefix.frameGt, GTMaterials.BlueSteel)
-                .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
-                .inputItems(AEItems.LOGIC_PROCESSOR.asItem())
-                .inputItems(AEItems.CALCULATION_PROCESSOR.asItem())
-                .inputItems(CustomTags.HV_CIRCUITS)
-                .inputItems("ae2:fluix_glass_cable", 4)
-                .outputItems(AEBlocks.CRAFTING_UNIT.block().asItem())
-                .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
-                .EUt(480)
-                .duration(100)
-                .save();
-
         ASSEMBLER_RECIPES.builder("requester")
                 .inputItems(GTItems.TOOL_DATA_STICK.asItem(), 8)
                 .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
@@ -534,8 +521,8 @@ public final class AE2 {
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.EV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 1)
-                    .inputFluids(GTMaterials.PolyvinylChloride, 1152)
-                    .duration(1200)
+                    .inputFluids(GTMaterials.PolyvinylChloride, 576)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.HV])
                     .save();
 
@@ -548,8 +535,8 @@ public final class AE2 {
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
                     .inputItems(CustomTags.EV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 1)
-                    .inputFluids(GTMaterials.PolyvinylChloride, 1152)
-                    .duration(1200)
+                    .inputFluids(GTMaterials.PolyvinylChloride, 576)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.HV])
                     .save();
 
@@ -563,7 +550,7 @@ public final class AE2 {
                     .inputItems(CustomTags.IV_CIRCUITS, 1)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
                     .inputFluids(GTMaterials.Polybenzimidazole, 576)
-                    .duration(1200)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])
                     .save();
 
@@ -577,9 +564,43 @@ public final class AE2 {
                     .inputItems(CustomTags.IV_CIRCUITS, 1)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
                     .inputFluids(GTMaterials.Polybenzimidazole, 576)
-                    .duration(1200)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])
                     .save();
+
+            ASSEMBLER_RECIPES.builder("crafting_unit")
+                    .inputItems(GTMachines.HULL[GTValues.EV].asItem())
+                    .inputItems(AEItems.LOGIC_PROCESSOR.asItem(), 8)
+                    .inputItems(AEItems.CALCULATION_PROCESSOR.asItem(), 8)
+                    .inputItems(CustomTags.IV_CIRCUITS)
+                    .inputItems("ae2:fluix_glass_cable", 4)
+                    .outputItems(AEBlocks.CRAFTING_UNIT.block().asItem())
+                    .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
+                    .EUt(480)
+                    .duration(100)
+                    .save();
+
+            ASSEMBLER_RECIPES.builder("crafting_unit_magic")
+                    .inputItems("gtocore:ev_mana_machine_hull")
+                    .inputItems(AEItems.LOGIC_PROCESSOR.asItem(), 8)
+                    .inputItems(AEItems.CALCULATION_PROCESSOR.asItem(), 8)
+                    .inputItems(CustomTags.IV_CIRCUITS)
+                    .inputItems("ae2:fluix_glass_cable", 4)
+                    .outputItems(AEBlocks.CRAFTING_UNIT.block().asItem())
+                    .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
+                    .EUt(480)
+                    .duration(100)
+                    .save();
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_receiver"), new ItemStack(AEItems.WIRELESS_RECEIVER.asItem()),
+                    "ABA",
+                    "CDC",
+                    'A', CustomTags.EV_CIRCUITS, 'B', new ItemStack(AEItems.FLUIX_PEARL.asItem()), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Titanium), 'D', GTItems.SENSOR_HV.asItem());
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_receiver_magic"), new ItemStack(AEItems.WIRELESS_RECEIVER.asItem()),
+                    "ABA",
+                    "CDC",
+                    'A', CustomTags.EV_CIRCUITS, 'B', new ItemStack(AEItems.FLUIX_PEARL.asItem()), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTOMaterials.Alfsteel), 'D', GTItems.SENSOR_HV.asItem());
 
         } else {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ex_pattern_provider"), RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider"),
@@ -657,7 +678,7 @@ public final class AE2 {
                     .inputItems(CustomTags.HV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 4)
                     .inputFluids(GTMaterials.PolyvinylChloride, 288)
-                    .duration(1200)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.HV])
                     .save();
 
@@ -671,7 +692,7 @@ public final class AE2 {
                     .inputItems(CustomTags.HV_CIRCUITS)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 1)
                     .inputFluids(GTMaterials.PolyvinylChloride, 288)
-                    .duration(1200)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.HV])
                     .save();
 
@@ -685,7 +706,7 @@ public final class AE2 {
                     .inputItems(CustomTags.EV_CIRCUITS, 4)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 8)
                     .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
-                    .duration(1200)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])
                     .save();
 
@@ -699,9 +720,26 @@ public final class AE2 {
                     .inputItems(CustomTags.EV_CIRCUITS, 4)
                     .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 8)
                     .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
-                    .duration(1200)
+                    .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])
                     .save();
+
+            ASSEMBLER_RECIPES.builder("crafting_unit")
+                    .inputItems(GTMachines.HULL[GTValues.HV].asItem())
+                    .inputItems(AEItems.LOGIC_PROCESSOR.asItem(), 4)
+                    .inputItems(AEItems.CALCULATION_PROCESSOR.asItem(), 4)
+                    .inputItems(CustomTags.EV_CIRCUITS)
+                    .inputItems("ae2:fluix_glass_cable", 4)
+                    .outputItems(AEBlocks.CRAFTING_UNIT.block().asItem())
+                    .inputFluids(GTMaterials.PolyvinylChloride, 288)
+                    .EUt(480)
+                    .duration(100)
+                    .save();
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_receiver"), new ItemStack(AEItems.WIRELESS_RECEIVER.asItem()),
+                    "ABA",
+                    "CDC",
+                    'A', CustomTags.EV_CIRCUITS, 'B', new ItemStack(AEItems.FLUIX_PEARL.asItem()), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.StainlessSteel), 'D', GTItems.SENSOR_HV.asItem());
 
         }
     }
