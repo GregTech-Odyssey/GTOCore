@@ -2073,6 +2073,8 @@
   "gtocore.ae.appeng.me2in1.auto_search.config": "Middle-click to configure custom directory name search mapping",
   "gtocore.ae.appeng.me2in1.auto_search.off": "does not automatically search in the pattern terminal",
   "gtocore.ae.appeng.me2in1.auto_search.on": "automatically fills the directory name of the recipe into the pattern search bar",
+  "gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar": "Collapse/Expand Toolbar",
+  "gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar.desc": "Collapse or expand the display components and network tool slots",
   "gtocore.ae.appeng.me2in1.config_mapping": "Configure Recipe Search Mapping",
   "gtocore.ae.appeng.me2in1.draggable_mark.tooltip": "Hold and drag to adjust the position of this panel",
   "gtocore.ae.appeng.me2in1.emi.catalyst": "Shift + Left Click: Fill catalysts into the pattern",

@@ -22,6 +22,7 @@
     "ae2.screen.GuiTagStorageBusMixin",
     "ae2.screen.MEStorageScreenMixin",
     "ae2.screen.PatternProviderScreenMixin",
+    "eae.ExPATScreensMixin",
     "eae.GuiExPatternTerminalMixin",
     "eae.GuiPatternMixin",
     "eio.RenderTravelTargetsMixin",
