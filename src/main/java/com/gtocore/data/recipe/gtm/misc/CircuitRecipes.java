@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -62,6 +63,7 @@ public final class CircuitRecipes {
         CUTTER_RECIPES.recipeBuilder("cut_neutronium_boule")
                 .inputItems(NEUTRONIUM_BOULE)
                 .outputItems(NEUTRONIUM_WAFER, 64)
+                .outputItems(NEUTRONIUM_WAFER, 32)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(2400).EUt(VA[IV]).save();
 
@@ -723,16 +725,16 @@ public final class CircuitRecipes {
                 .outputItems(NAND_CHIP_ULV, outputAmount << 2)
                 .save();
 
-        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("nand_chip_ulv_plastic_board").EUt(VA[MV]).duration(300)
+        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("nand_chip_ulv_plastic_board").EUt(VA[HV]).duration(300)
                 .inputItems(PLASTIC_CIRCUIT_BOARD)
-                .inputItems(SIMPLE_SYSTEM_ON_CHIP)
+                .inputItems(SYSTEM_ON_CHIP)
                 .inputItems(bolt, RedAlloy, 2)
                 .inputItems(wireFine, Tin, 2)
-                .outputItems(NAND_CHIP_ULV, outputAmount * 6)
+                .outputItems(NAND_CHIP_ULV, outputAmount << 4)
                 .save();
 
         // Microprocessor LV
-        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("microprocessor_lv").EUt(60).duration(200)
+        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("microprocessor_lv").EUt(GTValues.VA[MV]).duration(200)
                 .inputItems(PLASTIC_CIRCUIT_BOARD)
                 .inputItems(CENTRAL_PROCESSING_UNIT)
                 .inputItems(CustomTags.RESISTORS, 2)
@@ -743,7 +745,7 @@ public final class CircuitRecipes {
                 .save();
 
         // Microprocessor LV SoC
-        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("microprocessor_lv_soc").EUt(600).duration(50)
+        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("microprocessor_lv_soc").EUt(GTValues.VA[HV]).duration(200)
                 .inputItems(PLASTIC_CIRCUIT_BOARD)
                 .inputItems(SYSTEM_ON_CHIP)
                 .inputItems(wireFine, Copper, 2)

@@ -1,6 +1,5 @@
 package com.gtocore.mixin.gtm.api.machine;
 
-import com.gtolib.GTOCore;
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.AsyncTask;
@@ -15,8 +14,6 @@ import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntTag;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -202,18 +199,5 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             gtolib$recipeBuilder.reset();
         }
         return gtolib$recipeBuilder;
-    }
-
-    @Override
-    public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
-        if (forDrop) return;
-        tag.putInt("difficulty", GTOCore.difficulty);
-    }
-
-    @Override
-    public void loadCustomPersistedData(@NotNull CompoundTag tag) {
-        if (tag.tags.get("difficulty") instanceof IntTag intTag && intTag.getAsInt() != GTOCore.difficulty) {
-            throw new IllegalStateException("Difficulty mismatch");
-        }
     }
 }

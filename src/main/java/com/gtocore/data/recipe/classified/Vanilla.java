@@ -385,10 +385,6 @@ final class Vanilla {
                 "CDC",
                 "ABA",
                 'A', GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asItem(), 'B', GTOMachines.CLEANING_CONFIGURATION_MAINTENANCE_HATCH.asItem(), 'C', GTItems.FIELD_GENERATOR_UHV.asItem(), 'D', GTMachines.HULL[GTValues.UHV].asItem());
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_receiver"), new ItemStack(AEItems.WIRELESS_RECEIVER.asItem()),
-                "ABA",
-                "CDC",
-                'A', CustomTags.EV_CIRCUITS, 'B', new ItemStack(AEItems.FLUIX_PEARL.asItem()), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Titanium), 'D', GTItems.SENSOR_HV.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("processing_plant"), MultiBlockD.PROCESSING_PLANT.asItem(),
                 "ABA",
                 "CDE",
