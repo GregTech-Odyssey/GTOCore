@@ -62,7 +62,6 @@ public final class CircuitRecipes {
         CUTTER_RECIPES.recipeBuilder("cut_neutronium_boule")
                 .inputItems(NEUTRONIUM_BOULE)
                 .outputItems(NEUTRONIUM_WAFER, 64)
-                .outputItems(NEUTRONIUM_WAFER, 32)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(2400).EUt(VA[IV]).save();
 
