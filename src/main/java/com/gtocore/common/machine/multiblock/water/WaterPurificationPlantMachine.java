@@ -140,7 +140,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     @Override
     public int getOutputSignal(@Nullable Direction side) {
         if (getRecipeLogic().getProgress() == 0) return 0;
-        return 15 * DURATION / getRecipeLogic().getProgress();
+        return 15 * getRecipeLogic().getProgress() / DURATION;
     }
 
     @Override

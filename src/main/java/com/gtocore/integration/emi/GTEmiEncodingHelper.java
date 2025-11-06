@@ -75,7 +75,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
                     .stream()
                     .map(s -> {
                         if (s instanceof ItemEmiStack stack && stack.getKey() instanceof BucketItem bucketItem) {
-                            return EmiStack.of(bucketItem.getFluid(), s.getAmount());
+                            return EmiStack.of(bucketItem.getFluid(), s.getAmount() * 1000);
                         }
                         return s;
                     })
@@ -86,7 +86,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
                         .stream()
                         .map(s -> {
                             if (s instanceof ItemEmiStack stack && stack.getKey() instanceof BucketItem bucketItem) {
-                                return EmiStack.of(bucketItem.getFluid(), s.getAmount());
+                                return EmiStack.of(bucketItem.getFluid(), s.getAmount() * 1000);
                             }
                             return s;
                         })
