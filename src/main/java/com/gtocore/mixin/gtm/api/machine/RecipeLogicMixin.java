@@ -203,17 +203,4 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         }
         return gtolib$recipeBuilder;
     }
-
-    @Override
-    public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
-        if (forDrop) return;
-        tag.putInt("difficulty", GTOCore.difficulty);
-    }
-
-    @Override
-    public void loadCustomPersistedData(@NotNull CompoundTag tag) {
-        if (tag.tags.get("difficulty") instanceof IntTag intTag && intTag.getAsInt() != GTOCore.difficulty) {
-            throw new IllegalStateException("Difficulty mismatch");
-        }
-    }
 }
