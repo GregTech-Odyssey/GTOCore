@@ -58,7 +58,7 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            energySubs = subscribeServerTick(energySubs, this::checkEnergy);
+            energySubs = subscribeServerTick(energySubs, this::checkEnergy, 20);
         }
     }
 
@@ -72,7 +72,7 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
     }
 
     private void checkEnergy() {
-        if (enabled && getOffsetTimer() % 20 == 0 && getLevel() != null && !getLevel().getEntitiesOfClass(EndCrystal.class, AABB.ofSize(new Vec3(getPos().getX(), getPos().getY() + 1, getPos().getZ()), 1, 1, 1), e -> true).isEmpty()) {
+        if (enabled && getLevel() != null && !getLevel().getEntitiesOfClass(EndCrystal.class, AABB.ofSize(new Vec3(getPos().getX(), getPos().getY() + 1, getPos().getZ()), 1, 1, 1), e -> true).isEmpty()) {
             if (manaContainer.removeMana(tierMana, 20, false) == tierMana) {
                 energyContainer.addEnergy(tierMana * 20);
                 if (energyContainer.getEnergyStored() == energyContainer.getEnergyCapacity()) {

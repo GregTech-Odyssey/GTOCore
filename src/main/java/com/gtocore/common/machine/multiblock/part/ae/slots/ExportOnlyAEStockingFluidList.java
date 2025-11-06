@@ -43,6 +43,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
             var grid = machine.getMainNode().getGrid();
             if (grid == null) return false;
             Reference2LongOpenHashMap<AEKey> map = null;
+            int time = machine.getOffsetTimer();
             for (var i : inventory) {
                 if (i.config == null) continue;
                 var stock = i.stock;
@@ -51,7 +52,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                     map = IKeyCounter.of(grid.getStorageService().getCachedInventory()).gtolib$getMap();
                     if (map == null) break;
                 }
-                var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(map, stock.amount(), stock.what());
+                var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(map, stock.amount(), stock.what(), time);
                 if (amount < 1) continue;
                 if (function.test(i.getReadOnlyStack(), amount)) return true;
             }
@@ -67,6 +68,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
             var grid = machine.getMainNode().getGrid();
             if (grid == null) return;
             Reference2LongOpenHashMap<AEKey> map = null;
+            int time = machine.getOffsetTimer();
             for (var i : inventory) {
                 if (i.config == null) continue;
                 var stock = i.stock;
@@ -75,7 +77,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                     map = IKeyCounter.of(grid.getStorageService().getCachedInventory()).gtolib$getMap();
                     if (map == null) break;
                 }
-                var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(map, stock.amount(), stock.what());
+                var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(map, stock.amount(), stock.what(), time);
                 if (amount < 1) continue;
                 function.accept(i.getReadOnlyStack(), amount);
             }
@@ -91,6 +93,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                 if (grid == null) return IntIngredientMap.EMPTY;
                 Reference2LongOpenHashMap<AEKey> map = null;
                 intIngredientMap.clear();
+                int time = machine.getOffsetTimer();
                 for (var i : inventory) {
                     if (i.config == null) continue;
                     var stock = i.stock;
@@ -100,7 +103,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                             map = IKeyCounter.of(grid.getStorageService().getCachedInventory()).gtolib$getMap();
                             if (map == null) return IntIngredientMap.EMPTY;
                         }
-                        var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(map, stock.amount(), fluidKey);
+                        var amount = ((ExportOnlyAEStockingFluidSlot) i).refresh(map, stock.amount(), fluidKey, time);
                         if (amount < 1) continue;
                         ((IAEFluidKey) (Object) fluidKey).gtolib$convert(amount, intIngredientMap);
                     }
@@ -153,8 +156,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
             this.machine = machine;
         }
 
-        private long refresh(Reference2LongOpenHashMap<AEKey> map, long amount, AEKey request) {
-            long time = machine.getOffsetTimer();
+        private long refresh(Reference2LongOpenHashMap<AEKey> map, long amount, AEKey request, int time) {
             if (refreshTime != time) {
                 refreshTime = time;
                 var storage = map.getLong(request);

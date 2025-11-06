@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.noenergy;
 
 import com.gtocore.integration.jade.provider.AEGridProvider;
-import com.gtocore.integration.jade.provider.TickTimeProvider;
 
 import com.gtolib.api.ae2.IExpandedGrid;
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -103,25 +102,6 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
                             .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("recipe.condition.dimension.tooltip", level == null ? " " : level.dimension().location()).append(" [").append(pos).append("] "))))
                             .append(Component.translatable(AEGridProvider.LATENCY, entry.getValue()).append(" μs"))
                             .append(ComponentPanelWidget.withButton(Component.literal(" [ ] "), pos + ", " + (level == null ? "" : level.dimension().location()))));
-                }
-            }
-            textList.addAll(textListCache);
-        } else {
-            OBSERVE = true;
-            if (textListCache == null || holder.getOffsetTimer() % 80 == 0) {
-                textListCache = new ArrayList<>();
-                Map<MetaMachine, Integer> sortedMap = new TreeMap<>(Comparator.comparing(MetaMachine::getTickTime).reversed());
-                sortedMap.putAll(PERFORMANCE_MAP);
-                PERFORMANCE_MAP.clear();
-                for (Map.Entry<MetaMachine, Integer> entry : sortedMap.entrySet()) {
-                    MetaMachine machine = entry.getKey();
-                    String pos = machine.getPos().toShortString();
-                    Level level = machine.getLevel();
-                    if (level == null) continue;
-                    textListCache.add(Component.translatable(machine.getBlockState().getBlock().getDescriptionId()).append(" ")
-                            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("recipe.condition.dimension.tooltip", level.dimension().location()).append(" [").append(pos).append("] "))))
-                            .append(Component.translatable(TickTimeProvider.LATENCY, entry.getValue()).append(" μs"))
-                            .append(ComponentPanelWidget.withButton(Component.literal(" [ ] "), pos + ", " + level.dimension().location())));
                 }
             }
             textList.addAll(textListCache);

@@ -121,7 +121,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     @Override
     public void onLoad() {
         super.onLoad();
-        tickSubscription = subscribeServerTick(this::tick);
+        tickSubscription = subscribeServerTick(tickSubscription, this::tick, 20);
     }
 
     @Nullable
@@ -183,7 +183,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
      * 三、中子通量为E（keV）时，在主机内放入N个铱中子反射板后，中子通量每秒增加 (EN)^0.5 keV；
      */
     private void tick() {
-        if (isFormed() && getOffsetTimer() % 20 == 0) {
+        if (isFormed()) {
 
             fastForEachInputItems((stack, amount) -> {
                 var neutron_sources = Wrapper.NEUTRON_SOURCES.get(stack.getItem());

@@ -81,10 +81,9 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
         super.onLoad();
         if (!isRemote()) {
             tickSubs = subscribeServerTick(tickSubs, () -> {
-                if (self().getOffsetTimer() % 20 != 0) return;
                 tickUpdate();
                 getRecipeLogic().updateTickSubscription();
-            });
+            }, 20);
         }
     }
 

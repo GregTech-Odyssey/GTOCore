@@ -16,7 +16,6 @@ public interface ITempPartMachine extends IReceiveHeatMachine {
 
     @Override
     default void tickUpdate() {
-        if (self().getOffsetTimer() % 20 != 0) return;
         raiseTemperature(getHeatCapacity());
         reduceTemperature(1);
     }

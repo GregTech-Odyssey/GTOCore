@@ -97,26 +97,24 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     private void gtolib$tick() {
-        if (getOffsetTimer() % 40 == 0) {
-            IDroneControlCenterMachine centerMachine = getNetMachine();
-            if (centerMachine != null && !inventory.stacks[inventory.size - 3].isEmpty()) {
-                Drone drone = null;
-                boolean available = false;
-                for (int i = 0; i < inventory.size; i++) {
-                    ItemStack stack = inventory.stacks[i];
-                    if (stack.getCount() > 1) {
-                        if (drone == null) {
-                            var eu = inventory.size << 4;
-                            drone = getFirstUsableDrone(d -> d.getCharge() >= eu);
-                            if (drone != null) {
-                                available = drone.start(4, eu, GTOValues.REMOVING_ASH);
-                            }
+        IDroneControlCenterMachine centerMachine = getNetMachine();
+        if (centerMachine != null && !inventory.stacks[inventory.size - 3].isEmpty()) {
+            Drone drone = null;
+            boolean available = false;
+            for (int i = 0; i < inventory.size; i++) {
+                ItemStack stack = inventory.stacks[i];
+                if (stack.getCount() > 1) {
+                    if (drone == null) {
+                        var eu = inventory.size << 4;
+                        drone = getFirstUsableDrone(d -> d.getCharge() >= eu);
+                        if (drone != null) {
+                            available = drone.start(4, eu, GTOValues.REMOVING_ASH);
                         }
-                        if (available) {
-                            inventory.setStackInSlot(i, ItemStack.EMPTY);
-                            MachineUtils.outputItem(centerMachine, stack);
-                        } else break;
                     }
+                    if (available) {
+                        inventory.setStackInSlot(i, ItemStack.EMPTY);
+                        MachineUtils.outputItem(centerMachine, stack);
+                    } else break;
                 }
             }
         }
@@ -147,7 +145,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
         super.onLoad();
         gto$chanceOfNotProduceAsh = Math.min(Math.max(gto$chanceOfNotProduceAsh, 0), getTier() * 10);
         if (!isRemote()) {
-            gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::gtolib$tick);
+            gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::gtolib$tick, 40);
         }
     }
 
@@ -174,7 +172,8 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Override
     public boolean isFrontFaceFree() {
-        if (self().getOffsetTimer() - gtocore$refresh > 100) {
+        var time = getOffsetTimer();
+        if (time > gtocore$refresh) {
             gtolib$lastFrontFaceFree = true;
             BlockPos pos = self().getPos();
             for (int i = 0; i < 3; i++) {
@@ -183,7 +182,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
                     gtolib$lastFrontFaceFree = false;
                 }
             }
-            gtocore$refresh = self().getOffsetTimer();
+            gtocore$refresh = time + 100;
         }
         return gtolib$lastFrontFaceFree;
     }

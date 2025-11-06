@@ -103,9 +103,4 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     }
 
     default void gtolib$addMufflerEffect() {}
-
-    @Override
-    default boolean canShared() {
-        return false;
-    }
 }

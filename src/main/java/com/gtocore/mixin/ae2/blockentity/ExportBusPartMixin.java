@@ -1,6 +1,5 @@
 package com.gtocore.mixin.ae2.blockentity;
 
-import com.gtolib.api.ae2.IExpandedStorageService;
 import com.gtolib.api.ae2.StorageExportCacheStrategy;
 
 import net.minecraft.server.level.ServerLevel;
@@ -94,7 +93,7 @@ public abstract class ExportBusPartMixin extends IOBusPart implements ICraftingR
             var before = context.getOperationsRemaining();
 
             if (isFuzzy) {
-                for (var fuzzyWhat : IExpandedStorageService.of(storageService).getFuzzyKeyCounter().findFuzzy(what, fzMode)) {
+                for (var fuzzyWhat : storageService.getCachedInventory().findFuzzy(what, fzMode)) {
                     amount = fuzzyWhat.getLongValue();
                     if (amount > 0) {
                         amount = strategy.transfer(context, fuzzyWhat.getKey(), amount);

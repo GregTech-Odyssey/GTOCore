@@ -67,7 +67,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 10);
         }
     }
 
@@ -84,19 +84,17 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         Level world = getLevel();
         if (world == null) return;
         BlockPos pos = getPos();
-        if (getOffsetTimer() % 10 == 0) {
-            if (timing == 0) {
-                getRecipeLogic().updateTickSubscription();
-                clearSky = hasClearSky(world, pos);
-                timing = 20;
-            } else if (timing % 5 == 0) {
-                clearSky = hasClearSky(world, pos);
-                timing--;
-            } else {
-                timing--;
-            }
-            if (clearSky) increase(world);
+        if (timing == 0) {
+            getRecipeLogic().updateTickSubscription();
+            clearSky = hasClearSky(world, pos);
+            timing = 20;
+        } else if (timing % 5 == 0) {
+            clearSky = hasClearSky(world, pos);
+            timing--;
+        } else {
+            timing--;
         }
+        if (clearSky) increase(world);
     }
 
     private void increase(Level world) {

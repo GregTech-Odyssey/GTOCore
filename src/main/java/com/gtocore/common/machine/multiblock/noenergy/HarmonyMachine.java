@@ -48,30 +48,28 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     public HarmonyMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::StartupUpdate, this::isFormed);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::update, 20, this::isFormed);
     }
 
-    private void StartupUpdate() {
-        if (getOffsetTimer() % 20 == 0) {
-            oc = 0;
-            long[] a = getFluidAmount(HYDROGEN, HELIUM);
-            if (inputFluid(HYDROGEN, a[0])) {
-                hydrogen += a[0];
-            }
-            if (inputFluid(HELIUM, a[1])) {
-                helium += a[1];
-            }
-            if (notConsumableCircuit(4)) {
-                oc = 4;
-            } else if (notConsumableCircuit(3)) {
-                oc = 3;
-            } else if (notConsumableCircuit(2)) {
-                oc = 2;
-            } else if (notConsumableCircuit(1)) {
-                oc = 1;
-            }
-            tickSubs.updateSubscription();
+    private void update() {
+        oc = 0;
+        long[] a = getFluidAmount(HYDROGEN, HELIUM);
+        if (inputFluid(HYDROGEN, a[0])) {
+            hydrogen += a[0];
         }
+        if (inputFluid(HELIUM, a[1])) {
+            helium += a[1];
+        }
+        if (notConsumableCircuit(4)) {
+            oc = 4;
+        } else if (notConsumableCircuit(3)) {
+            oc = 3;
+        } else if (notConsumableCircuit(2)) {
+            oc = 2;
+        } else if (notConsumableCircuit(1)) {
+            oc = 1;
+        }
+        tickSubs.updateSubscription();
     }
 
     private BigInteger getStartupEnergy() {

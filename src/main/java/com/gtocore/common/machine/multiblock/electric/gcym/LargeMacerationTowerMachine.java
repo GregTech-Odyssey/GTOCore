@@ -37,7 +37,7 @@ public class LargeMacerationTowerMachine extends GCYMMultiblockMachine {
                     handlers.add(ih);
                 }
             }
-            hurtSub = subscribeServerTick(hurtSub, this::spinWheels);
+            hurtSub = subscribeServerTick(hurtSub, this::spinWheels, 20);
         }
     }
 
@@ -64,7 +64,7 @@ public class LargeMacerationTowerMachine extends GCYMMultiblockMachine {
     }
 
     private void spinWheels() {
-        if (isRemote() || getLevel() == null || recipeLogic.isSuspend() || getOffsetTimer() % 20 != 0) return;
+        if (isRemote() || getLevel() == null || recipeLogic.isSuspend()) return;
 
         List<ItemEntity> itemEntities = new ArrayList<>();
         for (var entity : getLevel().getEntities(null, grindBound)) {

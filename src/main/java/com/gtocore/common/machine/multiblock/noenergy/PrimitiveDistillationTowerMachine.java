@@ -100,7 +100,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     public PrimitiveDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, this::shouldTick);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, this::shouldTick);
     }
 
     private boolean shouldTick() {

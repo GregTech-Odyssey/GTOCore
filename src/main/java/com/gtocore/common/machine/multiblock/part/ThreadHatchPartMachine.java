@@ -29,13 +29,16 @@ public final class ThreadHatchPartMachine extends AmountConfigurationHatchPartMa
     @RegisterLanguage(cn = "并行重复配方[%s]", en = "Parallel repeated recipes [%s]")
     private static final String REPEATED_RECIPES = "gtocore.machine.repeated_recipes";
 
-    @RegisterLanguage(cn = "线程压缩[%s]", en = "Compress Thread [%s]")
-    private static final String COMPRESS_THREAD = "gtocore.machine.compress_thread";
+    @RegisterLanguage(cn = "独立线程[%s]", en = "Independent Thread [%s]")
+    private static final String INDEPENDENT_THREAD = "gtocore.machine.independent_thread";
+
+    @RegisterLanguage(cn = "独立线程需要安装无线能源仓后启用", en = "Wireless energy hatch must be installed to enable independent thread")
+    private static final String WIRELESS = "gtocore.machine.wireless_enable";
 
     @Persisted
     private boolean repeatedRecipes = true;
     @Persisted
-    private boolean compressThread = true;
+    private boolean independentThread = true;
 
     @Setter
     private WirelessEnergyContainer wirelessEnergyContainerCache;
@@ -52,7 +55,7 @@ public final class ThreadHatchPartMachine extends AmountConfigurationHatchPartMa
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_WORKING_ENABLE.getSubTexture(0, 0, 1, 0.5), () -> repeatedRecipes, (clickData, pressed) -> repeatedRecipes = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(REPEATED_RECIPES, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
-        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_CHUNK_MODE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_CHUNK_MODE.getSubTexture(0, 0, 1, 0.5), () -> compressThread, (clickData, pressed) -> compressThread = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(COMPRESS_THREAD, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")))));
+        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_CHUNK_MODE.getSubTexture(0, 0.5, 1, 0.5), GuiTextures.BUTTON_CHUNK_MODE.getSubTexture(0, 0, 1, 0.5), () -> independentThread, (clickData, pressed) -> independentThread = pressed).setTooltipsSupplier(pressed -> List.of(Component.translatable(INDEPENDENT_THREAD, Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off"), Component.translatable(WIRELESS)))));
     }
 
     @Override

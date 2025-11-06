@@ -77,13 +77,13 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private final VillageHolder villagers;
     @Persisted
     @DescSynced
-    private boolean[] isLocked = new boolean[10];
+    private final boolean[] isLocked = new boolean[10];
     @Persisted
     @DescSynced
-    private int[] selected = new int[10];
+    private final int[] selected = new int[10];
     @Persisted
     @DescSynced
-    private boolean[] startUp = new boolean[10];
+    private final boolean[] startUp = new boolean[10];
 
     private final VillagerRecipe[][] villagersDataset = new VillagerRecipe[10][];
     private final ItemStackHandler RecipesHandler = new ItemStackHandler(3 * 10);
@@ -158,7 +158,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         input.notifyListeners();
         output.notifyListeners();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(this::tickUpdate);
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 100);
             exportItemSubs = output.addChangedListener(this::updateAutoOutputSubscription);
         }
         for (int i = 0; i < 10; i++) {
@@ -179,15 +179,19 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     // ********* 核心交易逻辑 ********* //
     /////////////////////////////////////
 
+    private int replenishment;
+    private int executeTrades;
+
     // 定时更新
     private void tickUpdate() {
-        if (getOffsetTimer() % 100 != 0) return;
-
-        int daytime = getOffsetTimer() % 24000;
         // 定时补货
-        if (daytime % replenishmentInterval == 0) villagersRestock();
+        if (tickSubs.lastTick > replenishment) {
+            villagersRestock();
+            replenishment = tickSubs.lastTick + replenishmentInterval;
+        }
         // 执行交易
-        if (daytime % 200 == 0) {
+        if (tickSubs.lastTick > executeTrades) {
+            executeTrades = tickSubs.lastTick + 200;
             for (int slot = 0; slot < 9; slot++) {
                 executeTrades(slot);
             }
@@ -305,7 +309,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     // ********* 村民与配方管理 ********* //
     /////////////////////////////////////
 
-    public boolean isLocked(int slot) {
+    private boolean isLocked(int slot) {
         return isLocked[slot];
     }
 
@@ -427,8 +431,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 return Component.translatable(getDefinition().getDescriptionId());
             }
 
-            final int width = 192;
-            final int height = 144;
+            static final int width = 192;
+            static final int height = 144;
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
@@ -469,8 +473,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
                 return Component.empty();
             }
 
-            final int width = 192;
-            final int height = 144;
+            static final int width = 192;
+            static final int height = 144;
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
@@ -655,7 +659,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         private int maxUses;
         private int uses;
 
-        public VillagerRecipe(ItemStack buy, ItemStack buyB, ItemStack sell, int maxUses, int uses) {
+        private VillagerRecipe(ItemStack buy, ItemStack buyB, ItemStack sell, int maxUses, int uses) {
             this.buy = buy;
             this.buyB = buyB;
             this.sell = sell;
@@ -765,11 +769,6 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private boolean allowInputFromOutputSideItems;
 
     @Override
-    public boolean hasAutoOutputItem() {
-        return true;
-    }
-
-    @Override
     @Nullable
     public Direction getOutputFacingItems() {
         if (hasAutoOutputItem()) {
@@ -816,7 +815,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         Direction outputFacing = getOutputFacingItems();
         boolean needOutput = autoOutputItems && !output.isEmpty() && outputFacing != null && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos().relative(outputFacing), outputFacing.getOpposite());
         if (needOutput) {
-            autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput);
+            autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
         } else if (autoOutputSubs != null) {
             autoOutputSubs.unsubscribe();
             autoOutputSubs = null;
@@ -824,10 +823,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     private void autoOutput() {
-        if (getOffsetTimer() % 20 == 0) {
-            if (autoOutputItems && getOutputFacingItems() != null) {
-                output.exportToNearby(getOutputFacingItems());
-            }
+        if (autoOutputItems && getOutputFacingItems() != null) {
+            output.exportToNearby(getOutputFacingItems());
         }
         updateAutoOutputSubscription();
     }
