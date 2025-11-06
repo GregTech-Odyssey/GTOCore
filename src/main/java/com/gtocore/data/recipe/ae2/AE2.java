@@ -60,7 +60,7 @@ public final class AE2 {
 
         LASER_ENGRAVER_RECIPES.builder("printed_calculation_processor")
                 .inputItems(GTOTagPrefix.plate, GTMaterials.CertusQuartz)
-                .inputItems(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
+                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRESS.asItem())
                 .outputItems(AEItems.CALCULATION_PROCESSOR_PRINT.asItem())
                 .EUt(30)
                 .duration(200)
@@ -68,7 +68,7 @@ public final class AE2 {
 
         LASER_ENGRAVER_RECIPES.builder("printed_engineering_processor")
                 .inputItems(GTOTagPrefix.plate, GTMaterials.Diamond)
-                .inputItems(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
+                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem())
                 .outputItems(AEItems.ENGINEERING_PROCESSOR_PRINT.asItem())
                 .EUt(30)
                 .duration(200)
@@ -76,7 +76,7 @@ public final class AE2 {
 
         LASER_ENGRAVER_RECIPES.builder("printed_logic_processor")
                 .inputItems(GTOTagPrefix.plate, GTMaterials.Gold)
-                .inputItems(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
+                .notConsumable(AEItems.LOGIC_PROCESSOR_PRESS.asItem())
                 .outputItems(AEItems.LOGIC_PROCESSOR_PRINT.asItem())
                 .EUt(30)
                 .duration(200)
@@ -94,7 +94,7 @@ public final class AE2 {
         var t2 = GTOCore.isExpert() ? GTMaterials.GalliumArsenide : GTMaterials.Redstone;
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("calculation_processor")
-                .notConsumable(AEItems.CALCULATION_PROCESSOR_PRINT.asItem())
+                .inputItems(AEItems.CALCULATION_PROCESSOR_PRINT.asItem())
                 .inputItems(AEItems.SILICON_PRINT.asItem())
                 .inputItems(t1, t2)
                 .inputItems(GTOCore.isExpert() ? CustomTags.LV_CIRCUITS : CustomTags.ULV_CIRCUITS)
@@ -105,7 +105,7 @@ public final class AE2 {
                 .save();
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("engineering_processor")
-                .notConsumable(AEItems.ENGINEERING_PROCESSOR_PRINT.asItem())
+                .inputItems(AEItems.ENGINEERING_PROCESSOR_PRINT.asItem())
                 .inputItems(AEItems.SILICON_PRINT.asItem())
                 .inputItems(t1, t2)
                 .inputItems(GTOCore.isExpert() ? CustomTags.LV_CIRCUITS : CustomTags.ULV_CIRCUITS)
@@ -116,7 +116,7 @@ public final class AE2 {
                 .save();
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("logic_processor")
-                .notConsumable(AEItems.LOGIC_PROCESSOR_PRINT.asItem())
+                .inputItems(AEItems.LOGIC_PROCESSOR_PRINT.asItem())
                 .inputItems(AEItems.SILICON_PRINT.asItem())
                 .inputItems(t1, t2)
                 .inputItems(GTOCore.isExpert() ? CustomTags.LV_CIRCUITS : CustomTags.ULV_CIRCUITS)
