@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -28,13 +29,13 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
-
-import static com.gtolib.utils.WalletUtils.createAndInitializeWallet;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -79,30 +80,39 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
         group.addWidget(mainGroup);
 
-        // 2. 获取玩家实例并处理异常
+        // 获取玩家实例
         Player player = getPlayerFromWidget(widget);
-
         if (player == null) return group;
 
-        boolean hasWallet = WalletUtils.hasWallet(player.getUUID(), (ServerLevel) player.level());
+        // 安全获取ServerLevel：仅在服务器玩家时执行
+        boolean hasWallet;
+        if (player instanceof ServerPlayer serverPlayer) {
+            ServerLevel serverLevel = serverPlayer.serverLevel(); // 无需强制转换，直接获取ServerLevel
+            hasWallet = WalletUtils.hasWallet(player.getUUID(), serverLevel);
+        } else {
+            hasWallet = false;
+        }
 
-        mainGroup.addWidget(new ComponentPanelWidget(10, 10, textList -> {
-            textList.add(Component.translatable(text(1)));
-            textList.add(Component.translatable(text(2)));
-            textList.add(Component.translatable(text(3)));
-            textList.add(Component.translatable(text(4)));
-            textList.add(Component.empty());
-            if (hasWallet) {
-                textList.add(Component.translatable(text(6), player.getName().getString()).withStyle(ChatFormatting.WHITE));
-                textList.add(Component.translatable(text(7), player.getUUID().toString()));
-            } else {
-                textList.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "Create a wallet"));
-                textList.add(Component.translatable(text(8)).withStyle(ChatFormatting.RED));
-            }
-        }).clickHandler((a, b) -> {
-            WalletUtils.createAndInitializeWallet(player.getUUID(), player.getName().getString(), (ServerLevel) player.level());
-            initNewPlayerCurrencies(player.getUUID(), (ServerLevel) player.level());
-        }).setMaxWidthLimit(width - 20));
+        List<Component> list = new ArrayList<>();
+        list.add(Component.translatable(text(1)));
+        list.add(Component.translatable(text(2)));
+        list.add(Component.translatable(text(3)));
+        list.add(Component.translatable(text(4)));
+
+        if (hasWallet) {
+            list.add(Component.translatable(text(6), player.getName().getString()).withStyle(ChatFormatting.WHITE));
+            list.add(Component.translatable(text(7), player.getUUID().toString()));
+            mainGroup.addWidget(new ComponentPanelWidget(10, 10, list).setMaxWidthLimit(width - 20));
+        } else {
+            list.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "Create a wallet"));
+            mainGroup.addWidget(new ComponentPanelWidget(10, 10, list).clickHandler((a, b) -> {
+                if (player instanceof ServerPlayer serverPlayer) {
+                    ServerLevel serverLevel = serverPlayer.serverLevel();
+                    WalletUtils.createAndInitializeWallet(player.getUUID(), player.getName().getString(), serverLevel);
+                    initNewPlayerCurrencies(player.getUUID(), serverLevel);
+                }
+            }).setMaxWidthLimit(width - 20));
+        }
 
         return group;
     }
@@ -136,72 +146,83 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
                 var group = new WidgetGroup(0, 0, width + 8, height + 8);
-                group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
-                group.addWidget(mainGroup);
 
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
-                if (!WalletUtils.hasWallet(player.getUUID(), (ServerLevel) player.level())) {
+
+                // 安全获取ServerLevel：仅在服务器玩家时执行
+                boolean hasWallet = false;
+                ServerLevel serverLevel;
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverLevel = serverPlayer.serverLevel();
+                    hasWallet = WalletUtils.hasWallet(player.getUUID(), serverLevel);
+                } else {
+                    serverLevel = null;
+                }
+
+                if (!hasWallet) {
                     mainGroup.addWidget(new LabelWidget(10, 10, Component.literal(text(9))));
                     return group;
                 }
+                mainGroup.addWidget(new ComponentPanelWidget(0, 0,
+                        list -> list.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "Create a wallet")))
+                        .clickHandler((a, b) -> initNewPlayerCurrencies(player.getUUID(), serverLevel))
+                        .setMaxWidthLimit(width - 20));
 
-                WidgetGroup CurrencyGroup = new WidgetGroup(8, 8, width / 2 - 8, 512);
-                WidgetGroup AmountGroup = new WidgetGroup(width / 2, 8, width / 2 - 8, 512);
-                CurrencyGroup.setLayout(Layout.VERTICAL_CENTER);
-                AmountGroup.setLayout(Layout.VERTICAL_CENTER);
-                mainGroup.addWidget(CurrencyGroup);
-                mainGroup.addWidget(AmountGroup);
+                Object2LongMap<String> currencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
+
+                WidgetGroup CurrencyGroup = new WidgetGroup(4, 8, width / 2 - 4, currencyMap.size() * 14 + 12);
+                WidgetGroup AmountGroup = new WidgetGroup(width / 2, 8, width / 2 - 4, currencyMap.size() * 14 + 12);
+                // CurrencyGroup.setLayout(Layout.VERTICAL_CENTER);
+                // CurrencyGroup.setLayoutPadding(14);
+                // AmountGroup.setLayout(Layout.VERTICAL_CENTER);
+                // AmountGroup.setLayoutPadding(14);
 
                 IntHolder yPosition = new IntHolder(0);
                 CurrencyGroup.addWidget(new LabelWidget(0, yPosition.value, Component.translatable(text(11))));
                 AmountGroup.addWidget(new LabelWidget(0, yPosition.value, Component.translatable(text(12))));
 
-                WalletUtils.getCurrencyMap(player.getUUID(), (ServerLevel) player.level()).forEach((currency, amount) -> {
-                    yPosition.value += 12;
+                currencyMap.forEach((currency, amount) -> {
+                    yPosition.value += 14;
                     CurrencyGroup.addWidget(new LabelWidget(0, yPosition.value, Component.translatable("gtocore.bank.currency." + currency)));
                     AmountGroup.addWidget(new LabelWidget(0, yPosition.value, Component.literal(amount.toString())));
                 });
+
+                mainGroup.addWidget(CurrencyGroup);
+                mainGroup.addWidget(AmountGroup);
+
+                group.addWidget(mainGroup);
+                group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
                 return group;
             }
         };
     }
 
-    // 重写：侧边标签（仅保留主标签）
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
-
         sideTabs.attachSubTab(assetOverview());
     }
 
     public static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
         Object2LongOpenHashMap<String> initialCurrencies = new Object2LongOpenHashMap<>();
-
         initialCurrencies.put("coins", 100);       // 初始金币100
         initialCurrencies.put("gems", 10);         // 初始宝石10
         initialCurrencies.put("tokens", 50);       // 初始代币50
-
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
     }
 
-    // ------------------------------
-    // 以下为抽取的辅助方法（重写核心逻辑的关键）
-    // ------------------------------
-
-    /** 打开UI的统一方法（避免代码重复） */
+    // 辅助方法
     private void openUI(Item item, Level level, Player player, InteractionHand hand) {
         IItemUIFactory.super.use(item, level, player, hand);
     }
 
-    /** 从Widget中获取玩家实例（封装获取逻辑，便于维护） */
     private static Player getPlayerFromWidget(FancyMachineUIWidget widget) {
         ModularUI modularUI = widget.getGui();
-        if (modularUI == null) return null;
-        return modularUI.entityPlayer;
+        return (modularUI != null) ? modularUI.entityPlayer : null;
     }
 }
