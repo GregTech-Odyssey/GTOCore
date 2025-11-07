@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
@@ -35,6 +36,8 @@ public final class MachineRecipe {
 
     public static void init() {
         HatchRecipe.init();
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("air"), MultiBlockH.BRICK_KILN.asItem(),
+                "wAB", "BCD", "hAB", 'A', new MaterialEntry(GTOTagPrefix.rodLong, GTMaterials.WroughtIron), 'B', new MaterialEntry(GTOTagPrefix.screw, GTMaterials.WroughtIron), 'C', GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asStack(), 'D', new MaterialEntry(GTOTagPrefix.plateDouble, GTMaterials.WroughtIron));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("multiblock_crate"), MultiBlockG.MULTIBLOCK_CRATE.asItem(), "RPR",
                 "PCP", "RPR", 'P', new MaterialEntry(plateDouble, GTMaterials.Steel), 'R', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Steel), 'C', GTMachines.BRONZE_CRATE.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("evaporation_plant"),

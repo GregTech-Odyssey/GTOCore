@@ -42,7 +42,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
@@ -331,7 +330,7 @@ public final class MultiBlockC {
             .tooltips(GTOMachineTooltips.INSTANCE.getComponentAssemblerTooltips().getSupplier())
             .moduleTooltips(ACCELERATE_HATCH, OVERCLOCK_HATCH, INPUT_LASER, PARALLEL_HATCH, THREAD_HATCH)
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
-            .overclock()
+            .parallelizableOverclock()
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AaaaaaA", "ACDDDCA", "ACDDDCA", "ACDDDCA", "AAAAAAA")
@@ -416,9 +415,7 @@ public final class MultiBlockC {
                             .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.CarbonFiberPolyphenyleneSulfideComposite)))
                             .where('D', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                                     .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
-                                    .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                                    .or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
-                                    .or(Predicates.abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                                    .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
                             .where('E', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK2.get()))
                             .where('F', blocks(GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING.get()))
                             .where('G', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))

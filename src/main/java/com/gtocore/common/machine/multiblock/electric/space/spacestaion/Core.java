@@ -209,7 +209,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
 
     @Override
     public boolean onWorking() {
-        if (getOffsetTimer() % 200 == 0) provideOxygen();
+        if (firstLoad() || getOffsetTimer() % 400 == 0) provideOxygen();
         return super.onWorking();
     }
 

@@ -3,7 +3,7 @@ package com.gtocore.mixin.ae2.crafting;
 import com.gtocore.api.ae2.crafting.OptimizedCraftingCpuLogic;
 
 import com.gtolib.api.ae2.crafting.ICraftingCPUCluster;
-import com.gtolib.api.machine.impl.CraftingInterfacePartMachine;
+import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

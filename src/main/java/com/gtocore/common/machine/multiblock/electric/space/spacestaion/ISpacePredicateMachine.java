@@ -44,6 +44,8 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 
 public interface ISpacePredicateMachine extends ISpaceWorkspaceMachine, ICleanroomProvider {
 
+    boolean firstLoad();
+
     @NotNull
     MultiblockState getMultiblockState();
 
