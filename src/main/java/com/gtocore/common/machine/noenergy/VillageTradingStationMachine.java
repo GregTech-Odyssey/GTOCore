@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IAutoOutputItem;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
@@ -48,6 +49,7 @@ import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gtocore.common.data.GTOItems.*;
 
@@ -106,14 +108,14 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private int tire = 0;
     // 补货时间间隔 -225* 多倍交易 4*
     private static final Map<Item, Integer> ENHANCE_INDEX_MAP = Map.ofEntries(
-            Map.entry(EMITTER_LV.asItem(), 1),
-            Map.entry(EMITTER_MV.asItem(), 2),
-            Map.entry(EMITTER_HV.asItem(), 3),
-            Map.entry(EMITTER_EV.asItem(), 4),
-            Map.entry(EMITTER_IV.asItem(), 5),
-            Map.entry(EMITTER_LuV.asItem(), 6),
-            Map.entry(EMITTER_ZPM.asItem(), 7),
-            Map.entry(EMITTER_UV.asItem(), 8),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[LV].asItem(), 1),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[MV].asItem(), 2),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[HV].asItem(), 3),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[EV].asItem(), 4),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[IV].asItem(), 5),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[LuV].asItem(), 6),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[ZPM].asItem(), 7),
+            Map.entry(GTMachines.WORLD_ACCELERATOR[UV].asItem(), 8),
             Map.entry(INTEGRATED_CONTROL_CORE_UV.asItem(), 9),
             Map.entry(INTEGRATED_CONTROL_CORE_UHV.asItem(), 10),
             Map.entry(INTEGRATED_CONTROL_CORE_UEV.asItem(), 11),
