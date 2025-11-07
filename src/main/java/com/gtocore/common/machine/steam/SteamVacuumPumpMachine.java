@@ -24,7 +24,7 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tick);
+            tickSubs = subscribeServerTick(tickSubs, this::tick, 20);
         }
     }
 
@@ -44,7 +44,6 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
     }
 
     private void tick() {
-        if (getOffsetTimer() % 20 != 0) return;
         if (isHighPressure() && getRecipeLogic().getTotalContinuousRunningTime() > 1200) {
             vacuumTier = 2;
         } else if (getRecipeLogic().getTotalContinuousRunningTime() > (isHighPressure() ? 600 : 1200)) {

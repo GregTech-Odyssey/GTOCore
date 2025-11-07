@@ -84,8 +84,6 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     /////////////////////////////////
 
     private void autoIO() {
-        if (!this.shouldSyncME()) return;
-
         if (this.updateMEStatus()) {
             this.syncME();
             this.updateTankSubscription();
@@ -122,7 +120,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
 
     void updateTankSubscription() {
         if (isWorkingEnabled() && getOnlineField()) {
-            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
+            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
             autoIOSubs = null;

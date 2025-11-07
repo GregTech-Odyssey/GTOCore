@@ -136,7 +136,7 @@ object AnimalsRevengeEvent {
                     }
                     holder[0]?.unsubscribe()
                 }
-            }, GTUtil.NOOP, 1)
+            }, 0, 1)
         }
     }
 
@@ -200,7 +200,7 @@ object AnimalsRevengeEvent {
                     lootCacheBuilt = true
                     if (cont.isActive) cont.resume(Unit) {}
                 }
-            }, GTUtil.NOOP, 1)
+            }, 0, 1)
 
             cont.invokeOnCancellation { subHolder[0]?.unsubscribe() }
         }

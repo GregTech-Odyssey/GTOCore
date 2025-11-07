@@ -240,6 +240,7 @@ public final class MultiBlockG {
                     .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('C', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(blocks(GTOMachines.MACHINE_ACCESS_LINK.getBlock()).setMaxGlobalLimited(1, 0))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))

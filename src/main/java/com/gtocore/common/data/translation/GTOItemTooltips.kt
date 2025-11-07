@@ -196,4 +196,17 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
             )
         }
     }
+
+    // 泛银河系格雷科技掌上银行
+    val PalmSizedBankTooltips = ComponentListSupplier {
+        setTranslationPrefix("item.palm_sized_bank")
+        miraculousTools("泛银河系格雷科技掌上银行" translatedTo "Pan-Galactic Grey Technology Palm-Sized Bank")
+        section("一款集成了跨星系金融服务的便携式终端，由格雷科技星际金融部研发。" translatedTo "A portable terminal integrated with interstellar financial services, developed by Grey Technology Interstellar Finance Division.")
+        section("支持跨星系账户实时同步，无论身处哪个殖民星均可管理资产。" translatedTo "Supports real-time synchronization of interstellar accounts, allowing asset management across any colony.")
+        section("采用量子加密技术，账户信息无法被破解或篡改，安全等级达到星系标准。" translatedTo "Uses quantum encryption technology; account information cannot be hacked or tampered with, meeting galactic security standards.")
+        section("内置能量核心，无需额外供电，可持续运行 730 标准日。" translatedTo "Built-in energy core, no external power required, can operate continuously for 730 standard days.")
+        guide("右键打开银行界面，支持存款、取款及向其他认证账户转账。" translatedTo "Right-click to open the bank interface, supporting deposit, withdrawal, and transfer to other certified accounts.")
+        story("最初为格雷科技员工专属金融工具，后因需求扩大面向全星系公民开放。" translatedTo "Initially an exclusive financial tool for Grey Technology employees, later opened to all galactic citizens due to high demand.")
+        highlight("请勿向未认证账户转账，星际金融法对跨境诈骗有严格处罚。" translatedTo "Do not transfer to uncertified accounts; interstellar financial laws have strict penalties for cross-border fraud.") { color(0xFF5555) }
+    }
 }

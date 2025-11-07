@@ -42,7 +42,7 @@ public class EnergyHatchPartMachineMixin extends TieredIOPartMachine implements 
     @Inject(method = "onLoad", at = @At("TAIL"), remap = false)
     private void onLoad(CallbackInfo ci) {
         if (!isRemote()) {
-            gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::charge);
+            gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::charge, 20);
         }
     }
 

@@ -149,9 +149,10 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Override
     public boolean onWorking() {
-        if (getOffsetTimer() % 20 == 0) {
+        var time = getOffsetTimer();
+        if (time % 20 == 0) {
 
-            if (getOffsetTimer() % 200 == 0) provideOxygen();
+            if (time % 200 == 0) provideOxygen();
 
             /// Distilled Water distribution
             if (waterAmountPerHatch > 0 && outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {

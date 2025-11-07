@@ -22,10 +22,7 @@ import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.mod.MeteoriteRecipe;
 import com.gtocore.data.recipe.mod.Sophisticated;
 import com.gtocore.data.recipe.processing.*;
-import com.gtocore.data.recipe.research.AnalyzeData;
-import com.gtocore.data.recipe.research.AnalyzeRecipes;
-import com.gtocore.data.recipe.research.DataGenerateRecipe;
-import com.gtocore.data.recipe.research.ScanningRecipes;
+import com.gtocore.data.recipe.research.*;
 import com.gtocore.integration.emi.GTEMIRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
@@ -92,6 +89,8 @@ public final class Data {
         BlastProperty.GasTier.HIGHER.setFluid(() -> FastFluidIngredient.of(GTMaterials.Neon.getFluid(100)));
         BlastProperty.GasTier.HIGHEST.setFluid(() -> FastFluidIngredient.of(GTMaterials.Krypton.getFluid(100)));
 
+        ResearchRecipes.init();
+
         ComponentRecipes.init();
 
         WoodMachineRecipes.init();
@@ -149,14 +148,6 @@ public final class Data {
         Sophisticated.init();
         $ClassifiedRecipe.init();
         Temporary.init();
-        if (GTCEu.isDev()) {
-            ScanningRecipes.init();
-            AnalyzeData.INSTANCE.init();
-            if (true) {
-                AnalyzeRecipes.init();
-                DataGenerateRecipe.init();
-            }
-        }
         if (GTCEu.isDev() || GTOCore.isEasy()) {
             EasyModeRecipe.init();
         }

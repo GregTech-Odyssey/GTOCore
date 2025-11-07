@@ -105,7 +105,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 20);
         }
     }
 

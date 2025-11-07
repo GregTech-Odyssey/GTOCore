@@ -52,7 +52,7 @@ public final class WirelessChargerCover extends CoverBehavior implements IWirele
     public void onLoad() {
         super.onLoad();
         if (coverHolder.getLevel() instanceof ServerLevel) {
-            subscription = coverHolder.subscribeServerTick(subscription, this::update);
+            subscription = coverHolder.subscribeServerTick(subscription, this::update, 20);
         }
     }
 
@@ -70,27 +70,25 @@ public final class WirelessChargerCover extends CoverBehavior implements IWirele
     }
 
     private void update() {
-        if (coverHolder.getOffsetTimer() % 20 == 0) {
-            if (handlerModifiable == null) {
-                if (machine == null) {
-                    machine = MetaMachine.getMachine(coverHolder.holder());
-                }
-                if (machine == null) {
-                    unsubscribe();
+        if (handlerModifiable == null) {
+            if (machine == null) {
+                machine = MetaMachine.getMachine(coverHolder.holder());
+            }
+            if (machine == null) {
+                unsubscribe();
+                return;
+            } else {
+                handlerModifiable = machine.getItemHandlerCap(attachedSide, false);
+                if (handlerModifiable == null) {
                     return;
-                } else {
-                    handlerModifiable = machine.getItemHandlerCap(attachedSide, false);
-                    if (handlerModifiable == null) {
-                        return;
-                    }
                 }
             }
-            var slots = handlerModifiable.getSlots();
-            for (int i = 0; i < slots; i++) {
-                var stack = handlerModifiable.getStackInSlot(i);
-                if (!stack.isEmpty()) {
-                    IWirelessChargerInteraction.charge(getNetMachine(), stack);
-                }
+        }
+        var slots = handlerModifiable.getSlots();
+        for (int i = 0; i < slots; i++) {
+            var stack = handlerModifiable.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                IWirelessChargerInteraction.charge(getNetMachine(), stack);
             }
         }
     }

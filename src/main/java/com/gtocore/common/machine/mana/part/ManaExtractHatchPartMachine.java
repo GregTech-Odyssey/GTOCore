@@ -25,13 +25,12 @@ public final class ManaExtractHatchPartMachine extends ManaHatchPartMachine {
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 20);
         }
     }
 
     @Override
     void tickUpdate() {
-        if (getOffsetTimer() % 20 != 0) return;
         BlockPos frontPos = getPos().relative(getFrontFacing());
         Level level = getLevel();
         if (!isFull()) {

@@ -53,7 +53,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     public AdvancedPrimitiveBlastFurnaceMachine(MetaMachineBlockEntity holder) {
         super(holder, false, m -> (long) ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed || temperature > 298);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, () -> isFormed || temperature > 298);
     }
 
     @Override
