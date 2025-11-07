@@ -5,7 +5,6 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import dev.toma.configuration.Configuration;
@@ -35,7 +34,6 @@ public final class GTOConfig {
         if (INSTANCE.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
         int difficulty = INSTANCE.difficulty.ordinal() + 1;
         GTOCore.difficulty = difficulty;
-        RecipeLogic.SEARCH_MAX_INTERVAL = GTOConfig.INSTANCE.recipeSearchMaxInterval;
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.harderRods = difficulty == 3;
@@ -205,12 +203,6 @@ public final class GTOConfig {
     @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
     public boolean fastMultiBlockPage = true;
-
-    @Configurable
-    @Configurable.Comment({ "机器查找配方最大间隔（tick）", "Maximum interval for machines to search for recipes (ticks)" })
-    @Configurable.Range(min = 5, max = 200)
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Recipe Search Max Interval", cn = "配方搜索最大间隔")
-    public int recipeSearchMaxInterval = 20;
 
     @Configurable
     @Configurable.Comment({ "批处理模式的最大持续时间（tick）", "Maximum duration of batch processing mode (ticks)" })

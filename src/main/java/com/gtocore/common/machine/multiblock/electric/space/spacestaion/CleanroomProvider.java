@@ -5,7 +5,7 @@ import com.gtocore.common.machine.multiblock.part.maintenance.CMHatchPartMachine
 
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.api.machine.feature.multiblock.IDroneControlCenterMachine;
-import com.gtolib.api.machine.impl.DroneHatchPartMachine;
+import com.gtolib.api.machine.impl.part.DroneHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.block.IFilterType;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;

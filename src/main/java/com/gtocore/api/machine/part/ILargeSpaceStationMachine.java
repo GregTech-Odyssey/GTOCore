@@ -71,7 +71,7 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
         if (time % 80 == 0) {
             AbstractSpaceStation self = (AbstractSpaceStation) self();
 
-            if (time % 400 == 0) {
+            if (firstLoad() || time % 800 == 0) {
                 if (getRoot() != null && getRoot().getReadyCount() > 0) {
                     provideOxygen();
                 } else {

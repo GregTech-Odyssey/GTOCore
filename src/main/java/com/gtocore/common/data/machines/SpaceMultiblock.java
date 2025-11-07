@@ -3,7 +3,6 @@ package com.gtocore.common.data.machines;
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
@@ -637,8 +636,7 @@ public class SpaceMultiblock {
                     .where('G', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('H', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
-                            .or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1)))
+                            .or(abilities(INPUT_LASER).setMaxGlobalLimited(2)))
                     .where('I', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
                     .where('J', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_TANK_CASING.get()))
                     .where('K', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_PIPE_CASING.get()))

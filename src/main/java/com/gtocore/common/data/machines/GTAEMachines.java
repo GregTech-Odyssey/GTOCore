@@ -4,7 +4,7 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.part.ae.*;
 import com.gtocore.common.machine.noenergy.VirtualItemProviderMachine;
 
-import com.gtolib.api.machine.impl.CraftingInterfacePartMachine;
+import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;

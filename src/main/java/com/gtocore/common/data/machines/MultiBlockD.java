@@ -1058,7 +1058,6 @@ public final class MultiBlockD {
                                         .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
                                         .or(abilities(EXPORT_FLUIDS).setPreviewCount(16))
                                         .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                                        .or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1))
                                         .or(abilities(INPUT_LASER).setMaxGlobalLimited(16, 16))
                                         .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                                 .where('E', casing)

@@ -1594,7 +1594,6 @@
   "config.gtocore.option.pickCraftMaxTasks": "選取方塊合成最大任務數",
   "config.gtocore.option.recipeCheck": "[調試] 配方衝突檢查",
   "config.gtocore.option.recipeDurationMultiplier": "配方時間乘數",
-  "config.gtocore.option.recipeSearchMaxInterval": "配方搜索最大間隔",
   "config.gtocore.option.renamePatternDefaultString": "重命名樣板的默認值",
   "config.gtocore.option.selfRestraint": "自我約束模式",
   "config.gtocore.option.sendMultiblockErrorMessages": "髮送多方塊錯誤信息",
