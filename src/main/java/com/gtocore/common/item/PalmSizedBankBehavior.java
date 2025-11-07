@@ -29,6 +29,7 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +43,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
     public static final PalmSizedBankBehavior INSTANCE = new PalmSizedBankBehavior();
 
     private static final String TEXT_HEADER = "gtocore.palm_sized_bank.textList.";
+
+    @DescSynced
+    public Object2LongMap<String> currencyMap = new Object2LongOpenHashMap<>();
 
     private static @NotNull String text(int id) {
         return TEXT_HEADER + id;
@@ -127,7 +131,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
     }
 
-    private static IFancyUIProvider assetOverview() {
+    private IFancyUIProvider assetOverview(PalmSizedBankBehavior parentBehavior) {
         return new IFancyUIProvider() {
 
             @Override
@@ -163,7 +167,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                             list -> list.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "add wallet")))
                             .clickHandler((a, b) -> initNewPlayerCurrencies(player.getUUID(), serverLevel))
                             .setMaxWidthLimit(width - 20));
-                    addCurrencyRow(mainGroup, player, serverLevel);
+                    addCurrencyRow(mainGroup, player, serverLevel, parentBehavior);
 
                 }
                 group.addWidget(mainGroup);
@@ -172,11 +176,11 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return group;
             }
 
-            private void addCurrencyRow(WidgetGroup mainGroup, Player player, ServerLevel serverLevel) {
-                Object2LongMap<String> currencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
+            private void addCurrencyRow(WidgetGroup mainGroup, Player player, ServerLevel serverLevel, PalmSizedBankBehavior behavior) {
+                Object2LongMap<String> syncedCurrencyMap = behavior.currencyMap;
 
-                WidgetGroup CurrencyGroup = new WidgetGroup(4, 4, width / 2 - 4, currencyMap.size() * 16 + 12);
-                WidgetGroup AmountGroup = new WidgetGroup(width / 2, 4, width / 2 - 4, currencyMap.size() * 16 + 12);
+                WidgetGroup CurrencyGroup = new WidgetGroup(4, 4, width / 2 - 4, syncedCurrencyMap.size() * 16 + 12);
+                WidgetGroup AmountGroup = new WidgetGroup(width / 2, 4, width / 2 - 4, syncedCurrencyMap.size() * 16 + 12);
                 CurrencyGroup.setLayout(Layout.VERTICAL_CENTER);
                 CurrencyGroup.setLayoutPadding(4);
                 AmountGroup.setLayout(Layout.VERTICAL_CENTER);
@@ -185,17 +189,14 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.translatable(text(11))));
                 AmountGroup.addWidget(new LabelWidget(0, 0, Component.translatable(text(12))));
 
-                CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.literal(String.valueOf(currencyMap.size()))));
-                AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(currencyMap.toString())));
+                CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.literal(syncedCurrencyMap.toString())));
+                AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(String.valueOf(syncedCurrencyMap.size()))));
 
-                for (String currency : currencyMap.keySet()) {
-                    long amount = currencyMap.getLong(currency);
+                for (String currency : syncedCurrencyMap.keySet()) {
+                    long amount = syncedCurrencyMap.getLong(currency);
                     CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.translatable("gtocore.bank.currency." + currency)));
                     AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(Long.toString(amount))));
                 }
-
-                AmountGroup.addWidget(new LabelWidget(0, 0,
-                        Component.literal(String.valueOf(WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, "coins")))));
 
                 mainGroup.addWidget(CurrencyGroup);
                 mainGroup.addWidget(AmountGroup);
@@ -206,7 +207,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
-        sideTabs.attachSubTab(assetOverview());
+        sideTabs.attachSubTab(assetOverview(this));
     }
 
     public static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
@@ -219,6 +220,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
     // 辅助方法
     private void openUI(Item item, Level level, Player player, InteractionHand hand) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            currencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverPlayer.serverLevel());
+        }
         IItemUIFactory.super.use(item, level, player, hand);
     }
 
