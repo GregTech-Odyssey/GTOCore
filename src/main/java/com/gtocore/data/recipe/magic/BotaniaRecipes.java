@@ -65,7 +65,23 @@ public final class BotaniaRecipes {
                     .addIngredient(Items.DIAMOND_BLOCK)
                     .addIngredient(BotaniaTags.Items.RUNES)
                     .save();
+
+            RuneRitualRecipeBuilder.builder("mana_crystal_ritual")
+                    .centerRune(Items.DIRT) // 中心符文：魔法符文
+                    .addOuterRune(Items.DIAMOND, 1, 0, true)
+                    .addOuterRune(Items.DIAMOND, 0, 1, true)
+                    .mana(300)
+                    .ticks(200)
+                    .addInput(Items.STONE)
+                    .addInput(Items.COAL)
+                    .addOutput(Items.GLASS)
+                    .addOutput(new ItemStack(Items.GOLD_INGOT, 5))
+                    .save();
         }
+
+        /////////////////////////////////////
+        // *********** 魔法配方 *********** //
+        /////////////////////////////////////
 
         // 白雏菊
         {
@@ -294,6 +310,15 @@ public final class BotaniaRecipes {
             ElfExchangeRecipe("colorful_mystical_flower", new ItemStack(BotaniaItems.fertilizer, 4), new ItemStack(COLORFUL_MYSTICAL_FLOWER, 4));
 
         }
+
+        // 神话植物学 符文支架
+        {
+
+        }
+
+        /////////////////////////////////////
+        // ********** GT机器配方 ********** //
+        /////////////////////////////////////
 
         // 魔力灌注 - 魔力池
         {

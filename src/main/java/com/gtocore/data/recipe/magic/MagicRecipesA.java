@@ -205,7 +205,7 @@ public final class MagicRecipesA {
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_ender_eye")
                     .inputItems("torchmaster:frozen_pearl")
-                    .chancedInput("mythicbotany:muspelheim_rune", 2000, 0)
+                    .inputItems("mythicbotany:muspelheim_rune")
                     .inputFluids(Salamander, GAS, 8000)
                     .outputItems(Items.ENDER_EYE)
                     .duration(650)
