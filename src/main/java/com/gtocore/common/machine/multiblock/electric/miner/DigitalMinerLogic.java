@@ -238,7 +238,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                         BlockState state = chunkCache.getBlockState(blockPos);
                         if (!isInMultiblock(blockPos) &&
                                 state.getBlock() != Blocks.AIR &&
-                                ((itemFilter != null && itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack()))) &&
                                 state.getBlock().defaultDestroyTime() >= 0) {
                             if (state.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore && itemFilter == null) {
                                 if (fluidFilter == null || fluidFilter.test(new FluidStack(liq.getFluidState(state).getType(), 1))) {

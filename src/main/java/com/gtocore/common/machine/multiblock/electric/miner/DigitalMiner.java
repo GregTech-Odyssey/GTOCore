@@ -168,7 +168,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         tier = Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
-        this.energyPerTickBase = (int) Math.pow(4, getTier());
+        this.energyPerTickBase = (int) Math.pow(4, getTier()) * 2L;
         this.energyPerTick = energyPerTickBase * (silkLevel == 0 ? 1 : 4);
         this.parallelMining = (int) Math.min(4096, Math.pow(2, getTier()));
         this.maxRadius = (int) Math.min(8 * Math.pow(2, getTier()), 128);
