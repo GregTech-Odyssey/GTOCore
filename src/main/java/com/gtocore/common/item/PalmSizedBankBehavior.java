@@ -3,7 +3,6 @@ package com.gtocore.common.item;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.utils.WalletUtils;
-import com.gtolib.utils.holder.IntHolder;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
@@ -29,6 +28,7 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
@@ -152,52 +152,53 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
+                else {
+                    ServerLevel serverLevel;
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        serverLevel = serverPlayer.serverLevel();
+                    } else {
+                        serverLevel = null;
+                    }
+                    mainGroup.addWidget(new ComponentPanelWidget(0, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "add wallet")))
+                            .clickHandler((a, b) -> initNewPlayerCurrencies(player.getUUID(), serverLevel))
+                            .setMaxWidthLimit(width - 20));
+                    addCurrencyRow(mainGroup, player, serverLevel);
 
-                // 安全获取ServerLevel：仅在服务器玩家时执行
-                boolean hasWallet = false;
-                ServerLevel serverLevel;
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverLevel = serverPlayer.serverLevel();
-                    hasWallet = WalletUtils.hasWallet(player.getUUID(), serverLevel);
-                } else {
-                    serverLevel = null;
                 }
-
-                if (!hasWallet) {
-                    mainGroup.addWidget(new LabelWidget(10, 10, Component.literal(text(9))));
-                    return group;
-                }
-                mainGroup.addWidget(new ComponentPanelWidget(0, 0,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "Create a wallet")))
-                        .clickHandler((a, b) -> initNewPlayerCurrencies(player.getUUID(), serverLevel))
-                        .setMaxWidthLimit(width - 20));
-
-                Object2LongMap<String> currencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
-
-                WidgetGroup CurrencyGroup = new WidgetGroup(4, 8, width / 2 - 4, currencyMap.size() * 14 + 12);
-                WidgetGroup AmountGroup = new WidgetGroup(width / 2, 8, width / 2 - 4, currencyMap.size() * 14 + 12);
-                // CurrencyGroup.setLayout(Layout.VERTICAL_CENTER);
-                // CurrencyGroup.setLayoutPadding(14);
-                // AmountGroup.setLayout(Layout.VERTICAL_CENTER);
-                // AmountGroup.setLayoutPadding(14);
-
-                IntHolder yPosition = new IntHolder(0);
-                CurrencyGroup.addWidget(new LabelWidget(0, yPosition.value, Component.translatable(text(11))));
-                AmountGroup.addWidget(new LabelWidget(0, yPosition.value, Component.translatable(text(12))));
-
-                currencyMap.forEach((currency, amount) -> {
-                    yPosition.value += 14;
-                    CurrencyGroup.addWidget(new LabelWidget(0, yPosition.value, Component.translatable("gtocore.bank.currency." + currency)));
-                    AmountGroup.addWidget(new LabelWidget(0, yPosition.value, Component.literal(amount.toString())));
-                });
-
-                mainGroup.addWidget(CurrencyGroup);
-                mainGroup.addWidget(AmountGroup);
-
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
                 return group;
+            }
+
+            private void addCurrencyRow(WidgetGroup mainGroup, Player player, ServerLevel serverLevel) {
+                Object2LongMap<String> currencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
+
+                WidgetGroup CurrencyGroup = new WidgetGroup(4, 4, width / 2 - 4, currencyMap.size() * 16 + 12);
+                WidgetGroup AmountGroup = new WidgetGroup(width / 2, 4, width / 2 - 4, currencyMap.size() * 16 + 12);
+                CurrencyGroup.setLayout(Layout.VERTICAL_CENTER);
+                CurrencyGroup.setLayoutPadding(4);
+                AmountGroup.setLayout(Layout.VERTICAL_CENTER);
+                AmountGroup.setLayoutPadding(4);
+
+                CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.translatable(text(11))));
+                AmountGroup.addWidget(new LabelWidget(0, 0, Component.translatable(text(12))));
+
+                CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.literal(String.valueOf(currencyMap.size()))));
+                AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(currencyMap.toString())));
+
+                for (String currency : currencyMap.keySet()) {
+                    long amount = currencyMap.getLong(currency);
+                    CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.translatable("gtocore.bank.currency." + currency)));
+                    AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(Long.toString(amount))));
+                }
+
+                AmountGroup.addWidget(new LabelWidget(0, 0,
+                        Component.literal(String.valueOf(WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, "coins")))));
+
+                mainGroup.addWidget(CurrencyGroup);
+                mainGroup.addWidget(AmountGroup);
             }
         };
     }
