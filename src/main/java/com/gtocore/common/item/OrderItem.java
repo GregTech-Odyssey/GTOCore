@@ -37,12 +37,10 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
     public static final OrderItem INSTANCE = new OrderItem();
 
     private InteractionHand hand;
-    private Player player;
 
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         this.hand = usedHand;
-        this.player = player;
         return IItemUIFactory.super.use(item, level, player, usedHand);
     }
 
@@ -96,7 +94,7 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
     public Widget createMainPage(FancyMachineUIWidget fancyMachineUIWidget) {
         WidgetGroup group = new WidgetGroup(0, 0, 34, 34);
         WidgetGroup container = new WidgetGroup(4, 4, 26, 26);
-        container.addWidget(new PhantomSlotWidget(new ItemHandler(hand, player), 0, 4, 4));
+        container.addWidget(new PhantomSlotWidget(new ItemHandler(hand, fancyMachineUIWidget.getGui().entityPlayer), 0, 4, 4));
         group.addWidget(container);
         return group;
     }
