@@ -820,6 +820,7 @@ public final class GTORecipeTypes {
     public static final RecipeType BRICK_FURNACE_RECIPES = register("brick_furnace", "烧砖", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 1, 0)
+            .setMaxTooltips(1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE);
 
