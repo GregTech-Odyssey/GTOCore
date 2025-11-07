@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -32,11 +33,14 @@ import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.gtolib.utils.WalletUtils.addCurrency;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -44,8 +48,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
     private static final String TEXT_HEADER = "gtocore.palm_sized_bank.textList.";
 
+    @Getter
     @DescSynced
-    public Object2LongMap<String> currencyMap = new Object2LongOpenHashMap<>();
+    private Object2LongMap<String> currencyMap = new Object2LongOpenHashMap<>();
 
     private static @NotNull String text(int id) {
         return TEXT_HEADER + id;
@@ -102,6 +107,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         list.add(Component.translatable(text(2)));
         list.add(Component.translatable(text(3)));
         list.add(Component.translatable(text(4)));
+        list.add(Component.empty());
 
         if (hasWallet) {
             list.add(Component.translatable(text(6), player.getName().getString()).withStyle(ChatFormatting.WHITE));
@@ -198,6 +204,10 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                     AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(Long.toString(amount))));
                 }
 
+                mainGroup.addWidget(new ComponentPanelWidget(100, 100,
+                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("add gems"), "add gems")))
+                        .clickHandler((a, b) -> addCurrency(player.getUUID(), serverLevel, "gems", 100)));
+
                 mainGroup.addWidget(CurrencyGroup);
                 mainGroup.addWidget(AmountGroup);
             }
@@ -211,19 +221,37 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
     }
 
     public static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
-        Object2LongOpenHashMap<String> initialCurrencies = new Object2LongOpenHashMap<>();
-        initialCurrencies.put("coins", 100);       // 初始金币100
-        initialCurrencies.put("gems", 10);         // 初始宝石10
-        initialCurrencies.put("tokens", 50);       // 初始代币50
+        O2LOpenCacheHashMap<String> initialCurrencies = new O2LOpenCacheHashMap<>();
+        initialCurrencies.put("coins", 9200000000000000000L);
+        initialCurrencies.put("gems", 10);
+        initialCurrencies.put("tokens", 50);
+        initialCurrencies.put("aaa", 50);
+        initialCurrencies.put("bbb", 500);
+        initialCurrencies.put("ccc", 5000);
+        initialCurrencies.put("ddd", 50);
+        initialCurrencies.put("eee", 50);
+        initialCurrencies.put("fff", 50);
+        initialCurrencies.put("ggg", 50);
+        initialCurrencies.put("hhh", 50);
+        initialCurrencies.put("iii", 50);
+        initialCurrencies.put("jjj", 5000000000000000000L);
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
     }
 
     // 辅助方法
     private void openUI(Item item, Level level, Player player, InteractionHand hand) {
         if (player instanceof ServerPlayer serverPlayer) {
-            currencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverPlayer.serverLevel());
+            ServerLevel serverLevel = serverPlayer.serverLevel();
+            updateCurrencyMap(WalletUtils.getCurrencyMap(player.getUUID(), serverLevel));
         }
         IItemUIFactory.super.use(item, level, player, hand);
+    }
+
+    private void updateCurrencyMap(Object2LongMap<String> newCurrencyMap) {
+        this.currencyMap.clear();
+        if (newCurrencyMap != null) {
+            this.currencyMap.putAll(newCurrencyMap);
+        }
     }
 
     private static Player getPlayerFromWidget(FancyMachineUIWidget widget) {
