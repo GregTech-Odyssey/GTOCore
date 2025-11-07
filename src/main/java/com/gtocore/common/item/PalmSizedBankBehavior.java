@@ -29,7 +29,6 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
@@ -39,8 +38,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static com.gtolib.utils.WalletUtils.addCurrency;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -85,18 +82,16 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
         DraggableScrollableWidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
-                .setBackground(GuiTextures.DISPLAY); // 内容区域背景
+                .setBackground(GuiTextures.DISPLAY);
 
         group.addWidget(mainGroup);
 
-        // 获取玩家实例
         Player player = getPlayerFromWidget(widget);
         if (player == null) return group;
 
-        // 安全获取ServerLevel：仅在服务器玩家时执行
         boolean hasWallet;
         if (player instanceof ServerPlayer serverPlayer) {
-            ServerLevel serverLevel = serverPlayer.serverLevel(); // 无需强制转换，直接获取ServerLevel
+            ServerLevel serverLevel = serverPlayer.serverLevel();
             hasWallet = WalletUtils.hasWallet(player.getUUID(), serverLevel);
         } else {
             hasWallet = false;
@@ -150,7 +145,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return Component.translatable(text(10));
             }
 
-            final int width = 336;
+            final int width = 256;
             final int height = 144;
 
             @Override
@@ -162,54 +157,27 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
-                else {
-                    ServerLevel serverLevel;
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        serverLevel = serverPlayer.serverLevel();
-                    } else {
-                        serverLevel = null;
-                    }
-                    mainGroup.addWidget(new ComponentPanelWidget(0, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "add wallet")))
-                            .clickHandler((a, b) -> initNewPlayerCurrencies(player.getUUID(), serverLevel))
-                            .setMaxWidthLimit(width - 20));
-                    addCurrencyRow(mainGroup, player, serverLevel, parentBehavior);
 
-                }
+                addCurrencyRow(mainGroup, parentBehavior);
+
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
                 return group;
             }
 
-            private void addCurrencyRow(WidgetGroup mainGroup, Player player, ServerLevel serverLevel, PalmSizedBankBehavior behavior) {
+            private void addCurrencyRow(WidgetGroup mainGroup, PalmSizedBankBehavior behavior) {
                 Object2LongMap<String> syncedCurrencyMap = behavior.currencyMap;
-
-                WidgetGroup CurrencyGroup = new WidgetGroup(4, 4, width / 2 - 4, syncedCurrencyMap.size() * 16 + 12);
-                WidgetGroup AmountGroup = new WidgetGroup(width / 2, 4, width / 2 - 4, syncedCurrencyMap.size() * 16 + 12);
-                CurrencyGroup.setLayout(Layout.VERTICAL_CENTER);
-                CurrencyGroup.setLayoutPadding(4);
-                AmountGroup.setLayout(Layout.VERTICAL_CENTER);
-                AmountGroup.setLayoutPadding(4);
-
-                CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.translatable(text(11))));
-                AmountGroup.addWidget(new LabelWidget(0, 0, Component.translatable(text(12))));
-
-                CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.literal(syncedCurrencyMap.toString())));
-                AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(String.valueOf(syncedCurrencyMap.size()))));
-
-                for (String currency : syncedCurrencyMap.keySet()) {
-                    long amount = syncedCurrencyMap.getLong(currency);
-                    CurrencyGroup.addWidget(new LabelWidget(0, 0, Component.translatable("gtocore.bank.currency." + currency)));
-                    AmountGroup.addWidget(new LabelWidget(0, 0, Component.literal(Long.toString(amount))));
+                List<Component> currencyComponents = new ArrayList<>();
+                List<Component> amountComponents = new ArrayList<>();
+                for (Object2LongMap.Entry<String> entry : syncedCurrencyMap.object2LongEntrySet()) {
+                    currencyComponents.add(Component.translatable("gtocore.bank.currency." + entry.getKey()));
+                    amountComponents.add(Component.literal(Long.toString(entry.getLongValue())));
                 }
-
-                mainGroup.addWidget(new ComponentPanelWidget(100, 100,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("add gems"), "add gems")))
-                        .clickHandler((a, b) -> addCurrency(player.getUUID(), serverLevel, "gems", 100)));
-
-                mainGroup.addWidget(CurrencyGroup);
-                mainGroup.addWidget(AmountGroup);
+                mainGroup.addWidget(new LabelWidget(8, 8, Component.translatable(text(11))));
+                mainGroup.addWidget(new LabelWidget(width / 2 + 4, 8, Component.translatable(text(12))));
+                mainGroup.addWidget(new ComponentPanelWidget(8, 24, currencyComponents));
+                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 24, amountComponents));
             }
         };
     }
