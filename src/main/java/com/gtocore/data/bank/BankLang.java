@@ -42,6 +42,15 @@ public class BankLang {
         add("gtocore.palm_sized_bank.textList.5", "无法获取玩家信息", "Failed to obtain player information");
         add("gtocore.palm_sized_bank.textList.6", "当前用户: %s", "Current user: %s");
         add("gtocore.palm_sized_bank.textList.7", "用户 UUID: %s", "User UUID: %s");
+        add("gtocore.palm_sized_bank.textList.8", "创建钱包", "Create a wallet");
+        add("gtocore.palm_sized_bank.textList.9", "钱包不存在", "Wallet does not exist");
 
+        add("gtocore.palm_sized_bank.textList.10", "资产总览", "Asset Overview");
+        add("gtocore.palm_sized_bank.textList.11", "货币种类", "Currency Type");
+        add("gtocore.palm_sized_bank.textList.12", "持有数量", "Amount");
+
+        add("gtocore.bank.currency.coins", "金币", "coins");
+        add("gtocore.bank.currency.gems", "宝石", "gems");
+        add("gtocore.bank.currency.tokens", "代币", "tokens");
     }
 }

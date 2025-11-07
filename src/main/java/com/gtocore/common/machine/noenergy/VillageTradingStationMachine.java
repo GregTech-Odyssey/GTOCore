@@ -397,8 +397,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     @Override
     public Widget createUIWidget() {
-        int width = 336;
-        int height = 144;
+        final int width = 336;
+        final int height = 144;
         var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
         WidgetGroup groupTitle = new DraggableScrollableWidgetGroup(4, 4, width, height)
