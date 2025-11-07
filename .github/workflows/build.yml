@@ -1,0 +1,33 @@
+name: "Build and Sign"
+on:
+  push:
+
+jobs:
+  build:
+    if: contains(github.event.head_commit.message, '-build')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+        with:
+          cache-read-only: false
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Build Java
+        working-directory: ./
+        env:
+          GTO_STOREPASS: ${{ secrets.GTOKEY }}
+          GTO_KEYPASS: ${{ secrets.GTOKEY }}
+          GTO_CERTIFICATE: ${{ secrets.GTO_CERT }}
+        run: |
+          echo $GTO_CERTIFICATE | base64 --decode > keystore.jks
+          gradle build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: ./build/libs
+          retention-days: 1

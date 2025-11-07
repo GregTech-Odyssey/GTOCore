@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gtolib.IFluid;
 import com.gtolib.IItem;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.RecipeBuilder;
@@ -11,22 +12,23 @@ import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.api.pattern.MultiblockWorldData;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.PathNavigationRegion;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
@@ -36,47 +38,64 @@ import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
 
+    @Getter
     @Persisted
     protected int x = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int y = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int z = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int startX = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int startZ = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int startY = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int mineX = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int mineZ = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     protected int mineY = Integer.MAX_VALUE;
+    @Getter
     @Persisted
     private boolean isDone;
 
     private AABB area;
 
+    // ===================== Getter/Setter =====================
+    @Getter
     protected final DigitalMiner miner;
+    @Getter
     private int silk;
+    @Getter
     private final int speed;
     private final LinkedList<BlockPos> oresToMine = new LinkedList<>();
+    @Getter
     private int minBuildHeight = Integer.MAX_VALUE;
+    @Getter
     private boolean isInventoryFull;
+    @Getter
     private int oreAmount;
+    @Getter
     private Filter<?, ?> filter;
     private DigitalMiner.FluidMode fluidMode;
     private final Map<BlockState, List<ItemStack>> lootCache = new Reference2ReferenceOpenHashMap<>();
 
     // ===================== 矿块搜索线程相关 =====================
     private Thread minerSearchThread;
-    private PathNavigationRegion chunkCache;
     private volatile boolean isSearchingBlocks = false;
 
-    public DigitalMinerLogic(@NotNull IRecipeLogicMachine machine,
-                             AABB aabb, int silk, Filter<?, ?> filter, DigitalMiner.FluidMode fluidMode) {
+    DigitalMinerLogic(@NotNull IRecipeLogicMachine machine,
+                      AABB aabb, int silk, Filter<?, ?> filter, DigitalMiner.FluidMode fluidMode) {
         super(machine, () -> null);
         this.miner = (DigitalMiner) machine;
         this.silk = silk;
@@ -85,59 +104,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         this.area = aabb;
         this.filter = filter;
         this.fluidMode = fluidMode;
-    }
-
-    // ===================== Getter/Setter =====================
-    public DigitalMiner getMiner() {
-        return miner;
-    }
-
-    public int getSilk() {
-        return silk;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    public int getStartX() {
-        return startX;
-    }
-
-    public int getStartZ() {
-        return startZ;
-    }
-
-    public int getStartY() {
-        return startY;
-    }
-
-    public int getMineX() {
-        return mineX;
-    }
-
-    public int getMineZ() {
-        return mineZ;
-    }
-
-    public int getMineY() {
-        return mineY;
-    }
-
-    public int getMinBuildHeight() {
-        return minBuildHeight;
+        interval = 0;
     }
 
     public int getMinY() {
@@ -162,22 +129,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
 
     public int getMaxZ() {
         return (int) area.maxZ;
-    }
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public boolean isInventoryFull() {
-        return isInventoryFull;
-    }
-
-    public int getOreAmount() {
-        return oreAmount;
-    }
-
-    public Filter<?, ?> getFilter() {
-        return filter;
     }
 
     // ===================== 生命周期相关方法 =====================
@@ -273,7 +224,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         }
     }
 
-    private LinkedList<BlockPos> getBlocksToMine() {
+    private LinkedList<BlockPos> getBlocksToMine(PathNavigationRegion chunkCache, MultiblockWorldData data) {
         LinkedList<BlockPos> blocks = new LinkedList<>();
         int calcAmount = Integer.MAX_VALUE;
         int calculated = 0;
@@ -287,18 +238,13 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                     if (x < endX) {
                         BlockPos blockPos = new BlockPos(x, y, z);
                         BlockState state = chunkCache.getBlockState(blockPos);
-                        if (!isInMultiblock(blockPos) &&
-                                state.getBlock() != Blocks.AIR &&
-                                (!state.hasBlockEntity() || (itemFilter != null && itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack()))) &&
-                                state.getBlock().defaultDestroyTime() >= 0) {
+                        if (!state.isAir() && state.getBlock().defaultDestroyTime() >= 0 && !isInMultiblock(blockPos, data)) {
                             if (state.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore && itemFilter == null) {
-                                if (fluidFilter == null || fluidFilter.test(new FluidStack(liq.getFluidState(state).getType(), 1))) {
+                                if (fluidFilter == null || fluidFilter.test(((IFluid) liq.getFluidState(state).getType()).gtolib$getReadOnlyStack())) {
                                     blocks.addLast(blockPos);
                                 }
-                            } else if (fluidFilter == null) {
-                                if (itemFilter == null || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
-                                    blocks.addLast(blockPos);
-                                }
+                            } else if (itemFilter == null || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
+                                blocks.addLast(blockPos);
                             }
                         }
                         ++x;
@@ -318,31 +264,30 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         return blocks;
     }
 
-    private boolean isInMultiblock(BlockPos pos) {
-        var x = pos.getX();
-        var y = pos.getY();
-        var z = pos.getZ();
-        var facing = getMachine().getFrontFacing();
-        var bottomCenter = getMachine().getPos().offset(-facing.getStepX() * 2, 0, -facing.getStepZ() * 2);
-        return x >= bottomCenter.getX() - 2 && x <= bottomCenter.getX() + 2 &&
-                y >= bottomCenter.getY() && y <= bottomCenter.getY() + 7 &&
-                z >= bottomCenter.getZ() - 2 && z <= bottomCenter.getZ() + 2;
+    private boolean isInMultiblock(BlockPos pos, MultiblockWorldData data) {
+        var states = data.getControllersInChunk(ChunkPos.asLong(pos));
+        if (states != null) {
+            var pl = pos.asLong();
+            for (var structure : states) {
+                if (structure.cache.contains(pl)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // ===================== 矿块搜索线程相关方法 =====================
     private void checkBlocksToMine() {
-        if (oresToMine.isEmpty() && !isSearchingBlocks) {
+        if (oresToMine.isEmpty() && !isSearchingBlocks && getMachine().getLevel() instanceof ServerLevel serverLevel) {
             synchronized (oresToMine) {
                 isSearchingBlocks = true;
-                minerSearchThread = Thread.ofVirtual().name("DigitalMiner-BlockSearchThread at " + DigitalMinerLogic.this.getMachine().getPos().toShortString()).start(() -> {
-                    if (minBuildHeight == Integer.MAX_VALUE) minBuildHeight = getMachine().getLevel().getMinBuildHeight();
-                    chunkCache = new PathNavigationRegion(getMiner().getLevel(),
-                            new BlockPos(startX - 1, startY - 1, startZ - 1),
-                            new BlockPos((int) (area.maxX + 1), (int) (area.maxY + 1), (int) (area.maxZ + 1)));
-                    var foundBlocks = getBlocksToMine();
-                    chunkCache = null;
-                    onBlocksFound(foundBlocks);
-                });
+                if (minBuildHeight == Integer.MAX_VALUE) minBuildHeight = getMachine().getLevel().getMinBuildHeight();
+                var chunkCache = new PathNavigationRegion(getMiner().getLevel(),
+                        new BlockPos(startX - 1, startY - 1, startZ - 1),
+                        new BlockPos((int) (area.maxX + 1), (int) (area.maxY + 1), (int) (area.maxZ + 1)));
+                var data = MultiblockWorldData.getOrCreate(serverLevel);
+                minerSearchThread = Thread.startVirtualThread(() -> onBlocksFound(getBlocksToMine(chunkCache, data)));
             }
         }
     }

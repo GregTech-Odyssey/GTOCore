@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +16,7 @@ import appeng.core.definitions.AEItems;
 import com.google.common.collect.ImmutableSet;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import committee.nova.mods.avaritia.init.registry.ModItems;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -29,7 +28,7 @@ public final class ItemMap {
 
     public static final ImmutableSet<Item> UNIVERSAL_CIRCUITS = ImmutableSet.copyOf(Arrays.stream(GTOItems.UNIVERSAL_CIRCUIT).filter(Objects::nonNull).map(RegistryEntry::get).toList());
 
-    private static Object2IntMap<Item> SCRAP_MAP = new O2IOpenCacheHashMap<>();
+    private static Reference2IntOpenHashMap<Item> SCRAP_MAP = new Reference2IntOpenHashMap<>();
     private static final int TOTAL_PROBABILITY;
 
     static {
@@ -92,7 +91,7 @@ public final class ItemMap {
     static {
         int index = 0;
         int cumulativeProbability = 0;
-        for (Object2IntMap.Entry<Item> entry : SCRAP_MAP.object2IntEntrySet()) {
+        for (var entry : SCRAP_MAP.reference2IntEntrySet()) {
             SCRAP_ITEMS[index] = entry.getKey();
             cumulativeProbability += entry.getIntValue();
             CUMULATIVE_PROBABILITIES[index] = cumulativeProbability;
@@ -102,12 +101,12 @@ public final class ItemMap {
         SCRAP_MAP = null;
     }
 
-    public static ItemStack getScrapItem() {
+    public static Item getScrapItem() {
         int randomValue = GTValues.RNG.nextInt(TOTAL_PROBABILITY);
         int searchIndex = Arrays.binarySearch(CUMULATIVE_PROBABILITIES, randomValue);
         if (searchIndex < 0) {
             searchIndex = -(searchIndex + 1);
         }
-        return SCRAP_ITEMS[searchIndex].getDefaultInstance();
+        return SCRAP_ITEMS[searchIndex];
     }
 }

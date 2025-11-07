@@ -4,7 +4,6 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.block.MEStorageCoreBlock;
 import com.gtocore.common.block.WirelessEnergyUnitBlock;
 import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 
 import com.gtolib.utils.FunctionContainer;
@@ -32,6 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,7 +97,7 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate autoThreadLaserAbilities(GTRecipeType... recipeType) {
-        return autoLaserAbilities(recipeType).or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1)).or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)).or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1));
+        return autoLaserAbilities(recipeType).or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1)).or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1));
     }
 
     public static TraceabilityPredicate autoSpaceMachineAbilities(GTRecipeType... recipeType) {
@@ -105,8 +105,7 @@ public final class GTOPredicates {
                 .or(abilities(INPUT_LASER).setMaxGlobalLimited(2))
                 .or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
                 .or(Predicates.abilities(GTOPartAbility.OVERCLOCK_HATCH).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1))
-                .or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1));
+                .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1));
     }
 
     public static TraceabilityPredicate tierBlock(Int2ObjectMap<Supplier<?>> map, String tierType) {
@@ -195,7 +194,7 @@ public final class GTOPredicates {
             if (block == GTOBlocks.FISSION_FUEL_COMPONENT.get()) {
                 integer[0]++;
                 integer[2] += GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get());
-            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 1) {
+            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 0) {
                 integer[1]++;
                 integer[3] += GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
             }
@@ -221,5 +220,29 @@ public final class GTOPredicates {
 
     private static BlockState getBlockState(MultiblockState state, BlockPos pos) {
         return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos));
+    }
+
+    public static TraceabilityPredicate recordPosition(String name, TraceabilityPredicate original) {
+        return new TraceabilityPredicate(original) {
+
+            @Override
+            public boolean test(MultiblockState blockWorldState) {
+                if (super.test(blockWorldState)) {
+                    blockWorldState.getMatchContext().getOrCreate(name, ObjectOpenHashSet::new).add(blockWorldState.getPos());
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean testOnly() {
+                return true;
+            }
+
+            @Override
+            public boolean isAir() {
+                return false;
+            }
+        };
     }
 }

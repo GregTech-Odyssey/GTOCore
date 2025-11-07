@@ -40,6 +40,8 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     private TickableSubscription tickSubscription = null;
     boolean shouldShowReadyText = true;
 
+    private boolean firstLoad;
+
     AbstractSpaceStation(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
         this.positionFunction = null;
@@ -51,15 +53,24 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     }
 
     @Override
+    public boolean firstLoad() {
+        if (firstLoad) {
+            firstLoad = false;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void onLoad() {
         super.onLoad();
-        if (tickSubscription == null) {
-            tickSubscription = subscribeServerTick(this::tickReady);
-        }
+        firstLoad = true;
+        tickSubscription = subscribeServerTick(tickSubscription, this::tickReady);
     }
 
     protected void tickReady() {
-        if (getOffsetTimer() % 20 == 0) {
+        var time = getOffsetTimer();
+        if (time % 20 == 0) {
             if (getRecipeLogic().isWorking()) {
                 int oldReady = ready;
                 ready = Math.min(20, ready + 1);
@@ -69,7 +80,7 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
                 clearOxygenBlocks();
             }
         }
-        if (getOffsetTimer() % 200 == 0) {
+        if (time % 200 == 0) {
             updateSpaceMachines();
         }
     }

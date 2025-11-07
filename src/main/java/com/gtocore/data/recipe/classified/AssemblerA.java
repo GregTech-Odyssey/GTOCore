@@ -801,5 +801,16 @@ final class AssemblerA {
                 .EUt(120)
                 .duration(50)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("high_pressure_steam_input_hatch")
+                .inputItems(GTOMachines.LARGE_STEAM_HATCH.asItem())
+                .inputItems(GTOTagPrefix.pipeHugeFluid, GTMaterials.Tungsten, 16)
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.TungstenFiberReinforcedCobaltBasedComposite, 32)
+                .inputItems(GTOTagPrefix.plateDouble, GTOMaterials.MarM200Steel, 16)
+                .outputItems(GTOMachines.HIGH_PRESSURE_STEAM_INPUT_HATCH.asItem())
+                .inputFluids(GTOMaterials.TungstenAlloyYG10, 2304)
+                .EUt(7680)
+                .duration(400)
+                .save();
     }
 }

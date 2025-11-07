@@ -69,7 +69,7 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
         fun <T : OrganItemBase> registerOrganItem(id: String, organType: OrganType, resourceName: String, en: String, cn: String, itemFactory: (Properties, OrganType) -> T, onRegister: NonNullConsumer<T> = NonNullConsumer { }): ItemEntry<T> {
             val resourcePath = "item/organ/part/${organType.key}/$resourceName"
             val tag = TagUtils.createTag(GTOCore.id("organ_${organType.key}"))
-            val itemBuilder = item(id, "器官 $cn", { p -> itemFactory(p.stacksTo(1).setNoRepair(), organType) })
+            val itemBuilder = item(id, "器官 $cn") { p -> itemFactory(p.stacksTo(1).setNoRepair(), organType) }
                 .lang("organ $en ")
                 .tag(tag)
                 .model { ctx, prov -> prov.generated(ctx, GTOCore.id(resourcePath)) }

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/fission_fuel_component"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/fission_fuel_component_active"
+    }
+  }
+}

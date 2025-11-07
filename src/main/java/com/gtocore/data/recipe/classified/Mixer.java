@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
@@ -775,6 +776,17 @@ final class Mixer {
                 .outputFluids(GTOMaterials.Cerium4Sulfate, 1000)
                 .EUt(30)
                 .duration(30)
+                .save();
+
+        MIXER_RECIPES.builder("titanium_tb6_dust")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Titanium, 85)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Vanadium, 10)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Steel, 2)
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Aluminium, 3)
+                .outputItems(GTOTagPrefix.dust, GTOMaterials.TitaniumTB6, 100)
+                .circuitMeta(14)
+                .EUt(480)
+                .duration(6500)
                 .save();
     }
 }

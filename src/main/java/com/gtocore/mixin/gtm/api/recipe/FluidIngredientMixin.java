@@ -16,19 +16,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.stream.Stream;
 
 @Mixin(FluidIngredient.class)
 public class FluidIngredientMixin {
-
-    @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
-    private static void init(CallbackInfo ci) {
-        FluidIngredient.EMPTY = FastFluidIngredient.EMPTY;
-        FluidIngredient.CODEC = FastFluidIngredient.CODEC;
-    }
 
     /**
      * @author .

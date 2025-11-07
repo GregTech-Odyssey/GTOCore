@@ -115,7 +115,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
 
     private void updateInventorySubscription() {
         if (isWorkingEnabled() && ItemTransferHelper.getItemTransfer(getLevel(), getPos().relative(getFrontFacing()), getFrontFacing().getOpposite()) != null) {
-            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
+            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
             autoIOSubs = null;
@@ -123,12 +123,10 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
     }
 
     private void autoIO() {
-        if (getOffsetTimer() % 40 == 0) {
-            if (isWorkingEnabled()) {
-                inventory.importFromNearby(getFrontFacing());
-            }
-            updateInventorySubscription();
+        if (isWorkingEnabled()) {
+            inventory.importFromNearby(getFrontFacing());
         }
+        updateInventorySubscription();
     }
 
     private void exportToNearby(HugeNotifiableItemStackHandler handler, @NotNull Direction facing) {

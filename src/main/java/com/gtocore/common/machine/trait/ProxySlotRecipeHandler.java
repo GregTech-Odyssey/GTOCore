@@ -8,9 +8,12 @@ import com.gtolib.api.machine.trait.ProxyItemRecipeHandler;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public final class ProxySlotRecipeHandler {
 
     public static final ProxySlotRecipeHandler DEFAULT = new ProxySlotRecipeHandler(null, null);
@@ -77,9 +80,5 @@ public final class ProxySlotRecipeHandler {
             slotSharedItem.setProxy(null);
             slotSharedFluid.setProxy(null);
         }
-    }
-
-    public List<RecipeHandlerList> getProxySlotHandlers() {
-        return this.proxySlotHandlers;
     }
 }

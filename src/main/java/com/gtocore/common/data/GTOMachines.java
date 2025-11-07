@@ -15,7 +15,8 @@ import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.BoilWaterMachine;
 import com.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
-import com.gtocore.common.machine.noenergy.PlatformDeploymentMachine;
+import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
+import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
 import com.gtocore.integration.ae.SyncTesterMachine;
@@ -26,9 +27,7 @@ import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
-import com.gtolib.api.machine.impl.DroneHatchPartMachine;
-import com.gtolib.api.machine.impl.MachineAccessLinkPartMachine;
-import com.gtolib.api.machine.impl.MachineAccessTerminalPartMachine;
+import com.gtolib.api.machine.impl.part.*;
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.api.registries.GTORegistration;
@@ -47,6 +46,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 import com.gregtechceu.gtceu.client.renderer.machine.*;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
@@ -80,6 +80,7 @@ public final class GTOMachines {
         MultiBlockF.init();
         MultiBlockG.init();
         MultiBlockH.init();
+        MultiblockI.init();
         SpaceMultiblock.init();
 
         OptionalMachine.init(); // 限制模式不注册会出现多方块预览错误
@@ -487,12 +488,30 @@ public final class GTOMachines {
                     .register(),
             GTMachineUtils.ALL_TIERS);
 
-    public static final MachineDefinition LARGE_STEAM_HATCH = machine("large_steam_input_hatch", "大型蒸汽输入仓", LargeSteamHatchPartMachine::new)
+    public static final MachineDefinition LARGE_STEAM_HATCH = machine("large_steam_input_hatch", "大型蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 2, 6, 2, GTMaterials.Steam.getFluid(1)))
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
                     Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"))
+            .allowCoverOnFront(true)
+            .register();
+
+    public static final MachineDefinition HIGH_PRESSURE_STEAM_INPUT_HATCH = machine("high_pressure_steam_input_hatch", "高压蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 4, 10, 0.25, GTOMaterials.HighPressureSteam.getFluid(1)))
+            .allRotation()
+            .abilities(PartAbility.STEAM)
+            .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 65536000),
+                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()))
+            .allowCoverOnFront(true)
+            .register();
+
+    public static final MachineDefinition SUPERCRITICAL_STEAM_INPUT_HATCH = machine("supercritical_steam_input_hatch", "超临界蒸汽输入仓", h -> new LargeSteamHatchPartMachine(h, 6, 14, 0.125, GTOMaterials.SupercriticalSteam.getFluid(1)))
+            .allRotation()
+            .abilities(PartAbility.STEAM)
+            .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 1048576000),
+                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()))
             .allowCoverOnFront(true)
             .register();
 
@@ -907,10 +926,16 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = machine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
-            .tier(LV)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
             .nonYAxisRotation()
             .workableManaTieredHullRenderer(2, GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    public static final MachineDefinition VILLAGE_TRADING_STATION = machine("village_trading_station", "村民交易站", VillageTradingStationMachine::new)
+            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getVillageTradingStationTooltips().apply(list))
+            .nonYAxisRotation()
+            .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)

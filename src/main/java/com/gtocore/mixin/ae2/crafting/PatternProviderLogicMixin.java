@@ -12,13 +12,10 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
 import appeng.api.config.Actionable;
 import appeng.api.config.LockCraftingMode;
-import appeng.api.config.Settings;
-import appeng.api.config.YesNo;
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.implementations.blockentities.ICraftingMachine;
 import appeng.api.networking.IManagedGridNode;
@@ -97,9 +94,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     protected abstract void onPushPatternSuccess(IPatternDetails pattern);
 
     @Shadow
-    public abstract boolean isBlocking();
-
-    @Shadow
     protected abstract boolean adapterAcceptsAll(PatternProviderTarget target, KeyCounter[] inputHolder);
 
     @Shadow
@@ -109,14 +103,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     private void init(IManagedGridNode mainNode, PatternProviderLogicHost host, int patternInventorySize, CallbackInfo ci) {
         configManager.registerSetting(GTOSettings.BLOCKING_TYPE, BlockingType.NONE);
         gtolib$targetCaches = new PatternProviderTargetCache[6];
-    }
-
-    @Inject(at = @At("TAIL"), method = "readFromNBT")
-    private void readFromNBT(CompoundTag tag, CallbackInfo ci) {
-        if (!this.isBlocking()) {
-            configManager.putSetting(GTOSettings.BLOCKING_TYPE, BlockingType.NONE);
-            configManager.putSetting(Settings.BLOCKING_MODE, YesNo.YES);
-        }
     }
 
     @Inject(method = "configChanged", at = @At("TAIL"), remap = false)

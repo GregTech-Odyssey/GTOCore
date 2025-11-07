@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.block.CoilBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 public enum CoilType implements StringRepresentable, ICoilType {
@@ -25,6 +26,7 @@ public enum CoilType implements StringRepresentable, ICoilType {
     ETERNITY("eternity", "永恒", 96000, 512, 9, GTOMaterials.Eternity, GTOCore.id("block/coil/eternity_coil_block")),
     URUIUM("uruium", "超级热熔", 273, 1, 1, GTOMaterials.Uruium, GTOCore.id("block/coil/uruium_coil_block"));
 
+    @Getter
     private final String cnLang;
     private final String name;
     private final int coilTemperature;
@@ -63,10 +65,6 @@ public enum CoilType implements StringRepresentable, ICoilType {
     @NotNull
     public String getName() {
         return this.name;
-    }
-
-    public String getCnLang() {
-        return this.cnLang;
     }
 
     @Override

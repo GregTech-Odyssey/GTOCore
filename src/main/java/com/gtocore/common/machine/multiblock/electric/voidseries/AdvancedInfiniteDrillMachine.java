@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
 
     private static final int RUNNING_HEAT = 2000;
     private static final int MAX_HEAT = 10000;
+    @Getter
     @Persisted
     private int currentHeat = 300;
     @Persisted
@@ -48,7 +50,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
 
     public AdvancedInfiniteDrillMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.toolHeadDrill);
-        heatSubs = new ConditionalSubscriptionHandler(this, this::heatUpdate, this::isFormed);
+        heatSubs = new ConditionalSubscriptionHandler(this, this::heatUpdate, 5, this::isFormed);
     }
 
     @Override
@@ -57,7 +59,6 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     }
 
     private void heatUpdate() {
-        if (getOffsetTimer() % 5 != 0) return;
         heatSubs.updateSubscription();
 
         boolean isWorking = getRecipeLogic().isWorking();
@@ -162,9 +163,5 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
 
     public boolean canRunnable() {
         return currentHeat >= RUNNING_HEAT;
-    }
-
-    public int getCurrentHeat() {
-        return this.currentHeat;
     }
 }

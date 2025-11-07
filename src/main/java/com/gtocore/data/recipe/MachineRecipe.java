@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
 import com.enderio.machines.common.init.MachineBlocks;
-import org.apache.commons.lang3.ArrayUtils;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -36,6 +36,8 @@ public final class MachineRecipe {
 
     public static void init() {
         HatchRecipe.init();
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("air"), MultiBlockH.BRICK_KILN.asItem(),
+                "wAB", "BCD", "hAB", 'A', new MaterialEntry(GTOTagPrefix.rodLong, GTMaterials.WroughtIron), 'B', new MaterialEntry(GTOTagPrefix.screw, GTMaterials.WroughtIron), 'C', GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asStack(), 'D', new MaterialEntry(GTOTagPrefix.plateDouble, GTMaterials.WroughtIron));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("multiblock_crate"), MultiBlockG.MULTIBLOCK_CRATE.asItem(), "RPR",
                 "PCP", "RPR", 'P', new MaterialEntry(plateDouble, GTMaterials.Steel), 'R', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Steel), 'C', GTMachines.BRONZE_CRATE.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("evaporation_plant"),
@@ -148,17 +150,6 @@ public final class MachineRecipe {
                 .inputFluids(GTOMaterials.Radox.getFluid(L * multiplier))
                 .outputItems(GTMachines.HULL[14]).save();
 
-        registerMachineRecipe(ArrayUtils.subarray(GTMachines.TRANSFORMER, UHV, MAX),
-                "WCC",
-                "TH ", "WCC", 'W', POWER_COMPONENT, 'C', CABLE, 'T', CABLE_TIER_UP, 'H', HULL);
-        registerMachineRecipe(
-                ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_2A, UHV, MAX),
-                "WCC", "TH ", "WCC",
-                'W', POWER_COMPONENT, 'C', CABLE_DOUBLE, 'T', CABLE_TIER_UP_DOUBLE, 'H', HULL);
-        registerMachineRecipe(
-                ArrayUtils.subarray(GTMachines.HI_AMP_TRANSFORMER_4A, UHV, MAX),
-                "WCC", "TH ", "WCC",
-                'W', POWER_COMPONENT, 'C', CABLE_QUAD, 'T', CABLE_TIER_UP_QUAD, 'H', HULL);
         registerMachineRecipe(GTOMachines.DEHYDRATOR, "WCW", "AMA", "PRP", 'M', HULL, 'P', PLATE, 'C',
                 CIRCUIT, 'W', WIRE_QUAD, 'R', ROBOT_ARM, 'A', CABLE_QUAD);
         registerMachineRecipe(GTOMachines.ARC_GENERATOR, "WEW", "AMA", "WSW", 'M', HULL, 'E',

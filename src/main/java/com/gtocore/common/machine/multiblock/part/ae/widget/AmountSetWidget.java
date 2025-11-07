@@ -12,6 +12,7 @@ import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.utils.Position;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawStringSized;
@@ -19,6 +20,7 @@ import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawStringSized;
 class AmountSetWidget extends Widget {
 
     private int index = -1;
+    @Getter
     private final TextFieldWidget amountText;
     private final ConfigWidget parentWidget;
 
@@ -78,9 +80,5 @@ class AmountSetWidget extends Widget {
         GuiTextures.BACKGROUND.draw(graphics, mouseX, mouseY, position.x, position.y, 80, 30);
         drawStringSized(graphics, "Amount", position.x + 3, position.y + 3, 4210752, false, 1.0F, false);
         GuiTextures.DISPLAY.draw(graphics, mouseX, mouseY, position.x + 3, position.y + 11, 65, 14);
-    }
-
-    public TextFieldWidget getAmountText() {
-        return this.amountText;
     }
 }

@@ -21,6 +21,8 @@ public final class IdleReason extends com.gtolib.api.recipe.IdleReason {
     public static final IdleReason INCORRECT_DIRECTION_VOLTA = new IdleReason("gtocore.idle_reason.incorrect_direction_volta", "这个方向摆放的机器晒不到太阳", "The machine placed in this direction can't get sunlight");
     public static final IdleReason OBSTRUCTED_VOLTA = new IdleReason("gtocore.idle_reason.obstructed_volta", "太阳能板被遮挡了", "The solar panel is obstructed");
 
+    public static final IdleReason MUFFLER_NOT_SUPPORTED = new IdleReason("gtocore.idle_reason.muffler_not_supported", "机器电压等级不支持高级消声仓", "The machine voltage tier does not support advanced muffler");
+
     public IdleReason(String key, String cn, String en) {
         super(key, en, cn);
     }

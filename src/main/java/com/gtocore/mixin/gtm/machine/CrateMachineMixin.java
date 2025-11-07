@@ -1,9 +1,7 @@
 package com.gtocore.mixin.gtm.machine;
 
-import com.gtocore.common.network.ClientMessage;
-
 import com.gtolib.GTOCore;
-import com.gtolib.utils.GTOUtils;
+import com.gtolib.utils.SortUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -65,7 +63,7 @@ public abstract class CrateMachineMixin extends MetaMachine implements IUIMachin
         }
         modularUI.widget(new ButtonWidget(176 + xOffset - 17, 3, 14, 14,
                 new ResourceTexture(GTOCore.id("textures/gui/sort.png")),
-                (press) -> ClientMessage.send("sortInventory", GTOUtils.noopConsumer())));
+                (press) -> SortUtils.sort()));
         return modularUI;
     }
 }

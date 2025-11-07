@@ -22,6 +22,7 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -35,6 +36,7 @@ import static com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionRea
 @MethodsReturnNonnullByDefault
 public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMachine {
 
+    @Getter
     @DescSynced
     private int color = -1;
     private final int tier;
@@ -48,7 +50,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         super(holder, false, true, MachineUtils::getHatchParallel);
         this.tier = tier;
         this.energyContainer = createEnergyContainer();
-        preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, () -> isFormed || heat > 0);
+        preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, 0, () -> isFormed || heat > 0);
     }
 
     private EnergyContainerTrait createEnergyContainer() {
@@ -164,10 +166,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         super.customText(textList);
         textList.add(Component.translatable("gtceu.multiblock.fusion_reactor.energy", this.energyContainer.getEnergyStored(), this.energyContainer.getEnergyCapacity()));
         textList.add(Component.translatable("gtceu.multiblock.fusion_reactor.heat", heat));
-    }
-
-    public int getColor() {
-        return this.color;
     }
 
     @Override

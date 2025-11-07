@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/bubble_chamber_detector_block"
+    }
+  }
+}

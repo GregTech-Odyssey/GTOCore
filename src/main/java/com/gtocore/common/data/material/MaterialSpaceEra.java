@@ -423,7 +423,7 @@ public class MaterialSpaceEra {
                 .color(0xb9a7ba)
                 .secondaryColor(0x7a6a7a)
                 .components(Titanium, 85, Vanadium, 10, Steel, 2, Aluminium, 3)
-                .blastTemp(4320, HIGH, GTValues.VA[GTValues.IV], 1200)
+                .blastTemp(3420, HIGH, GTValues.VA[GTValues.EV], 1200)
                 .iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_FOIL, DECOMPOSITION_BY_CENTRIFUGING)
                 .buildAndRegister();

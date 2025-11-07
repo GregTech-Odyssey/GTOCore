@@ -72,7 +72,7 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 20);
         }
     }
 

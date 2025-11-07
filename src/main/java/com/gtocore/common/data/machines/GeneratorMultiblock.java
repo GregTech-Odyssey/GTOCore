@@ -899,6 +899,7 @@ public final class GeneratorMultiblock {
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_TRANSFER_RECIPES)
             .recipeTypes(GTORecipeTypes.FUEL_CELL_ENERGY_RELEASE_RECIPES)
             .generator()
+            .addTooltipsFromClass(FullCellGenerator.class)
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getFuelCellGeneratorTooltips().getSupplier())
             .block(GTOBlocks.IRIDIUM_CASING)
             .recipeModifier((machine, recipe) -> {

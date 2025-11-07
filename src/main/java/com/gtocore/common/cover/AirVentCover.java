@@ -39,7 +39,7 @@ public final class AirVentCover extends CoverBehavior {
         if (coverHolder.getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, () -> {
                 machine = MetaMachine.getMachine(coverHolder.holder());
-                subscription = coverHolder.subscribeServerTick(subscription, this::update);
+                subscription = coverHolder.subscribeServerTick(subscription, this::update, 20);
             }));
         }
     }
@@ -54,7 +54,7 @@ public final class AirVentCover extends CoverBehavior {
     }
 
     private void update() {
-        if (machine != null && machine.getOffsetTimer() % 20 == 0 && machine.getNeighborBlockState(attachedSide).isAir()) {
+        if (machine != null && machine.getNeighborBlockState(attachedSide).isAir()) {
             var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(coverHolder.getLevel().dimension().location());
             if (fluid == null) {
                 subscription.unsubscribe();

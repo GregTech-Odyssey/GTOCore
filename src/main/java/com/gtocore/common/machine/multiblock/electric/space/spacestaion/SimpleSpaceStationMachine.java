@@ -4,6 +4,7 @@ import com.gtocore.client.forge.ForgeClientEvent;
 
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.MachineUtils;
@@ -19,7 +20,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -111,17 +111,17 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     private Recipe getRecipe() {
         if (!PlanetApi.API.isSpace(getLevel()))
             return null;
-        return getRecipeBuilder().duration(200).EUt(VA[EV])
-                .inputFluids(inputFluids)
+        return inputFluids(getRecipeBuilder().duration(200).EUt(VA[EV]))
                 .outputFluids(FlocculationWasteSolution.getFluid(30))
                 .buildRawRecipe();
     }
 
-    private static final FluidStack[] inputFluids = new FluidStack[] {
-            DistilledWater.getFluid(15),
-            GTMaterials.RocketFuel.getFluid(10),
-            GTMaterials.Air.getFluid(100)
-    };
+    private static RecipeBuilder inputFluids(RecipeBuilder builder) {
+        builder.inputFluids(DistilledWater, 15);
+        builder.inputFluids(GTMaterials.RocketFuel, 10);
+        builder.inputFluids(GTMaterials.Air, 100);
+        return builder;
+    }
 
     @Override
     public void customText(@NotNull List<Component> list) {
@@ -149,9 +149,10 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Override
     public boolean onWorking() {
-        if (getOffsetTimer() % 20 == 0) {
+        var time = getOffsetTimer();
+        if (time % 20 == 0) {
 
-            if (getOffsetTimer() % 200 == 0) provideOxygen();
+            if (firstLoad() && time % 400 == 0) provideOxygen();
 
             /// Distilled Water distribution
             if (waterAmountPerHatch > 0 && outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {

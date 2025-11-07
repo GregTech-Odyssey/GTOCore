@@ -3,6 +3,7 @@ package com.gtocore.common.data;
 import com.gtocore.common.item.DimensionDataItem;
 import com.gtocore.common.item.DiscItem;
 import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
+import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 import com.gtocore.common.recipe.RecipeTypeModify;
 import com.gtocore.common.recipe.custom.RecyclerLogic;
@@ -819,6 +820,7 @@ public final class GTORecipeTypes {
     public static final RecipeType BRICK_FURNACE_RECIPES = register("brick_furnace", "烧砖", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 1, 0)
+            .setMaxTooltips(1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE);
 
@@ -942,6 +944,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.OUT)
             .setMaxIOSize(1, 1, 2, 2)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.difficulty_config.name.fuelcell.chance_consume") + ":" + FormattingUtil.formatPercent(FullCellGenerator.chanceConsumeMembraneOnDischarge * 100) + "%%")
             .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType BIOCHEMICAL_EXTRACTION_RECIPES = register("biochemical_extraction", "生物提取", MULTIBLOCK)
@@ -988,7 +991,7 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.ARC);
 
     public static final RecipeType CRYSTAL_SCAN_RECIPES = register("crystal_scan", "晶片扫描", ELECTRIC)
-            .setMaxIOSize(3, 1, 0, 0)
+            .setMaxIOSize(3, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
@@ -1019,6 +1022,11 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER)
             .noSearch(true)
             .setIconSupplier(() -> TIER_1_ROCKET.get().getDefaultInstance());
+
+    public static final RecipeType PIGMENT_MIXING_RECIPES = register("pigment_mixing", "染料混合", MULTIBLOCK)
+            .setMaxIOSize(5, 1, 1, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_MIXER, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MIXER);
 
     //////////////////////////////////////
     // ********** Magic **********//

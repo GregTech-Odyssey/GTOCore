@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gtocore.api.data.Algae;
+
 import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
@@ -28,6 +30,7 @@ import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyMap;
 import appeng.api.stacks.KeyCounter;
@@ -43,7 +46,9 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -66,14 +71,24 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         return new StorageAccessPartMachine.IO(holder);
     }
 
+    public static StorageAccessPartMachine createAlgae(MetaMachineBlockEntity holder) {
+        return new StorageAccessPartMachine.AlgaeAccessHatch(holder);
+    }
+
+    @Setter
     boolean observe;
 
     int counter;
+    @Setter
     boolean check;
     boolean dirty = false;
 
+    @Setter
+    @Getter
     @Persisted
     double capacity;
+    @Setter
+    @Getter
     @Persisted
     boolean isInfinite;
     @DescSynced
@@ -89,7 +104,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         super(holder, GTValues.EV, -1000000, 1000000);
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> true);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, () -> true);
         current = 0;
     }
 
@@ -128,14 +143,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     public abstract double getBytes();
 
-    public void setCapacity(double capacity) {
-        this.capacity = capacity;
-    }
-
-    public void setInfinite(boolean isInfinite) {
-        this.isInfinite = isInfinite;
-    }
-
     @Override
     public void mountInventories(IStorageMounts storageMounts) {
         if (uuid == null) return;
@@ -152,22 +159,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         return nodeHolder.getMainNode();
     }
 
-    public void setObserve(final boolean observe) {
-        this.observe = observe;
-    }
-
-    public void setCheck(final boolean check) {
-        this.check = check;
-    }
-
-    public double getCapacity() {
-        return this.capacity;
-    }
-
-    public boolean isInfinite() {
-        return this.isInfinite;
-    }
-
     @Override
     public void setOnline(final boolean isOnline) {
         this.isOnline = isOnline;
@@ -180,7 +171,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
     private static class LONG extends StorageAccessPartMachine {
 
-        private CellDataStorage dataStorage;
+        protected CellDataStorage dataStorage;
 
         private LONG(MetaMachineBlockEntity holder) {
             super(holder);
@@ -461,7 +452,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             transferContents(grid);
         }
 
-        /// logic from {@link appeng.blockentity.storage.IOPortBlockEntity#transferContents(IGrid, StorageCell, long)}
         private void transferContents(IGrid grid) {
             var networkInv = grid.getStorageService().getInventory();
             long itemsToMove = rate;
@@ -723,6 +713,27 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             getAvailableStacks(keyCounter);
             keyCounter.removeEmptySubmaps();
             return keyCounter;
+        }
+    }
+
+    public static final class AlgaeAccessHatch extends LONG {
+
+        private AlgaeAccessHatch(MetaMachineBlockEntity holder) {
+            super(holder);
+            uuid = UUID.randomUUID();
+        }
+
+        @Override
+        public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
+            if (!(what instanceof AEItemKey i && Algae.isAlgae(i))) {
+                return 0;
+            }
+            return super.insert(what, amount, mode, source);
+        }
+
+        @Override
+        public boolean isPreferredStorageFor(AEKey what, IActionSource source) {
+            return (what instanceof AEItemKey i && Algae.isAlgae(i)) && super.isPreferredStorageFor(what, source);
         }
     }
 

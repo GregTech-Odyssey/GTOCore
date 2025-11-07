@@ -15,6 +15,7 @@ import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import lombok.Getter;
 
 public abstract class ConfigWidget extends WidgetGroup {
 
@@ -24,6 +25,7 @@ public abstract class ConfigWidget extends WidgetGroup {
     IConfigurableSlot[] displayList;
     private final AmountSetWidget amountSetWidget;
     private static final int UPDATE_ID = 1000;
+    @Getter
     private final boolean isStocking;
 
     ConfigWidget(int x, int y, IConfigurableSlot[] config, boolean isStocking) {
@@ -167,9 +169,5 @@ public abstract class ConfigWidget extends WidgetGroup {
             return s1.amount() == s2.amount() && s1.what().matches(s2);
         }
         return false;
-    }
-
-    public boolean isStocking() {
-        return this.isStocking;
     }
 }

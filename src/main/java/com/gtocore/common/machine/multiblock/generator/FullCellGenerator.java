@@ -5,6 +5,9 @@ import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 
+import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
+import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
@@ -12,9 +15,11 @@ import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -23,6 +28,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
@@ -40,6 +46,7 @@ import java.util.stream.Stream;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
+@Scanned
 public class FullCellGenerator extends ElectricMultiblockMachine {
 
     @DescSynced
@@ -47,6 +54,13 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     @Persisted
     private double bonusEfficiency = 1.0f;
     private static final int MaxCanReleaseParallel = 50;
+
+    @DynamicInitialValue(key = "fuelcell.chance_consume", easyValue = "0.0d", normalValue = "0.035d", expertValue = "0.055d", typeKey = DynamicInitialValueTypes.KEY_PROBABILITY, cn = "放电时膜损坏概率", cnComment = """
+            放电时使用的膜材料的损坏概率。
+            """, en = "Fuel Cell Membrane Damage Chance on Discharge", enComment = """
+            The chance of the membrane material used being damaged upon discharging.
+            """)
+    public static double chanceConsumeMembraneOnDischarge = 0.035d;
 
     public FullCellGenerator(MetaMachineBlockEntity holder) {
         super(holder);
@@ -138,11 +152,11 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         // electrolyte consumption adjustment
         long actuallyConsumedmB = result.parallels * fuelEnergyPerUnit / euPermB;
         var input = new ArrayList<>(result.inputs.get(FluidRecipeCapability.CAP));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE)), 10000, 10000, 0));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE)), 10000, 10000, 0));
+        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE)), 10000, 0));
+        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE)), 10000, 0));
         var output = new ArrayList<Content>();
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE)), 10000, 10000, 0));
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE)), 10000, 10000, 0));
+        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE)), 10000, 0));
+        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE)), 10000, 0));
         result.inputs.put(FluidRecipeCapability.CAP, input);
         result.outputs.put(FluidRecipeCapability.CAP, output);
 
@@ -194,6 +208,10 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     }
 
     private Recipe getReleaseRecipe(Recipe recipe) {
+        var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
+        if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
+            inputItem(((Ingredient) input.getFirst().content).getItems()[0]);
+        }
         return ParallelLogic.accurateParallel(this, recipe, MaxCanReleaseParallel);
     }
 

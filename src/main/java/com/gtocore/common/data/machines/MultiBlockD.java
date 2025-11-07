@@ -69,12 +69,14 @@ import net.minecraft.world.phys.AABB;
 
 import earth.terrarium.adastra.common.registry.ModItems;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.UEV;
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
@@ -726,7 +728,7 @@ public final class MultiBlockD {
             .workableCasingRenderer(GTOCore.id("block/casings/inconel_625_casing"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
             .recoveryStacks((m, r) -> {
                 if (r == null) return ItemStack.EMPTY;
-                return ((Ingredient) r.outputs.get(ItemRecipeCapability.CAP).get(0).content).getItems()[0].copyWithCount(1);
+                return ItemUtils.getFirstSized((Ingredient) r.outputs.get(ItemRecipeCapability.CAP).getFirst().content).copyWithCount(1);
             })
             .register();
 
@@ -1056,7 +1058,6 @@ public final class MultiBlockD {
                                         .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
                                         .or(abilities(EXPORT_FLUIDS).setPreviewCount(16))
                                         .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                                        .or(Predicates.blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1))
                                         .or(abilities(INPUT_LASER).setMaxGlobalLimited(16, 16))
                                         .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                                 .where('E', casing)

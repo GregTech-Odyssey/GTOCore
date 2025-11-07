@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.MAINTENANCE;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.machine;
@@ -45,7 +44,7 @@ public final class OptionalMachine {
                     .register() :
             null;
 
-    public static final MultiblockMachineDefinition CARVING_CENTER = GTCEu.isDev() || Mods.chisel() ? multiblock("carving_center", "雕刻中心", ChiselMachine::new)
+    public static final MultiblockMachineDefinition CARVING_CENTER = GTCEu.isDev() || Mods.CHISEL.isLoaded() ? multiblock("carving_center", "雕刻中心", ChiselMachine::new)
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getCarvingCenterTooltips().getSupplier())
             .recipeTypes(DUMMY_RECIPES)

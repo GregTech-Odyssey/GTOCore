@@ -31,6 +31,7 @@ import net.minecraft.world.item.Item;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     private static final Item dustBeryllium = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Beryllium);
     private static final Item dustGraphite = ChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Graphite);
     int height;
+    @Getter
     @Persisted
     protected int eV;
     private final ConditionalSubscriptionHandler neutronEnergySubs;
@@ -53,7 +55,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     public NeutronActivatorMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, () -> isFormed || eV > 0);
+        neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, 0, () -> isFormed || eV > 0);
     }
 
     @Override
@@ -186,9 +188,5 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
         textList.add(Component.translatable("gtocore.machine.height", height));
         textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(getEfficiencyFactor() * 100)).append("%"));
         progressBarPro.setProgressSupplier(() -> eV);
-    }
-
-    public int getEV() {
-        return this.eV;
     }
 }

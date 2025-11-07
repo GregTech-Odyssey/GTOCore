@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.EmiStackInteraction;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class AEConfigSlotWidget extends Widget implements IIngredientSlot {
     static final int AMOUNT_CHANGE_ID = 1002;
     static final int SLOT_CLICK_ID = 1003;
     static final int SLOT_DROP_ID = 1004;
+    @Setter
     boolean select = false;
 
     AEConfigSlotWidget(Position pos, Size size, ConfigWidget widget, int index) {
@@ -90,10 +92,6 @@ public class AEConfigSlotWidget extends Widget implements IIngredientSlot {
         if (stack == null || stack.amount() < 0) return true;
         if (!parentWidget.isStocking()) return true;
         return !parentWidget.hasStackInConfig(stack);
-    }
-
-    public void setSelect(final boolean select) {
-        this.select = select;
     }
 
     public Object getXEIIngredientOverMouse(double mouseX, double mouseY) {

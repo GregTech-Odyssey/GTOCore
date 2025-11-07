@@ -47,12 +47,10 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
     public void onLoad() {
         super.onLoad();
         tickableSubscription = this.subscribeServerTick(tickableSubscription, () -> {
-            if (this.getOffsetTimer() % 10 == 0) {
-                this.syncInfoFromServer();
-                this.getSyncStorage().markAllDirty();
-                this.requestSync();
-            }
-        });
+            this.syncInfoFromServer();
+            this.getSyncStorage().markAllDirty();
+            this.requestSync();
+        }, 10);
     }
 
     @Override

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gtocore:block/variant/improved_superconductor_coil"
+    },
+    "active=true": {
+      "model": "gtocore:block/variant/improved_superconductor_coil_active"
+    }
+  }
+}

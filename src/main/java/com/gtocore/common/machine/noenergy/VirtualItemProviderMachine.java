@@ -1,12 +1,10 @@
 package com.gtocore.common.machine.noenergy;
 
-import com.gtocore.common.network.ClientMessage;
-
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
-import com.gtolib.utils.GTOUtils;
+import com.gtolib.utils.SortUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -121,7 +119,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
 
         modularUI.widget(new ButtonWidget(176 - 15, 3, 14, 14,
                 new ResourceTexture(GTOCore.id("textures/gui/sort.png")),
-                (press) -> ClientMessage.send("sortInventory", GTOUtils.noopConsumer())));
+                (press) -> SortUtils.sort()));
         int x = 0;
         int y = 0;
         for (int slot = 0; slot < 288; slot++) {

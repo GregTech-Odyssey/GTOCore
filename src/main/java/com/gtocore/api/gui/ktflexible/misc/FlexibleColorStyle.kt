@@ -1,4 +1,4 @@
-package com.gtocore.api.gui.ktflexible
+package com.gtocore.api.gui.ktflexible.misc
 
 sealed class FlexibleColorStyle {
     abstract val color: Int

@@ -1,14 +1,17 @@
 package com.gtocore.mixin.ae2.crafting;
 
 import com.gtolib.api.ae2.crafting.OptimizedCalculation;
-import com.gtolib.api.machine.impl.CraftingInterfacePartMachine;
+import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
-import appeng.api.networking.crafting.*;
+import appeng.api.networking.crafting.CalculationStrategy;
+import appeng.api.networking.crafting.ICraftingLink;
+import appeng.api.networking.crafting.ICraftingPlan;
+import appeng.api.networking.crafting.ICraftingSimulationRequester;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.blockentity.crafting.CraftingBlockEntity;

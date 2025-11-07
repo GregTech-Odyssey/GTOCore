@@ -87,7 +87,11 @@ object GTOOrganItems {
     // ////////////////////////////////
     // ****** 编辑器 ******//
     // //////////////////////////////
-    val ORGAN_MODIFIER = item("organ_modifier", "器官修改器", { properties -> ComponentItem.create(properties.stacksTo(1).setNoRepair()) })
+    val ORGAN_MODIFIER = item("organ_modifier", "器官修改器") { properties ->
+        ComponentItem.create(
+            properties.stacksTo(1).setNoRepair(),
+        )
+    }
         .lang("Organ Modifier")
         .model { ctx, prov -> prov.generated(ctx, GTOCore.id("item/organ/item/visceral_editor")) }
         .onRegister(attach(OrganModifierBehaviour()))
@@ -100,7 +104,7 @@ object GTOOrganItems {
 private fun registerTierOrganItem() {
     (0..4).forEach { tier ->
         TierOrganTypes.forEach { organType ->
-            val itemEntries = GTOOrganItems.TierOrganMap.computeIfAbsent(organType, { mutableListOf() })
+            val itemEntries = GTOOrganItems.TierOrganMap.computeIfAbsent(organType) { mutableListOf() }
             val itemEntry = OrganItemBase.registerOrganItem(
                 id = "tier_${tier}_${organType.key}", // e.g. "tier_1_eye"
                 organType = organType,

@@ -3,8 +3,6 @@ package com.gtocore.common.saved;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.data.Galaxy;
 
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -13,17 +11,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
-import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gtolib.api.GTOValues.*;
 
+@Getter
 public final class DysonSphereSavaedData extends SavedData {
 
-    private final Object2IntOpenHashMap<Galaxy> dysonLaunchData;
-    private final Object2IntOpenHashMap<Galaxy> dysonDamageData;
-    private final Object2BooleanOpenHashMap<Galaxy> dysonUse;
+    private final Reference2IntOpenHashMap<Galaxy> dysonLaunchData;
+    private final Reference2IntOpenHashMap<Galaxy> dysonDamageData;
+    private final Reference2BooleanOpenHashMap<Galaxy> dysonUse;
 
     public static boolean getDimensionUse(ResourceKey<Level> dim) {
         Galaxy galaxy = GTODimensions.getGalaxy(dim.location());
@@ -61,9 +61,9 @@ public final class DysonSphereSavaedData extends SavedData {
     public static DysonSphereSavaedData INSTANCE = new DysonSphereSavaedData();
 
     public DysonSphereSavaedData() {
-        dysonDamageData = new O2IOpenCacheHashMap<>();
-        dysonLaunchData = new O2IOpenCacheHashMap<>();
-        dysonUse = new Object2BooleanOpenHashMap<>();
+        dysonDamageData = new Reference2IntOpenHashMap<>();
+        dysonLaunchData = new Reference2IntOpenHashMap<>();
+        dysonUse = new Reference2BooleanOpenHashMap<>();
     }
 
     public DysonSphereSavaedData(CompoundTag compoundTag) {
@@ -91,17 +91,5 @@ public final class DysonSphereSavaedData extends SavedData {
         });
         compoundTag.put(DYSON_LIST, listTag);
         return compoundTag;
-    }
-
-    public Object2IntOpenHashMap<Galaxy> getDysonLaunchData() {
-        return this.dysonLaunchData;
-    }
-
-    public Object2IntOpenHashMap<Galaxy> getDysonDamageData() {
-        return this.dysonDamageData;
-    }
-
-    public Object2BooleanOpenHashMap<Galaxy> getDysonUse() {
-        return this.dysonUse;
     }
 }

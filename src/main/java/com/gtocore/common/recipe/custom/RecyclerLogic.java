@@ -13,13 +13,12 @@ import com.gtolib.utils.MathUtil;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
 public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
@@ -30,13 +29,15 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
             RecipeBuilder builder = parallelMultiblockMachine.getRecipeBuilder().EUt(480);
             int parallel = MathUtil.saturatedCast(MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0]);
             builder.duration(20 * parallel).inputItems(GTOItems.SCRAP_BOX.asStack(parallel));
-            Object2IntMap<Item> map = new O2IOpenCacheHashMap<>();
-            for (int i = 0; i < parallel; i++) {
-                ItemStack stack = ItemMap.getScrapItem();
-                if (map.containsKey(stack.getItem())) {
-                    map.put(stack.getItem(), map.getInt(stack.getItem()) + 1);
-                } else {
-                    map.put(stack.getItem(), 1);
+            Reference2IntOpenHashMap<Item> map = new Reference2IntOpenHashMap<>();
+            int cycle = Math.min(64, parallel);
+            int multiplier = Math.max(1, parallel / cycle);
+            for (int i = 0; i < cycle; i++) {
+                map.addTo(ItemMap.getScrapItem(), multiplier);
+            }
+            if (multiplier > 1) {
+                for (int i = 0, remainder = parallel % cycle; i < remainder; i++) {
+                    map.addTo(ItemMap.getScrapItem(), 1);
                 }
             }
             map.forEach(builder::outputItems);

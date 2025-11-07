@@ -5,7 +5,6 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import dev.toma.configuration.Configuration;
@@ -18,6 +17,7 @@ import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 
 @DataGeneratorScanned
 @Config(id = GTOCore.MOD_ID, group = GTOCore.MOD_ID)
+@SuppressWarnings("unused")
 public final class GTOConfig {
 
     @RegisterLanguage(en = "GTO Core Config", cn = "GTO Core 配置")
@@ -34,7 +34,6 @@ public final class GTOConfig {
         if (INSTANCE.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
         int difficulty = INSTANCE.difficulty.ordinal() + 1;
         GTOCore.difficulty = difficulty;
-        RecipeLogic.SEARCH_MAX_INTERVAL = GTOConfig.INSTANCE.recipeSearchMaxInterval;
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.harderRods = difficulty == 3;
@@ -183,17 +182,27 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff Of Travelling Pattern Nodes", cn = "旅行权杖样板节点")
     public boolean staffOfTravellingPatternNodes = true;
 
+    @Configurable
+    @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，EMI 的作弊交互功能将转为试图从现有的ME终端/无线终端中提取物品", "When enabled, and EMI cheats are not enabled, EMI's cheat interaction feature will attempt to extract items from existing ME Terminals/Wireless Terminals" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Non-Cheat EMI Interaction", cn = "非作弊时EMI交互")
+    public boolean nonCheatEmiInteraction = true;
+
+    @Configurable
+    @Configurable.Comment({ "启用后，选取方块时，若AE终端没有相关物品，但相关物品可合成，则自动触发合成请求", "When enabled, when picking a block, if the AE terminal does not have the relevant item but it can be crafted, an automatic crafting request is triggered" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Auto Craft on Pick Block", cn = "选取方块自动合成")
+    public boolean pickCraft = true;
+
+    @Configurable
+    @Configurable.Comment({ "选取方块时，自动触发的最大合成任务数", "The maximum number of crafting tasks automatically triggered when picking a block" })
+    @Configurable.Range(min = 1, max = 100)
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Pick Block Craft Max Tasks", cn = "选取方块合成最大任务数")
+    public int pickCraftMaxTasks = 3;
+
     // 性能优化设置
     @Configurable
     @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
     public boolean fastMultiBlockPage = true;
-
-    @Configurable
-    @Configurable.Comment({ "机器查找配方最大间隔（tick）", "Maximum interval for machines to search for recipes (ticks)" })
-    @Configurable.Range(min = 5, max = 200)
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Recipe Search Max Interval", cn = "配方搜索最大间隔")
-    public int recipeSearchMaxInterval = 20;
 
     @Configurable
     @Configurable.Comment({ "批处理模式的最大持续时间（tick）", "Maximum duration of batch processing mode (ticks)" })
@@ -220,7 +229,10 @@ public final class GTOConfig {
     public boolean emiGlobalFavorites = true;
 
     @Configurable
-    @Configurable.Comment({ "禁用爆弹物品的使用", "Disable the use of Charge Bomb items" })
+    @Configurable.Comment({ "禁用爆弹物品的使用",
+            "警告：爆弹会造成极大范围的破坏！如果你不想爆弹破坏重要的东西，请确保提前备份存档。",
+            "Disable the use of Charge Bomb items",
+            "Warning: Charge Bombs can cause massive destruction! If you don't want Charge Bombs to destroy important things, make sure to back up your save in advance." })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
     public boolean disableChargeBomb = false;
 

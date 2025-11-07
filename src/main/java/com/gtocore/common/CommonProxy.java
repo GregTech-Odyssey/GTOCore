@@ -2,6 +2,7 @@ package com.gtocore.common;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.client.KeyMessage;
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOItemTooltips;
@@ -18,6 +19,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.IItem;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Wireless;
+import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.registries.ScanningClass;
@@ -89,7 +91,6 @@ public class CommonProxy {
         GTOCreativeModeTabs.init();
         ScanningClass.init();
         GTOEntityTypes.init();
-        GTONet.init();
     }
 
     private static void modConstruct(FMLConstructModEvent event) {
@@ -130,6 +131,8 @@ public class CommonProxy {
             Supplier<Component>[] tooltips = new Supplier[] { () -> Component.translatable(GTOTagPrefix.PIPE_TOOLTIP) };
             GTMaterialBlocks.ITEM_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
+        } else {
+            KeyMessage.init();
         }
         GTOItemTooltips.INSTANCE.initLanguage();
     }
@@ -169,6 +172,7 @@ public class CommonProxy {
         if (event.getRegistryKey() == Registries.MENU) {
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1").toString(), Me2in1Menu.TYPE);
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1wireless").toString(), Wireless.TYPE);
+            Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("category_mapping_sub_menu").toString(), CategoryMappingSubMenu.TYPE);
         }
     }
 }

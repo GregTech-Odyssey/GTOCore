@@ -33,7 +33,10 @@ import com.gtolib.api.machine.impl.DrillingControlCenterMachine;
 import com.gtolib.api.machine.impl.DroneControlCenterMachine;
 import com.gtolib.api.machine.impl.MECPUMachine;
 import com.gtolib.api.machine.impl.WirelessChargerMachine;
-import com.gtolib.api.machine.multiblock.*;
+import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
+import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gtolib.api.machine.multiblock.TierCasingCrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
@@ -237,6 +240,7 @@ public final class MultiBlockG {
                     .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('C', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(blocks(GTOMachines.MACHINE_ACCESS_LINK.getBlock()).setMaxGlobalLimited(1, 0))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))

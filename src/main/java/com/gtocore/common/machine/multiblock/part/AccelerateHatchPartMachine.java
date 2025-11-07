@@ -5,6 +5,7 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -28,8 +29,8 @@ public final class AccelerateHatchPartMachine extends AmountConfigurationHatchPa
     }
 
     @Override
-    public GTRecipe modifyRecipe(GTRecipe recipe) {
-        if (isFormed() && getControllers().first() instanceof WorkableElectricMultiblockMachine machine) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
+        if (controller instanceof WorkableElectricMultiblockMachine machine) {
             int reduction = (int) getCurrent();
             int t = machine.getTier() - getTier();
             if (t > 0) {

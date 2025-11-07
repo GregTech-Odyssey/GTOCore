@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/vacuum_chamber_observation_glass"
+    }
+  }
+}

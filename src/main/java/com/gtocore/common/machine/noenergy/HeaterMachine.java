@@ -60,13 +60,12 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
         super.onLoad();
         if (!isRemote()) {
             tickSubs = subscribeServerTick(tickSubs, () -> {
-                if (self().getOffsetTimer() % 20 != 0) return;
                 Level level = getLevel();
                 if (level == null) return;
                 tickUpdate();
                 this.requestSync();
                 setEnabled(level.getBlockState(getPos().relative(getFrontFacing())).isAir());
-            });
+            }, 20);
         }
     }
 

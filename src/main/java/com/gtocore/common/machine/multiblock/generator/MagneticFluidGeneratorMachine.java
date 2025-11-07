@@ -1,8 +1,7 @@
 package com.gtocore.common.machine.multiblock.generator;
 
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
-
 import com.gtolib.api.GTOValues;
+import com.gtolib.api.machine.impl.part.WirelessEnergyHatchPartMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;

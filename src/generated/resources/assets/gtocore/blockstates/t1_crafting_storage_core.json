@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/t1_crafting_storage_core"
+    }
+  }
+}

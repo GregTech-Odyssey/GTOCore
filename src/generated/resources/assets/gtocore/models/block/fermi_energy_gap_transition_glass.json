@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/casings/fermi_energy_gap_transition_glass"
+  }
+}

@@ -9,26 +9,29 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEnhancedRecipeLogic, IFluidDrillLogic {
 
     private static final int MAX_PROGRESS = 20;
-    private final Object2IntOpenHashMap<Fluid> veinFluids = new O2IOpenCacheHashMap<>();
+    private final Reference2IntOpenHashMap<Fluid> veinFluids = new Reference2IntOpenHashMap<>();
+    @Setter
+    @Getter
     private int range;
     private DrillingControlCenterMachine cache;
 
@@ -69,7 +72,11 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
     private Recipe getFluidDrillRecipe() {
         if (getMachine().isEmpty() || !getMachine().canRunnable()) return null;
         if (!veinFluids.isEmpty()) {
-            var recipe = gtolib$getRecipeBuilder().duration(MAX_PROGRESS).EUt(20000).outputFluids(veinFluids.object2IntEntrySet().stream().map(entry -> new FluidStack(entry.getKey(), entry.getIntValue())).toArray(FluidStack[]::new)).buildRawRecipe();
+            var builder = gtolib$getRecipeBuilder().duration(MAX_PROGRESS).EUt(20000);
+            veinFluids.reference2IntEntrySet().fastForEach(e -> {
+                builder.outputFluids(e.getKey(), e.getIntValue());
+            });
+            var recipe = builder.buildRawRecipe();
             recipe.modifier(new ContentModifier(getParallel() * efficiency(getMachine().getRate() * 500), 0), true);
             RecipeModifierFunction.overclocking(getMachine(), recipe);
             if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
@@ -136,7 +143,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
     }
 
     @NotNull
-    public Object2IntOpenHashMap<Fluid> getVeinFluids() {
+    public Reference2IntOpenHashMap<Fluid> getVeinFluids() {
         return veinFluids;
     }
 
@@ -144,7 +151,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
     public void onRecipeFinish() {
         machine.afterWorking();
         if (lastRecipe != null) {
-            RecipeRunner.handleRecipeOutput(machine, (Recipe) lastRecipe);
+            handleRecipeIO(lastRecipe, IO.OUT);
         }
         // try it again
         var match = getFluidDrillRecipe();
@@ -165,14 +172,6 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
 
     private int getChunkZ() {
         return SectionPos.blockToSectionCoord(getMachine().getPos().getZ());
-    }
-
-    public void setRange(final int range) {
-        this.range = range;
-    }
-
-    public int getRange() {
-        return this.range;
     }
 
     @Override

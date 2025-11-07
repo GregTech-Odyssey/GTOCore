@@ -48,7 +48,7 @@ public final class RecipeFilter {
 
         List<Predicate<ResourceLocation>> filters = new ObjectArrayList<>();
         addFilter(filters);
-        Predicate<ResourceLocation> filter = filters.get(0);
+        Predicate<ResourceLocation> filter = filters.getFirst();
         for (int i = 1; i < filters.size(); i++) {
             filter = filter.or(filters.get(i));
         }
@@ -67,6 +67,7 @@ public final class RecipeFilter {
 
     private static void initModFilter(Set<String> filters) {
         filters.add("itemfilters");
+        filters.add("avaritia");
     }
 
     private static void initIdFilter(Set<ResourceLocation> filters) {
@@ -178,8 +179,8 @@ public final class RecipeFilter {
         filters.add(RLUtils.bot("conversions/manasteel_from_nuggets"));
         filters.add(RLUtils.bot("conversions/manasteel_to_nuggets"));
         filters.add(RLUtils.bot("conversions/terrasteel_block_deconstruct"));
-        filters.add(RLUtils.bot("conversions/terrasteel_from_nuggets"));
-        filters.add(RLUtils.bot("conversions/terrasteel_to_nuggets"));
+        filters.add(RLUtils.bot("conversions/terrasteel_from_nugget"));
+        filters.add(RLUtils.bot("conversions/terrasteel_to_nugget"));
         filters.add(RLUtils.bot("conversions/elementium_block_deconstruct"));
         filters.add(RLUtils.bot("conversions/elementium_from_nuggets"));
         filters.add(RLUtils.bot("conversions/elementium_to_nuggets"));
@@ -341,22 +342,12 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("diamond_lattice_block"));
         filters.add(RLUtils.mc("diamond_lattice"));
 
-        filters.add(RLUtils.avaritia("eternal_singularity"));
-        filters.add(RLUtils.avaritia("enhancement_core"));
-        filters.add(RLUtils.avaritia("infinity_catalyst"));
-        filters.add(RLUtils.avaritia("crystal_matrix_ingot"));
-        filters.add(RLUtils.avaritia("diamond_lattice"));
-        filters.add(RLUtils.avaritia("botania_mana_tablet"));
-        filters.add(RLUtils.avaritia("eio_creative_power"));
-        filters.add(RLUtils.avaritia("botania_creative_pool"));
-        filters.add(RLUtils.avaritia("compressed_chest"));
-        filters.add(RLUtils.avaritia("infinity_catalyst_eternal"));
-        filters.add(RLUtils.avaritia("ae2_creative_energy_cell"));
+        // avaritia
         filters.add(RLUtils.mc("dragon_egg"));
         filters.add(RLUtils.mc("crying_obsidian"));
         filters.add(RLUtils.mc("echo_shard"));
         filters.add(RLUtils.mc("dragon_breath"));
-        filters.add(RLUtils.mc("end_portal_frame"));
+        filters.add(RLUtils.mc("reinforced_deepslate"));
 
         filters.add(RLUtils.ad("refining/fuel_from_refining_oil"));
         filters.add(RLUtils.ad("oxygen_loading/oxygen_from_oxygen_loading_oxygen"));
@@ -444,16 +435,17 @@ public final class RecipeFilter {
         filters.add(RLUtils.eio("pulsating_crystal"));
         filters.add(RLUtils.eio("vibrant_crystal"));
         filters.add(RLUtils.eio("stick"));
-        filters.add(RLUtils.eio("sag_milling/ender_crystal"));
-        filters.add(RLUtils.eio("sag_milling/precient_crystal"));
-        filters.add(RLUtils.eio("sag_milling/pulsating_crystal"));
-        filters.add(RLUtils.eio("sag_milling/vibrant_crystal"));
-        filters.add(RLUtils.eio("sag_milling/soularium"));
         filters.add(RLUtils.eio("alloy_smelting/energetic_alloy_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/vibrant_alloy_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/dark_steel_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/end_steel_ingot"));
-        filters.add(RLUtils.eio("sag_milling/ender_pearl"));
+        for (String eio : new String[] {
+                "coal", "blaze_powder", "quartz", "glass", "bone", "ender_pearl",
+                "ender_crystal", "precient_crystal", "pulsating_crystal", "vibrant_crystal",
+                "obsidian", "soularium"
+        }) {
+            filters.add(RLUtils.eio("sag_milling/" + eio));
+        }
 
         if (!GTOCore.isEasy()) {
             filters.add(RLUtils.eio("copper_alloy_block"));
@@ -531,8 +523,7 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "black_tea_leaves_sack"));
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "coffee_beans_sack"));
 
-        filters.add(RLUtils.fromNamespaceAndPath("avaritia", "neutron_gear"));
-        if (Mods.biomeswevegone()) {
+        if (Mods.BIOMESWEVEGONE.isLoaded()) {
             DyeRecipes.BWG.forEach((k, v) -> {
                 filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_dye_tag"));
                 if (v) filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_2_dye_tag"));

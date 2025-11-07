@@ -35,7 +35,6 @@ import java.util.List;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.lens;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
-import static com.gregtechceu.gtceu.common.data.GTMachines.HULL;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Diamond;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.PUMP;
@@ -489,7 +488,7 @@ final class HatchRecipe {
                     MaterialEntry cable = (MaterialEntry) CABLE_OCT.get(tier);
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "16384_i")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                             .inputItems(lensDiamond, 8)
                             .inputItems(sensor, 8)
                             .inputItems(pump, 8)
@@ -501,7 +500,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "65536_i")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                             .inputItems(lensDiamond, 16)
                             .inputItems(sensor, 16)
                             .inputItems(pump, 16)
@@ -513,7 +512,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "262144_i")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                             .inputItems(lensDiamond, 32)
                             .inputItems(sensor, 32)
                             .inputItems(pump, 32)
@@ -525,7 +524,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "1048576_i")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                             .inputItems(lensDiamond, 64)
                             .inputItems(sensor, 64)
                             .inputItems(pump, 64)
@@ -537,7 +536,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "4194304_i")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                             .inputItems(lensDiamond, 128)
                             .inputItems(sensor, 128)
                             .inputItems(pump, 128)
@@ -549,7 +548,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "16777216_i")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_INPUT_HATCH[tier])
                             .inputItems(lensDiamond, 256)
                             .inputItems(sensor, 256)
                             .inputItems(pump, 256)
@@ -561,7 +560,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "16384_o")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                             .inputItems(lensDiamond, 8)
                             .inputItems(emitter, 8)
                             .inputItems(pump, 8)
@@ -573,7 +572,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "65536_o")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                             .inputItems(lensDiamond, 16)
                             .inputItems(emitter, 16)
                             .inputItems(pump, 16)
@@ -585,7 +584,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "262144_o")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                             .inputItems(lensDiamond, 32)
                             .inputItems(emitter, 32)
                             .inputItems(pump, 32)
@@ -597,7 +596,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "1048576_o")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                             .inputItems(lensDiamond, 64)
                             .inputItems(emitter, 64)
                             .inputItems(pump, 64)
@@ -609,7 +608,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "4194304_o")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                             .inputItems(lensDiamond, 128)
                             .inputItems(emitter, 128)
                             .inputItems(pump, 128)
@@ -621,7 +620,7 @@ final class HatchRecipe {
                             .save();
 
                     ASSEMBLER_RECIPES.recipeBuilder(tierName + "16777216_o")
-                            .inputItems(HULL[tier])
+                            .inputItems(SUBSTATION_ENERGY_OUTPUT_HATCH[tier])
                             .inputItems(lensDiamond, 256)
                             .inputItems(emitter, 256)
                             .inputItems(pump, 256)

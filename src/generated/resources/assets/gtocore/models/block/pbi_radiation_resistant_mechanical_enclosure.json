@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/pbi_radiation_resistant_mechanical_enclosure"
+  }
+}

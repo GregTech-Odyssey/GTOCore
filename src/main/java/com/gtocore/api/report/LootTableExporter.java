@@ -13,6 +13,8 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedWriter;
@@ -1131,54 +1133,23 @@ public class LootTableExporter {
     /**
      * 内部类：表示战利品表分析结果
      */
+    @Getter
     private static class LootTableAnalysis {
 
+        // getter和setter方法
         private final String name;
+        @Setter
         private String type;
+        @Setter
         private List<String> globalConditions = new ArrayList<>();
+        @Setter
         private List<LootPool> lootPools = new ArrayList<>();
+        @Setter
         private String error;
 
         public LootTableAnalysis(String name) {
             this.name = name;
             this.type = "未知";
-        }
-
-        // getter和setter方法
-        public String getName() {
-            return name;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public List<String> getGlobalConditions() {
-            return globalConditions;
-        }
-
-        public void setGlobalConditions(List<String> globalConditions) {
-            this.globalConditions = globalConditions;
-        }
-
-        public List<LootPool> getLootPools() {
-            return lootPools;
-        }
-
-        public void setLootPools(List<LootPool> lootPools) {
-            this.lootPools = lootPools;
-        }
-
-        public String getError() {
-            return error;
-        }
-
-        public void setError(String error) {
-            this.error = error;
         }
     }
 

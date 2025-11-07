@@ -86,13 +86,20 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
     @Override
     public List<EmiIngredient> getInputs() {
-        return getInputs(i);
+        if (i > 0) {
+            return getInputs(i);
+        }
+        return super.getInputs();
     }
 
     @Override
     public List<EmiStack> getOutputs() {
         if (definition != null) {
-            return List.of(EmiStack.of(OrderItem.setTarget(GTOItems.ORDER.asStack(), definition.asStack())));
+            var stack = definition.asStack();
+            if (i > 0) stack.setHoverName(Component.empty()
+                    .append(stack.getDisplayName()).append(" ")
+                    .append(Component.translatable("gtocore.shape", i)));
+            return List.of(EmiStack.of(OrderItem.setTarget(GTOItems.ORDER.asStack(), stack)));
         }
         return super.getOutputs();
     }

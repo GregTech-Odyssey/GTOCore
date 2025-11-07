@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -25,10 +26,7 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 @MethodsReturnNonnullByDefault
 public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine {
 
-    public SpaceElevatorMachine getSpaceElevatorMachine() {
-        return spaceElevatorMachine;
-    }
-
+    @Getter
     SpaceElevatorMachine spaceElevatorMachine;
 
     private final boolean powerModuleTier;

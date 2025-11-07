@@ -4,7 +4,9 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IExpandedGrid;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.blockentity.IObserved;
 
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 
 import net.minecraft.core.BlockPos;
@@ -40,6 +42,14 @@ public final class AEGridProvider extends CapabilityBlockProvider<IExpandedGrid>
     @Override
     protected IExpandedGrid getCapability(Level level, BlockPos pos, BlockEntity blockEntity, @Nullable Direction side) {
         if (side != null || blockEntity == null) return null;
+        if (blockEntity instanceof IObserved observed) {
+            observed.onObserved();
+        } else {
+            var machine = MetaMachine.getMachine(blockEntity);
+            if (machine != null) {
+                machine.observe();
+            }
+        }
         IInWorldGridNodeHost cap;
         if (blockEntity instanceof IInWorldGridNodeHost host) {
             cap = host;

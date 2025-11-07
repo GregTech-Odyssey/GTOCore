@@ -73,6 +73,9 @@ repositories {
         url "https://maven.enjarai.dev/mirrors"
     }
     maven {
+        url "https://maven.blamejared.com/vazkii/botania/Botania/"
+    }
+    maven {
         url "https://maven.twelveiterations.com/repository/maven-public/"
 
         content {

@@ -24,15 +24,13 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.common.menus.base.PlanetsMenuProvider;
 import earth.terrarium.botarium.common.menu.MenuHooks;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,15 +62,16 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         poss.add(blockPos.offset(-2, 2, -7));
     }
 
+    @Getter
     @DescSynced
     protected double high;
+    @Getter
     @Persisted
     @DescSynced
     protected int spoolCount;
     protected int moduleCount;
     @DescSynced
     final List<BlockPos> poss = new ArrayList<>();
-    private ServerPlayer player;
 
     protected void update(boolean promptly) {
         if (promptly || getOffsetTimer() % 80 == 0) {
@@ -140,14 +139,6 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
-    public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            this.player = serverPlayer;
-        }
-        return super.shouldOpenUI(player, hand, hit);
-    }
-
-    @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         update(false);
@@ -160,7 +151,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         super.attachConfigurators(configuratorPanel);
         attachHighlightConfigurators(configuratorPanel);
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GTOGuiTextures.PLANET_TELEPORT.getSubTexture(0, 0.5, 1, 0.5), GTOGuiTextures.PLANET_TELEPORT.getSubTexture(0, 0, 1, 0.5), getRecipeLogic()::isWorking, (clickData, pressed) -> {
-            if (!clickData.isRemote && getRecipeLogic().isWorking() && player != null) {
+            if (!clickData.isRemote && getRecipeLogic().isWorking() && configuratorPanel.getGui() != null && configuratorPanel.getGui().entityPlayer instanceof ServerPlayer player) {
                 PlanetManagement.unlock(player.getUUID(), GTODimensions.BARNARDA_C);
                 player.addTag("spaceelevatorst");
                 MenuHooks.openMenu(player, new PlanetsMenuProvider());
@@ -188,13 +179,5 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     @Override
     public List<BlockPos> getHighlightPos() {
         return poss;
-    }
-
-    public double getHigh() {
-        return this.high;
-    }
-
-    public int getSpoolCount() {
-        return this.spoolCount;
     }
 }

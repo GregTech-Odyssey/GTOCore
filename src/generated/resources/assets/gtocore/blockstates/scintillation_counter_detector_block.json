@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/scintillation_counter_detector_block"
+    }
+  }
+}

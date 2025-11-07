@@ -7,7 +7,6 @@ import com.gtolib.GTOCore;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 
-import static com.gtocore.data.lang.LangHandler.addCN;
 import static com.gtocore.data.lang.LangHandler.addCNEN;
 
 final class MachineLang {
@@ -131,7 +130,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.accelerate_hatch.tooltip.1", "加速仓的等级低于机器配方等级时加速效果减弱", "Acceleration effect is reduced when the accelerator hatch tier is lower than the machine recipe tier");
         addCNEN("gtocore.machine.recipe.run", "运行%s配方时: ", "When running the % recipe: ");
         addCNEN("gtocore.machine.parallel", "最大并行数: %s", "Maximum number of parallel: %s");
-        addCNEN("gtocore.machine.repeated_recipes", "并行重复配方[%s]", "Parallel repeated recipes [%s]");
         addCNEN("gtocore.machine.cwut_modification", "算力修正系数: %s", "Hashrate correction factor: %s");
         addCNEN("gtocore.machine.tag_filter.tag_config_title", "标签过滤配置", "Tag Filtering Configuration");
         addCNEN("gtocore.machine.tag_filter.tooltip.0", "* 表示通配符 () 表示优先", "* Indicates a wildcard () Indicates Priority");
@@ -222,9 +220,9 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式: 强行添加镶孔", "Working Mode: Forced addition of sockets");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式: 强行镶嵌宝石", "Working Mode: Forced gem inlay");
         addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
-        addCN("gtceu.combined", "仓室模式");
-        addCN("gtocore.compound_extreme_cooling_unit.tooltips.combined", "选择等离子冷凝模式以启用");
+        addCNEN("gtocore.compound_extreme_cooling_unit.tooltips.combined", "选择等离子冷凝模式以启用", "Select plasma condensation mode to enable");
         addCNEN("gtocore.machine.spacestation.ready", "空间站准备： %s%%就绪", "Space Station Readiness: %s%% Ready");
+        addCNEN("gtocore.machine.spacestation.module_count", "连接的舱室模块数量： %s", "Number of Connected Module Hatches: %s");
         addCNEN("gtocore.machine.spacestation.energy_consumption.total", "所有空间站舱室总能量消耗： %s EU/t", "Total Energy Consumption of All Space Station Modules: %s EU/t");
         addCNEN("gtocore.machine.spacestation.require_module", "当前空间站缺少必要的舱室模块： %s", "The current space station is missing the required module: %s");
         addCNEN("gtocore.machine.space_shield_hatch.info", "机器太空护盾：运转正常", "Machine Space Shield: Operating Normally");
@@ -267,7 +265,11 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.rotation", "Y轴旋转: ", "Y-axis rotation: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "[开始]", "[Start]");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中.%s]", "[In Progress.%s]");
-        addCNEN("gtocore.machine.industrial_platform_deployment_tools.export", "[导出]", "[Export]");
+        addCNEN("gtocore.machine.village_trading_station.increase", "使用 %s 提升 1 最大交易次数", "Use %s to increase the maximum number of transactions by 1.");
+        addCNEN("gtocore.machine.village_trading_station.enhance", "使用 %s 升级", "Upgrade using %s");
+        addCNEN("gtocore.machine.village_trading_station.upper_limit", "已达到提升上限", "The upgrade limit has been reached.");
+        addCNEN("gtocore.machine.village_trading_station.replenishment_interval", "补货间隔: %s tick", "Replenishment Interval: %s tick");
+        addCNEN("gtocore.machine.village_trading_station.trading_multiple", "交易倍数: %s", "Trading Multiple: %s");
 
         addSingleMachineTooltips();
 

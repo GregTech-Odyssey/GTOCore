@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.multiblock.steam;
 
-import com.gtocore.common.machine.multiblock.part.LargeSteamHatchPartMachine;
-
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
@@ -30,7 +28,6 @@ import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -96,9 +93,8 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     private static int Engraving_needed_amount = 16;
 
     @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
-        isOC = Arrays.stream(getParts()).anyMatch(LargeSteamHatchPartMachine.class::isInstance);
+    boolean oc() {
+        return true;
     }
 
     @Persisted

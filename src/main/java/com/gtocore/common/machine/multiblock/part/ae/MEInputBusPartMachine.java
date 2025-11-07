@@ -82,8 +82,6 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
     /////////////////////////////////
 
     private void autoIO() {
-        if (!this.shouldSyncME()) return;
-
         if (this.updateMEStatus()) {
             this.syncME();
             this.updateInventorySubscription();
@@ -120,7 +118,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
 
     void updateInventorySubscription() {
         if (isWorkingEnabled() && getOnlineField()) {
-            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
+            autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
             autoIOSubs = null;

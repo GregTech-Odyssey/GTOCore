@@ -8,10 +8,13 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPa
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
 
+import lombok.Getter;
+
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public abstract class ExResearchBasePartMachine extends HPCAComponentPartMachine {
@@ -41,9 +44,5 @@ public abstract class ExResearchBasePartMachine extends HPCAComponentPartMachine
                 break;
             }
         }
-    }
-
-    public int getTier() {
-        return this.tier;
     }
 }

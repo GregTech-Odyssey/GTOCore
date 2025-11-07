@@ -40,7 +40,6 @@ import net.minecraft.world.level.block.Blocks;
 
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
@@ -835,7 +834,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(VACUUM_DRYING_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getMegaVacuumDryingFurnaceTooltips().getSupplier())
-            .parallelizableTooltips()
+            .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTBlocks.HIGH_POWER_CASING)
@@ -859,7 +858,6 @@ public final class MultiBlockB {
                     .where('Q', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('a', blocks(GTBlocks.HIGH_POWER_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())

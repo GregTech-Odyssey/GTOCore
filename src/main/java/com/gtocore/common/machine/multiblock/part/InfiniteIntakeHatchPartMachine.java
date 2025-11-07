@@ -133,7 +133,7 @@ public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
 
     private void updateTankSubscription() {
         if (isWorkingEnabled() && isFrontFaceFree()) {
-            intakeSubs = subscribeServerTick(intakeSubs, this::intake);
+            intakeSubs = subscribeServerTick(intakeSubs, this::intake, 20);
             this.isWorking = true;
         } else {
             unsubscribe();
@@ -141,17 +141,15 @@ public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
     }
 
     private void intake() {
-        if (getOffsetTimer() % 20 == 0) {
-            var fluid = AIR_MAP.get(getLevel().dimension().location());
-            if (fluid == null) {
-                unsubscribe();
-                return;
-            }
-            if (tank.fillInternal(new FluidStack(fluid, 8000), IFluidHandler.FluidAction.EXECUTE) == 0) {
-                unsubscribe();
-            } else {
-                updateTankSubscription();
-            }
+        var fluid = AIR_MAP.get(getLevel().dimension().location());
+        if (fluid == null) {
+            unsubscribe();
+            return;
+        }
+        if (tank.fillInternal(new FluidStack(fluid, 8000), IFluidHandler.FluidAction.EXECUTE) == 0) {
+            unsubscribe();
+        } else {
+            updateTankSubscription();
         }
     }
 

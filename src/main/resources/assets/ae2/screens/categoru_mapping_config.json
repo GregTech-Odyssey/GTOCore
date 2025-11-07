@@ -1,0 +1,65 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json"],
+  "background": {
+    "texture": "elements/list_box.png",
+    "srcRect": [0, 0, 123, 141]
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gtocore.ae.appeng.me2in1.config_mapping"
+      },
+      "position": {
+        "left": 8,
+        "top": 7
+      }
+    }
+  },
+  "widgets": {
+    "scrollbar": {
+      "left": 110,
+      "top": 20,
+      "width": 9,
+      "height": 75
+    },
+    "back": {
+      "left": 94,
+      "top": 110,
+      "width": 20,
+      "height": 20
+    },
+    "resetToDefault": {
+      "right": 20,
+      "top": 140,
+      "width": 20,
+      "height": 20
+    },
+    "addMapping": {
+      "left": 8,
+      "top": 110,
+      "width": 77,
+      "height": 20
+    }
+  },
+  "images": {
+    "listItemButton": {
+      "texture": "elements/list_box.png",
+      "textureWidth": 256,
+      "textureHeight": 256,
+      "srcRect": [128, 0, 98, 24]
+    },
+    "listItemButtonSelecting": {
+      "texture": "elements/list_box.png",
+      "textureWidth": 256,
+      "textureHeight": 256,
+      "srcRect": [128, 24, 98, 24]
+    },
+    "listItemButtonSelected": {
+      "texture": "elements/list_box.png",
+      "textureWidth": 256,
+      "textureHeight": 256,
+      "srcRect": [128, 48, 98, 24]
+    }
+  }
+}

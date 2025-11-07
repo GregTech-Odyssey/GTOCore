@@ -14,9 +14,11 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class BlockBusPartMachine extends TieredIOPartMachine implements IMachineLife {
@@ -54,9 +56,5 @@ public final class BlockBusPartMachine extends TieredIOPartMachine implements IM
     @Override
     public boolean canShared() {
         return false;
-    }
-
-    public NotifiableItemStackHandler getInventory() {
-        return this.inventory;
     }
 }

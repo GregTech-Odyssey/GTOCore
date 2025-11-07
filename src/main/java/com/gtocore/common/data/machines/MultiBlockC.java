@@ -56,7 +56,6 @@ import com.hepdd.gtmthings.data.CustomMachines;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.CALMAP;
@@ -185,7 +184,7 @@ public final class MultiBlockC {
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getMolecularTransformerTooltips().getSupplier())
             .parallelizableTooltips()
-            .laserTooltips()
+            .moduleTooltips(INPUT_LASER, OVERCLOCK_HATCH)
             .recipeTypes(GTORecipeTypes.MOLECULAR_TRANSFORMER_RECIPES)
             .parallelizableOverclock()
             .block(GTBlocks.CASING_PTFE_INERT)
@@ -208,11 +207,44 @@ public final class MultiBlockC {
                     .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                     .where('H', blocks(GTBlocks.CASING_TITANIUM_PIPE.get()))
                     .where('a', blocks(GTBlocks.CASING_PTFE_INERT.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, true)))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTOCore.id("block/multiblock/general1"))
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("   KKKKK FFF   ", "   KLLLK FJF   ", "   KGGGK FJF   ", "   KLLLK FJF   ", "   KKKKK FFF   ", "   EEEEE FFF   ", "   ELLLE FJF   ", "   EGGGE FJF   ", "   ELLLE FJF   ", "   EEEEE FFF   ", "   B   B       ", "   BBBBB       ", "   B   B       ", "   BBBBB       ", "   B           ", "               ", "               ")
+                    .aisle("  EEEEEE FFF   ", "  EE   E GJG   ", "  EE   G GJG   ", "  EE   E GJG   ", "  EEEEEE FFF   ", "  EEEEEE FFF   ", "  EE   E GJG   ", "  EE   G GJG   ", "  EE   E GJG   ", "  EEEEEE FFF   ", "   DDDD        ", "  BB   B       ", "   DDDD        ", "  BBCCCB       ", "    B          ", "               ", "               ")
+                    .aisle(" EEEEEEE FFF   ", " EE H  E GJG   ", " EE H  G GJG   ", " EE H  E GJG   ", " EEEH EE FFF   ", " EEEEEEE FFF   ", " EE H  E GJG   ", " EE H  G GJG   ", " EE H  E GJG   ", " EEEH EE FFF   ", "  DDH D        ", " BB    B       ", "  DDH D        ", " BBCCCCB       ", "    BB         ", "               ", "               ")
+                    .aisle("KEEEEEEE FFF   ", "KE H H E FJF   ", "KE H H G FJF   ", "KE H H E FJF   ", "KEEH HEE FFF   ", "EEEEEEEE FFF   ", "EE H H E FJF   ", "EE H H G FJF   ", "EE H H E FJF   ", "EEEH HEE FFF   ", "BDDH HD        ", "BB     B       ", "BDDH HD        ", "BBCCCCCB       ", "B  BBBB        ", "               ", "               ")
+                    .aisle("KEEEEEEE       ", "L H H EE CCC   ", "G H H EE CCC   ", "L H H EE CCC   ", "KEH HEEE       ", "EEEEEEEE       ", "L H H EE CCC   ", "G H H EE CCC   ", "L H H EE CCC   ", "EEH HEEE       ", " DH HDDB       ", "B H   BB       ", " DH HDDB       ", "BCCCCCBB       ", " BBBB  B       ", "               ", "               ")
+                    .aisle("KEEEEEE        ", "L  H HE ACCCA  ", "G  H HHAACCCAA ", "L  H HE ACCCA  ", "KE HEEE        ", "EEEEEEE        ", "L  H HE ACCCA  ", "G  H HHAACCCAA ", "L  H HE ACCCA  ", "EE HEEE        ", " D HDD         ", "B    BB        ", " D HDD         ", "BCCCCBB        ", "  BB           ", "               ", "               ")
+                    .aisle("KEEEEE         ", "L   EE A     A ", "G   EHAA     AA", "L   EE A     A ", "KEEEEE         ", "EEEEEE         ", "L   EE A     A ", "G   EHAA     AA", "L   EE A     A ", "EEEEEE         ", " DDDD          ", "B   BB         ", " DDDD          ", "BCCCBB         ", "   B           ", "               ", "               ")
+                    .aisle("KEEEE          ", "KEEEE A       A", "KGGGEAA       A", "KEEEE A       A", "KEEEE          ", "EEEEE          ", "EEEEE A       A", "EGGGEAAE      A", "EEEEE A       A", "EEEEE  E       ", "B   B     B    ", "BBBBB   BBBBB  ", "B   B     B    ", "BBBBB   BBBBB  ", "    B     B    ", "        BBBBB  ", "          B    ")
+                    .aisle("               ", "     A         ", "     A         ", "     A         ", "               ", "               ", "     A         ", "     A         ", "     A         ", "               ", "               ", "       BBCCCBB ", "         DDD   ", "       BBCCCBB ", "         DDD   ", "       BB   BB ", "        EEEEE  ")
+                    .aisle("FFFF           ", "FGGFCC         ", "FGGFCC         ", "FGGFCC         ", "FFFF           ", "FFFF           ", "FGGFCC         ", "FGGFCC         ", "FGGFCC         ", "FFFF           ", "               ", "       BCCHCCB ", "        DD DD  ", "       BCCHCCB ", "        DDHDD  ", "       B     B ", "        ECCCE  ")
+                    .aisle("FFFF           ", "MMMMCC         ", "MMMMCC         ", "MMMMCC         ", "FFFF           ", "FFFF           ", "MMMMCC         ", "MMMMCC         ", "MMMMCC         ", "FFFF           ", "       B     B ", "       BCHHHCB ", "       BD H DB ", "       BCHHHCB ", "       BDHHHDB ", "       B  H  B ", "       BECCCEB ")
+                    .aisle("FFFF           ", "FGGFCC         ", "FGGFCC         ", "FGGFCC         ", "FFFF           ", "FFFF           ", "FGGFCC         ", "FGGFCC         ", "FGGFCC         ", "FFFF           ", "               ", "       BCCHCCB ", "        DD DD  ", "       BCCHCCB ", "        DDHDD  ", "       B     B ", "        ECCCE  ")
+                    .aisle("               ", "     A         ", "     A         ", "     A         ", "               ", "               ", "     A         ", "     A         ", "     A         ", "               ", "               ", "       BBCCCBB ", "         DDD   ", "       BBCCCBB ", "         DDD   ", "       BB   BB ", "        EEEEE  ")
+                    .aisle("               ", "      A        ", "     AA        ", "      A        ", "               ", "               ", "      A        ", "     AA        ", "      A        ", "               ", "          B    ", "        BBBBB  ", "          B    ", "        BBBBB  ", "          B    ", "        BBBBB  ", "          B    ")
+                    .aisle("               ", "       A  I    ", "      AA       ", "       A       ", "               ", "               ", "       A       ", "      AA       ", "       A       ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .where('A', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
+                    .where('B', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('D', blocks(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.get()))
+                    .where('E', blocks(GTBlocks.CASING_PTFE_INERT.get()))
+                    .where('F', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))
+                    .where('G', blocks(GTOBlocks.NAQUADAH_BOROSILICATE_GLASS.get()))
+                    .where('H', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
+                    .where('I', controller(blocks(definition.get())))
+                    .where('J', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK2.get()))
+                    .where('K', blocks(GTBlocks.CASING_PTFE_INERT.get())
+                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
+                    .where('L', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('M', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK2.get()))
+                    .where(' ', any())
+                    .build())
             .register();
 
     public static final MultiblockMachineDefinition EXTREME_ELECTRIC_FURNACE = multiblock("extreme_electric_furnace", "极限电炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
@@ -387,7 +419,7 @@ public final class MultiBlockC {
                                     .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                                     .or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
                                     .or(Predicates.abilities(OVERCLOCK_HATCH).setMaxGlobalLimited(1)))
-                            .where('E', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK3.get()))
+                            .where('E', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK2.get()))
                             .where('F', blocks(GTOBlocks.ELECTRIC_POWER_TRANSMISSION_CASING.get()))
                             .where('G', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
                             .where('H', controller(blocks(definition.get())))
@@ -573,7 +605,7 @@ public final class MultiBlockC {
             .register();
 
     public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统",
-            TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+            TierCasingParallelMultiblockMachine.createParallel(m -> 1L << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getPhysicalVaporDepositionTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES)

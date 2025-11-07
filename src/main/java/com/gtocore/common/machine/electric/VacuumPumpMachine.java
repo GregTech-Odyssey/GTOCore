@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,8 +27,10 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     @Persisted
     @DescSynced
     private int vacuumTier;
+    @Getter
     @Persisted
     private int totalEU;
+    @Getter
     private TickableSubscription tickSubs;
 
     public VacuumPumpMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
@@ -38,7 +41,7 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tick);
+            tickSubs = subscribeServerTick(tickSubs, this::tick, 20);
         }
     }
 
@@ -52,7 +55,6 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     }
 
     private void tick() {
-        if (getOffsetTimer() % 20 != 0) return;
         if (getRecipeLogic().isWorking()) {
             if (totalEU < 12000) totalEU += 2 * GTValues.VA[getTier()];
         } else if (totalEU > 0) {
@@ -85,13 +87,5 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     @Override
     public int getVacuumTier() {
         return this.vacuumTier;
-    }
-
-    public int getTotalEU() {
-        return this.totalEU;
-    }
-
-    public TickableSubscription getTickSubs() {
-        return this.tickSubs;
     }
 }

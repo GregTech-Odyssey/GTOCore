@@ -593,7 +593,6 @@ final class GTOPartsRecipeHandler {
         ItemStack stack = ChemicalHelper.get(turbineBlade, material);
         if (stack.isEmpty()) return;
         int mass = (int) material.getMass();
-        // noinspection ConstantConditions
 
         ASSEMBLER_RECIPES.recipeBuilder("assemble_" + material.getName() + "_turbine_blade")
                 .inputItems(stack.copyWithCount(8))

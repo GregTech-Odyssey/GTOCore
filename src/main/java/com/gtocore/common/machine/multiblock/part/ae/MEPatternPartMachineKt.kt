@@ -283,7 +283,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                                                 { Component.empty() },
                                                 BiConsumer { c: MutableComponent?, t: MutableComponent? ->
                                                     c!!.append(
-                                                        if (c.getString().isEmpty()) t else Component.literal("/").append(t),
+                                                        if (c.string.isEmpty()) t else Component.literal("/").append(t),
                                                     )
                                                 },
                                                 { c1: MutableComponent?, c2: MutableComponent? ->

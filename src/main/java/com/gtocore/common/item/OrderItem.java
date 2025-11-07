@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.item.component.ICustomDescriptionId;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -36,12 +37,10 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
     public static final OrderItem INSTANCE = new OrderItem();
 
     private InteractionHand hand;
-    private Player player;
 
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         this.hand = usedHand;
-        this.player = player;
         return IItemUIFactory.super.use(item, level, player, usedHand);
     }
 
@@ -54,6 +53,9 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
         var tag = stack.getOrCreateTag();
         var id = BuiltInRegistries.ITEM.getKey(target.getItem());
         tag.putString("marker_id", id.toString());
+        if (target.hasTag()) {
+            tag.put("marker_nbt", target.getTag().copy());
+        }
         return stack;
     }
 
@@ -63,13 +65,19 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
         if (id.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        return new ItemStack(RegistriesUtils.getItem(RLUtils.parse(id)));
+        CompoundTag nbt = tag.getCompound("marker_nbt");
+        var i = new ItemStack(RegistriesUtils.getItem(RLUtils.parse(id)));
+        if (nbt != null) {
+            i.setTag(nbt.copy());
+        }
+        return i;
     }
 
     public static ItemStack clearTarget(ItemStack stack) {
         if (!stack.hasTag()) return stack;
         var tag = stack.getOrCreateTag();
         tag.remove("marker_id");
+        tag.remove("marker_nbt");
         return stack;
     }
 
@@ -86,7 +94,11 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
     public Widget createMainPage(FancyMachineUIWidget fancyMachineUIWidget) {
         WidgetGroup group = new WidgetGroup(0, 0, 34, 34);
         WidgetGroup container = new WidgetGroup(4, 4, 26, 26);
-        container.addWidget(new PhantomSlotWidget(new ItemHandler(hand, player), 0, 4, 4));
+        Player player = null;
+        if (fancyMachineUIWidget.getGui() != null) {
+            player = fancyMachineUIWidget.getGui().entityPlayer;
+        }
+        if (player != null) container.addWidget(new PhantomSlotWidget(new ItemHandler(hand, player), 0, 4, 4));
         group.addWidget(container);
         return group;
     }

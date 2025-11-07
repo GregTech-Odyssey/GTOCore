@@ -60,7 +60,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
     public void onLoad() {
         super.onLoad();
         if (!isRemote() && io == IO.OUT) {
-            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
+            tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 20);
         }
     }
 
@@ -74,7 +74,6 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
     }
 
     void tickUpdate() {
-        if (getOffsetTimer() % 20 != 0) return;
         BlockPos frontPos = getPos().relative(getFrontFacing());
         Level level = getLevel();
         if (level == null) return;

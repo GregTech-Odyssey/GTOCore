@@ -2,10 +2,10 @@ package com.gtocore.api.machine;
 
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.config.GTOConfig;
+import com.gtocore.data.IdleReason;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
@@ -13,10 +13,13 @@ import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 
 import net.minecraft.world.item.ItemStack;
+
+import org.jetbrains.annotations.NotNull;
 
 public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITieredMachine {
 
@@ -27,14 +30,19 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     }
 
     @Override
-    default GTRecipe modifyRecipe(GTRecipe recipe) {
+    default GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
         return recipe;
     }
 
     @Override
-    default boolean beforeWorking(IWorkableMultiController controller) {
+    default boolean beforeWorking(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
+        var tier = getTier();
+        if (GTOCore.isExpert() && controller instanceof WorkableElectricMultiblockMachine machine && machine.getTier() < tier - 1) {
+            IdleReason.setIdleReason(machine, IdleReason.MUFFLER_NOT_SUPPORTED);
+            return false;
+        }
         if (isMufflerPulseDisabled()) return true;
-        if (GTOCore.isExpert() && controller instanceof ITieredMachine machine && machine.getTier() > getTier() + 1) {
+        if (GTOCore.isExpert() && controller instanceof ITieredMachine machine && machine.getTier() > tier + 1) {
             if (controller.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
                 enhancedRecipeLogic.gtolib$setIdleReason(IdleReason.MUFFLER_INSUFFICIENT.reason());
             }
@@ -95,9 +103,4 @@ public interface IGTOMufflerMachine extends IMufflerMachine, IControllable, ITie
     }
 
     default void gtolib$addMufflerEffect() {}
-
-    @Override
-    default boolean canShared() {
-        return false;
-    }
 }

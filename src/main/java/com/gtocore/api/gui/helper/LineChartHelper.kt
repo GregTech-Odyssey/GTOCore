@@ -195,4 +195,15 @@ object LineChartHelper {
 
         RenderSystem.disableBlend()
     }
+
+    fun drawLineChart(graphics: GuiGraphics, OrDefault: List<Long>, SizeWidth: Int, SizeHeight: Int, color: Int) {
+        drawLineChart(
+            graphics = graphics,
+            data = OrDefault,
+            totalWidth = SizeWidth,
+            totalHeight = SizeHeight,
+            borderColor = color,
+            lineColor = color,
+        )
+    }
 }

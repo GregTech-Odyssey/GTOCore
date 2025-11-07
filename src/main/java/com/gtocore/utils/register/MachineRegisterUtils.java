@@ -9,12 +9,12 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.mana.SimpleWorkManaMachine;
 import com.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
 import com.gtocore.common.machine.multiblock.generator.TurbineMachine;
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.blockentity.ManaMachineBlockEntity;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.machine.impl.part.WirelessEnergyHatchPartMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.api.registries.GTORegistration;

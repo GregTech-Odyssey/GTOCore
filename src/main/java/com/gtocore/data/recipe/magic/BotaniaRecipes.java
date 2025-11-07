@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
@@ -36,7 +35,7 @@ import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
 import io.github.lounode.extrabotany.common.block.flower.ExtrabotanyFlowerBlocks;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import io.github.lounode.extrabotany.common.lib.ExtraBotanyTags;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import vazkii.botania.api.recipe.StateIngredient;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -66,7 +65,23 @@ public final class BotaniaRecipes {
                     .addIngredient(Items.DIAMOND_BLOCK)
                     .addIngredient(BotaniaTags.Items.RUNES)
                     .save();
+
+            RuneRitualRecipeBuilder.builder("mana_crystal_ritual")
+                    .centerRune(Items.DIRT) // 中心符文：魔法符文
+                    .addOuterRune(Items.DIAMOND, 1, 0, true)
+                    .addOuterRune(Items.DIAMOND, 0, 1, true)
+                    .mana(300)
+                    .ticks(200)
+                    .addInput(Items.STONE)
+                    .addInput(Items.COAL)
+                    .addOutput(Items.GLASS)
+                    .addOutput(new ItemStack(Items.GOLD_INGOT, 5))
+                    .save();
         }
+
+        /////////////////////////////////////
+        // *********** 魔法配方 *********** //
+        /////////////////////////////////////
 
         // 白雏菊
         {
@@ -295,6 +310,15 @@ public final class BotaniaRecipes {
             ElfExchangeRecipe("colorful_mystical_flower", new ItemStack(BotaniaItems.fertilizer, 4), new ItemStack(COLORFUL_MYSTICAL_FLOWER, 4));
 
         }
+
+        // 神话植物学 符文支架
+        {
+
+        }
+
+        /////////////////////////////////////
+        // ********** GT机器配方 ********** //
+        /////////////////////////////////////
 
         // 魔力灌注 - 魔力池
         {
@@ -1065,8 +1089,8 @@ public final class BotaniaRecipes {
                                                Item input,
                                                ItemStack output,
                                                Item[] inputs) {
-        Object2IntMap<Item> CountMap = new O2IOpenCacheHashMap<>();
-        for (Item item : inputs) CountMap.mergeInt(item, 1, Integer::sum);
+        Reference2IntOpenHashMap<Item> CountMap = new Reference2IntOpenHashMap<>();
+        for (Item item : inputs) CountMap.addTo(item, 1);
 
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
         build
@@ -1075,7 +1099,7 @@ public final class BotaniaRecipes {
                 .duration(300)
                 .circuitMeta(circuitMeta)
                 .MANAt(mana / 50);
-        for (Object2IntMap.Entry<Item> entry : CountMap.object2IntEntrySet()) build.inputItems(entry.getKey(), entry.getIntValue());
+        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue()));
         build.save();
     }
 
@@ -1086,8 +1110,8 @@ public final class BotaniaRecipes {
                                                Item input,
                                                ItemStack output,
                                                Item[] inputs) {
-        Object2IntMap<Item> CountMap = new O2IOpenCacheHashMap<>();
-        for (Item item : inputs) CountMap.mergeInt(item, 1, Integer::sum);
+        Reference2IntOpenHashMap<Item> CountMap = new Reference2IntOpenHashMap<>();
+        for (Item item : inputs) CountMap.addTo(item, 1);
 
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
         build
@@ -1096,7 +1120,7 @@ public final class BotaniaRecipes {
                 .duration(300)
                 .circuitMeta(circuitMeta)
                 .MANAt(mana / 50);
-        for (Object2IntMap.Entry<Item> entry : CountMap.object2IntEntrySet()) build.inputItems(entry.getKey(), entry.getIntValue() * 4);
+        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 4));
         build.save();
     }
 
@@ -1107,8 +1131,8 @@ public final class BotaniaRecipes {
                                                Item input,
                                                ItemStack output,
                                                Item[] inputs) {
-        Object2IntMap<Item> CountMap = new O2IOpenCacheHashMap<>();
-        for (Item item : inputs) CountMap.mergeInt(item, 1, Integer::sum);
+        Reference2IntOpenHashMap<Item> CountMap = new Reference2IntOpenHashMap<>();
+        for (Item item : inputs) CountMap.addTo(item, 1);
 
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
         build
@@ -1118,7 +1142,7 @@ public final class BotaniaRecipes {
                 .duration(20)
                 .circuitMeta(circuitMeta)
                 .MANAt(32);
-        for (Object2IntMap.Entry<Item> entry : CountMap.object2IntEntrySet()) build.inputItems(entry.getKey(), entry.getIntValue() * 2);
+        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 2));
         build.save();
     }
 

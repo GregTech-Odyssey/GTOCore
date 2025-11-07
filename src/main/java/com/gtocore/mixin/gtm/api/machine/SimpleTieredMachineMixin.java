@@ -78,7 +78,7 @@ public abstract class SimpleTieredMachineMixin extends WorkableTieredMachine imp
     @Inject(method = "onLoad", at = @At("TAIL"), remap = false)
     private void onLoad(CallbackInfo ci) {
         if (!isRemote()) {
-            gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::charge);
+            gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::charge, 20);
         }
     }
 

@@ -57,6 +57,6 @@ public class SatelliteEmiCategory extends EmiRecipeCategory {
     }
 
     private static Content consume(Object ing) {
-        return new Content(ing, 10000, 10000, 0);
+        return new Content(ing, 10000, 0);
     }
 }

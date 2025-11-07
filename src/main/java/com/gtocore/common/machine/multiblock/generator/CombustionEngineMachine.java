@@ -51,7 +51,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
         super(holder);
         this.tier = tier;
         this.tank = new NotifiableFluidTank(this, 1, 128000, IO.IN, IO.NONE);
-        tankSubs = new ConditionalSubscriptionHandler(this, this::intake, () -> isFormed && !isIntakesObstructed());
+        tankSubs = new ConditionalSubscriptionHandler(this, this::intake, 20, () -> isFormed && !isIntakesObstructed());
     }
 
     @Override
@@ -67,15 +67,13 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     }
 
     private void intake() {
-        if (getOffsetTimer() % 20 == 0) {
-            var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(getLevel().dimension().location());
-            if (fluid == null) {
-                tankSubs.unsubscribe();
-                return;
-            }
-            tank.fillInternal(new FluidStack(fluid, (formedCount * 8000) + 8000), IFluidHandler.FluidAction.EXECUTE);
-            tankSubs.updateSubscription();
+        var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(getLevel().dimension().location());
+        if (fluid == null) {
+            tankSubs.unsubscribe();
+            return;
         }
+        tank.fillInternal(new FluidStack(fluid, (formedAmount * 8000) + 8000), IFluidHandler.FluidAction.EXECUTE);
+        tankSubs.updateSubscription();
     }
 
     @Override
@@ -116,8 +114,8 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
     @Override
     public long getOverclockVoltage() {
-        if (isOxygenBoosted) return GTValues.V[tier] << (2 + formedCount);
-        else return GTValues.V[tier] << (1 + formedCount);
+        if (isOxygenBoosted) return GTValues.V[tier] << (2 + formedAmount);
+        else return GTValues.V[tier] << (1 + formedAmount);
     }
 
     @Nullable

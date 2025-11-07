@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/pressure_resistant_housing_mechanical_block"
+    }
+  }
+}

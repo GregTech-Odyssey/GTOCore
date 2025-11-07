@@ -45,6 +45,7 @@ import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,11 @@ final class OreByProductWrapper {
             // GTMachines.MACERATOR[GTValues.LV].asStack(),
             MultiBlockC.STEAM_CRUSHER.asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.CENTRIFUGE[GTValues.LV].asStack(), GTMachines.ORE_WASHER[GTValues.LV].asStack(), GTMachines.THERMAL_CENTRIFUGE[GTValues.LV].asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.MACERATOR[GTValues.LV].asStack(), GTMachines.CENTRIFUGE[GTValues.LV].asStack());
     private final Int2ObjectMap<Content> chances = new Int2ObjectOpenHashMap<>();
+    @Getter
     private final List<ItemEntryList> itemInputs = new ArrayList<>();
+    @Getter
     private final NonNullList<ItemStack> itemOutputs = NonNullList.create();
+    @Getter
     private final List<FluidEntryList> fluidInputs = new ArrayList<>();
     private boolean hasDirectSmelt = false;
     private boolean hasChemBath = false;
@@ -131,12 +135,9 @@ final class OreByProductWrapper {
         if (hasDirectSmelt) {
             ItemStack smeltingResult;
             Material smeltingMaterial = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
-            /*
-             * if (smeltingMaterial.hasProperty(PropertyKey.INGOT)) {
-             * smeltingResult = ChemicalHelper.get(TagPrefix.ingot, smeltingMaterial);
-             * } else
-             */
-            if (smeltingMaterial.hasProperty(PropertyKey.GEM)) {
+            if (smeltingMaterial.hasProperty(PropertyKey.INGOT)) {
+                smeltingResult = ChemicalHelper.get(TagPrefix.ingot, smeltingMaterial);
+            } else if (smeltingMaterial.hasProperty(PropertyKey.GEM)) {
                 smeltingResult = ChemicalHelper.get(TagPrefix.gem, smeltingMaterial);
             } else {
                 smeltingResult = ChemicalHelper.get(TagPrefix.dust, smeltingMaterial);
@@ -303,7 +304,7 @@ final class OreByProductWrapper {
     private void addChance(int base, int tier) {
         // this is solely for the chance overlay and tooltip, neither of which care
         // about the ItemStack
-        chances.put(currentSlot - 1, new Content(ItemStack.EMPTY, base, ContentBuilder.maxChance, tier));
+        chances.put(currentSlot - 1, new Content(ItemStack.EMPTY, base, tier));
     }
 
     // make the code less :weary:
@@ -313,18 +314,6 @@ final class OreByProductWrapper {
         } else {
             addChance(baseLow, tierLow);
         }
-    }
-
-    public List<ItemEntryList> getItemInputs() {
-        return this.itemInputs;
-    }
-
-    public NonNullList<ItemStack> getItemOutputs() {
-        return this.itemOutputs;
-    }
-
-    public List<FluidEntryList> getFluidInputs() {
-        return this.fluidInputs;
     }
 }
 

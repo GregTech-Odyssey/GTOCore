@@ -6,7 +6,8 @@ import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
-import com.gtocore.common.machine.noenergy.PlatformTemplateStorage;
+import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformTemplateStorage;
+import com.gtocore.data.bank.BankLang;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.GTOCore;
@@ -70,6 +71,7 @@ public final class LangHandler {
         ScanningClass.LANG.forEach(LangHandler::addCNEN);
         DynamicInitialData.LANG.forEach(LangHandler::addCNEN);
         TranslationKeyProvider.LANG.forEach(LangHandler::addCNEN);
+        BankLang.LANG.forEach(LangHandler::addCNEN);
         for (var reasons : IdleReason.values()) {
             if (reasons.getEn() == null) continue;
             addCNEN(reasons.getKey(), reasons.getCn(), reasons.getEn());
@@ -136,6 +138,7 @@ public final class LangHandler {
         addCNEN("gtocore.unlocked", "解锁的", "Unlocked");
         addCNEN("gtocore.ununlocked", "未解锁", "Ununlocked");
         addCNEN("gtocore.build", "构建", "Build");
+        addCNEN("gtocore.shape", "形态%s", "Shape %s");
 
         addCNEN("item.gtocore.pattern_modifier_pro.name", "样板修改器 Pro", "Pattern Modifier Pro");
         addCNEN("gtocore.patternModifierPro.0", "设置完成后，潜行右击样板供应器以应用", "After setup,shift + right-click template provider to apply");
@@ -199,10 +202,8 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] 无线交互机器信息", "[GTOCore] Wireless Interactive Machine Info");
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
-        addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
-        addCNEN("config.jade.plugin_gtocore.celestial_energy_provider", "[GTOCore] 天体能量", "[GTOCore] Celestial Energy");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
                 "Hatch types unlocked by installing auxiliary modules : %s");
@@ -315,20 +316,32 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.auto_search", "使用EMI填充配方时，", "When using EMI to fill recipes,");
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.on", "自动填充配方的目录名称到样板搜索栏中", "automatically fills the directory name of the recipe into the pattern search bar");
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.off", "不自动在样板终端中搜索", "does not automatically search in the pattern terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.auto_search.config", "中键点击以配置自定义目录名称搜索映射", "Middle-click to configure custom directory name search mapping");
         addCNEN("gtocore.ae.appeng.me2in1.vanilla_craft_station", "分子装配", "Molecular Assembl");
         addCNEN("gtocore.ae.appeng.me2in1.wireless", "无线2合1终端", "Wireless 2-in-1 Terminal");
         addCNEN("gtocore.ae.appeng.me2in1", "ME2合1终端", "ME 2-in-1 Terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar", "折叠/展开 工具栏", "Collapse/Expand Toolbar");
+        addCNEN("gtocore.ae.appeng.me2in1.collapse_or_expand_toolbar.desc", "折叠或展开显示元件与网络工具槽", "Collapse or expand the display components and network tool slots");
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position", "重置面板位置", "Reset Panel Position");
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position.1", "重置所有面板位置到默认位置", "Reset all panel positions to default");
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern", "点击移除以此为主产物的处理样板至缓冲槽", "Click to remove patterns with this main product to the buffer slot");
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its crafting tree that are not involved in other patterns");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge", "安装纠缠奇点", "Install Quantum Entangled Singularity");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "量子环已内置", "Quantum ring is built-in");
+        addCNEN("gtocore.ae.appeng.me2in1.add_mapping", "添加配方搜索映射", "Add Recipe Search Mapping");
+        addCNEN("gtocore.ae.appeng.me2in1.add_mapping.desc", "单击打开EMI中的配方，然后点击想要自定义映射的目录中配方的\"+\"按钮以添加映射。自定义的配方映射保存于config/me2in1category.json中。", "Click to open the recipe in EMI, then click the \"+\" button of the recipe in the directory you want to customize the mapping for to add the mapping. The custom recipe mappings are saved in config/me2in1category.json.");
+        addCNEN("gtocore.ae.appeng.me2in1.config_mapping", "配置配方搜索映射", "Configure Recipe Search Mapping");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi", "收藏缺失", "Bookmark Missing");
         addCNEN("gtocore.ae.appeng.craft.add_missing_to_emi.desc", "将缺失的物品添加到EMI书签页", "Add missing items to EMI bookmark page");
         addCNEN("gtocore.ae.appeng.craft.missing_start", "缺失合成", "Missing Crafting");
         addCNEN("gtocore.ae.appeng.craft.missing_start.desc", "在材料不足的情况下仍然开始合成，缺失的原料将被等待", "Start crafting even when materials are insufficient, missing ingredients will be waited for");
         addCNEN("gtocore.ae.appeng.craft.used_percent", "已使用 %s%%", "Used %s%%");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.title", "Pick-Craft 错误", "Pick-Craft Error");
+        addCNEN("gtocore.ae.appeng.pick_craft.all_right.title", "Pick-Craft 成功", "Pick-Craft Success");
+        addCNEN("gtocore.ae.appeng.pick_craft.all_right", "已启动合成！", "Crafting started!");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.1", "计算合成路径时发生错误。", "An error occurred while calculating the crafting path.");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
+        addCNEN("gtocore.ae.appeng.pick_craft.error.3", "创建的任务数已达上限。", "The number of created tasks has reached the limit.");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");

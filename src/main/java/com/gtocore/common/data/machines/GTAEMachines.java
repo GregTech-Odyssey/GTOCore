@@ -4,7 +4,7 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.part.ae.*;
 import com.gtocore.common.machine.noenergy.VirtualItemProviderMachine;
 
-import com.gtolib.api.machine.impl.CraftingInterfacePartMachine;
+import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -55,7 +55,6 @@ public final class GTAEMachines {
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/me_pattern_buffer_proxy")))
             .register();
-
     public static final MachineDefinition ME_STORAGE_ACCESS_HATCH = machine("me_storage_access_hatch", "ME存储访问仓", StorageAccessPartMachine::create)
             .langValue("ME Storage Access Hatch")
             .tooltips(GTOMachineTooltips.INSTANCE.getMEStorageAccessHatchTooltips().getSupplier())
@@ -71,6 +70,15 @@ public final class GTAEMachines {
             .allRotation()
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/me_pattern_buffer")))
+            .register();
+
+    public static final MachineDefinition ALGAE_ACCESS_HATCH = machine("algae_access_hatch", "ME藻类访问仓", StorageAccessPartMachine::createAlgae)
+            .langValue("ME Algae Access Hatch")
+            .tier(EV)
+            .allRotation()
+            .tooltipsText("Specially for Algae Farm Machine", "专为大型藻类养殖机器设计")
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(HV, GTCEu.id("block/machine/part/me_pattern_buffer_proxy")))
             .register();
 
     public static final MachineDefinition ME_TAG_FILTER_STOCK_BUS = machine("me_tag_filter_stock_bus", "ME标签过滤库存输入总线", METagFilterStockBusPartMachine::new)

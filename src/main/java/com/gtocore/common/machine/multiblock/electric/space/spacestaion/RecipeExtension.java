@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.data.machines.SpaceMultiblock;
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
 
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.trait.CrossRecipeTrait;
@@ -16,6 +15,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -49,18 +49,9 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
     }
 
     @Override
-    protected final boolean beforeWorking(@Nullable Recipe recipe) {
-        return true;
-    }
-
-    @Override
     public void onPartScan(@NotNull IMultiPart iMultiPart) {
         super.onPartScan(iMultiPart);
         if (hasLaserInput) return;
-        else if (iMultiPart instanceof WirelessEnergyHatchPartMachine) {
-            hasLaserInput = true;
-            return;
-        }
         for (var partAbility : new PartAbility[] {
                 PartAbility.INPUT_LASER, GTOPartAbility.OVERCLOCK_HATCH, GTOPartAbility.THREAD_HATCH }) {
             if (partAbility.isApplicable(iMultiPart.self().getBlockState().getBlock()))
@@ -112,6 +103,12 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
         }
 
         return ICrossRecipeMachine.super.getRealRecipe(recipe);
+    }
+
+    @Override
+    @NotNull
+    public RecipeLogic createRecipeLogic(Object @NotNull... args) {
+        return new Logic(this, this::getRecipe);
     }
 
     @Override

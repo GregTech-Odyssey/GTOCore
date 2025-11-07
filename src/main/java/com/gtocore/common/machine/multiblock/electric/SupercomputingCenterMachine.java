@@ -35,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.common.registry.ModItems;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -69,6 +70,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     private static final Map<Item, Integer> ITEM_INDEX_MAP = Map.of(ChemicalHelper.getItem(block, CascadeMFPC), 0, ChemicalHelper.getItem(block, BasicMFPC), 1, ChemicalHelper.getItem(ingot, CascadeMFPC), 2, ChemicalHelper.getItem(ingot, BasicMFPC), 3, ChemicalHelper.getItem(nugget, CascadeMFPC), 4, ChemicalHelper.getItem(nugget, BasicMFPC), 5, ModItems.ICE_SHARD.get().asItem(), 6);
+    @Setter
     private ThermalConductorHatchPartMachine ThermalConductorHatchPart;
     private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
     @Persisted
@@ -87,7 +89,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     public SupercomputingCenterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, stack -> MAINFRAME.containsKey(stack.getItem()));
-        maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, () -> isFormed);
+        maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, 10, () -> isFormed);
     }
 
     private void clean() {
@@ -237,11 +239,11 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     @Override
     public long requestCWU(long cwu, boolean simulate) {
         if (incompatible) return 0;
-        if (runRecipe != null) {
+        if (runRecipe != null && isFormed) {
             if (simulate) return requestCWUt(true, cwu);
             if (getRecipeLogic().isWorking()) {
                 return requestCWUt(false, cwu);
-            } else if (RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
+            } else if (!getRecipeLogic().isSuspend() && RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
                 getRecipeLogic().setupRecipe(runRecipe);
                 if (getRecipeLogic().isWorking()) {
                     return requestCWUt(false, cwu);
@@ -259,40 +261,38 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private void maxCWUtModificationUpdate() {
         if (isFormed) {
             if (machineTier > 1) {
-                if (getOffsetTimer() % 10 == 0) {
-                    int max = (machineTier == 2) ? 40000 : 160000;
-                    maxCWUtModification -= (int) ((Math.pow(maxCWUtModification - 4000, 2) / 500000) * (0.8 / (Math.log(maxCWUtModification + 600000) - Math.log(10000))));
-                    if ((maxCWUtModification <= max) && (ThermalConductorHatchPart != null)) {
-                        CustomItemStackHandler stackTransfer = ThermalConductorHatchPart.getInventory().storage;
-                        for (int i = 0; i < stackTransfer.getSlots(); i++) {
-                            ItemStack itemStack = stackTransfer.getStackInSlot(i);
-                            Item valueItem = MFPCs.get(itemStack.getItem());
-                            if (valueItem != null) {
-                                int count = itemStack.getCount();
-                                int index = getIndexForItem(itemStack.getItem());
-                                int consumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
-                                stackTransfer.setStackInSlot(i, itemStack.copyWithCount(count - consumption));
-                                maxCWUtModification += N_MFPCs[index] * consumption;
-                                for (int j = 0; j < stackTransfer.getSlots(); j++) {
-                                    if (stackTransfer.getStackInSlot(j).getItem() == valueItem) {
-                                        int count2 = stackTransfer.getStackInSlot(j).getCount();
-                                        if (count2 + consumption <= 64) {
-                                            stackTransfer.setStackInSlot(j, new ItemStack(valueItem, count2 + consumption));
-                                            break;
-                                        }
-                                    }
-                                    if (stackTransfer.getStackInSlot(j).isEmpty()) {
-                                        ItemStack convertedStack = new ItemStack(valueItem, consumption);
-                                        stackTransfer.setStackInSlot(j, convertedStack);
+                int max = (machineTier == 2) ? 40000 : 160000;
+                maxCWUtModification -= (int) ((Math.pow(maxCWUtModification - 4000, 2) / 500000) * (0.8 / (Math.log(maxCWUtModification + 600000) - Math.log(10000))));
+                if ((maxCWUtModification <= max) && (ThermalConductorHatchPart != null)) {
+                    CustomItemStackHandler stackTransfer = ThermalConductorHatchPart.getInventory().storage;
+                    for (int i = 0; i < stackTransfer.getSlots(); i++) {
+                        ItemStack itemStack = stackTransfer.getStackInSlot(i);
+                        Item valueItem = MFPCs.get(itemStack.getItem());
+                        if (valueItem != null) {
+                            int count = itemStack.getCount();
+                            int index = getIndexForItem(itemStack.getItem());
+                            int consumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
+                            stackTransfer.setStackInSlot(i, itemStack.copyWithCount(count - consumption));
+                            maxCWUtModification += N_MFPCs[index] * consumption;
+                            for (int j = 0; j < stackTransfer.getSlots(); j++) {
+                                if (stackTransfer.getStackInSlot(j).getItem() == valueItem) {
+                                    int count2 = stackTransfer.getStackInSlot(j).getCount();
+                                    if (count2 + consumption <= 64) {
+                                        stackTransfer.setStackInSlot(j, new ItemStack(valueItem, count2 + consumption));
                                         break;
                                     }
                                 }
+                                if (stackTransfer.getStackInSlot(j).isEmpty()) {
+                                    ItemStack convertedStack = new ItemStack(valueItem, consumption);
+                                    stackTransfer.setStackInSlot(j, convertedStack);
+                                    break;
+                                }
                             }
-                            if (maxCWUtModification >= max) break;
                         }
+                        if (maxCWUtModification >= max) break;
                     }
-                    if (maxCWUtModification < 8000) maxCWUtModification = 8000;
                 }
+                if (maxCWUtModification < 8000) maxCWUtModification = 8000;
             } else maxCWUtModification = 10000;
         }
         maxCWUtModificationSubs.updateSubscription();
@@ -327,9 +327,5 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(cacheCWUt + " / " + getMaxCWUt()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtocore.machine.cwut_modification", ((double) maxCWUtModification / 10000)).withStyle(ChatFormatting.AQUA));
         textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_coolant_required", Component.literal(coolingAmount + " / " + maxCoolingAmount).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
-    }
-
-    public void setThermalConductorHatchPart(final ThermalConductorHatchPartMachine ThermalConductorHatchPart) {
-        this.ThermalConductorHatchPart = ThermalConductorHatchPart;
     }
 }

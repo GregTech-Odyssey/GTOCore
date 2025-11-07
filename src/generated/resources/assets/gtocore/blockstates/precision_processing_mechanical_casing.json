@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/precision_processing_mechanical_casing"
+    }
+  }
+}

@@ -10,7 +10,10 @@ pluginManagement {
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
-            version("modDevGradleLegacy", "2.0.115")
+            version("modDevGradleLegacy", "2.0.116")
+
+            version("lombok", "8.11")
+
             version("spotless", "8.0.0")
 
             version("jetbrains-annotations", "26.0.2")
@@ -19,6 +22,8 @@ dependencyResolutionManagement {
             version("kotlin-plugin", "2.1.21")
 
             plugin("modDevGradleLegacy", "net.neoforged.moddev.legacyforge").versionRef("modDevGradleLegacy")
+
+            plugin("lombok", "io.freefair.lombok").versionRef("lombok")
 
             plugin("spotless", "com.diffplug.spotless").versionRef("spotless")
 

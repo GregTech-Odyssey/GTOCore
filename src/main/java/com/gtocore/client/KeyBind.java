@@ -1,6 +1,5 @@
 package com.gtocore.client;
 
-import com.gtocore.common.network.ClientMessage;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
@@ -65,7 +64,7 @@ public final class KeyBind {
         public void setDown(boolean isDown) {
             super.setDown(isDown);
             if (type >= 0 && isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
-                ClientMessage.send("key", buf -> buf.writeVarInt(type));
+                KeyMessage.NETWORK_PACK.send(b -> b.writeVarInt(type));
             }
             isDownOld = isDown;
         }

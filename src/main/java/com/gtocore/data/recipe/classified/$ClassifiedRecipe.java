@@ -19,6 +19,7 @@ public final class $ClassifiedRecipe {
         NanoForge.init();
         NanitesIntegratedProcessingCenter.init();
         PetrochemicalPlant.init();
+        PigmentMixing.init();
         UltimateMaterialForge.init();
         GravitationShockburst.init();
         BedrockDrillingRig.init();

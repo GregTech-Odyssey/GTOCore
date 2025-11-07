@@ -26,6 +26,8 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.ElectricStats;
 import com.gregtechceu.gtceu.common.data.GTFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTMedicalConditions;
+import com.gregtechceu.gtceu.common.item.AntidoteBehavior;
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
@@ -38,6 +40,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
@@ -1094,9 +1099,11 @@ public final class GTOItems {
     // FPGA芯片
     public static final ItemEntry<Item> FPGA_CHIP = register("fpga_chip", "FPGA芯片");
 
-    public static final ItemEntry<Item> RED_DYE_MASTERBATCH = register("red_dye_masterbatch", "红色染料色母");
+    public static final ItemEntry<Item> MAGENTA_DYE_MASTERBATCH = register("magenta_dye_masterbatch", "品红色染料色母");
     public static final ItemEntry<Item> YELLOW_DYE_MASTERBATCH = register("yellow_dye_masterbatch", "黄色染料色母");
-    public static final ItemEntry<Item> BLUE_DYE_MASTERBATCH = register("blue_dye_masterbatch", "蓝色染料色母");
+    public static final ItemEntry<Item> CYAN_DYE_MASTERBATCH = register("cyan_dye_masterbatch", "青色染料色母");
+    public static final ItemEntry<Item> BLACK_DYE_MASTERBATCH = register("black_dye_masterbatch", "黑色染料色母");
+    public static final ItemEntry<Item> WHITE_DYE_MASTERBATCH = register("white_dye_masterbatch", "白色染料色母");
 
     public static final ItemEntry<RewardBagItem> LV_REWARD_BAG = registerRewardBag("lv_reward_bag", "lv Reward Bag", "LV 战利品袋", RewardBagLoot.LV_REWARD_BAG_LOOT);
 
@@ -1109,6 +1116,41 @@ public final class GTOItems {
 
     public static final ItemEntry<SlotBoostingItems> SLOT_ENHANCER = item("slot_enhancer", "槽位强化器", SlotBoostingItems::new)
             .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+            .register();
+
+    public static final ItemEntry<ComponentItem> WREATH = item("wreath", "花环", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7昔为安魂之冠，今作疗身之药。§r", "§7Once a crown for the weary soul, now a cure for the ailing whole.§r")
+                    .build().getArray())
+            .properties(p -> p.food(new FoodProperties.Builder()
+                    .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 100, 1), 0.9F)
+                    .effect(() -> new MobEffectInstance(MobEffects.LUCK, 100, 1), 0.2F)
+                    .alwaysEat()
+                    .nutrition(1)
+                    .saturationMod(0.2F)
+                    .alwaysEat()
+                    .fast()
+                    .build()))
+            .onRegister(attach(new AntidoteBehavior(5,
+                    GTMedicalConditions.CHEMICAL_BURNS,
+                    GTMedicalConditions.POISON,
+                    GTMedicalConditions.WEAK_POISON,
+                    GTMedicalConditions.IRRITANT,
+                    GTMedicalConditions.NAUSEA,
+                    GTMedicalConditions.CARCINOGEN,
+                    GTMedicalConditions.ASBESTOSIS,
+                    GTMedicalConditions.ARSENICOSIS,
+                    GTMedicalConditions.SILICOSIS,
+                    GTMedicalConditions.BERYLLIOSIS,
+                    GTMedicalConditions.METHANOL_POISONING,
+                    GTMedicalConditions.CARBON_MONOXIDE_POISONING)))
+            .register();
+
+    public static final ItemEntry<ComponentItem> PALM_SIZED_BANK = item("palm_sized_bank", "泛银河系格雷科技掌上银行", ComponentItem::create)
+            .toolTips(GTOItemTooltips.INSTANCE.getPalmSizedBankTooltips().getArray())
+            .properties(p -> p.stacksTo(1))
+            .lang("Pan-Galactic Grey Technology Palm-Sized Bank")
+            .onRegister(attach(PalmSizedBankBehavior.INSTANCE))
             .register();
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除

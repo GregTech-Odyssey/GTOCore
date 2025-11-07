@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/skill/normal/normal_border",
+    "layer1": "gtocore:item/skill/normal/tier_border",
+    "layer2": "gtocore:item/skill/mysterious_boost_medicine/0_bottle",
+    "layer3": "gtocore:item/skill/mysterious_boost_medicine/1_face",
+    "layer4": "gtocore:item/skill/mysterious_boost_medicine/2_liquid1",
+    "layer5": "gtocore:item/skill/mysterious_boost_medicine/3_liquid2",
+    "layer6": "gtocore:item/skill/mysterious_boost_medicine/4_liquid3",
+    "layer7": "gtocore:item/skill/mysterious_boost_medicine/5_gtologo",
+    "layer8": "gtocore:item/skill/mysterious_boost_medicine/6_gtologobase",
+    "layer9": "gtocore:item/skill/mysterious_boost_medicine/7_straw"
+  }
+}

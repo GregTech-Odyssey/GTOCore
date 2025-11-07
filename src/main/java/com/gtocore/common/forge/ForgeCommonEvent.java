@@ -6,7 +6,6 @@ import com.gtocore.common.data.GTOEffects;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
-import com.gtocore.common.network.ServerMessage;
 import com.gtocore.common.saved.DysonSphereSavaedData;
 import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 import com.gtocore.common.saved.WirelessSavedData;
@@ -264,11 +263,11 @@ public final class ForgeCommonEvent {
             int count = itemStack.getCount();
             if (player.isShiftKeyDown()) {
                 for (int i = 0; i < count; i++) {
-                    level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
+                    level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem().getDefaultInstance()));
                 }
                 player.setItemInHand(event.getHand(), ItemStack.EMPTY);
             } else {
-                level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
+                level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem().getDefaultInstance()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));
             }
         }
@@ -281,13 +280,6 @@ public final class ForgeCommonEvent {
                 player.displayClientMessage(Component.translatable("gtocore.gtm", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
                 player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
                 Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
-            } else {
-                Configurator.setRootLevel(org.apache.logging.log4j.Level.DEBUG);
-            }
-            if (player instanceof IEnhancedPlayer enhancedPlayer) {
-                ServerMessage.send(player.getServer(), player, "loggedIn", buf -> buf.writeUUID(ServerUtils.getServerIdentifier()));
-                enhancedPlayer.getPlayerData().setDrift(enhancedPlayer.getPlayerData().disableDrift);
-                OrganUtilsKt.ktFreshOrganState(enhancedPlayer.getPlayerData());
             }
             // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
         }

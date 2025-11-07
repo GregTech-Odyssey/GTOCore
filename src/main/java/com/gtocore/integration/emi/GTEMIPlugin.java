@@ -9,6 +9,7 @@ import com.gtocore.integration.emi.space.SatelliteEmiCategory;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.UtilsMiscs;
 import com.gtolib.api.ae2.me2in1.Wireless;
+import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -96,7 +97,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         if (GTCEu.isProd()) {
             list.add(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
         }
-        if (Mods.sophisticatedbackpacks()) {
+        if (Mods.SOPHISTICATEDBACKPACKS.isLoaded()) {
             list.add(new EmiPluginContainer(new net.p3pp3rf1y.sophisticatedbackpacks.compat.recipeviewers.emi.BackpackEmiPlugin(), "backpack"));
         }
         list.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Const.MOD_ID));
@@ -115,7 +116,7 @@ public final class GTEMIPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
-        if (Mods.chisel()) ChiselRecipe.register(registry);
+        if (Mods.CHISEL.isLoaded()) ChiselRecipe.register(registry);
 
         registry.addCategory(MultiblockInfoEmiRecipe.CATEGORY);
         registry.addCategory(OreProcessingEmiCategory.CATEGORY);
@@ -129,6 +130,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(ModularUIContainer.MENUTYPE, new GTEmiRecipeHandler());
         registry.addRecipeHandler(Me2in1Menu.TYPE, UtilsMiscs.createEMI2in1());
         registry.addRecipeHandler(Wireless.TYPE, UtilsMiscs.createEMIWireless());
+        registry.addRecipeHandler(CategoryMappingSubMenu.TYPE, new CategoryMappingSubMenu.EmiHandler());
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new GTAe2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new GTAe2PatternTerminalHandler<>());
         registry.addRecipeHandler(WCTMenu.TYPE, new EmiUseCraftingRecipeHandler<>(WCTMenu.class));

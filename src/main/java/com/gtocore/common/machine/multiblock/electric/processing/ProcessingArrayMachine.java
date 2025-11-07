@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.Block;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
 
     private MachineDefinition machineDefinitionCache;
     private GTRecipeType[] RecipeTypeCache;
+    @Getter
     @DescSynced
     @Persisted
     private final NotifiableItemStackHandler inventory;
@@ -146,9 +148,5 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     @Override
     public GTRecipeType[] getRecipeTypeCache() {
         return this.RecipeTypeCache;
-    }
-
-    public NotifiableItemStackHandler getInventory() {
-        return this.inventory;
     }
 }

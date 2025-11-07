@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/cloud_chamber_detector_block"
+    }
+  }
+}

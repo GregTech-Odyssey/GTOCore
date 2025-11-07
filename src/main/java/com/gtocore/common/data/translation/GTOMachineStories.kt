@@ -19,6 +19,21 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 尽量使用**灰色**
     // 类GCYM机器(如大热解/裂化/电弧)不要写
 
+    // 大型藻类养殖中心
+    val LargeAlgaeFarmTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("large_algae_farm")
+        story("AFBL-3000大型藻类养殖中心是GTO集团最新研发的高效藻类生产设备" translatedTo "AFBL-3000 Large Algae Farming Center is GTO Group's latest high-efficiency algae production equipment")
+        story("采用先进的光照和营养液循环系统，能够大幅提升藻类的生长速度和产量" translatedTo "Using advanced lighting and nutrient solution circulation systems, it can significantly enhance algae growth speed and yield")
+        story("适用于各种藻类品种，为生物燃料、食品添加剂和医药原料等领域提供稳定的原材料供应" translatedTo "Suitable for various algae species, providing a stable supply of raw materials for biofuels, food additives, and pharmaceutical ingredients")
+    }
+
+    // 颜料调配机
+    val PigmentMixerTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("pigment_mixer")
+        story("将三种颜色调配成更多的颜色" translatedTo "Mixing three colors into more colors")
+    }
+
+    // 砖窑
     val brickKilnTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("brick_kiln")
         story("古法窑炉，原始工艺" translatedTo "Ancient kiln, primitive craftsmanship")

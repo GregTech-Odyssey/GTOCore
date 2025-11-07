@@ -33,7 +33,7 @@ import static com.gtocore.common.data.GTOItems.SPOOLS_LARGE;
 final class Vanilla {
 
     public static void init() {
-        if (Mods.chisel() || GTCEu.isDev()) {
+        if (Mods.CHISEL.isLoaded() || GTCEu.isDev()) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("automatic_chisel"), OptionalMachine.CARVING_CENTER.asItem(),
                     "ABA",
                     "CDC",
@@ -185,11 +185,6 @@ final class Vanilla {
                 "CDC",
                 "ABA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.Potin), 'C', new MaterialEntry(TagPrefix.rodLong, GTMaterials.TinAlloy), 'D', RegistriesUtils.getItemStack("gtceu:lp_steam_alloy_smelter"));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("advanced_card"), new ItemStack(AEItems.ADVANCED_CARD.asItem(), 2),
-                "AB ",
-                "CDB",
-                "EB ",
-                'A', new MaterialEntry(TagPrefix.wireFine, GTMaterials.RedAlloy), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.StainlessSteel), 'C', new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()), 'D', CustomTags.HV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.wireFine, GTMaterials.Silver));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ev_lightning_rod"), GTOMachines.LIGHTNING_ROD[GTValues.EV].asItem(),
                 "ABA",
                 "BCB",
@@ -390,10 +385,6 @@ final class Vanilla {
                 "CDC",
                 "ABA",
                 'A', GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asItem(), 'B', GTOMachines.CLEANING_CONFIGURATION_MAINTENANCE_HATCH.asItem(), 'C', GTItems.FIELD_GENERATOR_UHV.asItem(), 'D', GTMachines.HULL[GTValues.UHV].asItem());
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wireless_receiver"), new ItemStack(AEItems.WIRELESS_RECEIVER.asItem()),
-                "ABA",
-                "CDC",
-                'A', CustomTags.EV_CIRCUITS, 'B', new ItemStack(AEItems.FLUIX_PEARL.asItem()), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Titanium), 'D', GTItems.SENSOR_HV.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("processing_plant"), MultiBlockD.PROCESSING_PLANT.asItem(),
                 "ABA",
                 "CDE",
@@ -518,11 +509,6 @@ final class Vanilla {
                 " B ",
                 "B  ",
                 'A', GTOItems.COMMAND_BLOCK_CORE.asItem(), 'B', new MaterialEntry(TagPrefix.rod, GTOMaterials.Eternity));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("basic_card"), new ItemStack(AEItems.BASIC_CARD.asItem(), 2),
-                "AB ",
-                "CDB",
-                "EB ",
-                'A', new MaterialEntry(TagPrefix.wireFine, GTMaterials.RedAlloy), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.Aluminium), 'C', new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()), 'D', CustomTags.MV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.wireFine, GTMaterials.Gold));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_piston_hammer"), MultiBlockA.STEAM_PISTON_HAMMER.asItem(),
                 "ABA",
                 "CDC",
@@ -903,7 +889,7 @@ final class Vanilla {
                 "ABA",
                 "BCB",
                 "ABA",
-                'A', RegistriesUtils.getItemStack("gtceu:wood_crate"), 'B', new ItemStack(Items.CHEST.asItem()), 'C', new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem()));
+                'A', RegistriesUtils.getItemStack("gtceu:bronze_crate"), 'B', Items.CHEST.asItem(), 'C', MultiBlockG.MULTIBLOCK_CRATE.asItem());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("structure_detect"), GTOItems.STRUCTURE_DETECT.asItem(),
                 " A ",
                 "ABA",
@@ -949,5 +935,17 @@ final class Vanilla {
                 "CDC",
                 "EDE",
                 'A', new MaterialEntry(GTOTagPrefix.plateDouble, GTOMaterials.StainlessSteel316), 'B', CustomTags.EV_CIRCUITS, 'C', GTItems.ELECTRIC_MOTOR_EV.asStack(), 'D', new MaterialEntry(GTOTagPrefix.plateDouble, GTOMaterials.AluminumAlloy7050), 'E', GTOItems.SPOOLS_MICRO.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("algae_access_hatch"), RegistriesUtils.getItemStack("gtocore:algae_access_hatch"),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', GTOBlocks.BIOACTIVE_MECHANICAL_CASING.asStack(), 'B', new MaterialEntry(GTOTagPrefix.pipeNormalRestrictive, GTMaterials.Americium), 'C', GTItems.ROBOT_ARM_UHV.asStack(), 'D', RegistriesUtils.getItemStack("gtocore:me_storage_access_hatch"), 'E', new MaterialEntry(GTOTagPrefix.pipeLargeFluid, GTOMaterials.Amprosium));
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("pigment_mixer"), RegistriesUtils.getItemStack("gtocore:pigment_mixer"),
+                "ABA",
+                "CDC",
+                "EEE",
+                'A', new MaterialEntry(GTOTagPrefix.pipeQuadrupleFluid, GTOMaterials.GraphiteCopperComposite), 'B', new MaterialEntry(GTOTagPrefix.rotor, GTMaterials.TungstenSteel), 'C', GTItems.FLUID_REGULATOR_IV.asStack(), 'D', GTMachines.MIXER[GTValues.IV].asStack(), 'E', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
     }
 }

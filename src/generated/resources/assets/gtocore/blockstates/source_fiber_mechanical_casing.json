@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/source_fiber_mechanical_casing"
+    }
+  }
+}

@@ -15,7 +15,8 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Molybdenum;
 import static com.gtocore.api.data.tag.GTOTagPrefix.NANO;
-import static com.gtocore.common.data.GTOMaterials.*;
+import static com.gtocore.common.data.GTOMaterials.ClostridiumPasteurianum;
+import static com.gtocore.common.data.GTOMaterials.SodiumMolybdate;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
 
 final class BiochemicaReaction {

@@ -8,7 +8,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+import lombok.Getter;
 
+@Getter
 public final class GTOMaterialIconSet extends MaterialIconSet {
 
     private final ICustomRenderer customRenderer;
@@ -40,8 +42,4 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
 
     // public static final GTOMaterialIconSet TEST_RENDERER = new GTOMaterialIconSet("test_renderer", METALLIC, false,
     // VibrationItemRenderer.INSTANCE);
-
-    public ICustomRenderer getCustomRenderer() {
-        return this.customRenderer;
-    }
 }

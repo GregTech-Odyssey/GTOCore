@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -52,7 +53,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     public AdvancedPrimitiveBlastFurnaceMachine(MetaMachineBlockEntity holder) {
         super(holder, false, m -> (long) ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed || temperature > 298);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, () -> isFormed || temperature > 298);
     }
 
     @Override
@@ -78,7 +79,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     @Override
     public boolean onWorking() {
-        if (getOffsetTimer() % 20 == 0 && getLevel() != null) {
+        if (getOffsetTimer() % 40 == 0 && getLevel() != null) {
             var recipe = getRecipeLogic().getLastRecipe();
             if (recipe != null) {
                 List<Entity> entities = getLevel().getEntitiesOfClass(Entity.class, new AABB(
@@ -89,7 +90,11 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
                         pos.getY() + 8 + height,
                         pos.getZ() + 4));
                 for (Entity entity : entities) {
-                    entity.hurt(GTODamageTypes.getBlastFurnaceDamageSource(entity), recipe.parallels * 10);
+                    if (entity instanceof LivingEntity) {
+                        entity.hurt(GTODamageTypes.getBlastFurnaceDamageSource(entity), recipe.parallels * 5);
+                    } else {
+                        entity.kill();
+                    }
                 }
             }
         }

@@ -7,11 +7,13 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 
 public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements IVacuumMachine {
 
     @Persisted
     private int vacuumTier;
+    @Getter
     private TickableSubscription tickSubs;
 
     public SteamVacuumPumpMachine(MetaMachineBlockEntity holder, boolean isHighPressure, Object... args) {
@@ -22,7 +24,7 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
     public void onLoad() {
         super.onLoad();
         if (!isRemote()) {
-            tickSubs = subscribeServerTick(tickSubs, this::tick);
+            tickSubs = subscribeServerTick(tickSubs, this::tick, 20);
         }
     }
 
@@ -42,7 +44,6 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
     }
 
     private void tick() {
-        if (getOffsetTimer() % 20 != 0) return;
         if (isHighPressure() && getRecipeLogic().getTotalContinuousRunningTime() > 1200) {
             vacuumTier = 2;
         } else if (getRecipeLogic().getTotalContinuousRunningTime() > (isHighPressure() ? 600 : 1200)) {
@@ -55,9 +56,5 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
     @Override
     public int getVacuumTier() {
         return this.vacuumTier;
-    }
-
-    public TickableSubscription getTickSubs() {
-        return this.tickSubs;
     }
 }

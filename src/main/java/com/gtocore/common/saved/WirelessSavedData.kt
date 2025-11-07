@@ -1,8 +1,8 @@
 package com.gtocore.common.saved
 
+import com.gtocore.api.misc.WirelessNetworkTopologyManager
 import com.gtocore.api.misc.codec.CodecAbleTyped
 import com.gtocore.api.misc.codec.CodecAbleTypedCompanion
-import com.gtocore.common.network.WirelessNetworkTopologyManager
 import com.gtocore.config.GTOConfig
 import com.gtocore.integration.ae.WirelessMachine
 
@@ -66,7 +66,7 @@ class WirelessSavedData : SavedData() {
             }
             .toMutableList()
 
-        fun findGridOf(machine: com.gtocore.integration.ae.WirelessMachine): WirelessGrid? = INSTANCE.gridPool.firstOrNull { grid -> grid.connectionPool.any { it == machine } }
+        fun findGridOf(machine: WirelessMachine): WirelessGrid? = INSTANCE.gridPool.firstOrNull { grid -> grid.connectionPool.any { it == machine } }
 
         fun findGridByName(name: String): WirelessGrid? = INSTANCE.gridPool.firstOrNull { it.name == name }
 
@@ -239,7 +239,7 @@ class WirelessGrid(
                 UUIDUtil.CODEC.fieldOf("owner").forGetter { it.owner },
                 Codec.BOOL.fieldOf("isDefault").forGetter { it.isDefault },
                 MachineInfo.getCodec().listOf().fieldOf("connectionPoolTable").forGetter { it.connectionPoolTable.toList() },
-                Codec.STRING.optionalFieldOf("nickname").forGetter { java.util.Optional.ofNullable(it.nickname) },
+                Codec.STRING.optionalFieldOf("nickname").forGetter { Optional.ofNullable(it.nickname) },
             ).apply(b) { name, owner, isDefault, connectionPoolTable, nicknameOpt ->
                 WirelessGrid(name, owner, isDefault, connectionPoolTable.toMutableList(), nicknameOpt.orElse(name))
             }

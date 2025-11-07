@@ -48,6 +48,7 @@ import appeng.me.service.CraftingService;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import it.unimi.dsi.fastutil.objects.*;
+import lombok.Getter;
 
 import java.util.Set;
 import java.util.UUID;
@@ -63,6 +64,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
     private Consumer<AEKey> listener = null;
 
     private final SetMultimap<AEKey, GlobalPos> pendingRequests = Multimaps.newSetMultimap(new Reference2ReferenceOpenHashMap<>(), OpenCacheHashSet::new);
+    @Getter
     private final SetMultimap<AEKey, IPatternProviderLogic.PushResult> craftingResults = Multimaps.newSetMultimap(new Reference2ReferenceOpenHashMap<>(), ReferenceOpenHashSet::new);
 
     private final ListCraftingInventory.ChangeListener changeListener = what -> {
@@ -622,10 +624,6 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
     public Set<GlobalPos> getPendingRequests(AEKey template) {
         return this.pendingRequests.get(template);
-    }
-
-    public SetMultimap<AEKey, IPatternProviderLogic.PushResult> getCraftingResults() {
-        return this.craftingResults;
     }
 
     @Override

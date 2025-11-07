@@ -25,6 +25,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -203,13 +204,24 @@ public final class MagicRecipesA {
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_ender_eye")
-                    .inputItems(RegistriesUtils.getItem("torchmaster:frozen_pearl"))
-                    .chancedInput(new ItemStack(RegistriesUtils.getItem("mythicbotany:muspelheim_rune")), 2000, 0)
-                    .inputFluids(Salamander.getFluid(GAS, 8000))
-                    .chancedOutput(new ItemStack(Items.ENDER_EYE), 3000, 0)
+                    .inputItems("torchmaster:frozen_pearl")
+                    .inputItems("mythicbotany:muspelheim_rune")
+                    .inputFluids(Salamander, GAS, 8000)
+                    .outputItems(Items.ENDER_EYE)
                     .duration(650)
                     .MANAt(1)
                     .temperature(800)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.builder("blaze_rod")
+                    .notConsumable("ars_nouveau:fire_essence")
+                    .inputItems(rod, Wood, 2)
+                    .inputItems(dust, Blaze, 4)
+                    .outputItems(rod, Blaze, 2)
+                    .inputFluids(Salamander, GAS, 5)
+                    .blastFurnaceTemp(400)
+                    .duration(200)
+                    .MANAt(1)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_herbs_ingot")
@@ -1231,9 +1243,17 @@ public final class MagicRecipesA {
                     "   ", " A ", "   ",
                     'A', PHILOSOPHERS_STONE);
 
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wreath"), GTOItems.WREATH.asStack(),
+                    "AAA", "ABA", "AAA",
+                    'A', ItemTags.FLOWERS, 'B', GTOItems.COLORFUL_MYSTICAL_FLOWER.asStack());
+
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("stopgap_measures"), STOPGAP_MEASURES,
                     "BBB", "BAB", "BBB",
                     'A', Items.DIAMOND, 'B', Items.NETHER_STAR);
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("village_trading_station"), GTOMachines.VILLAGE_TRADING_STATION.asStack(),
+                    "ABA", "CDC", "EFE",
+                    'A', RegistriesUtils.getItemStack("easy_villagers:villager"), 'B', new MaterialEntry(foil, GTMaterials.Polytetrafluoroethylene), 'C', new ItemStack(Items.RED_CARPET), 'D', RegistriesUtils.getItemStack("gtceu:chemical_cyan_dye"), 'E', RegistriesUtils.getItemStack("easy_villagers:auto_trader"), 'F', GTOBlocks.INFUSED_GOLD_REINFORCED_WOODEN_CASING.asStack());
         }
 
         // 工具配方

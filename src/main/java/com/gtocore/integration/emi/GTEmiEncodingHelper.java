@@ -7,6 +7,7 @@ import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -70,13 +71,25 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
 
     public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
         if (emiRecipe instanceof MultiblockInfoEmiRecipe recipe) {
-            var stream = emiRecipe.getInputs()
+            var stream = recipe.getInputs(recipe.i)
                     .stream()
+                    .map(s -> {
+                        if (s instanceof ItemEmiStack stack && stack.getKey() instanceof BucketItem bucketItem) {
+                            return EmiStack.of(bucketItem.getFluid(), s.getAmount() * 1000);
+                        }
+                        return s;
+                    })
                     .filter(GTEmiEncodingHelper::isNotHatch)
                     .map(GTEmiEncodingHelper::intoGenericStack);
             if (recipe.i > 0 && recipe.definition.getSubPatternFactory() != null && GTUtil.isCtrlDown()) {
                 stream = Stream.concat(recipe.getInputs(0)
                         .stream()
+                        .map(s -> {
+                            if (s instanceof ItemEmiStack stack && stack.getKey() instanceof BucketItem bucketItem) {
+                                return EmiStack.of(bucketItem.getFluid(), s.getAmount() * 1000);
+                            }
+                            return s;
+                        })
                         .filter(GTEmiEncodingHelper::isNotHatch)
                         .map(GTEmiEncodingHelper::intoGenericStack), stream);
             }

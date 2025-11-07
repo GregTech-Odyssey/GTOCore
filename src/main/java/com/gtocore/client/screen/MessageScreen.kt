@@ -13,7 +13,10 @@ import net.minecraft.util.FormattedCharSequence
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 
+import com.gtocore.client.screen.MessageListScreen as MessageListScreen1
+
 @DataGeneratorScanned
+@Suppress("unused")
 class MessageScreen(private val message: ClientForge.MessageDefinition, private val currentPage: Int, private val totalPages: Int, private val onConfirm: () -> Unit, private val onExpand: (() -> Unit)? = null, private val onMarkAll: (() -> Unit)? = null) : Screen(Component.translatable(title_Key)) {
 
     // Scrolling support
@@ -73,7 +76,6 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         super.init()
 
         // Pre-calculate wrapped lines and total content height
-        val leftMargin = (this.width * 0.2).toInt()
         val contentWidth = (this.width * 0.6).toInt()
         val lineHeight = 12
 
@@ -101,8 +103,8 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         // 右上角消息列表按钮
         val listButton = Button.builder(
             Component.translatable(listIcon_Key),
-        ) { button ->
-            this.minecraft?.setScreen(com.gtocore.client.screen.MessageListScreen())
+        ) { _ ->
+            this.minecraft?.setScreen(MessageListScreen1())
         }.bounds(
             this.width - 30,
             5,
@@ -111,53 +113,53 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         ).build()
         this.addRenderableWidget(listButton)
 
-        // 确认按钮（居中）
-        val confirmButton = Button.builder(
-            Component.translatable(gotit_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)),
-        ) { button ->
-            onConfirm()
-            // 不要关闭screen，让onConfirm回调处理下一条消息的显示
-        }.bounds(
-            this.width / 2 - buttonWidth / 2,
-            startY,
-            buttonWidth,
-            buttonHeight,
-        ).build()
+        // 布局：将可见按钮居中排列，避免重叠
+        val buttonEntries = mutableListOf<Pair<Component, (Button) -> Unit>>()
 
-        this.addRenderableWidget(confirmButton)
-
-        // 如果有展开历史消息的回调，添加展开按钮
+        // 左侧：展开历史（如果存在）
         onExpand?.let { expandCallback ->
-            val expandButton = Button.builder(
-                Component.translatable(showHistorical_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA)),
-            ) { button ->
-                expandCallback()
-                // 不要关闭screen，让回调处理
-            }.bounds(
-                this.width / 2 - buttonWidth - buttonSpacing,
-                startY,
-                buttonWidth,
-                buttonHeight,
-            ).build()
-
-            this.addRenderableWidget(expandButton)
+            val comp = Component.translatable(showHistorical_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA))
+            buttonEntries.add(Pair(comp) { _: Button -> expandCallback() })
         }
 
-        // 如果有标记全部已读的回调，添加标记按钮
-        onMarkAll?.let { markAllCallback ->
-            val markAllButton = Button.builder(
-                Component.translatable(markAll_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)),
-            ) { button ->
-                markAllCallback()
-                this.onClose()
-            }.bounds(
-                this.width / 2 + buttonSpacing,
-                startY,
-                buttonWidth,
-                buttonHeight,
-            ).build()
+        // 中间：确认
+        val confirmComp = Component.translatable(gotit_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN))
+        buttonEntries.add(
+            Pair(confirmComp) { _: Button ->
+                onConfirm()
+                // 不要关闭screen，让onConfirm回调处理下一条消息的显示
+            },
+        )
 
-            this.addRenderableWidget(markAllButton)
+        // 右侧：标记全部已读（如果存在）
+        onMarkAll?.let { markAllCallback ->
+            val comp = Component.translatable(markAll_Key).withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY))
+            buttonEntries.add(
+                Pair(comp) { _: Button ->
+                    markAllCallback()
+                    this.onClose()
+                },
+            )
+        }
+
+        // 计算总宽度并居中放置按钮组
+        val visibleCount = buttonEntries.size
+        if (visibleCount > 0) {
+            val totalGroupWidth = visibleCount * buttonWidth + (visibleCount - 1) * buttonSpacing
+            val centerX = this.width / 2 - totalGroupWidth / 2
+            val minX = 10
+            // 保留右侧空间，避免与右上角的列表按钮重叠（列表按钮大约占据 width-30..width-5）
+            val reservedRight = 40
+            val maxX = (this.width - reservedRight - totalGroupWidth).coerceAtLeast(minX)
+            var x = centerX.coerceIn(minX, maxX)
+
+            buttonEntries.forEach { (comp, action) ->
+                val btn = Button.builder(comp) { b -> action(b) }
+                    .bounds(x, startY, buttonWidth, buttonHeight)
+                    .build()
+                this.addRenderableWidget(btn)
+                x += buttonWidth + buttonSpacing
+            }
         }
     }
 
@@ -226,7 +228,7 @@ class MessageScreen(private val message: ClientForge.MessageDefinition, private 
         guiGraphics.enableScissor(leftMargin - 10, scissorTop, rightMargin + 10, scissorBottom)
 
         // 渲染消息内容（左对齐）并支持滚动
-        wrappedLinesCache.forEach { (msg, wrappedLines) ->
+        wrappedLinesCache.forEach { (_, wrappedLines) ->
             wrappedLines.forEach { line ->
                 // 仅在剪裁区域内可见时渲染
                 if (currentY + lineHeight >= scissorTop && currentY <= scissorBottom) {

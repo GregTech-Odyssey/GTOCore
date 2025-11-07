@@ -3,11 +3,17 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.MultiBlockD;
+import com.gtocore.common.data.machines.MultiBlockG;
 
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import com.enderio.base.common.init.EIOFluids;
+
+import static com.gregtechceu.gtceu.api.GTValues.UHV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.MICROGRAVITY_NANOFABRICATION_RECIPES;
 
 public class MicrogravityNanofabrication {
@@ -66,6 +72,20 @@ public class MicrogravityNanofabrication {
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 288)
                 .EUt(2097100)
                 .duration(300)
+                .save();
+
+        MICROGRAVITY_NANOFABRICATION_RECIPES.builder("large_algae_farm")
+                .inputItems(CustomTags.UHV_CIRCUITS, 8)
+                .inputItems(MultiBlockG.ALGAE_FARM.asItem(), 4)
+                .inputItems(MultiBlockD.INCUBATOR.asItem())
+                .inputItems(GTOItems.SMD_DIODE_OPTICAL.asItem(), 8)
+                .inputItems(GTOItems.SMD_INDUCTOR_OPTICAL.asItem(), 16)
+                .inputItems(GTOTagPrefix.wireFine, GTOMaterials.AbyssalAlloy, 16)
+                .outputItems("gtocore:large_algae_farm")
+                .inputFluids(GTOMaterials.MutatedLivingSolder, 6000)
+                .inputFluids(EIOFluids.DEW_OF_THE_VOID.getSource(), 10000)
+                .EUt(VA[UHV])
+                .duration(200)
                 .save();
     }
 }

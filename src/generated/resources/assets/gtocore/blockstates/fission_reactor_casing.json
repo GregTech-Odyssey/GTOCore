@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/fission_reactor_casing"
+    }
+  }
+}

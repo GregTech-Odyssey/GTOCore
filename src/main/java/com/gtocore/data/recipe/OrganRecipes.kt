@@ -22,7 +22,6 @@ import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
 import com.gtolib.GTOCore
 
-import java.util.function.IntConsumer
 import java.util.function.IntUnaryOperator
 import java.util.stream.IntStream
 
@@ -91,7 +90,7 @@ object OrganRecipes {
             val field_generator = GTCraftingComponents.FIELD_GENERATOR.get(tier - 1) as Item // 超导超了一个阶段
             val circuitTag = GTCraftingComponents.CIRCUIT.get(tier) as TagKey<*>
             // arm leg
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_right_arm_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_right_arm_tier_$tier")
                 .inputItems(motor, scaleOperator.applyAsInt(2))
                 .inputItems(robot_arm, scaleOperator.applyAsInt(4))
                 .inputItems(sensor, scaleOperator.applyAsInt(2))
@@ -103,7 +102,7 @@ object OrganRecipes {
                 .duration(1200)
                 .circuitMeta(1)
                 .save()
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_left_arm_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_left_arm_tier_$tier")
                 .inputItems(motor, scaleOperator.applyAsInt(2))
                 .inputItems(robot_arm, scaleOperator.applyAsInt(4))
                 .inputItems(sensor, scaleOperator.applyAsInt(2))
@@ -115,7 +114,7 @@ object OrganRecipes {
                 .duration(1200)
                 .circuitMeta(2)
                 .save()
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_right_leg_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_right_leg_tier_$tier")
                 .inputItems(motor, scaleOperator.applyAsInt(4))
                 .inputItems(conveyor, scaleOperator.applyAsInt(2))
                 .inputItems(robot_arm, scaleOperator.applyAsInt(2))
@@ -128,7 +127,7 @@ object OrganRecipes {
                 .duration(1200)
                 .circuitMeta(3)
                 .save()
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_left_leg_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_left_leg_tier_$tier")
                 .inputItems(motor, scaleOperator.applyAsInt(4))
                 .inputItems(conveyor, scaleOperator.applyAsInt(2))
                 .inputItems(robot_arm, scaleOperator.applyAsInt(2))
@@ -142,7 +141,7 @@ object OrganRecipes {
                 .circuitMeta(4)
                 .save()
             // heart eyes lungs liver spine
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_heart_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_heart_tier_$tier")
                 .inputItems(motor, scaleOperator.applyAsInt(2))
                 .inputItems(emitter, scaleOperator.applyAsInt(2))
                 .inputItems(sensor, scaleOperator.applyAsInt(2))
@@ -155,7 +154,7 @@ object OrganRecipes {
                 .duration(1200)
                 .circuitMeta(5)
                 .save()
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_eyes_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_eyes_tier_$tier")
                 .inputItems(motor, scaleOperator.applyAsInt(1))
                 .inputItems(emitter, scaleOperator.applyAsInt(1))
                 .inputItems(sensor, scaleOperator.applyAsInt(2))
@@ -165,7 +164,7 @@ object OrganRecipes {
                 .duration(1200)
                 .circuitMeta(6)
                 .save()
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_lungs_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_lungs_tier_$tier")
                 .inputItems(motor, scaleOperator.applyAsInt(2))
                 .inputItems(robot_arm, scaleOperator.applyAsInt(4))
                 .inputItems(emitter, scaleOperator.applyAsInt(1))
@@ -179,7 +178,7 @@ object OrganRecipes {
                 .duration(1200)
                 .circuitMeta(7)
                 .save()
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_liver_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_liver_tier_$tier")
                 .inputItems(emitter, scaleOperator.applyAsInt(1))
                 .inputItems(sensor, scaleOperator.applyAsInt(2))
                 .inputItems(field_generator, scaleOperator.applyAsInt(2))
@@ -190,7 +189,7 @@ object OrganRecipes {
                 .duration(1200)
                 .circuitMeta(8)
                 .save()
-            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_spine_tier_" + tier)
+            GTORecipeTypes.ASSEMBLER_RECIPES.builder("organ_spine_tier_$tier")
                 .inputItems(robot_arm, scaleOperator.applyAsInt(4))
                 .inputItems(emitter, scaleOperator.applyAsInt(1))
                 .inputItems(circuitTag, scaleOperator.applyAsInt(1))

@@ -12,6 +12,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+@Getter
 public class WirelessEnergyUnitBlock extends Block {
 
     private final BigInteger capacity;
@@ -48,17 +50,5 @@ public class WirelessEnergyUnitBlock extends Block {
         } else {
             tooltip.add(Component.translatable("tooltip.ad_astra.shift_description"));
         }
-    }
-
-    public BigInteger getCapacity() {
-        return this.capacity;
-    }
-
-    public int getLoss() {
-        return this.loss;
-    }
-
-    public int getTier() {
-        return this.tier;
     }
 }
