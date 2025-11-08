@@ -74,6 +74,7 @@ public final class FunctionalStorage {
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
+        if (GTOCore.isEasy()) return;
         if (GTCEu.isModLoaded("functionalstorage")) {
             filters.add(RLUtils.functionalstorage("copper_upgrade"));
             filters.add(RLUtils.functionalstorage("fluid_1"));

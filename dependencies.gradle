@@ -177,4 +177,8 @@ dependencies {
     modCompileOnly("dev:gtoepp:1.0.1")
 
     modImplementation("curse.maven:easy-villagers-400514:6831415")
+
+    modImplementation("curse.maven:cc-tweaked-282001:5714507")
+    modImplementation("curse.maven:super-factory-manager-306935:7021189")
+    modImplementation("curse.maven:modular-routers-250294:5056687")
 }

@@ -5,6 +5,7 @@ import com.gtocore.data.recipe.generated.DyeRecipes;
 import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
+import com.gtocore.data.recipe.mod.ModularRouters;
 import com.gtocore.data.recipe.mod.Sophisticated;
 import com.gtocore.integration.Mods;
 
@@ -68,11 +69,15 @@ public final class RecipeFilter {
     private static void initModFilter(Set<String> filters) {
         filters.add("itemfilters");
         filters.add("avaritia");
+        if (GTOCore.isEasy()) return;
+        filters.add("computercraft");
+        filters.add("sfm");
     }
 
     private static void initIdFilter(Set<ResourceLocation> filters) {
         ImmersiveAircraft.initJsonFilter(filters);
         FunctionalStorage.initJsonFilter(filters);
+        ModularRouters.initJsonFilter(filters);
         AE2.initJsonFilter(filters);
         SpaceStationRecipes.initJsonFilter(filters);
         Sophisticated.initJsonFilter(filters);

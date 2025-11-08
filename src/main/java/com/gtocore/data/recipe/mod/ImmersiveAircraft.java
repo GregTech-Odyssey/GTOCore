@@ -121,6 +121,7 @@ public final class ImmersiveAircraft {
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
+        if (GTOCore.isEasy()) return;
         if (GTCEu.isModLoaded("immersive_aircraft")) {
             filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "boiler"));
             filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "steel_boiler"));
