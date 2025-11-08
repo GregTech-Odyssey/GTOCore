@@ -40,6 +40,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -78,7 +79,7 @@ public class CommonProxy {
         GTOFluids.FLUID.register(eventBus);
         GTOEffects.init(eventBus);
         GTONumberProviders.NUMBER_PROVIDERS.register(eventBus);
-        eventBus.addListener(CommonProxy::commonSetup);
+        eventBus.addListener(EventPriority.HIGHEST, CommonProxy::commonSetup);
         eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);
         eventBus.addListener(CommonProxy::modConstruct);
@@ -99,6 +100,7 @@ public class CommonProxy {
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {
+        Data.init();
         BlockMap.build();
         GTOPartAbility.init();
         if (GTOCore.isExpert()) {
@@ -123,11 +125,6 @@ public class CommonProxy {
         }
 
         if (GTCEu.isClientSide()) {
-            Thread thread = new Thread(Data::asyncInit, "GTOCore Data");
-            thread.setDaemon(true);
-            thread.setPriority(Thread.MIN_PRIORITY);
-            thread.start();
-
             Supplier<Component>[] tooltips = new Supplier[] { () -> Component.translatable(GTOTagPrefix.PIPE_TOOLTIP) };
             GTMaterialBlocks.ITEM_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
