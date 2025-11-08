@@ -57,8 +57,24 @@ public class BankLang {
         add("gtocore.palm_sized_bank.textList.25", "上一分钟交易量", "Previous minute's trading volume");
         add("gtocore.palm_sized_bank.textList.26", "交易明细", "Transaction details");
 
-        add("gtocore.bank.currency.coins", "金币", "coins");
-        add("gtocore.bank.currency.gems", "宝石", "gems");
-        add("gtocore.bank.currency.tokens", "代币", "tokens");
+        add("gtocore.palm_sized_bank.textList.40", "需要%s%s", "need%s%s");
+        add("gtocore.palm_sized_bank.textList.41", "[获取会员卡]", "[Get membership card]");
+        add("gtocore.palm_sized_bank.textList.42", "添加到共享名单", "Add to shared list");
+
+        add("gtocore.palm_sized_bank.textList.50", "转账给此账户", "Transfer to this account");
+        add("gtocore.palm_sized_bank.textList.51", "转账此货币", "Transfer this currency");
+        add("gtocore.palm_sized_bank.textList.52", "转账金额", "Transfer amount");
+        add("gtocore.palm_sized_bank.textList.53", "[转账]", "[Transfer]");
+        add("gtocore.palm_sized_bank.textList.54", "[确认转账]", "[Transfer Confirmed]");
+
+        add("gtocore.gray_membership_card.hover_text.1", "未知", "unknown");
+        add("gtocore.gray_membership_card.hover_text.2", "离线玩家", "Offline players");
+        add("gtocore.gray_membership_card.hover_text.3", "主人: ", "Owner: ");
+        add("gtocore.gray_membership_card.hover_text.4", "共享者: ", "Shared by: ");
+
+        add("gtocore.currency.coins", "金币", "coins");
+        add("gtocore.currency.gems", "宝石", "gems");
+        add("gtocore.currency.tokens", "代币", "tokens");
+        add("gtocore.currency.technician_coin", "技术员币", "Technician Coin");
     }
 }
