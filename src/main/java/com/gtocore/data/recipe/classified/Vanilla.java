@@ -889,7 +889,7 @@ final class Vanilla {
                 "ABA",
                 "BCB",
                 "ABA",
-                'A', RegistriesUtils.getItemStack("gtceu:bronze_crate"), 'B', Items.CHEST.asItem(), 'C', MultiBlockG.MULTIBLOCK_CRATE.asItem());
+                'A', GTMachines.STEEL_CRATE.asItem(), 'B', Items.CHEST.asItem(), 'C', MultiBlockG.MULTIBLOCK_CRATE.asItem());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("structure_detect"), GTOItems.STRUCTURE_DETECT.asItem(),
                 " A ",
                 "ABA",
