@@ -30,9 +30,9 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -43,13 +43,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
     private static final String TEXT_HEADER = "gtocore.palm_sized_bank.textList.";
 
-    @Getter
-    @DescSynced
-    private Object2LongMap<String> currencyMap = new Object2LongOpenHashMap<>();
-    @Getter
-    @DescSynced
-    private Set<String> transactionKeys = Collections.emptySet();
-    @Getter
+    @Persisted
     @DescSynced
     private String choose = null;
 
@@ -162,31 +156,48 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
 
-                List<Component> List1 = new ArrayList<>();
-                List<Component> List2 = new ArrayList<>();
+                ServerLevel serverLevel;
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverLevel = serverPlayer.serverLevel();
+                } else {
+                    serverLevel = null;
+                }
 
-                addCurrencyRow(parentBehavior, List1, List2);
+                {
+                    mainGroup.addWidget(new ComponentPanelWidget(50, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add aaa"), "add aaa")))
+                            .clickHandler((a, b) -> WalletUtils.addCurrency(player.getUUID(), serverLevel, "aaa", 100)));
+                    mainGroup.addWidget(new ComponentPanelWidget(100, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add gems"), "add gems")))
+                            .clickHandler((a, b) -> WalletUtils.addCurrency(player.getUUID(), serverLevel, "gems", 100)));
+                }
 
-                mainGroup.addWidget(new ComponentPanelWidget(8, 8, List1));
-                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 8, List2));
+                mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
+                    Object2LongMap<String> syncedCurrencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
+                    List1.add(Component.literal("-------------------"));
+                    List1.add(Component.translatable(text(11)));
+                    List1.add(Component.literal("-------------------"));
+                    for (Object2LongMap.Entry<String> entry : syncedCurrencyMap.object2LongEntrySet()) {
+                        List1.add(Component.translatable("gtocore.bank.currency." + entry.getKey()));
+                    }
+                    List1.add(Component.literal("-------------------"));
+                }));
+
+                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
+                    Object2LongMap<String> syncedCurrencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
+                    List2.add(Component.literal("-------------------"));
+                    List2.add(Component.translatable(text(12)));
+                    List2.add(Component.literal("-------------------"));
+                    for (Object2LongMap.Entry<String> entry : syncedCurrencyMap.object2LongEntrySet()) {
+                        List2.add(Component.literal(Long.toString(entry.getLongValue())));
+                    }
+                    List2.add(Component.literal("-------------------"));
+                }));
 
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
                 return group;
-            }
-
-            private void addCurrencyRow(PalmSizedBankBehavior parentBehavior, List<Component> List1, List<Component> List2) {
-                Object2LongMap<String> syncedCurrencyMap = parentBehavior.currencyMap;
-
-                List1.add(Component.translatable(text(11)));
-                List2.add(Component.translatable(text(12)));
-                List1.add(Component.literal("-------------------"));
-                List2.add(Component.literal("-------------------"));
-                for (Object2LongMap.Entry<String> entry : syncedCurrencyMap.object2LongEntrySet()) {
-                    List1.add(Component.translatable("gtocore.bank.currency." + entry.getKey()));
-                    List2.add(Component.literal(Long.toString(entry.getLongValue())));
-                }
             }
         };
     }
@@ -224,53 +235,91 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                     serverLevel = null;
                 }
 
-                mainGroup.addWidget(new ComponentPanelWidget(0, 0,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                        .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "normal", 5, serverLevel)));
+                {
+                    mainGroup.addWidget(new ComponentPanelWidget(0, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
+                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "normal", 5, serverLevel)));
 
-                mainGroup.addWidget(new ComponentPanelWidget(20, 0,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                        .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "unmarshal", 5, serverLevel)));
+                    mainGroup.addWidget(new ComponentPanelWidget(20, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
+                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "unmarshal", 5, serverLevel)));
 
-                mainGroup.addWidget(new ComponentPanelWidget(40, 0,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                        .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "epic", 5, serverLevel)));
+                    mainGroup.addWidget(new ComponentPanelWidget(40, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
+                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "epic", 5, serverLevel)));
 
-                mainGroup.addWidget(new ComponentPanelWidget(60, 0,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                        .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "timely", 5, serverLevel)));
+                    mainGroup.addWidget(new ComponentPanelWidget(60, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
+                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "timely", 5, serverLevel)));
+                }
 
                 mainGroup.addWidget(new ComponentPanelWidget(width - 11, 0,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("[↩]"), "add wallet")))
+                        list -> list.add(ComponentPanelWidget.withButton(Component.literal(" ↩ "), "return")))
                         .clickHandler((a, b) -> choose = null));
 
-                List<Component> List1 = new ArrayList<>();
-                List<Component> List2 = new ArrayList<>();
+                Set<String> syncedTransactionKeys = WalletUtils.getTransactionKeys(player.getUUID(), serverLevel);
 
-                page1(parentBehavior, List1, List2, player, serverLevel);
+                mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
+                    if (choose == null) {
+                        List1.add(Component.literal("-------------------"));
+                        List1.add(Component.translatable(text(21)));
+                        List1.add(Component.literal("-------------------"));
+                        for (String entry : syncedTransactionKeys) {
+                            List1.add(ComponentPanelWidget.withButton(Component.literal("§b" + entry + "§r"), entry));
+                        }
+                        List1.add(Component.literal("-------------------"));
+                    } else {
+                        List1.add(Component.literal("-------------------"));
+                        List1.add(Component.translatable(text(21)));
+                        List1.add(Component.translatable(text(22)));
+                        List1.add(Component.translatable(text(23)));
+                        List1.add(Component.translatable(text(24)));
+                        List1.add(Component.translatable(text(25)));
+                        List1.add(Component.literal("-------------------"));
+                        List1.add(Component.translatable(text(26)));
+                        Long2LongMap minuteMap = WalletUtils.getTransactionMinuteMap(player.getUUID(), choose, serverLevel);
+                        List<Long> keys = new ArrayList<>(minuteMap.keySet());
+                        keys.sort(Collections.reverseOrder());
+                        for (Long key : keys) {
+                            List1.add(Component.literal(String.valueOf(key)));
+                        }
+                        List1.add(Component.literal("-------------------"));
+                    }
+                }).clickHandler((a, b) -> choose = a));
 
-                mainGroup.addWidget(new ComponentPanelWidget(8, 8, List1).clickHandler((a, b) -> choose = a));
-                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 8, List2));
+                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
+                    if (choose == null) {
+                        List2.add(Component.literal("-------------------"));
+                        List2.add(Component.translatable(text(22)));
+                        List2.add(Component.literal("-------------------"));
+                        for (String entry : syncedTransactionKeys) {
+                            List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), entry, serverLevel))));
+                        }
+                        List2.add(Component.literal("-------------------"));
+                    } else {
+                        List2.add(Component.literal("-------------------"));
+                        List2.add(Component.literal("§b" + choose + "§r"));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), choose, serverLevel))));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionType(player.getUUID(), choose, serverLevel))));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionMinuteAmount(player.getUUID(), choose, WalletUtils.getGameMinuteKey(player), serverLevel))));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionMinuteAmount(player.getUUID(), choose, WalletUtils.getGameMinuteKey(player) - 1, serverLevel))));
+                        List2.add(Component.literal("-------------------"));
+                        List2.add(Component.empty());
+                        Long2LongMap minuteMap = WalletUtils.getTransactionMinuteMap(player.getUUID(), choose, serverLevel);
+                        List<Long> keys = new ArrayList<>(minuteMap.keySet());
+                        keys.sort(Collections.reverseOrder());
+                        for (Long key : keys) {
+                            List2.add(Component.literal(Long.toString(minuteMap.get(key))));
+                        }
+                        List2.add(Component.literal("-------------------"));
+                    }
+                }));
 
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
                 return group;
             }
-
-            private void page1(PalmSizedBankBehavior parentBehavior, List<Component> List1, List<Component> List2, Player player, ServerLevel serverLevel) {
-                Set<String> syncedTransactionKeys = parentBehavior.transactionKeys;
-                List1.add(Component.translatable(text(21)));
-                List2.add(Component.translatable(text(22)));
-                List1.add(Component.literal("-------------------"));
-                List2.add(Component.literal("-------------------"));
-                for (String entry : syncedTransactionKeys) {
-                    List1.add(ComponentPanelWidget.withButton(Component.literal("§b" + entry + "§r"), entry));
-                    List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), entry, serverLevel))));
-                }
-            }
-
-            private void page2(PalmSizedBankBehavior parentBehavior, List<Component> List1, List<Component> List2, Player player, ServerLevel serverLevel) {}
         };
     }
 
@@ -308,8 +357,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
     private void initializationParameters(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
             ServerLevel serverLevel = serverPlayer.serverLevel();
-            this.currencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
-            this.transactionKeys = WalletUtils.getTransactionKeys(player.getUUID(), serverLevel);
             WalletUtils.updatePlayerName(player.getUUID(), serverLevel, player.getName().getString());
         }
     }
