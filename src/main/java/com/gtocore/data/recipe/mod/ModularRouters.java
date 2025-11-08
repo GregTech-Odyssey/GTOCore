@@ -1,12 +1,12 @@
 package com.gtocore.data.recipe.mod;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -24,7 +24,7 @@ public class ModularRouters {
 
     public static void init() {
         if (GTOCore.isEasy()) return;
-        if (GTCEu.isModLoaded("modularrouters")) {
+        if (Mods.MODULARROUTERS.isLoaded()) {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("modular_router"), RegistriesUtils.getItemStack("modularrouters:modular_router"),
                     "ABA",
                     "BCB",
@@ -74,7 +74,7 @@ public class ModularRouters {
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
         if (GTOCore.isEasy()) return;
-        if (GTCEu.isModLoaded("modularrouters")) {
+        if (Mods.MODULARROUTERS.isLoaded()) {
             filters.add(RLUtils.fromNamespaceAndPath("modularrouters", "modular_router"));
             filters.add(RLUtils.fromNamespaceAndPath("modularrouters", "blank_module"));
             filters.add(RLUtils.fromNamespaceAndPath("modularrouters", "blank_upgrade"));

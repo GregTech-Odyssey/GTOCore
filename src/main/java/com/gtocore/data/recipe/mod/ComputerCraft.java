@@ -2,11 +2,11 @@ package com.gtocore.data.recipe.mod;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMachines;
+import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -25,7 +25,7 @@ public class ComputerCraft {
 
     public static void init() {
         if (GTOCore.isEasy()) return;
-        if (!GTCEu.isModLoaded("computercraft")) return;
+        if (!Mods.COMPUTERCRAFT.isLoaded()) return;
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("computer_normal"), RegistriesUtils.getItemStack("computercraft:computer_normal"),
                 "ABA",

@@ -1454,9 +1454,7 @@ object GTOMachineTooltips {
             ("升级结构后支持到" translatedTo "After upgrading the structure, it supports tier ") +
                 GTValues.VNF[GTValues.UV].toLiteralSupplier(),
         )
-        increase(
-            ("再升级结构后支持并行" translatedTo "After upgrading the structure, it supports parallel processing.").toLiteralSupplier(),
-        )
+        increase("再升级结构后支持并行" translatedTo "After upgrading the structure again, it supports parallel processing.")
     }
 
     // 蒸汽搅拌机

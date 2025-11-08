@@ -36,7 +36,7 @@ public final class ManaProspectorBehavior extends ProspectorScannerBehavior impl
 
     private static final String MANA_KEY = "mana";
     private static final int CONSUMPTION_PER_TICK = 40;
-    private static final int CONSUMPTION_PER_CHUNK = 2000;
+    private static final int CONSUMPTION_PER_CHUNK = 500;
 
     private final int radius;
     private int maxMana;

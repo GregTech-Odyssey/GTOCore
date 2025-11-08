@@ -70,8 +70,8 @@ public final class RecipeFilter {
         filters.add("itemfilters");
         filters.add("avaritia");
         if (GTOCore.isEasy()) return;
-        filters.add("computercraft");
-        filters.add("sfm");
+        if (Mods.COMPUTERCRAFT.isLoaded()) filters.add("computercraft");
+        if (Mods.SFM.isLoaded()) filters.add("sfm");
     }
 
     private static void initIdFilter(Set<ResourceLocation> filters) {
