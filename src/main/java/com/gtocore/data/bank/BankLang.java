@@ -49,6 +49,14 @@ public class BankLang {
         add("gtocore.palm_sized_bank.textList.11", "货币种类", "Currency Type");
         add("gtocore.palm_sized_bank.textList.12", "持有数量", "Amount");
 
+        add("gtocore.palm_sized_bank.textList.20", "交易记录", "Transaction records");
+        add("gtocore.palm_sized_bank.textList.21", "交易主键", "Transaction Key");
+        add("gtocore.palm_sized_bank.textList.22", "交易总量", "Total transaction volume");
+        add("gtocore.palm_sized_bank.textList.23", "策略类型标识", "Strategy type identifier");
+        add("gtocore.palm_sized_bank.textList.24", "本分钟交易量", "Trading volume this minute");
+        add("gtocore.palm_sized_bank.textList.25", "上一分钟交易量", "Previous minute's trading volume");
+        add("gtocore.palm_sized_bank.textList.26", "交易明细", "Transaction details");
+
         add("gtocore.bank.currency.coins", "金币", "coins");
         add("gtocore.bank.currency.gems", "宝石", "gems");
         add("gtocore.bank.currency.tokens", "代币", "tokens");
