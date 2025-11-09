@@ -427,7 +427,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
             }
 
             @DescSynced
-            private UUID uuid = new UUID(((long) 940439953 << 32) | (-167562164 & 0xFFFFFFFFL), ((long) -1601161573 << 32) | (-1389718966 & 0xFFFFFFFFL));
+            private UUID uuid = null;
             @DescSynced
             private String string = null;
             @DescSynced
@@ -481,8 +481,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
                     List2.add(Component.literal("-------------------"));
-                    List2.add(Component.translatable(WalletPlayers.get(uuid)));
-                    List2.add(Component.translatable("gtocore.currency." + string));
+                    List2.add(uuid != null ? Component.translatable(WalletPlayers.get(uuid)) : Component.empty());
+                    List2.add(string != null ? Component.translatable("gtocore.currency." + string) : Component.empty());
                     List2.add(Component.empty());
                     List2.add(confirm1 ?
                             ComponentPanelWidget.withButton(Component.translatable(text(54)), "confirm2") :
