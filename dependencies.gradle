@@ -103,6 +103,8 @@ dependencies {
     modImplementation("curse.maven:ftb-library-forge-404465:6807424")
 
     modCompileOnly("curse.maven:ftb-quests-forge-289412:6259628")
+//    modRuntimeOnly("curse.maven:ftb-quests-forge-289412:6259628")
+//    modRuntimeOnly("curse.maven:ftb-teams-forge-404468:6130786")
 
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
 
