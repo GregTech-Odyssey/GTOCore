@@ -5310,6 +5310,7 @@
   "gtocore.recipe.neutron_flux.k": "Minimum Neutron Flux: %s keV",
   "gtocore.recipe.neutron_flux.m": "Minimum Neutron Flux: %s MeV",
   "gtocore.recipe.radioactivity": "Radiation Dose: %s Sv",
+  "gtocore.recipe.recycler.random_output": "Random Item",
   "gtocore.recipe.restricted_machine": "Only runnable on: %s",
   "gtocore.recipe.runlimit.count": "Run Limit: %s times",
   "gtocore.recipe.spool": "Spool Type: %s",

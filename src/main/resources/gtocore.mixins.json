@@ -37,6 +37,7 @@
   ],
   "mixins": [
     "AppliedBotanicsForgeMixin",
+    "adastra.GasTankItemMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
     "adastra.OxygenDistributorBlockEntityMixin",
