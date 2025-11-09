@@ -110,6 +110,7 @@ public final class MultiBlockF {
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
+            .moduleTooltips(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .recipeTypes(VACUUM_RECIPES, ATOMIZATION_CONDENSATION_RECIPES)
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .block(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
