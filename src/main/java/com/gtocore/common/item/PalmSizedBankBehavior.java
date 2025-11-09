@@ -32,7 +32,6 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -213,10 +212,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
             @Override
             public Component getTitle() {
-                return Component.translatable(text(20));
+                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @Persisted
             @DescSynced
             private String choose = null;
 
@@ -338,7 +336,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
             @Override
             public Component getTitle() {
-                return Component.translatable(text(20));
+                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
             final int width = 256;
@@ -425,19 +423,15 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
             @Override
             public Component getTitle() {
-                return Component.translatable(text(20));
+                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            @Persisted
             @DescSynced
             private UUID uuid = new UUID(((long) 940439953 << 32) | (-167562164 & 0xFFFFFFFFL), ((long) -1601161573 << 32) | (-1389718966 & 0xFFFFFFFFL));
-            @Persisted
             @DescSynced
             private String string = null;
-            @Persisted
             @DescSynced
             private boolean confirm1 = false;
-            @Persisted
             @DescSynced
             private int transactionAmount = 0;
 
