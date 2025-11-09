@@ -328,7 +328,7 @@ public final class MultiBlockC {
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getComponentAssemblerTooltips().getSupplier())
-            .moduleTooltips(ACCELERATE_HATCH, OVERCLOCK_HATCH, INPUT_LASER, PARALLEL_HATCH, THREAD_HATCH)
+            .moduleTooltips(ACCELERATE_HATCH, INPUT_LASER, PARALLEL_HATCH)
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .parallelizableOverclock()
             .block(GTBlocks.CASING_STEEL_SOLID)

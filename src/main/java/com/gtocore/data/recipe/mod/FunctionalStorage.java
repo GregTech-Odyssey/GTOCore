@@ -1,13 +1,13 @@
 package com.gtocore.data.recipe.mod;
 
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -23,7 +23,7 @@ import java.util.Set;
 public final class FunctionalStorage {
 
     public static void init() {
-        if (GTCEu.isModLoaded("functionalstorage")) {
+        if (Mods.FUNCTIONALSTORAGE.isLoaded()) {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("copper_upgrade"), RegistriesUtils.getItemStack("functionalstorage:copper_upgrade"),
                     "AAA",
                     "BCD",
@@ -74,7 +74,8 @@ public final class FunctionalStorage {
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
-        if (GTCEu.isModLoaded("functionalstorage")) {
+        if (GTOCore.isEasy()) return;
+        if (Mods.FUNCTIONALSTORAGE.isLoaded()) {
             filters.add(RLUtils.functionalstorage("copper_upgrade"));
             filters.add(RLUtils.functionalstorage("fluid_1"));
             filters.add(RLUtils.functionalstorage("fluid_2"));

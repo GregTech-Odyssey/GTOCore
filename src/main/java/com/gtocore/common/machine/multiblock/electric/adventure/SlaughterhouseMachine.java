@@ -29,6 +29,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -212,6 +213,9 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                     entity1.moveTo(origin.x, origin.y, origin.z, entity1.getYRot(), entity1.getXRot());
                     return entity1;
                 });
+                if (entity instanceof AbstractChestedHorse) {
+                    entity = null;
+                }
             }
             boolean isFixed = entity != null;
             String[] mobList = isFixed ? null : c == 1 ? mobList1 : mobList2;

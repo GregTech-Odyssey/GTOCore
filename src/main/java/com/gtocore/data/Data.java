@@ -17,10 +17,7 @@ import com.gtocore.data.recipe.magic.MagicRecipesA;
 import com.gtocore.data.recipe.magic.MagicRecipesB;
 import com.gtocore.data.recipe.misc.ComponentRecipes;
 import com.gtocore.data.recipe.misc.SpaceStationRecipes;
-import com.gtocore.data.recipe.mod.FunctionalStorage;
-import com.gtocore.data.recipe.mod.ImmersiveAircraft;
-import com.gtocore.data.recipe.mod.MeteoriteRecipe;
-import com.gtocore.data.recipe.mod.Sophisticated;
+import com.gtocore.data.recipe.mod.*;
 import com.gtocore.data.recipe.processing.*;
 import com.gtocore.data.recipe.research.*;
 import com.gtocore.integration.emi.GTEMIRecipe;
@@ -72,6 +69,17 @@ import static com.gtocore.common.data.GTORecipes.EMI_RECIPES;
 public final class Data {
 
     public static void init() {
+        if (GTCEu.isClientSide()) {
+            Thread thread = new Thread(Data::clientInit, "GTOCore Data");
+            thread.setDaemon(true);
+            thread.setPriority(Thread.MIN_PRIORITY);
+            thread.start();
+        } else {
+            commonInit();
+        }
+    }
+
+    private static void commonInit() {
         long time = System.currentTimeMillis();
         GTOOres.init();
         MeteoriteRecipe.init();
@@ -145,6 +153,9 @@ public final class Data {
         Ae2wtlibRecipes.init();
         ImmersiveAircraft.init();
         FunctionalStorage.init();
+        ComputerCraft.init();
+        ModularRouters.init();
+        SuperFactoryManager.init();
         Sophisticated.init();
         $ClassifiedRecipe.init();
         Temporary.init();
@@ -165,9 +176,9 @@ public final class Data {
         GTOCore.LOGGER.info("Data loading took {}ms", System.currentTimeMillis() - time);
     }
 
-    public static void asyncInit() {
+    private static void clientInit() {
         try {
-            init();
+            commonInit();
             RecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
             if (GTCEu.Mods.isEMILoaded()) {
                 MultiblockDefinition.init();

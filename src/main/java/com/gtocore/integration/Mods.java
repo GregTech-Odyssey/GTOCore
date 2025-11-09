@@ -6,6 +6,11 @@ import lombok.Getter;
 
 public enum Mods {
 
+    SFM("sfm"),
+    MODULARROUTERS("modularrouters"),
+    COMPUTERCRAFT("computercraft"),
+    FUNCTIONALSTORAGE("functionalstorage"),
+    IMMERSIVE_AIRCRAFT("immersive_aircraft"),
     CHISEL("chisel"),
     SOPHISTICATEDBACKPACKS("sophisticatedbackpacks"),
     BIOMESOPLENTY("biomesoplenty"),

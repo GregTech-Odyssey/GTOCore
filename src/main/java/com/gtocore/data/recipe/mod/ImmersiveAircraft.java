@@ -3,12 +3,12 @@ package com.gtocore.data.recipe.mod;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -29,7 +29,7 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 public final class ImmersiveAircraft {
 
     public static void init() {
-        if (GTCEu.isModLoaded("immersive_aircraft")) {
+        if (Mods.IMMERSIVE_AIRCRAFT.isLoaded()) {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_boiler"), RegistriesUtils.getItemStack("immersive_aircraft:boiler"),
                     "AAA",
                     "A A",
@@ -121,7 +121,8 @@ public final class ImmersiveAircraft {
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
-        if (GTCEu.isModLoaded("immersive_aircraft")) {
+        if (GTOCore.isEasy()) return;
+        if (Mods.IMMERSIVE_AIRCRAFT.isLoaded()) {
             filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "boiler"));
             filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "steel_boiler"));
             filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "engine"));
