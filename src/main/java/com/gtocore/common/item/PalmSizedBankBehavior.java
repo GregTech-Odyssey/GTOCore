@@ -202,6 +202,115 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         };
     }
 
+    private @NotNull IFancyUIProvider transfer(PalmSizedBankBehavior parentBehavior) {
+        return new IFancyUIProvider() {
+
+            @Override
+            public IGuiTexture getTabIcon() {
+                return GuiTextures.GREGTECH_LOGO;
+            }
+
+            @Override
+            public Component getTitle() {
+                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
+            }
+
+            @DescSynced
+            private UUID uuid = null;
+            @DescSynced
+            private String string = null;
+            @DescSynced
+            private boolean confirm1 = false;
+            @DescSynced
+            private int transactionAmount = 0;
+
+            final int width = 256;
+            final int height = 144;
+
+            @Override
+            public Widget createMainPage(FancyMachineUIWidget widget) {
+                var group = new WidgetGroup(0, 0, width + 8, height + 8);
+
+                WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
+                        .setBackground(GuiTextures.DISPLAY);
+
+                Player player = getPlayerFromWidget(widget);
+                if (player == null) return group;
+
+                ServerLevel serverLevel;
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverLevel = serverPlayer.serverLevel();
+                } else {
+                    serverLevel = null;
+                }
+
+                Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
+                Set<String> CurrencySet = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel).keySet();
+
+                mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
+                    List1.add(Component.literal("-------------------"));
+                    List1.add(Component.translatable(text(50)));
+                    List1.add(Component.translatable(text(51)));
+                    List1.add(Component.translatable(text(52)));
+                    List1.add(ComponentPanelWidget.withButton(Component.translatable(text(53)), "confirm1"));
+                    List1.add(Component.literal("-------------------"));
+                    for (Object2ObjectMap.Entry<UUID, String> entry : WalletPlayers.object2ObjectEntrySet()) {
+                        List1.add(ComponentPanelWidget.withHoverTextTranslate(
+                                ComponentPanelWidget.withButton(Component.literal("§b" + entry.getValue() + "§r"), entry.getKey().toString()),
+                                Component.literal(entry.getValue())));
+                    }
+                }).clickHandler((a, b) -> {
+                    if (a.equals("confirm1"))
+                        confirm1 = true;
+                    else {
+                        uuid = UUID.fromString(a);
+                        confirm1 = false;
+                    }
+                }));
+
+                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
+                    List2.add(Component.literal("-------------------"));
+                    List2.add(uuid != null ? Component.translatable(WalletPlayers.get(uuid)) : Component.empty());
+                    List2.add(string != null ? Component.translatable("gtocore.currency." + string) : Component.empty());
+                    List2.add(Component.empty());
+                    List2.add(confirm1 ?
+                            ComponentPanelWidget.withButton(Component.translatable(text(54)), "confirm2") :
+                            Component.empty());
+                    List2.add(Component.literal("-------------------"));
+                    for (String entry : CurrencySet) {
+                        List2.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.currency." + entry), entry));
+                    }
+                }).clickHandler((a, b) -> {
+                    if (a.equals("confirm2")) {
+                        long Amount = WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, string);
+                        if (Amount >= transactionAmount) {
+                            WalletUtils.subtractCurrency(player.getUUID(), serverLevel, string, transactionAmount);
+                            WalletUtils.addCurrency(uuid, serverLevel, string, transactionAmount);
+                        } else {
+                            transactionAmount = Math.toIntExact(Amount);
+                        }
+                    } else {
+                        string = a;
+                        confirm1 = false;
+                    }
+                }));
+
+                SimpleNumberInputWidget amountInput = new SimpleNumberInputWidget(width / 2 + 5, 4 + 31, width / 2 - 17, 8,
+                        () -> transactionAmount,
+                        (newValue) -> {
+                            transactionAmount = newValue;
+                            confirm1 = false;
+                        });
+                mainGroup.addWidget(amountInput);
+
+                group.addWidget(mainGroup);
+                group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
+                return group;
+            }
+        };
+    }
+
     private @NotNull IFancyUIProvider transactionRecords(PalmSizedBankBehavior parentBehavior) {
         return new IFancyUIProvider() {
 
@@ -413,122 +522,13 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         };
     }
 
-    private @NotNull IFancyUIProvider transfer(PalmSizedBankBehavior parentBehavior) {
-        return new IFancyUIProvider() {
-
-            @Override
-            public IGuiTexture getTabIcon() {
-                return GuiTextures.GREGTECH_LOGO;
-            }
-
-            @Override
-            public Component getTitle() {
-                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
-            }
-
-            @DescSynced
-            private UUID uuid = null;
-            @DescSynced
-            private String string = null;
-            @DescSynced
-            private boolean confirm1 = false;
-            @DescSynced
-            private int transactionAmount = 0;
-
-            final int width = 256;
-            final int height = 144;
-
-            @Override
-            public Widget createMainPage(FancyMachineUIWidget widget) {
-                var group = new WidgetGroup(0, 0, width + 8, height + 8);
-
-                WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
-                        .setBackground(GuiTextures.DISPLAY);
-
-                Player player = getPlayerFromWidget(widget);
-                if (player == null) return group;
-
-                ServerLevel serverLevel;
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverLevel = serverPlayer.serverLevel();
-                } else {
-                    serverLevel = null;
-                }
-
-                Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
-                Set<String> CurrencySet = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel).keySet();
-
-                mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
-                    List1.add(Component.literal("-------------------"));
-                    List1.add(Component.translatable(text(50)));
-                    List1.add(Component.translatable(text(51)));
-                    List1.add(Component.translatable(text(52)));
-                    List1.add(ComponentPanelWidget.withButton(Component.translatable(text(53)), "confirm1"));
-                    List1.add(Component.literal("-------------------"));
-                    for (Object2ObjectMap.Entry<UUID, String> entry : WalletPlayers.object2ObjectEntrySet()) {
-                        List1.add(ComponentPanelWidget.withHoverTextTranslate(
-                                ComponentPanelWidget.withButton(Component.literal("§b" + entry.getValue() + "§r"), entry.getKey().toString()),
-                                Component.literal(entry.getValue())));
-                    }
-                }).clickHandler((a, b) -> {
-                    if (a.equals("confirm1"))
-                        confirm1 = true;
-                    else {
-                        uuid = UUID.fromString(a);
-                        confirm1 = false;
-                    }
-                }));
-
-                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
-                    List2.add(Component.literal("-------------------"));
-                    List2.add(uuid != null ? Component.translatable(WalletPlayers.get(uuid)) : Component.empty());
-                    List2.add(string != null ? Component.translatable("gtocore.currency." + string) : Component.empty());
-                    List2.add(Component.empty());
-                    List2.add(confirm1 ?
-                            ComponentPanelWidget.withButton(Component.translatable(text(54)), "confirm2") :
-                            Component.empty());
-                    List2.add(Component.literal("-------------------"));
-                    for (String entry : CurrencySet) {
-                        List2.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.currency." + entry), entry));
-                    }
-                }).clickHandler((a, b) -> {
-                    if (a.equals("confirm2")) {
-                        long Amount = WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, string);
-                        if (Amount >= transactionAmount) {
-                            WalletUtils.subtractCurrency(player.getUUID(), serverLevel, string, transactionAmount);
-                            WalletUtils.addCurrency(uuid, serverLevel, string, transactionAmount);
-                        } else {
-                            transactionAmount = Math.toIntExact(Amount);
-                        }
-                    } else {
-                        string = a;
-                        confirm1 = false;
-                    }
-                }));
-
-                SimpleNumberInputWidget amountInput = new SimpleNumberInputWidget(width / 2 + 5, 4 + 31, width / 2 - 17, 8,
-                        () -> transactionAmount,
-                        (newValue) -> {
-                            transactionAmount = newValue;
-                            confirm1 = false;
-                        });
-                mainGroup.addWidget(amountInput);
-
-                group.addWidget(mainGroup);
-                group.setBackground(GuiTextures.BACKGROUND_INVERSE);
-
-                return group;
-            }
-        };
-    }
-
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setMainTab(this);
         sideTabs.attachSubTab(assetOverview(this));
+        sideTabs.attachSubTab(transfer(this));
         sideTabs.attachSubTab(transactionRecords(this));
         sideTabs.attachSubTab(generateCard(this));
-        sideTabs.attachSubTab(transfer(this));
     }
 
     public static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
