@@ -1,7 +1,9 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gtolib.api.machine.feature.ISpaceWorkspaceMachine;
 import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
+import com.gtolib.api.machine.impl.part.WirelessEnergyHatchPartMachine;
 import com.gtolib.utils.holder.BooleanHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -68,7 +70,8 @@ public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspa
     @Override
     public boolean isWorkspaceReady() {
         if (hasLaser == null) {
-            hasLaser = new BooleanHolder(Stream.of(getControllers().first().getParts()).anyMatch(p -> p instanceof LaserHatchPartMachine || p instanceof CreativeLaserHatchPartMachine));
+            hasLaser = new BooleanHolder(Stream.of(getControllers().first().getParts())
+                    .anyMatch(p -> (PartAbility.INPUT_LASER.isApplicable(p.self().getBlockState().getBlock()))));
         }
         return hasLaser.value;
     }
