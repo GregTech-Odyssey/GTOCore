@@ -12,8 +12,6 @@ import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,7 +35,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.longs.Long2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -165,10 +162,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 } else {
                     serverLevel = null;
                 }
-                Vec3 aaa = player.position();
-                BlockPos pos = new BlockPos((int) aaa.x, (int) aaa.y, (int) aaa.z);
-                BlockPos po1s = player.blockPosition();
-                        {
+
+                {
                     mainGroup.addWidget(new ComponentPanelWidget(100, 0,
                             list -> list.add(ComponentPanelWidget.withButton(Component.literal("add Technician Coin"), "add aaa")))
                             .clickHandler((a, b) -> WalletUtils.addCurrency(player.getUUID(), serverLevel, "technician_coin", 1000)));

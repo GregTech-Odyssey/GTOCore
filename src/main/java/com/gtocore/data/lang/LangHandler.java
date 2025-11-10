@@ -7,8 +7,8 @@ import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformTemplateStorage;
-import com.gtocore.data.bank.BankLang;
 import com.gtocore.data.recipe.research.AnalyzeData;
+import com.gtocore.data.transaction.bank.BankLang;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider;

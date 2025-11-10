@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 @Getter
 public class TransactionEntryGroup {
+
     // 组名
     private String groupName;
     // 解锁条件

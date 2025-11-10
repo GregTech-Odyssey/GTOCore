@@ -1,4 +1,4 @@
-package com.gtocore.data.bank;
+package com.gtocore.data.transaction.bank;
 
 import com.gtolib.api.lang.CNEN;
 
