@@ -1,5 +1,8 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
+import com.gregtechceu.gtceu.common.item.ItemFilterBehaviour;
 import com.gtocore.integration.jade.provider.RecipeLogicProvider;
 
 import com.gtolib.api.GTOValues;
@@ -53,12 +56,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @DataGeneratorScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class DigitalMiner extends TierCasingMultiblockMachine {
+public class DigitalMiner extends TierCasingMultiblockMachine implements IDigitalMiner {
 
     @Persisted
     protected final CustomItemStackHandler filterInventory;
     @Persisted
-    public FluidMode fluidMode = FluidMode.Harvest;
+    public IDigitalMiner.FluidMode fluidMode = IDigitalMiner.FluidMode.Harvest;
     @Persisted
     @DescSynced
     private int xRadialLength;
@@ -134,16 +137,14 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     protected CustomItemStackHandler createFilterItemHandler() {
         var transfer = new CustomItemStackHandler();
         transfer.setFilter(
-                item -> item.is(GTItems.ITEM_FILTER.asItem()) ||
-                        item.is(GTItems.TAG_FILTER.asItem()) ||
-                        item.is(GTItems.FLUID_FILTER.asItem()) ||
-                        item.is(GTItems.TAG_FLUID_FILTER.asItem()));
+                item -> item.getItem() instanceof ComponentItem componentItem &&
+                        componentItem.getComponents().stream().anyMatch(c->c instanceof ItemFilterBehaviour));
         return transfer;
     }
 
     @Override
     public RecipeLogic createRecipeLogic(Object... args) {
-        return new DigitalMinerLogic(this, getMinerArea(), silkLevel, filter, fluidMode);
+        return new DigitalMinerLogic(this);
     }
 
     // ===================== 生命周期相关 =====================
@@ -180,8 +181,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     public void onStructureInvalid() {
         super.onStructureInvalid();
         this.parallelMining = 0;
-        this.maxRadius = 1;
-        this.prospectorRadius = 1;
         resetRecipe();
     }
 
@@ -191,14 +190,10 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     }
 
     // ===================== 逻辑相关方法 =====================
-    public boolean drainInput(boolean simulate) {
-        long resultEnergy = energyContainer.getEnergyStored() - energyPerTick;
-        if (resultEnergy >= 0L && resultEnergy <= energyContainer.getEnergyCapacity()) {
-            if (!simulate)
-                energyContainer.removeEnergy(energyPerTick);
-            return true;
-        }
-        return false;
+
+    @Override
+    public MinerConfig getMinerConfig() {
+        return new MinerConfig(getMinerArea(),getSpeed(),energyPerTick,parallelMining,silkLevel,filter,fluidMode);
     }
 
     private void resetRecipe() {
@@ -210,7 +205,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
             minHeight = maxHeight;
             maxHeight = temp;
         }
-        getRecipeLogic().resetRecipeLogic(getMinerArea(), this.silkLevel, filter, fluidMode);
+        getRecipeLogic().resetRecipeLogic();
     }
 
     private void filterChange() {
@@ -410,7 +405,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
         if (getRecipeLogic().isInventoryFull())
             textList.add(Component.translatable("gtceu.multiblock.large_miner.invfull")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
-        if (!drainInput(true))
+        if (!getRecipeLogic().drainInput(true))
             textList.add(Component.translatable("gtceu.multiblock.large_miner.needspower")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
         textList.addAll(NewDataAttributes.LEVEL.create(tier).get());
@@ -458,7 +453,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
         this.zRadialLength = minerRadius;
     }
 
-    @Override
     public DigitalMinerLogic getRecipeLogic() {
         return (DigitalMinerLogic) super.getRecipeLogic();
     }
@@ -586,47 +580,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
     }
 
     // ===================== 枚举与语言常量 =====================
-    @DataGeneratorScanned
-    @RegisterEnumLang(keyPrefix = "gtocore.digital_miner.fluid_mode")
-    public enum FluidMode {
 
-        Harvest("采集", "Harvest",
-                "采集并获取流体", "Harvest and collect fluids", ChatFormatting.GREEN),
-        Ignore("忽略", "Ignore",
-                "遇到流体方块时忽略它们", "Ignore fluid blocks when encountered", ChatFormatting.GRAY),
-        Void("销毁", "Void",
-                "销毁遇到的流体方块，且不采集", "Destroy encountered fluid blocks without collecting", ChatFormatting.GOLD);
-
-        @RegisterEnumLang.CnValue("title")
-        private final String cn;
-        @RegisterEnumLang.EnValue("title")
-        private final String en;
-        @RegisterEnumLang.CnValue("tooltip")
-        private final String cnTooltip;
-        @RegisterEnumLang.EnValue("tooltip")
-        private final String enTooltip;
-        private final ChatFormatting color;
-
-        FluidMode(String cn, String en, String cnTooltip, String enTooltip, ChatFormatting color) {
-            this.cn = cn;
-            this.en = en;
-            this.cnTooltip = cnTooltip;
-            this.enTooltip = enTooltip;
-            this.color = color;
-        }
-
-        private String getTitle() {
-            return Component.translatable("gtocore.digital_miner.fluid_mode.title." + this.name()).getString();
-        }
-
-        private String getTooltip() {
-            return Component.translatable("gtocore.digital_miner.fluid_mode.tooltip." + this.name()).getString();
-        }
-
-        private FluidMode next() {
-            return values()[(this.ordinal() + 1) % values().length];
-        }
-    }
 
     @RegisterLanguage(cn = "重置", en = "Reset")
     private static final String RESET = "gtocore.digital_miner.reset";
