@@ -83,7 +83,7 @@ class OrganModifierBehaviour :
                 hBox(height = 50) {
                     blank(width = 8)
                     vBox(width = availableWidth) {
-                        textBlock(textSupplier = { Component.literal(organType.cn) })
+                        textBlock(textSupplier = { Component.translatable(organType.getTranslationKey()) })
                         hBox(height = 18) {
                             (0 until handler.slots).forEach { index ->
                                 createSlot(handlerContainer, handler, index)

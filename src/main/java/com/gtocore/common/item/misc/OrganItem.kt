@@ -43,6 +43,9 @@ enum class OrganType(val key: String, val cn: String, val slotCount: Int = 1) {
     RightArm("right_arm", "右臂"),
     LeftLeg("left_leg", "左腿"),
     RightLeg("right_leg", "右腿"),
+    ;
+
+    fun getTranslationKey(): String = "gtocore.organ_type.${this.key}"
 //    Other("other", "其他"),
 }
 
