@@ -1,20 +1,17 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gtolib.api.machine.feature.ISpaceWorkspaceMachine;
 import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
-import com.gtolib.api.machine.impl.part.WirelessEnergyHatchPartMachine;
 import com.gtolib.utils.holder.BooleanHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeLaserHatchPartMachine;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 
