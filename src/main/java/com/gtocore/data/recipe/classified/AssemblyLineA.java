@@ -363,7 +363,7 @@ final class AssemblyLineA {
                 .inputItems(GTItems.SENSOR_UXV.asItem(), 8)
                 .inputItems(GTItems.ELECTRIC_MOTOR_UXV.asItem(), 8)
                 .inputItems(GTItems.FIELD_GENERATOR_UXV.asItem(), 8)
-                .inputItems(GTOItems.WYVERN_CORE.asItem(), 8)
+                .inputItems(GTOItems.DRACONIC_CORE.asItem(), 8)
                 .inputItems(TagPrefix.rodLong, GTOMaterials.Vibramantium, 64)
                 .inputItems(TagPrefix.rodLong, GTOMaterials.HastelloyK243, 64)
                 .inputItems(TagPrefix.rodLong, GTOMaterials.Infuscolium, 64)
