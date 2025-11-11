@@ -57,6 +57,9 @@ public class BankLang {
         add("gtocore.palm_sized_bank.textList.25", "上一分钟交易量", "Previous minute's trading volume");
         add("gtocore.palm_sized_bank.textList.26", "交易明细", "Transaction details");
 
+        add("gtocore.palm_sized_bank.textList.30", "标签组", "Tag Group");
+        add("gtocore.palm_sized_bank.textList.31", "标签列表", "Tag list");
+
         add("gtocore.palm_sized_bank.textList.40", "需要%s%s", "need%s%s");
         add("gtocore.palm_sized_bank.textList.41", "[获取会员卡]", "[Get membership card]");
         add("gtocore.palm_sized_bank.textList.42", "添加到共享名单", "Add to shared list");

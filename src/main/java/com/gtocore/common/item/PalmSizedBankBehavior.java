@@ -130,6 +130,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
     }
 
+    /**
+     * 资产概览
+     */
     private @NotNull IFancyUIProvider assetOverview(PalmSizedBankBehavior parentBehavior) {
         return new IFancyUIProvider() {
 
@@ -202,6 +205,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         };
     }
 
+    /**
+     * 转账
+     */
     private @NotNull IFancyUIProvider transfer(PalmSizedBankBehavior parentBehavior) {
         return new IFancyUIProvider() {
 
@@ -311,6 +317,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         };
     }
 
+    /**
+     * 交易记录
+     */
     private @NotNull IFancyUIProvider transactionRecords(PalmSizedBankBehavior parentBehavior) {
         return new IFancyUIProvider() {
 
@@ -435,6 +444,84 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         };
     }
 
+    /**
+     * 钱包标签表
+     */
+    private @NotNull IFancyUIProvider tagList(PalmSizedBankBehavior parentBehavior) {
+        return new IFancyUIProvider() {
+
+            @Override
+            public IGuiTexture getTabIcon() {
+                return GuiTextures.GREGTECH_LOGO;
+            }
+
+            @Override
+            public Component getTitle() {
+                return Component.translatable(text(10));
+            }
+
+            @DescSynced
+            private String choose = null;
+
+            final int width = 256;
+            final int height = 144;
+
+            @Override
+            public Widget createMainPage(FancyMachineUIWidget widget) {
+                var group = new WidgetGroup(0, 0, width + 8, height + 8);
+
+                WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
+                        .setBackground(GuiTextures.DISPLAY);
+
+                Player player = getPlayerFromWidget(widget);
+                if (player == null) return group;
+
+                ServerLevel serverLevel;
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverLevel = serverPlayer.serverLevel();
+                } else {
+                    serverLevel = null;
+                }
+
+                mainGroup.addWidget(new ComponentPanelWidget(width - 11, 0,
+                        list -> list.add(ComponentPanelWidget.withButton(Component.literal(" ↩ "), "return")))
+                        .clickHandler((a, b) -> choose = null));
+
+                mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
+                    List1.add(Component.literal("-------------------"));
+                    List1.add(Component.translatable(text(30)));
+                    List1.add(Component.literal("-------------------"));
+                    if (choose == null) {
+                        Set<String> tagKeysSet = WalletUtils.getAllTagKeysFromWallet(player.getUUID(), serverLevel);
+                        for (String entry : tagKeysSet) {
+                            List1.add(ComponentPanelWidget.withButton(Component.literal("§b" + entry + "§r"), entry));
+                        }
+                    } else List1.add(Component.literal("§b" + choose + "§r"));
+                }).clickHandler((a, b) -> choose = a));
+
+                mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
+                    List2.add(Component.literal("-------------------"));
+                    List2.add(Component.translatable(text(31)));
+                    List2.add(Component.literal("-------------------"));
+                    if (choose != null) {
+                        Set<String> tagsSet = WalletUtils.getTagsFromWallet(player.getUUID(), serverLevel, choose);
+                        for (String entry : tagsSet) {
+                            List2.add(Component.literal(entry));
+                        }
+                    }
+                }));
+
+                group.addWidget(mainGroup);
+                group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
+                return group;
+            }
+        };
+    }
+
+    /**
+     * 申请会员卡
+     */
     private @NotNull IFancyUIProvider generateCard(PalmSizedBankBehavior parentBehavior) {
         return new IFancyUIProvider() {
 
@@ -528,6 +615,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         sideTabs.attachSubTab(assetOverview(this));
         sideTabs.attachSubTab(transfer(this));
         sideTabs.attachSubTab(transactionRecords(this));
+        sideTabs.attachSubTab(tagList(this));
         sideTabs.attachSubTab(generateCard(this));
     }
 
