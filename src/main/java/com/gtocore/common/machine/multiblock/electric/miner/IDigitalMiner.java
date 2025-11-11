@@ -1,15 +1,18 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
-import com.gregtechceu.gtceu.api.cover.filter.Filter;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterEnumLang;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+
+import com.gregtechceu.gtceu.api.cover.filter.Filter;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+
 import org.jetbrains.annotations.NotNull;
 
 @DataGeneratorScanned
@@ -53,8 +56,8 @@ public interface IDigitalMiner extends IRecipeLogicMachine {
 
     boolean drainInput(boolean simulate);
 
-    @NotNull DigitalMinerLogic getRecipeLogic();
-
+    @NotNull
+    DigitalMinerLogic getRecipeLogic();
 
     @Override
     default RecipeLogic createRecipeLogic(Object... args) {
@@ -66,7 +69,6 @@ public interface IDigitalMiner extends IRecipeLogicMachine {
         if (isWorkingAllowed && getRecipeLogic().isDone()) getRecipeLogic().resetRecipeLogic();
         IRecipeLogicMachine.super.setWorkingEnabled(isWorkingAllowed);
     }
-
 
     @DataGeneratorScanned
     @RegisterEnumLang(keyPrefix = FLUID_MODE)
@@ -112,7 +114,5 @@ public interface IDigitalMiner extends IRecipeLogicMachine {
     }
 
     record MinerConfig(AABB minerArea, long energyPerTick, int speed, int parallelMining, int silkLevel,
-                       Filter<?, ?> itemFilter, Filter<?, ?> fluidFilter, FluidMode fluidMode) {
-    }
-
+                       Filter<?, ?> itemFilter, Filter<?, ?> fluidFilter, FluidMode fluidMode) {}
 }

@@ -1,6 +1,5 @@
 package com.gtocore.common.data;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.blockentity.TesseractBlockEntity;
@@ -36,6 +35,7 @@ import com.gtolib.api.registries.GTORegistration;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -947,12 +947,12 @@ public final class GTOMachines {
                     .recipeType(GTORecipeTypes.DIGITAL_MINER_RECIPE)
                     .workableTieredHullRenderer(GTCEu.id("block/machines/miner"))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1])
-                                .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
-                                .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
+                            .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
+                            .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_in",
-                                FormattingUtil.formatNumbers(GTValues.VEX[tier]),
-                                GTValues.VNF[tier]))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.working_area_max",  (int) (8 * Math.pow(2, tier)),  (int) (8 * Math.pow(2, tier))))
+                            FormattingUtil.formatNumbers(GTValues.VEX[tier]),
+                            GTValues.VNF[tier]))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.working_area_max", (int) (8 * Math.pow(2, tier)), (int) (8 * Math.pow(2, tier))))
                     .register(),
             LV, MV, HV);
 

@@ -1,5 +1,12 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gtocore.integration.jade.provider.RecipeLogicProvider;
+
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
@@ -9,16 +16,21 @@ import com.gregtechceu.gtceu.api.gui.misc.ProspectorMode;
 import com.gregtechceu.gtceu.api.gui.widget.ProspectingMapWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.ItemFilterBehaviour;
-import com.gtocore.integration.jade.provider.RecipeLogicProvider;
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.annotation.DataGeneratorScanned;
-import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.AABB;
+
 import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -30,19 +42,11 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @DataGeneratorScanned
 @ParametersAreNonnullByDefault
@@ -340,8 +344,8 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
                 (cd -> {
                     fluidMode = fluidMode.next();
                     this.fluidModeButton.setButtonTexture(GuiTextures.BUTTON,
-                                    new TextTexture(fluidMode.getTitle())
-                                            .setDropShadow(false).setColor(fluidMode.color.getColor()))
+                            new TextTexture(fluidMode.getTitle())
+                                    .setDropShadow(false).setColor(fluidMode.color.getColor()))
                             .setHoverTooltips(fluidMode.getTooltip());
                     resetRecipe();
                 }));

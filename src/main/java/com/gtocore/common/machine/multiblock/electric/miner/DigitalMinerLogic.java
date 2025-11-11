@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
-import com.gregtechceu.gtceu.api.cover.filter.TagItemFilter;
-import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gtolib.IFluid;
 import com.gtolib.IItem;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -12,8 +10,10 @@ import com.gtolib.utils.MachineUtils;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
+import com.gregtechceu.gtceu.api.cover.filter.TagItemFilter;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.pattern.MultiblockWorldData;
+import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -42,9 +42,9 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     ItemFilter ORE_FILTER;
 
     {
-        var is=new ItemStack(GTItems.TAG_FILTER.asItem());
-        var ft=new CompoundTag();
-        ft.putString("oreDict","forge:ores");
+        var is = new ItemStack(GTItems.TAG_FILTER.asItem());
+        var ft = new CompoundTag();
+        ft.putString("oreDict", "forge:ores");
         is.setTag(ft);
         ORE_FILTER = TagItemFilter.loadFilter(is);
     }
@@ -101,7 +101,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     DigitalMinerLogic(@NotNull IRecipeLogicMachine machine) {
         super(machine, () -> null);
         this.miner = (IDigitalMiner) machine;
-        this.config=miner.getMinerConfig();
+        this.config = miner.getMinerConfig();
         this.isDone = false;
         interval = 0;
     }
@@ -150,14 +150,12 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     public void resetRecipeLogic() {
         this.oresToMine.clear();
         this.oreAmount = 0;
-        this.config=miner.getMinerConfig();
+        this.config = miner.getMinerConfig();
         super.resetRecipeLogic();
         stopSearching();
         resetArea(false);
         this.setWorkingEnabled(false);
     }
-
-
 
     protected boolean isSilkTouchMode() {
         return config.silkLevel() == 1;
@@ -168,7 +166,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     protected boolean checkCanMine() {
-        if (config.parallelMining()==0) return false;
+        if (config.parallelMining() == 0) return false;
         if (!isDone && checkCoordinatesInvalid()) {
             initPos();
         }

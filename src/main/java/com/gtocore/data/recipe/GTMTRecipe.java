@@ -1,6 +1,11 @@
 package com.gtocore.data.recipe;
 
-import appeng.core.definitions.AEBlocks;
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.GTAEMachines;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -12,16 +17,14 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
-import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.machines.GTAEMachines;
+
+import net.minecraft.world.item.Items;
+import net.minecraftforge.common.Tags;
+
+import appeng.core.definitions.AEBlocks;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.hepdd.gtmthings.data.CustomMachines;
 import com.hepdd.gtmthings.data.WirelessMachines;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.SCANNER_RECIPES;
@@ -634,7 +637,7 @@ public final class GTMTRecipe {
                 .EUt(GTValues.VA[GTValues.MV])
                 .save();
 
-        ASSEMBLER_RECIPES.builder("lv_digital_miner")
+        ASSEMBLER_RECIPES.builder("hv_digital_miner")
                 .inputItems(GTMachines.MINER[GTValues.HV].asItem())
                 .inputItems(GTItems.ROBOT_ARM_HV.asItem(), 2)
                 .inputItems(GTItems.EMITTER_HV.asItem(), 2)
