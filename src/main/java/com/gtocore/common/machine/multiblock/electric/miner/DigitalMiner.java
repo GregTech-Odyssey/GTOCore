@@ -1,17 +1,5 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
-import com.gregtechceu.gtceu.api.item.ComponentItem;
-import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
-import com.gregtechceu.gtceu.common.item.ItemFilterBehaviour;
-import com.gtocore.integration.jade.provider.RecipeLogicProvider;
-
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.annotation.DataGeneratorScanned;
-import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.annotation.language.RegisterEnumLang;
-import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
@@ -20,22 +8,17 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.misc.ProspectorMode;
 import com.gregtechceu.gtceu.api.gui.widget.ProspectingMapWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.AABB;
-
+import com.gregtechceu.gtceu.common.item.ItemFilterBehaviour;
+import com.gtocore.integration.jade.provider.RecipeLogicProvider;
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -47,21 +30,43 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 
 @DataGeneratorScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class DigitalMiner extends TierCasingMultiblockMachine implements IDigitalMiner {
 
+    // ===================== UI相关方法 =====================
+    private static final int BORDER_WIDTH = 3;
     @Persisted
     protected final CustomItemStackHandler filterInventory;
     @Persisted
     public IDigitalMiner.FluidMode fluidMode = IDigitalMiner.FluidMode.Harvest;
+    @Nullable
+    protected ISubscription energySubs;
+    protected Filter<?, ?> itemFilter;
+    protected Filter<?, ?> fluidFilter;
+    // ===================== UI组件 =====================
+    protected SlotWidget filterSlot;
+    protected ButtonWidget resetButton;
+    protected ButtonWidget silkButton;
+
+    // ===================== 构造与初始化 =====================
+    protected ButtonWidget fluidModeButton;
+    protected DraggableScrollableWidgetGroup mapArea;
     @Persisted
     @DescSynced
     private int xRadialLength;
@@ -76,7 +81,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     @Persisted
     @DescSynced
     private int zOffset;
-
     @Setter
     @Getter
     @Persisted
@@ -87,6 +91,8 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     @Persisted
     @DescSynced
     private int maxHeight;
+
+    // ===================== 逻辑相关方法 =====================
     @Getter
     @Persisted
     private int silkLevel;
@@ -105,25 +111,12 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     @DescSynced
     @Persisted
     private boolean showRange = false;
-    @Nullable
-    protected ISubscription energySubs;
-
-    protected Filter<?, ?> filter;
     @Getter
     private long energyPerTick;
-
-    // ===================== UI组件 =====================
-    protected SlotWidget filterSlot;
-    protected ButtonWidget resetButton;
-    protected ButtonWidget silkButton;
-    protected ButtonWidget fluidModeButton;
     private ButtonWidget showRangeButton;
-    protected DraggableScrollableWidgetGroup mapArea;
-
-    // ===================== 构造与初始化 =====================
 
     public DigitalMiner(MetaMachineBlockEntity holder) {
-        super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);;
+        super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);
         this.filterInventory = createFilterItemHandler();
         this.silkLevel = 0;
         this.minHeight = 0;
@@ -134,11 +127,13 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         this.zOffset = 0;
     }
 
+    // ===================== 交互相关方法 =====================
+
     protected CustomItemStackHandler createFilterItemHandler() {
         var transfer = new CustomItemStackHandler();
         transfer.setFilter(
                 item -> item.getItem() instanceof ComponentItem componentItem &&
-                        componentItem.getComponents().stream().anyMatch(c->c instanceof ItemFilterBehaviour));
+                        componentItem.getComponents().stream().anyMatch(c -> c instanceof ItemFilterBehaviour));
         return transfer;
     }
 
@@ -171,7 +166,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         tier = Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
         this.energyPerTickBase = (int) Math.pow(4, getTier()) * 2L;
         this.energyPerTick = energyPerTickBase * (silkLevel == 0 ? 1 : 4);
-        this.parallelMining = (int) Math.min(4096, Math.pow(2, getTier()));
+        this.parallelMining = (int) Math.min(4096, 4 * Math.pow(2, getTier()));
         this.maxRadius = (int) Math.min(8 * Math.pow(2, getTier()), 128);
         this.prospectorRadius = Math.min(getTier() / 2 + 1, 6);
         resetRecipe();
@@ -189,35 +184,35 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         clearInventory(filterInventory);
     }
 
-    // ===================== 逻辑相关方法 =====================
+    @Override
+    public void setWorkingEnabled(boolean isWorkingAllowed) {
+        if (isWorkingAllowed && getRecipeLogic().isDone()) getRecipeLogic().resetRecipeLogic();
+        super.setWorkingEnabled(isWorkingAllowed);
+    }
 
     @Override
     public MinerConfig getMinerConfig() {
-        return new MinerConfig(getMinerArea(),getSpeed(),energyPerTick,parallelMining,silkLevel,filter,fluidMode);
+        return new MinerConfig(getMinerArea(), energyPerTick, getSpeed(), parallelMining, silkLevel, itemFilter, fluidFilter, fluidMode);
     }
 
     private void resetRecipe() {
         setWorkingEnabled(false);
-        if (xRadialLength > maxRadius * 2) xRadialLength = maxRadius * 2;
-        if (zRadialLength > maxRadius * 2) zRadialLength = maxRadius * 2;
-        if (minHeight > maxHeight) {
-            int temp = minHeight;
-            minHeight = maxHeight;
-            maxHeight = temp;
-        }
         getRecipeLogic().resetRecipeLogic();
     }
 
     private void filterChange() {
-        this.filter = null;
+        this.itemFilter = null;
+        this.fluidFilter = null;
         var stack = filterInventory.getStackInSlot(0);
         if (!stack.isEmpty()) {
             if (stack.is(GTItems.TAG_FLUID_FILTER.asItem()) || stack.is(GTItems.FLUID_FILTER.asItem()))
-                this.filter = FluidFilter.loadFilter(stack);
-            else this.filter = ItemFilter.loadFilter(filterInventory.getStackInSlot(0));
+                this.fluidFilter = FluidFilter.loadFilter(stack);
+            else this.itemFilter = ItemFilter.loadFilter(filterInventory.getStackInSlot(0));
         }
         resetRecipe();
     }
+
+    // ===================== 枚举与语言常量 =====================
 
     private void reset(ClickData clickData) {
         resetRecipe();
@@ -243,8 +238,16 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         resetRecipe();
     }
 
-    // ===================== UI相关方法 =====================
-    private static final int BORDER_WIDTH = 3;
+    public boolean drainInput(boolean simulate) {
+        var energyContainer = getEnergyContainer();
+        long resultEnergy = energyContainer.getEnergyStored() - energyPerTick;
+        if (resultEnergy >= 0L && resultEnergy <= energyContainer.getEnergyCapacity()) {
+            if (!simulate)
+                energyContainer.removeEnergy(energyPerTick);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -256,7 +259,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
 
         WidgetGroup group = new WidgetGroup(0, 0, width, height);
 
-        // infomation screen
+        // information screen
         // var componentPanel = new ComponentPanelWidget(4, 5, this::addDisplayText).setMaxWidthLimit(110);
         var container = new WidgetGroup(8, 66, 87, 76);
         var componentPanel = new DraggableScrollableWidgetGroup();
@@ -270,7 +273,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         WidgetGroup slots = new WidgetGroup(8, 76 + 4 / 2, colSize * 18, rowSize * 18);
         group.addWidget(slots);
 
-        // infomation screen 2
+        // information screen 2
         var componentPanel2 = new ComponentPanelWidget(4, 5, this::addDisplayText);
         var container2 = new DraggableScrollableWidgetGroup(8, 0, 87, 60);
         container2.addWidget(new WidgetGroup(4, 4, 160, 80)
@@ -294,10 +297,10 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         // Radius
         group.addWidget(new LabelWidget(x1, 26 + (i) * 18, Component.translatable(XRADIAL_LENGTH)).setClientSideWidget());
         group.addWidget(new SimpleNumberInputWidget(x2, 24 + (i++) * 18, 32, 12, this::getMinerXRadius, this::setMinerXRadius)
-                .setMin(0).setMax(maxRadius * 2));
+                .setMin(0).setMax(maxRadius * 2 + 1));
         group.addWidget(new LabelWidget(x1, 26 + (i) * 18, Component.translatable(ZRADIAL_LENGTH)).setClientSideWidget());
         group.addWidget(new SimpleNumberInputWidget(x2, 24 + (i++) * 18, 32, 12, this::getMinerZRadius, this::setMinerZRadius)
-                .setMin(0).setMax(maxRadius * 2));
+                .setMin(0).setMax(maxRadius * 2 + 1));
 
         // Offset
         group.addWidget(new LabelWidget(x1, 26 + (i) * 18, Component.translatable(X_OFFSET)).setClientSideWidget());
@@ -320,7 +323,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
 
         // Max height
         group.addWidget(new LabelWidget(x1, 26 + (i) * 18, Component.translatable(MAX_HEIGHT)).setClientSideWidget());
-        group.addWidget(new SimpleNumberInputWidget(x2, 24 + (i++) * 18, 32, 12, this::getMaxHeight, this::setMaxHeight)
+        group.addWidget(new SimpleNumberInputWidget(x2, 24 + (i) * 18, 32, 12, this::getMaxHeight, this::setMaxHeight)
                 .setMin(getLevel().getMinBuildHeight()).setMax(getLevel().getMaxBuildHeight()));
 
         // silk button
@@ -337,8 +340,8 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
                 (cd -> {
                     fluidMode = fluidMode.next();
                     this.fluidModeButton.setButtonTexture(GuiTextures.BUTTON,
-                            new TextTexture(fluidMode.getTitle())
-                                    .setDropShadow(false).setColor(fluidMode.color.getColor()))
+                                    new TextTexture(fluidMode.getTitle())
+                                            .setDropShadow(false).setColor(fluidMode.color.getColor()))
                             .setHoverTooltips(fluidMode.getTooltip());
                     resetRecipe();
                 }));
@@ -405,15 +408,13 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         if (getRecipeLogic().isInventoryFull())
             textList.add(Component.translatable("gtceu.multiblock.large_miner.invfull")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
-        if (!getRecipeLogic().drainInput(true))
+        if (!drainInput(true))
             textList.add(Component.translatable("gtceu.multiblock.large_miner.needspower")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
         textList.addAll(NewDataAttributes.LEVEL.create(tier).get());
         RecipeLogicProvider.getEUtTooltip(textList, getEnergyPerTick(), false);
         textList.add(Component.translatable(PARALLEL, parallelMining));
     }
-
-    // ===================== 交互相关方法 =====================
 
     @Override
     public boolean canConnectRedstone(Direction side) {
@@ -423,18 +424,9 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     @Override
     public void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
-        if (getInputSignal() > 0) {
-            resetRecipe();
+        if (getLevel().hasNeighborSignal(fromPos)) {
             setWorkingEnabled(true);
         }
-    }
-
-    private int getInputSignal() {
-        Level level = this.getLevel();
-        if (!(level instanceof ServerLevel)) return 0;
-        BlockPos frontPos = this.getPos().relative(getFrontFacing());
-        BlockPos underPos = this.getPos().below();
-        return level.getSignal(frontPos, getFrontFacing()) | level.getSignal(underPos, Direction.UP);
     }
 
     public int getMinerXRadius() {
@@ -453,6 +445,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         this.zRadialLength = minerRadius;
     }
 
+    @Override
     public DigitalMinerLogic getRecipeLogic() {
         return (DigitalMinerLogic) super.getRecipeLogic();
     }
@@ -462,6 +455,13 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     }
 
     public AABB getMinerArea() {
+        if (xRadialLength > maxRadius * 2 + 1) xRadialLength = maxRadius * 2 + 1;
+        if (zRadialLength > maxRadius * 2 + 1) zRadialLength = maxRadius * 2 + 1;
+        if (minHeight > maxHeight) {
+            int temp = minHeight;
+            minHeight = maxHeight;
+            maxHeight = temp;
+        }
         BlockPos pos = getPos();
         BlockPos pos1 = pos.offset(getXOffset(), 0, getZOffset()).atY(minHeight);
         BlockPos pos2 = pos1.offset((xRadialLength), 0, (zRadialLength)).atY(maxHeight);
@@ -469,6 +469,12 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
     }
 
     private class ProspectorMap extends ProspectingMapWidget {
+
+        final Widget parent;
+        boolean isDragging = false;
+        double startX = 0, startY = 0;
+        double lastX = 0, lastY = 0;
+        WaypointItem startWaypoint = null;
 
         public ProspectorMap(int x, int y, int width, int height, int radius, ProspectorMode mode, int scale, Widget parent) {
             super(x, y, width, height, radius, mode, scale);
@@ -484,13 +490,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
                         w.setSize((radius * 2 - 1) * 16 + 8, (radius * 2 - 1) * 16 + 16);
                     });
         }
-
-        final Widget parent;
-
-        boolean isDragging = false;
-        double startX = 0, startY = 0;
-        double lastX = 0, lastY = 0;
-        WaypointItem startWaypoint = null;
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -511,15 +510,6 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         public void drawInForeground(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
             super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
             graphics.fill((int) startX, (int) startY, (int) lastX, (int) lastY, 0x80FFFFFF);
-        }
-
-        public void resetSelection() {
-            isDragging = false;
-            startWaypoint = null;
-            startX = 0;
-            startY = 0;
-            lastX = 0;
-            lastY = 0;
         }
 
         @Override
@@ -543,8 +533,8 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
                     int zOffset = Math.min(startBlockPos.getZ(), endBlockPos.getZ()) - getPos().getZ();
                     int xRadialLength = Math.abs(startBlockPos.getX() - endBlockPos.getX());
                     int zRadialLength = Math.abs(startBlockPos.getZ() - endBlockPos.getZ());
-                    if (xRadialLength > maxRadius * 2) xRadialLength = maxRadius * 2;
-                    if (zRadialLength > maxRadius * 2) zRadialLength = maxRadius * 2;
+                    if (xRadialLength > maxRadius * 2 + 1) xRadialLength = maxRadius * 2 + 1;
+                    if (zRadialLength > maxRadius * 2 + 1) zRadialLength = maxRadius * 2 + 1;
                     if (Math.abs(xOffset) > maxRadius) xOffset = xOffset > 0 ? maxRadius : -maxRadius;
                     if (Math.abs(zOffset) > maxRadius) zOffset = zOffset > 0 ? maxRadius : -maxRadius;
                     final int finalXOffset = xOffset;
@@ -578,38 +568,4 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
             super.readUpdateInfo(id, buffer);
         }
     }
-
-    // ===================== 枚举与语言常量 =====================
-
-
-    @RegisterLanguage(cn = "重置", en = "Reset")
-    private static final String RESET = "gtocore.digital_miner.reset";
-    @RegisterLanguage(cn = "精准", en = "Silk")
-    private static final String SILK = "gtocore.digital_miner.silk";
-    @RegisterLanguage(cn = "流体模式", en = "Fluid Mode")
-    private static final String FLUID_MODE = "gtocore.digital_miner.fluid_mode";
-    @RegisterLanguage(cn = "待挖掘：", en = "To be mined: ")
-    private static final String TO_BE_MINED = "gtocore.digital_miner.to_be_mined";
-    @RegisterLanguage(cn = "开启精准采集模式，4倍耗电", en = "Enable silk touch mode, 4x power consumption")
-    private static final String SILK_TOOLTIP = "gtocore.digital_miner.silk.tooltip";
-    @RegisterLanguage(cn = "修改配置后必须重置才能生效", en = "You must reset the configuration for it to take effect.")
-    private static final String RESET_TOOLTIP = "gtocore.digital_miner.reset.tooltip";
-    @RegisterLanguage(cn = "最小高度", en = "Min Height")
-    private static final String MIN_HEIGHT = "gtocore.digital_miner.min_height";
-    @RegisterLanguage(cn = "最大高度", en = "Max Height")
-    private static final String MAX_HEIGHT = "gtocore.digital_miner.max_height";
-    @RegisterLanguage(cn = "同时采集§d%s§r个方块", en = "Mining §d%s§r blocks simultaneously")
-    private static final String PARALLEL = "gtocore.miner.parallel";
-    @RegisterLanguage(cn = "显示范围", en = "Show Range")
-    private static final String SHOW_RANGE = "gtocore.digital_miner.show_range";
-    @RegisterLanguage(cn = "在世界中显示当前采集范围", en = "Show the current mining range in the world")
-    private static final String SHOW_RANGE_TOOLTIP = "gtocore.digital_miner.show_range.tooltip";
-    @RegisterLanguage(cn = "x径向长度", en = "x radial length")
-    private static final String XRADIAL_LENGTH = "gtocore.digital_miner.x_radial_length";
-    @RegisterLanguage(cn = "z径向长度", en = "z radial length")
-    private static final String ZRADIAL_LENGTH = "gtocore.digital_miner.z_radial_length";
-    @RegisterLanguage(cn = "x偏移量", en = "x offset")
-    private static final String X_OFFSET = "gtocore.digital_miner.x_offset";
-    @RegisterLanguage(cn = "z偏移量", en = "z offset")
-    private static final String Z_OFFSET = "gtocore.digital_miner.z_offset";
 }

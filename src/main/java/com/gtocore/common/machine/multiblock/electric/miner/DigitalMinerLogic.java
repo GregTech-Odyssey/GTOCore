@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gregtechceu.gtceu.api.cover.filter.TagItemFilter;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gtolib.IFluid;
 import com.gtolib.IItem;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -8,7 +10,6 @@ import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -16,6 +17,7 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockWorldData;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +26,6 @@ import net.minecraft.world.level.PathNavigationRegion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
@@ -37,6 +38,16 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
+
+    ItemFilter ORE_FILTER;
+
+    {
+        var is=new ItemStack(GTItems.TAG_FILTER.asItem());
+        var ft=new CompoundTag();
+        ft.putString("oreDict","forge:ores");
+        is.setTag(ft);
+        ORE_FILTER = TagItemFilter.loadFilter(is);
+    }
 
     @Getter
     @Persisted
@@ -146,17 +157,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         this.setWorkingEnabled(false);
     }
 
-    public boolean drainInput(boolean simulate) {
-        var energyContainer=miner.getEnergyContainer();
-        long resultEnergy = energyContainer.getEnergyStored() - config.energyPerTick();
-        if (resultEnergy >= 0L && resultEnergy <= energyContainer.getEnergyCapacity()) {
-            if (!simulate)
-                energyContainer.removeEnergy(config.energyPerTick());
-            return true;
-        }
-        return false;
-    }
-
 
 
     protected boolean isSilkTouchMode() {
@@ -172,7 +172,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         if (!isDone && checkCoordinatesInvalid()) {
             initPos();
         }
-        return !isDone && drainInput(true);
+        return !isDone && miner.drainInput(true);
     }
 
     public void initPos() {
@@ -185,10 +185,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         mineX = getMinX();
         mineZ = getMinZ();
         mineY = getMaxY();
-    }
-
-    public BlockPos getMiningPos() {
-        return getMachine().getPos();
     }
 
     public void resetArea(boolean checkToMine) {
@@ -214,7 +210,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
             z = mineZ;
             this.isDone = true;
             this.setStatus(Status.IDLE);
-            this.setWorkingEnabled(false);
+            this.miner.setWorkingEnabled(false);
         }
     }
 
@@ -224,8 +220,8 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         int calculated = 0;
         int x = startX, y = startY, z = startZ;
         final int endX = getMaxX(), endZ = getMaxZ(), minHeight = getMinY();
-        ItemFilter itemFilter = (config.filter() instanceof ItemFilter filter) ? filter : null;
-        FluidFilter fluidFilter = (config.filter() instanceof FluidFilter filter) ? filter : null;
+        ItemFilter itemFilter = (config.itemFilter() instanceof ItemFilter filter) ? filter : ORE_FILTER;
+        FluidFilter fluidFilter = (config.fluidFilter() instanceof FluidFilter filter) ? filter : null;
         while (calculated < calcAmount) {
             if (y >= minHeight) {
                 if (z < endZ) {
@@ -237,7 +233,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                                 if (fluidFilter == null || fluidFilter.test(((IFluid) liq.getFluidState(state).getType()).gtolib$getReadOnlyStack())) {
                                     blocks.addLast(blockPos);
                                 }
-                            } else if (itemFilter == null || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
+                            } else if ((itemFilter == null) || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
                                 blocks.addLast(blockPos);
                             }
                         }
@@ -291,7 +287,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     public void serverTick() {
         if (!isSuspend() && getMachine().getLevel() instanceof ServerLevel serverLevel && checkCanMine()) {
             if (!isInventoryFull()) {
-                drainInput(false);
+                miner.drainInput(false);
                 setStatus(Status.WORKING);
                 if (lastRecipe == null) lastRecipe = RecipeBuilder.ofRaw().EUt(miner.getMinerConfig().energyPerTick()).buildRawRecipe();
             } else {
@@ -301,7 +297,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                 }
             }
             checkBlocksToMine();
-            if (!oresToMine.isEmpty() && duration % config.speed() == 0) {
+            if (!oresToMine.isEmpty() && miner.self().getOffsetTimer() % config.speed() == 0) {
                 int loops = miner.getMinerConfig().parallelMining();
                 lootCache.clear();
                 do {
@@ -326,10 +322,12 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                 z = mineZ;
                 this.isDone = true;
                 this.setStatus(Status.IDLE);
+                this.miner.setWorkingEnabled(false);
                 this.oreAmount = oresToMine.size();
             }
         } else {
             this.setStatus(Status.IDLE);
+            this.miner.setWorkingEnabled(false);
             if (subscription != null) {
                 subscription.unsubscribe();
                 subscription = null;
