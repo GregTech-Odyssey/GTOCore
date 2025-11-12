@@ -26,7 +26,7 @@ import appeng.api.inventories.InternalInventory;
 import appeng.api.parts.IPart;
 import appeng.blockentity.crafting.PatternProviderBlockEntity;
 import appeng.blockentity.networking.CableBusBlockEntity;
-import appeng.parts.crafting.PatternProviderPart;
+import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -96,7 +96,7 @@ public final class PatternModifierProBehavior implements IItemUIFactory, IFancyU
                     // 计算具体点击位置
                     Vec3 hitInBlock = new Vec3(hitVec.x - pos.getX(), hitVec.y - pos.getY(), hitVec.z - pos.getZ());
                     IPart part = cable.getCableBus().selectPartLocal(hitInBlock).part;
-                    internalInventory = (part instanceof PatternProviderPart providerPart) ? providerPart.getLogic().getPatternInv() : null;
+                    internalInventory = (part instanceof PatternProviderLogicHost providerPart) ? providerPart.getLogic().getPatternInv() : null;
                 } else {
                     internalInventory = (tile instanceof PatternProviderBlockEntity providerBlock) ? providerBlock.getLogic().getPatternInv() : null;
                 }

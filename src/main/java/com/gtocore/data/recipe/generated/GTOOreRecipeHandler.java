@@ -339,11 +339,18 @@ public final class GTOOreRecipeHandler {
                 VanillaRecipeHelper.addSmeltingRecipe(material.getName(), tag, ingotStack, xp);
                 VanillaRecipeHelper.addBlastingRecipe(material.getName(), tag, ingotStack, xp);
                 if (material.hasProperty(PropertyKey.GEM)) {
-                    AUTOCLAVE_RECIPES.builder("ore_" + material.getName())
+                    AUTOCLAVE_RECIPES.builder("ore2_" + material.getName())
                             .inputItems(crushedPurified.getItemTags(material)[0])
                             .outputItems(ingotStack)
-                            .inputFluids(GTMaterials.DistilledWater, GTOCore.isExpert() ? 50 : 10)
+                            .inputFluids(GTMaterials.DistilledWater, GTOCore.isExpert() ? 20 : 10)
                             .EUt(GTOCore.isExpert() ? 8 : 2)
+                            .duration(100)
+                            .save();
+                    AUTOCLAVE_RECIPES.builder("ore1_" + material.getName())
+                            .inputItems(crushedPurified.getItemTags(material)[0])
+                            .outputItems(ingotStack)
+                            .inputFluids(Water, 500)
+                            .EUt(GTOCore.isExpert() ? 16 : 8)
                             .duration(400)
                             .save();
                 }
