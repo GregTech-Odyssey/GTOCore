@@ -1681,10 +1681,16 @@ object GTOMachineTooltips {
 
         highlight("我们走在大路上！" translatedTo "We're on the road!")
 
+        section(ComponentSlang.ParallelBonus)
+        content("结构的高度决定了基础并行数量" translatedTo "The height of the structure determines the base parallel count")
+        increase("每层提供 2 并行" translatedTo "Each layer of Steel Frames provides 2 parallels")
+        increase("每 500K 温度为配方提供 1x 并行倍率" translatedTo "Provides a 1x parallel multiplier for recipes every 500K of temperature")
         section(ComponentSlang.EfficiencyBonus)
-        content("随着配方运行，温度升高" translatedTo "As the recipe operating, the temperature increases")
-        increase("下次配方获得 400 / 温度 的时间减免" translatedTo "Next recipe gains duration reduction of 400 / temperature")
-        danger(ComponentSlang.BeAwareOfBurn)
+        content("随着配方运行，温度升高，空闲时则会降低" translatedTo "As the recipe operates, the temperature increases, and it will decrease when idle")
+        increase("下次配方获得 (400 / 温度) 的时间倍率减免" translatedTo "The next recipe gains a duration multiplier reduction of (400 / temperature)")
+
+        // 危险提示
+        danger("运行时，烟囱内部会对生物造成致命高温伤害！" translatedTo "When running, the inside of the chimney will cause fatal high-temperature damage to living beings!")
     }
 
     // 中子旋涡
