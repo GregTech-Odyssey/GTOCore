@@ -8,14 +8,16 @@ import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
+import com.gregtechceu.gtceu.api.cover.filter.TagItemFilter;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.pattern.MultiblockWorldData;
+import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +26,6 @@ import net.minecraft.world.level.PathNavigationRegion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
@@ -37,6 +38,16 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
+
+    private static final ItemFilter ORE_FILTER;
+
+    static {
+        var is = new ItemStack(GTItems.TAG_FILTER.asItem());
+        var ft = new CompoundTag();
+        ft.putString("oreDict", "forge:ores");
+        is.setTag(ft);
+        ORE_FILTER = TagItemFilter.loadFilter(is);
+    }
 
     @Getter
     @Persisted
@@ -69,15 +80,9 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     @Persisted
     private boolean isDone;
 
-    private AABB area;
-
     // ===================== Getter/Setter =====================
     @Getter
-    protected final DigitalMiner miner;
-    @Getter
-    private int silk;
-    @Getter
-    private final int speed;
+    protected final IDigitalMiner miner;
     private final LinkedList<BlockPos> oresToMine = new LinkedList<>();
     @Getter
     private int minBuildHeight = Integer.MAX_VALUE;
@@ -85,50 +90,44 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     private boolean isInventoryFull;
     @Getter
     private int oreAmount;
-    @Getter
-    private Filter<?, ?> filter;
-    private DigitalMiner.FluidMode fluidMode;
+
+    private IDigitalMiner.MinerConfig config;
     private final Map<BlockState, List<ItemStack>> lootCache = new Reference2ReferenceOpenHashMap<>();
 
     // ===================== 矿块搜索线程相关 =====================
     private Thread minerSearchThread;
     private volatile boolean isSearchingBlocks = false;
 
-    DigitalMinerLogic(@NotNull IRecipeLogicMachine machine,
-                      AABB aabb, int silk, Filter<?, ?> filter, DigitalMiner.FluidMode fluidMode) {
+    DigitalMinerLogic(@NotNull IRecipeLogicMachine machine) {
         super(machine, () -> null);
-        this.miner = (DigitalMiner) machine;
-        this.silk = silk;
-        this.speed = miner.getSpeed();
+        this.miner = (IDigitalMiner) machine;
+        this.config = miner.getMinerConfig();
         this.isDone = false;
-        this.area = aabb;
-        this.filter = filter;
-        this.fluidMode = fluidMode;
         interval = 0;
     }
 
     public int getMinY() {
-        return (int) area.minY;
+        return (int) config.minerArea().minY;
     }
 
     public int getMaxY() {
-        return (int) area.maxY;
+        return (int) config.minerArea().maxY;
     }
 
     public int getMinX() {
-        return (int) area.minX;
+        return (int) config.minerArea().minX;
     }
 
     public int getMaxX() {
-        return (int) area.maxX;
+        return (int) config.minerArea().maxX;
     }
 
     public int getMinZ() {
-        return (int) area.minZ;
+        return (int) config.minerArea().minZ;
     }
 
     public int getMaxZ() {
-        return (int) area.maxZ;
+        return (int) config.minerArea().maxZ;
     }
 
     // ===================== 生命周期相关方法 =====================
@@ -149,24 +148,17 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     // ===================== 逻辑相关方法 =====================
     @Override
     public void resetRecipeLogic() {
+        this.oresToMine.clear();
+        this.oreAmount = 0;
+        this.config = miner.getMinerConfig();
         super.resetRecipeLogic();
         stopSearching();
         resetArea(false);
         this.setWorkingEnabled(false);
     }
 
-    public void resetRecipeLogic(AABB aabb, int silk, Filter<?, ?> filter, DigitalMiner.FluidMode fluidMode) {
-        this.silk = silk;
-        this.area = aabb;
-        this.filter = filter;
-        this.oresToMine.clear();
-        this.oreAmount = 0;
-        this.fluidMode = fluidMode;
-        this.resetRecipeLogic();
-    }
-
     protected boolean isSilkTouchMode() {
-        return silk == 1;
+        return config.silkLevel() == 1;
     }
 
     private boolean checkCoordinatesInvalid() {
@@ -174,7 +166,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     protected boolean checkCanMine() {
-        if (!miner.isFormed()) return false;
+        if (config.parallelMining() == 0) return false;
         if (!isDone && checkCoordinatesInvalid()) {
             initPos();
         }
@@ -191,10 +183,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         mineX = getMinX();
         mineZ = getMinZ();
         mineY = getMaxY();
-    }
-
-    public BlockPos getMiningPos() {
-        return getMachine().getPos();
     }
 
     public void resetArea(boolean checkToMine) {
@@ -220,7 +208,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
             z = mineZ;
             this.isDone = true;
             this.setStatus(Status.IDLE);
-            this.setWorkingEnabled(false);
+            this.miner.setWorkingEnabled(false);
         }
     }
 
@@ -230,8 +218,8 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
         int calculated = 0;
         int x = startX, y = startY, z = startZ;
         final int endX = getMaxX(), endZ = getMaxZ(), minHeight = getMinY();
-        ItemFilter itemFilter = (this.filter instanceof ItemFilter filter) ? filter : null;
-        FluidFilter fluidFilter = (this.filter instanceof FluidFilter filter) ? filter : null;
+        ItemFilter itemFilter = (config.itemFilter() instanceof ItemFilter filter) ? filter : ORE_FILTER;
+        FluidFilter fluidFilter = (config.fluidFilter() instanceof FluidFilter filter) ? filter : null;
         while (calculated < calcAmount) {
             if (y >= minHeight) {
                 if (z < endZ) {
@@ -239,11 +227,11 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                         BlockPos blockPos = new BlockPos(x, y, z);
                         BlockState state = chunkCache.getBlockState(blockPos);
                         if (!state.isAir() && state.getBlock().defaultDestroyTime() >= 0 && !isInMultiblock(blockPos, data)) {
-                            if (state.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore && itemFilter == null) {
+                            if (state.getBlock() instanceof LiquidBlock liq && config.fluidMode() != IDigitalMiner.FluidMode.Ignore && itemFilter == null) {
                                 if (fluidFilter == null || fluidFilter.test(((IFluid) liq.getFluidState(state).getType()).gtolib$getReadOnlyStack())) {
                                     blocks.addLast(blockPos);
                                 }
-                            } else if (itemFilter == null || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
+                            } else if ((itemFilter == null) || itemFilter.test(((IItem) state.getBlock().asItem()).gtolib$getReadOnlyStack())) {
                                 blocks.addLast(blockPos);
                             }
                         }
@@ -285,7 +273,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                 if (minBuildHeight == Integer.MAX_VALUE) minBuildHeight = getMachine().getLevel().getMinBuildHeight();
                 var chunkCache = new PathNavigationRegion(getMiner().getLevel(),
                         new BlockPos(startX - 1, startY - 1, startZ - 1),
-                        new BlockPos((int) (area.maxX + 1), (int) (area.maxY + 1), (int) (area.maxZ + 1)));
+                        new BlockPos((int) (config.minerArea().maxX + 1), (int) (config.minerArea().maxY + 1), (int) (config.minerArea().maxZ + 1)));
                 var data = MultiblockWorldData.getOrCreate(serverLevel);
                 minerSearchThread = Thread.startVirtualThread(() -> onBlocksFound(getBlocksToMine(chunkCache, data)));
             }
@@ -299,7 +287,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
             if (!isInventoryFull()) {
                 miner.drainInput(false);
                 setStatus(Status.WORKING);
-                if (lastRecipe == null) lastRecipe = RecipeBuilder.ofRaw().EUt(miner.getEnergyPerTick()).buildRawRecipe();
+                if (lastRecipe == null) lastRecipe = RecipeBuilder.ofRaw().EUt(miner.getMinerConfig().energyPerTick()).buildRawRecipe();
             } else {
                 if (this.isWorking()) {
                     setWaiting(Component.translatable("gtceu.recipe_logic.insufficient_out").append(": ")
@@ -307,8 +295,8 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                 }
             }
             checkBlocksToMine();
-            if (!oresToMine.isEmpty() && miner.getOffsetTimer() % speed == 0) {
-                int loops = miner.getParallelMining();
+            if (!oresToMine.isEmpty() && miner.self().getOffsetTimer() % config.speed() == 0) {
+                int loops = miner.getMinerConfig().parallelMining();
                 lootCache.clear();
                 do {
                     BlockPos blockPos = oresToMine.getFirst();
@@ -332,10 +320,12 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                 z = mineZ;
                 this.isDone = true;
                 this.setStatus(Status.IDLE);
+                this.miner.setWorkingEnabled(false);
                 this.oreAmount = oresToMine.size();
             }
         } else {
             this.setStatus(Status.IDLE);
+            this.miner.setWorkingEnabled(false);
             if (subscription != null) {
                 subscription.unsubscribe();
                 subscription = null;
@@ -367,9 +357,9 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     }
 
     private boolean mineAndInsertFluids(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos) {
-        if (blockState.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore) {
+        if (blockState.getBlock() instanceof LiquidBlock liq && config.fluidMode() != IDigitalMiner.FluidMode.Ignore) {
             boolean isSource = liq.getFluidState(blockState).isSource();
-            if (isSource && fluidMode == DigitalMiner.FluidMode.Harvest && !MachineUtils.outputFluid(miner, liq.getFluidState(blockState).getType(), 1000)) {
+            if (isSource && config.fluidMode() == IDigitalMiner.FluidMode.Harvest && !MachineUtils.outputFluid(miner, liq.getFluidState(blockState).getType(), 1000)) {
                 this.isInventoryFull = true;
                 return true;
             }

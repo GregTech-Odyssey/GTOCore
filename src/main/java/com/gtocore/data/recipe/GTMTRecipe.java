@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
@@ -608,6 +609,45 @@ public final class GTMTRecipe {
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(72))
                 .duration(100)
                 .EUt(GTValues.VA[GTValues.LV])
+                .save();
+
+        ASSEMBLER_RECIPES.builder("lv_digital_miner")
+                .inputItems(GTMachines.MINER[GTValues.LV].asItem())
+                .inputItems(GTItems.ROBOT_ARM_LV.asItem(), 2)
+                .inputItems(GTItems.EMITTER_LV.asItem(), 2)
+                .inputItems(GTItems.SENSOR_LV.asItem(), 2)
+                .inputItems(CustomTags.MV_CIRCUITS, 4)
+                .inputItems(GTOTagPrefix.cableGtSingle, GTMaterials.Tin, 4)
+                .outputItems(GTOMachines.DIGITAL_MINER[GTValues.LV].asItem())
+                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .duration(400)
+                .EUt(GTValues.VA[GTValues.LV])
+                .save();
+
+        ASSEMBLER_RECIPES.builder("mv_digital_miner")
+                .inputItems(GTMachines.MINER[GTValues.MV].asItem())
+                .inputItems(GTItems.ROBOT_ARM_MV.asItem(), 2)
+                .inputItems(GTItems.EMITTER_MV.asItem(), 2)
+                .inputItems(GTItems.SENSOR_MV.asItem(), 2)
+                .inputItems(CustomTags.HV_CIRCUITS, 4)
+                .inputItems(GTOTagPrefix.cableGtSingle, GTMaterials.Copper, 4)
+                .outputItems(GTOMachines.DIGITAL_MINER[GTValues.MV].asItem())
+                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .duration(400)
+                .EUt(GTValues.VA[GTValues.MV])
+                .save();
+
+        ASSEMBLER_RECIPES.builder("hv_digital_miner")
+                .inputItems(GTMachines.MINER[GTValues.HV].asItem())
+                .inputItems(GTItems.ROBOT_ARM_HV.asItem(), 2)
+                .inputItems(GTItems.EMITTER_HV.asItem(), 2)
+                .inputItems(GTItems.SENSOR_HV.asItem(), 2)
+                .inputItems(CustomTags.EV_CIRCUITS, 4)
+                .inputItems(GTOTagPrefix.cableGtSingle, GTMaterials.Gold, 4)
+                .outputItems(GTOMachines.DIGITAL_MINER[GTValues.HV].asItem())
+                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .duration(400)
+                .EUt(GTValues.VA[GTValues.HV])
                 .save();
 
         VanillaRecipeHelper.addShapedRecipe(true, "advanced_terminal", CustomItems.ADVANCED_TERMINAL.asItem(),
