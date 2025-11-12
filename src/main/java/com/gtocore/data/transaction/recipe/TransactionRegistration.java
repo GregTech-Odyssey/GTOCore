@@ -1,6 +1,8 @@
 package com.gtocore.data.transaction.recipe;
 
+import com.gtocore.data.transaction.common.TradingStationMachine;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -14,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 交易实例注册示例：展示如何使用TransactionEntry构建具体交易
@@ -62,9 +63,9 @@ public class TransactionRegistration {
     }
 
     // 前置检查逻辑：3x3区域有草方块且在丛林群系
-    private static boolean checkJungleAndGrass(TransactionEntry.TransactionContext context, TransactionEntry entry) {
-        ServerLevel world = context.world();
-        BlockPos centerPos = context.pos();
+    private static boolean checkJungleAndGrass(TradingStationMachine machine, TransactionEntry entry) {
+        ServerLevel world = (ServerLevel) machine.getLevel();
+        BlockPos centerPos = machine.getPos();
 
         // 1. 检查是否在丛林群系（包括所有丛林变种，通过标签判断更灵活）
         boolean isJungleBiome = world.getBiome(centerPos).is(BiomeTags.IS_JUNGLE);
@@ -94,29 +95,14 @@ public class TransactionRegistration {
     }
 
     // 执行逻辑：在交易坐标生成信标
-    private static void spawnBeaconAtPos(TransactionEntry.TransactionContext context, TransactionEntry entry) {
-        ServerLevel world = context.world();
-        BlockPos pos = context.pos();
+    private static void spawnBeaconAtPos(TradingStationMachine machine, TransactionEntry entry) {
+        ServerLevel world = (ServerLevel) machine.getLevel();
+        BlockPos pos = machine.getPos();
 
         // 在目标位置放置信标（替换原有方块）
         world.setBlock(pos, Blocks.BEACON.defaultBlockState(), 3); // 3=更新标志（同步客户端+触发方块更新）
 
         // 可选：添加粒子效果或音效增强体验
         world.levelEvent(2001, pos, Block.getId(Blocks.BEACON.defaultBlockState())); // 方块放置粒子
-    }
-
-    // 测试触发交易的示例（实际会在游戏交互中调用，如NPC对话、交易台点击）
-    public static void testExecuteTrade(UUID playerUUID, ServerLevel world, BlockPos altarPos) {
-        TransactionEntry trade = createJungleBeaconTrade();
-        TransactionEntry.TransactionContext context = new TransactionEntry.TransactionContext(playerUUID, world, altarPos);
-
-        // 模拟玩家触发交易
-        if (trade.canExecute(context)) {
-            // 检查通过，执行交易
-            trade.execute(context);
-            // 实际场景中还需扣减输入资源（如绿宝石、魔力）
-        } else {
-            // 检查失败，提示玩家（如"不在丛林中"或"周围没有草方块"）
-        }
     }
 }

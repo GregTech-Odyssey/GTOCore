@@ -1,6 +1,7 @@
 package com.gtocore.data.transaction.common;
 
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -13,7 +14,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import java.util.List;
 
 public class TradingStationTool {
-
 
     /////////////////////////////////////
     // ********* 输入输出方法 ********* //

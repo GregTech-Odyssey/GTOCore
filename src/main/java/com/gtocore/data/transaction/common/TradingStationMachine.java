@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 
+import com.gtolib.api.wireless.WirelessManaContainer;
 import com.gtolib.utils.WalletUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -34,16 +35,12 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
@@ -54,6 +51,7 @@ import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -88,6 +86,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Override
     public void onLoad() {
         super.onLoad();
+        InitializationInformation(cardHandler.getStackInSlot(0));
         if (!isRemote()) {
             outputItemChangeSub = outputItem.addChangedListener(this::updateAutoOutputSubscription);
             outputFluidChangeSub = outputFluid.addChangedListener(this::updateAutoOutputSubscription);
@@ -126,25 +125,32 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // *********** 数据存储 *********** //
     /////////////////////////////////////
 
+    @Getter
     @Persisted
     private final NotifiableItemStackHandler inputItem;
+    @Getter
     @Persisted
     private final NotifiableItemStackHandler outputItem;
+    @Getter
     @Persisted
     private final NotifiableFluidTank inputFluid;
+    @Getter
     @Persisted
     private final NotifiableFluidTank outputFluid;
 
     @Persisted
     private final CustomItemStackHandler cardHandler;
 
+    @Getter
     @Persisted
     private UUID uuid;
+    @Getter
     @Persisted
     List<UUID> sharedUUIDs = new ArrayList<>();
+    @Getter
     @Persisted
     private UUID teamUUID;
-    @Persisted
+
     private ItemStack OwnerHead = ItemStack.EMPTY;
     @Persisted
     private int Openness = 0;
@@ -307,7 +313,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     if (level instanceof ServerLevel serverLevel) {
                         if (!WalletUtils.containsTagValueInWallet(uuid, serverLevel, "unlock", entry.unlockCondition())) return;
 
-                        UUID teamUUID = TeamUtil.getTeamUUID(uuid); // originalUUID可以是玩家/机器的UUID
                         // 2. 获取团队对应的电量容器
                         WirelessEnergyContainer container = WirelessEnergyContainer.getOrCreateContainer(teamUUID);
                         // 3. 获取当前总电量
@@ -325,9 +330,22 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                             // 例如：输出日志或向玩家发送提示
                         }
 
-                        TransactionEntry.TransactionContext context = new TransactionEntry.TransactionContext(uuid, serverLevel, pos);
-                        if (entry.canExecute(context)) {
-                            entry.execute(context);
+                        // 2. 获取该玩家对应的无线魔力容器
+                        WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(teamUUID);
+
+                        // 3. 获取当前储存量
+                        BigInteger storedMana = manaContainer.getStorage();
+
+                        manaContainer.setStorage(storedMana.add(BigInteger.valueOf(1000)));
+
+                        // 2. 减少 500 点魔力
+                        // 注意：需要先判断是否足够，避免出现负数
+                        if (storedMana.compareTo(BigInteger.valueOf(500)) >= 0) {
+                            manaContainer.setStorage(storedMana.subtract(BigInteger.valueOf(500)));
+                        }
+
+                        if (entry.canExecute(this)) {
+                            entry.execute(this);
                         }
                     }
                 }));
@@ -378,7 +396,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             this.OwnerHead = ItemStack.EMPTY;
         }
     }
-
 
     /////////////////////////////////////
     // ********* 自动输出实现 ********* //

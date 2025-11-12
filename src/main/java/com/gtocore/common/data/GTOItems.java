@@ -10,8 +10,8 @@ import com.gtocore.common.item.*;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 import com.gtocore.data.lootTables.RewardBagLoot;
-
 import com.gtocore.data.transaction.common.PalmSizedBankBehavior;
+
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
