@@ -1147,6 +1147,10 @@ public final class GTOItems {
             .onRegister(attach(PalmSizedBankBehavior.INSTANCE))
             .register();
 
+    public static final ItemEntry<GrayMembershipCardItem> GRAY_MEMBERSHIP_CARD = item("gray_membership_card", "格雷会员卡", GrayMembershipCardItem::new)
+            .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+            .register();
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())

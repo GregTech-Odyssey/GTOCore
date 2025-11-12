@@ -1,8 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.item.DataCrystalItem;
-
-import com.gtolib.api.gui.GTOGuiTextures;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -17,7 +16,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -71,7 +69,7 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
         WidgetGroup group = new WidgetGroup(new Position(0, 0));
         int centerX = 60;
         int centerY = 55;
-        group.addWidget(new ImageWidget(centerX - 40, centerY - 28, 98, 74, new ResourceTexture("gtocore:textures/gui/progress_bar_research_base.png")))
+        group.addWidget(new ImageWidget(centerX - 40, centerY - 28, 98, 74, GTOGuiTextures.PROGRESS_BAR_RESEARCH_BASE))
 
                 .addWidget(new BlockableSlotWidget(heldItems, CATALYST_SLOT_1, centerX - 64, centerY, true, io.support(IO.IN))
                         .setIsBlocked(this::isLocked)

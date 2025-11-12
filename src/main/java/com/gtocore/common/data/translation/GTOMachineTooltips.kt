@@ -304,6 +304,216 @@ object GTOMachineTooltips {
         highlight("智能协同，共赢高效" translatedTo "Intelligent collaboration for win-win efficiency") { rainbowSlow() }
     }
 
+    // 泛银河系格雷科技贸易终端 - 物品描述
+    val PanGalaxyGrayTechTradingStationTooltips = ComponentListSupplier {
+        setTranslationPrefix("pan_galaxy_gray_tech_trading_station")
+
+        story(
+            "当跨星系贸易从零星交易升级为规模化流通，移动终端的承载力渐显乏力——单维度结算瓶颈、临时交易点的资源存储局限、组织间贸易的物理对接障碍，成为制约宇宙经济的新枷锁" translatedTo
+                "As interstellar trade evolved from sporadic transactions to large-scale circulation, the carrying capacity of mobile terminals gradually showed limitations—single-dimensional settlement bottlenecks, " +
+                "resource storage constraints of temporary trading points, and physical docking barriers in inter-organization trade became new shackles restricting the cosmic economy.",
+        )
+        story(
+            "格雷科技星际工程团队耗时十年，在近地轨道与深空枢纽搭建起这款实体贸易枢纽——它以模块化空间站为载体，聚合200+宇宙组织的专属贸易模块，将能量、物质、专属代币等全类型货币的结算能力，从终端级提升至站点级：万吨级物资仓储、跨维度能量接口、组织专属对接舱，让每一笔交易都有实体空间支撑" translatedTo
+                "After ten years of work, Gray Technology's interstellar engineering team built this physical trading hub in near-Earth orbit and deep-space hubs—using a modular space station as its carrier, " +
+                "it aggregates exclusive trade modules from over 200 cosmic organizations, upgrading the settlement capacity of all-type currencies (energy, matter, exclusive tokens) from terminal-level to station-level: " +
+                "ten-thousand-ton material storage, cross-dimensional energy interfaces, and organization-exclusive docking bays, giving every transaction physical space support.",
+        )
+        story(
+            "站点采用“组织贸易模块-交易条目组-交易项目”三级架构，每个组织模块需通过物理对接解锁，舱内交易项目亦有独立开放条件，层层递进的实体屏障既保障了贸易安全，又让探索新组织贸易的过程充满仪式感；稀有资源兑换、跨组织大宗协作等特殊交易，更依托站点中央AI实时分析全域数据，动态锚定价格平衡点" translatedTo
+                "The station adopts a three-level architecture of 'Organization Trade Module-Transaction Entry Group-Transaction Item'. Each organization module requires physical docking to unlock, and transaction items in the cabin also have independent opening conditions. " +
+                "The progressive physical barriers not only ensure trade security but also make the process of exploring new organization trades full of ritual; " +
+                "special transactions such as rare resource exchange and cross-organization bulk cooperation rely on the station's central AI to analyze global data in real time, dynamically anchoring price balance points.",
+        )
+        story(
+            "三大核心升级让站点效能再突破：自动交易模块实现无人值守的循环贸易，ME网络对接舱打通仓储与站点的直连链路，高速结算核心将大宗交易耗时压缩至毫秒级——从单人小额兑换到跨文明资源协作，这座实体枢纽重新定义了宇宙贸易的规模与效率" translatedTo
+                "Three core upgrades further break through the station's efficiency: the Automatic Trading Module enables unattended cyclic trade, the ME Network Docking Bay connects storage and the station directly, " +
+                "and the High-Speed Settlement Core compresses bulk transaction time to milliseconds—from individual small exchanges to cross-civilization resource cooperation, this physical hub redefines the scale and efficiency of cosmic trade.",
+        )
+
+        miraculousTools("泛银河系格雷科技贸易站" translatedTo "Pan-Galaxy Gray Technology Trading Station")
+
+        section("全宇宙组织聚合实体贸易枢纽，全类型货币站点级结算" translatedTo "Universal Organization-Aggregated Physical Trading Hub, Station-Level Settlement of All-Type Currencies")
+        section("搭载200+宇宙组织专属贸易模块，实体对接解锁贸易权限" translatedTo "Equipped with 200+ cosmic organization-exclusive trade modules, physical docking unlocks trade permissions")
+        section("支持能量、物质、专属代币等全类型货币跨维度通兑，实体仓储支撑大宗交易" translatedTo "Supports cross-dimensional exchange of all-type currencies (energy, matter, exclusive tokens), with physical storage supporting bulk transactions")
+        section("组织模块与交易项目独立解锁，实体屏障保障贸易秩序" translatedTo "Organization modules and transaction items unlock independently, physical barriers ensure trade order")
+        section("特殊交易搭载动态定价，中央AI实时匹配宇宙供需" translatedTo "Special transactions feature dynamic pricing, central AI real-time matches cosmic supply and demand")
+        section("三大核心升级：自动交易模块、ME网络对接舱、高速结算核心" translatedTo "Three core upgrades: Automatic Trading Module, ME Network Docking Bay, High-Speed Settlement Core")
+        section("交易记录实体存档，支持多维度数据回溯与贸易分析" translatedTo "Transaction records physically archived, supporting multi-dimensional data backtracking and trade analysis")
+
+        highlight("宇宙实体贸易核心枢纽，站点级结算标杆之作" translatedTo "Core Hub of Cosmic Physical Trade, Benchmark of Station-Level Settlement") { rainbowSlow() }
+        highlight("格雷科技星际工程研发部巅峰巨献" translatedTo "Magnum Opus of Gray Technology Interstellar Engineering R&D Department") { rainbowSlow() }
+
+        guide("详细操作指南、对接流程及升级规则，可查阅站点主控台全息手册" translatedTo "For detailed operation guides, docking procedures and upgrade rules, refer to the station's main console holographic manual")
+    }
+
+    // 泛银河系格雷科技贸易终端 - 详细介绍
+    val PanGalaxyGrayTechTradingStationIntroduction = ComponentListSupplier {
+        setTranslationPrefix("pan_galaxy_gray_tech_trading_station.introduction")
+
+        highlight("全宇宙组织聚合实体贸易站，全类型货币站点级通兑+核心升级赋能规模贸易" translatedTo "Universal Organization-Aggregated Physical Trading Station, Station-Level Exchange of All-Type Currencies + Core Upgrades Empower Large-Scale Trade") { rainbowSlow() }
+
+        section("核心功能" translatedTo "Core Functions")
+        content(
+            "贸易站以“实体枢纽+模块化对接”为核心定位，依托空间站级物理结构，聚合200+宇宙组织的专属贸易模块，构建起覆盖基础资源兑换、跨维度能量结算、稀有道具大宗交易、组织专属协作的全场景实体贸易生态" translatedTo
+                "With 'physical hub + modular docking' as its core positioning, the trading station relies on space station-level physical structures to aggregate exclusive trade modules from over 200 cosmic organizations, " +
+                "building a full-scenario physical trade ecosystem covering basic resource exchange, cross-dimensional energy settlement, bulk trading of rare items, and organization-exclusive cooperation.",
+        )
+        content(
+            "全类型货币站点级结算：能量（电网EU、魔网魔力）通过专属能量接口传输，物质（矿石、合金、特殊道具）存入万吨级实体仓储，组织专属代币经身份验证后数字化流转。输入输出系统智能协同，完成跨类型资源的校验、扣减与发放，支撑从克级到万吨级的交易规模" translatedTo
+                "Station-level settlement of all-type currencies: Energy (grid EU, mana) is transmitted through exclusive energy interfaces; matter (ores, alloys, special props) is stored in ten-thousand-ton physical warehouses; " +
+                "organization-exclusive tokens are digitally circulated after identity verification. The input-output system collaborates intelligently to complete verification, deduction and issuance of cross-type resources, supporting transaction scales from gram-level to ten-thousand-ton level.",
+        )
+        content(
+            "实体化解锁机制：组织贸易模块需通过物理对接解锁——低阶组织模块可直接停靠对接舱，高阶模块（如星际联盟、上古文明）需先完成声望认证并投放对接密钥；模块内交易项目亦有独立开放条件（如完成前置大宗交易、解锁站点成就），实体屏障确保贸易内容有序开放" translatedTo
+                "Physical unlocking mechanism: Organization trade modules require physical docking to unlock—low-level organization modules can directly dock at the docking bay, while high-level modules (e.g., Interstellar Alliance, ancient civilizations) require prior reputation authentication and docking key deployment; " +
+                "transaction items in the module also have independent opening conditions (e.g., completing pre-bulk transactions, unlocking station achievements), with physical barriers ensuring orderly opening of trade content.",
+        )
+        content(
+            "动态定价智能调控：稀有资源兑换、跨组织大宗协作等特殊交易，由站点中央AI实时分析宇宙全域交易数据与实体仓储库存，动态调整价格。热门资源自动溢价平衡供给，滞销资源自动降价刺激流通，避免实体仓储积压" translatedTo
+                "Dynamic pricing intelligent regulation: For special transactions such as rare resource exchange and cross-organization bulk cooperation, the station's central AI analyzes global cosmic transaction data and physical warehouse inventory in real time to dynamically adjust prices. " +
+                "Popular resources automatically have a premium to balance supply; unsold resources automatically reduce prices to stimulate circulation, avoiding physical warehouse backlogs.",
+        )
+        content(
+            "三大核心升级赋能：自动交易模块可按预设规则循环执行，适配无人值守的大宗贸易；ME网络对接舱直连站点仓储，资源自动存取无需人工转运；高速结算核心将交易执行效率提升300%，毫秒级完成万吨级物资结算，全方位支撑规模化贸易" translatedTo
+                "Three core upgrades empower trade: The Automatic Trading Module can be cyclically executed according to preset rules, adapting to unattended bulk trade; the ME Network Docking Bay directly connects to the station's warehouse, enabling automatic resource access without manual transfer; " +
+                "the High-Speed Settlement Core improves transaction execution efficiency by 300%, completing ten-thousand-ton material settlement in milliseconds, comprehensively supporting large-scale trade.",
+        )
+        content(
+            "内置实体化数据中心，可回溯历史交易流水、查看各组织模块交易频次、追踪特殊交易价格波动与仓储库存关联趋势，为贸易策略调整、资源储备规划提供精准数据支撑" translatedTo
+                "Equipped with a physical data center, it can backtrack historical transaction flows, view transaction frequencies of each organization module, " +
+                "track the correlation trend between special transaction price fluctuations and warehouse inventory, providing accurate data support for trade strategy adjustment and resource reserve planning.",
+        )
+
+        section("站点结构与界面说明" translatedTo "Station Structure and Interface Explanation")
+        content(
+            "一：对接舱区 - 实体停靠区域，展示已对接/待对接的组织贸易模块，标注模块所属组织、对接条件及包含的交易条目组，支持按组织类型、交易规模筛选（如能量结算、大宗物质兑换）" translatedTo
+                "1. Docking Bay Area - Physical docking area, displaying docked/undocked organization trade modules, marking the organization to which the module belongs, " +
+                "docking conditions and included transaction entry groups, supporting filtering by organization type and transaction scale (e.g., energy settlement, bulk material exchange)",
+        )
+        content(
+            "二：交易操作舱 - 核心功能区域，实体控制台展示当前模块下的交易项目，包含交易详情、全类型货币输入输出预览（能量接口/仓储仓位实时显示）、剩余交易次数、动态价格（特殊交易专属），集成“立即执行”“预设自动交易”实体按钮" translatedTo
+                "2. Transaction Operation Cabin - Core functional area, physical console displays transaction items under the current module, including transaction details, " +
+                "all-type currency input-output previews (energy interface/warehouse仓位 displayed in real time), remaining transaction times, dynamic prices (exclusive to special transactions), integrated with physical buttons 'Execute Now' and 'Preset Automatic Trading'",
+        )
+        content(
+            "三：规则与升级模块区 - 分为两大实体单元：规则控制台（动态定价开关、交易次数刷新设置、仓储预警阈值调节）；升级舱（自动交易模块、ME网络对接舱、高速结算核心三大独立插槽，支持升级组件的物理安装与卸载）" translatedTo
+                "3. Rule and Upgrade Module Area - Divided into two physical units: Rule Console (dynamic pricing switch, transaction limit refresh settings, warehouse warning threshold adjustment); " +
+                "Upgrade Cabin (three independent slots for Automatic Trading Module, ME Network Docking Bay, High-Speed Settlement Core, supporting physical installation and uninstallation of upgrade components)",
+        )
+        content(
+            "四：数据中心 - 实体屏幕可视化展示交易流水（时间、组织模块、交易类型、全类型货币输入输出明细）、特殊交易价格-库存关联曲线（72小时实时更新）、解锁进度统计（组织模块/交易项目对接解锁比例）" translatedTo
+                "4. Data Center - Physical screens visually display transaction flows (time, organization module, transaction type, all-type currency input-output details), " +
+                "special transaction price-inventory correlation curves (updated in real time for 72 hours), and unlocking progress statistics (docking unlock ratio of organization modules/transaction items)",
+        )
+
+        section("操作流程" translatedTo "Operation Process")
+        content(
+            "第一步：激活贸易站核心，系统自动启动生命维持与能源供应，加载已对接的组织模块与交易数据（首次激活需投入“宇宙贸易核心单元”+ 100000EU能量，完成基础模块初始化）" translatedTo
+                "1. Activate the trading station core—the system automatically starts life support and energy supply, " +
+                "loading docked organization modules and transaction data (initial activation requires investing a 'Universal Trade Core Unit' + 100000EU energy to complete basic module initialization)",
+        )
+        content(
+            "第二步：在对接舱区选定目标组织模块，未对接模块需先满足对接条件（如向组织提交声望凭证、投放对接密钥），物理对接后模块自动整合入站点系统" translatedTo
+                "2. Select the target organization module in the Docking Bay Area. Undocked modules require meeting docking conditions first (e.g., submitting reputation credentials to the organization, deploying docking keys); " +
+                "after physical docking, the module is automatically integrated into the station system",
+        )
+        content(
+            "第三步：进入交易操作舱，选择目标交易项目，确认全类型货币输入要求（能量接口需预充对应数值，物质需存入指定仓储仓位）与输出成果；未解锁项目需先完成前置条件（如完成3次基础大宗交易、解锁站点对应成就）" translatedTo
+                "3. Enter the Transaction Operation Cabin, select the target transaction item, and confirm all-type currency input requirements (energy interfaces need pre-charging to corresponding values, matter needs to be stored in designated warehouse positions) and output results; " +
+                "locked items require completing preconditions first (e.g., completing 3 basic bulk transactions, unlocking corresponding station achievements)",
+        )
+        content(
+            "第四步：确认输入资源充足后，按下“立即执行”实体按钮完成交易；如需循环交易，可在控制台设置交易次数（1-999次）、循环间隔（10-3600游戏刻），激活“预设自动交易”模式" translatedTo
+                "4. After confirming sufficient input resources, press the physical 'Execute Now' button to complete the transaction; for cyclic transactions, " +
+                "set the number of transactions (1-999 times) and cycle interval (10-3600 game ticks) on the console, and activate the 'Preset Automatic Trading' mode",
+        )
+        content(
+            "第五步：如需升级功能，进入升级舱区，将升级组件（如“自动交易模块”“ME对接芯片组”“高速结算核心”）物理安装至对应插槽，激活后即可生效，支持随时拆卸更换" translatedTo
+                "5. To upgrade functions, enter the Upgrade Cabin Area, physically install upgrade components " +
+                "(e.g., 'Automatic Trading Module', 'ME Docking Chipset', 'High-Speed Settlement Core') into corresponding slots—they take effect after activation, supporting on-demand disassembly and replacement",
+        )
+        content(
+            "第六步：交易完成后，可在数据中心查看详细记录；特殊交易建议关注价格-库存关联曲线，在库存充足期执行批量兑换，最大化贸易收益" translatedTo
+                "6. After the transaction is completed, detailed records can be viewed in the Data Center; for special transactions, " +
+                "it is recommended to pay attention to the price-inventory correlation curve and execute bulk exchanges during periods of sufficient inventory to maximize trade returns",
+        )
+
+        section("核心升级详情" translatedTo "Core Upgrade Details")
+        content(
+            "1. 自动交易模块：物理安装后激活，支持自定义交易次数与循环间隔，系统按预设规则自动完成资源校验、扣减、输出全流程，适配长期无人值守的大宗贸易场景，模块需接入站点备用电源以保障持续运行" translatedTo
+                "1. Automatic Trading Module: Activated after physical installation, supporting custom transaction times and cycle intervals. " +
+                "The system automatically completes the full process of resource verification, deduction and output according to preset rules, adapting to long-term unattended bulk trade scenarios. The module needs to be connected to the station's backup power supply to ensure continuous operation",
+        )
+        content(
+            "2. ME网络对接舱：实体对接后激活，可直接接入已连接的ME存储系统，交易时自动从ME网络扣减输入资源、向站点仓储存入输出成果，无需人工转运物资，打通ME网络与站点仓储的无缝链路" translatedTo
+                "2. ME Network Docking Bay: Activated after physical docking, it can directly access the connected ME storage system. During transactions, " +
+                "it automatically deducts input resources from the ME network and deposits output results into the station's warehouse, eliminating manual material transfer and connecting the ME network and station warehouse in a seamless link",
+        )
+        content(
+            "3. 高速结算核心：分三个等级物理升级——一级提升交易效率50%，二级提升100%，三级提升300%，同时将动态价格刷新周期从30分钟/次压缩至5分钟/次，三级核心需额外接入站点高能线路，支撑毫秒级大宗结算" translatedTo
+                "3. High-Speed Settlement Core: Physically upgraded in three levels—Level 1 increases transaction efficiency by 50%, Level 2 by 100%, Level 3 by 300%, " +
+                "and compresses the dynamic price refresh cycle from 30 minutes/time to 5 minutes/time. The Level 3 core requires additional connection to the station's high-energy line to support millisecond-level bulk settlement",
+        )
+
+        section("材料与对接说明" translatedTo "Material and Docking Instructions")
+        content(
+            "站点基础激活：需消耗1个“宇宙贸易核心单元”+ 100000EU能量，首次激活后永久运行，后续仅需维持基础能耗（每小时500EU）" translatedTo
+                "Station basic activation: Requires 1 'Universal Trade Core Unit' + 100000EU energy, operates permanently after initial activation, requiring only basic energy consumption maintenance (500EU per hour thereafter)",
+        )
+        content(
+            "组织模块对接：普通组织模块需投放“组织对接凭证”+ 基础对接材料（如高强度对接栓、密封胶）；高阶组织模块（如星际联盟、上古文明）需额外消耗“宇宙协调核心”，对接后开放专属稀有交易通道" translatedTo
+                "Organization module docking: Ordinary organization modules require deploying 'Organization Docking Certificates' + basic docking materials (e.g., high-strength docking bolts, sealant); " +
+                "high-level organization modules (e.g., Interstellar Alliance, ancient civilizations) require additional 'Universal Coordination Cores', opening exclusive rare trading channels after docking",
+        )
+        content(
+            "核心升级材料：自动交易模块需“高级AI控制单元+超导线路束”；ME对接舱需“ME接口核心+量子传输阵列”；高速结算核心（一级至三级）依次消耗“高速处理器集群→超高速处理器集群→星核处理器单元”，等级越高材料稀有度与安装难度越高" translatedTo
+                "Core upgrade materials: Automatic Trading Module requires 'Advanced AI Control Unit + Superconducting Cable Bundle'; ME Docking Bay requires 'ME Interface Core + Quantum Transmission Array'; " +
+                "High-Speed Settlement Core (Level 1 to 3) consumes 'High-Speed Processor Cluster → Ultra-High-Speed Processor Cluster → Star Core Processor Unit' in sequence, with higher rarity and installation difficulty for higher levels",
+        )
+        content(
+            "交易资源准备：能量需预充至站点能量接口（支持EU/魔力双接口），物质需存入指定仓储仓位（按类型分区：矿石区/合金区/特殊道具区），组织代币需在身份验证终端完成绑定，系统自动识别并精准扣减" translatedTo
+                "Transaction resource preparation: Energy needs to be pre-charged to the station's energy interface (supporting EU/mana dual interfaces); " +
+                "matter needs to be stored in designated warehouse positions (zoned by type: ore zone/alloy zone/special item zone); organization tokens need to be bound at the identity verification terminal, with the system automatically identifying and deducting accurately",
+        )
+
+        section("注意事项" translatedTo "Cautions")
+        content(
+            "交易执行后，全类型货币扣减不可逆，执行前务必通过实体控制台二次确认输入输出明细，尤其是大宗交易的数量与动态价格，避免因误操作造成大规模损失" translatedTo
+                "After the transaction is executed, the deduction of all-type currencies is irreversible. " +
+                "Before execution, be sure to double-confirm input and output details through the physical console, especially the quantity and dynamic price of bulk transactions, to avoid large-scale losses caused by misoperation",
+        )
+        content(
+            "组织模块对接与交易项目解锁相互独立，对接模块后需单独满足项目解锁要求方可执行交易，部分高阶项目需达成跨组织贸易成就或积累万吨级交易额度" translatedTo
+                "Organization module docking and transaction item unlocking are independent of each other. " +
+                "After docking a module, you need to separately meet the item unlocking requirements to execute transactions. Some high-level items require completing cross-organization trade achievements or accumulating ten-thousand-ton transaction volume",
+        )
+        content(
+            "自动交易模式下，需确保能量接口与仓储持续充足（建议搭配ME网络对接舱使用），若资源耗尽交易将自动暂停，补充资源后需在实体控制台手动重启预设任务" translatedTo
+                "In Automatic Trading mode, ensure continuous sufficiency of energy interfaces and warehouses (recommended to use with ME Network Docking Bay). " +
+                "If resources are exhausted, the transaction will automatically pause, and the preset task needs to be manually restarted at the physical console after replenishing resources",
+        )
+        content(
+            "高速结算三级核心运行时会使站点能耗提升200%，需配备高阶能量核心（如反物质能量源），避免因能量供应中断导致站点模块离线" translatedTo
+                "The Level 3 High-Speed Settlement Core increases station energy consumption by 200% during operation. " +
+                "High-level energy cores (e.g., antimatter energy sources) must be equipped to avoid station module offline due to energy supply interruption",
+        )
+        content(
+            "动态定价仅适用于特殊交易，基础资源兑换价格固定；交易次数耗尽后，默认24小时（游戏内）自动刷新，或使用“交易次数重置芯片”物理插入控制台立即恢复，高阶组织模块的刷新速度可提升50%" translatedTo
+                "Dynamic pricing only applies to special transactions; prices of basic resource exchanges are fixed. " +
+                "After transaction limits are exhausted, they are automatically refreshed after 24 hours (in-game) by default, or immediately restored by physically inserting a 'Transaction Limit Reset Chip' into the console. The refresh speed of high-level organization modules can be increased by 50%",
+        )
+
+        guide(
+            "按流程完成基础激活、组织模块对接与升级安装后，即可在交易操作舱自由开展贸易，全类型货币站点级结算，核心升级功能可根据贸易规模灵活启用，数据中心实时同步交易记录，助力规模化贸易决策" translatedTo
+                "After completing basic activation, organization module docking and upgrade installation as per the process, you can freely conduct trade in the Transaction Operation Cabin. " +
+                "All-type currencies are settled at the station level, core upgrade functions can be flexibly activated according to trade scale, and the Data Center synchronizes transaction records in real time to assist in large-scale trade decisions.",
+        )
+
+        highlight("全宇宙组织实体对接，全类型货币站点级通兑，核心升级赋能规模贸易" translatedTo "All Cosmic Organizations Physically Docked, All-Type Currencies Station-Level Exchanged, Core Upgrades Empower Large-Scale Trade") { rainbowSlow() }
+        highlight("欢迎提交组织模块入驻申请与功能优化建议至格雷科技星际工程社区" translatedTo "Welcome to submit organization module entry applications and function optimization suggestions to the Gray Technology Interstellar Engineering Community") { rainbowSlow() }
+    }
+
     // 魔力增幅仓
     val ManaAmplifierHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_amplifier_hatch")
