@@ -1,9 +1,13 @@
 package com.gtocore.common.machine.multiblock.electric.miner;
 
+import com.gtocore.client.forge.ForgeClientEvent;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -35,11 +39,11 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -72,14 +76,17 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
     @Getter
     @Setter
     @Persisted
+    @DescSynced
     private int minerRadius;
     @Getter
     @Setter
     @Persisted
+    @DescSynced
     private int minHeight;
     @Getter
     @Setter
     @Persisted
+    @DescSynced
     private int maxHeight;
     private int silkLevel;
 
@@ -295,25 +302,7 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
         resetRecipe();
     }
 
-    // private void setFortune(ClickData clickData) {
-    // var energyMulti = 0;
-    // if (fortuneLevel == 1) {
-    // fortuneLevel = 6;
-    // energyMulti = 1;
-    // this.fortuneButton.setButtonTexture(new
-    // TextTexture("时运").setDropShadow(false).setColor(ChatFormatting.GREEN.getColor()));
-    // } else {
-    // fortuneLevel = 1;
-    // this.fortuneButton.setButtonTexture(new
-    // TextTexture("时运").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()));
-    // }
-    // silkLevel = 0;
-    // this.silkButton.setButtonTexture(new
-    // TextTexture("精准").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()));
-    // energyPerTick = GTValues.VEX[MV-1] * 4 * energyMulti;
-    // }
-
-    private void addDisplayText(@NotNull List<Component> textList) {
+    private void addDisplayText(List<Component> textList) {
         textList.add(Component.literal("挖掘: ").append(String.valueOf(getRecipeLogic().getOreAmount())));
         if (getRecipeLogic().isDone())
             textList.add(Component.translatable("gtceu.multiblock.large_miner.done")
@@ -360,7 +349,6 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
         return InteractionResult.SUCCESS;
     }
 
-    @NotNull
     @Override
     public List<Component> getDataInfo(PortableScannerBehavior.DisplayMode mode) {
         if (mode == PortableScannerBehavior.DisplayMode.SHOW_ALL ||
@@ -370,5 +358,31 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
                     Component.translatable("gtceu.universal.tooltip.working_area", workingArea, workingArea));
         }
         return new ArrayList<>();
+    }
+
+    @Nullable
+    private ForgeClientEvent.HighlightNeed need;
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
+                GuiTextures.LIGHT_ON, GuiTextures.LIGHT_ON, () -> false,
+                (clickData, pressed) -> {
+                    if (clickData.isRemote && this.self().getLevel() != null) {
+                        if (need != null && ForgeClientEvent.CUstomHighlightNeeds.containsKey(need)) {
+                            ForgeClientEvent.CUstomHighlightNeeds.removeInt(need);
+                            need = null;
+                            return;
+                        }
+                        need = new ForgeClientEvent.HighlightNeed(
+                                getPos().east(getMinerRadius()).north(getMinerRadius()).atY(getMaxHeight()),
+                                getPos().west(getMinerRadius()).south(getMinerRadius()).atY(getMinHeight()),
+                                ChatFormatting.WHITE.getColor());
+                        ForgeClientEvent.CUstomHighlightNeeds.computeIfAbsent(
+                                need, k -> 20 * 10);
+                    }
+                })
+                .setTooltipsSupplier(pressed -> Collections.singletonList(Component.translatable(SHOW_RANGE_TOOLTIP))));
     }
 }
