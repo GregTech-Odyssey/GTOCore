@@ -1,5 +1,6 @@
-package com.gtocore.data.transaction;
+package com.gtocore.data.transaction.recipe;
 
+import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

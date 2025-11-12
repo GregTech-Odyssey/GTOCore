@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction;
+package com.gtocore.data.transaction.recipe.entry;
 
 import net.minecraft.network.chat.Component;
 

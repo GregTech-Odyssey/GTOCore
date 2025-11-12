@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction.bank;
+package com.gtocore.data.transaction.data;
 
 import com.gtolib.api.lang.CNEN;
 
@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import java.util.Map;
 
-public class BankLang {
+public class TransactionLang {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
