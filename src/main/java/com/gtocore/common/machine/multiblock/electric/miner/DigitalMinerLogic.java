@@ -39,9 +39,9 @@ import java.util.function.Function;
 
 public class DigitalMinerLogic extends CustomRecipeLogic {
 
-    ItemFilter ORE_FILTER;
+    private static final ItemFilter ORE_FILTER;
 
-    {
+    static {
         var is = new ItemStack(GTItems.TAG_FILTER.asItem());
         var ft = new CompoundTag();
         ft.putString("oreDict", "forge:ores");
