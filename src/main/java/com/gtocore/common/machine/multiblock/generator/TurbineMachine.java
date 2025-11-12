@@ -1,11 +1,12 @@
 package com.gtocore.common.machine.multiblock.generator;
 
+import com.gtocore.api.gui.GTOGuiTextures;
+
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
