@@ -9,6 +9,7 @@ import com.gtocore.common.machine.electric.*;
 import com.gtocore.common.machine.generator.LightningRodMachine;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gtocore.common.machine.monitor.*;
+import com.gtocore.common.machine.multiblock.electric.miner.SingleDigitalMiner;
 import com.gtocore.common.machine.multiblock.part.*;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
@@ -34,6 +35,7 @@ import com.gtolib.api.registries.GTORegistration;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -937,6 +939,22 @@ public final class GTOMachines {
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
+
+    public static final MachineDefinition[] DIGITAL_MINER = registerTieredMachines("digital_miner", tier -> "%s数字型采矿机 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]), SingleDigitalMiner::new,
+            (tier, builder) -> builder
+                    .langValue("%s DIGITAL_MINER %s".formatted(VLVH[tier], VLVT[tier]))
+                    .nonYAxisRotation()
+                    .recipeType(GTORecipeTypes.DIGITAL_MINER_RECIPE)
+                    .workableTieredHullRenderer(GTCEu.id("block/machines/miner"))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1])
+                            .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
+                            .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_in",
+                            FormattingUtil.formatNumbers(GTValues.VEX[tier]),
+                            GTValues.VNF[tier]))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.working_area_max", (int) (8 * Math.pow(2, tier)), (int) (8 * Math.pow(2, tier))))
+                    .register(),
+            LV, MV, HV);
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getBasicMonitorTooltips().apply(list))
