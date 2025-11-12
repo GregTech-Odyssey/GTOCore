@@ -1,7 +1,7 @@
 package com.gtocore.common.data;
 
-import com.gtolib.GTOCore;
-import com.gtolib.api.gui.GTOGuiTextures;
+import com.gtocore.api.gui.GTOGuiTextures;
+
 import com.gtolib.api.lang.CNEN;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -12,8 +12,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
 import java.util.Map;
 
@@ -34,13 +32,13 @@ public final class GTORecipeCategories {
 
     public static final GTRecipeCategory CONDENSE_FLUID_TO_DUST = register("condense_fluid_to_dust", new CNEN("雾化冷凝：液态", "Atomizing Condensation: Fluid"),
             GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
-            .setIcon(new ResourceTexture(GTOCore.id("textures/gui/condense_from_fluid.png")));
+            .setIcon(GTOGuiTextures.CONDENSE_FROM_FLUID);
     public static final GTRecipeCategory CONDENSE_PLASMA_TO_DUST = register("condense_plasma_to_dust", new CNEN("雾化冷凝：等离子态", "Atomizing Condensation: Plasma"),
             GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
-            .setIcon(new ResourceTexture(GTOCore.id("textures/gui/condense_from_plasma.png")));
+            .setIcon(GTOGuiTextures.CONDENSE_FROM_PLASMA);
     public static final GTRecipeCategory CONDENSE_MOLTEN_TO_DUST = register("condense_molten_to_dust", new CNEN("雾化冷凝：熔融态", "Atomizing Condensation: Molten"),
             GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES)
-            .setIcon(new ResourceTexture(GTOCore.id("textures/gui/condense_from_molten.png")));
+            .setIcon(GTOGuiTextures.CONDENSE_FROM_MOLTEN);
 
     private static GTRecipeCategory register(String name, String cn, GTRecipeType type) {
         return register(name, new CNEN(cn, FormattingUtil.toEnglishName(name)), type);

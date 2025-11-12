@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
@@ -7,7 +8,6 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
 import com.gregtechceu.gtceu.api.block.IMachineBlock;

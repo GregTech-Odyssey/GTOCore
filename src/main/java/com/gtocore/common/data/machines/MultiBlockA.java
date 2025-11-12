@@ -2010,6 +2010,7 @@ public final class MultiBlockA {
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
+            .moduleTooltips(GTORecipeTypes.DISTILLERY_RECIPES)
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("       AAA       ", "       A A       ", "       A A       ", "       A A       ", "       A A       ", "       A A       ", "       A A       ", "       A A       ", "       A A       ", "                 ")

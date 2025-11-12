@@ -1,10 +1,10 @@
 package com.gtocore.common.machine.multiblock.electric.space;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.data.GTODimensions;
-import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.feature.multiblock.IHighlightMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;

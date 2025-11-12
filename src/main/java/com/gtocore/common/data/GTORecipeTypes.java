@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.item.DimensionDataItem;
 import com.gtocore.common.item.DiscItem;
 import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
@@ -10,7 +11,6 @@ import com.gtocore.common.recipe.custom.RecyclerLogic;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.RecipeType;
 
@@ -1124,4 +1124,10 @@ public final class GTORecipeTypes {
             .setMaxIOSize(18, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
+
+    public final static GTRecipeType DIGITAL_MINER_RECIPE = register("digital_miner", "数字采矿", ELECTRIC)
+            .setMaxIOSize(0, 27, 0, 0).setEUIO(IO.IN)
+            .setSlotOverlay(false, false, GuiTextures.SLOT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setXEIVisible(false);
 }

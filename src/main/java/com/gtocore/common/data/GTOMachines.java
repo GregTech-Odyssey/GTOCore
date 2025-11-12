@@ -9,12 +9,11 @@ import com.gtocore.common.machine.electric.*;
 import com.gtocore.common.machine.generator.LightningRodMachine;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gtocore.common.machine.monitor.*;
+import com.gtocore.common.machine.multiblock.electric.miner.SingleDigitalMiner;
 import com.gtocore.common.machine.multiblock.part.*;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
-import com.gtocore.common.machine.noenergy.BoilWaterMachine;
-import com.gtocore.common.machine.noenergy.HeaterMachine;
-import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
+import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
 import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
@@ -34,6 +33,7 @@ import com.gtolib.api.registries.GTORegistration;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -492,7 +492,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(4096000)),
                     Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"))
             .allowCoverOnFront(true)
             .register();
@@ -501,7 +501,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 65536000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(65536000)),
                     Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()))
             .allowCoverOnFront(true)
             .register();
@@ -510,7 +510,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 1048576000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(1048576000)),
                     Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()))
             .allowCoverOnFront(true)
             .register();
@@ -937,6 +937,29 @@ public final class GTOMachines {
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
+
+    public static final MachineDefinition TRADING_STATION = machine("trading_station", "泛银河系格雷科技贸易站", TradingStationMachine::new)
+            .langValue("Pan-Galactic Gray Technology Trading Station")
+            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
+            .nonYAxisRotation()
+            .renderer(() -> new OverlayTieredMachineRenderer(HV, GTCEu.id("block/machine/part/computation_data_hatch")))
+            .register();
+
+    public static final MachineDefinition[] DIGITAL_MINER = registerTieredMachines("digital_miner", tier -> "%s数字型采矿机 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]), SingleDigitalMiner::new,
+            (tier, builder) -> builder
+                    .langValue("%s DIGITAL_MINER %s".formatted(VLVH[tier], VLVT[tier]))
+                    .nonYAxisRotation()
+                    .recipeType(GTORecipeTypes.DIGITAL_MINER_RECIPE)
+                    .workableTieredHullRenderer(GTCEu.id("block/machines/miner"))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1])
+                            .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
+                            .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_in",
+                            FormattingUtil.formatNumbers(GTValues.VEX[tier]),
+                            GTValues.VNF[tier]))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.working_area_max", (int) (8 * Math.pow(2, tier)), (int) (8 * Math.pow(2, tier))))
+                    .register(),
+            LV, MV, HV);
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getBasicMonitorTooltips().apply(list))
