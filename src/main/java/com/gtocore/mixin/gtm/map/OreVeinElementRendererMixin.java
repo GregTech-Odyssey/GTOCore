@@ -1,6 +1,6 @@
 package com.gtocore.mixin.gtm.map;
 
-import com.gtolib.api.gui.GTOGuiTextures;
+import com.gtocore.api.gui.GTOGuiTextures;
 
 import com.gregtechceu.gtceu.api.data.worldgen.ores.GeneratedVeinMetadata;
 import com.gregtechceu.gtceu.config.ConfigHolder;

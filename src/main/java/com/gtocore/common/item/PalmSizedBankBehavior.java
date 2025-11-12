@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -49,6 +50,11 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
     private static @NotNull String text(int id) {
         return TEXT_HEADER + id;
+    }
+
+    private static @NotNull MutableComponent trans(int id, Object... args) {
+        if (args.length == 1 && args[0] instanceof Object[]) args = (Object[]) args[0];
+        return Component.translatable(TEXT_HEADER + id, args);
     }
 
     @Override
@@ -96,18 +102,18 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         }
 
         List<Component> list = new ArrayList<>();
-        list.add(Component.translatable(text(1)));
-        list.add(Component.translatable(text(2)));
-        list.add(Component.translatable(text(3)));
-        list.add(Component.translatable(text(4)));
+        list.add(trans(1));
+        list.add(trans(2));
+        list.add(trans(3));
+        list.add(trans(4));
         list.add(Component.empty());
 
         if (hasWallet) {
-            list.add(Component.translatable(text(6), player.getName().getString()).withStyle(ChatFormatting.WHITE));
-            list.add(Component.translatable(text(7), player.getUUID().toString()).withStyle(ChatFormatting.GRAY));
+            list.add(trans(6, player.getName().getString()).withStyle(ChatFormatting.WHITE));
+            list.add(trans(7, player.getUUID().toString()).withStyle(ChatFormatting.GRAY));
             mainGroup.addWidget(new ComponentPanelWidget(10, 10, list).setMaxWidthLimit(width - 20));
         } else {
-            list.add(ComponentPanelWidget.withButton(Component.translatable(text(8)), "Create a wallet"));
+            list.add(ComponentPanelWidget.withButton(trans(8), "Create a wallet"));
             mainGroup.addWidget(new ComponentPanelWidget(10, 10, list).clickHandler((a, b) -> {
                 if (player instanceof ServerPlayer serverPlayer) {
                     ServerLevel serverLevel = serverPlayer.serverLevel();
@@ -143,7 +149,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
             @Override
             public Component getTitle() {
-                return Component.translatable(text(10));
+                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
             final int width = 256;
@@ -178,7 +184,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
                     Object2LongMap<String> syncedCurrencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
                     List1.add(Component.literal("-------------------"));
-                    List1.add(Component.translatable(text(11)));
+                    List1.add(trans(11));
                     List1.add(Component.literal("-------------------"));
                     for (Object2LongMap.Entry<String> entry : syncedCurrencyMap.object2LongEntrySet()) {
                         List1.add(Component.translatable("gtocore.currency." + entry.getKey()).withStyle(ChatFormatting.AQUA));
@@ -189,7 +195,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
                     Object2LongMap<String> syncedCurrencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
                     List2.add(Component.literal("-------------------"));
-                    List2.add(Component.translatable(text(12)));
+                    List2.add(trans(12));
                     List2.add(Component.literal("-------------------"));
                     for (Object2LongMap.Entry<String> entry : syncedCurrencyMap.object2LongEntrySet()) {
                         List2.add(Component.literal(Long.toString(entry.getLongValue())));
@@ -255,10 +261,10 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
                     List1.add(Component.literal("-------------------"));
-                    List1.add(Component.translatable(text(50)));
-                    List1.add(Component.translatable(text(51)));
-                    List1.add(Component.translatable(text(52)));
-                    List1.add(ComponentPanelWidget.withButton(Component.translatable(text(53)), "confirm1"));
+                    List1.add(trans(50));
+                    List1.add(trans(51));
+                    List1.add(trans(52));
+                    List1.add(ComponentPanelWidget.withButton(trans(53), "confirm1"));
                     List1.add(Component.literal("-------------------"));
                     for (Object2ObjectMap.Entry<UUID, String> entry : WalletPlayers.object2ObjectEntrySet()) {
                         List1.add(ComponentPanelWidget.withHoverTextTranslate(
@@ -280,7 +286,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                     List2.add(string != null ? Component.translatable("gtocore.currency." + string) : Component.empty());
                     List2.add(Component.empty());
                     List2.add(confirm1 ?
-                            ComponentPanelWidget.withButton(Component.translatable(text(54)), "confirm2") :
+                            ComponentPanelWidget.withButton(trans(54), "confirm2") :
                             Component.empty());
                     List2.add(Component.literal("-------------------"));
                     for (String entry : CurrencySet) {
@@ -383,7 +389,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
                     if (choose == null) {
                         List1.add(Component.literal("-------------------"));
-                        List1.add(Component.translatable(text(21)));
+                        List1.add(trans(21));
                         List1.add(Component.literal("-------------------"));
                         for (String entry : syncedTransactionKeys) {
                             List1.add(ComponentPanelWidget.withButton(Component.literal("§b" + entry + "§r"), entry));
@@ -391,13 +397,13 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                         List1.add(Component.literal("-------------------"));
                     } else {
                         List1.add(Component.literal("-------------------"));
-                        List1.add(Component.translatable(text(21)));
-                        List1.add(Component.translatable(text(22)));
-                        List1.add(Component.translatable(text(23)));
-                        List1.add(Component.translatable(text(24)));
-                        List1.add(Component.translatable(text(25)));
+                        List1.add(trans(21));
+                        List1.add(trans(22));
+                        List1.add(trans(23));
+                        List1.add(trans(24));
+                        List1.add(trans(25));
                         List1.add(Component.literal("-------------------"));
-                        List1.add(Component.translatable(text(26)));
+                        List1.add(trans(26));
                         Long2LongMap minuteMap = WalletUtils.getTransactionMinuteMap(player.getUUID(), choose, serverLevel);
                         List<Long> keys = new ArrayList<>(minuteMap.keySet());
                         keys.sort(Collections.reverseOrder());
@@ -411,7 +417,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
                     if (choose == null) {
                         List2.add(Component.literal("-------------------"));
-                        List2.add(Component.translatable(text(22)));
+                        List2.add(trans(22));
                         List2.add(Component.literal("-------------------"));
                         for (String entry : syncedTransactionKeys) {
                             List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), entry, serverLevel))));
@@ -457,7 +463,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
             @Override
             public Component getTitle() {
-                return Component.translatable(text(10));
+                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
             @DescSynced
@@ -489,7 +495,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
                     List1.add(Component.literal("-------------------"));
-                    List1.add(Component.translatable(text(30)));
+                    List1.add(trans(30));
                     List1.add(Component.literal("-------------------"));
                     if (choose == null) {
                         Set<String> tagKeysSet = WalletUtils.getAllTagKeysFromWallet(player.getUUID(), serverLevel);
@@ -501,7 +507,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
                     List2.add(Component.literal("-------------------"));
-                    List2.add(Component.translatable(text(31)));
+                    List2.add(trans(31));
                     List2.add(Component.literal("-------------------"));
                     if (choose != null) {
                         Set<String> tagsSet = WalletUtils.getTagsFromWallet(player.getUUID(), serverLevel, choose);
@@ -564,8 +570,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 mainGroup.addWidget(new ComponentPanelWidget(10, 16,
                         list -> list.add(ComponentPanelWidget.withHoverTextTranslate(
-                                ComponentPanelWidget.withButton(Component.translatable(text(41)), "getGrayMembershipCard"),
-                                Component.translatable(text(40), Component.translatable("gtocore.currency.technician_coin"), 15))))
+                                ComponentPanelWidget.withButton(trans(41), "getGrayMembershipCard"),
+                                trans(40, Component.translatable("gtocore.currency.technician_coin"), 15))))
                         .clickHandler((a, b) -> {
                             if (WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, "technician_coin") >= 15) {
                                 ItemEntity itemEntity = player.spawnAtLocation(createWithUuidAndSharedList(player.getUUID(), new ArrayList<>(shared)));
@@ -574,7 +580,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                             }
                         }));
 
-                mainGroup.addWidget(new LabelWidget(10, 32, Component.translatable(text(42))));
+                mainGroup.addWidget(new LabelWidget(10, 32, trans(42)));
 
                 mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
                     List1.add(Component.literal("-------------------"));

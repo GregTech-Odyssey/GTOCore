@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.item.DimensionDataItem;
 import com.gtocore.common.item.DiscItem;
 import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
@@ -10,7 +11,6 @@ import com.gtocore.common.recipe.custom.RecyclerLogic;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.RecipeType;
 

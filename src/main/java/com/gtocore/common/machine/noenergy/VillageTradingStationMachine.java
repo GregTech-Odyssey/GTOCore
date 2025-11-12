@@ -1,8 +1,8 @@
 package com.gtocore.common.machine.noenergy;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
-import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -33,7 +33,6 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
@@ -582,7 +581,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         for (int j = 0; j < 3; j++) {
             SlotWidget itemWidget = new SlotWidget(RecipesHandler, 3 * slot + j, 0, 18 * (j + 2) - 6)
                     .setCanPutItems(false).setCanTakeItems(false)
-                    .setBackgroundTexture(new ResourceTexture(GTOCore.id("textures/gui/villager_recipe_slot_" + j + ".png")));
+                    .setBackgroundTexture(GTOGuiTextures.VILLAGER_RECIPE_SLOTS[j]);
             villagerGroup.addWidget(itemWidget);
         }
 

@@ -75,6 +75,15 @@ public class BankLang {
         add("gtocore.gray_membership_card.hover_text.3", "主人: ", "Owner: ");
         add("gtocore.gray_membership_card.hover_text.4", "共享者: ", "Shared by: ");
 
+        add("gtocore.trading_station.textList.1", "这台机器不属于你，你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
+        add("gtocore.trading_station.textList.2", "⇦ 请放入会员卡", "⇦ Please insert your membership card.");
+        add("gtocore.trading_station.textList.3", "欢迎「 %s 」", "Welcome「 %s 」");
+        add("gtocore.trading_station.textList.4", "共享给: ", "Share with: ");
+        add("gtocore.trading_station.textList.5", "[展开]", "[Expand]");
+        add("gtocore.trading_station.textList.6", "[收起]", "[Collapse]");
+        add("gtocore.trading_station.textList.7", "--详细介绍--", "--Detailed Introduction--");
+        add("gtocore.trading_station.textList.8", "[刷新]", "[Refresh]");
+
         add("gtocore.currency.coins", "金币", "coins");
         add("gtocore.currency.gems", "宝石", "gems");
         add("gtocore.currency.tokens", "代币", "tokens");

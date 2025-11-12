@@ -1,8 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.item.DataCrystalItem;
-
-import com.gtolib.api.gui.GTOGuiTextures;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
