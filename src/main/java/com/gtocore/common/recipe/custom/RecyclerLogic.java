@@ -51,7 +51,7 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
     @Override
     public void buildRepresentativeRecipes() {
         ItemStack stack = GTOItems.SCRAP.asStack();
-        stack.setHoverName(Component.literal("Random item"));
+        stack.setHoverName(Component.translatable("gtocore.recipe.recycler.random_output"));
         GTORecipeTypes.RECYCLER_RECIPES.addToMainCategory(GTORecipeTypes.RECYCLER_RECIPES
                 .recipeBuilder("random")
                 .inputItems(GTOItems.SCRAP_BOX.asStack())

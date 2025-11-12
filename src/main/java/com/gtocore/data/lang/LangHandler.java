@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
+import com.gtocore.common.item.misc.OrganType;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformTemplateStorage;
 import com.gtocore.data.bank.BankLang;
 import com.gtocore.data.recipe.research.AnalyzeData;
@@ -62,6 +63,7 @@ public final class LangHandler {
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
         GTORecipeCategories.LANG.forEach((k, v) -> addCNEN("gtceu.recipe.category." + k, v));
         GTOFluidStorageKey.initLang();
+        OrganType.getEntries().forEach(it -> { addCNEN(it.getTranslationKey(), it.getCn(), it.getKey()); });
         GTOMachineBuilder.LANG.forEach(LangHandler::addCNEN);
         MultiblockBuilder.LANG.forEach(LangHandler::addCNEN);
         Tooltips.LANG.forEach(LangHandler::addCNEN);
@@ -381,6 +383,8 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.recipeInfoButton.clickToEnable", "点击启用配方信息写入", "Click to start recording recipe info");
         addCNEN("gtocore.pattern.recipeInfoButton.clickToDisable", "点击禁用配方信息写入", "Click to stop recording recipe info");
         addCNEN("gtocore.pattern.recipeInfoButton.clickToClear", "点击清除已记录的配方信息", "Click to clear recorded recipe info");
+
+        addCNEN("gtocore.recipe.recycler.random_output", "随机物品", "Random Item");
     }
 
     public static void enInitialize(LanguageProvider provider) {
