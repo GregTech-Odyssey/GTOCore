@@ -23,6 +23,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -42,6 +43,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
@@ -72,15 +74,10 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     public TradingStationMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        cardHandler = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH) {
+        cardHandler = new CustomItemStackHandler();
+        cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem()));
+        cardHandler.setOnContentsChanged(() -> InitializationInformation(cardHandler.getStackInSlot(0)));
 
-            @Override
-            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                if (stack.isEmpty()) return true;
-                return stack.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem());
-            }
-        };
-        cardHandler.addChangedListener(() -> InitializationInformation(cardHandler.getStackInSlot(0)));
         inputItem = new NotifiableItemStackHandler(this, 256, IO.IN, IO.BOTH);
         outputItem = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.BOTH);
         inputFluid = new NotifiableFluidTank(this, 4, 1000 * 64, IO.IN, IO.BOTH);
@@ -120,7 +117,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     @Override
     public void onMachineRemoved() {
-        clearInventory(cardHandler.storage);
+        clearInventory(cardHandler);
         clearInventory(inputItem.storage);
         clearInventory(outputItem.storage);
     }
@@ -137,8 +134,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private final NotifiableFluidTank inputFluid;
     @Persisted
     private final NotifiableFluidTank outputFluid;
+
     @Persisted
-    private final NotifiableItemStackHandler cardHandler;
+    private final CustomItemStackHandler cardHandler;
 
     @Persisted
     private UUID uuid;
@@ -229,12 +227,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.addWidget(new ImageWidget(255, 2, 2, 140, GuiTextures.SLOT));
 
         mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
-            if (isCollapse) {
-                textList.add(Component.empty().append(ComponentPanelWidget.withButton(trans(5), "isCollapse")).append(trans(7)));
-            } else {
-                textList.add(Component.empty().append(ComponentPanelWidget.withButton(trans(6), "isCollapse")).append(trans(7)));
-                GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
-            }
+            textList.add(Component.empty()
+                    .append(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(isCollapse ? 5 : 6), "isCollapse"), trans(7))));
+            if (!isCollapse) GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
         }).clickHandler((a, b) -> { if (a.equals("isCollapse")) isCollapse = !isCollapse; }).setMaxWidthLimit(width - 8));
 
         group.addWidget(mainGroup);
@@ -395,7 +390,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
      * @param requiredItems 需求物品列表（每个ItemStack的count为单倍需求数量）
      * @return 最大支持倍数（若列表为空或无需求则返回Integer.MAX_VALUE，否则取最小限制倍数）
      */
-    private int checkMaxMultiplier(NotifiableItemStackHandler handler, List<ItemStack> requiredItems) {
+    private int checkMaxMultiplier(IItemHandlerModifiable handler, List<ItemStack> requiredItems) {
         if (requiredItems.isEmpty()) {
             return Integer.MAX_VALUE; // 无需求则支持无限倍
         }
@@ -440,7 +435,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
      * @param items      待扣除的物品列表（倍数）
      * @param multiplier 倍数x（必须>0，否则不执行）
      */
-    private void deductMultipliedItems(NotifiableItemStackHandler handler, List<ItemStack> items, int multiplier) {
+    private void deductMultipliedItems(IItemHandlerModifiable handler, List<ItemStack> items, int multiplier) {
         if (multiplier <= 0 || items.isEmpty()) {
             return; // 倍数无效或无物品，不执行
         }
@@ -484,7 +479,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
      * @param items      待添加的物品列表（单倍数量）
      * @param multiplier 倍数x（必须>0，否则不执行）
      */
-    private void addMultipliedItems(NotifiableItemStackHandler handler, List<ItemStack> items, int multiplier) {
+    private void addMultipliedItems(IItemHandlerModifiable handler, List<ItemStack> items, int multiplier) {
         // 边界校验：倍数无效、无物品、世界或坐标为空时直接返回
         if (multiplier <= 0 || items.isEmpty()) {
             return;
