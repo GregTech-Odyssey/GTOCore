@@ -87,7 +87,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -146,7 +145,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             });
 
     @Override
-    public @NotNull SyncManagedFieldHolder getSyncHolder() {
+    public SyncManagedFieldHolder getSyncHolder() {
         return SYNC_MANAGED_FIELD_HOLDER;
     }
 
@@ -266,14 +265,14 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     }
 
     @Override
-    public void addedToController(@NotNull IMultiController controller) {
+    public void addedToController(IMultiController controller) {
         super.addedToController(controller);
         this.recipeTypes.clear();
         this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
     }
 
     @Override
-    public void removedFromController(@NotNull IMultiController controller) {
+    public void removedFromController(IMultiController controller) {
         super.removedFromController(controller);
         this.recipeTypes.clear();
         this.recipeTypes.addAll(MultiMachineModeFancyConfigurator.extractRecipeTypes(this.getControllers()));
@@ -342,7 +341,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             }
             if (input.size() < sparseInput.length) {
                 if (input.isEmpty()) {
-                    return null;
+                    return pattern;
                 }
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
                 return MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));

@@ -947,5 +947,11 @@ final class Vanilla {
                 "CDC",
                 "EEE",
                 'A', new MaterialEntry(GTOTagPrefix.pipeQuadrupleFluid, GTOMaterials.GraphiteCopperComposite), 'B', new MaterialEntry(GTOTagPrefix.rotor, GTMaterials.TungstenSteel), 'C', GTItems.FLUID_REGULATOR_IV.asStack(), 'D', GTMachines.MIXER[GTValues.IV].asStack(), 'E', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
+        VanillaRecipeHelper.addShapelessRecipe("me_pattern_buffer_upg", GTOItems.PATTERN_BUFFER_UPGRADER0.asStack(), TagUtils.createTGTag("ingots"),
+                GTAEMachines.ME_PATTERN_BUFFER.asItem());
+        VanillaRecipeHelper.addShapelessRecipe("me_extend_pattern_buffer_upg", GTOItems.PATTERN_BUFFER_UPGRADER1.asStack(), TagUtils.createTGTag("ingots"),
+                GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem());
+        VanillaRecipeHelper.addShapelessRecipe("me_extend_pattern_buffer_ultra_upg", GTOItems.PATTERN_BUFFER_UPGRADER2.asStack(), TagUtils.createTGTag("ingots"),
+                GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem());
     }
 }

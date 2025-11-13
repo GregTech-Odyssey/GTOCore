@@ -249,7 +249,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xd3b8d2)
                 .secondaryColor(0xa899a8)
-                .blastTemp(12345, HIGHER, GTValues.VA[GTValues.UHV], 1900)
+                .blastTemp(12345, HIGHER, GTValues.VA[GTValues.UHV], 1750)
                 .components(Titanium, 64 * 4, Vanadium, 10 * 4, Aluminium, 5 * 4, Chromium, 5 * 4, Tin, 5 * 4, Etrium, 8 * 4, InfusedGold, 5, AstralSilver, 3)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
