@@ -1,11 +1,14 @@
 package com.gtocore.data.recipe.ae2;
 
+import com.gtocore.common.data.GTOItems;
+
+import com.gtolib.utils.RegistriesUtils;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gtocore.common.data.GTOItems;
-import com.gtolib.utils.RegistriesUtils;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +18,7 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 public class GTOInfCells {
 
-    public static final Block[] CONCRETE_BLOCKS = new Block[]{
+    public static final Block[] CONCRETE_BLOCKS = new Block[] {
             Blocks.WHITE_CONCRETE, Blocks.ORANGE_CONCRETE, Blocks.MAGENTA_CONCRETE, Blocks.LIGHT_BLUE_CONCRETE,
             Blocks.YELLOW_CONCRETE, Blocks.LIME_CONCRETE, Blocks.PINK_CONCRETE, Blocks.GRAY_CONCRETE,
             Blocks.LIGHT_GRAY_CONCRETE, Blocks.CYAN_CONCRETE, Blocks.PURPLE_CONCRETE, Blocks.BLUE_CONCRETE,
@@ -44,7 +47,6 @@ public class GTOInfCells {
                 .duration(400)
                 .euVATier(GTValues.EV)
                 .save();
-
     }
 
     static ItemStack infCell(String item) {
