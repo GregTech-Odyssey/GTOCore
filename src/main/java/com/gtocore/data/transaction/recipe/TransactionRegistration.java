@@ -3,6 +3,8 @@ package com.gtocore.data.transaction.recipe;
 import com.gtocore.data.transaction.common.TradingStationMachine;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 
+import com.gtolib.GTOCore;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -44,14 +46,13 @@ public class TransactionRegistration {
                 .texture(new ItemStackTexture(Blocks.BEACON.asItem()))
                 .description(List.of(
                         Component.literal("丛林祭坛仪式"),
-                        Component.literal("消耗：10个绿宝石 + 500魔力"),
+                        Component.literal("消耗：10个绿宝石"),
                         Component.literal("效果：在祭坛位置生成信标")))
                 // 解锁条件文本
                 .unlockCondition("需要在丛林中，且祭坛周围有草方块")
 
                 // 输入资源（交易消耗）
-                .inputCurrency("emerald", 10) // 10个绿宝石（假设"emerald"是绿宝石货币ID）
-                .inputMana(500) // 消耗500魔力
+                .inputItem(new ItemStack(Items.EMERALD, 10)) // 10个绿宝石（假设"emerald"是绿宝石货币ID）
 
                 // 前置检查：3x3区域有草方块 + 丛林群系
                 .preCheck(TransactionRegistration::checkJungleAndGrass)
@@ -64,11 +65,13 @@ public class TransactionRegistration {
 
     // 前置检查逻辑：3x3区域有草方块且在丛林群系
     private static boolean checkJungleAndGrass(TradingStationMachine machine, TransactionEntry entry) {
-        ServerLevel world = (ServerLevel) machine.getLevel();
+        if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return false;
+
+        GTOCore.LOGGER.info("run checkJungleAndGrass");
         BlockPos centerPos = machine.getPos();
 
         // 1. 检查是否在丛林群系（包括所有丛林变种，通过标签判断更灵活）
-        boolean isJungleBiome = world.getBiome(centerPos).is(BiomeTags.IS_JUNGLE);
+        boolean isJungleBiome = serverLevel.getBiome(centerPos).is(BiomeTags.IS_JUNGLE);
         if (!isJungleBiome) {
             // 可以通过context向玩家发送提示（实际需结合玩家对象实现）
             return false;
@@ -80,7 +83,7 @@ public class TransactionRegistration {
             for (int dy = -1; dy <= 1; dy++) {
                 for (int dz = -1; dz <= 1; dz++) {
                     BlockPos checkPos = centerPos.offset(dx, dy, dz);
-                    BlockState state = world.getBlockState(checkPos);
+                    BlockState state = serverLevel.getBlockState(checkPos);
                     if (state.is(Blocks.GRASS_BLOCK)) {
                         hasGrassIn3x3 = true;
                         break; // 找到草方块就退出循环
@@ -98,6 +101,8 @@ public class TransactionRegistration {
     private static void spawnBeaconAtPos(TradingStationMachine machine, TransactionEntry entry) {
         ServerLevel world = (ServerLevel) machine.getLevel();
         BlockPos pos = machine.getPos();
+
+        GTOCore.LOGGER.info("run spawnBeaconAtPos");
 
         // 在目标位置放置信标（替换原有方块）
         world.setBlock(pos, Blocks.BEACON.defaultBlockState(), 3); // 3=更新标志（同步客户端+触发方块更新）

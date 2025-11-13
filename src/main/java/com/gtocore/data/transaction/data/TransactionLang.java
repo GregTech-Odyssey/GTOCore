@@ -20,6 +20,10 @@ public class TransactionLang {
         add(key, cn, en);
     }
 
+    public static final String UNLOCK_SHOP_GROUP_ = "unlock_shop_group";
+    public static final String UNLOCK_SHOP = "unlock_shop";
+    public static final String UNLOCK_TRANSACTION = "unlock_transaction";
+
     static {
         add("gtocore.bank.title", "银行", "Bank");
         add("gtocore.bank.account.info", "账户信息", "Account Info");
@@ -88,5 +92,8 @@ public class TransactionLang {
         add("gtocore.currency.gems", "宝石", "gems");
         add("gtocore.currency.tokens", "代币", "tokens");
         add("gtocore.currency.technician_coin", "技术员币", "Technician Coin");
+
+        add("gtocore.transaction_group.true", "价格", "Price");
+        add("gtocore.transaction_group.false", "商品", "Commodity");
     }
 }

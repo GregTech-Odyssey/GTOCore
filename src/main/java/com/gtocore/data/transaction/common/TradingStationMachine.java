@@ -4,9 +4,9 @@ import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.data.transaction.data.TransactionLang;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 
-import com.gtolib.api.wireless.WirelessManaContainer;
 import com.gtolib.utils.WalletUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -42,10 +42,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -54,7 +52,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +60,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import static com.gtocore.common.item.GrayMembershipCardItem.*;
+import static com.gtocore.data.transaction.recipe.TransactionRegistration.createJungleBeaconTrade;
 
 public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife {
 
@@ -267,6 +265,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
 
+                mainGroup.addWidget(transaction(20, 20, createJungleBeaconTrade()));
+
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
@@ -295,62 +295,23 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     private WidgetGroup transaction(int x, int y, TransactionEntry entry) {
         WidgetGroup transaction = new WidgetGroup(x, y, 40, 50);
-        transaction.setBackground(new ResourceTexture("gtocore:textures/gui/transaction_box.png"));
+        transaction.setBackground(GTOGuiTextures.BOXED_BACKGROUND);
 
-        Level level = getLevel();
         ServerLevel serverlevel;
-        if (level instanceof ServerLevel server) serverlevel = server;
+        if (getLevel() instanceof ServerLevel server) serverlevel = server;
         else serverlevel = null;
 
-        BlockPos pos = getPos();
+        boolean Unlock = WalletUtils.containsTagValueInWallet(uuid, serverlevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
 
-        transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, new ResourceTexture("textures/item/bread.png"))
-                .textSupplier(texts -> {
-                    texts.addAll(entry.description());
-                    texts.add(Component.literal("面包图片"));
-                    texts.add(Component.literal("点击获取面包")); // 仅提示，不可点击
-                }).clickHandler((data, clickData) -> {
-                    if (level instanceof ServerLevel serverLevel) {
-                        if (!WalletUtils.containsTagValueInWallet(uuid, serverLevel, "unlock", entry.unlockCondition())) return;
-
-                        // 2. 获取团队对应的电量容器
-                        WirelessEnergyContainer container = WirelessEnergyContainer.getOrCreateContainer(teamUUID);
-                        // 3. 获取当前总电量
-                        BigInteger currentStorage = container.getStorage();
-                        // 4. 定义需要减少的电量（示例值）
-                        long energyToRemove = 1000; // 假设要减少1000单位电量
-                        BigInteger energyToRemoveBig = BigInteger.valueOf(energyToRemove);
-                        // 5. 检查总电量是否足够（当前电量 >= 需要减少的电量）
-                        if (currentStorage.compareTo(energyToRemoveBig) >= 0) {
-                            // 电量足够，执行减少操作
-                            long actualRemoved = container.removeEnergy(energyToRemove, null); // 第二个参数为关联的机器实例，可传null
-                            // 处理减少后的逻辑（如日志输出）
-                        } else {
-                            // 电量不足，执行其他逻辑（如提示“电量不足”）
-                            // 例如：输出日志或向玩家发送提示
-                        }
-
-                        // 2. 获取该玩家对应的无线魔力容器
-                        WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(teamUUID);
-
-                        // 3. 获取当前储存量
-                        BigInteger storedMana = manaContainer.getStorage();
-
-                        manaContainer.setStorage(storedMana.add(BigInteger.valueOf(1000)));
-
-                        // 2. 减少 500 点魔力
-                        // 注意：需要先判断是否足够，避免出现负数
-                        if (storedMana.compareTo(BigInteger.valueOf(500)) >= 0) {
-                            manaContainer.setStorage(storedMana.subtract(BigInteger.valueOf(500)));
-                        }
-
-                        if (entry.canExecute(this)) {
-                            entry.execute(this);
-                        }
-                    }
+        transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
+                .textSupplier(texts -> texts.addAll(entry.getDescription()))
+                .clickHandler((data, clickData) -> {
+                    if (!Unlock) return;
+                    int multiplier = clickData.isCtrlClick ? (clickData.isShiftClick ? 100 : 10) : 1;
+                    entry.execute(this, multiplier);
                 }));
 
-        transaction.addWidget(new ImageWidget(10, 10, 100, 100, IGuiTexture.EMPTY));
+        transaction.addWidget(new ImageWidget(1, 6, 38, 38, Unlock ? IGuiTexture.EMPTY : GuiTextures.BUTTON_LOCK));
 
         return transaction;
     }

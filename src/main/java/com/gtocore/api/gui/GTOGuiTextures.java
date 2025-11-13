@@ -9,6 +9,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 public final class GTOGuiTextures {
 
     public static final ResourceTexture PARALLEL_CONFIG = new ResourceTexture(GTCEu.id("textures/gui/icon/io_config/cover_settings.png"));
+    public static final ResourceTexture BOXED_BACKGROUND = new ResourceTexture(GTCEu.id("textures/gui/base/boxed_background.png"));
 
     public static final ResourceTexture REFRESH = getTexture("base/refresh");
     public static final ResourceTexture DELETE = getTexture("base/delete");

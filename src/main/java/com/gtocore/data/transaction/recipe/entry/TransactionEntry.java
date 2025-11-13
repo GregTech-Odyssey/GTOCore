@@ -2,11 +2,13 @@ package com.gtocore.data.transaction.recipe.entry;
 
 import com.gtocore.data.transaction.common.TradingStationMachine;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.wireless.WirelessManaContainer;
 import com.gtolib.utils.WalletUtils;
 
 import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -16,8 +18,10 @@ import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static com.gtocore.data.transaction.common.TradingStationTool.*;
 
@@ -54,7 +58,7 @@ public record TransactionEntry(
     /**
      * 执行交易前的额外条件检查
      */
-    public boolean canExecute(TradingStationMachine machine) {
+    private boolean canExecute(TradingStationMachine machine) {
         return preCheck == null || preCheck.test(machine, this);
     }
 
@@ -62,56 +66,47 @@ public record TransactionEntry(
      * 输入资源检查
      */
     private int checkInputEnough(TradingStationMachine machine) {
-        int inputItem = Integer.MAX_VALUE;
-        if (!inputGroup().items().isEmpty()) {
-            inputItem = checkMaxMultiplier(machine.getInputItem(), inputGroup().items());
-            if (inputItem == 0) return 0;
-        }
-        int inputFluid = Integer.MAX_VALUE;
-        if (!inputGroup().fluids().isEmpty()) {
-            inputFluid = checkMaxConsumeMultiplier(machine.getInputFluid(), inputGroup().fluids());
-            if (inputFluid == 0) return 0;
-        }
-        int outputFluid = Integer.MAX_VALUE;
-        if (!outputGroup().fluids().isEmpty()) {
-            outputFluid = checkMaxCapacityMultiplier(machine.getOutputFluid(), outputGroup().fluids());
-            if (outputFluid == 0) return 0;
-        }
-        int inputCurrencies = Integer.MAX_VALUE;
-        if (!inputGroup().currencies().isEmpty()) {
-            inputCurrencies = inputGroup().currencies().object2LongEntrySet().stream()
-                    .filter(entry -> entry.getLongValue() != 0)
-                    .mapToInt(entry -> {
-                        long currencyAmount = WalletUtils.getCurrencyAmount(machine.getUuid(), (ServerLevel) machine.getLevel(), entry.getKey());
-                        return (int) (currencyAmount / entry.getLongValue());
-                    }).min().orElse(0);
-            if (inputCurrencies == 0) return 0;
-        }
-        int inputEnergy = Integer.MAX_VALUE;
-        if (!inputGroup().energy().equals(BigInteger.ZERO)) {
-            BigInteger result = WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID()).getStorage().divide(inputGroup().energy());
-            inputEnergy = (result.compareTo(BigInteger.valueOf(1000000000)) > 0 ? BigInteger.valueOf(1000000000) : result).intValueExact();
-            if (inputEnergy == 0) return 0;
-        }
-        int inputMana = Integer.MAX_VALUE;
-        if (!inputGroup().mana().equals(BigInteger.ZERO)) {
-            BigInteger result = WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID()).getStorage().divide(inputGroup().mana());
-            inputMana = (result.compareTo(BigInteger.valueOf(1000000000)) > 0 ? BigInteger.valueOf(1000000000) : result).intValueExact();
-            if (inputMana == 0) return 0;
-        }
+        if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return 0;
+
+        int inputItem = inputGroup().items().isEmpty() ? Integer.MAX_VALUE : checkMaxMultiplier(machine.getInputItem(), inputGroup().items());
+        if (inputItem == 0) return 0;
+
+        int inputFluid = inputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxConsumeMultiplier(machine.getInputFluid(), inputGroup().fluids());
+        if (inputFluid == 0) return 0;
+
+        int outputFluid = outputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxCapacityMultiplier(machine.getOutputFluid(), outputGroup().fluids());
+        if (outputFluid == 0) return 0;
+
+        int inputCurrencies = inputGroup().currencies().isEmpty() ? Integer.MAX_VALUE : inputGroup().currencies().object2LongEntrySet().stream()
+                .filter(entry -> entry.getLongValue() != 0)
+                .mapToInt(entry -> (int) (WalletUtils.getCurrencyAmount(machine.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())).min().orElse(0);
+        if (inputCurrencies == 0) return 0;
+
+        int inputEnergy = inputGroup().energy().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID()).getStorage()
+                .divide(inputGroup().energy())
+                .min(BigInteger.valueOf(100000000)).intValueExact();
+        if (inputEnergy == 0) return 0;
+
+        int inputMana = inputGroup().mana().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID()).getStorage()
+                .divide(inputGroup().mana())
+                .min(BigInteger.valueOf(100_000_000)).intValueExact();
+        if (inputMana == 0) return 0;
+
         return IntStream.of(inputItem, inputFluid, outputFluid, inputCurrencies, inputEnergy, inputMana)
                 .min().orElse(0);
     }
 
     /**
-     * 输入资源
+     * 运行交易的实际输入输出
      */
-    private void runOutput(TradingStationMachine machine, int multiplier) {
+    private void executeTransaction(TradingStationMachine machine, int multiplier) {
+        if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return;
+
         if (!inputGroup().items().isEmpty()) {
             deductMultipliedItems(machine.getInputItem(), inputGroup().items(), multiplier);
         }
         if (!outputGroup().items().isEmpty()) {
-            addMultipliedItems(machine.getOutputItem(), outputGroup().items(), multiplier, machine.getLevel(), machine.getPos());
+            addMultipliedItems(machine.getOutputItem(), outputGroup().items(), multiplier, serverLevel, machine.getPos());
         }
         if (!inputGroup().fluids().isEmpty()) {
             deductMultipliedFluids(machine.getInputFluid(), inputGroup().fluids(), multiplier);
@@ -120,36 +115,57 @@ public record TransactionEntry(
             addMultipliedFluids(machine.getOutputFluid(), outputGroup().fluids(), multiplier);
         }
         if (!inputGroup().currencies().isEmpty()) {
-            inputGroup().currencies().forEach((a, b) -> WalletUtils.subtractCurrency(machine.getUuid(), (ServerLevel) machine.getLevel(), a, b));
+            inputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.subtractCurrency(machine.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
         }
         if (!outputGroup().currencies().isEmpty()) {
-            outputGroup().currencies().forEach((a, b) -> WalletUtils.addCurrency(machine.getUuid(), (ServerLevel) machine.getLevel(), a, b));
+            outputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.addCurrency(machine.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
         }
         if (!inputGroup().energy().equals(BigInteger.ZERO)) {
             WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID());
-            energyContainer.setStorage(energyContainer.getStorage().subtract(inputGroup().energy()));
+            energyContainer.setStorage(energyContainer.getStorage().subtract(inputGroup().energy().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!outputGroup().energy().equals(BigInteger.ZERO)) {
             WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID());
-            energyContainer.setStorage(energyContainer.getStorage().add(outputGroup().energy()));
+            energyContainer.setStorage(energyContainer.getStorage().add(outputGroup().energy().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!inputGroup().mana().equals(BigInteger.ZERO)) {
             WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID());
-            manaContainer.setStorage(manaContainer.getStorage().subtract(inputGroup().mana()));
+            manaContainer.setStorage(manaContainer.getStorage().subtract(inputGroup().mana().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!outputGroup().mana().equals(BigInteger.ZERO)) {
             WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID());
-            manaContainer.setStorage(manaContainer.getStorage().add(outputGroup().mana()));
+            manaContainer.setStorage(manaContainer.getStorage().add(outputGroup().mana().multiply(BigInteger.valueOf(multiplier))));
         }
     }
 
     /**
-     * 执行交易回调（仅调用不可变的 onExecute 回调，无状态变更）
+     * 执行完整交易（资源变更+回调）
      */
-    public void execute(TradingStationMachine machine) {
+    public void execute(TradingStationMachine machine, int requestedMultiplier) {
+        GTOCore.LOGGER.info("run execute");
+        // 先检查是否可执行
+        if (!canExecute(machine)) return;
+        GTOCore.LOGGER.info("run canExecute");
+        // 获取最大可执行次数
+        requestedMultiplier = Math.min(requestedMultiplier, checkInputEnough(machine));
+        GTOCore.LOGGER.info("run checkInputEnough");
+        if (requestedMultiplier <= 0) return;
+        // 执行资源变更（扣减输入+添加输出）
+        executeTransaction(machine, requestedMultiplier);
+        GTOCore.LOGGER.info("run executeTransaction");
+        // 执行回调（原有逻辑保留）
         if (onExecute != null) {
             onExecute.run(machine, this);
         }
+        GTOCore.LOGGER.info("run onExecute");
+    }
+
+    public List<Component> getDescription() {
+        List<Component> componentList = new ArrayList<>();
+        componentList.addAll(description());
+        componentList.addAll(inputGroup().getComponentList(true));
+        componentList.addAll(outputGroup().getComponentList(false));
+        return componentList;
     }
 
     // ------------------- 内部类：交易资源组 -------------------
@@ -169,16 +185,16 @@ public record TransactionEntry(
             currencies = new O2LOpenCacheHashMap<>(currencies);
         }
 
-        // ------------------- 资源操作：返回新实例 -------------------
+        // ------------------- 资源操作 -------------------
         public TransactionGroup addItem(ItemStack stack) {
             if (stack.isEmpty()) return this;
-            List<ItemStack> newItems = List.copyOf(List.of(stack));
+            List<ItemStack> newItems = Stream.concat(this.items.stream(), Stream.of(stack)).toList();
             return new TransactionGroup(newItems, this.fluids, this.currencies, this.energy, this.mana);
         }
 
         public TransactionGroup addFluid(FluidStack stack) {
             if (stack.isEmpty()) return this;
-            List<FluidStack> newFluids = List.copyOf(List.of(stack));
+            List<FluidStack> newFluids = Stream.concat(this.fluids.stream(), Stream.of(stack)).toList();
             return new TransactionGroup(this.items, newFluids, this.currencies, this.energy, this.mana);
         }
 
@@ -203,6 +219,55 @@ public record TransactionEntry(
 
         public TransactionGroup withMana(long mana) {
             return withMana(BigInteger.valueOf(mana));
+        }
+
+        /**
+         * 检查当前 TransactionGroup 是否所有字段都为空（或无效）。
+         */
+        public boolean isEmpty() {
+            boolean isItemsEmpty = items.stream().allMatch(ItemStack::isEmpty);
+            boolean isFluidsEmpty = fluids.stream().allMatch(FluidStack::isEmpty);
+            boolean isCurrenciesEmpty = currencies.isEmpty() || currencies.values().longStream().allMatch(amount -> amount <= 0);
+            boolean isEnergyEmpty = energy.equals(BigInteger.ZERO);
+            boolean isManaEmpty = mana.equals(BigInteger.ZERO);
+            return isItemsEmpty && isFluidsEmpty && isCurrenciesEmpty && isEnergyEmpty && isManaEmpty;
+        }
+
+        public List<Component> getComponentList(boolean input_output) {
+            List<Component> list = new ArrayList<>();
+            ChatFormatting color = input_output ? ChatFormatting.DARK_RED : ChatFormatting.DARK_GREEN;
+            list.add(Component.literal("- ").withStyle(color)
+                    .append(Component.translatable(input_output ?
+                            "gtocore.transaction_group.true" : "gtocore.transaction_group.false").withStyle(ChatFormatting.GREEN)));
+            for (ItemStack itemStack : items) {
+                list.add(Component.literal("- ").withStyle(color)
+                        .append(Component.literal(String.valueOf(itemStack.getCount())).withStyle(ChatFormatting.AQUA))
+                        .append(Component.literal(" "))
+                        .append(itemStack.getDisplayName().copy().withStyle(ChatFormatting.GOLD)));
+            }
+            for (FluidStack fluidStack : fluids) {
+                list.add(Component.literal("- ").withStyle(color)
+                        .append(Component.literal(String.valueOf(fluidStack.getAmount())).withStyle(ChatFormatting.AQUA))
+                        .append(Component.literal(" "))
+                        .append(fluidStack.getDisplayName().copy().withStyle(ChatFormatting.LIGHT_PURPLE)));
+            }
+            currencies.object2LongEntrySet().forEach((entry) -> list.add(Component.literal("- ").withStyle(color)
+                    .append(Component.literal(String.valueOf(entry.getLongValue())).withStyle(ChatFormatting.AQUA))
+                    .append(Component.literal(" "))
+                    .append(Component.translatable("gtocore.currency." + entry.getKey()).withStyle(ChatFormatting.YELLOW))));
+            if (!energy.equals(BigInteger.ZERO)) {
+                list.add(Component.literal("- ").withStyle(color)
+                        .append(Component.literal(energy.toString()).withStyle(ChatFormatting.AQUA))
+                        .append(Component.literal(" "))
+                        .append(Component.literal("EU").withStyle(ChatFormatting.DARK_AQUA)));
+            }
+            if (!mana.equals(BigInteger.ZERO)) {
+                list.add(Component.literal("- ").withStyle(color)
+                        .append(Component.literal(mana.toString()).withStyle(ChatFormatting.AQUA))
+                        .append(Component.literal(" "))
+                        .append(Component.literal("Mana").withStyle(ChatFormatting.DARK_PURPLE)));
+            }
+            return list;
         }
     }
 

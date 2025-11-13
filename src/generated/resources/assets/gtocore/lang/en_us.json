@@ -5482,6 +5482,8 @@
   "gtocore.trading_station.textList.6": "[Collapse]",
   "gtocore.trading_station.textList.7": "--Detailed Introduction--",
   "gtocore.trading_station.textList.8": "[Refresh]",
+  "gtocore.transaction_group.false": "Commodity",
+  "gtocore.transaction_group.true": "Price",
   "gtocore.travel.missing_block": "[No block set]",
   "gtocore.travel.mode.all": "All Targets",
   "gtocore.travel.mode.filter.noblock": "Your view does not have a block that can be used as a target",
