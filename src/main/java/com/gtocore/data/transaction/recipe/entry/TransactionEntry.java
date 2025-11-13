@@ -59,15 +59,6 @@ public record TransactionEntry(
     }
 
     /**
-     * 执行交易（仅调用不可变的 onExecute 回调，无状态变更）
-     */
-    public void execute(TradingStationMachine machine) {
-        if (onExecute != null) {
-            onExecute.run(machine, this);
-        }
-    }
-
-    /**
      * 输入资源检查
      */
     private int checkInputEnough(TradingStationMachine machine) {
@@ -110,6 +101,55 @@ public record TransactionEntry(
         }
         return IntStream.of(inputItem, inputFluid, outputFluid, inputCurrencies, inputEnergy, inputMana)
                 .min().orElse(0);
+    }
+
+    /**
+     * 输入资源
+     */
+    private void runOutput(TradingStationMachine machine, int multiplier) {
+        if (!inputGroup().items().isEmpty()) {
+            deductMultipliedItems(machine.getInputItem(), inputGroup().items(), multiplier);
+        }
+        if (!outputGroup().items().isEmpty()) {
+            addMultipliedItems(machine.getOutputItem(), outputGroup().items(), multiplier, machine.getLevel(), machine.getPos());
+        }
+        if (!inputGroup().fluids().isEmpty()) {
+            deductMultipliedFluids(machine.getInputFluid(), inputGroup().fluids(), multiplier);
+        }
+        if (!outputGroup().fluids().isEmpty()) {
+            addMultipliedFluids(machine.getOutputFluid(), outputGroup().fluids(), multiplier);
+        }
+        if (!inputGroup().currencies().isEmpty()) {
+            inputGroup().currencies().forEach((a, b) -> WalletUtils.subtractCurrency(machine.getUuid(), (ServerLevel) machine.getLevel(), a, b));
+        }
+        if (!outputGroup().currencies().isEmpty()) {
+            outputGroup().currencies().forEach((a, b) -> WalletUtils.addCurrency(machine.getUuid(), (ServerLevel) machine.getLevel(), a, b));
+        }
+        if (!inputGroup().energy().equals(BigInteger.ZERO)) {
+            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID());
+            energyContainer.setStorage(energyContainer.getStorage().subtract(inputGroup().energy()));
+        }
+        if (!outputGroup().energy().equals(BigInteger.ZERO)) {
+            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID());
+            energyContainer.setStorage(energyContainer.getStorage().add(outputGroup().energy()));
+        }
+        if (!inputGroup().mana().equals(BigInteger.ZERO)) {
+            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID());
+            manaContainer.setStorage(manaContainer.getStorage().subtract(inputGroup().mana()));
+        }
+        if (!outputGroup().mana().equals(BigInteger.ZERO)) {
+            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID());
+            manaContainer.setStorage(manaContainer.getStorage().add(outputGroup().mana()));
+        }
+    }
+
+    /**
+     * 执行交易回调（仅调用不可变的 onExecute 回调，无状态变更）
+     */
+    public void execute(TradingStationMachine machine) {
+        if (onExecute != null) {
+            onExecute.run(machine, this);
+        }
     }
 
     // ------------------- 内部类：交易资源组 -------------------
