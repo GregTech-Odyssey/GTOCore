@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
@@ -397,6 +398,15 @@ final class StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .save();
+
+        STELLAR_FORGE_RECIPES.builder("resonarium_plasma")
+                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
+                .inputItems(GTOTagPrefix.gemExquisite, GTOMaterials.Resonarium, 2)
+                .outputFluids(GTOMaterials.Resonarium, FluidStorageKeys.PLASMA, 1152)
+                .EUt(20971520)
+                .duration(200)
+                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
     }
 }
