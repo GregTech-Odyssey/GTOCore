@@ -1152,12 +1152,24 @@ public final class GTOItems {
             .register();
 
     public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER0 = item("pattern_buffer_upgrader", "样板总成升级器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7shift + 右键点击以将低级样板总成升级为当前物品对应等级的样板总成。§r",
+                            "§7Shift + Right-Click to convert a lower-tier Pattern Buffer into the tier corresponding to this item.§r")
+                    .build().getArray())
             .onRegister(attach(PatternBufferUpgraderBehavior.PatternBuffer))
             .register();
     public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER1 = item("ex_pattern_buffer_upgrader", "扩展样板总成升级器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7shift + 右键点击以将低级样板总成升级为当前物品对应等级的样板总成。§r",
+                            "§7Shift + Right-Click to convert a lower-tier Pattern Buffer into the tier corresponding to this item.§r")
+                    .build().getArray())
             .onRegister(attach(PatternBufferUpgraderBehavior.ExPatternBuffer))
             .register();
     public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER2 = item("ex_pattern_buffer_ultra_upgrader", "扩展样板总成ultra升级器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7shift + 右键点击以将低级样板总成升级为当前物品对应等级的样板总成。§r",
+                            "§7Shift + Right-Click to convert a lower-tier Pattern Buffer into the tier corresponding to this item.§r")
+                    .build().getArray())
             .onRegister(attach(PatternBufferUpgraderBehavior.UltraPatternBuffer))
             .register();
 
