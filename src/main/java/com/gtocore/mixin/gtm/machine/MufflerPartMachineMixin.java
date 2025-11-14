@@ -101,7 +101,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
         for (int i = 0; i < inventory.size; i++) {
             ItemStack stack = inventory.stacks[i];
-            if (stack.getCount() > 1) {
+            if (stack.getCount() > 0) {
                 inventory.setStackInSlot(i, ItemStack.EMPTY);
                 MachineUtils.outputItem(centerMachine, stack);
             }
