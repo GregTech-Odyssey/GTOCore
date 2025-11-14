@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -947,11 +948,17 @@ final class Vanilla {
                 "CDC",
                 "EEE",
                 'A', new MaterialEntry(GTOTagPrefix.pipeQuadrupleFluid, GTOMaterials.GraphiteCopperComposite), 'B', new MaterialEntry(GTOTagPrefix.rotor, GTMaterials.TungstenSteel), 'C', GTItems.FLUID_REGULATOR_IV.asStack(), 'D', GTMachines.MIXER[GTValues.IV].asStack(), 'E', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
-        VanillaRecipeHelper.addShapelessRecipe("me_pattern_buffer_upg", GTOItems.PATTERN_BUFFER_UPGRADER0.asStack(), TagUtils.createTGTag("ingots"),
-                GTAEMachines.ME_PATTERN_BUFFER.asItem());
-        VanillaRecipeHelper.addShapelessRecipe("me_extend_pattern_buffer_upg", GTOItems.PATTERN_BUFFER_UPGRADER1.asStack(), TagUtils.createTGTag("ingots"),
-                GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem());
-        VanillaRecipeHelper.addShapelessRecipe("me_extend_pattern_buffer_ultra_upg", GTOItems.PATTERN_BUFFER_UPGRADER2.asStack(), TagUtils.createTGTag("ingots"),
-                GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem());
+        addUpg(GTAEMachines.ME_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER0.asStack());
+        addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER1.asStack());
+        addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER2.asStack());
+        addUpg(GTAEMachines.ME_STORAGE_ACCESS_HATCH.asItem(), GTOItems.STORAGE_ACCESSOR_REPLACER0.asStack());
+        addUpg(GTAEMachines.ME_BIG_STORAGE_ACCESS_HATCH.asItem(), GTOItems.STORAGE_ACCESSOR_REPLACER1.asStack());
+        addUpg(GTAEMachines.ME_IO_STORAGE_ACCESS_HATCH.asItem(), GTOItems.STORAGE_ACCESSOR_REPLACER2.asStack());
+    }
+
+    private static void addUpg(Item input, ItemStack output) {
+        VanillaRecipeHelper.addShapelessRecipe("upg_" + input.toString(), output,
+                TagUtils.createTGTag("ingots"),
+                input);
     }
 }
