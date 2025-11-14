@@ -35,6 +35,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -47,6 +48,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -74,7 +76,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         super(holder);
         cardHandler = new CustomItemStackHandler();
         cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem()));
-        cardHandler.setOnContentsChanged(() -> InitializationInformation(cardHandler.getStackInSlot(0)));
+        cardHandler.setOnContentsChanged(() -> initializationInformation(cardHandler.getStackInSlot(0)));
 
         inputItem = new NotifiableItemStackHandler(this, 256, IO.IN, IO.BOTH);
         outputItem = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.BOTH);
@@ -86,7 +88,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Override
     public void onLoad() {
         super.onLoad();
-        InitializationInformation(cardHandler.getStackInSlot(0));
+        initializationInformation(cardHandler.getStackInSlot(0));
+        storeGroupSwitchingInitialization();
         if (!isRemote()) {
             outputItemChangeSub = outputItem.addChangedListener(this::updateAutoOutputSubscription);
             outputFluidChangeSub = outputFluid.addChangedListener(this::updateAutoOutputSubscription);
@@ -172,7 +175,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack card = cardHandler.getStackInSlot(0);
-        InitializationInformation(card);
+        initializationInformation(card);
         if (uuid == null) return true;
         UUID playerUUID = player.getUUID();
         if (isUuidPresent(card, playerUUID)) return true;
@@ -201,11 +204,19 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                 .setBackground(GuiTextures.DISPLAY);
 
+        // 底边展开
+        mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
+            textList.add(Component.empty()
+                    .append(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(isCollapse ? 5 : 6), "isCollapse"), trans(7))));
+            if (!isCollapse) GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
+        }).clickHandler((a, b) -> { if (a.equals("isCollapse")) isCollapse = !isCollapse; }).setMaxWidthLimit(width - 8));
+
         Level level = getLevel();
         ServerLevel serverlevel;
         if (level instanceof ServerLevel server) serverlevel = server;
         else serverlevel = null;
 
+        // 左侧
         mainGroup.addWidget(new SlotWidget(cardHandler, 0, 10, 10)
                 .setBackgroundTexture(GuiTextures.SLOT));
 
@@ -228,15 +239,15 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         mainGroup.addWidget(new InteractiveImageWidget(237, 10, 9, 9, GTOGuiTextures.REFRESH)
                 .textSupplier(texts -> texts.add(trans(8)))
-                .clickHandler((data, clickData) -> InitializationInformation(cardHandler.getStackInSlot(0))));
+                .clickHandler((data, clickData) -> initializationInformation(cardHandler.getStackInSlot(0))));
 
+        mainGroup.addWidget(new LabelWidget(10, 50, Component.literal(groupSize + "/" + shopSize + "/" + transactionSize)));
+        mainGroup.addWidget(new LabelWidget(10, 60, Component.literal(groupSelected + "/" + shopSelected + "/" + pageSelected)));
+
+        // 左右分区
         mainGroup.addWidget(new ImageWidget(255, 2, 2, 140, GuiTextures.SLOT));
 
-        mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
-            textList.add(Component.empty()
-                    .append(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(isCollapse ? 5 : 6), "isCollapse"), trans(7))));
-            if (!isCollapse) GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
-        }).clickHandler((a, b) -> { if (a.equals("isCollapse")) isCollapse = !isCollapse; }).setMaxWidthLimit(width - 8));
+        // 右侧
 
         group.addWidget(mainGroup);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -282,10 +293,24 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         sideTabs.setMainTab(this);
 
         sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        // 方向配置页
-        sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
+
+        List<IFancyUIProvider> shopGroupTabs = shopGroup();
+
+        shopGroupTabs.forEach(sideTabs::attachSubTab);
+
+        if (groupSelected == 0) {
+            IFancyUIProvider directionalTab = CombinedDirectionalFancyConfigurator.of(this, this);
+            sideTabs.attachSubTab(directionalTab);
+        }
+
+        sideTabs.setOnTabSwitch((oldTab, newTab) -> {
+            if (shopGroupTabs.contains(newTab)) {
+                shopSelected = shopGroupTabs.indexOf(newTab);
+            } else {
+                shopSelected = -1;
+            }
+            storeGroupSwitchingInitialization();
+        });
     }
 
     /////////////////////////////////////
@@ -294,18 +319,81 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     TradingManager manager = TradingManager.getInstance();
 
-    private int groupSelected;
-    private int shopSelected;
-    private int pageSelected;
-
     private int groupSize;
     private int shopSize;
     private int transactionSize;
 
-    private void StoreGroupSwitchingInitialization() {
+    private int groupSelected = 0;
+    private int shopSelected = 0;
+    private int pageSelected = 0;
+
+    private void storeGroupSwitchingInitialization() {
         groupSize = manager.getGroupCount();
-        shopSize = manager.getShopCount(groupSelected);
-        transactionSize = manager.getTransactionCount(groupSelected, shopSelected);
+        shopSize = (groupSelected >= 0 && groupSelected < groupSize) ? manager.getShopCount(groupSelected) : 0;
+        transactionSize = (shopSelected >= 0 && shopSelected < shopSize) ? manager.getTransactionCount(groupSelected, shopSelected) : 0;
+    }
+
+    private List<IFancyUIProvider> shopGroup() {
+        List<IFancyUIProvider> shopGroup = new ArrayList<>();
+
+        for (int shop = 0; shop < shopSize; shop++) {
+            TradingManager.TradingShop tradingShop = manager.getShopByIndices(groupSelected, shop);
+
+            ServerLevel serverlevel;
+            if (getLevel() instanceof ServerLevel server) serverlevel = server;
+            else serverlevel = null;
+            boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverlevel, TransactionLang.UNLOCK_SHOP, tradingShop.getUnlockCondition());
+            // if (!unlock) continue;
+
+            shopGroup.add(new IFancyUIProvider() {
+
+                @Override
+                public IGuiTexture getTabIcon() {
+                    return tradingShop.getTexture();
+                }
+
+                @Override
+                public Component getTitle() {
+                    return Component.translatable(tradingShop.getName());
+                }
+
+                @Override
+                public Widget createMainPage(FancyMachineUIWidget widget) {
+                    var group = new WidgetGroup(0, 0, width + 8, height + 8);
+
+                    WidgetGroup mainGroup = new WidgetGroup(4, 4, width, height);
+                    mainGroup.setBackground(GuiTextures.DISPLAY);
+
+                    WidgetGroup shopGroup = new WidgetGroup(0, 0, width, height);
+                    shopGroup.setLayout(Layout.VERTICAL_CENTER);
+                    shopGroup.setLayoutPadding(3);
+
+                    shopGroup.addWidget(new LabelWidget(0, 0, Component.translatable(tradingShop.getName())));
+
+                    shopGroup.addWidget(new LabelWidget(0, 0, Component.literal("一个一个商店")));
+
+                    shopGroup.addWidget(transactionGroup(26, groupSelected, shopSelected, pageSelected));
+
+                    int totalPage = transactionSize / 16 + (transactionSize % 16 == 0 ? 0 : 1);
+                    shopGroup.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(Component.empty()
+                            .append(ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_page"))
+                            .append(Component.literal("<" + (pageSelected + 1) + "/" + totalPage + ">"))
+                            .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page")))).clickHandler((data, clickData) -> {
+                                switch (data) {
+                                    case "previous_page" -> pageSelected = Mth.clamp(pageSelected - 1, 0, totalPage - 1);
+                                    case "next_page" -> pageSelected = Mth.clamp(pageSelected + 1, 0, totalPage - 1);
+                                }
+                            }));
+
+                    mainGroup.addWidget(shopGroup);
+                    group.addWidget(mainGroup);
+                    group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
+                    return group;
+                }
+            });
+        }
+        return shopGroup;
     }
 
     private WidgetGroup transactionGroup(int y, int groupIndex, int shopIndex, int pageIndex) {
@@ -313,14 +401,22 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 8; col++) {
-                transactionGroup.addWidget(transaction(col * 41 + (col > 3 ? 1 : 0), row * 53,
-                        manager.getTransactionEntryByIndices(groupIndex, shopIndex, pageIndex * 16 + row * 8 + col)));
+                int X = col * 41 + (col > 3 ? 1 : 0);
+                int Y = row * 53;
+                int entryIndex = pageIndex * 16 + row * 8 + col;
+                boolean isIndexValid = manager.isTransactionIndexValid(groupIndex, shopIndex, entryIndex);
+                if (isIndexValid) {
+                    transactionGroup.addWidget(transaction(X, Y, manager.getTransactionEntryByIndices(groupIndex, shopIndex, entryIndex)));
+                } else {
+                    transactionGroup.addWidget(emptyTransaction(X, Y));
+                }
             }
         }
 
         return transactionGroup;
     }
 
+    // 原有方法保持不变
     private WidgetGroup transaction(int x, int y, TransactionEntry entry) {
         WidgetGroup transaction = new WidgetGroup(x, y, 40, 50);
         transaction.setBackground(GTOGuiTextures.BOXED_BACKGROUND);
@@ -350,7 +446,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     private ImageWidget emptyTransaction(int x, int y) {
-        return new ImageWidget(x, y, 38, 38, GTOGuiTextures.BOXED_BACKGROUND);
+        return new ImageWidget(x, y, 40, 50, GTOGuiTextures.BOXED_BACKGROUND);
     }
 
     /////////////////////////////////////
@@ -379,7 +475,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     /**
      * 初始化玩家信息
      */
-    private void InitializationInformation(ItemStack card) {
+    private void initializationInformation(ItemStack card) {
         if (card.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem())) {
             this.uuid = getSingleUuid(card);
             this.sharedUUIDs = getSharedUuids(card);

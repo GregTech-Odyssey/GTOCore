@@ -1,6 +1,7 @@
 package com.gtocore.data.transaction.recipe;
 
 import com.gtocore.data.transaction.common.TradingStationMachine;
+import com.gtocore.data.transaction.recipe.entry.TradingManager;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 
 import com.gtolib.GTOCore;
@@ -15,6 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
@@ -112,5 +115,125 @@ public class TransactionRegistration {
 
         // 可选：添加粒子效果或音效增强体验
         world.levelEvent(2001, pos, Block.getId(Blocks.BEACON.defaultBlockState())); // 方块放置粒子
+    }
+
+    // --- 可配置的测试参数 ---
+    private static final int NUMBER_OF_GROUPS = 10;    // 创建3个商店组
+    private static final int SHOPS_PER_GROUP = 3;     // 每个组创建2个商店
+    private static final boolean USE_UNIQUE_NAMES = true; // 为每个交易条目使用唯一名称（用于测试识别）
+
+    /**
+     * 执行批量注册。
+     * 建议在Mod的初始化阶段调用此方法。
+     */
+    public static void registerTestData() {
+        TradingManager manager = TradingManager.getInstance();
+
+        // 1. 定义测试用的交易条目模板
+        List<TransactionEntry> testTransactions = createTestTransactionTemplates();
+
+        // 2. 循环创建商店组
+        for (int groupIndex = 0; groupIndex < NUMBER_OF_GROUPS; groupIndex++) {
+            String groupName = "测试组 " + (groupIndex + 1);
+
+            // 为商店组添加一个简单的纹理（例如，使用书本图标）
+            ItemStackTexture groupTexture = new ItemStackTexture(Items.BOOK); // 这里可以用更动态的方式
+
+            // 添加商店组
+            int registeredGroupIndex = manager.addShopGroup(
+                    groupName,
+                    "test.unlock.group." + (groupIndex + 1), // 解锁条件也动态化
+                    groupTexture,
+                    null);
+
+            // 3. 在当前组内循环创建商店
+            for (int shopIndex = 0; shopIndex < SHOPS_PER_GROUP; shopIndex++) {
+                String shopName = "商店 " + (groupIndex + 1) + "-" + (shopIndex + 1);
+
+                // 为商店添加一个简单的纹理（例如，使用箱子图标）
+                ItemStackTexture shopTexture = new ItemStackTexture(Items.CHEST);
+
+                // 添加商店
+                int registeredShopIndex = manager.addShopByGroupIndex(
+                        registeredGroupIndex,
+                        shopName,
+                        "test.unlock.shop." + (groupIndex + 1) + "." + (shopIndex + 1),
+                        shopTexture);
+
+                // 4. 向当前商店添加所有测试交易条目
+                for (TransactionEntry templateEntry : testTransactions) {
+                    TransactionEntry entryToAdd = templateEntry;
+
+                    // 如果需要为每个商店中的条目创建唯一描述（便于测试识别）
+                    if (USE_UNIQUE_NAMES) {
+                        String uniqueDesc = templateEntry.getDescription().get(0).getString() + " (" + shopName + ")";
+                        entryToAdd = new TransactionEntry.Builder() // 如果你的Builder支持复制构造会更好
+                                .description(List.of(Component.literal(uniqueDesc)))
+                                .build();
+                    }
+
+                    manager.addTransactionEntryByIndices(
+                            registeredGroupIndex,
+                            registeredShopIndex,
+                            entryToAdd);
+                }
+            }
+        }
+
+        System.out.println("已成功注册测试交易数据！");
+        System.out.println(" - 商店组数量: " + NUMBER_OF_GROUPS);
+        System.out.println(" - 每个组商店数量: " + SHOPS_PER_GROUP);
+        System.out.println(" - 每个商店交易条目数量: " + testTransactions.size());
+    }
+
+    /**
+     * 创建并返回一个包含多个测试交易条目的列表。
+     * 这些条目将作为模板被添加到所有测试商店中。
+     * 
+     * @return 测试交易条目列表
+     */
+    private static List<TransactionEntry> createTestTransactionTemplates() {
+        // 示例1: 木头换面包 (来自 TransactionRegistration)
+        TransactionEntry woodForBread = new TransactionEntry.Builder()
+                .texture(new ItemStackTexture(Items.BREAD))
+                .description(List.of(Component.literal("10个木头 → 1个面包")))
+                .unlockCondition("无解锁条件")
+                .inputItem(new ItemStack(Items.OAK_WOOD, 10))
+                .outputItem(new ItemStack(Items.BREAD, 1))
+                .build();
+
+        // 示例2: 绿宝石换信标 (来自 TransactionRegistration)
+        TransactionEntry emeraldForBeacon = TransactionRegistration.createJungleBeaconTrade();
+
+        // 示例3: 新的测试交易 - 石头换 cobblestone
+        TransactionEntry stoneForCobblestone = new TransactionEntry.Builder()
+                .texture(new ItemStackTexture(Items.COBBLESTONE))
+                .description(List.of(Component.literal("1个石头 → 2个圆石")))
+                .unlockCondition("无解锁条件")
+                .inputItem(new ItemStack(Items.STONE, 1))
+                .outputItem(new ItemStack(Items.COBBLESTONE, 2))
+                .build();
+
+        // 示例4: 新的测试交易 - 水和岩浆换黑曜石
+        TransactionEntry fluidsForObsidian = new TransactionEntry.Builder()
+                .texture(new ItemStackTexture(Items.OBSIDIAN))
+                .description(List.of(Component.literal("1桶水 + 1桶岩浆 → 1个黑曜石")))
+                .unlockCondition("无解锁条件")
+                .inputFluid(new FluidStack(Fluids.WATER, 1000))
+                .inputFluid(new FluidStack(Fluids.LAVA, 1000))
+                .outputItem(new ItemStack(Items.OBSIDIAN, 1))
+                .build();
+
+        // 示例5: 新的测试交易 - 使用货币
+        TransactionEntry currencyForDiamond = new TransactionEntry.Builder()
+                .texture(new ItemStackTexture(Items.DIAMOND))
+                .description(List.of(Component.literal("1000单位货币 → 1个钻石")))
+                .unlockCondition("需要解锁货币系统")
+                .inputCurrency("gtocore:coin", 1000) // 假设存在名为 "gtocore:coin" 的货币
+                .outputItem(new ItemStack(Items.DIAMOND, 1))
+                .build();
+
+        // 返回所有模板
+        return List.of(woodForBread, emeraldForBeacon, stoneForCobblestone, fluidsForObsidian, currencyForDiamond);
     }
 }

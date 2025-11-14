@@ -67,6 +67,29 @@ public class TradingManager {
         return shop.getTransactionCount();
     }
 
+    /**
+     * 校验交易条目索引是否有效（组索引+商店索引+条目索引均合法）
+     * 
+     * @param groupIndex 商店组索引（0开始）
+     * @param shopIndex  商店在组内的索引（0开始）
+     * @param entryIndex 交易条目在商店内的索引（0开始）
+     * @return 索引全部有效返回true，否则返回false
+     */
+    public boolean isTransactionIndexValid(int groupIndex, int shopIndex, int entryIndex) {
+        // 1. 校验组索引
+        if (groupIndex < 0 || groupIndex >= getGroupCount()) {
+            return false;
+        }
+        // 2. 校验商店索引
+        TradingShopGroup group = getShopGroup(groupIndex);
+        if (group == null || shopIndex < 0 || shopIndex >= group.getShopCount()) {
+            return false;
+        }
+        // 3. 校验交易条目索引
+        TradingShop shop = getShopByIndices(groupIndex, shopIndex);
+        return entryIndex >= 0 && entryIndex < shop.getTransactionCount();
+    }
+
     // ------------------------------ 元素添加（仅保留3个核心便捷方法）------------------------------
     /** 添加新的商店组，返回组索引 */
     public int addShopGroup(@NotNull String groupName, @Nullable String unlockCondition,
