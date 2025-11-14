@@ -292,6 +292,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // ********* UI单元构建 ********* //
     /////////////////////////////////////
 
+    TradingManager manager = TradingManager.getInstance();
+
     private int groupSelected;
     private int shopSelected;
     private int pageSelected;
@@ -301,9 +303,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private int transactionSize;
 
     private void StoreGroupSwitchingInitialization() {
-        groupSize = TradingManager.getInstance().getGroupCount();
-        shopSize = TradingManager.getInstance().getShopCount(groupSelected);
-        transactionSize = TradingManager.getInstance().getTransactionCount(groupSelected, shopSelected);
+        groupSize = manager.getGroupCount();
+        shopSize = manager.getShopCount(groupSelected);
+        transactionSize = manager.getTransactionCount(groupSelected, shopSelected);
     }
 
     private WidgetGroup transactionGroup(int y, int groupIndex, int shopIndex, int pageIndex) {
@@ -312,7 +314,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 8; col++) {
                 transactionGroup.addWidget(transaction(col * 41 + (col > 3 ? 1 : 0), row * 53,
-                        TradingManager.getInstance().getTransactionEntryByIndices(groupIndex, shopIndex, pageIndex * 16 + row * 8 + col)));
+                        manager.getTransactionEntryByIndices(groupIndex, shopIndex, pageIndex * 16 + row * 8 + col)));
             }
         }
 
