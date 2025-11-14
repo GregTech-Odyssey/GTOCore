@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -27,6 +28,13 @@ final class MassFabricator {
                 .outputFluids(GTOMaterials.Quasifissioning.getFluid(FluidStorageKeys.PLASMA, 144))
                 .EUt(7864320)
                 .duration(200)
+                .save();
+        MASS_FABRICATOR_RECIPES.builder("celenegil")
+                .inputItems(GTOTagPrefix.gemExquisite, GTOMaterials.SoulCrystal)
+                .inputFluids(GTOMaterials.ChromaticGlass, FluidStorageKeys.PLASMA, 144)
+                .outputFluids(GTOMaterials.Celenegil, 768)
+                .EUt(7864320)
+                .duration(480)
                 .save();
     }
 }

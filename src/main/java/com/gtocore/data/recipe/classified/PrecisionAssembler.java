@@ -25,6 +25,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.kyanite.deeperdarker.content.DDItems;
 
+import static com.gregtechceu.gtceu.api.GTValues.UIV;
+import static com.gregtechceu.gtceu.api.GTValues.V;
 import static com.gtocore.common.data.GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES;
 
 final class PrecisionAssembler {
@@ -745,6 +747,19 @@ final class PrecisionAssembler {
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 288)
                 .EUt(131000)
                 .duration(400)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.builder("draconic_core")
+                .inputItems(CustomTags.UXV_CIRCUITS, 4)
+                .inputItems(GTOItems.DRAGON_STEM_CELLS.asItem(), 4)
+                .inputItems(GTOItems.STABILIZER_CORE.asItem())
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UEV.asItem(), 8)
+                .outputItems(GTOItems.DRACONIC_CORE.asItem())
+                .inputFluids(GTOMaterials.BerylliumAluminumF, 6000)
+                .inputFluids(GTOMaterials.AstralTitanium, FluidStorageKeys.PLASMA, 1000)
+                .inputFluids(GTMaterials.Hassium, 1000)
+                .EUt(V[UIV])
+                .duration(100)
                 .save();
     }
 }

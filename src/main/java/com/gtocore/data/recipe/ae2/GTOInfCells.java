@@ -9,10 +9,13 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+
+import appeng.api.stacks.AEItemKey;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
@@ -32,7 +35,7 @@ public class GTOInfCells {
                     .inputItems(GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(), 4)
                     .inputItems(GTMachines.MACERATOR[GTValues.EV].asItem(), 4)
                     .inputItems(GTItems.COVER_INFINITE_WATER.asItem(), 4)
-                    .outputItems(infCell(String.valueOf(BuiltInRegistries.ITEM.getKey(CONCRETE_BLOCKS[i].asItem()))))
+                    .outputItems(infCell(CONCRETE_BLOCKS[i]))
                     .inputFluids(GTMaterials.CHEMICAL_DYES[i], 64 * 144)
                     .duration(400)
                     .euVATier(GTValues.EV)
@@ -43,13 +46,13 @@ public class GTOInfCells {
                 .inputItems(GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(), 4)
                 .inputItems("easy_villagers:iron_farm", 64)
                 .inputItems("easy_villagers:villager", 6)
-                .outputItems(infCell("factory_blocks:factory"))
+                .outputItems(infCell(RegistriesUtils.getItemStack("factory_blocks:factory").getItem()))
                 .duration(400)
                 .euVATier(GTValues.EV)
                 .save();
     }
 
-    static ItemStack infCell(String item) {
-        return RegistriesUtils.getItemStack("expatternprovider:infinity_cell", 1, "{record:{\"#c\":\"ae2:i\",id:\"" + item + "\"}}");
+    static ItemStack infCell(ItemLike item) {
+        return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
     }
 }

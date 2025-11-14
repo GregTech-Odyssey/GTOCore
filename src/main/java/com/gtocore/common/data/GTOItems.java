@@ -1151,6 +1151,16 @@ public final class GTOItems {
             .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
             .register();
 
+    public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER0 = item("pattern_buffer_upgrader", "样板总成升级器", ComponentItem::create)
+            .onRegister(attach(PatternBufferUpgraderBehavior.PatternBuffer))
+            .register();
+    public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER1 = item("ex_pattern_buffer_upgrader", "扩展样板总成升级器", ComponentItem::create)
+            .onRegister(attach(PatternBufferUpgraderBehavior.ExPatternBuffer))
+            .register();
+    public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER2 = item("ex_pattern_buffer_ultra_upgrader", "扩展样板总成ultra升级器", ComponentItem::create)
+            .onRegister(attach(PatternBufferUpgraderBehavior.UltraPatternBuffer))
+            .register();
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())

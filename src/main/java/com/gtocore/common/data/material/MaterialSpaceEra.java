@@ -249,7 +249,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xd3b8d2)
                 .secondaryColor(0xa899a8)
-                .blastTemp(12345, HIGHER, GTValues.VA[GTValues.UHV], 1900)
+                .blastTemp(12345, HIGHER, GTValues.VA[GTValues.UHV], 1750)
                 .components(Titanium, 64 * 4, Vanadium, 10 * 4, Aluminium, 5 * 4, Chromium, 5 * 4, Tin, 5 * 4, Etrium, 8 * 4, InfusedGold, 5, AstralSilver, 3)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
@@ -687,7 +687,7 @@ public class MaterialSpaceEra {
                 .blastTemp(15000, HIGHER, GTValues.VA[GTValues.UEV], 1400)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
-                        GENERATE_FRAME, GENERATE_FOIL,
+                        GENERATE_FRAME, GENERATE_FOIL, GENERATE_PLATE,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DISABLE_DECOMPOSITION, NEED_BLAST_IN_SPACE)
                 .buildAndRegister();
         NanoStrengthenedShapeMemoryAlloy = material("nano_strengthened_shape_memory_alloy", "纳米强化记忆合金")

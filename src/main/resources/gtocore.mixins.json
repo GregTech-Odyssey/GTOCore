@@ -40,6 +40,7 @@
     "adastra.GasTankItemMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
+    "adastra.OxygenDistributorBlockEntityMixin",
     "ae2.FuzzyPriorityListMixin",
     "ae2.GridMixin",
     "ae2.QuartzCuttingKnifeItemMixin",

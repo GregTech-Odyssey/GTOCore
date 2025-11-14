@@ -12,8 +12,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import com.enderio.base.common.init.EIOFluids;
 
-import static com.gregtechceu.gtceu.api.GTValues.UHV;
-import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.data.GTORecipeTypes.MICROGRAVITY_NANOFABRICATION_RECIPES;
 
 public class MicrogravityNanofabrication {

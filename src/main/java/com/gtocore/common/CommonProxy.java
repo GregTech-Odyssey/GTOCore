@@ -12,7 +12,9 @@ import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
 import com.gtocore.data.Datagen;
 import com.gtocore.data.lootTables.GTOLootTool.GTONumberProviders;
+import com.gtocore.integration.Mods;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
+import com.gtocore.integration.ftbquests.GTOQuestTypes;
 import com.gtocore.integration.ftbu.AreaShape;
 
 import com.gtolib.GTOCore;
@@ -92,6 +94,9 @@ public class CommonProxy {
         GTOCreativeModeTabs.init();
         ScanningClass.init();
         GTOEntityTypes.init();
+        if (!GTCEu.isDataGen() && Mods.FTBQUESTS.isLoaded()) {
+            GTOQuestTypes.init();
+        }
     }
 
     private static void modConstruct(FMLConstructModEvent event) {

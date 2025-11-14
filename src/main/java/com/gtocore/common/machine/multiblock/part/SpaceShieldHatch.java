@@ -2,16 +2,16 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.machine.feature.ISpaceWorkspaceMachine;
 import com.gtolib.api.machine.feature.IWorkInSpaceMachine;
+import com.gtolib.utils.holder.BooleanHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeLaserHatchPartMachine;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +22,7 @@ import static com.gregtechceu.gtceu.api.GTValues.UEV;
 
 public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspaceMachine {
 
-    private boolean hasLaser;
+    private BooleanHolder hasLaser;
 
     public SpaceShieldHatch(MetaMachineBlockEntity holder) {
         super(holder, UEV);
@@ -34,7 +34,6 @@ public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspa
         if (controller instanceof IWorkInSpaceMachine machine) {
             machine.setWorkspaceProvider(this);
         }
-        hasLaser = Stream.of(controller.getParts()).anyMatch(p -> p instanceof LaserHatchPartMachine || p instanceof CreativeLaserHatchPartMachine);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspa
             textList.add(Component.translatable("gtocore.machine.space_shield_hatch.not_in_space"));
             return;
         }
-        if (hasLaser) {
+        if (isWorkspaceReady()) {
             textList.add(Component.translatable("gtocore.machine.space_shield_hatch.info").withStyle(ChatFormatting.GREEN));
         } else {
             textList.add(Component.translatable("gtocore.machine.space_shield_hatch.insufficient").withStyle(ChatFormatting.RED));
@@ -62,11 +61,15 @@ public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspa
         if (controller instanceof IWorkInSpaceMachine receiver && receiver.getWorkspaceProvider() == this) {
             receiver.setWorkspaceProvider(null);
         }
-        hasLaser = false;
+        hasLaser = null;
     }
 
     @Override
     public boolean isWorkspaceReady() {
-        return hasLaser;
+        if (hasLaser == null) {
+            hasLaser = new BooleanHolder(Stream.of(getControllers().first().getParts())
+                    .anyMatch(p -> (PartAbility.INPUT_LASER.isApplicable(p.self().getBlockState().getBlock()))));
+        }
+        return hasLaser.value;
     }
 }

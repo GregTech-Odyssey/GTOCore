@@ -14,7 +14,8 @@ public enum Mods {
     CHISEL("chisel"),
     SOPHISTICATEDBACKPACKS("sophisticatedbackpacks"),
     BIOMESOPLENTY("biomesoplenty"),
-    BIOMESWEVEGONE("biomeswevegone");
+    BIOMESWEVEGONE("biomeswevegone"),
+    FTBQUESTS("ftbquests");
 
     @Getter
     private final boolean loaded;

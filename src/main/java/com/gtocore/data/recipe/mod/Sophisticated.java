@@ -46,6 +46,8 @@ public final class Sophisticated {
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("auto_smoking_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:auto_smoking_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:smoking_upgrade"), GTItems.CONVEYOR_MODULE_LV.asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:upgrade_base"), GTItems.ELECTRIC_PISTON_LV.asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("pickup_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:pickup_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:upgrade_base"), GTMachines.ITEM_COLLECTOR[GTValues.LV].asItem());
+        VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("advanced_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:advanced_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:pump_upgrade"), GTItems.ELECTRIC_PUMP_MV.asStack());
+        VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("xp_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:xp_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:advanced_pump_upgrade"), RegistriesUtils.getItemStack("enderio:experience_rod"), RegistriesUtils.getItemStack("enderio:xp_vacuum"));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("backpack"), RegistriesUtils.getItemStack("sophisticatedbackpacks:backpack"),
                 "ABA",
