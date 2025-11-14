@@ -10,6 +10,7 @@ import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 import com.gtolib.utils.WalletUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
@@ -62,7 +63,7 @@ import javax.annotation.Nullable;
 import static com.gtocore.common.item.GrayMembershipCardItem.*;
 import static com.gtocore.data.transaction.recipe.TransactionRegistration.createJungleBeaconTrade;
 
-public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife {
+public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife, IControllable {
 
     /////////////////////////////////////
     // ********* 生命周期管理 ********* //
@@ -282,13 +283,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         sideTabs.attachSubTab(transactionRecords());
         sideTabs.attachSubTab(transactionRecords());
         sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
         // 方向配置页
         sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
     }
@@ -301,17 +295,22 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         if (getLevel() instanceof ServerLevel server) serverlevel = server;
         else serverlevel = null;
 
-        boolean Unlock = WalletUtils.containsTagValueInWallet(uuid, serverlevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
+        boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverlevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
+        boolean canExecute = entry.canExecute(this);
 
         transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
-                .textSupplier(texts -> texts.addAll(entry.getDescription()))
+                .textSupplier(texts -> {
+                    if (!unlock) texts.add(Component.translatable("gtocore.transaction_group.unlock"));
+                    if (!canExecute) texts.add(Component.translatable("gtocore.transaction_group.unsatisfied"));
+                    texts.addAll(entry.getDescription());
+                })
                 .clickHandler((data, clickData) -> {
-                    if (!Unlock) return;
+                    if (!unlock) return;
                     int multiplier = clickData.isCtrlClick ? (clickData.isShiftClick ? 100 : 10) : 1;
                     entry.execute(this, multiplier);
                 }));
 
-        transaction.addWidget(new ImageWidget(1, 6, 38, 38, Unlock ? IGuiTexture.EMPTY : GuiTextures.BUTTON_LOCK));
+        transaction.addWidget(new ImageWidget(1, 6, 38, 38, unlock ? IGuiTexture.EMPTY : GuiTextures.BUTTON_LOCK));
 
         return transaction;
     }
@@ -514,5 +513,18 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     public void onNeighborChanged(@NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
         updateAutoOutputSubscription();
+    }
+
+    @Persisted
+    private boolean working = false;
+
+    @Override
+    public boolean isWorkingEnabled() {
+        return working;
+    }
+
+    @Override
+    public void setWorkingEnabled(boolean var1) {
+        this.working = !working;
     }
 }

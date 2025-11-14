@@ -5484,6 +5484,8 @@
   "gtocore.trading_station.textList.8": "[Refresh]",
   "gtocore.transaction_group.false": "Commodity",
   "gtocore.transaction_group.true": "Price",
+  "gtocore.transaction_group.unlock": "Unlocked",
+  "gtocore.transaction_group.unsatisfied": "Additional conditions not met",
   "gtocore.travel.missing_block": "[No block set]",
   "gtocore.travel.mode.all": "All Targets",
   "gtocore.travel.mode.filter.noblock": "Your view does not have a block that can be used as a target",

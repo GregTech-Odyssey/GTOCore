@@ -95,5 +95,8 @@ public class TransactionLang {
 
         add("gtocore.transaction_group.true", "价格", "Price");
         add("gtocore.transaction_group.false", "商品", "Commodity");
+
+        add("gtocore.transaction_group.unlock", "未解锁", "Unlocked");
+        add("gtocore.transaction_group.unsatisfied", "不满足额外条件", "Additional conditions not met");
     }
 }

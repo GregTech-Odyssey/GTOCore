@@ -5484,6 +5484,8 @@
   "gtocore.trading_station.textList.8": "[刷新]",
   "gtocore.transaction_group.false": "商品",
   "gtocore.transaction_group.true": "價格",
+  "gtocore.transaction_group.unlock": "未解鎖",
+  "gtocore.transaction_group.unsatisfied": "不滿足額外條件",
   "gtocore.travel.missing_block": "[未設置方塊]",
   "gtocore.travel.mode.all": "所有目標",
   "gtocore.travel.mode.filter.noblock": "你的視線沒有可作為目標的方塊",

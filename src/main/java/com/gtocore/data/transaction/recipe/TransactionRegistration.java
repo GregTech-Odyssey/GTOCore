@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -67,6 +68,8 @@ public class TransactionRegistration {
     private static boolean checkJungleAndGrass(TradingStationMachine machine, TransactionEntry entry) {
         if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return false;
 
+        Level level = machine.getLevel();
+
         GTOCore.LOGGER.info("run checkJungleAndGrass");
         BlockPos centerPos = machine.getPos();
 
@@ -83,7 +86,7 @@ public class TransactionRegistration {
             for (int dy = -1; dy <= 1; dy++) {
                 for (int dz = -1; dz <= 1; dz++) {
                     BlockPos checkPos = centerPos.offset(dx, dy, dz);
-                    BlockState state = serverLevel.getBlockState(checkPos);
+                    BlockState state = level.getBlockState(checkPos);
                     if (state.is(Blocks.GRASS_BLOCK)) {
                         hasGrassIn3x3 = true;
                         break; // 找到草方块就退出循环
@@ -99,7 +102,7 @@ public class TransactionRegistration {
 
     // 执行逻辑：在交易坐标生成信标
     private static void spawnBeaconAtPos(TradingStationMachine machine, TransactionEntry entry) {
-        ServerLevel world = (ServerLevel) machine.getLevel();
+        Level world = machine.getLevel();
         BlockPos pos = machine.getPos();
 
         GTOCore.LOGGER.info("run spawnBeaconAtPos");

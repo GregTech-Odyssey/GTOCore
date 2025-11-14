@@ -2,7 +2,6 @@ package com.gtocore.data.transaction.recipe.entry;
 
 import com.gtocore.data.transaction.common.TradingStationMachine;
 
-import com.gtolib.GTOCore;
 import com.gtolib.api.wireless.WirelessManaContainer;
 import com.gtolib.utils.WalletUtils;
 
@@ -58,7 +57,7 @@ public record TransactionEntry(
     /**
      * 执行交易前的额外条件检查
      */
-    private boolean canExecute(TradingStationMachine machine) {
+    public boolean canExecute(TradingStationMachine machine) {
         return preCheck == null || preCheck.test(machine, this);
     }
 
@@ -142,29 +141,23 @@ public record TransactionEntry(
      * 执行完整交易（资源变更+回调）
      */
     public void execute(TradingStationMachine machine, int requestedMultiplier) {
-        GTOCore.LOGGER.info("run execute");
         // 先检查是否可执行
         if (!canExecute(machine)) return;
-        GTOCore.LOGGER.info("run canExecute");
         // 获取最大可执行次数
         requestedMultiplier = Math.min(requestedMultiplier, checkInputEnough(machine));
-        GTOCore.LOGGER.info("run checkInputEnough");
         if (requestedMultiplier <= 0) return;
         // 执行资源变更（扣减输入+添加输出）
         executeTransaction(machine, requestedMultiplier);
-        GTOCore.LOGGER.info("run executeTransaction");
         // 执行回调（原有逻辑保留）
         if (onExecute != null) {
             onExecute.run(machine, this);
         }
-        GTOCore.LOGGER.info("run onExecute");
     }
 
     public List<Component> getDescription() {
-        List<Component> componentList = new ArrayList<>();
-        componentList.addAll(description());
-        componentList.addAll(inputGroup().getComponentList(true));
-        componentList.addAll(outputGroup().getComponentList(false));
+        List<Component> componentList = new ArrayList<>(description());
+        if (!inputGroup().isEmpty()) componentList.addAll(inputGroup().getComponentList(true));
+        if (!outputGroup().isEmpty()) componentList.addAll(outputGroup().getComponentList(false));
         return componentList;
     }
 
