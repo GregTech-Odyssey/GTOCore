@@ -14,7 +14,20 @@ import java.util.List;
  */
 public class TradingManager {
 
+    // 1. 私有静态实例，这是类的核心
+    private static TradingManager instance;
+
+    // 2. 公共静态方法，提供全局访问点
+    public static TradingManager getInstance() {
+        if (instance == null) {
+            instance = new TradingManager();
+        }
+        return instance;
+    }
+
     private final List<TradingShopGroup> shopGroups = new ArrayList<>();
+
+    private TradingManager() {}
 
     /**
      * 添加一个新的商店组。
@@ -42,6 +55,43 @@ public class TradingManager {
     }
 
     /**
+     * 获取商店组的总数量。
+     *
+     * @return 商店组的数量
+     */
+    public int getGroupCount() {
+        return shopGroups.size();
+    }
+
+    /**
+     * 获取指定索引的商店组内的商店数量。
+     *
+     * @param groupIndex 商店组的索引
+     * @return 指定组内的商店数量
+     * @throws IndexOutOfBoundsException 如果组索引越界
+     */
+    public int getShopCount(int groupIndex) {
+        TradingShopGroup group = getShopGroup(groupIndex);
+        if (group == null) {
+            throw new IndexOutOfBoundsException("Shop Group index out of bounds: " + groupIndex);
+        }
+        return group.getSize();
+    }
+
+    /**
+     * 获取指定商店内的交易条目数量。
+     *
+     * @param groupIndex 商店组的索引
+     * @param shopIndex  商店在组内的索引
+     * @return 指定商店内的交易条目数量
+     * @throws IndexOutOfBoundsException 如果组索引或商店索引越界
+     */
+    public int getTransactionCount(int groupIndex, int shopIndex) {
+        TradingShop shop = getShopByIndices(groupIndex, shopIndex);
+        return shop.getSize();
+    }
+
+    /**
      * 根据索引获取商店组。
      *
      * @param index 组的索引
@@ -53,6 +103,51 @@ public class TradingManager {
             return shopGroups.get(index);
         }
         return null;
+    }
+
+    /**
+     * 通过「组索引」和「商店索引」直接获取商店。
+     *
+     * @param groupIndex 组的索引
+     * @param shopIndex  商店在组内的索引
+     * @return 对应的商店
+     * @throws IndexOutOfBoundsException 如果组索引或商店索引越界
+     */
+    @NotNull
+    public TradingShop getShopByIndices(int groupIndex, int shopIndex) {
+        TradingShopGroup targetGroup = getShopGroup(groupIndex);
+        if (targetGroup == null) {
+            throw new IndexOutOfBoundsException("Shop Group index out of bounds: " + groupIndex);
+        }
+
+        TradingShop targetShop = targetGroup.getShop(shopIndex);
+        if (targetShop == null) {
+            throw new IndexOutOfBoundsException("Shop index out of bounds: " + shopIndex + " (in group " + groupIndex + ")");
+        }
+
+        return targetShop;
+    }
+
+    /**
+     * 通过「组索引」、「商店索引」和「交易条目索引」直接获取交易条目。
+     *
+     * @param groupIndex 组的索引
+     * @param shopIndex  商店在组内的索引
+     * @param entryIndex 交易条目在商店内的索引
+     * @return 对应的交易条目
+     * @throws IndexOutOfBoundsException 如果任何一个索引越界
+     */
+    @NotNull
+    public TransactionEntry getTransactionEntryByIndices(int groupIndex, int shopIndex, int entryIndex) {
+        TradingShop targetShop = getShopByIndices(groupIndex, shopIndex);
+
+        List<TransactionEntry> entries = targetShop.getTransactionEntries();
+        if (entryIndex < 0 || entryIndex >= entries.size()) {
+            throw new IndexOutOfBoundsException("Transaction Entry index out of bounds: " + entryIndex +
+                    " (in shop " + shopIndex + " of group " + groupIndex + ")");
+        }
+
+        return entries.get(entryIndex);
     }
 
     /**
@@ -125,6 +220,15 @@ public class TradingManager {
         }
 
         /**
+         * 获取本组内商店的数量。
+         *
+         * @return 商店的数量
+         */
+        public int getSize() {
+            return shops.size();
+        }
+
+        /**
          * 向指定索引的商店添加交易条目。
          *
          * @param shopIndex 商店在组内的索引
@@ -175,6 +279,15 @@ public class TradingManager {
          */
         public List<TransactionEntry> getTransactionEntries() {
             return Collections.unmodifiableList(transactionEntries);
+        }
+
+        /**
+         * 获取商店内交易条目的数量。
+         *
+         * @return 交易条目的数量
+         */
+        public int getSize() {
+            return transactionEntries.size();
         }
     }
 }

@@ -5,6 +5,7 @@ import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.data.transaction.data.TransactionLang;
+import com.gtocore.data.transaction.recipe.entry.TradingManager;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 
 import com.gtolib.utils.WalletUtils;
@@ -287,6 +288,39 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
     }
 
+    /////////////////////////////////////
+    // ********* UI单元构建 ********* //
+    /////////////////////////////////////
+
+    private int groupSelected;
+    private int shopSelected;
+    private int pageSelected;
+
+    private int groupSize;
+    private int shopSize;
+    private int transactionSize;
+
+    private void StoreGroupSwitchingInitialization() {
+        groupSize = TradingManager.getInstance().getGroupCount();
+        shopSize = TradingManager.getInstance().getShopCount(groupSelected);
+        transactionSize = TradingManager.getInstance().getTransactionCount(groupSelected, shopSelected);
+    }
+
+    private WidgetGroup transactionGroup(int y, int groupIndex, int shopIndex, int pageIndex) {
+        WidgetGroup transactionGroup = new WidgetGroup(0, y, 328, 103);
+
+        TradingManager.getInstance().getShopGroup(groupIndex).getShop(shopIndex).getTransactionEntries().get(pageIndex);
+
+        for (int row = 0; row < 2; row++) {
+            for (int col = 0; col < 8; col++) {
+                transactionGroup.addWidget(transaction(col * 41 + (col > 3 ? 1 : 0), row * 53,
+                        TradingManager.getInstance().getTransactionEntryByIndices(groupIndex, shopIndex, pageIndex * 16 + row * 8 + col)));
+            }
+        }
+
+        return transactionGroup;
+    }
+
     private WidgetGroup transaction(int x, int y, TransactionEntry entry) {
         WidgetGroup transaction = new WidgetGroup(x, y, 40, 50);
         transaction.setBackground(GTOGuiTextures.BOXED_BACKGROUND);
@@ -313,6 +347,10 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         transaction.addWidget(new ImageWidget(1, 6, 38, 38, unlock ? IGuiTexture.EMPTY : GuiTextures.BUTTON_LOCK));
 
         return transaction;
+    }
+
+    private ImageWidget emptyTransaction(int x, int y) {
+        return new ImageWidget(x, y, 38, 38, GTOGuiTextures.BOXED_BACKGROUND);
     }
 
     /////////////////////////////////////
