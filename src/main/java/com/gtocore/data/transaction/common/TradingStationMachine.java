@@ -309,8 +309,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private WidgetGroup transactionGroup(int y, int groupIndex, int shopIndex, int pageIndex) {
         WidgetGroup transactionGroup = new WidgetGroup(0, y, 328, 103);
 
-        TradingManager.getInstance().getShopGroup(groupIndex).getShop(shopIndex).getTransactionEntries().get(pageIndex);
-
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 8; col++) {
                 transactionGroup.addWidget(transaction(col * 41 + (col > 3 ? 1 : 0), row * 53,
