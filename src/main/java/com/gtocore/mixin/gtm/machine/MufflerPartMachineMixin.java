@@ -188,7 +188,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
             return;
         }
         CustomItemStackHandler.insertItemStackedFast(inventory, recoveryItems);
-        if (inventory.getStackInSlot(inventory.size - 3).getCount() > 0) gtolib$push_drone();
+        if (inventory.getStackInSlot(inventory.size - this.tier - 1).getCount() > 0) gtolib$push_drone();
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
