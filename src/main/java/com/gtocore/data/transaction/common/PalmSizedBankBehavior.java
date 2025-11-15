@@ -165,12 +165,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
 
-                ServerLevel serverLevel;
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverLevel = serverPlayer.serverLevel();
-                } else {
-                    serverLevel = null;
-                }
+                ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
                 {
                     mainGroup.addWidget(new ComponentPanelWidget(100, 0,
@@ -249,12 +244,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
 
-                ServerLevel serverLevel;
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverLevel = serverPlayer.serverLevel();
-                } else {
-                    serverLevel = null;
-                }
+                ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
                 Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
                 Set<String> CurrencySet = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel).keySet();
@@ -355,12 +345,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
 
-                ServerLevel serverLevel;
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverLevel = serverPlayer.serverLevel();
-                } else {
-                    serverLevel = null;
-                }
+                ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
                 {
                     mainGroup.addWidget(new ComponentPanelWidget(0, 0,
@@ -482,12 +467,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
 
-                ServerLevel serverLevel;
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverLevel = serverPlayer.serverLevel();
-                } else {
-                    serverLevel = null;
-                }
+                ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
                 mainGroup.addWidget(new ComponentPanelWidget(width - 11, 0,
                         list -> list.add(ComponentPanelWidget.withButton(Component.literal(" ↩ "), "return")))
@@ -554,12 +534,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 Player player = getPlayerFromWidget(widget);
                 if (player == null) return group;
 
-                ServerLevel serverLevel;
-                if (player instanceof ServerPlayer serverPlayer) {
-                    serverLevel = serverPlayer.serverLevel();
-                } else {
-                    serverLevel = null;
-                }
+                ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
                 mainGroup.addWidget(new ComponentPanelWidget(80, 0,
                         list -> list.add(ComponentPanelWidget.withButton(Component.literal("update"), "update")))

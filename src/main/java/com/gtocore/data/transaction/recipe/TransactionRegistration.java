@@ -162,20 +162,11 @@ public class TransactionRegistration {
 
                 // 4. 向当前商店添加所有测试交易条目
                 for (TransactionEntry templateEntry : testTransactions) {
-                    TransactionEntry entryToAdd = templateEntry;
-
-                    // 如果需要为每个商店中的条目创建唯一描述（便于测试识别）
-                    if (USE_UNIQUE_NAMES) {
-                        String uniqueDesc = templateEntry.getDescription().get(0).getString() + " (" + shopName + ")";
-                        entryToAdd = new TransactionEntry.Builder() // 如果你的Builder支持复制构造会更好
-                                .description(List.of(Component.literal(uniqueDesc)))
-                                .build();
-                    }
 
                     manager.addTransactionEntryByIndices(
                             registeredGroupIndex,
                             registeredShopIndex,
-                            entryToAdd);
+                            templateEntry);
                 }
             }
         }
@@ -209,7 +200,7 @@ public class TransactionRegistration {
         TransactionEntry stoneForCobblestone = new TransactionEntry.Builder()
                 .texture(new ItemStackTexture(Items.COBBLESTONE))
                 .description(List.of(Component.literal("1个石头 → 2个圆石")))
-                .unlockCondition("无解锁条件")
+                .unlockCondition(null)
                 .inputItem(new ItemStack(Items.STONE, 1))
                 .outputItem(new ItemStack(Items.COBBLESTONE, 2))
                 .build();
@@ -218,7 +209,7 @@ public class TransactionRegistration {
         TransactionEntry fluidsForObsidian = new TransactionEntry.Builder()
                 .texture(new ItemStackTexture(Items.OBSIDIAN))
                 .description(List.of(Component.literal("1桶水 + 1桶岩浆 → 1个黑曜石")))
-                .unlockCondition("无解锁条件")
+                .unlockCondition(null)
                 .inputFluid(new FluidStack(Fluids.WATER, 1000))
                 .inputFluid(new FluidStack(Fluids.LAVA, 1000))
                 .outputItem(new ItemStack(Items.OBSIDIAN, 1))

@@ -141,6 +141,7 @@ public record TransactionEntry(
      * 执行完整交易（资源变更+回调）
      */
     public void execute(TradingStationMachine machine, int requestedMultiplier) {
+        if (!(machine.getLevel() instanceof ServerLevel)) return;
         // 先检查是否可执行
         if (!canExecute(machine)) return;
         // 获取最大可执行次数

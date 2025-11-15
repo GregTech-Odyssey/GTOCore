@@ -64,7 +64,6 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import static com.gtocore.common.item.GrayMembershipCardItem.*;
-import static com.gtocore.data.transaction.recipe.TransactionRegistration.createJungleBeaconTrade;
 
 public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife, IControllable {
 
@@ -212,15 +211,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         }).clickHandler((a, b) -> { if (a.equals("isCollapse")) isCollapse = !isCollapse; }).setMaxWidthLimit(width - 8));
 
         Level level = getLevel();
-        ServerLevel serverlevel;
-        if (level instanceof ServerLevel server) serverlevel = server;
-        else serverlevel = null;
+        ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
         // 左侧
         mainGroup.addWidget(new SlotWidget(cardHandler, 0, 10, 10)
                 .setBackgroundTexture(GuiTextures.SLOT));
 
-        Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverlevel);
+        Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
 
         mainGroup.addWidget(new ComponentPanelWidget(32, 14, textList -> {
             if (uuid == null) {
@@ -239,7 +236,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         mainGroup.addWidget(new InteractiveImageWidget(237, 10, 9, 9, GTOGuiTextures.REFRESH)
                 .textSupplier(texts -> texts.add(trans(8)))
-                .clickHandler((data, clickData) -> initializationInformation(cardHandler.getStackInSlot(0))));
+                .clickHandler((data, clickData) -> {
+                    initializationInformation(cardHandler.getStackInSlot(0));
+                }));
 
         mainGroup.addWidget(new LabelWidget(10, 50, Component.literal(groupSize + "/" + shopSize + "/" + transactionSize)));
         mainGroup.addWidget(new LabelWidget(10, 60, Component.literal(groupSelected + "/" + shopSelected + "/" + pageSelected)));
@@ -277,8 +276,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
-
-                mainGroup.addWidget(transaction(20, 20, createJungleBeaconTrade()));
 
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -339,10 +336,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         for (int shop = 0; shop < shopSize; shop++) {
             TradingManager.TradingShop tradingShop = manager.getShopByIndices(groupSelected, shop);
 
-            ServerLevel serverlevel;
-            if (getLevel() instanceof ServerLevel server) serverlevel = server;
-            else serverlevel = null;
-            boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverlevel, TransactionLang.UNLOCK_SHOP, tradingShop.getUnlockCondition());
+            ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
+            boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_SHOP, tradingShop.getUnlockCondition());
             // if (!unlock) continue;
 
             shopGroup.add(new IFancyUIProvider() {
@@ -416,16 +411,14 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         return transactionGroup;
     }
 
-    // 原有方法保持不变
     private WidgetGroup transaction(int x, int y, TransactionEntry entry) {
         WidgetGroup transaction = new WidgetGroup(x, y, 40, 50);
         transaction.setBackground(GTOGuiTextures.BOXED_BACKGROUND);
 
-        ServerLevel serverlevel;
-        if (getLevel() instanceof ServerLevel server) serverlevel = server;
-        else serverlevel = null;
+        Level level = getLevel();
+        ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
-        boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverlevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
+        boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
         boolean canExecute = entry.canExecute(this);
 
         transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
@@ -435,7 +428,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     texts.addAll(entry.getDescription());
                 })
                 .clickHandler((data, clickData) -> {
-                    if (!unlock) return;
+                    // if (!unlock) return;
                     int multiplier = clickData.isCtrlClick ? (clickData.isShiftClick ? 100 : 10) : 1;
                     entry.execute(this, multiplier);
                 }));
@@ -584,7 +577,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     // 自动输出订阅管理：控制定时任务的启动与停止
     private void updateAutoOutputSubscription() {
-        if (getLevel() == null || isRemote()) return; // 仅在服务端执行
+        if (getLevel() == null || isRemote()) return;
 
         // 检查物品输出条件：开关启用 + 输出槽非空 + 方向有效 + 存在接收方
         boolean canOutputItems = autoOutputItems && !outputItem.isEmpty() && getOutputFacingItems() != null && blockEntityDirectionCache.hasAdjacentItemHandler(
