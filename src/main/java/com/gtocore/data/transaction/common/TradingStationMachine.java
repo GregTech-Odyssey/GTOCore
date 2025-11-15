@@ -311,23 +311,40 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                                         tabsWidget.setMainTab(this);
                                         tabsWidget.selectTab(tabsWidget.getMainTab());
 
+                                        List<IFancyUIProvider> fixedTabs = new ArrayList<>();
                                         if (groupSelected == 0) {
-                                            tabsWidget.attachSubTab(transactionRecords());
+                                            fixedTabs.add(transactionRecords());
+                                            fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
                                         }
+                                        fixedTabs.forEach(tabsWidget::attachSubTab);
+
                                         List<IFancyUIProvider> shopGroupTabs = shopGroup();
-                                        shopGroupTabs.forEach(tabsWidget::attachSubTab);
-                                        if (groupSelected == 0) {
-                                            IFancyUIProvider directionalTab = CombinedDirectionalFancyConfigurator.of(this, this);
-                                            tabsWidget.attachSubTab(directionalTab);
+                                        if (!tabsWidget.hasButton()) {
+                                            Collections.reverse(shopGroupTabs);
                                         }
+                                        shopGroupTabs.forEach(tabsWidget::attachSubTab);
+
+                                        tabsWidget.detectAndSendChanges();
 
                                         tabsWidget.setOnTabSwitch((oldTab, newTab) -> {
-                                            shopSelected = (newTab instanceof ShopTabProvider) ? ((ShopTabProvider) newTab).getShopIndex() : -1;
+                                            if (newTab instanceof ShopTabProvider newShopTab) {
+                                                if (newShopTab.groupIndex == groupSelected) {
+                                                    shopSelected = shopGroupTabs.indexOf(newShopTab);
+                                                } else {
+                                                    newTab = tabsWidget.getMainTab();
+                                                    shopSelected = -1;
+                                                }
+                                            } else {
+                                                shopSelected = -1;
+                                            }
+                                            tabsWidget.selectTab(newTab);
+                                            tabsWidget.detectAndSendChanges();
                                             storeGroupSwitchingInitialization();
                                             modularUI.getModularUIGui().init();
                                         });
                                     }
                                     modularUI.getModularUIGui().init();
+                                    modularUI.initWidgets();
                                     modularUI.initWidgets();
                                 }
                             }).setBackground(GTOGuiTextures.BOXED_BACKGROUND));
@@ -409,21 +426,34 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         sideTabs.setId("fancy_side_tabs");
         sideTabs.setMainTab(this);
         sideTabs.selectTab(sideTabs.getMainTab());
+        sideTabs.detectAndSendChanges();
 
+        List<IFancyUIProvider> fixedTabs = new ArrayList<>();
         if (groupSelected == 0) {
-            sideTabs.attachSubTab(transactionRecords());
+            fixedTabs.add(transactionRecords());
+            fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
         }
+        fixedTabs.forEach(sideTabs::attachSubTab);
 
         List<IFancyUIProvider> shopGroupTabs = shopGroup();
+        if (!sideTabs.hasButton()) {
+            Collections.reverse(shopGroupTabs);
+        }
         shopGroupTabs.forEach(sideTabs::attachSubTab);
 
-        if (groupSelected == 0) {
-            IFancyUIProvider directionalTab = CombinedDirectionalFancyConfigurator.of(this, this);
-            sideTabs.attachSubTab(directionalTab);
-        }
-
         sideTabs.setOnTabSwitch((oldTab, newTab) -> {
-            shopSelected = (newTab instanceof ShopTabProvider) ? ((ShopTabProvider) newTab).getShopIndex() : -1;
+            if (newTab instanceof ShopTabProvider newShopTab) {
+                if (newShopTab.groupIndex == groupSelected) {
+                    shopSelected = shopGroupTabs.indexOf(newShopTab);
+                } else {
+                    newTab = sideTabs.getMainTab();
+                    shopSelected = -1;
+                    sideTabs.selectTab(newTab);
+                }
+            } else {
+                shopSelected = -1;
+            }
+            sideTabs.detectAndSendChanges();
             storeGroupSwitchingInitialization();
             ModularUI modularUI = sideTabs.getGui();
             if (modularUI != null && modularUI.getModularUIGui() != null) {
@@ -518,7 +548,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     /////////////////////////////////////
-    // ********* 内部类：ShopTabProvider ********* //
+    // **** 内部类：ShopTabProvide r**** //
     /////////////////////////////////////
 
     /**
@@ -527,7 +557,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private static class ShopTabProvider implements IFancyUIProvider {
 
         private final TradingStationMachine machine;
-        private final int groupIndex;
+        public final int groupIndex;
         @Getter
         private final int shopIndex;
         private final TradingManager.TradingShop tradingShop;
