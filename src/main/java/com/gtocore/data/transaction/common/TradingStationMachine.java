@@ -311,25 +311,27 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                                         tabsWidget.setMainTab(this);
                                         tabsWidget.selectTab(tabsWidget.getMainTab());
 
+                                        List<IFancyUIProvider> originalShopTabs = shopGroup();
+                                        List<IFancyUIProvider> displayShopTabs = new ArrayList<>(originalShopTabs);
+                                        if (!tabsWidget.hasButton()) {
+                                            Collections.reverse(displayShopTabs);
+                                        }
+
                                         List<IFancyUIProvider> fixedTabs = new ArrayList<>();
                                         if (groupSelected == 0) {
                                             fixedTabs.add(transactionRecords());
                                             fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
                                         }
-                                        fixedTabs.forEach(tabsWidget::attachSubTab);
 
-                                        List<IFancyUIProvider> shopGroupTabs = shopGroup();
-                                        if (!tabsWidget.hasButton()) {
-                                            Collections.reverse(shopGroupTabs);
-                                        }
-                                        shopGroupTabs.forEach(tabsWidget::attachSubTab);
+                                        displayShopTabs.forEach(tabsWidget::attachSubTab);
+                                        fixedTabs.forEach(tabsWidget::attachSubTab);
 
                                         tabsWidget.detectAndSendChanges();
 
                                         tabsWidget.setOnTabSwitch((oldTab, newTab) -> {
                                             if (newTab instanceof ShopTabProvider newShopTab) {
                                                 if (newShopTab.groupIndex == groupSelected) {
-                                                    shopSelected = shopGroupTabs.indexOf(newShopTab);
+                                                    shopSelected = originalShopTabs.indexOf(newShopTab);
                                                 } else {
                                                     newTab = tabsWidget.getMainTab();
                                                     shopSelected = -1;
@@ -343,8 +345,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                                             modularUI.getModularUIGui().init();
                                         });
                                     }
-                                    modularUI.getModularUIGui().init();
-                                    modularUI.initWidgets();
                                     modularUI.initWidgets();
                                 }
                             }).setBackground(GTOGuiTextures.BOXED_BACKGROUND));
@@ -428,23 +428,25 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         sideTabs.selectTab(sideTabs.getMainTab());
         sideTabs.detectAndSendChanges();
 
+        List<IFancyUIProvider> originalShopTabs = shopGroup();
+        List<IFancyUIProvider> displayShopTabs = new ArrayList<>(originalShopTabs);
+        if (!sideTabs.hasButton()) {
+            Collections.reverse(displayShopTabs);
+        }
+
         List<IFancyUIProvider> fixedTabs = new ArrayList<>();
         if (groupSelected == 0) {
             fixedTabs.add(transactionRecords());
             fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
         }
-        fixedTabs.forEach(sideTabs::attachSubTab);
 
-        List<IFancyUIProvider> shopGroupTabs = shopGroup();
-        if (!sideTabs.hasButton()) {
-            Collections.reverse(shopGroupTabs);
-        }
-        shopGroupTabs.forEach(sideTabs::attachSubTab);
+        displayShopTabs.forEach(sideTabs::attachSubTab);
+        fixedTabs.forEach(sideTabs::attachSubTab);
 
         sideTabs.setOnTabSwitch((oldTab, newTab) -> {
             if (newTab instanceof ShopTabProvider newShopTab) {
                 if (newShopTab.groupIndex == groupSelected) {
-                    shopSelected = shopGroupTabs.indexOf(newShopTab);
+                    shopSelected = originalShopTabs.indexOf(newShopTab);
                 } else {
                     newTab = sideTabs.getMainTab();
                     shopSelected = -1;
