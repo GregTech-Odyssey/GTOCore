@@ -12,6 +12,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
+import com.enderio.base.common.init.EIOFluids;
+
 import static com.gtocore.common.data.GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES;
 
 final class TranscendingCrafting {
@@ -273,6 +275,17 @@ final class TranscendingCrafting {
                 .inputFluids(GTMaterials.Ice.getFluid(1000))
                 .outputItems(GTOItems.DUST_BLIZZ.asItem(), 2)
                 .EUt(7864320)
+                .duration(200)
+                .save();
+
+        TRANSCENDING_CRAFTING_RECIPES.builder("resonarium")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.EchoShard, 16)
+                .inputItems(GTOTagPrefix.gemFlawless, GTOMaterials.Resonarium)
+                .inputItems(GTOTagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
+                .outputItems(GTOTagPrefix.gem, GTOMaterials.Resonarium, 8)
+                .inputFluids(GTOMaterials.TranscendingMatter, 1000)
+                .inputFluids(EIOFluids.DEW_OF_THE_VOID.getSource(), 1000)
+                .EUt(1048576)
                 .duration(200)
                 .save();
     }

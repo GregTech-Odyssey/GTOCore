@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/me_bigint_storage_access_hatch_replacer"
+  }
+}

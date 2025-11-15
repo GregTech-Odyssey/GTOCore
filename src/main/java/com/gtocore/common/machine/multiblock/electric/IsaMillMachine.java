@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -48,7 +50,8 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
         ItemStack item = storage.getStackInSlot(0);
         int tier = BallHatchPartMachine.GRINDBALL.getOrDefault(item.getItem(), 0);
         if (recipe != null && tier == recipe.data.getInt("grindball")) {
-            int damage = item.getDamageValue() + MathUtil.saturatedCast(recipe.parallels);
+            var level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, item) + 1;
+            int damage = item.getDamageValue() + MathUtil.saturatedCast(recipe.parallels / level) + 1;
             if (damage < item.getMaxDamage()) {
                 item.setDamageValue(damage);
             } else {

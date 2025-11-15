@@ -20,6 +20,8 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,13 +63,14 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
                 }
             }
             if (!isElectric || GTValues.RNG.nextInt(10) == 0) {
-                int damag = item.definition$getDamage(stack);
-                if (damag >= item.definition$getMaxDamage(stack)) {
+                int damage = stack.getDamageValue();
+                if (damage >= stack.getMaxDamage()) {
                     machineStorage.setStackInSlot(0, ItemStack.EMPTY);
                     setIdleReason(IdleReason.FELLING_TOOL);
                     return null;
                 }
-                item.definition$setDamage(stack, damag + 1);
+                var level = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) + 1;
+                if (GTValues.RNG.nextInt() % level == 0) stack.setDamageValue(damage + 1);
             }
             recipe.duration = (int) (recipe.duration / speed);
             if (output > 1) {

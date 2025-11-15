@@ -12,6 +12,7 @@ import com.enderio.base.common.init.EIOBlocks;
 import com.enderio.base.common.init.EIOItems;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 import earth.terrarium.adastra.common.registry.ModItems;
 import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
@@ -71,6 +72,12 @@ public final class MaterialIgnored {
         TagPrefix.gem.setIgnored(CertusQuartz, () -> AEItems.CERTUS_QUARTZ_CRYSTAL);
         TagPrefix.block.setIgnored(CertusQuartz, AEBlocks.QUARTZ_BLOCK::block);
         TagPrefix.dust.setIgnored(CertusQuartz, () -> AEItems.CERTUS_QUARTZ_DUST);
+
+        TagPrefix.gem.setIgnored(SoulCrystal, () -> DDItems.SOUL_CRYSTAL::get);
+        TagPrefix.dust.setIgnored(SoulCrystal, () -> DDItems.SOUL_DUST::get);
+
+        TagPrefix.gem.setIgnored(Resonarium, () -> DDItems.RESONARIUM::get);
+        TagPrefix.plate.setIgnored(Resonarium, () -> DDItems.RESONARIUM_PLATE::get);
 
         TagPrefix.rawOre.setIgnored(Desh, ModItems.RAW_DESH);
         TagPrefix.rawOre.setIgnored(Ostrum, ModItems.RAW_OSTRUM);

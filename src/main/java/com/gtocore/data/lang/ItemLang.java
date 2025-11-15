@@ -150,7 +150,7 @@ final class ItemLang {
 
         addCNEN("tooltip.ad_astra.unknown_tag", "§c未知标签§r: %s", "§cUnknown tag§r: %s");
         addCNEN("tooltip.ad_astra.unknown_ingredient", "§c未知物品§r", "§cUnknown item§r");
-        addCNEN("tag.item.forge.ingots.steel", "钢锭", "Steel Ingot");
+        addCNEN("tag.item.gt.ingots", "锭", "Ingots");
         addCNEN("item.gtocore.globe.earth", "地球仪的球体", "Earth Globe Sphere");
 
         addCNEN("tooltip.item.pattern.uuid", "编码者：%s", "Encoded by: %s");

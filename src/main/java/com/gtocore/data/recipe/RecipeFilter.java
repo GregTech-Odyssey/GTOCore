@@ -313,6 +313,7 @@ public final class RecipeFilter {
         filters.add(DeeperDarker.rl("resonarium_chestplate_smithing"));
         filters.add(DeeperDarker.rl("resonarium_leggings_smithing"));
         filters.add(DeeperDarker.rl("resonarium_boots_smithing"));
+        filters.add(DeeperDarker.rl("resonarium_plate"));
 
         filters.add(RLUtils.mc("wooden_shovel"));
         filters.add(RLUtils.mc("wooden_pickaxe"));

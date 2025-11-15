@@ -31,7 +31,6 @@ public final class GTMaterialExtend {
     public static void init() {
         Neutron = Neutronium;
         Neutron.setMaterialARGB(0x10102);
-        Electrum.setProperty(BLAST, new BlastProperty(740));
         Neutron.setProperty(BLAST, new BlastProperty(17690));
         Neutron.getProperties().removeProperty(TOOL);
         Neutron.getProperties().removeProperty(ROTOR);

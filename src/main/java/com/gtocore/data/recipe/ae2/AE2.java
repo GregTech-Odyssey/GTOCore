@@ -39,6 +39,7 @@ public final class AE2 {
 
     public static void init() {
         Ae2wtlibRecipes.init();
+        GTOInfCells.init();
         if (GTOCore.isEasy()) return;
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",

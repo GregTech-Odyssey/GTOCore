@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -79,5 +80,14 @@ final class Fermenting {
                 .inputFluids(Biomass.getFluid(100))
                 .outputFluids(FermentedBiomass.getFluid(100))
                 .duration(150).EUt(2).save();
+
+        FERMENTING_RECIPES.builder("echo_soil")
+                .inputItems(GTOTagPrefix.block, GTMaterials.Sculk)
+                .outputItems("deeperdarker:echo_soil")
+                .inputFluids(GTMaterials.EchoShard, 60)
+                .outputFluids(EIOFluids.XP_JUICE.getSource(), 20)
+                .EUt(30)
+                .duration(20000)
+                .save();
     }
 }

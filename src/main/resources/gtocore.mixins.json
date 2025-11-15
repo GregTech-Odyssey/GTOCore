@@ -40,6 +40,8 @@
     "adastra.GasTankItemMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
+    "adastra.OxygenDistributorBlockEntityMixin",
+    "adastra.ServerboundLandOnSpaceStationPacketMixin",
     "ae2.FuzzyPriorityListMixin",
     "ae2.GridMixin",
     "ae2.QuartzCuttingKnifeItemMixin",

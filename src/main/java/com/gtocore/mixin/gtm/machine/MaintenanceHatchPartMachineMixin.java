@@ -1,5 +1,6 @@
 package com.gtocore.mixin.gtm.machine;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.IDroneInteractionMachine;
 import com.gtolib.api.machine.feature.multiblock.IDroneControlCenterMachine;
@@ -8,12 +9,15 @@ import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
+
+import net.minecraft.world.entity.player.Player;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,18 +29,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(MaintenanceHatchPartMachine.class)
 public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements IMaintenanceMachine, IDroneInteractionMachine {
 
+    @Shadow(remap = false)
+    protected int timeActive;
+    @Unique
+    private IDroneControlCenterMachine gtolib$cache;
+
     protected MaintenanceHatchPartMachineMixin(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier);
     }
 
     @Shadow(remap = false)
     public abstract void fixAllMaintenanceProblems();
-
-    @Shadow(remap = false)
-    protected int timeActive;
-
-    @Unique
-    private IDroneControlCenterMachine gtolib$cache;
 
     @Unique
     @SuppressWarnings("all")
@@ -53,17 +56,19 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     @Override
     public void calculateMaintenance(IMaintenanceMachine maintenanceMachine, int duration) {
         if (maintenanceMachine.isFullAuto()) return;
-        var pa = 1;
-        for (var c : getControllers()) {
-            pa += c.getParts().length;
-        }
-        timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getDurationMultiplier() * pa * pa)));
-        var value = timeActive - MINIMUM_MAINTENANCE_TIME;
-        if (value > 0) {
-            timeActive = value;
+        var pa = getControllers().getFirst().getParts().length;
+        timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getDurationMultiplier() * GTOCore.difficulty * pa)));
+        var value = ((float) timeActive / MINIMUM_MAINTENANCE_TIME) - 0.7;
+        if (GTValues.RNG.nextFloat() <= value && !GTOCore.isEasy()) {
+            timeActive = 0;
             causeRandomMaintenanceProblems();
             maintenanceMachine.setTaped(false);
         }
+    }
+
+    @Inject(method = "fixMaintenanceProblems", at = @At("HEAD"), remap = false)
+    private void fixMaintenanceProblems(Player entityPlayer, CallbackInfo ci) {
+        timeActive = 0;
     }
 
     @Override
