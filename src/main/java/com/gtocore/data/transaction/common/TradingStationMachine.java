@@ -36,8 +36,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -49,6 +51,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
@@ -141,6 +144,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Persisted
     private final NotifiableFluidTank outputFluid;
 
+    // 库存大小
+    @Persisted
+    private int itemStorageSize = 50;
+    @Persisted
+    private int fluidStorageSize = 4;
+
+    // 其他位置存储
     @Persisted
     private final CustomItemStackHandler cardHandler;
 
@@ -155,15 +165,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Persisted
     private UUID teamUUID;
 
-    private ItemStack OwnerHead = ItemStack.EMPTY;
-    @Persisted
-    private int Openness = 0;
+    private ServerPlayer currentUIPlayer = null;
 
-    // 库存大小
-    @Persisted
-    private int itemStorageSize = 50;
-    @Persisted
-    private int fluidStorageSize = 4;
+    private ItemStack OwnerHead = ItemStack.EMPTY;
 
     /////////////////////////////////////
     // ************ UI实现 ************ //
@@ -185,6 +189,15 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         return false;
     }
 
+    @Override
+    public InteractionResult tryToOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
+        InteractionResult result = IFancyUIMachine.super.tryToOpenUI(player, hand, hit);
+        if (result.consumesAction() && player instanceof ServerPlayer serverPlayer) {
+            this.currentUIPlayer = serverPlayer;
+        }
+        return result;
+    }
+
     @DescSynced
     private boolean collapseDescription = true;
 
@@ -199,7 +212,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                 .setBackground(GuiTextures.DISPLAY);
 
-        // 底边展开
+        // 底边展开面板
         mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
             textList.add(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(collapseDescription ? 5 : 6), "isCollapse"), trans(7)));
             if (!collapseDescription)
@@ -217,13 +230,15 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         Level level = getLevel();
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
-        // 左侧
+        // 左侧卡片槽和信息
         mainGroup.addWidget(new SlotWidget(cardHandler, 0, 10, 10)
                 .setBackgroundTexture(GuiTextures.SLOT));
 
+        mainGroup.addWidget(new ImageWidget(1, 1, 36, 36, new ItemStackTexture(OwnerHead)));
+
         Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
 
-        mainGroup.addWidget(new ComponentPanelWidget(32, 14, textList -> {
+        mainGroup.addWidget(new ComponentPanelWidget(34, 14, textList -> {
             if (uuid == null) {
                 textList.add(trans(2));
             } else {
@@ -250,9 +265,11 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 .textSupplier(texts -> texts.add(trans(8)))
                 .clickHandler((data, clickData) -> {
                     initializationInformation(cardHandler.getStackInSlot(0));
-                    ModularUI modularUI = mainGroup.getGui();
-                    if (modularUI != null && modularUI.getModularUIGui() != null) {
-                        modularUI.getModularUIGui().init();
+                    storeGroupSwitchingInitialization();
+                    if (!isRemote() && currentUIPlayer != null) {
+                        if (shouldOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null)) {
+                            tryToOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null);
+                        }
                     }
                 }));
 
@@ -260,14 +277,15 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.addWidget(new LabelWidget(10, 50, Component.literal(groupSize + "/" + shopSize + "/" + transactionSize)));
         mainGroup.addWidget(new LabelWidget(10, 60, Component.literal(groupSelected + "/" + shopSelected)));
 
-        // 左右分区
+        // 左右分区线
         mainGroup.addWidget(new ImageWidget(253, 2, 2, 140, GuiTextures.SLOT));
 
-        // 右侧
+        // 右侧商店组切换面板
         mainGroup.addWidget(ShopGroupSwitchWidget());
 
         group.addWidget(mainGroup);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
         return group;
     }
 
@@ -298,54 +316,17 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     SwitchWidget.addWidget(new InteractiveImageWidget(x * 10, y * 10, 9, 9, shopGroup.getTexture2())
                             .textSupplier(texts -> texts.add(Component.translatable(shopGroup.getName())))
                             .clickHandler((data, clickData) -> {
-                                groupSelected = index;
-                                shopSelected = -1;
-                                markAsDirty();
-                                storeGroupSwitchingInitialization();
+                                if (groupSelected != index) {
+                                    groupSelected = index;
+                                    shopSelected = -1;
+                                    markAsDirty();
+                                    storeGroupSwitchingInitialization();
 
-                                ModularUI modularUI = mainGroup.getGui();
-                                if (modularUI != null && modularUI.getModularUIGui() != null) {
-                                    TabsWidget tabsWidget = (TabsWidget) modularUI.getFirstWidgetById("fancy_side_tabs");
-                                    if (tabsWidget != null) {
-                                        tabsWidget.clearSubTabs();
-                                        tabsWidget.setMainTab(this);
-                                        tabsWidget.selectTab(tabsWidget.getMainTab());
-
-                                        List<IFancyUIProvider> originalShopTabs = shopGroup();
-                                        List<IFancyUIProvider> displayShopTabs = new ArrayList<>(originalShopTabs);
-                                        if (!tabsWidget.hasButton()) {
-                                            Collections.reverse(displayShopTabs);
+                                    if (!isRemote() && currentUIPlayer != null) {
+                                        if (shouldOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null)) {
+                                            tryToOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null);
                                         }
-
-                                        List<IFancyUIProvider> fixedTabs = new ArrayList<>();
-                                        if (groupSelected == 0) {
-                                            fixedTabs.add(transactionRecords());
-                                            fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
-                                        }
-
-                                        displayShopTabs.forEach(tabsWidget::attachSubTab);
-                                        fixedTabs.forEach(tabsWidget::attachSubTab);
-
-                                        tabsWidget.detectAndSendChanges();
-
-                                        tabsWidget.setOnTabSwitch((oldTab, newTab) -> {
-                                            if (newTab instanceof ShopTabProvider newShopTab) {
-                                                if (newShopTab.groupIndex == groupSelected) {
-                                                    shopSelected = originalShopTabs.indexOf(newShopTab);
-                                                } else {
-                                                    newTab = tabsWidget.getMainTab();
-                                                    shopSelected = -1;
-                                                }
-                                            } else {
-                                                shopSelected = -1;
-                                            }
-                                            tabsWidget.selectTab(newTab);
-                                            tabsWidget.detectAndSendChanges();
-                                            storeGroupSwitchingInitialization();
-                                            modularUI.getModularUIGui().init();
-                                        });
                                     }
-                                    modularUI.initWidgets();
                                 }
                             }).setBackground(GTOGuiTextures.BOXED_BACKGROUND));
                 } else {
@@ -361,7 +342,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private final int Item_slots_in_a_row = 8;
     private final int Fluid_slots_in_a_row = 1;
 
-    private @NotNull IFancyUIProvider transactionRecords() {
+    // 库存展示
+    private @NotNull IFancyUIProvider InventoryDisplay() {
         return new IFancyUIProvider() {
 
             @Override
@@ -424,44 +406,54 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setId("fancy_side_tabs");
+        sideTabs.clearSubTabs();
+        sideTabs.setOnTabSwitch(null);
         sideTabs.setMainTab(this);
-        sideTabs.selectTab(sideTabs.getMainTab());
-        sideTabs.detectAndSendChanges();
 
-        List<IFancyUIProvider> originalShopTabs = shopGroup();
-        List<IFancyUIProvider> displayShopTabs = new ArrayList<>(originalShopTabs);
-        if (!sideTabs.hasButton()) {
-            Collections.reverse(displayShopTabs);
-        }
-
+        // 添加固定标签
         List<IFancyUIProvider> fixedTabs = new ArrayList<>();
         if (groupSelected == 0) {
-            fixedTabs.add(transactionRecords());
+            fixedTabs.add(InventoryDisplay());
             fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
         }
 
-        displayShopTabs.forEach(sideTabs::attachSubTab);
-        fixedTabs.forEach(sideTabs::attachSubTab);
+        // 动态生成商店标签
+        List<IFancyUIProvider> originalShopTabs = shopGroup();
+        List<IFancyUIProvider> displayShopTabs = new ArrayList<>(originalShopTabs);
 
+        // 添加所有标签
+        fixedTabs.forEach(sideTabs::attachSubTab);
+        displayShopTabs.forEach(sideTabs::attachSubTab);
+
+        // 标签切换监听器
         sideTabs.setOnTabSwitch((oldTab, newTab) -> {
             if (newTab instanceof ShopTabProvider newShopTab) {
+                // 只允许选择当前组的商店标签
                 if (newShopTab.groupIndex == groupSelected) {
                     shopSelected = originalShopTabs.indexOf(newShopTab);
                 } else {
-                    newTab = sideTabs.getMainTab();
                     shopSelected = -1;
-                    sideTabs.selectTab(newTab);
+                    sideTabs.selectTab(sideTabs.getMainTab());
                 }
             } else {
                 shopSelected = -1;
             }
             sideTabs.detectAndSendChanges();
             storeGroupSwitchingInitialization();
+
             ModularUI modularUI = sideTabs.getGui();
             if (modularUI != null && modularUI.getModularUIGui() != null) {
                 modularUI.getModularUIGui().init();
             }
         });
+
+        if (shopSelected != -1 && shopSelected < originalShopTabs.size()) {
+            sideTabs.selectTab(originalShopTabs.get(shopSelected));
+        } else {
+            sideTabs.selectTab(sideTabs.getMainTab());
+        }
+
+        sideTabs.detectAndSendChanges();
     }
 
     /////////////////////////////////////
@@ -494,6 +486,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
             ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
             boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_SHOP, tradingShop.getUnlockCondition());
+            // Todo 一会开
             // if (!unlock) continue;
 
             shopGroupTabs.add(new ShopTabProvider(this, groupSelected, shop, tradingShop));
@@ -550,12 +543,45 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     /////////////////////////////////////
+    // ********* 辅助类与方法 ********* //
+    /////////////////////////////////////
+
+    private static final String TEXT_HEADER = "gtocore.trading_station.textList.";
+
+    private static @NotNull MutableComponent trans(int id, Object... args) {
+        if (args.length == 1 && args[0] instanceof Object[]) args = (Object[]) args[0];
+        return Component.translatable(TEXT_HEADER + id, args);
+    }
+
+    private static ItemStack createPlayerHead(UUID uuid) {
+        ItemStack head = new ItemStack(Items.PLAYER_HEAD);
+        CompoundTag tag = head.getOrCreateTag();
+        CompoundTag skullOwner = new CompoundTag();
+        skullOwner.putUUID("Id", uuid);
+        tag.put("SkullOwner", skullOwner);
+        return head;
+    }
+
+    private void initializationInformation(ItemStack card) {
+        if (card.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem())) {
+            this.uuid = getSingleUuid(card);
+            this.sharedUUIDs = getSharedUuids(card);
+            if (uuid != null) {
+                this.teamUUID = TeamUtil.getTeamUUID(uuid);
+                this.OwnerHead = createPlayerHead(uuid);
+            }
+        } else {
+            this.uuid = null;
+            this.sharedUUIDs = new ArrayList<>();
+            this.teamUUID = null;
+            this.OwnerHead = ItemStack.EMPTY;
+        }
+    }
+
+    /////////////////////////////////////
     // **** 内部类：ShopTabProvide r**** //
     /////////////////////////////////////
 
-    /**
-     * 独立的商店标签页提供者，每个标签页维护自己的页码状态
-     */
     private static class ShopTabProvider implements IFancyUIProvider {
 
         private final TradingStationMachine machine;
@@ -623,48 +649,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             return group;
         }
 
-        /**
-         * 局部刷新交易条目，避免整体UI重绘
-         */
         private void updateTransactionContainer(WidgetGroup container, int pageIndex) {
             container.clearAllWidgets();
             container.addWidget(machine.transactionGroup(0, groupIndex, shopIndex, pageIndex));
-        }
-    }
-
-    /////////////////////////////////////
-    // ********* 辅助类与方法 ********* //
-    /////////////////////////////////////
-
-    private static final String TEXT_HEADER = "gtocore.trading_station.textList.";
-
-    private static @NotNull MutableComponent trans(int id, Object... args) {
-        if (args.length == 1 && args[0] instanceof Object[]) args = (Object[]) args[0];
-        return Component.translatable(TEXT_HEADER + id, args);
-    }
-
-    private static ItemStack createPlayerHead(UUID uuid) {
-        ItemStack head = new ItemStack(Items.PLAYER_HEAD);
-        CompoundTag tag = head.getOrCreateTag();
-        CompoundTag skullOwner = new CompoundTag();
-        skullOwner.putUUID("Id", uuid);
-        tag.put("SkullOwner", skullOwner);
-        return head;
-    }
-
-    private void initializationInformation(ItemStack card) {
-        if (card.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem())) {
-            this.uuid = getSingleUuid(card);
-            this.sharedUUIDs = getSharedUuids(card);
-            if (uuid != null) {
-                this.teamUUID = TeamUtil.getTeamUUID(uuid);
-                this.OwnerHead = createPlayerHead(uuid);
-            }
-        } else {
-            this.uuid = null;
-            this.sharedUUIDs = new ArrayList<>();
-            this.teamUUID = null;
-            this.OwnerHead = ItemStack.EMPTY;
         }
     }
 
