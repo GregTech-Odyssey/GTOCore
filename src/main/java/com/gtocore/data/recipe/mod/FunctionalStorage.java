@@ -75,12 +75,12 @@ public final class FunctionalStorage {
                     " A ",
                     "ABA",
                     " A ",
-                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron),'B', RegistriesUtils.getItemStack("functionalstorage:storage_controller"));
+                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron), 'B', RegistriesUtils.getItemStack("functionalstorage:storage_controller"));
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("framed_controller_extension"), RegistriesUtils.getItemStack("functionalstorage:framed_controller_extension"),
                     " A ",
                     "ABA",
                     " A ",
-                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron),'B', RegistriesUtils.getItemStack("functionalstorage:controller_extension"));
+                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron), 'B', RegistriesUtils.getItemStack("functionalstorage:controller_extension"));
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("storage_controller_ex"), RegistriesUtils.getItemStack("functionalstorage:controller_extension"),
                     "ABA",
                     "CDC",

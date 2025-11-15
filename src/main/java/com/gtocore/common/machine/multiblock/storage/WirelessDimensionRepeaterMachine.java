@@ -1,8 +1,7 @@
 package com.gtocore.common.machine.multiblock.storage;
 
-import com.gtocore.common.machine.multiblock.IWirelessDimensionProvider;
-
 import com.gtolib.api.GTOValues;
+import com.gtolib.api.machine.feature.IWirelessDimensionProvider;
 import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 

@@ -1,10 +1,10 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
-import com.gtocore.common.machine.multiblock.IWirelessDimensionProvider;
 
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.capability.IIWirelessInteractor;
+import com.gtolib.api.machine.feature.IWirelessDimensionProvider;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
