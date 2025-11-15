@@ -113,7 +113,7 @@ public class TransactionRegistration {
 
     // --- 可配置的测试参数 ---
     private static final int NUMBER_OF_GROUPS = 10;    // 创建3个商店组
-    private static final int SHOPS_PER_GROUP = 3;     // 每个组创建2个商店
+    private static final int SHOPS_PER_GROUP = 1;     // 每个组创建2个商店
     private static final boolean USE_UNIQUE_NAMES = true; // 为每个交易条目使用唯一名称（用于测试识别）
 
     /**
@@ -138,7 +138,7 @@ public class TransactionRegistration {
                     new ItemStackTexture(Items.EMERALD));
 
             // 3. 在当前组内循环创建商店
-            for (int shopIndex = 0; shopIndex < SHOPS_PER_GROUP; shopIndex++) {
+            for (int shopIndex = 0; shopIndex < SHOPS_PER_GROUP + groupIndex / 2; shopIndex++) {
                 String shopName = "商店 " + (groupIndex + 1) + "-" + (shopIndex + 1);
 
                 // 为商店添加一个简单的纹理（例如，使用箱子图标）
@@ -153,11 +153,25 @@ public class TransactionRegistration {
 
                 // 4. 向当前商店添加所有测试交易条目
                 for (TransactionEntry templateEntry : testTransactions) {
-
-                    manager.addTransactionEntryByIndices(
-                            registeredGroupIndex,
-                            registeredShopIndex,
-                            templateEntry);
+                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                }
+                for (TransactionEntry templateEntry : testTransactions) {
+                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                }
+                for (TransactionEntry templateEntry : testTransactions) {
+                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                }
+                for (TransactionEntry templateEntry : testTransactions) {
+                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                }
+                for (TransactionEntry templateEntry : testTransactions) {
+                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                }
+                for (TransactionEntry templateEntry : testTransactions) {
+                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                }
+                for (TransactionEntry templateEntry : testTransactions) {
+                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
                 }
             }
         }
