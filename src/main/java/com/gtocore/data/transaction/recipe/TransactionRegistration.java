@@ -51,7 +51,7 @@ public class TransactionRegistration {
                         Component.literal("消耗：10个绿宝石"),
                         Component.literal("效果：在祭坛位置生成信标")))
                 // 解锁条件文本
-                .unlockCondition("需要在丛林中，且祭坛周围有草方块")
+                .unlockCondition("null")
 
                 // 输入资源（交易消耗）
                 .inputItem(new ItemStack(Items.EMERALD, 10)) // 10个绿宝石（假设"emerald"是绿宝石货币ID）
@@ -194,7 +194,7 @@ public class TransactionRegistration {
         TransactionEntry stoneForCobblestone = new TransactionEntry.Builder()
                 .texture(new ItemStackTexture(Items.COBBLESTONE))
                 .description(List.of(Component.literal("1个石头 → 2个圆石")))
-                .unlockCondition(null)
+                .unlockCondition("null")
                 .inputItem(new ItemStack(Items.STONE, 1))
                 .outputItem(new ItemStack(Items.COBBLESTONE, 2))
                 .build();
@@ -203,7 +203,7 @@ public class TransactionRegistration {
         TransactionEntry fluidsForObsidian = new TransactionEntry.Builder()
                 .texture(new ItemStackTexture(Items.OBSIDIAN))
                 .description(List.of(Component.literal("1桶水 + 1桶岩浆 → 1个黑曜石")))
-                .unlockCondition(null)
+                .unlockCondition("null")
                 .inputFluid(new FluidStack(Fluids.WATER, 1000))
                 .inputFluid(new FluidStack(Fluids.LAVA, 1000))
                 .outputItem(new ItemStack(Items.OBSIDIAN, 1))
@@ -214,7 +214,7 @@ public class TransactionRegistration {
                 .texture(new ItemStackTexture(Items.DIAMOND))
                 .description(List.of(Component.literal("1000单位货币 → 1个钻石")))
                 .unlockCondition("需要解锁货币系统")
-                .inputCurrency("gtocore:coin", 1000) // 假设存在名为 "gtocore:coin" 的货币
+                .inputCurrency("technician_coin", 1000)
                 .outputItem(new ItemStack(Items.DIAMOND, 1))
                 .build();
 

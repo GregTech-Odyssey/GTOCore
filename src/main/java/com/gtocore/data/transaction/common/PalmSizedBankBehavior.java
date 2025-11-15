@@ -41,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static com.gtocore.common.item.GrayMembershipCardItem.createWithUuidAndSharedList;
+import static com.gtocore.data.transaction.data.TransactionLang.UNLOCK_TRANSACTION;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -468,6 +469,13 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 if (player == null) return group;
 
                 ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
+
+                {
+                    mainGroup.addWidget(new ComponentPanelWidget(0, 0,
+                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
+                            .clickHandler((a, b) -> WalletUtils.addTagToWallet(player.getUUID(), serverLevel, UNLOCK_TRANSACTION, "null")));
+
+                }
 
                 mainGroup.addWidget(new ComponentPanelWidget(width - 11, 0,
                         list -> list.add(ComponentPanelWidget.withButton(Component.literal(" ↩ "), "return")))

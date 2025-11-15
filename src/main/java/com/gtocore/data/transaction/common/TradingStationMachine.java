@@ -433,7 +433,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     entry.execute(this, multiplier);
                 }));
 
-        transaction.addWidget(new ImageWidget(1, 6, 38, 38, unlock ? IGuiTexture.EMPTY : GuiTextures.BUTTON_LOCK));
+        if (!unlock) transaction.addWidget(new ImageWidget(1, 6, 38, 38, GuiTextures.BUTTON_LOCK));
 
         return transaction;
     }
