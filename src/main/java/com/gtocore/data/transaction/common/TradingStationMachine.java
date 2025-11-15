@@ -421,7 +421,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
         boolean canExecute = entry.canExecute(this);
 
-        transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
+        transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, unlock ? entry.texture() : GuiTextures.BUTTON_LOCK)
                 .textSupplier(texts -> {
                     if (!unlock) texts.add(Component.translatable("gtocore.transaction_group.unlock"));
                     if (!canExecute) texts.add(Component.translatable("gtocore.transaction_group.unsatisfied"));
@@ -433,9 +433,22 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     entry.execute(this, multiplier);
                 }));
 
-        if (!unlock) transaction.addWidget(new ImageWidget(1, 6, 38, 38, GuiTextures.BUTTON_LOCK));
+        if (!unlock) transaction.addWidget(new ImageWidget(1, 6, 38, 38, getIGuiTexture(entry.unlockCondition())));
+
+        transaction.addWidget(new ComponentPanelWidget(0, 20, textList -> {
+            if (!unlock) textList.add(Component.translatable("gtocore.transaction_group.unlock"));
+            else textList.add(Component.translatable("已解锁"));
+        }));
 
         return transaction;
+    }
+
+    private IGuiTexture getIGuiTexture(String unlockCondition) {
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_TRANSACTION, unlockCondition);
+            if (!unlock) return GuiTextures.BUTTON_LOCK;
+        }
+        return IGuiTexture.EMPTY;
     }
 
     private ImageWidget emptyTransaction(int x, int y) {

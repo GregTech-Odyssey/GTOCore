@@ -8,7 +8,6 @@ import net.minecraft.network.chat.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import com.lowdragmc.lowdraglib.gui.editor.annotation.Configurable;
 import com.lowdragmc.lowdraglib.gui.editor.annotation.NumberColor;
@@ -191,44 +190,6 @@ public class InteractiveImageWidget extends Widget {
     }
 
     @Override
-    public void updateScreen() {
-        super.updateScreen();
-
-        // 客户端逻辑：参照 ComponentPanelWidget，处理文本更新
-        if (isRemote()) {
-            // 1. 动态更新图片
-            if (textureSupplier != null) {
-                currentImage = textureSupplier.get();
-            }
-
-            // 2. 单机模式兜底：若文本为空，临时生成（仅单机模式有效）
-            // 单机模式判断：当前无独立服务器实例（Minecraft.getInstance().getCurrentServer() == null）
-            Minecraft mc = Minecraft.getInstance();
-            if (mc.getCurrentServer() == null && textSupplier != null && lastText.isEmpty()) {
-                // 临时生成文本（与服务端逻辑一致，避免同步时序问题）
-                List<Component> tempText = new ArrayList<>();
-                textSupplier.accept(tempText);
-                lastText = tempText;
-            }
-        }
-
-        // 服务端逻辑：检测文本变化并同步（与 ComponentPanelWidget 一致）
-        if (textSupplier != null && !isRemote()) {
-            List<Component> newText = new ArrayList<>();
-            textSupplier.accept(newText);
-            if (!lastText.equals(newText)) {
-                lastText = newText;
-                writeUpdateInfo(2, buf -> {
-                    buf.writeVarInt(lastText.size());
-                    for (Component text : lastText) {
-                        buf.writeComponent(text);
-                    }
-                });
-            }
-        }
-    }
-
-    @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
         // 服务端文本变化同步（与 ComponentPanelWidget 一致）
@@ -311,6 +272,7 @@ public class InteractiveImageWidget extends Widget {
         super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
         // 悬停显示文本（与 ComponentPanelWidget 渲染逻辑一致）
         if (isMouseOver(mouseX, mouseY) && !lastText.isEmpty()) {
+            updateScreen();
             graphics.renderComponentTooltip(Minecraft.getInstance().font, lastText, mouseX, mouseY);
         }
     }
@@ -343,10 +305,6 @@ public class InteractiveImageWidget extends Widget {
         Position absolutePos = getPosition();
         Size size = getSize();
         return mouseX >= absolutePos.x && mouseX <= absolutePos.x + size.width && mouseY >= absolutePos.y && mouseY <= absolutePos.y + size.height;
-    }
-
-    public boolean isRemote() {
-        return FMLEnvironment.dist == Dist.CLIENT;
     }
 
     @OnlyIn(Dist.CLIENT)
