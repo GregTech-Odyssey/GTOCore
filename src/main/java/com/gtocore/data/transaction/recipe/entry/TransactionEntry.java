@@ -231,8 +231,8 @@ public record TransactionEntry(
             List<Component> list = new ArrayList<>();
             ChatFormatting color = input_output ? ChatFormatting.DARK_RED : ChatFormatting.DARK_GREEN;
             list.add(Component.literal("- ").withStyle(color)
-                    .append(Component.translatable(input_output ?
-                            "gtocore.transaction_group.true" : "gtocore.transaction_group.false").withStyle(ChatFormatting.GREEN)));
+                    .append(input_output ? Component.translatable("gtocore.transaction_group.true").withStyle(ChatFormatting.DARK_RED) :
+                            Component.translatable("gtocore.transaction_group.false").withStyle(ChatFormatting.DARK_GREEN)));
             for (ItemStack itemStack : items) {
                 list.add(Component.literal("- ").withStyle(color)
                         .append(Component.literal(String.valueOf(itemStack.getCount())).withStyle(ChatFormatting.AQUA))
