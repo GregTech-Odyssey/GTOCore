@@ -8,8 +8,6 @@ import com.gtolib.GTOCore;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -69,19 +67,15 @@ public class TransactionRegistration {
 
     // 前置检查逻辑：3x3区域有草方块且在丛林群系
     private static boolean checkJungleAndGrass(TradingStationMachine machine, TransactionEntry entry) {
-        if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return false;
-
         Level level = machine.getLevel();
+
+        // 关键：仅服务端执行，客户端直接返回false（避免客户端调用）
+        if (level == null || level.isClientSide()) {
+            return false;
+        }
 
         GTOCore.LOGGER.info("run checkJungleAndGrass");
         BlockPos centerPos = machine.getPos();
-
-        // 1. 检查是否在丛林群系（包括所有丛林变种，通过标签判断更灵活）
-        boolean isJungleBiome = serverLevel.getBiome(centerPos).is(BiomeTags.IS_JUNGLE);
-        if (!isJungleBiome) {
-            // 可以通过context向玩家发送提示（实际需结合玩家对象实现）
-            return false;
-        }
 
         // 2. 检查3x3区域内是否至少有1个草方块（中心坐标向xyz各扩展1格）
         boolean hasGrassIn3x3 = false;

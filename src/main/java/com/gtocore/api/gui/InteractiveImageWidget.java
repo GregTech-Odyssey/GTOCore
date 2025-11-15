@@ -1,5 +1,15 @@
 package com.gtocore.api.gui;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
 import com.lowdragmc.lowdraglib.gui.editor.annotation.Configurable;
 import com.lowdragmc.lowdraglib.gui.editor.annotation.NumberColor;
 import com.lowdragmc.lowdraglib.gui.editor.annotation.NumberRange;
@@ -11,21 +21,15 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
 import lombok.Getter;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 // 支持编辑器配置
 @Configurable(name = "ldlib.gui.editor.register.widget.interactive_image", collapse = false)
@@ -34,7 +38,7 @@ public class InteractiveImageWidget extends Widget {
     // ========================== 可配置属性 ==========================
     @Getter
     @Configurable(name = "ldlib.gui.editor.name.border")
-    @NumberRange(range = {-100.0, 100.0})
+    @NumberRange(range = { -100.0, 100.0 })
     private int border;
 
     @Getter
@@ -44,14 +48,15 @@ public class InteractiveImageWidget extends Widget {
 
     // ========================== 文本管理 (服务端驱动) ==========================
     /**
-     * 【服务端】文本供应器。仅在服务端设置和调用，用于动态生成 Tooltip 文本。
+     * 【服务端+单机客户端】文本供应器。
+     * 服务端：核心生成逻辑。
+     * 单机客户端：临时生成文本（兜底）。
+     * 局域网客户端：为 null，不执行。
      */
     protected @Nullable Consumer<List<Component>> textSupplier;
 
     /**
      * 【服务端+客户端】同步后的文本列表。
-     * 服务端：存储生成的文本。
-     * 客户端：接收服务端同步的文本，并用于渲染。
      */
     @Getter
     protected List<Component> lastText = new ArrayList<>();
@@ -73,18 +78,20 @@ public class InteractiveImageWidget extends Widget {
 
     public InteractiveImageWidget(int x, int y, int width, int height, IGuiTexture image) {
         super(x, y, width, height);
-        if (isRemote()) {
+        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
             this.currentImage = image;
             this.textureSupplier = () -> image;
-        }
+            return null;
+        });
     }
 
     public InteractiveImageWidget(int x, int y, int width, int height, Supplier<IGuiTexture> textureSupplier) {
         super(x, y, width, height);
-        if (isRemote()) {
+        DistExecutor.unsafeCallWhenOn(Dist.CLIENT, () -> () -> {
             this.textureSupplier = textureSupplier;
             this.currentImage = textureSupplier.get();
-        }
+            return null;
+        });
     }
 
     // ========================== 文本构造工具方法 ==========================
@@ -127,21 +134,16 @@ public class InteractiveImageWidget extends Widget {
         if (this.border != border || this.borderColor != color) {
             this.border = border;
             this.borderColor = color;
-            if (!isRemote()) { // 服务端发起同步
+            if (!isRemote()) {
                 writeUpdateInfo(1, this::writeBorderData);
             }
         }
         return this;
     }
 
-    /**
-     * 【服务端】设置文本供应器。
-     * @param textSupplier 用于生成 Tooltip 文本的供应器
-     * @return this
-     */
     public InteractiveImageWidget textSupplier(@Nullable Consumer<List<Component>> textSupplier) {
         this.textSupplier = textSupplier;
-        // 初始化文本（仅在服务端执行）
+        // 仅服务端初始化文本（客户端不执行）
         if (textSupplier != null && !isRemote()) {
             this.lastText.clear();
             textSupplier.accept(this.lastText);
@@ -154,11 +156,10 @@ public class InteractiveImageWidget extends Widget {
         return this;
     }
 
-    // ========================== 网络同步 (核心) ==========================
+    // ========================== 网络同步 (核心，与 ComponentPanelWidget 一致) ==========================
     @Override
     public void writeInitialData(FriendlyByteBuf buffer) {
         super.writeInitialData(buffer);
-        // 同步边框信息
         writeBorderData(buffer);
         // 同步初始文本
         buffer.writeVarInt(lastText.size());
@@ -170,7 +171,6 @@ public class InteractiveImageWidget extends Widget {
     @Override
     public void readInitialData(FriendlyByteBuf buffer) {
         super.readInitialData(buffer);
-        // 读取边框信息
         readBorderData(buffer);
         // 读取初始文本
         lastText.clear();
@@ -183,7 +183,7 @@ public class InteractiveImageWidget extends Widget {
     @Override
     public void initWidget() {
         super.initWidget();
-        // 服务端在初始化时，通过 textSupplier 生成初始文本
+        // 服务端初始化文本（与 ComponentPanelWidget 一致）
         if (textSupplier != null && !isRemote()) {
             lastText.clear();
             textSupplier.accept(lastText);
@@ -191,15 +191,52 @@ public class InteractiveImageWidget extends Widget {
     }
 
     @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-        // 【服务端】每刻检测文本是否变化，如果变化则同步给客户端
+    public void updateScreen() {
+        super.updateScreen();
+
+        // 客户端逻辑：参照 ComponentPanelWidget，处理文本更新
+        if (isRemote()) {
+            // 1. 动态更新图片
+            if (textureSupplier != null) {
+                currentImage = textureSupplier.get();
+            }
+
+            // 2. 单机模式兜底：若文本为空，临时生成（仅单机模式有效）
+            // 单机模式判断：当前无独立服务器实例（Minecraft.getInstance().getCurrentServer() == null）
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.getCurrentServer() == null && textSupplier != null && lastText.isEmpty()) {
+                // 临时生成文本（与服务端逻辑一致，避免同步时序问题）
+                List<Component> tempText = new ArrayList<>();
+                textSupplier.accept(tempText);
+                lastText = tempText;
+            }
+        }
+
+        // 服务端逻辑：检测文本变化并同步（与 ComponentPanelWidget 一致）
         if (textSupplier != null && !isRemote()) {
             List<Component> newText = new ArrayList<>();
             textSupplier.accept(newText);
             if (!lastText.equals(newText)) {
                 lastText = newText;
-                // 发送文本更新包 (ID=2)
+                writeUpdateInfo(2, buf -> {
+                    buf.writeVarInt(lastText.size());
+                    for (Component text : lastText) {
+                        buf.writeComponent(text);
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+        // 服务端文本变化同步（与 ComponentPanelWidget 一致）
+        if (textSupplier != null && !isRemote()) {
+            List<Component> newText = new ArrayList<>();
+            textSupplier.accept(newText);
+            if (!lastText.equals(newText)) {
+                lastText = newText;
                 writeUpdateInfo(2, buf -> {
                     buf.writeVarInt(lastText.size());
                     for (Component text : lastText) {
@@ -230,7 +267,7 @@ public class InteractiveImageWidget extends Widget {
 
     @Override
     public void handleClientAction(int id, FriendlyByteBuf buffer) {
-        if (id == 3) { // 图片点击事件
+        if (id == 3) {
             ClickData clickData = ClickData.readFromBuf(buffer);
             String componentData = buffer.readUtf();
             if (clickHandler != null) {
@@ -259,12 +296,10 @@ public class InteractiveImageWidget extends Widget {
         Position pos = getPosition();
         Size size = getSize();
 
-        // 1. 绘制图片
         if (currentImage != null) {
             currentImage.draw(graphics, mouseX, mouseY, pos.x, pos.y, size.width, size.height);
         }
 
-        // 2. 绘制边框
         if (border > 0) {
             DrawerHelper.drawBorder(graphics, pos.x, pos.y, size.width, size.height, borderColor, border);
         }
@@ -274,9 +309,8 @@ public class InteractiveImageWidget extends Widget {
     @OnlyIn(Dist.CLIENT)
     public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
         super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
-        // 【客户端】鼠标悬停时，使用从服务端同步来的 lastText 渲染 Tooltip
+        // 悬停显示文本（与 ComponentPanelWidget 渲染逻辑一致）
         if (isMouseOver(mouseX, mouseY) && !lastText.isEmpty()) {
-            // Minecraft 1.20.1 Forge 正确的方法调用，直接传入 Component 列表
             graphics.renderComponentTooltip(Minecraft.getInstance().font, lastText, mouseX, mouseY);
         }
     }
@@ -284,17 +318,14 @@ public class InteractiveImageWidget extends Widget {
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        // 只处理图片本身的点击事件
         if (isMouseOver((int) mouseX, (int) mouseY)) {
             String data = "image_click";
             ClickData clickData = new ClickData();
 
-            // 触发客户端点击逻辑（如果有）
             if (clickHandler != null) {
                 clickHandler.accept(data, clickData);
             }
 
-            // 向服务端同步点击事件
             writeClientAction(3, buf -> {
                 clickData.writeToBuf(buf);
                 buf.writeUtf(data);
@@ -314,12 +345,8 @@ public class InteractiveImageWidget extends Widget {
         return mouseX >= absolutePos.x && mouseX <= absolutePos.x + size.width && mouseY >= absolutePos.y && mouseY <= absolutePos.y + size.height;
     }
 
-    /**
-     * 判断当前是否为客户端环境。
-     * @return true if on client side, false if on server side.
-     */
     public boolean isRemote() {
-        return getGui() == null || getGui().getModularUIGui() != null;
+        return FMLEnvironment.dist == Dist.CLIENT;
     }
 
     @OnlyIn(Dist.CLIENT)
