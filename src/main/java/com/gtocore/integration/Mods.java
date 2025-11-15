@@ -7,6 +7,7 @@ import lombok.Getter;
 public enum Mods {
 
     SFM("sfm"),
+    FARMERSDELIGHT("farmersdelight"),
     MODULARROUTERS("modularrouters"),
     COMPUTERCRAFT("computercraft"),
     FUNCTIONALSTORAGE("functionalstorage"),
