@@ -72,6 +72,7 @@ public final class Sophisticated {
         filters.add(RLUtils.sp("advanced_void_upgrade"));
         filters.add(RLUtils.sp("pump_upgrade"));
         filters.add(RLUtils.sp("advanced_pump_upgrade"));
+        filters.add(RLUtils.sp("xp_pump_upgrade"));
         filters.add(RLUtils.sp("battery_upgrade"));
         filters.add(RLUtils.sp("tank_upgrade"));
         filters.add(RLUtils.sp("refill_upgrade"));

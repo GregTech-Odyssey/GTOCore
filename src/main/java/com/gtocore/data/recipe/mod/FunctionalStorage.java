@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.mod;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.integration.Mods;
 
@@ -70,6 +71,21 @@ public final class FunctionalStorage {
                     "CDC",
                     "CBC",
                     'A', GTItems.FLUID_REGULATOR_LV.asItem(), 'B', GTItems.ROBOT_ARM_LV.asItem(), 'C', CustomTags.LV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("framed_storage_controller"), RegistriesUtils.getItemStack("functionalstorage:framed_storage_controller"),
+                    " A ",
+                    "ABA",
+                    " A ",
+                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron),'B', RegistriesUtils.getItemStack("functionalstorage:storage_controller"));
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("framed_controller_extension"), RegistriesUtils.getItemStack("functionalstorage:framed_controller_extension"),
+                    " A ",
+                    "ABA",
+                    " A ",
+                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron),'B', RegistriesUtils.getItemStack("functionalstorage:controller_extension"));
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("storage_controller_ex"), RegistriesUtils.getItemStack("functionalstorage:controller_extension"),
+                    "ABA",
+                    "CDC",
+                    "CBC",
+                    'A', GTItems.FLUID_REGULATOR_MV.asItem(), 'B', GTItems.ROBOT_ARM_MV.asItem(), 'C', CustomTags.MV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
         }
     }
 
@@ -81,6 +97,9 @@ public final class FunctionalStorage {
             filters.add(RLUtils.functionalstorage("fluid_2"));
             filters.add(RLUtils.functionalstorage("fluid_4"));
             filters.add(RLUtils.functionalstorage("storage_controller"));
+            filters.add(RLUtils.functionalstorage("framed_storage_controller"));
+            filters.add(RLUtils.functionalstorage("controller_extension"));
+            filters.add(RLUtils.functionalstorage("framed_controller_extension"));
             filters.add(RLUtils.functionalstorage("gold_upgrade"));
             filters.add(RLUtils.functionalstorage("diamond_upgrade"));
             filters.add(RLUtils.functionalstorage("netherite_upgrade"));
