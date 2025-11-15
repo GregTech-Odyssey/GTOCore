@@ -104,8 +104,8 @@ dependencies {
 
     modCompileOnly("curse.maven:ftb-quests-forge-289412:6259628")
     modCompileOnly("curse.maven:ftb-teams-forge-404468:6130786")
+    modRuntimeOnly("curse.maven:ftb-teams-forge-404468:6130786")
 //    modRuntimeOnly("curse.maven:ftb-quests-forge-289412:6259628")  // 不能参与runData任务
-//    modRuntimeOnly("curse.maven:ftb-teams-forge-404468:6130786")  // 不能参与runData任务
 
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
 
