@@ -182,6 +182,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         if (Objects.requireNonNull(getLevel()).isClientSide) {
             player.displayClientMessage(trans(1).withStyle(ChatFormatting.RED), true);
         }
+        shopSelected = -1;
+        storeGroupSwitchingInitialization();
         return false;
     }
 
@@ -320,8 +322,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private int shopSize;
     private int transactionSize;
 
+    @Persisted
     private int groupSelected = 0;
-    private int shopSelected = 0;
+    private int shopSelected = -1;
     private int pageSelected = 0;
 
     private void storeGroupSwitchingInitialization() {
@@ -421,7 +424,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
         boolean canExecute = entry.canExecute(this);
 
-        transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, unlock ? entry.texture() : GuiTextures.BUTTON_LOCK)
+        transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
                 .textSupplier(texts -> {
                     if (!unlock) texts.add(Component.translatable("gtocore.transaction_group.unlock"));
                     if (!canExecute) texts.add(Component.translatable("gtocore.transaction_group.unsatisfied"));
@@ -433,12 +436,15 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     entry.execute(this, multiplier);
                 }));
 
-        if (!unlock) transaction.addWidget(new ImageWidget(1, 6, 38, 38, getIGuiTexture(entry.unlockCondition())));
-
-        transaction.addWidget(new ComponentPanelWidget(0, 20, textList -> {
-            if (!unlock) textList.add(Component.translatable("gtocore.transaction_group.unlock"));
-            else textList.add(Component.translatable("已解锁"));
-        }));
+        transaction.addWidget(new ComponentPanelWidget(2, 6, textList -> {
+            if (!unlock) {
+                Component lock = Component.literal("\uD83D\uDD12\uD83D\uDD12\uD83D\uDD12\uD83D\uDD12\uD83D\uDD12\uD83D\uDD12").withStyle(ChatFormatting.AQUA);
+                textList.add(lock);
+                textList.add(lock);
+                textList.add(lock);
+                textList.add(lock);
+            }
+        }).setMaxWidthLimit(60));
 
         return transaction;
     }
