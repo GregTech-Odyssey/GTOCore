@@ -87,6 +87,8 @@ public class TransactionLang {
         add("gtocore.trading_station.textList.6", "[收起]", "[Collapse]");
         add("gtocore.trading_station.textList.7", "--详细介绍--", "--Detailed Introduction--");
         add("gtocore.trading_station.textList.8", "[刷新]", "[Refresh]");
+        add("gtocore.trading_station.textList.9", "物品存储", "Item Storage");
+        add("gtocore.trading_station.textList.10", "流体存储", "Fluid Storage");
 
         add("gtocore.currency.coins", "金币", "coins");
         add("gtocore.currency.gems", "宝石", "gems");
@@ -95,8 +97,7 @@ public class TransactionLang {
 
         add("gtocore.transaction_group.true", "价格", "Price");
         add("gtocore.transaction_group.false", "商品", "Commodity");
-
-        add("gtocore.transaction_group.unlock", "未解锁", "Unlocked");
+        add("gtocore.transaction_group.unlock", "未解锁, 需要解锁 %s", "Not unlocked, needs to be unlocked %s");
         add("gtocore.transaction_group.unsatisfied", "不满足额外条件", "Additional conditions not met");
     }
 }

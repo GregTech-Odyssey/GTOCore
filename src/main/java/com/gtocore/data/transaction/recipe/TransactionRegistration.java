@@ -130,15 +130,12 @@ public class TransactionRegistration {
         for (int groupIndex = 0; groupIndex < NUMBER_OF_GROUPS; groupIndex++) {
             String groupName = "测试组 " + (groupIndex + 1);
 
-            // 为商店组添加一个简单的纹理（例如，使用书本图标）
-            ItemStackTexture groupTexture = new ItemStackTexture(Items.BOOK); // 这里可以用更动态的方式
-
             // 添加商店组
             int registeredGroupIndex = manager.addShopGroup(
                     groupName,
                     "test.unlock.group." + (groupIndex + 1), // 解锁条件也动态化
-                    groupTexture,
-                    null);
+                    new ItemStackTexture(Items.BOOK),
+                    new ItemStackTexture(Items.EMERALD));
 
             // 3. 在当前组内循环创建商店
             for (int shopIndex = 0; shopIndex < SHOPS_PER_GROUP; shopIndex++) {

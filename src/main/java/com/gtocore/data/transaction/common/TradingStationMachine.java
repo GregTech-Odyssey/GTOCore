@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
@@ -46,6 +47,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.utils.TeamUtil;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
@@ -77,10 +79,10 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem()));
         cardHandler.setOnContentsChanged(() -> initializationInformation(cardHandler.getStackInSlot(0)));
 
-        inputItem = new NotifiableItemStackHandler(this, 256, IO.IN, IO.BOTH);
-        outputItem = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.BOTH);
-        inputFluid = new NotifiableFluidTank(this, 4, 1000 * 64, IO.IN, IO.BOTH);
-        outputFluid = new NotifiableFluidTank(this, 4, 1000 * 64, IO.OUT, IO.BOTH);
+        inputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.IN, IO.BOTH);
+        outputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.OUT, IO.BOTH);
+        inputFluid = new NotifiableFluidTank(this, 4, 1000 * 2000000, IO.IN, IO.BOTH);
+        outputFluid = new NotifiableFluidTank(this, 4, 1000 * 2000000, IO.OUT, IO.BOTH);
     }
 
     // 生命周期管理：注册/取消监听器
@@ -127,6 +129,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // *********** 数据存储 *********** //
     /////////////////////////////////////
 
+    // 输入输出存储
     @Getter
     @Persisted
     private final NotifiableItemStackHandler inputItem;
@@ -143,6 +146,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Persisted
     private final CustomItemStackHandler cardHandler;
 
+    // 玩家信息
     @Getter
     @Persisted
     private UUID uuid;
@@ -156,6 +160,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private ItemStack OwnerHead = ItemStack.EMPTY;
     @Persisted
     private int Openness = 0;
+
+    // 库存大小
+    @Persisted
+    private int itemStorageSize = 50;
+    @Persisted
+    private int fluidStorageSize = 4;
 
     /////////////////////////////////////
     // ********* 核心交易逻辑 ********* //
@@ -188,7 +198,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     @DescSynced
-    private boolean isCollapse = true;
+    private boolean collapseDescription = true;
 
     private final int width = 336;
     private final int height = 144;
@@ -207,10 +217,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         // 底边展开
         mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
-            textList.add(Component.empty()
-                    .append(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(isCollapse ? 5 : 6), "isCollapse"), trans(7))));
-            if (!isCollapse) GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
-        }).clickHandler((a, b) -> { if (a.equals("isCollapse")) isCollapse = !isCollapse; }).setMaxWidthLimit(width - 8));
+            textList.add(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(collapseDescription ? 5 : 6), "isCollapse"), trans(7)));
+            if (!collapseDescription)
+                GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
+        }).clickHandler((a, b) -> {
+            if (a.equals("isCollapse")) collapseDescription = !collapseDescription;
+        }).setMaxWidthLimit(width - 8));
 
         Level level = getLevel();
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
@@ -246,18 +258,58 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.addWidget(new LabelWidget(10, 60, Component.literal(groupSelected + "/" + shopSelected + "/" + pageSelected)));
 
         // 左右分区
-        mainGroup.addWidget(new ImageWidget(255, 2, 2, 140, GuiTextures.SLOT));
+        mainGroup.addWidget(new ImageWidget(253, 2, 2, 140, GuiTextures.SLOT));
 
         // 右侧
+        mainGroup.addWidget(ShopGroupSwitchWidget());
 
         group.addWidget(mainGroup);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
 
+    @Override
     public IGuiTexture getTabIcon() {
         return GuiTextures.GREGTECH_LOGO;
     }
+
+    private WidgetGroup ShopGroupSwitchWidget() {
+        WidgetGroup mainGroup = new WidgetGroup(256, 4, 80, height - 8);
+        mainGroup.setLayout(Layout.VERTICAL_CENTER);
+        mainGroup.setLayoutPadding(4);
+
+        TradingManager.TradingShopGroup SwitchedShopGroup = manager.getShopGroup(groupSelected);
+        if (SwitchedShopGroup == null) SwitchedShopGroup = manager.getShopGroup(0);
+        mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
+
+        mainGroup.addWidget(new ImageWidget(0, 10, 64, 78, SwitchedShopGroup.getTexture1()));
+
+        WidgetGroup SwitchWidget = new WidgetGroup(0, 80, 79, 39);
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 8; x++) {
+                int index = y * 8 + x;
+                TradingManager.TradingShopGroup shopGroup = manager.getShopGroup(index);
+                if (shopGroup != null) {
+                    SwitchWidget.addWidget(new InteractiveImageWidget(x * 10, y * 10, 9, 9, shopGroup.getTexture2())
+                            .textSupplier(texts -> texts.add(Component.translatable(shopGroup.getName())))
+                            .clickHandler((data, clickData) -> {
+                                groupSelected = index;
+                                storeGroupSwitchingInitialization();
+                                ModularUI modularUI = mainGroup.getGui();
+                                modularUI.initWidgets();
+                            }).setBackground(GTOGuiTextures.BOXED_BACKGROUND));
+                } else {
+                    SwitchWidget.addWidget(new ImageWidget(x * 10, y * 10, 9, 9, GTOGuiTextures.BOXED_BACKGROUND));
+                }
+            }
+        }
+        mainGroup.addWidget(SwitchWidget);
+
+        return mainGroup;
+    }
+
+    private final int Item_slots_in_a_row = 8;
+    private final int Fluid_slots_in_a_row = 1;
 
     private @NotNull IFancyUIProvider transactionRecords() {
         return new IFancyUIProvider() {
@@ -278,6 +330,38 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
+
+                int itemHigh = itemStorageSize / Item_slots_in_a_row + (itemStorageSize % Item_slots_in_a_row == 0 ? 0 : 1);
+                WidgetGroup Item_slot = new WidgetGroup(2, 4, 290, itemHigh * 18 + 10);
+                Item_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(9))));
+                for (int y = 0; y < itemHigh; y++) {
+                    for (int x = 0; x < Item_slots_in_a_row; x++) {
+                        int slotIndex = y * Item_slots_in_a_row + x;
+                        if (itemStorageSize > slotIndex) {
+                            Item_slot.addWidget(new SlotWidget(inputItem, slotIndex, x * 18, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                            Item_slot.addWidget(new SlotWidget(outputItem, slotIndex, x * 18 + Item_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                        } else break;
+                    }
+                }
+                mainGroup.addWidget(Item_slot);
+
+                int fluidHigh = fluidStorageSize / Fluid_slots_in_a_row + (fluidStorageSize % Fluid_slots_in_a_row == 0 ? 0 : 1);
+                WidgetGroup Fluid_slot = new WidgetGroup(296, 4, 38, fluidHigh * 18 + 10);
+                Fluid_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(10))));
+                for (int y = 0; y < fluidHigh; y++) {
+                    for (int x = 0; x < Fluid_slots_in_a_row; x++) {
+                        int slotIndex = y * Fluid_slots_in_a_row + x;
+                        if (fluidStorageSize > slotIndex) {
+                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, x * 18, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, x * 18 + Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                        } else break;
+                    }
+                }
+                mainGroup.addWidget(Fluid_slot);
 
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
@@ -323,6 +407,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private int transactionSize;
 
     @Persisted
+    @DescSynced
     private int groupSelected = 0;
     private int shopSelected = -1;
     private int pageSelected = 0;
@@ -395,12 +480,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     private WidgetGroup transactionGroup(int y, int groupIndex, int shopIndex, int pageIndex) {
-        WidgetGroup transactionGroup = new WidgetGroup(0, y, 328, 103);
+        WidgetGroup transactionGroup = new WidgetGroup(0, y, 327, 102);
 
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 8; col++) {
-                int X = col * 41 + (col > 3 ? 1 : 0);
-                int Y = row * 53;
+                int X = col * 41;
+                int Y = row * 51;
                 int entryIndex = pageIndex * 16 + row * 8 + col;
                 boolean isIndexValid = manager.isTransactionIndexValid(groupIndex, shopIndex, entryIndex);
                 if (isIndexValid) {
@@ -418,7 +503,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         WidgetGroup transaction = new WidgetGroup(x, y, 40, 50);
         transaction.setBackground(GTOGuiTextures.BOXED_BACKGROUND);
 
-        Level level = getLevel();
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
         boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_TRANSACTION, entry.unlockCondition());
@@ -426,12 +510,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
                 .textSupplier(texts -> {
-                    if (!unlock) texts.add(Component.translatable("gtocore.transaction_group.unlock").withStyle(ChatFormatting.DARK_RED));
+                    if (!unlock) texts.add(Component.translatable("gtocore.transaction_group.unlock", entry.unlockCondition()).withStyle(ChatFormatting.DARK_RED));
                     if (!canExecute) texts.add(Component.translatable("gtocore.transaction_group.unsatisfied").withStyle(ChatFormatting.DARK_RED));
                     texts.addAll(entry.getDescription());
                 })
                 .clickHandler((data, clickData) -> {
-                    // if (!unlock) return;
+                    if (!unlock) return;
                     int multiplier = clickData.isCtrlClick ? (clickData.isShiftClick ? 100 : 10) : 1;
                     entry.execute(this, multiplier);
                 }));
