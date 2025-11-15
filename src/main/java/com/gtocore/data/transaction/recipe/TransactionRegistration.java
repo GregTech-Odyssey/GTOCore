@@ -152,26 +152,10 @@ public class TransactionRegistration {
                         shopTexture);
 
                 // 4. 向当前商店添加所有测试交易条目
-                for (TransactionEntry templateEntry : testTransactions) {
-                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
-                }
-                for (TransactionEntry templateEntry : testTransactions) {
-                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
-                }
-                for (TransactionEntry templateEntry : testTransactions) {
-                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
-                }
-                for (TransactionEntry templateEntry : testTransactions) {
-                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
-                }
-                for (TransactionEntry templateEntry : testTransactions) {
-                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
-                }
-                for (TransactionEntry templateEntry : testTransactions) {
-                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
-                }
-                for (TransactionEntry templateEntry : testTransactions) {
-                    manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                for (int i = 2; i < shopIndex + 5; i++) {
+                    for (TransactionEntry templateEntry : testTransactions) {
+                        manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                    }
                 }
             }
         }

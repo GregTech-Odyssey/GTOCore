@@ -166,16 +166,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private int fluidStorageSize = 4;
 
     /////////////////////////////////////
-    // ********* 核心交易逻辑 ********* //
-    /////////////////////////////////////
-
-    private void ConfirmTransactionContext() {}
-
-    /////////////////////////////////////
-    // *********** 交易管理 *********** //
-    /////////////////////////////////////
-
-    /////////////////////////////////////
     // ************ UI实现 ************ //
     /////////////////////////////////////
 
@@ -294,9 +284,10 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         storeGroupSwitchingInitialization();
         TradingManager.TradingShopGroup SwitchedShopGroup = manager.getShopGroup(groupSelected);
         if (SwitchedShopGroup == null) SwitchedShopGroup = manager.getShopGroup(0);
-        mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
-
-        mainGroup.addWidget(new ImageWidget(0, 10, 64, 78, SwitchedShopGroup.getTexture1()));
+        if (SwitchedShopGroup != null) {
+            mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
+            mainGroup.addWidget(new ImageWidget(0, 10, 64, 78, SwitchedShopGroup.getTexture1()));
+        }
 
         WidgetGroup SwitchWidget = new WidgetGroup(0, 80, 79, 39);
         for (int y = 0; y < 4; y++) {
@@ -308,37 +299,36 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                             .textSupplier(texts -> texts.add(Component.translatable(shopGroup.getName())))
                             .clickHandler((data, clickData) -> {
                                 groupSelected = index;
+                                shopSelected = -1;
                                 markAsDirty();
                                 storeGroupSwitchingInitialization();
+
                                 ModularUI modularUI = mainGroup.getGui();
                                 if (modularUI != null && modularUI.getModularUIGui() != null) {
                                     TabsWidget tabsWidget = (TabsWidget) modularUI.getFirstWidgetById("fancy_side_tabs");
                                     if (tabsWidget != null) {
                                         tabsWidget.clearSubTabs();
                                         tabsWidget.setMainTab(this);
+                                        tabsWidget.selectTab(tabsWidget.getMainTab());
 
                                         if (groupSelected == 0) {
                                             tabsWidget.attachSubTab(transactionRecords());
                                         }
-
                                         List<IFancyUIProvider> shopGroupTabs = shopGroup();
                                         shopGroupTabs.forEach(tabsWidget::attachSubTab);
-
                                         if (groupSelected == 0) {
                                             IFancyUIProvider directionalTab = CombinedDirectionalFancyConfigurator.of(this, this);
                                             tabsWidget.attachSubTab(directionalTab);
                                         }
 
                                         tabsWidget.setOnTabSwitch((oldTab, newTab) -> {
-                                            if (newTab instanceof ShopTabProvider) {
-                                                shopSelected = ((ShopTabProvider) newTab).getShopIndex();
-                                            } else {
-                                                shopSelected = -1;
-                                            }
+                                            shopSelected = (newTab instanceof ShopTabProvider) ? ((ShopTabProvider) newTab).getShopIndex() : -1;
                                             storeGroupSwitchingInitialization();
+                                            modularUI.getModularUIGui().init();
                                         });
                                     }
                                     modularUI.getModularUIGui().init();
+                                    modularUI.initWidgets();
                                 }
                             }).setBackground(GTOGuiTextures.BOXED_BACKGROUND));
                 } else {
@@ -390,16 +380,16 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 }
                 mainGroup.addWidget(Item_slot);
 
-                int fluidHigh = fluidStorageSize / Fluid_slots_in_a_row + (fluidStorageSize % Fluid_slots_in_a_row == 0 ? 0 : 1);
+                int fluidHigh = fluidStorageSize / Fluid_slots_in_a_row;
                 WidgetGroup Fluid_slot = new WidgetGroup(296, 4, 38, fluidHigh * 18 + 10);
                 Fluid_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(10))));
                 for (int y = 0; y < fluidHigh; y++) {
                     for (int x = 0; x < Fluid_slots_in_a_row; x++) {
                         int slotIndex = y * Fluid_slots_in_a_row + x;
                         if (fluidStorageSize > slotIndex) {
-                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, x * 18, 10 + y * 18, true, true)
+                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, 0, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
-                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, x * 18 + Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
                         } else break;
                     }
@@ -418,6 +408,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setId("fancy_side_tabs");
         sideTabs.setMainTab(this);
+        sideTabs.selectTab(sideTabs.getMainTab());
 
         if (groupSelected == 0) {
             sideTabs.attachSubTab(transactionRecords());
@@ -432,12 +423,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         }
 
         sideTabs.setOnTabSwitch((oldTab, newTab) -> {
-            if (newTab instanceof ShopTabProvider) {
-                shopSelected = ((ShopTabProvider) newTab).getShopIndex();
-            } else {
-                shopSelected = -1;
-            }
+            shopSelected = (newTab instanceof ShopTabProvider) ? ((ShopTabProvider) newTab).getShopIndex() : -1;
             storeGroupSwitchingInitialization();
+            ModularUI modularUI = sideTabs.getGui();
+            if (modularUI != null && modularUI.getModularUIGui() != null) {
+                modularUI.getModularUIGui().init();
+            }
         });
     }
 
@@ -533,7 +524,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     /**
      * 独立的商店标签页提供者，每个标签页维护自己的页码状态
      */
-    private class ShopTabProvider implements IFancyUIProvider {
+    private static class ShopTabProvider implements IFancyUIProvider {
 
         private final TradingStationMachine machine;
         private final int groupIndex;
@@ -573,14 +564,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             shopGroup.setLayoutPadding(3);
 
             shopGroup.addWidget(new LabelWidget(0, 0, Component.translatable(tradingShop.getName())));
+            shopGroup.addWidget(new LabelWidget(0, 12, Component.translatable("一个一个商店")));
 
-            // 交易条目容器（支持局部刷新）
-            WidgetGroup transactionContainer = new WidgetGroup(0, 26, 327, 102);
+            WidgetGroup transactionContainer = new WidgetGroup(0, 36, 327, 102);
             updateTransactionContainer(transactionContainer, localPageSelected);
             shopGroup.addWidget(transactionContainer);
 
-            // 页码切换按钮
-            shopGroup.addWidget(new ComponentPanelWidget(0, 130, textList -> textList.add(Component.empty()
+            shopGroup.addWidget(new ComponentPanelWidget(0, 140, textList -> textList.add(Component.empty()
                     .append(ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_page"))
                     .append(Component.literal("<" + (localPageSelected + 1) + "/" + totalPage + ">"))
                     .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page")))).clickHandler((data, clickData) -> {
@@ -590,7 +580,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                         }
                         updateTransactionContainer(transactionContainer, localPageSelected);
                         if (widget.getGui() != null) {
-                            markAsDirty();
+                            widget.getGui().getModularUIGui().init();
                         }
                     }));
 
