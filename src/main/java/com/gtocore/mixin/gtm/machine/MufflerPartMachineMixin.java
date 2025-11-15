@@ -18,7 +18,6 @@ import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -65,10 +64,6 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private int gto$chanceOfNotProduceAsh = 100;
     @Unique
-    private TickableSubscription gtolib$tickSubs;
-    @Unique
-    private boolean gtolib$lastFrontFaceFree;
-    @Unique
     private long gtocore$refresh = 0;
 
     protected MufflerPartMachineMixin(MetaMachineBlockEntity holder, int tier) {
@@ -96,26 +91,19 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     }
 
     @Unique
-    private void gtolib$tick() {
+    private void gtolib$push_drone() {
         IDroneControlCenterMachine centerMachine = getNetMachine();
-        if (centerMachine != null && !inventory.stacks[inventory.size - 3].isEmpty()) {
-            Drone drone = null;
-            boolean available = false;
-            for (int i = 0; i < inventory.size; i++) {
-                ItemStack stack = inventory.stacks[i];
-                if (stack.getCount() > 1) {
-                    if (drone == null) {
-                        var eu = inventory.size << 4;
-                        drone = getFirstUsableDrone(d -> d.getCharge() >= eu);
-                        if (drone != null) {
-                            available = drone.start(4, eu, GTOValues.REMOVING_ASH);
-                        }
-                    }
-                    if (available) {
-                        inventory.setStackInSlot(i, ItemStack.EMPTY);
-                        MachineUtils.outputItem(centerMachine, stack);
-                    } else break;
-                }
+        if (centerMachine == null) return;
+
+        var eu = inventory.size << 4;
+        Drone drone = getFirstUsableDrone(d -> d.getCharge() >= eu);
+        if (drone == null || !drone.start(4, eu, GTOValues.REMOVING_ASH)) return;
+
+        for (int i = 0; i < inventory.size; i++) {
+            ItemStack stack = inventory.stacks[i];
+            if (stack.getCount() > 0) {
+                inventory.setStackInSlot(i, ItemStack.EMPTY);
+                MachineUtils.outputItem(centerMachine, stack);
             }
         }
     }
@@ -144,18 +132,11 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     public void onLoad() {
         super.onLoad();
         gto$chanceOfNotProduceAsh = Math.min(Math.max(gto$chanceOfNotProduceAsh, 0), getTier() * 10);
-        if (!isRemote()) {
-            gtolib$tickSubs = subscribeServerTick(gtolib$tickSubs, this::gtolib$tick, 40);
-        }
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        if (gtolib$tickSubs != null) {
-            gtolib$tickSubs.unsubscribe();
-            gtolib$tickSubs = null;
-        }
         gtolib$airScrubberCache = null;
         removeNetMachineCache();
     }
@@ -174,17 +155,16 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     public boolean isFrontFaceFree() {
         var time = getOffsetTimer();
         if (time > gtocore$refresh) {
-            gtolib$lastFrontFaceFree = true;
             BlockPos pos = self().getPos();
             for (int i = 0; i < 3; i++) {
                 pos = pos.relative(this.self().getFrontFacing());
                 if (!self().getLevel().getBlockState(pos).isAir()) {
-                    gtolib$lastFrontFaceFree = false;
+                    return false;
                 }
             }
             gtocore$refresh = time + 100;
         }
-        return gtolib$lastFrontFaceFree;
+        return true;
     }
 
     @Unique
@@ -208,11 +188,11 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
             return;
         }
         CustomItemStackHandler.insertItemStackedFast(inventory, recoveryItems);
+        if (inventory.getStackInSlot(inventory.size - this.tier - 1).getCount() > 0) gtolib$push_drone();
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(MetaMachineBlockEntity holder, int tier, CallbackInfo ci) {
-        gtolib$lastFrontFaceFree = true;
         inventory.setOnContentsChanged(() -> {
             for (var controller : getControllers()) {
                 if (controller instanceof IRecipeLogicMachine recipeLogicMachine) {

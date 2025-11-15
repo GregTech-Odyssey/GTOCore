@@ -29,6 +29,8 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -54,12 +56,14 @@ import static com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes.KEY_AMP
 @MethodsReturnNonnullByDefault
 public final class WindMillTurbineMachine extends TieredEnergyMachine implements IMachineLife, IFancyUIMachine {
 
+    @DynamicInitialValue(key = "wind_mill_turbine.amperage_out", typeKey = KEY_AMPERAGE_OUT, easyValue = "2", normalValue = "1", expertValue = "1", cn = "输出电流", cnComment = "风力涡轮机的最大输出电流。", en = "Output Amperage", enComment = "The maximum output amperage of the wind turbine.")
+    private static int amperage_out = 2;
+    @Persisted
+    private final NotifiableItemStackHandler inventory;
     @Getter
     @Persisted
     @DescSynced
     private float spinSpeed;
-    @DynamicInitialValue(key = "wind_mill_turbine.amperage_out", typeKey = KEY_AMPERAGE_OUT, easyValue = "2", normalValue = "1", expertValue = "1", cn = "输出电流", cnComment = "风力涡轮机的最大输出电流。", en = "Output Amperage", enComment = "The maximum output amperage of the wind turbine.")
-    private static int amperage_out = 2;
     @Getter
     private float bladeAngle;
     @Getter
@@ -74,13 +78,19 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private float wind;
     @DescSynced
     private int actualPower;
-    @Persisted
-    private final NotifiableItemStackHandler inventory;
     private TickableSubscription energySubs;
 
     public WindMillTurbineMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, args);
         inventory = createMachineStorage();
+    }
+
+    private static int getMaxWind(int tier) {
+        return 10 + 10 * tier;
+    }
+
+    public static int getAmperage_out() {
+        return WindMillTurbineMachine.amperage_out;
     }
 
     private NotifiableItemStackHandler createMachineStorage() {
@@ -115,10 +125,6 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
             energySubs.unsubscribe();
             energySubs = null;
         }
-    }
-
-    private static int getMaxWind(int tier) {
-        return 10 + 10 * tier;
     }
 
     private void checkEnergy() {
@@ -171,11 +177,12 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                     }
                 }
             }
+            var eLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) + 1;
             if (obstructed) {
-                stack.setDamageValue(damage + (int) (40 * spinSpeed));
+                stack.setDamageValue(damage + (int) ((40 * spinSpeed) / eLevel + 1));
                 spinSpeed = 0;
             } else if (wind > rotorItem.getMinWind()) {
-                stack.setDamageValue(damage + (int) Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 16));
+                stack.setDamageValue(damage + (int) (Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 16) / eLevel + 1));
                 spinSpeed = Math.min(0.05F * wind, spinSpeed + 0.04F);
                 actualPower = (int) (GTValues.V[tier] * spinSpeed * 20 * getMaxInputOutputAmperage() / getMaxWind(tier));
                 energyContainer.addEnergy(20L * actualPower);
@@ -222,10 +229,6 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     @Override
     protected long getMaxInputOutputAmperage() {
         return amperage_out;
-    }
-
-    public static int getAmperage_out() {
-        return WindMillTurbineMachine.amperage_out;
     }
 
     private boolean isObstructed() {
