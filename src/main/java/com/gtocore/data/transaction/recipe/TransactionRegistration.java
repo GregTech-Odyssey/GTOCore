@@ -36,7 +36,7 @@ public class TransactionRegistration {
                 // 额外检查：玩家背包至少有10个木头（实际需结合context实现）
                 return true;
             })
-            .onExecute((context, entry) -> {
+            .onExecute((context, multiplier, entry) -> {
                 // 执行逻辑：扣减木头，添加面包（实际需操作玩家背包）
             })
             .build();
@@ -61,7 +61,6 @@ public class TransactionRegistration {
 
                 // 执行逻辑：在坐标生成信标
                 .onExecute(TransactionRegistration::spawnBeaconAtPos)
-
                 .build();
     }
 
@@ -98,7 +97,7 @@ public class TransactionRegistration {
     }
 
     // 执行逻辑：在交易坐标生成信标
-    private static void spawnBeaconAtPos(TradingStationMachine machine, TransactionEntry entry) {
+    private static void spawnBeaconAtPos(TradingStationMachine machine, int multiplier, TransactionEntry entry) {
         Level world = machine.getLevel();
         BlockPos pos = machine.getPos();
 

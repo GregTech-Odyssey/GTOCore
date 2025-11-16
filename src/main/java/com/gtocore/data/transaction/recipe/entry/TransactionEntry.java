@@ -151,7 +151,7 @@ public record TransactionEntry(
         executeTransaction(machine, requestedMultiplier);
         // 执行回调（原有逻辑保留）
         if (onExecute != null) {
-            onExecute.run(machine, this);
+            onExecute.run(machine, requestedMultiplier, this);
         }
     }
 
@@ -275,7 +275,7 @@ public record TransactionEntry(
     @FunctionalInterface
     public interface TransactionRunnable {
 
-        void run(TradingStationMachine machine, TransactionEntry entry);
+        void run(TradingStationMachine machine, int multiplier, TransactionEntry entry);
     }
 
     // ------------------- 链式构建器（唯一配置入口） -------------------

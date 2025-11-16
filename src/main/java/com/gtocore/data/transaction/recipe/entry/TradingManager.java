@@ -12,26 +12,21 @@ import java.util.Objects;
 
 /**
  * 交易管理器（线程安全单例），仅保留核心功能：添加、数量查询、索引获取。
- * 索引规则：所有索引均从 0 开始。
  */
 public class TradingManager {
 
-    // 线程安全单例（静态内部类模式，核心必备）
     private static class SingletonHolder {
 
         private static final TradingManager INSTANCE = new TradingManager();
     }
 
-    /** 获取全局唯一实例 */
     public static TradingManager getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    // 线程安全容器（核心必备，保证并发安全）
-    private final List<TradingShopGroup> shopGroups = Collections.synchronizedList(new ArrayList<>());
-
-    // 私有构造函数（禁止外部实例化）
     private TradingManager() {}
+
+    private final List<TradingShopGroup> shopGroups = Collections.synchronizedList(new ArrayList<>());
 
     // ------------------------------ 核心工具方法（仅保留必要校验）------------------------------
     /** 校验索引是否有效（0 <= index < size） */

@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static com.gtocore.common.item.GrayMembershipCardItem.createWithUuidAndSharedList;
-import static com.gtocore.data.transaction.data.TransactionLang.UNLOCK_TRANSACTION;
+import static com.gtocore.data.transaction.data.TransactionLang.*;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -617,6 +617,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         initialCurrencies.put("ccc", 5000);
         initialCurrencies.put("jjj", 5000000000000000000L);
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
+        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP_GROUP, "null");
+        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, "null");
+        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRANSACTION, "null");
     }
 
     public static void updateNewWallet(ServerLevel world) {
