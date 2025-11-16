@@ -67,7 +67,7 @@ public abstract class CuttingBoardBlockEntityMixin extends SyncedBlockEntity {
     }
 
     @Redirect(method = "processStoredItemUsingTool", at = @At(value = "INVOKE", target = "Ljava/util/Optional;isPresent()Z", remap = false), remap = false)
-    private boolean redirectIsPresent(Optional instance) {
+    private boolean redirectIsPresent(Optional<CuttingBoardRecipe> instance) {
         if (gto$cutResult) {
             gto$cutResult = false;
             return true;
