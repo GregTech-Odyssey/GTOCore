@@ -3,6 +3,7 @@ package com.gtocore.data.transaction.recipe;
 import com.gtocore.data.transaction.common.TradingStationMachine;
 import com.gtocore.data.transaction.recipe.entry.TradingManager;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
+import com.gtocore.data.transaction.recipe.entry.UpgradeOrUnlockManager;
 
 import com.gtolib.GTOCore;
 
@@ -25,6 +26,10 @@ import java.util.List;
  * 交易实例注册示例：展示如何使用TransactionEntry构建具体交易
  */
 public class TransactionRegistration {
+
+    public static void init() {
+        registerTestData();
+    }
 
     public static TransactionEntry trade = new TransactionEntry.Builder()
             .texture(new ItemStackTexture(Items.BREAD)) // 图标用面包
@@ -151,7 +156,7 @@ public class TransactionRegistration {
                         shopTexture);
 
                 // 4. 向当前商店添加所有测试交易条目
-                for (int i = 2; i < shopIndex + 5; i++) {
+                for (int i = 3; i < shopIndex * 2 + 5; i++) {
                     for (TransactionEntry templateEntry : testTransactions) {
                         manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
                     }
@@ -163,6 +168,17 @@ public class TransactionRegistration {
         System.out.println(" - 商店组数量: " + NUMBER_OF_GROUPS);
         System.out.println(" - 每个组商店数量: " + SHOPS_PER_GROUP);
         System.out.println(" - 每个商店交易条目数量: " + testTransactions.size());
+
+        UpgradeOrUnlockManager upgradeOrUnlockManager = UpgradeOrUnlockManager.getInstance();
+        int k = 6;
+        for (String key : TradingStationMachine.UpgradeKeys.ALL_KEYS) {
+            for (int i = 2; i < k; i++) {
+                for (TransactionEntry templateEntry : testTransactions) {
+                    upgradeOrUnlockManager.addTransactionToEntry(key, templateEntry);
+                }
+            }
+            k += 5;
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.data.transaction.data.TransactionLang;
 import com.gtocore.data.transaction.recipe.entry.TradingManager;
 import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
+import com.gtocore.data.transaction.recipe.entry.UpgradeOrUnlockManager;
 
 import com.gtolib.utils.WalletUtils;
 
@@ -607,8 +608,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.setLayout(Layout.VERTICAL_CENTER);
         mainGroup.setLayoutPadding(4);
 
-        TradingManager.TradingShopGroup SwitchedShopGroup = manager.getShopGroup(groupSelected);
-        if (SwitchedShopGroup == null) SwitchedShopGroup = manager.getShopGroup(0);
+        TradingManager.TradingShopGroup SwitchedShopGroup = tradingManager.getShopGroup(groupSelected);
+        if (SwitchedShopGroup == null) SwitchedShopGroup = tradingManager.getShopGroup(0);
         if (SwitchedShopGroup != null) {
             mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
             mainGroup.addWidget(new ImageWidget(0, 10, 64, 78, SwitchedShopGroup.getTexture1()));
@@ -618,7 +619,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 8; x++) {
                 int index = y * 8 + x;
-                TradingManager.TradingShopGroup shopGroup = manager.getShopGroup(index);
+                TradingManager.TradingShopGroup shopGroup = tradingManager.getShopGroup(index);
                 if (shopGroup != null) {
                     SwitchWidget.addWidget(new InteractiveImageWidget(x * 10, y * 10, 9, 9, shopGroup.getTexture2())
                             .textSupplier(texts -> texts.add(Component.translatable(shopGroup.getName())))
@@ -767,6 +768,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 rightPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
                     if (upgradeSelect != null) textList.add(Component.translatable("gtocore.trading_station.upgrade." + upgradeSelect));
                 }));
+                rightPanel.addWidget(upgradeOrUnlockWidget(widget, upgradeSelect));
 
                 mainGroup.addWidget(leftPanel);
                 mainGroup.addWidget(rightPanel);
@@ -779,6 +781,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             }
         };
     }
+
+    @DescSynced
+    private String unlockSelect = null;
 
     @Override
     public void attachSideTabs(TabsWidget sideTabs) {
@@ -837,7 +842,67 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // ********* UI单元构建 ********* //
     /////////////////////////////////////
 
-    TradingManager manager = TradingManager.getInstance();
+    UpgradeOrUnlockManager upgradeOrUnlockManager = UpgradeOrUnlockManager.getInstance();
+
+    private int pageSelected = 0;
+
+    public Widget upgradeOrUnlockWidget(FancyMachineUIWidget widget, String key) {
+        WidgetGroup mainGroup = new WidgetGroup(4, 4, 220, height);
+        mainGroup.setLayout(Layout.VERTICAL_CENTER);
+        mainGroup.setLayoutPadding(3);
+
+        int transactionCount = upgradeOrUnlockManager.getEntryTransactionCount(key);
+        int totalPage = transactionCount / 10 + (transactionCount % 10 == 0 ? 0 : 1);
+        if (totalPage >= pageSelected) pageSelected = 0;
+
+        WidgetGroup transactionContainer = new WidgetGroup(0, 36, 220, 102);
+        updateTransaction(transactionContainer, key, pageSelected);
+        mainGroup.addWidget(transactionContainer);
+
+        mainGroup.addWidget(new ComponentPanelWidget(0, 140, textList -> textList.add(Component.empty()
+                .append(ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_page"))
+                .append(Component.literal("<" + (pageSelected + 1) + "/" + totalPage + ">"))
+                .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page")))).clickHandler((data, clickData) -> {
+                    switch (data) {
+                        case "previous_page" -> pageSelected = Mth.clamp(pageSelected - 1, 0, totalPage - 1);
+                        case "next_page" -> pageSelected = Mth.clamp(pageSelected + 1, 0, totalPage - 1);
+                    }
+                    updateTransaction(transactionContainer, key, pageSelected);
+                    if (widget.getGui() != null) {
+                        widget.getGui().getModularUIGui().init();
+                    }
+                }));
+
+        return mainGroup;
+    }
+
+    private void updateTransaction(WidgetGroup container, String key, int pageIndex) {
+        container.clearAllWidgets();
+        container.addWidget(transactionGroup_10(key, pageIndex));
+    }
+
+    // 10个交易的组
+    private WidgetGroup transactionGroup_10(String key, int pageIndex) {
+        WidgetGroup transactionGroup = new WidgetGroup(0, 0, 204, 102);
+
+        for (int row = 0; row < 2; row++) {
+            for (int col = 0; col < 5; col++) {
+                int X = col * 41;
+                int Y = row * 51;
+                int entryIndex = pageIndex * 10 + row * 5 + col;
+                TransactionEntry transactionEntry = upgradeOrUnlockManager.getTransactionEntry(key, entryIndex);
+                if (transactionEntry != null) {
+                    transactionGroup.addWidget(transaction(X, Y, transactionEntry));
+                } else {
+                    transactionGroup.addWidget(emptyTransaction(X, Y));
+                }
+            }
+        }
+
+        return transactionGroup;
+    }
+
+    TradingManager tradingManager = TradingManager.getInstance();
 
     @Persisted
     @DescSynced
@@ -848,8 +913,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private List<IFancyUIProvider> shopGroup() {
         List<IFancyUIProvider> shopGroupTabs = new ArrayList<>();
 
-        for (int shop = 0; shop < manager.getShopCount(groupSelected); shop++) {
-            TradingManager.TradingShop tradingShop = manager.getShopByIndices(groupSelected, shop);
+        for (int shop = 0; shop < tradingManager.getShopCount(groupSelected); shop++) {
+            TradingManager.TradingShop tradingShop = tradingManager.getShopByIndices(groupSelected, shop);
 
             ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
             boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TransactionLang.UNLOCK_SHOP, tradingShop.getUnlockCondition());
@@ -862,17 +927,17 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     // 16个交易的组
-    private WidgetGroup transactionGroup(int y, int groupIndex, int shopIndex, int pageIndex) {
-        WidgetGroup transactionGroup = new WidgetGroup(0, y, 327, 102);
+    private WidgetGroup transactionGroup_16(int groupIndex, int shopIndex, int pageIndex) {
+        WidgetGroup transactionGroup = new WidgetGroup(0, 0, 327, 102);
 
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 8; col++) {
                 int X = col * 41;
                 int Y = row * 51;
                 int entryIndex = pageIndex * 16 + row * 8 + col;
-                boolean isIndexValid = manager.isTransactionIndexValid(groupIndex, shopIndex, entryIndex);
+                boolean isIndexValid = tradingManager.isTransactionIndexValid(groupIndex, shopIndex, entryIndex);
                 if (isIndexValid) {
-                    transactionGroup.addWidget(transaction(X, Y, manager.getTransactionEntryByIndices(groupIndex, shopIndex, entryIndex)));
+                    transactionGroup.addWidget(transaction(X, Y, tradingManager.getTransactionEntryByIndices(groupIndex, shopIndex, entryIndex)));
                 } else {
                     transactionGroup.addWidget(emptyTransaction(X, Y));
                 }
@@ -987,7 +1052,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             WidgetGroup mainGroup = new WidgetGroup(4, 4, machine.width, machine.height);
             mainGroup.setBackground(GuiTextures.DISPLAY);
 
-            int transactionCount = machine.manager.getTransactionCount(groupIndex, shopIndex);
+            int transactionCount = machine.tradingManager.getTransactionCount(groupIndex, shopIndex);
             int totalPage = transactionCount / 16 + (transactionCount % 16 == 0 ? 0 : 1);
 
             WidgetGroup shopGroup = new WidgetGroup(0, 0, machine.width, machine.height);
@@ -1024,7 +1089,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         private void updateTransactionContainer(WidgetGroup container, int pageIndex) {
             container.clearAllWidgets();
-            container.addWidget(machine.transactionGroup(0, groupIndex, shopIndex, pageIndex));
+            container.addWidget(machine.transactionGroup_16(groupIndex, shopIndex, pageIndex));
         }
     }
 

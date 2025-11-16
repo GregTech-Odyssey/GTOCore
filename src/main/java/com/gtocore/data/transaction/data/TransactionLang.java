@@ -20,11 +20,25 @@ public class TransactionLang {
         add(key, cn, en);
     }
 
+    public static final class Currencies {
+
+        public static final String COINS = "coins";
+        public static final String GEMS = "gems";
+        public static final String TOKENS = "tokens";
+        public static final String TECHNICIAN_COIN = "technician_coin";
+    }
+
     public static final String UNLOCK_SHOP_GROUP = "unlock_shop_group";
     public static final String UNLOCK_SHOP = "unlock_shop";
     public static final String UNLOCK_TRANSACTION = "unlock_transaction";
 
     static {
+
+        add("gtocore.currency." + Currencies.COINS, "金币", "coins");
+        add("gtocore.currency." + Currencies.GEMS, "宝石", "gems");
+        add("gtocore.currency." + Currencies.TOKENS, "代币", "tokens");
+        add("gtocore.currency." + Currencies.TECHNICIAN_COIN, "技术员币", "Technician Coin");
+
         add("gtocore.palm_sized_bank.textList.1", "欢迎使用掌上银行！", "Welcome to Mobile Banking!");
         add("gtocore.palm_sized_bank.textList.2", "在这里，您可以方便地管理您的虚拟资产", "Here, you can conveniently manage your virtual assets");
         add("gtocore.palm_sized_bank.textList.3", "请注意保护您的账户信息，避免泄露给他人", "Please be careful to protect your account information and avoid disclosing it to others");
@@ -65,6 +79,11 @@ public class TransactionLang {
         add("gtocore.gray_membership_card.hover_text.3", "主人: ", "Owner: ");
         add("gtocore.gray_membership_card.hover_text.4", "共享者: ", "Shared by: ");
 
+        add("gtocore.transaction_group.true", "价格", "Price");
+        add("gtocore.transaction_group.false", "商品", "Commodity");
+        add("gtocore.transaction_group.unlock", "未解锁, 需要解锁 %s", "Not unlocked, needs to be unlocked %s");
+        add("gtocore.transaction_group.unsatisfied", "不满足额外条件", "Additional conditions not met");
+
         add("gtocore.trading_station.textList.1", "这台机器不属于你，你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
         add("gtocore.trading_station.textList.2", "⇦ 请放入会员卡", "⇦ Please insert your membership card.");
         add("gtocore.trading_station.textList.3", "欢迎「 %s 」", "Welcome「 %s 」");
@@ -79,16 +98,6 @@ public class TransactionLang {
         add("gtocore.trading_station.textList.21", "机器等级: %s", "Machine Level: %s");
         add("gtocore.trading_station.textList.22", "升级", "Upgrade");
         add("gtocore.trading_station.textList.23", "当前等级：%s/%s", "Current Level: %s/%s");
-
-        add("gtocore.currency.coins", "金币", "coins");
-        add("gtocore.currency.gems", "宝石", "gems");
-        add("gtocore.currency.tokens", "代币", "tokens");
-        add("gtocore.currency.technician_coin", "技术员币", "Technician Coin");
-
-        add("gtocore.transaction_group.true", "价格", "Price");
-        add("gtocore.transaction_group.false", "商品", "Commodity");
-        add("gtocore.transaction_group.unlock", "未解锁, 需要解锁 %s", "Not unlocked, needs to be unlocked %s");
-        add("gtocore.transaction_group.unsatisfied", "不满足额外条件", "Additional conditions not met");
 
         // ==================== 机器等级与升级面板核心文本 ====================
         // 面板标题

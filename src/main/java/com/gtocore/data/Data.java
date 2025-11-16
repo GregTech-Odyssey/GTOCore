@@ -175,7 +175,7 @@ public final class Data {
         GTOLoots.init();
         MixinHelpers.registryGTDynamicTags();
 
-        TransactionRegistration.registerTestData();
+        TransactionRegistration.init();
 
         GTOCore.LOGGER.info("Data loading took {}ms", System.currentTimeMillis() - time);
     }
