@@ -595,4 +595,10 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING = createCasingBlock("spacecraft_dynamic_protective_mechanical_casing", "航天器防护机械外壳", GTOCore.id("block/casings/spacecraft_dynamic_protective_mechanical_casing"));
     // 时空结构维持机械方块 spacetime_structure_maintenance_casing
     public static final BlockEntry<Block> SPACETIME_STRUCTURE_MAINTENANCE_CASING = createCasingBlock("spacetime_structure_maintenance_casing", "时空结构维持机械方块", GTOCore.id("block/casings/spacetime_structure_maintenance_casing"));
+    // 起源之铭符 the_origin_casing
+    public static final BlockEntry<Block> THE_ORIGIN_CASING = createCasingBlock("the_origin_casing", "起源之铭符", GTOCore.id("block/casings/the_origin_casing"));
+    // 终末之铭符 the_end_casing
+    public static final BlockEntry<Block> THE_END_CASING = createCasingBlock("the_end_casing", "终末之铭符", GTOCore.id("block/casings/the_end_casing"));
+    // 混沌之铭符 the_chaos_casing
+    public static final BlockEntry<Block> THE_CHAOS_CASING = createCasingBlock("the_chaos_casing", "混沌之铭符", GTOCore.id("block/casings/the_chaos_casing"));
 }
