@@ -61,7 +61,7 @@ public abstract class CuttingBoardBlockEntityMixin extends SyncedBlockEntity {
                 }
             }
             this.playSound(ModSounds.BLOCK_CUTTING_BOARD_KNIFE.get(), 0.8F, 1.0F);
-            this.playSound(SoundEvents.TRIDENT_RETURN, 1.2F, 1.0F);
+            this.playSound(SoundEvents.TRIDENT_RETURN, 1.0F, 1.0F);
             level.setBlockAndUpdate(getBlockPos().below(), Blocks.CRYING_OBSIDIAN.defaultBlockState());
         }
     }

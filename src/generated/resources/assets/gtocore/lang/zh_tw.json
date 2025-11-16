@@ -5462,6 +5462,8 @@
   "gtocore.tooltip.item.machine_coordinate_card.tooltip.2": "§6記錄信息：§r%s§b(%s§b, %s§b, %s§b)",
   "gtocore.tooltip.item.magneto_resonatic_circuit": "利用磁共振儀器產生的強大磁場來運行",
   "gtocore.tooltip.item.mega_max_battery": "填滿電池 機械飛升",
+  "gtocore.tooltip.item.onion.0": "假如你切它時流淚瞭，說明你還不夠強大",
+  "gtocore.tooltip.item.onion.1": "§7——來自它下方某塊黑曜石的忠告",
   "gtocore.tooltip.item.prospector.mana.1": "魔力: §b%s§r / §a%s§r ",
   "gtocore.tooltip.item.prospector.mana.2": "（§b%s§r / §a%s§r 個魔力池）",
   "gtocore.tooltip.item.quantum_glass.0": "緻密但透明",
