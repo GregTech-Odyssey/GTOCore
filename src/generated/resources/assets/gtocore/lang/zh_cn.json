@@ -5488,6 +5488,8 @@
   "gtocore.trading_station.textList.1": "这台机器不属于你，你无法操作这台机器",
   "gtocore.trading_station.textList.10": "流体存储",
   "gtocore.trading_station.textList.2": "⇦ 请放入会员卡",
+  "gtocore.trading_station.textList.21": "等级: %s",
+  "gtocore.trading_station.textList.22": "升级",
   "gtocore.trading_station.textList.3": "欢迎「 %s 」",
   "gtocore.trading_station.textList.4": "共享给: ",
   "gtocore.trading_station.textList.5": "[展开]",

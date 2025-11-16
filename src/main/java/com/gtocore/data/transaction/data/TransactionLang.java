@@ -90,6 +90,9 @@ public class TransactionLang {
         add("gtocore.trading_station.textList.9", "物品存储", "Item Storage");
         add("gtocore.trading_station.textList.10", "流体存储", "Fluid Storage");
 
+        add("gtocore.trading_station.textList.21", "等级: %s", "Level: %s");
+        add("gtocore.trading_station.textList.22", "升级", "Upgrade");
+
         add("gtocore.currency.coins", "金币", "coins");
         add("gtocore.currency.gems", "宝石", "gems");
         add("gtocore.currency.tokens", "代币", "tokens");

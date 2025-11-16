@@ -5488,6 +5488,8 @@
   "gtocore.trading_station.textList.1": "這台機器不屬於你，你無法操作這台機器",
   "gtocore.trading_station.textList.10": "流體存儲",
   "gtocore.trading_station.textList.2": "⇦ 請放入會員卡",
+  "gtocore.trading_station.textList.21": "等級: %s",
+  "gtocore.trading_station.textList.22": "升級",
   "gtocore.trading_station.textList.3": "歡迎「 %s 」",
   "gtocore.trading_station.textList.4": "共享給: ",
   "gtocore.trading_station.textList.5": "[展開]",

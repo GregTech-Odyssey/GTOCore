@@ -5488,6 +5488,8 @@
   "gtocore.trading_station.textList.1": "This machine does not belong to you, you cannot operate it.",
   "gtocore.trading_station.textList.10": "Fluid Storage",
   "gtocore.trading_station.textList.2": "⇦ Please insert your membership card.",
+  "gtocore.trading_station.textList.21": "Level: %s",
+  "gtocore.trading_station.textList.22": "Upgrade",
   "gtocore.trading_station.textList.3": "Welcome「 %s 」",
   "gtocore.trading_station.textList.4": "Share with: ",
   "gtocore.trading_station.textList.5": "[Expand]",
