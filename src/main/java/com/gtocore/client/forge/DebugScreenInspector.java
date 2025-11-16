@@ -2,6 +2,7 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.KeyBind;
 import com.gtocore.config.GTOConfig;
+import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
 
@@ -23,7 +24,6 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.menu.SlotSemantic;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
 
 /// A useful debug tool to inspect the slot indices in container screens.
 /// This file is under the MPL-2.0 license.
@@ -33,7 +33,6 @@ import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
 @Mod.EventBusSubscriber(modid = GTOCore.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DebugScreenInspector {
 
-    private static final boolean isSFMLoaded = ModInfoUtils.isModLoaded("sfm");
     private static boolean visible = false;
 
     @SubscribeEvent
@@ -139,7 +138,7 @@ public class DebugScreenInspector {
 
     @SubscribeEvent
     public static void onKeyDown(ScreenEvent.KeyPressed.Pre event) {
-        if (isSFMLoaded) return; // Skip if SFM is loaded, as it handles the hotkey itself
+        if (Mods.SFM.isLoaded()) return; // Skip if SFM is loaded, as it handles the hotkey itself
         if (!GTOConfig.INSTANCE.dev) return; // Only enable in dev mode
         // Handle Ctrl+I hotkey to toggle overlay
         var toggleKey = KeyBind.debugInspectKey;

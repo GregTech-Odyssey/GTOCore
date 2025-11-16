@@ -97,9 +97,9 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     static void trimRecipe(GTRecipe recipe, int chance) {
         if (GTValues.RNG.nextInt(100) < chance) {
             var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
-            input.remove(0);
+            input.removeFirst();
             var output = new ArrayList<>(recipe.outputs.get(ItemRecipeCapability.CAP));
-            output.remove(0);
+            output.removeFirst();
             recipe.inputs.put(ItemRecipeCapability.CAP, input);
             recipe.outputs.put(ItemRecipeCapability.CAP, output);
         }
