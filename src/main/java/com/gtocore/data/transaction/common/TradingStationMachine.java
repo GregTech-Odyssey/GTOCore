@@ -710,6 +710,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         };
     }
 
+    // 机器升级
     private @NotNull IFancyUIProvider MachineUpgrade() {
         return new IFancyUIProvider() {
 
@@ -733,6 +734,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 WidgetGroup mainGroup = new WidgetGroup(4, 4, width, height);
                 mainGroup.setBackground(GuiTextures.DISPLAY);
 
+                WidgetGroup tradeContainer = new WidgetGroup(0, 36, 220, 114);
+
                 // 左侧：当前等级和升级按钮
                 WidgetGroup leftPanel = new DraggableScrollableWidgetGroup(0, 5, 110, height - 10);
                 leftPanel.setLayout(Layout.VERTICAL_CENTER);
@@ -744,6 +747,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                             "currentLevel").copy().withStyle(ChatFormatting.WHITE));
                 }).clickHandler(((string, clickData) -> {
                     upgradeSelect = string;
+                    updateWidget(tradeContainer, widget, upgradeSelect);
                     upgradeMachineLevel();
                 })));
 
@@ -758,6 +762,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     }
                 }).clickHandler(((upgrade, clickData) -> {
                     upgradeSelect = upgrade;
+                    updateWidget(tradeContainer, widget, upgradeSelect);
                     setUpgradeLevel(upgrade, getUpgradeLevel(upgrade) + 1);
                 })).setSpace(8).setCenter(true));
 
@@ -769,7 +774,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     if (upgradeSelect != null) textList.add(Component.translatable("gtocore.trading_station.upgrade." + upgradeSelect));
                     else textList.add(Component.empty());
                 }));
-                rightPanel.addWidget(upgradeOrUnlockWidget(widget, upgradeSelect));
+                updateWidget(tradeContainer, widget, upgradeSelect);
+                rightPanel.addWidget(tradeContainer);
 
                 mainGroup.addWidget(leftPanel);
                 mainGroup.addWidget(rightPanel);
@@ -779,6 +785,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
                 return group;
+            }
+
+            private void updateWidget(WidgetGroup container, FancyMachineUIWidget widget, String key) {
+                container.clearAllWidgets();
+                pageSelected = 0;
+                container.addWidget(upgradeOrUnlockWidget(widget, key));
             }
         };
     }
@@ -850,7 +862,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private int pageSelected = 0;
 
     public Widget upgradeOrUnlockWidget(FancyMachineUIWidget widget, String key) {
-        WidgetGroup mainGroup = new WidgetGroup(4, 4, 220, height);
+        WidgetGroup mainGroup = new WidgetGroup(4, 4, 220, 114);
         mainGroup.setLayout(Layout.VERTICAL_CENTER);
         mainGroup.setLayoutPadding(3);
 
@@ -858,7 +870,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         int totalPage = tradeCount / 10 + (tradeCount % 10 == 0 ? 0 : 1);
         if (totalPage >= pageSelected) pageSelected = 0;
 
-        WidgetGroup tradeContainer = new WidgetGroup(0, 36, 204, 102);
+        WidgetGroup tradeContainer = new WidgetGroup(0, 12, 204, 102);
         updateTrade(tradeContainer, key, pageSelected);
         mainGroup.addWidget(tradeContainer);
 
