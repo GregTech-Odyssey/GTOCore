@@ -168,15 +168,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
-                {
-                    mainGroup.addWidget(new ComponentPanelWidget(100, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add Technician Coin"), "add aaa")))
-                            .clickHandler((a, b) -> WalletUtils.addCurrency(player.getUUID(), serverLevel, "technician_coin", 1000)));
-                    mainGroup.addWidget(new ComponentPanelWidget(50, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add gems"), "add gems")))
-                            .clickHandler((a, b) -> WalletUtils.addCurrency(player.getUUID(), serverLevel, "gems", 100)));
-                }
-
                 mainGroup.addWidget(new ComponentPanelWidget(8, 4, List1 -> {
                     Object2LongMap<String> syncedCurrencyMap = WalletUtils.getCurrencyMap(player.getUUID(), serverLevel);
                     List1.add(Component.literal("-------------------"));
@@ -348,24 +339,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
-                {
-                    mainGroup.addWidget(new ComponentPanelWidget(0, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "normal", 5, serverLevel)));
-
-                    mainGroup.addWidget(new ComponentPanelWidget(20, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "unmarshal", 5, serverLevel)));
-
-                    mainGroup.addWidget(new ComponentPanelWidget(40, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "epic", 5, serverLevel)));
-
-                    mainGroup.addWidget(new ComponentPanelWidget(60, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                            .clickHandler((a, b) -> WalletUtils.addNoneStrategyTransaction(player.getUUID(), "timely", 5, serverLevel)));
-                }
-
                 mainGroup.addWidget(new ComponentPanelWidget(width - 11, 0,
                         list -> list.add(ComponentPanelWidget.withButton(Component.literal(" ↩ "), "return")))
                         .clickHandler((a, b) -> choose = null));
@@ -470,13 +443,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
                 ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
 
-                {
-                    mainGroup.addWidget(new ComponentPanelWidget(0, 0,
-                            list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                            .clickHandler((a, b) -> WalletUtils.addTagToWallet(player.getUUID(), serverLevel, UNLOCK_TRADE, UNLOCK_BASE)));
-
-                }
-
                 mainGroup.addWidget(new ComponentPanelWidget(width - 11, 0,
                         list -> list.add(ComponentPanelWidget.withButton(Component.literal(" ↩ "), "return")))
                         .clickHandler((a, b) -> choose = null));
@@ -543,10 +509,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 if (player == null) return group;
 
                 ServerLevel serverLevel = player instanceof ServerPlayer serverPlayer ? serverPlayer.serverLevel() : null;
-
-                mainGroup.addWidget(new ComponentPanelWidget(80, 0,
-                        list -> list.add(ComponentPanelWidget.withButton(Component.literal("update"), "update")))
-                        .clickHandler((a, b) -> updateNewWallet(serverLevel)));
 
                 Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
                 Set<UUID> shared = new HashSet<>();
@@ -620,17 +582,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP_GROUP, UNLOCK_BASE);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, UNLOCK_BASE);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRADE, UNLOCK_BASE);
-    }
-
-    public static void updateNewWallet(ServerLevel world) {
-        O2LOpenCacheHashMap<String> initialCurrencies = new O2LOpenCacheHashMap<>();
-        initialCurrencies.put("coins", 9200000000000000000L);
-        initialCurrencies.put("gems", 10);
-        initialCurrencies.put("tokens", 50);
-        initialCurrencies.put("technician_coin", 666666);
-        UUID uuid = UUID.randomUUID();
-        WalletUtils.createAndInitializeWallet(uuid, String.valueOf(new Random(1000000).nextInt()), world);
-        WalletUtils.setCurrencies(uuid, world, initialCurrencies);
     }
 
     // 辅助方法

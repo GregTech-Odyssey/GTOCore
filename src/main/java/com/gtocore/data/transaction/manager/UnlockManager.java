@@ -7,48 +7,55 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
-public class UpgradeOrUnlockManager {
+public class UnlockManager {
 
     private static class SingletonHolder {
 
-        private static final UpgradeOrUnlockManager INSTANCE = new UpgradeOrUnlockManager();
+        private static final UnlockManager INSTANCE = new UnlockManager();
     }
 
-    public static UpgradeOrUnlockManager getInstance() {
+    public static UnlockManager getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    private UpgradeOrUnlockManager() {}
+    private UnlockManager() {}
 
-    private final O2OOpenCacheHashMap<String, List<TradeEntry>> upgradeOrUnlockGroups = new O2OOpenCacheHashMap<>();
+    private final O2OOpenCacheHashMap<String, List<TradeEntry>> unlockGroups = new O2OOpenCacheHashMap<>();
 
     /** 获取组的数量 */
     public int getGroupCount() {
-        return upgradeOrUnlockGroups.size();
+        return unlockGroups.size();
     }
 
     /** 获取指定组（key）下的交易条目数量 */
     public int getEntryTradeCount(String key) {
-        return upgradeOrUnlockGroups.getOrDefault(key, new ArrayList<>()).size();
+        return unlockGroups.getOrDefault(key, new ArrayList<>()).size();
+    }
+
+    /** 通过组的键的集合 */
+    @Nullable
+    public Set<String> getKeySet() {
+        return unlockGroups.keySet();
     }
 
     /** 向指定组（key）添加一个交易条目 */
     public void addTradeToEntry(String key, @Nullable TradeEntry entry) {
         if (entry == null) return;
-        upgradeOrUnlockGroups.computeIfAbsent(key, k -> new ArrayList<>()).add(entry);
+        unlockGroups.computeIfAbsent(key, k -> new ArrayList<>()).add(entry);
     }
 
     /** 获取指定组（key）下的所有交易条目 */
     public List<TradeEntry> getTradeEntryList(String key) {
-        List<TradeEntry> entries = upgradeOrUnlockGroups.getOrDefault(key, new ArrayList<>());
+        List<TradeEntry> entries = unlockGroups.getOrDefault(key, new ArrayList<>());
         return Collections.unmodifiableList(entries);
     }
 
     /** 通过组的键和索引获取一个交易条目 */
     @Nullable
     public TradeEntry getTradeEntry(String key, int index) {
-        List<TradeEntry> tradeList = upgradeOrUnlockGroups.get(key);
+        List<TradeEntry> tradeList = unlockGroups.get(key);
         if (tradeList == null || index < 0 || index >= tradeList.size()) {
             return null;
         }

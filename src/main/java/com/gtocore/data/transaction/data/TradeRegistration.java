@@ -1,14 +1,20 @@
 package com.gtocore.data.transaction.data;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.data.transaction.common.TradingStationMachine;
-import com.gtocore.data.transaction.data.trade.upgradeTrade;
+import com.gtocore.data.transaction.data.trade.UnlockTrade;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -22,14 +28,65 @@ import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
 import java.util.List;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.common.data.GTOMaterials.Adamantine;
+import static com.gtocore.common.data.GTOMaterials.Infinity;
+import static com.gtocore.data.transaction.data.TradeLang.*;
+
 /**
  * 交易实例注册示例：展示如何使用TradeEntry构建具体交易
  */
 public class TradeRegistration {
 
     public static void init() {
-        upgradeTrade.init();
+        UnlockTrade.init();
+        registerShop1();
         registerTestData();
+    }
+
+    public static void registerShop1() {
+        TradingManager manager = TradingManager.getInstance();
+
+        int GroupIndex = manager.addShopGroup(
+                addTradeLang("欢迎来到泛银河格雷科技", "Welcome to Pan-Galaxy Gray Technology"),
+                UNLOCK_BASE,
+                GuiTextures.GREGTECH_LOGO,
+                GuiTextures.GREGTECH_LOGO);
+
+        int ShopIndex = manager.addShopByGroupIndex(
+                GroupIndex,
+                addTradeLang("欢迎来到泛银河格雷科技销售部", "Welcome to the Pan-Galaxy Gray Technology Sales Department"),
+                UNLOCK_BASE,
+                GuiTextures.GREGTECH_LOGO);
+
+        Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity };
+
+        for (int i = 0; i < materials.length; i++) {
+            manager.addTradeEntryByIndices(GroupIndex, ShopIndex, createCoinExchangeTrade(materials[i], i));
+            manager.addTradeEntryByIndices(GroupIndex, ShopIndex, createCoinWithdrawTrade(materials[i], i));
+        }
+    }
+
+    public static TradeEntry createCoinExchangeTrade(Material material, int tier) {
+        ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
+        return new TradeEntry.Builder()
+                .texture(new ItemStackTexture(Coin))
+                .description(List.of(Component.translatable(addTradeLang("将硬币兑换为技术员币", "Exchange coins for technician coins"))))
+                .unlockCondition(UNLOCK_BASE)
+                .inputItem(Coin)
+                .outputCurrency(TECHNICIAN_COIN, 1L << (tier * 3))
+                .build();
+    }
+
+    public static TradeEntry createCoinWithdrawTrade(Material material, int tier) {
+        ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
+        return new TradeEntry.Builder()
+                .texture(new ItemStackTexture(Coin))
+                .description(List.of(Component.translatable(addTradeLang("将技术员币提款为硬币", "Technician coins can be withdrawn as coins"))))
+                .unlockCondition(UNLOCK_BASE)
+                .inputCurrency(TECHNICIAN_COIN, 1L << (tier * 3))
+                .outputItem(Coin)
+                .build();
     }
 
     public static TradeEntry trade = new TradeEntry.Builder()

@@ -7,7 +7,7 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.data.transaction.data.TradeLang;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
-import com.gtocore.data.transaction.manager.UpgradeOrUnlockManager;
+import com.gtocore.data.transaction.manager.UnlockManager;
 
 import com.gtolib.utils.WalletUtils;
 
@@ -60,7 +60,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import lombok.Getter;
-import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,17 +76,22 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // ********* 生命周期管理 ********* //
     /////////////////////////////////////
 
-    public TradingStationMachine(MetaMachineBlockEntity holder) {
+    public TradingStationMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder);
 
         cardHandler = new CustomItemStackHandler();
         cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem()));
         cardHandler.setOnContentsChanged(() -> initializationInformation(cardHandler.getStackInSlot(0)));
 
-        inputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.IN, IO.BOTH);
-        outputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.OUT, IO.OUT);
-        inputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.IN, IO.BOTH);
-        outputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.OUT, IO.OUT);
+        inputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.IN, IO.BOTH);
+        outputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.OUT, IO.OUT);
+        inputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.IN, IO.BOTH);
+        outputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.OUT, IO.OUT);
+
+        if (tier > 1) upgradePlayerTrade = true;
+        if (tier > 3) upgradeAutoTrade = true;
+        if (tier > 5) upgradeLuckyMerchant = true;
+        if (tier > 7) upgradeMeInteraction = true;
     }
 
     @Override
@@ -150,14 +154,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @DescSynced
     private NotifiableFluidTank outputFluid;
 
-    /** 库存大小 */
-    @Persisted
-    @DescSynced
-    private int itemStorageSize = 32;
-    @Persisted
-    @DescSynced
-    private int fluidStorageSize = 4;
-
     /** 其他位置存储 */
     @Persisted
     private final CustomItemStackHandler cardHandler;
@@ -184,311 +180,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
      * 存储所有升级的等级。
      */
     @Persisted
-    @DescSynced
-    private int upgradeFluidTank = 0;      // 流体存储
+    private boolean upgradePlayerTrade = false;    // 玩家交易
     @Persisted
-    @DescSynced
-    private int upgradeAutoTrade = 0;      // 自动交易
+    private boolean upgradeAutoTrade = false;      // 自动交易
     @Persisted
-    @DescSynced
-    private int upgradeLuckyMerchant = 0;  // 幸运商店
+    private boolean upgradeLuckyMerchant = false;  // 幸运商店
     @Persisted
-    @DescSynced
-    private int upgradeMeInteraction = 0;  // ME交互
-    @Persisted
-    @DescSynced
-    private int upgradePlayerTrade = 0;    // 玩家交易
-    @Persisted
-    @DescSynced
-    private int upgradeCapacity = 0;       // 库存容量
-
-    /////////////////////////////////////
-    // ********** 机器升级方法 ********** //
-    /////////////////////////////////////
-
-    public static final class UpgradeKeys {
-
-        public static final String CURRENT_LEVEL = "currentLevel";// 机器等级
-        public static final String FLUID_TANK = "fluid_tank";// 流体存储
-        public static final String AUTO_TRADE = "auto_trade";// 自动交易
-        public static final String LUCKY_MERCHANT = "lucky_merchant";// 幸运商店
-        public static final String ME_INTERACTION = "me_interaction";// ME交互
-        public static final String PLAYER_TRADE = "player_trade";// 玩家交易
-        public static final String CAPACITY = "capacity";// 库存容量
-
-        public static final List<String> ALL_KEYS = Arrays.asList(
-                CAPACITY,
-                PLAYER_TRADE,
-                FLUID_TANK,
-                AUTO_TRADE,
-                LUCKY_MERCHANT,
-                ME_INTERACTION);
-    }
-
-    /**
-     * 获取指定升级的当前等级。
-     */
-    public int getUpgradeLevel(String key) {
-        return switch (key) {
-            case UpgradeKeys.CURRENT_LEVEL -> currentLevel;
-            case UpgradeKeys.FLUID_TANK -> upgradeFluidTank;
-            case UpgradeKeys.AUTO_TRADE -> upgradeAutoTrade;
-            case UpgradeKeys.LUCKY_MERCHANT -> upgradeLuckyMerchant;
-            case UpgradeKeys.ME_INTERACTION -> upgradeMeInteraction;
-            case UpgradeKeys.PLAYER_TRADE -> upgradePlayerTrade;
-            case UpgradeKeys.CAPACITY -> upgradeCapacity;
-            default -> 0;
-        };
-    }
-
-    /**
-     * 检查是否可以将指定升级设置为新等级。
-     * 这个方法只负责检查条件，不执行任何状态变更。
-     */
-    public boolean canSetUpgradeLevel(String key, int newLevel) {
-        if (!UpgradeKeys.ALL_KEYS.contains(key)) return false;
-        if (newLevel < 0) return false;
-
-        int maxLevel = getMaxUpgradeLevel(key);
-        if (newLevel > maxLevel) return false;
-        return getUpgradeLevel(key) != newLevel;
-    }
-
-    /**
-     * 执行实际的升级操作，将指定升级的等级更新为新值。
-     */
-    public void doUpgradeLevel(String key, int newLevel) {
-        switch (key) {
-            case UpgradeKeys.FLUID_TANK -> upgradeFluidTank = newLevel;
-            case UpgradeKeys.AUTO_TRADE -> upgradeAutoTrade = newLevel;
-            case UpgradeKeys.LUCKY_MERCHANT -> upgradeLuckyMerchant = newLevel;
-            case UpgradeKeys.ME_INTERACTION -> upgradeMeInteraction = newLevel;
-            case UpgradeKeys.PLAYER_TRADE -> upgradePlayerTrade = newLevel;
-            case UpgradeKeys.CAPACITY -> upgradeCapacity = newLevel;
-        }
-        markAsDirty();
-        handleUpgradeSideEffects(key, newLevel);
-    }
-
-    /**
-     * 根据升级键和当前机器等级，获取该升级的最大允许等级。
-     */
-    public int getMaxUpgradeLevel(String key) {
-        return switch (key) {
-            case UpgradeKeys.PLAYER_TRADE -> switch (currentLevel) {
-                case 1 -> 1;
-                case 2 -> 2;
-                case 3 -> 3;
-                case 4, 5, 6 -> 4;
-                default -> 0;
-            };
-            case UpgradeKeys.CAPACITY -> switch (currentLevel) {
-                case 1 -> 3;
-                case 2 -> 5;
-                case 3 -> 8;
-                case 4 -> 10;
-                case 5, 6 -> 16;
-                default -> 0;
-            };
-            case UpgradeKeys.AUTO_TRADE -> switch (currentLevel) {
-                case 3 -> 2;
-                case 4 -> 4;
-                case 5, 6 -> 8;
-                default -> 0;
-            };
-            // 以下升级最大等级固定为1
-            case UpgradeKeys.FLUID_TANK -> currentLevel > 1 ? 1 : 0;
-            case UpgradeKeys.LUCKY_MERCHANT -> currentLevel > 3 ? 1 : 0;
-            case UpgradeKeys.ME_INTERACTION -> currentLevel > 4 ? 1 : 0;
-            default -> 0;
-        };
-    }
-
-    /** 获取最大等级 */
-    public static int getMaxLevel(String key) {
-        return switch (key) {
-            case UpgradeKeys.CURRENT_LEVEL -> 6;
-            case UpgradeKeys.FLUID_TANK, UpgradeKeys.ME_INTERACTION, UpgradeKeys.LUCKY_MERCHANT -> 1;
-            case UpgradeKeys.AUTO_TRADE -> 8;
-            case UpgradeKeys.PLAYER_TRADE -> 4;
-            case UpgradeKeys.CAPACITY -> 16;
-            default -> 0;
-        };
-    }
-
-    /**
-     * 处理某些升级在等级变化时产生的副作用。
-     */
-    private void handleUpgradeSideEffects(String key, int newLevel) {
-        switch (key) {
-            // 容量变化后，需更新物品/流体槽
-            case UpgradeKeys.CAPACITY -> updateStorageSizes();
-            // 储罐升级变化后，更新流体槽
-            case UpgradeKeys.FLUID_TANK -> updateStorageSizes();
-            // 自动交易等级变化后，重启自动交易任务
-            case UpgradeKeys.AUTO_TRADE -> {
-                if (isAutoTradeEnabled()) {
-                    // restartAutoTradeTask();
-                }
-            }
-            // ME交互升级变化后，可在此处初始化/断开ME网络连接
-            case UpgradeKeys.ME_INTERACTION -> {
-                if (newLevel > 0) {
-                    // initializeMeNetworkConnection();
-                } else {
-                    // disconnectMeNetworkConnection();
-                }
-            }
-        }
-    }
-
-    /**
-     * 检查机器是否可以升级到下一个等级。
-     *
-     * @return 如果可以升级，则返回 true；否则返回 false。
-     */
-    public boolean canUpgradeToNextLevel() {
-        int nextLevel = currentLevel + 1;
-        if (nextLevel > 6) {
-            return false;
-        }
-        return switch (nextLevel) {
-            case 3 -> getUpgradeLevel(UpgradeKeys.FLUID_TANK) >= 1;
-            case 4 -> getUpgradeLevel(UpgradeKeys.AUTO_TRADE) >= 1;
-            case 5 -> getUpgradeLevel(UpgradeKeys.LUCKY_MERCHANT) >= 1;
-            case 6 -> getUpgradeLevel(UpgradeKeys.ME_INTERACTION) >= 1 && isAllUpgradesMaxedAtLevel5();
-            default -> true;
-        };
-    }
-
-    /**
-     * 执行实际的机器升级操作。
-     */
-    public void doUpgradeMachineLevel() {
-        if (currentLevel >= 6) {
-            return;
-        }
-        currentLevel++;
-        updateStorageSizes();
-        markAsDirty();
-    }
-
-    /**
-     * 辅助方法：检查所有升级是否已在等级5时达到最大。
-     * 这是升级到6级的必要条件。
-     */
-    private boolean isAllUpgradesMaxedAtLevel5() {
-        int originalLevel = this.currentLevel;
-        this.currentLevel = 5;
-        boolean isMaxed = true;
-        for (String upgradeKey : UpgradeKeys.ALL_KEYS) {
-            int currentUpgradeLevel = getUpgradeLevel(upgradeKey);
-            int maxLevelAt5 = getMaxUpgradeLevel(upgradeKey);
-            if (currentUpgradeLevel < maxLevelAt5) {
-                isMaxed = false;
-                break;
-            }
-        }
-        this.currentLevel = originalLevel;
-        return isMaxed;
-    }
-
-    /** 是否启用流体存储（储罐升级≥1） */
-    public boolean isFluidStorageEnabled() {
-        return getUpgradeLevel(UpgradeKeys.FLUID_TANK) >= 1;
-    }
-
-    /** 是否启用玩家间交易（玩家交易升级≥1） */
-    public boolean isPlayerTradeEnabled() {
-        return getUpgradeLevel(UpgradeKeys.PLAYER_TRADE) >= 1;
-    }
-
-    /** 是否启用自动交易（自动交易升级≥1） */
-    public boolean isAutoTradeEnabled() {
-        return getUpgradeLevel(UpgradeKeys.AUTO_TRADE) >= 1;
-    }
-
-    /** 是否启用ME交互（ME升级≥1） */
-    public boolean isMeInteractionEnabled() {
-        return getUpgradeLevel(UpgradeKeys.ME_INTERACTION) >= 1;
-    }
-
-    /** 是否启用幸运商人功能（幸运升级≥1） */
-    public boolean isLuckyMerchantEnabled() {
-        return getUpgradeLevel(UpgradeKeys.LUCKY_MERCHANT) >= 1;
-    }
-
-    /** 基础物品存储槽数（等级1默认） */
-    private static final int BASE_ITEM_SLOTS = 32;
-    /** 基础流体存储槽数（储罐升级启用后） */
-    private static final int BASE_FLUID_SLOTS = 4;
-
-    /** 物品槽增量：每级容量升级增加的槽数（随机器等级变化） */
-    private int getItemSlotIncrement() {
-        return switch (currentLevel) {
-            case 1 -> 10; // 等级1：每级+10槽
-            case 2 -> 15; // 等级2：每级+15槽
-            case 3 -> 20; // 等级3：每级+20槽
-            case 4 -> 25; // 等级4：每级+25槽
-            case 5, 6 -> 30; // 等级5, 6：每级+30槽
-            default -> 0;
-        };
-    }
-
-    /** 流体槽增量：每级容量升级增加的槽数（仅储罐启用后） */
-    private int getFluidSlotIncrement() {
-        if (!isFluidStorageEnabled()) return 0;
-        return switch (currentLevel) {
-            case 2 -> 1; // 等级2：每级+1槽
-            case 3 -> 2; // 等级3：每级+2槽
-            case 4 -> 3; // 等级4：每级+3槽
-            case 5, 6 -> 4; // 等级5, 6：每级+4槽
-            default -> 0;
-        };
-    }
-
-    /** 动态更新物品/流体存储槽数 */
-    private void updateStorageSizes() {
-        // 计算当前物品槽数：基础 + 容量升级增量
-        int newItemSlots = BASE_ITEM_SLOTS + (getUpgradeLevel(UpgradeKeys.CAPACITY) * getItemSlotIncrement());
-        this.itemStorageSize = Math.max(newItemSlots, BASE_ITEM_SLOTS);
-
-        // 计算当前流体槽数：基础（储罐启用） + 容量升级增量
-        int newFluidSlots = isFluidStorageEnabled() ?
-                (BASE_FLUID_SLOTS + (getUpgradeLevel(UpgradeKeys.CAPACITY) * getFluidSlotIncrement())) : 0;
-        this.fluidStorageSize = Math.max(newFluidSlots, 0);
-
-        // 重新初始化存储（确保槽数变化生效，需兼容原有数据）
-        reinitializeStorage();
-    }
-
-    /** 重新初始化物品/流体存储（保留原有数据） */
-    /** 重新初始化物品/流体存储（保留原有数据） */
-    private void reinitializeStorage() {
-        this.inputItem.storage.setSize(itemStorageSize);
-        this.outputItem.storage.setSize(itemStorageSize);
-
-        // 2. 创建新的流体存储实例
-        NotifiableFluidTank newInputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.IN, IO.BOTH);
-        NotifiableFluidTank newOutputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.OUT, IO.OUT);
-
-        // 注意：这里还应该迁移其他重要属性，如 isVoiding, lockedFluid, filter 等
-        newInputFluid.isVoiding = this.inputFluid.isVoiding;
-        newOutputFluid.isVoiding = this.outputFluid.isVoiding;
-
-        this.inputFluid = newInputFluid;
-        this.outputFluid = newOutputFluid;
-
-        if (outputItemChangeSub != null) outputItemChangeSub.unsubscribe();
-        if (outputFluidChangeSub != null) outputFluidChangeSub.unsubscribe();
-        outputItemChangeSub = outputItem.addChangedListener(this::updateAutoOutputSubscription);
-        outputFluidChangeSub = outputFluid.addChangedListener(this::updateAutoOutputSubscription);
-        updateAutoOutputSubscription();
-
-        if (currentUIPlayer != null) {
-            tryToOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null);
-        }
-    }
+    private boolean upgradeMeInteraction = false;  // ME交互
 
     /////////////////////////////////////
     // ************ UI实现 ************ //
@@ -722,8 +420,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         };
     }
 
-    // 机器升级
-    private @NotNull IFancyUIProvider MachineUpgrade() {
+    // 交易解锁
+    private @NotNull IFancyUIProvider TransactionUnlock() {
         return new IFancyUIProvider() {
 
             @DescSynced
@@ -757,24 +455,18 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 leftPanel.setLayoutPadding(8);
 
                 leftPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
-                    textList.add(ComponentPanelWidget.withButton(ComponentPanelWidget.withHoverTextTranslate(
-                            trans(21, currentLevel), trans(22)),
-                            UpgradeKeys.CURRENT_LEVEL).copy().withStyle(ChatFormatting.WHITE));
-                }).clickHandler(((string, clickData) -> {
-                    upgradeSelect = string;
-                    internalPageSelected = 0;
-                    updateWidget(tradeContainer, widget);
-                })));
+                    textList.add(trans(21, currentLevel));
+                }).setSpace(8).setCenter(true));
 
                 leftPanel.addWidget(new ComponentPanelWidget(0, 10, textList -> {
-                    for (String upgrade : UpgradeKeys.ALL_KEYS) {
-                        int tier = getUpgradeLevel(upgrade);
-                        int maxTier = getMaxUpgradeLevel(upgrade);
-                        if (maxTier == 0) continue;
+                    Set<String> keySet = unlockManager.getKeySet();
+                    if (keySet == null) return;
+                    for (String key : keySet) {
                         textList.add(ComponentPanelWidget.withButton(ComponentPanelWidget.withHoverTextTranslate(
-                                Component.translatable("gtocore.trading_station.upgrade." + upgrade), trans(23, tier, maxTier)),
-                                upgrade).copy().withStyle(ChatFormatting.AQUA));
+                                Component.translatable("gtocore.trading_station.unlock." + key), Component.literal(key)),
+                                key).copy().withStyle(ChatFormatting.AQUA));
                     }
+
                 }).clickHandler(((upgrade, clickData) -> {
                     upgradeSelect = upgrade;
                     internalPageSelected = 0;
@@ -787,7 +479,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 rightPanel.setLayoutPadding(4);
 
                 rightPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
-                    if (upgradeSelect != null) textList.add(Component.translatable("gtocore.trading_station.upgrade." + upgradeSelect));
+                    if (upgradeSelect != null) textList.add(Component.translatable("gtocore.trading_station.unlock." + upgradeSelect));
                 }));
 
                 // 2. 交易项容器（显示升级所需资源）
@@ -829,7 +521,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
             private int getCurrentTradeCount() {
                 if (upgradeSelect == null) return 0;
-                return upgradeOrUnlockManager.getEntryTradeCount(upgradeSelect);
+                return unlockManager.getEntryTradeCount(upgradeSelect);
             }
 
             private void updateWidget(WidgetGroup container, FancyMachineUIWidget widget) {
@@ -851,7 +543,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                         int X = col * (40 + 1);
                         int Y = row * (50 + 1);
                         int entryIndex = startIndex + row * 5 + col;
-                        TradeEntry tradeEntry = upgradeOrUnlockManager.getTradeEntry(key, entryIndex);
+                        TradeEntry tradeEntry = unlockManager.getTradeEntry(key, entryIndex);
                         if (tradeEntry != null) {
                             tradeGroup.addWidget(trade(X, Y, tradeEntry));
                         } else {
@@ -878,7 +570,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         List<IFancyUIProvider> fixedTabs = new ArrayList<>();
         if (groupSelected == 0) {
             fixedTabs.add(InventoryDisplay());
-            fixedTabs.add(MachineUpgrade());
+            fixedTabs.add(TransactionUnlock());
             fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
         }
 
@@ -924,7 +616,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // ********* UI单元构建 ********* //
     /////////////////////////////////////
 
-    UpgradeOrUnlockManager upgradeOrUnlockManager = UpgradeOrUnlockManager.getInstance();
+    UnlockManager unlockManager = UnlockManager.getInstance();
 
     TradingManager tradingManager = TradingManager.getInstance();
 
