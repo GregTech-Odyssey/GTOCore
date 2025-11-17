@@ -84,9 +84,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         cardHandler.setOnContentsChanged(() -> initializationInformation(cardHandler.getStackInSlot(0)));
 
         inputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.IN, IO.BOTH);
-        outputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.OUT, IO.BOTH);
-        inputFluid = new NotifiableFluidTank(this, 4, 1000 * 2000000, IO.IN, IO.BOTH);
-        outputFluid = new NotifiableFluidTank(this, 4, 1000 * 2000000, IO.OUT, IO.BOTH);
+        outputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.OUT, IO.OUT);
+        inputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.IN, IO.BOTH);
+        outputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.OUT, IO.OUT);
     }
 
     @Override
@@ -336,7 +336,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     /**
      * 检查机器是否可以升级到下一个等级。
-     * 
+     *
      * @return 如果可以升级，则返回 true；否则返回 false。
      */
     public boolean canUpgradeToNextLevel() {
@@ -430,7 +430,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private void updateStorageSizes() {
         // 计算当前物品槽数：基础 + 容量升级增量
         int newItemSlots = BASE_ITEM_SLOTS + (getUpgradeLevel(UpgradeKeys.CAPACITY) * getItemSlotIncrement());
-        this.itemStorageSize = Math.max(newItemSlots, BASE_ITEM_SLOTS); // 至少保留基础槽数
+        this.itemStorageSize = Math.max(newItemSlots, BASE_ITEM_SLOTS);
 
         // 计算当前流体槽数：基础（储罐启用） + 容量升级增量
         int newFluidSlots = isFluidStorageEnabled() ?
@@ -678,9 +678,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     for (int x = 0; x < Item_slots_in_a_row; x++) {
                         int slotIndex = y * Item_slots_in_a_row + x;
                         if (itemStorageSize > slotIndex) {
-                            Item_slot.addWidget(new SlotWidget(inputItem, slotIndex, x * 18, 10 + y * 18, true, true)
+                            Item_slot.addWidget(new SlotWidget(getInputItem(), slotIndex, x * 18, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
-                            Item_slot.addWidget(new SlotWidget(outputItem, slotIndex, x * 18 + Item_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                            Item_slot.addWidget(new SlotWidget(getOutputItem(), slotIndex, x * 18 + Item_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
                         } else break;
                     }
@@ -694,9 +694,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     for (int x = 0; x < Fluid_slots_in_a_row; x++) {
                         int slotIndex = y * Fluid_slots_in_a_row + x;
                         if (fluidStorageSize > slotIndex) {
-                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, 0, 10 + y * 18, true, true)
+                            Fluid_slot.addWidget(new TankWidget(getInputFluid(), slotIndex, 0, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
-                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                            Fluid_slot.addWidget(new TankWidget(getOutputFluid(), slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
                         } else break;
                     }

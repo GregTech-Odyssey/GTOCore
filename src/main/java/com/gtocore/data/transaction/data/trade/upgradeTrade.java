@@ -31,7 +31,7 @@ public class upgradeTrade {
         UpgradeOrUnlockManager upgradeOrUnlockManager = UpgradeOrUnlockManager.getInstance();
 
         // 机器升级
-        for (int i = 1; i <= TradingStationMachine.getMaxLevel("currentLevel"); i++) {
+        for (int i = 2; i <= TradingStationMachine.getMaxLevel("currentLevel"); i++) {
             upgradeOrUnlockManager.addTradeToEntry("currentLevel", createUpgradeCurrentLevelTrade(i));
         }
 
