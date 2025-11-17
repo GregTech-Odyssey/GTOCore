@@ -1515,17 +1515,18 @@ object GTOMachineTooltips {
         highlight("利用维度技术和坚不可摧的钻头无情的抽取星球的每一分血液" translatedTo "Using dimensional technology and indestructible drills, they relentlessly extract every drop of blood from the planet.")
 
         section("启动与温控" translatedTo "Startup & Thermal Control")
-        command("需要升温启动，可通入液态烈焰" translatedTo "Requires heating to start, input Liquid Blaze to warm up")
+        command("需要升温启动，可通入液态烈焰或液态炽骨立方" translatedTo "Requires heating to start, input Liquid Blaze or Liquid Blaze Cubes")
+        info("升温材料消耗公式(单位：mB): 温度^1.3" translatedTo "Heating material consumption formula(unit: mB): Temperature^1.3")
+        info("升温速度：(每5tick) 液态烈焰：1K / 每次输入，液态炽骨立方：1000K / 每次输入" translatedTo "Heating speed: (every 5 ticks) Liquid Blaze: 1K / per input, Liquid Blaze Cubes: 1000K / per input")
         increase("随着温度提升，效率也会提升" translatedTo "Higher temperature will give higher efficiency")
         error("当温度超过临界值，钻头将会融毁" translatedTo "If the machine overheats, drill head will melt")
         info("产热公式: 温度 / 2000" translatedTo "Heat generation formula: Temperature / 2000")
-        info("液态烈焰消耗公式: 温度^1.3" translatedTo "Liquid Blaze consumption formula: Temperature^1.3")
 
         section("冷却系统" translatedTo "Cooling System")
-        command("冷却固定消耗: 200B/5t" translatedTo "Fixed cooling consumption: 200B/5t")
-        command("蒸馏水 1K/mB" translatedTo "Distilled Water 1K/mB")
-        command("液态氧 2K/mB" translatedTo "Liquid Oxygen 2K/mB")
-        command("液态氦 4K/mB" translatedTo "Liquid Helium 4K/mB")
+        command("冷却固定消耗(每5tick): 20B" translatedTo "Fixed cooling consumption(every 5 ticks): 20B")
+        command("蒸馏水 1K/每次输入" translatedTo "Distilled Water 1K/per input")
+        command("液态氧 2K/每次输入" translatedTo "Liquid Oxygen 2K/per input")
+        command("液态氦 4K/每次输入" translatedTo "Liquid Helium 4K/per input")
         important("仅可放入中子素钻头(更多钻头待定)" translatedTo "Only Neutron-element drill heads can be placed (more to be determined)")
     }
 

@@ -520,10 +520,10 @@ public final class MaterialA {
                 .plasma()
                 .blastTemp(11000, HIGHER)
                 .element(GTOElements.BLAZECUBE)
-                .color(0xff6600)
+                .color(new Color(252, 196, 76).getRGB())
                 .iconSet(METALLIC)
-                .flags(GENERATE_GEAR, GENERATE_BOLT_SCREW)
-                .cableProperties(GTValues.V[GTValues.IV], 128, 32)
+                .flags(GENERATE_GEAR, GENERATE_BOLT_SCREW, GENERATE_FINE_WIRE)
+                .cableProperties(GTValues.V[GTValues.UIV], 128, 32)
                 .buildAndRegister();
 
         Etrium = material("etrium", "埃忒恩")
