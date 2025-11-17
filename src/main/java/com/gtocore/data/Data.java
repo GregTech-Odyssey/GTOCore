@@ -20,7 +20,7 @@ import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.*;
 import com.gtocore.data.recipe.processing.*;
 import com.gtocore.data.recipe.research.*;
-import com.gtocore.data.transaction.recipe.entry.TradeRegistration;
+import com.gtocore.data.transaction.data.TradeRegistration;
 import com.gtocore.integration.emi.GTEMIRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 

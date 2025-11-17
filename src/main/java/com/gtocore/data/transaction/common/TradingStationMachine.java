@@ -5,9 +5,9 @@ import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.data.transaction.data.TradeLang;
-import com.gtocore.data.transaction.recipe.entry.TradeEntry;
-import com.gtocore.data.transaction.recipe.entry.TradingManager;
-import com.gtocore.data.transaction.recipe.entry.UpgradeOrUnlockManager;
+import com.gtocore.data.transaction.manager.TradeEntry;
+import com.gtocore.data.transaction.manager.TradingManager;
+import com.gtocore.data.transaction.manager.UpgradeOrUnlockManager;
 
 import com.gtolib.utils.WalletUtils;
 
@@ -201,6 +201,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     public static final class UpgradeKeys {
 
+        public static final String CURRENT_LEVEL = "currentLevel";// 机器等级
         public static final String FLUID_TANK = "fluid_tank";// 流体存储
         public static final String AUTO_TRADE = "auto_trade";// 自动交易
         public static final String LUCKY_MERCHANT = "lucky_merchant";// 幸运商店
@@ -222,6 +223,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
      */
     public int getUpgradeLevel(String key) {
         return switch (key) {
+            case UpgradeKeys.CURRENT_LEVEL -> currentLevel;
             case UpgradeKeys.FLUID_TANK -> upgradeFluidTank;
             case UpgradeKeys.AUTO_TRADE -> upgradeAutoTrade;
             case UpgradeKeys.LUCKY_MERCHANT -> upgradeLuckyMerchant;
@@ -233,19 +235,21 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     /**
-     * 设置指定升级的等级，并进行合法性检查。
+     * 检查是否可以将指定升级设置为新等级。
+     * 这个方法只负责检查条件，不执行任何状态变更。
      */
-    public boolean setUpgradeLevel(String key, int newLevel) {
+    public boolean canSetUpgradeLevel(String key, int newLevel) {
         if (!UpgradeKeys.ALL_KEYS.contains(key)) return false;
         if (newLevel < 0) return false;
-
         int maxLevel = getMaxUpgradeLevel(key);
         if (newLevel > maxLevel) return false;
+        return getUpgradeLevel(key) != newLevel;
+    }
 
-        // 检查新等级是否与当前等级相同
-        if (getUpgradeLevel(key) == newLevel) return true;
-
-        // 根据key更新对应的字段
+    /**
+     * 执行实际的升级操作，将指定升级的等级更新为新值。
+     */
+    public void doUpgradeLevel(String key, int newLevel) {
         switch (key) {
             case UpgradeKeys.FLUID_TANK -> upgradeFluidTank = newLevel;
             case UpgradeKeys.AUTO_TRADE -> upgradeAutoTrade = newLevel;
@@ -254,10 +258,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             case UpgradeKeys.PLAYER_TRADE -> upgradePlayerTrade = newLevel;
             case UpgradeKeys.CAPACITY -> upgradeCapacity = newLevel;
         }
-
         markAsDirty();
         handleUpgradeSideEffects(key, newLevel);
-        return true;
     }
 
     /**
@@ -294,6 +296,18 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         };
     }
 
+    /** 获取最大等级 */
+    public static int getMaxLevel(String key) {
+        return switch (key) {
+            case UpgradeKeys.CURRENT_LEVEL -> 6;
+            case UpgradeKeys.FLUID_TANK, UpgradeKeys.ME_INTERACTION, UpgradeKeys.LUCKY_MERCHANT -> 1;
+            case UpgradeKeys.AUTO_TRADE -> 8;
+            case UpgradeKeys.PLAYER_TRADE -> 4;
+            case UpgradeKeys.CAPACITY -> 16;
+            default -> 0;
+        };
+    }
+
     /**
      * 处理某些升级在等级变化时产生的副作用。
      */
@@ -321,28 +335,34 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     /**
-     * 尝试提升机器等级。
-     * 等级上限为6级，升级到6级需要所有升级项在等级5时达到最大。
+     * 检查机器是否可以升级到下一个等级。
+     * 
+     * @return 如果可以升级，则返回 true；否则返回 false。
      */
-    public boolean upgradeMachineLevel() {
+    public boolean canUpgradeToNextLevel() {
         int nextLevel = currentLevel + 1;
-        if (nextLevel > 6) return false;
-
-        // 检查对应等级的必选升级
-        boolean canUpgrade = switch (nextLevel) {
+        if (nextLevel > 6) {
+            return false;
+        }
+        return switch (nextLevel) {
             case 3 -> getUpgradeLevel(UpgradeKeys.FLUID_TANK) >= 1;
             case 4 -> getUpgradeLevel(UpgradeKeys.AUTO_TRADE) >= 1;
             case 5 -> getUpgradeLevel(UpgradeKeys.LUCKY_MERCHANT) >= 1;
             case 6 -> getUpgradeLevel(UpgradeKeys.ME_INTERACTION) >= 1 && isAllUpgradesMaxedAtLevel5();
             default -> true;
         };
+    }
 
-        if (canUpgrade) {
-            this.currentLevel = nextLevel;
-            markAsDirty();
-            return true;
+    /**
+     * 执行实际的机器升级操作。
+     */
+    public void doUpgradeMachineLevel() {
+        if (currentLevel >= 6) {
+            return;
         }
-        return false;
+        currentLevel++;
+        updateStorageSizes();
+        markAsDirty();
     }
 
     /**
@@ -728,11 +748,11 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 leftPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
                     textList.add(ComponentPanelWidget.withButton(ComponentPanelWidget.withHoverTextTranslate(
                             trans(21, currentLevel), trans(22)),
-                            "currentLevel").copy().withStyle(ChatFormatting.WHITE));
+                            UpgradeKeys.CURRENT_LEVEL).copy().withStyle(ChatFormatting.WHITE));
                 }).clickHandler(((string, clickData) -> {
                     upgradeSelect = string;
+                    internalPageSelected = 0;
                     updateWidget(tradeContainer, widget);
-                    // upgradeMachineLevel();
                 })));
 
                 leftPanel.addWidget(new ComponentPanelWidget(0, 10, textList -> {
@@ -746,8 +766,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     }
                 }).clickHandler(((upgrade, clickData) -> {
                     upgradeSelect = upgrade;
+                    internalPageSelected = 0;
                     updateWidget(tradeContainer, widget);
-                    // setUpgradeLevel(upgrade, getUpgradeLevel(upgrade) + 1);
                 })).setSpace(8).setCenter(true));
 
                 // 右侧：升级列表
@@ -768,13 +788,14 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     int tradeCount = getCurrentTradeCount();
                     if (tradeCount <= 10) return;
 
-                    int totalPage = (tradeCount + 9) / 10;
+                    int totalPage = tradeCount / 10 + (tradeCount % 10 == 0 ? 0 : 1);
                     textList.add(Component.empty()
                             .append(ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_page"))
                             .append(Component.literal(" " + (internalPageSelected + 1) + "/" + totalPage + " "))
                             .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page")));
                 }).clickHandler((data, clickData) -> {
-                    int totalPage = (getCurrentTradeCount() + 9) / 10;
+                    int tradeCount = getCurrentTradeCount();
+                    int totalPage = tradeCount / 10 + (tradeCount % 10 == 0 ? 0 : 1);
                     if (totalPage <= 1) return;
                     switch (data) {
                         case "previous_page" -> internalPageSelected = Mth.clamp(internalPageSelected - 1, 0, totalPage - 1);
@@ -947,7 +968,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
         boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TradeLang.UNLOCK_TRADE, entry.unlockCondition());
-        boolean canExecute = entry.canExecute(this);
+        boolean canExecute = entry.canExecuteCount(this) != 0;
 
         trade.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
                 .textSupplier(texts -> {

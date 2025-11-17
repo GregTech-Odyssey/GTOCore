@@ -20,6 +20,13 @@ public class TradeLang {
         add(key, cn, en);
     }
 
+    public static String addTradeLang(String cn, String en) {
+        int hash = cn.hashCode();
+        String key = "gtocore.trade." + hash;
+        if (TradeLang.LANG != null) TradeLang.LANG.put(key, new CNEN(cn, en));
+        return key;
+    }
+
     public static final class Currencies {
 
         public static final String COINS = "coins";
@@ -31,6 +38,7 @@ public class TradeLang {
     public static final String UNLOCK_SHOP_GROUP = "unlock_shop_group";
     public static final String UNLOCK_SHOP = "unlock_shop";
     public static final String UNLOCK_TRADE = "unlock_trade";
+    public static final String UNLOCK_BASE = "base";
 
     static {
 

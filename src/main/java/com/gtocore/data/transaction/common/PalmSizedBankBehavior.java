@@ -473,7 +473,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 {
                     mainGroup.addWidget(new ComponentPanelWidget(0, 0,
                             list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                            .clickHandler((a, b) -> WalletUtils.addTagToWallet(player.getUUID(), serverLevel, UNLOCK_TRADE, "null")));
+                            .clickHandler((a, b) -> WalletUtils.addTagToWallet(player.getUUID(), serverLevel, UNLOCK_TRADE, UNLOCK_BASE)));
 
                 }
 
@@ -617,9 +617,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         initialCurrencies.put("ccc", 5000);
         initialCurrencies.put("jjj", 5000000000000000000L);
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
-        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP_GROUP, "null");
-        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, "null");
-        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRADE, "null");
+        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP_GROUP, UNLOCK_BASE);
+        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, UNLOCK_BASE);
+        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRADE, UNLOCK_BASE);
     }
 
     public static void updateNewWallet(ServerLevel world) {

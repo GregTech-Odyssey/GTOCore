@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction.recipe.entry;
+package com.gtocore.data.transaction.manager;
 
 import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
@@ -49,7 +49,7 @@ public class UpgradeOrUnlockManager {
     @Nullable
     public TradeEntry getTradeEntry(String key, int index) {
         List<TradeEntry> tradeList = upgradeOrUnlockGroups.get(key);
-        if (tradeList == null || index < 0 || index > tradeList.size()) {
+        if (tradeList == null || index < 0 || index >= tradeList.size()) {
             return null;
         }
         return tradeList.get(index);

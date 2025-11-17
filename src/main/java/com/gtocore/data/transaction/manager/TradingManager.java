@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction.recipe.entry;
+package com.gtocore.data.transaction.manager;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import lombok.Getter;

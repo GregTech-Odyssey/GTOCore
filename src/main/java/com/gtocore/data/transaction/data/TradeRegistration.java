@@ -1,6 +1,9 @@
-package com.gtocore.data.transaction.recipe.entry;
+package com.gtocore.data.transaction.data;
 
 import com.gtocore.data.transaction.common.TradingStationMachine;
+import com.gtocore.data.transaction.data.trade.upgradeTrade;
+import com.gtocore.data.transaction.manager.TradeEntry;
+import com.gtocore.data.transaction.manager.TradingManager;
 
 import com.gtolib.GTOCore;
 
@@ -25,6 +28,7 @@ import java.util.List;
 public class TradeRegistration {
 
     public static void init() {
+        upgradeTrade.init();
         registerTestData();
     }
 
@@ -36,7 +40,7 @@ public class TradeRegistration {
             .outputItem(new ItemStack(Items.BREAD, 1)) // 输出1个面包
             .preCheck((context, entry) -> {
                 // 额外检查：玩家背包至少有10个木头（实际需结合context实现）
-                return true;
+                return Integer.MAX_VALUE;
             })
             .onExecute((context, multiplier, entry) -> {
                 // 执行逻辑：扣减木头，添加面包（实际需操作玩家背包）
@@ -67,12 +71,12 @@ public class TradeRegistration {
     }
 
     // 前置检查逻辑：3x3区域有草方块且在丛林群系
-    private static boolean checkJungleAndGrass(TradingStationMachine machine, TradeEntry entry) {
+    private static int checkJungleAndGrass(TradingStationMachine machine, TradeEntry entry) {
         Level level = machine.getLevel();
 
         // 关键：仅服务端执行，客户端直接返回false（避免客户端调用）
         if (level == null || level.isClientSide()) {
-            return false;
+            return 0;
         }
 
         GTOCore.LOGGER.info("run checkJungleAndGrass");
@@ -95,7 +99,7 @@ public class TradeRegistration {
             if (hasGrassIn3x3) break;
         }
 
-        return hasGrassIn3x3; // 同时满足群系和草方块条件才返回true
+        return Integer.MAX_VALUE; // 同时满足群系和草方块条件才返回true
     }
 
     // 执行逻辑：在交易坐标生成信标
@@ -158,22 +162,6 @@ public class TradeRegistration {
                     }
                 }
             }
-        }
-
-        System.out.println("已成功注册测试交易数据！");
-        System.out.println(" - 商店组数量: " + NUMBER_OF_GROUPS);
-        System.out.println(" - 每个组商店数量: " + SHOPS_PER_GROUP);
-        System.out.println(" - 每个商店交易条目数量: " + testTrades.size());
-
-        UpgradeOrUnlockManager upgradeOrUnlockManager = UpgradeOrUnlockManager.getInstance();
-        int k = 6;
-        for (String key : TradingStationMachine.UpgradeKeys.ALL_KEYS) {
-            for (TradeEntry templateEntry : testTrades) {
-                for (int i = 2; i < k; i++) {
-                    upgradeOrUnlockManager.addTradeToEntry(key, templateEntry);
-                }
-            }
-            k += 5;
         }
     }
 

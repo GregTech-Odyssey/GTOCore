@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction.recipe.entry;
+package com.gtocore.data.transaction.manager;
 
 import com.gtocore.data.transaction.common.TradingStationMachine;
 
@@ -57,8 +57,9 @@ public record TradeEntry(
     /**
      * 执行交易前的额外条件检查
      */
-    public boolean canExecute(TradingStationMachine machine) {
-        return preCheck == null || preCheck.test(machine, this);
+    public int canExecuteCount(TradingStationMachine machine) {
+        if (preCheck == null) return -1;
+        return preCheck.test(machine, this);
     }
 
     /**
@@ -142,16 +143,18 @@ public record TradeEntry(
      */
     public void execute(TradingStationMachine machine, int requestedMultiplier) {
         if (!(machine.getLevel() instanceof ServerLevel)) return;
-        // 先检查是否可执行
-        if (!canExecute(machine)) return;
-        // 获取最大可执行次数
-        requestedMultiplier = Math.min(requestedMultiplier, checkInputEnough(machine));
         if (requestedMultiplier <= 0) return;
-        // 执行资源变更（扣减输入+添加输出）
-        executeTrade(machine, requestedMultiplier);
-        // 执行回调（原有逻辑保留）
+        int preCheckMaxCount = canExecuteCount(machine);
+        if (preCheckMaxCount == 0) return;
+        else if (preCheckMaxCount > 0) {
+            requestedMultiplier = Math.min(requestedMultiplier, preCheckMaxCount);
+        }
+        int resourceMaxCount = checkInputEnough(machine);
+        if (resourceMaxCount <= 0) return;
+        int finalMultiplier = Math.min(requestedMultiplier, resourceMaxCount);
+        executeTrade(machine, finalMultiplier);
         if (onExecute != null) {
-            onExecute.run(machine, requestedMultiplier, this);
+            onExecute.run(machine, finalMultiplier, this);
         }
     }
 
@@ -269,7 +272,7 @@ public record TradeEntry(
     @FunctionalInterface
     public interface PreTradeCheck {
 
-        boolean test(TradingStationMachine machine, TradeEntry entry);
+        int test(TradingStationMachine machine, TradeEntry entry);
     }
 
     @FunctionalInterface
