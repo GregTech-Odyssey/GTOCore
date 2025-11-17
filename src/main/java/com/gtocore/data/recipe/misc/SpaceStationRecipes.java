@@ -140,8 +140,6 @@ public class SpaceStationRecipes {
             return this;
         }
 
-        private static final AtomicInteger circuitMeta = new AtomicInteger(0);
-
         public void build() {
             GTDynamicDataPack.addRecipe(new FinishedRecipe() {
 
