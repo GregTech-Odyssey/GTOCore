@@ -57,9 +57,9 @@ public class TradingManager {
     }
 
     /** 获取指定商店内的交易条目数量 */
-    public int getTransactionCount(int groupIndex, int shopIndex) {
+    public int getTradeCount(int groupIndex, int shopIndex) {
         TradingShop shop = getShopByIndices(groupIndex, shopIndex);
-        return shop.getTransactionCount();
+        return shop.getTradeCount();
     }
 
     /**
@@ -70,7 +70,7 @@ public class TradingManager {
      * @param entryIndex 交易条目在商店内的索引（0开始）
      * @return 索引全部有效返回true，否则返回false
      */
-    public boolean isTransactionIndexValid(int groupIndex, int shopIndex, int entryIndex) {
+    public boolean isTradeIndexValid(int groupIndex, int shopIndex, int entryIndex) {
         // 1. 校验组索引
         if (groupIndex < 0 || groupIndex >= getGroupCount()) {
             return false;
@@ -82,7 +82,7 @@ public class TradingManager {
         }
         // 3. 校验交易条目索引
         TradingShop shop = getShopByIndices(groupIndex, shopIndex);
-        return entryIndex >= 0 && entryIndex < shop.getTransactionCount();
+        return entryIndex >= 0 && entryIndex < shop.getTradeCount();
     }
 
     // ------------------------------ 元素添加（仅保留3个核心便捷方法）------------------------------
@@ -105,10 +105,10 @@ public class TradingManager {
     }
 
     /** 向指定商店添加交易条目 */
-    public void addTransactionEntryByIndices(int groupIndex, int shopIndex, @Nullable TransactionEntry entry) {
+    public void addTradeEntryByIndices(int groupIndex, int shopIndex, @Nullable TradeEntry entry) {
         if (entry == null) return;
         TradingShop shop = getShopByIndices(groupIndex, shopIndex);
-        shop.addTransactionEntry(entry);
+        shop.addTradeEntry(entry);
     }
 
     // ------------------------------ 元素获取（仅保留3个核心索引获取方法）------------------------------
@@ -131,11 +131,11 @@ public class TradingManager {
 
     /** 通过「组索引+商店索引+条目索引」获取交易条目（索引无效抛异常） */
     @NotNull
-    public TransactionEntry getTransactionEntryByIndices(int groupIndex, int shopIndex, int entryIndex) {
+    public TradeEntry getTradeEntryByIndices(int groupIndex, int shopIndex, int entryIndex) {
         TradingShop shop = getShopByIndices(groupIndex, shopIndex);
 
-        TransactionEntry entry = shop.getTransactionEntry(entryIndex);
-        checkNotNull(entry, "Transaction Entry", entryIndex, shop.getTransactionCount() - 1);
+        TradeEntry entry = shop.getTradeEntry(entryIndex);
+        checkNotNull(entry, "Trade Entry", entryIndex, shop.getTradeCount() - 1);
         return entry;
     }
 
@@ -184,7 +184,7 @@ public class TradingManager {
         private final String name;
         private final String unlockCondition;
         private final IGuiTexture texture;
-        private final List<TransactionEntry> transactionEntries = Collections.synchronizedList(new ArrayList<>());
+        private final List<TradeEntry> tradeEntries = Collections.synchronizedList(new ArrayList<>());
 
         private TradingShop(@NotNull String name, @Nullable String unlockCondition, @Nullable IGuiTexture texture) {
             this.name = name;
@@ -193,19 +193,19 @@ public class TradingManager {
         }
 
         /** 向本商店添加交易条目 */
-        public void addTransactionEntry(@Nullable TransactionEntry entry) {
-            if (entry != null) transactionEntries.add(entry);
+        public void addTradeEntry(@Nullable TradeEntry entry) {
+            if (entry != null) tradeEntries.add(entry);
         }
 
         /** 获取本商店内交易条目数量 */
-        public int getTransactionCount() {
-            return transactionEntries.size();
+        public int getTradeCount() {
+            return tradeEntries.size();
         }
 
         /** 通过索引获取本商店内交易条目（索引无效返回null） */
         @Nullable
-        public TransactionEntry getTransactionEntry(int index) {
-            return isIndexValid(index, getTransactionCount()) ? transactionEntries.get(index) : null;
+        public TradeEntry getTradeEntry(int index) {
+            return isIndexValid(index, getTradeCount()) ? tradeEntries.get(index) : null;
         }
     }
 }

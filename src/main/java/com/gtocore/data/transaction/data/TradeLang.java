@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import java.util.Map;
 
-public class TransactionLang {
+public class TradeLang {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
@@ -30,7 +30,7 @@ public class TransactionLang {
 
     public static final String UNLOCK_SHOP_GROUP = "unlock_shop_group";
     public static final String UNLOCK_SHOP = "unlock_shop";
-    public static final String UNLOCK_TRANSACTION = "unlock_transaction";
+    public static final String UNLOCK_TRADE = "unlock_trade";
 
     static {
 

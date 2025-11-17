@@ -1,8 +1,8 @@
 package com.gtocore.data.transaction.recipe;
 
 import com.gtocore.data.transaction.common.TradingStationMachine;
+import com.gtocore.data.transaction.recipe.entry.TradeEntry;
 import com.gtocore.data.transaction.recipe.entry.TradingManager;
-import com.gtocore.data.transaction.recipe.entry.TransactionEntry;
 import com.gtocore.data.transaction.recipe.entry.UpgradeOrUnlockManager;
 
 import com.gtolib.GTOCore;
@@ -23,15 +23,15 @@ import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import java.util.List;
 
 /**
- * 交易实例注册示例：展示如何使用TransactionEntry构建具体交易
+ * 交易实例注册示例：展示如何使用TradeEntry构建具体交易
  */
-public class TransactionRegistration {
+public class TradeRegistration {
 
     public static void init() {
         registerTestData();
     }
 
-    public static TransactionEntry trade = new TransactionEntry.Builder()
+    public static TradeEntry trade = new TradeEntry.Builder()
             .texture(new ItemStackTexture(Items.BREAD)) // 图标用面包
             .description(List.of(Component.literal("10个木头 → 1个面包")))
             .unlockCondition("无解锁条件")
@@ -47,8 +47,8 @@ public class TransactionRegistration {
             .build();
 
     // 创建交易条目实例
-    public static TransactionEntry createJungleBeaconTrade() {
-        return new TransactionEntry.Builder()
+    public static TradeEntry createJungleBeaconTrade() {
+        return new TradeEntry.Builder()
                 // 设置UI显示：信标图标+描述
                 .texture(new ItemStackTexture(Blocks.BEACON.asItem()))
                 .description(List.of(
@@ -62,15 +62,15 @@ public class TransactionRegistration {
                 .inputItem(new ItemStack(Items.EMERALD, 10)) // 10个绿宝石（假设"emerald"是绿宝石货币ID）
 
                 // 前置检查：3x3区域有草方块 + 丛林群系
-                .preCheck(TransactionRegistration::checkJungleAndGrass)
+                .preCheck(TradeRegistration::checkJungleAndGrass)
 
                 // 执行逻辑：在坐标生成信标
-                .onExecute(TransactionRegistration::spawnBeaconAtPos)
+                .onExecute(TradeRegistration::spawnBeaconAtPos)
                 .build();
     }
 
     // 前置检查逻辑：3x3区域有草方块且在丛林群系
-    private static boolean checkJungleAndGrass(TradingStationMachine machine, TransactionEntry entry) {
+    private static boolean checkJungleAndGrass(TradingStationMachine machine, TradeEntry entry) {
         Level level = machine.getLevel();
 
         // 关键：仅服务端执行，客户端直接返回false（避免客户端调用）
@@ -102,7 +102,7 @@ public class TransactionRegistration {
     }
 
     // 执行逻辑：在交易坐标生成信标
-    private static void spawnBeaconAtPos(TradingStationMachine machine, int multiplier, TransactionEntry entry) {
+    private static void spawnBeaconAtPos(TradingStationMachine machine, int multiplier, TradeEntry entry) {
         Level world = machine.getLevel();
         BlockPos pos = machine.getPos();
 
@@ -118,7 +118,6 @@ public class TransactionRegistration {
     // --- 可配置的测试参数 ---
     private static final int NUMBER_OF_GROUPS = 10;    // 创建3个商店组
     private static final int SHOPS_PER_GROUP = 1;     // 每个组创建2个商店
-    private static final boolean USE_UNIQUE_NAMES = true; // 为每个交易条目使用唯一名称（用于测试识别）
 
     /**
      * 执行批量注册。
@@ -128,7 +127,7 @@ public class TransactionRegistration {
         TradingManager manager = TradingManager.getInstance();
 
         // 1. 定义测试用的交易条目模板
-        List<TransactionEntry> testTransactions = createTestTransactionTemplates();
+        List<TradeEntry> testTrades = createTestTradeTemplates();
 
         // 2. 循环创建商店组
         for (int groupIndex = 0; groupIndex < NUMBER_OF_GROUPS; groupIndex++) {
@@ -157,8 +156,8 @@ public class TransactionRegistration {
 
                 // 4. 向当前商店添加所有测试交易条目
                 for (int i = 3; i < shopIndex * 2 + 5; i++) {
-                    for (TransactionEntry templateEntry : testTransactions) {
-                        manager.addTransactionEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
+                    for (TradeEntry templateEntry : testTrades) {
+                        manager.addTradeEntryByIndices(registeredGroupIndex, registeredShopIndex, templateEntry);
                     }
                 }
             }
@@ -167,14 +166,14 @@ public class TransactionRegistration {
         System.out.println("已成功注册测试交易数据！");
         System.out.println(" - 商店组数量: " + NUMBER_OF_GROUPS);
         System.out.println(" - 每个组商店数量: " + SHOPS_PER_GROUP);
-        System.out.println(" - 每个商店交易条目数量: " + testTransactions.size());
+        System.out.println(" - 每个商店交易条目数量: " + testTrades.size());
 
         UpgradeOrUnlockManager upgradeOrUnlockManager = UpgradeOrUnlockManager.getInstance();
         int k = 6;
         for (String key : TradingStationMachine.UpgradeKeys.ALL_KEYS) {
             for (int i = 2; i < k; i++) {
-                for (TransactionEntry templateEntry : testTransactions) {
-                    upgradeOrUnlockManager.addTransactionToEntry(key, templateEntry);
+                for (TradeEntry templateEntry : testTrades) {
+                    upgradeOrUnlockManager.addTradeToEntry(key, templateEntry);
                 }
             }
             k += 5;
@@ -187,9 +186,9 @@ public class TransactionRegistration {
      * 
      * @return 测试交易条目列表
      */
-    private static List<TransactionEntry> createTestTransactionTemplates() {
-        // 示例1: 木头换面包 (来自 TransactionRegistration)
-        TransactionEntry woodForBread = new TransactionEntry.Builder()
+    private static List<TradeEntry> createTestTradeTemplates() {
+        // 示例1: 木头换面包 (来自 TradeRegistration)
+        TradeEntry woodForBread = new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Items.BREAD))
                 .description(List.of(Component.literal("10个木头 → 1个面包")))
                 .unlockCondition("无解锁条件")
@@ -197,11 +196,11 @@ public class TransactionRegistration {
                 .outputItem(new ItemStack(Items.BREAD, 1))
                 .build();
 
-        // 示例2: 绿宝石换信标 (来自 TransactionRegistration)
-        TransactionEntry emeraldForBeacon = TransactionRegistration.createJungleBeaconTrade();
+        // 示例2: 绿宝石换信标 (来自 TradeRegistration)
+        TradeEntry emeraldForBeacon = TradeRegistration.createJungleBeaconTrade();
 
         // 示例3: 新的测试交易 - 石头换 cobblestone
-        TransactionEntry stoneForCobblestone = new TransactionEntry.Builder()
+        TradeEntry stoneForCobblestone = new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Items.COBBLESTONE))
                 .description(List.of(Component.literal("1个石头 → 2个圆石")))
                 .unlockCondition("null")
@@ -210,7 +209,7 @@ public class TransactionRegistration {
                 .build();
 
         // 示例4: 新的测试交易 - 水和岩浆换黑曜石
-        TransactionEntry fluidsForObsidian = new TransactionEntry.Builder()
+        TradeEntry fluidsForObsidian = new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Items.OBSIDIAN))
                 .description(List.of(Component.literal("1桶水 + 1桶岩浆 → 1个黑曜石")))
                 .unlockCondition("null")
@@ -220,7 +219,7 @@ public class TransactionRegistration {
                 .build();
 
         // 示例5: 新的测试交易 - 使用货币
-        TransactionEntry currencyForDiamond = new TransactionEntry.Builder()
+        TradeEntry currencyForDiamond = new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Items.DIAMOND))
                 .description(List.of(Component.literal("1000单位货币 → 1个钻石")))
                 .unlockCondition("需要解锁货币系统")

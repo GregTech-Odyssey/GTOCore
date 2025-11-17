@@ -21,7 +21,7 @@ public class UpgradeOrUnlockManager {
 
     private UpgradeOrUnlockManager() {}
 
-    private final O2OOpenCacheHashMap<String, List<TransactionEntry>> upgradeOrUnlockGroups = new O2OOpenCacheHashMap<>();
+    private final O2OOpenCacheHashMap<String, List<TradeEntry>> upgradeOrUnlockGroups = new O2OOpenCacheHashMap<>();
 
     /** 获取组的数量 */
     public int getGroupCount() {
@@ -29,29 +29,29 @@ public class UpgradeOrUnlockManager {
     }
 
     /** 获取指定组（key）下的交易条目数量 */
-    public int getEntryTransactionCount(String key) {
+    public int getEntryTradeCount(String key) {
         return upgradeOrUnlockGroups.getOrDefault(key, new ArrayList<>()).size();
     }
 
     /** 向指定组（key）添加一个交易条目 */
-    public void addTransactionToEntry(String key, @Nullable TransactionEntry entry) {
+    public void addTradeToEntry(String key, @Nullable TradeEntry entry) {
         if (entry == null) return;
         upgradeOrUnlockGroups.computeIfAbsent(key, k -> new ArrayList<>()).add(entry);
     }
 
     /** 获取指定组（key）下的所有交易条目 */
-    public List<TransactionEntry> getTransactionEntryList(String key) {
-        List<TransactionEntry> entries = upgradeOrUnlockGroups.getOrDefault(key, new ArrayList<>());
+    public List<TradeEntry> getTradeEntryList(String key) {
+        List<TradeEntry> entries = upgradeOrUnlockGroups.getOrDefault(key, new ArrayList<>());
         return Collections.unmodifiableList(entries);
     }
 
     /** 通过组的键和索引获取一个交易条目 */
     @Nullable
-    public TransactionEntry getTransactionEntry(String key, int index) {
-        List<TransactionEntry> transactionList = upgradeOrUnlockGroups.get(key);
-        if (transactionList == null || index < 0 || index > transactionList.size()) {
+    public TradeEntry getTradeEntry(String key, int index) {
+        List<TradeEntry> tradeList = upgradeOrUnlockGroups.get(key);
+        if (tradeList == null || index < 0 || index > tradeList.size()) {
             return null;
         }
-        return transactionList.get(index);
+        return tradeList.get(index);
     }
 }

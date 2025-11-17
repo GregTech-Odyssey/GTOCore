@@ -27,29 +27,29 @@ import static com.gtocore.data.transaction.common.TradingStationTool.*;
 /**
  * 游戏内交易条目，封装交易的显示信息、输入输出资源、检查条件和执行逻辑。
  */
-public record TransactionEntry(
-                               // 界面渲染材质
-                               IGuiTexture texture,
-                               // 交易描述
-                               List<Component> description,
-                               // 解锁条件文本
-                               String unlockCondition,
-                               // 交易前额外检查逻辑
-                               PreTransactionCheck preCheck,
-                               // 交易执行回调逻辑
-                               TransactionRunnable onExecute,
-                               // 输入资源组
-                               TransactionGroup inputGroup,
-                               // 输出资源组
-                               TransactionGroup outputGroup) {
+public record TradeEntry(
+                         // 界面渲染材质
+                         IGuiTexture texture,
+                         // 交易描述
+                         List<Component> description,
+                         // 解锁条件文本
+                         String unlockCondition,
+                         // 交易前额外检查逻辑
+                         PreTradeCheck preCheck,
+                         // 交易执行回调逻辑
+                         TradeRunnable onExecute,
+                         // 输入资源组
+                         TradeGroup inputGroup,
+                         // 输出资源组
+                         TradeGroup outputGroup) {
 
     /**
      * 紧凑构造器
      */
-    public TransactionEntry {
+    public TradeEntry {
         description = List.copyOf(description != null ? description : List.of());
-        inputGroup = inputGroup != null ? inputGroup : new TransactionGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
-        outputGroup = outputGroup != null ? outputGroup : new TransactionGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
+        inputGroup = inputGroup != null ? inputGroup : new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
+        outputGroup = outputGroup != null ? outputGroup : new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
     }
 
     // ------------------- 核心业务方法 -------------------
@@ -98,7 +98,7 @@ public record TransactionEntry(
     /**
      * 运行交易的实际输入输出
      */
-    private void executeTransaction(TradingStationMachine machine, int multiplier) {
+    private void executeTrade(TradingStationMachine machine, int multiplier) {
         if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return;
 
         if (!inputGroup().items().isEmpty()) {
@@ -148,7 +148,7 @@ public record TransactionEntry(
         requestedMultiplier = Math.min(requestedMultiplier, checkInputEnough(machine));
         if (requestedMultiplier <= 0) return;
         // 执行资源变更（扣减输入+添加输出）
-        executeTransaction(machine, requestedMultiplier);
+        executeTrade(machine, requestedMultiplier);
         // 执行回调（原有逻辑保留）
         if (onExecute != null) {
             onExecute.run(machine, requestedMultiplier, this);
@@ -163,60 +163,60 @@ public record TransactionEntry(
     }
 
     // ------------------- 内部类：交易资源组 -------------------
-    public record TransactionGroup(
-                                   List<ItemStack> items,
-                                   List<FluidStack> fluids,
-                                   O2LOpenCacheHashMap<String> currencies,
-                                   BigInteger energy,
-                                   BigInteger mana) {
+    public record TradeGroup(
+                             List<ItemStack> items,
+                             List<FluidStack> fluids,
+                             O2LOpenCacheHashMap<String> currencies,
+                             BigInteger energy,
+                             BigInteger mana) {
 
         /**
          * 紧凑构造器
          */
-        public TransactionGroup {
+        public TradeGroup {
             items = List.copyOf(items);
             fluids = List.copyOf(fluids);
             currencies = new O2LOpenCacheHashMap<>(currencies);
         }
 
         // ------------------- 资源操作 -------------------
-        public TransactionGroup addItem(ItemStack stack) {
+        public TradeGroup addItem(ItemStack stack) {
             if (stack.isEmpty()) return this;
             List<ItemStack> newItems = Stream.concat(this.items.stream(), Stream.of(stack)).toList();
-            return new TransactionGroup(newItems, this.fluids, this.currencies, this.energy, this.mana);
+            return new TradeGroup(newItems, this.fluids, this.currencies, this.energy, this.mana);
         }
 
-        public TransactionGroup addFluid(FluidStack stack) {
+        public TradeGroup addFluid(FluidStack stack) {
             if (stack.isEmpty()) return this;
             List<FluidStack> newFluids = Stream.concat(this.fluids.stream(), Stream.of(stack)).toList();
-            return new TransactionGroup(this.items, newFluids, this.currencies, this.energy, this.mana);
+            return new TradeGroup(this.items, newFluids, this.currencies, this.energy, this.mana);
         }
 
-        public TransactionGroup addCurrency(String currencyId, long amount) {
+        public TradeGroup addCurrency(String currencyId, long amount) {
             if (amount <= 0) return this;
             O2LOpenCacheHashMap<String> newCurrencies = new O2LOpenCacheHashMap<>(this.currencies);
             newCurrencies.put(currencyId, amount);
-            return new TransactionGroup(this.items, this.fluids, newCurrencies, this.energy, this.mana);
+            return new TradeGroup(this.items, this.fluids, newCurrencies, this.energy, this.mana);
         }
 
-        public TransactionGroup withEnergy(BigInteger energy) {
-            return new TransactionGroup(this.items, this.fluids, this.currencies, energy, this.mana);
+        public TradeGroup withEnergy(BigInteger energy) {
+            return new TradeGroup(this.items, this.fluids, this.currencies, energy, this.mana);
         }
 
-        public TransactionGroup withMana(BigInteger mana) {
-            return new TransactionGroup(this.items, this.fluids, this.currencies, this.energy, mana);
+        public TradeGroup withMana(BigInteger mana) {
+            return new TradeGroup(this.items, this.fluids, this.currencies, this.energy, mana);
         }
 
-        public TransactionGroup withEnergy(long energy) {
+        public TradeGroup withEnergy(long energy) {
             return withEnergy(BigInteger.valueOf(energy));
         }
 
-        public TransactionGroup withMana(long mana) {
+        public TradeGroup withMana(long mana) {
             return withMana(BigInteger.valueOf(mana));
         }
 
         /**
-         * 检查当前 TransactionGroup 是否所有字段都为空（或无效）。
+         * 检查当前 TradeGroup 是否所有字段都为空（或无效）。
          */
         public boolean isEmpty() {
             boolean isItemsEmpty = items.stream().allMatch(ItemStack::isEmpty);
@@ -231,8 +231,8 @@ public record TransactionEntry(
             List<Component> list = new ArrayList<>();
             ChatFormatting color = input_output ? ChatFormatting.DARK_RED : ChatFormatting.DARK_GREEN;
             list.add(Component.literal("- ").withStyle(color)
-                    .append(input_output ? Component.translatable("gtocore.transaction_group.true").withStyle(ChatFormatting.DARK_RED) :
-                            Component.translatable("gtocore.transaction_group.false").withStyle(ChatFormatting.DARK_GREEN)));
+                    .append(input_output ? Component.translatable("gtocore.trade_group.true").withStyle(ChatFormatting.DARK_RED) :
+                            Component.translatable("gtocore.trade_group.false").withStyle(ChatFormatting.DARK_GREEN)));
             for (ItemStack itemStack : items) {
                 list.add(Component.literal("- ").withStyle(color)
                         .append(Component.literal(String.valueOf(itemStack.getCount())).withStyle(ChatFormatting.AQUA))
@@ -267,15 +267,15 @@ public record TransactionEntry(
 
     // ------------------- 函数式接口 -------------------
     @FunctionalInterface
-    public interface PreTransactionCheck {
+    public interface PreTradeCheck {
 
-        boolean test(TradingStationMachine machine, TransactionEntry entry);
+        boolean test(TradingStationMachine machine, TradeEntry entry);
     }
 
     @FunctionalInterface
-    public interface TransactionRunnable {
+    public interface TradeRunnable {
 
-        void run(TradingStationMachine machine, int multiplier, TransactionEntry entry);
+        void run(TradingStationMachine machine, int multiplier, TradeEntry entry);
     }
 
     // ------------------- 链式构建器（唯一配置入口） -------------------
@@ -284,10 +284,10 @@ public record TransactionEntry(
         private IGuiTexture texture;
         private List<Component> description = List.of();
         private String unlockCondition;
-        private PreTransactionCheck preCheck;
-        private TransactionRunnable onExecute;
-        private TransactionGroup inputGroup = new TransactionGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
-        private TransactionGroup outputGroup = new TransactionGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
+        private PreTradeCheck preCheck;
+        private TradeRunnable onExecute;
+        private TradeGroup inputGroup = new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
+        private TradeGroup outputGroup = new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
 
         // ------------------- 配置方法（链式调用） -------------------
         public Builder texture(IGuiTexture texture) {
@@ -305,12 +305,12 @@ public record TransactionEntry(
             return this;
         }
 
-        public Builder preCheck(PreTransactionCheck check) {
+        public Builder preCheck(PreTradeCheck check) {
             this.preCheck = check;
             return this;
         }
 
-        public Builder onExecute(TransactionRunnable runnable) {
+        public Builder onExecute(TradeRunnable runnable) {
             this.onExecute = runnable;
             return this;
         }
@@ -368,10 +368,10 @@ public record TransactionEntry(
         }
 
         /**
-         * 构建不可变 TransactionEntry 实例
+         * 构建不可变 TradeEntry 实例
          */
-        public TransactionEntry build() {
-            return new TransactionEntry(
+        public TradeEntry build() {
+            return new TradeEntry(
                     texture,
                     description,
                     unlockCondition,

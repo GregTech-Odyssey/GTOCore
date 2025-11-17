@@ -9,7 +9,7 @@ import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.misc.OrganType;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformTemplateStorage;
 import com.gtocore.data.recipe.research.AnalyzeData;
-import com.gtocore.data.transaction.data.TransactionLang;
+import com.gtocore.data.transaction.data.TradeLang;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider;
@@ -73,7 +73,7 @@ public final class LangHandler {
         ScanningClass.LANG.forEach(LangHandler::addCNEN);
         DynamicInitialData.LANG.forEach(LangHandler::addCNEN);
         TranslationKeyProvider.LANG.forEach(LangHandler::addCNEN);
-        TransactionLang.LANG.forEach(LangHandler::addCNEN);
+        TradeLang.LANG.forEach(LangHandler::addCNEN);
         for (var reasons : IdleReason.values()) {
             if (reasons.getEn() == null) continue;
             addCNEN(reasons.getKey(), reasons.getCn(), reasons.getEn());

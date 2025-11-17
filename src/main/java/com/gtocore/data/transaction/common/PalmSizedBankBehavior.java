@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static com.gtocore.common.item.GrayMembershipCardItem.createWithUuidAndSharedList;
-import static com.gtocore.data.transaction.data.TransactionLang.*;
+import static com.gtocore.data.transaction.data.TradeLang.*;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -230,7 +230,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
             @DescSynced
             private boolean confirm1 = false;
             @DescSynced
-            private int transactionAmount = 0;
+            private int tradeAmount = 0;
 
             final int width = 256;
             final int height = 144;
@@ -286,11 +286,11 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 }).clickHandler((a, b) -> {
                     if (a.equals("confirm2")) {
                         long Amount = WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, string);
-                        if (Amount >= transactionAmount) {
-                            WalletUtils.subtractCurrency(player.getUUID(), serverLevel, string, transactionAmount);
-                            WalletUtils.addCurrency(uuid, serverLevel, string, transactionAmount);
+                        if (Amount >= tradeAmount) {
+                            WalletUtils.subtractCurrency(player.getUUID(), serverLevel, string, tradeAmount);
+                            WalletUtils.addCurrency(uuid, serverLevel, string, tradeAmount);
                         } else {
-                            transactionAmount = Math.toIntExact(Amount);
+                            tradeAmount = Math.toIntExact(Amount);
                         }
                     } else {
                         string = a;
@@ -299,9 +299,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 }));
 
                 SimpleNumberInputWidget amountInput = new SimpleNumberInputWidget(width / 2 + 5, 4 + 31, width / 2 - 17, 8,
-                        () -> transactionAmount,
+                        () -> tradeAmount,
                         (newValue) -> {
-                            transactionAmount = newValue;
+                            tradeAmount = newValue;
                             confirm1 = false;
                         });
                 mainGroup.addWidget(amountInput);
@@ -317,7 +317,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
     /**
      * 交易记录
      */
-    private @NotNull IFancyUIProvider transactionRecords(PalmSizedBankBehavior parentBehavior) {
+    private @NotNull IFancyUIProvider tradeRecords(PalmSizedBankBehavior parentBehavior) {
         return new IFancyUIProvider() {
 
             @Override
@@ -473,7 +473,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 {
                     mainGroup.addWidget(new ComponentPanelWidget(0, 0,
                             list -> list.add(ComponentPanelWidget.withButton(Component.literal("add"), "add wallet")))
-                            .clickHandler((a, b) -> WalletUtils.addTagToWallet(player.getUUID(), serverLevel, UNLOCK_TRANSACTION, "null")));
+                            .clickHandler((a, b) -> WalletUtils.addTagToWallet(player.getUUID(), serverLevel, UNLOCK_TRADE, "null")));
 
                 }
 
@@ -603,7 +603,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         sideTabs.setMainTab(this);
         sideTabs.attachSubTab(assetOverview(this));
         sideTabs.attachSubTab(transfer(this));
-        sideTabs.attachSubTab(transactionRecords(this));
+        sideTabs.attachSubTab(tradeRecords(this));
         sideTabs.attachSubTab(tagList(this));
         sideTabs.attachSubTab(generateCard(this));
     }
@@ -619,7 +619,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP_GROUP, "null");
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, "null");
-        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRANSACTION, "null");
+        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRADE, "null");
     }
 
     public static void updateNewWallet(ServerLevel world) {
