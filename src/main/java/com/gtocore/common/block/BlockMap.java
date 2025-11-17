@@ -15,6 +15,8 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -53,6 +55,8 @@ public final class BlockMap {
     public static final Int2ObjectMap<Supplier<?>> COMPUTER_HEAT_MAP = new Int2ObjectOpenHashMap<>();
 
     public static final Int2ObjectMap<Supplier<?>> HERMETIC_CASING = new Int2ObjectOpenHashMap<>();
+
+    public static final Reference2ObjectOpenHashMap<Block, String> BLOCK_CATEGORY_MAP = new Reference2ObjectOpenHashMap<>();
 
     public static void init() {
         GLASSMAP.put(2, GTBlocks.CASING_TEMPERED_GLASS);
@@ -120,6 +124,12 @@ public final class BlockMap {
     @RegisterLanguage(namePrefix = namePrefix, cn = "密封机械方块", en = "Hermetic Casing")
     public static final String hermetic_casing = "hermetic_casing";
 
+    @RegisterLanguage(namePrefix = namePrefix, cn = "消声仓", en = "Muffler Hatch")
+    public static final String muffler_hatch = "muffler_hatch";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "维护仓", en = "Maintenance Hatch")
+    public static final String maintenance_hatch = "maintenance_hatch";
+
     public static void build() {
         var coils = new ArrayList<>(GTCEuAPI.HEATING_COILS.entrySet());
         coils.sort(Comparator.comparingInt(entry -> entry.getKey().getTier()));
@@ -186,9 +196,20 @@ public final class BlockMap {
         Block[] hermeticCasings = arr(GTBlocks.HERMETIC_CASING_LV.get(), GTBlocks.HERMETIC_CASING_MV.get(), GTBlocks.HERMETIC_CASING_HV.get(), GTBlocks.HERMETIC_CASING_EV.get(), GTBlocks.HERMETIC_CASING_IV.get(), GTBlocks.HERMETIC_CASING_LuV.get(), GTBlocks.HERMETIC_CASING_ZPM.get(), GTBlocks.HERMETIC_CASING_UV.get(), GTBlocks.HERMETIC_CASING_UHV.get(), GTOBlocks.HERMETIC_CASING_UEV.get(), GTOBlocks.HERMETIC_CASING_UIV.get(), GTOBlocks.HERMETIC_CASING_UXV.get(), GTOBlocks.HERMETIC_CASING_OpV.get());
         Stream.of(hermeticCasings).forEach(b -> HERMETIC_CASING.put(idx.getAndIncrement(), () -> b));
         MAP.put(hermetic_casing, hermeticCasings);
+
+        MAP.forEach((category, blocks) -> {
+            for (Block block : blocks) {
+                BLOCK_CATEGORY_MAP.put(block, category);
+            }
+        });
     }
 
     public static Block[] arr(Block... blocks) {
         return blocks;
+    }
+
+    @Nullable
+    public static String getCategory(Block block) {
+        return BLOCK_CATEGORY_MAP.get(block);
     }
 }

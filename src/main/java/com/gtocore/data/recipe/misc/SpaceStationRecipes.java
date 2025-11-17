@@ -2,8 +2,10 @@ package com.gtocore.data.recipe.misc;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.SpaceMultiblock;
+import com.gtocore.common.item.OrderItem;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
@@ -12,7 +14,9 @@ import com.gtolib.utils.RLUtils;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTDimensionMarkers;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 
 import net.minecraft.core.registries.Registries;
@@ -180,6 +184,7 @@ public class SpaceStationRecipes {
             });
             var recipe = SPACE_STATION_CONSTRUCTION_RECIPES.builder(id.getPath()).dimension(dimension.getLocation());
             ingredients.forEach(i -> recipe.inputItems(i.ingredient(), i.count()));
+            recipe.outputItems(OrderItem.setTarget(GTOItems.ORDER.asStack(), GTRegistries.DIMENSION_MARKERS.getOrDefault(dimension.getLocation(), GTDimensionMarkers.OVERWORLD).getIcon()));
             recipe.save();
         }
     }

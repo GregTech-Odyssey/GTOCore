@@ -8,8 +8,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
@@ -55,13 +53,12 @@ public abstract class CuttingBoardBlockEntityMixin extends SyncedBlockEntity {
             this.playSound(SoundEvents.TRIDENT_RETURN, 1.0F, 1.0F);
             if (GTValues.RNG.nextFloat() < 0.05 && level.getBlockState(getBlockPos().below()).is(Blocks.OBSIDIAN)) {
                 level.setBlockAndUpdate(getBlockPos().below(), Blocks.CRYING_OBSIDIAN.defaultBlockState());
-                var lb = new LightningBolt(EntityType.LIGHTNING_BOLT, level);
-                lb.setPos(worldPosition.getCenter());
-                level.addFreshEntity(lb);
-            }
-            if (GTValues.RNG.nextFloat() < 0.2 && player != null) {
-                player.addEffect(new MobEffectInstance(MobEffects.POISON, 20 * 3));
-                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 20 * 10));
+                LightningBolt lb = EntityType.LIGHTNING_BOLT.create(level);
+                if (lb != null) {
+                    lb.setPos(getBlockPos().getCenter());
+                    lb.setVisualOnly(true);
+                    level.addFreshEntity(lb);
+                }
             }
         }
     }

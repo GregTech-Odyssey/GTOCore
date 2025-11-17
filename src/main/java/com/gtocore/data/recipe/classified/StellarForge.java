@@ -408,5 +408,17 @@ final class StellarForge {
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
                 .save();
+
+        STELLAR_FORGE_RECIPES.builder("blazecube_plasma")
+                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
+                .inputItems("apotheosis:gem_dust", 4)
+                .inputItems("deeperdarker:sculk_bone", 4)
+                .inputFluids(GTOMaterials.Sanguinite, 576)
+                .inputFluids(GTOMaterials.Tartarite, 576)
+                .inputFluids(GTMaterials.Blaze, 576)
+                .outputFluids(GTOMaterials.BlazeCube, FluidStorageKeys.PLASMA, 1000)
+                .EUt(31457280)
+                .duration(128)
+                .save();
     }
 }

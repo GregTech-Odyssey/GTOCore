@@ -88,7 +88,7 @@ public final class GTORecipeTypes {
     public static final RecipeType FORGE_HAMMER_RECIPES = (RecipeType) GTRecipeTypes.FORGE_HAMMER_RECIPES;
     public static final RecipeType FORMING_PRESS_RECIPES = (RecipeType) GTRecipeTypes.FORMING_PRESS_RECIPES;
     public static final RecipeType LATHE_RECIPES = (RecipeType) GTRecipeTypes.LATHE_RECIPES;
-    public static final RecipeType MIXER_RECIPES = (RecipeType) GTRecipeTypes.MIXER_RECIPES;
+    public static final RecipeType MIXER_RECIPES = (RecipeType) GTRecipeTypes.MIXER_RECIPES.setMaxIOSize(6, 3, 3, 3);
     public static final RecipeType ORE_WASHER_RECIPES = (RecipeType) GTRecipeTypes.ORE_WASHER_RECIPES;
     public static final RecipeType PACKER_RECIPES = (RecipeType) GTRecipeTypes.PACKER_RECIPES.prepareBuilder(recipeBuilder -> recipeBuilder.EUt(7).duration(20));
     public static final RecipeType POLARIZER_RECIPES = (RecipeType) GTRecipeTypes.POLARIZER_RECIPES;
