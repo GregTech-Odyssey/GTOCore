@@ -40,7 +40,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.gtocore.common.data.GTORecipeTypes.SPACE_STATION_CONSTRUCTION_RECIPES;
 import static earth.terrarium.adastra.common.registry.ModRecipeSerializers.SPACE_STATION_SERIALIZER;
@@ -139,8 +138,6 @@ public class SpaceStationRecipes {
             this.ingredients.add(IngredientHolder.of(Ingredient.of(item)));
             return this;
         }
-
-        private static final AtomicInteger circuitMeta = new AtomicInteger(0);
 
         public void build() {
             GTDynamicDataPack.addRecipe(new FinishedRecipe() {

@@ -24,8 +24,7 @@ import static com.gregtechceu.gtceu.common.data.GTItems.CARBON_FIBERS;
 import static com.gregtechceu.gtceu.common.data.GTItems.CARBON_MESH;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.*;
-import static com.gtocore.common.data.GTOItems.KEVLAR_FIBER;
-import static com.gtocore.common.data.GTOItems.WOVEN_KEVLAR;
+import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static committee.nova.mods.avaritia.init.registry.ModBlocks.blaze_cube_block;
 import static committee.nova.mods.avaritia.init.registry.ModBlocks.infinity;
@@ -245,6 +244,7 @@ public final class MaterialIgnored {
         TagPrefix.block.setIgnored(Neutron, committee.nova.mods.avaritia.init.registry.ModBlocks.neutron);
         TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
         TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
+        COIN.setIgnored(Neutron, () -> NEUTRON_COIN);
         // bolt.setIgnored(Neutron, CoreReg.neutron_bolt);
         // plateDense.setIgnored(Neutron, CoreReg.neutron_dense_plate);
         // plate.setIgnored(Neutron, CoreReg.neutron_plate);
