@@ -27,6 +27,7 @@ import static com.gtocore.api.data.tag.GTOTagPrefix.*;
 import static com.gtocore.common.data.GTOItems.KEVLAR_FIBER;
 import static com.gtocore.common.data.GTOItems.WOVEN_KEVLAR;
 import static com.gtocore.common.data.GTOMaterials.*;
+import static committee.nova.mods.avaritia.init.registry.ModBlocks.blaze_cube_block;
 import static committee.nova.mods.avaritia.init.registry.ModBlocks.infinity;
 import static committee.nova.mods.avaritia.init.registry.ModItems.*;
 import static mythicbotany.register.ModBlocks.alfsteelBlock;
@@ -212,7 +213,7 @@ public final class MaterialIgnored {
         //
         ingot.setIgnored(BlazeCube, blaze_cube);
         // nugget.setIgnored(BlazeCube, CoreReg.blaze_cube_nugget);
-        // block.setIgnored(BlazeCube, blaze_cube_block);
+        block.setIgnored(BlazeCube, blaze_cube_block);
         // plateDense.setIgnored(BlazeCube, CoreReg.blaze_cube_dense_plate);
         // plate.setIgnored(BlazeCube, CoreReg.blaze_cube_plate);
         // plateDouble.setIgnored(BlazeCube, CoreReg.blaze_cube_double_plate);

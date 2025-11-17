@@ -138,6 +138,7 @@
     "eae.TileExPatternProviderMixin",
     "eio.TravelHandlerMixin",
     "endremastered.EREnderEyeMixin",
+    "farmersdelight.CuttingBoardBlockEntityMixin",
     "ftbq.FTBQuestsCommandsMixin",
     "ftbq.QuestMixin",
     "ftbq.ToggleEditingModeMessageMixin",

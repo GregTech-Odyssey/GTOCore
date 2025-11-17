@@ -12,9 +12,9 @@ import earth.terrarium.adastra.common.registry.ModBlocks;
 import static earth.terrarium.adastra.common.registry.ModItems.GLOBES;
 import static net.minecraft.world.level.block.Blocks.IRON_BLOCK;
 
-public class GTOGlobes {
+public final class GTOGlobes {
 
-    public static class Items {
+    public static final class Items {
 
         public static final RegistryEntry<Item> TITAN_GLOBE = GLOBES.register("titan_globe", () -> new RenderedBlockItem(Blocks.TITAN_GLOBE.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
         public static final RegistryEntry<Item> PLUTO_GLOBE = GLOBES.register("pluto_globe", () -> new RenderedBlockItem(Blocks.PLUTO_GLOBE.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
@@ -27,7 +27,7 @@ public class GTOGlobes {
         public static void init() {}
     }
 
-    public static class Blocks {
+    public static final class Blocks {
 
         // titan
         public static final RegistryEntry<GlobeBlock> TITAN_GLOBE = ModBlocks.GLOBES.register("titan_globe", () -> new GlobeBlock(BlockBehaviour.Properties.copy(IRON_BLOCK).noOcclusion()));

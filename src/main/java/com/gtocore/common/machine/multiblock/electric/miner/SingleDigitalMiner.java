@@ -2,6 +2,9 @@ package com.gtocore.common.machine.multiblock.electric.miner;
 
 import com.gtocore.client.forge.ForgeClientEvent;
 
+import com.gtolib.api.machine.feature.IDigitalMiner;
+import com.gtolib.api.machine.impl.DigitalMinerLogic;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
@@ -130,7 +133,7 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
     }
 
     @Override
-    public MinerConfig getMinerConfig() {
+    public IDigitalMiner.MinerConfig getMinerConfig() {
         return new MinerConfig(getMinerArea(), silkLevel > 0 ? energyPerTick * 4 : energyPerTick, 20, (int) Math.pow(2, tier - 1), silkLevel, itemFilter, null, FluidMode.Ignore);
     }
 

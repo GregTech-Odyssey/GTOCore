@@ -347,6 +347,8 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("neutron"));
         filters.add(RLUtils.mc("diamond_lattice_block"));
         filters.add(RLUtils.mc("diamond_lattice"));
+        filters.add(RLUtils.mc("blaze_cube"));
+        filters.add(RLUtils.mc("blaze_cube_block"));
 
         // avaritia
         filters.add(RLUtils.mc("dragon_egg"));

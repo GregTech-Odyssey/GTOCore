@@ -5,6 +5,8 @@ import com.gtocore.integration.jade.provider.RecipeLogicProvider;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.feature.IDigitalMiner;
+import com.gtolib.api.machine.impl.DigitalMinerLogic;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;

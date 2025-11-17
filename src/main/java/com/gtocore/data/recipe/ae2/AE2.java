@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -40,6 +41,8 @@ public final class AE2 {
     public static void init() {
         Ae2wtlibRecipes.init();
         GTOInfCells.init();
+        VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("aesilicon"), EPPItemAndBlock.SILICON_BLOCK,
+                TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"));
         if (GTOCore.isEasy()) return;
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
@@ -310,6 +313,18 @@ public final class AE2 {
                 .outputItems("expatternprovider:assembler_matrix_wall", 2)
                 .inputFluids(GTMaterials.PolyvinylChloride, 288)
                 .EUt(GTValues.VA[GTValues.HV])
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("assembler_matrix_glass")
+                .inputItems("expatternprovider:assembler_matrix_frame")
+                .inputItems(AEItems.LOGIC_PROCESSOR.asItem(), 2)
+                .inputItems("ae2:fluix_smart_cable", 4)
+                .inputItems(GTOTagPrefix.gemFlawless, GTMaterials.NetherQuartz, 4)
+                .inputItems(CustomTags.HV_CIRCUITS)
+                .outputItems("expatternprovider:assembler_matrix_glass", 4)
+                .inputFluids(GTOMaterials.FiberglassReinforcedPlastic, 288)
+                .EUt(480)
                 .duration(100)
                 .save();
 
@@ -746,6 +761,7 @@ public final class AE2 {
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
+        filters.add(ExtendedAE.id("silicon_block"));
         if (GTOCore.isEasy()) return;
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_1k_part"));
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_4k_part"));
@@ -784,6 +800,7 @@ public final class AE2 {
         filters.add(ExtendedAE.id("water_cell"));
         filters.add(ExtendedAE.id("tape"));
         filters.add(ExtendedAE.id("assembler_matrix_wall"));
+        filters.add(ExtendedAE.id("assembler_matrix_glass"));
         filters.add(ExtendedAE.id("assembler_matrix_frame"));
         filters.add(ExtendedAE.id("assembler_matrix_crafter"));
         filters.add(ExtendedAE.id("assembler_matrix_pattern"));

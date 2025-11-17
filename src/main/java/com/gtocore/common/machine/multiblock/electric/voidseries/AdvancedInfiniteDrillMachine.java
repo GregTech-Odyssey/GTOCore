@@ -62,10 +62,12 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
         heatSubs.updateSubscription();
 
         boolean isWorking = getRecipeLogic().isWorking();
-        boolean playerWantsToHeat = !isEmpty() && inputBlast();
+        int playerWantsToHeat = !isEmpty() ? inputBlast() : 0;
+        boolean heatedByPlayer = playerWantsToHeat > 0;
 
-        if (playerWantsToHeat && currentHeat < MAX_HEAT) {
-            currentHeat++;
+        if (heatedByPlayer && currentHeat < MAX_HEAT) {
+            playerWantsToHeat = Math.min(playerWantsToHeat, MAX_HEAT - currentHeat);
+            currentHeat += playerWantsToHeat;
         }
 
         if (isWorking && process <= 0) {
@@ -82,7 +84,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
             }
         }
 
-        if (!isWorking && !playerWantsToHeat) {
+        if (!isWorking && !heatedByPlayer) {
             currentHeat = Math.max(300, currentHeat - 1);
         }
 
@@ -153,8 +155,10 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
         return 0;
     }
 
-    private boolean inputBlast() {
-        return inputFluid(GTMaterials.Blaze.getFluid(getFluidConsume()));
+    private int inputBlast() {
+        if (inputFluid(GTMaterials.Blaze.getFluid(getFluidConsume()))) return 1;
+        if (inputFluid(GTOMaterials.BlazeCube.getFluid(getFluidConsume()))) return 1000;
+        return 0;
     }
 
     private int getFluidConsume() {
