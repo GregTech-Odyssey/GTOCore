@@ -5,6 +5,7 @@ import com.gtocore.data.transaction.common.TradingStationMachine;
 import com.gtolib.api.wireless.WirelessManaContainer;
 import com.gtolib.utils.WalletUtils;
 
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
@@ -23,6 +24,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.gtocore.data.transaction.common.TradingStationTool.*;
+import static com.gtocore.data.transaction.data.TradeLang.UNLOCK_BASE;
 
 /**
  * 游戏内交易条目，封装交易的显示信息、输入输出资源、检查条件和执行逻辑。
@@ -284,9 +286,9 @@ public record TradeEntry(
     // ------------------- 链式构建器（唯一配置入口） -------------------
     public static class Builder {
 
-        private IGuiTexture texture;
+        private IGuiTexture texture = GuiTextures.GREGTECH_LOGO;
         private List<Component> description = List.of();
-        private String unlockCondition;
+        private String unlockCondition = UNLOCK_BASE;
         private PreTradeCheck preCheck;
         private TradeRunnable onExecute;
         private TradeGroup inputGroup = new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);

@@ -1,16 +1,12 @@
 package com.gtocore.data.transaction.data;
 
-import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.data.transaction.common.TradingStationMachine;
+import com.gtocore.data.transaction.data.trade.TradeGroup0;
 import com.gtocore.data.transaction.data.trade.UnlockTrade;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 
 import com.gtolib.GTOCore;
-
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -27,10 +23,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
 import java.util.List;
 
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gtocore.common.data.GTOMaterials.Adamantine;
-import static com.gtocore.common.data.GTOMaterials.Infinity;
-import static com.gtocore.data.transaction.data.TradeLang.*;
+import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 
 /**
  * 交易实例注册示例：展示如何使用TradeEntry构建具体交易
@@ -39,69 +32,32 @@ public class TradeRegistration {
 
     public static void init() {
         UnlockTrade.init();
-        registerGroup0();
+        TradeGroup0.init();
+
+        // 测试注册
         registerTestData();
     }
 
-    public static void registerGroup0() {
-        TradingManager manager = TradingManager.getInstance();
+    /**
+     * 这里是交易注册的核心
+     * <p>
+     * 交易存储在两个位置
+     * 一个在 UnlockManager 中以 O2OOpenCacheHashMap<String, List<TradeEntry>> 的形式存储
+     * 这里存储这一些交易接受，或者是阶段认证，等等不作为交易但是以交易的形式表达的操作
+     * <p>
+     * 一个存储在 TradingManager 中以 List<TradingShopGroup> - List<TradingShop> - List<TradeEntry> 多层间存储
+     * 最顶层为商店组列表，商店组最大 32个。
+     * 中层为商店组，每个商店组中最大包含 5个商店。
+     * (but. 第 0个组 最多包含两个 (有主页等内容)，第 1个组最多包含 0个 (此页为玩家交易页设置))
+     * 底层为商店，每个商店可以存储大量的交易，
+     * 从顶层到底层以各种方式分类放入
+     */
 
-        int GroupIndex = manager.addShopGroup(
-                addTradeLang("欢迎来到泛银河格雷科技", "Welcome to Pan-Galaxy Gray Technology"),
-                UNLOCK_BASE,
-                GuiTextures.GREGTECH_LOGO,
-                GuiTextures.GREGTECH_LOGO);
-
-        int ShopIndex = manager.addShopByGroupIndex(
-                GroupIndex,
-                addTradeLang("欢迎来到泛银河格雷科技销售部", "Welcome to the Pan-Galaxy Gray Technology Sales Department"),
-                UNLOCK_BASE,
-                GuiTextures.GREGTECH_LOGO);
-
-        Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity };
-
-        for (int i = 0; i < materials.length; i++) {
-            manager.addTradeEntryByIndices(GroupIndex, ShopIndex, createCoinExchangeTrade(materials[i], i));
-            manager.addTradeEntryByIndices(GroupIndex, ShopIndex, createCoinWithdrawTrade(materials[i], i));
-        }
-    }
-
-    public static TradeEntry createCoinExchangeTrade(Material material, int tier) {
-        ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
-        return new TradeEntry.Builder()
-                .texture(new ItemStackTexture(Coin))
-                .description(List.of(Component.translatable(addTradeLang("将硬币兑换为技术员币", "Exchange coins for technician coins"))))
-                .unlockCondition(UNLOCK_BASE)
-                .inputItem(Coin)
-                .outputCurrency(TECHNICIAN_COIN, 1L << (tier * 3))
-                .build();
-    }
-
-    public static TradeEntry createCoinWithdrawTrade(Material material, int tier) {
-        ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
-        return new TradeEntry.Builder()
-                .texture(new ItemStackTexture(Coin))
-                .description(List.of(Component.translatable(addTradeLang("将技术员币提款为硬币", "Technician coins can be withdrawn as coins"))))
-                .unlockCondition(UNLOCK_BASE)
-                .inputCurrency(TECHNICIAN_COIN, 1L << (tier * 3))
-                .outputItem(Coin)
-                .build();
-    }
-
-    public static TradeEntry trade = new TradeEntry.Builder()
-            .texture(new ItemStackTexture(Items.BREAD)) // 图标用面包
-            .description(List.of(Component.literal("10个木头 → 1个面包")))
-            .unlockCondition("无解锁条件")
-            .inputItem(new ItemStack(Items.OAK_WOOD, 10)) // 输入10个木头
-            .outputItem(new ItemStack(Items.BREAD, 1)) // 输出1个面包
-            .preCheck((context, entry) -> {
-                // 额外检查：玩家背包至少有10个木头（实际需结合context实现）
-                return Integer.MAX_VALUE;
-            })
-            .onExecute((context, multiplier, entry) -> {
-                // 执行逻辑：扣减木头，添加面包（实际需操作玩家背包）
-            })
-            .build();
+    /**
+     * 已经注册的商店组
+     * <p>
+     * 0 - 欢迎来到格雷科技
+     */
 
     // 创建交易条目实例
     public static TradeEntry createJungleBeaconTrade() {
@@ -264,7 +220,7 @@ public class TradeRegistration {
                 .texture(new ItemStackTexture(Items.DIAMOND))
                 .description(List.of(Component.literal("1000单位货币 → 1个钻石")))
                 .unlockCondition("需要解锁货币系统")
-                .inputCurrency("technician_coin", 1000)
+                .inputCurrency(TECH_OPERATOR_COIN, 1000)
                 .outputItem(new ItemStack(Items.DIAMOND, 1))
                 .build();
 

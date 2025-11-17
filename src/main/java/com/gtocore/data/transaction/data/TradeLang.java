@@ -27,9 +27,18 @@ public class TradeLang {
         return key;
     }
 
-    public static final String GEMS = "gems";
-    public static final String TOKENS = "tokens";
-    public static final String TECHNICIAN_COIN = "technician_coin";
+    /// - 技术员币：Tech Operator Coin
+    /// - 研究员币：Research Pioneer Coin
+    /// - 工程师币：Tech Transformer Coin
+    /// - 引航员币：Voyager Navigator Coin
+    /// - 科技执政官币：Tech Administrator Coin
+    /// - 首席科学家币：Chief Science Steward Coin
+    public static final String TECH_OPERATOR_COIN = "tech_operator_coin";
+    public static final String RESEARCH_PIONEER_COIN = "research_pioneer_coin";
+    public static final String TECH_TRANSFORMER_COIN = "tech_transformer_coin";
+    public static final String VOYAGER_NAVIGATOR_COIN = "voyager_navigator_coin";
+    public static final String TECH_ADMINISTRATOR_COIN = "tech_administrator_coin";
+    public static final String CHIEF_SCIENCE_STEWARD_COIN = "chief_science_steward_coin";
 
     public static final String UNLOCK_SHOP_GROUP = "unlock_shop_group";
     public static final String UNLOCK_SHOP = "unlock_shop";
@@ -37,10 +46,12 @@ public class TradeLang {
     public static final String UNLOCK_BASE = "base";
 
     static {
-
-        add("gtocore.currency." + GEMS, "宝石", "gems");
-        add("gtocore.currency." + TOKENS, "代币", "tokens");
-        add("gtocore.currency." + TECHNICIAN_COIN, "技术员币", "Technician Coin");
+        add("gtocore.currency." + TECH_OPERATOR_COIN, "技术员币", "Tech Operator Coin");
+        add("gtocore.currency." + RESEARCH_PIONEER_COIN, "研究员币", "Research Pioneer Coin");
+        add("gtocore.currency." + TECH_TRANSFORMER_COIN, "工程师币", "Tech Transformer Coin");
+        add("gtocore.currency." + VOYAGER_NAVIGATOR_COIN, "引航员币", "Voyager Navigator Coin");
+        add("gtocore.currency." + TECH_ADMINISTRATOR_COIN, "科技执政官币", "Tech Administrator Coin");
+        add("gtocore.currency." + CHIEF_SCIENCE_STEWARD_COIN, "首席科学家币", "Chief Science Steward Coin");
 
         add("gtocore.palm_sized_bank.textList.1", "欢迎使用掌上银行！", "Welcome to Mobile Banking!");
         add("gtocore.palm_sized_bank.textList.2", "在这里，您可以方便地管理您的虚拟资产", "Here, you can conveniently manage your virtual assets");

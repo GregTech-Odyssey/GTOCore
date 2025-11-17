@@ -313,7 +313,7 @@ object GTOMachineTooltips {
                 "As your trade evolves from sporadic exchanges to bulk circulation, those scattered chests, tedious manual operations, and chaotic permission management all become obstacles to efficiency. You need a true hub to control your interstellar business empire.",
         )
         story(
-            "格雷科技贸易站，就是这个帝国的核心。它不仅是一个商店，更是一个集存储、交易和团队协作为一体的模块化贸易中心。插入你的灰色会员卡即可绑定身份，支持团队共享权限。随着你的科技等级提升，它的存储容量和功能也会不断进化，无缝适配你从个人作坊到星际财团的成长之路。" translatedTo
+            "格雷科技贸易站，就是这个帝国的核心。它不仅是一个商店，更是一个集存储、交易和团队协作为一体的模块化贸易中心。插入你的格雷会员卡即可绑定身份，支持团队共享权限。随着你的科技等级提升，它的存储容量和功能也会不断进化，无缝适配你从个人作坊到星际财团的成长之路。" translatedTo
                 "The Gray Technology Trading Station is the core of this empire. It's more than just a shop; it's a modular trading center integrating storage, transactions, and team collaboration. Simply insert your Gray Membership Card to bind your identity and support team-shared permissions. As your tech tier increases, its storage capacity and functions will evolve, seamlessly adapting to your growth from a personal workshop to an interstellar consortium.",
         )
         story(
@@ -327,7 +327,7 @@ object GTOMachineTooltips {
 
         miraculousTools("泛银河系格雷科技贸易站" translatedTo "Pan-Galaxy Gray Technology Trading Station")
 
-        section("插入灰色会员卡，即可激活并绑定你的专属贸易枢纽" translatedTo "Insert a Gray Membership Card to activate and bind your exclusive trading hub")
+        section("插入格雷会员卡，即可激活并绑定你的专属贸易枢纽" translatedTo "Insert a Gray Membership Card to activate and bind your exclusive trading hub")
         section("物品与流体双存储系统，容量随等级提升而指数级增长" translatedTo "Dual storage system for items and fluids, with capacity growing exponentially with tier")
         section("多级贸易目录，完成挑战即可解锁更高级、更稀有的交易配方" translatedTo "Multi-level trade catalogs; complete challenges to unlock more advanced and rare trade recipes")
         section("四大等级特权：玩家交易、自动交易、幸运商店、ME网络对接" translatedTo "Four tiered privileges: Player Trading, Auto-Trading, Lucky Merchant, ME Network Integration")
@@ -348,7 +348,7 @@ object GTOMachineTooltips {
 
         section("核心功能" translatedTo "Core Features")
         content(
-            "1. 身份与权限管理：你的灰色会员卡是进入这个贸易中心的唯一钥匙。它不仅代表了你的身份，还能设置共享权限，让你的团队成员也能在这个枢纽上协同工作，共同发展。没有会员卡？对不起，你只能看看而已。" translatedTo
+            "1. 身份与权限管理：你的格雷会员卡是进入这个贸易中心的唯一钥匙。它不仅代表了你的身份，还能设置共享权限，让你的团队成员也能在这个枢纽上协同工作，共同发展。没有会员卡？对不起，你只能看看而已。" translatedTo
                 "1. Identity & Permission Management: Your Gray Membership Card is the only key to this trading center. It not only represents your identity but also allows you to set shared permissions, enabling your team members to collaborate and grow together on this hub. No card? Sorry, you're just window-shopping.",
         )
         content(
@@ -388,7 +388,7 @@ object GTOMachineTooltips {
 
         section("快速上手指南" translatedTo "Quick Start Guide")
         content(
-            "第一步：找个好地方放下你的贸易站，然后右键点击打开界面。将你的灰色会员卡放入左侧的卡槽中，贸易站即刻激活，并加载你的个人数据和基础贸易目录。" translatedTo
+            "第一步：找个好地方放下你的贸易站，然后右键点击打开界面。将你的格雷会员卡放入左侧的卡槽中，贸易站即刻激活，并加载你的个人数据和基础贸易目录。" translatedTo
                 "Step 1: Find a good spot to place your Trading Station, then right-click to open its interface. Insert your Gray Membership Card into the left card slot. The station will activate immediately, loading your personal data and basic trade catalogs.",
         )
         content(

@@ -518,9 +518,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                                 ComponentPanelWidget.withButton(trans(41), "getGrayMembershipCard"),
                                 trans(40, Component.translatable("gtocore.currency.technician_coin"), 15))))
                         .clickHandler((a, b) -> {
-                            if (WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, "technician_coin") >= 15) {
+                            if (WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, TECH_OPERATOR_COIN) >= 15) {
                                 ItemEntity itemEntity = player.spawnAtLocation(createWithUuidAndSharedList(player.getUUID(), new ArrayList<>(shared)));
-                                WalletUtils.subtractCurrency(player.getUUID(), serverLevel, "technician_coin", 15);
+                                WalletUtils.subtractCurrency(player.getUUID(), serverLevel, TECH_OPERATOR_COIN, 15);
                                 if (itemEntity != null) itemEntity.setNoPickUpDelay();
                             }
                         }));
@@ -572,7 +572,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
     public static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
         O2LOpenCacheHashMap<String> initialCurrencies = new O2LOpenCacheHashMap<>();
-        initialCurrencies.put(TECHNICIAN_COIN, 16);
+        initialCurrencies.put(TECH_OPERATOR_COIN, 16);
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP_GROUP, UNLOCK_BASE);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, UNLOCK_BASE);
