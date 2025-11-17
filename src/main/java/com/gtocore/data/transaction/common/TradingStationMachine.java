@@ -60,6 +60,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import lombok.Getter;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -134,22 +135,28 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     /** 输入输出存储 */
     @Getter
     @Persisted
+    @DescSynced
     private NotifiableItemStackHandler inputItem;
     @Getter
     @Persisted
+    @DescSynced
     private NotifiableItemStackHandler outputItem;
     @Getter
     @Persisted
+    @DescSynced
     private NotifiableFluidTank inputFluid;
     @Getter
     @Persisted
+    @DescSynced
     private NotifiableFluidTank outputFluid;
 
     /** 库存大小 */
     @Persisted
+    @DescSynced
     private int itemStorageSize = 32;
     @Persisted
-    private int fluidStorageSize = 0;
+    @DescSynced
+    private int fluidStorageSize = 4;
 
     /** 其他位置存储 */
     @Persisted
@@ -241,6 +248,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     public boolean canSetUpgradeLevel(String key, int newLevel) {
         if (!UpgradeKeys.ALL_KEYS.contains(key)) return false;
         if (newLevel < 0) return false;
+
         int maxLevel = getMaxUpgradeLevel(key);
         if (newLevel > maxLevel) return false;
         return getUpgradeLevel(key) != newLevel;
@@ -417,13 +425,26 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     /** 物品槽增量：每级容量升级增加的槽数（随机器等级变化） */
     private int getItemSlotIncrement() {
-        return Math.min(currentLevel + 1, 6) * 5;
+        return switch (currentLevel) {
+            case 1 -> 10; // 等级1：每级+10槽
+            case 2 -> 15; // 等级2：每级+15槽
+            case 3 -> 20; // 等级3：每级+20槽
+            case 4 -> 25; // 等级4：每级+25槽
+            case 5, 6 -> 30; // 等级5, 6：每级+30槽
+            default -> 0;
+        };
     }
 
     /** 流体槽增量：每级容量升级增加的槽数（仅储罐启用后） */
     private int getFluidSlotIncrement() {
         if (!isFluidStorageEnabled()) return 0;
-        return Math.min(currentLevel - 1, 4);
+        return switch (currentLevel) {
+            case 2 -> 1; // 等级2：每级+1槽
+            case 3 -> 2; // 等级3：每级+2槽
+            case 4 -> 3; // 等级4：每级+3槽
+            case 5, 6 -> 4; // 等级5, 6：每级+4槽
+            default -> 0;
+        };
     }
 
     /** 动态更新物品/流体存储槽数 */
@@ -442,41 +463,31 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     /** 重新初始化物品/流体存储（保留原有数据） */
+    /** 重新初始化物品/流体存储（保留原有数据） */
     private void reinitializeStorage() {
-        // 物品存储：创建新的NotifiableItemStackHandler，复制原有数据
-        NotifiableItemStackHandler newInputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.IN, IO.BOTH);
-        NotifiableItemStackHandler newOutputItem = new NotifiableItemStackHandler(this, itemStorageSize, IO.OUT, IO.BOTH);
-        // 复制旧槽数据（最多复制到新槽数上限）
-        for (int i = 0; i < Math.min(inputItem.getSlots(), newInputItem.getSlots()); i++) {
-            newInputItem.setStackInSlot(i, inputItem.getStackInSlot(i));
-        }
-        for (int i = 0; i < Math.min(outputItem.getSlots(), newOutputItem.getSlots()); i++) {
-            newOutputItem.setStackInSlot(i, outputItem.getStackInSlot(i));
-        }
-        // 替换旧存储
-        this.inputItem = newInputItem;
-        this.outputItem = newOutputItem;
+        this.inputItem.storage.setSize(itemStorageSize);
+        this.outputItem.storage.setSize(itemStorageSize);
 
-        // 流体存储：创建新的NotifiableFluidTank，复制原有数据
+        // 2. 创建新的流体存储实例
         NotifiableFluidTank newInputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.IN, IO.BOTH);
-        NotifiableFluidTank newOutputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.OUT, IO.BOTH);
-        // 复制旧槽数据
-        for (int i = 0; i < Math.min(inputFluid.getTanks(), newInputFluid.getTanks()); i++) {
-            newInputFluid.setFluidInTank(i, inputFluid.getFluidInTank(i));
-        }
-        for (int i = 0; i < Math.min(outputFluid.getTanks(), newOutputFluid.getTanks()); i++) {
-            newOutputFluid.setFluidInTank(i, outputFluid.getFluidInTank(i));
-        }
-        // 替换旧存储
+        NotifiableFluidTank newOutputFluid = new NotifiableFluidTank(this, fluidStorageSize, 1000 * 2000000, IO.OUT, IO.OUT);
+
+        // 注意：这里还应该迁移其他重要属性，如 isVoiding, lockedFluid, filter 等
+        newInputFluid.isVoiding = this.inputFluid.isVoiding;
+        newOutputFluid.isVoiding = this.outputFluid.isVoiding;
+
         this.inputFluid = newInputFluid;
         this.outputFluid = newOutputFluid;
 
-        // 重新订阅存储变化监听器（原监听器会失效）
         if (outputItemChangeSub != null) outputItemChangeSub.unsubscribe();
         if (outputFluidChangeSub != null) outputFluidChangeSub.unsubscribe();
         outputItemChangeSub = outputItem.addChangedListener(this::updateAutoOutputSubscription);
         outputFluidChangeSub = outputFluid.addChangedListener(this::updateAutoOutputSubscription);
         updateAutoOutputSubscription();
+
+        if (currentUIPlayer != null) {
+            tryToOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null);
+        }
     }
 
     /////////////////////////////////////
@@ -671,32 +682,32 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
 
-                int itemHigh = itemStorageSize / Item_slots_in_a_row + (itemStorageSize % Item_slots_in_a_row == 0 ? 0 : 1);
+                int itemHigh = inputItem.getSize() / Item_slots_in_a_row + (inputItem.getSize() % Item_slots_in_a_row == 0 ? 0 : 1);
                 WidgetGroup Item_slot = new WidgetGroup(2, 4, 290, itemHigh * 18 + 10);
                 Item_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(9))));
                 for (int y = 0; y < itemHigh; y++) {
                     for (int x = 0; x < Item_slots_in_a_row; x++) {
                         int slotIndex = y * Item_slots_in_a_row + x;
-                        if (itemStorageSize > slotIndex) {
-                            Item_slot.addWidget(new SlotWidget(getInputItem(), slotIndex, x * 18, 10 + y * 18, true, true)
+                        if (inputItem.getSize() > slotIndex) {
+                            Item_slot.addWidget(new SlotWidget(inputItem, slotIndex, x * 18, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
-                            Item_slot.addWidget(new SlotWidget(getOutputItem(), slotIndex, x * 18 + Item_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                            Item_slot.addWidget(new SlotWidget(outputItem, slotIndex, x * 18 + Item_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
                         } else break;
                     }
                 }
                 mainGroup.addWidget(Item_slot);
 
-                int fluidHigh = fluidStorageSize / Fluid_slots_in_a_row;
+                int fluidHigh = inputFluid.getSize() / Fluid_slots_in_a_row;
                 WidgetGroup Fluid_slot = new WidgetGroup(296, 4, 38, fluidHigh * 18 + 10);
                 Fluid_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(10))));
                 for (int y = 0; y < fluidHigh; y++) {
                     for (int x = 0; x < Fluid_slots_in_a_row; x++) {
                         int slotIndex = y * Fluid_slots_in_a_row + x;
-                        if (fluidStorageSize > slotIndex) {
-                            Fluid_slot.addWidget(new TankWidget(getInputFluid(), slotIndex, 0, 10 + y * 18, true, true)
+                        if (inputFluid.getSize() > slotIndex) {
+                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, 0, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
-                            Fluid_slot.addWidget(new TankWidget(getOutputFluid(), slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
                         } else break;
                     }
