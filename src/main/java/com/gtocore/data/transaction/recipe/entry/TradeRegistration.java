@@ -1,9 +1,6 @@
-package com.gtocore.data.transaction.recipe;
+package com.gtocore.data.transaction.recipe.entry;
 
 import com.gtocore.data.transaction.common.TradingStationMachine;
-import com.gtocore.data.transaction.recipe.entry.TradeEntry;
-import com.gtocore.data.transaction.recipe.entry.TradingManager;
-import com.gtocore.data.transaction.recipe.entry.UpgradeOrUnlockManager;
 
 import com.gtolib.GTOCore;
 
@@ -171,8 +168,8 @@ public class TradeRegistration {
         UpgradeOrUnlockManager upgradeOrUnlockManager = UpgradeOrUnlockManager.getInstance();
         int k = 6;
         for (String key : TradingStationMachine.UpgradeKeys.ALL_KEYS) {
-            for (int i = 2; i < k; i++) {
-                for (TradeEntry templateEntry : testTrades) {
+            for (TradeEntry templateEntry : testTrades) {
+                for (int i = 2; i < k; i++) {
                     upgradeOrUnlockManager.addTradeToEntry(key, templateEntry);
                 }
             }
