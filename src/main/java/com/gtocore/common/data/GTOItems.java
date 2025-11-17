@@ -435,6 +435,8 @@ public final class GTOItems {
 
     public static final ItemEntry<ComponentItem>[] MYSTERIOUS_BOOST_DRINK = registerMysteriousBoostDrink();
 
+    public static final ItemEntry<Item> NEUTRON_COIN = item("neutron_coin", "中子素币").model(NonNullBiConsumer.noop()).register();
+
     public static final ItemEntry<Item> WETWARE_SOC = registerLang("wetware_soc", "Wetware SoC", "湿件SoC");
 
     public static final ItemEntry<Item> BIOWARE_CIRCUIT_BOARD = register("bioware_circuit_board", "生物电路基板");

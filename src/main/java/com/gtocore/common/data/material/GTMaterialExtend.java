@@ -36,6 +36,7 @@ public final class GTMaterialExtend {
         Neutron.getProperties().removeProperty(ROTOR);
         Neutron.setProperty(TOOL, ToolProperty.Builder.of(800.0F, 800.0F, 6553500, 6).attackSpeed(10F).enchantability(180).unbreakable().magnetic().build());
         Neutron.setProperty(ROTOR, new RotorProperty(10000, 50, 24.0F, 10485760));
+        Neutron.addFlags(GENERATE_COIN);
         Neutron.getMaterialInfo().setIconSet(GTOMaterialIconSet.NEUTRONIUM);
         Neutronium = material("amprosium", "安普洛")
                 .ingot(6)
