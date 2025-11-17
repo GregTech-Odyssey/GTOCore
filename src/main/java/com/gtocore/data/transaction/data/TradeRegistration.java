@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -40,11 +39,11 @@ public class TradeRegistration {
 
     public static void init() {
         UnlockTrade.init();
-        registerShop1();
+        registerGroup0();
         registerTestData();
     }
 
-    public static void registerShop1() {
+    public static void registerGroup0() {
         TradingManager manager = TradingManager.getInstance();
 
         int GroupIndex = manager.addShopGroup(
