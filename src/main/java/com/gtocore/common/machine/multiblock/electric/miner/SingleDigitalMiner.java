@@ -182,7 +182,7 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
         var outputFacingItems = getFrontFacing();
         if (!exportItems.isEmpty() && ItemTransferHelper.getItemTransfer(getLevel(),
                 getPos().relative(outputFacingItems), outputFacingItems.getOpposite()) != null) {
-            autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput);
+            autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
         } else if (autoOutputSubs != null) {
             autoOutputSubs.unsubscribe();
             autoOutputSubs = null;
@@ -190,10 +190,8 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
     }
 
     protected void autoOutput() {
-        if (getOffsetTimer() % 20 == 0) {
-            exportItems.exportToNearby(getFrontFacing());
-            updateAutoOutputSubscription();
-        }
+        exportItems.exportToNearby(getFrontFacing());
+        updateAutoOutputSubscription();
     }
 
     @Override

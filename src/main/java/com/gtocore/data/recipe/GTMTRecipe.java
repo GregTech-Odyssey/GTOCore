@@ -523,7 +523,7 @@ public final class GTMTRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("mv_bedrock_ore_miner")
-                .inputItems(GTMachines.MINER[GTValues.LV].asItem(), 4)
+                .inputItems(GTOMachines.DIGITAL_MINER[GTValues.LV].asItem(), 4)
                 .inputItems(GTItems.FIELD_GENERATOR_LV.asItem(), 4)
                 .inputItems(GTItems.CONVEYOR_MODULE_MV.asItem(), 4)
                 .inputItems(GTItems.EMITTER_MV.asItem(), 2)
@@ -536,7 +536,7 @@ public final class GTMTRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hv_bedrock_ore_miner")
-                .inputItems(GTMachines.MINER[GTValues.MV].asItem(), 4)
+                .inputItems(GTOMachines.DIGITAL_MINER[GTValues.MV].asItem(), 4)
                 .inputItems(GTItems.FIELD_GENERATOR_MV.asItem(), 4)
                 .inputItems(GTItems.CONVEYOR_MODULE_HV.asItem(), 4)
                 .inputItems(GTItems.EMITTER_HV.asItem(), 2)
@@ -549,7 +549,7 @@ public final class GTMTRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("ev_bedrock_ore_miner")
-                .inputItems(GTMachines.MINER[GTValues.HV].asItem(), 4)
+                .inputItems(GTOMachines.DIGITAL_MINER[GTValues.HV].asItem(), 4)
                 .inputItems(GTItems.FIELD_GENERATOR_HV.asItem(), 4)
                 .inputItems(GTItems.CONVEYOR_MODULE_EV.asItem(), 4)
                 .inputItems(GTItems.EMITTER_EV.asItem(), 2)
