@@ -5,10 +5,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 交易管理器（线程安全单例），仅保留核心功能：添加、数量查询、索引获取。
@@ -26,7 +23,7 @@ public class TradingManager {
 
     private TradingManager() {}
 
-    private final List<TradingShopGroup> shopGroups = Collections.synchronizedList(new ArrayList<>());
+    private final List<TradingShopGroup> shopGroups = new ArrayList<>();
 
     // ------------------------------ 核心工具方法（仅保留必要校验）------------------------------
     /** 校验索引是否有效（0 <= index < size） */
@@ -97,11 +94,11 @@ public class TradingManager {
 
     /** 向指定组添加商店，返回商店在组内的索引 */
     public int addShopByGroupIndex(int groupIndex, @NotNull String shopName,
-                                   @Nullable String unlockCondition, @Nullable IGuiTexture texture) {
+                                   @Nullable String unlockCondition, @Nullable Set<String> currencies, @Nullable IGuiTexture texture) {
         Objects.requireNonNull(shopName, "Shop name cannot be null");
         TradingShopGroup group = getShopGroup(groupIndex);
         checkNotNull(group, "Shop Group", groupIndex, getGroupCount() - 1);
-        return group.addShop(shopName, unlockCondition, texture);
+        return group.addShop(shopName, unlockCondition, currencies, texture);
     }
 
     /** 向指定商店添加交易条目 */
@@ -147,7 +144,7 @@ public class TradingManager {
         private final String unlockCondition;
         private final IGuiTexture texture1;
         private final IGuiTexture texture2;
-        private final List<TradingShop> shops = Collections.synchronizedList(new ArrayList<>());
+        private final List<TradingShop> shops = new ArrayList<>();
 
         private TradingShopGroup(@NotNull String name, @Nullable String unlockCondition,
                                  @Nullable IGuiTexture texture1, @Nullable IGuiTexture texture2) {
@@ -158,9 +155,9 @@ public class TradingManager {
         }
 
         /** 向本组添加商店，返回商店索引 */
-        public int addShop(@NotNull String shopName, @Nullable String unlockCondition, @Nullable IGuiTexture texture) {
+        public int addShop(@NotNull String shopName, @Nullable String unlockCondition, @Nullable Set<String> currencies, @Nullable IGuiTexture texture) {
             Objects.requireNonNull(shopName, "Shop name cannot be null");
-            TradingShop newShop = new TradingShop(shopName, unlockCondition, texture);
+            TradingShop newShop = new TradingShop(shopName, unlockCondition, currencies, texture);
             shops.add(newShop);
             return shops.size() - 1;
         }
@@ -183,12 +180,14 @@ public class TradingManager {
 
         private final String name;
         private final String unlockCondition;
+        private final Set<String> currencies;
         private final IGuiTexture texture;
-        private final List<TradeEntry> tradeEntries = Collections.synchronizedList(new ArrayList<>());
+        private final List<TradeEntry> tradeEntries = new ArrayList<>();
 
-        private TradingShop(@NotNull String name, @Nullable String unlockCondition, @Nullable IGuiTexture texture) {
+        private TradingShop(@NotNull String name, @Nullable String unlockCondition, @Nullable Set<String> currencies, @Nullable IGuiTexture texture) {
             this.name = name;
             this.unlockCondition = unlockCondition;
+            this.currencies = currencies;
             this.texture = texture;
         }
 

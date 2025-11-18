@@ -4,16 +4,18 @@ import com.gtocore.data.transaction.manager.TradingManager;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 
-import static com.gtocore.data.transaction.data.TradeLang.UNLOCK_BASE;
-import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
+import java.util.Set;
+
+import static com.gtocore.data.transaction.data.TradeLang.*;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 
 public class WelfareGroup {
 
     /**
      * 员工福利兑换中心
      * <p>
-     * - 币兑区
-     * - 会员区
+     * - 福利兑换 壹
+     * - 福利兑换 贰
      */
     public static void init() {
         TradingManager manager = TradingManager.getInstance();
@@ -28,6 +30,7 @@ public class WelfareGroup {
                 GroupIndex,
                 addTradeLang("福利兑换 壹", "Welfare Redemption 1"),
                 UNLOCK_BASE,
+                Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
     }
 }

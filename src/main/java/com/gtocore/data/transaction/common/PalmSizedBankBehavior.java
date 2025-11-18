@@ -42,6 +42,7 @@ import java.util.*;
 
 import static com.gtocore.common.item.GrayMembershipCardItem.createWithUuidAndSharedList;
 import static com.gtocore.data.transaction.data.TradeLang.*;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.*;
 
 public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
@@ -516,7 +517,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 mainGroup.addWidget(new ComponentPanelWidget(10, 16,
                         list -> list.add(ComponentPanelWidget.withHoverTextTranslate(
                                 ComponentPanelWidget.withButton(trans(41), "getGrayMembershipCard"),
-                                trans(40, Component.translatable("gtocore.currency.technician_coin"), 15))))
+                                trans(40, Component.translatable("gtocore.currency." + TECH_OPERATOR_COIN), 15))))
                         .clickHandler((a, b) -> {
                             if (WalletUtils.getCurrencyAmount(player.getUUID(), serverLevel, TECH_OPERATOR_COIN) >= 15) {
                                 ItemEntity itemEntity = player.spawnAtLocation(createWithUuidAndSharedList(player.getUUID(), new ArrayList<>(shared)));

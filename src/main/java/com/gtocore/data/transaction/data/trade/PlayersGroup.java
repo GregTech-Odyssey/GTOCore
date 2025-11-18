@@ -4,8 +4,8 @@ import com.gtocore.data.transaction.manager.TradingManager;
 
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
-import static com.gtocore.data.transaction.data.TradeLang.UNLOCK_BASE;
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 import static com.gtocore.utils.PlayerHeadUtils.get_GregoriusT_Head;
 import static com.gtocore.utils.PlayerHeadUtils.get_maple197_Head;
 
@@ -14,8 +14,7 @@ public class PlayersGroup {
     /**
      * 员工交易中心
      * <p>
-     * - 币兑区
-     * - 会员区
+     * - 凭证兑换
      */
     public static void init() {
         TradingManager manager = TradingManager.getInstance();

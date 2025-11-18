@@ -11,6 +11,8 @@ import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -24,7 +26,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.gtocore.data.transaction.common.TradingStationTool.*;
-import static com.gtocore.data.transaction.data.TradeLang.UNLOCK_BASE;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 
 /**
  * 游戏内交易条目，封装交易的显示信息、输入输出资源、检查条件和执行逻辑。
@@ -141,23 +143,36 @@ public record TradeEntry(
     }
 
     /**
+     * 可执行交易的次数
+     */
+    public int check(TradingStationMachine machine) {
+        if (!(machine.getLevel() instanceof ServerLevel)) return 0;
+        int multiplier = Integer.MAX_VALUE;
+        int preCheckMaxCount = canExecuteCount(machine);
+        if (preCheckMaxCount == 0) return 0;
+        else if (preCheckMaxCount > 0) {
+            multiplier = preCheckMaxCount;
+        }
+        int resourceMaxCount = checkInputEnough(machine);
+        if (resourceMaxCount <= 0) return 0;
+        return Math.min(multiplier, resourceMaxCount);
+    }
+
+    /**
      * 执行完整交易（资源变更+回调）
      */
     public void execute(TradingStationMachine machine, int requestedMultiplier) {
         if (!(machine.getLevel() instanceof ServerLevel)) return;
-        if (requestedMultiplier <= 0) return;
-        int preCheckMaxCount = canExecuteCount(machine);
-        if (preCheckMaxCount == 0) return;
-        else if (preCheckMaxCount > 0) {
-            requestedMultiplier = Math.min(requestedMultiplier, preCheckMaxCount);
+        int finalMultiplier = Math.min(check(machine), requestedMultiplier);
+        if (finalMultiplier <= 0) {
+            machine.getLevel().playSound(null, machine.getPos(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.8F, 1.4F);
+            return;
         }
-        int resourceMaxCount = checkInputEnough(machine);
-        if (resourceMaxCount <= 0) return;
-        int finalMultiplier = Math.min(requestedMultiplier, resourceMaxCount);
         executeTrade(machine, finalMultiplier);
         if (onExecute != null) {
             onExecute.run(machine, finalMultiplier, this);
         }
+        machine.getLevel().playSound(null, machine.getPos(), SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.BLOCKS, 1.8F, 1.4F);
     }
 
     public List<Component> getDescription() {

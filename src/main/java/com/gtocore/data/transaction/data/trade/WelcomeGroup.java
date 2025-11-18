@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Gold;
@@ -23,8 +24,8 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.Osmium;
 import static com.gtocore.common.data.GTOMaterials.Adamantine;
 import static com.gtocore.common.data.GTOMaterials.Infinity;
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
-import static com.gtocore.data.transaction.data.TradeLang.UNLOCK_BASE;
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 
 public class WelcomeGroup {
 
@@ -46,12 +47,14 @@ public class WelcomeGroup {
                 GroupIndex,
                 addTradeLang("欢迎来到格雷科技销售部币兑区", "Welcome to the Currency Exchange Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
+                Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
 
         int ShopIndex2 = manager.addShopByGroupIndex(
                 GroupIndex,
                 addTradeLang("欢迎来到格雷科技销售部会员区", "Welcome to the Membership Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
+                Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
 
         Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity };

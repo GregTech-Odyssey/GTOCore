@@ -8,7 +8,7 @@ import com.gtocore.data.transaction.data.trade.WelfareGroup;
 /**
  * 交易实例注册示例：展示如何使用TradeEntry构建具体交易
  */
-public class TradeRegistration {
+public class GTOTrade {
 
     /**
      * 这里是交易注册的核心

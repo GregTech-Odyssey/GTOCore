@@ -40,11 +40,6 @@ public class TradeLang {
     public static final String TECH_ADMINISTRATOR_COIN = "tech_administrator_coin";
     public static final String CHIEF_SCIENCE_STEWARD_COIN = "chief_science_steward_coin";
 
-    public static final String UNLOCK_SHOP_GROUP = "unlock_shop_group";
-    public static final String UNLOCK_SHOP = "unlock_shop";
-    public static final String UNLOCK_TRADE = "unlock_trade";
-    public static final String UNLOCK_BASE = "base";
-
     static {
         add("gtocore.currency." + TECH_OPERATOR_COIN, "技术员币", "Tech Operator Coin");
         add("gtocore.currency." + RESEARCH_PIONEER_COIN, "研究员币", "Research Pioneer Coin");
@@ -97,6 +92,9 @@ public class TradeLang {
         add("gtocore.trade_group.false", "商品", "Commodity");
         add("gtocore.trade_group.unlock", "未解锁, 需要解锁 %s", "Not unlocked, needs to be unlocked %s");
         add("gtocore.trade_group.unsatisfied", "不满足额外条件", "Additional conditions not met");
+        add("gtocore.trade_group.amount", "最大可交易次数: %s", "Maximum number of trades: %s");
+        add("gtocore.trade_group.repeatedly1", "按下Click尝试交易10次", "Press Click to attempt 10 trades");
+        add("gtocore.trade_group.repeatedly2", "同时按下Click Shift尝试交易100次", "Simultaneously press Click Shift to attempt 100 trades");
 
         add("gtocore.trading_station.textList.1", "这台机器不属于你，你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
         add("gtocore.trading_station.textList.2", "⇦ 请放入会员卡", "⇦ Please insert your membership card.");
@@ -108,6 +106,8 @@ public class TradeLang {
         add("gtocore.trading_station.textList.8", "[刷新]", "[Refresh]");
         add("gtocore.trading_station.textList.9", "物品存储", "Item Storage");
         add("gtocore.trading_station.textList.10", "流体存储", "Fluid Storage");
+
+        add("gtocore.trading_station.textList.11", "请从掌上银行获取会员卡以使用交易站", "Please obtain a membership card from your mobile banking app to use the trading platform.");
 
         add("gtocore.trading_station.textList.21", "交易解锁", "Transaction unlock");
         add("gtocore.trading_station.textList.22", "解锁 %s", "Unlock %s");

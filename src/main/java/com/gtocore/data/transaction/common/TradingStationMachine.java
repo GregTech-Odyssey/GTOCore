@@ -4,7 +4,6 @@ import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.data.transaction.data.TradeLang;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 import com.gtocore.data.transaction.manager.UnlockManager;
@@ -66,6 +65,9 @@ import java.util.stream.Collectors;
 import static com.gtocore.common.item.GrayMembershipCardItem.getSharedUuids;
 import static com.gtocore.common.item.GrayMembershipCardItem.getSingleUuid;
 import static com.gtocore.common.item.GrayMembershipCardItem.isUuidPresent;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_SHOP;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_TRADE;
+import static com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup.ScrollWheelDirection.HORIZONTAL;
 
 public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife, IControllable {
 
@@ -246,7 +248,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         // 左侧卡片槽和信息
         mainGroup.addWidget(new SlotWidget(cardHandler, 0, 10, 10)
-                .setBackgroundTexture(GuiTextures.SLOT));
+                .setBackgroundTexture(GuiTextures.SLOT).setHoverTooltips(trans(11)));
 
         Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
 
@@ -627,10 +629,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             TradingManager.TradingShop tradingShop = tradingManager.getShopByIndices(groupSelected, shop);
 
             ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
-            boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TradeLang.UNLOCK_SHOP, tradingShop.getUnlockCondition());
-            // Todo 一会开
-            // if (!unlock) continue;
-
+            boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, UNLOCK_SHOP, tradingShop.getUnlockCondition());
+            if (!unlock) continue;
             shopGroupTabs.add(new ShopTabProvider(this, groupSelected, shop, tradingShop));
         }
         return shopGroupTabs;
@@ -664,14 +664,17 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
-        boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, TradeLang.UNLOCK_TRADE, entry.unlockCondition());
+        boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, UNLOCK_TRADE, entry.unlockCondition());
         boolean canExecute = entry.canExecuteCount(this) != 0;
 
         trade.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
                 .textSupplier(texts -> {
                     if (!unlock) texts.add(Component.translatable("gtocore.trade_group.unlock", entry.unlockCondition()).withStyle(ChatFormatting.DARK_RED));
                     if (!canExecute) texts.add(Component.translatable("gtocore.trade_group.unsatisfied").withStyle(ChatFormatting.DARK_RED));
+                    if (unlock && canExecute) texts.add(Component.translatable("gtocore.trade_group.amount", entry.check(this)).withStyle(ChatFormatting.GOLD));
                     texts.addAll(entry.getDescription());
+                    texts.add(Component.translatable("gtocore.trade_group.repeatedly1"));
+                    texts.add(Component.translatable("gtocore.trade_group.repeatedly2"));
                 })
                 .clickHandler((data, clickData) -> {
                     if (!unlock) return;
@@ -757,8 +760,24 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             shopGroup.setLayout(Layout.VERTICAL_CENTER);
             shopGroup.setLayoutPadding(3);
 
+            ServerLevel serverLevel = machine.getLevel() instanceof ServerLevel ? (ServerLevel) machine.getLevel() : null;
+
             shopGroup.addWidget(new LabelWidget(0, 0, Component.translatable(tradingShop.getName())));
-            shopGroup.addWidget(new LabelWidget(0, 12, Component.empty()));
+            WidgetGroup componentGroup = new DraggableScrollableWidgetGroup(4, 12, machine.width - 8, 10)
+                    .setScrollWheelDirection(HORIZONTAL);
+            componentGroup.addWidget(new ComponentPanelWidget(0, 0, textList -> {
+                MutableComponent component = Component.empty();
+                for (String string : tradingShop.getCurrencies()) {
+                    component.append(
+                            Component.empty().append(Component.literal("["))
+                                    .append(Component.translatable("gtocore.currency." + string))
+                                    .append(Component.literal("-"))
+                                    .append(Component.literal(String.valueOf(WalletUtils.getCurrencyAmount(machine.getUuid(), serverLevel, string))))
+                                    .append(Component.literal("]")));
+                    textList.add(component);
+                }
+            }));
+            shopGroup.addWidget(componentGroup);
 
             WidgetGroup tradeContainer = new WidgetGroup(0, 36, 327, 102);
             updateTradeContainer(tradeContainer, localPageSelected);
@@ -767,7 +786,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             shopGroup.addWidget(new ComponentPanelWidget(0, 140, textList -> textList.add(Component.empty()
                     .append(ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_page"))
                     .append(Component.literal("<" + (localPageSelected + 1) + "/" + totalPage + ">"))
-                    .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page")))).clickHandler((data, clickData) -> {
+                    .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page"))))
+                    .clickHandler((data, clickData) -> {
                         switch (data) {
                             case "previous_page" -> localPageSelected = Mth.clamp(localPageSelected - 1, 0, totalPage - 1);
                             case "next_page" -> localPageSelected = Mth.clamp(localPageSelected + 1, 0, totalPage - 1);
