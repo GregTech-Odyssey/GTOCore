@@ -33,7 +33,6 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -44,7 +43,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
@@ -52,7 +50,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
@@ -169,7 +166,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Persisted
     private UUID teamUUID;
     private ServerPlayer currentUIPlayer = null;
-    private ItemStack OwnerHead = ItemStack.EMPTY;
 
     /** 当前机器等级（1-6），默认1级 */
     @Persisted
@@ -252,8 +248,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.addWidget(new SlotWidget(cardHandler, 0, 10, 10)
                 .setBackgroundTexture(GuiTextures.SLOT));
 
-        mainGroup.addWidget(new ImageWidget(1, 1, 36, 36, new ItemStackTexture(OwnerHead)));
-
         Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
 
         mainGroup.addWidget(new ComponentPanelWidget(34, 14, textList -> {
@@ -314,15 +308,15 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     private WidgetGroup ShopGroupSwitchWidget() {
-        WidgetGroup mainGroup = new WidgetGroup(256, 4, 80, height - 8);
+        WidgetGroup mainGroup = new WidgetGroup(256, 0, 80, height - 8);
         mainGroup.setLayout(Layout.VERTICAL_CENTER);
-        mainGroup.setLayoutPadding(4);
+        mainGroup.setLayoutPadding(10);
 
         TradingManager.TradingShopGroup SwitchedShopGroup = tradingManager.getShopGroup(groupSelected);
         if (SwitchedShopGroup == null) SwitchedShopGroup = tradingManager.getShopGroup(0);
         if (SwitchedShopGroup != null) {
             mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
-            mainGroup.addWidget(new ImageWidget(0, 10, 64, 78, SwitchedShopGroup.getTexture1()));
+            mainGroup.addWidget(new ImageWidget(0, 10, 64, 64, SwitchedShopGroup.getTexture1()));
         }
 
         WidgetGroup SwitchWidget = new WidgetGroup(0, 80, 79, 39);
@@ -711,24 +705,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             this.sharedUUIDs = getSharedUuids(card);
             if (uuid != null) {
                 this.teamUUID = TeamUtil.getTeamUUID(uuid);
-                this.OwnerHead = createPlayerHead(uuid);
             }
         } else {
             this.uuid = null;
             this.sharedUUIDs = new ArrayList<>();
             this.teamUUID = null;
-            this.OwnerHead = ItemStack.EMPTY;
         }
-    }
-
-    // 构建玩家的头颅
-    private static ItemStack createPlayerHead(UUID uuid) {
-        ItemStack head = new ItemStack(Items.PLAYER_HEAD);
-        CompoundTag tag = head.getOrCreateTag();
-        CompoundTag skullOwner = new CompoundTag();
-        skullOwner.putUUID("Id", uuid);
-        tag.put("SkullOwner", skullOwner);
-        return head;
     }
 
     /////////////////////////////////////
@@ -776,7 +758,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             shopGroup.setLayoutPadding(3);
 
             shopGroup.addWidget(new LabelWidget(0, 0, Component.translatable(tradingShop.getName())));
-            shopGroup.addWidget(new LabelWidget(0, 12, Component.translatable("一个一个商店")));
+            shopGroup.addWidget(new LabelWidget(0, 12, Component.empty()));
 
             WidgetGroup tradeContainer = new WidgetGroup(0, 36, 327, 102);
             updateTradeContainer(tradeContainer, localPageSelected);

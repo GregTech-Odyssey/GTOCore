@@ -26,7 +26,7 @@ import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 import static com.gtocore.data.transaction.data.TradeLang.UNLOCK_BASE;
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 
-public class TradeGroup0 {
+public class WelcomeGroup {
 
     /**
      * 欢迎来到格雷科技
