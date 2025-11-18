@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 import appeng.api.behaviors.ExternalStorageStrategy;
@@ -40,7 +39,6 @@ import appeng.menu.me.items.CraftingTermMenu;
 import appeng.parts.PartModel;
 import appeng.parts.reporting.AbstractTerminalPart;
 import appeng.util.inv.AppEngInternalInventory;
-import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
@@ -74,14 +72,8 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public boolean onPartActivate(Player player, InteractionHand hand, Vec3 pos) {
-        if (isArsSpellBook(player.getMainHandItem()) || isArsSpellBook(player.getOffhandItem())) return false;
         updateTarget();
         return super.onPartActivate(player, hand, pos);
-    }
-
-    private boolean isArsSpellBook(ItemStack itemStack) {
-        if (itemStack == null) return false;
-        return itemStack.getItem() instanceof SpellBook;
     }
 
     @Override
@@ -123,6 +115,9 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public MEStorage getInventory() {
+        if (getBlockEntity().isRemoved()) {
+            return null;
+        }
         if (!isClientSide()) {
             if (this.tick % 10 == 0) {
                 if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage) {
@@ -259,12 +254,12 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public double getAEMaxPower() {
-        return Long.MAX_VALUE / 10000;
+        return Long.MAX_VALUE / 10000.0;
     }
 
     @Override
     public double getAECurrentPower() {
-        return Long.MAX_VALUE / 10000;
+        return Long.MAX_VALUE / 10000.0;
     }
 
     @Override
