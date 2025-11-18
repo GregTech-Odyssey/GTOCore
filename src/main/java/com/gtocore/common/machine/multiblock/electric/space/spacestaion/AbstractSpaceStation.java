@@ -138,6 +138,16 @@ public abstract class AbstractSpaceStation extends ElectricMultiblockMachine imp
     }
 
     @Override
+    public int checkPriority() {
+        return 5;
+    }
+
+    @Override
+    public boolean requiresServerCheck() {
+        return true;
+    }
+
+    @Override
     public boolean isWorkspaceReady() {
         return ready >= 10;
     }

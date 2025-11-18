@@ -264,13 +264,13 @@ public final class GTOMachines {
                             v -> v.addLines("让机器超频", "accelerate machine"),
                             p -> p.addCommentLines(
                                     """
-                                            同样的超频级别，此数值越高，超频因子越大
-                                            更大的超频因子代表更激进的超频策略
-                                            耗能更高，速度更快！""",
+                                            §m不安装本仓时，每使用4倍功率，机器耗时×55%%§r
+                                            §a安装本仓后，超频效果最高提升为每使用4倍功率，机器耗时×%s%%§r
+                                            更激进的超频策略，更强悍的机器性能，更极限的处理速度！""".formatted(FormattingUtil.formatNumber2Places(100D / (tier - 6))),
                                     """
-                                            For the same overclocking level, the higher this value, the greater the overclocking factor
-                                            A larger overclocking factor represents a more aggressive overclocking strategy
-                                            Higher energy consumption, faster speed!""")))
+                                            §mWhen this hatch is not installed, for every 4 times power used, machine duration ×55%%§r
+                                            §aAfter installing this hatch, the overclocking effect is increased to a maximum of every 4 times power used, machine duration ×%s%%§r
+                                            More aggressive overclocking strategies, more powerful machine performance, and more extreme processing speeds!""".formatted(FormattingUtil.formatNumber2Places(100D / (tier - 6))))))
                     .workableTieredHullRenderer(GTOCore.id("block/machines/overclock_hatch/overclock_hatch_mk" + (tier - 7)))
                     .notAllowSharedTooltips()
                     .register(),
@@ -285,13 +285,15 @@ public final class GTOMachines {
                             v -> v.addLines("无条件加速机器运行速度", "Unconditionally accelerates machine operation speed"),
                             p -> p.addCommentLines(
                                     """
-                                            加速仓的等级低于机器配方等级时加速效果减弱
+                                            运行时长调整范围：%s%%~100%%
+                                            加速仓的等级低于机器配方等级时加速效力减弱20%%每级
                                             来自 GTO 的神秘力量
-                                            尽情享受吧！""",
+                                            尽情享受吧！""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)),
                                     """
-                                            The acceleration effect is weakened when the hatch tier is lower than the recipe tier
+                                            Operation duration adjustment range: %s%%~100%%
+                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the machine recipe level
                                             Mysterious power from GTO
-                                            Enjoy it to the fullest!""")))
+                                            Enjoy it to the fullest!""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)))))
                     .notAllowSharedTooltips()
                     .workableTieredHullRenderer(GTOCore.id("block/machines/accelerate_hatch/accelerate_hatch_mk" + tier))
                     .register(),

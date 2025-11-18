@@ -124,12 +124,6 @@ public final class BlockMap {
     @RegisterLanguage(namePrefix = namePrefix, cn = "密封机械方块", en = "Hermetic Casing")
     public static final String hermetic_casing = "hermetic_casing";
 
-    @RegisterLanguage(namePrefix = namePrefix, cn = "消声仓", en = "Muffler Hatch")
-    public static final String muffler_hatch = "muffler_hatch";
-
-    @RegisterLanguage(namePrefix = namePrefix, cn = "维护仓", en = "Maintenance Hatch")
-    public static final String maintenance_hatch = "maintenance_hatch";
-
     public static void build() {
         var coils = new ArrayList<>(GTCEuAPI.HEATING_COILS.entrySet());
         coils.sort(Comparator.comparingInt(entry -> entry.getKey().getTier()));
