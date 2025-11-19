@@ -17,7 +17,7 @@ import com.gtolib.api.recipe.modifier.ParallelCache;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -118,7 +118,7 @@ public final class InternalSlotRecipeHandler {
 
         public final MEPatternBufferPartMachine.InternalSlot slot;
 
-        AbstractRHL(MEPatternBufferPartMachine.InternalSlot slot, MultiblockPartMachine part) {
+        AbstractRHL(MEPatternBufferPartMachine.InternalSlot slot, IMultiPart part) {
             super(IO.IN, part);
             this.slot = slot;
         }

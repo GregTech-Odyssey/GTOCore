@@ -55,7 +55,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Override
     public void addHandlerList(RecipeHandlerList handler) {
-        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.getPos() == p)) {
+        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.self().getPos() == p)) {
             if (outputDistilledWaterHatchesList == null) {
                 outputDistilledWaterHatchesList = new ObjectArrayList<>();
             }

@@ -231,7 +231,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
             var mufflerMap = new HashMap<Item, Integer>();
             for (var i : GTMachines.MUFFLER_HATCH) {
                 if (i != null && (i.getTier() >= GTValues.LuV || GTOCore.isExpert())) {
-                    mufflerMap.put(i.getBlock().asItem(), i.getTier());
+                    mufflerMap.put(i.asItem(), i.getTier());
                 }
             }
             MUFFLER_HATCH = Map.copyOf(mufflerMap);

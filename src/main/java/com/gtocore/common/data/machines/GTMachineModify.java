@@ -69,20 +69,20 @@ public final class GTMachineModify {
                 .aisle("XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "XXX")
                 .aisle("XXX", "XSX", "XXX")
-                .where('S', Predicates.controller(blocks(definition.getBlock())))
+                .where('S', Predicates.controller(blocks(definition.get())))
                 .where('#', air())
                 .where('X', blocks(CASING_BRONZE_BRICKS.get())
                         .or(abilities(PartAbility.STEAM_IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                         .or(abilities(PartAbility.STEAM_EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                         .or(abilities(PartAbility.STEAM).setExactLimit(1))
-                        .or(blocks(GTOMachines.STEAM_VENT_HATCH.getBlock()).setExactLimit(1)))
+                        .or(blocks(GTOMachines.STEAM_VENT_HATCH.get()).setExactLimit(1)))
                 .build());
 
         GTMultiMachines.STEAM_OVEN.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
                 .aisle("FFF", "XXX", " X ")
                 .aisle("FFF", "X#X", " X ")
                 .aisle("FFF", "XSX", " X ")
-                .where('S', controller(blocks(definition.getBlock())))
+                .where('S', controller(blocks(definition.get())))
                 .where('#', air())
                 .where(' ', any())
                 .where('X', blocks(CASING_BRONZE_BRICKS.get())
@@ -90,7 +90,7 @@ public final class GTMachineModify {
                         .or(Predicates.abilities(PartAbility.STEAM_EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
                 .where('F', blocks(FIREBOX_BRONZE.get())
                         .or(Predicates.abilities(PartAbility.STEAM).setExactLimit(1))
-                        .or(blocks(GTOMachines.STEAM_VENT_HATCH.getBlock()).setExactLimit(1)))
+                        .or(blocks(GTOMachines.STEAM_VENT_HATCH.get()).setExactLimit(1)))
                 .build());
 
         GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
@@ -99,14 +99,14 @@ public final class GTMachineModify {
                 .aisle("XXX", "XYX", "XXX", "XXX")
                 .where('X', blocks(CASING_PRIMITIVE_BRICKS.get()).or(blocks(PRIMITIVE_BLAST_FURNACE_HATCH.get()).setMaxGlobalLimited(5)))
                 .where('#', air())
-                .where('Y', controller(blocks(definition.getBlock())))
+                .where('Y', controller(blocks(definition.get())))
                 .build());
 
         GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(definition -> FactoryBlockPattern.start(definition)
                 .aisle("XXX", "CCC", "CCC", "CCC")
                 .aisle("XXX", "CPC", "CPC", "CCC")
                 .aisle("XXX", "CSC", "CCC", "CCC")
-                .where('S', Predicates.controller(blocks(definition.getBlock())))
+                .where('S', Predicates.controller(blocks(definition.get())))
                 .where('P', blocks(CASING_BRONZE_PIPE.get()))
                 .where('X', blocks(FIREBOX_BRONZE.get()).setMinGlobalLimited(5)
                         .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1))
@@ -122,7 +122,7 @@ public final class GTMachineModify {
                     .aisle("ZZZ", "Z#Z", "ZZZ")
                     .aisle("XXX", "X#X", "XXX").setRepeatable(0, 10)
                     .aisle("XXX", "XXX", "XXX")
-                    .where('S', Predicates.controller(blocks(definition.getBlock())))
+                    .where('S', Predicates.controller(blocks(definition.get())))
                     .where('Y', blocks(CASING_STAINLESS_CLEAN.get())
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2))
@@ -150,7 +150,7 @@ public final class GTMachineModify {
                 .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                 .where('C', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get()))
                 .where('D', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
-                .where('E', controller(blocks(definition.getBlock())))
+                .where('E', controller(blocks(definition.get())))
                 .where(' ', any())
                 .build()));
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setAdditionalDisplay((m, l) -> {});

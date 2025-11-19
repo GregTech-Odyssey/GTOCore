@@ -104,7 +104,7 @@ public final class GTDynamicLoot {
             ((BlockBehaviourAccessor) blockEntry.get()).setDrops(lootTableId);
         });
         GTRegistries.MACHINES.forEach(machine -> {
-            Block block = machine.getBlock();
+            Block block = machine.get();
             ResourceLocation id = machine.getId();
             ResourceLocation lootTableId = RLUtils.fromNamespaceAndPath(id.getNamespace(), "blocks/" + id.getPath());
             ((BlockBehaviourAccessor) block).setDrops(lootTableId);

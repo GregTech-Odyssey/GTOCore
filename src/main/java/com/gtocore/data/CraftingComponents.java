@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
+import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
@@ -22,6 +23,7 @@ public final class CraftingComponents {
     public static CraftingComponent INTEGRATED_CONTROL_CORE;
 
     public static void init() {
+        GTCraftingComponents.init();
         PUMP.add(14, GTOItems.MAX_ELECTRIC_PUMP.asItem());
 
         CONVEYOR.add(14, GTOItems.MAX_CONVEYOR_MODULE.asItem());
@@ -314,7 +316,7 @@ public final class CraftingComponents {
                 .add(13, new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Draconium))
                 .add(14, new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Infinity));
 
-        BUFFER = CraftingComponent.of("buffer", GTMachines.BUFFER[1].asItem())
+        BUFFER = CraftingComponent.of(GTMachines.BUFFER[1].asItem())
                 .add(1, GTMachines.BUFFER[1].asItem())
                 .add(2, GTMachines.BUFFER[2].asItem())
                 .add(3, GTMachines.BUFFER[3].asItem())
@@ -330,7 +332,7 @@ public final class CraftingComponents {
                 .add(13, GTMachines.BUFFER[13].asItem())
                 .add(14, GTMachines.BUFFER[14].asItem());
 
-        FLUID_REGULATOR = CraftingComponent.of("fluid_regulator", GTItems.FLUID_REGULATOR_LV.asItem())
+        FLUID_REGULATOR = CraftingComponent.of(GTItems.FLUID_REGULATOR_LV.asItem())
                 .add(1, GTItems.FLUID_REGULATOR_LV.asItem())
                 .add(2, GTItems.FLUID_REGULATOR_MV.asItem())
                 .add(3, GTItems.FLUID_REGULATOR_HV.asItem())
@@ -345,7 +347,7 @@ public final class CraftingComponents {
                 .add(12, GTItems.FLUID_REGULATOR_UXV.asItem())
                 .add(13, GTItems.FLUID_REGULATOR_OpV.asItem());
 
-        INTEGRATED_CONTROL_CORE = CraftingComponent.of("integrated_control_core", GTOItems.INTEGRATED_CONTROL_CORE_UV.asItem())
+        INTEGRATED_CONTROL_CORE = CraftingComponent.of(GTOItems.INTEGRATED_CONTROL_CORE_UV.asItem())
                 .add(8, GTOItems.INTEGRATED_CONTROL_CORE_UV.asItem())
                 .add(9, GTOItems.INTEGRATED_CONTROL_CORE_UHV.asItem())
                 .add(10, GTOItems.INTEGRATED_CONTROL_CORE_UEV.asItem())
