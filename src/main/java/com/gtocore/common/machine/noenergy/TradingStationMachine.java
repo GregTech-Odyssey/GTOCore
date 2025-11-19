@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction.common;
+package com.gtocore.common.machine.noenergy;
 
 import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.gui.InteractiveImageWidget;

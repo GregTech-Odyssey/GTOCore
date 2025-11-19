@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction.common;
+package com.gtocore.data.transaction;
 
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 

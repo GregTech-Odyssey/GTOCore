@@ -7,10 +7,10 @@ import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gtocore.common.cover.PowerAmplifierCover;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
+import com.gtocore.common.item.PalmSizedBankBehavior;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 import com.gtocore.data.lootTables.RewardBagLoot;
-import com.gtocore.data.transaction.common.PalmSizedBankBehavior;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;

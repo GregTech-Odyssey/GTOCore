@@ -1,4 +1,4 @@
-package com.gtocore.data.transaction.common;
+package com.gtocore.common.item;
 
 import com.gtocore.common.data.GTOItems;
 

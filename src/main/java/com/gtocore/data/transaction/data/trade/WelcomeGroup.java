@@ -1,7 +1,7 @@
 package com.gtocore.data.transaction.data.trade;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.data.transaction.common.TradingStationMachine;
+import com.gtocore.common.machine.noenergy.TradingStationMachine;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 

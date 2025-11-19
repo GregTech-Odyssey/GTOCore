@@ -1,6 +1,6 @@
 package com.gtocore.data.transaction.manager;
 
-import com.gtocore.data.transaction.common.TradingStationMachine;
+import com.gtocore.common.machine.noenergy.TradingStationMachine;
 
 import com.gtolib.api.wireless.WirelessManaContainer;
 import com.gtolib.utils.WalletUtils;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.gtocore.data.transaction.common.TradingStationTool.*;
+import static com.gtocore.data.transaction.TradingStationTool.*;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 
 /**
