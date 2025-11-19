@@ -71,7 +71,7 @@ public class SteamFluidHatchPartMachine extends FluidHatchPartMachine {
             newDefinition = GTOMachines.STEAM_FLUID_INPUT_HATCH;
         }
         if (newDefinition == null) return false;
-        BlockState newBlockState = newDefinition.getBlock().defaultBlockState();
+        BlockState newBlockState = newDefinition.get().defaultBlockState();
         getLevel().setBlockAndUpdate(blockPos, newBlockState);
         if (getLevel().getBlockEntity(blockPos) instanceof MetaMachineBlockEntity newHolder) {
             if (newHolder.getMetaMachine() instanceof FluidHatchPartMachine newMachine) {

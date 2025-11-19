@@ -140,9 +140,9 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
         if (part instanceof SensorPartMachine sensorPartMachine) {
-            if (sensorPartMachine.getHolder().getBlockState().is(GTOMachines.HEAT_SENSOR.getBlock()))
+            if (sensorPartMachine.getHolder().getBlockState().is(GTOMachines.HEAT_SENSOR.get()))
                 sensorMachineTemp = sensorPartMachine;
-            else if (sensorPartMachine.getHolder().getBlockState().is(GTOMachines.NEUTRON_SENSOR.getBlock()))
+            else if (sensorPartMachine.getHolder().getBlockState().is(GTOMachines.NEUTRON_SENSOR.get()))
                 sensorNeutronFlux = sensorPartMachine;
         }
     }

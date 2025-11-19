@@ -20,7 +20,6 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.cells.IBasicCellItem;
 import appeng.api.storage.cells.ISaveProvider;
 import appeng.api.storage.cells.StorageCell;
-import appeng.items.tools.powered.PortableCellItem;
 import appeng.me.cells.BasicCellInventory;
 import appeng.util.prioritylist.IPartitionList;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
@@ -55,9 +54,6 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
 
     @Unique
     private long gtolib$totalAmount;
-
-    @Unique
-    private boolean gtocore$change = true;
 
     @Shadow(remap = false)
     @Final
@@ -272,31 +268,6 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         }
     }
 
-    @Override
-    public KeyCounter getAvailableStacks() {
-        KeyCounter keyCounter;
-        if (cellType instanceof PortableCellItem) {
-            keyCounter = new KeyCounter();
-            gtocore$change = true;
-        } else {
-            var data = gtolib$getCellStorage();
-            keyCounter = data.getKeyCounter();
-            if (keyCounter == null) {
-                keyCounter = new KeyCounter();
-                data.setKeyCounter(keyCounter);
-                gtocore$change = true;
-            } else if (gtocore$change) {
-                keyCounter.clear();
-            }
-        }
-        if (gtocore$change) {
-            getAvailableStacks(keyCounter);
-            keyCounter.removeEmptySubmaps();
-            gtocore$change = false;
-        }
-        return keyCounter;
-    }
-
     /**
      * @author .
      * @reason .
@@ -339,7 +310,6 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         amount = Math.min(gtolib$totalAmount - (long) (data.getBytes() * keyType.getAmountPerByte()), amount);
         if (amount < 1) return 0;
         if (mode == Actionable.MODULATE) {
-            gtocore$change = true;
             gtolib$getCellStoredMap().addTo(what, amount);
             saveChanges();
         }
@@ -359,14 +329,12 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
             if (amount >= currentAmount) {
                 if (mode == Actionable.MODULATE) {
                     map.remove(what, currentAmount);
-                    gtocore$change = true;
                     this.saveChanges();
                 }
                 return currentAmount;
             } else {
                 if (mode == Actionable.MODULATE) {
                     map.put(what, currentAmount - amount);
-                    gtocore$change = true;
                     this.saveChanges();
                 }
                 return amount;

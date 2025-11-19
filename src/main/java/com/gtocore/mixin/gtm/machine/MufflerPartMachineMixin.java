@@ -64,6 +64,8 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private int gto$chanceOfNotProduceAsh = 100;
     @Unique
+    private boolean gtolib$lastFrontFaceFree;
+    @Unique
     private long gtocore$refresh = 0;
 
     protected MufflerPartMachineMixin(MetaMachineBlockEntity holder, int tier) {
@@ -155,16 +157,17 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     public boolean isFrontFaceFree() {
         var time = getOffsetTimer();
         if (time > gtocore$refresh) {
+            gtolib$lastFrontFaceFree = true;
             BlockPos pos = self().getPos();
             for (int i = 0; i < 3; i++) {
                 pos = pos.relative(this.self().getFrontFacing());
                 if (!self().getLevel().getBlockState(pos).isAir()) {
-                    return false;
+                    gtolib$lastFrontFaceFree = false;
                 }
             }
             gtocore$refresh = time + 100;
         }
-        return true;
+        return gtolib$lastFrontFaceFree;
     }
 
     @Unique

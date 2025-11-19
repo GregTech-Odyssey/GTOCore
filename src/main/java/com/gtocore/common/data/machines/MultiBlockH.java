@@ -140,7 +140,7 @@ public final class MultiBlockH {
                     .where('R', blocks(GTOBlocks.ADVANCED_ASSEMBLY_LINE_UNIT.get()))
                     .where('S', blocks(GTOBlocks.SPACETIME_ASSEMBLY_LINE_CASING.get()))
                     .where('T', blocks(GCYMBlocks.CASING_ATOMIC.get())
-                            .or(blocks(GTOMachines.MACHINE_ACCESS_TERMINAL.getBlock()).setMaxGlobalLimited(4).setMinGlobalLimited(1))
+                            .or(blocks(GTOMachines.MACHINE_ACCESS_TERMINAL.get()).setMaxGlobalLimited(4).setMinGlobalLimited(1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
@@ -571,7 +571,7 @@ public final class MultiBlockH {
                     maxBuilder.aisle(middleRowBuilder.toString());
                 }
                 maxBuilder.aisle(boundaryRow)
-                        .where('~', controller.getBlock())
+                        .where('~', controller.get())
                         .where('a', GTBlocks.STEEL_HULL.get())
                         .where('b', GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get());
                 MultiblockShapeInfo maxShape = maxBuilder.build();

@@ -67,6 +67,7 @@ import jeresources.jei.JEIConfig;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.library.plugins.jei.JeiInternalPlugin;
 import mythicbotany.jei.MythicJei;
+import snownee.jade.compat.JEICompat;
 import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
@@ -90,6 +91,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIFRPlugin());
         list.add(new JEIArsNouveauPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
+        list.add(new JEICompat());
     }
 
     public static void addEMIPlugin(List<EmiPluginContainer> list) {

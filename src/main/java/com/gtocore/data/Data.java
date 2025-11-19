@@ -42,7 +42,6 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.core.MixinHelpers;
-import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
@@ -86,7 +85,7 @@ public final class Data {
         MeteoriteRecipe.init();
 
         ItemMaterialData.reinitializeMaterialData();
-        GTCraftingComponents.init();
+        CraftingComponents.init();
         MaterialInfoLoader.init();
         MaterialInfo.init();
         RecipeBuilder.initialization();

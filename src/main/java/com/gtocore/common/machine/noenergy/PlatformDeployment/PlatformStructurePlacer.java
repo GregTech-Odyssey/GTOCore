@@ -94,7 +94,7 @@ final class PlatformStructurePlacer {
 
             BlockState oldState = section.getBlockState(x, localY, z);
 
-            if (oldState.getBlock().equals(GTOMachines.INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS.getBlock())) {
+            if (oldState.getBlock() == GTOMachines.INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS.get()) {
                 continue;
             }
 

@@ -49,10 +49,9 @@ public class SteamVentHatchMachine extends MultiblockPartMachine implements IExh
     }
 
     @Override
-    public boolean afterWorking(IWorkableMultiController controller) {
+    public void afterWorking(IWorkableMultiController controller) {
         this.needsVenting = true;
         checkVenting();
-        return super.afterWorking(controller);
     }
 
     @Override
