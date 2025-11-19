@@ -1,5 +1,7 @@
 package com.gtocore.data.transaction.data;
 
+import com.gtocore.api.gui.StackTexture;
+import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.transaction.data.trade.PlayersGroup;
 import com.gtocore.data.transaction.data.trade.UnlockTrade;
 import com.gtocore.data.transaction.data.trade.WelcomeGroup;
@@ -63,7 +65,7 @@ public class GTOTrade {
 
         // 示例3: 新的测试交易 - 石头换 cobblestone
         TradeEntry stoneForCobblestone = new TradeEntry.Builder()
-                .texture(new ItemStackTexture(Items.COBBLESTONE))
+                .texture(new StackTexture(Items.COBBLESTONE))
                 .description(List.of(Component.literal("1个石头 → 2个圆石")))
                 .unlockCondition("null")
                 .inputItem(new ItemStack(Items.STONE, 1))
@@ -72,7 +74,7 @@ public class GTOTrade {
 
         // 示例4: 新的测试交易 - 水和岩浆换黑曜石
         TradeEntry fluidsForObsidian = new TradeEntry.Builder()
-                .texture(new ItemStackTexture(Items.OBSIDIAN))
+                .texture(new StackTexture(GTOMaterials.TranscendingMatter.getFluid(60000000)))
                 .description(List.of(Component.literal("1桶水 + 1桶岩浆 → 1个黑曜石")))
                 .unlockCondition("null")
                 .inputFluid(new FluidStack(Fluids.WATER, 1000))
@@ -82,7 +84,7 @@ public class GTOTrade {
 
         // 示例5: 新的测试交易 - 使用货币
         TradeEntry currencyForDiamond = new TradeEntry.Builder()
-                .texture(new ItemStackTexture(Items.DIAMOND))
+                .texture(new StackTexture(Items.DIAMOND))
                 .description(List.of(Component.literal("1000单位货币 → 1个钻石")))
                 .unlockCondition("需要解锁货币系统")
                 .inputCurrency(TECH_OPERATOR_COIN, 1000)

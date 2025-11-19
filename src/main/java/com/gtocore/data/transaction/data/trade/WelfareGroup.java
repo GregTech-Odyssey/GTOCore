@@ -1,12 +1,15 @@
 package com.gtocore.data.transaction.data.trade;
 
+import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 
 import java.util.Set;
 
-import static com.gtocore.data.transaction.data.TradeLang.*;
+import static com.gtocore.data.transaction.data.GTOTrade.createTestTradeTemplates;
+import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
+import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 
 public class WelfareGroup {
@@ -36,5 +39,9 @@ public class WelfareGroup {
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
+
+        for (TradeEntry entry : createTestTradeTemplates()) {
+            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1, entry);
+        }
     }
 }

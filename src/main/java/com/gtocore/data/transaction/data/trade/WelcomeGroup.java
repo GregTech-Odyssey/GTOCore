@@ -23,10 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Gold;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Naquadah;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Osmium;
 import static com.gtocore.common.data.GTOMaterials.Adamantine;
 import static com.gtocore.common.data.GTOMaterials.Infinity;
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;

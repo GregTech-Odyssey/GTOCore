@@ -37,11 +37,7 @@ public class GrayMembershipCardItem extends Item {
     /**
      * 安全地获取或创建 membership_data CompoundTag。
      */
-    @Nullable
-    private static CompoundTag getMembershipTag(@NotNull ItemStack stack) {
-        if (stack.isEmpty() || !(stack.getItem() instanceof GrayMembershipCardItem)) {
-            return null;
-        }
+    private static @NotNull CompoundTag getMembershipTag(@NotNull ItemStack stack) {
         return stack.getOrCreateTagElement(TAG_MEMBERSHIP_DATA);
     }
 
