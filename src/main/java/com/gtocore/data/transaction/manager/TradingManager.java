@@ -12,14 +12,7 @@ import java.util.*;
  */
 public class TradingManager {
 
-    private static class SingletonHolder {
-
-        private static final TradingManager INSTANCE = new TradingManager();
-    }
-
-    public static TradingManager getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
+    public static final TradingManager INSTANCE = new TradingManager();
 
     private TradingManager() {}
 

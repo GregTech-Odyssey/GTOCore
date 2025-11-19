@@ -18,21 +18,19 @@ public class WelfareGroup {
      * - 福利兑换 贰
      */
     public static void init() {
-        TradingManager manager = TradingManager.getInstance();
-
-        int GroupIndex = manager.addShopGroup(
+        int GroupIndex = TradingManager.INSTANCE.addShopGroup(
                 addTradeLang("员工福利兑换中心", "Employee Benefits Redemption Center"),
                 GuiTextures.GREGTECH_LOGO,
                 GuiTextures.GREGTECH_LOGO);
 
-        int ShopIndex1 = manager.addShopByGroupIndex(
+        int ShopIndex1 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
                 addTradeLang("福利兑换 壹", "Welfare Redemption 1"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
 
-        int ShopIndex2 = manager.addShopByGroupIndex(
+        int ShopIndex2 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
                 addTradeLang("福利兑换 贰", "Welfare Redemption 2"),
                 UNLOCK_BASE,

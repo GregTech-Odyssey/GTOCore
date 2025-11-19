@@ -23,7 +23,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static com.gtocore.data.transaction.TradingStationTool.*;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
@@ -201,42 +200,6 @@ public record TradeEntry(
             currencies = new O2LOpenCacheHashMap<>(currencies);
         }
 
-        // ------------------- 资源操作 -------------------
-        public TradeGroup addItem(ItemStack stack) {
-            if (stack.isEmpty()) return this;
-            List<ItemStack> newItems = Stream.concat(this.items.stream(), Stream.of(stack)).toList();
-            return new TradeGroup(newItems, this.fluids, this.currencies, this.energy, this.mana);
-        }
-
-        public TradeGroup addFluid(FluidStack stack) {
-            if (stack.isEmpty()) return this;
-            List<FluidStack> newFluids = Stream.concat(this.fluids.stream(), Stream.of(stack)).toList();
-            return new TradeGroup(this.items, newFluids, this.currencies, this.energy, this.mana);
-        }
-
-        public TradeGroup addCurrency(String currencyId, long amount) {
-            if (amount <= 0) return this;
-            O2LOpenCacheHashMap<String> newCurrencies = new O2LOpenCacheHashMap<>(this.currencies);
-            newCurrencies.put(currencyId, amount);
-            return new TradeGroup(this.items, this.fluids, newCurrencies, this.energy, this.mana);
-        }
-
-        public TradeGroup withEnergy(BigInteger energy) {
-            return new TradeGroup(this.items, this.fluids, this.currencies, energy, this.mana);
-        }
-
-        public TradeGroup withMana(BigInteger mana) {
-            return new TradeGroup(this.items, this.fluids, this.currencies, this.energy, mana);
-        }
-
-        public TradeGroup withEnergy(long energy) {
-            return withEnergy(BigInteger.valueOf(energy));
-        }
-
-        public TradeGroup withMana(long mana) {
-            return withMana(BigInteger.valueOf(mana));
-        }
-
         /**
          * 检查当前 TradeGroup 是否所有字段都为空（或无效）。
          */
@@ -285,6 +248,54 @@ public record TradeEntry(
             }
             return list;
         }
+
+        // =================== TradeGroup 的 Builder ===================
+        public static class Builder {
+
+            private final List<ItemStack> items = new ArrayList<>();
+            private final List<FluidStack> fluids = new ArrayList<>();
+            private final O2LOpenCacheHashMap<String> currencies = new O2LOpenCacheHashMap<>();
+            private BigInteger energy = BigInteger.ZERO;
+            private BigInteger mana = BigInteger.ZERO;
+
+            public void addItem(ItemStack stack) {
+                if (!stack.isEmpty()) {
+                    this.items.add(stack);
+                }
+            }
+
+            public void addFluid(FluidStack stack) {
+                if (!stack.isEmpty()) {
+                    this.fluids.add(stack);
+                }
+            }
+
+            public void addCurrency(String currencyId, long amount) {
+                if (amount > 0) {
+                    this.currencies.put(currencyId, amount);
+                }
+            }
+
+            public void withEnergy(BigInteger energy) {
+                this.energy = energy;
+            }
+
+            public void withMana(BigInteger mana) {
+                this.mana = mana;
+            }
+
+            public void withEnergy(long energy) {
+                withEnergy(BigInteger.valueOf(energy));
+            }
+
+            public void withMana(long mana) {
+                withMana(BigInteger.valueOf(mana));
+            }
+
+            public TradeGroup build() {
+                return new TradeGroup(items, fluids, currencies, energy, mana);
+            }
+        }
     }
 
     // ------------------- 函数式接口 -------------------
@@ -300,16 +311,16 @@ public record TradeEntry(
         void run(TradingStationMachine machine, int multiplier, TradeEntry entry);
     }
 
-    // ------------------- 链式构建器（唯一配置入口） -------------------
+    // ------------------- TradeEntry 的链式构建器 -------------------
     public static class Builder {
 
         private IGuiTexture texture;
-        private List<Component> description = List.of();
+        private final List<Component> description = new ArrayList<>();
         private String unlockCondition;
         private PreTradeCheck preCheck;
         private TradeRunnable onExecute;
-        private TradeGroup inputGroup = new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
-        private TradeGroup outputGroup = new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
+        private final TradeGroup.Builder inputGroupBuilder = new TradeGroup.Builder();
+        private final TradeGroup.Builder outputGroupBuilder = new TradeGroup.Builder();
 
         // ------------------- 配置方法（链式调用） -------------------
         public Builder texture(IGuiTexture texture) {
@@ -318,7 +329,15 @@ public record TradeEntry(
         }
 
         public Builder description(List<Component> components) {
-            this.description = List.copyOf(components != null ? components : List.of());
+            this.description.clear();
+            if (components != null) {
+                this.description.addAll(components);
+            }
+            return this;
+        }
+
+        public Builder addDescription(Component component) {
+            this.description.add(component);
             return this;
         }
 
@@ -339,53 +358,53 @@ public record TradeEntry(
 
         // ------------------- 输入资源配置 -------------------
         public Builder inputItem(ItemStack stack) {
-            this.inputGroup = this.inputGroup.addItem(stack);
+            this.inputGroupBuilder.addItem(stack);
             return this;
         }
 
         public Builder inputFluid(FluidStack stack) {
-            this.inputGroup = this.inputGroup.addFluid(stack);
+            this.inputGroupBuilder.addFluid(stack);
             return this;
         }
 
         public Builder inputCurrency(String currencyId, long amount) {
-            this.inputGroup = this.inputGroup.addCurrency(currencyId, amount);
+            this.inputGroupBuilder.addCurrency(currencyId, amount);
             return this;
         }
 
         public Builder inputEnergy(long energy) {
-            this.inputGroup = this.inputGroup.withEnergy(energy);
+            this.inputGroupBuilder.withEnergy(energy);
             return this;
         }
 
         public Builder inputMana(long mana) {
-            this.inputGroup = this.inputGroup.withMana(mana);
+            this.inputGroupBuilder.withMana(mana);
             return this;
         }
 
         // ------------------- 输出资源配置 -------------------
         public Builder outputItem(ItemStack stack) {
-            this.outputGroup = this.outputGroup.addItem(stack);
+            this.outputGroupBuilder.addItem(stack);
             return this;
         }
 
         public Builder outputFluid(FluidStack stack) {
-            this.outputGroup = this.outputGroup.addFluid(stack);
+            this.outputGroupBuilder.addFluid(stack);
             return this;
         }
 
         public Builder outputCurrency(String currencyId, long amount) {
-            this.outputGroup = this.outputGroup.addCurrency(currencyId, amount);
+            this.outputGroupBuilder.addCurrency(currencyId, amount);
             return this;
         }
 
         public Builder outputEnergy(long energy) {
-            this.outputGroup = this.outputGroup.withEnergy(energy);
+            this.outputGroupBuilder.withEnergy(energy);
             return this;
         }
 
         public Builder outputMana(long mana) {
-            this.outputGroup = this.outputGroup.withMana(mana);
+            this.outputGroupBuilder.withMana(mana);
             return this;
         }
 
@@ -395,12 +414,12 @@ public record TradeEntry(
         public TradeEntry build() {
             return new TradeEntry(
                     texture,
-                    description,
+                    List.copyOf(description),
                     unlockCondition,
                     preCheck,
                     onExecute,
-                    inputGroup,
-                    outputGroup);
+                    inputGroupBuilder.build(),
+                    outputGroupBuilder.build());
         }
     }
 }

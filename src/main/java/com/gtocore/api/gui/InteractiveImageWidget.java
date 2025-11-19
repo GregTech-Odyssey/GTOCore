@@ -8,7 +8,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 
-import com.lowdragmc.lowdraglib.gui.editor.annotation.Configurable;
 import com.lowdragmc.lowdraglib.gui.editor.annotation.NumberColor;
 import com.lowdragmc.lowdraglib.gui.editor.annotation.NumberRange;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -29,16 +28,13 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@Configurable(name = "ldlib.gui.editor.register.widget.interactive_image", collapse = false)
 public class InteractiveImageWidget extends Widget {
 
     @Getter
-    @Configurable(name = "ldlib.gui.editor.name.border")
     @NumberRange(range = { -100.0, 100.0 })
     private int border;
 
     @Getter
-    @Configurable(name = "ldlib.gui.editor.name.border_color")
     @NumberColor
     private int borderColor = 0xFF000000;
 

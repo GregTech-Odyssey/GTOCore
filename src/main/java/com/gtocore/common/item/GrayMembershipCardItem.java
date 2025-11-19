@@ -3,149 +3,140 @@ package com.gtocore.common.item;
 import com.gtocore.common.data.GTOItems;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 public class GrayMembershipCardItem extends Item {
 
-    public static final String MEMBERSHIP_CARD = "membership_card";
-    public static final String UUID_TAG = "uuid";
-    public static final String SHARED_TAG = "shared";
+    private static final String TAG_MEMBERSHIP_DATA = "membership_data";
+    private static final String TAG_UUID = "uuid";
+    private static final String TAG_SHARED = "shared";
 
     public GrayMembershipCardItem(Properties properties) {
         super(properties.stacksTo(1));
     }
 
+    /**
+     * 安全地获取或创建 membership_data CompoundTag。
+     */
+    @Nullable
+    private static CompoundTag getMembershipTag(@NotNull ItemStack stack) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof GrayMembershipCardItem)) {
+            return null;
+        }
+        return stack.getOrCreateTagElement(TAG_MEMBERSHIP_DATA);
+    }
+
+    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
-        // 1. 获取主人 UUID 和名称
         UUID ownerUuid = getSingleUuid(stack);
-        String ownerName = Component.translatable("gtocore.gray_membership_card.hover_text.1").getString();
+        Component ownerNameComponent = Component.translatable("gtocore.gray_membership_card.hover_text.1");
         if (ownerUuid != null && level != null) {
             Player ownerPlayer = level.getPlayerByUUID(ownerUuid);
-            ownerName = (ownerPlayer != null) ? ownerPlayer.getName().getString() :
-                    Component.translatable("gtocore.gray_membership_card.hover_text.2").getString();
+            ownerNameComponent = (ownerPlayer != null) ? ownerPlayer.getName() :
+                    Component.translatable("gtocore.gray_membership_card.hover_text.2");
         }
 
-        // 2. 获取共享者 UUID 列表和名称列表
         List<UUID> sharedUuids = getSharedUuids(stack);
-        List<String> sharedNames = new ArrayList<>();
+        List<Component> sharedNameComponents = new ArrayList<>();
         if (level != null) {
             for (UUID sharedUuid : sharedUuids) {
                 Player sharedPlayer = level.getPlayerByUUID(sharedUuid);
-                sharedNames.add((sharedPlayer != null) ? sharedPlayer.getName().getString() :
-                        Component.translatable("gtocore.gray_membership_card.hover_text.2").getString());
+                sharedNameComponents.add((sharedPlayer != null) ? sharedPlayer.getName() :
+                        Component.translatable("gtocore.gray_membership_card.hover_text.2"));
             }
         }
 
-        // 3. 添加到 Tooltip
-        tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.3")
-                .append(Component.literal(ownerName)));
-        if (!sharedNames.isEmpty()) {
-            tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.4")
-                    .append(Component.literal(String.join(", ", sharedNames))));
+        tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.3").append(ownerNameComponent));
+        if (!sharedNameComponents.isEmpty()) {
+            MutableComponent sharedNamesJoined = Component.empty();
+            for (int i = 0; i < sharedNameComponents.size(); i++) {
+                if (i > 0) {
+                    sharedNamesJoined.append(", ");
+                }
+                sharedNamesJoined.append(sharedNameComponents.get(i));
+            }
+            tooltip.add(Component.translatable("gtocore.gray_membership_card.hover_text.4").append(sharedNamesJoined));
         }
     }
 
     /**
-     * 方法1：根据单个 UUID 创建会员卡物品
+     * 根据单个 UUID 创建会员卡物品（使用原生 UUID 存储）。
      */
     public static ItemStack createWithUuid(@NotNull UUID uuid) {
-        // 直接使用你的物品注册实例
-        ItemStack stack = GTOItems.GRAY_MEMBERSHIP_CARD.asStack();
-
-        CompoundTag rootTag = stack.getOrCreateTag();
-
-        // 手动实现 getOrCreateCompound 的逻辑
-        CompoundTag membershipTag;
-        if (rootTag.contains(MEMBERSHIP_CARD, Tag.TAG_COMPOUND)) {
-            membershipTag = rootTag.getCompound(MEMBERSHIP_CARD);
-        } else {
-            membershipTag = new CompoundTag();
-            rootTag.put(MEMBERSHIP_CARD, membershipTag);
+        ItemStack stack = new ItemStack(GTOItems.GRAY_MEMBERSHIP_CARD.get());
+        CompoundTag membershipTag = getMembershipTag(stack);
+        if (membershipTag != null) {
+            membershipTag.putUUID(TAG_UUID, uuid);
         }
-
-        membershipTag.putString(UUID_TAG, uuid.toString());
-
-        // 注意：在1.20.1中，修改了CompoundTag后，需要重新设置回ItemStack
-        stack.setTag(rootTag);
-
         return stack;
     }
 
     /**
-     * 方法2：根据单个 UUID 和 UUID 列表创建会员卡物品
+     * 根据单个 UUID 和 UUID 列表创建会员卡物品（使用原生 UUID 存储）。
      */
     public static ItemStack createWithUuidAndSharedList(@NotNull UUID uuid, @Nullable List<UUID> sharedUuids) {
         ItemStack stack = createWithUuid(uuid);
-        CompoundTag rootTag = stack.getTag();
-        if (rootTag == null) {
-            rootTag = new CompoundTag();
-        }
+        CompoundTag membershipTag = getMembershipTag(stack);
 
-        // 手动获取或创建主标签
-        CompoundTag membershipTag = rootTag.getCompound(MEMBERSHIP_CARD);
+        if (membershipTag == null || sharedUuids == null || sharedUuids.isEmpty()) {
+            return stack;
+        }
 
         ListTag sharedListTag = new ListTag();
-        if (sharedUuids != null && !sharedUuids.isEmpty()) {
-            for (UUID sharedUuid : sharedUuids) {
-                sharedListTag.add(StringTag.valueOf(sharedUuid.toString()));
-            }
+        for (UUID sharedUuid : sharedUuids) {
+            sharedListTag.add(NbtUtils.createUUID(sharedUuid));
         }
-
-        membershipTag.put(SHARED_TAG, sharedListTag);
-        rootTag.put(MEMBERSHIP_CARD, membershipTag);
-        stack.setTag(rootTag);
+        membershipTag.put(TAG_SHARED, sharedListTag);
 
         return stack;
     }
 
     /**
-     * 方法3：检查指定 UUID 是否存在于物品 NBT 中
+     * 检查指定 UUID 是否存在于物品 NBT 中（主人或共享者）。
      */
     public static boolean isUuidPresent(@NotNull ItemStack stack, @NotNull UUID uuidToCheck) {
-        if (stack.isEmpty() || !(stack.getItem() instanceof GrayMembershipCardItem) || !stack.hasTag()) {
+        CompoundTag membershipTag = getMembershipTag(stack);
+        if (membershipTag == null) {
             return false;
         }
 
-        CompoundTag rootTag = stack.getTag();
-        assert rootTag != null;
-
-        if (!rootTag.contains(MEMBERSHIP_CARD, Tag.TAG_COMPOUND)) {
-            return false;
-        }
-
-        CompoundTag membershipTag = rootTag.getCompound(MEMBERSHIP_CARD);
-        String targetUuidStr = uuidToCheck.toString();
-
-        // 检查单个 UUID
-        if (membershipTag.contains(UUID_TAG, Tag.TAG_STRING) && membershipTag.getString(UUID_TAG).equals(targetUuidStr)) {
+        // 检查主人 UUID
+        if (membershipTag.hasUUID(TAG_UUID) && membershipTag.getUUID(TAG_UUID).equals(uuidToCheck)) {
             return true;
         }
 
-        // 检查共享列表
-        if (membershipTag.contains(SHARED_TAG, Tag.TAG_LIST)) {
-            ListTag sharedListTag = membershipTag.getList(SHARED_TAG, Tag.TAG_STRING);
+        // 检查共享者列表
+        if (membershipTag.contains(TAG_SHARED, Tag.TAG_LIST)) {
+            ListTag sharedListTag = membershipTag.getList(TAG_SHARED, Tag.TAG_INT_ARRAY);
             for (Tag tag : sharedListTag) {
-                if (tag instanceof StringTag && tag.getAsString().equals(targetUuidStr)) {
-                    return true;
+                try {
+                    if (NbtUtils.loadUUID(tag).equals(uuidToCheck)) {
+                        return true;
+                    }
+                } catch (ClassCastException | IllegalArgumentException e) {
+                    // 忽略无效的标签或UUID
                 }
             }
         }
@@ -154,62 +145,39 @@ public class GrayMembershipCardItem extends Item {
     }
 
     /**
-     * 辅助方法：从物品中读取单个 UUID
+     * 从物品中读取主人 UUID（使用原生方法）。
      */
     @Nullable
     public static UUID getSingleUuid(@NotNull ItemStack stack) {
-        if (stack.isEmpty() || !(stack.getItem() instanceof GrayMembershipCardItem) || !stack.hasTag()) {
-            return null;
+        CompoundTag membershipTag = getMembershipTag(stack);
+        if (membershipTag != null && membershipTag.hasUUID(TAG_UUID)) {
+            try {
+                return membershipTag.getUUID(TAG_UUID);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
         }
-
-        CompoundTag rootTag = stack.getTag();
-        assert rootTag != null;
-        if (!rootTag.contains(MEMBERSHIP_CARD, Tag.TAG_COMPOUND)) {
-            return null;
-        }
-
-        CompoundTag membershipTag = rootTag.getCompound(MEMBERSHIP_CARD);
-        if (!membershipTag.contains(UUID_TAG, Tag.TAG_STRING)) {
-            return null;
-        }
-
-        try {
-            return UUID.fromString(membershipTag.getString(UUID_TAG));
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
+        return null;
     }
 
     /**
-     * 辅助方法：从物品中读取共享 UUID 列表
+     * 从物品中读取共享者 UUID 列表（使用原生方法）。
      */
     @NotNull
     public static List<UUID> getSharedUuids(@NotNull ItemStack stack) {
         List<UUID> sharedUuids = new ArrayList<>();
+        CompoundTag membershipTag = getMembershipTag(stack);
 
-        if (stack.isEmpty() || !(stack.getItem() instanceof GrayMembershipCardItem) || !stack.hasTag()) {
+        if (membershipTag == null || !membershipTag.contains(TAG_SHARED, Tag.TAG_LIST)) {
             return sharedUuids;
         }
 
-        CompoundTag rootTag = stack.getTag();
-        assert rootTag != null;
-        if (!rootTag.contains(MEMBERSHIP_CARD, Tag.TAG_COMPOUND)) {
-            return sharedUuids;
-        }
-
-        CompoundTag membershipTag = rootTag.getCompound(MEMBERSHIP_CARD);
-        if (!membershipTag.contains(SHARED_TAG, Tag.TAG_LIST)) {
-            return sharedUuids;
-        }
-
-        ListTag sharedListTag = membershipTag.getList(SHARED_TAG, Tag.TAG_STRING);
+        ListTag sharedListTag = membershipTag.getList(TAG_SHARED, Tag.TAG_INT_ARRAY);
         for (Tag tag : sharedListTag) {
-            if (tag instanceof StringTag) {
+            if (tag instanceof IntArrayTag) {
                 try {
-                    sharedUuids.add(UUID.fromString(((StringTag) tag).getAsString()));
-                } catch (IllegalArgumentException e) {
-                    // 忽略无效的UUID
-                }
+                    sharedUuids.add(NbtUtils.loadUUID(tag));
+                } catch (IllegalArgumentException ignored) {}
             }
         }
 

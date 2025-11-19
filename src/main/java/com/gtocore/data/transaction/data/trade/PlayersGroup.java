@@ -16,9 +16,7 @@ public class PlayersGroup {
      * - 凭证兑换
      */
     public static void init() {
-        TradingManager manager = TradingManager.getInstance();
-
-        int GroupIndex = manager.addShopGroup(
+        int GroupIndex = TradingManager.INSTANCE.addShopGroup(
                 addTradeLang("员工交易中心", "Employee Trading Center"),
                 new ItemStackTexture(get_GregoriusT_Head()),
                 new ItemStackTexture(get_maple197_Head()));

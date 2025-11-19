@@ -43,13 +43,12 @@ public class WelcomeGroup {
      * - 会员区
      */
     public static void init() {
-        TradingManager manager = TradingManager.getInstance();
-        int GroupIndex = manager.addShopGroup(
+        int GroupIndex = TradingManager.INSTANCE.addShopGroup(
                 addTradeLang("欢迎来到格雷科技", "Welcome to Gray Technology"),
                 GuiTextures.GREGTECH_LOGO,
                 GuiTextures.GREGTECH_LOGO);
 
-        int ShopIndex1 = manager.addShopByGroupIndex(
+        int ShopIndex1 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
                 addTradeLang("欢迎来到格雷科技销售部币兑区", "Welcome to the Currency Exchange Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
@@ -59,18 +58,18 @@ public class WelcomeGroup {
         Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity };
 
         for (int i = 0; i < materials.length; i++) {
-            manager.addTradeEntryByIndices(GroupIndex, ShopIndex1, createCoinExchangeTrade(materials[i], i));
-            manager.addTradeEntryByIndices(GroupIndex, ShopIndex1, createCoinWithdrawTrade(materials[i], i));
+            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1, createCoinExchangeTrade(materials[i], i));
+            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1, createCoinWithdrawTrade(materials[i], i));
         }
 
-        int ShopIndex2 = manager.addShopByGroupIndex(
+        int ShopIndex2 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
                 addTradeLang("欢迎来到格雷科技销售部会员区", "Welcome to the Membership Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
 
-        manager.addTradeEntryByIndices(GroupIndex, ShopIndex2, createWeeklyCheckIn());
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, createWeeklyCheckIn());
     }
 
     public static TradeEntry createCoinExchangeTrade(Material material, int tier) {
@@ -102,8 +101,8 @@ public class WelcomeGroup {
         return new TradeEntry.Builder()
                 .texture(new ResourceTexture("minecraft:textures/mob_effect/luck.png"))
                 .description(List.of(
-                        Component.literal(addTradeLang("每周签到", "Weekly check-in")),
-                        Component.literal(addTradeLang("领取幸运物资", "Claim lucky supplies"))))
+                        Component.translatable(addTradeLang("每周签到", "Weekly check-in")),
+                        Component.translatable(addTradeLang("领取幸运物资", "Claim lucky supplies"))))
                 .unlockCondition(UNLOCK_BASE)
                 .preCheck(WelcomeGroup::checkThisWeek)
                 .onExecute(WelcomeGroup::performCheckIn)

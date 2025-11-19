@@ -11,14 +11,7 @@ import java.util.Set;
 
 public class UnlockManager {
 
-    private static class SingletonHolder {
-
-        private static final UnlockManager INSTANCE = new UnlockManager();
-    }
-
-    public static UnlockManager getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
+    public static final UnlockManager INSTANCE = new UnlockManager();
 
     private UnlockManager() {}
 
@@ -31,7 +24,7 @@ public class UnlockManager {
 
     /** 获取指定组（key）下的交易条目数量 */
     public int getEntryTradeCount(String key) {
-        return unlockGroups.getOrDefault(key, new ArrayList<>()).size();
+        return unlockGroups.getOrDefault(key, Collections.emptyList()).size();
     }
 
     /** 通过组的键的集合 */
@@ -48,7 +41,7 @@ public class UnlockManager {
 
     /** 获取指定组（key）下的所有交易条目 */
     public List<TradeEntry> getTradeEntryList(String key) {
-        List<TradeEntry> entries = unlockGroups.getOrDefault(key, new ArrayList<>());
+        List<TradeEntry> entries = unlockGroups.getOrDefault(key, Collections.emptyList());
         return Collections.unmodifiableList(entries);
     }
 

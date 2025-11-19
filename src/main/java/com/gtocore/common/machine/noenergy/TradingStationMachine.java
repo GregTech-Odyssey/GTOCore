@@ -72,6 +72,62 @@ import static com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup
 public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife, IControllable {
 
     /////////////////////////////////////
+    // *********** 数据存储 *********** //
+    /////////////////////////////////////
+
+    /** 输入输出存储 */
+    @Getter
+    @Persisted
+    @DescSynced
+    private NotifiableItemStackHandler inputItem;
+    @Getter
+    @Persisted
+    @DescSynced
+    private NotifiableItemStackHandler outputItem;
+    @Getter
+    @Persisted
+    @DescSynced
+    private NotifiableFluidTank inputFluid;
+    @Getter
+    @Persisted
+    @DescSynced
+    private NotifiableFluidTank outputFluid;
+
+    /** 其他位置存储 */
+    @Persisted
+    private final CustomItemStackHandler cardHandler;
+
+    /** 玩家信息 */
+    @Getter
+    @Persisted
+    private UUID uuid;
+    @Getter
+    @Persisted
+    List<UUID> sharedUUIDs = new ArrayList<>();
+    @Getter
+    @Persisted
+    private UUID teamUUID;
+    private ServerPlayer currentUIPlayer;
+
+    /** 交易信息 */
+    @Persisted
+    @DescSynced
+    private int groupSelected = 0;
+    private int shopSelected = -1;
+
+    /**
+     * 存储所有升级的等级。
+     */
+    @Persisted
+    private boolean upgradePlayerTrade = false;    // 玩家交易
+    @Persisted
+    private boolean upgradeAutoTrade = false;      // 自动交易
+    @Persisted
+    private boolean upgradeLuckyMerchant = false;  // 幸运商店
+    @Persisted
+    private boolean upgradeMeInteraction = false;  // ME交互
+
+    /////////////////////////////////////
     // ********* 生命周期管理 ********* //
     /////////////////////////////////////
 
@@ -130,61 +186,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         clearInventory(inputItem.storage);
         clearInventory(outputItem.storage);
     }
-
-    /////////////////////////////////////
-    // *********** 数据存储 *********** //
-    /////////////////////////////////////
-
-    /** 输入输出存储 */
-    @Getter
-    @Persisted
-    @DescSynced
-    private NotifiableItemStackHandler inputItem;
-    @Getter
-    @Persisted
-    @DescSynced
-    private NotifiableItemStackHandler outputItem;
-    @Getter
-    @Persisted
-    @DescSynced
-    private NotifiableFluidTank inputFluid;
-    @Getter
-    @Persisted
-    @DescSynced
-    private NotifiableFluidTank outputFluid;
-
-    /** 其他位置存储 */
-    @Persisted
-    private final CustomItemStackHandler cardHandler;
-
-    /** 玩家信息 */
-    @Getter
-    @Persisted
-    private UUID uuid;
-    @Getter
-    @Persisted
-    List<UUID> sharedUUIDs = new ArrayList<>();
-    @Getter
-    @Persisted
-    private UUID teamUUID;
-    private ServerPlayer currentUIPlayer = null;
-
-    /** 当前机器等级（1-6），默认1级 */
-    @Persisted
-    @DescSynced
-    private int currentLevel = 1;
-
-    /**
-     * 存储所有升级的等级。
-     */
-    @Persisted
-    private boolean upgradePlayerTrade = false;    // 玩家交易
-    @Persisted
-    private boolean upgradeAutoTrade = false;      // 自动交易
-    @Persisted
-    private boolean upgradeLuckyMerchant = false;  // 幸运商店
-    @Persisted
-    private boolean upgradeMeInteraction = false;  // ME交互
 
     /////////////////////////////////////
     // ************ UI实现 ************ //
@@ -314,8 +315,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.setLayout(Layout.VERTICAL_CENTER);
         mainGroup.setLayoutPadding(10);
 
-        TradingManager.TradingShopGroup SwitchedShopGroup = tradingManager.getShopGroup(groupSelected);
-        if (SwitchedShopGroup == null) SwitchedShopGroup = tradingManager.getShopGroup(0);
+        TradingManager.TradingShopGroup SwitchedShopGroup = TradingManager.INSTANCE.getShopGroup(groupSelected);
+        if (SwitchedShopGroup == null) SwitchedShopGroup = TradingManager.INSTANCE.getShopGroup(0);
         if (SwitchedShopGroup != null) {
             mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
             mainGroup.addWidget(new ImageWidget(0, 10, 64, 64, SwitchedShopGroup.getTexture1()));
@@ -325,7 +326,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 8; x++) {
                 int index = y * 8 + x;
-                TradingManager.TradingShopGroup shopGroup = tradingManager.getShopGroup(index);
+                TradingManager.TradingShopGroup shopGroup = TradingManager.INSTANCE.getShopGroup(index);
                 if (shopGroup != null) {
                     SwitchWidget.addWidget(new InteractiveImageWidget(x * 10, y * 10, 9, 9, shopGroup.getTexture2())
                             .textSupplier(texts -> texts.add(Component.translatable(shopGroup.getName())))
@@ -451,11 +452,11 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 leftPanel.setLayoutPadding(8);
 
                 leftPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
-                    textList.add(trans(21, currentLevel));
+                    textList.add(trans(21));
                 }).setSpace(8).setCenter(true));
 
                 leftPanel.addWidget(new ComponentPanelWidget(0, 10, textList -> {
-                    Set<String> keySet = unlockManager.getKeySet();
+                    Set<String> keySet = UnlockManager.INSTANCE.getKeySet();
                     if (keySet == null) return;
                     for (String key : keySet) {
                         textList.add(ComponentPanelWidget.withButton(ComponentPanelWidget.withHoverTextTranslate(
@@ -517,7 +518,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
             private int getCurrentTradeCount() {
                 if (upgradeSelect == null) return 0;
-                return unlockManager.getEntryTradeCount(upgradeSelect);
+                return UnlockManager.INSTANCE.getEntryTradeCount(upgradeSelect);
             }
 
             private void updateWidget(WidgetGroup container, FancyMachineUIWidget widget) {
@@ -539,7 +540,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                         int X = col * (40 + 1);
                         int Y = row * (50 + 1);
                         int entryIndex = startIndex + row * 5 + col;
-                        TradeEntry tradeEntry = unlockManager.getTradeEntry(key, entryIndex);
+                        TradeEntry tradeEntry = UnlockManager.INSTANCE.getTradeEntry(key, entryIndex);
                         if (tradeEntry != null) {
                             tradeGroup.addWidget(trade(X, Y, true, tradeEntry));
                         } else {
@@ -609,21 +610,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     // ********* UI单元构建 ********* //
     /////////////////////////////////////
 
-    UnlockManager unlockManager = UnlockManager.getInstance();
-
-    TradingManager tradingManager = TradingManager.getInstance();
-
-    @Persisted
-    @DescSynced
-    private int groupSelected = 0;
-    private int shopSelected = -1;
-
     // 一个交易组
     private List<IFancyUIProvider> shopGroup() {
         List<IFancyUIProvider> shopGroupTabs = new ArrayList<>();
 
-        for (int shop = 0; shop < tradingManager.getShopCount(groupSelected); shop++) {
-            TradingManager.TradingShop tradingShop = tradingManager.getShopByIndices(groupSelected, shop);
+        for (int shop = 0; shop < TradingManager.INSTANCE.getShopCount(groupSelected); shop++) {
+            TradingManager.TradingShop tradingShop = TradingManager.INSTANCE.getShopByIndices(groupSelected, shop);
 
             shopGroupTabs.add(new ShopTabProvider(this, groupSelected, shop, tradingShop));
         }
@@ -639,9 +631,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 int X = col * 41;
                 int Y = row * 51;
                 int entryIndex = pageIndex * 16 + row * 8 + col;
-                boolean isIndexValid = tradingManager.isTradeIndexValid(groupIndex, shopIndex, entryIndex);
+                boolean isIndexValid = TradingManager.INSTANCE.isTradeIndexValid(groupIndex, shopIndex, entryIndex);
                 if (isIndexValid) {
-                    tradeGroup.addWidget(trade(X, Y, unlockShop, tradingManager.getTradeEntryByIndices(groupIndex, shopIndex, entryIndex)));
+                    tradeGroup.addWidget(trade(X, Y, unlockShop, TradingManager.INSTANCE.getTradeEntryByIndices(groupIndex, shopIndex, entryIndex)));
                 } else {
                     tradeGroup.addWidget(emptyTrade(X, Y));
                 }
@@ -665,10 +657,14 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 .textSupplier(texts -> {
                     if (!unlock) texts.add(Component.translatable("gtocore.trade_group.unlock", entry.unlockCondition()).withStyle(ChatFormatting.DARK_RED));
                     if (!canExecute) texts.add(Component.translatable("gtocore.trade_group.unsatisfied").withStyle(ChatFormatting.DARK_RED));
-                    if (unlock && canExecute) texts.add(Component.translatable("gtocore.trade_group.amount", entry.check(this)).withStyle(ChatFormatting.GOLD));
+                    int k = 0;
+                    if (unlock && canExecute) {
+                        k = entry.check(this);
+                        texts.add(Component.translatable("gtocore.trade_group.amount", k).withStyle(ChatFormatting.GOLD));
+                    }
                     texts.addAll(entry.getDescription());
-                    texts.add(Component.translatable("gtocore.trade_group.repeatedly1"));
-                    texts.add(Component.translatable("gtocore.trade_group.repeatedly2"));
+                    if (k >= 10) texts.add(Component.translatable("gtocore.trade_group.repeatedly1"));
+                    if (k >= 100) texts.add(Component.translatable("gtocore.trade_group.repeatedly2"));
                 })
                 .clickHandler((data, clickData) -> {
                     if (!unlockShop) return;
@@ -698,7 +694,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     // 玩家信息初始化
     private void initializationInformation(ItemStack card) {
-        if (card.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem())) {
+        if (card.getItem() == GTOItems.GRAY_MEMBERSHIP_CARD.asItem()) {
             this.uuid = getSingleUuid(card);
             this.sharedUUIDs = getSharedUuids(card);
             if (uuid != null) {
@@ -748,7 +744,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             WidgetGroup mainGroup = new WidgetGroup(4, 4, machine.width, machine.height);
             mainGroup.setBackground(GuiTextures.DISPLAY);
 
-            int tradeCount = machine.tradingManager.getTradeCount(groupIndex, shopIndex);
+            int tradeCount = TradingManager.INSTANCE.getTradeCount(groupIndex, shopIndex);
             int totalPage = tradeCount / 16 + (tradeCount % 16 == 0 ? 0 : 1);
 
             WidgetGroup shopGroup = new WidgetGroup(0, 0, machine.width, machine.height);
