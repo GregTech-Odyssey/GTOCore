@@ -51,6 +51,8 @@ public record TradeEntry(
      * 紧凑构造器
      */
     public TradeEntry {
+        texture = texture != null ? texture : GuiTextures.GREGTECH_LOGO;
+        unlockCondition = unlockCondition != null ? unlockCondition : UNLOCK_BASE;
         description = List.copyOf(description != null ? description : List.of());
         inputGroup = inputGroup != null ? inputGroup : new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
         outputGroup = outputGroup != null ? outputGroup : new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
@@ -301,9 +303,9 @@ public record TradeEntry(
     // ------------------- 链式构建器（唯一配置入口） -------------------
     public static class Builder {
 
-        private IGuiTexture texture = GuiTextures.GREGTECH_LOGO;
+        private IGuiTexture texture;
         private List<Component> description = List.of();
-        private String unlockCondition = UNLOCK_BASE;
+        private String unlockCondition;
         private PreTradeCheck preCheck;
         private TradeRunnable onExecute;
         private TradeGroup inputGroup = new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);

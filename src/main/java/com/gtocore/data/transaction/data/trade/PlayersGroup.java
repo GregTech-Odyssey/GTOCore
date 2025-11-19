@@ -5,7 +5,6 @@ import com.gtocore.data.transaction.manager.TradingManager;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
-import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 import static com.gtocore.utils.PlayerHeadUtils.get_GregoriusT_Head;
 import static com.gtocore.utils.PlayerHeadUtils.get_maple197_Head;
 
@@ -21,7 +20,6 @@ public class PlayersGroup {
 
         int GroupIndex = manager.addShopGroup(
                 addTradeLang("员工交易中心", "Employee Trading Center"),
-                UNLOCK_BASE,
                 new ItemStackTexture(get_GregoriusT_Head()),
                 new ItemStackTexture(get_maple197_Head()));
     }

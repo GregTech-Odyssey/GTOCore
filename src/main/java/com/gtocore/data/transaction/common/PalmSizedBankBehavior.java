@@ -119,7 +119,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
             mainGroup.addWidget(new ComponentPanelWidget(10, 10, list).clickHandler((a, b) -> {
                 if (player instanceof ServerPlayer serverPlayer) {
                     ServerLevel serverLevel = serverPlayer.serverLevel();
-                    WalletUtils.createAndInitializeWallet(player.getUUID(), player.getName().getString(), serverLevel);
+                    WalletUtils.createAndInitializeWallet(player.getUUID(), serverLevel, player.getName().getString());
                     initNewPlayerCurrencies(player.getUUID(), serverLevel);
                 }
             }).setMaxWidthLimit(width - 20));
@@ -364,7 +364,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                         List1.add(trans(25));
                         List1.add(Component.literal("-------------------"));
                         List1.add(trans(26));
-                        Long2LongMap minuteMap = WalletUtils.getTransactionMinuteMap(player.getUUID(), choose, serverLevel);
+                        Long2LongMap minuteMap = WalletUtils.getTransactionMinuteMap(player.getUUID(), serverLevel, choose);
                         List<Long> keys = new ArrayList<>(minuteMap.keySet());
                         keys.sort(Collections.reverseOrder());
                         for (Long key : keys) {
@@ -380,19 +380,19 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                         List2.add(trans(22));
                         List2.add(Component.literal("-------------------"));
                         for (String entry : syncedTransactionKeys) {
-                            List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), entry, serverLevel))));
+                            List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), serverLevel, entry))));
                         }
                         List2.add(Component.literal("-------------------"));
                     } else {
                         List2.add(Component.literal("-------------------"));
                         List2.add(Component.literal("§b" + choose + "§r"));
-                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), choose, serverLevel))));
-                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionType(player.getUUID(), choose, serverLevel))));
-                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionMinuteAmount(player.getUUID(), choose, WalletUtils.getGameMinuteKey(player), serverLevel))));
-                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionMinuteAmount(player.getUUID(), choose, WalletUtils.getGameMinuteKey(player) - 1, serverLevel))));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionTotalAmount(player.getUUID(), serverLevel, choose))));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionType(player.getUUID(), serverLevel, choose))));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionMinuteAmount(player.getUUID(), serverLevel, choose, WalletUtils.getGameMinuteKey(player)))));
+                        List2.add(Component.literal(String.valueOf(WalletUtils.getTransactionMinuteAmount(player.getUUID(), serverLevel, choose, WalletUtils.getGameMinuteKey(player) - 1))));
                         List2.add(Component.literal("-------------------"));
                         List2.add(Component.empty());
-                        Long2LongMap minuteMap = WalletUtils.getTransactionMinuteMap(player.getUUID(), choose, serverLevel);
+                        Long2LongMap minuteMap = WalletUtils.getTransactionMinuteMap(player.getUUID(), serverLevel, choose);
                         List<Long> keys = new ArrayList<>(minuteMap.keySet());
                         keys.sort(Collections.reverseOrder());
                         for (Long key : keys) {
@@ -575,7 +575,6 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         O2LOpenCacheHashMap<String> initialCurrencies = new O2LOpenCacheHashMap<>();
         initialCurrencies.put(TECH_OPERATOR_COIN, 16);
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
-        WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP_GROUP, UNLOCK_BASE);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, UNLOCK_BASE);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRADE, UNLOCK_BASE);
     }

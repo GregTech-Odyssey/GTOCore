@@ -4,7 +4,6 @@ import com.gtocore.data.transaction.manager.UnlockManager;
 
 public class UnlockTrade {
 
-    public static final String UNLOCK_SHOP_GROUP = "unlock_shop_group";
     public static final String UNLOCK_SHOP = "unlock_shop";
     public static final String UNLOCK_TRADE = "unlock_trade";
     public static final String UNLOCK_BASE = "base";

@@ -49,8 +49,8 @@ public class TradeLang {
         add("gtocore.currency." + CHIEF_SCIENCE_STEWARD_COIN, "首席科学家币", "Chief Science Steward Coin");
 
         add("gtocore.palm_sized_bank.textList.1", "欢迎使用掌上银行！", "Welcome to Mobile Banking!");
-        add("gtocore.palm_sized_bank.textList.2", "在这里，您可以方便地管理您的虚拟资产", "Here, you can conveniently manage your virtual assets");
-        add("gtocore.palm_sized_bank.textList.3", "请注意保护您的账户信息，避免泄露给他人", "Please be careful to protect your account information and avoid disclosing it to others");
+        add("gtocore.palm_sized_bank.textList.2", "在这里, 您可以方便地管理您的虚拟资产", "Here, you can conveniently manage your virtual assets");
+        add("gtocore.palm_sized_bank.textList.3", "请注意保护您的账户信息, 避免泄露给他人", "Please be careful to protect your account information and avoid disclosing it to others");
         add("gtocore.palm_sized_bank.textList.4", "祝您使用愉快！", "Wish you a pleasant experience!");
         add("gtocore.palm_sized_bank.textList.5", "无法获取玩家信息", "Failed to obtain player information");
         add("gtocore.palm_sized_bank.textList.6", "当前用户: %s", "Current user: %s");
@@ -96,7 +96,7 @@ public class TradeLang {
         add("gtocore.trade_group.repeatedly1", "按下Click尝试交易10次", "Press Click to attempt 10 trades");
         add("gtocore.trade_group.repeatedly2", "同时按下Click Shift尝试交易100次", "Simultaneously press Click Shift to attempt 100 trades");
 
-        add("gtocore.trading_station.textList.1", "这台机器不属于你，你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
+        add("gtocore.trading_station.textList.1", "这台机器不属于你, 你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
         add("gtocore.trading_station.textList.2", "⇦ 请放入会员卡", "⇦ Please insert your membership card.");
         add("gtocore.trading_station.textList.3", "欢迎「 %s 」", "Welcome「 %s 」");
         add("gtocore.trading_station.textList.4", "共享给: ", "Share with: ");
@@ -109,6 +109,7 @@ public class TradeLang {
 
         add("gtocore.trading_station.textList.11", "请从掌上银行获取会员卡以使用交易站", "Please obtain a membership card from your mobile banking app to use the trading platform.");
 
+        add("gtocore.trading_station.textList.20", "商店未解锁, 需要解锁 %s", "Store locked, needs to be unlocked %s");
         add("gtocore.trading_station.textList.21", "交易解锁", "Transaction unlock");
         add("gtocore.trading_station.textList.22", "解锁 %s", "Unlock %s");
     }

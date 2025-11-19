@@ -4,6 +4,19 @@ import com.gtocore.data.transaction.data.trade.PlayersGroup;
 import com.gtocore.data.transaction.data.trade.UnlockTrade;
 import com.gtocore.data.transaction.data.trade.WelcomeGroup;
 import com.gtocore.data.transaction.data.trade.WelfareGroup;
+import com.gtocore.data.transaction.manager.TradeEntry;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
+
+import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
+
+import java.util.List;
+
+import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 
 /**
  * 交易实例注册示例：展示如何使用TradeEntry构建具体交易
@@ -36,5 +49,47 @@ public class GTOTrade {
 
         /** 2 - 员工福利兑换中心 */
         WelfareGroup.init();
+    }
+
+    public static List<TradeEntry> createTestTradeTemplates() {
+        // 示例1: 木头换面包 (来自 TradeRegistration)
+        TradeEntry woodForBread = new TradeEntry.Builder()
+                .texture(new ItemStackTexture(Items.BREAD))
+                .description(List.of(Component.literal("10个木头 → 1个面包")))
+                .unlockCondition("无解锁条件")
+                .inputItem(new ItemStack(Items.OAK_WOOD, 10))
+                .outputItem(new ItemStack(Items.BREAD, 1))
+                .build();
+
+        // 示例3: 新的测试交易 - 石头换 cobblestone
+        TradeEntry stoneForCobblestone = new TradeEntry.Builder()
+                .texture(new ItemStackTexture(Items.COBBLESTONE))
+                .description(List.of(Component.literal("1个石头 → 2个圆石")))
+                .unlockCondition("null")
+                .inputItem(new ItemStack(Items.STONE, 1))
+                .outputItem(new ItemStack(Items.COBBLESTONE, 2))
+                .build();
+
+        // 示例4: 新的测试交易 - 水和岩浆换黑曜石
+        TradeEntry fluidsForObsidian = new TradeEntry.Builder()
+                .texture(new ItemStackTexture(Items.OBSIDIAN))
+                .description(List.of(Component.literal("1桶水 + 1桶岩浆 → 1个黑曜石")))
+                .unlockCondition("null")
+                .inputFluid(new FluidStack(Fluids.WATER, 1000))
+                .inputFluid(new FluidStack(Fluids.LAVA, 1000))
+                .outputItem(new ItemStack(Items.OBSIDIAN, 1))
+                .build();
+
+        // 示例5: 新的测试交易 - 使用货币
+        TradeEntry currencyForDiamond = new TradeEntry.Builder()
+                .texture(new ItemStackTexture(Items.DIAMOND))
+                .description(List.of(Component.literal("1000单位货币 → 1个钻石")))
+                .unlockCondition("需要解锁货币系统")
+                .inputCurrency(TECH_OPERATOR_COIN, 1000)
+                .outputItem(new ItemStack(Items.DIAMOND, 1))
+                .build();
+
+        // 返回所有模板
+        return List.of(woodForBread, stoneForCobblestone, fluidsForObsidian, currencyForDiamond);
     }
 }

@@ -84,10 +84,9 @@ public class TradingManager {
 
     // ------------------------------ 元素添加（仅保留3个核心便捷方法）------------------------------
     /** 添加新的商店组，返回组索引 */
-    public int addShopGroup(@NotNull String groupName, @Nullable String unlockCondition,
-                            @Nullable IGuiTexture texture1, @Nullable IGuiTexture texture2) {
+    public int addShopGroup(@NotNull String groupName, @Nullable IGuiTexture texture1, @Nullable IGuiTexture texture2) {
         Objects.requireNonNull(groupName, "Group name cannot be null");
-        TradingShopGroup newGroup = new TradingShopGroup(groupName, unlockCondition, texture1, texture2);
+        TradingShopGroup newGroup = new TradingShopGroup(groupName, texture1, texture2);
         shopGroups.add(newGroup);
         return shopGroups.size() - 1;
     }
@@ -141,15 +140,12 @@ public class TradingManager {
     public class TradingShopGroup {
 
         private final String name;
-        private final String unlockCondition;
         private final IGuiTexture texture1;
         private final IGuiTexture texture2;
         private final List<TradingShop> shops = new ArrayList<>();
 
-        private TradingShopGroup(@NotNull String name, @Nullable String unlockCondition,
-                                 @Nullable IGuiTexture texture1, @Nullable IGuiTexture texture2) {
+        private TradingShopGroup(@NotNull String name, @Nullable IGuiTexture texture1, @Nullable IGuiTexture texture2) {
             this.name = name;
-            this.unlockCondition = unlockCondition;
             this.texture1 = texture1;
             this.texture2 = texture2;
         }
