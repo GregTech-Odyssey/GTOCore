@@ -70,9 +70,8 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
     }
 
     @Override
-    public boolean afterWorking(IWorkableMultiController controller) {
+    public void afterWorking(IWorkableMultiController controller) {
         isWorking = false;
-        return super.afterWorking(controller);
     }
 
     @Override

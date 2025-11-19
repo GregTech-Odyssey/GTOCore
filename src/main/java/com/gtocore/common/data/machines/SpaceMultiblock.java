@@ -17,7 +17,7 @@ import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -105,7 +105,7 @@ public class SpaceMultiblock {
                     .where('A', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_8090_SKIN_MECHANICAL_BLOCK.get()))
                     .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
-                    .where('D', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(IMachineBlock[]::new)).or(abilities(IMPORT_FLUIDS, EXPORT_FLUIDS, INPUT_ENERGY)))
+                    .where('D', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(MetaMachineBlock[]::new)).or(abilities(IMPORT_FLUIDS, EXPORT_FLUIDS, INPUT_ENERGY)))
                     .where('e', ISpacePredicateMachine.photovoltaicPlantSupplyingPredicate.get())
                     .where('E', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('F', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
@@ -208,7 +208,7 @@ public class SpaceMultiblock {
                     .where('K', blocks(GTOBlocks.SPACE_ENGINE_NOZZLE.get()))
                     .where('L', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
                     .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.AluminumAlloy7050)))
-                    .where('N', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(IMachineBlock[]::new)))
+                    .where('N', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(MetaMachineBlock[]::new)))
                     .where('O', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
                     .where('P', blocks(GTOBlocks.INSULATION_TILE_MECHANICAL_BLOCK.get()))
                     .where('Q', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))

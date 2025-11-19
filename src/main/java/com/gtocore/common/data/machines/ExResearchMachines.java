@@ -358,7 +358,7 @@ public final class ExResearchMachines {
                     .aisle(" X ", "XAX", "---", "---", "---", "XAX", " X ")
                     .aisle(" X ", "XAX", "-A-", "-H-", "-A-", "XAX", " X ")
                     .aisle("   ", "XXX", "---", "---", "---", "XXX", "   ")
-                    .where('S', controller(blocks(definition.getBlock())))
+                    .where('S', controller(blocks(definition.get())))
                     .where('X', blocks(COMPUTER_CASING.get()))
                     .where(' ', any())
                     .where('-', air())

@@ -2462,6 +2462,7 @@
   "gtocore.gray_membership_card.hover_text.4": "Shared by: ",
   "gtocore.gtm": "The GregTech-Modern and Applied Energetics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.",
   "gtocore.gui.encoding_desc": "§o[Shift + Click] insert encoding pattern into player inventory / clear all encoded patterns",
+  "gtocore.idle_reason.amount_detailed": "Requires %s, but only %s is available",
   "gtocore.idle_reason.block_tier_not_satisfies": "Block Tier Not Satisfies",
   "gtocore.idle_reason.cannot_work_in_space": "This machine cannot afford to work in such environment",
   "gtocore.idle_reason.charge": "Tool charge is not enough to support this run",

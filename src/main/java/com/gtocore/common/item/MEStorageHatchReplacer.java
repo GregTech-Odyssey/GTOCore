@@ -36,7 +36,7 @@ public enum MEStorageHatchReplacer implements IMachineUpgraderBehavior {
                 mbe.getMetaMachine() instanceof StorageAccessPartMachine machine) {
 
             var originState = world.getBlockState(pos);
-            var state = copyBlockStateProperties(originState, upgradeTo.get().getBlock().defaultBlockState());
+            var state = copyBlockStateProperties(originState, upgradeTo.get().get().defaultBlockState());
 
             BlockEntity upgradedTile = upgradeTo.get().get().newBlockEntity(pos, state);
             if (upgradedTile instanceof MetaMachineBlockEntity upgradedMbe &&
