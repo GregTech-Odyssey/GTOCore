@@ -5239,6 +5239,7 @@
   "gtocore.machine.wireless_data_transmitter_hatch.tooltip.0": "需要使用閃存右鍵無線光學數據靶倉和無線數據源倉進行綁定",
   "gtocore.machine.wireless_data_transmitter_hatch.unbind": "未綁定無線光學數據靶倉",
   "gtocore.machine.wireless_enable": "獨立線程需要安裝無線能源倉後啟用",
+  "gtocore.machine.wireless_energy_unit.tooltip": "§7Shift右鍵主機可以安裝/替換無線能量單元，替換優先級：空位>較低級單元>較高級單元§r",
   "gtocore.machine.wireless_mode": "無線模式",
   "gtocore.machine.zpm_arc_generator.tooltip": "§7特斯拉線圈",
   "gtocore.machine.zpm_cluster.tooltip": "§7精密鍍膜機",

@@ -43,14 +43,14 @@ final class MixerRecipes {
                 .inputItems(TagPrefix.dustTiny, GTOMaterials.Cetane)
                 .inputFluids(BioDiesel.getFluid(1000))
                 .inputFluids(Tetranitromethane.getFluid(40))
-                .outputFluids(CetaneBoostedDiesel.getFluid(750))
+                .outputFluids(CetaneBoostedDiesel.getFluid(900))
                 .duration(20).EUt(VA[HV]).save();
 
         MIXER_RECIPES.recipeBuilder("cetane_diesel_from_diesel")
                 .inputItems(TagPrefix.dustTiny, GTOMaterials.Cetane)
                 .inputFluids(Diesel.getFluid(1000))
                 .inputFluids(Tetranitromethane.getFluid(20))
-                .outputFluids(CetaneBoostedDiesel.getFluid(1000))
+                .outputFluids(CetaneBoostedDiesel.getFluid(1200))
                 .duration(20).EUt(VA[HV]).save();
 
         MIXER_RECIPES.recipeBuilder("rocket_fuel_from_oxygen")

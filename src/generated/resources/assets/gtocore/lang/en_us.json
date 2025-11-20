@@ -5239,6 +5239,7 @@
   "gtocore.machine.wireless_data_transmitter_hatch.tooltip.0": "Use the flash drive to right-click and bind the wireless optical data target hatch and the wireless data source hatch.",
   "gtocore.machine.wireless_data_transmitter_hatch.unbind": "Wireless optical data target hatch not bound.",
   "gtocore.machine.wireless_enable": "Wireless energy hatch must be installed to enable independent thread",
+  "gtocore.machine.wireless_energy_unit.tooltip": "§7Shift right-click the host to install/replace the wireless energy unit, replacement priority: empty slot > lower-level unit > higher-level unit§r",
   "gtocore.machine.wireless_mode": "Wireless Mode",
   "gtocore.machine.zpm_arc_generator.tooltip": "§7Tesla Coil",
   "gtocore.machine.zpm_cluster.tooltip": "§7Precision Coating Machine",

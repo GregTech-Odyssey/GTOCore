@@ -5239,6 +5239,7 @@
   "gtocore.machine.wireless_data_transmitter_hatch.tooltip.0": "需要使用闪存右键无线光学数据靶仓和无线数据源仓进行绑定",
   "gtocore.machine.wireless_data_transmitter_hatch.unbind": "未绑定无线光学数据靶仓",
   "gtocore.machine.wireless_enable": "独立线程需要安装无线能源仓后启用",
+  "gtocore.machine.wireless_energy_unit.tooltip": "§7Shift右键主机可以安装/替换无线能量单元，替换优先级：空位>较低级单元>较高级单元§r",
   "gtocore.machine.wireless_mode": "无线模式",
   "gtocore.machine.zpm_arc_generator.tooltip": "§7特斯拉线圈",
   "gtocore.machine.zpm_cluster.tooltip": "§7精密镀膜机",

@@ -249,6 +249,9 @@ public final class MagicRecipesA {
                     .duration(600)
                     .temperature(1200)
                     .MANAt(32)
+                    .addData("param1", 100)
+                    .addData("param2", 100)
+                    .addData("param3", 114)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_unstable_gaia_soul")
