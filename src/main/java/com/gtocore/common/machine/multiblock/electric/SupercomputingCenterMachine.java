@@ -205,7 +205,6 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     @Override
     public boolean onWorking() {
-        if (allocatedCWUt == 0) return false;
         cacheCWUt = allocatedCWUt;
         allocatedCWUt = 0;
         return super.onWorking();

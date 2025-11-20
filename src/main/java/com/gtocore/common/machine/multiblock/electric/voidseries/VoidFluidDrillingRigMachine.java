@@ -17,7 +17,9 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.network.chat.Component;
@@ -55,14 +57,21 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
         getRecipeLogic().updateTickSubscription();
     }
 
+    @Override
+    public void onContentChanges(RecipeHandlerList handlerList) {
+        if (handlerList.hasCapability(ItemRecipeCapability.CAP)) {
+            c = checkingCircuit(false);
+        }
+    }
+
     private Recipe getRecipe() {
         if (fluidStacks == null) return null;
-        if (!isEmpty()) {
+        if (getOverclockVoltage() > VA[GTValues.LuV] && !isEmpty()) {
             if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
                 Recipe recipe = RECIPE.copy();
-                recipe.setEut(getOverclockVoltage());
+                recipe.setEut(VA[getTier()]);
                 FluidStack fluidStack = fluidStacks.get(Math.min(fluidStacks.size() - 1, c)).copy();
-                int amount = fluidStack.getAmount() * (1 << Math.max(0, getTier() - 6));
+                int amount = fluidStack.getAmount() * (1 << getTier() - 2);
                 var machine = getNetMachine();
                 if (machine != null) amount = (int) (amount * machine.getMultiplier());
                 fluidStack.setAmount(amount);

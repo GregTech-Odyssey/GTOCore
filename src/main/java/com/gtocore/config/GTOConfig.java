@@ -155,12 +155,6 @@ public final class GTOConfig {
     public boolean disableMufflerPart = false;
 
     @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Recipe Duration Multiplier", cn = "配方时间乘数")
-    @Configurable.Comment({ "修改它可能会导致部分机器运行异常，开发人员不对此负责", "Modify it may cause some machines to malfunction, developer is not responsible for this" })
-    @Configurable.DecimalRange(min = 0.01, max = 10)
-    public double recipeDurationMultiplier = 1.0;
-
-    @Configurable
     @Configurable.Range(min = 36, max = 144000)
     @Configurable.Comment({ "扩展样板供应器容量(请不要调的很大，否则gui界面将非常卡顿！)", "专家模式下，此选项无效",
             "Extended Pattern Provider Size (Please do not set it too high, otherwise the GUI interface will be very laggy!)", "In Expert mode, this option is invalid" })

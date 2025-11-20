@@ -2,27 +2,19 @@ package com.gtocore.data.recipe.builder.botania;
 
 import com.gtolib.GTOCore;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import org.jetbrains.annotations.NotNull;
-import vazkii.botania.common.crafting.BotaniaRecipeTypes;
-import vazkii.botania.common.helper.ItemNBTHelper;
+import vazkii.botania.common.crafting.PetalsRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public final class PetalApothecaryRecipeBuilder {
 
@@ -77,44 +69,6 @@ public final class PetalApothecaryRecipeBuilder {
     }
 
     public void save() {
-        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {
-                json.add("output", ItemNBTHelper.serializeStack(output));
-
-                JsonArray ingredientsJson = new JsonArray();
-                for (Ingredient ingredient : ingredients) {
-                    ingredientsJson.add(ingredient.toJson());
-                }
-                json.add("ingredients", ingredientsJson);
-
-                if (reagent != null) {
-                    json.add("reagent", reagent.toJson());
-                }
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return id;
-            }
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return BotaniaRecipeTypes.PETAL_SERIALIZER;
-            }
-
-            @Nullable
-            @Override
-            public JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        GTRecipes.RECIPE_MAP.put(id, new PetalsRecipe(id, output, reagent, ingredients.toArray(new Ingredient[0])));
     }
 }
