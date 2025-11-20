@@ -2,28 +2,19 @@ package com.gtocore.data.recipe.builder.botania;
 
 import com.gtolib.GTOCore;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import org.jetbrains.annotations.NotNull;
-import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.brew.Brew;
-import vazkii.botania.common.crafting.BotaniaRecipeTypes;
+import vazkii.botania.common.crafting.BotanicalBreweryRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import javax.annotation.Nullable;
 
 public final class BrewRecipeBuilder {
 
@@ -64,41 +55,6 @@ public final class BrewRecipeBuilder {
         if (ingredients.isEmpty()) {
             throw new IllegalStateException("No ingredients added to brew recipe");
         }
-
-        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {
-                json.addProperty("brew", Objects.requireNonNull(Objects.requireNonNull(BotaniaAPI.instance().getBrewRegistry()).getKey(brew)).toString());
-
-                JsonArray ingredientsJson = new JsonArray();
-                for (Ingredient ingredient : ingredients) {
-                    ingredientsJson.add(ingredient.toJson());
-                }
-                json.add("ingredients", ingredientsJson);
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return id;
-            }
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return BotaniaRecipeTypes.BREW_SERIALIZER;
-            }
-
-            @Nullable
-            @Override
-            public JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        GTRecipes.RECIPE_MAP.put(id, new BotanicalBreweryRecipe(id, brew, ingredients.toArray(new Ingredient[0])));
     }
 }

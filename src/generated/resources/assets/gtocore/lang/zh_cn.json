@@ -1600,7 +1600,6 @@
   "config.gtocore.option.pickCraft": "选取方块自动合成",
   "config.gtocore.option.pickCraftMaxTasks": "选取方块合成最大任务数",
   "config.gtocore.option.recipeCheck": "[调试] 配方冲突检查",
-  "config.gtocore.option.recipeDurationMultiplier": "配方时间乘数",
   "config.gtocore.option.renamePatternDefaultString": "重命名样板的默认值",
   "config.gtocore.option.selfRestraint": "自我约束模式",
   "config.gtocore.option.sendMultiblockErrorMessages": "发送多方块错误信息",

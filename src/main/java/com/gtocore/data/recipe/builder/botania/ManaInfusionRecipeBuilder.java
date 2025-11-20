@@ -2,25 +2,20 @@ package com.gtocore.data.recipe.builder.botania;
 
 import com.gtolib.GTOCore;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 
-import com.google.gson.JsonObject;
-import org.jetbrains.annotations.NotNull;
 import vazkii.botania.api.recipe.StateIngredient;
 import vazkii.botania.common.block.BotaniaBlocks;
-import vazkii.botania.common.crafting.BotaniaRecipeTypes;
+import vazkii.botania.common.crafting.ManaInfusionRecipe;
 import vazkii.botania.common.crafting.StateIngredientHelper;
-import vazkii.botania.common.helper.ItemNBTHelper;
 
 import javax.annotation.Nullable;
 
@@ -92,44 +87,6 @@ public final class ManaInfusionRecipeBuilder {
     }
 
     public void save() {
-        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {
-                json.add("input", input.toJson());
-                json.add("output", ItemNBTHelper.serializeStack(output));
-                json.addProperty("mana", mana);
-
-                if (!group.isEmpty()) {
-                    json.addProperty("group", group);
-                }
-
-                if (catalyst != null) {
-                    json.add("catalyst", catalyst.serialize());
-                }
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return id;
-            }
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return BotaniaRecipeTypes.MANA_INFUSION_SERIALIZER;
-            }
-
-            @Nullable
-            @Override
-            public JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        GTRecipes.RECIPE_MAP.put(id, new ManaInfusionRecipe(id, output, input, mana, group, catalyst));
     }
 }

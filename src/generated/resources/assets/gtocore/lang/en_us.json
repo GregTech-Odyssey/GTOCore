@@ -1600,7 +1600,6 @@
   "config.gtocore.option.pickCraft": "Auto Craft on Pick Block",
   "config.gtocore.option.pickCraftMaxTasks": "Pick Block Craft Max Tasks",
   "config.gtocore.option.recipeCheck": "[Debug] Recipe Conflict Check",
-  "config.gtocore.option.recipeDurationMultiplier": "Recipe Duration Multiplier",
   "config.gtocore.option.renamePatternDefaultString": "Default Value for Rename Pattern",
   "config.gtocore.option.selfRestraint": "Self Restraint Mode",
   "config.gtocore.option.sendMultiblockErrorMessages": "Send Multiblock Error Messages",

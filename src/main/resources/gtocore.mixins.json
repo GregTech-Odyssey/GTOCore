@@ -221,6 +221,7 @@
     "jade.JadeForgeUtilsMixin",
     "jei.ForgePluginFinderMixin",
     "jei.JEIConfigMixin",
+    "map.BlockStateShortShapeCacheMixin",
     "mc.BlockBehaviourMixin",
     "mc.LanguageMixin",
     "mc.SharedConstantsMixin",

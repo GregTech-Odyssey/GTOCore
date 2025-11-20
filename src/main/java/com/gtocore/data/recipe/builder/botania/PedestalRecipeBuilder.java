@@ -2,23 +2,16 @@ package com.gtocore.data.recipe.builder.botania;
 
 import com.gtolib.GTOCore;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
-import com.google.gson.JsonObject;
-import io.github.lounode.extrabotany.common.crafting.ExtraBotanyRecipeTypes;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
+import io.github.lounode.extrabotany.common.crafting.PedestalsRecipe;
 
 public final class PedestalRecipeBuilder {
 
@@ -92,52 +85,6 @@ public final class PedestalRecipeBuilder {
         if (smashTools == null) {
             throw new IllegalStateException("No smash tools specified for pedestal recipe");
         }
-
-        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {
-                // 序列化输出 - 使用 Minecraft 1.20.1 的方法
-                JsonObject outputObj = new JsonObject();
-                outputObj.addProperty("item", BuiltInRegistries.ITEM.getKey(output.getItem()).toString());
-                if (output.getCount() > 1) {
-                    outputObj.addProperty("count", output.getCount());
-                }
-                if (output.hasTag()) {
-                    outputObj.addProperty("nbt", output.getTag().toString());
-                }
-                json.add("output", outputObj);
-
-                // 序列化输入和工具
-                json.add("input", input.toJson());
-                json.add("smash_tools", smashTools.toJson());
-
-                // 序列化打击次数和经验值
-                json.addProperty("strike", strike);
-                json.addProperty("exp", exp);
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return id;
-            }
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return ExtraBotanyRecipeTypes.PEDESTAL_SMASH_SERIALIZER;
-            }
-
-            @Nullable
-            @Override
-            public JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        GTRecipes.RECIPE_MAP.put(id, new PedestalsRecipe(id, output, smashTools, input, strike, exp));
     }
 }

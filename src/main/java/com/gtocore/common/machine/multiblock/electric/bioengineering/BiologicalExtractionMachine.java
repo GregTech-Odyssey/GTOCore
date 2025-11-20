@@ -36,6 +36,11 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     }
 
     @Override
+    public boolean isIndependentThread() {
+        return false;
+    }
+
+    @Override
     public Recipe getRealRecipe(@NotNull Recipe recipe) {
         if (getRecipeLogic().getTotalContinuousRunningTime() < 400) {
             recipe.outputs.remove(ItemRecipeCapability.CAP);
