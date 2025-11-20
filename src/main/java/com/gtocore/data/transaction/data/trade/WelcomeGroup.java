@@ -1,7 +1,7 @@
 package com.gtocore.data.transaction.data.trade;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.machine.noenergy.TradingStationMachine;
+import com.gtocore.data.transaction.manager.TradeData;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 
@@ -106,7 +106,7 @@ public class WelcomeGroup {
     }
 
     // 前置检查逻辑：检查本周是否签过到
-    private static int checkThisWeek(TradingStationMachine machine, TradeEntry entry) {
+    private static int checkThisWeek(TradeData machine, TradeEntry entry) {
         Level level = machine.getLevel();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
         long time = WalletUtils.getGameMinuteKey(level) / Weekly_time * Weekly_time;
@@ -115,7 +115,7 @@ public class WelcomeGroup {
     }
 
     // 执行逻辑：添加标记，随机给予0-100技术员币
-    private static void performCheckIn(TradingStationMachine machine, int multiplier, TradeEntry entry) {
+    private static void performCheckIn(TradeData machine, int multiplier, TradeEntry entry) {
         Level level = machine.getLevel();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
         WalletUtils.addDailyCompressionStrategyTransaction(machine.getUuid(), serverLevel, Weekly_check_in, Weekly_time, 1);

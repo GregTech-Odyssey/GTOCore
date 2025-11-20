@@ -4,6 +4,7 @@ import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.data.transaction.manager.TradeData;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 import com.gtocore.data.transaction.manager.UnlockManager;
@@ -648,8 +649,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
+        TradeData tradeData = new TradeData(this.getLevel(), this.getPos(), inputItem, outputItem, inputFluid, outputFluid, uuid, teamUUID);
         boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, UNLOCK_TRADE, entry.unlockCondition());
-        boolean canExecute = entry.canExecuteCount(this) != 0;
+        boolean canExecute = entry.canExecuteCount(tradeData) != 0;
 
         trade.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
                 .textSupplier(texts -> {
@@ -657,7 +659,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     if (!canExecute) texts.add(Component.translatable("gtocore.trade_group.unsatisfied").withStyle(ChatFormatting.DARK_RED));
                     int k = 0;
                     if (unlock && canExecute) {
-                        k = entry.check(this);
+                        k = entry.check(tradeData);
                         texts.add(Component.translatable("gtocore.trade_group.amount", k).withStyle(ChatFormatting.GOLD));
                     }
                     texts.addAll(entry.getDescription());
@@ -668,7 +670,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     if (!unlockShop) return;
                     if (!unlock) return;
                     int multiplier = clickData.isCtrlClick ? (clickData.isShiftClick ? 100 : 10) : 1;
-                    entry.execute(this, multiplier);
+                    entry.execute(tradeData, multiplier);
                 }));
 
         return trade;

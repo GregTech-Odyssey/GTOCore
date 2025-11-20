@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
 import java.util.List;
 
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 
 /**
  * 交易实例注册示例：展示如何使用TradeEntry构建具体交易
@@ -58,7 +59,7 @@ public class GTOTrade {
         TradeEntry woodForBread = new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Items.BREAD))
                 .description(List.of(Component.literal("10个木头 → 1个面包")))
-                .unlockCondition("无解锁条件")
+                .unlockCondition(UNLOCK_BASE)
                 .inputItem(new ItemStack(Items.OAK_WOOD, 10))
                 .outputItem(new ItemStack(Items.BREAD, 1))
                 .build();
@@ -67,7 +68,7 @@ public class GTOTrade {
         TradeEntry stoneForCobblestone = new TradeEntry.Builder()
                 .texture(new StackTexture(Items.COBBLESTONE))
                 .description(List.of(Component.literal("1个石头 → 2个圆石")))
-                .unlockCondition("null")
+                .unlockCondition(UNLOCK_BASE)
                 .inputItem(new ItemStack(Items.STONE, 1))
                 .outputItem(new ItemStack(Items.COBBLESTONE, 2))
                 .build();
@@ -76,7 +77,7 @@ public class GTOTrade {
         TradeEntry fluidsForObsidian = new TradeEntry.Builder()
                 .texture(new StackTexture(GTOMaterials.TranscendingMatter.getFluid(60000000)))
                 .description(List.of(Component.literal("1桶水 + 1桶岩浆 → 1个黑曜石")))
-                .unlockCondition("null")
+                .unlockCondition(UNLOCK_BASE)
                 .inputFluid(new FluidStack(Fluids.WATER, 1000))
                 .inputFluid(new FluidStack(Fluids.LAVA, 1000))
                 .outputItem(new ItemStack(Items.OBSIDIAN, 1))
@@ -86,7 +87,7 @@ public class GTOTrade {
         TradeEntry currencyForDiamond = new TradeEntry.Builder()
                 .texture(new StackTexture(Items.DIAMOND))
                 .description(List.of(Component.literal("1000单位货币 → 1个钻石")))
-                .unlockCondition("需要解锁货币系统")
+                .unlockCondition(UNLOCK_BASE)
                 .inputCurrency(TECH_OPERATOR_COIN, 1000)
                 .outputItem(new ItemStack(Items.DIAMOND, 1))
                 .build();

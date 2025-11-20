@@ -1,6 +1,6 @@
 package com.gtocore.data.transaction;
 
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -200,7 +200,7 @@ public class TradingStationTool {
      * @param requiredFluids 需求流体列表（每个FluidStack的amount为单倍需求）
      * @return 最大支持倍数（若列表为空返回Integer.MAX_VALUE，若某流体不足则返回0）
      */
-    public static int checkMaxConsumeMultiplier(NotifiableFluidTank tank, List<FluidStack> requiredFluids) {
+    public static int checkMaxConsumeMultiplier(IFluidHandlerModifiable tank, List<FluidStack> requiredFluids) {
         if (requiredFluids.isEmpty()) {
             return Integer.MAX_VALUE; // 无需求则支持无限倍
         }
@@ -240,7 +240,7 @@ public class TradingStationTool {
      * @param inputFluids 待添加的流体列表（每个FluidStack的amount为单倍量）
      * @return 最大可容纳倍数（若列表为空返回Integer.MAX_VALUE，若某流体无容量则返回0）
      */
-    public static int checkMaxCapacityMultiplier(NotifiableFluidTank tank, List<FluidStack> inputFluids) {
+    public static int checkMaxCapacityMultiplier(IFluidHandlerModifiable tank, List<FluidStack> inputFluids) {
         if (inputFluids.isEmpty()) {
             return Integer.MAX_VALUE; // 无输入则支持无限倍
         }
@@ -286,7 +286,7 @@ public class TradingStationTool {
      * @param multiplier 倍数x（必须>0，否则不执行）
      * @return 实际扣除的倍数（若库存不足，可能小于x；完全成功则返回x）
      */
-    public static int deductMultipliedFluids(NotifiableFluidTank tank, List<FluidStack> fluids, int multiplier) {
+    public static int deductMultipliedFluids(IFluidHandlerModifiable tank, List<FluidStack> fluids, int multiplier) {
         if (multiplier <= 0 || fluids.isEmpty()) {
             return 0; // 无效参数，不执行
         }
@@ -319,7 +319,7 @@ public class TradingStationTool {
      * @param multiplier 倍数x（必须>0，否则不执行）
      * @return 实际添加的倍数（若容量不足，可能小于x；完全成功则返回x）
      */
-    public static int addMultipliedFluids(NotifiableFluidTank tank, List<FluidStack> fluids, int multiplier) {
+    public static int addMultipliedFluids(IFluidHandlerModifiable tank, List<FluidStack> fluids, int multiplier) {
         if (multiplier <= 0 || fluids.isEmpty()) {
             return 0; // 无效参数，不执行
         }

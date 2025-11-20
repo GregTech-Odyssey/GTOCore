@@ -1,7 +1,5 @@
 package com.gtocore.data.transaction.manager;
 
-import com.gtocore.common.machine.noenergy.TradingStationMachine;
-
 import com.gtolib.api.wireless.WirelessManaContainer;
 import com.gtolib.utils.WalletUtils;
 
@@ -62,7 +60,7 @@ public record TradeEntry(
     /**
      * 执行交易前的额外条件检查
      */
-    public int canExecuteCount(TradingStationMachine machine) {
+    public int canExecuteCount(TradeData machine) {
         if (preCheck == null) return -1;
         return preCheck.test(machine, this);
     }
@@ -70,7 +68,7 @@ public record TradeEntry(
     /**
      * 输入资源检查
      */
-    private int checkInputEnough(TradingStationMachine machine) {
+    private int checkInputEnough(TradeData machine) {
         if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return 0;
 
         int inputItem = inputGroup().items().isEmpty() ? Integer.MAX_VALUE : checkMaxMultiplier(machine.getInputItem(), inputGroup().items());
@@ -104,7 +102,7 @@ public record TradeEntry(
     /**
      * 运行交易的实际输入输出
      */
-    private void executeTrade(TradingStationMachine machine, int multiplier) {
+    private void executeTrade(TradeData machine, int multiplier) {
         if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return;
 
         if (!inputGroup().items().isEmpty()) {
@@ -146,7 +144,7 @@ public record TradeEntry(
     /**
      * 可执行交易的次数
      */
-    public int check(TradingStationMachine machine) {
+    public int check(TradeData machine) {
         if (!(machine.getLevel() instanceof ServerLevel)) return 0;
         int multiplier = Integer.MAX_VALUE;
         int preCheckMaxCount = canExecuteCount(machine);
@@ -162,7 +160,7 @@ public record TradeEntry(
     /**
      * 执行完整交易（资源变更+回调）
      */
-    public void execute(TradingStationMachine machine, int requestedMultiplier) {
+    public void execute(TradeData machine, int requestedMultiplier) {
         if (!(machine.getLevel() instanceof ServerLevel)) return;
         int finalMultiplier = Math.min(check(machine), requestedMultiplier);
         if (finalMultiplier <= 0) {
@@ -302,13 +300,13 @@ public record TradeEntry(
     @FunctionalInterface
     public interface PreTradeCheck {
 
-        int test(TradingStationMachine machine, TradeEntry entry);
+        int test(TradeData machine, TradeEntry entry);
     }
 
     @FunctionalInterface
     public interface TradeRunnable {
 
-        void run(TradingStationMachine machine, int multiplier, TradeEntry entry);
+        void run(TradeData machine, int multiplier, TradeEntry entry);
     }
 
     // ------------------- TradeEntry 的链式构建器 -------------------
