@@ -2056,6 +2056,8 @@
   "gtocore.adv_terminal.block_map.light": "灯",
   "gtocore.adv_terminal.block_map.machine_casing": "机器外壳",
   "gtocore.adv_terminal.block_map.me_storage_core": "ME存储核心",
+  "gtocore.adv_terminal.block_map.muffler_hatch": "消声仓",
+  "gtocore.adv_terminal.block_map.rotor_hatch": "转子仓",
   "gtocore.adv_terminal.block_map.space_elevator_power_module": "电梯模块",
   "gtocore.adv_terminal.block_map.stellar_containment_casing": "恒星热力容器",
   "gtocore.adv_terminal.block_map.wireless_energy_unit": "无线能量单元",

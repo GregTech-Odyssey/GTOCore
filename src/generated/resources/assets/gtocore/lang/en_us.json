@@ -2056,6 +2056,8 @@
   "gtocore.adv_terminal.block_map.light": "Light",
   "gtocore.adv_terminal.block_map.machine_casing": "Machine Casing",
   "gtocore.adv_terminal.block_map.me_storage_core": "ME Storage Core",
+  "gtocore.adv_terminal.block_map.muffler_hatch": "Muffler Hatch",
+  "gtocore.adv_terminal.block_map.rotor_hatch": "Rotor Hatch",
   "gtocore.adv_terminal.block_map.space_elevator_power_module": "Space Elevator Power Module",
   "gtocore.adv_terminal.block_map.stellar_containment_casing": "Stellar Containment Casing",
   "gtocore.adv_terminal.block_map.wireless_energy_unit": "Wireless Energy Unit",
