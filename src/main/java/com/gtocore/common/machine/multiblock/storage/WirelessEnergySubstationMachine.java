@@ -189,7 +189,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         if (getLevel() == null || wirelessEnergyUnitPositions.isEmpty()) {
             return 0;
         }
-        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = HashMap.newHashMap(64);
+        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = HashMap.newHashMap(count);
         int tier = block.getTier();
         // 寻找低级方块或空气，并迭代所有map中的blockpos进行替换，直到替换数量满足要求
         loop:
