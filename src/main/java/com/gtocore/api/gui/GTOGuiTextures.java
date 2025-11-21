@@ -13,6 +13,7 @@ public final class GTOGuiTextures {
 
     public static final ResourceTexture REFRESH = getTexture("base/refresh");
     public static final ResourceTexture DELETE = getTexture("base/delete");
+    public static final ResourceTexture ENERGY = getTexture("base/energy");
     public static final ResourceTexture[] VILLAGER_RECIPE_SLOTS = {
             getTexture("base/villager_recipe_slot_0"),
             getTexture("base/villager_recipe_slot_1"),

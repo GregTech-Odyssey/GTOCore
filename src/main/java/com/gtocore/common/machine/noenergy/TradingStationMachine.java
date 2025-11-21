@@ -458,8 +458,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     Set<String> keySet = UnlockManager.INSTANCE.getKeySet();
                     if (keySet == null) return;
                     for (String key : keySet) {
-                        textList.add(ComponentPanelWidget.withButton(ComponentPanelWidget.withHoverTextTranslate(
-                                Component.translatable("gtocore.trading_station.unlock." + key), Component.literal(key)),
+                        textList.add(ComponentPanelWidget.withButton(Component.translatable(key),
                                 key).copy().withStyle(ChatFormatting.AQUA));
                     }
 
@@ -475,7 +474,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 rightPanel.setLayoutPadding(4);
 
                 rightPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
-                    if (upgradeSelect != null) textList.add(Component.translatable("gtocore.trading_station.unlock." + upgradeSelect));
+                    if (upgradeSelect != null) textList.add(Component.translatable(upgradeSelect));
                 }));
 
                 // 2. 交易项容器（显示升级所需资源）
@@ -649,7 +648,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
-        TradeData tradeData = new TradeData(this.getLevel(), this.getPos(), inputItem, outputItem, inputFluid, outputFluid, uuid, teamUUID);
+        TradeData tradeData = new TradeData(this.getLevel(), this.getPos(), inputItem, outputItem, inputFluid, outputFluid, uuid, sharedUUIDs, teamUUID);
         boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, UNLOCK_TRADE, entry.unlockCondition());
         boolean canExecute = entry.canExecuteCount(tradeData) != 0;
 

@@ -2,10 +2,7 @@ package com.gtocore.data.transaction.data;
 
 import com.gtocore.api.gui.StackTexture;
 import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.data.transaction.data.trade.PlayersGroup;
-import com.gtocore.data.transaction.data.trade.UnlockTrade;
-import com.gtocore.data.transaction.data.trade.WelcomeGroup;
-import com.gtocore.data.transaction.data.trade.WelfareGroup;
+import com.gtocore.data.transaction.data.trade.*;
 import com.gtocore.data.transaction.manager.TradeEntry;
 
 import net.minecraft.network.chat.Component;
@@ -41,17 +38,20 @@ public class GTOTrade {
      * 从顶层到底层以各种方式分类放入
      */
     public static void init() {
-        /** -1 - 解锁交易组 */
+        /** 解锁交易组 */
         UnlockTrade.init();
 
-        /** 0 - 欢迎来到格雷科技 */
+        /** 欢迎来到格雷科技 */
         WelcomeGroup.init();
 
-        /** 1 - 员工交易中心 */
+        /** 员工交易中心 */
         PlayersGroup.init();
 
-        /** 2 - 员工福利兑换中心 */
+        /** 员工福利兑换中心 */
         WelfareGroup.init();
+
+        /** 能源部 */
+        EnergyGroup.init();
     }
 
     public static List<TradeEntry> createTestTradeTemplates() {

@@ -115,10 +115,10 @@ public class WelcomeGroup {
     }
 
     // 执行逻辑：添加标记，随机给予0-100技术员币
-    private static void performCheckIn(TradeData machine, int multiplier, TradeEntry entry) {
+    private static void performCheckIn(TradeData machine, TradeEntry entry, int multiplier) {
         Level level = machine.getLevel();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addDailyCompressionStrategyTransaction(machine.getUuid(), serverLevel, Weekly_check_in, Weekly_time, 1);
+        WalletUtils.addTimingCompressionStrategyTransaction(machine.getUuid(), serverLevel, Weekly_check_in, Weekly_time, 1);
         WalletUtils.addCurrency(machine.getUuid(), serverLevel, TECH_OPERATOR_COIN, random.nextInt() & 100);
     }
 }

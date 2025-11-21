@@ -5,7 +5,10 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * 交易管理器（线程安全单例），仅保留核心功能：添加、数量查询、索引获取。

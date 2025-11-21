@@ -9,6 +9,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -27,6 +28,7 @@ public class TradeData {
 
     /** 玩家信息 */
     private final UUID uuid;
+    private final List<UUID> sharedUUIDs;
     private final UUID teamUUID;
 
     public TradeData(@Nullable Level level,
@@ -36,6 +38,7 @@ public class TradeData {
                      IFluidHandlerModifiable inputFluid,
                      IFluidHandlerModifiable outputFluid,
                      UUID uuid,
+                     List<UUID> sharedUUIDs,
                      UUID teamUUID) {
         this.level = level;
         this.pos = pos;
@@ -44,6 +47,7 @@ public class TradeData {
         this.inputFluid = inputFluid;
         this.outputFluid = outputFluid;
         this.uuid = uuid;
+        this.sharedUUIDs = sharedUUIDs;
         this.teamUUID = teamUUID;
     }
 }

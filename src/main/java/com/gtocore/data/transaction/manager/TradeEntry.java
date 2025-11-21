@@ -169,7 +169,7 @@ public record TradeEntry(
         }
         executeTrade(machine, finalMultiplier);
         if (onExecute != null) {
-            onExecute.run(machine, finalMultiplier, this);
+            onExecute.run(machine, this, finalMultiplier);
         }
         machine.getLevel().playSound(null, machine.getPos(), SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.BLOCKS, 1.8F, 1.4F);
     }
@@ -306,7 +306,7 @@ public record TradeEntry(
     @FunctionalInterface
     public interface TradeRunnable {
 
-        void run(TradeData machine, int multiplier, TradeEntry entry);
+        void run(TradeData machine, TradeEntry entry, int multiplier);
     }
 
     // ------------------- TradeEntry 的链式构建器 -------------------
@@ -317,8 +317,8 @@ public record TradeEntry(
         private String unlockCondition;
         private PreTradeCheck preCheck;
         private TradeRunnable onExecute;
-        private final TradeGroup.Builder inputGroupBuilder = new TradeGroup.Builder();
-        private final TradeGroup.Builder outputGroupBuilder = new TradeGroup.Builder();
+        private TradeGroup.Builder inputGroupBuilder = new TradeGroup.Builder();
+        private TradeGroup.Builder outputGroupBuilder = new TradeGroup.Builder();
 
         // ------------------- 配置方法（链式调用） -------------------
         public Builder texture(IGuiTexture texture) {
@@ -355,6 +355,11 @@ public record TradeEntry(
         }
 
         // ------------------- 输入资源配置 -------------------
+        public Builder input(TradeGroup.Builder builder) {
+            this.inputGroupBuilder = builder;
+            return this;
+        }
+
         public Builder inputItem(ItemStack stack) {
             this.inputGroupBuilder.addItem(stack);
             return this;
@@ -375,12 +380,27 @@ public record TradeEntry(
             return this;
         }
 
+        public Builder inputEnergy(BigInteger energy) {
+            this.inputGroupBuilder.withEnergy(energy);
+            return this;
+        }
+
         public Builder inputMana(long mana) {
             this.inputGroupBuilder.withMana(mana);
             return this;
         }
 
+        public Builder inputMana(BigInteger mana) {
+            this.inputGroupBuilder.withMana(mana);
+            return this;
+        }
+
         // ------------------- 输出资源配置 -------------------
+        public Builder output(TradeGroup.Builder builder) {
+            this.outputGroupBuilder = builder;
+            return this;
+        }
+
         public Builder outputItem(ItemStack stack) {
             this.outputGroupBuilder.addItem(stack);
             return this;
@@ -401,7 +421,17 @@ public record TradeEntry(
             return this;
         }
 
+        public Builder outputEnergy(BigInteger energy) {
+            this.outputGroupBuilder.withEnergy(energy);
+            return this;
+        }
+
         public Builder outputMana(long mana) {
+            this.outputGroupBuilder.withMana(mana);
+            return this;
+        }
+
+        public Builder outputMana(BigInteger mana) {
             this.outputGroupBuilder.withMana(mana);
             return this;
         }

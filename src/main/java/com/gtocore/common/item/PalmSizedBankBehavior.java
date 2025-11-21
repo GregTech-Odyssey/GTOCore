@@ -455,9 +455,9 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                     if (choose == null) {
                         Set<String> tagKeysSet = WalletUtils.getAllTagKeysFromWallet(player.getUUID(), serverLevel);
                         for (String entry : tagKeysSet) {
-                            List1.add(ComponentPanelWidget.withButton(Component.literal("§b" + entry + "§r"), entry));
+                            List1.add(ComponentPanelWidget.withButton(Component.translatable(entry), entry).copy().withStyle(ChatFormatting.AQUA));
                         }
-                    } else List1.add(Component.literal("§b" + choose + "§r"));
+                    } else List1.add(Component.translatable(choose).withStyle(ChatFormatting.AQUA));
                 }).clickHandler((a, b) -> choose = a));
 
                 mainGroup.addWidget(new ComponentPanelWidget(width / 2 + 4, 4, List2 -> {
