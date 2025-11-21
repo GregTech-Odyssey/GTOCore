@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -189,7 +190,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         if (getLevel() == null || wirelessEnergyUnitPositions.isEmpty()) {
             return 0;
         }
-        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = HashMap.newHashMap(count);
+        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = new O2OOpenCacheHashMap<>(count);
         int tier = block.getTier();
         // 寻找低级方块或空气，并迭代所有map中的blockpos进行替换，直到替换数量满足要求
         loop:

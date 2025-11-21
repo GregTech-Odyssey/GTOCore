@@ -266,21 +266,6 @@ final class PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        PRECISION_ASSEMBLER_RECIPES.recipeBuilder("uev_kuangbiao_one_giant_nuclear_fusion_reactor")
-                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UEV].asItem(), 16)
-                .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2.asItem())
-                .inputItems(GTOItems.HUI_CIRCUIT_5.asItem(), 16)
-                .inputItems(TagPrefix.plateDouble, GTMaterials.Seaborgium, 16)
-                .inputFluids(GTOMaterials.Mithril.getFluid(864))
-                .inputFluids(GTOMaterials.Indalloy140.getFluid(1152))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(2304))
-                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
-                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV].asItem())
-                .EUt(7864320)
-                .duration(400)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("optical_soc")
                 .inputItems(GTOItems.OPTICAL_SOC_CONTAINMENT_HOUSING.asItem())
                 .inputItems(GTOItems.OPTICAL_SLICE.asItem())
