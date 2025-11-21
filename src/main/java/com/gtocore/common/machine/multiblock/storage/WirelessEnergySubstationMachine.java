@@ -34,10 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblockMachine implements IExtendWirelessEnergyContainerHolder, ITierCasingMachine, IEnergyInfoProvider {
 
@@ -193,7 +190,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         if (getLevel() == null || wirelessEnergyUnitPositions.isEmpty()) {
             return 0;
         }
-        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = new Object2ObjectOpenHashMap<>();
+        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = HashMap.newHashMap(64);
         int tier = block.getTier();
         // 寻找低级方块或空气，并迭代所有map中的blockpos进行替换，直到替换数量满足要求
         loop:

@@ -241,7 +241,6 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             EnergyOutputHistoryMinute = stat.minute.getOutputHistory().stream()
                     .map(BigInteger::toString) // 将每个 BigInteger 转换为 String
                     .collect(Collectors.toCollection(ArrayList::new));
-            WirelessEnergyContainer.observed = true;
             return textListCache;
         }
     }
