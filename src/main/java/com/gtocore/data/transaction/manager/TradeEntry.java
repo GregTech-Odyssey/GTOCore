@@ -60,37 +60,37 @@ public record TradeEntry(
     /**
      * 执行交易前的额外条件检查
      */
-    public int canExecuteCount(TradeData machine) {
+    public int canExecuteCount(TradeData data) {
         if (preCheck == null) return -1;
-        return preCheck.test(machine, this);
+        return preCheck.test(data, this);
     }
 
     /**
      * 输入资源检查
      */
-    private int checkInputEnough(TradeData machine) {
-        if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return 0;
+    private int checkInputEnough(TradeData data) {
+        if (!(data.getLevel() instanceof ServerLevel serverLevel)) return 0;
 
-        int inputItem = inputGroup().items().isEmpty() ? Integer.MAX_VALUE : checkMaxMultiplier(machine.getInputItem(), inputGroup().items());
+        int inputItem = inputGroup().items().isEmpty() ? Integer.MAX_VALUE : checkMaxMultiplier(data.getInputItem(), inputGroup().items());
         if (inputItem == 0) return 0;
 
-        int inputFluid = inputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxConsumeMultiplier(machine.getInputFluid(), inputGroup().fluids());
+        int inputFluid = inputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxConsumeMultiplier(data.getInputFluid(), inputGroup().fluids());
         if (inputFluid == 0) return 0;
 
-        int outputFluid = outputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxCapacityMultiplier(machine.getOutputFluid(), outputGroup().fluids());
+        int outputFluid = outputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxCapacityMultiplier(data.getOutputFluid(), outputGroup().fluids());
         if (outputFluid == 0) return 0;
 
         int inputCurrencies = inputGroup().currencies().isEmpty() ? Integer.MAX_VALUE : inputGroup().currencies().object2LongEntrySet().stream()
                 .filter(entry -> entry.getLongValue() != 0)
-                .mapToInt(entry -> (int) (WalletUtils.getCurrencyAmount(machine.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())).min().orElse(0);
+                .mapToInt(entry -> (int) (WalletUtils.getCurrencyAmount(data.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())).min().orElse(0);
         if (inputCurrencies == 0) return 0;
 
-        int inputEnergy = inputGroup().energy().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID()).getStorage()
+        int inputEnergy = inputGroup().energy().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID()).getStorage()
                 .divide(inputGroup().energy())
                 .min(BigInteger.valueOf(100000000)).intValueExact();
         if (inputEnergy == 0) return 0;
 
-        int inputMana = inputGroup().mana().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID()).getStorage()
+        int inputMana = inputGroup().mana().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessManaContainer.getOrCreateContainer(data.getTeamUUID()).getStorage()
                 .divide(inputGroup().mana())
                 .min(BigInteger.valueOf(100_000_000)).intValueExact();
         if (inputMana == 0) return 0;
@@ -102,41 +102,41 @@ public record TradeEntry(
     /**
      * 运行交易的实际输入输出
      */
-    private void executeTrade(TradeData machine, int multiplier) {
-        if (!(machine.getLevel() instanceof ServerLevel serverLevel)) return;
+    private void executeInputOutput(TradeData data, int multiplier) {
+        if (!(data.getLevel() instanceof ServerLevel serverLevel)) return;
 
         if (!inputGroup().items().isEmpty()) {
-            deductMultipliedItems(machine.getInputItem(), inputGroup().items(), multiplier);
+            deductMultipliedItems(data.getInputItem(), inputGroup().items(), multiplier);
         }
         if (!outputGroup().items().isEmpty()) {
-            addMultipliedItems(machine.getOutputItem(), outputGroup().items(), multiplier, serverLevel, machine.getPos());
+            addMultipliedItems(data.getOutputItem(), outputGroup().items(), multiplier, serverLevel, data.getPos());
         }
         if (!inputGroup().fluids().isEmpty()) {
-            deductMultipliedFluids(machine.getInputFluid(), inputGroup().fluids(), multiplier);
+            deductMultipliedFluids(data.getInputFluid(), inputGroup().fluids(), multiplier);
         }
         if (!outputGroup().fluids().isEmpty()) {
-            addMultipliedFluids(machine.getOutputFluid(), outputGroup().fluids(), multiplier);
+            addMultipliedFluids(data.getOutputFluid(), outputGroup().fluids(), multiplier);
         }
         if (!inputGroup().currencies().isEmpty()) {
-            inputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.subtractCurrency(machine.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
+            inputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.subtractCurrency(data.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
         }
         if (!outputGroup().currencies().isEmpty()) {
-            outputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.addCurrency(machine.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
+            outputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.addCurrency(data.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
         }
         if (!inputGroup().energy().equals(BigInteger.ZERO)) {
-            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID());
+            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID());
             energyContainer.setStorage(energyContainer.getStorage().subtract(inputGroup().energy().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!outputGroup().energy().equals(BigInteger.ZERO)) {
-            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(machine.getTeamUUID());
+            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID());
             energyContainer.setStorage(energyContainer.getStorage().add(outputGroup().energy().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!inputGroup().mana().equals(BigInteger.ZERO)) {
-            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID());
+            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(data.getTeamUUID());
             manaContainer.setStorage(manaContainer.getStorage().subtract(inputGroup().mana().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!outputGroup().mana().equals(BigInteger.ZERO)) {
-            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(machine.getTeamUUID());
+            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(data.getTeamUUID());
             manaContainer.setStorage(manaContainer.getStorage().add(outputGroup().mana().multiply(BigInteger.valueOf(multiplier))));
         }
     }
@@ -144,15 +144,15 @@ public record TradeEntry(
     /**
      * 可执行交易的次数
      */
-    public int check(TradeData machine) {
-        if (!(machine.getLevel() instanceof ServerLevel)) return 0;
+    public int check(TradeData data) {
+        if (!(data.getLevel() instanceof ServerLevel)) return 0;
         int multiplier = Integer.MAX_VALUE;
-        int preCheckMaxCount = canExecuteCount(machine);
+        int preCheckMaxCount = canExecuteCount(data);
         if (preCheckMaxCount == 0) return 0;
         else if (preCheckMaxCount > 0) {
             multiplier = preCheckMaxCount;
         }
-        int resourceMaxCount = checkInputEnough(machine);
+        int resourceMaxCount = checkInputEnough(data);
         if (resourceMaxCount <= 0) return 0;
         return Math.min(multiplier, resourceMaxCount);
     }
@@ -160,18 +160,18 @@ public record TradeEntry(
     /**
      * 执行完整交易（资源变更+回调）
      */
-    public void execute(TradeData machine, int requestedMultiplier) {
-        if (!(machine.getLevel() instanceof ServerLevel)) return;
-        int finalMultiplier = Math.min(check(machine), requestedMultiplier);
+    public void executeTrade(TradeData data, int requestedMultiplier) {
+        if (!(data.getLevel() instanceof ServerLevel)) return;
+        int finalMultiplier = Math.min(check(data), requestedMultiplier);
         if (finalMultiplier <= 0) {
-            machine.getLevel().playSound(null, machine.getPos(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.8F, 1.4F);
+            data.getLevel().playSound(null, data.getPos(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.8F, 1.4F);
             return;
         }
-        executeTrade(machine, finalMultiplier);
+        executeInputOutput(data, finalMultiplier);
         if (onExecute != null) {
-            onExecute.run(machine, this, finalMultiplier);
+            onExecute.run(data, this, finalMultiplier);
         }
-        machine.getLevel().playSound(null, machine.getPos(), SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.BLOCKS, 1.8F, 1.4F);
+        data.getLevel().playSound(null, data.getPos(), SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.BLOCKS, 1.8F, 1.4F);
     }
 
     public List<Component> getDescription() {
@@ -300,13 +300,13 @@ public record TradeEntry(
     @FunctionalInterface
     public interface PreTradeCheck {
 
-        int test(TradeData machine, TradeEntry entry);
+        int test(TradeData data, TradeEntry entry);
     }
 
     @FunctionalInterface
     public interface TradeRunnable {
 
-        void run(TradeData machine, TradeEntry entry, int multiplier);
+        void run(TradeData data, TradeEntry entry, int multiplier);
     }
 
     // ------------------- TradeEntry 的链式构建器 -------------------

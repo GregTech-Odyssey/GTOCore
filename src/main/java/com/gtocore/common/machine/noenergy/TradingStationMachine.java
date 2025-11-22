@@ -36,7 +36,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -106,7 +105,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Getter
     @Persisted
     private UUID teamUUID;
-    private ServerPlayer currentUIPlayer;
 
     /** 交易信息 */
     @Persisted
@@ -207,11 +205,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     @Override
     public InteractionResult tryToOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        InteractionResult result = IFancyUIMachine.super.tryToOpenUI(player, hand, hit);
-        if (result.consumesAction() && player instanceof ServerPlayer serverPlayer) {
-            this.currentUIPlayer = serverPlayer;
-        }
-        return result;
+        return IFancyUIMachine.super.tryToOpenUI(player, hand, hit);
     }
 
     @DescSynced
@@ -285,9 +279,10 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 .textSupplier(texts -> texts.add(trans(8)))
                 .clickHandler((data, clickData) -> {
                     initializationInformation(cardHandler.getStackInSlot(0));
-                    if (!isRemote() && currentUIPlayer != null) {
-                        if (shouldOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null)) {
-                            tryToOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null);
+                    Player player = mainGroup.getGui().entityPlayer;
+                    if (!isRemote() && player != null) {
+                        if (shouldOpenUI(player, InteractionHand.MAIN_HAND, null)) {
+                            tryToOpenUI(player, InteractionHand.MAIN_HAND, null);
                         }
                     }
                 }));
@@ -335,9 +330,10 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                                     shopSelected = -1;
                                     markAsDirty();
 
-                                    if (!isRemote() && currentUIPlayer != null) {
-                                        if (shouldOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null)) {
-                                            tryToOpenUI(currentUIPlayer, InteractionHand.MAIN_HAND, null);
+                                    Player player = SwitchWidget.getGui().entityPlayer;
+                                    if (!isRemote() && player != null) {
+                                        if (shouldOpenUI(player, InteractionHand.MAIN_HAND, null)) {
+                                            tryToOpenUI(player, InteractionHand.MAIN_HAND, null);
                                         }
                                     }
                                 }
@@ -669,7 +665,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     if (!unlockShop) return;
                     if (!unlock) return;
                     int multiplier = clickData.isCtrlClick ? (clickData.isShiftClick ? 100 : 10) : 1;
-                    entry.execute(tradeData, multiplier);
+                    entry.executeTrade(tradeData, multiplier);
                 }));
 
         return trade;
