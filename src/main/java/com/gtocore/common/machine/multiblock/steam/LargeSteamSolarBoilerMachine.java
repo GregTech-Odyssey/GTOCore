@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
+import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IEnhancedRecipeLogicMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
@@ -189,6 +190,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
     }
 
     private boolean isAppropriateDimensionAndTime(Level world, BlockPos pos) {
+        if (GTODimensions.isVoid(world.dimension().location())) return true;
         if (!world.isDay()) {
             getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails")
                     .append(": ").append(Component.translatable("recipe.condition.daytime.day.tooltip")));

@@ -15,6 +15,7 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
+import com.gtocore.common.machine.noenergy.TradingStationMachine;
 import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
@@ -940,12 +941,14 @@ public final class GTOMachines {
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
 
-    public static final MachineDefinition TRADING_STATION = machine("trading_station", "泛银河系格雷科技贸易站", TradingStationMachine::new)
-            .langValue("Pan-Galactic Gray Technology Trading Station")
-            .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
-            .nonYAxisRotation()
-            .renderer(() -> new OverlayTieredMachineRenderer(HV, GTCEu.id("block/machine/part/computation_data_hatch")))
-            .register();
+    public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,
+            (tier, builder) -> builder
+                    .langValue("Pan-Galactic Gray Technology Trading Station " + "Tier " + tier)
+                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
+                    .nonYAxisRotation()
+                    .modelRenderer(() -> GTOCore.id("block/machine/trading_station"))
+                    .register(),
+            GTValues.tiersBetween(1, 8));
 
     public static final MachineDefinition[] DIGITAL_MINER = registerTieredMachines("digital_miner", tier -> "%s数字型采矿机 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]), SingleDigitalMiner::new,
             (tier, builder) -> builder

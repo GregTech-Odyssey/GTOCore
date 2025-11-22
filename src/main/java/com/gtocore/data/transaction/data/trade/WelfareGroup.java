@@ -1,0 +1,47 @@
+package com.gtocore.data.transaction.data.trade;
+
+import com.gtocore.data.transaction.manager.TradeEntry;
+import com.gtocore.data.transaction.manager.TradingManager;
+
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+
+import java.util.Set;
+
+import static com.gtocore.data.transaction.data.GTOTrade.createTestTradeTemplates;
+import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
+import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
+
+public class WelfareGroup {
+
+    /**
+     * 员工福利兑换中心
+     * <p>
+     * - 福利兑换 壹
+     * - 福利兑换 贰
+     */
+    public static void init() {
+        int GroupIndex = TradingManager.INSTANCE.addShopGroup(
+                addTradeLang("员工福利兑换中心", "Employee Benefits Redemption Center"),
+                GuiTextures.GREGTECH_LOGO,
+                GuiTextures.GREGTECH_LOGO);
+
+        int ShopIndex1 = TradingManager.INSTANCE.addShopByGroupIndex(
+                GroupIndex,
+                addTradeLang("福利兑换 壹", "Welfare Redemption 1"),
+                UNLOCK_BASE,
+                Set.of(TECH_OPERATOR_COIN),
+                GuiTextures.GREGTECH_LOGO);
+
+        int ShopIndex2 = TradingManager.INSTANCE.addShopByGroupIndex(
+                GroupIndex,
+                addTradeLang("福利兑换 贰", "Welfare Redemption 2"),
+                UNLOCK_BASE,
+                Set.of(TECH_OPERATOR_COIN),
+                GuiTextures.GREGTECH_LOGO);
+
+        for (TradeEntry entry : createTestTradeTemplates()) {
+            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1, entry);
+        }
+    }
+}

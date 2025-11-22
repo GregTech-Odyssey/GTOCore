@@ -7,6 +7,7 @@ import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gtocore.common.cover.PowerAmplifierCover;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
+import com.gtocore.common.item.PalmSizedBankBehavior;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 import com.gtocore.data.lootTables.RewardBagLoot;
@@ -1149,9 +1150,7 @@ public final class GTOItems {
             .onRegister(attach(PalmSizedBankBehavior.INSTANCE))
             .register();
 
-    public static final ItemEntry<GrayMembershipCardItem> GRAY_MEMBERSHIP_CARD = item("gray_membership_card", "格雷会员卡", GrayMembershipCardItem::new)
-            .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
-            .register();
+    public static final ItemEntry<GrayMembershipCardItem> GRAY_MEMBERSHIP_CARD = item("gray_membership_card", "格雷会员卡", GrayMembershipCardItem::new).register();
 
     public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER0 = item("pattern_buffer_upgrader", "样板总成升级器", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
