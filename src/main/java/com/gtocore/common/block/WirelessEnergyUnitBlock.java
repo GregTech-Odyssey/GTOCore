@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -50,5 +51,16 @@ public class WirelessEnergyUnitBlock extends Block {
         } else {
             tooltip.add(Component.translatable("tooltip.ad_astra.shift_description"));
         }
+        tooltip.add(Component.translatable("gtocore.machine.wireless_energy_unit.tooltip"));
     }
+
+    @Nullable
+    public static WirelessEnergyUnitBlock get(int tier) {
+        if (tier < 1 || tier > BlockMap.WIRELESS_ENERGY_UNIT.length + 1) {
+            return null;
+        }
+        return (WirelessEnergyUnitBlock) BlockMap.WIRELESS_ENERGY_UNIT[tier - 1];
+    }
+
+    public record BlockData(@Nullable WirelessEnergyUnitBlock block, BlockPos pos) {}
 }

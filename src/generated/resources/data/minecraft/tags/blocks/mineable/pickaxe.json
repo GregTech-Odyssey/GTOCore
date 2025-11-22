@@ -137,6 +137,7 @@
     "gtocore:antimatter_containment_casing",
     "gtocore:quantum_glass",
     "gtocore:fermi_energy_gap_transition_glass",
+    "gtocore:plasma_field_glass",
     "gtocore:force_field_glass",
     "gtocore:spatially_transcendent_gravitational_lens_block",
     "gtocore:naquadria_charge",

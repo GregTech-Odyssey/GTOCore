@@ -171,5 +171,35 @@ public final class Temporary {
                 .EUt(16777216)
                 .duration(200)
                 .save();
+        ASSEMBLER_RECIPES.builder("accelerator_observation_glass")
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Nitinol50ShapeMemoryAlloy)
+                .inputItems(GTBlocks.CASING_LAMINATED_GLASS.asItem(), 2)
+                .inputItems(GTItems.NEUTRON_REFLECTOR.asItem(), 4)
+                .outputItems(GTOBlocks.ACCELERATOR_OBSERVATION_GLASS.asItem())
+                .inputFluids(GTOMaterials.FiberglassReinforcedPlastic, 576)
+                .EUt(480)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("vacuum_chamber_beam_block")
+                .inputItems(TagPrefix.frameGt, GTOMaterials.TitaniumTC11)
+                .inputItems(GTItems.NEUTRON_REFLECTOR.asItem(), 2)
+                .inputItems(GTOBlocks.SPEEDING_PIPE.asItem())
+                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 16)
+                .inputItems(GTItems.SENSOR_ZPM.asItem(), 4)
+                .inputItems(GTItems.EMITTER_ZPM.asItem(), 4)
+                .outputItems(GTOBlocks.VACUUM_CHAMBER_BEAM_BLOCK.asItem())
+                .inputFluids(GTMaterials.Barium, 576)
+                .EUt(480)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("accelerator_protection_casing")
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Nitinol50ShapeMemoryAlloy)
+                .inputItems(GTItems.NEUTRON_REFLECTOR.asItem(), 4)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.CarbonFiberReinforcedEpoxyComposite, 4)
+                .outputItems(GTOBlocks.ACCELERATOR_PROTECTION_CASING.asItem())
+                .inputFluids(GTMaterials.Lead, 1000)
+                .EUt(480)
+                .duration(200)
+                .save();
     }
 }

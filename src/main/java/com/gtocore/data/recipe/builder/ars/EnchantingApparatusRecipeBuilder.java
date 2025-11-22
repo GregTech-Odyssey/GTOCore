@@ -1,28 +1,20 @@
 package com.gtocore.data.recipe.builder.ars;
 
 import com.gtolib.GTOCore;
-import com.gtolib.utils.ItemUtils;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.hollingsworth.arsnouveau.setup.registry.RecipeRegistry;
-import org.jetbrains.annotations.NotNull;
+import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantingApparatusRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public final class EnchantingApparatusRecipeBuilder {
 
@@ -103,58 +95,6 @@ public final class EnchantingApparatusRecipeBuilder {
             throw new IllegalStateException("No pedestal items added to enchanting apparatus recipe");
         }
 
-        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {
-                json.addProperty("type", "ars_nouveau:enchanting_apparatus");
-
-                JsonArray reagentArray = new JsonArray();
-                reagentArray.add(reagent.toJson());
-                json.add("reagent", reagentArray);
-
-                JsonArray pedestalArray = new JsonArray();
-                for (Ingredient ingredient : pedestalItems) {
-                    pedestalArray.add(ingredient.toJson());
-                }
-                json.add("pedestalItems", pedestalArray);
-
-                JsonObject resultObj = new JsonObject();
-                resultObj.addProperty("item", ItemUtils.getIdLocation(result.getItem()).toString());
-                if (result.getCount() > 1) {
-                    resultObj.addProperty("count", result.getCount());
-                }
-                json.add("output", resultObj);
-
-                if (sourceCost > 0) {
-                    json.addProperty("sourceCost", sourceCost);
-                }
-                if (keepNbtOfReagent) {
-                    json.addProperty("keepNbtOfReagent", true);
-                }
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return id;
-            }
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return RecipeRegistry.APPARATUS_SERIALIZER.get();
-            }
-
-            @Nullable
-            @Override
-            public JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        GTRecipes.RECIPE_MAP.put(id, new EnchantingApparatusRecipe(id, pedestalItems, reagent, result, sourceCost, keepNbtOfReagent));
     }
 }
