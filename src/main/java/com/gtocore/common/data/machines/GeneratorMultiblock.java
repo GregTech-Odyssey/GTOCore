@@ -612,11 +612,10 @@ public final class GeneratorMultiblock {
             .recipeModifier((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
                     int p = 1;
-                    if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                        p = 8;
-                    }
                     if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA), 1)) {
                         p = 16;
+                    } else if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 8;
                     }
                     return RecipeModifierFunction.generatorOverclocking(workableElectricMultiblockMachine, ParallelLogic.accurateParallel(machine, recipe, p));
                 }
@@ -660,15 +659,15 @@ public final class GeneratorMultiblock {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
-                    } else if (outputEUt == V[UIV]) {
+                    } else if (outputEUt == V[UXV]) {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Enderium.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
-                    } else if (outputEUt == V[UXV]) {
+                    } else if (outputEUt == V[OpV]) {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
-                    } else if (outputEUt == V[OpV]) {
+                    } else if (outputEUt == V[MAX]) {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
