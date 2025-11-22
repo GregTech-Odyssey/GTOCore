@@ -4,10 +4,7 @@ import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.pattern.DebugBlockPattern;
-import com.gtolib.utils.ItemUtils;
-import com.gtolib.utils.RegistriesUtils;
-import com.gtolib.utils.StringIndex;
-import com.gtolib.utils.StringUtils;
+import com.gtolib.utils.*;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
@@ -30,7 +27,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -42,6 +38,7 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -121,11 +118,8 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             RelativeDirection[] dirs = DebugBlockPattern.getDir(direction);
             blockPattern.changeDir(dirs[0], dirs[1], dirs[2]);
             builder.append("\n.block(").append(convertBlockToString(RegistriesUtils.getBlock(part), part, StringUtils.decompose(part), true)).append(")\n");
-            builder.append(".pattern(definition -> FactoryBlockPattern.start(definition)\n");
-            for (int i = 0; i < blockPattern.pattern.length; i++) {
-                String[] strings = blockPattern.pattern[i];
-                builder.append(".aisle(\"%s\")\n".formatted(Joiner.on("\", \"").join(strings)));
-            }
+            builder.append(".pattern(definition -> MultiBlockFileReader.start(definition)\n");
+            FileUtils.saveToFile(blockPattern.pattern, new File(GTOCore.getFile(), "structure_pattern"), FileUtils.Serialize.array(FileUtils.Serialize.array(FileUtils.Serializer.STRING)));
             blockPattern.legend.forEach((b, c) -> {
                 if (c.equals(' ')) return;
                 if (BLOCK_MAP.containsKey(b)) {
