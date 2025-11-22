@@ -1,6 +1,7 @@
 package com.gtocore.data.transaction.data.trade;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.api.gui.StackTexture;
 import com.gtocore.data.transaction.manager.TradeData;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.common.data.GTOMachines.TRADING_STATION;
 import static com.gtocore.common.data.GTOMaterials.Adamantine;
 import static com.gtocore.common.data.GTOMaterials.Infinity;
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
@@ -65,7 +67,26 @@ public class WelcomeGroup {
                 Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
 
-        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, createWeeklyCheckIn());
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, new TradeEntry.Builder()
+                .texture(new ResourceTexture("minecraft:textures/mob_effect/luck.png"))
+                .description(List.of(
+                        Component.translatable(addTradeLang("每周签到", "Weekly check-in")),
+                        Component.translatable(addTradeLang("领取幸运物资", "Claim lucky supplies"))))
+                .unlockCondition(UNLOCK_BASE)
+                .preCheck(WelcomeGroup::checkThisWeek)
+                .onExecute(WelcomeGroup::performCheckIn)
+                .build());
+
+        for (int i = 1; i < 8; i++) {
+            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, new TradeEntry.Builder()
+                    .texture(new StackTexture(TRADING_STATION[1].asStack()))
+                    .addDescription(Component.translatable(addTradeLang("升级贸易站", "升级贸易站")))
+                    .unlockCondition(UNLOCK_BASE)
+                    .inputItem(TRADING_STATION[i].asStack())
+                    .inputCurrency(TECH_OPERATOR_COIN, 4 << (i * 3))
+                    .outputItem(TRADING_STATION[i + 1].asStack())
+                    .build());
+        }
     }
 
     public static TradeEntry createCoinExchangeTrade(Material material, int tier) {
@@ -92,18 +113,6 @@ public class WelcomeGroup {
 
     private static final String Weekly_check_in = "Weekly check-in";
     private static final long Weekly_time = 140L;
-
-    private static TradeEntry createWeeklyCheckIn() {
-        return new TradeEntry.Builder()
-                .texture(new ResourceTexture("minecraft:textures/mob_effect/luck.png"))
-                .description(List.of(
-                        Component.translatable(addTradeLang("每周签到", "Weekly check-in")),
-                        Component.translatable(addTradeLang("领取幸运物资", "Claim lucky supplies"))))
-                .unlockCondition(UNLOCK_BASE)
-                .preCheck(WelcomeGroup::checkThisWeek)
-                .onExecute(WelcomeGroup::performCheckIn)
-                .build();
-    }
 
     // 前置检查逻辑：检查本周是否签过到
     private static int checkThisWeek(TradeData machine, TradeEntry entry) {

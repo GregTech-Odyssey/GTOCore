@@ -3,12 +3,14 @@ package com.gtocore.data.transaction.data;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.gui.StackTexture;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.transaction.data.trade.*;
 import com.gtocore.data.transaction.manager.TradeEntry;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -71,6 +73,12 @@ public class GTOTrade {
                 "ABA",
                 " A ",
                 'A', new MaterialEntry(GTOTagPrefix.COIN, GTMaterials.Copper), 'B', GTItems.TERMINAL.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("lv_trading_station"), GTOMachines.TRADING_STATION[GTValues.LV].asStack(),
+                " A ",
+                "ABA",
+                " A ",
+                'A', new MaterialEntry(GTOTagPrefix.COIN, GTMaterials.Copper), 'B', GTOItems.GRAY_MEMBERSHIP_CARD.asStack());
     }
 
     public static List<TradeEntry> createTestTradeTemplates() {

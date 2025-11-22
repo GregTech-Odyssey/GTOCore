@@ -941,12 +941,12 @@ public final class GTOMachines {
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
 
-    public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> GTOValues.VNFR[tier] + "泛银河系格雷科技贸易站", TradingStationMachine::new,
+    public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,
             (tier, builder) -> builder
-                    .langValue(GTOValues.VNFR[tier] + "Pan-Galactic Gray Technology Trading Station")
+                    .langValue("Pan-Galactic Gray Technology Trading Station " + "Tier " + tier)
                     .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
                     .nonYAxisRotation()
-                    .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/computation_data_hatch")))
+                    .modelRenderer(() -> GTOCore.id("block/machine/trading_station"))
                     .register(),
             GTValues.tiersBetween(1, 8));
 
