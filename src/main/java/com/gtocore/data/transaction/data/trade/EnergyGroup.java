@@ -42,14 +42,14 @@ public class EnergyGroup {
                 GroupIndex,
                 addTradeLang("能源出售", "Power selling"),
                 UNLOCK_BASE,
-                Set.of(ENERGY_COIN),
+                Set.of(ENERGY_COIN, COMPACT_ENERGY_COIN),
                 GTOGuiTextures.ENERGY);
 
         int ShopIndex2 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
                 addTradeLang("能源购入", "power procurement"),
                 UNLOCK_BASE,
-                Set.of(ENERGY_COIN),
+                Set.of(ENERGY_COIN, COMPACT_ENERGY_COIN),
                 GTOGuiTextures.ENERGY);
 
         for (int i = 1; i < 9; i++) {

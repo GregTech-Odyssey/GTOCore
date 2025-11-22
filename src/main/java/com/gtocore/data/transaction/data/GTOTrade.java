@@ -1,9 +1,18 @@
 package com.gtocore.data.transaction.data;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.gui.StackTexture;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.transaction.data.trade.*;
 import com.gtocore.data.transaction.manager.TradeEntry;
+
+import com.gtolib.GTOCore;
+
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
+import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +47,8 @@ public class GTOTrade {
      * 从顶层到底层以各种方式分类放入
      */
     public static void init() {
+        recipe();
+
         /** 解锁交易组 */
         UnlockTrade.init();
 
@@ -52,6 +63,14 @@ public class GTOTrade {
 
         /** 能源部 */
         EnergyGroup.init();
+    }
+
+    private static void recipe() {
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("palm_sized_bank"), GTOItems.PALM_SIZED_BANK.asStack(),
+                " A ",
+                "ABA",
+                " A ",
+                'A', new MaterialEntry(GTOTagPrefix.COIN, GTMaterials.Copper), 'B', GTItems.TERMINAL.asStack());
     }
 
     public static List<TradeEntry> createTestTradeTemplates() {
