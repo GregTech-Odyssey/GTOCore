@@ -180,10 +180,10 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate wirelessEnergyUnit() {
-        return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock>(), (data, state) -> {
+        return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock.BlockData>(), (data, state) -> {
             if (state.getBlockState().getBlock() instanceof WirelessEnergyUnitBlock block) {
-                data.add(block);
-            }
+                data.add(new WirelessEnergyUnitBlock.BlockData(block, state.getPos()));
+            } else data.add(new WirelessEnergyUnitBlock.BlockData(null, state.getPos()));
             return data;
         }), "wirelessEnergyUnit", WIRELESS_ENERGY_UNIT).setPreviewCount(1);
     }

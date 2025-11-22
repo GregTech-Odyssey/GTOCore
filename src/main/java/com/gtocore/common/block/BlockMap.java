@@ -1,12 +1,15 @@
 package com.gtocore.common.block;
 
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.machines.GTAEMachines;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.world.level.block.Block;
@@ -18,11 +21,10 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @DataGeneratorScanned
@@ -123,6 +125,10 @@ public final class BlockMap {
 
     @RegisterLanguage(namePrefix = namePrefix, cn = "密封机械方块", en = "Hermetic Casing")
     public static final String hermetic_casing = "hermetic_casing";
+    @RegisterLanguage(namePrefix = namePrefix, cn = "消声仓", en = "Muffler Hatch")
+    public static final String muffler_hatch = "muffler_hatch";
+    @RegisterLanguage(namePrefix = namePrefix, cn = "转子仓", en = "Rotor Hatch")
+    public static final String rotor_hatch = "rotor_hatch";
 
     public static void build() {
         var coils = new ArrayList<>(GTCEuAPI.HEATING_COILS.entrySet());
@@ -190,6 +196,13 @@ public final class BlockMap {
         Block[] hermeticCasings = arr(GTBlocks.HERMETIC_CASING_LV.get(), GTBlocks.HERMETIC_CASING_MV.get(), GTBlocks.HERMETIC_CASING_HV.get(), GTBlocks.HERMETIC_CASING_EV.get(), GTBlocks.HERMETIC_CASING_IV.get(), GTBlocks.HERMETIC_CASING_LuV.get(), GTBlocks.HERMETIC_CASING_ZPM.get(), GTBlocks.HERMETIC_CASING_UV.get(), GTBlocks.HERMETIC_CASING_UHV.get(), GTOBlocks.HERMETIC_CASING_UEV.get(), GTOBlocks.HERMETIC_CASING_UIV.get(), GTOBlocks.HERMETIC_CASING_UXV.get(), GTOBlocks.HERMETIC_CASING_OpV.get());
         Stream.of(hermeticCasings).forEach(b -> HERMETIC_CASING.put(idx.getAndIncrement(), () -> b));
         MAP.put(hermetic_casing, hermeticCasings);
+
+        var tiers1 = Arrays.stream(GTMachines.MUFFLER_HATCH).filter(Objects::nonNull).distinct().sorted(Comparator.comparingInt(MachineDefinition::getTier)).map(MachineDefinition::get).collect(Collectors.toList());
+        tiers1.add(GTAEMachines.MUFFLER_HATCH_ME.get());
+        MAP.put(muffler_hatch, tiers1.toArray(new Block[0]));
+
+        tiers1 = Arrays.stream(GTMachines.ROTOR_HOLDER).filter(Objects::nonNull).distinct().sorted(Comparator.comparingInt(MachineDefinition::getTier)).map(MachineDefinition::get).collect(Collectors.toList());
+        MAP.put(rotor_hatch, tiers1.toArray(new Block[0]));
 
         MAP.forEach((category, blocks) -> {
             for (Block block : blocks) {
