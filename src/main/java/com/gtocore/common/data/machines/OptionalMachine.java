@@ -6,6 +6,7 @@ import com.gtocore.common.machine.multiblock.part.ae.MESimplePatternBufferPartMa
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -13,7 +14,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -49,12 +49,7 @@ public final class OptionalMachine {
             .tooltips(GTOMachineTooltips.INSTANCE.getCarvingCenterTooltips().getSupplier())
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)
-            .pattern(definition -> FactoryBlockPattern.start(definition)
-                    .aisle("AAAAA", "ABABA", "ABABA", " CCC ")
-                    .aisle("ADDDA", "C   C", "C E C", "CCCCC")
-                    .aisle("ADDDA", "C F C", "CEFEC", "CCCCC")
-                    .aisle("ADDDA", "C   C", "C   C", "CCCCC")
-                    .aisle("AAGAA", "AHHHA", "AHHHA", " CCC ")
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4))
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))

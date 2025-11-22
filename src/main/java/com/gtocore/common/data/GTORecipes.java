@@ -1,7 +1,5 @@
 package com.gtocore.common.data;
 
-import com.gtocore.data.recipe.RecipeFilter;
-
 import com.gtolib.utils.RLUtils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,7 +28,6 @@ public final class GTORecipes {
     public static ImmutableSet<EmiRecipe> EMI_RECIPES;
 
     public static <C extends Container> Recipe<C> convert(Recipe<C> recipe) {
-        if (RecipeFilter.JsonFilter != null) RecipeFilter.JsonFilter = null;
         return recipe;
     }
 
