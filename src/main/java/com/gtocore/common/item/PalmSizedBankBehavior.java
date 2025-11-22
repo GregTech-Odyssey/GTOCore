@@ -573,7 +573,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
 
     public static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
         O2LOpenCacheHashMap<String> initialCurrencies = new O2LOpenCacheHashMap<>();
-        initialCurrencies.put(TECH_OPERATOR_COIN, 16);
+        initialCurrencies.put(TECH_OPERATOR_COIN, 37);
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_SHOP, UNLOCK_BASE);
         WalletUtils.addTagToWallet(playerUUID, world, UNLOCK_TRADE, UNLOCK_BASE);
