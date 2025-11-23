@@ -119,7 +119,6 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             blockPattern.changeDir(dirs[0], dirs[1], dirs[2]);
             builder.append("\n.block(").append(convertBlockToString(RegistriesUtils.getBlock(part), part, StringUtils.decompose(part), true)).append(")\n");
             builder.append(".pattern(definition -> MultiBlockFileReader.start(definition)\n");
-            FileUtils.saveToFile(blockPattern.pattern, new File(GTOCore.getFile(), "structure_pattern"), FileUtils.Serialize.array(FileUtils.Serialize.array(FileUtils.Serializer.STRING)));
             blockPattern.legend.forEach((b, c) -> {
                 if (c.equals(' ')) return;
                 if (BLOCK_MAP.containsKey(b)) {
@@ -147,7 +146,10 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             });
             if (blockPattern.hasAir) builder.append(".where(' ', any())\n");
             builder.append(".build())\n");
-            GTOCore.LOGGER.info(builder.toString());
+            String string = builder.toString();
+            GTOCore.LOGGER.info(string);
+            FileUtils.saveToFile(blockPattern.pattern, new File(GTOCore.getFile(), "structure_pattern.mbs"), FileUtils.Serialize.array(FileUtils.Serialize.array(FileUtils.Serializer.STRING)));
+            FileUtils.saveToFile(string, new File(GTOCore.getFile(), "structure_pattern.txt"), FileUtils.Serializer.TXT_STRING);
         }
     }
 
