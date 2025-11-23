@@ -2,11 +2,11 @@
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"4": "gtocore:block/machines/village_trading_station/side",
-		"5": "gtocore:block/machines/village_trading_station/top",
-		"6": "gtocore:block/machines/village_trading_station/face",
-		"particle": "gtocore:block/machines/village_trading_station/side",
-		"roof": "gtocore:block/machines/village_trading_station/roof"
+		"4": "gtocore:block/machines/trading_station/side",
+		"5": "gtocore:block/machines/trading_station/top",
+		"6": "gtocore:block/machines/trading_station/face",
+		"particle": "gtocore:block/machines/trading_station/side",
+		"roof": "gtocore:block/machines/trading_station/roof"
 	},
 	"elements": [
 		{

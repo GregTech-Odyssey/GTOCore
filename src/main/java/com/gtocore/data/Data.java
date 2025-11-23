@@ -20,6 +20,7 @@ import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.*;
 import com.gtocore.data.recipe.processing.*;
 import com.gtocore.data.recipe.research.*;
+import com.gtocore.data.transaction.data.GTOTrade;
 import com.gtocore.integration.emi.GTEMIRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
@@ -172,6 +173,9 @@ public final class Data {
         GTOLoots.BLOCKS = null;
         GTOLoots.init();
         MixinHelpers.registryGTDynamicTags();
+
+        GTOTrade.init();
+
         GTOCore.LOGGER.info("Data loading took {}ms", System.currentTimeMillis() - time);
     }
 
