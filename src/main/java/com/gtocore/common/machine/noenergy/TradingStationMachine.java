@@ -4,17 +4,22 @@ import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.gui.InteractiveImageWidget;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.data.transaction.TransactionEntry;
+import com.gtocore.data.transaction.manager.TradeData;
+import com.gtocore.data.transaction.manager.TradeEntry;
+import com.gtocore.data.transaction.manager.TradingManager;
+import com.gtocore.data.transaction.manager.UnlockManager;
 
 import com.gtolib.utils.WalletUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.CombinedDirectionalFancyConfigurator;
@@ -23,74 +28,110 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.gtocore.common.item.GrayMembershipCardItem.*;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_SHOP;
+import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_TRADE;
+import static com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup.ScrollWheelDirection.HORIZONTAL;
 
-public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife {
+public class TradingStationMachine extends MetaMachine implements IFancyUIMachine, IAutoOutputBoth, IMachineLife, IControllable {
+
+    /////////////////////////////////////
+    // *********** 数据存储 *********** //
+    /////////////////////////////////////
+
+    /** 输入输出存储 */
+    @Getter
+    @Persisted
+    @DescSynced
+    private final NotifiableItemStackHandler inputItem;
+    @Getter
+    @Persisted
+    @DescSynced
+    private final NotifiableItemStackHandler outputItem;
+    @Getter
+    @Persisted
+    @DescSynced
+    private final NotifiableFluidTank inputFluid;
+    @Getter
+    @Persisted
+    @DescSynced
+    private final NotifiableFluidTank outputFluid;
+
+    /** 其他位置存储 */
+    @Persisted
+    private final CustomItemStackHandler cardHandler;
+
+    /** 玩家信息 */
+    @Getter
+    @Persisted
+    private UUID uuid;
+    @Getter
+    @Persisted
+    List<UUID> sharedUUIDs = new ArrayList<>();
+    @Getter
+    @Persisted
+    private UUID teamUUID;
+
+    /** 交易信息 */
+    @Persisted
+    @DescSynced
+    private int groupSelected = 0;
+    private int shopSelected = -1;
 
     /////////////////////////////////////
     // ********* 生命周期管理 ********* //
     /////////////////////////////////////
 
-    public TradingStationMachine(MetaMachineBlockEntity holder) {
+    public TradingStationMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder);
-        cardHandler = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH) {
 
-            @Override
-            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-                if (stack.isEmpty()) return true;
-                return stack.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem());
-            }
-        };
-        cardHandler.addChangedListener(() -> InitializationInformation(cardHandler.getStackInSlot(0)));
-        inputItem = new NotifiableItemStackHandler(this, 256, IO.IN, IO.BOTH);
-        outputItem = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.BOTH);
-        inputFluid = new NotifiableFluidTank(this, 4, 1000 * 64, IO.IN, IO.BOTH);
-        outputFluid = new NotifiableFluidTank(this, 4, 1000 * 64, IO.OUT, IO.BOTH);
+        cardHandler = new CustomItemStackHandler();
+        cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem()));
+        cardHandler.setOnContentsChanged(() -> initializationInformation(cardHandler.getStackInSlot(0)));
+
+        inputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.IN, IO.BOTH);
+        outputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.OUT, IO.OUT);
+        inputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.IN, IO.BOTH);
+        outputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.OUT, IO.OUT);
     }
 
-    // 生命周期管理：注册/取消监听器
     @Override
     public void onLoad() {
         super.onLoad();
+        initializationInformation(cardHandler.getStackInSlot(0));
         if (!isRemote()) {
             outputItemChangeSub = outputItem.addChangedListener(this::updateAutoOutputSubscription);
             outputFluidChangeSub = outputFluid.addChangedListener(this::updateAutoOutputSubscription);
@@ -116,50 +157,11 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     @Override
-    public void onMachinePlaced(@org.jetbrains.annotations.Nullable LivingEntity player, ItemStack stack) {}
-
-    @Override
     public void onMachineRemoved() {
-        clearInventory(cardHandler.storage);
+        clearInventory(cardHandler);
         clearInventory(inputItem.storage);
         clearInventory(outputItem.storage);
     }
-
-    /////////////////////////////////////
-    // *********** 数据存储 *********** //
-    /////////////////////////////////////
-
-    @Persisted
-    private final NotifiableItemStackHandler inputItem;
-    @Persisted
-    private final NotifiableItemStackHandler outputItem;
-    @Persisted
-    private final NotifiableFluidTank inputFluid;
-    @Persisted
-    private final NotifiableFluidTank outputFluid;
-    @Persisted
-    private final NotifiableItemStackHandler cardHandler;
-
-    @Persisted
-    private UUID uuid;
-    @Persisted
-    List<UUID> sharedUUIDs = new ArrayList<>();
-    @Persisted
-    private UUID teamUUID;
-    @Persisted
-    private ItemStack OwnerHead = ItemStack.EMPTY;
-    @Persisted
-    private int Openness = 0;
-
-    /////////////////////////////////////
-    // ********* 核心交易逻辑 ********* //
-    /////////////////////////////////////
-
-    private void ConfirmTransactionContext() {}
-
-    /////////////////////////////////////
-    // *********** 交易管理 *********** //
-    /////////////////////////////////////
 
     /////////////////////////////////////
     // ************ UI实现 ************ //
@@ -168,85 +170,168 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack card = cardHandler.getStackInSlot(0);
-        InitializationInformation(card);
+        initializationInformation(card);
         if (uuid == null) return true;
         UUID playerUUID = player.getUUID();
         if (isUuidPresent(card, playerUUID)) return true;
-        if (teamUUID.equals(TeamUtil.getTeamUUID(playerUUID))) return true;
+        if (teamUUID != null && teamUUID.equals(TeamUtil.getTeamUUID(playerUUID))) return true;
         if (Objects.requireNonNull(getLevel()).isClientSide) {
             player.displayClientMessage(trans(1).withStyle(ChatFormatting.RED), true);
         }
+        shopSelected = -1;
         return false;
     }
 
-    @DescSynced
-    private boolean isCollapse = true;
+    @Override
+    public InteractionResult tryToOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
+        return IFancyUIMachine.super.tryToOpenUI(player, hand, hit);
+    }
 
-    private final int width = 336;
-    private final int height = 144;
+    @DescSynced
+    private boolean collapseDescription = true;
+
+    private static final int width = 336;
+    private static final int height = 144;
 
     @Override
     public Widget createUIWidget() {
-        // 交易页面布局
-        int w = 4 + 22 + 50 + 3 + 50 + 11 + 4;
-        int h = 4 + 40 + 1 + 40 + 1 + 40 + 1 + 40 + 2 + 40 + 1 + 40 + 1 + 40 + 1 + 40 + 4;
-        // 主页布局
-        w = 256 + 80;
+        int w = 256 + 80;
         var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
         WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                 .setBackground(GuiTextures.DISPLAY);
 
+        // 底边展开面板
+        mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
+            textList.add(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(collapseDescription ? 5 : 6), "isCollapse"), trans(7)));
+            if (!collapseDescription)
+                GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
+        }).clickHandler((a, b) -> {
+            if (a.equals("isCollapse")) {
+                collapseDescription = !collapseDescription;
+                ModularUI modularUI = mainGroup.getGui();
+                if (modularUI != null) {
+                    markAsDirty();
+                }
+            }
+        }).setMaxWidthLimit(width - 8));
+
         Level level = getLevel();
-        ServerLevel serverlevel;
-        if (level instanceof ServerLevel server) serverlevel = server;
-        else serverlevel = null;
+        ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
 
+        // 左侧卡片槽和信息
         mainGroup.addWidget(new SlotWidget(cardHandler, 0, 10, 10)
-                .setBackgroundTexture(GuiTextures.SLOT));
+                .setBackgroundTexture(GuiTextures.SLOT).setHoverTooltips(trans(11)));
 
-        Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverlevel);
+        Object2ObjectMap<UUID, String> WalletPlayers = WalletUtils.getAllWalletPlayers(serverLevel);
 
-        mainGroup.addWidget(new ComponentPanelWidget(32, 14, textList -> {
+        mainGroup.addWidget(new ComponentPanelWidget(34, 14, textList -> {
             if (uuid == null) {
                 textList.add(trans(2));
-            } else {
-                if (!sharedUUIDs.isEmpty() || !teamUUID.equals(uuid)) {
-                    MutableComponent shared = trans(4);
-                    if (!sharedUUIDs.isEmpty()) for (UUID shareuuid : sharedUUIDs) shared.append(WalletPlayers.get(shareuuid)).append(", ");
-                    if (!teamUUID.equals(uuid)) shared.append(TeamUtil.GetName(level, uuid));
-                    textList.add(ComponentPanelWidget.withHoverTextTranslate(trans(3, WalletPlayers.get(uuid)), shared));
-                } else {
-                    textList.add(trans(3, WalletPlayers.get(uuid)));
+                return;
+            }
+            String playerName = WalletPlayers.getOrDefault(uuid, "Unknown");
+            boolean hasShared = !sharedUUIDs.isEmpty();
+            boolean hasTeam = Optional.ofNullable(teamUUID).filter(t -> !t.equals(uuid)).isPresent();
+            if (hasShared || hasTeam) {
+                String sharedText = sharedUUIDs.stream()
+                        .map(shareUuid -> WalletPlayers.getOrDefault(shareUuid, "Unknown"))
+                        .collect(Collectors.joining(", "));
+                MutableComponent sharedComponent = Component.literal(sharedText);
+                Optional.ofNullable(teamUUID)
+                        .filter(t -> !t.equals(uuid))
+                        .map(t -> TeamUtil.GetName(level, uuid))
+                        .ifPresent(sharedComponent::append);
+                if (sharedComponent.getString().isEmpty()) {
+                    sharedComponent = trans(4);
                 }
+                textList.add(ComponentPanelWidget.withHoverTextTranslate(
+                        trans(3, playerName),
+                        sharedComponent));
+            } else {
+                textList.add(trans(3, playerName));
             }
         }).setMaxWidthLimit(256 - 34));
 
+        // 刷新
         mainGroup.addWidget(new InteractiveImageWidget(237, 10, 9, 9, GTOGuiTextures.REFRESH)
                 .textSupplier(texts -> texts.add(trans(8)))
-                .clickHandler((data, clickData) -> InitializationInformation(cardHandler.getStackInSlot(0))));
+                .clickHandler((data, clickData) -> {
+                    initializationInformation(cardHandler.getStackInSlot(0));
+                    Player player = mainGroup.getGui().entityPlayer;
+                    if (!isRemote() && player != null) {
+                        if (shouldOpenUI(player, InteractionHand.MAIN_HAND, null)) {
+                            tryToOpenUI(player, InteractionHand.MAIN_HAND, null);
+                        }
+                    }
+                }));
 
-        mainGroup.addWidget(new ImageWidget(255, 2, 2, 140, GuiTextures.SLOT));
+        // 左右分区线
+        mainGroup.addWidget(new ImageWidget(253, 2, 2, 140, GuiTextures.SLOT));
 
-        mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
-            if (isCollapse) {
-                textList.add(Component.empty().append(ComponentPanelWidget.withButton(trans(5), "isCollapse")).append(trans(7)));
-            } else {
-                textList.add(Component.empty().append(ComponentPanelWidget.withButton(trans(6), "isCollapse")).append(trans(7)));
-                GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
-            }
-        }).clickHandler((a, b) -> { if (a.equals("isCollapse")) isCollapse = !isCollapse; }).setMaxWidthLimit(width - 8));
+        // 右侧商店组切换面板
+        mainGroup.addWidget(ShopGroupSwitchWidget());
 
         group.addWidget(mainGroup);
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
         return group;
     }
 
+    @Override
     public IGuiTexture getTabIcon() {
         return GuiTextures.GREGTECH_LOGO;
     }
 
-    private @NotNull IFancyUIProvider transactionRecords() {
+    private WidgetGroup ShopGroupSwitchWidget() {
+        WidgetGroup mainGroup = new WidgetGroup(256, 0, 80, height - 8);
+        mainGroup.setLayout(Layout.VERTICAL_CENTER);
+        mainGroup.setLayoutPadding(10);
+
+        TradingManager.TradingShopGroup SwitchedShopGroup = TradingManager.INSTANCE.getShopGroup(groupSelected);
+        if (SwitchedShopGroup == null) SwitchedShopGroup = TradingManager.INSTANCE.getShopGroup(0);
+        if (SwitchedShopGroup != null) {
+            mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
+            mainGroup.addWidget(new ImageWidget(0, 10, 64, 64, SwitchedShopGroup.getTexture1()));
+        }
+
+        WidgetGroup SwitchWidget = new WidgetGroup(0, 80, 79, 39);
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 8; x++) {
+                int index = y * 8 + x;
+                TradingManager.TradingShopGroup shopGroup = TradingManager.INSTANCE.getShopGroup(index);
+                if (shopGroup != null) {
+                    SwitchWidget.addWidget(new InteractiveImageWidget(x * 10, y * 10, 9, 9, shopGroup.getTexture2())
+                            .textSupplier(texts -> texts.add(Component.translatable(shopGroup.getName())))
+                            .clickHandler((data, clickData) -> {
+                                if (groupSelected != index) {
+                                    groupSelected = index;
+                                    shopSelected = -1;
+                                    markAsDirty();
+
+                                    Player player = SwitchWidget.getGui().entityPlayer;
+                                    if (!isRemote() && player != null) {
+                                        if (shouldOpenUI(player, InteractionHand.MAIN_HAND, null)) {
+                                            tryToOpenUI(player, InteractionHand.MAIN_HAND, null);
+                                        }
+                                    }
+                                }
+                            }).setBackground(GTOGuiTextures.BOXED_BACKGROUND));
+                } else {
+                    SwitchWidget.addWidget(new ImageWidget(x * 10, y * 10, 9, 9, GTOGuiTextures.BOXED_BACKGROUND));
+                }
+            }
+        }
+        mainGroup.addWidget(SwitchWidget);
+
+        return mainGroup;
+    }
+
+    private static final int Item_slots_in_a_row = 8;
+    private static final int Fluid_slots_in_a_row = 1;
+
+    // 库存展示
+    private @NotNull IFancyUIProvider InventoryDisplay() {
         return new IFancyUIProvider() {
 
             @Override
@@ -256,7 +341,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
             @Override
             public Component getTitle() {
-                return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
+                return Component.empty();
             }
 
             @Override
@@ -266,6 +351,38 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
                         .setBackground(GuiTextures.DISPLAY);
 
+                int itemHigh = inputItem.getSize() / Item_slots_in_a_row + (inputItem.getSize() % Item_slots_in_a_row == 0 ? 0 : 1);
+                WidgetGroup Item_slot = new WidgetGroup(2, 4, 290, itemHigh * 18 + 10);
+                Item_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(9))));
+                for (int y = 0; y < itemHigh; y++) {
+                    for (int x = 0; x < Item_slots_in_a_row; x++) {
+                        int slotIndex = y * Item_slots_in_a_row + x;
+                        if (inputItem.getSize() > slotIndex) {
+                            Item_slot.addWidget(new SlotWidget(inputItem, slotIndex, x * 18, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                            Item_slot.addWidget(new SlotWidget(outputItem, slotIndex, x * 18 + Item_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                        } else break;
+                    }
+                }
+                mainGroup.addWidget(Item_slot);
+
+                int fluidHigh = inputFluid.getSize() / Fluid_slots_in_a_row;
+                WidgetGroup Fluid_slot = new WidgetGroup(296, 4, 38, fluidHigh * 18 + 10);
+                Fluid_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(10))));
+                for (int y = 0; y < fluidHigh; y++) {
+                    for (int x = 0; x < Fluid_slots_in_a_row; x++) {
+                        int slotIndex = y * Fluid_slots_in_a_row + x;
+                        if (inputFluid.getSize() > slotIndex) {
+                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, 0, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                                    .setBackground(GuiTextures.SLOT));
+                        } else break;
+                    }
+                }
+                mainGroup.addWidget(Fluid_slot);
+
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
@@ -274,72 +391,267 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         };
     }
 
-    @Override
-    public void attachSideTabs(TabsWidget sideTabs) {
-        sideTabs.setMainTab(this);
+    // 交易解锁
+    private @NotNull IFancyUIProvider TransactionUnlock() {
+        return new IFancyUIProvider() {
 
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        sideTabs.attachSubTab(transactionRecords());
-        // 方向配置页
-        sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
-    }
+            @DescSynced
+            private String upgradeSelect = null;
 
-    private WidgetGroup transaction(int x, int y, TransactionEntry entry) {
-        WidgetGroup transaction = new WidgetGroup(x, y, 40, 50);
-        transaction.setBackground(new ResourceTexture("gtocore:textures/gui/transaction_box.png"));
+            private int internalPageSelected = 0;
 
-        Level level = getLevel();
-        ServerLevel serverlevel;
-        if (level instanceof ServerLevel server) serverlevel = server;
-        else serverlevel = null;
+            @Override
+            public IGuiTexture getTabIcon() {
+                return GuiTextures.GREGTECH_LOGO;
+            }
 
-        BlockPos pos = getPos();
+            @Override
+            public Component getTitle() {
+                return Component.empty();
+            }
 
-        transaction.addWidget(new InteractiveImageWidget(2, 7, 36, 36, new ResourceTexture("textures/item/bread.png"))
-                .textSupplier(texts -> {
-                    texts.addAll(entry.getDescription());
-                    texts.add(Component.literal("面包图片"));
-                    texts.add(Component.literal("点击获取面包")); // 仅提示，不可点击
-                }).clickHandler((data, clickData) -> {
-                    if (level instanceof ServerLevel serverLevel) {
-                        if (!WalletUtils.containsTagValueInWallet(uuid, serverLevel, "unlock", entry.getUnlockCondition())) return;
+            @Override
+            public Widget createMainPage(FancyMachineUIWidget widget) {
+                var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
-                        UUID teamUUID = TeamUtil.getTeamUUID(uuid); // originalUUID可以是玩家/机器的UUID
-                        // 2. 获取团队对应的电量容器
-                        WirelessEnergyContainer container = WirelessEnergyContainer.getOrCreateContainer(teamUUID);
-                        // 3. 获取当前总电量
-                        BigInteger currentStorage = container.getStorage();
-                        // 4. 定义需要减少的电量（示例值）
-                        long energyToRemove = 1000; // 假设要减少1000单位电量
-                        BigInteger energyToRemoveBig = BigInteger.valueOf(energyToRemove);
-                        // 5. 检查总电量是否足够（当前电量 >= 需要减少的电量）
-                        if (currentStorage.compareTo(energyToRemoveBig) >= 0) {
-                            // 电量足够，执行减少操作
-                            long actualRemoved = container.removeEnergy(energyToRemove, null); // 第二个参数为关联的机器实例，可传null
-                            // 处理减少后的逻辑（如日志输出）
-                        } else {
-                            // 电量不足，执行其他逻辑（如提示“电量不足”）
-                            // 例如：输出日志或向玩家发送提示
-                        }
+                WidgetGroup mainGroup = new WidgetGroup(4, 4, width, height);
+                mainGroup.setBackground(GuiTextures.DISPLAY);
 
-                        TransactionEntry.TransactionContext context = new TransactionEntry.TransactionContext(uuid, serverLevel, pos);
-                        if (entry.canExecute(context)) {
-                            entry.execute(context);
-                        }
+                // 右侧交易项容器
+                WidgetGroup tradeContainer = new WidgetGroup(0, 12, 204, 101);
+
+                // 左侧：当前等级和升级按钮
+                WidgetGroup leftPanel = new DraggableScrollableWidgetGroup(0, 5, 110, height - 10);
+                leftPanel.setLayout(Layout.VERTICAL_CENTER);
+                leftPanel.setLayoutPadding(8);
+
+                leftPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
+                    textList.add(trans(21));
+                }).setSpace(8).setCenter(true));
+
+                leftPanel.addWidget(new ComponentPanelWidget(0, 10, textList -> {
+                    Set<String> keySet = UnlockManager.INSTANCE.getKeySet();
+                    if (keySet == null) return;
+                    for (String key : keySet) {
+                        textList.add(ComponentPanelWidget.withButton(Component.translatable(key),
+                                key).copy().withStyle(ChatFormatting.AQUA));
                     }
+
+                }).clickHandler(((upgrade, clickData) -> {
+                    upgradeSelect = upgrade;
+                    internalPageSelected = 0;
+                    updateWidget(tradeContainer, widget);
+                })).setSpace(8).setCenter(true));
+
+                // 右侧：升级列表
+                WidgetGroup rightPanel = new DraggableScrollableWidgetGroup(110, 8, width - 110, height - 10);
+                rightPanel.setLayout(Layout.VERTICAL_CENTER);
+                rightPanel.setLayoutPadding(4);
+
+                rightPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
+                    if (upgradeSelect != null) textList.add(Component.translatable(upgradeSelect));
                 }));
 
-        transaction.addWidget(new ImageWidget(10, 10, 100, 100, IGuiTexture.EMPTY));
+                // 2. 交易项容器（显示升级所需资源）
+                updateWidget(tradeContainer, widget);
+                rightPanel.addWidget(tradeContainer);
 
-        return transaction;
+                // 3. 分页控件（仅当交易项数量 > 10 时显示）
+                rightPanel.addWidget(new ComponentPanelWidget(0, 5, textList -> {
+                    int tradeCount = getCurrentTradeCount();
+                    if (tradeCount <= 10) return;
+
+                    int totalPage = tradeCount / 10 + (tradeCount % 10 == 0 ? 0 : 1);
+                    textList.add(Component.empty()
+                            .append(ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_page"))
+                            .append(Component.literal(" " + (internalPageSelected + 1) + "/" + totalPage + " "))
+                            .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page")));
+                }).clickHandler((data, clickData) -> {
+                    int tradeCount = getCurrentTradeCount();
+                    int totalPage = tradeCount / 10 + (tradeCount % 10 == 0 ? 0 : 1);
+                    if (totalPage <= 1) return;
+                    switch (data) {
+                        case "previous_page" -> internalPageSelected = Mth.clamp(internalPageSelected - 1, 0, totalPage - 1);
+                        case "next_page" -> internalPageSelected = Mth.clamp(internalPageSelected + 1, 0, totalPage - 1);
+                    }
+                    updateWidget(tradeContainer, widget);
+                    widget.detectAndSendChanges();
+                }));
+
+                // 组装主面板
+                mainGroup.addWidget(leftPanel);
+                mainGroup.addWidget(rightPanel);
+                mainGroup.addWidget(new ImageWidget(109, 5, 2, height - 10, GuiTextures.SLOT));
+
+                group.addWidget(mainGroup);
+                group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
+                return group;
+            }
+
+            private int getCurrentTradeCount() {
+                if (upgradeSelect == null) return 0;
+                return UnlockManager.INSTANCE.getEntryTradeCount(upgradeSelect);
+            }
+
+            private void updateWidget(WidgetGroup container, FancyMachineUIWidget widget) {
+                container.clearAllWidgets();
+                if (upgradeSelect == null) return;
+                container.addWidget(tradeGroup_10(upgradeSelect, internalPageSelected, widget));
+                widget.detectAndSendChanges();
+            }
+
+            /**
+             * 构建 2 行 5 列的交易项组（适配容器尺寸）
+             */
+            private WidgetGroup tradeGroup_10(String key, int pageIndex, FancyMachineUIWidget widget) {
+                WidgetGroup tradeGroup = new WidgetGroup(0, 0, 204, 101);
+                int startIndex = pageIndex * 10;
+
+                for (int row = 0; row < 2; row++) {
+                    for (int col = 0; col < 5; col++) {
+                        int X = col * (40 + 1);
+                        int Y = row * (50 + 1);
+                        int entryIndex = startIndex + row * 5 + col;
+                        TradeEntry tradeEntry = UnlockManager.INSTANCE.getTradeEntry(key, entryIndex);
+                        if (tradeEntry != null) {
+                            tradeGroup.addWidget(trade(X, Y, true, tradeEntry));
+                        } else {
+                            tradeGroup.addWidget(emptyTrade(X, Y));
+                        }
+                    }
+                }
+                return tradeGroup;
+            }
+        };
+    }
+
+    @Override
+    public void attachSideTabs(TabsWidget sideTabs) {
+        sideTabs.setId("fancy_side_tabs");
+        sideTabs.clearSubTabs();
+        sideTabs.setOnTabSwitch(null);
+        sideTabs.setMainTab(this);
+
+        // 添加固定标签
+        List<IFancyUIProvider> fixedTabs = new ArrayList<>();
+        if (groupSelected == 0) {
+            fixedTabs.add(InventoryDisplay());
+            fixedTabs.add(TransactionUnlock());
+            fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
+        }
+
+        // 动态生成商店标签
+        List<IFancyUIProvider> originalShopTabs = shopGroup();
+        List<IFancyUIProvider> displayShopTabs = new ArrayList<>(originalShopTabs);
+
+        // 添加所有标签
+        fixedTabs.forEach(sideTabs::attachSubTab);
+        displayShopTabs.forEach(sideTabs::attachSubTab);
+
+        // 标签切换监听器
+        sideTabs.setOnTabSwitch((oldTab, newTab) -> {
+            if (newTab instanceof ShopTabProvider newShopTab) {
+                // 只允许选择当前组的商店标签
+                if (newShopTab.groupIndex == groupSelected) {
+                    shopSelected = originalShopTabs.indexOf(newShopTab);
+                } else {
+                    shopSelected = -1;
+                    sideTabs.selectTab(sideTabs.getMainTab());
+                }
+            } else {
+                shopSelected = -1;
+            }
+            sideTabs.detectAndSendChanges();
+
+            ModularUI modularUI = sideTabs.getGui();
+            if (modularUI != null && modularUI.getModularUIGui() != null) {
+                modularUI.getModularUIGui().init();
+            }
+        });
+
+        if (shopSelected != -1 && shopSelected < originalShopTabs.size()) {
+            sideTabs.selectTab(originalShopTabs.get(shopSelected));
+        } else {
+            sideTabs.selectTab(sideTabs.getMainTab());
+        }
+
+        sideTabs.detectAndSendChanges();
+    }
+
+    /////////////////////////////////////
+    // ********* UI单元构建 ********* //
+    /////////////////////////////////////
+
+    // 一个交易组
+    private List<IFancyUIProvider> shopGroup() {
+        List<IFancyUIProvider> shopGroupTabs = new ArrayList<>();
+
+        for (int shop = 0; shop < TradingManager.INSTANCE.getShopCount(groupSelected); shop++) {
+            TradingManager.TradingShop tradingShop = TradingManager.INSTANCE.getShopByIndices(groupSelected, shop);
+
+            shopGroupTabs.add(new ShopTabProvider(this, groupSelected, shop, tradingShop));
+        }
+        return shopGroupTabs;
+    }
+
+    // 16个交易的组
+    private WidgetGroup tradeGroup_16(int groupIndex, int shopIndex, int pageIndex, boolean unlockShop) {
+        WidgetGroup tradeGroup = new WidgetGroup(0, 0, 327, 102);
+
+        for (int row = 0; row < 2; row++) {
+            for (int col = 0; col < 8; col++) {
+                int X = col * 41;
+                int Y = row * 51;
+                int entryIndex = pageIndex * 16 + row * 8 + col;
+                boolean isIndexValid = TradingManager.INSTANCE.isTradeIndexValid(groupIndex, shopIndex, entryIndex);
+                if (isIndexValid) {
+                    tradeGroup.addWidget(trade(X, Y, unlockShop, TradingManager.INSTANCE.getTradeEntryByIndices(groupIndex, shopIndex, entryIndex)));
+                } else {
+                    tradeGroup.addWidget(emptyTrade(X, Y));
+                }
+            }
+        }
+
+        return tradeGroup;
+    }
+
+    // 单个交易
+    private WidgetGroup trade(int x, int y, boolean unlockShop, TradeEntry entry) {
+        WidgetGroup trade = new WidgetGroup(x, y, 40, 50);
+        trade.setBackground(GTOGuiTextures.BOXED_BACKGROUND);
+
+        ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
+
+        TradeData tradeData = new TradeData(this.getLevel(), this.getPos(), inputItem, outputItem, inputFluid, outputFluid, uuid, sharedUUIDs, teamUUID);
+        boolean unlock = WalletUtils.containsTagValueInWallet(uuid, serverLevel, UNLOCK_TRADE, entry.unlockCondition());
+        boolean canExecute = entry.canExecuteCount(tradeData) != 0;
+
+        trade.addWidget(new InteractiveImageWidget(2, 7, 36, 36, entry.texture())
+                .textSupplier(texts -> {
+                    if (!unlock) texts.add(Component.translatable("gtocore.trade_group.unlock", entry.unlockCondition()).withStyle(ChatFormatting.DARK_RED));
+                    if (!canExecute) texts.add(Component.translatable("gtocore.trade_group.unsatisfied").withStyle(ChatFormatting.DARK_RED));
+                    int k = 0;
+                    if (unlock && canExecute) {
+                        k = entry.check(tradeData);
+                        texts.add(Component.translatable("gtocore.trade_group.amount", k).withStyle(ChatFormatting.GOLD));
+                    }
+                    texts.addAll(entry.getDescription());
+                    if (k >= 10) texts.add(Component.translatable("gtocore.trade_group.repeatedly1"));
+                    if (k >= 100) texts.add(Component.translatable("gtocore.trade_group.repeatedly2"));
+                })
+                .clickHandler((data, clickData) -> {
+                    if (!unlockShop) return;
+                    if (!unlock) return;
+                    int multiplier = clickData.isCtrlClick ? (clickData.isShiftClick ? 100 : 10) : 1;
+                    entry.executeTrade(tradeData, multiplier);
+                }));
+
+        return trade;
+    }
+
+    private ImageWidget emptyTrade(int x, int y) {
+        return new ImageWidget(x, y, 40, 50, GTOGuiTextures.BOXED_BACKGROUND);
     }
 
     /////////////////////////////////////
@@ -348,370 +660,123 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     private static final String TEXT_HEADER = "gtocore.trading_station.textList.";
 
+    // 机器基础翻译键
     private static @NotNull MutableComponent trans(int id, Object... args) {
         if (args.length == 1 && args[0] instanceof Object[]) args = (Object[]) args[0];
         return Component.translatable(TEXT_HEADER + id, args);
     }
 
-    /**
-     * 生成带UUID的玩家头物品
-     */
-    private static ItemStack createPlayerHead(UUID uuid) {
-        ItemStack head = new ItemStack(Items.PLAYER_HEAD);
-        CompoundTag tag = head.getOrCreateTag();
-        CompoundTag skullOwner = new CompoundTag();
-        skullOwner.putUUID("Id", uuid);
-        tag.put("SkullOwner", skullOwner);
-        return head;
-    }
-
-    /**
-     * 初始化玩家信息
-     */
-    private void InitializationInformation(ItemStack card) {
-        if (card.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem())) {
+    // 玩家信息初始化
+    private void initializationInformation(ItemStack card) {
+        if (card.getItem() == GTOItems.GRAY_MEMBERSHIP_CARD.asItem()) {
             this.uuid = getSingleUuid(card);
             this.sharedUUIDs = getSharedUuids(card);
             if (uuid != null) {
                 this.teamUUID = TeamUtil.getTeamUUID(uuid);
-                this.OwnerHead = createPlayerHead(uuid);
             }
         } else {
             this.uuid = null;
             this.sharedUUIDs = new ArrayList<>();
             this.teamUUID = null;
-            this.OwnerHead = ItemStack.EMPTY;
         }
     }
 
     /////////////////////////////////////
-    // ********* 输入输出方法 ********* //
+    // **** 内部类：ShopTabProvider **** //
     /////////////////////////////////////
 
-    /**
-     * 计算库存对输入物品列表的最大支持倍数（即库存最多能满足多少倍的输入列表消耗）
-     * 
-     * @param handler       物品库存处理器
-     * @param requiredItems 需求物品列表（每个ItemStack的count为单倍需求数量）
-     * @return 最大支持倍数（若列表为空或无需求则返回Integer.MAX_VALUE，否则取最小限制倍数）
-     */
-    private int checkMaxMultiplier(NotifiableItemStackHandler handler, List<ItemStack> requiredItems) {
-        if (requiredItems.isEmpty()) {
-            return Integer.MAX_VALUE; // 无需求则支持无限倍
+    // 一个商店
+    private static class ShopTabProvider implements IFancyUIProvider {
+
+        private final TradingStationMachine machine;
+        private final int groupIndex;
+        @Getter
+        private final int shopIndex;
+        private final TradingManager.TradingShop tradingShop;
+        private int localPageSelected = 0;
+
+        private ShopTabProvider(TradingStationMachine machine, int groupIndex, int shopIndex, TradingManager.TradingShop tradingShop) {
+            this.machine = machine;
+            this.groupIndex = groupIndex;
+            this.shopIndex = shopIndex;
+            this.tradingShop = tradingShop;
         }
 
-        int maxMultiplier = Integer.MAX_VALUE;
+        @Override
+        public IGuiTexture getTabIcon() {
+            return tradingShop.getTexture();
+        }
 
-        for (ItemStack required : requiredItems) {
-            if (required.isEmpty()) {
-                continue; // 跳过空物品
-            }
+        @Override
+        public Component getTitle() {
+            return Component.translatable(tradingShop.getName());
+        }
 
-            int requiredPerMulti = required.getCount();
-            if (requiredPerMulti <= 0) {
-                continue; // 单倍需求为0，视为不限制该物品
-            }
+        @Override
+        public Widget createMainPage(FancyMachineUIWidget widget) {
+            var group = new WidgetGroup(0, 0, machine.width + 8, machine.height + 8);
+            WidgetGroup mainGroup = new WidgetGroup(4, 4, machine.width, machine.height);
+            mainGroup.setBackground(GuiTextures.DISPLAY);
 
-            // 统计库存中该物品的总数量
-            int totalInStock = 0;
-            for (int i = 0; i < handler.getSlots(); i++) {
-                ItemStack slotStack = handler.getStackInSlot(i);
-                if (ItemStack.isSameItemSameTags(slotStack, required)) {
-                    totalInStock += slotStack.getCount();
+            int tradeCount = TradingManager.INSTANCE.getTradeCount(groupIndex, shopIndex);
+            int totalPage = tradeCount / 16 + (tradeCount % 16 == 0 ? 0 : 1);
+
+            WidgetGroup shopGroup = new WidgetGroup(0, 0, machine.width, machine.height);
+            shopGroup.setLayout(Layout.VERTICAL_CENTER);
+            shopGroup.setLayoutPadding(3);
+
+            ServerLevel serverLevel = machine.getLevel() instanceof ServerLevel ? (ServerLevel) machine.getLevel() : null;
+
+            boolean unlockShop = WalletUtils.containsTagValueInWallet(machine.getUuid(), serverLevel, UNLOCK_SHOP, tradingShop.getUnlockCondition());
+
+            shopGroup.addWidget(new LabelWidget(0, 0, Component.translatable(tradingShop.getName())));
+            WidgetGroup componentGroup = new DraggableScrollableWidgetGroup(4, 12, machine.width - 8, 10)
+                    .setScrollWheelDirection(HORIZONTAL);
+            componentGroup.addWidget(new ComponentPanelWidget(0, 0, textList -> {
+                MutableComponent component = Component.empty();
+                if (!unlockShop) {
+                    component.append(trans(20, tradingShop.getUnlockCondition()).withStyle(ChatFormatting.RED));
                 }
-            }
-
-            // 计算该物品支持的最大倍数（总库存 / 单倍需求）
-            int itemMaxMulti = totalInStock / requiredPerMulti;
-            maxMultiplier = Math.min(maxMultiplier, itemMaxMulti);
-
-            if (maxMultiplier == 0) {
-                break; // 已无法支持1倍，提前退出
-            }
-        }
-
-        return Math.min(maxMultiplier, 128); // 限制最大倍数为128（与现有逻辑保持一致）
-    }
-
-    /**
-     * 从库存中扣除 x倍的输入物品列表（每个物品扣除数量 = 列表中物品数量 * x）
-     * 
-     * @param handler    物品库存处理器
-     * @param items      待扣除的物品列表（倍数）
-     * @param multiplier 倍数x（必须>0，否则不执行）
-     */
-    private void deductMultipliedItems(NotifiableItemStackHandler handler, List<ItemStack> items, int multiplier) {
-        if (multiplier <= 0 || items.isEmpty()) {
-            return; // 倍数无效或无物品，不执行
-        }
-
-        for (ItemStack item : items) {
-            if (item.isEmpty()) {
-                continue; // 跳过空物品
-            }
-
-            int perItemCount = item.getCount();
-            if (perItemCount <= 0) {
-                continue; // 单倍数量为0，无需扣除
-            }
-
-            // 计算总扣除数量 = 单倍数量 * 倍数
-            int totalToDeduct = perItemCount * multiplier;
-            if (totalToDeduct <= 0) {
-                continue;
-            }
-
-            // 从库存中扣除（复用现有逻辑的思路）
-            int remaining = totalToDeduct;
-            for (int i = 0; i < handler.getSlots() && remaining > 0; i++) {
-                ItemStack slotStack = handler.getStackInSlot(i);
-                if (ItemStack.isSameItemSameTags(slotStack, item)) {
-                    int take = Math.min(slotStack.getCount(), remaining);
-                    slotStack.shrink(take);
-                    if (slotStack.isEmpty()) {
-                        handler.setStackInSlot(i, ItemStack.EMPTY);
-                    }
-                    remaining -= take;
+                for (String string : tradingShop.getCurrencies()) {
+                    component.append(
+                            Component.empty().append(Component.literal("["))
+                                    .append(Component.translatable("gtocore.currency." + string))
+                                    .append(Component.literal("-"))
+                                    .append(Component.literal(String.valueOf(WalletUtils.getCurrencyAmount(machine.getUuid(), serverLevel, string))))
+                                    .append(Component.literal("]")));
+                    textList.add(component);
                 }
-            }
-        }
-    }
+            }));
+            shopGroup.addWidget(componentGroup);
 
-    /**
-     * 向库存中添加x倍的输入物品列表，库存不足时将剩余物品掷出掉落
-     * 
-     * @param handler    物品库存处理器
-     * @param items      待添加的物品列表（单倍数量）
-     * @param multiplier 倍数x（必须>0，否则不执行）
-     */
-    private void addMultipliedItems(NotifiableItemStackHandler handler, List<ItemStack> items, int multiplier) {
-        // 边界校验：倍数无效、无物品、世界或坐标为空时直接返回
-        if (multiplier <= 0 || items.isEmpty()) {
-            return;
-        }
+            WidgetGroup tradeContainer = new WidgetGroup(0, 36, 327, 102);
+            updateTradeContainer(tradeContainer, localPageSelected, unlockShop);
+            shopGroup.addWidget(tradeContainer);
 
-        // 遍历物品列表，处理每个物品的倍数添加
-        for (ItemStack item : items) {
-            // 跳过空物品或单倍数量为0的物品
-            if (item.isEmpty() || item.getCount() <= 0) {
-                continue;
-            }
-
-            // 计算总添加数量 = 单倍数量 × 倍数
-            int totalToAdd = item.getCount() * multiplier;
-            if (totalToAdd <= 0) {
-                continue;
-            }
-
-            // 复制物品堆并设置总数量（避免修改原列表物品）
-            ItemStack toAdd = item.copy();
-            toAdd.setCount(totalToAdd);
-            ItemStack remaining = toAdd.copy(); // 剩余待添加的数量
-            int maxStackSize = toAdd.getMaxStackSize(); // 物品最大堆叠数
-
-            // 第一步：填充现有相同物品的堆叠（非空槽位）
-            for (int i = 0; i < handler.getSlots() && !remaining.isEmpty(); i++) {
-                ItemStack existing = handler.getStackInSlot(i);
-                // 只处理相同物品且未达最大堆叠的槽位
-                if (!existing.isEmpty() && ItemStack.isSameItemSameTags(existing, remaining) && existing.getCount() < maxStackSize) {
-                    int addAmount = Math.min(remaining.getCount(), maxStackSize - existing.getCount());
-                    existing.grow(addAmount); // 增加现有堆叠数量
-                    remaining.shrink(addAmount); // 减少剩余待添加数量
-                }
-            }
-
-            // 第二步：填充空槽位（处理剩余未添加的物品）
-            while (!remaining.isEmpty()) {
-                boolean foundSlot = false; // 标记是否找到空槽位
-                for (int i = 0; i < handler.getSlots() && !remaining.isEmpty(); i++) {
-                    if (handler.getStackInSlot(i).isEmpty()) {
-                        // 计算当前槽位可放置的数量（不超过最大堆叠）
-                        int putAmount = Math.min(remaining.getCount(), maxStackSize);
-                        ItemStack toPut = remaining.copy();
-                        toPut.setCount(putAmount);
-                        handler.setStackInSlot(i, toPut); // 放置物品
-                        remaining.shrink(putAmount); // 减少剩余数量
-                        foundSlot = true;
-                    }
-                }
-
-                // 若未找到空槽位（库存已满），将剩余物品掷出
-                if (!foundSlot) {
-                    // 拆分剩余物品为多个最大堆叠（避免单个实体超过最大堆叠）
-                    BlockPos pos = getPos();
-                    if (getLevel() instanceof ServerLevel server) {
-                        while (!remaining.isEmpty()) {
-                            int dropCount = Math.min(remaining.getCount(), maxStackSize);
-                            ItemStack dropStack = remaining.copy();
-                            dropStack.setCount(dropCount);
-
-                            // 生成物品实体：在pos上方1格位置，无拾取延迟
-                            ItemEntity itemEntity = new ItemEntity(
-                                    server,
-                                    pos.getX() + 0.5, // 中心x坐标
-                                    pos.getY() + 1,   // 上方1格y坐标
-                                    pos.getZ() + 0.5, // 中心z坐标
-                                    dropStack);
-                            itemEntity.setNoPickUpDelay(); // 立即可拾取
-                            server.addFreshEntity(itemEntity); // 添加到世界
-                            remaining.shrink(dropCount); // 减少剩余数量
+            shopGroup.addWidget(new ComponentPanelWidget(0, 140, textList -> textList.add(Component.empty()
+                    .append(ComponentPanelWidget.withButton(Component.literal(" [ ← ] "), "previous_page"))
+                    .append(Component.literal("<" + (localPageSelected + 1) + "/" + totalPage + ">"))
+                    .append(ComponentPanelWidget.withButton(Component.literal(" [ → ] "), "next_page"))))
+                    .clickHandler((data, clickData) -> {
+                        switch (data) {
+                            case "previous_page" -> localPageSelected = Mth.clamp(localPageSelected - 1, 0, totalPage - 1);
+                            case "next_page" -> localPageSelected = Mth.clamp(localPageSelected + 1, 0, totalPage - 1);
                         }
-                        break; // 处理完剩余物品后退出循环
-                    }
-                }
-            }
-        }
-    }
+                        updateTradeContainer(tradeContainer, localPageSelected, unlockShop);
+                        widget.detectAndSendChanges();
+                    }));
 
-    /**
-     * 计算库存中流体总量能支持多少倍的输入流体列表消耗（单倍为列表中各流体的量）
-     * 
-     * @param tank           流体库存槽
-     * @param requiredFluids 需求流体列表（每个FluidStack的amount为单倍需求）
-     * @return 最大支持倍数（若列表为空返回Integer.MAX_VALUE，若某流体不足则返回0）
-     */
-    private int checkMaxConsumeMultiplier(NotifiableFluidTank tank, List<FluidStack> requiredFluids) {
-        if (requiredFluids.isEmpty()) {
-            return Integer.MAX_VALUE; // 无需求则支持无限倍
+            mainGroup.addWidget(shopGroup);
+            group.addWidget(mainGroup);
+            group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
+            return group;
         }
 
-        int maxMultiplier = Integer.MAX_VALUE;
-
-        for (FluidStack required : requiredFluids) {
-            if (required.isEmpty() || required.getAmount() <= 0) {
-                continue; // 跳过空流体或单倍需求为0的项
-            }
-
-            // 统计库存中该流体的总存量（遍历所有槽，累加相同流体的量）
-            int totalInTank = 0;
-            for (int slot = 0; slot < tank.getTanks(); slot++) {
-                FluidStack stored = tank.getFluidInTank(slot);
-                if (stored.isFluidEqual(required)) { // 流体类型必须完全匹配
-                    totalInTank += stored.getAmount();
-                }
-            }
-
-            // 计算该流体支持的最大倍数（总存量 ÷ 单倍需求）
-            int fluidMaxMulti = totalInTank / required.getAmount();
-            maxMultiplier = Math.min(maxMultiplier, fluidMaxMulti);
-
-            if (maxMultiplier == 0) {
-                break; // 已无法支持1倍，提前退出
-            }
+        private void updateTradeContainer(WidgetGroup container, int pageIndex, boolean unlockShop) {
+            container.clearAllWidgets();
+            container.addWidget(machine.tradeGroup_16(groupIndex, shopIndex, pageIndex, unlockShop));
         }
-
-        return maxMultiplier;
-    }
-
-    /**
-     * 计算库存剩余容量能容纳多少倍的输入流体列表（单倍为列表中各流体的量）
-     * 
-     * @param tank        流体库存槽
-     * @param inputFluids 待添加的流体列表（每个FluidStack的amount为单倍量）
-     * @return 最大可容纳倍数（若列表为空返回Integer.MAX_VALUE，若某流体无容量则返回0）
-     */
-    private int checkMaxCapacityMultiplier(NotifiableFluidTank tank, List<FluidStack> inputFluids) {
-        if (inputFluids.isEmpty()) {
-            return Integer.MAX_VALUE; // 无输入则支持无限倍
-        }
-
-        int maxMultiplier = Integer.MAX_VALUE;
-
-        for (FluidStack input : inputFluids) {
-            if (input.isEmpty() || input.getAmount() <= 0) {
-                continue; // 跳过空流体或单倍量为0的项
-            }
-
-            // 计算库存中该流体的剩余总容量（总容量 - 现有量）
-            int totalRemainingCapacity = 0;
-            for (int slot = 0; slot < tank.getTanks(); slot++) {
-                // 仅统计可容纳该流体的槽（需通过isFluidValid校验）
-                if (!tank.isFluidValid(slot, input)) {
-                    continue;
-                }
-                FluidStack stored = tank.getFluidInTank(slot);
-                // 空槽或同类型流体槽可容纳
-                if (stored.isEmpty() || stored.isFluidEqual(input)) {
-                    totalRemainingCapacity += (tank.getTankCapacity(slot) - stored.getAmount());
-                }
-            }
-
-            // 计算该流体可容纳的最大倍数（剩余容量 ÷ 单倍量）
-            int fluidMaxMulti = totalRemainingCapacity / input.getAmount();
-            maxMultiplier = Math.min(maxMultiplier, fluidMaxMulti);
-
-            if (maxMultiplier == 0) {
-                break; // 已无法容纳1倍，提前退出
-            }
-        }
-
-        return maxMultiplier;
-    }
-
-    /**
-     * 从流体库存中扣除x倍的输入流体列表（每个流体扣除量 = 单倍量 × x）
-     * 
-     * @param tank       流体库存槽
-     * @param fluids     待扣除的流体列表（单倍量）
-     * @param multiplier 倍数x（必须>0，否则不执行）
-     * @return 实际扣除的倍数（若库存不足，可能小于x；完全成功则返回x）
-     */
-    private int deductMultipliedFluids(NotifiableFluidTank tank, List<FluidStack> fluids, int multiplier) {
-        if (multiplier <= 0 || fluids.isEmpty()) {
-            return 0; // 无效参数，不执行
-        }
-
-        // 按实际倍数扣除每个流体
-        for (FluidStack fluid : fluids) {
-            if (fluid.isEmpty() || fluid.getAmount() <= 0) {
-                continue;
-            }
-
-            int totalToDeduct = fluid.getAmount() * multiplier;
-            if (totalToDeduct <= 0) {
-                continue;
-            }
-
-            // 复制流体栈并设置扣除总量，调用drain方法执行扣除
-            FluidStack toDeduct = fluid.copy();
-            toDeduct.setAmount(totalToDeduct);
-            tank.drain(toDeduct, IFluidHandler.FluidAction.EXECUTE);
-        }
-
-        return multiplier;
-    }
-
-    /**
-     * 向流体库存中添加x倍的输入流体列表（每个流体添加量 = 单倍量 × x）
-     * 
-     * @param tank       流体库存槽
-     * @param fluids     待添加的流体列表（单倍量）
-     * @param multiplier 倍数x（必须>0，否则不执行）
-     * @return 实际添加的倍数（若容量不足，可能小于x；完全成功则返回x）
-     */
-    private int addMultipliedFluids(NotifiableFluidTank tank, List<FluidStack> fluids, int multiplier) {
-        if (multiplier <= 0 || fluids.isEmpty()) {
-            return 0; // 无效参数，不执行
-        }
-
-        // 按实际倍数添加每个流体
-        for (FluidStack fluid : fluids) {
-            if (fluid.isEmpty() || fluid.getAmount() <= 0) {
-                continue;
-            }
-
-            int totalToAdd = fluid.getAmount() * multiplier;
-            if (totalToAdd <= 0) {
-                continue;
-            }
-
-            // 复制流体栈并设置添加总量，调用fill方法执行添加
-            FluidStack toAdd = fluid.copy();
-            toAdd.setAmount(totalToAdd);
-            tank.fill(toAdd, IFluidHandler.FluidAction.EXECUTE);
-        }
-
-        return multiplier;
     }
 
     /////////////////////////////////////
@@ -720,24 +785,23 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     @Persisted
     @DescSynced
-    private Direction outputFacingItems = Direction.DOWN; // 物品输出方向
+    private Direction outputFacingItems = Direction.DOWN;
     @Persisted
     @DescSynced
-    private Direction outputFacingFluids = Direction.DOWN; // 流体输出方向
+    private Direction outputFacingFluids = Direction.DOWN;
     @Persisted
     @DescSynced
-    private boolean autoOutputItems = false; // 物品自动输出开关
+    private boolean autoOutputItems = false;
     @Persisted
     @DescSynced
-    private boolean autoOutputFluids = false; // 流体自动输出开关
+    private boolean autoOutputFluids = false;
     @Nullable
-    private TickableSubscription autoOutputSubs; // 自动输出定时任务订阅
+    private TickableSubscription autoOutputSubs;
     @Nullable
-    private ISubscription outputItemChangeSub; // 物品输出槽变化监听器
+    private ISubscription outputItemChangeSub;
     @Nullable
-    private ISubscription outputFluidChangeSub; // 流体输出槽变化监听器
+    private ISubscription outputFluidChangeSub;
 
-    // 物品自动输出接口实现
     @Override
     public boolean hasAutoOutputItem() {
         return outputItem.getSlots() > 0;
@@ -771,7 +835,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         }
     }
 
-    // 流体自动输出接口实现
     @Override
     public boolean hasAutoOutputFluid() {
         return outputFluid.getTanks() > 0;
@@ -805,29 +868,24 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         }
     }
 
-    // 自动输出订阅管理：控制定时任务的启动与停止
     private void updateAutoOutputSubscription() {
-        if (getLevel() == null || isRemote()) return; // 仅在服务端执行
+        if (getLevel() == null || isRemote()) return;
 
-        // 检查物品输出条件：开关启用 + 输出槽非空 + 方向有效 + 存在接收方
         boolean canOutputItems = autoOutputItems && !outputItem.isEmpty() && getOutputFacingItems() != null && blockEntityDirectionCache.hasAdjacentItemHandler(
                 getLevel(),
                 getPos().relative(getOutputFacingItems()),
                 getOutputFacingItems().getOpposite());
 
-        // 检查流体输出条件：开关启用 + 输出槽非空 + 方向有效 + 存在接收方
         boolean canOutputFluids = autoOutputFluids && !outputFluid.isEmpty() && getOutputFacingFluids() != null && blockEntityDirectionCache.hasAdjacentFluidHandler(
                 getLevel(),
                 getPos().relative(getOutputFacingFluids()),
                 getOutputFacingFluids().getOpposite());
 
-        // 满足任一条件则启动定时任务（每20tick执行一次，即1秒/次）
         if (canOutputItems || canOutputFluids) {
-            if (autoOutputSubs == null || autoOutputSubs.stillSubscribed) {
+            if (autoOutputSubs == null || !autoOutputSubs.stillSubscribed) {
                 autoOutputSubs = subscribeServerTick(this::autoOutput, 20);
             }
         } else {
-            // 不满足条件则取消订阅
             if (autoOutputSubs != null) {
                 autoOutputSubs.unsubscribe();
                 autoOutputSubs = null;
@@ -835,17 +893,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         }
     }
 
-    // 自动输出执行逻辑：将物品/流体传输到目标方向
     private void autoOutput() {
-        // 输出物品到目标方向
         if (autoOutputItems && getOutputFacingItems() != null) {
             outputItem.exportToNearby(getOutputFacingItems());
         }
-        // 输出流体到目标方向
         if (autoOutputFluids && getOutputFacingFluids() != null) {
             outputFluid.exportToNearby(getOutputFacingFluids());
         }
-        // 输出后重新检查条件（避免空槽时继续运行）
         updateAutoOutputSubscription();
     }
 
@@ -865,10 +919,26 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         return false;
     }
 
-    // 邻居方块变化时更新输出状态
     @Override
     public void onNeighborChanged(@NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
         updateAutoOutputSubscription();
+    }
+
+    /////////////////////////////////////
+    // ********** 是否运行中 ********** //
+    /////////////////////////////////////
+
+    @Persisted
+    private boolean working = false;
+
+    @Override
+    public boolean isWorkingEnabled() {
+        return working;
+    }
+
+    @Override
+    public void setWorkingEnabled(boolean var1) {
+        this.working = var1;
     }
 }
