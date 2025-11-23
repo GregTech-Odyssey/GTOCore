@@ -719,7 +719,6 @@ public final class MultiBlockD {
             .recipeTypes(GTORecipeTypes.HEAT_EXCHANGER_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .aisle("AAAAA", "BCCCB", "BCCCB", "BCCCB", "BCCCB", "AAAAA")
                     .where('S', controller(blocks(definition.get())))
                     .where('A',
                             blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()).setMinGlobalLimited(98)

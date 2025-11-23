@@ -51,11 +51,7 @@ import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.emi.emi.screen.RecipeScreen;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongSet;
-import it.unimi.dsi.fastutil.longs.LongSets;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
@@ -329,9 +325,10 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private MBPattern initializePattern(MultiblockDefinition.Pattern pattern, int index) {
-        var blockMap = pattern.blockMap();
-        IMultiController controllerBase = pattern.multiController();
-        for (ObjectIterator<Long2ObjectMap.Entry<BlockInfo>> it = blockMap.long2ObjectEntrySet().fastIterator(); it.hasNext();) {
+        Long2ReferenceOpenHashMap<BlockInfo> blockMap = new Long2ReferenceOpenHashMap<>(pattern.blockMap().values().stream().mapToInt(LongOpenHashSet::size).sum());
+        pattern.blockMap().forEach((b, i) -> i.forEach(p -> blockMap.put(p, b)));
+        IMultiController controllerBase = blockMap.get(pattern.multiController().asLong()).getBlockEntity(pattern.multiController()) instanceof MetaMachineBlockEntity blockEntity ? blockEntity.metaMachine instanceof IMultiController controller ? controller : null : null;
+        for (var it = blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
             var entry = it.next();
             LEVEL.addBlock(BlockPos.of(entry.getLongKey()), entry.getValue());
         }
@@ -405,18 +402,18 @@ public final class PatternPreview extends WidgetGroup {
         @NotNull
         private final Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap;
         @NotNull
-        private final Long2ObjectOpenHashMap<BlockInfo> blockMap;
+        private final Long2ReferenceOpenHashMap<BlockInfo> blockMap;
         @NotNull
         private final IMultiController controllerBase;
-        private final Long2ObjectOpenHashMap<TraceabilityPredicate> partsMap;
+        private final Long2ReferenceOpenHashMap<TraceabilityPredicate> partsMap;
         private final int maxY;
         private final int minY;
         private final BlockPos center;
 
-        private MBPattern(@NotNull Long2ObjectOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
+        private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
             this.parts = parts;
             this.blockMap = blockMap;
-            this.partsMap = new Long2ObjectOpenHashMap<>();
+            this.partsMap = new Long2ReferenceOpenHashMap<>();
             this.predicateMap = predicateMap;
             this.controllerBase = controllerBase;
             this.center = controllerBase.self().getPos();
@@ -440,7 +437,7 @@ public final class PatternPreview extends WidgetGroup {
             }
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;
-            for (ObjectIterator<Long2ObjectMap.Entry<BlockInfo>> it = blockMap.long2ObjectEntrySet().fastIterator(); it.hasNext();) {
+            for (var it = blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
                 var y = BlockPos.getY(it.next().getLongKey());
                 min = Math.min(min, y);
                 max = Math.max(max, y);
