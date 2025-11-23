@@ -577,5 +577,21 @@ final class AssemblyLineA {
                 .duration(400)
                 .scanner(GeneratorMultiblock.SUPERCRITICAL_MEGA_STEAM_TURBINE.asItem())
                 .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("black_hole_data_access_hatch")
+                .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.UIV].asItem())
+                .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UIV.asItem(), 4)
+                .inputItems(GTOItems.MICROWORMHOLE_GENERATOR.asItem())
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.Quantanium, 32)
+                .outputItems("gtocore:black_hole_data_access_hatch")
+                .inputFluids(GTOMaterials.Neutron, 1000)
+                .inputFluids(GTOMaterials.Antineutron, 1000)
+                .EUt(GTValues.VA[GTValues.UIV])
+                .duration(800)
+                .researchStation(b -> b.researchStack(ExResearchMachines.BIO_DATA_ACCESS_HATCH)
+                        .duration(1200)
+                        .EUt(GTValues.VA[GTValues.UEV])
+                        .CWUt(1024))
+                .save();
     }
 }

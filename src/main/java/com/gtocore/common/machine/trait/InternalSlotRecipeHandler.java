@@ -121,6 +121,7 @@ public final class InternalSlotRecipeHandler {
         AbstractRHL(MEPatternBufferPartMachine.InternalSlot slot, IMultiPart part) {
             super(IO.IN, part);
             this.slot = slot;
+            priority = 1000;
         }
 
         @Override
