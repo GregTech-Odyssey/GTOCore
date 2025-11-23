@@ -87,6 +87,27 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     }
 
     @Override
+    public boolean handleTickRecipe(@Nullable Recipe recipe) {
+        if (recipe != null) {
+            long eu = recipe.eut;
+            if (eu != 0) {
+                if (!generateEnergy(-eu, false)) {
+                    IdleReason.setIdleReason(this, IdleReason.INSUFFICIENT_OUT);
+                    return false;
+                }
+            }
+            long mana = recipe.manat;
+            if (mana != 0) {
+                if (!useMana(mana, false)) {
+                    IdleReason.setIdleReason(this, IdleReason.INSUFFICIENT_OUT);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
     public BlockPattern getPattern() {
         if (isInSpace()) {
             return patternInSpace;

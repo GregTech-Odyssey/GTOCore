@@ -51,19 +51,19 @@ public class GTOTrade {
     public static void init() {
         recipe();
 
-        /** 解锁交易组 */
+        /* 解锁交易组 */
         UnlockTrade.init();
 
-        /** 欢迎来到格雷科技 */
+        /* 欢迎来到格雷科技 */
         WelcomeGroup.init();
 
-        /** 员工交易中心 */
+        /* 员工交易中心 */
         PlayersGroup.init();
 
-        /** 员工福利兑换中心 */
+        /* 员工福利兑换中心 */
         WelfareGroup.init();
 
-        /** 能源部 */
+        /* 能源部 */
         EnergyGroup.init();
     }
 

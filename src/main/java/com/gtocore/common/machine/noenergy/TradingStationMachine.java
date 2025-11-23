@@ -39,7 +39,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -77,19 +76,19 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Getter
     @Persisted
     @DescSynced
-    private NotifiableItemStackHandler inputItem;
+    private final NotifiableItemStackHandler inputItem;
     @Getter
     @Persisted
     @DescSynced
-    private NotifiableItemStackHandler outputItem;
+    private final NotifiableItemStackHandler outputItem;
     @Getter
     @Persisted
     @DescSynced
-    private NotifiableFluidTank inputFluid;
+    private final NotifiableFluidTank inputFluid;
     @Getter
     @Persisted
     @DescSynced
-    private NotifiableFluidTank outputFluid;
+    private final NotifiableFluidTank outputFluid;
 
     /** 其他位置存储 */
     @Persisted
@@ -112,18 +111,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private int groupSelected = 0;
     private int shopSelected = -1;
 
-    /**
-     * 存储所有升级的等级。
-     */
-    @Persisted
-    private boolean upgradePlayerTrade = false;    // 玩家交易
-    @Persisted
-    private boolean upgradeAutoTrade = false;      // 自动交易
-    @Persisted
-    private boolean upgradeLuckyMerchant = false;  // 幸运商店
-    @Persisted
-    private boolean upgradeMeInteraction = false;  // ME交互
-
     /////////////////////////////////////
     // ********* 生命周期管理 ********* //
     /////////////////////////////////////
@@ -139,11 +126,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         outputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.OUT, IO.OUT);
         inputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.IN, IO.BOTH);
         outputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.OUT, IO.OUT);
-
-        if (tier > 1) upgradePlayerTrade = true;
-        if (tier > 3) upgradeAutoTrade = true;
-        if (tier > 5) upgradeLuckyMerchant = true;
-        if (tier > 7) upgradeMeInteraction = true;
     }
 
     @Override
@@ -173,9 +155,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             outputFluidChangeSub = null;
         }
     }
-
-    @Override
-    public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {}
 
     @Override
     public void onMachineRemoved() {
@@ -211,8 +190,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @DescSynced
     private boolean collapseDescription = true;
 
-    private final int width = 336;
-    private final int height = 144;
+    private static final int width = 336;
+    private static final int height = 144;
 
     @Override
     public Widget createUIWidget() {
@@ -348,8 +327,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         return mainGroup;
     }
 
-    private final int Item_slots_in_a_row = 8;
-    private final int Fluid_slots_in_a_row = 1;
+    private static final int Item_slots_in_a_row = 8;
+    private static final int Fluid_slots_in_a_row = 1;
 
     // 库存展示
     private @NotNull IFancyUIProvider InventoryDisplay() {
@@ -710,13 +689,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private static class ShopTabProvider implements IFancyUIProvider {
 
         private final TradingStationMachine machine;
-        public final int groupIndex;
+        private final int groupIndex;
         @Getter
         private final int shopIndex;
         private final TradingManager.TradingShop tradingShop;
         private int localPageSelected = 0;
 
-        public ShopTabProvider(TradingStationMachine machine, int groupIndex, int shopIndex, TradingManager.TradingShop tradingShop) {
+        private ShopTabProvider(TradingStationMachine machine, int groupIndex, int shopIndex, TradingManager.TradingShop tradingShop) {
             this.machine = machine;
             this.groupIndex = groupIndex;
             this.shopIndex = shopIndex;

@@ -154,8 +154,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            final int width = 256;
-            final int height = 144;
+            static final int width = 256;
+            static final int height = 144;
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
@@ -224,8 +224,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
             @DescSynced
             private int tradeAmount = 0;
 
-            final int width = 256;
-            final int height = 144;
+            static final int width = 256;
+            static final int height = 144;
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
@@ -325,8 +325,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
             @DescSynced
             private String choose = null;
 
-            final int width = 256;
-            final int height = 144;
+            static final int width = 256;
+            static final int height = 144;
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
@@ -429,8 +429,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
             @DescSynced
             private String choose = null;
 
-            final int width = 256;
-            final int height = 144;
+            static final int width = 256;
+            static final int height = 144;
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
@@ -496,8 +496,8 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                 return GTOItems.PALM_SIZED_BANK.asStack().getDisplayName();
             }
 
-            final int width = 256;
-            final int height = 144;
+            static final int width = 256;
+            static final int height = 144;
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
@@ -571,7 +571,7 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
         sideTabs.attachSubTab(generateCard(this));
     }
 
-    public static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
+    private static void initNewPlayerCurrencies(UUID playerUUID, ServerLevel world) {
         O2LOpenCacheHashMap<String> initialCurrencies = new O2LOpenCacheHashMap<>();
         initialCurrencies.put(TECH_OPERATOR_COIN, 37);
         WalletUtils.setCurrencies(playerUUID, world, initialCurrencies);

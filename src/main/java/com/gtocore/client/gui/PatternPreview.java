@@ -315,6 +315,7 @@ public final class PatternPreview extends WidgetGroup {
         if (pattern != null && pattern.checkPatternAt(state, true)) {
             controllerBase.onStructureFormed();
         }
+        state.clearCache();
         if (controllerBase.isFormed()) {
             LongSet set = state.getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
             if (!set.isEmpty()) {

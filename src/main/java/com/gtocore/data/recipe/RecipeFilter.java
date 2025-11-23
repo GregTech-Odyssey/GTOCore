@@ -31,10 +31,6 @@ public final class RecipeFilter {
 
     public static Predicate<ResourceLocation> JsonFilter;
 
-    public static Predicate<ResourceLocation> getFilter() {
-        return JsonFilter;
-    }
-
     public static void init() {
         MACERATOR_RECIPES.addFilter("macerate_wheat");
         MACERATOR_RECIPES.addFilter("macerate_red_granite");
