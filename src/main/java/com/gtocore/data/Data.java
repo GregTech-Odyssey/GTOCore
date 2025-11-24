@@ -29,6 +29,7 @@ import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
+import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -59,8 +60,6 @@ import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
 import me.jellysquid.mods.sodium.mixin.core.render.MinecraftAccessor;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
 
 import java.util.Collections;
 
@@ -70,10 +69,7 @@ public final class Data {
 
     public static void init() {
         if (GTCEu.isClientSide()) {
-            Thread thread = new Thread(Data::clientInit, "GTOCore Data");
-            thread.setDaemon(true);
-            thread.setPriority(Thread.MIN_PRIORITY);
-            thread.start();
+            GTOUtils.startThread(Data::clientInit);
         } else {
             commonInit();
         }
@@ -180,43 +176,36 @@ public final class Data {
     }
 
     private static void clientInit() {
-        try {
-            commonInit();
-            RecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
-            if (GTCEu.Mods.isEMILoaded()) {
-                MultiblockDefinition.init();
-                long time = System.currentTimeMillis();
-                EmiConfig.logUntranslatedTags = false;
-                EmiConfig.workstationLocation = SidebarSide.LEFT;
-                EmiRepairItemRecipe.TOOLS.clear();
-                ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
-                for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
-                    if (!category.shouldRegisterDisplays()) continue;
-                    var type = category.getRecipeType();
-                    if (category == type.getCategory()) type.buildRepresentativeRecipes();
-                    EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
-                    type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe((Recipe) recipe, emiCategory)).forEach(recipes::add);
-                }
-                for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
-                    if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
-                        recipes.add(new MultiblockInfoEmiRecipe(definition));
-                    }
-                }
-                EMI_RECIPES = recipes.build();
-                for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
-                    if (type == GTORecipeTypes.FURNACE_RECIPES) {
-                        type.getCategoryMap().putIfAbsent(GTRecipeTypes.FURNACE_RECIPES.getCategory(), Collections.emptySet());
-                    } else {
-                        type.getCategoryMap().replaceAll((k, v) -> Collections.emptySet());
-                    }
-                }
-                GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
+        commonInit();
+        RecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
+        if (GTCEu.Mods.isEMILoaded()) {
+            MultiblockDefinition.init();
+            long time = System.currentTimeMillis();
+            EmiConfig.logUntranslatedTags = false;
+            EmiConfig.workstationLocation = SidebarSide.LEFT;
+            EmiRepairItemRecipe.TOOLS.clear();
+            ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
+            for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
+                if (!category.shouldRegisterDisplays()) continue;
+                var type = category.getRecipeType();
+                if (category == type.getCategory()) type.buildRepresentativeRecipes();
+                EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
+                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe((Recipe) recipe, emiCategory)).forEach(recipes::add);
             }
-        } catch (Exception e) {
-            Configurator.setRootLevel(Level.DEBUG);
-            e.printStackTrace();
-            Client.interrupt();
-            Configurator.setRootLevel(Level.OFF);
+            for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
+                if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
+                    recipes.add(new MultiblockInfoEmiRecipe(definition));
+                }
+            }
+            EMI_RECIPES = recipes.build();
+            for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
+                if (type == GTORecipeTypes.FURNACE_RECIPES) {
+                    type.getCategoryMap().putIfAbsent(GTRecipeTypes.FURNACE_RECIPES.getCategory(), Collections.emptySet());
+                } else {
+                    type.getCategoryMap().replaceAll((k, v) -> Collections.emptySet());
+                }
+            }
+            GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
         }
     }
 

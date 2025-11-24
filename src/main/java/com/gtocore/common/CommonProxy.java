@@ -92,7 +92,6 @@ public class CommonProxy {
 
     private static void init() {
         GTOCreativeModeTabs.init();
-        ScanningClass.init();
         GTOEntityTypes.init();
         if (!GTCEu.isDataGen() && Mods.FTBQUESTS.isLoaded()) {
             GTOQuestTypes.init();

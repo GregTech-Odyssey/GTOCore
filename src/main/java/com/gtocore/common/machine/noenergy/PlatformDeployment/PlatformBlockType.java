@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -50,7 +51,7 @@ public final class PlatformBlockType {
 
             // 防御性拷贝
             materials = Arrays.copyOf(materials, materials.length);
-            extraMaterials = List.copyOf(extraMaterials);
+            extraMaterials = ImmutableList.copyOf(extraMaterials);
 
             // 业务规则检查
             if (xSize % 16 != 0) throw new IllegalArgumentException("X size must be multiple of 16");
@@ -200,14 +201,12 @@ public final class PlatformBlockType {
             // 非空检查
             Objects.requireNonNull(name, "name must not be null");
             Objects.requireNonNull(structures, "structures must not be null");
-
-            // 防御性拷贝
-            structures = List.copyOf(structures);
-
             // 业务规则检查
             if (structures.isEmpty()) {
                 throw new IllegalArgumentException("structures must not be empty");
             }
+            // 防御性拷贝
+            structures = ImmutableList.copyOf(structures);
         }
 
         public static PresetBuilder preset(String name) {

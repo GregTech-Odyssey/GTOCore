@@ -5,6 +5,7 @@ import com.gtocore.common.data.machines.GTAEMachines;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -177,23 +178,23 @@ public final class BlockMap {
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         MAP.put(computer_heat, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
 
-        WIRELESS_ENERGY_UNIT = arr(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.HV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.EV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.IV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.get());
+        WIRELESS_ENERGY_UNIT = GTOUtils.array(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.HV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.EV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.IV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.get());
         MAP.put(wireless_energy_unit, WIRELESS_ENERGY_UNIT);
 
-        ME_STORAGE_CORE = arr(GTOBlocks.T1_ME_STORAGE_CORE.get(), GTOBlocks.T2_ME_STORAGE_CORE.get(), GTOBlocks.T3_ME_STORAGE_CORE.get(), GTOBlocks.T4_ME_STORAGE_CORE.get(), GTOBlocks.T5_ME_STORAGE_CORE.get());
+        ME_STORAGE_CORE = GTOUtils.array(GTOBlocks.T1_ME_STORAGE_CORE.get(), GTOBlocks.T2_ME_STORAGE_CORE.get(), GTOBlocks.T3_ME_STORAGE_CORE.get(), GTOBlocks.T4_ME_STORAGE_CORE.get(), GTOBlocks.T5_ME_STORAGE_CORE.get());
         MAP.put(me_storage_core, ME_STORAGE_CORE);
 
-        CRAFTING_STORAGE_CORE = arr(GTOBlocks.T1_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T2_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T3_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T4_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T5_CRAFTING_STORAGE_CORE.get());
+        CRAFTING_STORAGE_CORE = GTOUtils.array(GTOBlocks.T1_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T2_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T3_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T4_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T5_CRAFTING_STORAGE_CORE.get());
         MAP.put(crafting_storage_core, CRAFTING_STORAGE_CORE);
 
-        ABS_CASING = arr(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RED_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
+        ABS_CASING = GTOUtils.array(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RED_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
         MAP.put(abs_casing, ABS_CASING);
 
         LIGHT = GTBlocks.LAMPS.values().stream().map(RegistryEntry::get).toArray(Block[]::new);
         MAP.put(light, LIGHT);
 
         AtomicInteger idx = new AtomicInteger(1);
-        Block[] hermeticCasings = arr(GTBlocks.HERMETIC_CASING_LV.get(), GTBlocks.HERMETIC_CASING_MV.get(), GTBlocks.HERMETIC_CASING_HV.get(), GTBlocks.HERMETIC_CASING_EV.get(), GTBlocks.HERMETIC_CASING_IV.get(), GTBlocks.HERMETIC_CASING_LuV.get(), GTBlocks.HERMETIC_CASING_ZPM.get(), GTBlocks.HERMETIC_CASING_UV.get(), GTBlocks.HERMETIC_CASING_UHV.get(), GTOBlocks.HERMETIC_CASING_UEV.get(), GTOBlocks.HERMETIC_CASING_UIV.get(), GTOBlocks.HERMETIC_CASING_UXV.get(), GTOBlocks.HERMETIC_CASING_OpV.get());
+        Block[] hermeticCasings = GTOUtils.array(GTBlocks.HERMETIC_CASING_LV.get(), GTBlocks.HERMETIC_CASING_MV.get(), GTBlocks.HERMETIC_CASING_HV.get(), GTBlocks.HERMETIC_CASING_EV.get(), GTBlocks.HERMETIC_CASING_IV.get(), GTBlocks.HERMETIC_CASING_LuV.get(), GTBlocks.HERMETIC_CASING_ZPM.get(), GTBlocks.HERMETIC_CASING_UV.get(), GTBlocks.HERMETIC_CASING_UHV.get(), GTOBlocks.HERMETIC_CASING_UEV.get(), GTOBlocks.HERMETIC_CASING_UIV.get(), GTOBlocks.HERMETIC_CASING_UXV.get(), GTOBlocks.HERMETIC_CASING_OpV.get());
         Stream.of(hermeticCasings).forEach(b -> HERMETIC_CASING.put(idx.getAndIncrement(), () -> b));
         MAP.put(hermetic_casing, hermeticCasings);
 
@@ -209,10 +210,6 @@ public final class BlockMap {
                 BLOCK_CATEGORY_MAP.put(block, category);
             }
         });
-    }
-
-    public static Block[] arr(Block... blocks) {
-        return blocks;
     }
 
     @Nullable
