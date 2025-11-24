@@ -116,5 +116,7 @@ public class TradeLang {
         addTradeLang("gtocore.trading_station.textList.20", "商店未解锁, 需要解锁 %s", "Store locked, needs to be unlocked %s");
         addTradeLang("gtocore.trading_station.textList.21", "交易解锁", "Transaction unlock");
         addTradeLang("gtocore.trading_station.textList.22", "解锁 %s", "Unlock %s");
+
+        addTradeLang("gtocore.trade_lottery.weight", "- %s x%s [权重: %s]", "- %s x%s [Weight: %s]");
     }
 }
