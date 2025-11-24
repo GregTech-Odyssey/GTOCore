@@ -4,10 +4,6 @@ import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
-import com.gtolib.utils.StringIndex;
-import com.gtolib.utils.StringUtils;
-
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,8 +25,6 @@ import it.unimi.dsi.fastutil.chars.Char2ReferenceLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.chars.Char2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.chars.CharOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Reference2CharLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Reference2CharOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -136,7 +130,6 @@ class PlatformCreators {
         String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
         String structureFile = outputDir.resolve(timestamp).toString();
         String mappingFile = outputDir.resolve(timestamp + ".json").toString();
-        String patternFile = outputDir.resolve(timestamp + ".txt").toString();
 
         int minX = Math.min(pos1.getX(), pos2.getX());
         int minY = Math.min(pos1.getY(), pos2.getY());
@@ -162,10 +155,6 @@ class PlatformCreators {
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
-        // 统计方块数量（按 Block）
-        Reference2IntOpenHashMap<Block> blockCountByBlock = new Reference2IntOpenHashMap<>();
-        int totalNonAir = 0;
-
         // 第一次遍历：收集旋转后的映射 & 统计方块数量
         for (int y = minY; y <= maxY; y++) {
             for (int z = minZ; z <= maxZ; z++) {
@@ -177,12 +166,6 @@ class PlatformCreators {
 
                     BlockState originalState = section.getBlockState(x & 15, y & 15, z & 15);
                     BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
-
-                    Block block = transformedState.getBlock();
-                    if (!transformedState.isAir()) {
-                        blockCountByBlock.addTo(block, 1);
-                        totalNonAir++;
-                    }
 
                     if (!stateToChar.containsKey(transformedState)) {
                         stateToChar.put(transformedState, nextChar);
@@ -250,161 +233,9 @@ class PlatformCreators {
         stateToChar.reference2CharEntrySet().fastForEach(e -> charToState.put(e.getCharValue(), e.getKey()));
         saveMappingToJson(charToState, mappingFile);
 
-        // 构建 patternFile 专用的按 Block 去重映射
-        Reference2CharOpenHashMap<Block> blockToChar = new Reference2CharOpenHashMap<>();
-        char currentChar = 'A';
-        blockToChar.put(Blocks.AIR, ' ');
-
-        for (BlockState state : stateToChar.keySet()) {
-            Block block = state.getBlock();
-            if (!blockToChar.containsKey(block)) {
-                currentChar = getNextValidChar(currentChar);
-                blockToChar.put(block, currentChar);
-                currentChar = getNextValidChar((char) (currentChar + 1));
-            }
-        }
-
-        // 生成 .block()/.where() 文件
-        try (BufferedWriter patternWriter = Files.newBufferedWriter(Paths.get(patternFile), StandardCharsets.UTF_8)) {
-            String chamberId = BuiltInRegistries.BLOCK.getKey(chamberBlock).toString();
-            String[] chamberParts = StringUtils.decompose(chamberId);
-
-            patternWriter.write(".block(" + convertBlockToString(chamberBlock, chamberId, chamberParts, true) + ")");
-            patternWriter.newLine();
-            patternWriter.write(".pattern(definition -> FactoryBlockPattern.start(definition)");
-            patternWriter.newLine();
-
-            // .aisle(...)
-            for (int outZ = 0; outZ < dz; outZ++) {
-                List<String> ySlices = new ArrayList<>();
-                for (int outY = 0; outY < dy; outY++) {
-                    StringBuilder xChars = new StringBuilder();
-                    for (int outX = 0; outX < dx; outX++) {
-                        int rx = outX, rz = outZ;
-                        switch (rotation) {
-                            case 90 -> {
-                                int t = rx;
-                                rx = dz - 1 - rz;
-                                rz = t;
-                            }
-                            case 180 -> {
-                                rx = dx - 1 - rx;
-                                rz = dz - 1 - rz;
-                            }
-                            case 270 -> {
-                                int t = rx;
-                                rx = rz;
-                                rz = dx - 1 - t;
-                            }
-                        }
-                        if (xMirror) rx = dx - 1 - rx;
-                        if (zMirror) rz = dz - 1 - rz;
-
-                        int worldX = minX + rx;
-                        int worldY = minY + outY;
-                        int worldZ = minZ + rz;
-
-                        BlockPos pos = new BlockPos(worldX, worldY, worldZ);
-                        LevelChunk chunk = level.getChunkAt(pos);
-                        int sectionIndex = chunk.getSectionIndex(worldY);
-                        LevelChunkSection section = chunk.getSection(sectionIndex);
-                        BlockState originalState = section.getBlockState(worldX & 15, worldY & 15, worldZ & 15);
-
-                        BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
-
-                        xChars.append(blockToChar.getOrDefault(transformedState.getBlock(), ' '));
-                    }
-                    ySlices.add("\"" + xChars + "\"");
-                }
-                patternWriter.write(".aisle(" + String.join(", ", ySlices) + ")");
-                patternWriter.newLine();
-            }
-
-            // .where(...)
-            for (var entry : blockToChar.reference2CharEntrySet()) {
-                Block block = entry.getKey();
-                Character ch = entry.getCharValue();
-                if (block == Blocks.AIR) continue;
-
-                if (BLOCK_MAP.containsKey(block)) {
-                    patternWriter.write(".where('" + ch + "', ");
-                    StringBuilder sb = new StringBuilder();
-                    BLOCK_MAP.get(block).accept(sb, ch);
-                    patternWriter.write(sb.toString());
-                    patternWriter.newLine();
-                    continue;
-                }
-
-                if (block == Blocks.COBBLESTONE) {
-                    patternWriter.write(".where('" + ch + "', blocks(" + convertBlockToString(chamberBlock, chamberId, chamberParts, false) + ")");
-                    if (laserMode) {
-                        patternWriter.write(".or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))");
-                    } else {
-                        patternWriter.write(".or(autoAbilities(definition.getRecipeTypes()))");
-                    }
-                    patternWriter.newLine();
-                    patternWriter.write(".or(abilities(MAINTENANCE).setExactLimit(1)))");
-                    patternWriter.newLine();
-                    continue;
-                }
-
-                String id = BuiltInRegistries.BLOCK.getKey(block).toString();
-                String[] parts = StringUtils.decompose(id);
-                boolean isGT = Objects.equals(parts[0], "gtceu");
-                boolean isGTO = Objects.equals(parts[0], GTOCore.MOD_ID);
-
-                if ((isGT || isGTO) && parts[1].contains("_frame")) {
-                    patternWriter.write(".where('" + ch + "', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, " + (isGT ? "GTMaterials." : "GTOMaterials.") + FormattingUtil.lowerUnderscoreToUpperCamel(StringUtils.lastDecompose('_', parts[1])[0]) + ")))");
-                    patternWriter.newLine();
-                    continue;
-                }
-
-                patternWriter.write(".where('" + ch + "', blocks(" + convertBlockToString(block, id, parts, false) + "))");
-                patternWriter.newLine();
-            }
-
-            patternWriter.write(".build())");
-            patternWriter.newLine();
-            patternWriter.newLine();
-
-            // .extraMaterials
-            blockCountByBlock.reference2IntEntrySet().stream()
-                    .sorted(Map.Entry.comparingByKey(Comparator.comparing(BuiltInRegistries.BLOCK::getKey)))
-                    .forEach(e -> {
-                        try {
-                            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(e.getKey());
-                            patternWriter.write(".extraMaterials(\"" + id + "\", " + e.getIntValue() + ")");
-                            patternWriter.newLine();
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                    });
-
-            patternWriter.write("// Total non-air blocks: " + totalNonAir);
-            patternWriter.newLine();
-
-        } catch (IOException e) {
-            GTOCore.LOGGER.error("Failed to save .block()/.where() pattern file", e);
-        }
-
         GTOCore.LOGGER.info("Exported files:");
         GTOCore.LOGGER.info(" - Structure: {}", structureFile);
         GTOCore.LOGGER.info(" - Mapping: {}", mappingFile);
-        GTOCore.LOGGER.info(" - Pattern: {}", patternFile);
-    }
-
-    // 工具方法：方块转代码字符串
-    private static String convertBlockToString(Block b, String id, String[] parts, boolean supplier) {
-        if (StringIndex.BLOCK_LINK_MAP.containsKey(b)) {
-            return StringIndex.BLOCK_LINK_MAP.get(b) + (supplier ? "" : ".get()");
-        }
-        if (Objects.equals(parts[0], GTOCore.MOD_ID)) {
-            return "Blocks." + parts[1].toUpperCase() + (supplier ? "" : ".get()");
-        }
-        if (Objects.equals(parts[0], "minecraft")) {
-            return (supplier ? "() -> " : "") + "Blocks." + parts[1].toUpperCase();
-        }
-        return "RegistriesUtils.get" + (supplier ? "Supplier" : "") + "Block(\"" + id + "\")";
     }
 
     /**
