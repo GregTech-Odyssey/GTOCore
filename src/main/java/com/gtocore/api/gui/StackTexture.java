@@ -350,8 +350,10 @@ public class StackTexture extends TransformTexture {
     private String getCountText(Object stack) {
         long count;
         if (stack instanceof ItemStack itemStack) {
-            if (itemStack.getCount() <= 1) return "";
-            count = itemStack.getCount();
+            return "";
+            // 不知道为什么物品堆原本就会渲染一个数量，所以这里直接返回空字符串
+            // if (itemStack.getCount() <= 1) return "";
+            // count = itemStack.getCount();
         } else if (stack instanceof FluidStack fluidStack) {
             if (fluidStack.getAmount() <= 0) return "";
             count = fluidStack.getAmount();

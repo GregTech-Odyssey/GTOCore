@@ -1,6 +1,5 @@
 package com.gtocore.data.transaction.data.trade;
 
-import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.gui.StackTexture;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.ManaProspectorBehavior;
@@ -14,10 +13,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -39,6 +35,7 @@ import static com.gtocore.data.transaction.data.GTOTrade.*;
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
+import static com.gtocore.utils.PlayerHeadUtils.itemStackAddNbtString;
 
 public class WelfareGroup {
 
@@ -119,25 +116,24 @@ public class WelfareGroup {
         TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
                 simpleItemTrading(true, UNLOCK_BASE, EnchantmentRecord.getEnchantedBookBySerialNumber(58, 1), TECH_OPERATOR_COIN, 128));
 
-        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
-                simpleItemTrading(true, UNLOCK_BASE, AEItems.PORTABLE_ITEM_CELL16K.stack(), TECH_OPERATOR_COIN, 128));
+        {
+            ItemStack stack = itemStackAddNbtString(AEItems.PORTABLE_ITEM_CELL16K.stack(), "{internalCurrentPower:20000.0d}");
+            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                    simpleItemTrading(true, UNLOCK_BASE, stack, TECH_OPERATOR_COIN, 128));
+        }
 
-        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
-                simpleItemTrading(true, UNLOCK_BASE, AEItems.PORTABLE_FLUID_CELL16K.stack(), TECH_OPERATOR_COIN, 128));
+        {
+            ItemStack stack = itemStackAddNbtString(AEItems.PORTABLE_FLUID_CELL16K.stack(), "{internalCurrentPower:20000.0d}");
+            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                    simpleItemTrading(true, UNLOCK_BASE, stack, TECH_OPERATOR_COIN, 128));
 
+        }
         TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
                 simpleItemTrading(true, UNLOCK_BASE, GTMachines.SUPER_TANK[LV].asStack(), TECH_OPERATOR_COIN, 32));
 
         {
-            ItemStack stack = ChemicalHelper.get(GTOTagPrefix.nugget, GTMaterials.DamascusSteel);
-            CompoundTag nbt = stack.getOrCreateTag();
-            ListTag enchantments = new ListTag();
-            CompoundTag unbreakingEnchant = new CompoundTag();
-            unbreakingEnchant.putString("id", "minecraft:unbreaking");
-            unbreakingEnchant.putShort("lvl", (short) 3);
-            enchantments.add(unbreakingEnchant);
-            nbt.put("Enchantments", enchantments);
-            stack.setTag(nbt);
+            ItemStack stack = RegistriesUtils.getItemStack("gtceu:damascus_steel_mining_hammer", 1,
+                    "{DisallowContainerItem:0b,Enchantments:[{id:\"minecraft:unbreaking\",lvl:3s}],GT.Behaviours:{AoEColumn:1,AoELayer:0,AoERow:1},GT.Tool:{Damage:0},HideFlags:2}");
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
                     simpleItemTrading(true, UNLOCK_BASE, stack, TECH_OPERATOR_COIN, 48));
         }
