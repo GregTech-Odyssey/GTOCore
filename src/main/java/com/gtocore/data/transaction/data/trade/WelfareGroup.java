@@ -2,7 +2,6 @@ package com.gtocore.data.transaction.data.trade;
 
 import com.gtocore.api.gui.StackTexture;
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.item.ManaProspectorBehavior;
 import com.gtocore.data.record.EnchantmentRecord;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
@@ -30,7 +29,6 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.block;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.COIN;
-import static com.gtocore.common.item.ManaProspectorBehavior.MANA_KEY;
 import static com.gtocore.data.transaction.data.GTOTrade.*;
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
@@ -84,8 +82,7 @@ public class WelfareGroup {
                                 lotteryItem(8500, ChemicalHelper.get(COIN, Copper, 16)))));
 
         {
-            ItemStack stack = GTOItems.PROSPECTOR_MANA_ULV.asStack();
-            stack.getOrCreateTag().putInt(MANA_KEY, ManaProspectorBehavior.LV.maxMana());
+            ItemStack stack = itemStackAddNbtString(GTOItems.PROSPECTOR_MANA_ULV.asStack(), "{mana:2000000}");
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
                     simpleItemTrading(true, UNLOCK_BASE, stack, TECH_OPERATOR_COIN, 16));
 
