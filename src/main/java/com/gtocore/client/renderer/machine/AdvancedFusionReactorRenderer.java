@@ -82,7 +82,7 @@ public final class AdvancedFusionReactorRenderer extends WorkableCasingMachineRe
         var b = Mth.lerp(lerpFactor, blue(lastColor), 255) / 255f;
         RenderBufferHelper.renderRing(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 8, 1.2F, 10, 20, r, g, b, alpha, axis);
         poseStack.popPose();
-        boolean hasExtraRender = machine.getSubFormed()[3];
+        boolean hasExtraRender = machine.getSubFormed().length > 3 && machine.getSubFormed()[3];
         if (hasExtraRender) {
             var lerpFactor2 = (machine.getOffsetTimer() % 50) / 100.0;
             {
