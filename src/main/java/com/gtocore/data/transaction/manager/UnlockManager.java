@@ -1,7 +1,6 @@
 package com.gtocore.data.transaction.manager;
 
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

@@ -5,6 +5,8 @@ dependencies {
     implementation("org.lwjgl:lwjgl-opengl:3.3.2")
     implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
+    jarJar(implementation("dev:fastcollection:1.0"))
+
     compileOnly('org.projectlombok:lombok:1.18.42')
     annotationProcessor('org.projectlombok:lombok:1.18.42')
 

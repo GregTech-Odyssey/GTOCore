@@ -6,8 +6,8 @@ import com.gtocore.common.data.translation.info
 import com.gtocore.common.data.translation.section
 import com.gtocore.data.recipe.builder.research.ExResearchManager.writeAnalyzeResearchToMap
 
+import com.fast.fastcollection.O2OOpenCacheHashMap
 import com.gregtechceu.gtceu.GTCEu
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap
 import com.gtolib.api.lang.CNEN
 
 object AnalyzeData : AutoInitialize<AnalyzeData>() {

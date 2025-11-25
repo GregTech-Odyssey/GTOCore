@@ -10,7 +10,6 @@ import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.core.mixins.StrictNBTIngredientAccessor;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
@@ -27,6 +26,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import com.fast.fastcollection.O2IOpenCacheHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import kotlin.Unit;
 import org.jetbrains.annotations.NotNull;

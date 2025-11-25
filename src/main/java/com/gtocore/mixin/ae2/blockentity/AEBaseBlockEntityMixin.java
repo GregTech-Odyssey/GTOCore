@@ -3,7 +3,6 @@ package com.gtocore.mixin.ae2.blockentity;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
 
 import com.gregtechceu.gtceu.utils.cache.BlockEntityDirectionCache;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import appeng.blockentity.AEBaseBlockEntity;
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

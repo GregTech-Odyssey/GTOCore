@@ -9,11 +9,11 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +25,7 @@ public final class RadioactivityTrait extends MultiblockTrait {
     @Persisted
     private int recipeRadioactivity;
 
-    private final Set<RadiationHatchPartMachine> radiationHatchPartMachines = new OpenCacheHashSet<>();
+    private final Set<RadiationHatchPartMachine> radiationHatchPartMachines = new ReferenceOpenHashSet<>();
 
     public RadioactivityTrait(IMultiblockTraitHolder machine) {
         super(machine);

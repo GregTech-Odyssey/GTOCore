@@ -17,7 +17,6 @@ import com.gtolib.utils.ItemUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.core.ILevel;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -41,6 +40,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.mojang.blaze3d.vertex.PoseStack;

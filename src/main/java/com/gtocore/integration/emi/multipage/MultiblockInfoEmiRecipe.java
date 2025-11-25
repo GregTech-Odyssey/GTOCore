@@ -4,13 +4,17 @@ import com.gtocore.client.gui.PatternPreview;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.OrderItem;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
+import com.gtolib.utils.FileUtils;
+import com.gtolib.utils.ItemUtils;
+import com.gtolib.utils.RLUtils;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -27,12 +31,12 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.ListEmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
+import java.util.function.Consumer;
 
 public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
@@ -54,24 +58,31 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         super(() -> MULTIBLOCK);
         this.definition = definition;
         widget = () -> PatternPreview.getPatternWidget(this, definition);
-        var pattern = definition.getPatternFactory().get();
-        if (pattern != null && pattern.predicates != null) {
-            Set<Set<Item>> parts = new OpenCacheHashSet<>();
-            for (var predicate : pattern.predicates) {
-                ArrayList<SimplePredicate> predicates = new ArrayList<>(predicate.common);
-                predicates.addAll(predicate.limited);
-                for (SimplePredicate simplePredicate : predicates) {
-                    if (simplePredicate == null || simplePredicate.candidates == null) continue;
-                    Set<Item> items = new OpenCacheHashSet<>();
-                    for (var itemStack : simplePredicate.getCandidates()) {
-                        var item = itemStack.getItem();
-                        if (item == Items.AIR) continue;
-                        items.add(item);
+        Consumer<Collection<Item>> action = p -> inputs.add(new ListEmiIngredient(p.stream().map(EmiStack::of).toList(), 1));
+        var file = new File(GTOCore.getFile(), "cache/multiblock/" + definition.getName() + "_parts");
+        if (file.exists() && file.canRead()) {
+            FileUtils.loadFromFile(file, FileUtils.Deserialize.list(FileUtils.Deserialize.list(dis -> RegistriesUtils.getItem(RLUtils.SERIALIZER.deserialize(dis))))).forEach(action);
+        } else {
+            var pattern = definition.getPatternFactory().get();
+            if (pattern != null && pattern.predicates != null) {
+                Collection<Collection<Item>> parts = new ReferenceOpenHashSet<>();
+                for (var predicate : pattern.predicates) {
+                    ArrayList<SimplePredicate> predicates = new ArrayList<>(predicate.common);
+                    predicates.addAll(predicate.limited);
+                    for (SimplePredicate simplePredicate : predicates) {
+                        if (simplePredicate == null || simplePredicate.candidates == null) continue;
+                        Set<Item> items = new ReferenceOpenHashSet<>();
+                        for (var itemStack : simplePredicate.getCandidates()) {
+                            var item = itemStack.getItem();
+                            if (item == Items.AIR) continue;
+                            items.add(item);
+                        }
+                        if (items.size() > 1) parts.add(items);
                     }
-                    if (items.size() > 1) parts.add(items);
                 }
+                FileUtils.saveToFile(parts, file, FileUtils.Serialize.collection(FileUtils.Serialize.collection((dos, obj) -> RLUtils.SERIALIZER.serialize(dos, ItemUtils.getIdLocation(obj)))));
+                parts.forEach(action);
             }
-            parts.forEach(p -> inputs.add(new ListEmiIngredient(p.stream().map(EmiStack::of).toList(), 1)));
         }
         MultiblockDefinition.of(definition).getPatterns()[0].parts().forEach(i -> super.inputs.add(EmiStack.of(i)));
     }

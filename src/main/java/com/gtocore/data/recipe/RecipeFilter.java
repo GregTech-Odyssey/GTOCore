@@ -13,10 +13,10 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.resources.ResourceLocation;
 
+import com.fast.fastcollection.OpenCacheHashSet;
 import com.kyanite.deeperdarker.DeeperDarker;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;

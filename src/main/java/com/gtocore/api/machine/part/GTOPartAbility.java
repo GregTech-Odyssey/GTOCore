@@ -7,7 +7,8 @@ import com.gtolib.api.lang.CNEN;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Map;
 

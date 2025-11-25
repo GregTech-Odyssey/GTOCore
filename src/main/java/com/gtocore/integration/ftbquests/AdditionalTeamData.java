@@ -2,12 +2,11 @@ package com.gtocore.integration.ftbquests;
 
 import com.gtolib.utils.ServerUtils;
 
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.saveddata.SavedData;
 
+import com.fast.fastcollection.O2LOpenCacheHashMap;
 import dev.architectury.event.EventResult;
 import dev.ftb.mods.ftbquests.events.ObjectCompletedEvent;
 import org.jetbrains.annotations.NotNull;
