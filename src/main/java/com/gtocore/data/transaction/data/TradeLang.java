@@ -97,8 +97,8 @@ public class TradeLang {
         addTradeLang("gtocore.trade_group.unlock", "未解锁, 需要解锁 %s", "Not unlocked, needs to be unlocked %s");
         addTradeLang("gtocore.trade_group.unsatisfied", "不满足额外条件", "Additional conditions not met");
         addTradeLang("gtocore.trade_group.amount", "最大可交易次数: %s", "Maximum number of trades: %s");
-        addTradeLang("gtocore.trade_group.repeatedly1", "按下Click尝试交易10次", "Press Click to attempt 10 trades");
-        addTradeLang("gtocore.trade_group.repeatedly2", "同时按下Click Shift尝试交易100次", "Simultaneously press Click Shift to attempt 100 trades");
+        addTradeLang("gtocore.trade_group.repeatedly1", "按下Ctrl尝试交易10次", "Press Ctrl to attempt 10 trades");
+        addTradeLang("gtocore.trade_group.repeatedly2", "同时按下Ctrl Shift尝试交易100次", "Simultaneously press Ctrl Shift to attempt 100 trades");
 
         addTradeLang("gtocore.trading_station.textList.1", "这台机器不属于你, 你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
         addTradeLang("gtocore.trading_station.textList.2", "⇦ 请放入会员卡", "⇦ Please insert your membership card.");
@@ -116,5 +116,7 @@ public class TradeLang {
         addTradeLang("gtocore.trading_station.textList.20", "商店未解锁, 需要解锁 %s", "Store locked, needs to be unlocked %s");
         addTradeLang("gtocore.trading_station.textList.21", "交易解锁", "Transaction unlock");
         addTradeLang("gtocore.trading_station.textList.22", "解锁 %s", "Unlock %s");
+
+        addTradeLang("gtocore.trade_lottery.weight", "- %s x%s [权重: %s]", "- %s x%s [Weight: %s]");
     }
 }

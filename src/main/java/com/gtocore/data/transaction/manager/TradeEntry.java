@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.google.common.collect.ImmutableList;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 
@@ -50,7 +51,7 @@ public record TradeEntry(
     public TradeEntry {
         texture = texture != null ? texture : GuiTextures.GREGTECH_LOGO;
         unlockCondition = unlockCondition != null ? unlockCondition : UNLOCK_BASE;
-        description = List.copyOf(description != null ? description : List.of());
+        description = ImmutableList.copyOf(description != null ? description : List.of());
         inputGroup = inputGroup != null ? inputGroup : new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
         outputGroup = outputGroup != null ? outputGroup : new TradeGroup(List.of(), List.of(), new O2LOpenCacheHashMap<>(), BigInteger.ZERO, BigInteger.ZERO);
     }
@@ -193,8 +194,8 @@ public record TradeEntry(
          * 紧凑构造器
          */
         public TradeGroup {
-            items = List.copyOf(items);
-            fluids = List.copyOf(fluids);
+            items = ImmutableList.copyOf(items);
+            fluids = ImmutableList.copyOf(fluids);
             currencies = new O2LOpenCacheHashMap<>(currencies);
         }
 
@@ -442,7 +443,7 @@ public record TradeEntry(
         public TradeEntry build() {
             return new TradeEntry(
                     texture,
-                    List.copyOf(description),
+                    ImmutableList.copyOf(description),
                     unlockCondition,
                     preCheck,
                     onExecute,

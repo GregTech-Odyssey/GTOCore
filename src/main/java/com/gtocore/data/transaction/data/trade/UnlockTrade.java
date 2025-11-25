@@ -22,6 +22,8 @@ import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 
 public class UnlockTrade {
 
+    public static final String SINGLE_TRANSACTION = "Single Transaction";
+
     public static final String UNLOCK_SHOP = "Unlock Shop";
     public static final String UNLOCK_TRADE = "Unlock Trade";
     public static final String UNLOCK_BASE = "Base";
@@ -54,17 +56,17 @@ public class UnlockTrade {
     }
 
     // 前置检查逻辑：检查标签是否添加
-    private static int checkUnlock(TradeData machine, TradeEntry entry, String tagKey, String tagValue) {
-        Level level = machine.getLevel();
+    private static int checkUnlock(TradeData data, TradeEntry entry, String tagKey, String tagValue) {
+        Level level = data.getLevel();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        if (!WalletUtils.containsTagValueInWallet(machine.getUuid(), serverLevel, tagKey, tagValue)) return 1;
+        if (!WalletUtils.containsTagValueInWallet(data.getUuid(), serverLevel, tagKey, tagValue)) return 1;
         return 0;
     }
 
     // 执行逻辑：添加标签
-    private static void performUnlock(TradeData machine, TradeEntry entry, int multiplier, String tagKey, String tagValue) {
-        Level level = machine.getLevel();
+    private static void performUnlock(TradeData data, TradeEntry entry, int multiplier, String tagKey, String tagValue) {
+        Level level = data.getLevel();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addTagToWallet(machine.getUuid(), serverLevel, tagKey, tagValue);
+        WalletUtils.addTagToWallet(data.getUuid(), serverLevel, tagKey, tagValue);
     }
 }

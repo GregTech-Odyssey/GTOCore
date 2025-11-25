@@ -1,18 +1,14 @@
 package com.gtocore.data.transaction.data.trade;
 
 import com.gtocore.api.gui.GTOGuiTextures;
-import com.gtocore.data.transaction.manager.TradeData;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 
 import com.gtolib.api.GTOValues;
-import com.gtolib.utils.WalletUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
@@ -20,6 +16,8 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
 
+import static com.gtocore.data.transaction.data.GTOTrade.checkMultiplier;
+import static com.gtocore.data.transaction.data.GTOTrade.performAddMultiplier;
 import static com.gtocore.data.transaction.data.TradeLang.*;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.GT_Values;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
@@ -77,8 +75,8 @@ public class EnergyGroup {
                         .unlockCondition(GTOValues.VNFR[values])
                         .inputEnergy(energy)
                         .outputCurrency(currency, amount)
-                        .preCheck((a, b) -> checkMultiplier(a, b, 10 * values))
-                        .onExecute(EnergyGroup::performAddMultiplier)
+                        .preCheck((a, b) -> checkMultiplier(a, b, GT_Values, 10 * values))
+                        .onExecute((a, b, c) -> performAddMultiplier(a, b, c, GT_Values, 360L))
                         .build());
 
         TradingManager.INSTANCE.addTradeEntryByIndices(groupIndex, shopIndex1,
@@ -113,21 +111,5 @@ public class EnergyGroup {
                         .inputCurrency(currency, amount2)
                         .outputEnergy(energy2)
                         .build());
-    }
-
-    // 前置检查逻辑：检查交易历史次数
-    private static int checkMultiplier(TradeData machine, TradeEntry entry, int maxMultiplier) {
-        Level level = machine.getLevel();
-        ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        long amount = WalletUtils.getTransactionTotalAmount(machine.getUuid(), serverLevel, GT_Values);
-        if (maxMultiplier > amount) return Math.toIntExact(maxMultiplier - amount);
-        return 0;
-    }
-
-    // 执行逻辑：添加交易历史标记
-    private static void performAddMultiplier(TradeData machine, TradeEntry entry, int multiplier) {
-        Level level = machine.getLevel();
-        ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addScheduledDeletion(machine.getUuid(), serverLevel, GT_Values, 360L, multiplier);
     }
 }

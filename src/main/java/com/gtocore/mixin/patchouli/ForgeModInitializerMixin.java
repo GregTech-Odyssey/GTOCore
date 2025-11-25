@@ -1,5 +1,7 @@
 package com.gtocore.mixin.patchouli;
 
+import com.gtolib.utils.GTOUtils;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,9 +34,6 @@ public final class ForgeModInitializerMixin {
 
         ForgeNetworkHandler.registerMessages();
 
-        Thread thread = new Thread(BookRegistry.INSTANCE::init);
-        thread.setDaemon(true);
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.start();
+        GTOUtils.startThread(BookRegistry.INSTANCE::init);
     }
 }
