@@ -703,7 +703,8 @@ public final class MaterialA {
                 .blastTemp(13100, HIGHER)
                 .color(0xd08c38)
                 .iconSet(QUANTUM_CHROMO_DYNAMICALLY)
-                .flags(GENERATE_FRAME, GENERATE_PLATE)
+                .itemPipeProperties(1000000, 1000000)
+                .flags(GENERATE_FRAME, GENERATE_PLATE, GENERATE_CURVED_PLATE)
                 .buildAndRegister();
 
         TranscendentMetal = material("transcendent_metal", "超时空金属")
