@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
 import appeng.core.definitions.AEItems;
 import appeng.core.definitions.AEParts;
@@ -459,59 +459,61 @@ public final class MetaTileEntityMachineRecipeLoader {
 
         // ME Parts
 
-        ItemStack meInterface = AEParts.INTERFACE.stack(1);
-        ItemStack accelerationCard = AEItems.SPEED_CARD.stack(2);
+        Item meInterface = AEParts.INTERFACE.asItem();
+        Item accelerationCard = AEItems.SPEED_CARD.asItem();
 
-        ASSEMBLER_RECIPES.recipeBuilder("me_export_hatch")
-                .inputItems(FLUID_EXPORT_HATCH[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
-                .outputItems(GTAEMachines.FLUID_EXPORT_HATCH_ME)
+        ASSEMBLER_RECIPES.recipeBuilder("me_import_bus")
+                .inputItems(ITEM_IMPORT_BUS[EV])
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
+                .outputItems(GTAEMachines.ITEM_IMPORT_BUS_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_import_hatch")
                 .inputItems(FLUID_IMPORT_HATCH[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
                 .outputItems(GTAEMachines.FLUID_IMPORT_HATCH_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_export_bus")
                 .inputItems(ITEM_EXPORT_BUS[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
                 .outputItems(GTAEMachines.ITEM_EXPORT_BUS_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("me_import_bus")
-                .inputItems(ITEM_IMPORT_BUS[EV])
-                .inputItems(meInterface.copy())
-                .inputItems(accelerationCard.copy())
-                .outputItems(GTAEMachines.ITEM_IMPORT_BUS_ME)
+        ASSEMBLER_RECIPES.recipeBuilder("me_export_hatch")
+                .inputItems(FLUID_EXPORT_HATCH[EV])
+                .inputItems(meInterface)
+                .inputItems(accelerationCard)
+                .outputItems(GTAEMachines.FLUID_EXPORT_HATCH_ME)
                 .duration(300).EUt(VA[HV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_stocking_import_bus")
-                .inputItems(ITEM_IMPORT_BUS[IV])
-                .inputItems(meInterface.copy())
-                .inputItems(CONVEYOR_MODULE_IV)
-                .inputItems(SENSOR_IV)
-                .inputItems(accelerationCard.copyWithCount(4))
+                .inputItems(ITEM_IMPORT_BUS[LuV])
+                .inputItems(GTAEMachines.ITEM_IMPORT_BUS_ME)
+                .inputItems(meInterface, 4)
+                .inputItems(CONVEYOR_MODULE_LuV)
+                .inputItems(SENSOR_LuV)
+                .inputItems(accelerationCard, 4)
                 .outputItems(GTAEMachines.STOCKING_IMPORT_BUS_ME)
-                .duration(300).EUt(VA[IV])
+                .duration(300).EUt(VA[LuV])
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("me_stocking_import_hatch")
-                .inputItems(FLUID_IMPORT_HATCH[IV])
-                .inputItems(meInterface.copy())
-                .inputItems(ELECTRIC_PUMP_IV)
-                .inputItems(SENSOR_IV)
-                .inputItems(accelerationCard.copyWithCount(4))
+                .inputItems(FLUID_IMPORT_HATCH[LuV])
+                .inputItems(GTAEMachines.FLUID_IMPORT_HATCH_ME)
+                .inputItems(meInterface, 4)
+                .inputItems(ELECTRIC_PUMP_LuV)
+                .inputItems(SENSOR_LuV)
+                .inputItems(accelerationCard, 4)
                 .outputItems(GTAEMachines.STOCKING_IMPORT_HATCH_ME)
-                .duration(300).EUt(VA[IV])
+                .duration(300).EUt(VA[LuV])
                 .save();
 
         ASSEMBLER_RECIPES.builder("me_muffler_hatch")
