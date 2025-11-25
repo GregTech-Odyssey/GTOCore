@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.error.PatternError;
-import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 
 import net.minecraft.ChatFormatting;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -131,24 +129,8 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
     }
 
     private static void showError(Player player, PatternError error, ItemStack stack) {
-        analysis(error).forEach(player::sendSystemMessage);
+        player.sendSystemMessage(error.getErrorInfo());
         addPos(stack, error.getPos());
-    }
-
-    public static List<Component> analysis(PatternError error) {
-        List<Component> show = new ArrayList<>();
-        if (error instanceof PatternStringError pe) {
-            show.add(pe.getErrorInfo());
-        } else {
-            var pos = error.getPos();
-            show.add(Component.translatable("item.gtocore.structure_detect.error.1", pos.getX(), pos.getY(), pos.getZ()));
-            for (List<ItemStack> candidate : error.getCandidates()) {
-                if (!candidate.isEmpty()) {
-                    show.add(Component.literal(" - ").append(candidate.get(0).getDisplayName()));
-                }
-            }
-        }
-        return show;
     }
 
     public static boolean isItem(ItemStack stack) {
