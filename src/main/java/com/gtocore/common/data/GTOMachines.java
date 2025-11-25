@@ -944,7 +944,7 @@ public final class GTOMachines {
     public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,
             (tier, builder) -> builder
                     .langValue("Pan-Galactic Gray Technology Trading Station " + "Tier " + tier)
-                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
+                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationTooltips().apply(list))
                     .nonYAxisRotation()
                     .modelRenderer(() -> GTOCore.id("block/machine/trading_station"))
                     .register(),

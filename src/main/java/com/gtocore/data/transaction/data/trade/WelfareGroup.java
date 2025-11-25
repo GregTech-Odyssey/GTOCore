@@ -10,8 +10,10 @@ import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +24,7 @@ import appeng.core.definitions.AEItems;
 import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.gregtechceu.gtceu.api.GTValues.LV;
@@ -129,7 +132,7 @@ public class WelfareGroup {
                 simpleItemTrading(true, UNLOCK_BASE, GTMachines.SUPER_TANK[LV].asStack(), TECH_OPERATOR_COIN, 32));
 
         {
-            ItemStack stack = RegistriesUtils.getItemStack("gtceu:damascus_steel_mining_hammer", 1,
+            ItemStack stack = itemStackAddNbtString(Objects.requireNonNull(GTMaterialItems.TOOL_ITEMS.get(DamascusSteel, GTToolType.MINING_HAMMER)).asStack(),
                     "{DisallowContainerItem:0b,Enchantments:[{id:\"minecraft:unbreaking\",lvl:3s}],GT.Behaviours:{AoEColumn:1,AoELayer:0,AoERow:1},GT.Tool:{Damage:0},HideFlags:2}");
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
                     simpleItemTrading(true, UNLOCK_BASE, stack, TECH_OPERATOR_COIN, 48));

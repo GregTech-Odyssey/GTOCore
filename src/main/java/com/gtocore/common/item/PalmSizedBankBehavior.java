@@ -40,7 +40,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static com.gtocore.common.item.GrayMembershipCardItem.createWithUuidAndSharedList;
+import static com.gtocore.common.item.GregMembershipCardItem.createWithUuidAndSharedList;
 import static com.gtocore.data.transaction.data.TradeLang.*;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.*;
 

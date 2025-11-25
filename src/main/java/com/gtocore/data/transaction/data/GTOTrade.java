@@ -88,7 +88,7 @@ public class GTOTrade {
                 " A ",
                 "ABA",
                 " A ",
-                'A', new MaterialEntry(GTOTagPrefix.COIN, GTMaterials.Copper), 'B', GTOItems.GRAY_MEMBERSHIP_CARD.asStack());
+                'A', new MaterialEntry(GTOTagPrefix.COIN, GTMaterials.Copper), 'B', GTOItems.GREG_MEMBERSHIP_CARD.asStack());
     }
 
     /**

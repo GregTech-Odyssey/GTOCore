@@ -1146,11 +1146,11 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> PALM_SIZED_BANK = item("palm_sized_bank", "泛银河系格雷科技掌上银行", ComponentItem::create)
             .toolTips(GTOItemTooltips.INSTANCE.getPalmSizedBankTooltips().getArray())
             .properties(p -> p.stacksTo(1))
-            .lang("Pan-Galactic Grey Technology Palm-Sized Bank")
+            .lang("Pan-Galactic Greg Technology Palm-Sized Bank")
             .onRegister(attach(PalmSizedBankBehavior.INSTANCE))
             .register();
 
-    public static final ItemEntry<GrayMembershipCardItem> GRAY_MEMBERSHIP_CARD = item("gray_membership_card", "格雷会员卡", GrayMembershipCardItem::new).register();
+    public static final ItemEntry<GregMembershipCardItem> GREG_MEMBERSHIP_CARD = item("greg_membership_card", "格雷会员卡", GregMembershipCardItem::new).register();
 
     public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER0 = item("pattern_buffer_upgrader", "样板总成升级器", ComponentItem::create)
             .toolTips(ComponentBuilder.create()

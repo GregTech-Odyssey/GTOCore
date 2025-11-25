@@ -61,7 +61,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.gtocore.common.item.GrayMembershipCardItem.*;
+import static com.gtocore.common.item.GregMembershipCardItem.*;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_SHOP;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_TRADE;
 import static com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup.ScrollWheelDirection.HORIZONTAL;
@@ -119,7 +119,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         super(holder);
 
         cardHandler = new CustomItemStackHandler();
-        cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GRAY_MEMBERSHIP_CARD.asItem()));
+        cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GREG_MEMBERSHIP_CARD.asItem()));
         cardHandler.setOnContentsChanged(() -> initializationInformation(cardHandler.getStackInSlot(0)));
 
         inputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.IN, IO.BOTH);
@@ -195,7 +195,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     @Override
     public Widget createUIWidget() {
-        int w = 256 + 80;
         var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
         WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
@@ -205,7 +204,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
             textList.add(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(collapseDescription ? 5 : 6), "isCollapse"), trans(7)));
             if (!collapseDescription)
-                GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationIntroduction().apply(textList);
+                GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationIntroduction().apply(textList);
         }).clickHandler((a, b) -> {
             if (a.equals("isCollapse")) {
                 collapseDescription = !collapseDescription;
@@ -668,7 +667,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     // 玩家信息初始化
     private void initializationInformation(ItemStack card) {
-        if (card.getItem() == GTOItems.GRAY_MEMBERSHIP_CARD.asItem()) {
+        if (card.getItem() == GTOItems.GREG_MEMBERSHIP_CARD.asItem()) {
             this.uuid = getSingleUuid(card);
             this.sharedUUIDs = getSharedUuids(card);
             if (uuid != null) {
@@ -714,14 +713,14 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
         @Override
         public Widget createMainPage(FancyMachineUIWidget widget) {
-            var group = new WidgetGroup(0, 0, machine.width + 8, machine.height + 8);
-            WidgetGroup mainGroup = new WidgetGroup(4, 4, machine.width, machine.height);
+            var group = new WidgetGroup(0, 0, width + 8, height + 8);
+            WidgetGroup mainGroup = new WidgetGroup(4, 4, width, height);
             mainGroup.setBackground(GuiTextures.DISPLAY);
 
             int tradeCount = TradingManager.INSTANCE.getTradeCount(groupIndex, shopIndex);
             int totalPage = tradeCount / 16 + (tradeCount % 16 == 0 ? 0 : 1);
 
-            WidgetGroup shopGroup = new WidgetGroup(0, 0, machine.width, machine.height);
+            WidgetGroup shopGroup = new WidgetGroup(0, 0, width, height);
             shopGroup.setLayout(Layout.VERTICAL_CENTER);
             shopGroup.setLayoutPadding(3);
 
@@ -730,7 +729,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             boolean unlockShop = WalletUtils.containsTagValueInWallet(machine.getUuid(), serverLevel, UNLOCK_SHOP, tradingShop.getUnlockCondition());
 
             shopGroup.addWidget(new LabelWidget(0, 0, Component.translatable(tradingShop.getName())));
-            WidgetGroup componentGroup = new DraggableScrollableWidgetGroup(4, 12, machine.width - 8, 10)
+            WidgetGroup componentGroup = new DraggableScrollableWidgetGroup(4, 12, width - 8, 10)
                     .setScrollWheelDirection(HORIZONTAL);
             componentGroup.addWidget(new ComponentPanelWidget(0, 0, textList -> {
                 MutableComponent component = Component.empty();

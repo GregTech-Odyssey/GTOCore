@@ -91,7 +91,7 @@ object GTOMachineTooltips {
         )
 
         highlight("专业级工业基地搭建工具" translatedTo "Professional-grade industrial base construction tool") { rainbowSlow() }
-        highlight("泛银河格雷科技销售部核心产品" translatedTo "Core product of Pan-Galaxy Gray Technology Sales Department") { rainbowSlow() }
+        highlight("泛银河格雷科技销售部核心产品" translatedTo "Core product of Pan-Galaxy Greg Technology Sales Department") { rainbowSlow() }
 
         story(
             "支持安装扩展包解锁更多行业专用蓝图。" translatedTo
@@ -170,7 +170,7 @@ object GTOMachineTooltips {
 
         story(
             "泛银河格雷科技的田野调查员在走访村庄时发现，供需对接的不畅始终困扰着双方——村民急需的工具总难以及时送达，公司筹备的绿宝石补给也常因信息差滞滞留在仓库" translatedTo
-                "Field investigators from Pan-Galaxy Gray Technology noticed during village visits that poor supply-demand coordination plagued both sides: tools urgently needed by villagers rarely arrived on time, and emerald stockpiles prepared by the company often languished in warehouses due to information gaps.",
+                "Field investigators from Pan-Galaxy Greg Technology noticed during village visits that poor supply-demand coordination plagued both sides: tools urgently needed by villagers rarely arrived on time, and emerald stockpiles prepared by the company often languished in warehouses due to information gaps.",
         )
         story(
             "研发部员工艾拉带着团队扎根村庄三月，深度调研后决定打造一款‘会沟通’的工具，让交易不再依赖繁琐的人工传递" translatedTo
@@ -182,7 +182,7 @@ object GTOMachineTooltips {
         )
         story(
             "升级后的批量交易与智能补货功能，让村民们常笑着称赞：“格雷科技的机器，比跑断腿的信使还贴心”" translatedTo
-                "With upgraded bulk trading and intelligent restocking, villagers often smiled and praised: 'Gray Tech's machine is more reliable than messengers who wear themselves out running'.",
+                "With upgraded bulk trading and intelligent restocking, villagers often smiled and praised: 'Greg Tech's machine is more reliable than messengers who wear themselves out running'.",
         )
         story(
             "如今它已成为联结公司与村庄的友好纽带，既让资源流转效率提升数倍，也让双方的信任在顺畅交易中日益深厚" translatedTo
@@ -197,7 +197,7 @@ object GTOMachineTooltips {
         section("交易站系统自动协调补货，通过增强模块可优化补货间隔与交易倍数" translatedTo "Trading station system auto-coordinates restocks; enhancement modules optimize restock intervals and trade multiples")
 
         highlight("政企村协同发展的核心装备" translatedTo "Core equipment for enterprise-village collaborative development") { rainbowSlow() }
-        highlight("泛银河格雷科技研发部匠心研发" translatedTo "Crafted with precision by Pan-Galaxy Gray Technology R&D") { rainbowSlow() }
+        highlight("泛银河格雷科技研发部匠心研发" translatedTo "Crafted with precision by Pan-Galaxy Greg Technology R&D") { rainbowSlow() }
 
         guide("详细操作说明请查阅机器内置手册" translatedTo "For detailed instructions, refer to the in-machine manual")
     }
@@ -305,8 +305,8 @@ object GTOMachineTooltips {
     }
 
     // 泛银河系格雷科技贸易终端 - 物品描述
-    val PanGalaxyGrayTechTradingStationTooltips = ComponentListSupplier {
-        setTranslationPrefix("pan_galaxy_gray_tech_trading_station")
+    val PanGalaxyGregTechTradingStationTooltips = ComponentListSupplier {
+        setTranslationPrefix("pan_galaxy_greg_tech_trading_station")
 
         story(
             "当你的贸易从零星兑换发展到批量流通，那些分散的箱子、繁琐的手动操作和混乱的权限管理，都成了效率的绊脚石。你需要一个真正的枢纽，来掌控你的星际商业帝国。" translatedTo
@@ -314,7 +314,7 @@ object GTOMachineTooltips {
         )
         story(
             "格雷科技贸易站，就是这个帝国的核心。它不仅是一个商店，更是一个集存储、交易和团队协作为一体的模块化贸易中心。插入你的格雷会员卡即可绑定身份，支持团队共享权限。随着你的科技等级提升，它的存储容量和功能也会不断进化，无缝适配你从个人作坊到星际财团的成长之路。" translatedTo
-                "The Gray Technology Trading Station is the core of this empire. It's more than just a shop; it's a modular trading center integrating storage, transactions, and team collaboration. Simply insert your Gray Membership Card to bind your identity and support team-shared permissions. As your tech tier increases, its storage capacity and functions will evolve, seamlessly adapting to your growth from a personal workshop to an interstellar consortium.",
+                "The Greg Technology Trading Station is the core of this empire. It's more than just a shop; it's a modular trading center integrating storage, transactions, and team collaboration. Simply insert your Greg Membership Card to bind your identity and support team-shared permissions. As your tech tier increases, its storage capacity and functions will evolve, seamlessly adapting to your growth from a personal workshop to an interstellar consortium.",
         )
         story(
             "想象一下，一个整洁有序的贸易界面：左侧是你的身份凭证，中间是分门别类的商品目录（如资源兑换、装备合成、特殊道具），右侧则是具体的交易选项。每一项高级贸易都需要你达成一定的条件才能解锁，这种层层递进的探索感，让每一次新交易的开启都充满了成就感。" translatedTo
@@ -325,9 +325,9 @@ object GTOMachineTooltips {
                 "Even more powerful, as the trading station tiers up, you'll unlock four core privileges: trade directly with other players, set up automatic transaction cycles, access a daily-refreshed Lucky Merchant, and even directly interface with your ME Network for fully automated resource access. Free yourself from tedious manual labor and focus on your grander business blueprint.",
         )
 
-        miraculousTools("泛银河系格雷科技贸易站" translatedTo "Pan-Galaxy Gray Technology Trading Station")
+        miraculousTools("泛银河系格雷科技贸易站" translatedTo "Pan-Galaxy Greg Technology Trading Station")
 
-        section("插入格雷会员卡，即可激活并绑定你的专属贸易枢纽" translatedTo "Insert a Gray Membership Card to activate and bind your exclusive trading hub")
+        section("插入格雷会员卡，即可激活并绑定你的专属贸易枢纽" translatedTo "Insert a Greg Membership Card to activate and bind your exclusive trading hub")
         section("物品与流体双存储系统，容量随等级提升而指数级增长" translatedTo "Dual storage system for items and fluids, with capacity growing exponentially with tier")
         section("多级贸易目录，完成挑战即可解锁更高级、更稀有的交易配方" translatedTo "Multi-level trade catalogs; complete challenges to unlock more advanced and rare trade recipes")
         section("四大等级特权：玩家交易、自动交易、幸运商店、ME网络对接" translatedTo "Four tiered privileges: Player Trading, Auto-Trading, Lucky Merchant, ME Network Integration")
@@ -341,15 +341,15 @@ object GTOMachineTooltips {
     }
 
     // 泛银河系格雷科技贸易终端 - 详细介绍
-    val PanGalaxyGrayTechTradingStationIntroduction = ComponentListSupplier {
-        setTranslationPrefix("pan_galaxy_gray_tech_trading_station.introduction")
+    val PanGalaxyGregTechTradingStationIntroduction = ComponentListSupplier {
+        setTranslationPrefix("pan_galaxy_greg_tech_trading_station.introduction")
 
         highlight("打造你的专属星际贸易枢纽，自动化、规模化、团队化的终极交易平台！" translatedTo "Build Your Exclusive Interstellar Trading Hub – The Ultimate Platform for Automated, Large-Scale, Team-Based Transactions!") { rainbowSlow() }
 
         section("核心功能" translatedTo "Core Features")
         content(
             "1. 身份与权限管理：你的格雷会员卡是进入这个贸易中心的唯一钥匙。它不仅代表了你的身份，还能设置共享权限，让你的团队成员也能在这个枢纽上协同工作，共同发展。没有会员卡？对不起，你只能看看而已。" translatedTo
-                "1. Identity & Permission Management: Your Gray Membership Card is the only key to this trading center. It not only represents your identity but also allows you to set shared permissions, enabling your team members to collaborate and grow together on this hub. No card? Sorry, you're just window-shopping.",
+                "1. Identity & Permission Management: Your Greg Membership Card is the only key to this trading center. It not only represents your identity but also allows you to set shared permissions, enabling your team members to collaborate and grow together on this hub. No card? Sorry, you're just window-shopping.",
         )
         content(
             "2. 海量存储能力： forget about 小箱子。贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
@@ -389,7 +389,7 @@ object GTOMachineTooltips {
         section("快速上手指南" translatedTo "Quick Start Guide")
         content(
             "第一步：找个好地方放下你的贸易站，然后右键点击打开界面。将你的格雷会员卡放入左侧的卡槽中，贸易站即刻激活，并加载你的个人数据和基础贸易目录。" translatedTo
-                "Step 1: Find a good spot to place your Trading Station, then right-click to open its interface. Insert your Gray Membership Card into the left card slot. The station will activate immediately, loading your personal data and basic trade catalogs.",
+                "Step 1: Find a good spot to place your Trading Station, then right-click to open its interface. Insert your Greg Membership Card into the left card slot. The station will activate immediately, loading your personal data and basic trade catalogs.",
         )
         content(
             "第二步：切换到“库存”标签页，将你想要交易的原料（比如一堆矿石或一桶流体）放入左侧的“输入”槽中。放心，产出的成品会自动进入右侧的“输出”槽，无需手动分配。" translatedTo
@@ -450,10 +450,10 @@ object GTOMachineTooltips {
 
         guide(
             "总结：格雷科技贸易站不仅仅是一个商店，它是你星际贸易帝国的指挥中心和自动化心脏。从一个小小的交易平台开始，通过不断升级和解锁，它将成长为一个功能强大、效率惊人的贸易枢纽，助你在宇宙中积累财富，建立商业霸权！" translatedTo
-                "Summary: The Gray Technology Trading Station is more than just a shop; it's the command center and automated heart of your interstellar trade empire. Starting as a small trading platform, through continuous upgrading and unlocking, it will grow into a powerful, highly efficient trading hub, helping you amass wealth and establish commercial supremacy in the universe!",
+                "Summary: The Greg Technology Trading Station is more than just a shop; it's the command center and automated heart of your interstellar trade empire. Starting as a small trading platform, through continuous upgrading and unlocking, it will grow into a powerful, highly efficient trading hub, helping you amass wealth and establish commercial supremacy in the universe!",
         )
 
-        highlight("效率、规模、自动化 —— 格雷科技贸易站，重新定义星际贸易！" translatedTo "Efficiency, Scale, Automation – Gray Technology Trading Station, Redefining Interstellar Trade!") { rainbowSlow() }
+        highlight("效率、规模、自动化 —— 格雷科技贸易站，重新定义星际贸易！" translatedTo "Efficiency, Scale, Automation – Greg Technology Trading Station, Redefining Interstellar Trade!") { rainbowSlow() }
         highlight("准备好，让你的贸易帝国腾飞吧！" translatedTo "Get ready to let your trade empire soar!") { rainbowSlow() }
     }
 
