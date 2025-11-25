@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
-import com.gregtechceu.gtceu.utils.GTUtil
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
@@ -41,6 +40,7 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
+import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 import java.util.*
 
@@ -135,8 +135,8 @@ interface WirelessMachine :
 
     @DataGeneratorScanned
     companion object {
-        @RegisterLanguage(cn = "网络节点选择", en = "Grid Node Selector")
-        const val gridNodeSelector = "gtocore.integration.ae.WirelessMachine.gridNodeSelector"
+        @RegisterLanguage(cn = "网络节点设置", en = "Grid Node Settings")
+        const val gridNodeSelector = "gtocore.integration.ae.WirelessMachine.gridNodeSettings"
 
         @RegisterLanguage(cn = "网络节点列表", en = "Grid Node List")
         const val gridNodeList = "gtocore.integration.ae.WirelessMachine.gridNodeList"
@@ -290,9 +290,15 @@ interface WirelessMachine :
     }
 
     fun getSetupFancyUIProvider(): IFancyUIProvider = object : IFancyUIProvider {
-        override fun getTabIcon(): IGuiTexture? = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
+        override fun getTabIcon(): IGuiTexture = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
 
         override fun getTitle(): Component? = Component.translatable(gridNodeSelector)
+
+        override fun getTabTooltips(): MutableList<Component?> {
+            val tooltip: MutableList<Component?> = ObjectArrayList<Component?>()
+            tooltip.add(Component.translatable(gridNodeSelector))
+            return tooltip
+        }
 
         override fun createMainPage(p0: FancyMachineUIWidget?) = rootFresh(176, 166) {
             if (GTOConfig.INSTANCE.aeLog) println(1)

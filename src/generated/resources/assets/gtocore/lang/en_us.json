@@ -2490,7 +2490,7 @@
   "gtocore.integration.ae.WirelessMachine.findMachine": "Find Machine, machine will be highlighted",
   "gtocore.integration.ae.WirelessMachine.globalWirelessGrid": "Global available wireless grids: %s / %s",
   "gtocore.integration.ae.WirelessMachine.gridNodeList": "Grid Node List",
-  "gtocore.integration.ae.WirelessMachine.gridNodeSelector": "Grid Node Selector",
+  "gtocore.integration.ae.WirelessMachine.gridNodeSettings": "Grid Node Settings",
   "gtocore.integration.ae.WirelessMachine.leave": "Leave Wireless Grid",
   "gtocore.integration.ae.WirelessMachine.player": "Bind to player: %s",
   "gtocore.integration.ae.WirelessMachine.removeGrid": "Remove",

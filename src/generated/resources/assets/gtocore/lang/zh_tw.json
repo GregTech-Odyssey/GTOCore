@@ -2490,7 +2490,7 @@
   "gtocore.integration.ae.WirelessMachine.findMachine": "查找機器，機器將會高亮",
   "gtocore.integration.ae.WirelessMachine.globalWirelessGrid": "全球可用無線網絡 : %s / %s",
   "gtocore.integration.ae.WirelessMachine.gridNodeList": "網絡節點列錶",
-  "gtocore.integration.ae.WirelessMachine.gridNodeSelector": "網絡節點選擇",
+  "gtocore.integration.ae.WirelessMachine.gridNodeSettings": "網絡節點設置",
   "gtocore.integration.ae.WirelessMachine.leave": "斷開無線網絡",
   "gtocore.integration.ae.WirelessMachine.player": "綁定到玩家 : %s",
   "gtocore.integration.ae.WirelessMachine.removeGrid": "刪除",
