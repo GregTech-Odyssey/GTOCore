@@ -9,11 +9,11 @@ import com.gtolib.api.lang.CNENS;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.ImmutableMap;
 import vectorwing.farmersdelight.common.registry.ModItems;
 

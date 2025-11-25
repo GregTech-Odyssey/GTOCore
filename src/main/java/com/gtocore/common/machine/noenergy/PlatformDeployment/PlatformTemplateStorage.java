@@ -6,7 +6,8 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.lang.CNEN;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.ArrayList;
 import java.util.List;

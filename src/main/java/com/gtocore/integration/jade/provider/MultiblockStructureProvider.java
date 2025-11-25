@@ -1,7 +1,6 @@
 package com.gtocore.integration.jade.provider;
 
 import com.gtocore.client.ClientCache;
-import com.gtocore.common.item.StructureDetectBehavior;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
@@ -120,22 +119,17 @@ public final class MultiblockStructureProvider implements IBlockComponentProvide
 
     private static Tag toTag(PatternError error, LongSet set) {
         var infos = new ListTag();
-        for (var err : StructureDetectBehavior.analysis(error)) {
-            infos.add(StringTag.valueOf(Component.Serializer.toJson(err)));
+        infos.add(StringTag.valueOf(Component.Serializer.toJson(error.getErrorInfo())));
+        var tag = new CompoundTag();
+        var pos = error.getPos();
+        if (pos != null) {
+            long posLong = pos.asLong();
+            if (set.contains(posLong)) return null;
+            tag.putLong("pos", posLong);
+            set.add(posLong);
         }
-        if (!infos.isEmpty()) {
-            var tag = new CompoundTag();
-            var pos = error.getPos();
-            if (pos != null) {
-                long posLong = pos.asLong();
-                if (set.contains(posLong)) return null;
-                tag.putLong("pos", posLong);
-                set.add(posLong);
-            }
-            tag.put("info", infos);
-            return tag;
-        }
-        return null;
+        tag.put("info", infos);
+        return tag;
     }
 
     @Override

@@ -31,7 +31,6 @@ import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -41,6 +40,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 
+import com.fast.fastcollection.OpenCacheHashSet;
 import com.hepdd.gtmthings.utils.FormatUtil;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -246,7 +246,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         int rotorSpeed = getRotorSpeed();
         if (rotorSpeed < 0) return null;
         int maxSpeed = rotorHolder.getMaxRotorHolderSpeed();
-        long turbineMaxVoltage = (long) (getVoltage() * Math.pow((double) Math.min(maxSpeed, rotorSpeed) / maxSpeed, 2));
+        long turbineMaxVoltage = Math.min(getOverclockVoltage(), (long) (getVoltage() * Math.pow((double) Math.min(maxSpeed, rotorSpeed) / maxSpeed, 2)));
         recipe = ParallelLogic.accurateContentParallel(this, recipe, turbineMaxVoltage / EUt);
         if (recipe == null) return null;
         long eut = Math.min(turbineMaxVoltage, recipe.parallels * EUt);

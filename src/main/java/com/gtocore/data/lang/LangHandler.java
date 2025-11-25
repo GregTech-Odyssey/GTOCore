@@ -31,9 +31,10 @@ import com.gtolib.utils.register.RecipeTypeRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraftforge.common.data.LanguageProvider;
+
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Arrays;
 import java.util.Map;

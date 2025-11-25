@@ -81,10 +81,6 @@ public final class PatternPreview extends WidgetGroup {
     private PatternSlotWidget[] slotWidgets;
     private SlotWidget[] candidates;
 
-    private int getIndex() {
-        return index;
-    }
-
     private PatternPreview(MultiblockInfoEmiRecipe recipe, MultiblockMachineDefinition controllerDefinition) {
         super(0, 0, 160, 160);
         this.recipe = recipe;
@@ -105,13 +101,14 @@ public final class PatternPreview extends WidgetGroup {
         if (CACHE.containsKey(controllerDefinition)) {
             patterns = CACHE.get(controllerDefinition);
         } else {
-            MultiblockDefinition.Pattern[] pattern = MultiblockDefinition.of(controllerDefinition).getPatterns();
+            MultiblockDefinition definition = MultiblockDefinition.of(controllerDefinition);
+            MultiblockDefinition.Pattern[] pattern = definition.getPatterns();
             patterns = new MBPattern[pattern.length];
             for (int i = 0; i < pattern.length; i++) {
-                patterns[i] = initializePattern(pattern[i], i);
+                patterns[i] = initializePattern(definition, pattern[i], i);
             }
             CACHE.put(controllerDefinition, patterns);
-            MultiblockDefinition.of(controllerDefinition).clear();
+            definition.clear();
         }
         addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> "P:" + index)), this::updatePatternIndex).setHoverBorderTexture(1, -1));
         addWidget(new ButtonWidget(138, 50, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> layer >= 0 ? "L:" + layer : "ALL")), this::updateLayer).setHoverBorderTexture(1, -1));
@@ -119,8 +116,8 @@ public final class PatternPreview extends WidgetGroup {
 
         sceneWidget.setAfterWorldRender((w) -> {
             if (!isPartHighlighting) return;
-            patterns[getIndex()].partsMap.forEach(
-                    (pos, predicate) -> {
+            patterns[index].partsSet.forEach(
+                    pos -> {
                         var poseStack = new PoseStack();
                         var pos0 = BlockPos.of(pos);
                         RenderSystem.disableDepthTest();
@@ -202,7 +199,7 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private void setupScene(MBPattern pattern) {
-        LongStream longStream = pattern.blockMap.keySet().longStream();
+        LongStream longStream = pattern.predicateMap.keySet().longStream();
         if (pattern.controllerBase.isFormed()) {
             LongSet set = pattern.controllerBase.getMultiblockState().getMatchContext().getOrDefault("renderMask", LongSets.EMPTY_SET);
             if (!set.isEmpty()) {
@@ -255,9 +252,9 @@ public final class PatternPreview extends WidgetGroup {
         IMultiController controllerBase = pattern.controllerBase;
         if (isFormed) {
             layer = -1;
-            loadControllerFormed(pattern.blockMap.keySet(), controllerBase, index);
+            loadControllerFormed(pattern.predicateMap.keySet(), controllerBase, index);
         } else {
-            sceneWidget.setRenderedCore(pattern.blockMap.keySet().longStream().mapToObj(BlockPos::of).toList(), null);
+            sceneWidget.setRenderedCore(pattern.predicateMap.keySet().longStream().mapToObj(BlockPos::of).toList(), null);
             controllerBase.onStructureInvalid();
         }
     }
@@ -324,10 +321,17 @@ public final class PatternPreview extends WidgetGroup {
         }
     }
 
-    private MBPattern initializePattern(MultiblockDefinition.Pattern pattern, int index) {
-        Long2ReferenceOpenHashMap<BlockInfo> blockMap = new Long2ReferenceOpenHashMap<>(pattern.blockMap().values().stream().mapToInt(LongOpenHashSet::size).sum());
-        pattern.blockMap().forEach((b, i) -> i.forEach(p -> blockMap.put(p, b)));
-        IMultiController controllerBase = blockMap.get(pattern.multiController().asLong()).getBlockEntity(pattern.multiController()) instanceof MetaMachineBlockEntity blockEntity ? blockEntity.metaMachine instanceof IMultiController controller ? controller : null : null;
+    private MBPattern initializePattern(MultiblockDefinition definition, MultiblockDefinition.Pattern pattern, int index) {
+        var patternMap = pattern.blockMap();
+        var pos = pattern.multiController();
+        if (patternMap == null) {
+            var pair = pattern.initialize(definition, index);
+            patternMap = pair.getSecond();
+            pos = pair.getFirst();
+        }
+        Long2ReferenceOpenHashMap<BlockInfo> blockMap = new Long2ReferenceOpenHashMap<>(patternMap.values().stream().mapToInt(LongOpenHashSet::size).sum());
+        patternMap.forEach((b, i) -> i.forEach(p -> blockMap.put(p, b)));
+        IMultiController controllerBase = blockMap.get(pos.asLong()).getBlockEntity(pos) instanceof MetaMachineBlockEntity blockEntity ? blockEntity.metaMachine instanceof IMultiController controller ? controller : null : null;
         for (var it = blockMap.long2ReferenceEntrySet().fastIterator(); it.hasNext();) {
             var entry = it.next();
             LEVEL.addBlock(BlockPos.of(entry.getLongKey()), entry.getValue());
@@ -402,18 +406,15 @@ public final class PatternPreview extends WidgetGroup {
         @NotNull
         private final Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap;
         @NotNull
-        private final Long2ReferenceOpenHashMap<BlockInfo> blockMap;
-        @NotNull
         private final IMultiController controllerBase;
-        private final Long2ReferenceOpenHashMap<TraceabilityPredicate> partsMap;
+        private final LongSet partsSet;
         private final int maxY;
         private final int minY;
         private final BlockPos center;
 
         private MBPattern(@NotNull Long2ReferenceOpenHashMap<BlockInfo> blockMap, @NotNull List<ItemStack> parts, @NotNull Long2ObjectOpenHashMap<TraceabilityPredicate> predicateMap, @NotNull IMultiController controllerBase) {
             this.parts = parts;
-            this.blockMap = blockMap;
-            this.partsMap = new Long2ReferenceOpenHashMap<>();
+            this.partsSet = new LongOpenHashSet();
             this.predicateMap = predicateMap;
             this.controllerBase = controllerBase;
             this.center = controllerBase.self().getPos();
@@ -426,14 +427,14 @@ public final class PatternPreview extends WidgetGroup {
                         .filter(s -> s.hasBlockEntity() &&
                                 s.getBlockEntity(BlockPos.of(entry.getLongKey())) instanceof MetaMachineBlockEntity mmbe &&
                                 mmbe.getMetaMachine() instanceof MultiblockPartMachine)
-                        .forEach(s -> partsMap.put(pos, predicate));
+                        .forEach(s -> partsSet.add(pos));
                 predicate.limited.stream()
                         .map(s -> s.blockInfo.get())
                         .filter(Objects::nonNull)
                         .filter(s -> s.hasBlockEntity() &&
                                 s.getBlockEntity(BlockPos.of(entry.getLongKey())) instanceof MetaMachineBlockEntity mmbe &&
                                 mmbe.getMetaMachine() instanceof MultiblockPartMachine)
-                        .forEach(s -> partsMap.put(pos, predicate));
+                        .forEach(s -> partsSet.add(pos));
             }
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;

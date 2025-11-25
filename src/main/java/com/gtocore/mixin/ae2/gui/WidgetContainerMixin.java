@@ -3,8 +3,6 @@ package com.gtocore.mixin.ae2.gui;
 import com.gtolib.api.ae2.gui.hooks.IStylelessCompositeWidget;
 import com.gtolib.api.ae2.gui.hooks.IWidgetsGetter;
 
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.renderer.Rect2i;
@@ -15,6 +13,7 @@ import appeng.client.Point;
 import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.ICompositeWidget;
 import appeng.client.gui.WidgetContainer;
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;

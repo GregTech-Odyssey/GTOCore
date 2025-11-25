@@ -192,6 +192,7 @@ final class Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder("advanced_catalyst_hatch")
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.IV].asItem())
+                .inputItems(GTOMachines.CATALYST_HATCH.asItem())
                 .inputItems(GTOItems.CATALYST_BASE.asItem(), 4)
                 .inputItems(GTItems.EMITTER_IV.asItem())
                 .inputItems(CustomTags.IV_CIRCUITS)

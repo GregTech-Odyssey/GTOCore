@@ -6347,7 +6347,6 @@
   "item.gtocore.strange_structure_steel_45_plate": "Strange Structure Steel 45 Plate",
   "item.gtocore.streptococcus_petri_dish": "Streptococcus Petri Dish",
   "item.gtocore.structure_detect": "Structure Detect",
-  "item.gtocore.structure_detect.error.1": "At [%s, %s, %s]:",
   "item.gtocore.structure_detect.tooltip.0": "Sneak right-click the main block to detect multiblock structure.",
   "item.gtocore.structure_detect.tooltip.1": "There may be lag when detecting large structures.",
   "item.gtocore.sulfur_vein_essence": "Sulfur Vein Essence",
