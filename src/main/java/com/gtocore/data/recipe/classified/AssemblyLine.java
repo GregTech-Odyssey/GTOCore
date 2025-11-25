@@ -4326,5 +4326,19 @@ final class AssemblyLine {
                         .CWUt(512)
                         .EUt(125829120))
                 .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("dual_uv_light")
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTMaterials.TungstenCarbide, 2)
+                .inputItems(TagPrefix.plate, GTMaterials.TungstenCarbide)
+                .inputItems(CustomTags.LuV_CIRCUITS, 3)
+                .inputItems(GTItems.VOLTAGE_COIL_LuV.asStack(2))
+                .inputItems(new ItemStack(AEBlocks.QUARTZ_GLASS.block().asItem()))
+                .inputItems(new ItemStack(AEBlocks.QUARTZ_VIBRANT_GLASS.block().asItem()))
+                .inputItems(TagPrefix.screw, GTMaterials.TungstenCarbide, 4)
+                .outputItems(GTOItems.DUAL_UV_LIGHT.asItem())
+                .inputFluids(GTMaterials.Mercury, 100)
+                .EUt(30720)
+                .duration(200)
+                .save();
     }
 }

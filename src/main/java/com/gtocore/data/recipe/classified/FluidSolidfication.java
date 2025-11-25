@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
@@ -93,6 +94,22 @@ final class FluidSolidfication {
                 .outputItems(Items.HONEY_BLOCK)
                 .EUt(30)
                 .duration(20)
+                .save();
+
+        FLUID_SOLIDFICATION_RECIPES.builder("cathode_adsorption_resin")
+                .inputItems(GTItems.SHAPE_MOLD_BLOCK.asStack())
+                .outputItems(GTOBlocks.CATHODE_ADSORPTION_RESIN.asStack())
+                .inputFluids(GTOMaterials.CathodeResin, 1000)
+                .EUt(30)
+                .duration(100)
+                .save();
+
+        FLUID_SOLIDFICATION_RECIPES.builder("anode_adsorption_resin")
+                .inputItems(GTItems.SHAPE_MOLD_BLOCK.asStack())
+                .outputItems(GTOBlocks.ANODE_ADSORPTION_RESIN.asStack())
+                .inputFluids(GTOMaterials.AnodeResin, 1000)
+                .EUt(30)
+                .duration(100)
                 .save();
 
         Map<Item, TagKey<Item>> toolToMoldMap = Map.of(

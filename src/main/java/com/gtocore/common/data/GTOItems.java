@@ -928,6 +928,12 @@ public final class GTOItems {
 
     public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
 
+    public static final ItemEntry<Item> RO_MEMBRANE = register("ro_membrane", "ro膜");
+    public static final ItemEntry<Item> NON_WOVEN_FABRIC = register("non_woven_fabric", "无纺布");
+    public static final ItemEntry<Item> ION_EXCHANGE_MEMBRANE = register("ion_exchange_membrane", "离子交换膜");
+    public static final ItemEntry<Item> HOMOGENEOUS_MEMBRANE = register("homogeneous_membrane", "均相膜");
+    public static final ItemEntry<Item> DUAL_UV_LIGHT = register("dual_uv_light", "双波段紫外灯");
+
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
                     ArmorItem.Type.CHESTPLATE, 8000, p)

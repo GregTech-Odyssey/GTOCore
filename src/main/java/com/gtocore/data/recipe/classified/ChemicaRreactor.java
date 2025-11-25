@@ -3458,13 +3458,39 @@ final class ChemicaRreactor {
                 .duration(300)
                 .save();
 
+        CHEMICAL_RECIPES.builder("divinylbenzene")
+                .inputItems(GTOTagPrefix.CATALYST, GTOMaterials.ZnFeAlClCatalyst)
+                .inputFluids(GTMaterials.Ethylbenzene, 1000)
+                .inputFluids(GTMaterials.Ethylene, 1000)
+                .outputFluids(GTOMaterials.Divinylbenzene, 2000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        CHEMICAL_RECIPES.builder("sodium_polystyrene_sulfonate")
+                .inputFluids(GTOMaterials.Polystyrene, 1000)
+                .inputFluids(GTMaterials.Dichloroethane, 1000)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .outputFluids(GTOMaterials.SodiumPolystyreneSulfonate, 3000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        CHEMICAL_RECIPES.builder("trimethy_lamine")
+                .inputFluids(GTOMaterials.Trimethylamine, 1000)
+                .inputFluids(GTMaterials.Chloromethane, 1000)
+                .outputFluids(GTOMaterials.TrimethyLamine, 1000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
         LARGE_CHEMICAL_RECIPES.builder("osmium_tetroxide_dust")
                 .inputItems(GTOTagPrefix.dust, GTMaterials.Osmium)
                 .outputItems(GTOTagPrefix.dust, GTMaterials.OsmiumTetroxide, 5)
                 .inputFluids(GTMaterials.Oxygen, 4000)
                 .circuitMeta(3)
-                .EUt(20)
-                .duration(120)
+                .EUt(240)
+                .duration(320)
                 .save();
     }
 }
