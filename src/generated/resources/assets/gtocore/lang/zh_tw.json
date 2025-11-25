@@ -6347,7 +6347,6 @@
   "item.gtocore.strange_structure_steel_45_plate": "奇怪的45鋼鋼板",
   "item.gtocore.streptococcus_petri_dish": "釀膿鏈球菌培養皿",
   "item.gtocore.structure_detect": "結構檢測工具",
-  "item.gtocore.structure_detect.error.1": "在 [%s, %s, %s]:",
   "item.gtocore.structure_detect.tooltip.0": "潛行右鍵主方塊以檢測多方塊結構",
   "item.gtocore.structure_detect.tooltip.1": "檢測大型結構時可能會有延遲",
   "item.gtocore.sulfur_vein_essence": "硫精華",
