@@ -8,8 +8,6 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.machines.structure.AnnihilateGeneratorA;
-import com.gtocore.common.data.machines.structure.AnnihilateGeneratorB;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereLaunchSiloMachine;
@@ -112,7 +110,7 @@ public final class GeneratorMultiblock {
                     .where('K', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get()))
                     .where('L', controller(blocks(definition.get())))
                     .where('I', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
-                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(OUTPUT_LASER).setExactLimit(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
@@ -208,7 +206,7 @@ public final class GeneratorMultiblock {
                     .where('N', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(4, 4)))
                     .where('n', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
-                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(MAINTENANCE).setExactLimit(1))
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(4, 4)))
                     .where('O', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
@@ -556,7 +554,7 @@ public final class GeneratorMultiblock {
                     .where('H', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('I', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('a', blocks(GTBlocks.HIGH_POWER_CASING.get())
-                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
                             .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1))
                             .or(abilities(OUTPUT_LASER).setExactLimit(1)))
@@ -594,7 +592,7 @@ public final class GeneratorMultiblock {
                     .where('F', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
                     .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Trinium)))
                     .where('a', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get())
-                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(2))
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
                             .or(abilities(OUTPUT_LASER).setMaxGlobalLimited(1)))
@@ -612,11 +610,10 @@ public final class GeneratorMultiblock {
             .recipeModifier((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
                     int p = 1;
-                    if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
-                        p = 8;
-                    }
                     if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA), 1)) {
                         p = 16;
+                    } else if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA), 1)) {
+                        p = 8;
                     }
                     return RecipeModifierFunction.generatorOverclocking(workableElectricMultiblockMachine, ParallelLogic.accurateParallel(machine, recipe, p));
                 }
@@ -634,7 +631,7 @@ public final class GeneratorMultiblock {
                     .where('G', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('H', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('a', blocks(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.get())
-                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1))
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
@@ -660,15 +657,15 @@ public final class GeneratorMultiblock {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
-                    } else if (outputEUt == V[UIV]) {
+                    } else if (outputEUt == V[UXV]) {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Enderium.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
-                    } else if (outputEUt == V[UXV]) {
+                    } else if (outputEUt == V[OpV]) {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
-                    } else if (outputEUt == V[OpV]) {
+                    } else if (outputEUt == V[MAX]) {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA), 1)) {
                             p = 16;
                         }
@@ -711,7 +708,7 @@ public final class GeneratorMultiblock {
                     .where('H', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('I', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
                     .where('a', blocks(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.get())
-                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(2))
                             .or(abilities(MAINTENANCE).setExactLimit(1))
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
@@ -740,9 +737,9 @@ public final class GeneratorMultiblock {
                     .aisle("XXX", "CCC", "XXX")
                     .aisle("XXX", "C#C", "XXX")
                     .aisle("XSX", "CCC", "XXX")
-                    .where('S', controller(blocks(definition.getBlock())))
+                    .where('S', controller(blocks(definition.get())))
                     .where('X', blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                            .or(Predicates.blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(Predicates.blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4))
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
@@ -758,116 +755,7 @@ public final class GeneratorMultiblock {
             .recipeTypes(GTORecipeTypes.ANNIHILATE_GENERATOR_RECIPES)
             .generator()
             .block(GTBlocks.HIGH_POWER_CASING)
-            .pattern(definition -> FactoryBlockPattern.start(definition)
-                    .aisle(AnnihilateGeneratorB.A_1)
-                    .aisle(AnnihilateGeneratorB.A_2)
-                    .aisle(AnnihilateGeneratorB.A_3)
-                    .aisle(AnnihilateGeneratorB.A_4)
-                    .aisle(AnnihilateGeneratorB.A_5)
-                    .aisle(AnnihilateGeneratorB.A_6)
-                    .aisle(AnnihilateGeneratorB.A_7)
-                    .aisle(AnnihilateGeneratorB.A_8)
-                    .aisle(AnnihilateGeneratorB.A_9)
-                    .aisle(AnnihilateGeneratorB.A_10)
-                    .aisle(AnnihilateGeneratorB.A_11)
-                    .aisle(AnnihilateGeneratorB.A_12)
-                    .aisle(AnnihilateGeneratorB.A_13)
-                    .aisle(AnnihilateGeneratorB.A_14)
-                    .aisle(AnnihilateGeneratorB.A_15)
-                    .aisle(AnnihilateGeneratorB.A_16)
-                    .aisle(AnnihilateGeneratorB.A_17)
-                    .aisle(AnnihilateGeneratorB.A_18)
-                    .aisle(AnnihilateGeneratorB.A_19)
-                    .aisle(AnnihilateGeneratorB.A_20)
-                    .aisle(AnnihilateGeneratorB.A_21)
-                    .aisle(AnnihilateGeneratorB.A_22)
-                    .aisle(AnnihilateGeneratorB.A_23)
-                    .aisle(AnnihilateGeneratorB.A_24)
-                    .aisle(AnnihilateGeneratorB.A_25)
-                    .aisle(AnnihilateGeneratorB.A_26)
-                    .aisle(AnnihilateGeneratorB.A_27)
-                    .aisle(AnnihilateGeneratorB.A_28)
-                    .aisle(AnnihilateGeneratorB.A_29)
-                    .aisle(AnnihilateGeneratorB.A_30)
-                    .aisle(AnnihilateGeneratorB.A_31)
-                    .aisle(AnnihilateGeneratorB.A_32)
-                    .aisle(AnnihilateGeneratorB.A_33)
-                    .aisle(AnnihilateGeneratorB.A_34)
-                    .aisle(AnnihilateGeneratorB.A_35)
-                    .aisle(AnnihilateGeneratorB.A_36)
-                    .aisle(AnnihilateGeneratorB.A_37)
-                    .aisle(AnnihilateGeneratorB.A_38)
-                    .aisle(AnnihilateGeneratorB.A_39)
-                    .aisle(AnnihilateGeneratorB.A_40)
-                    .aisle(AnnihilateGeneratorB.A_41)
-                    .aisle(AnnihilateGeneratorB.A_42)
-                    .aisle(AnnihilateGeneratorB.A_43)
-                    .aisle(AnnihilateGeneratorB.A_44)
-                    .aisle(AnnihilateGeneratorB.A_45)
-                    .aisle(AnnihilateGeneratorB.A_46)
-                    .aisle(AnnihilateGeneratorB.A_47)
-                    .aisle(AnnihilateGeneratorB.A_48)
-                    .aisle(AnnihilateGeneratorB.A_49)
-                    .aisle(AnnihilateGeneratorB.A_50)
-                    .aisle(AnnihilateGeneratorB.A_51)
-                    .aisle(AnnihilateGeneratorB.A_52)
-                    .aisle(AnnihilateGeneratorB.A_53)
-                    .aisle(AnnihilateGeneratorA.A_54)
-                    .aisle(AnnihilateGeneratorA.A_55)
-                    .aisle(AnnihilateGeneratorA.A_56)
-                    .aisle(AnnihilateGeneratorA.A_57)
-                    .aisle(AnnihilateGeneratorA.A_58)
-                    .aisle(AnnihilateGeneratorA.A_59)
-                    .aisle(AnnihilateGeneratorA.A_60)
-                    .aisle(AnnihilateGeneratorA.A_61)
-                    .aisle(AnnihilateGeneratorA.A_62)
-                    .aisle(AnnihilateGeneratorA.A_63)
-                    .aisle(AnnihilateGeneratorA.A_64)
-                    .aisle(AnnihilateGeneratorA.A_65)
-                    .aisle(AnnihilateGeneratorA.A_66)
-                    .aisle(AnnihilateGeneratorA.A_67)
-                    .aisle(AnnihilateGeneratorA.A_68)
-                    .aisle(AnnihilateGeneratorA.A_69)
-                    .aisle(AnnihilateGeneratorA.A_70)
-                    .aisle(AnnihilateGeneratorA.A_71)
-                    .aisle(AnnihilateGeneratorA.A_72)
-                    .aisle(AnnihilateGeneratorA.A_73)
-                    .aisle(AnnihilateGeneratorA.A_74)
-                    .aisle(AnnihilateGeneratorA.A_75)
-                    .aisle(AnnihilateGeneratorA.A_76)
-                    .aisle(AnnihilateGeneratorA.A_77)
-                    .aisle(AnnihilateGeneratorA.A_78)
-                    .aisle(AnnihilateGeneratorA.A_79)
-                    .aisle(AnnihilateGeneratorA.A_80)
-                    .aisle(AnnihilateGeneratorA.A_81)
-                    .aisle(AnnihilateGeneratorA.A_82)
-                    .aisle(AnnihilateGeneratorA.A_83)
-                    .aisle(AnnihilateGeneratorA.A_84)
-                    .aisle(AnnihilateGeneratorA.A_85)
-                    .aisle(AnnihilateGeneratorA.A_86)
-                    .aisle(AnnihilateGeneratorA.A_87)
-                    .aisle(AnnihilateGeneratorA.A_88)
-                    .aisle(AnnihilateGeneratorA.A_89)
-                    .aisle(AnnihilateGeneratorA.A_90)
-                    .aisle(AnnihilateGeneratorA.A_91)
-                    .aisle(AnnihilateGeneratorA.A_92)
-                    .aisle(AnnihilateGeneratorA.A_93)
-                    .aisle(AnnihilateGeneratorA.A_94)
-                    .aisle(AnnihilateGeneratorA.A_95)
-                    .aisle(AnnihilateGeneratorA.A_96)
-                    .aisle(AnnihilateGeneratorA.A_97)
-                    .aisle(AnnihilateGeneratorA.A_98)
-                    .aisle(AnnihilateGeneratorA.A_99)
-                    .aisle(AnnihilateGeneratorA.A_100)
-                    .aisle(AnnihilateGeneratorA.A_101)
-                    .aisle(AnnihilateGeneratorA.A_102)
-                    .aisle(AnnihilateGeneratorA.A_103)
-                    .aisle(AnnihilateGeneratorA.A_104)
-                    .aisle(AnnihilateGeneratorA.A_105)
-                    .aisle(AnnihilateGeneratorA.A_106)
-                    .aisle(AnnihilateGeneratorA.A_107)
-                    .aisle(AnnihilateGeneratorA.A_108)
-                    .aisle(AnnihilateGeneratorA.A_109)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(blocks(definition.get())))
                     .where('A', blocks(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.get()))
                     .where('B', blocks(GTOBlocks.ANNIHILATE_CORE.get()))
@@ -879,8 +767,8 @@ public final class GeneratorMultiblock {
                     .where('H', blocks(GTOBlocks.RHENIUM_REINFORCED_ENERGY_GLASS.get()))
                     .where('P', blocks(GTOBlocks.DYSON_CONTROL_CASING.get()))
                     .where('S', blocks(GTBlocks.HIGH_POWER_CASING.get())
-                            .or(blocks(GTMachines.CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
-                            .or(blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.getBlock()).setMaxGlobalLimited(1))
+                            .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
+                            .or(blocks(GTOMachines.WIRELESS_ENERGY_INTERFACE_HATCH.get()).setMaxGlobalLimited(1))
                             .or(abilities(OUTPUT_LASER))
                             .or(abilities(IMPORT_ITEMS))
                             .or(abilities(EXPORT_ITEMS)))

@@ -2,21 +2,16 @@ package com.gtocore.data.recipe.builder.botania;
 
 import com.gtolib.GTOCore;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.commands.CommandFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 
-import com.google.gson.JsonObject;
-import org.jetbrains.annotations.NotNull;
 import vazkii.botania.api.recipe.StateIngredient;
-import vazkii.botania.common.crafting.BotaniaRecipeTypes;
+import vazkii.botania.common.crafting.OrechidRecipe;
 import vazkii.botania.common.crafting.StateIngredientHelper;
-
-import javax.annotation.Nullable;
 
 public final class OrechidRecipeBuilder {
 
@@ -57,36 +52,6 @@ public final class OrechidRecipeBuilder {
     }
 
     public void save() {
-        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {
-                json.add("input", input.serialize());
-                json.add("output", StateIngredientHelper.of(output.defaultBlockState()).serialize());
-                json.addProperty("weight", weight);
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return id;
-            }
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return BotaniaRecipeTypes.ORECHID_SERIALIZER;
-            }
-
-            @Nullable
-            @Override
-            public JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        GTRecipes.RECIPE_MAP.put(id, new OrechidRecipe(id, input, StateIngredientHelper.of(output.defaultBlockState()), weight, CommandFunction.CacheableFunction.NONE));
     }
 }

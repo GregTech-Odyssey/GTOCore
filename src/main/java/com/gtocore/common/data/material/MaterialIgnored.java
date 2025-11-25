@@ -12,6 +12,7 @@ import com.enderio.base.common.init.EIOBlocks;
 import com.enderio.base.common.init.EIOItems;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 import earth.terrarium.adastra.common.registry.ModItems;
 import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
@@ -23,9 +24,9 @@ import static com.gregtechceu.gtceu.common.data.GTItems.CARBON_FIBERS;
 import static com.gregtechceu.gtceu.common.data.GTItems.CARBON_MESH;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.*;
-import static com.gtocore.common.data.GTOItems.KEVLAR_FIBER;
-import static com.gtocore.common.data.GTOItems.WOVEN_KEVLAR;
+import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
+import static committee.nova.mods.avaritia.init.registry.ModBlocks.blaze_cube_block;
 import static committee.nova.mods.avaritia.init.registry.ModBlocks.infinity;
 import static committee.nova.mods.avaritia.init.registry.ModItems.*;
 import static mythicbotany.register.ModBlocks.alfsteelBlock;
@@ -71,6 +72,12 @@ public final class MaterialIgnored {
         TagPrefix.gem.setIgnored(CertusQuartz, () -> AEItems.CERTUS_QUARTZ_CRYSTAL);
         TagPrefix.block.setIgnored(CertusQuartz, AEBlocks.QUARTZ_BLOCK::block);
         TagPrefix.dust.setIgnored(CertusQuartz, () -> AEItems.CERTUS_QUARTZ_DUST);
+
+        TagPrefix.gem.setIgnored(SoulCrystal, () -> DDItems.SOUL_CRYSTAL::get);
+        TagPrefix.dust.setIgnored(SoulCrystal, () -> DDItems.SOUL_DUST::get);
+
+        TagPrefix.gem.setIgnored(Resonarium, () -> DDItems.RESONARIUM::get);
+        TagPrefix.plate.setIgnored(Resonarium, () -> DDItems.RESONARIUM_PLATE::get);
 
         TagPrefix.rawOre.setIgnored(Desh, ModItems.RAW_DESH);
         TagPrefix.rawOre.setIgnored(Ostrum, ModItems.RAW_OSTRUM);
@@ -205,7 +212,7 @@ public final class MaterialIgnored {
         //
         ingot.setIgnored(BlazeCube, blaze_cube);
         // nugget.setIgnored(BlazeCube, CoreReg.blaze_cube_nugget);
-        // block.setIgnored(BlazeCube, blaze_cube_block);
+        block.setIgnored(BlazeCube, blaze_cube_block);
         // plateDense.setIgnored(BlazeCube, CoreReg.blaze_cube_dense_plate);
         // plate.setIgnored(BlazeCube, CoreReg.blaze_cube_plate);
         // plateDouble.setIgnored(BlazeCube, CoreReg.blaze_cube_double_plate);
@@ -237,6 +244,7 @@ public final class MaterialIgnored {
         TagPrefix.block.setIgnored(Neutron, committee.nova.mods.avaritia.init.registry.ModBlocks.neutron);
         TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
         TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
+        COIN.setIgnored(Neutron, () -> NEUTRON_COIN);
         // bolt.setIgnored(Neutron, CoreReg.neutron_bolt);
         // plateDense.setIgnored(Neutron, CoreReg.neutron_dense_plate);
         // plate.setIgnored(Neutron, CoreReg.neutron_plate);

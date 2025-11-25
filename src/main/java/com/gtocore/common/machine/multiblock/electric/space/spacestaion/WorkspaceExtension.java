@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space.spacestaion;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
@@ -7,10 +8,9 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -190,7 +190,7 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
                     .where('L', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
                     .where('M', blocks(GTOBlocks.SPACE_ENGINE_NOZZLE.get()))
                     .where('N', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
-                    .where('O', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(IMachineBlock[]::new)))
+                    .where('O', blocks(Stream.of(GTMachines.HULL).map(MachineDefinition::get).toArray(MetaMachineBlock[]::new)))
                     .where('p', ISpacePredicateMachine.innerBlockPredicate.get())
                     .where(' ', any())
                     .build();
@@ -198,5 +198,5 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
     }
 
     @RegisterLanguage(cn = "工作区扩展舱长度", en = "Workspace Extension Length")
-    public static final String REPEAT_LENGTH = "gtocore.machine.space_station.workspace_extension.repeat_length";
+    private static final String REPEAT_LENGTH = "gtocore.machine.space_station.workspace_extension.repeat_length";
 }

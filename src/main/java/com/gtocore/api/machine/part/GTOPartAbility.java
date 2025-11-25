@@ -7,7 +7,8 @@ import com.gtolib.api.lang.CNEN;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Map;
 
@@ -79,14 +80,14 @@ public final class GTOPartAbility extends PartAbility {
     }
 
     public static void init() {
-        PartAbility.STEAM_IMPORT_ITEMS.register(2, GTMachines.ITEM_IMPORT_BUS[0].getBlock());
-        PartAbility.STEAM_EXPORT_ITEMS.register(2, GTMachines.ITEM_EXPORT_BUS[0].getBlock());
-        STEAM_IMPORT_FLUIDS.register(2, GTOMachines.INFINITE_INTAKE_HATCH.getBlock());
+        PartAbility.STEAM_IMPORT_ITEMS.register(2, GTMachines.ITEM_IMPORT_BUS[0].get());
+        PartAbility.STEAM_EXPORT_ITEMS.register(2, GTMachines.ITEM_EXPORT_BUS[0].get());
+        STEAM_IMPORT_FLUIDS.register(2, GTOMachines.INFINITE_INTAKE_HATCH.get());
         for (var machine : GTMachines.ITEM_IMPORT_BUS) {
-            if (machine != null) ITEMS_INPUT.register(machine.getTier(), machine.getBlock());
+            if (machine != null) ITEMS_INPUT.register(machine.getTier(), machine.get());
         }
         for (var machine : GTMachines.ITEM_EXPORT_BUS) {
-            if (machine != null) ITEMS_OUTPUT.register(machine.getTier(), machine.getBlock());
+            if (machine != null) ITEMS_OUTPUT.register(machine.getTier(), machine.get());
         }
     }
 }

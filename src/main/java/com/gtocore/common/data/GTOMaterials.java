@@ -956,6 +956,8 @@ public final class GTOMaterials {
     public static Material PolyAluminiumChloride;
     public static Material FlocculationWasteSolution;
     public static Material ChromaticGlass;
+    public static Material Resonarium;
+    public static Material SoulCrystal;
 
     public static Material CosmicDust;
     public static Material FrozenVolatileIce;

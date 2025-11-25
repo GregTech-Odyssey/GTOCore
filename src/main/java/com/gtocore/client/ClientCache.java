@@ -2,9 +2,9 @@ package com.gtocore.client;
 
 import com.gtocore.config.GTOConfig;
 
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
-
 import net.minecraft.resources.ResourceLocation;
+
+import com.fast.fastcollection.OpenCacheHashSet;
 
 import java.util.Set;
 import java.util.UUID;

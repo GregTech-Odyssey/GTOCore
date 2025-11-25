@@ -89,7 +89,7 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate autoGCYMAbilities(GTRecipeType... recipeType) {
-        return Predicates.autoAbilities(recipeType, false, false, true, true, true, true).or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(8).setPreviewCount(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)).or(Predicates.blocks(ManaMachine.MANA_AMPLIFIER_HATCH.getBlock()).setMaxGlobalLimited(1));
+        return Predicates.autoAbilities(recipeType, false, false, true, true, true, true).or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(8).setPreviewCount(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)).or(Predicates.blocks(ManaMachine.MANA_AMPLIFIER_HATCH.get()).setMaxGlobalLimited(1));
     }
 
     public static TraceabilityPredicate autoAccelerateAbilities(GTRecipeType... recipeType) {
@@ -180,10 +180,10 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate wirelessEnergyUnit() {
-        return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock>(), (data, state) -> {
+        return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock.BlockData>(), (data, state) -> {
             if (state.getBlockState().getBlock() instanceof WirelessEnergyUnitBlock block) {
-                data.add(block);
-            }
+                data.add(new WirelessEnergyUnitBlock.BlockData(block, state.getPos()));
+            } else data.add(new WirelessEnergyUnitBlock.BlockData(null, state.getPos()));
             return data;
         }), "wirelessEnergyUnit", WIRELESS_ENERGY_UNIT).setPreviewCount(1);
     }

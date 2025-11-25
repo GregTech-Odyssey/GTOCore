@@ -5,6 +5,7 @@ import com.gtocore.data.recipe.generated.DyeRecipes;
 import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
+import com.gtocore.data.recipe.mod.ModularRouters;
 import com.gtocore.data.recipe.mod.Sophisticated;
 import com.gtocore.integration.Mods;
 
@@ -12,10 +13,10 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.resources.ResourceLocation;
 
+import com.fast.fastcollection.OpenCacheHashSet;
 import com.kyanite.deeperdarker.DeeperDarker;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -29,10 +30,6 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 public final class RecipeFilter {
 
     public static Predicate<ResourceLocation> JsonFilter;
-
-    public static Predicate<ResourceLocation> getFilter() {
-        return JsonFilter;
-    }
 
     public static void init() {
         MACERATOR_RECIPES.addFilter("macerate_wheat");
@@ -68,11 +65,15 @@ public final class RecipeFilter {
     private static void initModFilter(Set<String> filters) {
         filters.add("itemfilters");
         filters.add("avaritia");
+        if (GTOCore.isEasy()) return;
+        if (Mods.COMPUTERCRAFT.isLoaded()) filters.add("computercraft");
+        if (Mods.SFM.isLoaded()) filters.add("sfm");
     }
 
     private static void initIdFilter(Set<ResourceLocation> filters) {
         ImmersiveAircraft.initJsonFilter(filters);
         FunctionalStorage.initJsonFilter(filters);
+        ModularRouters.initJsonFilter(filters);
         AE2.initJsonFilter(filters);
         SpaceStationRecipes.initJsonFilter(filters);
         Sophisticated.initJsonFilter(filters);
@@ -308,6 +309,7 @@ public final class RecipeFilter {
         filters.add(DeeperDarker.rl("resonarium_chestplate_smithing"));
         filters.add(DeeperDarker.rl("resonarium_leggings_smithing"));
         filters.add(DeeperDarker.rl("resonarium_boots_smithing"));
+        filters.add(DeeperDarker.rl("resonarium_plate"));
 
         filters.add(RLUtils.mc("wooden_shovel"));
         filters.add(RLUtils.mc("wooden_pickaxe"));
@@ -341,6 +343,8 @@ public final class RecipeFilter {
         filters.add(RLUtils.mc("neutron"));
         filters.add(RLUtils.mc("diamond_lattice_block"));
         filters.add(RLUtils.mc("diamond_lattice"));
+        filters.add(RLUtils.mc("blaze_cube"));
+        filters.add(RLUtils.mc("blaze_cube_block"));
 
         // avaritia
         filters.add(RLUtils.mc("dragon_egg"));

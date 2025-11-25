@@ -98,9 +98,7 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
     }
 
     @Override
-    public boolean afterWorking(IWorkableMultiController controller) {
-        return true;
-    }
+    public void afterWorking(IWorkableMultiController controller) {}
 
     @Override
     public float getTimeMultiplier() {

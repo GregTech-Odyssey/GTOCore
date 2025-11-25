@@ -2,14 +2,13 @@ package com.gtocore.common.forge;
 
 import com.gtolib.GTOCore;
 
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

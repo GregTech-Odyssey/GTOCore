@@ -316,12 +316,12 @@ object ClientForge {
                     .filter { it.shouldShow(langCode) && !config.isConfirmed(it.contentHash) && (showHistoricalMessages || it.isRecent()) }
                     .size
                 // 延迟显示 GUI，确保客户端完全加载
-                Thread {
+                Thread.startVirtualThread {
                     Thread.sleep(1000)
                     mc.execute {
                         showMessageScreen(msg, 1, total)
                     }
-                }.start()
+                }
             }
     }
 }

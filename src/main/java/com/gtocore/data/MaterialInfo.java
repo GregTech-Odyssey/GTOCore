@@ -11,9 +11,9 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.ItemMaterialData.
 
 final class MaterialInfo {
 
-    public static void init() {
+    static void init() {
         for (int tier = 0; tier < 15; tier++) {
-            registerMaterialInfo(GTMachines.HULL[tier].getBlock(), new ItemMaterialInfo(
+            registerMaterialInfo(GTMachines.HULL[tier].get(), new ItemMaterialInfo(
                     new MaterialStack(((MaterialEntry) GTCraftingComponents.PLATE.get(tier)).material(), M << 3),
                     new MaterialStack(((MaterialEntry) GTCraftingComponents.CABLE.get(tier)).material(), M << 1)));
         }

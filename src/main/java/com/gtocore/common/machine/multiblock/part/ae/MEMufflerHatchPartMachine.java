@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gtocore.api.machine.IGTOMufflerMachine;
 import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
@@ -8,6 +7,7 @@ import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.machine.feature.IGTOMufflerMachine;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
 import com.gtolib.api.misc.AsyncTask;
 import com.gtolib.api.misc.IAsyncTaskHolder;
@@ -230,8 +230,8 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
         static {
             var mufflerMap = new HashMap<Item, Integer>();
             for (var i : GTMachines.MUFFLER_HATCH) {
-                if (i != null && i.getTier() >= GTValues.LuV) {
-                    mufflerMap.put(i.getBlock().asItem(), i.getTier());
+                if (i != null && (i.getTier() >= GTValues.LuV || GTOCore.isExpert())) {
+                    mufflerMap.put(i.asItem(), i.getTier());
                 }
             }
             MUFFLER_HATCH = Map.copyOf(mufflerMap);

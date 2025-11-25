@@ -243,5 +243,13 @@ final class Fusion {
                 .EUt(98304)
                 .fusionStartEU(600_000_000)
                 .save();
+        FUSION_RECIPES.builder("kalendrite")
+                .inputFluids(GTOMaterials.Resonarium, FluidStorageKeys.PLASMA, 36)
+                .inputFluids(GTOMaterials.Gaia, 36)
+                .outputFluids(GTOMaterials.Kalendrite, 36)
+                .EUt(1150000)
+                .duration(120)
+                .fusionStartEU(1_800_000_000)
+                .save();
     }
 }

@@ -1,0 +1,9 @@
+{
+  "animation": {
+    "frametime": 2,
+    "interpolate": false
+  },
+    "ldlib": {
+        "connection": "deeperdarker:block/soundproof_glass_ctm"
+    }
+}

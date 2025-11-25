@@ -14,7 +14,6 @@ import com.gtolib.utils.holder.LongHolder;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
@@ -45,6 +44,7 @@ import appeng.crafting.inv.ListCraftingInventory;
 import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
+import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import it.unimi.dsi.fastutil.objects.*;

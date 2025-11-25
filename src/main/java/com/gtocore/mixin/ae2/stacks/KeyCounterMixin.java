@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 @Mixin(KeyCounter.class)
-public class KeyCounterMixin implements IKeyCounter {
+public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>, IKeyCounter {
 
     @Unique
     private AEKeyMap<AEKey> gtolib$map;
@@ -35,6 +35,12 @@ public class KeyCounterMixin implements IKeyCounter {
 
     @Unique
     private boolean gtolib$fuzzyUpdate;
+
+    @Override
+    public void forEach(Consumer<? super Reference2LongMap.Entry<AEKey>> consumer) {
+        if (gtolib$map == null) return;
+        gtolib$map.reference2LongEntrySet().fastForEach(consumer);
+    }
 
     /**
      * @author .

@@ -137,6 +137,7 @@
     "gtocore:antimatter_containment_casing",
     "gtocore:quantum_glass",
     "gtocore:fermi_energy_gap_transition_glass",
+    "gtocore:plasma_field_glass",
     "gtocore:force_field_glass",
     "gtocore:spatially_transcendent_gravitational_lens_block",
     "gtocore:naquadria_charge",
@@ -358,6 +359,9 @@
     "gtocore:space_engine_nozzle",
     "gtocore:spacecraft_dynamic_protective_mechanical_casing",
     "gtocore:spacetime_structure_maintenance_casing",
+    "gtocore:the_origin_casing",
+    "gtocore:the_end_casing",
+    "gtocore:the_chaos_casing",
     "gtocore:reactor_core"
   ]
 }

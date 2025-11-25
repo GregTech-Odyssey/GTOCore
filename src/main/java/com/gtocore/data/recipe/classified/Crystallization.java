@@ -14,6 +14,7 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOItems.HIGH_PURITY_SINGLE_CRYSTAL_SILICON;
 import static com.gtocore.common.data.GTORecipeTypes.CRYSTALLIZATION_RECIPES;
+import static com.gtolib.api.machine.GTOCleanroomType.LAW_CLEANROOM;
 
 final class Crystallization {
 
@@ -168,6 +169,19 @@ final class Crystallization {
                 .EUt(131000)
                 .blastFurnaceTemp(8800)
                 .duration(15000)
+                .save();
+
+        CRYSTALLIZATION_RECIPES.builder("soul_crystal")
+                .notConsumable("apotheosis:soul_touched_sculkshelf")
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.UltraHighPuritySilicon)
+                .inputItems("deeperdarker:echo_soil")
+                .outputItems(GTOTagPrefix.gem, GTOMaterials.SoulCrystal, 4)
+                .inputFluids(GTMaterials.EchoShard, 20000)
+                .inputFluids(GTMaterials.Helium, 1000)
+                .EUt(1048576)
+                .blastFurnaceTemp(11112)
+                .duration(600)
+                .cleanroom(LAW_CLEANROOM)
                 .save();
     }
 }

@@ -1,5 +1,6 @@
 package com.gtocore.client.renderer.machine;
 
+import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.common.machine.multiblock.electric.AdvancedFusionReactorMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -81,6 +82,28 @@ public final class AdvancedFusionReactorRenderer extends WorkableCasingMachineRe
         var b = Mth.lerp(lerpFactor, blue(lastColor), 255) / 255f;
         RenderBufferHelper.renderRing(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 8, 1.2F, 10, 20, r, g, b, alpha, axis);
         poseStack.popPose();
+        boolean hasExtraRender = machine.getSubFormed().length > 3 && machine.getSubFormed()[3];
+        if (hasExtraRender) {
+            var lerpFactor2 = (machine.getOffsetTimer() % 50) / 100.0;
+            {
+                poseStack.pushPose();
+                poseStack.translate(x, y + 27 - (lerpFactor2) * 20, z);
+                RenderBufferHelper.renderRing(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 6, 1.0F, 10, 20, r, g, b, alpha, axis);
+                poseStack.popPose();
+            }
+            {
+                poseStack.pushPose();
+                poseStack.translate(x, y + 27 - (0.5 + lerpFactor2) * 20, z);
+                RenderBufferHelper.renderRing(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 6, 1.0F, 10, 20, r, g, b, alpha, axis);
+                poseStack.popPose();
+            }
+            {
+                poseStack.pushPose();
+                poseStack.translate(x, y + 7, z);
+                RenderHelper.renderCylinder(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 3.8f, 20.0F, 20, r / 2, g / 2, b / 2, alpha);
+                poseStack.popPose();
+            }
+        }
     }
 
     @Override
@@ -98,6 +121,6 @@ public final class AdvancedFusionReactorRenderer extends WorkableCasingMachineRe
     @Override
     @OnlyIn(Dist.CLIENT)
     public int getViewDistance() {
-        return 32;
+        return 96;
     }
 }

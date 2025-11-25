@@ -1,28 +1,20 @@
 package com.gtocore.data.recipe.builder.ars;
 
 import com.gtolib.GTOCore;
-import com.gtolib.utils.ItemUtils;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.hollingsworth.arsnouveau.setup.registry.RecipeRegistry;
-import org.jetbrains.annotations.NotNull;
+import com.hollingsworth.arsnouveau.common.crafting.recipes.ImbuementRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public final class ImbuementRecipeBuilder {
 
@@ -95,50 +87,6 @@ public final class ImbuementRecipeBuilder {
         if (output == null) {
             throw new IllegalStateException("No output specified for imbuement recipe");
         }
-
-        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {
-                json.addProperty("type", "ars_nouveau:imbuement");
-
-                json.add("input", input.toJson());
-
-                json.addProperty("output", ItemUtils.getIdLocation(output.getItem()).toString());
-                json.addProperty("count", output.getCount());
-
-                json.addProperty("source", source);
-
-                JsonArray pedestalArray = new JsonArray();
-                for (Ingredient ingredient : pedestalItems) {
-                    JsonObject itemObj = new JsonObject();
-                    itemObj.add("item", ingredient.toJson());
-                    pedestalArray.add(itemObj);
-                }
-                json.add("pedestalItems", pedestalArray);
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return id;
-            }
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return RecipeRegistry.IMBUEMENT_SERIALIZER.get();
-            }
-
-            @Nullable
-            @Override
-            public JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Nullable
-            @Override
-            public ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        GTRecipes.RECIPE_MAP.put(id, new ImbuementRecipe(id, input, output, source, pedestalItems));
     }
 }

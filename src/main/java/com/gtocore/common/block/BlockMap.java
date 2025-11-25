@@ -1,26 +1,31 @@
 package com.gtocore.common.block;
 
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.machines.GTAEMachines;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 
 import net.minecraft.world.level.block.Block;
 
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @DataGeneratorScanned
@@ -53,6 +58,8 @@ public final class BlockMap {
     public static final Int2ObjectMap<Supplier<?>> COMPUTER_HEAT_MAP = new Int2ObjectOpenHashMap<>();
 
     public static final Int2ObjectMap<Supplier<?>> HERMETIC_CASING = new Int2ObjectOpenHashMap<>();
+
+    public static final Reference2ObjectOpenHashMap<Block, String> BLOCK_CATEGORY_MAP = new Reference2ObjectOpenHashMap<>();
 
     public static void init() {
         GLASSMAP.put(2, GTBlocks.CASING_TEMPERED_GLASS);
@@ -119,6 +126,10 @@ public final class BlockMap {
 
     @RegisterLanguage(namePrefix = namePrefix, cn = "密封机械方块", en = "Hermetic Casing")
     public static final String hermetic_casing = "hermetic_casing";
+    @RegisterLanguage(namePrefix = namePrefix, cn = "消声仓", en = "Muffler Hatch")
+    public static final String muffler_hatch = "muffler_hatch";
+    @RegisterLanguage(namePrefix = namePrefix, cn = "转子仓", en = "Rotor Hatch")
+    public static final String rotor_hatch = "rotor_hatch";
 
     public static void build() {
         var coils = new ArrayList<>(GTCEuAPI.HEATING_COILS.entrySet());
@@ -167,28 +178,42 @@ public final class BlockMap {
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         MAP.put(computer_heat, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
 
-        WIRELESS_ENERGY_UNIT = arr(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.HV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.EV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.IV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.get());
+        WIRELESS_ENERGY_UNIT = GTOUtils.array(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.HV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.EV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.IV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.get());
         MAP.put(wireless_energy_unit, WIRELESS_ENERGY_UNIT);
 
-        ME_STORAGE_CORE = arr(GTOBlocks.T1_ME_STORAGE_CORE.get(), GTOBlocks.T2_ME_STORAGE_CORE.get(), GTOBlocks.T3_ME_STORAGE_CORE.get(), GTOBlocks.T4_ME_STORAGE_CORE.get(), GTOBlocks.T5_ME_STORAGE_CORE.get());
+        ME_STORAGE_CORE = GTOUtils.array(GTOBlocks.T1_ME_STORAGE_CORE.get(), GTOBlocks.T2_ME_STORAGE_CORE.get(), GTOBlocks.T3_ME_STORAGE_CORE.get(), GTOBlocks.T4_ME_STORAGE_CORE.get(), GTOBlocks.T5_ME_STORAGE_CORE.get());
         MAP.put(me_storage_core, ME_STORAGE_CORE);
 
-        CRAFTING_STORAGE_CORE = arr(GTOBlocks.T1_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T2_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T3_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T4_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T5_CRAFTING_STORAGE_CORE.get());
+        CRAFTING_STORAGE_CORE = GTOUtils.array(GTOBlocks.T1_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T2_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T3_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T4_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T5_CRAFTING_STORAGE_CORE.get());
         MAP.put(crafting_storage_core, CRAFTING_STORAGE_CORE);
 
-        ABS_CASING = arr(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RED_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
+        ABS_CASING = GTOUtils.array(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RED_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
         MAP.put(abs_casing, ABS_CASING);
 
         LIGHT = GTBlocks.LAMPS.values().stream().map(RegistryEntry::get).toArray(Block[]::new);
         MAP.put(light, LIGHT);
 
         AtomicInteger idx = new AtomicInteger(1);
-        Block[] hermeticCasings = arr(GTBlocks.HERMETIC_CASING_LV.get(), GTBlocks.HERMETIC_CASING_MV.get(), GTBlocks.HERMETIC_CASING_HV.get(), GTBlocks.HERMETIC_CASING_EV.get(), GTBlocks.HERMETIC_CASING_IV.get(), GTBlocks.HERMETIC_CASING_LuV.get(), GTBlocks.HERMETIC_CASING_ZPM.get(), GTBlocks.HERMETIC_CASING_UV.get(), GTBlocks.HERMETIC_CASING_UHV.get(), GTOBlocks.HERMETIC_CASING_UEV.get(), GTOBlocks.HERMETIC_CASING_UIV.get(), GTOBlocks.HERMETIC_CASING_UXV.get(), GTOBlocks.HERMETIC_CASING_OpV.get());
+        Block[] hermeticCasings = GTOUtils.array(GTBlocks.HERMETIC_CASING_LV.get(), GTBlocks.HERMETIC_CASING_MV.get(), GTBlocks.HERMETIC_CASING_HV.get(), GTBlocks.HERMETIC_CASING_EV.get(), GTBlocks.HERMETIC_CASING_IV.get(), GTBlocks.HERMETIC_CASING_LuV.get(), GTBlocks.HERMETIC_CASING_ZPM.get(), GTBlocks.HERMETIC_CASING_UV.get(), GTBlocks.HERMETIC_CASING_UHV.get(), GTOBlocks.HERMETIC_CASING_UEV.get(), GTOBlocks.HERMETIC_CASING_UIV.get(), GTOBlocks.HERMETIC_CASING_UXV.get(), GTOBlocks.HERMETIC_CASING_OpV.get());
         Stream.of(hermeticCasings).forEach(b -> HERMETIC_CASING.put(idx.getAndIncrement(), () -> b));
         MAP.put(hermetic_casing, hermeticCasings);
+
+        var tiers1 = Arrays.stream(GTMachines.MUFFLER_HATCH).filter(Objects::nonNull).distinct().sorted(Comparator.comparingInt(MachineDefinition::getTier)).map(MachineDefinition::get).collect(Collectors.toList());
+        tiers1.add(GTAEMachines.MUFFLER_HATCH_ME.get());
+        MAP.put(muffler_hatch, tiers1.toArray(new Block[0]));
+
+        tiers1 = Arrays.stream(GTMachines.ROTOR_HOLDER).filter(Objects::nonNull).distinct().sorted(Comparator.comparingInt(MachineDefinition::getTier)).map(MachineDefinition::get).collect(Collectors.toList());
+        MAP.put(rotor_hatch, tiers1.toArray(new Block[0]));
+
+        MAP.forEach((category, blocks) -> {
+            for (Block block : blocks) {
+                BLOCK_CATEGORY_MAP.put(block, category);
+            }
+        });
     }
 
-    public static Block[] arr(Block... blocks) {
-        return blocks;
+    @Nullable
+    public static String getCategory(Block block) {
+        return BLOCK_CATEGORY_MAP.get(block);
     }
 }

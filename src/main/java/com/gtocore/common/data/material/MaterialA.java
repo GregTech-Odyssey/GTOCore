@@ -255,6 +255,25 @@ public final class MaterialA {
                 .iconSet(MAGNETIC)
                 .buildAndRegister();
 
+        SoulCrystal = material("soul_crystal", "灵魂水晶")
+                .gem()
+                .dust()
+                .color(new Color(0, 35, 43).getRGB())
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(EMERALD)
+                .buildAndRegister().setFormula("?", false);
+
+        Resonarium = material("resonarium", "共振物质")
+                .gem()
+                .fluid()
+                .plasma()
+                .radioactiveHazard(15)
+                .element(GTOElements.RESONARIUM)
+                .color(new Color(76, 209, 247).getRGB())
+                .iconSet(EMERALD)
+                .flags(GENERATE_PLATE, GENERATE_ROD)
+                .buildAndRegister();
+
         Adamantium = material("adamantium", "艾德曼合金")
                 .ingot()
                 .fluid()
@@ -501,10 +520,10 @@ public final class MaterialA {
                 .plasma()
                 .blastTemp(11000, HIGHER)
                 .element(GTOElements.BLAZECUBE)
-                .color(0xff6600)
+                .color(new Color(252, 196, 76).getRGB())
                 .iconSet(METALLIC)
-                .flags(GENERATE_GEAR, GENERATE_BOLT_SCREW)
-                .cableProperties(GTValues.V[GTValues.IV], 128, 32)
+                .flags(GENERATE_GEAR, GENERATE_BOLT_SCREW, GENERATE_FINE_WIRE)
+                .cableProperties(GTValues.V[GTValues.UIV], 128, 32)
                 .buildAndRegister();
 
         Etrium = material("etrium", "埃忒恩")

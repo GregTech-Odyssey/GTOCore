@@ -166,10 +166,10 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
     }
 
     TraceabilityPredicate checkIsModule = custom(state -> check(state, MODULE),
-            () -> BlockInfo.fromBlock(SpaceMultiblock.SPACE_STATION_EXTENSION_MODULE.getBlock()),
+            () -> BlockInfo.fromBlock(SpaceMultiblock.SPACE_STATION_EXTENSION_MODULE.get()),
             null);
     TraceabilityPredicate checkIsConjunction = custom(state -> check(state, CONJUNCTION),
-            () -> BlockInfo.fromBlock(SpaceMultiblock.SPACE_STATION_DOCKING_MODULE.getBlock()),
+            () -> BlockInfo.fromBlock(SpaceMultiblock.SPACE_STATION_DOCKING_MODULE.get()),
             null);
 
     Int2ObjectOpenHashMap<Function<AbstractSpaceStation, Set<BlockPos>>> positionFunctionMap = new Int2ObjectOpenHashMap<>();

@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
@@ -397,6 +398,27 @@ final class StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
+                .save();
+
+        STELLAR_FORGE_RECIPES.builder("resonarium_plasma")
+                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
+                .inputItems(GTOTagPrefix.gemExquisite, GTOMaterials.Resonarium, 2)
+                .outputFluids(GTOMaterials.Resonarium, FluidStorageKeys.PLASMA, 1152)
+                .EUt(20971520)
+                .duration(200)
+                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .save();
+
+        STELLAR_FORGE_RECIPES.builder("blazecube_plasma")
+                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
+                .inputItems("apotheosis:gem_dust", 4)
+                .inputItems("deeperdarker:sculk_bone", 4)
+                .inputFluids(GTOMaterials.Sanguinite, 576)
+                .inputFluids(GTOMaterials.Tartarite, 576)
+                .inputFluids(GTMaterials.Blaze, 576)
+                .outputFluids(GTOMaterials.BlazeCube, FluidStorageKeys.PLASMA, 1000)
+                .EUt(31457280)
+                .duration(128)
                 .save();
     }
 }

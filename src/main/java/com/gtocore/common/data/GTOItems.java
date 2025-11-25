@@ -7,6 +7,7 @@ import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gtocore.common.cover.PowerAmplifierCover;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
+import com.gtocore.common.item.PalmSizedBankBehavior;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 import com.gtocore.data.lootTables.RewardBagLoot;
@@ -434,6 +435,8 @@ public final class GTOItems {
     public static final ItemEntry<Item>[] UNIVERSAL_CIRCUIT = registerCircuits("universal_circuit", "通用电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.AQUA));
 
     public static final ItemEntry<ComponentItem>[] MYSTERIOUS_BOOST_DRINK = registerMysteriousBoostDrink();
+
+    public static final ItemEntry<Item> NEUTRON_COIN = item("neutron_coin", "中子素币").model(NonNullBiConsumer.noop()).register();
 
     public static final ItemEntry<Item> WETWARE_SOC = registerLang("wetware_soc", "Wetware SoC", "湿件SoC");
 
@@ -1151,6 +1154,51 @@ public final class GTOItems {
             .properties(p -> p.stacksTo(1))
             .lang("Pan-Galactic Grey Technology Palm-Sized Bank")
             .onRegister(attach(PalmSizedBankBehavior.INSTANCE))
+            .register();
+
+    public static final ItemEntry<GrayMembershipCardItem> GRAY_MEMBERSHIP_CARD = item("gray_membership_card", "格雷会员卡", GrayMembershipCardItem::new).register();
+
+    public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER0 = item("pattern_buffer_upgrader", "样板总成升级器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7Shift + 右键点击以将低级样板总成升级为当前物品对应等级的样板总成。§r",
+                            "§7Shift + Right-Click to convert a lower-tier Pattern Buffer into the tier corresponding to this item.§r")
+                    .build().getArray())
+            .onRegister(attach(PatternBufferUpgraderBehavior.PatternBuffer))
+            .register();
+    public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER1 = item("ex_pattern_buffer_upgrader", "扩展样板总成升级器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7Shift + 右键点击以将低级样板总成升级为当前物品对应等级的样板总成。§r",
+                            "§7Shift + Right-Click to convert a lower-tier Pattern Buffer into the tier corresponding to this item.§r")
+                    .build().getArray())
+            .onRegister(attach(PatternBufferUpgraderBehavior.ExPatternBuffer))
+            .register();
+    public static final ItemEntry<ComponentItem> PATTERN_BUFFER_UPGRADER2 = item("ex_pattern_buffer_ultra_upgrader", "扩展样板总成ultra升级器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7Shift + 右键点击以将低级样板总成升级为当前物品对应等级的样板总成。§r",
+                            "§7Shift + Right-Click to convert a lower-tier Pattern Buffer into the tier corresponding to this item.§r")
+                    .build().getArray())
+            .onRegister(attach(PatternBufferUpgraderBehavior.UltraPatternBuffer))
+            .register();
+    public static final ItemEntry<ComponentItem> STORAGE_ACCESSOR_REPLACER0 = item("me_storage_access_hatch_replacer", "ME存储访问仓替换器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7Shift + 右键点击将存储访问仓替换为当前物品对应等级的存储访问仓。§r",
+                            "§7Shift + Right-Click to convert a Storage Access Hatch into the tier corresponding to this item.§r")
+                    .build().getArray())
+            .onRegister(attach(MEStorageHatchReplacer.Long))
+            .register();
+    public static final ItemEntry<ComponentItem> STORAGE_ACCESSOR_REPLACER1 = item("me_bigint_storage_access_hatch_replacer", "ME大整数存储访问仓替换器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7Shift + 右键点击将存储访问仓替换为当前物品对应等级的存储访问仓。§r",
+                            "§7Shift + Right-Click to convert a Storage Access Hatch into the tier corresponding to this item.§r")
+                    .build().getArray())
+            .onRegister(attach(MEStorageHatchReplacer.BigInt))
+            .register();
+    public static final ItemEntry<ComponentItem> STORAGE_ACCESSOR_REPLACER2 = item("me_io_port_storage_access_hatch_replacer", "ME IO端口存储访问仓替换器", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7Shift + 右键点击将存储访问仓替换为当前物品对应等级的存储访问仓。§r",
+                            "§7Shift + Right-Click to convert a Storage Access Hatch into the tier corresponding to this item.§r")
+                    .build().getArray())
+            .onRegister(attach(MEStorageHatchReplacer.LongIO))
             .register();
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除

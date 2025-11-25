@@ -6,9 +6,11 @@ import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
+import com.gtocore.common.item.misc.OrganType;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformTemplateStorage;
-import com.gtocore.data.bank.BankLang;
 import com.gtocore.data.recipe.research.AnalyzeData;
+import com.gtocore.data.transaction.data.GTOTrade;
+import com.gtocore.data.transaction.data.TradeLang;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider;
@@ -29,9 +31,10 @@ import com.gtolib.utils.register.RecipeTypeRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraftforge.common.data.LanguageProvider;
+
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -62,6 +65,7 @@ public final class LangHandler {
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
         GTORecipeCategories.LANG.forEach((k, v) -> addCNEN("gtceu.recipe.category." + k, v));
         GTOFluidStorageKey.initLang();
+        OrganType.getEntries().forEach(it -> { addCNEN(it.getTranslationKey(), it.getCn(), it.getKey()); });
         GTOMachineBuilder.LANG.forEach(LangHandler::addCNEN);
         MultiblockBuilder.LANG.forEach(LangHandler::addCNEN);
         Tooltips.LANG.forEach(LangHandler::addCNEN);
@@ -71,7 +75,8 @@ public final class LangHandler {
         ScanningClass.LANG.forEach(LangHandler::addCNEN);
         DynamicInitialData.LANG.forEach(LangHandler::addCNEN);
         TranslationKeyProvider.LANG.forEach(LangHandler::addCNEN);
-        BankLang.LANG.forEach(LangHandler::addCNEN);
+        GTOTrade.init();
+        TradeLang.LANG.forEach(LangHandler::addCNEN);
         for (var reasons : IdleReason.values()) {
             if (reasons.getEn() == null) continue;
             addCNEN(reasons.getKey(), reasons.getCn(), reasons.getEn());
@@ -250,6 +255,15 @@ public final class LangHandler {
 
         addCNEN("gtocore.xaero_waypoint_set", "矿脉", "Ore Vein");
 
+        addCNEN("ftbquests.task.gtocore.gtodifficulty", "GTO难度", "GTO Difficulty");
+        addCNEN("ftbquests.task.gtocore.gtodifficulty.difficulty", "难度设置（0=通用，1=简单，2=普通，3=专家）", "Difficulty Setting (0=Generic, 1=Easy, 2=Normal, 3=Expert)");
+        addCNEN("ftbquests.task.gtocore.mod", "模组加载", "Mod Loaded");
+        addCNEN("ftbquests.task.gtocore.mod.modid", "模组ID", "Mod ID");
+        addCNEN("ftbquests.task.gtocore.scheduled", "定时任务", "Scheduled Task");
+        addCNEN("ftbquests.task.gtocore.scheduled.intervalInSeconds", "时间（以秒为单位）", "Time (in seconds)");
+        addCNEN("ftbquests.task.gtocore.scheduled.isInGame", "游戏内时间（设为false则为现实时间）", "In-game time (set to false for real time)");
+        addCNEN("ftbquests.task.gtocore.scheduled.refreshInFixedTime", "以固定时间刷新（例如当时间设为180，即每个3分钟时间间隔仅判定一次完成）", "Refresh in fixed time (for example, when the time is set to 180, it is only judged once every fixed 3-minute time interval)");
+
         addCNEN("gtocore.bar.distillation.1", "产出，消耗水", "Output , Consumption water");
         addCNEN("gtocore.bar.exploration", "爆炸", "Explosion");
         addCNEN("gtocore.bar.heat", "温度", "Heat");
@@ -346,6 +360,7 @@ public final class LangHandler {
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");
         addCNEN("gtocore.adv_terminal.category.select", "选择类别", "Select Category");
+        addCNEN("gtocore.adv_terminal.setting_already_existed", "存在已有设置", "Setting Already Existed");
 
         addCNEN("gtocore.travel.mode.all", "所有目标", "All Targets");
         addCNEN("gtocore.travel.mode.one_per_chunk", "每个区块一个目标", "One Target per Chunk");
@@ -381,6 +396,8 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.recipeInfoButton.clickToEnable", "点击启用配方信息写入", "Click to start recording recipe info");
         addCNEN("gtocore.pattern.recipeInfoButton.clickToDisable", "点击禁用配方信息写入", "Click to stop recording recipe info");
         addCNEN("gtocore.pattern.recipeInfoButton.clickToClear", "点击清除已记录的配方信息", "Click to clear recorded recipe info");
+
+        addCNEN("gtocore.recipe.recycler.random_output", "随机物品", "Random Item");
     }
 
     public static void enInitialize(LanguageProvider provider) {

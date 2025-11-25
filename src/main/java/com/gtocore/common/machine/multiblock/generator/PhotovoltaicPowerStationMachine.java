@@ -87,6 +87,27 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
     }
 
     @Override
+    public boolean handleTickRecipe(@Nullable Recipe recipe) {
+        if (recipe != null) {
+            long eu = recipe.eut;
+            if (eu != 0) {
+                if (!generateEnergy(-eu, false)) {
+                    IdleReason.setIdleReason(this, IdleReason.INSUFFICIENT_OUT);
+                    return false;
+                }
+            }
+            long mana = recipe.manat;
+            if (mana != 0) {
+                if (!useMana(mana, false)) {
+                    IdleReason.setIdleReason(this, IdleReason.INSUFFICIENT_OUT);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
     public BlockPattern getPattern() {
         if (isInSpace()) {
             return patternInSpace;
@@ -232,7 +253,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 .where('B', blocks(photovoltaicBlock.get()))
                 .where('C', blocks(casing.get()))
                 .where('D', blocks(casing.get())
-                        .or(Predicates.blocks(CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                        .or(Predicates.blocks(CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                         .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
                         .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
                         .or(abilities(GTOPartAbility.OUTPUT_MANA).setMaxGlobalLimited(4))
@@ -290,7 +311,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Aluminium)))
                 .where('B', blocks(photovoltaicBlock.get()))
                 .where('C', blocks(casing.get())
-                        .or(Predicates.blocks(CONTROL_HATCH.getBlock()).setMaxGlobalLimited(1).setPreviewCount(0))
+                        .or(Predicates.blocks(CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
                         .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
                         .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
                         .or(abilities(GTOPartAbility.OUTPUT_MANA).setMaxGlobalLimited(4))

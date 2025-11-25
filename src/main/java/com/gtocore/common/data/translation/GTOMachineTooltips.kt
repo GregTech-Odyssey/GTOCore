@@ -304,6 +304,159 @@ object GTOMachineTooltips {
         highlight("智能协同，共赢高效" translatedTo "Intelligent collaboration for win-win efficiency") { rainbowSlow() }
     }
 
+    // 泛银河系格雷科技贸易终端 - 物品描述
+    val PanGalaxyGrayTechTradingStationTooltips = ComponentListSupplier {
+        setTranslationPrefix("pan_galaxy_gray_tech_trading_station")
+
+        story(
+            "当你的贸易从零星兑换发展到批量流通，那些分散的箱子、繁琐的手动操作和混乱的权限管理，都成了效率的绊脚石。你需要一个真正的枢纽，来掌控你的星际商业帝国。" translatedTo
+                "As your trade evolves from sporadic exchanges to bulk circulation, those scattered chests, tedious manual operations, and chaotic permission management all become obstacles to efficiency. You need a true hub to control your interstellar business empire.",
+        )
+        story(
+            "格雷科技贸易站，就是这个帝国的核心。它不仅是一个商店，更是一个集存储、交易和团队协作为一体的模块化贸易中心。插入你的格雷会员卡即可绑定身份，支持团队共享权限。随着你的科技等级提升，它的存储容量和功能也会不断进化，无缝适配你从个人作坊到星际财团的成长之路。" translatedTo
+                "The Gray Technology Trading Station is the core of this empire. It's more than just a shop; it's a modular trading center integrating storage, transactions, and team collaboration. Simply insert your Gray Membership Card to bind your identity and support team-shared permissions. As your tech tier increases, its storage capacity and functions will evolve, seamlessly adapting to your growth from a personal workshop to an interstellar consortium.",
+        )
+        story(
+            "想象一下，一个整洁有序的贸易界面：左侧是你的身份凭证，中间是分门别类的商品目录（如资源兑换、装备合成、特殊道具），右侧则是具体的交易选项。每一项高级贸易都需要你达成一定的条件才能解锁，这种层层递进的探索感，让每一次新交易的开启都充满了成就感。" translatedTo
+                "Imagine a clean, organized trading interface: on the left is your identity凭证, in the middle are categorized product catalogs (like Resource Exchange, Equipment Synthesis, Special Props), and on the right are the specific trade options. Each advanced trade requires you to meet certain conditions to unlock. This sense of progressive exploration makes every new trade unlock a rewarding achievement.",
+        )
+        story(
+            "更强大的是，随着贸易站等级的提升，你将解锁四大核心特权：与其他玩家直接交易、设置自动交易循环、每日刷新的幸运商店，甚至能直接对接ME网络，实现资源的全自动存取。从繁琐的手动操作中解放出来，让你专注于更宏大的商业蓝图。" translatedTo
+                "Even more powerful, as the trading station tiers up, you'll unlock four core privileges: trade directly with other players, set up automatic transaction cycles, access a daily-refreshed Lucky Merchant, and even directly interface with your ME Network for fully automated resource access. Free yourself from tedious manual labor and focus on your grander business blueprint.",
+        )
+
+        miraculousTools("泛银河系格雷科技贸易站" translatedTo "Pan-Galaxy Gray Technology Trading Station")
+
+        section("插入格雷会员卡，即可激活并绑定你的专属贸易枢纽" translatedTo "Insert a Gray Membership Card to activate and bind your exclusive trading hub")
+        section("物品与流体双存储系统，容量随等级提升而指数级增长" translatedTo "Dual storage system for items and fluids, with capacity growing exponentially with tier")
+        section("多级贸易目录，完成挑战即可解锁更高级、更稀有的交易配方" translatedTo "Multi-level trade catalogs; complete challenges to unlock more advanced and rare trade recipes")
+        section("四大等级特权：玩家交易、自动交易、幸运商店、ME网络对接" translatedTo "Four tiered privileges: Player Trading, Auto-Trading, Lucky Merchant, ME Network Integration")
+        section("可配置的自动输出功能，将交易成果自动运送到你的仓库或管网" translatedTo "Configurable auto-output feature to automatically deliver trade results to your storage or pipes")
+        section("完整的交易记录，助你分析市场，优化你的贸易策略" translatedTo "Comprehensive transaction logs to help you analyze the market and optimize your trading strategy")
+
+        highlight("你的星际贸易帝国，从这里开始" translatedTo "Your interstellar trade empire starts here") { rainbowSlow() }
+        highlight("效率、规模与协作的终极贸易解决方案" translatedTo "The ultimate trading solution for efficiency, scale, and collaboration") { rainbowSlow() }
+
+        guide("快速上手：放置贸易站 → 插入会员卡 → 存入资源 → 解锁并执行交易 → 坐享其成！" translatedTo "Quick Start: Place the Station → Insert Membership Card → Deposit Resources → Unlock & Execute Trades → Enjoy the Rewards!")
+    }
+
+    // 泛银河系格雷科技贸易终端 - 详细介绍
+    val PanGalaxyGrayTechTradingStationIntroduction = ComponentListSupplier {
+        setTranslationPrefix("pan_galaxy_gray_tech_trading_station.introduction")
+
+        highlight("打造你的专属星际贸易枢纽，自动化、规模化、团队化的终极交易平台！" translatedTo "Build Your Exclusive Interstellar Trading Hub – The Ultimate Platform for Automated, Large-Scale, Team-Based Transactions!") { rainbowSlow() }
+
+        section("核心功能" translatedTo "Core Features")
+        content(
+            "1. 身份与权限管理：你的格雷会员卡是进入这个贸易中心的唯一钥匙。它不仅代表了你的身份，还能设置共享权限，让你的团队成员也能在这个枢纽上协同工作，共同发展。没有会员卡？对不起，你只能看看而已。" translatedTo
+                "1. Identity & Permission Management: Your Gray Membership Card is the only key to this trading center. It not only represents your identity but also allows you to set shared permissions, enabling your team members to collaborate and grow together on this hub. No card? Sorry, you're just window-shopping.",
+        )
+        content(
+            "2. 海量存储能力： forget about 小箱子。贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
+                "2. Massive Storage Capacity: Forget about small chests. The Trading Station offers vast storage slots for both items and fluids. The number of item slots and the capacity of fluid tanks increase significantly as you upgrade the station, allowing you to easily handle large-scale raw material storage and finished product output.",
+        )
+        content(
+            "3. 丰富的交易与解锁：贸易站内置了庞大的交易网络。你需要通过完成特定的交易或提升贸易站等级来解锁新的、更有价值的交易选项。这就像一个不断成长的科技树，每一次解锁都意味着你的贸易能力得到了质的飞跃。执行交易也非常简单，点击即可，还支持Ctrl/Shift快捷键进行批量操作。" translatedTo
+                "3. Rich Trading & Unlocks: The station comes with a vast built-in trading network. You'll need to unlock new, more valuable trade options by completing specific transactions or upgrading the station. It's like a growing tech tree; each unlock represents a qualitative leap in your trading capabilities. Executing trades is simple – just click – and you can use Ctrl/Shift shortcuts for bulk operations.",
+        )
+        content(
+            "4. 直观的商店分类：所有交易都被精心分类到不同的商店组中，例如“基础资源”、“进阶制造”或“特殊道具”。你可以在主界面上轻松切换这些分类，快速找到你想要的交易，让你的贸易流程井然有序。" translatedTo
+                "4. Intuitive Shop Categories: All trades are neatly organized into different shop groups, such as \"Basic Resources\", \"Advanced Manufacturing\", or \"Special Items\". You can easily switch between these categories on the main interface to quickly find the trade you want, keeping your trading process streamlined.",
+        )
+        content(
+            "5. 自动化输出升级：当贸易站达到一定等级，你就可以解锁自动输出功能。设定好输出方向后，贸易站会自动将交易产生的成品通过管道或输送机运送到你指定的位置，实现从“买入原料”到“产出成品入库”的全流程自动化。" translatedTo
+                "5. Automated Output Upgrade: Once the trading station reaches a certain tier, you can unlock the Auto-Output feature. After setting the output direction, the station will automatically transport finished products from trades to your designated location via pipes or conveyors, achieving full-process automation from \"buying raw materials\" to \"finished products warehousing\".",
+        )
+
+        section("界面导览" translatedTo "Interface Tour")
+        content(
+            "1. 主控制面板：这里是你的指挥中心。左侧显示你的会员信息、共享权限列表，并有一个刷新按钮。右侧是商店组的快捷切换区，点击图标即可瞬间切换到不同的商品目录。" translatedTo
+                "1. Main Control Panel: This is your command center. The left side displays your membership info, shared permissions list, and a refresh button. The right side is a quick-switch area for shop groups; click an icon to instantly change to a different product catalog.",
+        )
+        content(
+            "2. 库存管理：在这里，你可以看到所有的物品和流体存储。左侧是物品槽（输入在左，输出在右），右侧是流体槽。你可以直接拖拽物品进行存取，非常直观。随着等级提升，这里的格子会越来越多。" translatedTo
+                "2. Inventory Management: Here, you can see all your item and fluid storage. The left side is for item slots (input on the left, output on the right), and the right side is for fluid tanks. You can directly drag and drop items to deposit or withdraw them, which is very intuitive. As you tier up, more slots will become available here.",
+        )
+        content(
+            "3. 交易解锁：想知道如何开启更高级的交易吗？来这里看看。左侧显示当前贸易站等级和可解锁的贸易组，右侧则详细列出了每个贸易组的解锁条件和所需资源。满足条件后，新的贸易就会自动为你开启。" translatedTo
+                "3. Trade Unlocks: Want to know how to unlock more advanced trades? Check here. The left side shows your current station tier and available trade groups to unlock. The right side details the unlock conditions and required resources for each group. Once met, new trades will automatically become available to you.",
+        )
+        content(
+            "4. 商店货架：这是你进行交易的地方。每个商店组都有多个货架标签，每个标签下陈列着16种交易商品。将鼠标悬停在商品图标上，可以查看详细的交易说明和解锁状态。找到你想要的，点击即可完成交易。" translatedTo
+                "4. Shop Shelves: This is where you perform trades. Each shop group has multiple shelf tabs, and each tab displays 16 tradeable goods. Hover your mouse over an item icon to see detailed trade descriptions and unlock status. Find what you want, click, and the trade is done.",
+        )
+
+        section("快速上手指南" translatedTo "Quick Start Guide")
+        content(
+            "第一步：找个好地方放下你的贸易站，然后右键点击打开界面。将你的格雷会员卡放入左侧的卡槽中，贸易站即刻激活，并加载你的个人数据和基础贸易目录。" translatedTo
+                "Step 1: Find a good spot to place your Trading Station, then right-click to open its interface. Insert your Gray Membership Card into the left card slot. The station will activate immediately, loading your personal data and basic trade catalogs.",
+        )
+        content(
+            "第二步：切换到“库存”标签页，将你想要交易的原料（比如一堆矿石或一桶流体）放入左侧的“输入”槽中。放心，产出的成品会自动进入右侧的“输出”槽，无需手动分配。" translatedTo
+                "Step 2: Switch to the \"Inventory\" tab. Place the raw materials you want to trade (like a stack of ore or a bucket of fluid) into the left \"Input\" slots. Don't worry, the finished products will automatically go into the right \"Output\" slots; no manual sorting needed.",
+        )
+        content(
+            "第三步：去“交易解锁”标签页看看有什么新东西可以解锁。如果你满足了某个贸易组的解锁条件（比如 station 等级够了，或者完成了前置交易），它就会自动解锁。" translatedTo
+                "Step 3: Head to the \"Trade Unlocks\" tab to see what new things you can unlock. If you meet the conditions for a trade group (like having a high enough station tier or completing prerequisite trades), it will unlock automatically.",
+        )
+        content(
+            "第四步：在主面板切换到你刚解锁的商店组，浏览货架，找到你想执行的交易。确认输入槽里的原料充足后，点击交易图标即可。如果想批量处理，记得使用Ctrl或Shift快捷键。" translatedTo
+                "Step 4: Switch to the newly unlocked shop group on the main panel, browse the shelves, and find the trade you want to execute. After confirming you have enough raw materials in the input slots, click the trade icon. Remember to use Ctrl or Shift for bulk transactions.",
+        )
+        content(
+            "第五步：当你的贸易站等级足够高时，别忘了设置“自动输出”。在方向配置界面设定好输出管道的方向，开启自动输出后，你的成品就会源源不断地自动运送到你的仓库里，实现真正的无人值守贸易。" translatedTo
+                "Step 5: When your trading station is tier high enough, don't forget to set up \"Auto-Output\". Configure the output direction for your pipes in the direction settings interface. Once auto-output is enabled, your finished products will be continuously and automatically delivered to your warehouse, achieving true unattended trading.",
+        )
+
+        section("等级特权一览" translatedTo "Tier Privileges Overview")
+        content(
+            "tier=1：基础功能激活！拥有32个物品槽和2个流体槽，可进行基础资源的兑换。" translatedTo
+                "tier=1: Basic functions activated! 32 item slots and 2 fluid tanks, allowing basic resource exchange.",
+        )
+        content(
+            "tier>1：解锁玩家交易！现在你可以与其他同样拥有贸易站的玩家进行点对点的直接交易。" translatedTo
+                "tier>1: Player Trading unlocked! Now you can trade directly with other players who also own a Trading Station.",
+        )
+        content(
+            "tier>3：解锁自动交易！设置好交易规则，贸易站会自动为你循环执行，告别手动点击。" translatedTo
+                "tier>3: Auto-Trading unlocked! Set up trade rules, and the station will execute them in a loop automatically. Say goodbye to manual clicking.",
+        )
+        content(
+            "tier>5：幸运商店开张！每天都会随机刷新出3个高价值的稀有交易，机不可失！" translatedTo
+                "tier>5: Lucky Merchant opens! Every day, 3 high-value rare trades will be randomly refreshed. Don't miss out!",
+        )
+        content(
+            "tier>7：ME网络一体化！贸易站可以直接连接你的ME网络，自动存取资源，实现全自动化生产链的完美闭环。" translatedTo
+                "tier>7: ME Network Integration! The station can directly connect to your ME Network, automatically accessing resources to achieve the perfect closed loop of a fully automated production chain.",
+        )
+
+        section("温馨提示" translatedTo "Helpful Tips")
+        content(
+            "1. 会员卡是你的命脉！请务必妥善保管。建议提前设置好共享权限，以防万一卡片丢失，你的伙伴还能帮你管理。" translatedTo
+                "1. Your Membership Card is your lifeline! Please keep it safe. It's advisable to set up shared permissions in advance, so in case the card is lost, your teammates can still help you manage the station.",
+        )
+        content(
+            "2. 注意容量限制！在进行大规模批量交易前，确保你的输出槽有足够的空间容纳成品，以免因空间不足导致交易失败。" translatedTo
+                "2. Watch your capacity limits! Before performing large-scale bulk transactions, ensure your output slots have enough space for the finished products to avoid transaction failure due to insufficient space.",
+        )
+        content(
+            "3. 自动输出需要配合！确保你设置的输出方向上有管道或其他可接收的设备（如箱子、ME接口），否则物品会无法送出。" translatedTo
+                "3. Auto-Output needs cooperation! Ensure there are pipes or other receivable devices (like chests, ME Interfaces) in the direction you've set; otherwise, items won't be able to be sent out.",
+        )
+        content(
+            "4. 幸运商店每日刷新！记得每天都来看看，也许能淘到平时买不到的稀有宝贝。高等级的贸易站刷新的商品会更好哦！" translatedTo
+                "4. Lucky Merchant refreshes daily! Remember to check back every day; you might find rare treasures that are not normally available. Higher-tier stations offer even better items!",
+        )
+
+        guide(
+            "总结：格雷科技贸易站不仅仅是一个商店，它是你星际贸易帝国的指挥中心和自动化心脏。从一个小小的交易平台开始，通过不断升级和解锁，它将成长为一个功能强大、效率惊人的贸易枢纽，助你在宇宙中积累财富，建立商业霸权！" translatedTo
+                "Summary: The Gray Technology Trading Station is more than just a shop; it's the command center and automated heart of your interstellar trade empire. Starting as a small trading platform, through continuous upgrading and unlocking, it will grow into a powerful, highly efficient trading hub, helping you amass wealth and establish commercial supremacy in the universe!",
+        )
+
+        highlight("效率、规模、自动化 —— 格雷科技贸易站，重新定义星际贸易！" translatedTo "Efficiency, Scale, Automation – Gray Technology Trading Station, Redefining Interstellar Trade!") { rainbowSlow() }
+        highlight("准备好，让你的贸易帝国腾飞吧！" translatedTo "Get ready to let your trade empire soar!") { rainbowSlow() }
+    }
+
     // 魔力增幅仓
     val ManaAmplifierHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_amplifier_hatch")
@@ -1305,17 +1458,18 @@ object GTOMachineTooltips {
         highlight("利用维度技术和坚不可摧的钻头无情的抽取星球的每一分血液" translatedTo "Using dimensional technology and indestructible drills, they relentlessly extract every drop of blood from the planet.")
 
         section("启动与温控" translatedTo "Startup & Thermal Control")
-        command("需要升温启动，可通入液态烈焰" translatedTo "Requires heating to start, input Liquid Blaze to warm up")
+        command("需要升温启动，可通入液态烈焰或液态炽骨立方" translatedTo "Requires heating to start, input Liquid Blaze or Liquid Blaze Cubes")
+        info("升温材料消耗公式(单位：mB): 温度^1.3" translatedTo "Heating material consumption formula(unit: mB): Temperature^1.3")
+        info("升温速度：(每5tick) 液态烈焰：1K / 每次输入，液态炽骨立方：1000K / 每次输入" translatedTo "Heating speed: (every 5 ticks) Liquid Blaze: 1K / per input, Liquid Blaze Cubes: 1000K / per input")
         increase("随着温度提升，效率也会提升" translatedTo "Higher temperature will give higher efficiency")
         error("当温度超过临界值，钻头将会融毁" translatedTo "If the machine overheats, drill head will melt")
         info("产热公式: 温度 / 2000" translatedTo "Heat generation formula: Temperature / 2000")
-        info("液态烈焰消耗公式: 温度^1.3" translatedTo "Liquid Blaze consumption formula: Temperature^1.3")
 
         section("冷却系统" translatedTo "Cooling System")
-        command("冷却固定消耗: 200B/5t" translatedTo "Fixed cooling consumption: 200B/5t")
-        command("蒸馏水 1K/mB" translatedTo "Distilled Water 1K/mB")
-        command("液态氧 2K/mB" translatedTo "Liquid Oxygen 2K/mB")
-        command("液态氦 4K/mB" translatedTo "Liquid Helium 4K/mB")
+        command("冷却固定消耗(每5tick): 20B" translatedTo "Fixed cooling consumption(every 5 ticks): 20B")
+        command("蒸馏水 1K/每次输入" translatedTo "Distilled Water 1K/per input")
+        command("液态氧 2K/每次输入" translatedTo "Liquid Oxygen 2K/per input")
+        command("液态氦 4K/每次输入" translatedTo "Liquid Helium 4K/per input")
         important("仅可放入中子素钻头(更多钻头待定)" translatedTo "Only Neutron-element drill heads can be placed (more to be determined)")
     }
 
@@ -1454,6 +1608,7 @@ object GTOMachineTooltips {
             ("升级结构后支持到" translatedTo "After upgrading the structure, it supports tier ") +
                 GTValues.VNF[GTValues.UV].toLiteralSupplier(),
         )
+        increase("再次升级结构后支持并行" translatedTo "After upgrading the structure again, it supports parallel processing.")
     }
 
     // 蒸汽搅拌机
@@ -1470,10 +1625,16 @@ object GTOMachineTooltips {
 
         highlight("我们走在大路上！" translatedTo "We're on the road!")
 
+        section(ComponentSlang.ParallelBonus)
+        content("结构的高度决定了基础并行数量" translatedTo "The height of the structure determines the base parallel count")
+        increase("每层提供 2 并行" translatedTo "Each layer of Steel Frames provides 2 parallels")
+        increase("每 500K 温度为配方提供 1x 并行倍率" translatedTo "Provides a 1x parallel multiplier for recipes every 500K of temperature")
         section(ComponentSlang.EfficiencyBonus)
-        content("随着配方运行，温度升高" translatedTo "As the recipe operating, the temperature increases")
-        increase("下次配方获得 400 / 温度 的时间减免" translatedTo "Next recipe gains duration reduction of 400 / temperature")
-        danger(ComponentSlang.BeAwareOfBurn)
+        content("随着配方运行，温度升高，空闲时则会降低" translatedTo "As the recipe operates, the temperature increases, and it will decrease when idle")
+        increase("下次配方获得 (400 / 温度) 的时间倍率减免" translatedTo "The next recipe gains a duration multiplier reduction of (400 / temperature)")
+
+        // 危险提示
+        danger("运行时，烟囱内部会对生物造成致命高温伤害！" translatedTo "When running, the inside of the chimney will cause fatal high-temperature damage to living beings!")
     }
 
     // 中子旋涡

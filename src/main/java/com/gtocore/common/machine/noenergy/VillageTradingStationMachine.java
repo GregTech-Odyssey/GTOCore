@@ -1,8 +1,8 @@
 package com.gtocore.common.machine.noenergy;
 
+import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 
-import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IAutoOutputItem;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -29,11 +30,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
@@ -89,9 +90,9 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     // 升级物品
     @Persisted
-    private final NotifiableItemStackHandler upgrade;
+    private final CustomItemStackHandler upgrade;
     @Persisted
-    private final NotifiableItemStackHandler enhance;
+    private final CustomItemStackHandler enhance;
 
     // 最大交易次数 32*
     private static final Item[] FIELD_GENERATOR = {
@@ -122,18 +123,20 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
             Map.entry(INTEGRATED_CONTROL_CORE_UIV.asItem(), 12));
     private static final Item[] ENHANCE_ITEMS = {
             Items.AIR,
-            EMITTER_LV.asItem(), EMITTER_MV.asItem(), EMITTER_HV.asItem(), EMITTER_EV.asItem(),
-            EMITTER_IV.asItem(), EMITTER_LuV.asItem(), EMITTER_ZPM.asItem(), EMITTER_UV.asItem(),
+            GTMachines.WORLD_ACCELERATOR[LV].asItem(), GTMachines.WORLD_ACCELERATOR[MV].asItem(), GTMachines.WORLD_ACCELERATOR[HV].asItem(), GTMachines.WORLD_ACCELERATOR[EV].asItem(),
+            GTMachines.WORLD_ACCELERATOR[IV].asItem(), GTMachines.WORLD_ACCELERATOR[LuV].asItem(), GTMachines.WORLD_ACCELERATOR[ZPM].asItem(), GTMachines.WORLD_ACCELERATOR[UV].asItem(),
             INTEGRATED_CONTROL_CORE_UV.asItem(), INTEGRATED_CONTROL_CORE_UHV.asItem(), INTEGRATED_CONTROL_CORE_UEV.asItem(), INTEGRATED_CONTROL_CORE_UIV.asItem() };
+
+    private static final Item VILLAGER_ITEM = RegistriesUtils.getItem("easy_villagers:villager");
 
     public VillageTradingStationMachine(MetaMachineBlockEntity holder) {
         super(holder);
         input = new NotifiableItemStackHandler(this, 256, IO.IN, IO.IN);
         output = new NotifiableItemStackHandler(this, 256, IO.OUT, IO.OUT);
         villagers = new VillageHolder(this);
-        upgrade = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
-        enhance = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH);
-        enhance.addChangedListener(() -> {
+        upgrade = new CustomItemStackHandler();
+        enhance = new CustomItemStackHandler();
+        enhance.setOnContentsChanged(() -> {
             tire = ENHANCE_INDEX_MAP.getOrDefault(enhance.getStackInSlot(0).getItem(), 0);
             if (tire < 9) {
                 replenishmentInterval = 2400 - 225 * tire;
@@ -153,7 +156,6 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     @Override
     public void onLoad() {
         super.onLoad();
-        villagers.notifyListeners();
         input.notifyListeners();
         output.notifyListeners();
         if (!isRemote()) {
@@ -228,7 +230,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     // 计算两个输入物品堆能支持的最大交易次数
-    private int getMaxPossibleTrades(NotifiableItemStackHandler input, ItemStack buy, ItemStack buyB) {
+    private int getMaxPossibleTrades(IItemHandlerModifiable input, ItemStack buy, ItemStack buyB) {
         int totalBuy = 0;
         for (int i = 0; i < input.getSlots(); i++) {
             ItemStack stack = input.getStackInSlot(i);
@@ -254,7 +256,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     // 从物品处理器中扣除指定数量的物品
-    private void deductItems(NotifiableItemStackHandler handler, ItemStack target, int count) {
+    private void deductItems(IItemHandlerModifiable handler, ItemStack target, int count) {
         if (target.isEmpty() || count <= 0) return;
 
         int remaining = target.getCount() * count;
@@ -272,7 +274,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     }
 
     // 向物品处理器中添加物品
-    private void addItems(NotifiableItemStackHandler handler, ItemStack stack) {
+    private void addItems(IItemHandlerModifiable handler, ItemStack stack) {
         if (stack.isEmpty()) return;
 
         ItemStack remaining = stack.copy();
@@ -397,8 +399,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
     @Override
     public Widget createUIWidget() {
-        int width = 336;
-        int height = 144;
+        final int width = 336;
+        final int height = 144;
         var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
         WidgetGroup groupTitle = new DraggableScrollableWidgetGroup(4, 4, width, height)
@@ -422,7 +424,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
             @Override
             public IGuiTexture getTabIcon() {
-                return new ItemStackTexture(RegistriesUtils.getItem("easy_villagers:villager"));
+                return new ItemStackTexture(VILLAGER_ITEM);
             }
 
             @Override
@@ -464,7 +466,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
 
             @Override
             public IGuiTexture getTabIcon() {
-                return new ItemStackTexture(RegistriesUtils.getItem("easy_villagers:villager"));
+                return new ItemStackTexture(VILLAGER_ITEM);
             }
 
             @Override
@@ -582,7 +584,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         for (int j = 0; j < 3; j++) {
             SlotWidget itemWidget = new SlotWidget(RecipesHandler, 3 * slot + j, 0, 18 * (j + 2) - 6)
                     .setCanPutItems(false).setCanTakeItems(false)
-                    .setBackgroundTexture(new ResourceTexture(GTOCore.id("textures/gui/villager_recipe_slot_" + j + ".png")));
+                    .setBackgroundTexture(GTOGuiTextures.VILLAGER_RECIPE_SLOTS[j]);
             villagerGroup.addWidget(itemWidget);
         }
 
@@ -619,14 +621,14 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     // ********* 辅助类与方法 ********* //
     /////////////////////////////////////
 
-    private static class VillageHolder extends NotifiableItemStackHandler {
+    private static class VillageHolder extends CustomItemStackHandler {
 
         private final VillageTradingStationMachine machine;
 
         private VillageHolder(VillageTradingStationMachine machine) {
-            super(machine, 10, IO.NONE, IO.BOTH);
+            super(10);
             this.machine = machine;
-            setFilter(i -> i.getItem().equals(RegistriesUtils.getItem("easy_villagers:villager")));
+            this.setFilter(i -> i.getItem().equals(VILLAGER_ITEM));
         }
 
         @NotNull
@@ -641,11 +643,6 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
         public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             if (machine.isLocked(slot)) return stack;
             return super.insertItem(slot, stack, simulate);
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return stack.getItem().equals(RegistriesUtils.getItem("easy_villagers:villager"));
         }
     }
 
@@ -722,7 +719,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private void syncUsesAndMaxUsesToVillagerItem(int slot) {
         VillagerRecipe[] datasetRecipes = villagersDataset[slot];
         ItemStack villagerStack = villagers.getStackInSlot(slot);
-        if (villagerStack.isEmpty() || !villagerStack.getItem().equals(RegistriesUtils.getItem("easy_villagers:villager")) || datasetRecipes == null || datasetRecipes.length == 0) {
+        if (villagerStack.isEmpty() || !villagerStack.getItem().equals(VILLAGER_ITEM) || datasetRecipes == null || datasetRecipes.length == 0) {
             return;
         }
         CompoundTag outerNbt = getCompoundTag(villagerStack, datasetRecipes);
@@ -832,8 +829,8 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     public void onMachineRemoved() {
         clearInventory(input.storage);
         clearInventory(output.storage);
-        clearInventory(villagers.storage);
-        clearInventory(upgrade.storage);
-        clearInventory(enhance.storage);
+        clearInventory(villagers);
+        clearInventory(upgrade);
+        clearInventory(enhance);
     }
 }

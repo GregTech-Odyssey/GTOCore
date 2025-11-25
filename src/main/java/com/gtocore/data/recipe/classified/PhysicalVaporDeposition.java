@@ -8,8 +8,11 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gregtechceu.gtceu.api.GTValues.UHV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES;
 
 final class PhysicalVaporDeposition {
@@ -140,6 +143,16 @@ final class PhysicalVaporDeposition {
                 .inputFluids(GTMaterials.Nickel.getFluid(FluidStorageKeys.PLASMA, 1152))
                 .EUt(9000)
                 .duration(1200)
+                .save();
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("plasma_field_glass")
+                .inputItems(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.asItem())
+                .inputItems(GTItems.EMITTER_ZPM.asItem(), 2)
+                .outputItems(GTOBlocks.PLASMA_FIELD_GLASS.asItem())
+                .inputFluids(GTOMaterials.DegenerateRhenium, FluidStorageKeys.PLASMA, 1000)
+                .inputFluids(GTMaterials.MolybdenumDisilicide, 1296)
+                .duration(200)
+                .EUt(VA[UHV])
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
 }

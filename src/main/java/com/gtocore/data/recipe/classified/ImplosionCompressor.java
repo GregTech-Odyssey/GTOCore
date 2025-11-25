@@ -43,8 +43,7 @@ final class ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_tnt")
-                .inputItems(ModItems.neutron_pile.get(), 64)
-                .inputItems(ModItems.neutron_pile.get(), 64)
+                .inputItems(ModItems.neutron_pile.get(), 1024)
                 .inputItems(Blocks.TNT.asItem(), 4)
                 .outputItems(ModItems.neutron_nugget.get())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
@@ -243,8 +242,7 @@ final class ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_powderbarrel")
-                .inputItems(ModItems.neutron_pile.get(), 64)
-                .inputItems(ModItems.neutron_pile.get(), 64)
+                .inputItems(ModItems.neutron_pile.get(), 1024)
                 .inputItems(GTBlocks.POWDERBARREL.asItem(), 8)
                 .outputItems(ModItems.neutron_nugget.get())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
@@ -253,8 +251,7 @@ final class ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_itnt")
-                .inputItems(ModItems.neutron_pile.get(), 64)
-                .inputItems(ModItems.neutron_pile.get(), 64)
+                .inputItems(ModItems.neutron_pile.get(), 1024)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asItem())
                 .outputItems(ModItems.neutron_nugget.get())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
@@ -293,8 +290,7 @@ final class ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_dynamite")
-                .inputItems(ModItems.neutron_pile.get(), 64)
-                .inputItems(ModItems.neutron_pile.get(), 64)
+                .inputItems(ModItems.neutron_pile.get(), 1024)
                 .inputItems(GTItems.DYNAMITE.asItem(), 2)
                 .outputItems(ModItems.neutron_nugget.get())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
@@ -367,8 +363,7 @@ final class ImplosionCompressor {
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("neutron_nugget")
-                .inputItems(ModItems.neutron_pile.get(), 64)
-                .inputItems(ModItems.neutron_pile.get(), 64)
+                .inputItems(ModItems.neutron_pile.get(), 1024)
                 .outputItems(ModItems.neutron_nugget.get())
                 .save();
 

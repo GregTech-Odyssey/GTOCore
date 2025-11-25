@@ -3483,5 +3483,14 @@ final class ChemicaRreactor {
                 .EUt(400)
                 .duration(100)
                 .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("osmium_tetroxide_dust")
+                .inputItems(GTOTagPrefix.dust, GTMaterials.Osmium)
+                .outputItems(GTOTagPrefix.dust, GTMaterials.OsmiumTetroxide, 5)
+                .inputFluids(GTMaterials.Oxygen, 4000)
+                .circuitMeta(3)
+                .EUt(240)
+                .duration(320)
+                .save();
     }
 }

@@ -318,6 +318,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> ANTIMATTER_CONTAINMENT_CASING = createGlassCasingBlock("antimatter_containment_casing", "反物质隔离机械方块", GTOCore.id("block/casings/antimatter_containment_casing"));
     public static final BlockEntry<Block> QUANTUM_GLASS = createGlassCasingBlock("quantum_glass", "量子玻璃", GTOCore.id("block/casings/quantum_glass"));
     public static final BlockEntry<Block> FERMI_ENERGY_GAP_TRANSITION_GLASS = createGlassCasingBlock("fermi_energy_gap_transition_glass", "费米能隙跃迁玻璃", GTOCore.id("block/casings/fermi_energy_gap_transition_glass"));
+    public static final BlockEntry<Block> PLASMA_FIELD_GLASS = createGlassCasingBlock("plasma_field_glass", "等离子体场玻璃", GTOCore.id("block/casings/plasma_field_glass"));
 
     public static final BlockEntry<Block> FORCE_FIELD_GLASS = createGlassCasingBlock("force_field_glass", "力场玻璃", GTOCore.id("block/force_field_glass"));
     public static final BlockEntry<Block> SPATIALLY_TRANSCENDENT_GRAVITATIONAL_LENS_BLOCK = createGlassCasingBlock("spatially_transcendent_gravitational_lens_block", "超空间引力透镜块", GTOCore.id("block/spatially_transcendent_gravitational_lens_block"));
@@ -598,4 +599,10 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> SPACECRAFT_DYNAMIC_PROTECTIVE_MECHANICAL_CASING = createCasingBlock("spacecraft_dynamic_protective_mechanical_casing", "航天器防护机械外壳", GTOCore.id("block/casings/spacecraft_dynamic_protective_mechanical_casing"));
     // 时空结构维持机械方块 spacetime_structure_maintenance_casing
     public static final BlockEntry<Block> SPACETIME_STRUCTURE_MAINTENANCE_CASING = createCasingBlock("spacetime_structure_maintenance_casing", "时空结构维持机械方块", GTOCore.id("block/casings/spacetime_structure_maintenance_casing"));
+    // 起源之铭符 the_origin_casing
+    public static final BlockEntry<Block> THE_ORIGIN_CASING = createCasingBlock("the_origin_casing", "起源之铭符", GTOCore.id("block/casings/the_origin_casing"));
+    // 终末之铭符 the_end_casing
+    public static final BlockEntry<Block> THE_END_CASING = createCasingBlock("the_end_casing", "终末之铭符", GTOCore.id("block/casings/the_end_casing"));
+    // 混沌之铭符 the_chaos_casing
+    public static final BlockEntry<Block> THE_CHAOS_CASING = createCasingBlock("the_chaos_casing", "混沌之铭符", GTOCore.id("block/casings/the_chaos_casing"));
 }

@@ -6,8 +6,6 @@ import com.gtolib.api.ae2.ShowMolecularAssembler;
 import com.gtolib.api.ae2.gui.hooks.IExtendedGuiEx;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
-
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,6 +15,7 @@ import appeng.client.gui.me.patternaccess.PatternContainerRecord;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.AETextField;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
+import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
 import com.glodblock.github.extendedae.container.ContainerExPatternTerminal;
 import org.spongepowered.asm.mixin.*;

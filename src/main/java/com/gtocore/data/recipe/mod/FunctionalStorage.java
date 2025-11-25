@@ -1,13 +1,14 @@
 package com.gtocore.data.recipe.mod;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -23,7 +24,7 @@ import java.util.Set;
 public final class FunctionalStorage {
 
     public static void init() {
-        if (GTCEu.isModLoaded("functionalstorage")) {
+        if (Mods.FUNCTIONALSTORAGE.isLoaded()) {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("copper_upgrade"), RegistriesUtils.getItemStack("functionalstorage:copper_upgrade"),
                     "AAA",
                     "BCD",
@@ -70,16 +71,35 @@ public final class FunctionalStorage {
                     "CDC",
                     "CBC",
                     'A', GTItems.FLUID_REGULATOR_LV.asItem(), 'B', GTItems.ROBOT_ARM_LV.asItem(), 'C', CustomTags.LV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("framed_storage_controller"), RegistriesUtils.getItemStack("functionalstorage:framed_storage_controller"),
+                    " A ",
+                    "ABA",
+                    " A ",
+                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron), 'B', RegistriesUtils.getItemStack("functionalstorage:storage_controller"));
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("framed_controller_extension"), RegistriesUtils.getItemStack("functionalstorage:framed_controller_extension"),
+                    " A ",
+                    "ABA",
+                    " A ",
+                    'A', new MaterialEntry(GTOTagPrefix.nugget, GTMaterials.Iron), 'B', RegistriesUtils.getItemStack("functionalstorage:controller_extension"));
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("storage_controller_ex"), RegistriesUtils.getItemStack("functionalstorage:controller_extension"),
+                    "ABA",
+                    "CDC",
+                    "CBC",
+                    'A', GTItems.FLUID_REGULATOR_MV.asItem(), 'B', GTItems.ROBOT_ARM_MV.asItem(), 'C', CustomTags.MV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
         }
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
-        if (GTCEu.isModLoaded("functionalstorage")) {
+        if (GTOCore.isEasy()) return;
+        if (Mods.FUNCTIONALSTORAGE.isLoaded()) {
             filters.add(RLUtils.functionalstorage("copper_upgrade"));
             filters.add(RLUtils.functionalstorage("fluid_1"));
             filters.add(RLUtils.functionalstorage("fluid_2"));
             filters.add(RLUtils.functionalstorage("fluid_4"));
             filters.add(RLUtils.functionalstorage("storage_controller"));
+            filters.add(RLUtils.functionalstorage("framed_storage_controller"));
+            filters.add(RLUtils.functionalstorage("controller_extension"));
+            filters.add(RLUtils.functionalstorage("framed_controller_extension"));
             filters.add(RLUtils.functionalstorage("gold_upgrade"));
             filters.add(RLUtils.functionalstorage("diamond_upgrade"));
             filters.add(RLUtils.functionalstorage("netherite_upgrade"));

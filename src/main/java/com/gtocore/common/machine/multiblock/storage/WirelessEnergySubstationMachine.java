@@ -16,25 +16,31 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
+import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.hepdd.gtmthings.utils.TeamUtil;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblockMachine implements IExtendWirelessEnergyContainerHolder, ITierCasingMachine, IEnergyInfoProvider {
 
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
+    private final Multimap<Integer, BlockPos> wirelessEnergyUnitPositions = Multimaps.newMultimap(new Int2ObjectOpenHashMap<>(), ObjectOpenHashSet::new);
 
     public WirelessEnergySubstationMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -48,18 +54,23 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         var container = getWirelessEnergyContainer();
         if (container == null) return;
         int tier = getCasingTier(GTOValues.GLASS_TIER);
-        FunctionContainer<ArrayList<WirelessEnergyUnitBlock>, ?> functionContainer = getMultiblockState().getMatchContext().get("wirelessEnergyUnit");
+        FunctionContainer<ArrayList<WirelessEnergyUnitBlock.BlockData>, ?> functionContainer = getMultiblockState().getMatchContext().get("wirelessEnergyUnit");
         int loss = 0;
         int i = 0;
         BigInteger capacity = BigInteger.ZERO;
         if (functionContainer != null) {
-            ArrayList<WirelessEnergyUnitBlock> blocks = functionContainer.getValue();
-            for (WirelessEnergyUnitBlock block : blocks) {
-                if (block.getTier() <= tier) {
-                    i++;
-                    capacity = capacity.add(block.getCapacity());
-                    loss += block.getLoss();
+            ArrayList<WirelessEnergyUnitBlock.BlockData> blocks = functionContainer.getValue();
+            for (WirelessEnergyUnitBlock.BlockData block : blocks) {
+                if (block.block() == null) {
+                    wirelessEnergyUnitPositions.put(0, block.pos());
+                    continue;
                 }
+                if (block.block().getTier() <= tier) {
+                    i++;
+                    capacity = capacity.add(block.block().getCapacity());
+                    loss += block.block().getLoss();
+                }
+                wirelessEnergyUnitPositions.put(block.block().getTier(), block.pos());
             }
             blocks.clear();
         }
@@ -72,6 +83,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         if (isRemote()) return;
         Level level = getLevel();
         if (level == null) return;
+        wirelessEnergyUnitPositions.clear();
         var container = getWirelessEnergyContainer();
         if (container == null) return;
         container.setCapacity(BigInteger.ZERO);
@@ -169,5 +181,43 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         }
         var output = BigIntegerUtils.getLongValue(container.getEnergyStat().getAvgEnergy().toBigInteger().negate());
         return output > 0 ? output : 0;
+    }
+
+    /**
+     * @return 成功替换的方块数量
+     */
+    public int substituteBlocks(WirelessEnergyUnitBlock block, int count, ServerPlayer player) {
+        if (getLevel() == null || wirelessEnergyUnitPositions.isEmpty()) {
+            return 0;
+        }
+        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = new O2OOpenCacheHashMap<>(count);
+        int tier = block.getTier();
+        // 寻找低级方块或空气，并迭代所有map中的blockpos进行替换，直到替换数量满足要求
+        loop:
+        for (int t = 0; t <= tier; t++) {
+            for (BlockPos pos : wirelessEnergyUnitPositions.get(t)) {
+                if (count <= 0) {
+                    break loop;
+                }
+                if (pos == null) {
+                    continue;
+                }
+                map.put(new WirelessEnergyUnitBlock.BlockData(WirelessEnergyUnitBlock.get(t), pos), block);
+                count--;
+            }
+        }
+        int successfulCount = 0;
+        for (Map.Entry<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> entry : map.entrySet()) {
+            BlockPos pos = entry.getKey().pos();
+            var originBlockDrop = entry.getKey().block();
+            if (getLevel().setBlock(pos, entry.getValue().defaultBlockState(), 11)) {
+                successfulCount++;
+                if (originBlockDrop != null && !player.getInventory().add(originBlockDrop.asItem().getDefaultInstance())) {
+                    player.drop(originBlockDrop.asItem().getDefaultInstance(), false);
+                }
+            }
+        }
+        this.requestCheck();
+        return successfulCount;
     }
 }

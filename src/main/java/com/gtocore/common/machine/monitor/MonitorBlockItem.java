@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
+import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +19,7 @@ public class MonitorBlockItem extends MetaMachineItem {
     private static final String TEXTURE_PATH_PREFIX = "textures/item/monitor/";
     private static final List<ResourceLocation> itemList = new ArrayList<>();
 
-    public MonitorBlockItem(IMachineBlock block, Properties properties) {
+    public MonitorBlockItem(MetaMachineBlock block, Properties properties) {
         super(block, properties);
     }
 

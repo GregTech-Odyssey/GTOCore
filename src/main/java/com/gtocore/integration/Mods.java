@@ -6,10 +6,17 @@ import lombok.Getter;
 
 public enum Mods {
 
+    SFM("sfm"),
+    FARMERSDELIGHT("farmersdelight"),
+    MODULARROUTERS("modularrouters"),
+    COMPUTERCRAFT("computercraft"),
+    FUNCTIONALSTORAGE("functionalstorage"),
+    IMMERSIVE_AIRCRAFT("immersive_aircraft"),
     CHISEL("chisel"),
     SOPHISTICATEDBACKPACKS("sophisticatedbackpacks"),
     BIOMESOPLENTY("biomesoplenty"),
-    BIOMESWEVEGONE("biomeswevegone");
+    BIOMESWEVEGONE("biomeswevegone"),
+    FTBQUESTS("ftbquests");
 
     @Getter
     private final boolean loaded;

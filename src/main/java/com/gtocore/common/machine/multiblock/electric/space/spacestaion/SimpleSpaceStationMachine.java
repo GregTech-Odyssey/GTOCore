@@ -55,7 +55,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
 
     @Override
     public void addHandlerList(RecipeHandlerList handler) {
-        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.getPos() == p)) {
+        if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.self().getPos() == p)) {
             if (outputDistilledWaterHatchesList == null) {
                 outputDistilledWaterHatchesList = new ObjectArrayList<>();
             }
@@ -152,7 +152,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
         var time = getOffsetTimer();
         if (time % 20 == 0) {
 
-            if (firstLoad() && time % 400 == 0) provideOxygen();
+            if (firstLoad() || time % 400 == 0) provideOxygen();
 
             /// Distilled Water distribution
             if (waterAmountPerHatch > 0 && outputDistilledWaterHatchesList != null && !outputDistilledWaterHatchesList.isEmpty()) {

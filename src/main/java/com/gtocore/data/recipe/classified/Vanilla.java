@@ -17,16 +17,22 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import vectorwing.farmersdelight.common.registry.ModItems;
+import vectorwing.farmersdelight.common.tag.ForgeTags;
+import vectorwing.farmersdelight.data.builder.CuttingBoardRecipeBuilder;
 
 import static com.gtocore.common.data.GTOItems.SPOOLS_LARGE;
 
@@ -39,6 +45,10 @@ final class Vanilla {
                     "CDC",
                     "EFE",
                     'B', RegistriesUtils.getItemStack("chisel:chisel"), 'F', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.SteelMagnetic), 'D', GTItems.ROBOT_ARM_LV.asItem(), 'C', GTItems.CONVEYOR_MODULE_LV.asItem(), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'A', CustomTags.LV_CIRCUITS);
+        }
+
+        if (Mods.FARMERSDELIGHT.isLoaded()) {
+            CuttingBoardRecipeBuilder.cuttingRecipe(Ingredient.of(ModItems.ONION.get()), Ingredient.of(ForgeTags.TOOLS_KNIVES), ModItems.ONION.get(), 1, 0).build(GTDynamicDataPack.CONSUMER, GTOCore.id("cutting/onion"));
         }
 
         VanillaRecipeHelper.addSmeltingRecipe(GTOCore.id("raw_aluminum"), GTOItems.RAW_ALUMINUM.asStack(), ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium), 0);
@@ -889,7 +899,7 @@ final class Vanilla {
                 "ABA",
                 "BCB",
                 "ABA",
-                'A', RegistriesUtils.getItemStack("gtceu:bronze_crate"), 'B', Items.CHEST.asItem(), 'C', MultiBlockG.MULTIBLOCK_CRATE.asItem());
+                'A', GTMachines.STEEL_CRATE.asItem(), 'B', Items.CHEST.asItem(), 'C', MultiBlockG.MULTIBLOCK_CRATE.asItem());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("structure_detect"), GTOItems.STRUCTURE_DETECT.asItem(),
                 " A ",
                 "ABA",
@@ -947,5 +957,17 @@ final class Vanilla {
                 "CDC",
                 "EEE",
                 'A', new MaterialEntry(GTOTagPrefix.pipeQuadrupleFluid, GTOMaterials.GraphiteCopperComposite), 'B', new MaterialEntry(GTOTagPrefix.rotor, GTMaterials.TungstenSteel), 'C', GTItems.FLUID_REGULATOR_IV.asStack(), 'D', GTMachines.MIXER[GTValues.IV].asStack(), 'E', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
+        addUpg(GTAEMachines.ME_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER0.asStack());
+        addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER1.asStack());
+        addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER2.asStack());
+        addUpg(GTAEMachines.ME_STORAGE_ACCESS_HATCH.asItem(), GTOItems.STORAGE_ACCESSOR_REPLACER0.asStack());
+        addUpg(GTAEMachines.ME_BIG_STORAGE_ACCESS_HATCH.asItem(), GTOItems.STORAGE_ACCESSOR_REPLACER1.asStack());
+        addUpg(GTAEMachines.ME_IO_STORAGE_ACCESS_HATCH.asItem(), GTOItems.STORAGE_ACCESSOR_REPLACER2.asStack());
+    }
+
+    private static void addUpg(Item input, ItemStack output) {
+        VanillaRecipeHelper.addShapelessRecipe("upg_" + input.toString(), output,
+                TagUtils.createTGTag("ingots"),
+                input);
     }
 }

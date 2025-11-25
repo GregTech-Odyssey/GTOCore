@@ -2,8 +2,10 @@ package com.gtocore.data.recipe.misc;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.SpaceMultiblock;
+import com.gtocore.common.item.OrderItem;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
@@ -12,34 +14,28 @@ import com.gtolib.utils.RLUtils;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.common.data.GTDimensionMarkers;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import earth.terrarium.adastra.common.recipes.SpaceStationRecipe;
 import earth.terrarium.adastra.common.recipes.base.IngredientHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.gtocore.common.data.GTORecipeTypes.SPACE_STATION_CONSTRUCTION_RECIPES;
-import static earth.terrarium.adastra.common.registry.ModRecipeSerializers.SPACE_STATION_SERIALIZER;
 
 public class SpaceStationRecipes {
 
@@ -93,7 +89,7 @@ public class SpaceStationRecipes {
         private final ResourceLocation id;
         private ResourceLocation structure = GTOCore.id("space_station");
 
-        public SpaceStationBuilder(String id) {
+        private SpaceStationBuilder(String id) {
             this.id = GTOCore.id("adastra_space_station_" + id);
         }
 
@@ -102,11 +98,11 @@ public class SpaceStationRecipes {
             return this;
         }
 
-        public static SpaceStationBuilder builder(String id) {
+        static SpaceStationBuilder builder(String id) {
             return new SpaceStationBuilder(id);
         }
 
-        public SpaceStationBuilder dimension(Dimension dimension) {
+        SpaceStationBuilder dimension(Dimension dimension) {
             this.orbit = ResourceKey.create(Registries.DIMENSION, dimension.getOrbit());
             this.dimension = dimension;
             return this;
@@ -117,11 +113,11 @@ public class SpaceStationRecipes {
             return this;
         }
 
-        public SpaceStationBuilder inputItems(TagPrefix tagPrefix, Material material, int count) {
+        SpaceStationBuilder inputItems(TagPrefix tagPrefix, Material material, int count) {
             return inputItems(ChemicalHelper.get(tagPrefix, material).getItem(), count);
         }
 
-        public SpaceStationBuilder inputItems(ItemLike item, int count) {
+        SpaceStationBuilder inputItems(ItemLike item, int count) {
             this.ingredients.add(IngredientHolder.of(Ingredient.of(item), count));
             return this;
         }
@@ -131,55 +127,16 @@ public class SpaceStationRecipes {
             return this;
         }
 
-        public SpaceStationBuilder inputItems(ItemLike item) {
+        SpaceStationBuilder inputItems(ItemLike item) {
             this.ingredients.add(IngredientHolder.of(Ingredient.of(item)));
             return this;
         }
 
-        private static final AtomicInteger circuitMeta = new AtomicInteger(0);
-
-        public void build() {
-            GTDynamicDataPack.addRecipe(new FinishedRecipe() {
-
-                private final SpaceStationRecipe recipe = new SpaceStationRecipe(id, ingredients, orbit, structure);
-
-                @Override
-                public void serializeRecipeData(@NotNull JsonObject jsonObject) {
-                    jsonObject.addProperty("dimension", recipe.dimension().location().toString());
-                    var array = new JsonArray();
-                    for (int i = 0; i < recipe.ingredients().size(); i++) {
-                        IngredientHolder holder = recipe.ingredients().get(i);
-                        JsonObject obj = new JsonObject();
-                        obj.add("ingredient", holder.ingredient().values[0].serialize());
-                        obj.addProperty("count", holder.count());
-                        array.add(obj);
-                    }
-                    jsonObject.add("ingredients", array);
-                    jsonObject.addProperty("structure", structure.toString());
-                }
-
-                @Override
-                public @NotNull ResourceLocation getId() {
-                    return id;
-                }
-
-                @Override
-                public @NotNull RecipeSerializer<?> getType() {
-                    return SPACE_STATION_SERIALIZER.get();
-                }
-
-                @Override
-                public @Nullable JsonObject serializeAdvancement() {
-                    return null;
-                }
-
-                @Override
-                public @Nullable ResourceLocation getAdvancementId() {
-                    return null;
-                }
-            });
+        void build() {
+            GTRecipes.RECIPE_MAP.put(id, new SpaceStationRecipe(id, ingredients, orbit, structure));
             var recipe = SPACE_STATION_CONSTRUCTION_RECIPES.builder(id.getPath()).dimension(dimension.getLocation());
             ingredients.forEach(i -> recipe.inputItems(i.ingredient(), i.count()));
+            recipe.outputItems(OrderItem.setTarget(GTOItems.ORDER.asStack(), GTRegistries.DIMENSION_MARKERS.getOrDefault(dimension.getLocation(), GTDimensionMarkers.OVERWORLD).getIcon()));
             recipe.save();
         }
     }

@@ -100,7 +100,7 @@ final class ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("resonating_gem")
-                .inputItems(TagPrefix.gemExquisite, GTMaterials.Sapphire)
+                .inputItems(TagPrefix.gemExquisite, GTOMaterials.Resonarium)
                 .inputFluids(GTOMaterials.LiquidStarlight.getFluid(1000))
                 .outputItems(GTOItems.RESONATING_GEM.asItem())
                 .EUt(31457280)

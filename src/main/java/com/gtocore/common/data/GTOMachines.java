@@ -9,13 +9,13 @@ import com.gtocore.common.machine.electric.*;
 import com.gtocore.common.machine.generator.LightningRodMachine;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gtocore.common.machine.monitor.*;
+import com.gtocore.common.machine.multiblock.electric.miner.SingleDigitalMiner;
 import com.gtocore.common.machine.multiblock.part.*;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
-import com.gtocore.common.machine.noenergy.BoilWaterMachine;
-import com.gtocore.common.machine.noenergy.HeaterMachine;
-import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
+import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
+import com.gtocore.common.machine.noenergy.TradingStationMachine;
 import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
@@ -34,6 +34,7 @@ import com.gtolib.api.registries.GTORegistration;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -263,13 +264,13 @@ public final class GTOMachines {
                             v -> v.addLines("让机器超频", "accelerate machine"),
                             p -> p.addCommentLines(
                                     """
-                                            同样的超频级别，此数值越高，超频因子越大
-                                            更大的超频因子代表更激进的超频策略
-                                            耗能更高，速度更快！""",
+                                            §m不安装本仓时，每使用4倍功率，机器耗时×55%%§r
+                                            §a安装本仓后，超频效果最高提升为每使用4倍功率，机器耗时×%s%%§r
+                                            更激进的超频策略，更强悍的机器性能，更极限的处理速度！""".formatted(FormattingUtil.formatNumber2Places(100D / (tier - 6))),
                                     """
-                                            For the same overclocking level, the higher this value, the greater the overclocking factor
-                                            A larger overclocking factor represents a more aggressive overclocking strategy
-                                            Higher energy consumption, faster speed!""")))
+                                            §mWhen this hatch is not installed, for every 4 times power used, machine duration ×55%%§r
+                                            §aAfter installing this hatch, the overclocking effect is increased to a maximum of every 4 times power used, machine duration ×%s%%§r
+                                            More aggressive overclocking strategies, more powerful machine performance, and more extreme processing speeds!""".formatted(FormattingUtil.formatNumber2Places(100D / (tier - 6))))))
                     .workableTieredHullRenderer(GTOCore.id("block/machines/overclock_hatch/overclock_hatch_mk" + (tier - 7)))
                     .notAllowSharedTooltips()
                     .register(),
@@ -284,13 +285,15 @@ public final class GTOMachines {
                             v -> v.addLines("无条件加速机器运行速度", "Unconditionally accelerates machine operation speed"),
                             p -> p.addCommentLines(
                                     """
-                                            加速仓的等级低于机器配方等级时加速效果减弱
+                                            运行时长调整范围：%s%%~100%%
+                                            加速仓的等级低于机器配方等级时加速效力减弱20%%每级
                                             来自 GTO 的神秘力量
-                                            尽情享受吧！""",
+                                            尽情享受吧！""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)),
                                     """
-                                            The acceleration effect is weakened when the hatch tier is lower than the recipe tier
+                                            Operation duration adjustment range: %s%%~100%%
+                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the machine recipe level
                                             Mysterious power from GTO
-                                            Enjoy it to the fullest!""")))
+                                            Enjoy it to the fullest!""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)))))
                     .notAllowSharedTooltips()
                     .workableTieredHullRenderer(GTOCore.id("block/machines/accelerate_hatch/accelerate_hatch_mk" + tier))
                     .register(),
@@ -492,7 +495,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(4096000)),
                     Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"))
             .allowCoverOnFront(true)
             .register();
@@ -501,7 +504,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 65536000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(65536000)),
                     Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()))
             .allowCoverOnFront(true)
             .register();
@@ -510,7 +513,7 @@ public final class GTOMachines {
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 1048576000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(1048576000)),
                     Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()))
             .allowCoverOnFront(true)
             .register();
@@ -937,6 +940,31 @@ public final class GTOMachines {
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
+
+    public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,
+            (tier, builder) -> builder
+                    .langValue("Pan-Galactic Gray Technology Trading Station " + "Tier " + tier)
+                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
+                    .nonYAxisRotation()
+                    .modelRenderer(() -> GTOCore.id("block/machine/trading_station"))
+                    .register(),
+            GTValues.tiersBetween(1, 8));
+
+    public static final MachineDefinition[] DIGITAL_MINER = registerTieredMachines("digital_miner", tier -> "%s数字型采矿机 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]), SingleDigitalMiner::new,
+            (tier, builder) -> builder
+                    .langValue("%s DIGITAL_MINER %s".formatted(VLVH[tier], VLVT[tier]))
+                    .nonYAxisRotation()
+                    .recipeType(GTORecipeTypes.DIGITAL_MINER_RECIPE)
+                    .workableTieredHullRenderer(GTCEu.id("block/machines/miner"))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1])
+                            .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
+                            .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_in",
+                            FormattingUtil.formatNumbers(GTValues.VEX[tier]),
+                            GTValues.VNF[tier]))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.working_area_max", (int) (8 * Math.pow(2, tier)), (int) (8 * Math.pow(2, tier))))
+                    .register(),
+            LV, MV, HV);
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getBasicMonitorTooltips().apply(list))
