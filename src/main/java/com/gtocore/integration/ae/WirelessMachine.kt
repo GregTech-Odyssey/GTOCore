@@ -147,6 +147,9 @@ interface WirelessMachine :
         @RegisterLanguage(cn = "当前连接到 : %s", en = "Currently connected: %s")
         const val currentlyConnectedTo = "gtocore.integration.ae.WirelessMachine.currentlyConnectedTo"
 
+        @RegisterLanguage(cn = "无", en = "without")
+        const val without = "gtocore.integration.ae.WirelessMachine.without"
+
         @RegisterLanguage(cn = "创建网络", en = "Create Grid")
         const val createGrid = "gtocore.integration.ae.WirelessMachine.createGrid"
 
@@ -316,14 +319,14 @@ interface WirelessMachine :
                     }
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.translatable(player, self().playerOwner?.name ?: "无") },
+                        textSupplier = { Component.translatable(player, self().playerOwner?.name ?: without) },
                     )
                     textBlock(
                         maxWidth = availableWidth - 4,
                         textSupplier = {
                             val id = wirelessMachinePersisted.gridConnectedName
                             val nick = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname
-                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
+                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { without })
                         },
                     )
                     // 重新加入“创建网络”输入与按钮
