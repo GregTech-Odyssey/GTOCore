@@ -812,5 +812,20 @@ final class AssemblerA {
                 .EUt(7680)
                 .duration(400)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("drone_ultimate_battery")
+                .inputItems(CustomTags.UHV_CIRCUITS)
+                .inputItems(GTItems.ENERGY_CLUSTER.asItem())
+                .inputItems(GTOItems.COOLANT_CELL_60K.asItem())
+                .inputItems(GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER.asItem(), 8)
+                .inputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
+                .inputItems(TagPrefix.bolt, GTMaterials.Neutronium, 4)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Darmstadtium)
+                .inputItems(GTItems.FIELD_GENERATOR_UV.asItem())
+                .outputItems(GTOItems.DRONE_ULTIMATE_BATTERY.asItem(), 4)
+                .inputFluids(GTMaterials.Polybenzimidazole, 144)
+                .EUt(300000)
+                .duration(2000)
+                .save();
     }
 }

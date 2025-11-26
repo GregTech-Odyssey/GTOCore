@@ -24,7 +24,6 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.material.Fluids;
@@ -196,7 +195,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
                     .append(": ").append(Component.translatable("recipe.condition.daytime.day.tooltip")));
             return false;
         }
-        return !world.getBiome(pos.above()).is(BiomeTags.IS_END);
+        return true;
     }
 
     private static boolean hasClearSky(Level world, BlockPos pos) {

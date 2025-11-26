@@ -54,7 +54,7 @@ public abstract class CustomModeFancyConfigurator implements IFancyUIProvider {
 
     public List<Component> getTabTooltips() {
         List<Component> tooltip = new ObjectArrayList<>();
-        tooltip.add(Component.literal("Change active Machine Mode"));
+        tooltip.add(Component.translatable("gtceu.gui.machinemode.tab_tooltip"));
         return tooltip;
     }
 
