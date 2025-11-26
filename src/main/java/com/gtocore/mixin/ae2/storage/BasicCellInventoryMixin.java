@@ -207,31 +207,16 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Overwrite(remap = false)
     public void persist() {
         var map = gtolib$getCellStoredMap();
-        if (map.isEmpty()) {
-            UUID uuid = gtolib$getUUID();
-            if (uuid != null) {
-                CellDataStorage.remove(uuid);
-                if (i.getTag() != null) {
-                    i.getTag().remove(CELL_UUID);
-                    i.getTag().remove(USED_BYTE);
-                    i.getTag().remove(USED_TYPE);
-                }
-                gtolib$uuid = null;
-                gtolib$cache = null;
-                gtocore$aeKeyMap = null;
-            }
-        } else {
-            double totalAmount = 0;
-            for (long amount : gtocore$aeKeyMap.values()) {
-                totalAmount += (double) amount / keyType.getAmountPerByte();
-            }
-            CellDataStorage storage = gtolib$getCellStorage();
-            storage.setBytes(totalAmount);
-            var tag = i.getTag();
-            if (tag != null) {
-                tag.putLong(USED_BYTE, (long) totalAmount);
-                tag.putInt(USED_TYPE, map.size());
-            }
+        double totalAmount = 0;
+        for (long amount : map.values()) {
+            totalAmount += (double) amount / keyType.getAmountPerByte();
+        }
+        CellDataStorage storage = gtolib$getCellStorage();
+        storage.setBytes(totalAmount);
+        var tag = i.getTag();
+        if (tag != null) {
+            tag.putLong(USED_BYTE, (long) totalAmount);
+            tag.putInt(USED_TYPE, map.size());
         }
     }
 
@@ -243,7 +228,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     protected void saveChanges() {
         if (container != null) {
             double totalAmount = 0;
-            for (long amount : gtocore$aeKeyMap.values()) {
+            for (long amount : gtolib$getCellStoredMap().values()) {
                 totalAmount += (double) amount / keyType.getAmountPerByte();
             }
             gtolib$getCellStorage().setBytes(totalAmount);
