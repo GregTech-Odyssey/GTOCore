@@ -1,8 +1,10 @@
 package com.gtocore.integration.ae
 
 import com.gtocore.api.gui.ktflexible.misc.InitFancyMachineUIWidget
+import com.gtocore.integration.ae.WirelessMachine.Companion.gridNodeSelector
 
 import net.minecraft.core.Direction
+import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -10,7 +12,10 @@ import net.minecraft.world.item.ItemStack
 import appeng.api.networking.GridFlags
 import appeng.api.networking.IManagedGridNode
 import appeng.api.util.AECableType
+import appeng.core.definitions.AEItems
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
@@ -20,8 +25,12 @@ import com.gtolib.api.annotation.SyncedManager
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
+import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
+import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
+import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
@@ -58,10 +67,9 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     @SyncedManager
     override var wirelessMachineRunTime = createWirelessMachineRunTime()
 
+    private val fancyUIProvider: IFancyUIProvider by lazy { getSetupFancyUIProvider() }
+
     override fun isRemote() = super<MetaMachine>.isRemote
-    override fun attachSideTabs(sideTabs: TabsWidget) {
-        sideTabs.mainTab = getSetupFancyUIProvider()
-    }
 
     override fun onLoad() {
         super.onLoad()
@@ -94,4 +102,10 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     )
 
     override fun getSyncHolder(): SyncManagedFieldHolder = syncManager
+
+    override fun getTabIcon(): IGuiTexture = fancyUIProvider.tabIcon
+
+    override fun getTabTooltips(): MutableList<Component?> = fancyUIProvider.tabTooltips
+
+    override fun createMainPage(p0: FancyMachineUIWidget?): Widget = fancyUIProvider.createMainPage(p0)
 }

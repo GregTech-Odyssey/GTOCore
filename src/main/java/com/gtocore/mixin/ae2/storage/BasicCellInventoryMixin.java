@@ -6,7 +6,6 @@ import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.nbt.IntArrayTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.item.ItemStack;
 
@@ -22,7 +21,6 @@ import appeng.api.storage.cells.ISaveProvider;
 import appeng.api.storage.cells.StorageCell;
 import appeng.me.cells.BasicCellInventory;
 import appeng.util.prioritylist.IPartitionList;
-import it.unimi.dsi.fastutil.longs.LongArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -45,6 +43,9 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
 
     @Unique
     private CellDataStorage gtolib$cache;
+
+    @Unique
+    private AEKeyMap<AEKey> gtocore$aeKeyMap;
 
     @Unique
     private UUID gtolib$uuid;
@@ -110,28 +111,27 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
     @Unique
     @NotNull
     private AEKeyMap<AEKey> gtolib$getCellStoredMap() {
-        CellDataStorage storage = gtolib$getCellStorage();
-        var map = storage.getStoredMap();
-        if (map == null) {
-            map = new AEKeyMap<>();
-            storage.setStoredMap(map);
-            long[] amounts = storage.getAmounts();
-            double totalAmount = 0;
-            for (int i = 0; i < amounts.length; i++) {
-                long amount = amounts[i];
-                AEKey key = AEKey.fromTagGeneric(storage.getKeys().getCompound(i));
-                if (amount <= 0 || key == null) continue;
-                totalAmount += (double) amount / keyType.getAmountPerByte();
-                map.put(key, amount);
-            }
-            storage.setBytes(totalAmount);
-            var tag = i.getTag();
-            if (tag != null) {
-                tag.putLong(USED_BYTE, (long) totalAmount);
-                tag.putInt(USED_TYPE, amounts.length);
+        if (gtocore$aeKeyMap == null) {
+            CellDataStorage storage = gtolib$getCellStorage();
+            if (storage == CellDataStorage.EMPTY) return CellDataStorage.EMPTY.getStoredMap();
+            gtocore$aeKeyMap = storage.getStoredMap();
+            if (gtocore$aeKeyMap == null) {
+                gtocore$aeKeyMap = new AEKeyMap<>();
+                storage.setStoredMap(gtocore$aeKeyMap);
+            } else {
+                double totalAmount = 0;
+                for (long amount : gtocore$aeKeyMap.values()) {
+                    totalAmount += (double) amount / keyType.getAmountPerByte();
+                }
+                storage.setBytes(totalAmount);
+                var tag = i.getTag();
+                if (tag != null) {
+                    tag.putLong(USED_BYTE, (long) totalAmount);
+                    tag.putInt(USED_TYPE, gtocore$aeKeyMap.size());
+                }
             }
         }
-        return map;
+        return gtocore$aeKeyMap;
     }
 
     @Unique
@@ -206,9 +206,8 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
      */
     @Overwrite(remap = false)
     public void persist() {
-        CellDataStorage storage = gtolib$getCellStorage();
-        if (storage.isPersisted()) return;
-        if (gtolib$getCellStoredMap().isEmpty()) {
+        var map = gtolib$getCellStoredMap();
+        if (map.isEmpty()) {
             UUID uuid = gtolib$getUUID();
             if (uuid != null) {
                 CellDataStorage.remove(uuid);
@@ -219,32 +218,21 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
                 }
                 gtolib$uuid = null;
                 gtolib$cache = null;
+                gtocore$aeKeyMap = null;
             }
-            return;
-        }
-        double totalAmount = 0;
-        LongArrayList amounts = new LongArrayList(gtolib$getCellStoredMap().size());
-        ListTag keys = new ListTag();
-        for (var it = gtolib$getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
-            var entry = it.next();
-            long amount = entry.getLongValue();
-            if (amount > 0) {
-                var key = entry.getKey();
+        } else {
+            double totalAmount = 0;
+            for (long amount : gtocore$aeKeyMap.values()) {
                 totalAmount += (double) amount / keyType.getAmountPerByte();
-                keys.add(key.toTagGeneric());
-                amounts.add(amount);
+            }
+            CellDataStorage storage = gtolib$getCellStorage();
+            storage.setBytes(totalAmount);
+            var tag = i.getTag();
+            if (tag != null) {
+                tag.putLong(USED_BYTE, (long) totalAmount);
+                tag.putInt(USED_TYPE, map.size());
             }
         }
-        storage.setPersisted(true);
-        storage.setAmounts(amounts.toArray(new long[0]));
-        storage.setKeys(keys);
-        storage.setBytes(totalAmount);
-        var tag = i.getTag();
-        if (tag != null) {
-            tag.putLong(USED_BYTE, (long) totalAmount);
-            tag.putInt(USED_TYPE, amounts.size());
-        }
-        CellDataStorage.setDirty();
     }
 
     /**
@@ -253,15 +241,12 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
      */
     @Overwrite(remap = false)
     protected void saveChanges() {
-        CellDataStorage storage = gtolib$getCellStorage();
-        double totalAmount = 0;
-        for (var it = gtolib$getCellStoredMap().reference2LongEntrySet().fastIterator(); it.hasNext();) {
-            var entry = it.next();
-            totalAmount += (double) entry.getLongValue() / keyType.getAmountPerByte();
-        }
-        storage.setBytes(totalAmount);
-        gtolib$getCellStorage().setPersisted(false);
         if (container != null) {
+            double totalAmount = 0;
+            for (long amount : gtocore$aeKeyMap.values()) {
+                totalAmount += (double) amount / keyType.getAmountPerByte();
+            }
+            gtolib$getCellStorage().setBytes(totalAmount);
             container.saveChanges();
         } else {
             persist();
@@ -311,6 +296,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         if (amount < 1) return 0;
         if (mode == Actionable.MODULATE) {
             gtolib$getCellStoredMap().addTo(what, amount);
+            data.setDirty();
             saveChanges();
         }
 
@@ -329,12 +315,14 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
             if (amount >= currentAmount) {
                 if (mode == Actionable.MODULATE) {
                     map.remove(what, currentAmount);
+                    gtolib$getCellStorage().setDirty();
                     this.saveChanges();
                 }
                 return currentAmount;
             } else {
                 if (mode == Actionable.MODULATE) {
                     map.put(what, currentAmount - amount);
+                    gtolib$getCellStorage().setDirty();
                     this.saveChanges();
                 }
                 return amount;

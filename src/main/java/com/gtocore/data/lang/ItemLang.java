@@ -117,7 +117,6 @@ final class ItemLang {
         addCNEN("gtocore.tooltip.item.universal_circuit", "一个通用的电路", "A universal circuit");
         addCNEN("gtocore.tooltip.item.craft_step", "合成步骤：%s", "Craft Step: %s");
 
-        addCNEN("item.gtocore.structure_detect.error.1", "在 [%s, %s, %s]:", "At [%s, %s, %s]:");
         addCNEN("item.gtocore.structure_detect.tooltip.0", "潜行右键主方块以检测多方块结构", "Sneak right-click the main block to detect multiblock structure.");
         addCNEN("item.gtocore.structure_detect.tooltip.1", "检测大型结构时可能会有延迟", "There may be lag when detecting large structures.");
         addCNEN("item.gtocore.disc.data", "光盘数据：%s", "Disc data: %s");

@@ -56,6 +56,7 @@ import earth.terrarium.adastra.common.registry.ModFluids;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTModels.overrideModel;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
 import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
 import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
@@ -1075,6 +1076,13 @@ public final class GTOItems {
     // 激光陀螺仪mk12
     public static final ItemEntry<Item> LASER_GYROSCOPE_MK1 = register("laser_gyroscope_mk1", "激光陀螺仪 MK-I");
     public static final ItemEntry<Item> LASER_GYROSCOPE_MK2 = register("laser_gyroscope_mk2", "激光陀螺仪 MK-II");
+
+    // 无人机载终极电池
+    public static final ItemEntry<ComponentItem> DRONE_ULTIMATE_BATTERY = item("drone_ultimate_battery", "无人机载终极电池", ComponentItem::create)
+            .model(overrideModel(GTCEu.id("battery"), 8))
+            .onRegister(modelPredicate(GTCEu.id("battery"), ElectricStats::getStoredPredicate))
+            .onRegister(attach(ElectricStats.createRechargeableBattery(4_800_000_000_000L, GTValues.UHV)))
+            .tag(CustomTags.UHV_BATTERIES).register();
 
     // 奇怪的45钢钢板
     public static final ItemEntry<Item> STRANGE_STRUCTURE_STEEL_45_PLATE = register("strange_structure_steel_45_plate", "奇怪的45钢钢板");

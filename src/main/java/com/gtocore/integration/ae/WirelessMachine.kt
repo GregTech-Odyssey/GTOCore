@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
-import com.gregtechceu.gtceu.utils.GTUtil
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
@@ -41,6 +40,7 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
+import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 import java.util.*
 
@@ -135,8 +135,8 @@ interface WirelessMachine :
 
     @DataGeneratorScanned
     companion object {
-        @RegisterLanguage(cn = "网络节点选择", en = "Grid Node Selector")
-        const val gridNodeSelector = "gtocore.integration.ae.WirelessMachine.gridNodeSelector"
+        @RegisterLanguage(cn = "网络节点设置", en = "Grid Node Settings")
+        const val gridNodeSelector = "gtocore.integration.ae.WirelessMachine.gridNodeSettings"
 
         @RegisterLanguage(cn = "网络节点列表", en = "Grid Node List")
         const val gridNodeList = "gtocore.integration.ae.WirelessMachine.gridNodeList"
@@ -146,6 +146,9 @@ interface WirelessMachine :
 
         @RegisterLanguage(cn = "当前连接到 : %s", en = "Currently connected: %s")
         const val currentlyConnectedTo = "gtocore.integration.ae.WirelessMachine.currentlyConnectedTo"
+
+        @RegisterLanguage(cn = "无", en = "without")
+        const val without = "gtocore.integration.ae.WirelessMachine.without"
 
         @RegisterLanguage(cn = "创建网络", en = "Create Grid")
         const val createGrid = "gtocore.integration.ae.WirelessMachine.createGrid"
@@ -290,9 +293,15 @@ interface WirelessMachine :
     }
 
     fun getSetupFancyUIProvider(): IFancyUIProvider = object : IFancyUIProvider {
-        override fun getTabIcon(): IGuiTexture? = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
+        override fun getTabIcon(): IGuiTexture = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
 
         override fun getTitle(): Component? = Component.translatable(gridNodeSelector)
+
+        override fun getTabTooltips(): MutableList<Component?> {
+            val tooltip: MutableList<Component?> = ObjectArrayList<Component?>()
+            tooltip.add(Component.translatable(gridNodeSelector))
+            return tooltip
+        }
 
         override fun createMainPage(p0: FancyMachineUIWidget?) = rootFresh(176, 166) {
             if (GTOConfig.INSTANCE.aeLog) println(1)
@@ -310,14 +319,14 @@ interface WirelessMachine :
                     }
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.translatable(player, self().playerOwner?.name ?: "无") },
+                        textSupplier = { Component.translatable(player, self().playerOwner?.name ?: without) },
                     )
                     textBlock(
                         maxWidth = availableWidth - 4,
                         textSupplier = {
                             val id = wirelessMachinePersisted.gridConnectedName
                             val nick = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname
-                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
+                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { without })
                         },
                     )
                     // 重新加入“创建网络”输入与按钮

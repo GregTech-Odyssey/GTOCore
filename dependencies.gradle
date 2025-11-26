@@ -12,8 +12,6 @@ dependencies {
 
     implementation("curse.maven:kotlin-for-forge-351264:5402061")
 
-    jarJar("dev:terrific_trash_cans:1.0.0")
-
     modImplementation(jarJar("dev:gtolib:1.0"))
 //    modImplementation("dev:gtolib:1.0-debug")
 

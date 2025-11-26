@@ -38,12 +38,10 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -166,26 +164,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     /////////////////////////////////////
     // ************ UI实现 ************ //
     /////////////////////////////////////
-
-    @Override
-    public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        ItemStack card = cardHandler.getStackInSlot(0);
-        initializationInformation(card);
-        if (uuid == null) return true;
-        UUID playerUUID = player.getUUID();
-        if (isUuidPresent(card, playerUUID)) return true;
-        if (teamUUID != null && teamUUID.equals(TeamUtil.getTeamUUID(playerUUID))) return true;
-        if (Objects.requireNonNull(getLevel()).isClientSide) {
-            player.displayClientMessage(trans(1).withStyle(ChatFormatting.RED), true);
-        }
-        shopSelected = -1;
-        return false;
-    }
-
-    @Override
-    public InteractionResult tryToOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        return IFancyUIMachine.super.tryToOpenUI(player, hand, hit);
-    }
 
     @DescSynced
     private boolean collapseDescription = true;
@@ -374,9 +352,9 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                         int slotIndex = y * Fluid_slots_in_a_row + x;
                         if (inputFluid.getSize() > slotIndex) {
                             Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, 0, 10 + y * 18, true, true)
-                                    .setBackground(GuiTextures.SLOT));
+                                    .setBackground(GuiTextures.SLOT_DARK));
                             Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
-                                    .setBackground(GuiTextures.SLOT));
+                                    .setBackground(GuiTextures.SLOT_DARK));
                         } else break;
                     }
                 }
@@ -424,9 +402,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 leftPanel.setLayout(Layout.VERTICAL_CENTER);
                 leftPanel.setLayoutPadding(8);
 
-                leftPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> {
-                    textList.add(trans(21));
-                }).setSpace(8).setCenter(true));
+                leftPanel.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(21))).setSpace(8).setCenter(true));
 
                 leftPanel.addWidget(new ComponentPanelWidget(0, 10, textList -> {
                     Set<String> keySet = UnlockManager.INSTANCE.getKeySet();
@@ -496,14 +472,14 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             private void updateWidget(WidgetGroup container, FancyMachineUIWidget widget) {
                 container.clearAllWidgets();
                 if (upgradeSelect == null) return;
-                container.addWidget(tradeGroup_10(upgradeSelect, internalPageSelected, widget));
+                container.addWidget(tradeGroup_10(upgradeSelect, internalPageSelected));
                 widget.detectAndSendChanges();
             }
 
             /**
              * 构建 2 行 5 列的交易项组（适配容器尺寸）
              */
-            private WidgetGroup tradeGroup_10(String key, int pageIndex, FancyMachineUIWidget widget) {
+            private WidgetGroup tradeGroup_10(String key, int pageIndex) {
                 WidgetGroup tradeGroup = new WidgetGroup(0, 0, 204, 101);
                 int startIndex = pageIndex * 10;
 
@@ -529,7 +505,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     public void attachSideTabs(TabsWidget sideTabs) {
         sideTabs.setId("fancy_side_tabs");
         sideTabs.clearSubTabs();
-        sideTabs.setOnTabSwitch(null);
         sideTabs.setMainTab(this);
 
         // 添加固定标签
@@ -537,7 +512,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         if (groupSelected == 0) {
             fixedTabs.add(InventoryDisplay());
             fixedTabs.add(TransactionUnlock());
-            fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
         }
 
         // 动态生成商店标签
@@ -547,6 +521,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         // 添加所有标签
         fixedTabs.forEach(sideTabs::attachSubTab);
         displayShopTabs.forEach(sideTabs::attachSubTab);
+        sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
 
         // 标签切换监听器
         sideTabs.setOnTabSwitch((oldTab, newTab) -> {
@@ -910,12 +885,12 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     @Override
     public boolean isAllowInputFromOutputSideItems() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAllowInputFromOutputSideFluids() {
-        return false;
+        return true;
     }
 
     @Override

@@ -603,7 +603,6 @@ object GTOMachineTooltips {
         setTranslationPrefix("me_catalyst_pattern_buffer")
 
         section(MainFunction)
-        function("使用催化剂仓输入催化剂" translatedTo "Use catalyst hatch to input catalysts")
         ok("不消耗催化剂耐久，可以让催化剂重复使用" translatedTo "Not consume catalyst durability each time, allowing the catalyst to be reused")
     }
 
