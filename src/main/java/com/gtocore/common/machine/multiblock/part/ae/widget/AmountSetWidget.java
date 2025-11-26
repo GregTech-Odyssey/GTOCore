@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -27,7 +28,7 @@ class AmountSetWidget extends Widget {
     public AmountSetWidget(int x, int y, ConfigWidget widget) {
         super(x, y, 80, 30);
         this.parentWidget = widget;
-        this.amountText = new TextFieldWidget(x + 3, y + 12, 65, 13, this::getAmountStr, this::setNewAmount).setNumbersOnly(0, Long.MAX_VALUE);
+        this.amountText = new TextFieldWidget(x + 8, y + 12, 60, 13, this::getAmountStr, this::setNewAmount).setNumbersOnly(0, Long.MAX_VALUE);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -78,7 +79,6 @@ class AmountSetWidget extends Widget {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         Position position = getPosition();
         GuiTextures.BACKGROUND.draw(graphics, mouseX, mouseY, position.x, position.y, 80, 30);
-        drawStringSized(graphics, "Amount", position.x + 3, position.y + 3, 4210752, false, 1.0F, false);
-        GuiTextures.DISPLAY.draw(graphics, mouseX, mouseY, position.x + 3, position.y + 11, 65, 14);
+        drawStringSized(graphics, I18n.get("ldlib.gui.editor.configurator.amount"), position.x + 25, position.y + 3, 4210752, false, 1.0F, false);
     }
 }

@@ -1,9 +1,9 @@
 package com.gtocore.api.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.*;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
@@ -221,12 +221,12 @@ public class InteractiveImageWidget extends Widget {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
-        // 悬停显示文本（与 ComponentPanelWidget 渲染逻辑一致）
         if (isMouseOver(mouseX, mouseY) && !lastText.isEmpty()) {
             updateScreen();
-            graphics.renderComponentTooltip(Minecraft.getInstance().font, lastText, mouseX, mouseY);
+            this.gui.getModularUIGui().setHoverTooltip(lastText, ItemStack.EMPTY, null, null);
+            return;
         }
+        super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
     }
 
     @Override

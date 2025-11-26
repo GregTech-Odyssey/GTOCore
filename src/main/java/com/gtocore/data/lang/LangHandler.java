@@ -358,6 +358,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.pick_craft.error.3", "创建的任务数已达上限。", "The number of created tasks has reached the limit.");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
+        addCNEN("gtocore.adv_terminal.block.cancel", "取消", "Cancel");
         addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");
         addCNEN("gtocore.adv_terminal.category.select", "选择类别", "Select Category");
         addCNEN("gtocore.adv_terminal.setting_already_existed", "存在已有设置", "Setting Already Existed");

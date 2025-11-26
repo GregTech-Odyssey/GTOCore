@@ -91,7 +91,7 @@ final class HatchRecipe {
                     .inputItems(FLUID_IMPORT_HATCH[tier].asItem())
                     .inputItems(CraftingComponents.BUFFER.get(tier))
                     .inputItems(PIPE_NONUPLE.get(tier))
-                    .inputItems(FIELD_GENERATOR.get(tier), 4 << (GTOCore.difficulty - 1))
+                    .inputItems(FIELD_GENERATOR.get(tier), 1)
                     .inputItems(GLASS.get(tier))
                     .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
                     .outputItems(DUAL_IMPORT_HATCH[tier].asItem())

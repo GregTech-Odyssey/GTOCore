@@ -73,13 +73,16 @@ public abstract class ConfigWidget extends WidgetGroup {
             if (this.amountSetWidget.getAmountText().mouseClicked(mouseX, mouseY, button)) {
                 return true;
             }
+            if (!this.amountSetWidget.isMouseOverElement(mouseX, mouseY)) {
+                this.disableAmountClient();
+            }
         }
         for (Widget w : this.widgets) {
             if (w instanceof AEConfigSlotWidget slot) {
                 slot.setSelect(false);
             }
         }
-        this.disableAmountClient();
+
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
