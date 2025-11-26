@@ -1185,6 +1185,8 @@ public final class GTOItems {
             .toolTips(ComponentBuilder.create()
                     .addLines("§7Shift + 右键点击将存储访问仓替换为当前物品对应等级的存储访问仓。§r",
                             "§7Shift + Right-Click to convert a Storage Access Hatch into the tier corresponding to this item.§r")
+                    .addLines("§7当从大整数存储访问仓升级到该存储访问仓时，若原有存储储量超过9.2E18，则超过部分将§c§l永久丢失§r§7！§r",
+                            "§7When upgrading from a BigInt Storage Access Hatch to this Storage Access Hatch, if the original storage exceeds 9.2E18, the excess will be §c§lpermanently lost§r§7!§r")
                     .build().getArray())
             .onRegister(attach(MEStorageHatchReplacer.Long))
             .register();
@@ -1199,6 +1201,8 @@ public final class GTOItems {
             .toolTips(ComponentBuilder.create()
                     .addLines("§7Shift + 右键点击将存储访问仓替换为当前物品对应等级的存储访问仓。§r",
                             "§7Shift + Right-Click to convert a Storage Access Hatch into the tier corresponding to this item.§r")
+                    .addLines("§7当从大整数存储访问仓升级到该存储访问仓时，若原有存储储量超过9.2E18，则超过部分将§c§l永久丢失§r§7！§r",
+                            "§7When upgrading from a BigInt Storage Access Hatch to this Storage Access Hatch, if the original storage exceeds 9.2E18, the excess will be §c§lpermanently lost§r§7!§r")
                     .build().getArray())
             .onRegister(attach(MEStorageHatchReplacer.LongIO))
             .register();
