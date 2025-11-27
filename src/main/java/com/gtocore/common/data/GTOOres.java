@@ -784,7 +784,7 @@ public final class GTOOres {
     private static final GTOreDefinition CRYSTAL_VEIN_WATER_FIRE = create("crystal_vein_water_fire", vein -> vein
             .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(20)
             .layer(ALL_LAYER)
-            .dimensions(OVERWORLD, OTHERSIDE)
+            .dimensions(OVERWORLD, ALFHEIM, OTHERSIDE)
             .heightRangeUniform(-50, 0)
             .dikeVeinGenerator(generator -> generator
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(PerditioCrystal, 1, -60, 20))
@@ -798,7 +798,7 @@ public final class GTOOres {
     private static final GTOreDefinition CRYSTAL_VEIN_EARTH_WIND = create("crystal_vein_earth_wind", vein -> vein
             .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(20)
             .layer(ALL_LAYER)
-            .dimensions(OVERWORLD, OTHERSIDE)
+            .dimensions(OVERWORLD, ALFHEIM, OTHERSIDE)
             .heightRangeUniform(-50, 0)
             .dikeVeinGenerator(generator -> generator
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(PerditioCrystal, 1, -60, 20))

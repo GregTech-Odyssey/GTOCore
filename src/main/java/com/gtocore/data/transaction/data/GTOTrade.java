@@ -109,6 +109,17 @@ public class GTOTrade {
     }
 
     /**
+     * 免费物品领取的交易项目构建
+     *
+     * @param unlockCondition 解锁标签
+     * @param stack           物品堆
+     * @return 构建好的免费物品领取交易项目
+     */
+    public static TradeEntry freeItemTrading(String unlockCondition, ItemStack stack) {
+        return new TradeEntry.Builder().texture(new StackTexture(stack)).unlockCondition(unlockCondition).outputItem(stack).build();
+    }
+
+    /**
      * 简单的抽奖交易项目构建
      *
      * @param unlockCondition 解锁标签
