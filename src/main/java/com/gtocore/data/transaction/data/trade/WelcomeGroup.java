@@ -80,7 +80,7 @@ public class WelcomeGroup {
         for (int i = 1; i < 8; i++) {
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, new TradeEntry.Builder()
                     .texture(new StackTexture(TRADING_STATION[1].asStack()))
-                    .addDescription(Component.translatable(addTradeLang("升级贸易站", "升级贸易站")))
+                    .addDescription(Component.translatable(addTradeLang("升级贸易站", "Upgrade the Trading Station")))
                     .unlockCondition(UNLOCK_BASE)
                     .inputItem(TRADING_STATION[i].asStack())
                     .inputCurrency(TECH_OPERATOR_COIN, 4 << (i * 3))

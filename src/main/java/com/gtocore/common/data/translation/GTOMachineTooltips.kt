@@ -352,8 +352,8 @@ object GTOMachineTooltips {
                 "1. Identity & Permission Management: Your Greg Membership Card is the only key to this trading center. It not only represents your identity but also allows you to set shared permissions, enabling your team members to collaborate and grow together on this hub. No card? Sorry, you're just window-shopping.",
         )
         content(
-            "2. 海量存储能力： forget about 小箱子。贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
-                "2. Massive Storage Capacity: Forget about small chests. The Trading Station offers vast storage slots for both items and fluids. The number of item slots and the capacity of fluid tanks increase significantly as you upgrade the station, allowing you to easily handle large-scale raw material storage and finished product output.",
+            "2. 海量存储能力： 贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
+                "2. Massive Storage Capacity: The Trading Station offers vast storage slots for both items and fluids. The number of item slots and the capacity of fluid tanks increase significantly as you upgrade the station, allowing you to easily handle large-scale raw material storage and finished product output.",
         )
         content(
             "3. 丰富的交易与解锁：贸易站内置了庞大的交易网络。你需要通过完成特定的交易或提升贸易站等级来解锁新的、更有价值的交易选项。这就像一个不断成长的科技树，每一次解锁都意味着你的贸易能力得到了质的飞跃。执行交易也非常简单，点击即可，还支持Ctrl/Shift快捷键进行批量操作。" translatedTo

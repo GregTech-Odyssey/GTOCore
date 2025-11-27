@@ -58,10 +58,10 @@ public class EnergyGroup {
         }
     }
 
-    private static final long proportion = 1200 * 10 * 8;
+    private static final long proportion = 1200 * 60 * 8;
 
     private static void addEnergyTrade(int groupIndex, int shopIndex1, int shopIndex2, int values, long proportion, String currency) {
-        BigInteger energy = BigInteger.valueOf(GTValues.VEX[values]).multiply(BigInteger.valueOf(1200L * 10));
+        BigInteger energy = BigInteger.valueOf(GTValues.VEX[values]).multiply(BigInteger.valueOf(1200L * 60));
         BigInteger energy2 = energy.multiply(BigInteger.valueOf(6));
         long amount = energy.divide(BigInteger.valueOf(proportion)).longValue();
         long amount2 = amount * 6;
@@ -71,7 +71,7 @@ public class EnergyGroup {
                         .texture(new ResourceTexture("gtocore:textures/item/circuit/" + GTValues.VN[values].toLowerCase() + ".png"))
                         .description(List.of(
                                 Component.translatable(addTradeLang("出售能源", "energy sales")),
-                                Component.translatable(addTradeLang("将出售 %s 1A %s 分钟的能量", "Will sell %s 1A %s minutes of energy"), GTValues.VN[values], 10)))
+                                Component.translatable(addTradeLang("将出售 %s 1A %s 分钟的能量", "Will sell %s 1A %s minutes of energy"), GTValues.VN[values], 60)))
                         .unlockCondition(GTOValues.VNFR[values])
                         .inputEnergy(energy)
                         .outputCurrency(currency, amount)
@@ -84,7 +84,7 @@ public class EnergyGroup {
                         .texture(new ResourceTexture("gtocore:textures/item/circuit/magneto_" + GTValues.VN[values].toLowerCase() + ".png"))
                         .description(List.of(
                                 Component.translatable(addTradeLang("出售能源", "energy sales")),
-                                Component.translatable(addTradeLang("将出售 %s 1A %s 分钟的能量", "Will sell %s 1A %s minutes of energy"), GTValues.VN[values], 10 * 6)))
+                                Component.translatable(addTradeLang("将出售 %s 1A %s 分钟的能量", "Will sell %s 1A %s minutes of energy"), GTValues.VN[values], 60 * 6)))
                         .unlockCondition(GTOValues.VNFR[values])
                         .inputEnergy(energy2)
                         .outputCurrency(currency, amount)
@@ -95,7 +95,7 @@ public class EnergyGroup {
                         .texture(new ResourceTexture("gtocore:textures/item/circuit/" + GTValues.VN[values].toLowerCase() + ".png"))
                         .description(List.of(
                                 Component.translatable(addTradeLang("购入能源", "procure energy")),
-                                Component.translatable(addTradeLang("将购入 %s 1A %s 分钟的能量", "Will purchase %s 1A %s minutes of energy"), GTValues.VN[values], 10)))
+                                Component.translatable(addTradeLang("将购入 %s 1A %s 分钟的能量", "Will purchase %s 1A %s minutes of energy"), GTValues.VN[values], 60)))
                         .unlockCondition(GTOValues.VNFR[values])
                         .inputCurrency(currency, amount)
                         .outputEnergy(energy)
@@ -106,7 +106,7 @@ public class EnergyGroup {
                         .texture(new ResourceTexture("gtocore:textures/item/circuit/magneto_" + GTValues.VN[values].toLowerCase() + ".png"))
                         .description(List.of(
                                 Component.translatable(addTradeLang("购入能源", "procure energy")),
-                                Component.translatable(addTradeLang("将购入 %s 1A %s 分钟的能量", "Will purchase %s 1A %s minutes of energy"), GTValues.VN[values], 10 * 6)))
+                                Component.translatable(addTradeLang("将购入 %s 1A %s 分钟的能量", "Will purchase %s 1A %s minutes of energy"), GTValues.VN[values], 60 * 6)))
                         .unlockCondition(GTOValues.VNFR[values])
                         .inputCurrency(currency, amount2)
                         .outputEnergy(energy2)

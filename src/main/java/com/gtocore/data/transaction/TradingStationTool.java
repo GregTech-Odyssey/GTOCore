@@ -61,7 +61,7 @@ public class TradingStationTool {
             }
         }
 
-        return Math.min(maxMultiplier, 128); // 限制最大倍数为128（与现有逻辑保持一致）
+        return maxMultiplier;
     }
 
     /**

@@ -81,9 +81,10 @@ public record TradeEntry(
         int outputFluid = outputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxCapacityMultiplier(data.getOutputFluid(), outputGroup().fluids());
         if (outputFluid == 0) return 0;
 
-        int inputCurrencies = inputGroup().currencies().isEmpty() ? Integer.MAX_VALUE : inputGroup().currencies().object2LongEntrySet().stream()
+        int inputCurrencies = inputGroup().currencies().isEmpty() ? Integer.MAX_VALUE : (int) Math.min(inputGroup().currencies().object2LongEntrySet().stream()
                 .filter(entry -> entry.getLongValue() != 0)
-                .mapToInt(entry -> (int) (WalletUtils.getCurrencyAmount(data.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())).min().orElse(0);
+                .mapToLong(entry -> WalletUtils.getCurrencyAmount(data.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())
+                .min().orElse(0L), 100000000);
         if (inputCurrencies == 0) return 0;
 
         int inputEnergy = inputGroup().energy().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID()).getStorage()
