@@ -15,8 +15,8 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
-import com.gtocore.common.machine.noenergy.TradingStationMachine;
 import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
+import com.gtocore.common.machine.noenergy.tradingstation.TradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
 import com.gtocore.integration.ae.SyncTesterMachine;
@@ -944,7 +944,7 @@ public final class GTOMachines {
     public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,
             (tier, builder) -> builder
                     .langValue("Pan-Galactic Gray Technology Trading Station " + "Tier " + tier)
-                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGrayTechTradingStationTooltips().apply(list))
+                    .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationTooltips().apply(list))
                     .nonYAxisRotation()
                     .modelRenderer(() -> GTOCore.id("block/machine/trading_station"))
                     .register(),

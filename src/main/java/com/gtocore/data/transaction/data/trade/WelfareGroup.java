@@ -10,8 +10,10 @@ import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -19,9 +21,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.gregtechceu.gtceu.api.GTValues.LV;
@@ -129,7 +133,7 @@ public class WelfareGroup {
                 simpleItemTrading(true, UNLOCK_BASE, GTMachines.SUPER_TANK[LV].asStack(), TECH_OPERATOR_COIN, 32));
 
         {
-            ItemStack stack = RegistriesUtils.getItemStack("gtceu:damascus_steel_mining_hammer", 1,
+            ItemStack stack = itemStackAddNbtString(Objects.requireNonNull(GTMaterialItems.TOOL_ITEMS.get(DamascusSteel, GTToolType.MINING_HAMMER)).asStack(),
                     "{DisallowContainerItem:0b,Enchantments:[{id:\"minecraft:unbreaking\",lvl:3s}],GT.Behaviours:{AoEColumn:1,AoELayer:0,AoERow:1},GT.Tool:{Damage:0},HideFlags:2}");
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
                     simpleItemTrading(true, UNLOCK_BASE, stack, TECH_OPERATOR_COIN, 48));
@@ -170,7 +174,7 @@ public class WelfareGroup {
                 simpleItemTrading(true, UNLOCK_BASE, new ItemStack(Blocks.CLAY, 64), TECH_OPERATOR_COIN, 8));
 
         TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
-                simpleItemTrading(true, UNLOCK_BASE, RegistriesUtils.getItemStack("factory_blocks:factory", 64), TECH_OPERATOR_COIN, 0));
+                simpleItemTrading(true, UNLOCK_BASE, Adventure.Items.MYTHIC_MATERIAL.get().getDefaultInstance(), TECH_OPERATOR_COIN, 64));
 
         {
             ItemStack stack = RegistriesUtils.getItemStack("constructionwand:infinity_wand");
@@ -185,15 +189,46 @@ public class WelfareGroup {
                             .build());
         }
 
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, RegistriesUtils.getItemStack("factory_blocks:factory", 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.WHITE_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.ORANGE_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.MAGENTA_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.LIGHT_BLUE_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.YELLOW_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.LIME_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.PINK_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.GRAY_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.LIGHT_GRAY_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.CYAN_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.PURPLE_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.BLUE_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.BROWN_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.GREEN_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.RED_CONCRETE, 64)));
+        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
+                freeItemTrading(UNLOCK_BASE, new ItemStack(Items.BLACK_CONCRETE, 64)));
+
         int ShopIndex2 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
                 addTradeLang("福利兑换 贰", "Welfare Redemption 2"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
                 GuiTextures.GREGTECH_LOGO);
-
-        for (TradeEntry entry : createTestTradeTemplates()) {
-            TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1, entry);
-        }
     }
 }

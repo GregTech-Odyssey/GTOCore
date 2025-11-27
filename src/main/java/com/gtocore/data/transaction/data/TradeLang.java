@@ -24,16 +24,16 @@ public class TradeLang {
     }
 
     /// - 技术员币：Tech Operator Coin
-    /// - 研究员币：Research Pioneer Coin
-    /// - 工程师币：Tech Transformer Coin
-    /// - 引航员币：Voyager Navigator Coin
-    /// - 科技执政官币：Tech Administrator Coin
-    /// - 首席科学家币：Chief Science Steward Coin
     public static final String TECH_OPERATOR_COIN = "tech_operator_coin";
+    /// - 研究员币：Research Pioneer Coin
     public static final String RESEARCH_PIONEER_COIN = "research_pioneer_coin";
+    /// - 工程师币：Tech Transformer Coin
     public static final String TECH_TRANSFORMER_COIN = "tech_transformer_coin";
+    /// - 引航员币：Voyager Navigator Coin
     public static final String VOYAGER_NAVIGATOR_COIN = "voyager_navigator_coin";
+    /// - 科技执政官币：Tech Administrator Coin
     public static final String TECH_ADMINISTRATOR_COIN = "tech_administrator_coin";
+    /// - 首席科学家币：Chief Science Steward Coin
     public static final String CHIEF_SCIENCE_STEWARD_COIN = "chief_science_steward_coin";
 
     /// - 能量币：Energy Coin
@@ -97,9 +97,13 @@ public class TradeLang {
         addTradeLang("gtocore.trade_group.false", "商品", "Commodity");
         addTradeLang("gtocore.trade_group.unlock", "未解锁, 需要解锁 %s", "Not unlocked, needs to be unlocked %s");
         addTradeLang("gtocore.trade_group.unsatisfied", "不满足额外条件", "Additional conditions not met");
-        addTradeLang("gtocore.trade_group.amount", "最大可交易次数: %s", "Maximum number of trades: %s");
+        addTradeLang("gtocore.trade_group.amount", "可交易次数: %s", "Number of tradables: %s");
         addTradeLang("gtocore.trade_group.repeatedly1", "按下Ctrl尝试交易10次", "Press Ctrl to attempt 10 trades");
         addTradeLang("gtocore.trade_group.repeatedly2", "同时按下Ctrl Shift尝试交易100次", "Simultaneously press Ctrl Shift to attempt 100 trades");
+        addTradeLang("gtocore.trade_group.exchanged", "将%2$s兑换为%1$s", "Exchange %1$s for %2$s");
+
+        addTradeLang("gtocore.trading_station.inventory", "库存", "Inventory");
+        addTradeLang("gtocore.trading_station.unlock_shop", "解锁商店", "Unlock Store");
 
         addTradeLang("gtocore.trading_station.textList.1", "这台机器不属于你, 你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
         addTradeLang("gtocore.trading_station.textList.2", "⇦ 请放入会员卡", "⇦ Please insert your membership card.");

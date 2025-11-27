@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.mana;
 
+import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -11,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
@@ -98,14 +100,32 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     }
 
     private void increase(Level world) {
-        int sky = 0;
-        if (world.dimension().equals(Level.END)) sky = 3;
-        else if (world.isDay()) sky = 1;
-        else if (world.isNight()) sky = 2;
-        switch (sky) {
-            case 1 -> solaris = Math.min(max_capacity, solaris + 10);
-            case 2 -> lunara = Math.min(max_capacity, lunara + 10);
-            case 3 -> voidflux = Math.min(max_capacity, voidflux + 10);
+        ResourceLocation dimLocation = world.dimension().location();
+
+        // Void维度：solaris 和 lunara 各加5
+        if (GTODimensions.isVoid(dimLocation)) {
+            solaris = Math.min(max_capacity, solaris + 5);
+            lunara = Math.min(max_capacity, lunara + 5);
+        }
+        // OTHERSIDE维度：voidflux 加50
+        else if (GTODimensions.OTHERSIDE.equals(dimLocation)) {
+            voidflux = Math.min(max_capacity, voidflux + 50);
+        }
+        // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
+        else if (GTODimensions.ALFHEIM.equals(dimLocation)) {
+            if (world.isDay()) {
+                solaris = Math.min(max_capacity, solaris + 20);
+            } else if (world.isNight()) {
+                lunara = Math.min(max_capacity, lunara + 20);
+            }
+        }
+        // 主世界/末地的资源增加逻辑
+        else if (world.dimension().equals(Level.END)) {
+            voidflux = Math.min(max_capacity, voidflux + 10);
+        } else if (world.isDay()) {
+            solaris = Math.min(max_capacity, solaris + 10);
+        } else if (world.isNight()) {
+            lunara = Math.min(max_capacity, lunara + 10);
         }
     }
 

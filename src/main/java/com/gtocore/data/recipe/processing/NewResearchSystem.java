@@ -28,6 +28,7 @@ import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.common.data.machines.ExResearchMachines.*;
+import static com.gtocore.data.recipe.builder.research.ExResearchManager.EmptyDataCrystalList;
 
 public final class NewResearchSystem {
 
@@ -717,6 +718,77 @@ public final class NewResearchSystem {
                     .duration(200)
                     .EUt(VA[UHV])
                     .save();
+        }
+
+        // 数据晶片
+        {
+            CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_component_mk1")
+                    .inputItems(ADVANCED_CIRCUIT_BOARD, 8)
+                    .inputItems(SYSTEM_ON_CHIP, 32)
+                    .inputItems(NAND_MEMORY_CHIP, 64)
+                    .inputItems(NOR_MEMORY_CHIP, 64)
+                    .inputItems(POWER_INTEGRATED_CIRCUIT, 16)
+                    .inputItems(plate, Diamond, 12)
+                    .outputItems(DATA_CRYSTAL_COMPONENT_MK1)
+                    .inputFluids(SolderingAlloy, L * 8)
+                    .EUt(VA[EV]).duration(2000).save();
+
+            ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_mk1")
+                    .inputItems(DATA_CRYSTAL_COMPONENT_MK1, 3)
+                    .inputItems(FIELD_GENERATOR_EV)
+                    .outputItems(EmptyDataCrystalList.get(1))
+                    .inputFluids(SolderingAlloy, L * 8)
+                    .EUt(VA[EV]).duration(16000).save();
+
+            CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_component_mk2")
+                    .inputItems(ELITE_CIRCUIT_BOARD, 8)
+                    .inputItems(ADVANCED_SYSTEM_ON_CHIP, 32)
+                    .inputItems(QUBIT_CENTRAL_PROCESSING_UNIT, 64)
+                    .inputItems(HIGH_POWER_INTEGRATED_CIRCUIT, 64)
+                    .inputItems(gemExquisite, MagnetoResonatic, 16)
+                    .inputItems(plate, Ruby, 12)
+                    .outputItems(DATA_CRYSTAL_COMPONENT_MK2)
+                    .inputFluids(SolderingAlloy, L * 32)
+                    .EUt(VA[LuV]).duration(2000).save();
+
+            ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_mk2")
+                    .inputItems(DATA_CRYSTAL_COMPONENT_MK2, 3)
+                    .inputItems(FIELD_GENERATOR_LuV)
+                    .outputItems(EmptyDataCrystalList.get(2))
+                    .inputFluids(SolderingAlloy, L * 32)
+                    .EUt(VA[LuV]).duration(16000).save();
+
+            CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_component_mk3")
+                    .inputItems(OPTICAL_PRINTED_CIRCUIT_BOARD, 8)
+                    .inputItems(OPTICAL_RAM_CHIP, 32)
+                    .inputItems(NM_CHIP, 16)
+                    .inputItems(BIOWARE_CHIP, 64)
+                    .inputItems(OPTICAL_SLICE, 64)
+                    .inputItems(plate, Amethyst, 12)
+                    .outputItems(DATA_CRYSTAL_COMPONENT_MK3)
+                    .inputFluids(MutatedLivingSolder, L * 32)
+                    .EUt(VA[UHV]).duration(2000).save();
+
+            ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_mk3")
+                    .inputItems(DATA_CRYSTAL_COMPONENT_MK3, 3)
+                    .inputItems(FIELD_GENERATOR_UHV)
+                    .outputItems(EmptyDataCrystalList.get(3))
+                    .inputFluids(MutatedLivingSolder, L * 32)
+                    .EUt(VA[UHV]).duration(16000).save();
+
+            ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_mk4")
+                    .inputItems(DATA_CRYSTAL_COMPONENT_MK4, 3)
+                    .inputItems(FIELD_GENERATOR_UIV)
+                    .outputItems(EmptyDataCrystalList.get(4))
+                    .inputFluids(MutatedLivingSolder, L * 128)
+                    .EUt(VA[UIV]).duration(16000).save();
+
+            ASSEMBLER_RECIPES.recipeBuilder("assembler_data_crystal_mk5")
+                    .inputItems(DATA_CRYSTAL_COMPONENT_MK5, 3)
+                    .inputItems(FIELD_GENERATOR_OpV)
+                    .outputItems(EmptyDataCrystalList.get(5))
+                    .inputFluids(SuperMutatedLivingSolder, L * 128)
+                    .EUt(VA[OpV]).duration(16000).save();
         }
     }
 }

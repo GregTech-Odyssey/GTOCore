@@ -214,11 +214,12 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.6", "工作模式: 附魔书合并", "Working Mode: Enchantment Enchanted Book Merge");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.7", "工作模式: 刻印精粹合成铭刻之布", "Working Mode: Affix to craft Enchanted Book");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.8", "工作模式: 宝石合并", "Working Mode: Gem Merge");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.9", "工作模式: 强行附魔", "Working Mode: Forced enchantment");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.10", "工作模式: 强行刻印", "Working Mode: Forced add affixes");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.11", "工作模式: 强行修改物品稀有度", "Working Mode: Forcefully modify item rarity");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式: 强行添加镶孔", "Working Mode: Forced addition of sockets");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式: 强行镶嵌宝石", "Working Mode: Forced gem inlay");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.9", "工作模式: 宝石粉碎", "Working Mode: Gem Crushing");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.10", "工作模式: 强行附魔", "Working Mode: Forced enchantment");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.11", "工作模式: 强行刻印", "Working Mode: Forced add affixes");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式: 强行修改物品稀有度", "Working Mode: Forcefully modify item rarity");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式: 强行添加镶孔", "Working Mode: Forced addition of sockets");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.14", "工作模式: 强行镶嵌宝石", "Working Mode: Forced gem inlay");
         addCNEN("gtceu.machine.me.import_part.data_stick.name", "§o %s配置数据", "§o %s Configuration Data");
         addCNEN("gtocore.compound_extreme_cooling_unit.tooltips.combined", "选择等离子冷凝模式以启用", "Select plasma condensation mode to enable");
         addCNEN("gtocore.machine.spacestation.ready", "空间站准备： %s%%就绪", "Space Station Readiness: %s%% Ready");

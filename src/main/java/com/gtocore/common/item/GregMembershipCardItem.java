@@ -24,13 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class GrayMembershipCardItem extends Item {
+public class GregMembershipCardItem extends Item {
 
     private static final String TAG_MEMBERSHIP_DATA = "membership_data";
     private static final String TAG_UUID = "uuid";
     private static final String TAG_SHARED = "shared";
 
-    public GrayMembershipCardItem(Properties properties) {
+    public GregMembershipCardItem(Properties properties) {
         super(properties.stacksTo(1));
     }
 
@@ -81,11 +81,9 @@ public class GrayMembershipCardItem extends Item {
      * 根据单个 UUID 创建会员卡物品（使用原生 UUID 存储）。
      */
     public static ItemStack createWithUuid(@NotNull UUID uuid) {
-        ItemStack stack = new ItemStack(GTOItems.GRAY_MEMBERSHIP_CARD.get());
+        ItemStack stack = new ItemStack(GTOItems.GREG_MEMBERSHIP_CARD.get());
         CompoundTag membershipTag = getMembershipTag(stack);
-        if (membershipTag != null) {
-            membershipTag.putUUID(TAG_UUID, uuid);
-        }
+        membershipTag.putUUID(TAG_UUID, uuid);
         return stack;
     }
 
@@ -96,7 +94,7 @@ public class GrayMembershipCardItem extends Item {
         ItemStack stack = createWithUuid(uuid);
         CompoundTag membershipTag = getMembershipTag(stack);
 
-        if (membershipTag == null || sharedUuids == null || sharedUuids.isEmpty()) {
+        if (sharedUuids == null || sharedUuids.isEmpty()) {
             return stack;
         }
 
@@ -114,9 +112,6 @@ public class GrayMembershipCardItem extends Item {
      */
     public static boolean isUuidPresent(@NotNull ItemStack stack, @NotNull UUID uuidToCheck) {
         CompoundTag membershipTag = getMembershipTag(stack);
-        if (membershipTag == null) {
-            return false;
-        }
 
         // 检查主人 UUID
         if (membershipTag.hasUUID(TAG_UUID) && membershipTag.getUUID(TAG_UUID).equals(uuidToCheck)) {
@@ -146,7 +141,7 @@ public class GrayMembershipCardItem extends Item {
     @Nullable
     public static UUID getSingleUuid(@NotNull ItemStack stack) {
         CompoundTag membershipTag = getMembershipTag(stack);
-        if (membershipTag != null && membershipTag.hasUUID(TAG_UUID)) {
+        if (membershipTag.hasUUID(TAG_UUID)) {
             try {
                 return membershipTag.getUUID(TAG_UUID);
             } catch (IllegalArgumentException e) {
@@ -164,7 +159,7 @@ public class GrayMembershipCardItem extends Item {
         List<UUID> sharedUuids = new ArrayList<>();
         CompoundTag membershipTag = getMembershipTag(stack);
 
-        if (membershipTag == null || !membershipTag.contains(TAG_SHARED, Tag.TAG_LIST)) {
+        if (!membershipTag.contains(TAG_SHARED, Tag.TAG_LIST)) {
             return sharedUuids;
         }
 

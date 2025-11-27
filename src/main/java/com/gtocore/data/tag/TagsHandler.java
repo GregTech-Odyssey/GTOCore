@@ -21,6 +21,7 @@ import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import earth.terrarium.adastra.common.registry.ModBlocks;
+import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.lib.BotaniaTags;
 
 public final class TagsHandler {
@@ -30,7 +31,7 @@ public final class TagsHandler {
         create(provider, Tags.ALL_LAYER_STONE, Blocks.END_STONE, ModBlocks.MOON_STONE.get(), ModBlocks.MARS_STONE.get(), ModBlocks.VENUS_STONE.get(),
                 ModBlocks.MERCURY_STONE.get(), ModBlocks.GLACIO_STONE.get(), GTOBlocks.TITAN_STONE.get(), GTOBlocks.PLUTO_STONE.get(),
                 GTOBlocks.IO_STONE.get(), GTOBlocks.GANYMEDE_STONE.get(), GTOBlocks.ENCELADUS_STONE.get(), GTOBlocks.CERES_STONE.get(),
-                DDBlocks.SCULK_STONE.get(), DDBlocks.GLOOMSLATE.get());
+                DDBlocks.SCULK_STONE.get(), DDBlocks.GLOOMSLATE.get(), BotaniaBlocks.livingrock);
         create(provider, Tags.ARCHWOOD_LOG,
                 BlockRegistry.BLAZING_LOG.get(), BlockRegistry.CASCADING_LOG.get(), BlockRegistry.VEXING_LOG.get(), BlockRegistry.FLOURISHING_LOG.get(),
                 BlockRegistry.BLAZING_WOOD.get(), BlockRegistry.CASCADING_WOOD.get(), BlockRegistry.FLOURISHING_WOOD.get(), BlockRegistry.VEXING_WOOD.get(),

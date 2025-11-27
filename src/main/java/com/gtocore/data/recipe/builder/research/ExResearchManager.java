@@ -16,6 +16,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public final class ExResearchManager {
@@ -39,22 +41,24 @@ public final class ExResearchManager {
     public static final String EMPTY_NBT_TAG = "empty_crystal";
     public static final String EMPTY_ID_NBT_TAG = "empty_id";
 
-    public static final Int2ObjectMap<ItemStack> DataCrystalMap = new Int2ObjectOpenHashMap<>();
+    public static final List<ItemStack> DataCrystalList = new ArrayList<>();
     static {
-        DataCrystalMap.put(1, GTOItems.DATA_CRYSTAL_MK1.asStack());
-        DataCrystalMap.put(2, GTOItems.DATA_CRYSTAL_MK2.asStack());
-        DataCrystalMap.put(3, GTOItems.DATA_CRYSTAL_MK3.asStack());
-        DataCrystalMap.put(4, GTOItems.DATA_CRYSTAL_MK4.asStack());
-        DataCrystalMap.put(5, GTOItems.DATA_CRYSTAL_MK5.asStack());
+        DataCrystalList.addFirst(Items.BARRIER.getDefaultInstance());
+        DataCrystalList.add(1, GTOItems.DATA_CRYSTAL_MK1.asStack());
+        DataCrystalList.add(2, GTOItems.DATA_CRYSTAL_MK2.asStack());
+        DataCrystalList.add(3, GTOItems.DATA_CRYSTAL_MK3.asStack());
+        DataCrystalList.add(4, GTOItems.DATA_CRYSTAL_MK4.asStack());
+        DataCrystalList.add(5, GTOItems.DATA_CRYSTAL_MK5.asStack());
     }
 
     public static ItemStack getDataCrystalItem(int tier) {
         if (tier < 1 || tier > 5) throw new IllegalArgumentException("Invalid crystal tier: " + tier + " (must be 1-5)");
-        return DataCrystalMap.get(tier).copy();
+        return DataCrystalList.get(tier).copy();
     }
 
-    public static final Int2ObjectMap<ItemStack> ErrorDataCrystalMap = new Int2ObjectOpenHashMap<>();
+    public static final List<ItemStack> ErrorDataCrystalList = new ArrayList<>();
     static {
+        ErrorDataCrystalList.addFirst(Items.BARRIER.getDefaultInstance());
         int[] errorDataCrystal = { 0x38181C20, 0x3B1820D9, 0x3A181F46, 0x3D1823FF, 0x3C18226C };
         for (int tier = 1; tier <= 5; tier++) {
             ItemStack emptyStack = getDataCrystalItem(tier);
@@ -63,31 +67,33 @@ public final class ExResearchManager {
             dataTag.putString(ANALYZE_ID_NBT_TAG, "error" + tier);
             dataTag.putInt(ANALYZE_SERIAL_NBT_TAG, errorDataCrystal[tier - 1]);
             stackTag.put(ANALYZE_NBT_TAG, dataTag);
-            ErrorDataCrystalMap.put(tier, emptyStack);
+            ErrorDataCrystalList.add(tier, emptyStack);
         }
     }
 
-    public static final Int2ObjectMap<ItemStack> EmptyDataCrystalMap = new Int2ObjectOpenHashMap<>();
+    public static final List<ItemStack> EmptyDataCrystalList = new ArrayList<>();
     static {
+        EmptyDataCrystalList.addFirst(Items.BARRIER.getDefaultInstance());
         for (int tier = 1; tier <= 5; tier++) {
             ItemStack emptyStack = getDataCrystalItem(tier);
             CompoundTag stackTag = emptyStack.getOrCreateTag();
             CompoundTag emptyTag = new CompoundTag();
             emptyTag.putInt(EMPTY_ID_NBT_TAG, 0);
             stackTag.put(EMPTY_NBT_TAG, emptyTag);
-            EmptyDataCrystalMap.put(tier, emptyStack);
+            EmptyDataCrystalList.add(tier, emptyStack);
         }
     }
 
-    public static final Int2ObjectMap<Item> DataItemMap = new Int2ObjectOpenHashMap<>();
+    public static final List<Item> DataItemList = new ArrayList<>();
     static {
-        DataItemMap.put(1, GTItems.TOOL_DATA_STICK.get());
-        DataItemMap.put(2, GTItems.TOOL_DATA_ORB.asItem());
-        DataItemMap.put(3, GTItems.TOOL_DATA_MODULE.asItem());
-        DataItemMap.put(4, GTOItems.NEURAL_MATRIX.asItem());
-        DataItemMap.put(5, GTOItems.ATOMIC_ARCHIVES.asItem());
-        DataItemMap.put(6, GTOItems.OBSIDIAN_MATRIX.asItem());
-        DataItemMap.put(7, GTOItems.MICROCOSM.asItem());
+        DataItemList.addFirst(Items.BARRIER);
+        DataItemList.add(1, GTItems.TOOL_DATA_STICK.asItem());
+        DataItemList.add(2, GTItems.TOOL_DATA_ORB.asItem());
+        DataItemList.add(3, GTItems.TOOL_DATA_MODULE.asItem());
+        DataItemList.add(4, GTOItems.NEURAL_MATRIX.asItem());
+        DataItemList.add(5, GTOItems.ATOMIC_ARCHIVES.asItem());
+        DataItemList.add(6, GTOItems.OBSIDIAN_MATRIX.asItem());
+        DataItemList.add(7, GTOItems.MICROCOSM.asItem());
     }
 
     public record DataCrystal(

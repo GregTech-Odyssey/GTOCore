@@ -81,19 +81,20 @@ public record TradeEntry(
         int outputFluid = outputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxCapacityMultiplier(data.getOutputFluid(), outputGroup().fluids());
         if (outputFluid == 0) return 0;
 
-        int inputCurrencies = inputGroup().currencies().isEmpty() ? Integer.MAX_VALUE : inputGroup().currencies().object2LongEntrySet().stream()
+        int inputCurrencies = inputGroup().currencies().isEmpty() ? Integer.MAX_VALUE : (int) Math.min(inputGroup().currencies().object2LongEntrySet().stream()
                 .filter(entry -> entry.getLongValue() != 0)
-                .mapToInt(entry -> (int) (WalletUtils.getCurrencyAmount(data.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())).min().orElse(0);
+                .mapToLong(entry -> WalletUtils.getCurrencyAmount(data.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())
+                .min().orElse(0L), Integer.MAX_VALUE);
         if (inputCurrencies == 0) return 0;
 
         int inputEnergy = inputGroup().energy().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID()).getStorage()
                 .divide(inputGroup().energy())
-                .min(BigInteger.valueOf(100000000)).intValueExact();
+                .min(BigInteger.valueOf(Integer.MAX_VALUE)).intValueExact();
         if (inputEnergy == 0) return 0;
 
         int inputMana = inputGroup().mana().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessManaContainer.getOrCreateContainer(data.getTeamUUID()).getStorage()
                 .divide(inputGroup().mana())
-                .min(BigInteger.valueOf(100_000_000)).intValueExact();
+                .min(BigInteger.valueOf(Integer.MAX_VALUE)).intValueExact();
         if (inputMana == 0) return 0;
 
         return IntStream.of(inputItem, inputFluid, outputFluid, inputCurrencies, inputEnergy, inputMana)

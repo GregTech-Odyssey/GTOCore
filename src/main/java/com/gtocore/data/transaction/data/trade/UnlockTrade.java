@@ -37,7 +37,7 @@ public class UnlockTrade {
             tradeGroup.addItem(GTMachines.HULL[i].asStack());
             UnlockManager.INSTANCE.addTradeToEntry(addTradeLang("格雷电压", "GT Values"),
                     tradeEntry(new ResourceTexture("gtocore:textures/item/circuit/" + GTValues.VN[i].toLowerCase() + ".png"),
-                            UNLOCK_SHOP, GTOValues.VNFR[i], tradeGroup));
+                            UNLOCK_TRADE, GTOValues.VNFR[i], tradeGroup));
         }
     }
 

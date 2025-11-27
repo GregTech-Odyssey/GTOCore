@@ -56,11 +56,12 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      * 6 附魔书合并
      * 7 铭刻之布合成
      * 8 宝石合成
-     * 9 强行附魔给予
-     * 10 强行刻印给予
-     * 11 强行修改稀有度
-     * 12 强行增加镶孔
-     * 13 强行镶嵌宝石
+     * 9 宝石粉碎
+     * 10 强行附魔给予
+     * 11 强行刻印给予
+     * 12 强行修改稀有度
+     * 13 强行增加镶孔
+     * 14 强行镶嵌宝石
      */
     private static int circuit = 0;
 
@@ -85,11 +86,12 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             case 6 -> recipe = getEnchantedBooksMergeRecipe();
             case 7 -> recipe = getAffixCanvasLoadRecipe();
             case 8 -> recipe = getGemSynthesisRecipe();
-            case 9 -> recipe = getForcedEnchantmentRecipe();
-            case 10 -> recipe = getForcedAffixRecipe();
-            case 11 -> recipe = getForcedRarityUpRecipe();
-            case 12 -> recipe = getForcedAddSocketRecipe();
-            case 13 -> recipe = getForcedMosaicGemRecipe();
+            case 9 -> recipe = getGemCrushingRecipe();
+            case 10 -> recipe = getForcedEnchantmentRecipe();
+            case 11 -> recipe = getForcedAffixRecipe();
+            case 12 -> recipe = getForcedRarityUpRecipe();
+            case 13 -> recipe = getForcedAddSocketRecipe();
+            case 14 -> recipe = getForcedMosaicGemRecipe();
         }
         if (recipe != null) if (RecipeRunner.matchRecipe(this, recipe)) return recipe;
         return null;
@@ -102,32 +104,27 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         RecipeBuilder disassembleRecipeBuilder = getRecipeBuilder();
         List<ItemStack> inputsItems = new ObjectArrayList<>();
         List<ItemStack> outputsItems = new ObjectArrayList<>();
-        IntHolder count = new IntHolder(0);
         forEachInputItems((stack, amount) -> {
             CompoundTag nbt = stack.getTag();
             if (nbt != null) {
                 if (nbt.contains("affix_data") || nbt.contains("Enchantments")) {
                     if (disassembleEquipment(nbt, inputsItems, outputsItems)) {
                         inputsItems.add(stack);
-                        count.value++;
                     }
                 } else if (circuit == 4 && nbt.contains("Damage")) {
                     inputsItems.add(stack);
-                    count.value++;
                 }
                 if (circuit == 2 || circuit == 4)
                     if (stack.getItem().equals(Items.ENCHANTED_BOOK.asItem()))
                         if (disassembleEnchantments(nbt, outputsItems)) {
                             inputsItems.add(stack);
                             outputsItems.add(new ItemStack(Items.BOOK));
-                            count.value++;
                         }
                 if (circuit == 3 || circuit == 4)
                     if (stack.getItem().equals(GTOItems.AFFIX_CANVAS.asItem()))
                         if (disassembleAffixCanvas(nbt, outputsItems)) {
                             inputsItems.add(stack);
                             outputsItems.add(new ItemStack(GTOItems.AFFIX_CANVAS));
-                            count.value++;
                         }
             }
             return false;
@@ -678,6 +675,45 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         return GemSynthesisRecipeBuilder.buildRawRecipe();
     }
 
+    private static final Map<String, Integer> RARITY_TO_DUST_COUNT = Map.of(
+            "apotheosis:common", 2,
+            "apotheosis:uncommon", 3,
+            "apotheosis:rare", 4,
+            "apotheosis:epic", 5,
+            "apotheosis:mythic", 6,
+            "apotheosis:ancient", 10);
+
+    /**
+     * 宝石合成
+     */
+    private Recipe getGemCrushingRecipe() {
+        RecipeBuilder gemCrushingRecipeBuilder = getRecipeBuilder();
+
+        List<ItemStack> inputsItems = new ObjectArrayList<>();
+        LongHolder totalDustCount = new LongHolder(0);
+
+        forEachInputItems((stack, amount) -> {
+            if (stack.getItem() == Adventure.Items.GEM.get()) {
+                int stackDust = stack.getCount() * RARITY_TO_DUST_COUNT.getOrDefault(getGemRarity(stack), 1);
+                inputsItems.add(stack);
+                if (totalDustCount.value + stackDust >= Integer.MAX_VALUE) {
+                    totalDustCount.value = Integer.MAX_VALUE;
+                    return true;
+                } else {
+                    totalDustCount.value += stackDust;
+                }
+            }
+            return false;
+        });
+
+        if (inputsItems.isEmpty() || totalDustCount.value <= 0) return null;
+        inputsItems.forEach(gemCrushingRecipeBuilder::inputItems);
+        gemCrushingRecipeBuilder.outputItems(Adventure.Items.GEM_DUST.get(), (int) totalDustCount.value);
+
+        gemCrushingRecipeBuilder.duration(10);
+        return gemCrushingRecipeBuilder.buildRawRecipe();
+    }
+
     /**
      * 强行为物品添加附魔
      */
@@ -854,7 +890,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
             if (stackItem == Adventure.Items.SIGIL_OF_SOCKETING.get()) {
-                sigilCount.value += amount;
+                sigilCount.value += (int) amount;
                 return false;
             }
             if (addSocketItem.value == null)
