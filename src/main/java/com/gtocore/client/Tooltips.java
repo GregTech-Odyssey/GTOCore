@@ -35,7 +35,6 @@ public final class Tooltips {
         toolTipsBuilder.put(GTItems.VACUUM_TUBE.get(), new CNENS(new String[] { "手持粗真空管潜行右击真空等级大于0的真空提供机器获取" }, new String[] { "Right-click the handheld rough vacuum tube to obtain vacuum supply from a machine with vacuum level greater than 0" }));
         toolTipsBuilder.put(GTOBlocks.URUIUM_COIL_BLOCK.asItem(), new CNENS(new String[] { "可为超维度等离子锻炉提供32000K炉温", "恒星锻炉模式仅可使用该线圈" }, new String[] { "Can provide 32000K furnace temperature for the hyper-dimensional plasma furnace", "Only this coil can be used in stellar furnace mode" }));
         toolTipsBuilder.put(GTOBlocks.QUANTUM_GLASS.asItem(), new CNENS(new String[] { "致密但透明", "§b玻璃&优雅" }, new String[] { "Dense but Transparent", "§bGlass & Elegance" }));
-        toolTipsBuilder.put(GTItems.TURBINE_ROTOR.asItem(), new CNENS(new String[] { "§c已弃用", "§7请清理更换相关涡轮转子生产设备" }, new String[] { "§cDeprecated", "§7Please clean up and replace the relevant turbine rotor production equipment" }));
         toolTipsBuilder.put(ModItems.ONION.get(), new CNENS(new String[] { "假如你切它时流泪了，说明你还不够强大", "§7——来自它下方某块黑曜石的忠告" }, new String[] { "If you cry when you cut it, it means you are not strong enough", "§7——Advice from a block of obsidian below it" }));
 
         TOOL_TIPS_MAP = toolTipsBuilder.build();

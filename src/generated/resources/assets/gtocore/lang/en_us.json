@@ -2586,6 +2586,7 @@
   "gtocore.lang.-883393135": "Running Requirements",
   "gtocore.lang.-88949489": "Operation duration adjustment range: 32%~100%",
   "gtocore.lang.-94407882": "Conjunction Module",
+  "gtocore.lang.-98188006": "§7When upgrading from a BigInt Storage Access Hatch to this Storage Access Hatch, if the original storage exceeds 9.2E18, the excess will be §c§lpermanently lost§r§7!§r",
   "gtocore.lang.0.-568444703": "Shift+Right click a block to copy its name, which is convenient for naming",
   "gtocore.lang.0.1059274564": "Super CPU in ME Network",
   "gtocore.lang.0.1816804360": "Left click air to switch between three modes",
