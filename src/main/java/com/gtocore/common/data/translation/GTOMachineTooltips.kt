@@ -348,11 +348,11 @@ object GTOMachineTooltips {
 
         section("核心功能" translatedTo "Core Features")
         content(
-            "1. 身份与权限管理：你的格雷会员卡是进入这个贸易中心的唯一钥匙。它不仅代表了你的身份，还能设置共享权限，让你的团队成员也能在这个枢纽上协同工作，共同发展。没有会员卡？对不起，你只能看看而已。" translatedTo
-                "1. Identity & Permission Management: Your Greg Membership Card is the only key to this trading center. It not only represents your identity but also allows you to set shared permissions, enabling your team members to collaborate and grow together on this hub. No card? Sorry, you're just window-shopping.",
+            "1. 身份与权限管理：你的格雷会员卡是进入这个贸易中心的唯一钥匙。没有会员卡？对不起，你只能看看而已。" translatedTo
+                "1. Identity & Permission Management: Your Gray Membership Card is the only key to this trading center. No card? Sorry, you're just window-shopping.",
         )
         content(
-            "2. 海量存储能力： 贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
+            "2. 海量存储能力：贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
                 "2. Massive Storage Capacity: The Trading Station offers vast storage slots for both items and fluids. The number of item slots and the capacity of fluid tanks increase significantly as you upgrade the station, allowing you to easily handle large-scale raw material storage and finished product output.",
         )
         content(

@@ -48,10 +48,10 @@ public class WelcomeGroup {
 
         int ShopIndex1 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
-                addTradeLang("欢迎来到格雷科技销售部币兑区", "Welcome to the Currency Exchange Area of Gray Technology Sales Department"),
+                addTradeLang("格雷科技销售部兑币区", "Currency Exchange Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
-                GuiTextures.GREGTECH_LOGO);
+                new ItemStackTexture(ChemicalHelper.get(GTOTagPrefix.COIN, Infinity)));
 
         Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity };
 
@@ -62,10 +62,10 @@ public class WelcomeGroup {
 
         int ShopIndex2 = TradingManager.INSTANCE.addShopByGroupIndex(
                 GroupIndex,
-                addTradeLang("欢迎来到格雷科技销售部会员区", "Welcome to the Membership Area of Gray Technology Sales Department"),
+                addTradeLang("格雷科技销售部会员区", "Membership Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
-                GuiTextures.GREGTECH_LOGO);
+                new ResourceTexture("minecraft:textures/mob_effect/luck.png"));
 
         TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, new TradeEntry.Builder()
                 .texture(new ResourceTexture("minecraft:textures/mob_effect/luck.png"))
@@ -80,7 +80,8 @@ public class WelcomeGroup {
         for (int i = 1; i < 8; i++) {
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex2, new TradeEntry.Builder()
                     .texture(new StackTexture(TRADING_STATION[1].asStack()))
-                    .addDescription(Component.translatable(addTradeLang("升级贸易站", "Upgrade the Trading Station")))
+                    .addDescription(Component.translatable(addTradeLang("升级贸易站", "Upgrade Trading Station")))
+                    .addDescription(Component.translatable("gtocore.trade_group.exchanged", "Tier" + (i + 1), "Tier" + i))
                     .unlockCondition(UNLOCK_BASE)
                     .inputItem(TRADING_STATION[i].asStack())
                     .inputCurrency(TECH_OPERATOR_COIN, 4 << (i * 3))
@@ -93,7 +94,7 @@ public class WelcomeGroup {
         ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
         return new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Coin))
-                .description(List.of(Component.translatable(addTradeLang("将硬币兑换为技术员币", "Exchange coins for technician coins"))))
+                .description(List.of(Component.translatable("gtocore.trade_group.exchanged", Component.translatable("gtocore.currency." + TECH_OPERATOR_COIN), Coin.getDisplayName())))
                 .unlockCondition(UNLOCK_BASE)
                 .inputItem(Coin)
                 .outputCurrency(TECH_OPERATOR_COIN, 1L << (tier * 3))
@@ -104,7 +105,7 @@ public class WelcomeGroup {
         ItemStack Coin = ChemicalHelper.get(GTOTagPrefix.COIN, material);
         return new TradeEntry.Builder()
                 .texture(new ItemStackTexture(Coin))
-                .description(List.of(Component.translatable(addTradeLang("将技术员币提款为硬币", "Technician coins can be withdrawn as coins"))))
+                .description(List.of(Component.translatable("gtocore.trade_group.exchanged", Coin.getDisplayName(), Component.translatable("gtocore.currency." + TECH_OPERATOR_COIN))))
                 .unlockCondition(UNLOCK_BASE)
                 .inputCurrency(TECH_OPERATOR_COIN, 1L << (tier * 3))
                 .outputItem(Coin)
