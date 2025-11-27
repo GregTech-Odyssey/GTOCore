@@ -115,8 +115,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @DescSynced
     private int groupSelected = 0;
     private int shopSelected = -1;
-    private boolean allowInputFromOutputSideItems;
-    private boolean allowInputFromOutputSideFluids;
 
     /////////////////////////////////////
     // ********* 生命周期管理 ********* //
@@ -188,7 +186,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 .setBackground(GuiTextures.DISPLAY);
 
         // 底边展开面板
-        mainGroup.addWidget(new ComponentPanelWidget(4, 34, textList -> {
+        mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
             textList.add(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(collapseDescription ? 5 : 6), "isCollapse"), trans(7)));
             if (!collapseDescription)
                 GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationIntroduction().apply(textList);
@@ -200,7 +198,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                     markAsDirty();
                 }
             }
-        }).setMaxWidthLimit(width - 100));
+        }).setMaxWidthLimit(width - 8));
 
         Level level = getLevel();
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
@@ -389,7 +387,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
                 var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
                 WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
-                        .setBackground(GuiTextures.DISPLAY).setYScrollBarWidth(2).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1));
+                        .setBackground(GuiTextures.DISPLAY).setYScrollBarWidth(1).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1));
 
                 int itemHigh = inputItem.getSize() / Item_slots_in_a_row + (inputItem.getSize() % Item_slots_in_a_row == 0 ? 0 : 1);
                 WidgetGroup Item_slot = new WidgetGroup(2, 4, 290, itemHigh * 18 + 10);
@@ -442,7 +440,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
             @Override
             public IGuiTexture getTabIcon() {
-                return GuiTextures.LOCK;
+                return GuiTextures.BUTTON_LOCK;
             }
 
             @Override
@@ -796,6 +794,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     private ISubscription outputItemChangeSub;
     @Nullable
     private ISubscription outputFluidChangeSub;
+    private boolean allowInputFromOutputSideItems;
+    private boolean allowInputFromOutputSideFluids;
 
     @Override
     public boolean hasAutoOutputItem() {

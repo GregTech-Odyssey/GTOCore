@@ -349,7 +349,7 @@ object GTOMachineTooltips {
         section("核心功能" translatedTo "Core Features")
         content(
             "1. 身份与权限管理：你的格雷会员卡是进入这个贸易中心的唯一钥匙。没有会员卡？对不起，你只能看看而已。" translatedTo
-                "1. Identity & Permission Management: Your Gray Membership Card is the only key to this trading center. No card? Sorry, you're just window-shopping.",
+                "1. Identity & Permission Management: Your Greg Membership Card is the only key to this trading center. No card? Sorry, you're just window-shopping.",
         )
         content(
             "2. 海量存储能力：贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
@@ -1893,15 +1893,17 @@ object GTOMachineTooltips {
         info("消耗魔力合成，需要一个铭刻之布" translatedTo "Consume magic power to synthesize, and requires an Affix Canvas")
         command("电路 8：宝石合并" translatedTo "Circuit 8: Gem Merge")
         info("使用同级的珍宝材料和宝石粉合并宝石" translatedTo "Use the same level of rarity materials and gem dust to merge gems")
-        command("电路 9：强行附魔" translatedTo "Circuit 9: Forced enchantment")
+        command("电路 9：宝石粉碎" translatedTo "Circuit 8: Gem Crushing")
+        info("将宝石粉碎得到宝石粉" translatedTo "Crushing gems to obtain gem dust")
+        command("电路 10：强行附魔" translatedTo "Circuit 9: Forced enchantment")
         info("消耗魔力强行将附魔书上的附魔添加到物品上" translatedTo "Consume magic power to forcibly adds the enchantment from the enchanted book to the item")
-        command("电路 10：强行刻印" translatedTo "Circuit 10: Forced add affixes")
+        command("电路 11：强行刻印" translatedTo "Circuit 10: Forced add affixes")
         info("消耗魔力强行将铭刻之布上的刻印添加到物品上" translatedTo "Consume magic power to forcibly adds the affixes from the affix canvas to the item")
-        command("电路 11：强行修改物品稀有度" translatedTo "Circuit 11: Forcefully modify item rarity")
+        command("电路 12：强行修改物品稀有度" translatedTo "Circuit 11: Forcefully modify item rarity")
         info("消耗魔力，珍宝材料和新生符文强行改变稀有度" translatedTo "Consume magic power and enter rarity material and sigil of rebirth to forcibly change the rarity")
-        command("电路 12：强行添加镶孔" translatedTo "Circuit 12: Forced addition of sockets")
+        command("电路 13：强行添加镶孔" translatedTo "Circuit 12: Forced addition of sockets")
         info("消耗魔力，镶孔符文强行添加镶孔" translatedTo "Consume magic power and enter sigil of socketing to forcibly addition of sockets")
-        command("电路 13：强行镶嵌宝石" translatedTo "Circuit 13: Forced gem inlay")
+        command("电路 14：强行镶嵌宝石" translatedTo "Circuit 13: Forced gem inlay")
         info("消耗魔力，强行将宝石镶嵌到物品上" translatedTo "Consume magic power to forcibly inserting gems into items")
     }
 
