@@ -1206,6 +1206,7 @@ public final class GTOMaterials {
     public static Material Livingsteel;
     public static Material Alfsteel;
     public static Material Gaiasteel;
+    public static Material GaiaCore;
     public static Material Gaia;
     public static Material ManaDiamond;
     public static Material Dragonstone;
@@ -1230,6 +1231,7 @@ public final class GTOMaterials {
     public static Material Animium;
     public static Material TheWaterFromTheWellOfWisdom;
     public static Material FlowingCiphers;
+    public static Material NetherEmber;
     public static Material Photonium;
     public static Material Orichalcos;
     public static Material Shadowium;

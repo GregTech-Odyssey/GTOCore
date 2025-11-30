@@ -267,6 +267,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.rotation", "Y轴旋转: ", "Y-axis rotation: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "[开始]", "[Start]");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中.%s]", "[In Progress.%s]");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.export", "[导出]", "[Export]");
+
         addCNEN("gtocore.machine.village_trading_station.increase", "使用 %s 提升 1 最大交易次数", "Use %s to increase the maximum number of transactions by 1.");
         addCNEN("gtocore.machine.village_trading_station.enhance", "使用 %s 升级", "Upgrade using %s");
         addCNEN("gtocore.machine.village_trading_station.upper_limit", "已达到提升上限", "The upgrade limit has been reached.");

@@ -386,6 +386,9 @@ public final class ArsNouveauRecipes {
             MultiblockImbuementRecipe2(5, true, "enchanting_conjuration_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.CONJURATION_ESSENCE, 64), 4000,
                     new Ingredient[] { Ingredient.of(Items.BOOK), Ingredient.of(ItemsRegistry.WILDEN_HORN), Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD) }, new FluidStack[] { Aether.getFluid(LIQUID, 500) });
 
+            MultiblockImbuementRecipe2(1, false, "gaia_core_dust", ChemicalHelper.get(dust, GaiaCore, 16), new ItemStack(GTOItems.GAIA_CORE), 10000,
+                    new Ingredient[] { Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence) }, new FluidStack[0]);
+
         }
 
         String[] Color = { "white", "orange", "magenta", "light_blue",
@@ -668,7 +671,7 @@ public final class ArsNouveauRecipes {
         var build = INFUSER_CORE_RECIPES.builder(id);
         if (!model) {
             build
-                    .inputItems(input, 4)
+                    .inputItems(input)
                     .outputItems(output.copyWithCount(output.getCount() << 2))
                     .circuitMeta(circuitMeta)
                     .duration(400)

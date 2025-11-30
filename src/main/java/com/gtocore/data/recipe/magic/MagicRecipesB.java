@@ -12,21 +12,22 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
+import mythicbotany.register.ModItems;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 
-import static com.gregtechceu.gtceu.api.GTValues.VN;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Ethanol;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Silver;
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.record.ApotheosisAffixRecord.getAffixSize;
 import static com.gtocore.data.record.EnchantmentRecord.getEnchantmentSize;
+import static com.gtocore.utils.PlayerHeadUtils.itemStackAddNbtString;
 
-public class MagicRecipesB {
+public final class MagicRecipesB {
 
     public static void init() {
         // 炼金锅3
@@ -105,6 +106,13 @@ public class MagicRecipesB {
                         .duration(10)
                         .save();
             }
+
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("nether_star")
+                    .inputItems(ModItems.fadedNetherStar)
+                    .outputItems(Items.NETHER_STAR)
+                    .addData("voidflux", 4000)
+                    .duration(10)
+                    .save();
         }
 
         // 符文铭刻
@@ -198,5 +206,26 @@ public class MagicRecipesB {
                         .save();
             }
         }
+
+        // 凋零的下界之星
+        ARC_GENERATOR_RECIPES.builder("make_faded_nether_star")
+                .inputItems(dust, NetherEmber, 64)
+                .inputItems(dust, StarStone)
+                .inputFluids(NetherAir, 8000)
+                .inputFluids(Salamander.getFluid(LIQUID, 200))
+                .inputFluids(Mana, 32000)
+                .outputItems(itemStackAddNbtString(ModItems.fadedNetherStar.getDefaultInstance(), "{Damage:1100000}"), 4)
+                .duration(20)
+                .EUt(VA[IV])
+                .save();
+
+        ARC_GENERATOR_RECIPES.builder("make_nether_star")
+                .inputItems(ModItems.fadedNetherStar, 4)
+                .inputItems(dustTiny, NetherStar)
+                .outputItems(Items.NETHER_STAR, 4)
+                .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
+                .duration(20)
+                .EUt(VA[UV])
+                .save();
     }
 }

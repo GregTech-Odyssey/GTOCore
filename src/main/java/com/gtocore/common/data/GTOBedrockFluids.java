@@ -2,6 +2,7 @@ package com.gtocore.common.data;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.lang.CNEN;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
@@ -9,6 +10,7 @@ import com.gregtechceu.gtceu.common.data.GTBedrockFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -359,6 +361,41 @@ public final class GTOBedrockFluids {
                     .depletionChance(100)
                     .depletedYield(40)
                     .dimensions(getDimensionKeys(BARNARDA_C)));
+
+    private static final BedrockFluidDefinition FRACTAL_PETAL_SOLVENT = create(GTCEu.id("fractal_petal_solvent_deposit"),
+            "碎蕊调和溶剂矿藏",
+            builder -> builder
+                    .fluid(GTOMaterials.FractalPetalSolvent::getFluid)
+                    .weight(180)
+                    .yield(10, 30)
+                    .depletionAmount(1)
+                    .depletionChance(100)
+                    .depletedYield(5)
+                    .dimensions(getDimensionKeys(ALFHEIM)));
+
+    private static final BedrockFluidDefinition THE_WATER_FROM_THE_WELL_OF_WISDOM = create(GTCEu.id("the_water_from_the_well_of_wisdom_deposit"),
+            "智慧之泉水矿藏",
+            builder -> builder
+                    .fluid(GTOMaterials.TheWaterFromTheWellOfWisdom::getFluid)
+                    .weight(40)
+                    .yield(20, 40)
+                    .depletionAmount(1)
+                    .depletionChance(100)
+                    .depletedYield(5)
+                    .biomes(5000, ResourceKey.create(Registries.BIOME, RLUtils.fromNamespaceAndPath("mythicbotany", "alfheim_lakes")))
+                    .dimensions(getDimensionKeys(ALFHEIM)));
+
+    private static final BedrockFluidDefinition ANIMIUM = create(GTCEu.id("animium_deposit"),
+            "灵髓液矿藏",
+            builder -> builder
+                    .fluid(GTOMaterials.Animium::getFluid)
+                    .weight(20)
+                    .yield(10, 20)
+                    .depletionAmount(1)
+                    .depletionChance(100)
+                    .depletedYield(5)
+                    .biomes(100, ResourceKey.create(Registries.BIOME, RLUtils.fromNamespaceAndPath("mythicbotany", "golden_fields")))
+                    .dimensions(getDimensionKeys(ALFHEIM)));
 
     private static BedrockFluidDefinition create(ResourceLocation id, String cn, Consumer<BedrockFluidDefinition.Builder> consumer) {
         if (LANG != null) {

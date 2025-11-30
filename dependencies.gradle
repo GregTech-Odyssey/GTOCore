@@ -69,7 +69,7 @@ dependencies {
     modCompileOnly("com.hollingsworth.ars_nouveau:ars_nouveau-${project.minecraft_version}:4.12.6.256")
     modRuntimeOnly("curse.maven:ars-nouveau-401955:5894609")
 
-    modImplementation("curse.maven:ars-meteorites-1278083:6714970")
+    modImplementation("curse.maven:ars-meteorites-1278083:7125271")
 
     modImplementation("curse.maven:glodium-957920:5006780")
     modImplementation("curse.maven:ex-pattern-provider-892005:7248944")

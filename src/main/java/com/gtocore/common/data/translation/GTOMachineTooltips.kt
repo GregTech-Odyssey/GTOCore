@@ -82,8 +82,8 @@ object GTOMachineTooltips {
 
         section("基于预设蓝图快速部署工业基地" translatedTo "Rapidly deploy industrial bases via preset blueprints")
         section(
-            "需消耗指定型号的工业标准件作为基础构建材料" translatedTo
-                "Requires specific industrial standard components as basic construction materials.",
+            "需消耗指定型号的工业组件作为基础构建材料" translatedTo
+                "Requires specific industrial components components as basic construction materials.",
         )
         section(
             "部分高级蓝图需额外配备辅助材料" translatedTo
@@ -97,6 +97,7 @@ object GTOMachineTooltips {
             "支持安装扩展包解锁更多行业专用蓝图。" translatedTo
                 "Supports expansion packs to unlock more industry-specific blueprints.",
         )
+        highlight("扩展包欢迎投稿你的蓝图" translatedTo "Expansion packs welcome submissions of your blueprints") { rainbowSlow() }
 
         guide("详细操作说明请查阅工具内置手册" translatedTo "For detailed instructions, refer to the tool's built-in manual")
     }
@@ -159,8 +160,9 @@ object GTOMachineTooltips {
         )
 
         section("蓝图导出功能" translatedTo "Blueprint Export Function")
-        content("将两张坐标卡插入工具底部插槽可激活导出模式，支持导出完整平台结构及GT多方块机器布局" translatedTo "Insert two coordinate cards into the tool's bottom slots to activate export mode, supporting full platform structures and GT multi-block machine layouts")
+        content("将两张坐标卡插入工具底部插槽可激活导出模式" translatedTo "Insert two coordinate cards into the tool's bottom slots to activate export mode")
         highlight("欢迎提交优质蓝图至社区仓库" translatedTo "Welcome to submit high-quality blueprints to the community repository") { rainbowSlow() }
+        content("不支持框架方块和小方块" translatedTo "Not supporting frame blocks and small squares")
         highlight("https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets" translatedTo "https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets") { rainbowSlow() }
     }
 
@@ -481,13 +483,16 @@ object GTOMachineTooltips {
     val CelestialCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("celestial_condenser")
 
-        content("凝聚苍穹之上的能量" translatedTo "Condenses the energy from beyond the firmament")
+        content("凝聚苍穹之上的能量" translatedTo "Condenses energy from beyond the celestial vault")
         section(RunningRequirements)
-        command("暴露于天空之下，不可有遮挡" translatedTo "Must be exposed directly to the sky with no obstructions")
-        increase("在主世界白天可以凝聚 - 曦煌" translatedTo "Can be condensed in the Overworld during daytime - Solaris")
-        increase("在主世界夜晚可以凝聚 - 胧华" translatedTo "Can be condensed in the Overworld during nighttime - Lunara")
-        increase("在末地可以凝聚 - 虚湮" translatedTo "Can be condensed in the End - Voidflux")
-        command("运行配方时需要消耗这些能量" translatedTo "This energy is consumed when running recipes")
+        command("暴露于天空之下，不可有遮挡" translatedTo "Must be directly exposed to the open sky with no obstructions")
+        increase("在白天可以凝聚 - 曦煌" translatedTo "Can condense Solaris during daytime")
+        increase("在夜晚可以凝聚 - 胧华" translatedTo "Can condense Lunara during nighttime")
+        increase("在末地可以凝聚 - 虚湮" translatedTo "Can condense Voidflux in the End")
+        increase("在虚空和超平坦可以以较慢的速度凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara at a slower rate in the Void or Superflat")
+        increase("在亚尔夫海姆可以更快的凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara faster in Alfheim")
+        increase("在幽冥可以更快的凝聚 - 虚湮" translatedTo "Can condense Voidflux faster in the Otherside")
+        command("运行配方时需要消耗这些能量" translatedTo "Consumes this energy when processing recipes")
     }
 
     var spaceShieldHatchTooltips: ComponentListSupplier = ComponentListSupplier {

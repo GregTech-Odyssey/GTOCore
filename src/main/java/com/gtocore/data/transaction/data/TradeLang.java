@@ -8,7 +8,7 @@ import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.Map;
 
-public class TradeLang {
+public final class TradeLang {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 

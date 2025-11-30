@@ -27,12 +27,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
@@ -291,7 +288,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         // 启动区
         WidgetGroup group_start = new DraggableScrollableWidgetGroup(width - 49, 4, 54, 105)
                 .setBackground(GuiTextures.CLIPBOARD_PAPER_BACKGROUND);
-        group_start.addWidget(new ComponentPanelWidget(13, 4, this::addDisplayTextStep)
+        group_start.addWidget(new ComponentPanelWidget(8, 4, this::addDisplayTextStep)
                 .clickHandler((a, b) -> handleDisplayClickStep(a, mainContentGroup)));
         group_start.addWidget(new ComponentPanelWidget(8, 20, this::addDisplayTextStart)
                 .clickHandler(this::handleDisplayClickStart)
@@ -1035,21 +1032,15 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         if (!(getLevel() instanceof ServerLevel serverLevel)) return;
         BlockPos pos1 = null;
         BlockPos pos2 = null;
-        Block chamberBlock = Blocks.BEDROCK;
-        boolean laserMode = false;
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
             if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) {
                 if (pos1 == null) pos1 = getStoredCoordinates(stack);
                 else pos2 = getStoredCoordinates(stack);
-            } else if (stack.getItem().equals(GTOItems.X_RAY_LASER.asItem())) {
-                laserMode = true;
-            } else if (stack.getItem() instanceof BlockItem blockItem) {
-                chamberBlock = blockItem.getBlock();
             }
         }
         if (pos1 != null && pos2 != null) {
-            PlatformCreationAsync(serverLevel, pos1, pos2, xMirror, zMirror, rotation, chamberBlock, laserMode);
+            PlatformCreationAsync(serverLevel, pos1, pos2, xMirror, zMirror, rotation);
         }
     }
 }
