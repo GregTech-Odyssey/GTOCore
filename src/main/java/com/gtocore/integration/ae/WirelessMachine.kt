@@ -319,14 +319,14 @@ interface WirelessMachine :
                     }
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.translatable(player, self().playerOwner?.name ?: without) },
+                        textSupplier = { Component.translatable(player, self().playerOwner?.name ?: Component.translatable(without)) },
                     )
                     textBlock(
                         maxWidth = availableWidth - 4,
                         textSupplier = {
                             val id = wirelessMachinePersisted.gridConnectedName
                             val nick = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname
-                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { without })
+                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { Component.translatable(without) })
                         },
                     )
                     // 重新加入“创建网络”输入与按钮
