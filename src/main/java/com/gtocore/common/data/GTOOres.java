@@ -782,7 +782,7 @@ public final class GTOOres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition CRYSTAL_VEIN_WATER_FIRE = create("crystal_vein_water_fire", vein -> vein
-            .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(25)
+            .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(20)
             .layer(ALL_LAYER)
             .dimensions(OVERWORLD, ALFHEIM, OTHERSIDE)
             .heightRangeUniform(-50, 0)
@@ -796,7 +796,7 @@ public final class GTOOres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition CRYSTAL_VEIN_EARTH_WIND = create("crystal_vein_earth_wind", vein -> vein
-            .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(25)
+            .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(20)
             .layer(ALL_LAYER)
             .dimensions(OVERWORLD, ALFHEIM, OTHERSIDE)
             .heightRangeUniform(-50, 0)
@@ -810,7 +810,7 @@ public final class GTOOres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition MANA_STEEL_VEIN = create("mana_steel_vein", vein -> vein
-            .clusterSize(UniformInt.of(32, 64)).density(0.9f).weight(40)
+            .clusterSize(UniformInt.of(32, 64)).density(0.9f).weight(30)
             .layer(ALL_LAYER)
             .dimensions(ALFHEIM, OTHERSIDE)
             .heightRangeTriangle(20, 100)
@@ -831,7 +831,7 @@ public final class GTOOres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition ELEMENTIUM_VEIN = create("elementium_vein", vein -> vein
-            .clusterSize(UniformInt.of(32, 64)).density(1.0F).weight(40)
+            .clusterSize(UniformInt.of(32, 64)).density(1.0F).weight(30)
             .layer(ALL_LAYER)
             .dimensions(ALFHEIM, OTHERSIDE)
             .heightRangeTriangle(20, 100)
@@ -852,10 +852,10 @@ public final class GTOOres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition GAIA_CORE_VEIN = create("gaia_core_vein", vein -> vein
-            .clusterSize(UniformInt.of(48, 64)).density(0.9f).weight(10)
+            .clusterSize(UniformInt.of(48, 64)).density(0.9f).weight(15)
             .layer(ALL_LAYER)
             .dimensions(ALFHEIM, OTHERSIDE)
-            .heightRangeTriangle(-60, 60)
+            .heightRangeTriangle(-20, 60)
             .veinedVeinGenerator(generator -> generator
                     .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(GaiaCore, 4))
                     .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(NetherEmber, 2))
@@ -870,6 +870,20 @@ public final class GTOOres {
                     .maxEdgeRoundoff(0.05f))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(GaiaCore)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
+
+    private static final GTOreDefinition ANIMA_TREE_LEYLINE = create("anima_tree_leyline", vein -> vein
+            .clusterSize(UniformInt.of(64, 521)).density(0.8f).weight(5)
+            .layer(ALL_LAYER)
+            .dimensions(ANCIENT_WORLD, ALFHEIM, OTHERSIDE)
+            .heightRangeUniform(-60, 100)
+            .dikeVeinGenerator(generator -> generator
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(RemnantSpiritStone, 3, 0, 100))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(SoulJadeCrystal, 3, -20, 80))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(StarBloodCrystal, 2, -40, 60))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(OriginCoreCrystal, 2, -60, 0)))
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(RemnantSpiritStone)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static GTOreDefinition create(String name, Consumer<GTOreDefinition> config) {

@@ -169,6 +169,7 @@ public final class LangHandler {
         addCNEN("gtceu.jei.ore_vein.mana_steel_vein", "魔力钢矿脉", "Mana Steel Vein");
         addCNEN("gtceu.jei.ore_vein.elementium_vein", "源质钢矿脉", "Elementium Vein");
         addCNEN("gtceu.jei.ore_vein.gaia_core_vein", "盖亚之核矿脉", "Gaia Core Vein");
+        addCNEN("gtceu.jei.ore_vein.anima_tree_leyline", "命树灵脉", "Anima Tree Leyline");
 
         addCNEN("gtocore.recipe.ev_max", "最大中子动能：%s MeV", "Maximum Neutron Energy: %s MeV");
         addCNEN("gtocore.recipe.ev_min", "最小中子动能：%s MeV", "Minimum Neutron Energy: %s MeV");

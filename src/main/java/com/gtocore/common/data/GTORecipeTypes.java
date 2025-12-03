@@ -1125,6 +1125,12 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 
+    public static final RecipeType MAGIC_RESONANCE = register("magic_resonance", "魔力共鸣", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(6, 3, 6, 3)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.BATH);
+
     public final static GTRecipeType DIGITAL_MINER_RECIPE = register("digital_miner", "数字采矿", ELECTRIC)
             .setMaxIOSize(0, 27, 0, 0).setEUIO(IO.IN)
             .setSlotOverlay(false, false, GuiTextures.SLOT)

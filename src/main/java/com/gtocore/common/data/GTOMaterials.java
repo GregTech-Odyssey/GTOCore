@@ -1237,6 +1237,16 @@ public final class GTOMaterials {
     public static Material Shadowium;
     public static Material Aerialite;
     public static Material PhantomicElectrolyteBuffer;
+    public static Material OriginCoreCrystal;
+    public static Material StarBloodCrystal;
+    public static Material SoulJadeCrystal;
+    public static Material RemnantSpiritStone;
+    public static Material SourceEnergyExtract;
+    public static Material StarVeinFusionFluid;
+    public static Material SoulThoughtHarmonizeFluid;
+    public static Material RemnantCorrosionActivateFluid;
+    public static Material FinalPurificationAgent;
+    public static Material EnergySolidifyingAgent;
 
     public static void init() {
         GTMaterialExtend.init();

@@ -898,6 +898,15 @@ public final class GTOItems {
         }
     }).register();
 
+    public static final ItemEntry<Item> SourceSpiritDebris = registerTooltip("source_spirit_debris", "源灵碎屑", () -> Component.literal("✨"));
+    public static final ItemEntry<Item> HolyRootMycelium = registerTooltip("holy_root_mycelium", "圣根菌丝", () -> Component.literal("🍄"));
+    public static final ItemEntry<Item> StarDebrisSand = registerTooltip("star_debris_sand", "星屑砂", () -> Component.literal("⭐"));
+    public static final ItemEntry<Item> VeinBloodMucus = registerTooltip("vein_blood_mucus", "脉血粘液", () -> Component.literal("🩸"));
+    public static final ItemEntry<Item> SoulShadowDust = registerTooltip("soul_shadow_dust", "魂影尘", () -> Component.literal("🌑"));
+    public static final ItemEntry<Item> ConsciousnessThread = registerTooltip("consciousness_thread", "识念丝", () -> Component.literal("🧵"));
+    public static final ItemEntry<Item> BoneAshGranule = registerTooltip("bone_ash_granule", "骸灰粒", () -> Component.literal("💀"));
+    public static final ItemEntry<Item> SpiritBoneFragment = registerTooltip("spirit_bone_fragment", "灵骸碎片", () -> Component.literal("👻"));
+
     @SuppressWarnings("rawtypes")
     public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
 

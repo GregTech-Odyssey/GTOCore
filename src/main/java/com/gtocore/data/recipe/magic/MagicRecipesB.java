@@ -7,6 +7,7 @@ import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.Item;
@@ -21,6 +22,11 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOItems.*;
+import static com.gtocore.common.data.GTOItems.BoneAshGranule;
+import static com.gtocore.common.data.GTOItems.HolyRootMycelium;
+import static com.gtocore.common.data.GTOItems.SoulShadowDust;
+import static com.gtocore.common.data.GTOItems.SourceSpiritDebris;
+import static com.gtocore.common.data.GTOItems.StarDebrisSand;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.record.ApotheosisAffixRecord.getAffixSize;
@@ -50,7 +56,7 @@ public final class MagicRecipesB {
         // 魔力组装的各种配方
         {
             // 铭刻之布
-            ASSEMBLER_RECIPES.builder("affix_canvas")
+            ASSEMBLER_RECIPES.recipeBuilder("affix_canvas")
                     .notConsumable("ars_nouveau:wilden_tribute")
                     .notConsumable("botania:life_essence")
                     .notConsumable("extrabotany:hero_medal")
@@ -185,7 +191,7 @@ public final class MagicRecipesB {
         // 精粹回收
         {
             for (int i = 1; i < getEnchantmentSize(); i++) {
-                CHEMICAL_BATH_RECIPES.builder("enchantment_essence_recovery_" + i)
+                CHEMICAL_BATH_RECIPES.recipeBuilder("enchantment_essence_recovery_" + i)
                         .inputItems(GTOItems.ENCHANTMENT_ESSENCE[i])
                         .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
                         .outputItems(GTOItems.ENCHANTMENT_ESSENCE[0])
@@ -196,7 +202,7 @@ public final class MagicRecipesB {
             }
 
             for (int i = 1; i < getAffixSize(); i++) {
-                CHEMICAL_BATH_RECIPES.builder("affix_essence_recovery_" + i)
+                CHEMICAL_BATH_RECIPES.recipeBuilder("affix_essence_recovery_" + i)
                         .inputItems(GTOItems.AFFIX_ESSENCE[i])
                         .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
                         .outputItems(GTOItems.AFFIX_ESSENCE[0])
@@ -208,7 +214,7 @@ public final class MagicRecipesB {
         }
 
         // 凋零的下界之星
-        ARC_GENERATOR_RECIPES.builder("make_faded_nether_star")
+        ARC_GENERATOR_RECIPES.recipeBuilder("make_faded_nether_star")
                 .inputItems(dust, NetherEmber, 64)
                 .inputItems(dust, StarStone)
                 .inputFluids(NetherAir, 8000)
@@ -219,7 +225,7 @@ public final class MagicRecipesB {
                 .EUt(VA[IV])
                 .save();
 
-        ARC_GENERATOR_RECIPES.builder("make_nether_star")
+        ARC_GENERATOR_RECIPES.recipeBuilder("make_nether_star")
                 .inputItems(ModItems.fadedNetherStar, 4)
                 .inputItems(dustTiny, NetherStar)
                 .outputItems(Items.NETHER_STAR, 4)
@@ -227,5 +233,88 @@ public final class MagicRecipesB {
                 .duration(20)
                 .EUt(VA[UV])
                 .save();
+
+        // 命树灵脉 - 处理线
+        {
+            // 基础副产
+            {
+                CHEMICAL_BATH_RECIPES.recipeBuilder("origin_core_crystal_crushed_ore_to_purified_ore")
+                        .inputItems(crushed, OriginCoreCrystal)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
+                        .outputItems(crushedPurified, OriginCoreCrystal)
+                        .chancedOutput(SourceSpiritDebris.asItem(), 5000, 300)
+                        .chancedOutput(dust, OriginCoreCrystal, 2000, 0)
+                        .duration(200).EUt(VA[LV])
+                        .category(GTRecipeCategories.ORE_BATHING)
+                        .save();
+
+                ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("origin_core_crystal_pure_dust_to_dust")
+                        .inputItems(dustPure, OriginCoreCrystal)
+                        .outputItems(dust, OriginCoreCrystal)
+                        .chancedOutput(HolyRootMycelium.asItem(), 1000, 250)
+                        .chancedOutput(dust, OriginCoreCrystal, 500, 0)
+                        .duration(200).EUt(24)
+                        .save();
+
+                CHEMICAL_BATH_RECIPES.recipeBuilder("star_blood_crystal_crushed_ore_to_purified_ore")
+                        .inputItems(crushed, StarBloodCrystal)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
+                        .outputItems(crushedPurified, StarBloodCrystal)
+                        .chancedOutput(StarDebrisSand.asItem(), 5000, 300)
+                        .chancedOutput(dust, StarBloodCrystal, 2000, 0)
+                        .duration(200).EUt(VA[LV])
+                        .category(GTRecipeCategories.ORE_BATHING)
+                        .save();
+
+                ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("star_blood_crystal_pure_dust_to_dust")
+                        .inputItems(dustPure, StarBloodCrystal)
+                        .outputItems(dust, StarBloodCrystal)
+                        .chancedOutput(VeinBloodMucus.asItem(), 1000, 250)
+                        .chancedOutput(dust, StarBloodCrystal, 500, 0)
+                        .duration(200).EUt(24)
+                        .save();
+
+                CHEMICAL_BATH_RECIPES.recipeBuilder("soul_jade_crystal_crushed_ore_to_purified_ore")
+                        .inputItems(crushed, SoulJadeCrystal)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
+                        .outputItems(crushedPurified, SoulJadeCrystal)
+                        .chancedOutput(SoulShadowDust.asItem(), 5000, 300)
+                        .chancedOutput(dust, SoulJadeCrystal, 2000, 0)
+                        .duration(200).EUt(VA[LV])
+                        .category(GTRecipeCategories.ORE_BATHING)
+                        .save();
+
+                ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("soul_jade_crystal_pure_dust_to_dust")
+                        .inputItems(dustPure, SoulJadeCrystal)
+                        .outputItems(dust, SoulJadeCrystal)
+                        .chancedOutput(ConsciousnessThread.asItem(), 1000, 250)
+                        .chancedOutput(dust, SoulJadeCrystal, 500, 0)
+                        .duration(200).EUt(24)
+                        .save();
+
+                CHEMICAL_BATH_RECIPES.recipeBuilder("remnant_spirit_stone_crushed_ore_to_purified_ore")
+                        .inputItems(crushed, RemnantSpiritStone)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
+                        .outputItems(crushedPurified, RemnantSpiritStone)
+                        .chancedOutput(BoneAshGranule.asItem(), 5000, 300)
+                        .chancedOutput(dust, RemnantSpiritStone, 2000, 0)
+                        .duration(200).EUt(VA[LV])
+                        .category(GTRecipeCategories.ORE_BATHING)
+                        .save();
+
+                ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("remnant_spirit_stone_pure_dust_to_dust")
+                        .inputItems(dustPure, RemnantSpiritStone)
+                        .outputItems(dust, RemnantSpiritStone)
+                        .chancedOutput(SpiritBoneFragment.asItem(), 1000, 250)
+                        .chancedOutput(dust, RemnantSpiritStone, 500, 0)
+                        .duration(200).EUt(24)
+                        .save();
+            }
+
+            // 催化剂
+            {
+
+            }
+        }
     }
 }

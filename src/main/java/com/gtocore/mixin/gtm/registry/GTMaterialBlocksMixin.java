@@ -218,6 +218,10 @@ public abstract class GTMaterialBlocksMixin {
         OREBuilder.put(GTOMaterials.GaiaCore, Set.of(GTOTagPrefix.LIVING_STONE));
         OREBuilder.put(GTOMaterials.NetherEmber, Set.of(GTOTagPrefix.LIVING_STONE));
         OREBuilder.put(GTOMaterials.Thaumium, Set.of(GTOTagPrefix.LIVING_STONE));
+        OREBuilder.put(GTOMaterials.OriginCoreCrystal, Set.of(GTOTagPrefix.LIVING_STONE));
+        OREBuilder.put(GTOMaterials.StarBloodCrystal, Set.of(GTOTagPrefix.LIVING_STONE));
+        OREBuilder.put(GTOMaterials.SoulJadeCrystal, Set.of(GTOTagPrefix.LIVING_STONE));
+        OREBuilder.put(GTOMaterials.RemnantSpiritStone, Set.of(GTOTagPrefix.LIVING_STONE));
         ORE_MAP = OREBuilder.build();
     }
 }

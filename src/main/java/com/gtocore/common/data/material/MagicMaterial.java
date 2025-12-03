@@ -603,6 +603,38 @@ public final class MagicMaterial {
                 .iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .buildAndRegister().setFormula("Su", false);
+
+        OriginCoreCrystal = magicMaterial("origin_core_crystal", "源核晶")
+                .ore(true).color(0xF2E8C6).iconSet(EMERALD)
+                .buildAndRegister().setFormula("\uD83C\uDF00 \uD83C\uDF31 \uD83C\uDF33", false);
+        StarBloodCrystal = magicMaterial("star_blood_crystal", "星血晶")
+                .ore(true).color(0x7B68EE).iconSet(DIAMOND)
+                .buildAndRegister().setFormula("\uD83D\uDCAB \uD83E\uDE78 ⚖️", false);
+        SoulJadeCrystal = magicMaterial("soul_jade_crystal", "魂玉晶")
+                .ore(true).color(0xB19CD9).iconSet(DIAMOND)
+                .buildAndRegister().setFormula("\uD83D\uDCA0 \uD83D\uDD2E \uD83C\uDF0C", false);
+        RemnantSpiritStone = magicMaterial("remnant_spirit_stone", "骸灵石")
+                .ore(true).color(0x4F4F4F).iconSet(DIAMOND)
+                .buildAndRegister().setFormula("\uD83D\uDC80 ⚰️ ⚜️", false);
+
+        SourceEnergyExtract = magicMaterial("source_energy_extract", "源能萃取液")
+                .liquid(new FluidBuilder().temperature(300).viscosity(1200))
+                .color(0xF2E8C6).iconSet(LIMPID).buildAndRegister();
+        StarVeinFusionFluid = magicMaterial("star_vein_fusion_fluid", "星脉融合液")
+                .liquid(new FluidBuilder().temperature(400).viscosity(1300))
+                .color(0x7B68EE).iconSet(LIMPID).buildAndRegister();
+        SoulThoughtHarmonizeFluid = magicMaterial("soul_thought_harmonize_fluid", "魂念调和液")
+                .liquid(new FluidBuilder().temperature(290).viscosity(1400))
+                .color(0xB19CD9).iconSet(LIMPID).buildAndRegister();
+        RemnantCorrosionActivateFluid = magicMaterial("remnant_corrosion_activate_fluid", "骸蚀活化液")
+                .liquid(new FluidBuilder().temperature(350).viscosity(1600))
+                .color(0x4F4F4F).iconSet(LIMPID).buildAndRegister();
+        FinalPurificationAgent = magicMaterial("final_purification_agent", "终纯化剂")
+                .liquid(new FluidBuilder().temperature(280).viscosity(1100))
+                .color(0xFFFFFF).iconSet(LIMPID).buildAndRegister();
+        EnergySolidifyingAgent = magicMaterial("energy_solidifying_agent", "能量固化剂")
+                .liquid(new FluidBuilder().temperature(320).viscosity(1500))
+                .color(0xFFD700).iconSet(LIMPID).buildAndRegister();
     }
 
     public static GTOMaterialBuilder magicMaterial(String name, String cn) {
