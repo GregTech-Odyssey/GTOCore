@@ -898,6 +898,8 @@ public final class GTOItems {
         }
     }).register();
 
+    public static final ItemEntry<Item> MANA_CRYSTAL = register("mana_crystal", "魔力结晶");
+
     public static final ItemEntry<Item> SourceSpiritDebris = registerTooltip("source_spirit_debris", "源灵碎屑", () -> Component.literal("✨"));
     public static final ItemEntry<Item> HolyRootMycelium = registerTooltip("holy_root_mycelium", "圣根菌丝", () -> Component.literal("🍄"));
     public static final ItemEntry<Item> StarDebrisSand = registerTooltip("star_debris_sand", "星屑砂", () -> Component.literal("⭐"));
@@ -906,6 +908,23 @@ public final class GTOItems {
     public static final ItemEntry<Item> ConsciousnessThread = registerTooltip("consciousness_thread", "识念丝", () -> Component.literal("🧵"));
     public static final ItemEntry<Item> BoneAshGranule = registerTooltip("bone_ash_granule", "骸灰粒", () -> Component.literal("💀"));
     public static final ItemEntry<Item> SpiritBoneFragment = registerTooltip("spirit_bone_fragment", "灵骸碎片", () -> Component.literal("👻"));
+
+    public static final ItemEntry<Item> ORIGIN_CORE_ENERGY_BODY = register("origin_core_energy_body", "源核能量体");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_EMBRYO = register("source_energy_catalyst_embryo", "源能催化晶胚");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_CRYSTAL = register("source_energy_catalyst_crystal", "源能催化晶");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_CRYSTAL_SHARD = register("source_energy_catalyst_crystal_shard", "源能催化晶残片");
+    public static final ItemEntry<Item> REGENERATED_SOURCE_ENERGY_BODY = register("regenerated_source_energy_body", "再生源能能量体");
+
+    public static final ItemEntry<Item> SOUL_THOUGHT_CONDENSATE = register("soul_thought_condensate", "魂念凝聚体");
+    public static final ItemEntry<Item> ANCHORED_SOUL_CORE = register("anchored_soul_core", "锚定魂核");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_EMBRYO = register("soul_thought_catalyst_embryo", "魂念催化胚");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_CORE = register("soul_thought_catalyst_core", "魂念催化核");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_CORE_SHARD = register("soul_thought_catalyst_core_shard", "魂念催化核碎片");
+    public static final ItemEntry<Item> REGENERATED_SOUL_CORE = register("regenerated_soul_core", "再生魂核");
+
+    public static final ItemEntry<Item> REMNANT_ENERGY_ADSORBER = register("remnant_energy_adsorber", "骸能吸附体");
+    public static final ItemEntry<Item> REMNANT_EROSION_CATALYST_EMBRYO = register("remnant_erosion_catalyst_embryo", "骸蚀催化胚");
+    public static final ItemEntry<Item> REGENERATED_REMNANT_ENERGY_ADSORBER = register("regenerated_remnant_energy_adsorber", "再生骸能吸附体");
 
     @SuppressWarnings("rawtypes")
     public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();

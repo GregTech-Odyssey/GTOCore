@@ -1241,12 +1241,29 @@ public final class GTOMaterials {
     public static Material StarBloodCrystal;
     public static Material SoulJadeCrystal;
     public static Material RemnantSpiritStone;
+    public static Material OriginCoreCrystalResidue;
+    public static Material StarBloodCrystalResidue;
+    public static Material SoulJadeCrystalResidue;
+    public static Material RemnantSpiritStoneResidue;
     public static Material SourceEnergyExtract;
-    public static Material StarVeinFusionFluid;
-    public static Material SoulThoughtHarmonizeFluid;
-    public static Material RemnantCorrosionActivateFluid;
-    public static Material FinalPurificationAgent;
-    public static Material EnergySolidifyingAgent;
+    public static Material StarVeinFusion;
+    public static Material SoulThoughtHarmony;
+    public static Material RemnantErosionActivate;
+    public static Material FinalPurifier;
+    public static Material EnergySolidifier;
+    public static Material ExtractionResidue;
+    public static Material FusionResidue;
+    public static Material HarmonyResidue;
+    public static Material ErosionActivateResidue;
+    public static Material StarVeinBase;
+    public static Material StarVeinActive;
+    public static Material StarVeinCatalystPrecursor;
+    public static Material StarVeinCatalyst;
+    public static Material StarVeinCatalystWaste;
+    public static Material PurifiedStarVeinCatalystWaste;
+    public static Material RegeneratedStarVeinActive;
+    public static Material RemnantErosionCatalyst;
+    public static Material InactiveRemnantErosionCatalyst;
 
     public static void init() {
         GTMaterialExtend.init();
