@@ -682,10 +682,8 @@ public final class MagicMaterial {
                 .liquid(new FluidBuilder().temperature(350).viscosity(1250))
                 .color(0x7B68EE).iconSet(LIMPID).buildAndRegister();
 
-        // 骸蚀催化尘：dust标识粉尘属性，颜色贴近骸灵石系（0x4F4F4F）微调，iconSet与残渣统一用SAND
         RemnantErosionCatalyst = material("remnant_erosion_catalyst", "骸蚀催化尘")
                 .dust().color(0x454545).iconSet(BRIGHT).buildAndRegister();
-        // 失活骸蚀催化尘：inactive（失活）前置修饰，颜色更暗体现“失活”属性，与催化尘命名强关联
         InactiveRemnantErosionCatalyst = material("inactive_remnant_erosion_catalyst", "失活骸蚀催化尘")
                 .dust().color(0x3A3A3A).iconSet(BRIGHT).buildAndRegister();
     }

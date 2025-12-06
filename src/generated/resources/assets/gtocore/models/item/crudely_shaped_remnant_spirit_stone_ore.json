@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/crudely_shaped_remnant_spirit_stone_ore"
+  }
+}

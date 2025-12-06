@@ -362,10 +362,6 @@ public final class GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();
 
-    public static final ItemEntry<ComponentItem> CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT = item("closed_timelike_curve_guidance_unit", "封闭类时曲线引导单元", ComponentItem::create)
-            .onRegister(attach(new DataItemBehavior(true)))
-            .register();
-
     public static final ItemEntry<DiscItem> DATA_DISC = item("data_disc", "数据光盘", DiscItem::new)
             .register();
 
@@ -386,6 +382,10 @@ public final class GTOItems {
             .onRegister(attachRenderer(() -> HaloItemRenderer.COSMIC_HALO))
             .onRegister(attach(new DataItemBehavior(true)))
             .register();// OPV鸿蒙之眼后解锁,MAX初期开使用
+
+    public static final ItemEntry<ComponentItem> CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT = item("closed_timelike_curve_guidance_unit", "封闭类时曲线引导单元", ComponentItem::create)
+            .onRegister(attach(new DataItemBehavior(true)))
+            .register();
 
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK1 = register("data_crystal_component_mk1", "数据晶片组件 mk1");
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK2 = register("data_crystal_component_mk2", "数据晶片组件 mk2");
@@ -925,6 +925,16 @@ public final class GTOItems {
     public static final ItemEntry<Item> REMNANT_ENERGY_ADSORBER = register("remnant_energy_adsorber", "骸能吸附体");
     public static final ItemEntry<Item> REMNANT_EROSION_CATALYST_EMBRYO = register("remnant_erosion_catalyst_embryo", "骸蚀催化胚");
     public static final ItemEntry<Item> REGENERATED_REMNANT_ENERGY_ADSORBER = register("regenerated_remnant_energy_adsorber", "再生骸能吸附体");
+
+    public static final ItemEntry<Item> PURIFY_REFINED_ORIGIN_CORE_CRYSTAL_ORE = register("purify_refined_origin_core_crystal_ore", "净化精炼源核晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_STAR_BLOOD_CRYSTAL_ORE = register("purify_refined_star_blood_crystal_ore", "净化精炼星血晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_SOUL_JADE_CRYSTAL_ORE = register("purify_refined_soul_jade_crystal_ore", "净化精炼魂玉晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_REMNANT_SPIRIT_STONE_ORE = register("purify_refined_remnant_spirit_stone_ore", "净化精炼骸灵石矿石");
+
+    public static final ItemEntry<Item> CRUDELY_PURIFIED_ORIGIN_CORE_CRYSTAL_ORE = register("crudely_purified_origin_core_crystal_ore", "粗劣提纯源核晶矿石");
+    public static final ItemEntry<Item> CRUDELY_FUSED_STAR_BLOOD_CRYSTAL_ORE = register("crudely_fused_star_blood_crystal_ore", "粗劣融合星血晶矿石");
+    public static final ItemEntry<Item> CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE = register("crudely_harmonized_soul_jade_crystal_ore", "粗劣调和魂玉晶矿石");
+    public static final ItemEntry<Item> CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE = register("crudely_shaped_remnant_spirit_stone_ore", "粗劣塑形骸灵石矿石");
 
     @SuppressWarnings("rawtypes")
     public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();

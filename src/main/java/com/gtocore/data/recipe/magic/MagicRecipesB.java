@@ -256,7 +256,7 @@ public final class MagicRecipesB {
 
             CRYSTALLIZATION_RECIPES.recipeBuilder("mana_crystal")
                     .inputItems(CRYSTAL_SEED, Mana)
-                    .inputFluids(TheWaterFromTheWellOfWisdom, 50)
+                    .inputFluids(TheWaterFromTheWellOfWisdom, 500)
                     .outputItems(MANA_CRYSTAL)
                     .blastFurnaceTemp(3200)
                     .duration(1000)
@@ -353,9 +353,9 @@ public final class MagicRecipesB {
                 MIXER_RECIPES.recipeBuilder("source_energy_extract")
                         .inputItems(dust, OriginCoreCrystal)
                         .inputItems(StarDebrisSand)
-                        .inputFluids(TheWaterFromTheWellOfWisdom, 200)
-                        .inputFluids(Mana.getFluid(LIQUID, 50))
-                        .outputFluids(SourceEnergyExtract, 250)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 2000)
+                        .inputFluids(Mana.getFluid(LIQUID, 500))
+                        .outputFluids(SourceEnergyExtract, 2500)
                         .outputItems(dust, ExtractionResidue)
                         .duration(8000)
                         .EUt(VA[LV])
@@ -365,8 +365,8 @@ public final class MagicRecipesB {
                         .inputItems(dust, StarBloodCrystal)
                         .inputItems(SoulShadowDust)
                         .inputItems(MANA_CRYSTAL)
-                        .inputFluids(TheWaterFromTheWellOfWisdom, 300)
-                        .outputFluids(StarVeinFusion, 320)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 3000)
+                        .outputFluids(StarVeinFusion, 3200)
                         .outputItems(dust, FusionResidue)
                         .blastFurnaceTemp(4200)
                         .duration(8000)
@@ -376,9 +376,9 @@ public final class MagicRecipesB {
                 ARC_GENERATOR_RECIPES.recipeBuilder("star_vein_fusion")
                         .inputItems(dust, SoulJadeCrystal)
                         .inputItems(BoneAshGranule)
-                        .inputFluids(TheWaterFromTheWellOfWisdom, 180)
-                        .inputFluids(Mana.getFluid(LIQUID, 50))
-                        .outputFluids(SoulThoughtHarmony, 220)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 1800)
+                        .inputFluids(Mana.getFluid(LIQUID, 500))
+                        .outputFluids(SoulThoughtHarmony, 2200)
                         .outputItems(dust, HarmonyResidue)
                         .duration(8000)
                         .EUt(VA[LV])
@@ -388,8 +388,8 @@ public final class MagicRecipesB {
                         .inputItems(dust, RemnantSpiritStone)
                         .inputItems(SourceSpiritDebris)
                         .inputItems(MANA_CRYSTAL)
-                        .inputFluids(TheWaterFromTheWellOfWisdom, 250)
-                        .outputFluids(RemnantErosionActivate, 280)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 2500)
+                        .outputFluids(RemnantErosionActivate, 2800)
                         .outputItems(dust, ErosionActivateResidue)
                         .duration(8000)
                         .EUt(VA[LV])
@@ -400,8 +400,8 @@ public final class MagicRecipesB {
                         .inputItems(dust, StarBloodCrystal)
                         .inputItems(dust, SoulJadeCrystal)
                         .inputItems(dust, RemnantSpiritStone)
-                        .inputFluids(TheWaterFromTheWellOfWisdom, 100)
-                        .outputFluids(FinalPurifier, 80)
+                        .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
+                        .outputFluids(FinalPurifier, 800)
                         .duration(400)
                         .temperature(1200)
                         .MANAt(4)
@@ -410,8 +410,8 @@ public final class MagicRecipesB {
                 AUTOCLAVE_RECIPES.recipeBuilder("energy_solidifier")
                         .inputItems(SpiritBoneFragment)
                         .inputItems(ConsciousnessThread)
-                        .inputFluids(FinalPurifier, 60)
-                        .outputFluids(EnergySolidifier, 80)
+                        .inputFluids(FinalPurifier, 600)
+                        .outputFluids(EnergySolidifier, 800)
                         .duration(400)
                         .EUt(VA[EV])
                         .save();
@@ -426,7 +426,7 @@ public final class MagicRecipesB {
                             .inputItems(dust, OriginCoreCrystal, 2)
                             .inputItems(SourceSpiritDebris, 3)
                             .inputItems(MANA_CRYSTAL)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 50)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 500)
                             .outputItems(ORIGIN_CORE_ENERGY_BODY)
                             .duration(600)
                             .EUt(VA[HV])
@@ -435,7 +435,7 @@ public final class MagicRecipesB {
                     AUTOCLAVE_RECIPES.recipeBuilder("source_energy_catalyst_embryo")
                             .inputItems(ORIGIN_CORE_ENERGY_BODY)
                             .inputItems(HolyRootMycelium)
-                            .inputFluids(SourceEnergyExtract, 30)
+                            .inputFluids(SourceEnergyExtract, 300)
                             .outputItems(SOURCE_ENERGY_CATALYST_EMBRYO)
                             .duration(800)
                             .EUt(VA[EV])
@@ -443,8 +443,8 @@ public final class MagicRecipesB {
 
                     DEHYDRATOR_RECIPES.recipeBuilder("source_energy_catalyst_crystal")
                             .inputItems(SOURCE_ENERGY_CATALYST_EMBRYO)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 50)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 500)
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
                             .outputItems(SOURCE_ENERGY_CATALYST_CRYSTAL)
                             .duration(400)
                             .EUt(VA[MV])
@@ -460,11 +460,16 @@ public final class MagicRecipesB {
                     AUTOCLAVE_RECIPES.recipeBuilder("recycle_source_energy_catalyst_crystal")
                             .inputItems(REGENERATED_SOURCE_ENERGY_BODY)
                             .inputItems(dust, OriginCoreCrystalResidue)
-                            .inputFluids(SourceEnergyExtract, 30)
+                            .inputFluids(SourceEnergyExtract, 300)
                             .outputItems(SOURCE_ENERGY_CATALYST_CRYSTAL)
                             .duration(800)
                             .EUt(VA[EV])
                             .save();
+                }
+
+                // 简化产线
+                {
+
                 }
             }
 
@@ -475,9 +480,9 @@ public final class MagicRecipesB {
                     REACTION_FURNACE_RECIPES.recipeBuilder("star_vein_base")
                             .inputItems(dust, StarBloodCrystal, 3)
                             .inputItems(StarDebrisSand, 2)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 250)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
-                            .outputFluids(StarVeinBase, 200)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 2500)
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
+                            .outputFluids(StarVeinBase, 2000)
                             .blastFurnaceTemp(3800)
                             .duration(1000)
                             .EUt(VA[HV])
@@ -485,8 +490,8 @@ public final class MagicRecipesB {
 
                     DIGESTION_TREATMENT_RECIPES.recipeBuilder("star_vein_active")
                             .inputItems(VeinBloodMucus)
-                            .inputFluids(StarVeinBase, 200)
-                            .outputFluids(StarVeinActive, 180)
+                            .inputFluids(StarVeinBase, 2000)
+                            .outputFluids(StarVeinActive, 1800)
                             .blastFurnaceTemp(4200)
                             .duration(6000)
                             .EUt(VA[MV])
@@ -495,25 +500,25 @@ public final class MagicRecipesB {
                     CHEMICAL_RECIPES.recipeBuilder("star_vein_catalyst_precursor")
                             .inputItems(MANA_CRYSTAL)
                             .inputFluids(StarVeinActive, 180)
-                            .inputFluids(StarVeinFusion, 50)
-                            .outputFluids(StarVeinCatalystPrecursor, 150)
+                            .inputFluids(StarVeinFusion, 500)
+                            .outputFluids(StarVeinCatalystPrecursor, 1500)
                             .duration(600)
                             .EUt(VA[IV])
                             .save();
 
                     MIXER_RECIPES.recipeBuilder("star_vein_catalyst")
                             .inputItems(MANA_CRYSTAL)
-                            .inputFluids(StarVeinCatalystPrecursor, 150)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 30)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
-                            .outputFluids(StarVeinCatalyst, 160)
+                            .inputFluids(StarVeinCatalystPrecursor, 1500)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 300)
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
+                            .outputFluids(StarVeinCatalyst, 1600)
                             .duration(4000)
                             .EUt(VA[MV])
                             .save();
 
                     DISTILLERY_RECIPES.recipeBuilder("purified_star_vein_catalyst_waste")
-                            .inputFluids(StarVeinCatalystWaste, 100)
-                            .outputFluids(PurifiedStarVeinCatalystWaste, 60)
+                            .inputFluids(StarVeinCatalystWaste, 1000)
+                            .outputFluids(PurifiedStarVeinCatalystWaste, 600)
                             .duration(2000)
                             .EUt(VA[HV])
                             .save();
@@ -521,9 +526,9 @@ public final class MagicRecipesB {
                     DIGESTION_TREATMENT_RECIPES.recipeBuilder("regenerated_star_vein_active")
                             .inputItems(dust, StarBloodCrystal)
                             .inputItems(MANA_CRYSTAL)
-                            .inputFluids(PurifiedStarVeinCatalystWaste, 80)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 50)
-                            .outputFluids(RegeneratedStarVeinActive, 90)
+                            .inputFluids(PurifiedStarVeinCatalystWaste, 800)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 500)
+                            .outputFluids(RegeneratedStarVeinActive, 900)
                             .blastFurnaceTemp(3600)
                             .duration(600)
                             .EUt(VA[IV])
@@ -532,12 +537,17 @@ public final class MagicRecipesB {
                     MIXER_RECIPES.recipeBuilder("recycle_star_vein_catalyst")
                             .inputItems(VeinBloodMucus)
                             .inputItems(dust, StarBloodCrystalResidue, 2)
-                            .inputFluids(RegeneratedStarVeinActive, 180)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
-                            .outputFluids(StarVeinCatalyst, 200)
+                            .inputFluids(RegeneratedStarVeinActive, 1800)
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
+                            .outputFluids(StarVeinCatalyst, 2000)
                             .duration(2000)
                             .EUt(VA[MV])
                             .save();
+                }
+
+                // 简化产线
+                {
+
                 }
             }
 
@@ -548,7 +558,7 @@ public final class MagicRecipesB {
                     AUTOCLAVE_RECIPES.recipeBuilder("soul_thought_condensate")
                             .inputItems(dust, SoulJadeCrystal, 2)
                             .inputItems(SoulShadowDust, 3)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 60)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 600)
                             .outputItems(SOUL_THOUGHT_CONDENSATE)
                             .duration(600)
                             .EUt(VA[EV])
@@ -564,7 +574,7 @@ public final class MagicRecipesB {
 
                     ARC_FURNACE_RECIPES.recipeBuilder("soul_thought_catalyst_embryo")
                             .inputItems(ANCHORED_SOUL_CORE)
-                            .inputFluids(SoulThoughtHarmony, 40)
+                            .inputFluids(SoulThoughtHarmony, 400)
                             .outputItems(SOUL_THOUGHT_CATALYST_EMBRYO)
                             .duration(3000)
                             .EUt(VA[HV])
@@ -573,8 +583,8 @@ public final class MagicRecipesB {
                     ISOSTATIC_PRESSING_RECIPES.recipeBuilder("soul_thought_catalyst_core")
                             .inputItems(SOUL_THOUGHT_CATALYST_EMBRYO)
                             .inputItems(StarDebrisSand)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 80)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 800)
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
                             .outputItems(SOUL_THOUGHT_CATALYST_CORE)
                             .duration(6000)
                             .EUt(VA[EV])
@@ -583,7 +593,7 @@ public final class MagicRecipesB {
                     AUTOCLAVE_RECIPES.recipeBuilder("regenerated_soul_core")
                             .inputItems(SOUL_THOUGHT_CATALYST_CORE_SHARD)
                             .inputItems(MANA_CRYSTAL)
-                            .inputFluids(SoulThoughtHarmony, 20)
+                            .inputFluids(SoulThoughtHarmony, 200)
                             .outputItems(REGENERATED_SOUL_CORE)
                             .duration(600)
                             .EUt(VA[EV])
@@ -593,12 +603,17 @@ public final class MagicRecipesB {
                             .inputItems(REGENERATED_SOUL_CORE)
                             .inputItems(dust, SoulJadeCrystalResidue, 2)
                             .inputItems(ConsciousnessThread)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 80)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 800)
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
                             .outputItems(SOUL_THOUGHT_CATALYST_CORE)
                             .duration(2000)
                             .EUt(VA[HV])
                             .save();
+                }
+
+                // 简化产线
+                {
+
                 }
             }
 
@@ -609,7 +624,7 @@ public final class MagicRecipesB {
                     MIXER_RECIPES.recipeBuilder("remnant_energy_adsorber")
                             .inputItems(dust, RemnantSpiritStone, 3)
                             .inputItems(BoneAshGranule, 4)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 70)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 700)
                             .outputItems(REMNANT_ENERGY_ADSORBER)
                             .duration(800)
                             .EUt(VA[MV])
@@ -618,10 +633,10 @@ public final class MagicRecipesB {
                     CHEMICAL_RECIPES.recipeBuilder("remnant_erosion_catalyst_embryo")
                             .inputItems(REMNANT_ENERGY_ADSORBER)
                             .inputItems(SpiritBoneFragment)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 30)
-                            .inputFluids(RemnantErosionActivate, 50)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 300)
+                            .inputFluids(RemnantErosionActivate, 500)
                             .outputItems(REMNANT_EROSION_CATALYST_EMBRYO)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
                             .duration(200)
                             .EUt(VA[EV])
                             .save();
@@ -636,7 +651,7 @@ public final class MagicRecipesB {
                     MIXER_RECIPES.recipeBuilder("regenerated_remnant_energy_adsorber")
                             .inputItems(dust, InactiveRemnantErosionCatalyst, 5)
                             .inputItems(dust, RemnantSpiritStoneResidue, 2)
-                            .inputFluids(Mana.getFluid(LIQUID, 50))
+                            .inputFluids(Mana.getFluid(LIQUID, 500))
                             .outputItems(REGENERATED_REMNANT_ENERGY_ADSORBER)
                             .duration(800)
                             .EUt(VA[MV])
@@ -644,12 +659,17 @@ public final class MagicRecipesB {
 
                     CHEMICAL_RECIPES.recipeBuilder("recycle_remnant_erosion_catalyst")
                             .inputItems(REGENERATED_REMNANT_ENERGY_ADSORBER)
-                            .inputFluids(RemnantErosionActivate, 20)
-                            .inputFluids(TheWaterFromTheWellOfWisdom, 30)
+                            .inputFluids(RemnantErosionActivate, 200)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 300)
                             .outputItems(REMNANT_EROSION_CATALYST_EMBRYO)
                             .duration(200)
                             .EUt(VA[EV])
                             .save();
+                }
+
+                // 简化产线
+                {
+
                 }
             }
         }
