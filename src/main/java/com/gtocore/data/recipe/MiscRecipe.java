@@ -652,7 +652,7 @@ public final class MiscRecipe {
 
         if (GTOCore.isExpert()) {
 
-            BRICK_FURNACE_RECIPES.builder("firebricks")
+            BRICK_FURNACE_RECIPES.builder("firebrick_exp")
                     .inputItems(Items.COAL)
                     .inputItems(GTItems.FIRECLAY_BRICK.asItem(), 6)
                     .inputItems(GTOTagPrefix.dust, GTMaterials.Gypsum, 2)
@@ -660,13 +660,14 @@ public final class MiscRecipe {
                     .inputFluids(GTMaterials.Concrete, 1000)
                     .duration(200)
                     .save();
+        } else {
+            BRICK_FURNACE_RECIPES.builder("firebrick")
+                    .inputItems(Items.COAL)
+                    .inputItems(GTItems.COMPRESSED_FIRECLAY.asItem(), 8)
+                    .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 2)
+                    .duration(100)
+                    .save();
         }
-        BRICK_FURNACE_RECIPES.builder("firebrick")
-                .inputItems(Items.COAL)
-                .inputItems(GTItems.COMPRESSED_FIRECLAY.asItem(), 8)
-                .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 2)
-                .duration(100)
-                .save();
 
         BRICK_FURNACE_RECIPES.builder("coke_oven_brick")
                 .inputItems(Items.COAL)

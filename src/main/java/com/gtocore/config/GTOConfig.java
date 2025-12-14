@@ -359,6 +359,13 @@ public final class GTOConfig {
         @Configurable.Range(min = 5, max = 300)
         @Configurable.Gui.Slider
         public int wirelessEnergyHUDHistorySeconds = 30;
+
+        @Configurable
+        @Configurable.Comment({ "无线能量 HUD 折线颜色", "Wireless Energy HUD line color" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Line Color", cn = "无线能量 HUD 折线颜色")
+        @Configurable.StringPattern(value = "#[0-9a-fA-F]{1,6}")
+        @Configurable.Gui.ColorValue
+        public String wirelessEnergyHUDLineColor = "#ECEC71";
     }
 
     public static <T> void set(String fieldName, T value) {

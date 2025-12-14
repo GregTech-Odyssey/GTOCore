@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
+import java.awt.*;
 import java.math.BigInteger;
 
 import static com.hepdd.gtmthings.utils.FormatUtil.formatBigIntegerNumberOrSic;
@@ -66,7 +67,7 @@ public class WirelessEnergyHUD implements IGuiOverlay {
                 .height(height)
                 .backgroundColor(0x8a404040)
                 .borderColor(0x8a000000)
-                .lineColor(0xbbECEC71)
+                .lineColor(0xbb000000 | Color.decode(GTOConfig.INSTANCE.hud.wirelessEnergyHUDLineColor).getRGB())
                 .drawAreaFill(true)
                 .areaFillColor(0x402ECC71)
                 .drawAreaFill(false)
