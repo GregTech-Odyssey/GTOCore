@@ -1,8 +1,11 @@
 package com.gtocore.common.machine.multiblock.storage;
 
 import com.gtocore.common.block.WirelessEnergyUnitBlock;
+import com.gtocore.config.GTOConfig;
 
 import com.gtolib.api.GTOValues;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
@@ -12,6 +15,9 @@ import com.gtolib.utils.FunctionContainer;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -27,6 +33,7 @@ import com.google.common.collect.Multimaps;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.hepdd.gtmthings.utils.TeamUtil;
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -36,7 +43,13 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigInteger;
 import java.util.*;
 
+@DataGeneratorScanned
 public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblockMachine implements IExtendWirelessEnergyContainerHolder, ITierCasingMachine, IEnergyInfoProvider {
+
+    @RegisterLanguage(cn = "已启用无线能量HUD显示", en = "Wireless Energy HUD Display Enabled")
+    private static final String HUD_TOGGLE_ON = "gtocore.hud.wireless_energy_toggle.on";
+    @RegisterLanguage(cn = "已禁用无线能量HUD显示", en = "Wireless Energy HUD Display Disabled")
+    private static final String HUD_TOGGLE_OFF = "gtocore.hud.wireless_energy_toggle.off";
 
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
@@ -125,6 +138,23 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1", FormattingUtil.formatNumbers(container.getStorage()) + " / " + FormattingUtil.formatNumbers(container.getCapacity())).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.2", FormattingUtil.formatNumbers(container.getRate()), container.getRate() / GTValues.VEX[GTUtil.getFloorTierByVoltage(container.getRate())], Component.literal(GTValues.VNF[GTUtil.getFloorTierByVoltage(container.getRate())])).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtceu.machine.fluid_drilling_rig.depletion", (double) container.getLoss() / 10));
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
+                GuiTextures.LIGHT_OFF, GuiTextures.LIGHT_ON, () -> false,
+                (clickData, pressed) -> {
+                    if (!isRemote()) return;
+                    GTOConfig.set("wirelessEnergyHUDEnabled", !GTOConfig.INSTANCE.hud.wirelessEnergyHUDEnabled, "hud");
+                }) {
+
+            @Override
+            public IGuiTexture getIcon() {
+                return GTOConfig.INSTANCE.hud.wirelessEnergyHUDEnabled ? GuiTextures.LIGHT_ON : GuiTextures.LIGHT_OFF;
+            }
+        }.setTooltipsSupplier((b) -> Collections.singletonList(Component.translatable(GTOConfig.INSTANCE.hud.wirelessEnergyHUDEnabled ? HUD_TOGGLE_ON : HUD_TOGGLE_OFF))));
     }
 
     @Override
