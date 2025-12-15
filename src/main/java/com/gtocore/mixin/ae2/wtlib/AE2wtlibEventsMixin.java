@@ -39,7 +39,7 @@ import java.util.concurrent.Future;
 public class AE2wtlibEventsMixin {
 
     @Unique
-    private static final NetworkPack PICK_CRAFT_TOAST = NetworkPack.registerS2C(11, GTCEu.isClientSide() ? (p, b) -> Message.pickCraftToast(b) : GTOUtils.NOOP_BI_CONSUMER);
+    private static final NetworkPack PICK_CRAFT_TOAST = NetworkPack.registerS2C(GTCEu.isClientSide() ? (p, b) -> Message.pickCraftToast(b) : GTOUtils.NOOP_BI_CONSUMER);
 
     @Redirect(method = "pickBlock(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/item/ItemStack;)V",
               at = @At(value = "INVOKE", target = "Lappeng/api/storage/MEStorage;extract(Lappeng/api/stacks/AEKey;JLappeng/api/config/Actionable;Lappeng/api/networking/security/IActionSource;)J", remap = false),

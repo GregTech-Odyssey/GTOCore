@@ -188,6 +188,11 @@ public final class GTOConfig {
     public boolean nonCheatEmiInteraction = true;
 
     @Configurable
+    @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，在 EMI 界面中悬停物品时，将显示 AE 系统中该物品的数量信息", "When enabled, and EMI cheats are not enabled, hovering over an item in the EMI interface will show the quantity information of that item in the AE system" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show AE Amount Tooltip Everywhere in EMI", cn = "在EMI显示 AE 数量提示")
+    public boolean showAEAmountTooltipEverywhereEmi = true;
+
+    @Configurable
     @Configurable.Comment({ "启用后，选取方块时，若AE终端没有相关物品，但相关物品可合成，则自动触发合成请求", "When enabled, when picking a block, if the AE terminal does not have the relevant item but it can be crafted, an automatic crafting request is triggered" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Auto Craft on Pick Block", cn = "选取方块自动合成")
     public boolean pickCraft = true;

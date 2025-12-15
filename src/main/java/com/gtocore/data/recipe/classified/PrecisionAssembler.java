@@ -156,7 +156,7 @@ final class PrecisionAssembler {
                 .inputFluids(GTOMaterials.Indalloy140.getFluid(1152))
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(2304))
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
-                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].asItem())
+                .outputItems(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR.asItem())
                 .EUt(30720)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
