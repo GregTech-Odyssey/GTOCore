@@ -244,7 +244,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 }
                 if (!(entity instanceof Mob mob)) continue;
                 if (CommonProxy.isBoss(entity)) continue;
-                xp += mob.getExperienceReward() * multiplier;
+                xp += (long) mob.getExperienceReward() * multiplier;
                 getAllDeathLoot(player, serverLevel, mob, source, lootParams, itemStacks, multiplier);
             }
             if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);

@@ -92,6 +92,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIArsNouveauPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
         list.add(new JEICompat());
+        list.add(new com.glodblock.github.extendedae.xmod.jei.JEIPlugin());
     }
 
     public static void addEMIPlugin(List<EmiPluginContainer> list) {

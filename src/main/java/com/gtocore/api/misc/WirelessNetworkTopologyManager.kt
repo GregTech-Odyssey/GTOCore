@@ -1,6 +1,6 @@
 package com.gtocore.api.misc
 
-import com.gtocore.integration.ae.WirelessMachine
+import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection

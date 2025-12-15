@@ -4,7 +4,7 @@ import com.gtocore.api.misc.WirelessNetworkTopologyManager
 import com.gtocore.api.misc.codec.CodecAbleTyped
 import com.gtocore.api.misc.codec.CodecAbleTypedCompanion
 import com.gtocore.config.GTOConfig
-import com.gtocore.integration.ae.WirelessMachine
+import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import net.minecraft.core.BlockPos
 import net.minecraft.core.UUIDUtil

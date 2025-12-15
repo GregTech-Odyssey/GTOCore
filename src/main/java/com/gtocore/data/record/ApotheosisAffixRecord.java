@@ -161,6 +161,11 @@ public class ApotheosisAffixRecord {
         records.add(ApotheosisAffixRecords.create(79, "apotheosis:armor/mob_effect/bolstering", "Bolstering · of Fortitude", "支撑 · 坚韧"));
         records.add(ApotheosisAffixRecords.create(80, "apotheosis:sword/attribute/spellbreaking", "Spellbreaking · of the Petricite Golem", "破法 · 岩石傀儡"));
         records.add(ApotheosisAffixRecords.create(81, "apotheosis:shield/mob_effect/devilish", "Devilish · of the Veteran", "残忍 · 老兵"));
+        records.add(ApotheosisAffixRecords.create(82, "apotheosis:ftbu", "Chainbound · of Veinseeking", "连锁 · 矿脉爆破"));
+        records.add(ApotheosisAffixRecords.create(83, "apotheosis:bedrock_ore", "Prospecting · of the Bedrock Seer", "勘探 · 基岩透视者"));
+        records.add(ApotheosisAffixRecords.create(84, "apotheosis:bedrock_fluid_ore", "Flowseeking · of the Oil Penetrator", "寻流 · 石油之眼"));
+        records.add(ApotheosisAffixRecords.create(85, "apotheosis:stress", "Stress · of the Brinkbreaker", "应力 · 千钧一发"));
+        records.add(ApotheosisAffixRecords.create(86, "apotheosis:kinetic", "Kinetic · of the Momentum Master", "动能 · 势如破竹"));
         return records;
     }
 

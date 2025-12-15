@@ -1,7 +1,9 @@
 package com.gtocore.integration.ae
 
 import com.gtocore.api.gui.ktflexible.misc.InitFancyMachineUIWidget
-import com.gtocore.integration.ae.WirelessMachine.Companion.gridNodeSelector
+import com.gtocore.integration.ae.wireless.WirelessMachine
+import com.gtocore.integration.ae.wireless.WirelessMachinePersisted
+import com.gtocore.integration.ae.wireless.WirelessMachineRunTime
 
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
@@ -12,11 +14,9 @@ import net.minecraft.world.item.ItemStack
 import appeng.api.networking.GridFlags
 import appeng.api.networking.IManagedGridNode
 import appeng.api.util.AECableType
-import appeng.core.definitions.AEItems
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
-import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
@@ -26,11 +26,9 @@ import com.gtolib.api.capability.ISync
 import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
-import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import it.unimi.dsi.fastutil.objects.ObjectArrayList
 
 class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
@@ -62,10 +60,19 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
 
     @DescSynced
     @Persisted
-    override var wirelessMachinePersisted = createWirelessMachinePersisted()
+    var wirelessMachinePersisted = createWirelessMachinePersisted()
+
+    override fun getWirelessMachinePersisted0(): WirelessMachinePersisted? = wirelessMachinePersisted
+    override fun setWirelessMachinePersisted0(v: WirelessMachinePersisted?) {
+        wirelessMachinePersisted = v
+    }
+    override fun getWirelessMachineRunTime0(): WirelessMachineRunTime? = wirelessMachineRunTime
+    override fun setWirelessMachineRunTime0(v: WirelessMachineRunTime?) {
+        wirelessMachineRunTime = v
+    }
 
     @SyncedManager
-    override var wirelessMachineRunTime = createWirelessMachineRunTime()
+    var wirelessMachineRunTime = createWirelessMachineRunTime()
 
     private val fancyUIProvider: IFancyUIProvider by lazy { getSetupFancyUIProvider() }
 
