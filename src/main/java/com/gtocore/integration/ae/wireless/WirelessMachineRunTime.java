@@ -1,7 +1,5 @@
 package com.gtocore.integration.ae.wireless;
 
-import com.gtocore.common.saved.WirelessGrid;
-
 import com.gtolib.api.capability.ISync;
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;

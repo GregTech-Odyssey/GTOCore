@@ -9,6 +9,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 
 import appeng.core.definitions.AEItems
+import appeng.core.localization.InGameTooltip
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
@@ -19,6 +20,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture
 import com.lowdragmc.lowdraglib.gui.util.ClickData
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget
+import com.lowdragmc.lowdraglib.gui.widget.Widget
 
 import java.util.function.Supplier
 
@@ -27,130 +29,134 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
 
     override fun getTitle(): Component? = Component.translatable(gridNodeSelector)
 
-    override fun createMainPage(p0: FancyMachineUIWidget?) = rootFresh(176, 166) {
-        if (GTOConfig.INSTANCE.aeLog) println(1)
-        // 移除页面打开即同步，避免触发刷新循环；改为由机器加载与按钮操作驱动同步
-        hBox(height = availableHeight, { spacing = 4 }) {
-            blank()
-            vBox(width = this@rootFresh.availableWidth - 4, style = { spacing = 4 }) {
+    override fun createMainPage(p0: FancyMachineUIWidget?): Widget {
+        return rootFresh(176, 166) {
+            if (GTOConfig.INSTANCE.aeLog) println(1)
+            // 移除页面打开即同步，避免触发刷新循环；改为由机器加载与按钮操作驱动同步
+            hBox(height = availableHeight, { spacing = 4 }) {
                 blank()
-                if (!self.allowThisMachineConnectToWirelessGrid()) {
+                vBox(width = this@rootFresh.availableWidth - 4, style = { spacing = 4 }) {
+                    blank()
+                    if (!self.allowThisMachineConnectToWirelessGrid()) {
+                        textBlock(
+                            maxWidth = availableWidth - 4,
+                            textSupplier = { Component.translatable(banned) },
+                        )
+                        return@vBox
+                    }
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.translatable(banned) },
+                        textSupplier = { Component.translatable(player, self.self().playerOwner?.name ?: "无") },
                     )
-                    return@vBox
-                }
-                textBlock(
-                    maxWidth = availableWidth - 4,
-                    textSupplier = { Component.translatable(player, self.self().playerOwner?.name ?: "无") },
-                )
-                textBlock(
-                    maxWidth = availableWidth - 4,
-                    textSupplier = {
-                        val id = self.wirelessMachinePersisted0.gridConnectedName
-                        val nick = self.wirelessMachineRunTime0.gridCache.get().firstOrNull { it.name == id }?.nickname
-                        Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
-                    },
-                )
-                // 重新加入“创建网络”输入与按钮
-                hBox(height = 16, { spacing = 4 }) {
-                    field(
-                        width = 60,
-                        getter = { self.wirelessMachineRunTime0.gridWillAdded },
-                        setter = { self.wirelessMachineRunTime0.gridWillAdded = it },
+                    textBlock(
+                        maxWidth = availableWidth - 4,
+                        textSupplier = {
+                            val id = self.wirelessMachinePersisted0.gridConnectedName
+                            val nick =
+                                self.wirelessMachineRunTime0.gridCache.get().firstOrNull { it.name == id }?.nickname
+                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
+                        },
                     )
-                    button(transKet = createGrid, width = this@vBox.availableWidth - 60 - 8) { ck ->
-                        if (!ck.isRemote) {
-                            val input = self.wirelessMachineRunTime0.gridWillAdded.trim()
-                            if (input.isNotEmpty() &&
-                                self.wirelessMachineRunTime0.gridCache.get().none { it.nickname == input }
-                            ) {
-                                WirelessSavedData.createNewGrid(
-                                    input,
-                                    self.requesterUUID,
-                                )
-                                self.wirelessMachineRunTime0.gridWillAdded = ""
-                                self.refreshCachesOnServer()
+                    // 重新加入“创建网络”输入与按钮
+                    hBox(height = 16, { spacing = 4 }) {
+                        field(
+                            width = 60,
+                            getter = { self.wirelessMachineRunTime0.gridWillAdded },
+                            setter = { self.wirelessMachineRunTime0.gridWillAdded = it },
+                        )
+                        button(transKet = createGrid, width = this@vBox.availableWidth - 60 - 8) { ck ->
+                            if (!ck.isRemote) {
+                                val input = self.wirelessMachineRunTime0.gridWillAdded.trim()
+                                if (input.isNotEmpty() &&
+                                    self.wirelessMachineRunTime0.gridCache.get().none { it.nickname == input }
+                                ) {
+                                    WirelessSavedData.createNewGrid(
+                                        input,
+                                        self.requesterUUID,
+                                    )
+                                    self.wirelessMachineRunTime0.gridWillAdded = ""
+                                    self.refreshCachesOnServer()
+                                }
                             }
                         }
                     }
-                }
-                // 基于服务端同步下来的 gridCache 推断连接状态，避免等待 Persisted 同步导致按钮延迟显示
-                val isConnectedClient = self.wirelessMachinePersisted0.gridConnectedName.isNotEmpty() ||
-                    self.wirelessMachineRunTime0.gridCache.get().any { grid ->
-                        grid.connectionPoolTable.any {
-                            it.pos == self.self().pos && it.level == self.self().holder.level().dimension()
-                        }
-                    }
-                if (isConnectedClient) {
                     button(width = availableWidth - 4, transKet = leave) { ck ->
                         if (!ck.isRemote) {
                             self.leaveGrid()
                         }
                     }
-                }
-                textBlock(
-                    maxWidth = availableWidth - 4,
-                    textSupplier = {
-                        Component.translatable(
-                            globalWirelessGrid,
-                            self.wirelessMachineRunTime0.gridAccessibleCache.get().count(),
-                            self.wirelessMachineRunTime0.gridCache.get().count(),
-                        )
-                    },
-                )
-                textBlock(
-                    maxWidth = availableWidth - 4,
-                    textSupplier = { Component.translatable(yourWirelessGrid) },
-                )
-                val availableHeight = 166 - ((4 * 10) + (1 * 16) + (if (isConnectedClient) 16 else 0) + (4 * 7))
-                val finalListHeight = maxOf(0, (((availableHeight / 16) + 1) * 16) - 2)
-                vScroll(width = availableWidth, height = finalListHeight, { spacing = 2 }) a@{
-                    self.wirelessMachineRunTime0.gridAccessibleCache.get()
-                        .forEach { grid ->
-                            hBox(height = 14, { spacing = 4 }) {
-                                button(
-                                    height = 14,
-                                    text = { "${if (grid.isDefault) "⭐" else ""}${grid.nickname}" },
-                                    width = this@a.availableWidth - 48 - 8 + 12 - 4 - 18,
-                                    onClick = {
+                    textBlock(
+                        maxWidth = availableWidth - 4,
+                        textSupplier = {
+                            Component.translatable(
+                                globalWirelessGrid,
+                                self.wirelessMachineRunTime0.gridAccessibleCache.get().count(),
+                                self.wirelessMachineRunTime0.gridCache.get().count(),
+                            )
+                        },
+                    )
+                    textBlock(
+                        maxWidth = availableWidth - 4,
+                        textSupplier = { Component.translatable(yourWirelessGrid) },
+                    )
+                    val availableHeight = 166 - ((4 * 10) + (1 * 16) + 16 + (4 * 7))
+                    val finalListHeight = maxOf(0, (((availableHeight / 16) + 1) * 16) - 2)
+                    vScroll(width = availableWidth, height = finalListHeight, { spacing = 2 }) a@{
+                        self.wirelessMachineRunTime0.gridAccessibleCache.get()
+                            .forEach { grid ->
+                                hBox(height = 14, { spacing = 4 }) {
+                                    button(
+                                        height = 14,
+                                        text = {
+                                            "${
+                                                if (grid.isDefault) "⭐" else ""
+                                            }${
+                                                grid.nickname
+                                            }(${
+                                                InGameTooltip.Channels.text(
+                                                    WirelessSavedData.INSTANCE.gridPool.find { it.name == grid.name }?.getTotalUsedChannel(),
+                                                ).string
+                                            })"
+                                        },
+                                        width = this@a.availableWidth - 48 - 8 + 12 - 4 - 18,
+                                        onClick = {
+                                            if (!it.isRemote) {
+                                                self.leaveGrid()
+                                                self.joinGrid(grid.name)
+                                            }
+                                        },
+                                    )
+                                    if (!grid.isDefault) {
+                                        button(height = 14, text = { "⭐" }, width = 18, onClick = {
+                                            if (!it.isRemote) {
+                                                WirelessSavedData.setAsDefault(grid.name, self.requesterUUID)
+                                                self.refreshCachesOnServer()
+                                            }
+                                        })
+                                    } else {
+                                        button(height = 14, text = { "⚝" }, width = 18, onClick = {
+                                            if (!it.isRemote) {
+                                                WirelessSavedData.cancelAsDefault(
+                                                    grid.name,
+                                                    self.requesterUUID,
+                                                )
+                                                self.refreshCachesOnServer()
+                                            }
+                                        })
+                                    }
+                                    deleteButton(height = 14, transKey = removeGrid, width = 36, onConfirm = {
                                         if (!it.isRemote) {
-                                            self.leaveGrid()
-                                            self.joinGrid(grid.name)
-                                        }
-                                    },
-                                )
-                                if (!grid.isDefault) {
-                                    button(height = 14, text = { "⭐" }, width = 18, onClick = {
-                                        if (!it.isRemote) {
-                                            WirelessSavedData.setAsDefault(grid.name, self.requesterUUID)
-                                            self.refreshCachesOnServer()
-                                        }
-                                    })
-                                } else {
-                                    button(height = 14, text = { "⚝" }, width = 18, onClick = {
-                                        if (!it.isRemote) {
-                                            WirelessSavedData.cancelAsDefault(
-                                                grid.name,
-                                                self.requesterUUID,
-                                            )
+                                            WirelessSavedData.removeGrid(grid.name, self.requesterUUID)
                                             self.refreshCachesOnServer()
                                         }
                                     })
                                 }
-                                deleteButton(height = 14, transKey = removeGrid, width = 36, onConfirm = {
-                                    if (!it.isRemote) {
-                                        WirelessSavedData.removeGrid(grid.name, self.requesterUUID)
-                                        self.refreshCachesOnServer()
-                                    }
-                                })
                             }
-                        }
+                    }
                 }
             }
-        }
-    }.also { self.wirelessMachineRunTime0.connectPageFreshRun = Runnable { it.fresh() } }
+        }.also { self.wirelessMachineRunTime0.connectPageFreshRun = Runnable { it.requireFresh() } }
+    }
 }
 
 const val confirmTime = 1000L

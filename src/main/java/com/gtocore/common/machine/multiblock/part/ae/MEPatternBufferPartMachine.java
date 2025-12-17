@@ -134,14 +134,16 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
+    /// C2S sync field for configurator slot index
     protected IntSyncedField configuratorField = ISync.createIntField(this)
             .set(-1)
             .setSenderListener((side, o, n) -> {
-                if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.fresh()));
-                freshWidgetGroup.fresh();
+                // if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new
+                // TickTask(10, () -> freshWidgetGroup.serverFresh()));
+                // freshWidgetGroup.fresh();
             }).setReceiverListener((side, o, n) -> {
-                if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.fresh()));
-                freshWidgetGroup.fresh();
+                if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.serverFresh()));
+                // freshWidgetGroup.fresh();
             });
 
     @Override

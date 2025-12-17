@@ -370,5 +370,5 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
                 }
             }
         }
-    }.also { freshUI = Runnable { it.fresh() } }
+    }.also { freshUI = Runnable { it.requireFresh() } }
 }
