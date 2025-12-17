@@ -55,12 +55,12 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     private double bonusEfficiency = 1.0f;
     private static final int MaxCanReleaseParallel = 50;
 
-    @DynamicInitialValue(key = "fuelcell.chance_consume", easyValue = "0.0d", normalValue = "0.035d", expertValue = "0.055d", typeKey = DynamicInitialValueTypes.KEY_PROBABILITY, cn = "放电时膜损坏概率", cnComment = """
+    @DynamicInitialValue(key = "fuelcell.chance_consume", easyValue = "0.0d", normalValue = "0.017d", expertValue = "0.027d", typeKey = DynamicInitialValueTypes.KEY_PROBABILITY, cn = "放电时膜损坏概率", cnComment = """
             放电时使用的膜材料的损坏概率。
             """, en = "Fuel Cell Membrane Damage Chance on Discharge", enComment = """
             The chance of the membrane material used being damaged upon discharging.
             """)
-    public static double chanceConsumeMembraneOnDischarge = 0.035d;
+    public static double chanceConsumeMembraneOnDischarge = 0.017d;
 
     public FullCellGenerator(MetaMachineBlockEntity holder) {
         super(holder);

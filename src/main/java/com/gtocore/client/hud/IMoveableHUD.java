@@ -1,0 +1,176 @@
+package com.gtocore.client.hud;
+
+import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
+
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+import com.lowdragmc.lowdraglib.LDLib;
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import dev.emi.emi.config.EmiConfig;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Set;
+
+@DataGeneratorScanned
+public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable {
+
+    @RegisterLanguage(cn = "左键开关HUD显示（已启用）", en = "Left click to toggle HUD display (Enabled)")
+    String HUD_TOGGLE_ON = "gtocore.hud.toggle.on";
+    @RegisterLanguage(cn = "左键开关HUD显示（已禁用）", en = "Left click to toggle HUD display (Disabled)")
+    String HUD_TOGGLE_OFF = "gtocore.hud.toggle.off";
+    @RegisterLanguage(cn = "右键可开启HUD拖拽模式", en = "Right click to enable HUD drag mode")
+    String HUD_DRAG = "gtocore.hud.drag";
+
+    @Override
+    /// renderInHUD
+    void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight);
+
+    /// renderInContainerScreen
+    @Override
+    void render(@NotNull GuiGraphics guiGraphics, int i, int i1, float v);
+
+    void renderGeneral(GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight);
+
+    Rect2i getBounds(int screenWidth, int screenHeight);
+
+    @Override
+    default boolean isMouseOver(double mouseX, double mouseY) {
+        return getBounds(Minecraft.getInstance().getWindow().getGuiScaledWidth(),
+                Minecraft.getInstance().getWindow().getGuiScaledHeight()).contains((int) mouseX, (int) mouseY);
+    }
+
+    @Override
+    default void setFocused(boolean b) {}
+
+    @Override
+    default boolean isFocused() {
+        return false;
+    }
+
+    default void toggleEnabled() {}
+
+    default boolean isEnabled() {
+        return false;
+    }
+
+    Set<IMoveableHUD> activeHuds = new ReferenceOpenHashSet<>();
+
+    static boolean addActiveHud(IMoveableHUD hud) {
+        if (EmiConfig.enabled) EmiConfig.enabled = false;
+        return activeHuds.add(hud);
+    }
+
+    static boolean removeActiveHud(IMoveableHUD hud) {
+        var b = activeHuds.remove(hud);
+        if (!EmiConfig.enabled && activeHuds.isEmpty()) EmiConfig.enabled = true;
+        return b;
+    }
+
+    class Configurator extends IFancyConfiguratorButton.Toggle {
+
+        @Getter
+        private final IMoveableHUD hudInstance;
+        private final IGuiTexture on;
+        private final IGuiTexture off;
+        @Getter
+        @Setter
+        private boolean isConfigurationMode = false;
+
+        public Configurator(IGuiTexture on, IGuiTexture off, IMoveableHUD hudInstance) {
+            super(on, off, () -> false,
+                    (clickData, p) -> {
+                        if (!LDLib.isRemote()) return;
+                        if (clickData.button == 1) {
+                            if (!addActiveHud(hudInstance)) {
+                                removeActiveHud(hudInstance);
+                            }
+                            return;
+                        }
+                        hudInstance.toggleEnabled();
+                    });
+            this.hudInstance = hudInstance;
+            this.on = on;
+            this.off = off;
+            setTooltipsSupplier(b -> List.of(
+                    Component.translatable(hudInstance.isEnabled() ? HUD_TOGGLE_ON : HUD_TOGGLE_OFF),
+                    Component.translatable(HUD_DRAG)));
+        }
+
+        @Override
+        public IGuiTexture getIcon() {
+            return hudInstance.isEnabled() ? on : off;
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = GTOCore.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
+    class EventHandler {
+
+        @SubscribeEvent
+        public static void onGuiRender(ScreenEvent.Render.Post event) {
+            for (IMoveableHUD hud : activeHuds) {
+                if (hud.isEnabled()) {
+                    hud.render(event.getGuiGraphics(), event.getMouseX(), event.getMouseY(), event.getPartialTick());
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void onMouseClicked(ScreenEvent.MouseButtonPressed.Pre event) {
+            boolean handled = false;
+            for (IMoveableHUD hud : activeHuds) {
+                if (hud.isEnabled() && !handled) {
+                    handled = hud.mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton());
+                }
+            }
+            event.setCanceled(handled);
+        }
+
+        @SubscribeEvent
+        public static void onMouseDragged(ScreenEvent.MouseDragged.Pre event) {
+            boolean handled = false;
+            for (IMoveableHUD hud : activeHuds) {
+                if (hud.isEnabled() && !handled) {
+                    handled = hud.mouseDragged(event.getMouseX(), event.getMouseY(),
+                            event.getMouseButton(), event.getDragX(), event.getDragY());
+                }
+            }
+            event.setCanceled(handled);
+        }
+
+        @SubscribeEvent
+        public static void onMouseReleased(ScreenEvent.MouseButtonReleased.Pre event) {
+            boolean handled = false;
+            for (IMoveableHUD hud : activeHuds) {
+                if (hud.isEnabled() && !handled) {
+                    handled = hud.mouseReleased(event.getMouseX(), event.getMouseY(), event.getButton());
+                }
+            }
+            event.setCanceled(handled);
+        }
+
+        @SubscribeEvent
+        public static void onClosing(ScreenEvent.Closing event) {
+            activeHuds.clear();
+            EmiConfig.enabled = true;
+        }
+    }
+}

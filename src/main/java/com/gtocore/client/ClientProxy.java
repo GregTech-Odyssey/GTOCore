@@ -99,7 +99,7 @@ public final class ClientProxy extends CommonProxy {
     }
 
     private static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("wireless_energy_hud", new WirelessEnergyHUD());
+        event.registerAboveAll("wireless_energy_hud", WirelessEnergyHUD.INSTANCE);
     }
 
     private static void registerMenuScreen(FMLClientSetupEvent event) {
