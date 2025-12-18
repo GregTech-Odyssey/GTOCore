@@ -65,7 +65,7 @@ public abstract class AdAstraOverlayScreenMixin {
         }
     }
 
-    @Redirect(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;renderDebug:Z", opcode = Opcodes.GETFIELD), remap = false)
+    @Redirect(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Options;renderDebug:Z", opcode = Opcodes.GETFIELD))
     private static boolean redirectRenderDebugField(net.minecraft.client.Options options) {
         if (AdAstraHUD.gto$INSTANCE.isGto$containerScreenEnv()) {
             return false;
