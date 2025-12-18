@@ -279,6 +279,8 @@ public final class MaterialIgnored {
         NANO.setIgnored(Molybdenum, () -> ChemicalHelper.get(dust, NanoScaleMolybdenum).getItem());
         NANO.setIgnored(Aluminium, () -> ChemicalHelper.get(dust, NanoAluminum).getItem());
 
+        block.modifyMaterialAmount(Fluix, 4);
+
         if (GTCEu.isProd()) {
             TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);
             TagPrefix.nugget.setIgnored(Alfsteel, () -> () -> alfsteelNugget);

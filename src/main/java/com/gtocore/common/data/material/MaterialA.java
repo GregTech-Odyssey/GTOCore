@@ -34,7 +34,7 @@ public final class MaterialA {
                 .components(NetherQuartz, 1, CertusQuartz, 1, Redstone, 1)
                 .color(0x8f5ccb)
                 .iconSet(QUARTZ)
-                .flags(NO_SMASHING, NO_SMELTING, DISABLE_DECOMPOSITION, GENERATE_PLATE)
+                .flags(NO_SMASHING, NO_SMELTING, DISABLE_DECOMPOSITION, GENERATE_PLATE, CRYSTALLIZABLE)
                 .buildAndRegister();
 
         // ad

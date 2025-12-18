@@ -682,5 +682,23 @@ public final class MiscRecipe {
                 .outputItems(Blocks.BRICKS.asItem(), 2)
                 .duration(100)
                 .save();
+
+        FIBER_EXTRUSION_RECIPES.builder("quartz_fiber")
+                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 3)
+                .outputItems("ae2:quartz_fiber", 3)
+                .EUt(30)
+                .blastFurnaceTemp(2200)
+                .duration(100)
+                .save();
+
+        DRAWING_RECIPES.builder("quartz_fiber")
+                .circuitMeta(4)
+                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 768)
+                .outputItems("ae2:quartz_fiber", 768)
+                .EUt(120)
+                .blastFurnaceTemp(3200)
+                .duration(25600)
+                .addData("spool", 5)
+                .save();
     }
 }

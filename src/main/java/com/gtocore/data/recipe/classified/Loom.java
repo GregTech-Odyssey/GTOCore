@@ -86,5 +86,12 @@ final class Loom {
                 .EUt(32)
                 .duration(5)
                 .save();
+
+        LOOM_RECIPES.builder("magebloom_fiber")
+                .inputItems("ars_nouveau:magebloom")
+                .outputItems("ars_nouveau:magebloom_fiber", 16)
+                .EUt(30)
+                .duration(200)
+                .save();
     }
 }
