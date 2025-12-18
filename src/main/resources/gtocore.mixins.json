@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "GameRendererMixin",
+    "adastra.AdAstraClientMixin",
     "adastra.AdAstraOverlayScreenMixin",
     "adastra.PlanetsScreenMixin",
     "ae2.gui.CraftConfirmTableRendererMixin",

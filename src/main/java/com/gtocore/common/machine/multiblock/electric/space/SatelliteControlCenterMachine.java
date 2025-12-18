@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.space;
 
+import com.gtocore.client.hud.AdAstraHUD;
+import com.gtocore.client.hud.IMoveableHUD;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -16,6 +18,8 @@ import com.gtolib.utils.RegistriesUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -35,6 +39,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.gtocore.client.hud.IMoveableHUD.HUD_DRAG;
 
 @DataGeneratorScanned
 public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine {
@@ -62,6 +68,15 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
 
     public SatelliteControlCenterMachine(MetaMachineBlockEntity holder) {
         super(holder);
+    }
+
+    @Override
+    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+        configuratorPanel.attachConfigurators(
+                new IMoveableHUD.Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF, AdAstraHUD.gto$INSTANCE)
+                        .setTooltipsSupplier(b -> List.of(
+                                Component.translatable(HUD_DRAG))));
     }
 
     @Override

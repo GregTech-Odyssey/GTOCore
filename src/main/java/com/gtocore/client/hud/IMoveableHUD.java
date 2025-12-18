@@ -41,14 +41,25 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
     String HUD_DRAG = "gtocore.hud.drag";
 
     @Override
-    /// renderInHUD
-    void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight);
+    /// renderInGameHud
+    default void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
+        Minecraft mc = Minecraft.getInstance();
+        if (!isEnabled() || mc.level == null || mc.options.renderDebug || mc.options.hideGui) {
+            return;
+        }
+        renderGeneral(guiGraphics, partialTick, screenWidth, screenHeight);
+    }
 
     /// renderInContainerScreen
     @Override
-    void render(@NotNull GuiGraphics guiGraphics, int i, int i1, float v);
+    default void render(@NotNull GuiGraphics guiGraphics, int i, int i1, float v) {
+        renderGeneral(guiGraphics, v,
+                Minecraft.getInstance().getWindow().getGuiScaledWidth(),
+                Minecraft.getInstance().getWindow().getGuiScaledHeight());
+    }
 
-    void renderGeneral(GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight);
+    /// can store shared logic here
+    default void renderGeneral(GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {}
 
     Rect2i getBounds(int screenWidth, int screenHeight);
 

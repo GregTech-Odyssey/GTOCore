@@ -17,7 +17,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,15 +45,6 @@ public class WirelessEnergyHUD implements IMoveableHUD {
     private int dragStartY = 0;
     private int pendingMovedX = 0;
     private int pendingMovedY = 0;
-
-    @Override
-    public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
-        Minecraft mc = Minecraft.getInstance();
-        if (!GTOConfig.INSTANCE.hud.wirelessEnergyHUDEnabled || mc.level == null || mc.options.renderDebug || mc.options.hideGui) {
-            return;
-        }
-        renderGeneral(guiGraphics, partialTick, screenWidth, screenHeight);
-    }
 
     /// renderInContainerScreen
     @Override
@@ -158,6 +148,7 @@ public class WirelessEnergyHUD implements IMoveableHUD {
 
             pendingMovedX = 0;
             pendingMovedY = 0;
+            isDragging = false;
             return true;
         }
         return false;
