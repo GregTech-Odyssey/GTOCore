@@ -2,6 +2,7 @@ package com.gtocore.mixin.gtm.recipe;
 
 import com.gtolib.utils.ItemUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -80,7 +81,7 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     public static void init() {
-        // if (GTCEu.isDev()) return;
+        if (GTCEu.isDev()) return;
         for (var entry : ITEM_MATERIAL_INFO.entrySet()) {
             var item = entry.getKey();
             if (item instanceof IGTTool) continue;
@@ -94,7 +95,7 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     public static void registerRecyclingRecipes(ItemStack input, List<MaterialStack> components, boolean ignoreArcSmelting, @Nullable TagPrefix prefix) {
-        // if (GTCEu.isDev()) return;
+        if (GTCEu.isDev()) return;
         List<MaterialStack> materials = components.stream()
                 .filter(stack -> stack.material().hasProperty(PropertyKey.DUST))
                 .filter(stack -> stack.amount() >= M / 9)
