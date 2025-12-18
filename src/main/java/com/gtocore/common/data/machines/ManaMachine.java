@@ -135,7 +135,7 @@ public final class ManaMachine {
             .register();
 
     public static final MachineDefinition ME_MANA_AMPLIFIER_HATCH = manaMachine("me_mana_amplifier_hatch", "ME魔力增幅仓", MEManaAmplifierPartMachine::new)
-            .tier(MV)
+            .tier(HV)
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getManaAmplifierHatchTooltips().getSupplier())
             .workableManaTieredHullRenderer(7, GTOCore.id("block/multiblock/mana"))
