@@ -89,7 +89,7 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate autoGCYMAbilities(GTRecipeType... recipeType) {
-        return Predicates.autoAbilities(recipeType, false, false, true, true, true, true).or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(8).setPreviewCount(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)).or(Predicates.blocks(ManaMachine.MANA_AMPLIFIER_HATCH.get()).setMaxGlobalLimited(1));
+        return Predicates.autoAbilities(recipeType, false, false, true, true, true, true).or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(8).setPreviewCount(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)).or(Predicates.blocks(ManaMachine.MANA_AMPLIFIER_HATCH.get(), ManaMachine.ME_MANA_AMPLIFIER_HATCH.get()).setMaxGlobalLimited(1));
     }
 
     public static TraceabilityPredicate autoAccelerateAbilities(GTRecipeType... recipeType) {

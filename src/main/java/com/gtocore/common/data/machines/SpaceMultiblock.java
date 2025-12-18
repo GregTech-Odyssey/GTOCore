@@ -14,7 +14,6 @@ import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.S
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
@@ -451,7 +450,6 @@ public class SpaceMultiblock {
             .recipeTypes(GTORecipeTypes.SPACE_SMELTING_RECIPES)
             .recipeTypes(GTORecipeTypes.ALLOY_BLAST_RECIPES)
             .block(GTOBlocks.SMELTING_CONTROL_CASING)
-            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                 M M       M M               ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ", "                                             ")
                     .aisle("                                             ", "                                             ", "                                             ", "                                             ", "                 M M       M M               ", "                 M M       M M               ", "                 O OI K K IO O               ", "             IIIIO OI K K IO OIIII           ", "                 O OI K K IO O               ", "             IIIIO OI K K IO OIIII           ", "                 O OI K K IO O               ", "                 M M       M M               ", "                 M M       M M               ", "                                             ", "                                             ", "                                             ", "                                             ")

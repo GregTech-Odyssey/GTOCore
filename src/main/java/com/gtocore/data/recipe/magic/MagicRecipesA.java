@@ -1171,6 +1171,16 @@ public final class MagicRecipesA {
                     .MANAt(8192)
                     .save();
 
+            ASSEMBLER_RECIPES.builder("me_mana_amplifier_hatch")
+                    .inputItems("gtocore:mana_amplifier_hatch")
+                    .inputItems(AEItems.SPEED_CARD.asItem())
+                    .inputItems("appbot:fluix_mana_pool")
+                    .inputItems(TagPrefix.gemExquisite, GTOMaterials.Fluix, 4)
+                    .outputItems("gtocore:me_mana_amplifier_hatch")
+                    .duration(200)
+                    .MANAt(1280)
+                    .save();
+
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("alchemy_cauldron"), ManaMachine.ALCHEMY_CAULDRON.asItem(),
                     "BBB", "ADA", "AAA",
                     'A', new MaterialEntry(TagPrefix.plate, Steel), 'B', new MaterialEntry(rod, Steel), 'D', Items.CAULDRON);

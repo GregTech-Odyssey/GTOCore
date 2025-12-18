@@ -156,6 +156,17 @@ public final class NewResearchSystem {
                     .EUt(30720)
                     .duration(200)
                     .save();
+            LARGE_CHEMICAL_RECIPES.recipeBuilder("chemical_triethoxysilane111")
+                    .inputItems(CATALYST, Brass)
+                    .inputItems(dust, ElectronicGradeSilicon)
+                    .inputItems(dustSmall, ElectronicGradeSilicon, 2)
+                    .inputFluids(AbsoluteEthanol.getFluid(3000))
+                    .outputFluids(Triethoxysilane.getFluid(1000))
+                    .outputFluids(Hydrogen.getFluid(1000))
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .EUt(30720 / 4)
+                    .duration(3000)
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_chloropropyltriethoxysilane")
                     .inputItems(CATALYST, Platinum)

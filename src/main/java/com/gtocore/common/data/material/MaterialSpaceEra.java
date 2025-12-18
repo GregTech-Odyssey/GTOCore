@@ -211,7 +211,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0xc380c6)
                 .secondaryColor(0x8b5e8b)
-                .blastTemp(8660, HIGHER, GTValues.VA[GTValues.LuV], 900)
+                .blastTemp(8660, HIGHER, GTValues.VA[GTValues.LuV], 600)
                 .components(Titanium, 82, Aluminium, 5, Vanadium, 5, Molybdenum, 5, Chromium, 3, Niobium, 1)
                 .iconSet(METALLIC)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
@@ -224,7 +224,7 @@ public class MaterialSpaceEra {
                 .fluid()
                 .color(0x8b8b8b)
                 .secondaryColor(0x4c4c4c)
-                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.UV], 800)
+                .blastTemp(7100, HIGHER, GTValues.VA[GTValues.UV], 600)
                 .components(Steel, 56 * 3, Aluminium, 12 * 3, Manganese, 29 * 3, Chromium, 5 * 3, Beryllium, 2, Naquadria, 1)
                 .iconSet(SHINY)
                 .flags(GENERATE_GEAR, GENERATE_CURVED_PLATE,
