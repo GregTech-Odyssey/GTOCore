@@ -56,7 +56,16 @@ public class AdAstraHUD implements IMoveableHUD {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return AdAstraConfigClient.oxygenBarX > 0;
+    }
+
+    @Override
+    public void toggleEnabled() {
+        if (isEnabled()) {
+            set(-1000, -1000);
+        } else {
+            set(10, 10);
+        }
     }
 
     @Override
@@ -94,15 +103,11 @@ public class AdAstraHUD implements IMoveableHUD {
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (gto$pendingMovedX != 0 || gto$pendingMovedY != 0) {
 
-            AdAstraConfigClient.oxygenBarX = (int) Math.max(0, Math.min(Minecraft.getInstance().getWindow().getGuiScaledWidth() - (62 * AdAstraConfigClient.oxygenBarScale),
-                    AdAstraConfigClient.oxygenBarX + gto$pendingMovedX));
-            AdAstraConfigClient.oxygenBarY = (int) Math.max(0, Math.min(Minecraft.getInstance().getWindow().getGuiScaledHeight() - (52 * AdAstraConfigClient.oxygenBarScale),
-                    AdAstraConfigClient.oxygenBarY + gto$pendingMovedY));
-            try {
-                ConfigParser.parseConfig(AdAstraConfigClient.class).save();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            set(
+                    (int) Math.max(0, Math.min(Minecraft.getInstance().getWindow().getGuiScaledWidth() - (62 * AdAstraConfigClient.oxygenBarScale),
+                            AdAstraConfigClient.oxygenBarX + gto$pendingMovedX)),
+                    (int) Math.max(0, Math.min(Minecraft.getInstance().getWindow().getGuiScaledHeight() - (52 * AdAstraConfigClient.oxygenBarScale),
+                            AdAstraConfigClient.oxygenBarY + gto$pendingMovedY)));
 
             gto$pendingMovedX = 0;
             gto$pendingMovedY = 0;
@@ -110,5 +115,15 @@ public class AdAstraHUD implements IMoveableHUD {
             return true;
         }
         return false;
+    }
+
+    private static void set(int oxygenBarX, int oxygenBarY) {
+        AdAstraConfigClient.oxygenBarX = oxygenBarX;
+        AdAstraConfigClient.oxygenBarY = oxygenBarY;
+        try {
+            ConfigParser.parseConfig(AdAstraConfigClient.class).save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

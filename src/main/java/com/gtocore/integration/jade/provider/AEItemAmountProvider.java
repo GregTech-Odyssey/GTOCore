@@ -15,6 +15,8 @@ import appeng.api.stacks.AmountFormat;
 import snownee.jade.api.*;
 import snownee.jade.api.config.IPluginConfig;
 
+import static net.minecraft.world.item.Items.AIR;
+
 public enum AEItemAmountProvider implements IBlockComponentProvider, IEntityComponentProvider, IServerDataProvider<Accessor<?>> {
 
     INSTANCE;
@@ -27,8 +29,10 @@ public enum AEItemAmountProvider implements IBlockComponentProvider, IEntityComp
             if (accessor.getBlock() instanceof LiquidBlock liquidBlock) {
                 var fluid = liquidBlock.getFluidState(accessor.getBlockState()).getType();
                 aeKey = AEFluidKey.of(fluid);
-            } else {
+            } else if (accessor.getBlock().asItem() != AIR) {
                 aeKey = AEItemKey.of(accessor.getBlock().asItem());
+            } else {
+                return;
             }
             IEnhancedPlayer.fetchClientAEData(player, aeKey);
             if (IEnhancedPlayer.isClientAEReachable(player)) {

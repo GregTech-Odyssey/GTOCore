@@ -137,4 +137,10 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
             )
         }
     }
+
+    val LargeSteamCrackerTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_steam_cracker")
+        info("原料效率仅正常裂化机的80%" translatedTo "The raw material efficiency is only 80% of that of a normal cracker")
+        increase("每使用高一等级的蒸汽输入仓，原料效率提升20%" translatedTo "For each higher level of steam input hatch used, the raw material efficiency increases by 20%")
+    }
 }

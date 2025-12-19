@@ -20,8 +20,8 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-
 import net.minecraftforge.common.util.Lazy;
+
 import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.api.GTValues.LV;
@@ -146,7 +146,7 @@ public final class RewardBagLoot {
                 .build();
     }
 
-    private static final Lazy<Item[]> rune1 = Lazy.of(() -> new Item[]{
+    private static final Lazy<Item[]> rune1 = Lazy.of(() -> new Item[] {
             runeMana,
             runeWater,
             runeFire,
@@ -154,14 +154,14 @@ public final class RewardBagLoot {
             runeEarth
     });
 
-    private static final Lazy<Item[]> rune2 = Lazy.of(() -> new Item[]{
+    private static final Lazy<Item[]> rune2 = Lazy.of(() -> new Item[] {
             runeSpring,
             runeSummer,
             runeAutumn,
             runeWinter
     });
 
-    private static final Lazy<Item[]> rune3 = Lazy.of(() -> new Item[]{
+    private static final Lazy<Item[]> rune3 = Lazy.of(() -> new Item[] {
             runeLust,
             runeGluttony,
             runeGreed,
@@ -171,7 +171,7 @@ public final class RewardBagLoot {
             runePride
     });
 
-    private static final Lazy<Item[]> rune4 = Lazy.of(() -> new Item[]{
+    private static final Lazy<Item[]> rune4 = Lazy.of(() -> new Item[] {
             asgardRune,
             vanaheimRune,
             alfheimRune,

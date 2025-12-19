@@ -3875,6 +3875,8 @@
   "gtocore.lang.large_steam_circuit_assembler.5.-76664306": "Maximum: 127x127",
   "gtocore.lang.large_steam_circuit_assembler.5.-855586047": "Allows circuit products to be multiplied through engraved circuits",
   "gtocore.lang.large_steam_circuit_assembler.6.2003974823": "After engraving, this machine can only process this type of circuit",
+  "gtocore.lang.large_steam_cracker.0.-1674002160": "The raw material efficiency is only 80% of that of a normal cracker",
+  "gtocore.lang.large_steam_cracker.1.-40088499": "For each higher level of steam input hatch used, the raw material efficiency increases by 20%",
   "gtocore.lang.large_steam_solar_boiler.0.-1779936924": "Relying on nature has always been the company's ancestral tradition",
   "gtocore.lang.large_steam_solar_boiler.1.-2105861460": "But ancient methods can't make high-tech solar panels so we just lay them out flat to get by",
   "gtocore.lang.large_steam_solar_boiler.2.2028482001": "Anyway it's free so no one complains about it",
