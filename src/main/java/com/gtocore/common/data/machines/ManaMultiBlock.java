@@ -493,7 +493,7 @@ public final class ManaMultiBlock {
             .parallelizableTooltips()
             .perfectOCTooltips()
             .parallelizableManaOverclock()
-            .recipeTypes(GTORecipeTypes.INFUSER_CORE_RECIPES)
+            .recipeTypes(GTORecipeTypes.ELEMENTAL_RESONANCE)
             .block(GTOBlocks.THE_ORIGIN_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .where('A', blocks(GTOBlocks.THE_END_CASING.get()))

@@ -964,34 +964,81 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         return true;
     }
 
+    private static int[] transform(int lx, int ly, int lz, int sx, int sz, int rot, boolean zMir, boolean xMir) {
+        int rx = lx, rz = lz;
+        switch (rot) {
+            case 90 -> { int t = rx; rx = sz - 1 - rz; rz = t; }
+            case 180 -> { rx = sx - 1 - rx; rz = sz - 1 - rz; }
+            case 270 -> { int t = rx; rx = rz; rz = sx - 1 - t; }
+        }
+        if (xMir) rx = sx - 1 - rx;
+        if (zMir) rz = sz - 1 - rz;
+        return new int[]{rx, ly, rz};
+    }
+
+    private static int[] calcOffsetsBy8Points(int sx, int sy, int sz, int rot, boolean zMir, boolean xMir) {
+        int[][] corners = {{0, 0, 0}, {sx-1, 0, 0}, {0, sy-1, 0}, {sx-1, sy-1, 0}, {0, 0, sz-1}, {sx-1, 0, sz-1}, {0, sy-1, sz-1}, {sx-1, sy-1, sz-1}};
+        int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
+        for (int[] c : corners) {
+            int[] t = transform(c[0], c[1], c[2], sx, sz, rot, zMir, xMir);
+            minX = Math.min(minX, t[0]);
+            minY = Math.min(minY, t[1]);
+            minZ = Math.min(minZ, t[2]);
+        }
+        return new int[]{-minX, -minY, -minZ};
+    }
+
     private void highlightArea(boolean light) {
         if (!(getLevel() instanceof ServerLevel)) return;
-        ResourceKey<Level> dimension = Objects.requireNonNull(getLevel()).dimension();
+        ResourceKey<Level> dimension = getLevel().dimension();
+
         if (canExport) {
-            BlockPos pos1 = null;
-            BlockPos pos2 = null;
-            for (int i = 0; i < inventory.getSize(); i++) {
+            BlockPos p1 = null, p2 = null;
+            for (int i = 0; i < inventory.getSize() && (p1 == null || p2 == null); i++) {
                 ItemStack stack = inventory.getStackInSlot(i);
-                if (stack.getItem() == GTOItems.COORDINATE_CARD.asItem()) {
-                    if (pos1 == null) pos1 = getStoredCoordinates(stack);
-                    else pos2 = getStoredCoordinates(stack);
+                if (stack.is(GTOItems.COORDINATE_CARD.asItem())) {
+                    if (p1 == null) p1 = getStoredCoordinates(stack);
+                    else p2 = getStoredCoordinates(stack);
                 }
             }
-            if (pos1 != null && pos2 != null) {
-                if (light) {
-                    highlightRegion(dimension,
-                            new BlockPos(Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ())),
-                            new BlockPos(Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ())),
-                            0x660099CC, 1200);
-                } else
-                    stopHighlight(new BlockPos(Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ())),
-                            new BlockPos(Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ())));
+            if (p1 != null && p2 != null) {
+                BlockPos min = new BlockPos(Math.min(p1.getX(), p2.getX()), Math.min(p1.getY(), p2.getY()), Math.min(p1.getZ(), p2.getZ()));
+                BlockPos max = new BlockPos(Math.max(p1.getX(), p2.getX()), Math.max(p1.getY(), p2.getY()), Math.max(p1.getZ(), p2.getZ()));
+                if (light) highlightRegion(dimension, min, max, 0x660099CC, 1200);
+                else stopHighlight(min, max);
             }
-        } else if (presetConfirm) {
-            if (light) {
-                highlightRegion(dimension, pos1, pos2, 0x2277FF77, 600);
-            } else stopHighlight(pos1, pos2);
+            return;
         }
+
+        if (!presetConfirm) return;
+        PlatformBlockType.PlatformBlockStructure struct = getPlatformBlockStructure(saveGroup, saveId);
+        int sx = struct.xSize(), sy = struct.ySize(), sz = struct.zSize();
+        BlockPos start = pos1;
+
+        boolean zMir = this.xMirror, xMir = this.zMirror;
+        int rot = this.rotation;
+
+        int[] offsets = calcOffsetsBy8Points(sx, sy, sz, rot, zMir, xMir);
+        int ox = offsets[0], oy = offsets[1], oz = offsets[2];
+
+        int[][] corners = {{0, 0, 0}, {sx-1, 0, 0}, {0, sy-1, 0}, {sx-1, sy-1, 0}, {0, 0, sz-1}, {sx-1, 0, sz-1}, {0, sy-1, sz-1}, {sx-1, sy-1, sz-1}};
+
+        int minWX = Integer.MAX_VALUE, minWY = Integer.MAX_VALUE, minWZ = Integer.MAX_VALUE;
+        int maxWX = Integer.MIN_VALUE, maxWY = Integer.MIN_VALUE, maxWZ = Integer.MIN_VALUE;
+        for (int[] c : corners) {
+            int[] t = transform(c[0], c[1], c[2], sx, sz, rot, zMir, xMir);
+            int wx = start.getX() + t[0] + ox;
+            int wy = start.getY() + t[1] + oy;
+            int wz = start.getZ() + t[2] + oz;
+            minWX = Math.min(minWX, wx); maxWX = Math.max(maxWX, wx);
+            minWY = Math.min(minWY, wy); maxWY = Math.max(maxWY, wy);
+            minWZ = Math.min(minWZ, wz); maxWZ = Math.max(maxWZ, wz);
+        }
+
+        BlockPos minPos = new BlockPos(minWX, minWY, minWZ);
+        BlockPos maxPos = new BlockPos(maxWX, maxWY, maxWZ);
+        if (light) highlightRegion(dimension, minPos, maxPos, 0x2277FF77, 600);
+        else stopHighlight(minPos, maxPos);
     }
 
     private void start() {

@@ -24,11 +24,11 @@ import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.CRYSTAL_SEED;
 import static com.gtocore.common.data.GTOItems.*;
-import static com.gtocore.common.data.GTOItems.BoneAshGranule;
-import static com.gtocore.common.data.GTOItems.HolyRootMycelium;
-import static com.gtocore.common.data.GTOItems.SoulShadowDust;
-import static com.gtocore.common.data.GTOItems.SourceSpiritDebris;
-import static com.gtocore.common.data.GTOItems.StarDebrisSand;
+import static com.gtocore.common.data.GTOItems.BONE_ASH_GRANULE;
+import static com.gtocore.common.data.GTOItems.HOLY_ROOT_MYCELIUM;
+import static com.gtocore.common.data.GTOItems.SOUL_SHADOW_DUST;
+import static com.gtocore.common.data.GTOItems.SOURCE_SPIRIT_DEBRIS;
+import static com.gtocore.common.data.GTOItems.STAR_DEBRIS_SAND;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.data.record.ApotheosisAffixRecord.getAffixSize;
@@ -279,7 +279,7 @@ public final class MagicRecipesB {
                         .inputItems(crushed, OriginCoreCrystal)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
                         .outputItems(crushedPurified, OriginCoreCrystal)
-                        .chancedOutput(SourceSpiritDebris.asItem(), 5000, 300)
+                        .chancedOutput(SOURCE_SPIRIT_DEBRIS.asItem(), 5000, 300)
                         .chancedOutput(dust, OriginCoreCrystal, 2000, 0)
                         .duration(200).EUt(VA[LV])
                         .category(GTRecipeCategories.ORE_BATHING)
@@ -288,7 +288,7 @@ public final class MagicRecipesB {
                 ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("origin_core_crystal_pure_dust_to_dust")
                         .inputItems(dustPure, OriginCoreCrystal)
                         .outputItems(dust, OriginCoreCrystal)
-                        .chancedOutput(HolyRootMycelium.asItem(), 1000, 250)
+                        .chancedOutput(HOLY_ROOT_MYCELIUM.asItem(), 1000, 250)
                         .chancedOutput(dust, OriginCoreCrystal, 500, 0)
                         .duration(200).EUt(24)
                         .save();
@@ -297,7 +297,7 @@ public final class MagicRecipesB {
                         .inputItems(crushed, StarBloodCrystal)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
                         .outputItems(crushedPurified, StarBloodCrystal)
-                        .chancedOutput(StarDebrisSand.asItem(), 5000, 300)
+                        .chancedOutput(STAR_DEBRIS_SAND.asItem(), 5000, 300)
                         .chancedOutput(dust, StarBloodCrystal, 2000, 0)
                         .duration(200).EUt(VA[LV])
                         .category(GTRecipeCategories.ORE_BATHING)
@@ -306,7 +306,7 @@ public final class MagicRecipesB {
                 ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("star_blood_crystal_pure_dust_to_dust")
                         .inputItems(dustPure, StarBloodCrystal)
                         .outputItems(dust, StarBloodCrystal)
-                        .chancedOutput(VeinBloodMucus.asItem(), 1000, 250)
+                        .chancedOutput(VEIN_BLOOD_MUCUS.asItem(), 1000, 250)
                         .chancedOutput(dust, StarBloodCrystal, 500, 0)
                         .duration(200).EUt(24)
                         .save();
@@ -315,7 +315,7 @@ public final class MagicRecipesB {
                         .inputItems(crushed, SoulJadeCrystal)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
                         .outputItems(crushedPurified, SoulJadeCrystal)
-                        .chancedOutput(SoulShadowDust.asItem(), 5000, 300)
+                        .chancedOutput(SOUL_SHADOW_DUST.asItem(), 5000, 300)
                         .chancedOutput(dust, SoulJadeCrystal, 2000, 0)
                         .duration(200).EUt(VA[LV])
                         .category(GTRecipeCategories.ORE_BATHING)
@@ -324,7 +324,7 @@ public final class MagicRecipesB {
                 ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("soul_jade_crystal_pure_dust_to_dust")
                         .inputItems(dustPure, SoulJadeCrystal)
                         .outputItems(dust, SoulJadeCrystal)
-                        .chancedOutput(ConsciousnessThread.asItem(), 1000, 250)
+                        .chancedOutput(CONSCIOUSNESS_THREAD.asItem(), 1000, 250)
                         .chancedOutput(dust, SoulJadeCrystal, 500, 0)
                         .duration(200).EUt(24)
                         .save();
@@ -333,7 +333,7 @@ public final class MagicRecipesB {
                         .inputItems(crushed, RemnantSpiritStone)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 1000)
                         .outputItems(crushedPurified, RemnantSpiritStone)
-                        .chancedOutput(BoneAshGranule.asItem(), 5000, 300)
+                        .chancedOutput(BONE_ASH_GRANULE.asItem(), 5000, 300)
                         .chancedOutput(dust, RemnantSpiritStone, 2000, 0)
                         .duration(200).EUt(VA[LV])
                         .category(GTRecipeCategories.ORE_BATHING)
@@ -342,7 +342,7 @@ public final class MagicRecipesB {
                 ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder("remnant_spirit_stone_pure_dust_to_dust")
                         .inputItems(dustPure, RemnantSpiritStone)
                         .outputItems(dust, RemnantSpiritStone)
-                        .chancedOutput(SpiritBoneFragment.asItem(), 1000, 250)
+                        .chancedOutput(SPIRIT_BONE_FRAGMENT.asItem(), 1000, 250)
                         .chancedOutput(dust, RemnantSpiritStone, 500, 0)
                         .duration(200).EUt(24)
                         .save();
@@ -352,7 +352,7 @@ public final class MagicRecipesB {
             {
                 MIXER_RECIPES.recipeBuilder("source_energy_extract")
                         .inputItems(dust, OriginCoreCrystal)
-                        .inputItems(StarDebrisSand)
+                        .inputItems(STAR_DEBRIS_SAND)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 2000)
                         .inputFluids(Mana.getFluid(LIQUID, 500))
                         .outputFluids(SourceEnergyExtract, 2500)
@@ -363,7 +363,7 @@ public final class MagicRecipesB {
 
                 REACTION_FURNACE_RECIPES.recipeBuilder("star_vein_fusion")
                         .inputItems(dust, StarBloodCrystal)
-                        .inputItems(SoulShadowDust)
+                        .inputItems(SOUL_SHADOW_DUST)
                         .inputItems(MANA_CRYSTAL)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 3000)
                         .outputFluids(StarVeinFusion, 3200)
@@ -375,7 +375,7 @@ public final class MagicRecipesB {
 
                 ARC_GENERATOR_RECIPES.recipeBuilder("star_vein_fusion")
                         .inputItems(dust, SoulJadeCrystal)
-                        .inputItems(BoneAshGranule)
+                        .inputItems(BONE_ASH_GRANULE)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 1800)
                         .inputFluids(Mana.getFluid(LIQUID, 500))
                         .outputFluids(SoulThoughtHarmony, 2200)
@@ -386,7 +386,7 @@ public final class MagicRecipesB {
 
                 INCUBATOR_RECIPES.recipeBuilder("remnant_erosion_activate")
                         .inputItems(dust, RemnantSpiritStone)
-                        .inputItems(SourceSpiritDebris)
+                        .inputItems(SOURCE_SPIRIT_DEBRIS)
                         .inputItems(MANA_CRYSTAL)
                         .inputFluids(TheWaterFromTheWellOfWisdom, 2500)
                         .outputFluids(RemnantErosionActivate, 2800)
@@ -408,8 +408,8 @@ public final class MagicRecipesB {
                         .save();
 
                 AUTOCLAVE_RECIPES.recipeBuilder("energy_solidifier")
-                        .inputItems(SpiritBoneFragment)
-                        .inputItems(ConsciousnessThread)
+                        .inputItems(SPIRIT_BONE_FRAGMENT)
+                        .inputItems(CONSCIOUSNESS_THREAD)
                         .inputFluids(FinalPurifier, 600)
                         .outputFluids(EnergySolidifier, 800)
                         .duration(400)
@@ -418,13 +418,13 @@ public final class MagicRecipesB {
 
             }
 
-            // 源核晶
+            // 循环催化剂
             {
-                // 循环催化剂
+                // 源核晶
                 {
                     MIXER_RECIPES.recipeBuilder("origin_core_energy_body")
                             .inputItems(dust, OriginCoreCrystal, 2)
-                            .inputItems(SourceSpiritDebris, 3)
+                            .inputItems(SOURCE_SPIRIT_DEBRIS, 3)
                             .inputItems(MANA_CRYSTAL)
                             .inputFluids(TheWaterFromTheWellOfWisdom, 500)
                             .outputItems(ORIGIN_CORE_ENERGY_BODY)
@@ -434,7 +434,7 @@ public final class MagicRecipesB {
 
                     AUTOCLAVE_RECIPES.recipeBuilder("source_energy_catalyst_embryo")
                             .inputItems(ORIGIN_CORE_ENERGY_BODY)
-                            .inputItems(HolyRootMycelium)
+                            .inputItems(HOLY_ROOT_MYCELIUM)
                             .inputFluids(SourceEnergyExtract, 300)
                             .outputItems(SOURCE_ENERGY_CATALYST_EMBRYO)
                             .duration(800)
@@ -467,19 +467,11 @@ public final class MagicRecipesB {
                             .save();
                 }
 
-                // 简化产线
-                {
-
-                }
-            }
-
-            // 星血晶
-            {
-                // 循环催化剂
+                // 星血晶
                 {
                     REACTION_FURNACE_RECIPES.recipeBuilder("star_vein_base")
                             .inputItems(dust, StarBloodCrystal, 3)
-                            .inputItems(StarDebrisSand, 2)
+                            .inputItems(STAR_DEBRIS_SAND, 2)
                             .inputFluids(TheWaterFromTheWellOfWisdom, 2500)
                             .inputFluids(Mana.getFluid(LIQUID, 500))
                             .outputFluids(StarVeinBase, 2000)
@@ -489,7 +481,7 @@ public final class MagicRecipesB {
                             .save();
 
                     DIGESTION_TREATMENT_RECIPES.recipeBuilder("star_vein_active")
-                            .inputItems(VeinBloodMucus)
+                            .inputItems(VEIN_BLOOD_MUCUS)
                             .inputFluids(StarVeinBase, 2000)
                             .outputFluids(StarVeinActive, 1800)
                             .blastFurnaceTemp(4200)
@@ -535,7 +527,7 @@ public final class MagicRecipesB {
                             .save();
 
                     MIXER_RECIPES.recipeBuilder("recycle_star_vein_catalyst")
-                            .inputItems(VeinBloodMucus)
+                            .inputItems(VEIN_BLOOD_MUCUS)
                             .inputItems(dust, StarBloodCrystalResidue, 2)
                             .inputFluids(RegeneratedStarVeinActive, 1800)
                             .inputFluids(Mana.getFluid(LIQUID, 500))
@@ -545,19 +537,11 @@ public final class MagicRecipesB {
                             .save();
                 }
 
-                // 简化产线
-                {
-
-                }
-            }
-
-            // 魂玉晶
-            {
-                // 循环催化剂
+                // 魂玉晶
                 {
                     AUTOCLAVE_RECIPES.recipeBuilder("soul_thought_condensate")
                             .inputItems(dust, SoulJadeCrystal, 2)
-                            .inputItems(SoulShadowDust, 3)
+                            .inputItems(SOUL_SHADOW_DUST, 3)
                             .inputFluids(TheWaterFromTheWellOfWisdom, 600)
                             .outputItems(SOUL_THOUGHT_CONDENSATE)
                             .duration(600)
@@ -566,7 +550,7 @@ public final class MagicRecipesB {
 
                     ALLOY_SMELTER_RECIPES.recipeBuilder("anchored_soul_core")
                             .inputItems(SOUL_THOUGHT_CONDENSATE)
-                            .inputItems(ConsciousnessThread)
+                            .inputItems(CONSCIOUSNESS_THREAD)
                             .outputItems(ANCHORED_SOUL_CORE)
                             .duration(4000)
                             .EUt(VA[MV])
@@ -582,7 +566,7 @@ public final class MagicRecipesB {
 
                     ISOSTATIC_PRESSING_RECIPES.recipeBuilder("soul_thought_catalyst_core")
                             .inputItems(SOUL_THOUGHT_CATALYST_EMBRYO)
-                            .inputItems(StarDebrisSand)
+                            .inputItems(STAR_DEBRIS_SAND)
                             .inputFluids(TheWaterFromTheWellOfWisdom, 800)
                             .inputFluids(Mana.getFluid(LIQUID, 500))
                             .outputItems(SOUL_THOUGHT_CATALYST_CORE)
@@ -602,7 +586,7 @@ public final class MagicRecipesB {
                     ISOSTATIC_PRESSING_RECIPES.recipeBuilder("recycle_soul_thought_catalyst_core")
                             .inputItems(REGENERATED_SOUL_CORE)
                             .inputItems(dust, SoulJadeCrystalResidue, 2)
-                            .inputItems(ConsciousnessThread)
+                            .inputItems(CONSCIOUSNESS_THREAD)
                             .inputFluids(TheWaterFromTheWellOfWisdom, 800)
                             .inputFluids(Mana.getFluid(LIQUID, 500))
                             .outputItems(SOUL_THOUGHT_CATALYST_CORE)
@@ -611,19 +595,12 @@ public final class MagicRecipesB {
                             .save();
                 }
 
-                // 简化产线
+                // 骸灵石
                 {
 
-                }
-            }
-
-            // 骸灵石
-            {
-                // 循环催化剂
-                {
                     MIXER_RECIPES.recipeBuilder("remnant_energy_adsorber")
                             .inputItems(dust, RemnantSpiritStone, 3)
-                            .inputItems(BoneAshGranule, 4)
+                            .inputItems(BONE_ASH_GRANULE, 4)
                             .inputFluids(TheWaterFromTheWellOfWisdom, 700)
                             .outputItems(REMNANT_ENERGY_ADSORBER)
                             .duration(800)
@@ -632,7 +609,7 @@ public final class MagicRecipesB {
 
                     CHEMICAL_RECIPES.recipeBuilder("remnant_erosion_catalyst_embryo")
                             .inputItems(REMNANT_ENERGY_ADSORBER)
-                            .inputItems(SpiritBoneFragment)
+                            .inputItems(SPIRIT_BONE_FRAGMENT)
                             .inputFluids(TheWaterFromTheWellOfWisdom, 300)
                             .inputFluids(RemnantErosionActivate, 500)
                             .outputItems(REMNANT_EROSION_CATALYST_EMBRYO)
@@ -666,10 +643,128 @@ public final class MagicRecipesB {
                             .EUt(VA[EV])
                             .save();
                 }
+            }
 
-                // 简化产线
+            // 简化产线&残渣产线
+            {
+                // 源核晶
                 {
+                    CHEMICAL_BATH_RECIPES.recipeBuilder("purify_refined_origin_core_crystal_ore")
+                            .inputItems(crushedRefined, OriginCoreCrystal)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 400)
+                            .outputItems(PURIFY_REFINED_ORIGIN_CORE_CRYSTAL_ORE)
+                            .duration(2000).EUt(VA[HV])
+                            .category(GTRecipeCategories.ORE_BATHING)
+                            .save();
 
+                    INFUSER_CORE_RECIPES.recipeBuilder("crudely_purified_origin_core_crystal_ore")
+                            .inputItems(PURIFY_REFINED_ORIGIN_CORE_CRYSTAL_ORE, 5)
+                            .inputItems(dust, OriginCoreCrystal, 5)
+                            .inputItems(HOLY_ROOT_MYCELIUM)
+                            .inputFluids(SourceEnergyExtract, 2000)
+                            .inputFluids(FinalPurifier, 800)
+                            .inputFluids(CycleofBlossomsSolvent, 200)
+                            .outputItems(CRUDELY_PURIFIED_ORIGIN_CORE_CRYSTAL_ORE, 5)
+                            .duration(8000).MANAt(VA[MV])
+                            .save();
+
+                    SIFTER_RECIPES.recipeBuilder("sifter_crudely_purified_origin_core_crystal_ore")
+                            .inputItems(CRUDELY_PURIFIED_ORIGIN_CORE_CRYSTAL_ORE)
+                            .chancedOutput(gemFlawless, OriginCoreCrystal, 100, 10)
+                            .chancedOutput(dust, OriginCoreCrystalResidue, 9900, -10)
+                            .chancedOutput(dustPure, OriginCoreCrystal, 5000, 0)
+                            .duration(600).EUt(VA[HV])
+                            .save();
+                }
+
+                // 星血晶
+                {
+                    CHEMICAL_BATH_RECIPES.recipeBuilder("purify_refined_star_blood_crystal_ore")
+                            .inputItems(crushedRefined, StarBloodCrystal)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 400)
+                            .outputItems(PURIFY_REFINED_STAR_BLOOD_CRYSTAL_ORE)
+                            .duration(2000).EUt(VA[HV])
+                            .category(GTRecipeCategories.ORE_BATHING)
+                            .save();
+
+                    INFUSER_CORE_RECIPES.recipeBuilder("crudely_fused_star_blood_crystal_ore")
+                            .inputItems(PURIFY_REFINED_STAR_BLOOD_CRYSTAL_ORE, 5)
+                            .inputItems(dust, StarBloodCrystal, 5)
+                            .inputItems(VEIN_BLOOD_MUCUS)
+                            .inputFluids(StarVeinFusion, 2000)
+                            .inputFluids(EnergySolidifier, 800)
+                            .inputFluids(CycleofBlossomsSolvent, 200)
+                            .outputItems(CRUDELY_FUSED_STAR_BLOOD_CRYSTAL_ORE, 5)
+                            .duration(8000).MANAt(VA[MV])
+                            .save();
+
+                    SIFTER_RECIPES.recipeBuilder("sifter_crudely_fused_star_blood_crystal_ore")
+                            .inputItems(CRUDELY_FUSED_STAR_BLOOD_CRYSTAL_ORE)
+                            .chancedOutput(gemFlawless, StarBloodCrystal, 100, 10)
+                            .chancedOutput(dust, StarBloodCrystalResidue, 9900, -10)
+                            .chancedOutput(dustPure, StarBloodCrystal, 5000, 0)
+                            .duration(600).EUt(VA[HV])
+                            .save();
+                }
+
+                // 魂玉晶
+                {
+                    CHEMICAL_BATH_RECIPES.recipeBuilder("purify_refined_soul_jade_crystal_ore")
+                            .inputItems(crushedRefined, SoulJadeCrystal)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 400)
+                            .outputItems(PURIFY_REFINED_SOUL_JADE_CRYSTAL_ORE)
+                            .duration(2000).EUt(VA[HV])
+                            .category(GTRecipeCategories.ORE_BATHING)
+                            .save();
+
+                    INFUSER_CORE_RECIPES.recipeBuilder("crudely_harmonized_soul_jade_crystal_ore")
+                            .inputItems(PURIFY_REFINED_SOUL_JADE_CRYSTAL_ORE, 5)
+                            .inputItems(dust, SoulJadeCrystal, 5)
+                            .inputItems(CONSCIOUSNESS_THREAD)
+                            .inputFluids(SoulThoughtHarmony, 2000)
+                            .inputFluids(FinalPurifier, 800)
+                            .inputFluids(CycleofBlossomsSolvent, 200)
+                            .outputItems(CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE, 5)
+                            .duration(8000).MANAt(VA[MV])
+                            .save();
+
+                    SIFTER_RECIPES.recipeBuilder("sifter_crudely_harmonized_soul_jade_crystal_ore")
+                            .inputItems(CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE)
+                            .chancedOutput(gemFlawless, SoulJadeCrystal, 100, 10)
+                            .chancedOutput(dust, SoulJadeCrystalResidue, 9900, -10)
+                            .chancedOutput(dustPure, SoulJadeCrystal, 5000, 0)
+                            .duration(600).EUt(VA[HV])
+                            .save();
+                }
+
+                // 骸灵石
+                {
+                    CHEMICAL_BATH_RECIPES.recipeBuilder("purify_refined_remnant_spirit_stone_ore")
+                            .inputItems(crushedRefined, RemnantSpiritStone)
+                            .inputFluids(TheWaterFromTheWellOfWisdom, 400)
+                            .outputItems(PURIFY_REFINED_REMNANT_SPIRIT_STONE_ORE)
+                            .duration(2000).EUt(VA[HV])
+                            .category(GTRecipeCategories.ORE_BATHING)
+                            .save();
+
+                    INFUSER_CORE_RECIPES.recipeBuilder("crudely_shaped_remnant_spirit_stone_ore")
+                            .inputItems(PURIFY_REFINED_REMNANT_SPIRIT_STONE_ORE, 5)
+                            .inputItems(dust, RemnantSpiritStone, 5)
+                            .inputItems(SPIRIT_BONE_FRAGMENT)
+                            .inputFluids(RemnantErosionActivate, 2000)
+                            .inputFluids(EnergySolidifier, 800)
+                            .inputFluids(CycleofBlossomsSolvent, 200)
+                            .outputItems(CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE, 5)
+                            .duration(8000).MANAt(VA[MV])
+                            .save();
+
+                    SIFTER_RECIPES.recipeBuilder("sifter_crudely_shaped_remnant_spirit_stone_ore")
+                            .inputItems(CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE)
+                            .chancedOutput(gemFlawless, RemnantSpiritStone, 100, 10)
+                            .chancedOutput(dust, RemnantSpiritStoneResidue, 9900, -10)
+                            .chancedOutput(dustPure, RemnantSpiritStone, 5000, 0)
+                            .duration(600).EUt(VA[HV])
+                            .save();
                 }
             }
         }

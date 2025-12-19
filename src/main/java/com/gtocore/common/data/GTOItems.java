@@ -900,14 +900,14 @@ public final class GTOItems {
 
     public static final ItemEntry<Item> MANA_CRYSTAL = register("mana_crystal", "魔力结晶");
 
-    public static final ItemEntry<Item> SourceSpiritDebris = registerTooltip("source_spirit_debris", "源灵碎屑", () -> Component.literal("✨"));
-    public static final ItemEntry<Item> HolyRootMycelium = registerTooltip("holy_root_mycelium", "圣根菌丝", () -> Component.literal("🍄"));
-    public static final ItemEntry<Item> StarDebrisSand = registerTooltip("star_debris_sand", "星屑砂", () -> Component.literal("⭐"));
-    public static final ItemEntry<Item> VeinBloodMucus = registerTooltip("vein_blood_mucus", "脉血粘液", () -> Component.literal("🩸"));
-    public static final ItemEntry<Item> SoulShadowDust = registerTooltip("soul_shadow_dust", "魂影尘", () -> Component.literal("🌑"));
-    public static final ItemEntry<Item> ConsciousnessThread = registerTooltip("consciousness_thread", "识念丝", () -> Component.literal("🧵"));
-    public static final ItemEntry<Item> BoneAshGranule = registerTooltip("bone_ash_granule", "骸灰粒", () -> Component.literal("💀"));
-    public static final ItemEntry<Item> SpiritBoneFragment = registerTooltip("spirit_bone_fragment", "灵骸碎片", () -> Component.literal("👻"));
+    public static final ItemEntry<Item> SOURCE_SPIRIT_DEBRIS = registerTooltip("source_spirit_debris", "源灵碎屑", () -> Component.literal("✨"));
+    public static final ItemEntry<Item> HOLY_ROOT_MYCELIUM = registerTooltip("holy_root_mycelium", "圣根菌丝", () -> Component.literal("🍄"));
+    public static final ItemEntry<Item> STAR_DEBRIS_SAND = registerTooltip("star_debris_sand", "星屑砂", () -> Component.literal("⭐"));
+    public static final ItemEntry<Item> VEIN_BLOOD_MUCUS = registerTooltip("vein_blood_mucus", "脉血粘液", () -> Component.literal("🩸"));
+    public static final ItemEntry<Item> SOUL_SHADOW_DUST = registerTooltip("soul_shadow_dust", "魂影尘", () -> Component.literal("🌑"));
+    public static final ItemEntry<Item> CONSCIOUSNESS_THREAD = registerTooltip("consciousness_thread", "识念丝", () -> Component.literal("🧵"));
+    public static final ItemEntry<Item> BONE_ASH_GRANULE = registerTooltip("bone_ash_granule", "骸灰粒", () -> Component.literal("💀"));
+    public static final ItemEntry<Item> SPIRIT_BONE_FRAGMENT = registerTooltip("spirit_bone_fragment", "灵骸碎片", () -> Component.literal("👻"));
 
     public static final ItemEntry<Item> ORIGIN_CORE_ENERGY_BODY = register("origin_core_energy_body", "源核能量体");
     public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_EMBRYO = register("source_energy_catalyst_embryo", "源能催化晶胚");

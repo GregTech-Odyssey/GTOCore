@@ -1125,7 +1125,7 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 
-    public static final RecipeType MAGIC_RESONANCE = register("magic_resonance", "魔力共鸣", MAGIC)
+    public static final RecipeType ELEMENTAL_RESONANCE = register("elemental_resonance", "元素共鸣", MAGIC)
             .setMANAIO(IO.IN)
             .setMaxIOSize(6, 3, 6, 3)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
