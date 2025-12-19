@@ -21,6 +21,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
+import net.minecraftforge.common.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 
 import static com.gregtechceu.gtceu.api.GTValues.LV;
@@ -30,13 +31,19 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOLoots.addToot;
 import static com.gtocore.common.data.GTOMaterials.RedstoneAlloy;
 import static com.gtocore.data.lootTables.GTOLootTool.LootRegistrationTool.getLootItem;
+import static mythicbotany.register.ModItems.*;
 import static net.minecraft.world.level.storage.loot.providers.number.ConstantValue.exactly;
 import static net.minecraft.world.level.storage.loot.providers.number.UniformGenerator.between;
+import static vazkii.botania.common.item.BotaniaItems.*;
 
 public final class RewardBagLoot {
 
     public static void init() {
         addToot(LV_REWARD_BAG_LOOT, create_LV_REWARD_BAG_LOOT());
+        addToot(RUNE_REWARD_BAG1_LOOT, create_RUNE_REWARD_BAG_LOOT(rune1.get()));
+        addToot(RUNE_REWARD_BAG2_LOOT, create_RUNE_REWARD_BAG_LOOT(rune2.get()));
+        addToot(RUNE_REWARD_BAG3_LOOT, create_RUNE_REWARD_BAG_LOOT(rune3.get()));
+        addToot(RUNE_REWARD_BAG4_LOOT, create_RUNE_REWARD_BAG_LOOT(rune4.get()));
 
         getEfficiencyLuckLevel = null;
     }
@@ -70,6 +77,14 @@ public final class RewardBagLoot {
 
     // LV 战利品袋子
     public static final ResourceLocation LV_REWARD_BAG_LOOT = GTOCore.id("reward_bags/lv_reward_bag_loot");
+    // 植物魔法 符文1 袋子
+    public static final ResourceLocation RUNE_REWARD_BAG1_LOOT = GTOCore.id("reward_bags/rune_reward_bag1_loot");
+    // 植物魔法 符文2 袋子
+    public static final ResourceLocation RUNE_REWARD_BAG2_LOOT = GTOCore.id("reward_bags/rune_reward_bag2_loot");
+    // 植物魔法 符文3 袋子
+    public static final ResourceLocation RUNE_REWARD_BAG3_LOOT = GTOCore.id("reward_bags/rune_reward_bag3_loot");
+    // 植物魔法 符文4 袋子
+    public static final ResourceLocation RUNE_REWARD_BAG4_LOOT = GTOCore.id("reward_bags/rune_reward_bag4_loot");
 
     private static LootTable create_LV_REWARD_BAG_LOOT() {
         LootPool.Builder pool = LootPool.lootPool()
@@ -124,6 +139,58 @@ public final class RewardBagLoot {
                 .add(getLootItem(GTItems.COATED_BOARD.asItem(), 80, exactly(1)))
                 .add(getLootItem("sophisticatedbackpacks:upgrade_base", 80, exactly(1)))
                 .add(getLootItem("sophisticatedbackpacks:stack_upgrade_tier_1", 80, exactly(1)));
+
+        return LootTable.lootTable()
+                .withPool(pool)
+                .setParamSet(LootContextParamSets.FISHING)
+                .build();
+    }
+
+    private static final Lazy<Item[]> rune1 = Lazy.of(() -> new Item[]{
+            runeMana,
+            runeWater,
+            runeFire,
+            runeAir,
+            runeEarth
+    });
+
+    private static final Lazy<Item[]> rune2 = Lazy.of(() -> new Item[]{
+            runeSpring,
+            runeSummer,
+            runeAutumn,
+            runeWinter
+    });
+
+    private static final Lazy<Item[]> rune3 = Lazy.of(() -> new Item[]{
+            runeLust,
+            runeGluttony,
+            runeGreed,
+            runeSloth,
+            runeWrath,
+            runeEnvy,
+            runePride
+    });
+
+    private static final Lazy<Item[]> rune4 = Lazy.of(() -> new Item[]{
+            asgardRune,
+            vanaheimRune,
+            alfheimRune,
+            midgardRune,
+            joetunheimRune,
+            muspelheimRune,
+            niflheimRune,
+            nidavellirRune,
+            helheimRune
+    });
+
+    private static LootTable create_RUNE_REWARD_BAG_LOOT(Item[] runes) {
+        LootPool.Builder pool = LootPool.lootPool()
+                .setRolls(getEfficiencyLuckLevel)
+                .setBonusRolls(between(0, 2));
+
+        for (Item rune : runes) {
+            pool.add(getLootItem(rune, 100, between(4, 8)));
+        }
 
         return LootTable.lootTable()
                 .withPool(pool)

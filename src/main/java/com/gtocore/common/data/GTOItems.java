@@ -41,6 +41,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -1111,11 +1112,21 @@ public final class GTOItems {
     public static final ItemEntry<Item> WHITE_DYE_MASTERBATCH = register("white_dye_masterbatch", "白色染料色母");
 
     public static final ItemEntry<RewardBagItem> LV_REWARD_BAG = registerRewardBag("lv_reward_bag", "lv Reward Bag", "LV 战利品袋", RewardBagLoot.LV_REWARD_BAG_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE1_REWARD_BAG = registerRewardBag("rune1_reward_bag", "Tier 1 Rune Reward Bag", "一阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG1_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE2_REWARD_BAG = registerRewardBag("rune2_reward_bag", "Tier 2 Rune Reward Bag", "二阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG2_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE3_REWARD_BAG = registerRewardBag("rune3_reward_bag", "Tier 3 Rune Reward Bag", "三阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG3_LOOT);
+    public static final ItemEntry<RewardBagItem> RUNE4_REWARD_BAG = registerRewardBag("rune4_reward_bag", "Tier 4 Rune Reward Bag", "四阶符文战利品袋", RewardBagLoot.RUNE_REWARD_BAG4_LOOT);
 
     private static @NotNull ItemEntry<RewardBagItem> registerRewardBag(String id, String en, String cn, ResourceLocation rewardBag) {
         return item(id, cn, p -> new RewardBagItem(p, rewardBag))
                 .lang(en)
                 .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/philosophers_stone")))
+                .color(() -> () -> (stack, tintIndex) -> {
+                    if (stack.getItem() instanceof RewardBagItem rewardBagItem) {
+                        return RandomSource.create(rewardBagItem.getDefaultLootTable().hashCode()).nextInt(0xFFFFFF);
+                    }
+                    return 0xFFFFFF;
+                })
                 .register();
     }
 

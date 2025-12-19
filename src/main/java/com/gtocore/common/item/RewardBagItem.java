@@ -2,6 +2,7 @@ package com.gtocore.common.item;
 
 import com.gtolib.GTOCore;
 
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +32,7 @@ import java.util.List;
 
 public class RewardBagItem extends Item {
 
+    @Getter
     private final ResourceLocation defaultLootTable;
 
     public RewardBagItem(Properties properties, ResourceLocation defaultLootTable) {
