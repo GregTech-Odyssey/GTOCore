@@ -2148,6 +2148,7 @@
   "gtocore.ae.appeng.me2in1.shift_transfer_to.inventory_or_buffer": "Inventory or buffer",
   "gtocore.ae.appeng.me2in1.vanilla_craft_station": "Molecular Assembl",
   "gtocore.ae.appeng.me2in1.wireless": "Wireless 2-in-1 Terminal",
+  "gtocore.ae.appeng.me_storage_amount": "ME Network Stored Amount",
   "gtocore.ae.appeng.pick_craft.all_right": "Crafting started!",
   "gtocore.ae.appeng.pick_craft.all_right.title": "Pick-Craft Success",
   "gtocore.ae.appeng.pick_craft.error.1": "An error occurred while calculating the crafting path.",

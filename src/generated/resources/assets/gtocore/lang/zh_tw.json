@@ -2148,6 +2148,7 @@
   "gtocore.ae.appeng.me2in1.shift_transfer_to.inventory_or_buffer": "背包或緩衝區",
   "gtocore.ae.appeng.me2in1.vanilla_craft_station": "分子裝配",
   "gtocore.ae.appeng.me2in1.wireless": "無線2合1終端",
+  "gtocore.ae.appeng.me_storage_amount": "ME網絡存儲數量",
   "gtocore.ae.appeng.pick_craft.all_right": "已啟動合成！",
   "gtocore.ae.appeng.pick_craft.all_right.title": "Pick-Craft 成功",
   "gtocore.ae.appeng.pick_craft.error.1": "計算合成路徑時髮生錯誤。",
