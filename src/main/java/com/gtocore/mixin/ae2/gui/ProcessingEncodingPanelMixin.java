@@ -1,12 +1,15 @@
 package com.gtocore.mixin.ae2.gui;
 
+import com.gtocore.api.ae2.gui.TinyTextButton;
+
+import com.gtolib.api.ae2.IPatterEncodingTermMenu;
+
+import net.minecraft.network.chat.Component;
+
 import appeng.client.gui.WidgetContainer;
 import appeng.client.gui.me.items.EncodingModePanel;
 import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.client.gui.me.items.ProcessingEncodingPanel;
-import com.gtocore.api.ae2.gui.TinyTextButton;
-import com.gtolib.api.ae2.IPatterEncodingTermMenu;
-import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -51,7 +54,7 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
                 Component.translatable("gtocore.pattern.multiply", 3),
                 Component.translatable("gtocore.pattern.tooltip.multiply", 3));
 
-        gtolib$multipleFive = new TinyTextButton(Component.literal("×5"),b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(5),
+        gtolib$multipleFive = new TinyTextButton(Component.literal("×5"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(5),
                 Component.translatable("gtocore.pattern.multiply", 5),
                 Component.translatable("gtocore.pattern.tooltip.multiply", 5));
 
@@ -59,15 +62,15 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
                 Component.translatable("gtocore.pattern.divide", 2),
                 Component.translatable("gtocore.pattern.tooltip.divide", 2));
 
-        gtolib$dividingThree =  new TinyTextButton(Component.literal("÷3"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-3),
+        gtolib$dividingThree = new TinyTextButton(Component.literal("÷3"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-3),
                 Component.translatable("gtocore.pattern.divide", 3),
                 Component.translatable("gtocore.pattern.tooltip.divide", 3));
 
-        gtolib$dividingFive =  new TinyTextButton(Component.literal("÷5"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-5),
+        gtolib$dividingFive = new TinyTextButton(Component.literal("÷5"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-5),
                 Component.translatable("gtocore.pattern.divide", 5),
                 Component.translatable("gtocore.pattern.tooltip.divide", 5));
 
-        gtolib$clearSecOutput = new TinyTextButton(Component.literal("C"),  b -> ((IPatterEncodingTermMenu) menu).gtolib$clearSecOutput(),
+        gtolib$clearSecOutput = new TinyTextButton(Component.literal("C"), b -> ((IPatterEncodingTermMenu) menu).gtolib$clearSecOutput(),
                 Component.translatable("gtocore.pattern.clearSecOutput"),
                 Component.translatable("gtocore.pattern.tooltip.clearSecOutput"));
 
