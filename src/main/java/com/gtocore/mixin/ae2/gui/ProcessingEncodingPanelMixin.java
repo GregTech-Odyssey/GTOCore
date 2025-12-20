@@ -1,15 +1,13 @@
 package com.gtocore.mixin.ae2.gui;
 
-import com.gtolib.api.ae2.IPatterEncodingTermMenu;
-import com.gtolib.api.ae2.ModifyIcon;
-import com.gtolib.api.ae2.ModifyIconButton;
-
-import net.minecraft.network.chat.Component;
-
 import appeng.client.gui.WidgetContainer;
 import appeng.client.gui.me.items.EncodingModePanel;
 import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.client.gui.me.items.ProcessingEncodingPanel;
+import com.gtocore.api.ae2.gui.TinyTextButton;
+import com.gtolib.api.ae2.IPatterEncodingTermMenu;
+import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,21 +21,21 @@ import java.util.List;
 public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
 
     @Unique
-    private ModifyIconButton gtolib$multipleTow;
+    private TinyTextButton gtolib$multipleTow;
     @Unique
-    private ModifyIconButton gtolib$multipleThree;
+    private TinyTextButton gtolib$multipleThree;
     @Unique
-    private ModifyIconButton gtolib$multipleFive;
+    private TinyTextButton gtolib$multipleFive;
     @Unique
-    private ModifyIconButton gtolib$dividingTow;
+    private TinyTextButton gtolib$dividingTow;
     @Unique
-    private ModifyIconButton gtolib$dividingThree;
+    private TinyTextButton gtolib$dividingThree;
     @Unique
-    private ModifyIconButton gtolib$dividingFive;
+    private TinyTextButton gtolib$dividingFive;
     @Unique
-    private ModifyIconButton gtolib$clearSecOutput;
+    private TinyTextButton gtolib$clearSecOutput;
     @Unique
-    private ModifyIconButton gtolib$recipeInfo;
+    private TinyTextButton gtolib$recipeInfo;
 
     protected ProcessingEncodingPanelMixin(PatternEncodingTermScreen<?> screen, WidgetContainer widgets) {
         super(screen, widgets);
@@ -45,40 +43,40 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(PatternEncodingTermScreen<?> screen, WidgetContainer widgets, CallbackInfo ci) {
-        gtolib$multipleTow = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(2), ModifyIcon.MULTIPLY_2,
+        gtolib$multipleTow = new TinyTextButton(Component.literal("×2"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(2),
                 Component.translatable("gtocore.pattern.multiply", 2),
                 Component.translatable("gtocore.pattern.tooltip.multiply", 2));
 
-        gtolib$multipleThree = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(3), ModifyIcon.MULTIPLY_3,
+        gtolib$multipleThree = new TinyTextButton(Component.literal("×3"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(3),
                 Component.translatable("gtocore.pattern.multiply", 3),
                 Component.translatable("gtocore.pattern.tooltip.multiply", 3));
 
-        gtolib$multipleFive = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(5), ModifyIcon.MULTIPLY_5,
+        gtolib$multipleFive = new TinyTextButton(Component.literal("×5"),b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(5),
                 Component.translatable("gtocore.pattern.multiply", 5),
                 Component.translatable("gtocore.pattern.tooltip.multiply", 5));
 
-        gtolib$dividingTow = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-2), ModifyIcon.DIVISION_2,
+        gtolib$dividingTow = new TinyTextButton(Component.literal("÷2"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-2),
                 Component.translatable("gtocore.pattern.divide", 2),
                 Component.translatable("gtocore.pattern.tooltip.divide", 2));
 
-        gtolib$dividingThree = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-3), ModifyIcon.DIVISION_3,
+        gtolib$dividingThree =  new TinyTextButton(Component.literal("÷3"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-3),
                 Component.translatable("gtocore.pattern.divide", 3),
                 Component.translatable("gtocore.pattern.tooltip.divide", 3));
 
-        gtolib$dividingFive = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-5), ModifyIcon.DIVISION_5,
+        gtolib$dividingFive =  new TinyTextButton(Component.literal("÷5"), b -> ((IPatterEncodingTermMenu) menu).gtolib$modifyPatter(-5),
                 Component.translatable("gtocore.pattern.divide", 5),
                 Component.translatable("gtocore.pattern.tooltip.divide", 5));
 
-        gtolib$clearSecOutput = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$clearSecOutput(), ModifyIcon.TOOLBAR_BUTTON_BACKGROUND,
+        gtolib$clearSecOutput = new TinyTextButton(Component.literal("C"),  b -> ((IPatterEncodingTermMenu) menu).gtolib$clearSecOutput(),
                 Component.translatable("gtocore.pattern.clearSecOutput"),
                 Component.translatable("gtocore.pattern.tooltip.clearSecOutput"));
 
-        gtolib$recipeInfo = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$clickRecipeInfo(), ModifyIcon.TOOLBAR_BUTTON_BACKGROUND,
+        gtolib$recipeInfo = new TinyTextButton(Component.literal("I"), b -> ((IPatterEncodingTermMenu) menu).gtolib$clickRecipeInfo(),
                 Component.empty(),
                 Component.empty()) {
 
             @Override
-            public List<Component> getTooltipMessage() {
+            public @NotNull List<Component> getTooltipMessage() {
                 return Collections.singletonList(((IPatterEncodingTermMenu) menu).gtolib$getRecipeInfoTooltip());
             }
         };
