@@ -637,7 +637,7 @@ final class PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.builder("small_shuttle_mk2")
-                .inputItems("gtocore:suprachronal_circuit_uv", 2)
+                .inputItems(CustomTags.UV_CIRCUITS, 2)
                 .inputItems(GTItems.SENSOR_ZPM.asItem(), 2)
                 .inputItems(GTItems.EMITTER_ZPM.asItem(), 2)
                 .inputItems(GTItems.ROBOT_ARM_ZPM.asItem(), 2)
