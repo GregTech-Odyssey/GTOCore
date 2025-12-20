@@ -12,6 +12,23 @@ import net.minecraft.network.chat.Component
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
+    val spaceElevatorConnectorModuleTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("space_elevator_connector_module")
+
+        command("与当前星球的太空电梯连接" translatedTo "Connects to the space elevator of the current planet")
+        increase(
+            "连接后，空间站各运行模块（如轨道冶炼舱等）可获得(0.8^n)×的耗时减免，n为太空电梯的动力模块等级" translatedTo
+                "After connecting, each operating module of the space station (such as orbital smelting chamber, etc.) can get a time reduction of (0.8^n)×, where n is the power module level of the space elevator",
+        )
+        increase(
+            "太空电梯安装的模块也将获得额外(0.8^(n/2))×的耗时减免" translatedTo
+                "Modules installed on the space elevator will also receive a time reduction of (0.8^(n/2))×",
+        )
+        decrease("会增加太空电梯50%的算力消耗" translatedTo "Increases the space elevator's Computational Workload consumption by 50%")
+
+        command("该模块仅能连接在其他模块的下方" translatedTo "This module can only connect below other modules")
+    }
+
     // 溶解罐
     val DissolvingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("dissolving_tank")

@@ -104,7 +104,7 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
             return null;
         }
 
-        return ICrossRecipeMachine.super.getRealRecipe(Objects.requireNonNull(RecipeModifierFunction.recipeReduction(0.8, 0.6).apply(this, recipe)));
+        return ICrossRecipeMachine.super.getRealRecipe(Objects.requireNonNull(RecipeModifierFunction.recipeReduction(1, core.getDurationMultiplierFromSpaceElevator()).apply(this, recipe)));
     }
 
     @Override

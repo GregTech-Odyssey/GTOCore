@@ -92,6 +92,7 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     }
 
     private double getDurationMultiplier() {
-        return Math.sqrt(1.0D / ((getSpaceElevatorTier() - GTValues.ZPM) * (isSuper() ? 2 : 1)));
+        var mul = getSpaceElevatorMachine().netMachineCache == null ? 1.0d : getSpaceElevatorMachine().netMachineCache.getDurationMultiplier();
+        return Math.sqrt(mul / ((getSpaceElevatorTier() - GTValues.ZPM) * (isSuper() ? 2 : 1)));
     }
 }

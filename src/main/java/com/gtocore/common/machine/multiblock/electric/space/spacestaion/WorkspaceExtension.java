@@ -68,6 +68,12 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
     }
 
     @Override
+    public void afterWorking() {
+        super.afterWorking();
+        requestCheck();
+    }
+
+    @Override
     public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
         configuratorPanel.attachConfigurators(new IFancyConfigurator() {
