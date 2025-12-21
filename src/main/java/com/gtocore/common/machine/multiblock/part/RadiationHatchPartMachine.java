@@ -124,7 +124,8 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
 
     private void handleDisplayClick(String componentData, ClickData clickData) {
         if (!clickData.isRemote) {
-            inhibitionDose = Mth.clamp(inhibitionDose + ("Add".equals(componentData) ? 1 : -1), 0, 40);
+            var amount = clickData.isCtrlClick ? 40 : (clickData.isShiftClick ? 8 : 1);
+            inhibitionDose = Mth.clamp(inhibitionDose + ("Add".equals(componentData) ? amount : -amount), 0, 40);
         }
     }
 

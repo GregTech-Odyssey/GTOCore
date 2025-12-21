@@ -1014,6 +1014,12 @@ public final class GTORecipeTypes {
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
+    public static final RecipeType BIO_RESEARCH_RECIPES = register("bio_research", "生物研究", ELECTRIC)
+            .setMaxIOSize(4, 4, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.COMPUTATION);
+
     public static final RecipeType SPACE_STATION_CONSTRUCTION_RECIPES = register("space_station_construction", "空间站建造", MULTIBLOCK)
             .setMaxIOSize(9, 0, 0, 0)
             .setProgressBar(GTOGuiTextures.PROGRESS_BAR_MINING_MODULE, UP_TO_DOWN)

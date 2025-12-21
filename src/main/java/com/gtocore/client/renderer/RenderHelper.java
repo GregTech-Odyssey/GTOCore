@@ -1,11 +1,13 @@
 package com.gtocore.client.renderer;
 
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -48,6 +50,76 @@ public final class RenderHelper {
                     .color(red, green, blue, alpha).endVertex();
             buffer.vertex(mat, x + cosAngle1 * radius, y + height, z + sinAngle1 * radius)
                     .color(red, green, blue, alpha).endVertex();
+        }
+    }
+
+    public static void renderTexturedCylinder(PoseStack poseStack, VertexConsumer buffer,
+                                              float x, float y, float z,
+                                              float radius, float height, int sides,
+                                              ResourceLocation sprite,
+                                              float subTextureU0, float subTextureV0, float subTextureU1, float subTextureV1) {
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+
+        TextureAtlasSprite atlasSprite = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(sprite);
+
+        Matrix4f mat = poseStack.last().pose();
+        float angleStep = (float) (2.0 * Math.PI / sides);
+
+        float u0o = atlasSprite.getU0();
+        float u1o = atlasSprite.getU1();
+        float v0o = atlasSprite.getV0();
+        float v1o = atlasSprite.getV1();
+
+        float u0 = Mth.lerp(subTextureU0, u0o, u1o);
+        float u1 = Mth.lerp(subTextureU1, u0o, u1o);
+        float v0 = Mth.lerp(subTextureV0, v0o, v1o);
+        float v1 = Mth.lerp(subTextureV1, v0o, v1o);
+
+        float uRange = u1 - u0;
+        float vRange = v1 - v0;
+
+        for (int i = 0; i < sides; i++) {
+            float angle1 = i * angleStep;
+            float angle2 = (i + 1) * angleStep;
+
+            float cos1 = Mth.cos(angle1);
+            float sin1 = Mth.sin(angle1);
+            float cos2 = Mth.cos(angle2);
+            float sin2 = Mth.sin(angle2);
+
+            float bx1 = x + cos1 * radius;
+            float bz1 = z + sin1 * radius;
+            float bx2 = x + cos2 * radius;
+            float bz2 = z + sin2 * radius;
+
+            // U 映射：沿环绕方向均匀分布，避免最后一个面与第一个面缝隙可考虑重复最后一个U为1.0
+            float uA = u0 + (i / (float) sides) * uRange;
+            float uB = u0 + ((i + 1) / (float) sides) * uRange;
+            float vBottom = v0;
+            float vTop = v0 + vRange;
+
+            // 三角形 1
+            buffer.vertex(mat, bx1, y, bz1)
+                    .uv(uA, vBottom)
+                    .endVertex();
+            buffer.vertex(mat, bx2, y, bz2)
+                    .uv(uB, vBottom)
+                    .endVertex();
+            buffer.vertex(mat, bx2, y + height, bz2)
+                    .uv(uB, vTop)
+                    .endVertex();
+
+            // 三角形 2
+            buffer.vertex(mat, bx1, y, bz1)
+                    .uv(uA, vBottom)
+                    .endVertex();
+            buffer.vertex(mat, bx2, y + height, bz2)
+                    .uv(uB, vTop)
+                    .endVertex();
+            buffer.vertex(mat, bx1, y + height, bz1)
+                    .uv(uA, vTop)
+                    .endVertex();
         }
     }
 

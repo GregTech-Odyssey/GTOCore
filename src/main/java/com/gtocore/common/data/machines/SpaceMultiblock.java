@@ -2,7 +2,9 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.ILargeSpaceStationMachine;
 import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.client.renderer.machine.SpaceElevatorConnectorModuleRenderer;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
@@ -10,6 +12,7 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.*;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.OrbitalSmeltingFacility;
+import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.SpaceBioResearchModule;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.recipe.SpaceDroneDock;
 
 import com.gtolib.GTOCore;
@@ -32,6 +35,7 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -748,6 +752,57 @@ public class SpaceMultiblock {
                     .where('[', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/spacecraft_dynamic_protective_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .renderer(SpaceElevatorConnectorModuleRenderer::new)
+            .hasTESR(true)
+            .register();
+
+    // 太空生物研究舱
+    public static final MachineDefinition SPACE_BIO_RESEARCH_MODULE = multiblock("space_bio_research_module", "太空生物研究舱", SpaceBioResearchModule::new)
+            .langValue("Space Bio Research Module")
+            .allRotation()
+            .workableInSpace()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getSpaceBioResearchModuleTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES, GTORecipeTypes.INCUBATOR_RECIPES, GTORecipeTypes.BIO_RESEARCH_RECIPES)
+            .block(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.UP, RelativeDirection.RIGHT, RelativeDirection.FRONT)
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('E', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('H', MODULE.traceabilityPredicate.get())
+                    .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('G', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('I', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('J', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
+                    .where('K', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where('L', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
+                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.BorosilicateFiberReinforcedAluminumMatrixComposite)))
+                    .where('N', blocks(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.get()))
+                    .where('O', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('P', blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where('Q', blocks(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.get())
+                            .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH))
+                            .or(blocks(GTOMachines.RADIATION_HATCH.get()).setMaxGlobalLimited(2)))
+                    .where('R', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
+                    .where('S', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
+                    .where('T', blocks(GTBlocks.PLASTCRETE.get()))
+                    .where('U', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK1.get()))
+                    .where('V', GTOPredicates.light())
+                    .where('W', blocks(GTBlocks.FILTER_CASING.get()))
+                    .where('X', blocks(Blocks.SPONGE))
+                    .where('Y', blocks(GTOBlocks.SPACE_ENGINE_NOZZLE.get()))
+                    .where('Z', blocks(GTOBlocks.HSSS_BOROSILICATE_GLASS.get()))
+                    .where('[', blocks(GTOBlocks.HIGH_ENERGY_ULTRAVIOLET_EMITTER_CASING.get()))
+                    .where('\\', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK1.get()))
+                    .where(']', blocks(GTOBlocks.HIGH_PRESSURE_GAS_STORAGE_TANKS_CASING.get()))
+                    .where('^', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('_', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                    .where('`', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/biological_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }

@@ -343,5 +343,22 @@ final class RocketAssembler {
                 .EUt(520000)
                 .duration(600)
                 .save();
+        ROCKET_ASSEMBLER_RECIPES.builder("space_bio_research_module")
+                .inputItems("ad_astra_rocketed:tier_6_rocket")
+                .inputItems(CustomTags.ZPM_CIRCUITS, 16)
+                .inputItems(GTItems.EMITTER_UV.asItem(), 4)
+                .inputItems(GTItems.ENERGY_MODULE.asItem(), 4)
+                .inputItems(MultiBlockD.INCUBATOR.asItem())
+                .inputItems(MultiBlockC.BIOCHEMICAL_REACTION.asItem())
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.TellurateCeramics, 16)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.Titanium3Carbide, 16)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.SilicaCeramic, 16)
+                .outputItems("gtocore:space_bio_research_module")
+                .inputFluids(RegistriesUtils.getFluid("ad_astra:cryo_fuel"), 16000)
+                .inputFluids(GTMaterials.Polytetrafluoroethylene, 1440)
+                .inputFluids(GTMaterials.Tritanium, 1152)
+                .EUt(520000)
+                .duration(2500)
+                .save();
     }
 }

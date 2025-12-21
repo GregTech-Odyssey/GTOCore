@@ -5,6 +5,7 @@ import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorMachine
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.IIWirelessInteractor;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -14,13 +15,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 
 import com.fast.fastcollection.O2IOpenCacheHashMap;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.UHV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
@@ -29,23 +30,27 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 public class SpaceElevatorConnectorModule extends Extension implements ISpaceServiceMachine, IIWirelessInteractor.IWirelessProvider {
 
     private final Map<SpaceElevatorMachine, Integer> elevatorTiers = new O2IOpenCacheHashMap<>();
+    @DescSynced
+    @Getter
     private int maxTier = 0;
+
+    @Getter
+    @DescSynced
+    protected double high = 15;
 
     public SpaceElevatorConnectorModule(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
     }
 
     @Override
-    public @Nullable Function<AbstractSpaceStation, Set<BlockPos>> getPositionFunction() {
-        return m -> {
-            var pos = m.getPos();
-            var fFacing = m.getFrontFacing();
-            var hallwayCenter = pos.relative(fFacing, 2).relative(Direction.DOWN, 15);
-            return Set.of(hallwayCenter.relative(Direction.EAST, 2),
-                    hallwayCenter.relative(Direction.WEST, 2),
-                    hallwayCenter.relative(Direction.SOUTH, 2),
-                    hallwayCenter.relative(Direction.NORTH, 2));
-        };
+    public Set<BlockPos> getModulePositions() {
+        var pos = getPos();
+        var fFacing = getFrontFacing();
+        var hallwayCenter = pos.relative(fFacing, 2).relative(Direction.DOWN, 15);
+        return Set.of(hallwayCenter.relative(Direction.EAST, 2),
+                hallwayCenter.relative(Direction.WEST, 2),
+                hallwayCenter.relative(Direction.SOUTH, 2),
+                hallwayCenter.relative(Direction.NORTH, 2));
     }
 
     public void registerElevator(SpaceElevatorMachine elevatorMachine, int tier) {
@@ -53,6 +58,7 @@ public class SpaceElevatorConnectorModule extends Extension implements ISpaceSer
         if (tier > maxTier) {
             maxTier = tier;
         }
+        requestSync();
     }
 
     public void unregisterElevator(SpaceElevatorMachine elevatorMachine) {
@@ -61,6 +67,7 @@ public class SpaceElevatorConnectorModule extends Extension implements ISpaceSer
             // Recalculate maxTier
             maxTier = elevatorTiers.values().stream().max(Integer::compareTo).orElse(0);
         }
+        requestSync();
     }
 
     public double getDurationMultiplier() {
@@ -106,6 +113,12 @@ public class SpaceElevatorConnectorModule extends Extension implements ISpaceSer
     @Override
     public long getEUt() {
         return VA[UHV];
+    }
+
+    @Override
+    public void clientTick() {
+        super.clientTick();
+        if (maxTier > 0) high = 480 + ((480) * MathUtil.sin((float) (getOffsetTimer() / 240.0F + Math.PI))) + 15;
     }
 
     @RegisterLanguage(cn = "已连接到太空电梯，动力模块最高等级: %s", en = "Connected to Space Elevator, Max Power Module Tier: %s")

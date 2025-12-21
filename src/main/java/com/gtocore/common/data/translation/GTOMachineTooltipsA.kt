@@ -6,12 +6,21 @@ import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
+import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 
 import net.minecraft.network.chat.Component
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
+    val spaceBioResearchModuleTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("space_bio_research_module")
+
+        section(MainFunction)
+        command("用于在空间站内进行生物研究" translatedTo "Used for biological research in the space station")
+        command("超净间环境等级由环境维护舱决定" translatedTo "The cleanroom environment level is determined by the Environmental Maintenance Module")
+        info("当运行培养缸或生化反应室配方时，提供可调节的0~40Sv背景辐射环境" translatedTo "Provides an adjustable 0~40Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
+    }
     val spaceElevatorConnectorModuleTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("space_elevator_connector_module")
 

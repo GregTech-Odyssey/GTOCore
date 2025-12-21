@@ -163,6 +163,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         update(false);
         if (getRecipeLogic().getProgress() > 190) {
             getRecipeLogic().setProgress(1);
+            getNetMachine();
         }
         return true;
     }
