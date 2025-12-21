@@ -325,5 +325,23 @@ final class RocketAssembler {
                 .EUt(8388608)
                 .duration(1000)
                 .save();
+
+        ROCKET_ASSEMBLER_RECIPES.builder("space_elevator_connector_module")
+                .inputItems("ad_astra_rocketed:tier_7_rocket")
+                .inputItems(CustomTags.UHV_CIRCUITS)
+                .inputItems(GTOBlocks.MODULE_CONNECTOR.asItem(), 4)
+                .inputItems(GTOBlocks.HIGH_STRENGTH_SPACE_ELEVATOR_CABLE.asItem(), 32)
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UV.asItem(), 4)
+                .inputItems(GTItems.EMITTER_UV.asItem(), 16)
+                .inputItems(GTItems.SENSOR_UV.asItem(), 16)
+                .inputItems(TagPrefix.plate, GTOMaterials.ZirconiaNickelBaseGradedComposite, 32)
+                .inputItems(TagPrefix.plate, GTOMaterials.CFCSIC1500CarbonFiberReinforcedComposite, 32)
+                .outputItems("gtocore:space_elevator_connector_module")
+                .inputFluids(GTOMaterials.StellarEnergyRocketFuel, 16000)
+                .inputFluids(GTOMaterials.BerylliumAluminumF, 2880)
+                .inputFluids(GTOMaterials.HighDurabilityCompoundSteel, 1296)
+                .EUt(520000)
+                .duration(600)
+                .save();
     }
 }
