@@ -107,7 +107,6 @@
     "ae2.storage.InfinityCellMixin",
     "ae2.storage.NetworkStorageMixin",
     "ae2.storage.StorageServiceMixin",
-    "ae2.wtlib.AE2wtlibEventsMixin",
     "ae2.wtlib.CraftingTerminalHandlerAccessor",
     "ae2.wtlib.ItemWTMixin",
     "ae2.wtlib.WirelessTerminalMenuHostMixin",
