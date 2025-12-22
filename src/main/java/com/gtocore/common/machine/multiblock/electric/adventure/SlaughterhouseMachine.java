@@ -66,7 +66,7 @@ import static com.gtolib.api.GTOValues.GLASS_TIER;
 @MethodsReturnNonnullByDefault
 public final class SlaughterhouseMachine extends StorageMultiblockMachine implements ITierCasingMachine {
 
-    private int attackDamage;
+    private long attackDamage;
     private DamageSource damageSource;
     private ItemStack activeWeapon = ItemStack.EMPTY;
     private StoredEntityData data;
@@ -112,6 +112,8 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     };
 
     private final TierCasingTrait tierCasingTrait;
+    private static final int MIN_DURATION = 60;
+    private static final int MAX_DURATION = 600;
 
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> i.is(MachineBlocks.POWERED_SPAWNER.asItem()));
@@ -154,7 +156,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                     if (activeWeapon.isEmpty()) {
                         activeWeapon = stack;
                     }
-                    attackDamage += (int) ((int) swordItem.getDamage() * amount);
+                    attackDamage += (long) (swordItem.getDamage() * amount);
                 }
                 return false;
             });
@@ -244,11 +246,11 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 }
                 if (!(entity instanceof Mob mob)) continue;
                 if (CommonProxy.isBoss(entity)) continue;
-                xp += mob.getExperienceReward() * multiplier;
+                xp += (long) mob.getExperienceReward() * multiplier;
                 getAllDeathLoot(player, serverLevel, mob, source, lootParams, itemStacks, multiplier);
             }
             if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
-            int duration = Math.max(60, 600 - attackDamage);
+            int duration = Math.clamp(MAX_DURATION - attackDamage, MIN_DURATION, MAX_DURATION);
             RecipeBuilder builder = getRecipeBuilder().duration(duration).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
             Recipe recipe = builder.buildRawRecipe();
