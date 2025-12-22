@@ -154,7 +154,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                     if (activeWeapon.isEmpty()) {
                         activeWeapon = stack;
                     }
-                    attackDamage += (int) swordItem.getDamage();
+                    attackDamage += (int) ((int) swordItem.getDamage() * amount);
                 }
                 return false;
             });
