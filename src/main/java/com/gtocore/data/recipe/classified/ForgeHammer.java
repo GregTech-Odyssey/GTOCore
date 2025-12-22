@@ -40,12 +40,5 @@ final class ForgeHammer {
                 .EUt(16)
                 .duration(200)
                 .save();
-
-        FORGE_HAMMER_RECIPES.recipeBuilder("diamond_lattice")
-                .inputItems("avaritia:diamond_lattice_block")
-                .outputItems("avaritia:diamond_lattice", 9)
-                .EUt(1920)
-                .duration(200)
-                .save();
     }
 }

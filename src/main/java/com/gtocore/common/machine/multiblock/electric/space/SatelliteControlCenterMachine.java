@@ -73,7 +73,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
         buttonText.append(" ");
         buttonText.append(ComponentPanelWidget.withButton(Component.literal("[+]"), "add"));
         textList.add(buttonText);
-        textList.add(Component.translatable("tooltip.avaritia.tier", Wrapper.LIST[index].getTier()));
+        textList.add(Component.translatable("ars_nouveau.tier", Wrapper.LIST[index].getTier()));
         Item item = getRocket(Wrapper.LIST[index].getTier());
         if (item != null) {
             textList.add(Component.translatable(ROCKET).append(item.getDescription()));

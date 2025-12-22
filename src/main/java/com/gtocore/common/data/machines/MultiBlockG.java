@@ -39,6 +39,7 @@ import com.gtolib.api.machine.multiblock.TierCasingCrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -55,7 +56,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import com.enderio.EnderIO;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -320,13 +320,13 @@ public final class MultiBlockG {
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
             .tooltipsText("右键核心传送到远古世界", "Right-click the core to send it to Ancient World.")
-            .block(RegistriesUtils.getSupplierBlock("enderio:soularium_block"))
+            .block(ModBlocks.STEEL_BLOCK)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(Blocks.DIAMOND_BLOCK))
                     .where('B', blocks(ModBlocks.STEEL_BLOCK.get()))
                     .where('C', controller(blocks(definition.get())))
                     .build())
-            .workableCasingRenderer(EnderIO.loc("block/reinforced_obsidian_block"), GTOCore.id("block/multiblock/ancient_reactor_core"))
+            .workableCasingRenderer(GTOCore.id("block/reinforced_obsidian"), GTOCore.id("block/multiblock/ancient_reactor_core"))
             .register();
 
     public static final MultiblockMachineDefinition NETHER_REACTOR_CORE = multiblock("nether_reactor_core", "下界反应核", VoidTransporterMachine.create(2, 1920, VoidTransporterMachine.teleportToDimension(GTODimensions.THE_NETHER, new BlockPos(0, 63, 0))))
@@ -334,15 +334,15 @@ public final class MultiBlockG {
             .recipeTypes(DUMMY_RECIPES)
             .tooltipsKey("gtceu.universal.tooltip.voltage_in", VA[EV], VNF[EV])
             .tooltipsText("运行后右键核心传送到下界", "Right-click the core to send it to the Nether.")
-            .block(RegistriesUtils.getSupplierBlock("enderio:soularium_block"))
+            .block(() -> ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Soularium))
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('A', blocks(Blocks.GOLD_BLOCK))
-                    .where('B', blocks(RegistriesUtils.getBlock("enderio:soularium_block"))
+                    .where('A', blocks(Blocks.GOLD_BLOCK)
                             .or(abilities(INPUT_ENERGY).setExactLimit(1)))
+                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Soularium)))
                     .where('C', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(EnderIO.loc("block/soularium_block"), GTOCore.id("block/multiblock/nether_reactor_core"))
+            .workableCasingRenderer(RLUtils.mc("block/gold_block"), GTOCore.id("block/multiblock/nether_reactor_core"))
             .register();
 
     public static final MultiblockMachineDefinition VOID_TRANSPORTER = multiblock("void_transporter", "虚空传送器", VoidTransporterMachine.create(0, 480))
@@ -350,15 +350,15 @@ public final class MultiBlockG {
             .recipeTypes(DUMMY_RECIPES)
             .tooltipsKey("gtceu.universal.tooltip.voltage_in", VA[HV], VNF[HV])
             .tooltipsText("运行后右键黑曜石传送到虚空，如果是哭泣黑曜石则为超平坦", "Right-click obsidian to send it to the void, and if it is crying obsidian, it will be flat.")
-            .block(RegistriesUtils.getSupplierBlock("enderio:reinforced_obsidian_block"))
+            .block(GTOBlocks.REINFORCED_OBSIDIAN)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(blocks(definition.get())))
-                    .where('A', blocks(RegistriesUtils.getBlock("enderio:reinforced_obsidian_block"))
+                    .where('A', blocks(GTOBlocks.REINFORCED_OBSIDIAN.get())
                             .or(abilities(INPUT_ENERGY).setExactLimit(1)))
                     .where('B', blocks(ANCIENT_REACTOR_CORE.get()))
                     .where('C', blocks(Blocks.OBSIDIAN).or(blocks(Blocks.CRYING_OBSIDIAN)))
                     .build())
-            .workableCasingRenderer(EnderIO.loc("block/reinforced_obsidian_block"), GTCEu.id("block/multiblock/implosion_compressor"))
+            .workableCasingRenderer(GTOCore.id("block/reinforced_obsidian"), GTCEu.id("block/multiblock/implosion_compressor"))
             .register();
 
     public static final MultiblockMachineDefinition BOSS_SUMMONER = multiblock("boss_summoner", "BOSS召唤器", BossSummonerMachine::new)

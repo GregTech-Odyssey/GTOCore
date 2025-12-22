@@ -2,6 +2,7 @@ package com.gtocore.data.recipe;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.item.DimensionDataItem;
@@ -42,7 +43,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.enderio.base.common.init.EIOFluids;
 import earth.terrarium.adastra.common.registry.ModItems;
 
 import java.util.Arrays;
@@ -314,7 +314,7 @@ public final class MiscRecipe {
         AIR_SCRUBBER_RECIPES.recipeBuilder("otherside_scrubber")
                 .circuitMeta(4)
                 .inputFluids(new FluidStack(Fluids.WATER, 1000))
-                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.getSource(), 800))
+                .outputFluids(new FluidStack(GTOFluids.XP_JUICE.getSource(), 800))
                 .duration(200)
                 .EUt(VHA[EV])
                 .dimension(GTODimensions.OTHERSIDE)

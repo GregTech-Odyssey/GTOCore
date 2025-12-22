@@ -84,8 +84,8 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", chance));
-            textList.add(Component.translatable("tooltip.avaritia.num_items", LENS.get(index).getDescription()));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", chance));
+            textList.add(Component.translatable("attributeslib.gui.current", LENS.get(index).getDescription()));
         }
     }
 

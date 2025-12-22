@@ -782,14 +782,14 @@ public final class BotaniaRecipes {
             // 魔力凝聚
             {
                 String[] EndremEyes = {
-                        "black_eye", "cold_eye", "corrupted_eye", "lost_eye",
+                        "black_eye", "cold_eye",
                         "nether_eye", "old_eye", "rogue_eye", "cursed_eye",
-                        "guardian_eye", "magical_eye", "wither_eye"
+                        "guardian_eye", "magical_eye"
                 };
                 String[] EndremEyes_input = {
-                        "minecraft:sculk_catalyst", "ad_astra:ice_shard", "enderio:plant_matter_brown", "enderio:redstone_alloy_grinding_ball",
+                        "minecraft:sculk_catalyst", "ad_astra:ice_shard",
                         "botania:quartz_blaze", "botania:forest_eye", "botania:redstone_root", "botania:life_essence",
-                        "minecraft:prismarine_crystals", "botania:mana_bottle", "enderio:withering_powder"
+                        "minecraft:prismarine_crystals", "botania:mana_bottle"
                 };
 
                 for (int i = 0; i < EndremEyes.length; i++) {

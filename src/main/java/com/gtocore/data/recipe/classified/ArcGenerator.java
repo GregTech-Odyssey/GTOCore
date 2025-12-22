@@ -1,11 +1,11 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
 import com.gtocore.common.recipe.condition.VacuumCondition;
 
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -15,9 +15,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
-import com.enderio.base.common.init.EIOBlocks;
-import com.enderio.base.common.init.EIOFluids;
-import com.enderio.base.common.init.EIOItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 
@@ -160,14 +157,6 @@ final class ArcGenerator {
                 .duration(2000)
                 .save();
 
-        ARC_GENERATOR_RECIPES.recipeBuilder("grains_of_infinity")
-                .chancedInput(ChemicalHelper.get(TagPrefix.gem, GTMaterials.Flint), 2000, 0)
-                .inputItems(TagPrefix.dustTiny, GTMaterials.Obsidian)
-                .outputItems(EIOItems.GRAINS_OF_INFINITY.asItem())
-                .EUt(30)
-                .duration(200)
-                .save();
-
         ARC_GENERATOR_RECIPES.recipeBuilder("crying_obsidian")
                 .inputItems(TagPrefix.rock, GTMaterials.Obsidian)
                 .inputFluids(GTOMaterials.Antimatter.getFluid(10))
@@ -237,14 +226,6 @@ final class ArcGenerator {
                 .duration(80)
                 .save();
 
-        ARC_GENERATOR_RECIPES.recipeBuilder("enderman_head")
-                .notConsumable("minecraft:player_head")
-                .inputItems(TagPrefix.gem, GTMaterials.EnderPearl, 9)
-                .outputItems(EIOBlocks.ENDERMAN_HEAD.asItem())
-                .EUt(480)
-                .duration(100)
-                .save();
-
         ARC_GENERATOR_RECIPES.recipeBuilder("charged_certus_quartz_crystal")
                 .circuitMeta(1)
                 .inputItems(TagPrefix.gem, GTMaterials.CertusQuartz)
@@ -290,7 +271,7 @@ final class ArcGenerator {
                 .inputItems(Items.SNOW_BLOCK.asItem(), 64)
                 .outputItems(GTOItems.DUST_BLIZZ.asItem())
                 .inputFluids(GTOMaterials.TranscendingMatter, 2000)
-                .inputFluids(EIOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 2000)
+                .inputFluids(GTOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 2000)
                 .inputFluids(GTMaterials.Ice, 10000)
                 .EUt(1920)
                 .duration(1600)

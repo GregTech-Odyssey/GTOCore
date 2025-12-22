@@ -134,12 +134,7 @@ final class Vanilla {
                 "AAA",
                 "BCB",
                 "AAA",
-                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Iron), 'C', RegistriesUtils.getItemStack("enderio:fluid_tank"));
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("item_conduit"), RegistriesUtils.getItemStack("enderio:item_conduit", 8),
-                "AAA",
-                "BCD",
-                "AAA",
-                'A', RegistriesUtils.getItemStack("enderio:conduit_binder"), 'B', new MaterialEntry(TagPrefix.pipeSmallItem, GTMaterials.Nickel), 'C', new MaterialEntry(TagPrefix.pipeSmallItem, GTMaterials.Cobalt), 'D', new MaterialEntry(TagPrefix.pipeSmallItem, GTMaterials.Brass));
+                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Iron), 'C', GTItems.FLUID_CELL_UNIVERSAL.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("vibrant_photovoltaic_power_station"), GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_VIBRANT.asItem(),
                 "ABA",
                 "BCB",
@@ -219,7 +214,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "ABA",
-                'A', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'B', RegistriesUtils.getItemStack("enderio:vibrant_crystal"), 'C', new MaterialEntry(TagPrefix.pipeTinyFluid, GTMaterials.Titanium), 'D', RegistriesUtils.getItemStack("gtceu:steam_input_hatch"));
+                'A', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'B', GTOItems.VIBRANT_CRYSTAL.asItem(), 'C', new MaterialEntry(TagPrefix.pipeTinyFluid, GTMaterials.Titanium), 'D', RegistriesUtils.getItemStack("gtceu:steam_input_hatch"));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("cleaning_configuration_maintenance_hatch"), GTOMachines.CLEANING_CONFIGURATION_MAINTENANCE_HATCH.asItem(),
                 "ABA",
                 "BCB",
@@ -234,7 +229,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EBE",
-                'A', RegistriesUtils.getItemStack("enderio:infinity_rod"), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.Copper), 'D', MultiBlockA.STEAM_MIXER.asItem(), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
+                'A', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Steel), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.Copper), 'D', MultiBlockA.STEAM_MIXER.asItem(), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("wood_rotor"), GTOItems.WOOD_ROTOR.asItem(),
                 "ABA",
                 "BCB",
@@ -259,7 +254,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EBE",
-                'A', RegistriesUtils.getItemStack("enderio:infinity_rod"), 'B', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Bronze), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'D', MultiBlockA.STEAM_ORE_WASHER.asItem(), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
+                'A', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Bronze), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'D', MultiBlockA.STEAM_ORE_WASHER.asItem(), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("large_steam_crusher"), MultiBlockC.LARGE_STEAM_CRUSHER.asItem(),
                 "ABA",
                 "CDC",
@@ -299,7 +294,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "ABA",
-                'A', new MaterialEntry(TagPrefix.block, GTOMaterials.EnergeticAlloy), 'B', new MaterialEntry(TagPrefix.block, GTOMaterials.ConductiveAlloy), 'C', RegistriesUtils.getItemStack("enderio:vacuum_chest"), 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.LuV].asItem());
+                'A', new MaterialEntry(TagPrefix.block, GTOMaterials.EnergeticAlloy), 'B', new MaterialEntry(TagPrefix.block, GTOMaterials.ConductiveAlloy), 'C', GTMachines.BLOCK_BREAKER[GTValues.EV].asItem(), 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.LuV].asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("cleaning_maintenance_hatch"), RegistriesUtils.getItemStack("gtceu:cleaning_maintenance_hatch"),
                 "ABA",
                 "CDC",
@@ -369,7 +364,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EBE",
-                'A', new MaterialEntry(TagPrefix.rod, GTMaterials.Bronze), 'B', new MaterialEntry(TagPrefix.gearSmall, GTMaterials.Bronze), 'C', new MaterialEntry(TagPrefix.springSmall, GTMaterials.Copper), 'D', RegistriesUtils.getItemStack("enderio:dark_bimetal_gear"), 'E', GTOItems.ULV_FLUID_REGULATOR.asItem());
+                'A', new MaterialEntry(TagPrefix.rod, GTMaterials.Bronze), 'B', new MaterialEntry(TagPrefix.gearSmall, GTMaterials.Bronze), 'C', new MaterialEntry(TagPrefix.springSmall, GTMaterials.Copper), 'D', new MaterialEntry(TagPrefix.gear, GTOMaterials.DarkSteel), 'E', GTOItems.ULV_FLUID_REGULATOR.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("greenhouse"), MultiBlockD.GREENHOUSE.asItem(),
                 "AAA",
                 "BCB",
@@ -439,7 +434,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EBE",
-                'A', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Potin), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', RegistriesUtils.getItemStack("enderio:reinforced_obsidian_block"), 'D', GTMultiMachines.STEAM_OVEN.asItem(), 'E', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.Potin));
+                'A', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Potin), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', GTOBlocks.REINFORCED_OBSIDIAN.asItem(), 'D', GTMultiMachines.STEAM_OVEN.asItem(), 'E', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.Potin));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("vacuum_hatch"), GTOMachines.VACUUM_HATCH.asItem(),
                 "ABA",
                 "BCB",
@@ -509,7 +504,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', GTItems.ROBOT_ARM_HV.asItem(), 'B', GTItems.EMITTER_HV.asItem(), 'C', new ItemStack(Blocks.REDSTONE_TORCH.asItem()), 'D', RegistriesUtils.getItemStack("avaritia:compressed_crafting_table"), 'E', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Steel), 'F', new MaterialEntry(TagPrefix.block, GTMaterials.Steel));
+                'A', GTItems.ROBOT_ARM_HV.asItem(), 'B', GTItems.EMITTER_HV.asItem(), 'C', new ItemStack(Blocks.REDSTONE_TORCH.asItem()), 'D', AEBlocks.MOLECULAR_ASSEMBLER.asItem(), 'E', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Steel), 'F', new MaterialEntry(TagPrefix.block, GTMaterials.Steel));
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("flint_axe"), RegistriesUtils.getItemStack("gtceu:flint_axe", 1, "{DisallowContainerItem:0b,GT.Behaviours:{DisableShields:1b},GT.Tool:{AttackDamage:6.0f,AttackSpeed:-3.2f,Damage:0,HarvestLevel:2,MaxDamage:64,ToolSpeed:3.5f},HideFlags:2}"),
                 "AA",
                 "BC",
@@ -598,7 +593,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "ABA",
-                'A', new MaterialEntry(TagPrefix.block, GTMaterials.Bronze), 'B', RegistriesUtils.getItemStack("enderio:energetic_alloy_grinding_ball"), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'D', GTMultiMachines.STEAM_GRINDER.asItem());
+                'A', new MaterialEntry(TagPrefix.block, GTMaterials.Bronze), 'B', new MaterialEntry(TagPrefix.gear, GTMaterials.Steel), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'D', GTMultiMachines.STEAM_GRINDER.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("luv_rocket_engine"), GTOMachines.ROCKET_ENGINE_GENERATOR[GTValues.LuV].asItem(),
                 "ABA",
                 "CDC",
@@ -728,7 +723,7 @@ final class Vanilla {
                 "ABA",
                 "BCB",
                 "ABA",
-                'B', GTItems.FIELD_GENERATOR_MV.asItem(), 'C', RegistriesUtils.getItemStack("enderio:reinforced_obsidian_block"), 'A', GTItems.CARBON_FIBER_PLATE.asItem());
+                'B', GTItems.FIELD_GENERATOR_MV.asItem(), 'C', GTOBlocks.REINFORCED_OBSIDIAN.asItem(), 'A', GTItems.CARBON_FIBER_PLATE.asItem());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("electric_cooking"), MultiBlockG.ELECTRIC_COOKING.asItem(),
                 "ABA",
                 "CDC",
@@ -895,11 +890,6 @@ final class Vanilla {
                 "ABA",
                 "ACA",
                 'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.Herbs), 'B', ManaMachine.ALCHEMY_CAULDRON.asItem(), 'C', GCYMMachines.LARGE_BREWER.asItem());
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("compressed_chest"), RegistriesUtils.getItemStack("avaritia:compressed_chest"),
-                "ABA",
-                "BCB",
-                "ABA",
-                'A', GTMachines.STEEL_CRATE.asItem(), 'B', Items.CHEST.asItem(), 'C', MultiBlockG.MULTIBLOCK_CRATE.asItem());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("structure_detect"), GTOItems.STRUCTURE_DETECT.asItem(),
                 " A ",
                 "ABA",

@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.MultiBlockD;
@@ -9,8 +10,6 @@ import com.gtocore.common.data.machines.MultiBlockG;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
-
-import com.enderio.base.common.init.EIOFluids;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.data.GTORecipeTypes.MICROGRAVITY_NANOFABRICATION_RECIPES;
@@ -82,7 +81,7 @@ public class MicrogravityNanofabrication {
                 .inputItems(GTOTagPrefix.wireFine, GTOMaterials.AbyssalAlloy, 16)
                 .outputItems("gtocore:large_algae_farm")
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 6000)
-                .inputFluids(EIOFluids.DEW_OF_THE_VOID.getSource(), 10000)
+                .inputFluids(GTOFluids.DEW_OF_THE_VOID.getSource(), 10000)
                 .EUt(VA[UHV])
                 .duration(200)
                 .save();

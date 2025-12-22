@@ -3,7 +3,7 @@
   "textures": {
     "layer0": "gtceu:item/material_sets/dull/plate"
   },
-  "loader": "avaritia:cosmic",
+  "loader": "renderblender:cosmic",
   "cosmic": {
     "mask": "gtocore:mask/cosmic"
   }

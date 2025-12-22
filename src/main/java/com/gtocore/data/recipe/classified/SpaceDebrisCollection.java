@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GalaxyCondition;
 
 import com.gtolib.api.data.Galaxy;
-import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -43,7 +42,7 @@ final class SpaceDebrisCollection {
                 output(GTOMaterials.AerogelPorousParticles, 1200, 100),
                 output(GTOMaterials.PlasmaQuenchedBeads, 2500, 300),
                 output(GTOMaterials.AlienAlgae, 1240, 600),
-                output(RegistriesUtils.getItem("avaritia:neutron_pile"), 60, 10),
+                output(GTOItems.NEUTRON_PILE.asItem(), 60, 10),
                 output(GTOMaterials.DarkMatterBoundNodes, 800, 200),
                 output(GTOMaterials.StellarMatterRemnantDust, 400, 100));
     }

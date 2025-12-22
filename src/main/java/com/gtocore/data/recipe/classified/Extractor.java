@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
@@ -20,7 +21,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.enderio.base.common.init.EIOFluids;
 import dev.shadowsoffire.apotheosis.ench.Ench;
 
 import static com.gtocore.common.data.GTOMaterials.TheWaterFromTheWellOfWisdom;
@@ -38,14 +38,14 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("xpjuice")
                 .inputItems(TagPrefix.block, GTMaterials.Sculk)
-                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 100))
+                .outputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 100))
                 .EUt(120)
                 .duration(20)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("life_essence")
                 .inputItems(Items.EXPERIENCE_BOTTLE)
-                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 250))
+                .outputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 250))
                 .EUt(8)
                 .duration(20)
                 .save();
@@ -99,7 +99,7 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("liquid_sunshine")
                 .inputItems(TagPrefix.dust, GTMaterials.Glowstone)
-                .outputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.getSource(), 100))
+                .outputFluids(new FluidStack(GTOFluids.LIQUID_SUNSHINE.getSource(), 100))
                 .EUt(120)
                 .duration(400)
                 .daytime()

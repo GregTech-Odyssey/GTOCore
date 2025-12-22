@@ -113,7 +113,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("tooltip.avaritia.tier", tier));
+        textList.add(Component.translatable("ars_nouveau.tier", tier));
         textList.add(Component.translatable("behaviour.lighter.uses", 16 + (tier << 2) - count));
         if (getUUID() != null) {
             var container = getWirelessEnergyContainer();

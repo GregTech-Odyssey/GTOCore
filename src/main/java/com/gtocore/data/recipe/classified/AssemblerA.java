@@ -33,7 +33,7 @@ final class AssemblerA {
         ASSEMBLER_RECIPES.builder("control_hatch")
                 .inputItems(GTMachines.HULL[GTValues.MV].asItem())
                 .inputItems(GTItems.COVER_MACHINE_CONTROLLER.asItem())
-                .inputItems("enderio:redstone_sensor_filter")
+                .inputItems(plate, GTOMaterials.RedstoneAlloy, 2)
                 .inputFluids(GTMaterials.RedAlloy, 288)
                 .outputItems(GTMachines.CONTROL_HATCH.asItem())
                 .EUt(30)

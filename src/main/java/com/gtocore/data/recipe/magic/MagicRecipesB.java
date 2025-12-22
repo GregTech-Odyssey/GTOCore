@@ -31,8 +31,6 @@ import static com.gtocore.common.data.GTOItems.SOURCE_SPIRIT_DEBRIS;
 import static com.gtocore.common.data.GTOItems.STAR_DEBRIS_SAND;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
-import static com.gtocore.data.record.ApotheosisAffixRecord.getAffixSize;
-import static com.gtocore.data.record.EnchantmentRecord.getEnchantmentSize;
 import static com.gtocore.utils.PlayerHeadUtils.itemStackAddNbtString;
 
 public final class MagicRecipesB {
@@ -187,31 +185,6 @@ public final class MagicRecipesB {
                             "AAA", "ABA", "AAA",
                             'A', GTOItems.STOPGAP_MEASURES.asStack(), 'B', GTOMachines.WIRELESS_OUTPUT_HATCH_64[value].asStack());
                 }
-            }
-        }
-
-        // 精粹回收
-        {
-            for (int i = 1; i < getEnchantmentSize(); i++) {
-                CHEMICAL_BATH_RECIPES.recipeBuilder("enchantment_essence_recovery_" + i)
-                        .inputItems(GTOItems.ENCHANTMENT_ESSENCE[i])
-                        .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
-                        .outputItems(GTOItems.ENCHANTMENT_ESSENCE[0])
-                        .category(GTORecipeCategories.ESSENCE_RECOVERY)
-                        .duration(20)
-                        .EUt(8)
-                        .save();
-            }
-
-            for (int i = 1; i < getAffixSize(); i++) {
-                CHEMICAL_BATH_RECIPES.recipeBuilder("affix_essence_recovery_" + i)
-                        .inputItems(GTOItems.AFFIX_ESSENCE[i])
-                        .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
-                        .outputItems(GTOItems.AFFIX_ESSENCE[0])
-                        .category(GTORecipeCategories.ESSENCE_RECOVERY)
-                        .duration(20)
-                        .EUt(8)
-                        .save();
             }
         }
 

@@ -2,6 +2,8 @@ package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtocore.data.IdleReason;
 
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
@@ -28,7 +30,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@DataGeneratorScanned
 public final class TreeGrowthSimulator extends StorageMultiblockMachine {
+
+    @RegisterLanguage(cn = "主产物产出%s%%", en = "Main Output %s%%")
+    private static final String MAIN = "gtocore.machine.main_output";
 
     private int output = 1;
     private float speed = 1;
@@ -111,7 +117,7 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("tooltip.enderio.grinding_ball_main_output", output * 100));
+        textList.add(Component.translatable(MAIN, output * 100));
         textList.add(Component.translatable("jade.horseStat.speed", "x " + FormattingUtil.formatNumbers(speed)));
     }
 }

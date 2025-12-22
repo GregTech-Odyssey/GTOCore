@@ -1,13 +1,13 @@
 package com.gtocore.data.recipe.magic;
 
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
-import com.gtocore.data.record.EnchantmentRecord;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
@@ -32,7 +32,6 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.core.definitions.AEItems;
-import com.enderio.base.common.init.EIOFluids;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import dev.shadowsoffire.apotheosis.adventure.Adventure;
@@ -316,7 +315,7 @@ public final class MagicRecipesA {
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("spirit_fragment")
                     .inputItems(ExtraBotanyItems.spiritFragment)
-                    .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 100))
+                    .inputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 100))
                     .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(50))
                     .outputFluids(Animium.getFluid(100))
                     .duration(20)
@@ -581,37 +580,6 @@ public final class MagicRecipesA {
                     .MANAt(128)
                     .save();
 
-            ASSEMBLER_RECIPES.builder("heretical_mechanical_casing")
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(2, 1))
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(9, 1))
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(14, 1))
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(34, 1))
-                    .inputItems(GTOBlocks.ORIGINAL_BRONZE_CASING, 4)
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(35, 1))
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(37, 1))
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(40, 1))
-                    .inputItems(EnchantmentRecord.getEnchantedBookBySerialNumber(76, 1))
-                    .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
-                    .inputFluids(Aether.getFluid(LIQUID, 1000))
-                    .duration(200)
-                    .MANAt(32)
-                    .save();
-
-            ASSEMBLER_RECIPES.builder("heretical_mechanical_casing_2")
-                    .inputItems(ENCHANTMENT_ESSENCE[2])
-                    .inputItems(ENCHANTMENT_ESSENCE[9])
-                    .inputItems(ENCHANTMENT_ESSENCE[14])
-                    .inputItems(ENCHANTMENT_ESSENCE[34])
-                    .inputItems(GTOBlocks.ORIGINAL_BRONZE_CASING, 4)
-                    .inputItems(ENCHANTMENT_ESSENCE[35])
-                    .inputItems(ENCHANTMENT_ESSENCE[37])
-                    .inputItems(ENCHANTMENT_ESSENCE[40])
-                    .inputItems(ENCHANTMENT_ESSENCE[76])
-                    .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
-                    .inputFluids(Aether.getFluid(LIQUID, 1000))
-                    .duration(200)
-                    .MANAt(32)
-                    .save();
         }
 
         // 结构主方块
