@@ -17,7 +17,7 @@ public final class KeyMessage {
 
     public static void init() {}
 
-    public static final NetworkPack NETWORK_PACK = NetworkPack.registerC2S((p, b) -> pressAction(p, b.readVarInt()));
+    public static final NetworkPack NETWORK_PACK = NetworkPack.registerC2S("keyPressC2S", (p, b) -> pressAction(p, b.readVarInt()));
 
     private static void pressAction(ServerPlayer player, int type) {
         Level level = player.level();

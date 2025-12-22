@@ -722,7 +722,7 @@ public final class MaterialA {
                 .fluid()
                 .ore()
                 .radioactiveHazard(10)
-                .addOreByproducts(Europium)
+                .addOreByproducts(Europium, Etrium)
                 .blastTemp(14600, HIGHER, GTValues.VA[GTValues.UIV], 1200)
                 .element(GTOElements.URUIUM)
                 .color(0x87ceeb)
