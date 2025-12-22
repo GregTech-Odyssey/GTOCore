@@ -73,7 +73,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.translatable("gtceu.multiblock.fusion_reactor.heat", heat));
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", chance));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", chance));
         }
     }
 

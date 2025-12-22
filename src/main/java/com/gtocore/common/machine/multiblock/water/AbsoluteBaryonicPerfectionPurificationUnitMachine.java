@@ -69,7 +69,7 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.translatable("gtocore.machine.absolute_baryonic_perfection_purification_unit.items", catalyst1.getDescription(), catalyst2.getDescription()));
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", successful ? 100 : 0));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", successful ? 100 : 0));
         }
     }
 

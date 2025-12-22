@@ -28,7 +28,7 @@ public final class Tooltips {
 
     static {
         ImmutableMap.Builder<Item, String[]> toolTipsKey = ImmutableMap.builder();
-        toolTipsKey.put(GTBlocks.CASING_TEMPERED_GLASS.asItem(), new String[] { "tooltip.avaritia.tier", String.valueOf(2) });
+        toolTipsKey.put(GTBlocks.CASING_TEMPERED_GLASS.asItem(), new String[] { "ars_nouveau.tier", String.valueOf(2) });
         TOOL_TIPS_KEY_MAP = toolTipsKey.build();
 
         ImmutableMap.Builder<Item, CNENS> toolTipsBuilder = ImmutableMap.builder();

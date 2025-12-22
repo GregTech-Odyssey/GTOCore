@@ -1,6 +1,7 @@
 {
   "values": [
     "gtocore:create_aggregatione_core",
+    "gtocore:reinforced_obsidian",
     "gtocore:blaze_casing",
     "gtocore:cold_ice_casing",
     "gtocore:molecular_casing",

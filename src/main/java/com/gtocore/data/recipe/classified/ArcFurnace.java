@@ -16,8 +16,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
-import committee.nova.mods.avaritia.init.registry.ModItems;
-
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen;
 import static com.gtocore.common.data.GTORecipeTypes.ARC_FURNACE_RECIPES;
 
@@ -50,7 +48,7 @@ final class ArcFurnace {
                 .save();
 
         ARC_FURNACE_RECIPES.recipeBuilder("cosmic_singularity")
-                .inputItems(ModItems.eternal_singularity.get())
+                .inputItems(GTOItems.INFINITY_SINGULARITY.get())
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(9216))
                 .outputItems(GTOItems.COSMIC_SINGULARITY.asItem())
                 .outputItems(TagPrefix.dust, GTOMaterials.Shirabon, 64)

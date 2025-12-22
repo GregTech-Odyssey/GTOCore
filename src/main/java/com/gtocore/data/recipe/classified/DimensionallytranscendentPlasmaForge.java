@@ -10,9 +10,6 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import committee.nova.mods.avaritia.init.registry.ModBlocks;
-import committee.nova.mods.avaritia.init.registry.ModItems;
-
 import static com.gtocore.common.data.GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES;
 
 final class DimensionallytranscendentPlasmaForge {
@@ -54,7 +51,7 @@ final class DimensionallytranscendentPlasmaForge {
                 .save();
 
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("rhugnor")
-                .notConsumable(ModItems.infinity_catalyst.get())
+                .notConsumable(GTOItems.INFINITY_CATALYST.get())
                 .inputItems(GTItems.ENERGIUM_CRYSTAL.asItem(), 64)
                 .inputFluids(GTOMaterials.Infinity.getFluid(10000))
                 .inputFluids(GTOMaterials.QuantumMetal.getFluid(10000))
@@ -66,8 +63,7 @@ final class DimensionallytranscendentPlasmaForge {
                 .save();
 
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("crystal_matrix_plasma")
-                .notConsumable(ModItems.infinity_catalyst.get())
-                .inputItems(ModBlocks.crystal_matrix.get().asItem())
+                .notConsumable(GTOItems.INFINITY_CATALYST.get())
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000000))
                 .inputFluids(GTOMaterials.FreeProtonGas.getFluid(20000))
                 .outputFluids(GTOMaterials.CrystalMatrix.getFluid(FluidStorageKeys.PLASMA, 10000))
@@ -78,7 +74,7 @@ final class DimensionallytranscendentPlasmaForge {
                 .save();
 
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("dense_neutron_plasma")
-                .notConsumable(ModItems.infinity_catalyst.get())
+                .notConsumable(GTOItems.INFINITY_CATALYST.get())
                 .inputItems(GTOItems.NEUTRON_PLASMA_CONTAINMENT_CELL.asItem())
                 .inputFluids(GTOMaterials.HeavyQuarkDegenerateMatter.getFluid(FluidStorageKeys.PLASMA, 10000))
                 .inputFluids(GTOMaterials.Periodicium.getFluid(1000))
@@ -106,7 +102,7 @@ final class DimensionallytranscendentPlasmaForge {
                 .inputItems(GTOItems.ESSENTIA_MATTER.asItem(), 64)
                 .inputFluids(GTOMaterials.Infinity.getFluid(1000))
                 .inputFluids(GTOMaterials.HighEnergyQuarkGluon.getFluid(FluidStorageKeys.PLASMA, 100000))
-                .outputItems(ModItems.infinity_catalyst.get())
+                .outputItems(GTOItems.INFINITY_CATALYST.get())
                 .outputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asItem(), 64)
                 .outputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(100))
                 .EUt(2013265920)
@@ -137,7 +133,7 @@ final class DimensionallytranscendentPlasmaForge {
                 .save();
 
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("cosmic_neutron_plasma_cell")
-                .notConsumable(ModItems.infinity_catalyst.get())
+                .notConsumable(GTOItems.INFINITY_CATALYST.get())
                 .inputItems(GTOItems.EXTREMELY_DURABLE_PLASMA_CELL.asItem(), 5)
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000000))
                 .inputFluids(GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -182,7 +178,7 @@ final class DimensionallytranscendentPlasmaForge {
                 .save();
 
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("hypogen")
-                .notConsumable(ModItems.infinity_catalyst.get())
+                .notConsumable(GTOItems.INFINITY_CATALYST.get())
                 .inputItems(TagPrefix.block, GTOMaterials.QuantumChromoDynamicallyConfinedMatter)
                 .inputFluids(GTOMaterials.Rhugnor.getFluid(10000))
                 .inputFluids(GTOMaterials.DragonBlood.getFluid(10000))
@@ -240,7 +236,7 @@ final class DimensionallytranscendentPlasmaForge {
 
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder("eternity")
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asItem())
-                .inputItems(ModItems.eternal_singularity.get())
+                .inputItems(GTOItems.INFINITY_SINGULARITY.get())
                 .inputFluids(GTOMaterials.PrimordialMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 9000))
                 .outputFluids(GTOMaterials.Eternity.getFluid(10000))

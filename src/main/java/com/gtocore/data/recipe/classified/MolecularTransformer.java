@@ -8,8 +8,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.block.Blocks;
 
-import com.enderio.base.common.init.EIOItems;
-
 import static com.gtocore.common.data.GTORecipeTypes.MOLECULAR_TRANSFORMER_RECIPES;
 
 final class MolecularTransformer {
@@ -51,7 +49,7 @@ final class MolecularTransformer {
                 .save();
 
         MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder("small_sunnarium_dust")
-                .inputItems(EIOItems.CLAYED_GLOWSTONE.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Glowstone)
                 .outputItems(TagPrefix.dustSmall, GTOMaterials.Sunnarium)
                 .EUt(524288)
                 .duration(1600)

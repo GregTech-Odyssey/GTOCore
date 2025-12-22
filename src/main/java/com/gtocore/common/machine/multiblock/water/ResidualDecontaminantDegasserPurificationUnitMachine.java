@@ -61,7 +61,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.translatable("gtocore.machine.residual_decontaminant_degasser_purification_unit.fluids", fluidStack.getDisplayName()));
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", (successful && !failed) ? 100 : 0));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", (successful && !failed) ? 100 : 0));
         }
     }
 

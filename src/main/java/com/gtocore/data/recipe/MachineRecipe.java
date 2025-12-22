@@ -21,8 +21,6 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
-import com.enderio.machines.common.init.MachineBlocks;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -319,7 +317,7 @@ public final class MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.first().asItem(), "DSD",
                 "SMS", "GSG", 'M', GTBlocks.BRONZE_BRICKS_HULL.asItem(), 'S', new MaterialEntry(pipeNormalFluid, Bronze), 'D', GTMachines.BRONZE_DRUM.asItem(), 'G', new MaterialEntry(gearSmall, Bronze));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("steam_alloy_smelter_bronze"), GTMachines.STEAM_ALLOY_SMELTER.left().asItem(),
-                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asItem(), 'X', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', MachineBlocks.PRIMITIVE_ALLOY_SMELTER.asItem());
+                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asItem(), 'X', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', Blocks.FURNACE.asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder("infinity_fluid_drilling_rig")
                 .inputItems(GTMachines.HULL[UV])

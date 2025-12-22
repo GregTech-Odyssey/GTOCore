@@ -4,6 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.misc.OrganType;
@@ -58,6 +59,10 @@ public final class LangHandler {
 
     private static void init() {
         GTOItemTooltips.INSTANCE.initLanguage();
+        GTOFluids.LANG.forEach((k, v) -> {
+            addCN("fluid.gtocore." + k, v);
+            addCN("item.gtocore." + k + "_bucke", v + "桶");
+        });
         MaterialsRegisterUtils.LANG.forEach((k, v) -> addCNEN("material.gtocore." + k, v));
         RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addCNEN("gtceu." + k, v));
         GTOBedrockFluids.LANG.forEach((k, v) -> addCNEN("gtceu.jei.bedrock_fluid." + k, v));

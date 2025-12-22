@@ -21,7 +21,6 @@ public final class $ClassifiedRecipe {
         PetrochemicalPlant.init();
         PigmentMixing.init();
         UltimateMaterialForge.init();
-        GravitationShockburst.init();
         BedrockDrillingRig.init();
         QuantumForceTransformer.init();
         NeutronCompressor.init();

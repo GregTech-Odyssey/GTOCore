@@ -12,8 +12,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import com.enderio.base.common.init.EIOItems;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
@@ -228,7 +226,6 @@ final class CircuitAssembler {
                 .inputItems(GTItems.SYSTEM_ON_CHIP.asItem(), 8)
                 .inputItems(GTItems.NOR_MEMORY_CHIP.asItem(), 32)
                 .inputItems(TagPrefix.wireGtSingle, GTMaterials.Aluminium, 8)
-                .inputItems(EIOItems.GUARDIAN_DIODE.asItem())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
                 .outputItems(GTOItems.HUI_CIRCUIT_1.asItem())
                 .EUt(7680)

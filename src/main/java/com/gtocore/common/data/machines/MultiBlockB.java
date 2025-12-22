@@ -37,8 +37,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.block.Blocks;
 
-import committee.nova.mods.avaritia.init.registry.ModBlocks;
-
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
@@ -50,29 +48,6 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 public final class MultiBlockB {
 
     public static void init() {}
-
-    public static final MultiblockMachineDefinition GRAVITATION_SHOCKBURST = multiblock("gravitation_shockburst", "引力震爆器", ElectricMultiblockMachine::new)
-            .allRotation()
-            .recipeTypes(GRAVITATION_SHOCKBURST_RECIPES)
-            .recipeTypes(ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES)
-            .parallelizableTooltips()
-            .laserTooltips()
-            .parallelizableOverclock()
-            .block(GTOBlocks.CREATE_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('a', blocks(GTOBlocks.CREATE_CASING.get())
-                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
-                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
-                            .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1))
-                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                            .or(abilities(INPUT_LASER).setMaxGlobalLimited(1)))
-                    .where('b', blocks(GTOBlocks.INFINITY_GLASS.get()))
-                    .where('c', blocks(ModBlocks.infinity.get()))
-                    .where('~', controller(blocks(definition.get())))
-                    .where(' ', any())
-                    .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/create_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
-            .register();
 
     public static final MultiblockMachineDefinition DIGESTION_TANK = multiblock("digestion_tank", "煮解池", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()

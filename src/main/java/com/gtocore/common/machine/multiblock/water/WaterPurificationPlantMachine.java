@@ -146,7 +146,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
-        textList.add(ComponentPanelWidget.withButton(Component.translatable("gui.enderio.range.show"), "show"));
+        textList.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.digital_miner.show_range"), "show"));
     }
 
     @Override

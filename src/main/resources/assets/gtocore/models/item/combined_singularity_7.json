@@ -3,9 +3,9 @@
   "textures": {
     "layer0": "gtocore:item/singularity/combined_singularity_7",
     "layer1": "gtocore:item/singularity/combined_singularity_7_overlay",
-    "halo": "avaritia:misc/halo"
+    "halo": "renderblender:misc/halo"
   },
-  "loader": "avaritia:halo",
+  "loader": "renderblender:halo",
   "halo": {
     "texture": "#halo",
     "color": -16777216,
