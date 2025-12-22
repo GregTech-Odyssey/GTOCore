@@ -89,7 +89,7 @@ public final class MaterialA {
                 .fluid()
                 .color(0xa4ff70)
                 .iconSet(METALLIC)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, CAN_BE_COOLED_DOWN_BY_BATHING)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_GEAR, CAN_BE_COOLED_DOWN_BY_BATHING)
                 .blastTemp(2450, LOW, GTValues.VA[GTValues.MV], 900)
                 .components(EnergeticAlloy, 1, EnderPearl, 1)
                 .cableProperties(512, 1, 0, true)
@@ -100,7 +100,7 @@ public final class MaterialA {
                 .fluid()
                 .color(0xf66565)
                 .iconSet(SHINY)
-                .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_PLATE, GENERATE_FRAME)
                 .components(Redstone, 1, Silicon, 1)
                 .buildAndRegister();
 
