@@ -4894,7 +4894,7 @@ public final class MaterialB {
                 .color(0xcee55a).secondaryColor(0x9cbf38)
                 .iconSet(BRIGHT)
                 .temp(4500)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("WB4");
 
         SilicaCeramic = material("silica_ceramic", "氧化硅岩陶瓷")
@@ -4926,7 +4926,7 @@ public final class MaterialB {
                 .color(0x6cdcff).secondaryColor(0x3ab1ff)
                 .iconSet(BRIGHT)
                 .temp(12600)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("TmB6");
 
         SiliconNitrideCeramic = material("silicon_nitride_ceramic", "氮化硅陶瓷")
@@ -4934,7 +4934,7 @@ public final class MaterialB {
                 .color(0x29c824).secondaryColor(0x1b7a1b)
                 .temp(5400)
                 .iconSet(BRIGHT)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("Si3N4");
 
         Titanium3Carbide = material("titanium3_carbide_ceramic", "碳化钛陶瓷")
@@ -4942,7 +4942,7 @@ public final class MaterialB {
                 .color(0x6b423b).secondaryColor(0x4e2f2a)
                 .iconSet(BRIGHT)
                 .temp(5400)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("Ti3C2");
 
         CobaltOxideCeramic = material("cobalt_oxide_ceramic", "氧化钴陶瓷")
@@ -4982,7 +4982,7 @@ public final class MaterialB {
                 .color(0xd4ac4b).secondaryColor(0x9c7a34)
                 .iconSet(BRIGHT)
                 .temp(3600)
-                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GTOMaterialFlags.GENERATE_MXene)
+                .flags(GTOMaterialFlags.GENERATE_CERAMIC, GENERATE_TINY_DUST, GTOMaterialFlags.GENERATE_MXene)
                 .buildAndRegister().setFormula("TiN");
 
         BoronCarbideCeramics = material("boron_carbide_ceramics", "碳化硼陶瓷")

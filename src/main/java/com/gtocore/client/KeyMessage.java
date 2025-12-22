@@ -60,7 +60,7 @@ public final class KeyMessage {
             if (player.isShiftKeyDown()) {
                 itemStack.getOrCreateTag().putBoolean("MinersFervor", !itemStack.getOrCreateTag().getBoolean("MinersFervor"));
                 player.displayClientMessage(Component.translatable(itemStack.getOrCreateTag().getBoolean("MinersFervor") ?
-                        "tooltip.avaritia.active" : "tooltip.avaritia.inactive",
+                        "gui.active" : "gui.inactive",
                         Component.translatable("enchantment.apotheosis.miners_fervor")), true);
                 return;
             }

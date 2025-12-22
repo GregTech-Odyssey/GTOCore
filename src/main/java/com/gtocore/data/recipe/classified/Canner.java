@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -16,7 +17,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.enderio.base.common.init.EIOFluids;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import dev.shadowsoffire.apotheosis.ench.Ench;
 
@@ -45,7 +45,7 @@ final class Canner {
         CANNER_RECIPES.recipeBuilder("sculk")
                 .inputItems(Blocks.DIRT.asItem())
                 .inputItems(Blocks.SCULK_VEIN.asItem())
-                .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 10))
+                .inputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 10))
                 .outputItems(TagPrefix.block, GTMaterials.Sculk)
                 .EUt(480)
                 .duration(600)
@@ -80,7 +80,7 @@ final class Canner {
 
         CANNER_RECIPES.recipeBuilder("infused_breath")
                 .inputItems(Items.DRAGON_BREATH.asItem())
-                .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 1000))
+                .inputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 1000))
                 .outputItems(Ench.Items.INFUSED_BREATH.get(), 3)
                 .EUt(480)
                 .duration(400)

@@ -76,7 +76,7 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
             boolean isItem = machine instanceof METagFilterStockBusPartMachine;
             WidgetGroup wc = new WidgetGroup(-25, 0, 150, 100)
                     .addWidget(new LabelWidget(9, 4,
-                            () -> "gui.enderio.filter.whitelist"))
+                            () -> "gui.whitelist"))
                     .addWidget(t1 = new TextField(9, 16, 114, 16,
                             machine::getTagWhite,
                             machine::setTagWhite))
@@ -84,7 +84,7 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
                             new TagItemFilter.PhantomSlot(new CustomItemStackHandler(1)) :
                             new TagFluidFilter.TankSlot(new CustomFluidTank(1)))))
                     .addWidget(new LabelWidget(9, 36,
-                            () -> "gui.enderio.filter.blacklist"))
+                            () -> "gui.blacklist"))
                     .addWidget(t2 = new TextField(9, 48, 114, 16,
                             machine::getTagBlack,
                             machine::setTagBlack))

@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -11,8 +12,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-
-import com.enderio.base.common.init.EIOFluids;
 
 import static com.gtocore.common.data.GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES;
 
@@ -284,7 +283,7 @@ final class TranscendingCrafting {
                 .inputItems(GTOTagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
                 .outputItems(GTOTagPrefix.gem, GTOMaterials.Resonarium, 8)
                 .inputFluids(GTOMaterials.TranscendingMatter, 1000)
-                .inputFluids(EIOFluids.DEW_OF_THE_VOID.getSource(), 1000)
+                .inputFluids(GTOFluids.DEW_OF_THE_VOID.getSource(), 1000)
                 .EUt(1048576)
                 .duration(200)
                 .save();

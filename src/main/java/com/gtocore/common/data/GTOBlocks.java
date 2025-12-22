@@ -81,6 +81,20 @@ public final class GTOBlocks {
             .build()
             .register();
 
+    public static final BlockEntry<Block> REINFORCED_OBSIDIAN = block("reinforced_obsidian", "强化黑曜石", Block::new)
+            .properties(props -> props
+                    .sound(SoundType.STONE)
+                    .strength(50, 2000)
+                    .requiresCorrectToolForDrops()
+                    .mapColor(MapColor.COLOR_BLACK)
+                    .instrument(NoteBlockInstrument.BASEDRUM))
+            .tag(BlockTags.WITHER_IMMUNE)
+            .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .item()
+            .build()
+            .register();
+
     public static final BlockEntry<Block> BLAZE_CASING = createTwoLayerCasingBlock(
             "blaze_casing",
             "烈焰机械方块",
@@ -244,9 +258,9 @@ public final class GTOBlocks {
     public static final BlockEntry<ActiveBlock> ADVANCED_ASSEMBLY_LINE_UNIT = createActiveCasing("advanced_assembly_line_unit", "进阶装配线控制外壳", "block/variant/advanced_assembly_line_unit");
     public static final BlockEntry<ActiveBlock> MAGIC_CORE = createActiveCasing("magic_core", "魔法核心", "block/variant/magic_core");
 
-    public static final BlockEntry<Block> ENERGETIC_PHOTOVOLTAIC_BLOCK = createCustomModelCasingBlock("energetic_photovoltaic_block", "充能光伏方块");
-    public static final BlockEntry<Block> PULSATING_PHOTOVOLTAIC_BLOCK = createCustomModelCasingBlock("pulsating_photovoltaic_block", "脉冲光伏方块");
-    public static final BlockEntry<Block> VIBRANT_PHOTOVOLTAIC_BLOCK = createCustomModelCasingBlock("vibrant_photovoltaic_block", "振动光伏方块");
+    public static final BlockEntry<Block> ENERGETIC_PHOTOVOLTAIC_BLOCK = createCasingBlock("energetic_photovoltaic_block", "充能光伏方块", GTOCore.id("block/energetic_photovoltaic_block"));
+    public static final BlockEntry<Block> PULSATING_PHOTOVOLTAIC_BLOCK = createCasingBlock("pulsating_photovoltaic_block", "脉冲光伏方块", GTOCore.id("block/pulsating_photovoltaic_block"));
+    public static final BlockEntry<Block> VIBRANT_PHOTOVOLTAIC_BLOCK = createCasingBlock("vibrant_photovoltaic_block", "振动光伏方块", GTOCore.id("block/vibrant_photovoltaic_block"));
 
     public static final BlockEntry<Block> STELLAR_CONTAINMENT_CASING = createTierCasings("stellar_containment_casing", "基础恒星热力容器", GTOCore.id("block/stellar_containment_casing"), SCMAP, 1);
     public static final BlockEntry<Block> ADVANCED_STELLAR_CONTAINMENT_CASING = createTierCasings("advanced_stellar_containment_casing", "高级恒星热力容器", GTOCore.id("block/stellar_containment_casing"), SCMAP, 2);

@@ -1,7 +1,6 @@
 package com.gtocore.client.renderer.item;
 
 import com.gtolib.utils.ClientUtil;
-import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -26,7 +25,8 @@ import com.lowdragmc.lowdraglib.utils.ColorUtils;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import committee.nova.mods.avaritia.api.client.render.buffer.AlphaOverrideVertexConsumer;
+import committee.nova.mods.renderblender.RenderBlenderLib;
+import committee.nova.mods.renderblender.api.client.render.buffer.AlphaOverrideVertexConsumer;
 import org.joml.Matrix4f;
 
 import java.util.function.IntSupplier;
@@ -35,18 +35,18 @@ public record HaloItemRenderer(float pulse, IntSupplier colour, IntSupplier size
                                ResourceLocation texture)
         implements IRenderer {
 
-    public static final HaloItemRenderer WHITE_HALO = HaloItemRenderer.create(0, 0xFFFFFFFF, 4, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer QUANTUM_CHROMO_DYNAMICALLY_HALO = HaloItemRenderer.create(0, () -> com.gtolib.utils.ColorUtils.createARGBColor(MaterialsColorMap.quantumColor.getAsInt(), 150), () -> GTValues.RNG.nextInt(4) + 2, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer COSMIC_HALO = create(0, 0xB2001539, 6, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer NEUTRONIUM_HALO = HaloItemRenderer.create(0, 0x99FFFFFF, 8, RLUtils.avaritia("misc/halo_noise"));
-    public static final HaloItemRenderer COSMIC_NEUTRONIUM_HALO = HaloItemRenderer.create(0.05F, 0x992F1909, 10, RLUtils.avaritia("misc/halo_noise"));
+    public static final HaloItemRenderer WHITE_HALO = HaloItemRenderer.create(0, 0xFFFFFFFF, 4, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer QUANTUM_CHROMO_DYNAMICALLY_HALO = HaloItemRenderer.create(0, () -> com.gtolib.utils.ColorUtils.createARGBColor(MaterialsColorMap.quantumColor.getAsInt(), 150), () -> GTValues.RNG.nextInt(4) + 2, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer COSMIC_HALO = create(0, 0xB2001539, 6, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer NEUTRONIUM_HALO = HaloItemRenderer.create(0, 0x99FFFFFF, 8, RenderBlenderLib.rl("misc/halo_noise"));
+    public static final HaloItemRenderer COSMIC_NEUTRONIUM_HALO = HaloItemRenderer.create(0.05F, 0x992F1909, 10, RenderBlenderLib.rl("misc/halo_noise"));
     public static final HaloItemRenderer CHAOS_HALO = HaloItemRenderer.create(0.2F, 0, 0, null);
-    public static final HaloItemRenderer CHAOS_INFINITY_HALO = HaloItemRenderer.create(0.25F, () -> 0xFF000000, () -> GTValues.RNG.nextInt(4) + 6, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer MAGNETOHYDRODYNAMICALLY_CONSTRAINED_STAR_MATTER_HALO = HaloItemRenderer.create(0, 0xB2FF4125, 6, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer INFINITY_HALO = HaloItemRenderer.create(0.1F, 0xFF000000, 10, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer ETERNITY_HALO = HaloItemRenderer.create(0.1F, 0xFF000000, 10, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer MAGMATTER_HALO = HaloItemRenderer.create(0.15F, 0xFF212121, 10, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer RADIOACTIVE = HaloItemRenderer.create(0F, 0xFF218121, 9, RLUtils.avaritia("misc/halo_noise"));
+    public static final HaloItemRenderer CHAOS_INFINITY_HALO = HaloItemRenderer.create(0.25F, () -> 0xFF000000, () -> GTValues.RNG.nextInt(4) + 6, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer MAGNETOHYDRODYNAMICALLY_CONSTRAINED_STAR_MATTER_HALO = HaloItemRenderer.create(0, 0xB2FF4125, 6, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer INFINITY_HALO = HaloItemRenderer.create(0.1F, 0xFF000000, 10, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer ETERNITY_HALO = HaloItemRenderer.create(0.1F, 0xFF000000, 10, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer MAGMATTER_HALO = HaloItemRenderer.create(0.15F, 0xFF212121, 10, RenderBlenderLib.rl("misc/halo"));
+    public static final HaloItemRenderer RADIOACTIVE = HaloItemRenderer.create(0F, 0xFF218121, 9, RenderBlenderLib.rl("misc/halo_noise"));
 
     private static HaloItemRenderer create(float pulse, int colour, int size, ResourceLocation textures) {
         return create(pulse, () -> colour, () -> size, textures);

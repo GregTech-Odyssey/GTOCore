@@ -407,7 +407,7 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.ARC)
             .ingredientConverter(DimensionDataItem.INGREDIENT_CONVERTER)
             .itemConverter(DimensionDataItem.ITEM_CONVERTER)
-            .addDataInfo(data -> I18n.get("tooltip.avaritia.tier", data.getInt("tier")));
+            .addDataInfo(data -> I18n.get("ars_nouveau.tier", data.getInt("tier")));
 
     public static final RecipeType SPACE_PROBE_SURFACE_RECEPTION_RECIPES = register("space_probe_surface_reception", "宇宙射线搜集", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -600,13 +600,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(1, 0, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
-            .setXEIVisible(false);
-
-    public static final RecipeType GRAVITATION_SHOCKBURST_RECIPES = register("gravitation_shockburst", "时空引力震爆", MULTIBLOCK)
-            .setEUIO(IO.IN)
-            .setMaxIOSize(2, 1, 0, 0)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.MACERATOR);
+            .setXEIVisible(false);;
 
     public static final RecipeType ULTIMATE_MATERIAL_FORGE_RECIPES = register("ultimate_material_forge", "终极物质锻造", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -889,7 +883,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(0, 0, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
-            .addDataInfo(data -> LocalizationUtils.format("tooltip.avaritia.tier", data.getInt("tier")))
+            .addDataInfo(data -> LocalizationUtils.format("ars_nouveau.tier", data.getInt("tier")))
             .setMaxTooltips(1);
 
     public static final RecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)

@@ -1,7 +1,5 @@
 package com.gtocore.mixin.ae2.crafting;
 
-import com.gtocore.integration.eio.ITravelHandlerHook;
-
 import com.gtolib.api.ae2.*;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
 import com.gtolib.api.blockentity.IDirectionCacheBlockEntity;
@@ -12,7 +10,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.world.level.Level;
 
 import appeng.api.config.Actionable;
 import appeng.api.config.LockCraftingMode;
@@ -103,14 +100,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     private void init(IManagedGridNode mainNode, PatternProviderLogicHost host, int patternInventorySize, CallbackInfo ci) {
         configManager.registerSetting(GTOSettings.BLOCKING_TYPE, BlockingType.NONE);
         gtolib$targetCaches = new PatternProviderTargetCache[6];
-    }
-
-    @Inject(method = "configChanged", at = @At("TAIL"), remap = false)
-    private void onSave(CallbackInfo ci) {
-        Level level = host.getBlockEntity().getLevel();
-        if (level != null) {
-            ITravelHandlerHook.requireResync(level);
-        }
     }
 
     @Override

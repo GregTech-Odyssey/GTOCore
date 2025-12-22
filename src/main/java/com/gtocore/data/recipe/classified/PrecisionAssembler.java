@@ -514,18 +514,6 @@ final class PrecisionAssembler {
                 .duration(800)
                 .save();
 
-        PRECISION_ASSEMBLER_RECIPES.recipeBuilder("guardian_diode")
-                .inputItems(Items.PRISMARINE_CRYSTALS.asItem(), 4)
-                .inputItems(GTItems.SMD_DIODE.asItem(), 4)
-                .inputItems(TagPrefix.wireGtSingle, GTOMaterials.EnergeticAlloy, 2)
-                .inputItems(TagPrefix.wireFine, GTMaterials.TungstenSteel, 8)
-                .outputItems("enderio:guardian_diode")
-                .inputFluids(GTMaterials.Gallium.getFluid(144))
-                .inputFluids(GTMaterials.Indium.getFluid(72))
-                .EUt(7680)
-                .duration(100)
-                .save();
-
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("wetware_soc")
                 .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asItem())
                 .inputItems(GTOItems.SUPER_CEREBRUM.asItem())
@@ -574,28 +562,7 @@ final class PrecisionAssembler {
                 .duration(200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
-        PRECISION_ASSEMBLER_RECIPES.builder("z_logic_controller")
-                .inputItems("enderio:zombie_electrode", 4)
-                .inputItems("enderio:prescient_crystal", 2)
-                .inputItems(GTItems.SENSOR_IV.asItem())
-                .inputItems(GTItems.ADVANCED_SMD_DIODE.asItem(), 8)
-                .outputItems("enderio:z_logic_controller", 64)
-                .inputFluids(GTOMaterials.TriniumTitanium, 400)
-                .inputFluids(GTOMaterials.HastelloyN, 400)
-                .EUt(7680)
-                .duration(300)
-                .save();
-        PRECISION_ASSEMBLER_RECIPES.builder("z_logic_controller_tritan")
-                .inputItems("enderio:zombie_electrode", 4)
-                .inputItems("enderio:prescient_crystal", 2)
-                .inputItems(GTItems.SENSOR_IV.asItem())
-                .inputItems(GTItems.ADVANCED_SMD_DIODE.asItem(), 8)
-                .outputItems("enderio:z_logic_controller", 4)
-                .inputFluids(GTMaterials.Tritanium, 400)
-                .inputFluids(GTOMaterials.HastelloyN, 400)
-                .EUt(7680)
-                .duration(300)
-                .save();
+
         PRECISION_ASSEMBLER_RECIPES.builder("huge_item_import_bus")
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.ZPM].asItem())
                 .inputItems(GTItems.ROBOT_ARM_ZPM.asItem(), 4)

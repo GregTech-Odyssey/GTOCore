@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.bioengineering;
 
+import com.gtocore.common.data.GTOFluids;
+
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
@@ -13,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.enderio.base.common.init.EIOFluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,9 +24,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMachine {
 
-    private static final FluidStack CLOUD_SEED_CONCENTRATED = new FluidStack(EIOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 1000);
-    private static final FluidStack FIRE_WATER = new FluidStack(EIOFluids.FIRE_WATER.getSource(), 1000);
-    private static final FluidStack VAPOR_OF_LEVITY = new FluidStack(EIOFluids.VAPOR_OF_LEVITY.getSource(), 1000);
+    private static final FluidStack CLOUD_SEED_CONCENTRATED = new FluidStack(GTOFluids.CLOUD_SEED_CONCENTRATED.getSource(), 1000);
+    private static final FluidStack FIRE_WATER = new FluidStack(GTOFluids.FIRE_WATER.getSource(), 1000);
+    private static final FluidStack VAPOR_OF_LEVITY = new FluidStack(GTOFluids.VAPOR_OF_LEVITY.getSource(), 1000);
 
     private static final Set<Fluid> FLUIDS = Set.of(CLOUD_SEED_CONCENTRATED.getFluid(), FIRE_WATER.getFluid(), VAPOR_OF_LEVITY.getFluid());
 
@@ -62,7 +63,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
                 }
             }
             if (getRecipeLogic().getProgress() % 20 == 0) {
-                if (inputFluid(EIOFluids.NUTRIENT_DISTILLATION.getSource(), 1000)) {
+                if (inputFluid(GTOFluids.NUTRIENT_DISTILLATION.getSource(), 1000)) {
                     redstoneSignalOutput = 15;
                     updateSignal();
                 } else {

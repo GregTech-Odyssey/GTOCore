@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.adventure;
 
 import com.gtocore.api.entity.ILivingEntity;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.data.IdleReason;
 
@@ -21,6 +22,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -41,9 +43,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import appeng.util.Platform;
-import com.enderio.api.capability.StoredEntityData;
-import com.enderio.base.common.init.EIOFluids;
-import com.enderio.machines.common.init.MachineBlocks;
 import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
@@ -69,7 +68,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     private int attackDamage;
     private DamageSource damageSource;
     private ItemStack activeWeapon = ItemStack.EMPTY;
-    private StoredEntityData data;
+    private CompoundTag data;
     private String entityId;
     private static final String[] mobList1 = {
             "minecraft:chicken",
@@ -114,7 +113,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     private final TierCasingTrait tierCasingTrait;
 
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
-        super(holder, 1, i -> i.is(MachineBlocks.POWERED_SPAWNER.asItem()));
+        super(holder, 1, i -> true);
         tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
     }
 
@@ -140,8 +139,8 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         entityId = null;
         ItemStack itemStack = getStorageStack();
         if (itemStack.isEmpty() || !itemStack.hasTag()) return;
-        data = new StoredEntityData(itemStack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("EntityStorage").getCompound("Entity"), 1);
-        entityId = itemStack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("EntityStorage").getCompound("Entity").getString("id");
+        data = itemStack.getOrCreateTag().getCompound("Entity");
+        entityId = itemStack.getOrCreateTag().getCompound("Entity").getString("id");
     }
 
     @Override
@@ -209,7 +208,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
             Vec3 origin = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos()).getCenter();
             Entity entity = null;
             if (data != null) {
-                entity = EntityType.loadEntityRecursive(data.getEntityTag(), serverLevel, (entity1) -> {
+                entity = EntityType.loadEntityRecursive(data, serverLevel, (entity1) -> {
                     entity1.moveTo(origin.x, origin.y, origin.z, entity1.getYRot(), entity1.getXRot());
                     return entity1;
                 });
@@ -247,7 +246,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 xp += (long) mob.getExperienceReward() * multiplier;
                 getAllDeathLoot(player, serverLevel, mob, source, lootParams, itemStacks, multiplier);
             }
-            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
+            if (xp > 0) outputFluid(GTOFluids.XP_JUICE.getSource(), xp);
             int duration = Math.max(60, 600 - attackDamage);
             RecipeBuilder builder = getRecipeBuilder().duration(duration).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);

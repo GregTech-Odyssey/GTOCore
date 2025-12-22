@@ -4,15 +4,11 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
-import com.gtolib.utils.RegistriesUtils;
-
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-
-import committee.nova.mods.avaritia.init.registry.ModItems;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color.Cyan;
 import static com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials.Color.Gray;
@@ -149,14 +145,6 @@ final class LaserEngraver {
                 .EUt(31457280)
                 .duration(600)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
-        LASER_ENGRAVER_RECIPES.recipeBuilder("singularity")
-                .inputItems(TagPrefix.block, GTOMaterials.Magmatter, 16)
-                .inputItems(RegistriesUtils.getItemStack("avaritia:singularity", 1, "{Id:\"avaritia:spacetime\"}"))
-                .outputItems(ModItems.singularity.get())
-                .EUt(527765581332480L)
-                .duration(1600)
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder("exotic_wafer")

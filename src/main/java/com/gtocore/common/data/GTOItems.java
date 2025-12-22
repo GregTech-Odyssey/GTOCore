@@ -3,6 +3,7 @@ package com.gtocore.common.data;
 import com.gtocore.api.lang.OffsetGradientColor;
 import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
+import com.gtocore.client.renderer.item.MaterialsColorMap;
 import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gtocore.common.cover.PowerAmplifierCover;
 import com.gtocore.common.data.translation.GTOItemTooltips;
@@ -49,7 +50,6 @@ import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
 import appeng.items.materials.StorageComponentItem;
-import com.enderio.base.common.init.EIOFluids;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -59,8 +59,6 @@ import org.jetbrains.annotations.NotNull;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTModels.overrideModel;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
-import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
-import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.ItemRegisterUtils.*;
 
@@ -73,7 +71,6 @@ public final class GTOItems {
         GTMaterials.Oxygen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.OXYGEN, null);
         GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.HYDROGEN, null);
         GTFluids.handleNonMaterialFluids(GTMaterials.Oil, ModFluids.OIL);
-        GTFluids.handleNonMaterialFluids(GTMaterials.RocketFuel, () -> EIOFluids.ROCKET_FUEL.get().getSource());
 
         if (GTCEu.isDev()) {
             item("recipe_editor", "配方编辑器", ComponentItem::create)
@@ -95,6 +92,11 @@ public final class GTOItems {
                     .register();
         }
     }
+
+    public static final ItemEntry<Item> PULSATING_CRYSTAL = register("pulsating_crystal", "脉冲水晶");
+    public static final ItemEntry<Item> VIBRANT_CRYSTAL = register("vibrant_crystal", "振动水晶");
+    public static final ItemEntry<Item> ENDER_CRYSTAL = register("ender_crystal", "末影水晶");
+    public static final ItemEntry<Item> PRESCIENT_CRYSTAL = register("prescient_crystal", "预知水晶");
 
     public static final ItemEntry<Item> SHAPE_EXTRUDER_ROD_LONG = GTM.item("long_rod_extruder_mold", Item::new).onRegister(materialInfo(new ItemMaterialInfo(new MaterialStack(GTMaterials.Steel, GTValues.M << 2)))).register();
 
@@ -504,6 +506,15 @@ public final class GTOItems {
     public static final ItemEntry<Item> SPACE_DRONE_MK5 = registerLang("space_drone_mk5", "Space Drone MKⅤ", "太空无人机MKⅤ");
     public static final ItemEntry<Item> SPACE_DRONE_MK6 = registerLang("space_drone_mk6", "Space Drone MKⅥ", "太空无人机MKⅥ");
 
+    public static ItemEntry<Item> NEUTRON_PILE = register("neutron_pile", "中子尘埃");
+
+    public static ItemEntry<Item> INFINITY_CATALYST = register("infinity_catalyst", "无尽催化剂");
+
+    public static ItemEntry<Item> INFINITY_SINGULARITY = item("infinity_singularity", "无尽奇点")
+            .model(NonNullBiConsumer.noop())
+            .color(() -> () -> (item, i) -> MaterialsColorMap.getCurrentRainbowColor())
+            .register();
+
     public static final ItemEntry<ComponentItem> COSMIC_SINGULARITY = item("cosmic_singularity", "宇宙奇点", ComponentItem::create)
             .onRegister(attachRenderer(() -> HaloItemRenderer.COSMIC_HALO))
             .model(NonNullBiConsumer.noop())
@@ -711,8 +722,8 @@ public final class GTOItems {
     public static final ItemEntry<Item> HYPERCUBE = register("hypercube", "超立方体");
     public static final ItemEntry<Item> ANNIHILATION_CONSTRAINER = register("annihilation_constrainer", "湮灭约束器");
     public static final ItemEntry<Item> SOLAR_LIGHT_SPLITTER = register("solar_light_splitter", "阳光分离器");
-    public static final ItemEntry<Item> CREATE_ULTIMATE_BATTERY = registerTooltip("create_ultimate_battery", "创造电池", () -> Component.literal(I18n.get("tooltip.avaritia.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
-    public static final ItemEntry<Item> SUPRACHRONAL_MAINFRAME_COMPLEX = registerTooltip("suprachronal_mainframe_complex", "创造主机", () -> Component.literal(I18n.get("tooltip.avaritia.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
+    public static final ItemEntry<Item> CREATE_ULTIMATE_BATTERY = registerTooltip("create_ultimate_battery", "创造电池", () -> Component.literal(I18n.get("ars_nouveau.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
+    public static final ItemEntry<Item> SUPRACHRONAL_MAINFRAME_COMPLEX = registerTooltip("suprachronal_mainframe_complex", "创造主机", () -> Component.literal(I18n.get("ars_nouveau.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
     public static final ItemEntry<Item> ZERO_POINT_MODULE_FRAGMENTS = register("zero_point_module_fragments", "零点模块碎片");
     public static final ItemEntry<Item> TCETIESEAWEEDEXTRACT = register("tcetieseaweedextract", "鲸鱼座T星E藻类提取物");
     public static final ItemEntry<Item> TCETIEDANDELIONS = register("tcetiedandelions", "鲸鱼座T星E藻类");
@@ -903,8 +914,6 @@ public final class GTOItems {
     public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
 
     public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
-    public static final ItemEntry<ApothItem>[] ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
-    public static final ItemEntry<ApothItem>[] AFFIX_ESSENCE = registerAffixEssence();
 
     private static final String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
     private static final String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };

@@ -70,7 +70,7 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
 
     private void addDisplayText(@NotNull List<Component> textList) {
         if (isRemote()) return;
-        textList.add(Component.translatable("gui.enderio.range.show").append(ComponentPanelWidget.withButton(Component.translatable(grid ? GRID : "config.gtceu.option.machines"), "grid")));
+        textList.add(Component.translatable("gtocore.digital_miner.show_range").append(ComponentPanelWidget.withButton(Component.translatable(grid ? GRID : "config.gtceu.option.machines"), "grid")));
         if (grid) {
             AEGridProvider.OBSERVE = true;
             if (textListCache == null || holder.getOffsetTimer() % 80 == 0) {

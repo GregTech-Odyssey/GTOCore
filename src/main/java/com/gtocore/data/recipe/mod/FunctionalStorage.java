@@ -12,6 +12,7 @@ import com.gtolib.utils.TagUtils;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -53,19 +54,19 @@ public final class FunctionalStorage {
                     "AAA",
                     "BCB",
                     "AAA",
-                    'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'C', RegistriesUtils.getItemStack("enderio:pressurized_fluid_tank"));
+                    'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'C', GTMachines.STEEL_DRUM);
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("fluid_2"), RegistriesUtils.getItemStack("functionalstorage:fluid_2", 2),
                     "ABA",
                     "CDC",
                     "ABA",
-                    'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', RegistriesUtils.getItemStack("enderio:pressurized_fluid_tank"), 'C', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'D', RegistriesUtils.getItemStack("enderio:fluid_tank"));
+                    'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', GTMachines.STEEL_DRUM, 'C', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'D', GTMachines.BRONZE_DRUM);
 
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("fluid_4"), RegistriesUtils.getItemStack("functionalstorage:fluid_4", 4),
                     "ABA",
                     "BCB",
                     "ABA",
-                    'A', RegistriesUtils.getItemStack("enderio:pressurized_fluid_tank"), 'B', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'C', RegistriesUtils.getItemStack("enderio:fluid_tank"));
+                    'A', GTMachines.STEEL_DRUM, 'B', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'C', GTMachines.BRONZE_DRUM);
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("storage_controller"), RegistriesUtils.getItemStack("functionalstorage:storage_controller"),
                     "ABA",
                     "CDC",
