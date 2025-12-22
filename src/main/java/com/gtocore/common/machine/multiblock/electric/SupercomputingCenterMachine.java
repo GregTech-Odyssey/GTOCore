@@ -1,6 +1,18 @@
 package com.gtocore.common.machine.multiblock.electric;
 
-import com.google.common.collect.ImmutableMap;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.machine.multiblock.part.ThermalConductorHatchPartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
+
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.RecipeRunner;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
@@ -14,20 +26,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPa
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComputationPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCACoolerPartMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.machine.multiblock.part.ThermalConductorHatchPartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import earth.terrarium.adastra.common.registry.ModItems;
-import lombok.Setter;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -35,12 +34,18 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
+import com.google.common.collect.ImmutableMap;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import earth.terrarium.adastra.common.registry.ModItems;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
