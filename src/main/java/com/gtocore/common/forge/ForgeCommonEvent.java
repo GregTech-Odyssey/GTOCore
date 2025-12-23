@@ -34,6 +34,7 @@ import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 
 import net.minecraft.ChatFormatting;
@@ -44,6 +45,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -390,6 +392,8 @@ public final class ForgeCommonEvent {
             if (mapping.getKey().getNamespace().equals("enderio")) {
                 var item = RegistriesUtils.getItem(GTOCore.id(mapping.getKey().getPath()));
                 if (mapping.getKey().getPath().startsWith("powdered_")) {
+                    var mat = GTCEuAPI.materialManager.getMaterial(mapping.getKey().getPath().replace("powdered_", ""));
+                    if (mat == null) return;
                     item = ChemicalHelper.getItem(TagPrefix.dust, GTCEuAPI.materialManager.getMaterial(mapping.getKey().getPath().replace("powdered_", "")));
                 }
                 if (item != Items.AIR && item != Items.BARRIER) {
@@ -402,6 +406,9 @@ public final class ForgeCommonEvent {
                 var fluid = RegistriesUtils.getFluid(GTOCore.id(mapping.getKey().getPath()));
                 if (fluid != null && fluid != Fluids.EMPTY) {
                     mapping.remap(fluid);
+                }
+                if (mapping.getKey().equals(ResourceLocation.parse("enderio:rocket_fuel"))) {
+                    mapping.remap(GTMaterials.RocketFuel.getFluid());
                 }
             }
         });

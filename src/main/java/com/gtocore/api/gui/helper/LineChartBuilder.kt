@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
  * ```
  */
 @OnlyIn(Dist.CLIENT)
-class LineChartBuilder(private val graphics: GuiGraphics, private val data: List<Number>) {
+class LineChartBuilder(private val graphics: GuiGraphics, private val data: List<Number>?) {
     // 必需参数
     private var totalWidth: Int = 300
     private var totalHeight: Int = 200

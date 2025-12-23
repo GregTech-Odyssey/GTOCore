@@ -33,7 +33,7 @@ object LineChartHelper {
      * @param dataPointRadius 数据点标记的半径
      * @return 实际绘制尺寸 (width, height)
      */
-    fun drawLineChart(graphics: GuiGraphics, data: List<Number>, totalWidth: Int, totalHeight: Int, borderWidth: Int = 1, backgroundColor: Int = 0xFF404040.toInt(), borderColor: Int = 0xFF000000.toInt(), lineColor: Int = 0xFF2ECC71.toInt(), lineWidth: Float = 1.5f, drawAreaFill: Boolean = false, areaFillColor: Int = 0x402ECC71, drawDataPoints: Boolean = true, dataPointColor: Int = 0xFFFFFFFF.toInt(), dataPointRadius: Float = 2f, autoReboundY: Boolean = true, minYBound: Double = Double.NaN, maxYBound: Double = Double.NaN): Pair<Int, Int> {
+    fun drawLineChart(graphics: GuiGraphics, data: List<Number>?, totalWidth: Int, totalHeight: Int, borderWidth: Int = 1, backgroundColor: Int = 0xFF404040.toInt(), borderColor: Int = 0xFF000000.toInt(), lineColor: Int = 0xFF2ECC71.toInt(), lineWidth: Float = 1.5f, drawAreaFill: Boolean = false, areaFillColor: Int = 0x402ECC71, drawDataPoints: Boolean = true, dataPointColor: Int = 0xFFFFFFFF.toInt(), dataPointRadius: Float = 2f, autoReboundY: Boolean = true, minYBound: Double = Double.NaN, maxYBound: Double = Double.NaN): Pair<Int, Int> {
         val innerX = borderWidth
         val innerY = borderWidth
         val innerWidth = totalWidth - borderWidth * 2
@@ -48,7 +48,7 @@ object LineChartHelper {
             DrawerHelper.drawSolidRect(graphics, innerX, innerY, innerWidth, innerHeight, backgroundColor)
         }
 
-        if (data.isEmpty() || innerWidth <= 0 || innerHeight <= 0) {
+        if (data.isNullOrEmpty() || innerWidth <= 0 || innerHeight <= 0) {
             return totalWidth to totalHeight
         }
 
@@ -227,5 +227,5 @@ object LineChartHelper {
      *     .draw()
      * ```
      */
-    fun builder(graphics: GuiGraphics, data: List<Number>): LineChartBuilder = LineChartBuilder(graphics, data)
+    fun builder(graphics: GuiGraphics, data: List<Number>?): LineChartBuilder = LineChartBuilder(graphics, data)
 }
