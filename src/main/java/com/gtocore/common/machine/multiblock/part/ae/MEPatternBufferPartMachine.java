@@ -41,14 +41,12 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -60,7 +58,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -77,6 +74,7 @@ import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.crafting.pattern.EncodedPatternItem;
 import appeng.crafting.pattern.ProcessingPatternItem;
 import com.fast.fastcollection.OpenCacheHashSet;
+import com.fast.recipesearch.IntLongMap;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -230,9 +228,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     private void changeMode(@Nullable GTRecipeType type) {
         this.recipeType = type == null ? GTORecipeTypes.HATCH_COMBINED : type;
-        for (var i : getInternalInventory()) {
-            i.rhl.external.recipeType = type;
-        }
     }
 
     @Override
@@ -240,23 +235,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         super.onLoad();
         if (recipeType == GTORecipeTypes.DUMMY_RECIPES) {
             recipeType = GTORecipeTypes.HATCH_COMBINED;
-        }
-        var type = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
-        for (var i : getInternalInventory()) {
-            i.rhl.external.recipeType = type;
-        }
-    }
-
-    @Override
-    public void onPaintingColorChanged(int color) {
-        super.onPaintingColorChanged(color);
-        if (getLevel() instanceof ServerLevel serverLevel) {
-            TaskHandler.enqueueServerTask(serverLevel, () -> {
-                var type = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
-                for (var i : getInternalInventory()) {
-                    i.rhl.external.recipeType = type;
-                }
-            }, 1);
         }
     }
 
@@ -544,8 +522,8 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         private Runnable onContentsChanged = () -> {};
         public boolean itemChanged = true;
         public boolean fluidChanged = true;
-        public final IntIngredientMap itemIngredientMap = new IntIngredientMap();
-        public final IntIngredientMap fluidIngredientMap = new IntIngredientMap();
+        public final IntLongMap itemIngredientMap = new IntLongMap();
+        public final IntLongMap fluidIngredientMap = new IntLongMap();
         public final ExpandedR2LMap<AEItemKey> itemInventory = new ExpandedR2LMap<>();
         public final ExpandedR2LMap<AEFluidKey> fluidInventory = new ExpandedR2LMap<>();
 

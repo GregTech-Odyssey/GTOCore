@@ -4,12 +4,12 @@ import com.gtocore.common.machine.multiblock.part.ae.MEStockingBusPartMachine;
 
 import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.ae2.stacks.IKeyCounter;
+import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
 import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
 
@@ -20,6 +20,7 @@ import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+import com.fast.recipesearch.IntLongMap;
 import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -84,14 +85,15 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
+    public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
         if (machine.isWorkingEnabled()) {
             if (changed) {
-                if (!machine.isOnline()) return IntIngredientMap.EMPTY;
+                if (!machine.isOnline()) return IntLongMap.EMPTY;
                 var grid = machine.getMainNode().getGrid();
-                if (grid == null) return IntIngredientMap.EMPTY;
+                if (grid == null) return IntLongMap.EMPTY;
                 Reference2LongOpenHashMap<AEKey> map = null;
                 intIngredientMap.clear();
+                boolean specialConverter = ((RecipeType) type).specialConverter;
                 int time = machine.getOffsetTimer();
                 for (var i : inventory) {
                     if (i.config == null) continue;
@@ -100,18 +102,22 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
                     if (stock.what() instanceof AEItemKey itemKey) {
                         if (map == null) {
                             map = IKeyCounter.of(grid.getStorageService().getCachedInventory()).gtolib$getMap();
-                            if (map == null) return IntIngredientMap.EMPTY;
+                            if (map == null) return IntLongMap.EMPTY;
                         }
                         var amount = ((ExportOnlyAEStockingItemSlot) i).refresh(map, stock.amount(), itemKey, time);
                         if (amount < 1) continue;
-                        ((IAEItemKey) (Object) itemKey).gtolib$convert(amount, intIngredientMap);
+                        if (specialConverter) {
+                            type.convertItem(i.getReadOnlyStack(), amount, intIngredientMap);
+                        } else {
+                            ((IAEItemKey) (Object) itemKey).gtolib$convert(amount, intIngredientMap);
+                        }
                     }
                 }
                 changed = false;
             }
             return intIngredientMap;
         }
-        return IntIngredientMap.EMPTY;
+        return IntLongMap.EMPTY;
     }
 
     @Override

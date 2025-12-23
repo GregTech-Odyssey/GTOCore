@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
 import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
 
@@ -26,6 +25,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.fast.recipesearch.IntLongMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -96,7 +96,7 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
             return IO.IN;
         }
 
-        private static final IntIngredientMap MAP = new IntIngredientMap();
+        private static final IntLongMap MAP = new IntLongMap();
 
         static {
             GTORecipeTypes.DUMMY_RECIPES.convertFluid(WATER, Long.MAX_VALUE, MAP);
@@ -113,7 +113,7 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
         }
 
         @Override
-        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
             return MAP;
         }
     }

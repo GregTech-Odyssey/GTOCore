@@ -1,7 +1,6 @@
 package com.gtocore.mixin.gtm.item;
 
-import com.gtolib.api.recipe.ingredient.CircuitIngredient;
-
+import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +20,7 @@ public final class IntCircuitBehaviourMixin {
     @Overwrite(remap = false)
     public static void setCircuitConfiguration(ItemStack itemStack, int configuration) {
         var tagCompound = itemStack.getOrCreateTag();
-        tagCompound.putInt(CircuitIngredient.Configuration, configuration);
+        tagCompound.putInt(IntCircuitIngredient.Configuration, configuration);
     }
 
     /**
@@ -30,9 +29,9 @@ public final class IntCircuitBehaviourMixin {
      */
     @Overwrite(remap = false)
     public static int getCircuitConfiguration(ItemStack itemStack) {
-        if (!itemStack.is(CircuitIngredient.PROGRAMMED_CIRCUIT)) return 0;
+        if (!itemStack.is(IntCircuitIngredient.PROGRAMMED_CIRCUIT)) return 0;
         var tagCompound = itemStack.getTag();
-        if (tagCompound != null && tagCompound.tags.get(CircuitIngredient.Configuration) instanceof IntTag intTag) {
+        if (tagCompound != null && tagCompound.tags.get(IntCircuitIngredient.Configuration) instanceof IntTag intTag) {
             return intTag.getAsInt();
         }
         return 0;
@@ -44,10 +43,10 @@ public final class IntCircuitBehaviourMixin {
      */
     @Overwrite(remap = false)
     public static boolean isIntegratedCircuit(ItemStack itemStack) {
-        boolean isCircuit = itemStack.is(CircuitIngredient.PROGRAMMED_CIRCUIT);
+        boolean isCircuit = itemStack.is(IntCircuitIngredient.PROGRAMMED_CIRCUIT);
         if (isCircuit && itemStack.getTag() == null) {
             var compound = new CompoundTag();
-            compound.putInt(CircuitIngredient.Configuration, 0);
+            compound.putInt(IntCircuitIngredient.Configuration, 0);
             itemStack.setTag(compound);
         }
         return isCircuit;

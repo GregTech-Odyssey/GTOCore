@@ -113,7 +113,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     private final TierCasingTrait tierCasingTrait;
 
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
-        super(holder, 1, i -> true);
+        super(holder, 1, i -> false);
         tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
     }
 

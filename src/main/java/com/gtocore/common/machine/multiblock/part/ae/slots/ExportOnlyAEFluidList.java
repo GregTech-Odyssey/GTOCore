@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae.slots;
 
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
+import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -9,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.AEFluidKey;
+import com.fast.recipesearch.IntLongMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -169,16 +170,21 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     }
 
     @Override
-    public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
+    public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
         if (changed) {
             changed = false;
             intIngredientMap.clear();
+            boolean specialConverter = ((RecipeType) type).specialConverter;
             for (var i : inventory) {
                 if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
                 if (stock.what() instanceof AEFluidKey fluidKey) {
-                    ((IAEFluidKey) (Object) fluidKey).gtolib$convert(stock.amount(), intIngredientMap);
+                    if (specialConverter) {
+                        type.convertFluid(i.getReadOnlyStack(), stock.amount(), intIngredientMap);
+                    } else {
+                        ((IAEFluidKey) (Object) fluidKey).gtolib$convert(stock.amount(), intIngredientMap);
+                    }
                 }
             }
         }
