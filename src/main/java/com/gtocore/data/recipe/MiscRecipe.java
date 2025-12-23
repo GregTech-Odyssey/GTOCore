@@ -700,14 +700,5 @@ public final class MiscRecipe {
                 .duration(25600)
                 .addData("spool", 5)
                 .save();
-
-        SINTERING_FURNACE_RECIPES.builder("photovoltaic_plate")
-                .inputItems("enderio:photovoltaic_composite", 9)
-                .notConsumable(GTItems.SHAPE_MOLD_PLATE.asItem())
-                .outputItems("enderio:photovoltaic_plate", 3)
-                .EUt(120)
-                .blastFurnaceTemp(1700)
-                .duration(200)
-                .save();
     }
 }
