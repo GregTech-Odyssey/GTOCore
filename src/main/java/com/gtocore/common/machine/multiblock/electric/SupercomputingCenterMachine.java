@@ -55,7 +55,7 @@ import static com.gtocore.common.data.GTOMaterials.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-公共 final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider {
+public final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider {
 
     private static final Map<Item, Integer> MAINFRAME = Map.of(GTOItems.BIOWARE_MAINFRAME.asItem(), 2, GTOItems.SUPRACAUSAL_MAINFRAME.asItem(), 3);
     private static final Map<Integer, Integer> GLASS_MAP = Map.of(1, GTValues.IV, 2, GTValues.UHV, 3, GTValues.UIV);
