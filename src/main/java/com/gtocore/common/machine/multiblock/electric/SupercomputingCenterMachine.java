@@ -55,7 +55,7 @@ import static com.gtocore.common.data.GTOMaterials.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider {
+公共 final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider {
 
     private static final Map<Item, Integer> MAINFRAME = Map.of(GTOItems.BIOWARE_MAINFRAME.asItem(), 2, GTOItems.SUPRACAUSAL_MAINFRAME.asItem(), 3);
     private static final Map<Integer, Integer> GLASS_MAP = Map.of(1, GTValues.IV, 2, GTValues.UHV, 3, GTValues.UIV);
@@ -240,15 +240,6 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private void tick() {
         cacheCWUt = allocatedCWUt;
         allocatedCWUt = 0;
-    }
-
-    @Override
-    public boolean onWorking() {
-        if (cacheCWUt == 0) {
-            return false;
-        }
-
-        return super.onWorking();
     }
 
     @Override
