@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCABridgePartMachine;
@@ -29,6 +30,8 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -37,6 +40,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.common.registry.ModItems;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -86,6 +90,8 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private long cacheCWUt;
     private long maxEUt;
     private Recipe runRecipe;
+    @Nullable
+    private TickableSubscription tickSubs;
 
     public SupercomputingCenterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, stack -> MAINFRAME.containsKey(stack.getItem()));
@@ -163,6 +169,8 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                 runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolingAmount)).outputFluids(Helium.getFluid(GAS, coolingAmount)).EUt(maxEUt).duration(20).buildRawRecipe();
         }
         maxCWUtModificationSubs.initialize(getLevel());
+
+        updateTickSubscription();
     }
 
     private static int getIndexForItem(Item item) {
@@ -204,16 +212,38 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    public boolean onWorking() {
+    public void onLoad() {
+        super.onLoad();
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            serverLevel.getServer().tell(new TickTask(0, this::updateTickSubscription));
+        }
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (tickSubs != null) {
+            tickSubs.unsubscribe();
+            tickSubs = null;
+        }
+    }
+
+    private void updateTickSubscription() {
+        if (isFormed && !incompatible) {
+            tickSubs = subscribeServerTick(tickSubs, this::tick);
+        } else if (tickSubs != null) {
+            tickSubs.unsubscribe();
+            tickSubs = null;
+        }
+    }
+
+    private void tick() {
         cacheCWUt = allocatedCWUt;
         allocatedCWUt = 0;
-        return super.onWorking();
     }
 
     @Override
     public void afterWorking() {
-        cacheCWUt = allocatedCWUt;
-        allocatedCWUt = 0;
         if (coolingAmount > maxCoolingAmount) {
             int damaged = coolingAmount - maxCoolingAmount;
             for (IMultiPart part : getParts()) {
@@ -227,8 +257,14 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         super.afterWorking();
     }
 
+    @Override
+    public Recipe fullModifyRecipe(Recipe recipe) {
+        // prevent any modification to mock the original behavior of setupRecipe
+        return recipe;
+    }
+
     private long requestCWUt(boolean simulate, long cwu) {
-        long toAllocate = Math.min(cwu, getMaxCWU());
+        long toAllocate = Math.min(cwu, getAdjustedMaxCWU() - allocatedCWUt);
         if (!simulate) {
             this.allocatedCWUt += toAllocate;
         }
@@ -243,8 +279,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             if (getRecipeLogic().isWorking()) {
                 return requestCWUt(false, cwu);
             } else if (!getRecipeLogic().isSuspend() && RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
-                getRecipeLogic().setupRecipe(runRecipe);
-                if (getRecipeLogic().isWorking()) {
+                if (getRecipeLogic().checkMatchedRecipeAvailable(runRecipe) && getRecipeLogic().isWorking()) {
                     return requestCWUt(false, cwu);
                 }
             }
@@ -254,7 +289,11 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     @Override
     public long getMaxCWU() {
-        return (getMaxCWUt() * maxCWUtModification / 10000) - cacheCWUt;
+        return getAdjustedMaxCWU() - cacheCWUt;
+    }
+
+    private long getAdjustedMaxCWU() {
+        return (getMaxCWUt() * maxCWUtModification / 10000);
     }
 
     private void maxCWUtModificationUpdate() {
@@ -323,7 +362,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         super.customText(textList);
         textList.add(Component.translatable("tooltip.avaritia.tier", machineTier));
         textList.add(Component.translatable("gtceu.multiblock.energy_consumption", maxEUt, GTValues.VNF[GTUtil.getTierByVoltage(maxEUt)]).withStyle(ChatFormatting.YELLOW));
-        textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(cacheCWUt + " / " + getMaxCWUt()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(cacheCWUt + " / " + getAdjustedMaxCWU()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtocore.machine.cwut_modification", ((double) maxCWUtModification / 10000)).withStyle(ChatFormatting.AQUA));
         textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_coolant_required", Component.literal(coolingAmount + " / " + maxCoolingAmount).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
     }
