@@ -49,6 +49,7 @@ import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
 import appeng.items.materials.StorageComponentItem;
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -58,6 +59,8 @@ import org.jetbrains.annotations.NotNull;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTModels.overrideModel;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
+import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
+import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.ItemRegisterUtils.*;
 
@@ -951,6 +954,8 @@ public final class GTOItems {
     public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
 
     public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
+    public static final O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
+    public static final O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> AFFIX_ESSENCE = registerAffixEssence();
 
     private static final String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
     private static final String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };

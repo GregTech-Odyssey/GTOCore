@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.magic;
 
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.ManaMachine;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 
@@ -242,6 +243,26 @@ public final class MagicRecipesB {
                     .duration(100)
                     .EUt(VA[ULV])
                     .save();
+        }
+
+        // 精粹回收
+        {
+            CHEMICAL_BATH_RECIPES.builder("enchantment_essence_recovery")
+                    .inputItems(Tags.ENCHANTMENT_ESSENCE)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
+                    .outputItems("gtocore:enchantment_essence_original")
+                    .duration(20)
+                    .EUt(8)
+                    .save();
+
+            CHEMICAL_BATH_RECIPES.builder("affix_essence_recovery")
+                    .inputItems(Tags.AFFIX_ESSENCE)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(5))
+                    .outputItems("gtocore:affix_essence_original")
+                    .duration(20)
+                    .EUt(8)
+                    .save();
+
         }
 
         // 命树灵脉 - 处理线
@@ -620,6 +641,8 @@ public final class MagicRecipesB {
 
             // 简化产线&残渣产线
             {
+                int chance = GTOCore.isEasy() ? 500 : 50;
+                int chanceBoost = GTOCore.isEasy() ? 100 : 10;
                 // 源核晶
                 {
                     CHEMICAL_BATH_RECIPES.recipeBuilder("purify_refined_origin_core_crystal_ore")
@@ -643,8 +666,8 @@ public final class MagicRecipesB {
 
                     SIFTER_RECIPES.recipeBuilder("sifter_crudely_purified_origin_core_crystal_ore")
                             .inputItems(CRUDELY_PURIFIED_ORIGIN_CORE_CRYSTAL_ORE)
-                            .chancedOutput(gemFlawless, OriginCoreCrystal, 100, 10)
-                            .chancedOutput(dust, OriginCoreCrystalResidue, 9900, -10)
+                            .chancedOutput(gemFlawless, OriginCoreCrystal, chance, chanceBoost)
+                            .chancedOutput(dust, OriginCoreCrystalResidue, 10000 - chance, -chanceBoost)
                             .chancedOutput(dustPure, OriginCoreCrystal, 5000, 0)
                             .duration(600).EUt(VA[HV])
                             .save();
@@ -673,8 +696,8 @@ public final class MagicRecipesB {
 
                     SIFTER_RECIPES.recipeBuilder("sifter_crudely_fused_star_blood_crystal_ore")
                             .inputItems(CRUDELY_FUSED_STAR_BLOOD_CRYSTAL_ORE)
-                            .chancedOutput(gemFlawless, StarBloodCrystal, 100, 10)
-                            .chancedOutput(dust, StarBloodCrystalResidue, 9900, -10)
+                            .chancedOutput(gemFlawless, StarBloodCrystal, chance, chanceBoost)
+                            .chancedOutput(dust, StarBloodCrystalResidue, 10000 - chance, -chanceBoost)
                             .chancedOutput(dustPure, StarBloodCrystal, 5000, 0)
                             .duration(600).EUt(VA[HV])
                             .save();
@@ -703,8 +726,8 @@ public final class MagicRecipesB {
 
                     SIFTER_RECIPES.recipeBuilder("sifter_crudely_harmonized_soul_jade_crystal_ore")
                             .inputItems(CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE)
-                            .chancedOutput(gemFlawless, SoulJadeCrystal, 100, 10)
-                            .chancedOutput(dust, SoulJadeCrystalResidue, 9900, -10)
+                            .chancedOutput(gemFlawless, SoulJadeCrystal, chance, chanceBoost)
+                            .chancedOutput(dust, SoulJadeCrystalResidue, 10000 - chance, -chanceBoost)
                             .chancedOutput(dustPure, SoulJadeCrystal, 5000, 0)
                             .duration(600).EUt(VA[HV])
                             .save();
@@ -733,8 +756,8 @@ public final class MagicRecipesB {
 
                     SIFTER_RECIPES.recipeBuilder("sifter_crudely_shaped_remnant_spirit_stone_ore")
                             .inputItems(CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE)
-                            .chancedOutput(gemFlawless, RemnantSpiritStone, 100, 10)
-                            .chancedOutput(dust, RemnantSpiritStoneResidue, 9900, -10)
+                            .chancedOutput(gemFlawless, RemnantSpiritStone, chance, chanceBoost)
+                            .chancedOutput(dust, RemnantSpiritStoneResidue, 10000 - chance, -chanceBoost)
                             .chancedOutput(dustPure, RemnantSpiritStone, 5000, 0)
                             .duration(600).EUt(VA[HV])
                             .save();

@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.mana.multiblock;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.data.record.EnchantmentRecord;
 
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
@@ -33,6 +34,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static com.gtocore.common.data.GTOItems.AFFIX_ESSENCE;
+import static com.gtocore.common.data.GTOItems.ENCHANTMENT_ESSENCE;
+import static com.gtocore.data.record.ApotheosisAffixRecord.AFFIX_ITEM_ID;
+import static com.gtocore.data.record.EnchantmentRecord.ENCHANTMENT_ITEM_ID;
 import static net.minecraft.nbt.Tag.TAG_COMPOUND;
 import static net.minecraft.nbt.Tag.TAG_LIST;
 
@@ -77,7 +82,10 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         circuit = checkingCircuit(false);
         Recipe recipe = null;
         switch (circuit) {
+            case 1, 2, 3, 4 -> recipe = getDisassembleRecipe();
+            case 5 -> recipe = getEnchantmentsLoadRecipe();
             case 6 -> recipe = getEnchantedBooksMergeRecipe();
+            case 7 -> recipe = getAffixCanvasLoadRecipe();
             case 8 -> recipe = getGemSynthesisRecipe();
             case 9 -> recipe = getGemCrushingRecipe();
             case 10 -> recipe = getForcedEnchantmentRecipe();
@@ -88,6 +96,91 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         }
         if (recipe != null) if (RecipeRunner.matchRecipe(this, recipe)) return recipe;
         return null;
+    }
+
+    /**
+     * 构建物品解构配方
+     */
+    private Recipe getDisassembleRecipe() {
+        RecipeBuilder disassembleRecipeBuilder = getRecipeBuilder();
+        List<ItemStack> inputsItems = new ObjectArrayList<>();
+        List<ItemStack> outputsItems = new ObjectArrayList<>();
+        forEachInputItems((stack, amount) -> {
+            CompoundTag nbt = stack.getTag();
+            if (nbt != null) {
+                if (nbt.contains("affix_data") || nbt.contains("Enchantments")) {
+                    if (disassembleEquipment(nbt, inputsItems, outputsItems)) {
+                        inputsItems.add(stack);
+                    }
+                } else if (circuit == 4 && nbt.contains("Damage")) {
+                    inputsItems.add(stack);
+                }
+                if (circuit == 2 || circuit == 4)
+                    if (stack.getItem().equals(Items.ENCHANTED_BOOK.asItem()))
+                        if (disassembleEnchantments(nbt, outputsItems)) {
+                            inputsItems.add(stack);
+                            outputsItems.add(new ItemStack(Items.BOOK));
+                        }
+                if (circuit == 3 || circuit == 4)
+                    if (stack.getItem().equals(GTOItems.AFFIX_CANVAS.asItem()))
+                        if (disassembleAffixCanvas(nbt, outputsItems)) {
+                            inputsItems.add(stack);
+                            outputsItems.add(new ItemStack(GTOItems.AFFIX_CANVAS));
+                        }
+            }
+            return false;
+        });
+        if (!inputsItems.isEmpty() || !outputsItems.isEmpty()) {
+            inputsItems.forEach(disassembleRecipeBuilder::inputItems);
+            outputsItems.forEach(disassembleRecipeBuilder::outputItems);
+            disassembleRecipeBuilder.duration(20);
+            return disassembleRecipeBuilder.buildRawRecipe();
+        }
+        return null;
+    }
+
+    /**
+     * 将物品解构为宝石、附魔书和材料
+     *
+     * @param nbt          要分解的装备的nbt
+     * @param inputsItems  输入列表
+     * @param outputsItems 输出列表
+     */
+    private static boolean disassembleEquipment(CompoundTag nbt, List<ItemStack> inputsItems, List<ItemStack> outputsItems) {
+        boolean find = false;
+
+        // 提取附魔
+        if (circuit == 1 || circuit == 3) {
+            if (extractEnchantments1(nbt, outputsItems)) {
+                inputsItems.add(new ItemStack(Items.BOOK));
+                find = true;
+            }
+        } else if (circuit == 2 || circuit == 4) {
+            if (extractEnchantments2(nbt, outputsItems))
+                find = true;
+        }
+
+        // 提取词缀
+        if (circuit == 1 || circuit == 2) {
+            if (extractAffix1(nbt, outputsItems)) {
+                inputsItems.add(new ItemStack(GTOItems.AFFIX_CANVAS));
+                find = true;
+            }
+        } else if (circuit == 3 || circuit == 4) {
+            if (extractAffix2(nbt, outputsItems))
+                find = true;
+        }
+
+        // 提取宝石
+        if (extractGems(nbt, outputsItems)) {
+            inputsItems.add(new ItemStack(Adventure.Items.SIGIL_OF_WITHDRAWAL.get()));
+            find = true;
+        }
+
+        // 电路4强行粉碎
+        if (circuit == 4) find = true;
+
+        return generateMaterials(nbt, outputsItems) || find;
     }
 
     /**
@@ -115,6 +208,28 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
             outputsItems.add(enchantedBook);
 
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 从NBT中提取所有附魔并输出附魔精粹
+     *
+     * @param nbt          装备的NBT数据
+     * @param outputsItems 输出列表
+     * @return 提取到的附魔数量
+     */
+    private static boolean extractEnchantments2(CompoundTag nbt, List<ItemStack> outputsItems) {
+        if (nbt.tags.get("Enchantments") instanceof ListTag enchantments && !enchantments.isEmpty()) {
+            int enchantmentCount = enchantments.size();
+            for (int i = 0; i < enchantmentCount; i++) {
+                CompoundTag enchantment = enchantments.getCompound(i);
+                if (enchantment.contains("id", 8) && enchantment.contains("lvl", 2)) {
+                    int lvl = 1 << (enchantment.getShort("lvl") - 1);
+                    outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE.get(enchantment.getString("id")), lvl));
+                }
+            }
             return true;
         }
         return false;
@@ -179,6 +294,27 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         return false;
     }
 
+    /**
+     * 从NBT中提取词缀并输出为刻印精粹
+     *
+     * @param nbt          完整的NBT数据
+     * @param outputsItems 接收词缀的物品列表
+     * @return 是否成功提取
+     */
+    private static boolean extractAffix2(CompoundTag nbt, List<ItemStack> outputsItems) {
+        if (nbt.contains("affix_data", TAG_COMPOUND)) {
+            CompoundTag affixData = nbt.getCompound("affix_data");
+            if (affixData.contains("affixes", TAG_COMPOUND)) {
+                CompoundTag affixes = affixData.getCompound("affixes");
+                for (String affixKey : affixes.getAllKeys()) {
+                    outputsItems.add(new ItemStack(AFFIX_ESSENCE.get(affixKey)));
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 使用Map存储稀有度与材料的对应关系
     private static final Map<String, Item> RARITY_MATERIAL_MAP = Map.of(
             "apotheosis:ancient", Adventure.Items.ANCIENT_MATERIAL.get(),
@@ -205,10 +341,50 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     }
 
     /**
-     * 根据获取的字符串获取最后一个 _ 后的数字
+     * 将附魔书分解为附魔精粹
+     *
+     * @param nbt          要分解的附魔书的nbt
+     * @param outputsItems 输出列表
      */
-    private static int extractNumber(String text) {
-        return Integer.parseInt(text.substring(text.lastIndexOf('_') + 1));
+    private static boolean disassembleEnchantments(CompoundTag nbt, List<ItemStack> outputsItems) {
+        if (nbt.tags.get("StoredEnchantments") instanceof ListTag enchantments && !enchantments.isEmpty()) {
+            int enchantmentCount = enchantments.size();
+            for (int i = 0; i < enchantmentCount; i++) {
+                CompoundTag enchantment = enchantments.getCompound(i);
+                int lvl = 1 << (enchantment.getInt("lvl") - 1);
+                outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE.get(enchantment.getString("id")), lvl));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 将铭刻之布分解为刻印精粹
+     *
+     * @param nbt          要分解的铭刻之布的nbt
+     * @param outputsItems 输出列表
+     */
+    private static boolean disassembleAffixCanvas(CompoundTag nbt, List<ItemStack> outputsItems) {
+        if (nbt.tags.get("affix_list") instanceof ListTag affixes && !affixes.isEmpty()) {
+            int affixCount = affixes.size();
+            for (int i = 0; i < affixCount; i++) {
+                CompoundTag affix = affixes.getCompound(i);
+                outputsItems.add(new ItemStack(AFFIX_ESSENCE.get(affix.getString("id"))));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 获取冒号后的部分
+     */
+    private static String getPath(String text) {
+        if (text == null || text.isEmpty()) return text;
+        int lastColonIndex = text.lastIndexOf(':');
+        if (lastColonIndex == -1) return text;
+        return text.substring(lastColonIndex + 1);
     }
 
     /**
@@ -218,6 +394,40 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         int lastUnderscoreIndex = text.lastIndexOf('_');
         if (lastUnderscoreIndex == -1) return text;
         return text.substring(0, lastUnderscoreIndex);
+    }
+
+    /**
+     * 附魔精粹合成附魔书配方
+     */
+    private Recipe getEnchantmentsLoadRecipe() {
+        RecipeBuilder enchantmentsLoadRecipeBuilder = getRecipeBuilder();
+        ObjectHolder<Item> essence = new ObjectHolder<>(null);
+        LongHolder count = new LongHolder(0);
+
+        forEachInputItems((stack, amount) -> {
+            Item stackItem = stack.getItem();
+            if (essence.value == null) {
+                String enchantmentId = ENCHANTMENT_ITEM_ID.get(stackItem.toString());
+                if (enchantmentId != null)
+                    essence.value = stackItem;
+            }
+            if (essence.value != null && essence.value.equals(stackItem))
+                count.value += amount;
+            return false;
+        });
+
+        int lvl = Math.min(64 - Long.numberOfLeadingZeros(count.value), 30);
+        if (essence.value != null && lvl > 0) {
+            String enchantment = ENCHANTMENT_ITEM_ID.get(essence.value.toString());
+            enchantmentsLoadRecipeBuilder.inputItems(Items.BOOK);
+            enchantmentsLoadRecipeBuilder.inputItems(essence.value, 1 << (lvl - 1));
+            enchantmentsLoadRecipeBuilder.outputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId(enchantment, (short) lvl));
+            enchantmentsLoadRecipeBuilder.duration(20);
+            enchantmentsLoadRecipeBuilder.MANAt(256);
+            return enchantmentsLoadRecipeBuilder.buildRawRecipe();
+        }
+
+        return null;
     }
 
     /**
@@ -336,6 +546,41 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         mergeRecipeBuilder.MANAt(512);
 
         return mergeRecipeBuilder.buildRawRecipe();
+    }
+
+    /**
+     * 刻印精粹合成铭刻之布配方
+     */
+    private Recipe getAffixCanvasLoadRecipe() {
+        RecipeBuilder affixCanvasLoadRecipeBuilder = getRecipeBuilder();
+
+        Set<Item> uniqueItems = new HashSet<>();
+        forEachInputItems((stack, amount) -> {
+            Item stackItem = stack.getItem();
+            String affixId = AFFIX_ITEM_ID.get(stackItem.toString());
+            if (affixId != null) uniqueItems.add(stackItem);
+            return false;
+        });
+        if (uniqueItems.isEmpty()) return null;
+
+        ItemStack affixCanvas = new ItemStack(GTOItems.AFFIX_CANVAS);
+        CompoundTag affixTag = new CompoundTag();
+        ListTag affixList = new ListTag();
+        for (Item item : uniqueItems) {
+            CompoundTag affixEntry = new CompoundTag();
+            affixEntry.putString("id", AFFIX_ITEM_ID.get(item.toString()));
+            affixList.add(affixEntry);
+            affixCanvasLoadRecipeBuilder.inputItems(item);
+        }
+        affixTag.put("affix_list", affixList);
+        affixCanvas.setTag(affixTag);
+
+        affixCanvasLoadRecipeBuilder.inputItems(GTOItems.AFFIX_CANVAS);
+        affixCanvasLoadRecipeBuilder.outputItems(affixCanvas);
+        affixCanvasLoadRecipeBuilder.duration(20);
+        affixCanvasLoadRecipeBuilder.MANAt(512);
+
+        return affixCanvasLoadRecipeBuilder.buildRawRecipe();
     }
 
     /**

@@ -41,7 +41,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -967,17 +966,28 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
     private static int[] transform(int lx, int ly, int lz, int sx, int sz, int rot, boolean zMir, boolean xMir) {
         int rx = lx, rz = lz;
         switch (rot) {
-            case 90 -> { int t = rx; rx = sz - 1 - rz; rz = t; }
-            case 180 -> { rx = sx - 1 - rx; rz = sz - 1 - rz; }
-            case 270 -> { int t = rx; rx = rz; rz = sx - 1 - t; }
+            case 90 -> {
+                int t = rx;
+                rx = sz - 1 - rz;
+                rz = t;
+            }
+            case 180 -> {
+                rx = sx - 1 - rx;
+                rz = sz - 1 - rz;
+            }
+            case 270 -> {
+                int t = rx;
+                rx = rz;
+                rz = sx - 1 - t;
+            }
         }
         if (xMir) rx = sx - 1 - rx;
         if (zMir) rz = sz - 1 - rz;
-        return new int[]{rx, ly, rz};
+        return new int[] { rx, ly, rz };
     }
 
     private static int[] calcOffsetsBy8Points(int sx, int sy, int sz, int rot, boolean zMir, boolean xMir) {
-        int[][] corners = {{0, 0, 0}, {sx-1, 0, 0}, {0, sy-1, 0}, {sx-1, sy-1, 0}, {0, 0, sz-1}, {sx-1, 0, sz-1}, {0, sy-1, sz-1}, {sx-1, sy-1, sz-1}};
+        int[][] corners = { { 0, 0, 0 }, { sx - 1, 0, 0 }, { 0, sy - 1, 0 }, { sx - 1, sy - 1, 0 }, { 0, 0, sz - 1 }, { sx - 1, 0, sz - 1 }, { 0, sy - 1, sz - 1 }, { sx - 1, sy - 1, sz - 1 } };
         int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
         for (int[] c : corners) {
             int[] t = transform(c[0], c[1], c[2], sx, sz, rot, zMir, xMir);
@@ -985,7 +995,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             minY = Math.min(minY, t[1]);
             minZ = Math.min(minZ, t[2]);
         }
-        return new int[]{-minX, -minY, -minZ};
+        return new int[] { -minX, -minY, -minZ };
     }
 
     private void highlightArea(boolean light) {
@@ -1021,7 +1031,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         int[] offsets = calcOffsetsBy8Points(sx, sy, sz, rot, zMir, xMir);
         int ox = offsets[0], oy = offsets[1], oz = offsets[2];
 
-        int[][] corners = {{0, 0, 0}, {sx-1, 0, 0}, {0, sy-1, 0}, {sx-1, sy-1, 0}, {0, 0, sz-1}, {sx-1, 0, sz-1}, {0, sy-1, sz-1}, {sx-1, sy-1, sz-1}};
+        int[][] corners = { { 0, 0, 0 }, { sx - 1, 0, 0 }, { 0, sy - 1, 0 }, { sx - 1, sy - 1, 0 }, { 0, 0, sz - 1 }, { sx - 1, 0, sz - 1 }, { 0, sy - 1, sz - 1 }, { sx - 1, sy - 1, sz - 1 } };
 
         int minWX = Integer.MAX_VALUE, minWY = Integer.MAX_VALUE, minWZ = Integer.MAX_VALUE;
         int maxWX = Integer.MIN_VALUE, maxWY = Integer.MIN_VALUE, maxWZ = Integer.MIN_VALUE;
@@ -1030,9 +1040,12 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
             int wx = start.getX() + t[0] + ox;
             int wy = start.getY() + t[1] + oy;
             int wz = start.getZ() + t[2] + oz;
-            minWX = Math.min(minWX, wx); maxWX = Math.max(maxWX, wx);
-            minWY = Math.min(minWY, wy); maxWY = Math.max(maxWY, wy);
-            minWZ = Math.min(minWZ, wz); maxWZ = Math.max(maxWZ, wz);
+            minWX = Math.min(minWX, wx);
+            maxWX = Math.max(maxWX, wx);
+            minWY = Math.min(minWY, wy);
+            maxWY = Math.max(maxWY, wy);
+            minWZ = Math.min(minWZ, wz);
+            maxWZ = Math.max(maxWZ, wz);
         }
 
         BlockPos minPos = new BlockPos(minWX, minWY, minWZ);
