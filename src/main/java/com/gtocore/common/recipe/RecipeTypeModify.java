@@ -58,7 +58,7 @@ public final class RecipeTypeModify {
 
         CHEMICAL_RECIPES.onRecipeBuild((r) -> {});
 
-        LARGE_CHEMICAL_RECIPES.getProxyRecipes().put(CHEMICAL_RECIPES, Collections.emptyList());
+        LARGE_CHEMICAL_RECIPES.getProxyRecipes().add(CHEMICAL_RECIPES);
 
         ASSEMBLY_LINE_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 

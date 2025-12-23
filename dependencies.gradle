@@ -6,6 +6,7 @@ dependencies {
     implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
     jarJar(implementation("dev:fastcollection:1.0"))
+    implementation("dev:RecipeSearch-1.0")
 
     compileOnly('org.projectlombok:lombok:1.18.42')
     annotationProcessor('org.projectlombok:lombok:1.18.42')

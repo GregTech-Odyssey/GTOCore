@@ -66,7 +66,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
         if (h instanceof IRecipeLogicMachine recipeLogicMachine) {
             RecipeData data = new RecipeData(IEnhancedRecipeLogic.of(recipeLogicMachine.getRecipeLogic()).gtolib$getRecipeBuilder());
             if (h instanceof IExtendedRecipeCapabilityHolder holder) {
-                return collect(data, holder.gtolib$getInput(), holder);
+                return collect(data, holder.getInputList(), holder);
             } else {
                 return collect(data, recipeLogicMachine.getCapabilitiesForIO(IO.IN), h);
             }
