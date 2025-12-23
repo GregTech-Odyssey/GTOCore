@@ -394,7 +394,7 @@ public final class ForgeCommonEvent {
                 if (mapping.getKey().getPath().startsWith("powdered_")) {
                     var mat = GTCEuAPI.materialManager.getMaterial(mapping.getKey().getPath().replace("powdered_", ""));
                     if (mat == null) return;
-                    item = ChemicalHelper.getItem(TagPrefix.dust, GTCEuAPI.materialManager.getMaterial(mapping.getKey().getPath().replace("powdered_", "")));
+                    item = ChemicalHelper.getItem(TagPrefix.dust, mat);
                 }
                 if (item != Items.AIR && item != Items.BARRIER) {
                     mapping.remap(item);
