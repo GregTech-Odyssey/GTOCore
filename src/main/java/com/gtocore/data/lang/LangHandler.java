@@ -329,6 +329,8 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst", "编码默认不填充催化剂", "Shift + Left Click: Fill catalysts into the pattern");
         addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.fill", "Shift + 左击：将催化剂填充至样板", "Shift + Left Click: Fill catalysts into the pattern");
         addCNEN("gtocore.ae.appeng.me2in1.emi.catalyst.virtual", "Ctrl + 左击：将催化剂（虚拟物品）填充至样板", "Hold Ctrl to encode catalysts as virtual item catalysts");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.multiblock.sub", "Shift + 左击：编码基础结构和当前模块", "Shift + Click: Encode base structure and this module");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.multiblock.sub.all", "Ctrl + 左击：编码到当前模块为止的全部结构", "Ctrl + Click: Encode all modules up to this one");
         addCNEN("gtocore.ae.appeng.me2in1.emi.gt_batch_encode", "Alt + 左击：批量编码，试图替换的材料用黄色标记", "Batch encoding is available while holding Alt, materials to be replaced are marked in yellow");
         addCNEN("gtocore.ae.appeng.me2in1.emi.gt_batch_encode.1", "替换失败的材料（如该材料不存在这种物品）将在编码时保持原样板的状态", "Materials that fail to replace (e.g., the material does not exist for this item) will retain the original state of the pattern during encoding");
         addCNEN("gtocore.ae.appeng.me2in1.save_default_rename_pattern", "保存默认重命名样板，将可以在自动填充时使用！", "Save the default renaming pattern, which can be used for auto-filling!");
