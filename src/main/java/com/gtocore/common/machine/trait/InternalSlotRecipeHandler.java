@@ -139,7 +139,7 @@ public final class InternalSlotRecipeHandler {
             var map = this.getIngredientMap(recipeType);
             if (map.isEmpty()) return false;
             holder.setCurrentHandlerList(this, null);
-            return recipeType.findRecipe(map, canHandle);
+            return recipeType.db.find(map, canHandle);
         }
 
         @Override

@@ -429,7 +429,7 @@ public final class MultiBlockG {
                     .where('C', GTOPredicates.glass())
                     .where('D', air().or(GTOPredicates.wirelessEnergyUnit()))
                     .build())
-            .checkPriority(1000)
+            .checkPriority(100000)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/power_substation"))
             .register();
 

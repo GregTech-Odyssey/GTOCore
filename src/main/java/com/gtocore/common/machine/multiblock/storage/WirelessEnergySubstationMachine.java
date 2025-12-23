@@ -18,6 +18,8 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
@@ -27,6 +29,7 @@ import com.google.common.collect.Multimaps;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.hepdd.gtmthings.utils.TeamUtil;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -41,6 +44,9 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
     private final Multimap<Integer, BlockPos> wirelessEnergyUnitPositions = Multimaps.newMultimap(new Int2ObjectOpenHashMap<>(), ObjectOpenHashSet::new);
+
+    @Persisted
+    private ResourceLocation dimension;
 
     public WirelessEnergySubstationMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -76,7 +82,8 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         }
         container.setLoss(i == 0 ? 0 : loss / i);
         container.setCapacity(capacity.multiply(BigInteger.valueOf(Math.max(1, i / 2))));
-        container.setDimension(level.dimension().location(), true);
+        dimension = level.dimension().location();
+        container.setDimension(dimension, true);
     }
 
     private void unloadContainer() {
@@ -106,7 +113,12 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     @Override
     public void onLoad() {
         super.onLoad();
-        if (isFormed()) loadContainer();
+        if (getLevel() instanceof ServerLevel) {
+            var container = getWirelessEnergyContainer();
+            if (container == null) return;
+            if (dimension != null) container.setDimension(dimension, true);
+            if (isFormed()) loadContainer();
+        }
     }
 
     @Override
