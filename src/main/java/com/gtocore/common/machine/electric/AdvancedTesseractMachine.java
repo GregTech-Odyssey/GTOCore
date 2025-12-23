@@ -235,6 +235,9 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
         List<PatternProviderTarget> targets = new ObjectArrayList<>(size);
         for (int i = 0; i < size; ++i) {
             var targetPos = poss.get(i);
+            if (targetPos == null) {
+                continue;
+            }
             var target = PatternProviderTargetCache.find(getBlockEntity(targetPos, i), logic, adjBeSide, actionSource, targetPos.asLong());
             if (target == null) continue;
             targets.add(target);
