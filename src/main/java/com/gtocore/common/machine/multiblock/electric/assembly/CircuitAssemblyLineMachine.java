@@ -34,7 +34,7 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
     @Override
     public @NotNull NotifiableItemStackHandler createMachineStorage(Predicate<ItemStack> filter) {
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(
-                this, 1, IO.NONE, IO.BOTH, slots -> new CustomItemStackHandler(1) {
+                this, 1, IO.IN, IO.BOTH, slots -> new CustomItemStackHandler(1) {
 
                     @Override
                     public void onContentsChanged(int slot) {
