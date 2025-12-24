@@ -21,9 +21,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -33,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.lowdragmc.lowdraglib.LDLib.random;
 
@@ -60,7 +66,7 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
 
     public ResonanceFlowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
-        machineStorage = createMachineStorage(i -> i.getItem() == GTOItems.INFINITE_CELL_COMPONENT.asItem() || i.getItem() == GTOItems.STABILIZER_CORE.asItem());
+        machineStorage = createMachineStorage(i -> i.getItem() == Items.NETHER_STAR || i.getItem() == GTOItems.STABILIZER_CORE.asItem());
     }
 
     @Override
@@ -75,49 +81,37 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
 
     @Override
     protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
+        recipe = super.getRealRecipe(recipe);
+        if (recipe == null) return null;
         String id = recipe.id.getPath();
         Object[] tierEffect = getTierEffect(id);
+
+        if (recipe.data.contains("resonance")) enhanceRecipe(recipe);
 
         recipe.duration = (int) Math.max(1, recipe.duration * timeFluctuationCoefficient * (float) tierEffect[0]);
         long maxContentParallel = Math.max(ParallelLogic.getMaxContentParallel(this, recipe), (long) tierEffect[1]);
 
         addEntry(id, maxContentParallel);
         upgradeEntry(id);
+        updateStableTime();
 
-        return ParallelLogic.accurateParallel(this, enhanceRecipe(recipe), maxContentParallel);
-    }
-
-    /**
-     * 增强配方：添加输入消耗
-     */
-    private Recipe enhanceRecipe(Recipe recipe) {
-        recipe.tickInputs.computeIfAbsent(ItemRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
-                new Content(ItemRecipeCapability.CAP.of(
-                        FastSizedIngredient.create(Items.IRON_INGOT, 2)),
-                        ChanceLogic.getMaxChancedValue(), 0));
-
-        recipe.tickInputs.computeIfAbsent(FluidRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
-                new Content(FluidRecipeCapability.CAP.of(
-                        FastFluidIngredient.of(1000, Fluids.WATER)),
-                        ChanceLogic.getMaxChancedValue(), 0));
-
-        return recipe;
+        return ParallelLogic.accurateParallel(this, recipe, maxContentParallel);
     }
 
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        if (stableTime > 0) {
-            stableTime--;
-        } else if (stableTime == 0) {
-            triggerFluctuation();
-        }
+        updateStableTime();
+        if (stableTime > 0) stableTime--;
+        else triggerFluctuation();
     }
 
     @Override
-    public void customText(List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("gtocore.machine.stable_operation_times", stableTime < 0 ? "♾️" : stableTime));
+        textList.add(Component.translatable("gtocore.machine.resonance_flower.stable_operation_times", stableTime));
+        textList.add(Component.translatable("gtocore.machine.resonance_flower.time_fluctuation_coefficient", timeFluctuationCoefficient));
+        textList.add(Component.translatable("gtocore.machine.resonance_flower.elemental_fluctuation_coefficient", elementalFluctuationCoefficient));
     }
 
     @Override
@@ -137,30 +131,84 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
         }
     }
 
+    private void updateStableTime() {
+        if (!machineStorage.isEmpty() && stableTime < 1000000000) {
+            ItemStack stack = machineStorage.getStackInSlot(0);
+            if (stack.getItem() == GTOItems.STABILIZER_CORE.asItem()) {
+                stableTime += 1000000000;
+                stack.setCount(stack.getCount() - 1);
+                machineStorage.setStackInSlot(0, stack);
+            } else if (stack.getItem() == Items.NETHER_STAR) {
+                stableTime += 5 * stack.getCount();
+                machineStorage.setStackInSlot(0, ItemStack.EMPTY);
+            }
+        }
+    }
+
     /////////////////////////////////////
-    // ********** 波动系数系统 ********** //
+    // ********** 共鸣消耗系统 ********** //
     /////////////////////////////////////
 
-    // 时间波动：每次跳变倍数范围 0.2 ~ 2.6，最终倍数范围 0.05 ~ 20
-    private static final double TIME_JUMP_MIN = 0.2D;
-    private static final double TIME_JUMP_MAX = 2.6D;
-    private static final double TIME_LIMIT_MIN = 0.05D;
-    private static final double TIME_LIMIT_MAX = 20.0D;
+    private static final String KEY_TYPE = "type";
+    private static final String TYPE_ITEM = "item";
+    private static final String TYPE_FLUID = "fluid";
 
-    // 元素波动：每次跳变倍数范围 0.5 ~ 1.8，最终倍数范围 0.1 ~ 16
-    private static final double ELEM_JUMP_MIN = 0.5D;
-    private static final double ELEM_JUMP_MAX = 1.8D;
-    private static final double ELEM_LIMIT_MIN = 0.1D;
-    private static final double ELEM_LIMIT_MAX = 16.0D;
+    // 通用序列化：ItemStack/FluidStack → CompoundTag
+    public static CompoundTag toTag(Object stack) {
+        CompoundTag root = new CompoundTag();
+        if (stack instanceof ItemStack itemStack) {
+            root.putString(KEY_TYPE, TYPE_ITEM);
+            root.merge(itemStack.save(new CompoundTag()));
+        } else if (stack instanceof FluidStack fluidStack) {
+            root.putString(KEY_TYPE, TYPE_FLUID);
+            root.putString("fluidId", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid())).toString());
+            root.putInt("amount", fluidStack.getAmount());
+            if (fluidStack.hasTag()) root.put("tag", fluidStack.getTag().copy());
+        }
+        return root;
+    }
 
-    /** 触发波动 */
+    // 通用反序列化：CompoundTag → ItemStack/FluidStack（修复核心问题）
+    public static Object fromTag(CompoundTag tag) {
+        String type = tag.getString(KEY_TYPE);
+        if (TYPE_ITEM.equals(type)) {
+            CompoundTag itemTag = tag.copy();
+            itemTag.remove(KEY_TYPE);
+            return ItemStack.of(itemTag);
+        } else if (TYPE_FLUID.equals(type)) {
+            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("fluidId")));
+            if (fluid == null || fluid == Fluids.EMPTY) return null;
+            int amount = tag.getInt("amount");
+            CompoundTag extraTag = tag.contains("tag", Tag.TAG_COMPOUND) ? tag.getCompound("tag") : new CompoundTag();
+            return new FluidStack(fluid, amount, extraTag);
+        }
+        return null;
+    }
+
+    /** 修改配方：添加共鸣消耗 */
+    private void enhanceRecipe(Recipe recipe) {
+        Object resonance = fromTag(recipe.data.getCompound("resonance"));
+        if (resonance instanceof ItemStack itemStack) {
+            recipe.tickInputs.computeIfAbsent(ItemRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
+                    new Content(ItemRecipeCapability.CAP.of(
+                            FastSizedIngredient.create(itemStack.getItem(), (int) Math.max(1, itemStack.getCount() * elementalFluctuationCoefficient))),
+                            ChanceLogic.getMaxChancedValue(), 0));
+        } else if (resonance instanceof FluidStack fluidStack) {
+            recipe.tickInputs.computeIfAbsent(FluidRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
+                    new Content(FluidRecipeCapability.CAP.of(
+                            FastFluidIngredient.of((int) Math.max(1, fluidStack.getAmount() * elementalFluctuationCoefficient), fluidStack.getFluid())),
+                            ChanceLogic.getMaxChancedValue(), 0));
+        }
+    }
+
+    /** 波动系数系统 */
     public void triggerFluctuation() {
-        // 1. 时间消耗波动：直接基于倍数相乘，无需基准转换
-        double newTimeMultiplier = timeFluctuationCoefficient * (TIME_JUMP_MIN + random.nextDouble() * (TIME_JUMP_MAX - TIME_JUMP_MIN));
-        timeFluctuationCoefficient = Mth.clamp(newTimeMultiplier, TIME_LIMIT_MIN, TIME_LIMIT_MAX);
-        // 2. 元素消耗波动：同理简化
-        double newElemMultiplier = elementalFluctuationCoefficient * (ELEM_JUMP_MIN + random.nextDouble() * (ELEM_JUMP_MAX - ELEM_JUMP_MIN));
-        elementalFluctuationCoefficient = Mth.clamp(newElemMultiplier, ELEM_LIMIT_MIN, ELEM_LIMIT_MAX);
+        // 1. 时间消耗波动：每次跳变倍数范围 0.2 ~ 2.6，最终倍数范围 0.05 ~ 20
+        double newTimeMultiplier = timeFluctuationCoefficient * (0.2D + random.nextDouble() * (2.6D - 0.2D));
+        timeFluctuationCoefficient = Mth.clamp(newTimeMultiplier, 0.05D, 20.0D);
+        // 2. 元素消耗波动：每次跳变倍数范围 0.5 ~ 1.8，最终倍数范围 0.1 ~ 16
+        double newElemMultiplier = elementalFluctuationCoefficient * (0.5D + random.nextDouble() * (1.8D - 0.5D));
+        elementalFluctuationCoefficient = Mth.clamp(newElemMultiplier, 0.1D, 16.0D);
     }
 
     /////////////////////////////////////
@@ -169,7 +217,7 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
 
     /**
      * 添加/更新条目：
-     * - id不存在 → 新增（tire=0，frequency=传入值）；
+     * - id不存在 → 新增（tier=1，frequency=传入值）；
      * - id存在 → 累加frequency（旧值+传入值），并将条目移到末尾（最晚添加）；
      * - 超量则删除最早添加的条目。
      */
@@ -191,10 +239,10 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
         CompoundTag newEntry = new CompoundTag();
         newEntry.putString("id", id);
         if (oldEntry != null) {
-            newEntry.putShort("tire", oldEntry.getShort("tire"));
-            newEntry.putLong("frequency", oldEntry.getInt("frequency") + frequency);
+            newEntry.putShort("tier", oldEntry.getShort("tier"));
+            newEntry.putLong("frequency", oldEntry.getLong("frequency") + frequency);
         } else {
-            newEntry.putShort("tire", (short) 1);
+            newEntry.putShort("tier", (short) 1);
             newEntry.putLong("frequency", frequency);
         }
 
@@ -219,30 +267,50 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
         CompoundTag entry = getEntryById(id);
         if (entry == null) return;
 
-        short currentTire = entry.getShort("tire");
-        if (currentTire > 256) return;
+        short currentTier = entry.getShort("tier");
+        if (currentTier > 256) return;
 
         long currentFrequency = entry.getLong("frequency");
-        long upgradeRequirement = calculateUpgradeRequirement(currentTire);
+        long upgradeRequirement = calculateUpgradeRequirement(currentTier);
 
         if (currentFrequency < upgradeRequirement) return;
 
         entry.putLong("frequency", currentFrequency - upgradeRequirement);
-        entry.putShort("tire", (short) (currentTire + 1));
+        entry.putShort("tier", (short) (currentTier + 1));
     }
 
     /** 计算升级所需frequency */
-    private long calculateUpgradeRequirement(short currentTire) {
-        if (currentTire <= 0) return 10L;
-        if (currentTire >= 100) return Long.MAX_VALUE;
-        double rawRequirement = 10L * Math.pow(1.511, currentTire);
-        return rawRequirement > Long.MAX_VALUE ? Long.MAX_VALUE : Math.round(rawRequirement);
+    private long calculateUpgradeRequirement(short currentTier) {
+        if (currentTier <= 0) return 10L;
+        if (currentTier >= 256) return Long.MAX_VALUE;
+
+        if (currentTier <= 4) {
+            return 10L + currentTier * 100L;
+        } else if (currentTier <= 8) {
+            return 410L + (currentTier - 4) * 200L;
+        } else if (currentTier <= 16) {
+            return 1210L + (currentTier - 8) * 400L;
+        } else if (currentTier <= 32) {
+            return 4410L + (currentTier - 16) * 800L;
+        } else if (currentTier <= 48) {
+            return 17210L + (currentTier - 32) * 2600L;
+        } else if (currentTier <= 64) {
+            return 58900L + (currentTier - 48) * 9400L;
+        } else if (currentTier <= 96) {
+            return 360000L + (currentTier - 64) * 5000000L;
+        } else if (currentTier <= 128) {
+            return 180000000L + (currentTier - 96) * 64000000L;
+        } else if (currentTier <= 192) {
+            return 2400000000L + (currentTier - 128) * 800000000000000L;
+        } else {
+            return 52000000000000000L + (currentTier - 192) * 140000000000000000L;
+        }
     }
 
     /** 指定ID的运行加成 */
     public Object[] getTierEffect(String id) {
         CompoundTag entry = getEntryById(id);
-        short tier = entry == null ? 0 : entry.getShort("tire");
+        short tier = entry == null ? 0 : entry.getShort("tier");
         return new Object[] { getTimeMultiplier(tier), getMaxParallel(tier) };
     }
 
@@ -265,18 +333,26 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
         if (tier >= 256) return Long.MAX_VALUE;
         if (tier <= 0) return 1L;
 
-        if (tier <= 10) {
-            return 1 + tier;
-        } else if (tier <= 20) {
-            return 11 + (tier - 10) * 10;
-        } else if (tier <= 40) {
-            return 111 + (tier - 20) * 50;
-        } else if (tier <= 80) {
-            return 1111 + (tier - 40) * 250;
-        } else if (tier <= 160) {
-            return 11111 + (tier - 80) * 1250;
+        if (tier <= 4) {
+            return 1L + tier * 10L;
+        } else if (tier <= 8) {
+            return 50L + (tier - 4) * 20L;
+        } else if (tier <= 16) {
+            return 200L + (tier - 8) * 40L;
+        } else if (tier <= 32) {
+            return 800L + (tier - 16) * 80L;
+        } else if (tier <= 48) {
+            return 2400L + (tier - 32) * 250L;
+        } else if (tier <= 64) {
+            return 8000L + (tier - 48) * 800L;
+        } else if (tier <= 96) {
+            return 24000L + (tier - 64) * 50000L;
+        } else if (tier <= 128) {
+            return 1800000L + (tier - 96) * 600000L;
+        } else if (tier <= 192) {
+            return 42000000L + (tier - 128) * 800000000L;
         } else {
-            return Math.min(101111 + (tier - 160) * 92500000000L, Long.MAX_VALUE);
+            return 52000000000L + (tier - 192) * 140000000000L;
         }
     }
 }

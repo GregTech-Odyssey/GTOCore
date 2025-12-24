@@ -275,7 +275,9 @@ final class MachineLang {
         addCNEN("gtocore.machine.village_trading_station.replenishment_interval", "补货间隔: %s tick", "Replenishment Interval: %s tick");
         addCNEN("gtocore.machine.village_trading_station.trading_multiple", "交易倍数: %s", "Trading Multiple: %s");
 
-        addCNEN("gtocore.machine.stable_operation_times", "剩余稳定运行次数: %s", "Remaining stable operation times: %s");
+        addCNEN("gtocore.machine.resonance_flower.stable_operation_times", "剩余稳定运行次数: %s", "Remaining stable operation times: %s");
+        addCNEN("gtocore.machine.resonance_flower.time_fluctuation_coefficient", "时间波动系数: %s", "Time fluctuation coefficient: %s");
+        addCNEN("gtocore.machine.resonance_flower.elemental_fluctuation_coefficient", "元素波动系数: %s", "Elemental fluctuation coefficient: %s");
 
         addSingleMachineTooltips();
 

@@ -3,6 +3,7 @@ package com.gtocore.common.data;
 import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.common.item.DimensionDataItem;
 import com.gtocore.common.item.DiscItem;
+import com.gtocore.common.machine.mana.multiblock.ResonanceFlowerMachine;
 import com.gtocore.common.machine.multiblock.electric.PCBFactoryMachine;
 import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 import com.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
@@ -29,12 +30,17 @@ import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
+import com.lowdragmc.lowdraglib.gui.widget.TankWidget;
+import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
+import com.lowdragmc.lowdraglib.utils.CycleFluidTransfer;
 import com.lowdragmc.lowdraglib.utils.CycleItemStackHandler;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
@@ -1123,7 +1129,30 @@ public final class GTORecipeTypes {
             .setMANAIO(IO.IN)
             .setMaxIOSize(6, 3, 6, 3)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.BATH);
+            .setSound(GTSoundEntries.BATH)
+            .addDataInfo(data -> {
+                Object stack = ResonanceFlowerMachine.fromTag(data.getCompound("resonance"));
+                if (stack instanceof ItemStack itemStack) {
+                    return I18n.get("gtocore.elemental_resonance",
+                            Component.literal(String.valueOf(itemStack.getCount())).withStyle(ChatFormatting.GREEN),
+                            itemStack.getDisplayName().copy().withStyle(ChatFormatting.GOLD));
+                } else if (stack instanceof FluidStack fluidStack) {
+                    return I18n.get("gtocore.elemental_resonance",
+                            Component.literal(String.valueOf(fluidStack.getAmount())).withStyle(ChatFormatting.GREEN),
+                            fluidStack.getDisplayName().copy().withStyle(ChatFormatting.LIGHT_PURPLE));
+                }
+                return "";
+            })
+            .setUiBuilder((recipe, widgetGroup) -> {
+                Object stack = ResonanceFlowerMachine.fromTag(recipe.data.getCompound("resonance"));
+                if (stack instanceof ItemStack itemStack) {
+                    widgetGroup.addWidget(new SlotWidget(new CycleItemStackHandler(List.of(List.of(itemStack))), 0,
+                            widgetGroup.getSize().width - 50, widgetGroup.getSize().height - 40, false, false));
+                } else if (stack instanceof FluidStack fluidStack) {
+                    widgetGroup.addWidget(new TankWidget(new CycleFluidTransfer(List.of(List.of(fluidStack))), 0,
+                            widgetGroup.getSize().width - 50, widgetGroup.getSize().height - 40, false, false));
+                }
+            });
 
     public final static GTRecipeType DIGITAL_MINER_RECIPE = register("digital_miner", "数字采矿", ELECTRIC)
             .setMaxIOSize(0, 27, 0, 0).setEUIO(IO.IN)
