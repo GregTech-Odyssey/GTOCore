@@ -34,9 +34,7 @@ import dev.emi.emi.recipe.EmiStonecuttingRecipe;
 import dev.emi.emi.screen.RecipeScreen;
 import vazkii.botania.client.integration.emi.BotaniaEmiRecipe;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static appeng.integration.modules.emi.AbstractRecipeHandler.getInnerBounds;
@@ -72,7 +70,7 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         var anyCraftable = recipe.getInputs().stream()
                 .anyMatch(ing -> isCraftable(craftableKeys, ing));
         var gatheredTooltip = anyCraftable ? TransferHelper.createEncodingTooltip(true) : new ArrayList<Component>();
-        gatheredTooltip.addAll(getCatalystTooltip());
+        gatheredTooltip.addAll(getCatalystTooltip(recipe));
         return gatheredTooltip.stream()
                 .map(Component::getVisualOrderText)
                 .map(ClientTooltipComponent::create)
@@ -103,11 +101,20 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         poseStack.popPose();
     }
 
-    private static List<Component> getCatalystTooltip() {
-        return List.of(
-                Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst").withStyle(ChatFormatting.AQUA),
-                Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.fill").withStyle(ChatFormatting.GREEN),
-                Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.virtual").withStyle(ChatFormatting.DARK_GREEN));
+    private static List<Component> getCatalystTooltip(EmiRecipe emiRecipe) {
+        if (emiRecipe instanceof MultiblockInfoEmiRecipe recipe) {
+            if (recipe.definition.getSubPatternFactory() != null) {
+                return List.of(
+                        Component.translatable("gtocore.ae.appeng.me2in1.emi.multiblock.sub").withStyle(ChatFormatting.GREEN),
+                        Component.translatable("gtocore.ae.appeng.me2in1.emi.multiblock.sub.all").withStyle(ChatFormatting.DARK_GREEN));
+            }
+            return Collections.emptyList();
+        } else {
+            return List.of(
+                    Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst").withStyle(ChatFormatting.AQUA),
+                    Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.fill").withStyle(ChatFormatting.GREEN),
+                    Component.translatable("gtocore.ae.appeng.me2in1.emi.catalyst.virtual").withStyle(ChatFormatting.DARK_GREEN));
+        }
     }
 
     private static boolean isCraftable(Set<AEKey> craftableKeys, EmiIngredient ingredient) {

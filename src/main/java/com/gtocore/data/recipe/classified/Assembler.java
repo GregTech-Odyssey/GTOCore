@@ -172,7 +172,7 @@ final class Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder("wireless_data_transmitter_hatch")
                 .inputItems("gtceu:data_transmitter_hatch")
-                .inputItems(GTItems.FIELD_GENERATOR_UHV.asItem())
+                .inputItems(GTItems.EMITTER_UHV.asItem())
                 .inputItems(CustomTags.UHV_CIRCUITS)
                 .outputItems(GTOMachines.WIRELESS_DATA_HATCH_TRANSMITTER.asItem())
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(576))

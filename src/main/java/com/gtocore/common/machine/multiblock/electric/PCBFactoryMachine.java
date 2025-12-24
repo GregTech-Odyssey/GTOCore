@@ -251,7 +251,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
 
     @Override
     public List<BlockPattern> getMultiPattern() {
-        return List.of(getBlockPattern(0, getDefinition()), getBlockPattern(1, getDefinition()), getBlockPattern(2, getDefinition()));
+        return List.of(getBlockPattern(1, getDefinition()), getBlockPattern(2, getDefinition()), getBlockPattern(3, getDefinition()));
     }
 
     @Nullable

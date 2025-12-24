@@ -2108,6 +2108,8 @@
   "gtocore.ae.appeng.me2in1.emi.catalyst.virtual": "Ctrl + 左击：将催化剂（虚拟物品）填充至样板",
   "gtocore.ae.appeng.me2in1.emi.gt_batch_encode": "Alt + 左击：批量编码，试图替换的材料用黄色标记",
   "gtocore.ae.appeng.me2in1.emi.gt_batch_encode.1": "替换失败的材料（如该材料不存在这种物品）将在编码时保持原样板的状态",
+  "gtocore.ae.appeng.me2in1.emi.multiblock.sub": "Shift + 左击：编码基础结构和当前模块",
+  "gtocore.ae.appeng.me2in1.emi.multiblock.sub.all": "Ctrl + 左击：编码到当前模块为止的全部结构",
   "gtocore.ae.appeng.me2in1.encode_to.accessor": "直接编码到当前页面中的空白部分",
   "gtocore.ae.appeng.me2in1.material_slot": "材料槽",
   "gtocore.ae.appeng.me2in1.material_slot.1": "将带有材料类型的物品（如xx板，xx杆等）放入此槽位",
