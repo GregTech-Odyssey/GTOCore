@@ -122,6 +122,7 @@
     "botania.OrechidBlockEntityMixin",
     "botania.OrechidIgnemBlockEntityMixin",
     "botania.RunicAltarBlockEntityMixin",
+    "botania.RunicAltarEmiRecipeMixin",
     "botania.SpecialFlowerBlockEntityMixin",
     "buildinggadgets2.PacketUpdateTemplateManagerMixin",
     "buildinggadgets2.TemplateManagerHandlerMixin",
