@@ -489,7 +489,7 @@ public final class ManaMultiBlock {
             .workableCasingRenderer(GTOCore.id("block/casings/spell_prism_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition RESONANCE_FLOWER = multiblock("resonance_flower", "共鸣之花", ManaMultiblockMachine::new)
+    public static final MultiblockMachineDefinition RESONANCE_FLOWER = multiblock("resonance_flower", "共鸣之花", ResonanceFlowerMachine::new)
             .parallelizableTooltips()
             .perfectOCTooltips()
             .parallelizableManaOverclock()

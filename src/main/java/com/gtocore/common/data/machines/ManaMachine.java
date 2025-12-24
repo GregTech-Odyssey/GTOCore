@@ -138,7 +138,7 @@ public final class ManaMachine {
             .register();
 
     public static final MachineDefinition ALCHEMY_CAULDRON = manaMachine("alchemy_cauldron", "炼金锅", AlchemyCauldron::new)
-            .tier(LV)
+            .tier(HV)
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_cauldron"), GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES))
             .recipeType(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getAlchemicalDeviceTooltips().getSupplier())

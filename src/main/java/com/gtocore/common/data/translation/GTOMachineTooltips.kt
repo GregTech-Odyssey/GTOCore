@@ -318,22 +318,14 @@ object GTOMachineTooltips {
             "格雷科技贸易站，就是这个帝国的核心。它不仅是一个商店，更是一个集存储、交易和团队协作为一体的模块化贸易中心。插入你的格雷会员卡即可绑定身份，支持团队共享权限。随着你的科技等级提升，它的存储容量和功能也会不断进化，无缝适配你从个人作坊到星际财团的成长之路。" translatedTo
                 "The Greg Technology Trading Station is the core of this empire. It's more than just a shop; it's a modular trading center integrating storage, transactions, and team collaboration. Simply insert your Greg Membership Card to bind your identity and support team-shared permissions. As your tech tier increases, its storage capacity and functions will evolve, seamlessly adapting to your growth from a personal workshop to an interstellar consortium.",
         )
-        story(
-            "想象一下，一个整洁有序的贸易界面：左侧是你的身份凭证，中间是分门别类的商品目录（如资源兑换、装备合成、特殊道具），右侧则是具体的交易选项。每一项高级贸易都需要你达成一定的条件才能解锁，这种层层递进的探索感，让每一次新交易的开启都充满了成就感。" translatedTo
-                "Imagine a clean, organized trading interface: on the left is your identity凭证, in the middle are categorized product catalogs (like Resource Exchange, Equipment Synthesis, Special Props), and on the right are the specific trade options. Each advanced trade requires you to meet certain conditions to unlock. This sense of progressive exploration makes every new trade unlock a rewarding achievement.",
-        )
-        story(
-            "更强大的是，随着贸易站等级的提升，你将解锁四大核心特权：与其他玩家直接交易、设置自动交易循环、每日刷新的幸运商店，甚至能直接对接ME网络，实现资源的全自动存取。从繁琐的手动操作中解放出来，让你专注于更宏大的商业蓝图。" translatedTo
-                "Even more powerful, as the trading station tiers up, you'll unlock four core privileges: trade directly with other players, set up automatic transaction cycles, access a daily-refreshed Lucky Merchant, and even directly interface with your ME Network for fully automated resource access. Free yourself from tedious manual labor and focus on your grander business blueprint.",
-        )
 
         miraculousTools("泛银河系格雷科技贸易站" translatedTo "Pan-Galaxy Greg Technology Trading Station")
 
         section("插入格雷会员卡，即可激活并绑定你的专属贸易枢纽" translatedTo "Insert a Greg Membership Card to activate and bind your exclusive trading hub")
         section("物品与流体双存储系统，容量随等级提升而指数级增长" translatedTo "Dual storage system for items and fluids, with capacity growing exponentially with tier")
         section("多级贸易目录，完成挑战即可解锁更高级、更稀有的交易配方" translatedTo "Multi-level trade catalogs; complete challenges to unlock more advanced and rare trade recipes")
-        section("四大等级特权：玩家交易、自动交易、幸运商店、ME网络对接" translatedTo "Four tiered privileges: Player Trading, Auto-Trading, Lucky Merchant, ME Network Integration")
-        section("可配置的自动输出功能，将交易成果自动运送到你的仓库或管网" translatedTo "Configurable auto-output feature to automatically deliver trade results to your storage or pipes")
+        // section("四大等级特权：玩家交易、自动交易、幸运商店、ME网络对接" translatedTo "Four tiered privileges: Player Trading, Auto-Trading, Lucky Merchant, ME Network Integration")
+        // section("可配置的自动输出功能，将交易成果自动运送到你的仓库或管网" translatedTo "Configurable auto-output feature to automatically deliver trade results to your storage or pipes")
         section("完整的交易记录，助你分析市场，优化你的贸易策略" translatedTo "Comprehensive transaction logs to help you analyze the market and optimize your trading strategy")
 
         highlight("你的星际贸易帝国，从这里开始" translatedTo "Your interstellar trade empire starts here") { rainbowSlow() }
@@ -347,28 +339,6 @@ object GTOMachineTooltips {
         setTranslationPrefix("pan_galaxy_greg_tech_trading_station.introduction")
 
         highlight("打造你的专属星际贸易枢纽，自动化、规模化、团队化的终极交易平台！" translatedTo "Build Your Exclusive Interstellar Trading Hub – The Ultimate Platform for Automated, Large-Scale, Team-Based Transactions!") { rainbowSlow() }
-
-        section("核心功能" translatedTo "Core Features")
-        content(
-            "1. 身份与权限管理：你的格雷会员卡是进入这个贸易中心的唯一钥匙。没有会员卡？对不起，你只能看看而已。" translatedTo
-                "1. Identity & Permission Management: Your Greg Membership Card is the only key to this trading center. No card? Sorry, you're just window-shopping.",
-        )
-        content(
-            "2. 海量存储能力：贸易站提供了海量的物品和流体存储槽。物品槽数量和流体槽容量都会随着你升级贸易站而大幅增加，让你能轻松应对大规模的原料存储和成品产出。" translatedTo
-                "2. Massive Storage Capacity: The Trading Station offers vast storage slots for both items and fluids. The number of item slots and the capacity of fluid tanks increase significantly as you upgrade the station, allowing you to easily handle large-scale raw material storage and finished product output.",
-        )
-        content(
-            "3. 丰富的交易与解锁：贸易站内置了庞大的交易网络。你需要通过完成特定的交易或提升贸易站等级来解锁新的、更有价值的交易选项。这就像一个不断成长的科技树，每一次解锁都意味着你的贸易能力得到了质的飞跃。执行交易也非常简单，点击即可，还支持Ctrl/Shift快捷键进行批量操作。" translatedTo
-                "3. Rich Trading & Unlocks: The station comes with a vast built-in trading network. You'll need to unlock new, more valuable trade options by completing specific transactions or upgrading the station. It's like a growing tech tree; each unlock represents a qualitative leap in your trading capabilities. Executing trades is simple – just click – and you can use Ctrl/Shift shortcuts for bulk operations.",
-        )
-        content(
-            "4. 直观的商店分类：所有交易都被精心分类到不同的商店组中，例如“基础资源”、“进阶制造”或“特殊道具”。你可以在主界面上轻松切换这些分类，快速找到你想要的交易，让你的贸易流程井然有序。" translatedTo
-                "4. Intuitive Shop Categories: All trades are neatly organized into different shop groups, such as \"Basic Resources\", \"Advanced Manufacturing\", or \"Special Items\". You can easily switch between these categories on the main interface to quickly find the trade you want, keeping your trading process streamlined.",
-        )
-        content(
-            "5. 自动化输出升级：当贸易站达到一定等级，你就可以解锁自动输出功能。设定好输出方向后，贸易站会自动将交易产生的成品通过管道或输送机运送到你指定的位置，实现从“买入原料”到“产出成品入库”的全流程自动化。" translatedTo
-                "5. Automated Output Upgrade: Once the trading station reaches a certain tier, you can unlock the Auto-Output feature. After setting the output direction, the station will automatically transport finished products from trades to your designated location via pipes or conveyors, achieving full-process automation from \"buying raw materials\" to \"finished products warehousing\".",
-        )
 
         section("界面导览" translatedTo "Interface Tour")
         content(
@@ -410,27 +380,29 @@ object GTOMachineTooltips {
                 "Step 5: When your trading station is tier high enough, don't forget to set up \"Auto-Output\". Configure the output direction for your pipes in the direction settings interface. Once auto-output is enabled, your finished products will be continuously and automatically delivered to your warehouse, achieving true unattended trading.",
         )
 
-        section("等级特权一览" translatedTo "Tier Privileges Overview")
-        content(
-            "tier=1：基础功能激活！拥有32个物品槽和2个流体槽，可进行基础资源的兑换。" translatedTo
-                "tier=1: Basic functions activated! 32 item slots and 2 fluid tanks, allowing basic resource exchange.",
-        )
-        content(
-            "tier>1：解锁玩家交易！现在你可以与其他同样拥有贸易站的玩家进行点对点的直接交易。" translatedTo
-                "tier>1: Player Trading unlocked! Now you can trade directly with other players who also own a Trading Station.",
-        )
-        content(
-            "tier>3：解锁自动交易！设置好交易规则，贸易站会自动为你循环执行，告别手动点击。" translatedTo
-                "tier>3: Auto-Trading unlocked! Set up trade rules, and the station will execute them in a loop automatically. Say goodbye to manual clicking.",
-        )
-        content(
-            "tier>5：幸运商店开张！每天都会随机刷新出3个高价值的稀有交易，机不可失！" translatedTo
-                "tier>5: Lucky Merchant opens! Every day, 3 high-value rare trades will be randomly refreshed. Don't miss out!",
-        )
-        content(
-            "tier>7：ME网络一体化！贸易站可以直接连接你的ME网络，自动存取资源，实现全自动化生产链的完美闭环。" translatedTo
-                "tier>7: ME Network Integration! The station can directly connect to your ME Network, automatically accessing resources to achieve the perfect closed loop of a fully automated production chain.",
-        )
+        /**
+         section("等级特权一览" translatedTo "Tier Privileges Overview")
+         content(
+         "tier=1：基础功能激活！拥有32个物品槽和2个流体槽，可进行基础资源的兑换。" translatedTo
+         "tier=1: Basic functions activated! 32 item slots and 2 fluid tanks, allowing basic resource exchange.",
+         )
+         content(
+         "tier>1：解锁玩家交易！现在你可以与其他同样拥有贸易站的玩家进行点对点的直接交易。" translatedTo
+         "tier>1: Player Trading unlocked! Now you can trade directly with other players who also own a Trading Station.",
+         )
+         content(
+         "tier>3：解锁自动交易！设置好交易规则，贸易站会自动为你循环执行，告别手动点击。" translatedTo
+         "tier>3: Auto-Trading unlocked! Set up trade rules, and the station will execute them in a loop automatically. Say goodbye to manual clicking.",
+         )
+         content(
+         "tier>5：幸运商店开张！每天都会随机刷新出3个高价值的稀有交易，机不可失！" translatedTo
+         "tier>5: Lucky Merchant opens! Every day, 3 high-value rare trades will be randomly refreshed. Don't miss out!",
+         )
+         content(
+         "tier>7：ME网络一体化！贸易站可以直接连接你的ME网络，自动存取资源，实现全自动化生产链的完美闭环。" translatedTo
+         "tier>7: ME Network Integration! The station can directly connect to your ME Network, automatically accessing resources to achieve the perfect closed loop of a fully automated production chain.",
+         )
+         */
 
         section("温馨提示" translatedTo "Helpful Tips")
         content(
@@ -448,11 +420,6 @@ object GTOMachineTooltips {
         content(
             "4. 幸运商店每日刷新！记得每天都来看看，也许能淘到平时买不到的稀有宝贝。高等级的贸易站刷新的商品会更好哦！" translatedTo
                 "4. Lucky Merchant refreshes daily! Remember to check back every day; you might find rare treasures that are not normally available. Higher-tier stations offer even better items!",
-        )
-
-        guide(
-            "总结：格雷科技贸易站不仅仅是一个商店，它是你星际贸易帝国的指挥中心和自动化心脏。从一个小小的交易平台开始，通过不断升级和解锁，它将成长为一个功能强大、效率惊人的贸易枢纽，助你在宇宙中积累财富，建立商业霸权！" translatedTo
-                "Summary: The Greg Technology Trading Station is more than just a shop; it's the command center and automated heart of your interstellar trade empire. Starting as a small trading platform, through continuous upgrading and unlocking, it will grow into a powerful, highly efficient trading hub, helping you amass wealth and establish commercial supremacy in the universe!",
         )
 
         highlight("效率、规模、自动化 —— 格雷科技贸易站，重新定义星际贸易！" translatedTo "Efficiency, Scale, Automation – Greg Technology Trading Station, Redefining Interstellar Trade!") { rainbowSlow() }

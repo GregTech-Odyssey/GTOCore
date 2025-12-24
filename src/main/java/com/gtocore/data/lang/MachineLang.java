@@ -275,6 +275,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.village_trading_station.replenishment_interval", "补货间隔: %s tick", "Replenishment Interval: %s tick");
         addCNEN("gtocore.machine.village_trading_station.trading_multiple", "交易倍数: %s", "Trading Multiple: %s");
 
+        addCNEN("gtocore.machine.stable_operation_times", "剩余稳定运行次数: %s", "Remaining stable operation times: %s");
+
         addSingleMachineTooltips();
 
         DisplayRegistry.registerLanguage();
