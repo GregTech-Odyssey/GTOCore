@@ -125,7 +125,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe r) {
+    protected boolean beforeWorking(Recipe r) {
         for (var entry : waterPurificationUnitMachineMap.object2BooleanEntrySet()) {
             var m = entry.getKey();
             if (entry.getBooleanValue() && m.recipe != null) {
@@ -134,7 +134,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
                 if (!l.isSuspend() && m.isRecipeLogicAvailable()) l.setupRecipe(entry.getKey().recipe);
             }
         }
-        return super.beforeWorking(r);
+        return true;
     }
 
     @Override

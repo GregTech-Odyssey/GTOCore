@@ -36,7 +36,7 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
         return super.beforeWorking(recipe);
     }

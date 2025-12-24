@@ -110,7 +110,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         return super.beforeWorking(recipe) && removeMana(mana, 1, false) == mana;
     }
 

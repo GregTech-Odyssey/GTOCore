@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class BlazeBlastFurnaceMachine extends CoilCustomParallelMultiblockMachine {
 
@@ -45,7 +44,7 @@ public final class BlazeBlastFurnaceMachine extends CoilCustomParallelMultiblock
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         return super.beforeWorking(recipe) && inputFluid();
     }
 }

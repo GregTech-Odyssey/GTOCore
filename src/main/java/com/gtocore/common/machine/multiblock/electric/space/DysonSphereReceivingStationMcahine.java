@@ -39,7 +39,7 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         DysonSphereSavaedData.setDysonUse(getDimension(), true);
         return super.beforeWorking(recipe);
     }
