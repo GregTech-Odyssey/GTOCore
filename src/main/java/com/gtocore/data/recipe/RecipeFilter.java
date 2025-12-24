@@ -29,8 +29,6 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class RecipeFilter {
 
-    public static Predicate<ResourceLocation> JsonFilter;
-
     public static void init() {
         MACERATOR_RECIPES.addFilter("macerate_wheat");
         MACERATOR_RECIPES.addFilter("macerate_red_granite");
@@ -42,14 +40,16 @@ public final class RecipeFilter {
         CUTTER_RECIPES.addFilter("cut_glass_block_to_plate");
         ARC_FURNACE_RECIPES.addFilter("arc_carbon_dust");
         ASSEMBLER_RECIPES.addFilter("assemble_wood_frame"); // 与告示牌重复
+    }
 
+    public static Predicate<ResourceLocation> getJsonFilter() {
         List<Predicate<ResourceLocation>> filters = new ObjectArrayList<>();
         addFilter(filters);
         Predicate<ResourceLocation> filter = filters.getFirst();
         for (int i = 1; i < filters.size(); i++) {
             filter = filter.or(filters.get(i));
         }
-        JsonFilter = filter;
+        return filter;
     }
 
     private static void addFilter(List<Predicate<ResourceLocation>> filters) {
