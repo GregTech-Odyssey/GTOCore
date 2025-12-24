@@ -41,6 +41,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -50,6 +51,7 @@ import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Layout;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
@@ -96,8 +98,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     @Persisted
     private final CustomItemStackHandler cardHandler;
 
-    private static final int Item_slots_in_a_row = 8;
-    private static final int Fluid_slots_in_a_row = 1;
+    private static final int Item_slots_in_a_row = 4;
+    private static final int Fluid_slots_in_a_row = 4;
 
     /** 玩家信息 */
     @Getter
@@ -124,13 +126,13 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         super(holder);
 
         cardHandler = new CustomItemStackHandler();
-        cardHandler.setFilter(i -> i.getItem().equals(GTOItems.GREG_MEMBERSHIP_CARD.asItem()));
+        cardHandler.setFilter(i -> i.getItem() == GTOItems.GREG_MEMBERSHIP_CARD.asItem());
         cardHandler.setOnContentsChanged(() -> initializationInformation(cardHandler.getStackInSlot(0)));
 
         inputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.IN, IO.BOTH);
         outputItem = new NotifiableItemStackHandler(this, 32 * tier, IO.OUT, IO.OUT);
-        inputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.IN, IO.BOTH);
-        outputFluid = new NotifiableFluidTank(this, tier * 2, 1000 * (8000 << tier), IO.OUT, IO.OUT);
+        inputFluid = new NotifiableFluidTank(this, tier * 4, 1000 * (8000 << tier), IO.IN, IO.BOTH);
+        outputFluid = new NotifiableFluidTank(this, tier * 4, 1000 * (8000 << tier), IO.OUT, IO.OUT);
     }
 
     @Override
@@ -170,10 +172,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     /////////////////////////////////////
     // ************ UI实现 ************ //
-    /////////////////////////////////////
-
-    @DescSynced
-    private boolean collapseDescription = true;
 
     private static final int width = 336;
     private static final int height = 144;
@@ -182,23 +180,14 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     public Widget createUIWidget() {
         var group = new WidgetGroup(0, 0, width + 8, height + 8);
 
-        WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
-                .setBackground(GuiTextures.DISPLAY);
+        WidgetGroup mainGroup = new WidgetGroup(4, 4, width, height);
+        mainGroup.setBackground(GuiTextures.DISPLAY);
 
         // 底边展开面板
-        mainGroup.addWidget(new ComponentPanelWidget(4, 134, textList -> {
-            textList.add(ComponentPanelWidget.withHoverTextTranslate(ComponentPanelWidget.withButton(trans(collapseDescription ? 5 : 6), "isCollapse"), trans(7)));
-            if (!collapseDescription)
-                GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationIntroduction().apply(textList);
-        }).clickHandler((a, b) -> {
-            if (a.equals("isCollapse")) {
-                collapseDescription = !collapseDescription;
-                ModularUI modularUI = mainGroup.getGui();
-                if (modularUI != null) {
-                    markAsDirty();
-                }
-            }
-        }).setMaxWidthLimit(width - 8));
+        mainGroup.addWidget(new DraggableScrollableWidgetGroup(4, 34, width - 90, height - 34)
+                .setYScrollBarWidth(2)
+                .setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1))
+                .addWidget(new ComponentPanelWidget(0, 0, GTOMachineTooltips.INSTANCE.getPanGalaxyGregTechTradingStationIntroduction().get()).setMaxWidthLimit(width - 90)));
 
         Level level = getLevel();
         ServerLevel serverLevel = getLevel() instanceof ServerLevel ? (ServerLevel) getLevel() : null;
@@ -276,7 +265,8 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         // 添加固定标签
         List<IFancyUIProvider> fixedTabs = new ArrayList<>();
         if (groupSelected == 0) {
-            fixedTabs.add(InventoryDisplay());
+            fixedTabs.add(ItemStorageUI());
+            fixedTabs.add(FluidStorageUI());
             fixedTabs.add(TransactionUnlock());
             fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
         }
@@ -327,7 +317,11 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         TradingManager.TradingShopGroup SwitchedShopGroup = TradingManager.INSTANCE.getShopGroup(groupSelected);
         if (SwitchedShopGroup == null) SwitchedShopGroup = TradingManager.INSTANCE.getShopGroup(0);
         if (SwitchedShopGroup != null) {
-            mainGroup.addWidget(new LabelWidget(0, 0, Component.translatable(SwitchedShopGroup.getName())));
+            mainGroup.addWidget(new ImageWidget(0, 0, 80, 13,
+                    new TextTexture(Component.translatable(SwitchedShopGroup.getName()).copy().getString())
+                            .setDropShadow(false)
+                            .setType(TextTexture.TextType.ROLL)
+                            .setWidth(80)));
             mainGroup.addWidget(new ImageWidget(0, 10, 64, 64, SwitchedShopGroup.getTexture1()));
         }
 
@@ -364,7 +358,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
     }
 
     // 库存展示
-    private @NotNull IFancyUIProvider InventoryDisplay() {
+    private @NotNull IFancyUIProvider ItemStorageUI() {
         return new IFancyUIProvider() {
 
             @Override
@@ -374,47 +368,79 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
             @Override
             public Component getTitle() {
-                return Component.translatable("gtocore.trading_station.inventory");
+                return Component.translatable("gtocore.trading_station.item_storage");
             }
 
             @Override
             public List<Component> getTabTooltips() {
-                return Collections.singletonList(Component.translatable("gtocore.trading_station.inventory"));
+                return Collections.singletonList(Component.translatable("gtocore.trading_station.item_storage"));
             }
 
             @Override
             public Widget createMainPage(FancyMachineUIWidget widget) {
-                var group = new WidgetGroup(0, 0, width + 8, height + 8);
+                var group = new WidgetGroup(0, 0, 176, height + 8);
 
-                WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, width, height)
-                        .setBackground(GuiTextures.DISPLAY).setYScrollBarWidth(1).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1));
+                WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, 169, height)
+                        .setBackground(GuiTextures.DISPLAY).setYScrollBarWidth(2).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1));
 
-                int itemHigh = inputItem.getSize() / Item_slots_in_a_row + (inputItem.getSize() % Item_slots_in_a_row == 0 ? 0 : 1);
-                WidgetGroup Item_slot = new WidgetGroup(2, 4, 290, itemHigh * 18 + 10);
-                Item_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(9))));
+                int itemHigh = inputItem.getSize() / Item_slots_in_a_row;
+                WidgetGroup Item_slot = new WidgetGroup(2, 4, 168, itemHigh * 18 + 10);
+                Item_slot.addWidget(new ComponentPanelWidget(0, 0, List.of(Component.translatable("gtocore.trading_station.item_storage"))));
                 for (int y = 0; y < itemHigh; y++) {
                     for (int x = 0; x < Item_slots_in_a_row; x++) {
                         int slotIndex = y * Item_slots_in_a_row + x;
                         if (inputItem.getSize() > slotIndex) {
                             Item_slot.addWidget(new SlotWidget(inputItem, slotIndex, x * 18, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT));
-                            Item_slot.addWidget(new SlotWidget(outputItem, slotIndex, x * 18 + Item_slots_in_a_row * 18 + 2, 10 + y * 18, true, false)
+                            Item_slot.addWidget(new SlotWidget(outputItem, slotIndex, x * 18 + Item_slots_in_a_row * 18 + 18, 10 + y * 18, true, false)
                                     .setBackground(GuiTextures.SLOT));
                         } else break;
                     }
                 }
                 mainGroup.addWidget(Item_slot);
+                group.addWidget(mainGroup);
+                group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+
+                return group;
+            }
+        };
+    }
+
+    private @NotNull IFancyUIProvider FluidStorageUI() {
+        return new IFancyUIProvider() {
+
+            @Override
+            public IGuiTexture getTabIcon() {
+                return new ItemStackTexture(Items.BUCKET);
+            }
+
+            @Override
+            public Component getTitle() {
+                return Component.translatable("gtocore.trading_station.fluid_storage");
+            }
+
+            @Override
+            public List<Component> getTabTooltips() {
+                return Collections.singletonList(Component.translatable("gtocore.trading_station.fluid_storage"));
+            }
+
+            @Override
+            public Widget createMainPage(FancyMachineUIWidget widget) {
+                var group = new WidgetGroup(0, 0, 176, height + 8);
+
+                WidgetGroup mainGroup = new DraggableScrollableWidgetGroup(4, 4, 169, height)
+                        .setBackground(GuiTextures.DISPLAY).setYScrollBarWidth(2).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1));
 
                 int fluidHigh = inputFluid.getSize() / Fluid_slots_in_a_row;
-                WidgetGroup Fluid_slot = new WidgetGroup(296, 4, 38, fluidHigh * 18 + 10);
-                Fluid_slot.addWidget(new ComponentPanelWidget(0, 0, textList -> textList.add(trans(10))));
+                WidgetGroup Fluid_slot = new WidgetGroup(2, 4, 168, fluidHigh * 18 + 10);
+                Fluid_slot.addWidget(new ComponentPanelWidget(0, 0, List.of(Component.translatable("gtocore.trading_station.fluid_storage"))));
                 for (int y = 0; y < fluidHigh; y++) {
                     for (int x = 0; x < Fluid_slots_in_a_row; x++) {
                         int slotIndex = y * Fluid_slots_in_a_row + x;
                         if (inputFluid.getSize() > slotIndex) {
-                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, 0, 10 + y * 18, true, true)
+                            Fluid_slot.addWidget(new TankWidget(inputFluid, slotIndex, x * 18, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT_DARK));
-                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, Fluid_slots_in_a_row * 18 + 2, 10 + y * 18, true, true)
+                            Fluid_slot.addWidget(new TankWidget(outputFluid, slotIndex, x * 18 + Fluid_slots_in_a_row * 18 + 18, 10 + y * 18, true, true)
                                     .setBackground(GuiTextures.SLOT_DARK));
                         } else break;
                     }

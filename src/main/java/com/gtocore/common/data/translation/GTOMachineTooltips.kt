@@ -346,8 +346,8 @@ object GTOMachineTooltips {
                 "1. Main Control Panel: This is your command center. The left side displays your membership info, shared permissions list, and a refresh button. The right side is a quick-switch area for shop groups; click an icon to instantly change to a different product catalog.",
         )
         content(
-            "2. 库存管理：在这里，你可以看到所有的物品和流体存储。左侧是物品槽（输入在左，输出在右），右侧是流体槽。你可以直接拖拽物品进行存取，非常直观。随着等级提升，这里的格子会越来越多。" translatedTo
-                "2. Inventory Management: Here, you can see all your item and fluid storage. The left side is for item slots (input on the left, output on the right), and the right side is for fluid tanks. You can directly drag and drop items to deposit or withdraw them, which is very intuitive. As you tier up, more slots will become available here.",
+            "2. 库存管理：在这里，你可以看到所有的物品和流体存储。左侧是物品槽，右侧是流体槽（输入在左，输出在右）。你可以直接拖拽物品进行存取，非常直观。随着等级提升，这里的格子会越来越多。" translatedTo
+                "2. Inventory Management: Here, you can see all your item and fluid storage. The left side is for item slots, and the right side is for fluid tanks (input on the left, output on the right). You can directly drag and drop items to deposit or withdraw them, which is very intuitive. As you tier up, more slots will become available here.",
         )
         content(
             "3. 交易解锁：想知道如何开启更高级的交易吗？来这里看看。左侧显示当前贸易站等级和可解锁的贸易组，右侧则详细列出了每个贸易组的解锁条件和所需资源。满足条件后，新的贸易就会自动为你开启。" translatedTo
