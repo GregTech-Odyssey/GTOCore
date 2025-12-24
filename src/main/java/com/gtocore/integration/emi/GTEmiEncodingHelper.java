@@ -90,7 +90,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
             long controllerCount = 0;
             for (List<GenericStack> stackList : layerInputs) {
                 for (GenericStack stack : stackList) {
-                    if (controllerKey.equals(stack.what())) {
+                    if (controllerKey == stack.what()) {
                         controllerCount += stack.amount();
                     }
                 }
@@ -128,7 +128,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
             List<GenericStack> newStackList = new ArrayList<>();
             for (GenericStack stack : stackList) {
                 AEKey key = stack.what();
-                if (!controllerKey.equals(key)) {
+                if (!(controllerKey == key)) {
                     newStackList.add(stack);
                 } else {
                     if (!controllerKept) {
