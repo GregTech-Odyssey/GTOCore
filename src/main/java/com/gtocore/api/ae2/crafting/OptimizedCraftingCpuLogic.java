@@ -57,8 +57,6 @@ import java.util.function.Supplier;
 
 public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
-    final CraftingCPUCluster cluster;
-
     private ExecutingCraftingJob job = null;
 
     private Consumer<AEKey> listener = null;
@@ -67,22 +65,16 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
     @Getter
     private final SetMultimap<AEKey, IPatternProviderLogic.PushResult> craftingResults = Multimaps.newSetMultimap(new Reference2ReferenceOpenHashMap<>(), ReferenceOpenHashSet::new);
 
-    private final ListCraftingInventory.ChangeListener changeListener = what -> {
+    public OptimizedCraftingCpuLogic(CraftingCPUCluster cluster) {
+        super(cluster);
+    }
+
+    @Override
+    protected void postChange(AEKey what) {
         lastModifiedOnTick = TickHandler.instance().getCurrentTick();
         if (listener != null) {
             listener.accept(what);
         }
-    };
-
-    private final ListCraftingInventory inventory = new ListCraftingInventory(changeListener);
-
-    private boolean cantStoreItems = false;
-
-    private long lastModifiedOnTick = TickHandler.instance().getCurrentTick();
-
-    public OptimizedCraftingCpuLogic(CraftingCPUCluster cluster) {
-        super(cluster);
-        this.cluster = cluster;
     }
 
     @Override
@@ -107,7 +99,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                 .orElse(null);
         var craftId = UUID.randomUUID();
         var linkCpu = new CraftingLink(CraftingCpuHelper.generateLinkData(craftId, requester == null, false), cluster);
-        this.job = new ExecutingCraftingJob(plan, changeListener, linkCpu, playerId, missingIng);
+        this.job = new ExecutingCraftingJob(plan, this::postChange, linkCpu, playerId, missingIng);
         cluster.updateOutput(plan.finalOutput());
         cluster.markDirty();
         notifyJobOwner(job, CraftingJobStatusPacket.Status.STARTED);
@@ -181,8 +173,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         }
     }
 
-    @Override
-    public int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService, Level level) {
+    private int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService, Level level) {
         var job = this.job;
         if (job == null) return 0;
 
@@ -472,7 +463,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             inserted = job.link.insert(what, amount, type);
 
             if (type == Actionable.MODULATE) {
-                changeListener.onChange(what);
+                postChange(what);
                 job.remainingAmount = Math.max(0, job.remainingAmount - amount);
 
                 if (job.remainingAmount <= 0) {
@@ -498,8 +489,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         finishJob(false);
     }
 
-    @Override
-    public void storeItems() {
+    private void storeItems() {
         if (this.inventory.list.isEmpty()) return;
 
         var g = cluster.getGrid();
@@ -508,7 +498,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         var storage = g.getStorageService().getInventory();
 
         for (var entry : this.inventory.list) {
-            changeListener.onChange(entry.getKey());
+            postChange(entry.getKey());
             var inserted = storage.insert(entry.getKey(), entry.getLongValue(), Actionable.MODULATE, cluster.getSrc());
 
             entry.setValue(entry.getLongValue() - inserted);
@@ -516,11 +506,6 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         this.inventory.list.removeZeros();
 
         cluster.markDirty();
-    }
-
-    @Override
-    public long getLastModifiedOnTick() {
-        return lastModifiedOnTick;
     }
 
     @Override
@@ -546,7 +531,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
     public void readFromNBT(CompoundTag data) {
         this.inventory.readFromNBT(data.getList("inventory", 10));
         if (data.contains("job")) {
-            this.job = new ExecutingCraftingJob(data.getCompound("job"), changeListener, this);
+            this.job = new ExecutingCraftingJob(data.getCompound("job"), this::postChange, this);
             cluster.updateOutput(new GenericStack(job.finalOutput.what(), job.remainingAmount));
         } else {
             cluster.updateOutput(null);
@@ -570,11 +555,6 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
     }
 
     @Override
-    public ListCraftingInventory getInventory() {
-        return this.inventory;
-    }
-
-    @Override
     public void addListener(Consumer<AEKey> listener) {
         this.listener = listener;
     }
@@ -582,11 +562,6 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
     @Override
     public void removeListener(Consumer<AEKey> listener) {
         this.listener = null;
-    }
-
-    @Override
-    public long getStored(AEKey template) {
-        return this.inventory.extract(template, Long.MAX_VALUE, Actionable.SIMULATE);
     }
 
     @Override
@@ -640,11 +615,6 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         }
     }
 
-    @Override
-    public boolean isCantStoreItems() {
-        return cantStoreItems;
-    }
-
     private void finishJob(boolean success) {
         if (success) {
             job.link.markDone();
@@ -655,7 +625,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         job.waitingFor.clear();
         for (ObjectIterator<Object2ObjectMap.Entry<IPatternDetails, LongHolder>> it = job.tasks.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
             for (var output : it.next().getKey().getOutputs()) {
-                changeListener.onChange(output.what());
+                postChange(output.what());
             }
         }
 

@@ -30,7 +30,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Set;
 
@@ -133,10 +132,13 @@ public abstract class PatternAccessTermMenuMixin implements IPatternAccessTermMe
         };
     }
 
-    @Inject(method = "isVisible", at = @At("HEAD"), cancellable = true, remap = false)
-    private void modifyIsVisible(PatternContainer container, CallbackInfoReturnable<Boolean> cir) {
-        boolean result = gtolib$isMolecularAssembler(container) && gtolib$originalIsVisible(container);
-        cir.setReturnValue(result);
+    /**
+     * @author
+     * @reason
+     */
+    @Overwrite(remap = false)
+    private boolean isVisible(PatternContainer container) {
+        return gtolib$isMolecularAssembler(container) && gtolib$originalIsVisible(container);
     }
 
     @Redirect(
