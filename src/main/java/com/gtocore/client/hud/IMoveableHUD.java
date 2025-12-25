@@ -4,36 +4,35 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.renderer.Rect2i;
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import com.lowdragmc.lowdraglib.LDLib;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import dev.emi.emi.config.EmiConfig;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @DataGeneratorScanned
-@OnlyIn(Dist.CLIENT)
 public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable {
+
+    Map<String, IMoveableHUD> REGISTERED_HUDS = new java.util.HashMap<>();
+
+    static void registerHUD(RegisterGuiOverlaysEvent event, String id, IMoveableHUD hud) {
+        REGISTERED_HUDS.put(id, hud);
+        event.registerAboveAll(id, hud);
+    }
 
     @RegisterLanguage(cn = "左键开关HUD显示（已启用）", en = "Left click to toggle HUD display (Enabled)")
     String HUD_TOGGLE_ON = "gtocore.hud.toggle.on";
@@ -96,42 +95,6 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
         var b = activeHuds.remove(hud);
         if (!EmiConfig.enabled && activeHuds.isEmpty()) EmiConfig.enabled = true;
         return b;
-    }
-
-    class Configurator extends IFancyConfiguratorButton.Toggle {
-
-        @Getter
-        private final IMoveableHUD hudInstance;
-        private final IGuiTexture on;
-        private final IGuiTexture off;
-        @Getter
-        @Setter
-        private boolean isConfigurationMode = false;
-
-        public Configurator(IGuiTexture on, IGuiTexture off, IMoveableHUD hudInstance) {
-            super(on, off, () -> false,
-                    (clickData, p) -> {
-                        if (!LDLib.isRemote()) return;
-                        if (clickData.button == 1) {
-                            if (!addActiveHud(hudInstance)) {
-                                removeActiveHud(hudInstance);
-                            }
-                            return;
-                        }
-                        hudInstance.toggleEnabled();
-                    });
-            this.hudInstance = hudInstance;
-            this.on = on;
-            this.off = off;
-            setTooltipsSupplier(b -> List.of(
-                    Component.translatable(hudInstance.isEnabled() ? HUD_TOGGLE_ON : HUD_TOGGLE_OFF),
-                    Component.translatable(HUD_DRAG)));
-        }
-
-        @Override
-        public IGuiTexture getIcon() {
-            return hudInstance.isEnabled() ? on : off;
-        }
     }
 
     @Mod.EventBusSubscriber(modid = GTOCore.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.FORGE)
