@@ -60,6 +60,7 @@
     "ae2.gui.ActionButtonMixin",
     "ae2.gui.ConfigManagerMixin",
     "ae2.gui.CraftingStatusTableRendererMixin",
+    "ae2.gui.DragDropMixin",
     "ae2.gui.RepoSlotMixin",
     "ae2.gui.SettingsMixin",
     "ae2.gui.StyleManagerMixin",

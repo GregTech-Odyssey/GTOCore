@@ -1,5 +1,7 @@
 package com.gtocore.client;
 
+import appeng.api.client.AEKeyRendering;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.client.forge.GTOComponentHandler;
 import com.gtocore.client.forge.GTOComponentRegistry;
@@ -22,16 +24,21 @@ import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubScreen;
 
 import com.gregtechceu.gtceu.GTCEu;
 
+import com.gtolib.api.ae2.stacks.TagPrefixKey;
+import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
+import com.gtolib.api.emi.stack.TagPrefixRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -56,6 +63,7 @@ public final class ClientProxy extends CommonProxy {
         eventBus.addListener(ClientProxy::clientSetup);
         eventBus.addListener(ClientProxy::registerItemDeco);
         eventBus.addListener(ClientProxy::registerGuiOverlays);
+        eventBus.addListener(ClientProxy::registerAdditionalModels);
         eventBus.addListener(ClientProxy::registerMenuScreen);
         eventBus.register(GTOComponentRegistry.class);
         MinecraftForge.EVENT_BUS.register(ForgeClientEvent.class);
@@ -63,6 +71,7 @@ public final class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(GTORender.class);
         MinecraftForge.EVENT_BUS.register(ClientForge.class);
         registerAEModels();
+        AEKeyRendering.register(TagPrefixKeyType.TYPE, TagPrefixKey.class, new TagPrefixRenderer.AEKeyHandler());
         if (GTCEu.Mods.isShimmerLoaded()) eventBus.addListener(ClientProxy::registerLights);
     }
 
@@ -121,6 +130,12 @@ public final class ClientProxy extends CommonProxy {
                     CategoryMappingSubScreen::new,
                     "/screens/categoru_mapping_config.json");
         });
+    }
+
+    private static void registerAdditionalModels(ModelEvent.RegisterAdditional evt) {
+        for (TagPrefix tagPrefix : TagPrefix.values()) {
+            evt.register(GTOCore.id("item/" + tagPrefix.getLowerCaseName()));
+        }
     }
 
     private static void registerAEModels() {

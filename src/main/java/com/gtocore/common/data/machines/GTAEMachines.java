@@ -126,6 +126,17 @@ public final class GTAEMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
+    public static final MachineDefinition ME_WILDCARD_PATTERN_BUFFER = machine("me_wildcard_pattern_buffer", "ME通配符样板总成", MEWildcardPatternBufferPartMachine::new)
+            .langValue("ME Wildcard Pattern Buffer")
+            .tooltips(GTOMachineTooltips.INSTANCE.getMeWildcardPatternBufferTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(1).getSupplier())
+            .tier(UHV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .tooltipsKey("gtceu.part_sharing.enabled")
+            .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/me_pattern_buffer")))
+            .register();
+
     public static final MachineDefinition ME_EXTEND_PATTERN_BUFFER = machine("me_extend_pattern_buffer", "ME扩展样板总成", h -> new MEPatternBufferPartMachineKt(h, 81))
             .langValue("ME Extend Pattern Buffer")
             .tier(UV)

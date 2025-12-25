@@ -48,6 +48,7 @@ import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -113,6 +114,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     @Persisted
     @DescSynced
+    @Getter
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
