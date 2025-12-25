@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
@@ -32,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 
+import com.fast.recipesearch.IntLongMap;
 import com.hepdd.gtmthings.api.machine.fancyconfigurator.ButtonConfigurator;
 import com.hepdd.gtmthings.api.transfer.UnlimitItemTransferHelper;
 import com.lowdragmc.lowdraglib.gui.editor.Icons;
@@ -227,7 +227,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         }
 
         @Override
-        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
             if (changed) {
                 changed = false;
                 intIngredientMap.clear();

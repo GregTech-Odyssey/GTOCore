@@ -20,7 +20,6 @@ import net.minecraft.world.level.Level;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +41,7 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         if (use) DysonSphereSavaedData.setDysonUse(getDimension(), true);
         return super.beforeWorking(recipe);
     }

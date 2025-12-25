@@ -435,15 +435,6 @@ final class ElectricCooking {
                 .EUt(120)
                 .duration(300)
                 .save();
-
-        ELECTRIC_COOKING_RECIPES.builder("cake")
-                .inputItems("enderio:cake_base")
-                .inputItems(TagPrefix.dust, GTMaterials.Sugar, 2)
-                .outputItems(Items.CAKE.asItem())
-                .inputFluids(GTMaterials.Milk, 3000)
-                .duration(200)
-                .euVATier(2)
-                .save();
     }
 
     private static void addSmoking(String input, String output) {

@@ -8,6 +8,7 @@ import com.gtolib.api.machine.trait.CrossRecipeTrait;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -25,6 +26,7 @@ import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.ToLongFunction;
@@ -102,7 +104,7 @@ public class RecipeExtension extends Extension implements ICrossRecipeMachine {
             return null;
         }
 
-        return ICrossRecipeMachine.super.getRealRecipe(recipe);
+        return ICrossRecipeMachine.super.getRealRecipe(Objects.requireNonNull(RecipeModifierFunction.recipeReduction(1, core.getDurationMultiplierFromSpaceElevator()).apply(this, recipe)));
     }
 
     @Override

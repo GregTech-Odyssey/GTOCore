@@ -20,13 +20,13 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 
 @DataGeneratorScanned
-public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPartMachine implements IManaMachine {
+public class ManaAmplifierPartMachine extends AmountConfigurationHatchPartMachine implements IManaMachine {
 
     @RegisterLanguage(cn = "最大魔力", en = "Max Mana")
     private static final String MAX = "gtocore.machine.mana_amplifier_part.max_mana";
 
     @Persisted
-    private final NotifiableManaContainer manaContainer;
+    protected final NotifiableManaContainer manaContainer;
 
     public ManaAmplifierPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 2, 1, Long.MAX_VALUE);
@@ -56,7 +56,7 @@ public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPart
         return true;
     }
 
-    private static final class ManaContainer extends NotifiableManaContainer {
+    protected static final class ManaContainer extends NotifiableManaContainer {
 
         private ManaContainer(ManaAmplifierPartMachine machine) {
             super(machine, IO.IN, Long.MAX_VALUE);

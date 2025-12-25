@@ -400,6 +400,7 @@ final class GTOMaterialRecipeHandler {
                 inertGas2HighPressureCache = new Reference2ReferenceOpenHashMap<>();
             }
             Fluid molten = material.getFluid(FluidStorageKeys.MOLTEN);
+            Fluid liquid = material.getFluid();
             FastFluidIngredient N2 = FastFluidIngredient.of(GTMaterials.Nitrogen.getFluid(4 * mass));
             FastFluidIngredient N2HP = FastFluidIngredient.of(GTOMaterials.HighPressureNitrogen.getFluid(5 * mass));
 
@@ -438,12 +439,24 @@ final class GTOMaterialRecipeHandler {
                         .outputItems(dustStack)
                         .outputFluids(inert)
                         .duration((int) (mass * 1.5f)).EUt(GTOUtils.getVoltageMultiplier(material))
+                        .circuitMeta(1)
+                        .category(GTORecipeCategories.CONDENSE_MOLTEN_TO_DUST);
+                var bl = ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_liquid_from_molten")
+                        .inputFluids(molten, L)
+                        .inputFluids(inertHighPressure)
+                        .outputFluids(liquid, L)
+                        .outputFluids(inert)
+                        .duration((int) (mass * 2.5f)).EUt(GTOUtils.getVoltageMultiplier(material))
+                        .circuitMeta(2)
                         .category(GTORecipeCategories.CONDENSE_MOLTEN_TO_DUST);
                 if (needLiquidHelium) {
                     b.inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 500))
                             .outputFluids(GTMaterials.Helium.getFluid(250));
+                    bl.inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 500))
+                            .outputFluids(GTMaterials.Helium.getFluid(250));
                 }
                 b.save();
+                bl.save();
             }
         }
 

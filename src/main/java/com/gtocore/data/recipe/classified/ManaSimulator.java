@@ -1,11 +1,11 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOFluids;
+
 import com.gtolib.utils.RegistriesUtils;
 
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
-
-import com.enderio.base.common.init.EIOFluids;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
@@ -27,7 +27,7 @@ public final class ManaSimulator {
 
         MANA_GARDEN_RECIPES.recipeBuilder("rosa_arcana")
                 .notConsumable(RegistriesUtils.getItem("botania", "rosa_arcana"))
-                .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 1000))
+                .inputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 1000))
                 .EUt(VA[MV])
                 .duration(1000)
                 .MANAt(-50 * BUFF_FACTOR)

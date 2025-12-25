@@ -1,9 +1,10 @@
 package com.gtocore.api.misc
 
-import com.gtocore.integration.ae.WirelessMachine
+import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
+import appeng.me.InWorldGridNode
 
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -64,6 +65,11 @@ class WirelessNetworkTopologyManager {
         }
 
         return affectedConnections
+    }
+
+    fun getTotalUsedChannels(): Int {
+        if (clusters.isEmpty()) return 0
+        return clusters.first().hubNode.gridNode?.usedChannels ?: 0
     }
 
     private fun cleanupNodeConnections(node: WirelessMachine, cluster: NodeCluster) {

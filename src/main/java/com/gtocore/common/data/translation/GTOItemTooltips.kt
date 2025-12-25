@@ -7,7 +7,6 @@ import com.gtocore.utils.setTooltips
 
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
-import com.enderio.base.common.init.EIOItems
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import earth.terrarium.adastra.common.registry.ModBlocks
@@ -177,17 +176,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 }.editionByGTONormal(),
             )
         }
-        listOf(EIOItems.TRAVEL_STAFF.asItem()).forEach {
-            it.setTooltips(
-                ComponentListSupplier {
-                    highlight("左键可以切换三种模式" translatedTo "Left click air to switch between three modes")
-                    command("1.可以选中所有目标" translatedTo "First mode: Can select all targets")
-                    command("2.可以在每个区块选中一个目标" translatedTo "Second mode: Can select one target per block")
-                    command("3.可以选中点击到的目标" translatedTo "Third mode: Can select the target you clicked")
-                    info("很多AE节点现在都可以作为传送锚点" translatedTo "Many AE nodes can now be used as teleport anchors")
-                }.editionByGTONormal(),
-            )
-        }
+
         listOf(ModBlocks.OXYGEN_DISTRIBUTOR.get().asItem()).forEach {
             it.setTooltips(
                 ComponentListSupplier {

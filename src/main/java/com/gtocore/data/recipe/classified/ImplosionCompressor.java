@@ -4,17 +4,15 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
-import committee.nova.mods.avaritia.init.registry.ModBlocks;
-import committee.nova.mods.avaritia.init.registry.ModItems;
 
 import static com.gtocore.common.data.GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.IMPLOSION_RECIPES;
@@ -22,15 +20,7 @@ import static com.gtocore.common.data.GTORecipeTypes.IMPLOSION_RECIPES;
 final class ImplosionCompressor {
 
     public static void init() {
-        IMPLOSION_RECIPES.recipeBuilder("diamond_lattice_tnt")
-                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
-                .inputItems(Items.NETHERITE_SCRAP.asItem())
-                .inputItems(Blocks.TNT.asItem(), 4)
-                .outputItems(ModItems.diamond_lattice.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
+        var neutron_nugget = ChemicalHelper.getItem(TagPrefix.dust, GTOMaterials.Neutron);
 
         IMPLOSION_RECIPES.recipeBuilder("command_block_core_tnt")
                 .inputItems(Blocks.COMMAND_BLOCK.asItem())
@@ -43,49 +33,9 @@ final class ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_tnt")
-                .inputItems(ModItems.neutron_pile.get(), 1024)
+                .inputItems(GTOItems.NEUTRON_PILE.get(), 1024)
                 .inputItems(Blocks.TNT.asItem(), 4)
-                .outputItems(ModItems.neutron_nugget.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("crystal_matrix_itnt")
-                .inputItems(ModBlocks.diamond_lattice_block.get().asItem())
-                .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
-                .inputItems(GTBlocks.INDUSTRIAL_TNT.asItem())
-                .outputItems(ModBlocks.crystal_matrix.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("diamond_lattice_dynamite")
-                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
-                .inputItems(Items.NETHERITE_SCRAP.asItem())
-                .inputItems(GTItems.DYNAMITE.asItem(), 2)
-                .outputItems(ModItems.diamond_lattice.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("double_compressed_crafting_table_powderbarrel")
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(GTBlocks.POWDERBARREL.asItem(), 8)
-                .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("diamond_lattice_itnt")
-                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
-                .inputItems(Items.NETHERITE_SCRAP.asItem())
-                .inputItems(GTBlocks.INDUSTRIAL_TNT.asItem())
-                .outputItems(ModItems.diamond_lattice.get())
+                .outputItems(neutron_nugget)
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -96,16 +46,6 @@ final class ImplosionCompressor {
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .inputItems(GTItems.DYNAMITE.asItem(), 2)
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_1.asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("double_compressed_crafting_table_itnt")
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(GTBlocks.INDUSTRIAL_TNT.asItem())
-                .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -171,16 +111,6 @@ final class ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        IMPLOSION_RECIPES.recipeBuilder("crystal_matrix_tnt")
-                .inputItems(ModBlocks.diamond_lattice_block.get().asItem())
-                .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
-                .inputItems(Blocks.TNT.asItem(), 4)
-                .outputItems(ModBlocks.crystal_matrix.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
         IMPLOSION_RECIPES.recipeBuilder("entangled_singularity_itnt")
                 .inputItems(AEItems.SINGULARITY.asItem())
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asItem())
@@ -201,31 +131,11 @@ final class ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        IMPLOSION_RECIPES.recipeBuilder("diamond_lattice_powderbarrel")
-                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
-                .inputItems(Items.NETHERITE_SCRAP.asItem())
-                .inputItems(GTBlocks.POWDERBARREL.asItem(), 8)
-                .outputItems(ModItems.diamond_lattice.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
         IMPLOSION_RECIPES.recipeBuilder("heavy_duty_plate_3_powderbarrel")
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asItem(), 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
                 .inputItems(GTBlocks.POWDERBARREL.asItem(), 8)
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_3.asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("crystal_matrix_dynamite")
-                .inputItems(ModBlocks.diamond_lattice_block.get().asItem())
-                .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
-                .inputItems(GTItems.DYNAMITE.asItem(), 2)
-                .outputItems(ModBlocks.crystal_matrix.get().asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -242,38 +152,18 @@ final class ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_powderbarrel")
-                .inputItems(ModItems.neutron_pile.get(), 1024)
+                .inputItems(GTOItems.NEUTRON_PILE.get(), 1024)
                 .inputItems(GTBlocks.POWDERBARREL.asItem(), 8)
-                .outputItems(ModItems.neutron_nugget.get())
+                .outputItems(neutron_nugget)
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_itnt")
-                .inputItems(ModItems.neutron_pile.get(), 1024)
+                .inputItems(GTOItems.NEUTRON_PILE.get(), 1024)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asItem())
-                .outputItems(ModItems.neutron_nugget.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("double_compressed_crafting_table_dynamite")
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(GTItems.DYNAMITE.asItem(), 2)
-                .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("double_compressed_crafting_table_tnt")
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(Blocks.TNT.asItem(), 4)
-                .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
+                .outputItems(neutron_nugget)
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -290,9 +180,9 @@ final class ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder("neutron_nugget_dynamite")
-                .inputItems(ModItems.neutron_pile.get(), 1024)
+                .inputItems(GTOItems.NEUTRON_PILE.get(), 1024)
                 .inputItems(GTItems.DYNAMITE.asItem(), 2)
-                .outputItems(ModItems.neutron_nugget.get())
+                .outputItems(neutron_nugget)
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -318,16 +208,6 @@ final class ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        IMPLOSION_RECIPES.recipeBuilder("crystal_matrix_powderbarrel")
-                .inputItems(ModBlocks.diamond_lattice_block.get().asItem())
-                .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
-                .inputItems(GTBlocks.POWDERBARREL.asItem(), 8)
-                .outputItems(ModBlocks.crystal_matrix.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
         IMPLOSION_RECIPES.recipeBuilder("command_block_core_itnt")
                 .inputItems(Blocks.COMMAND_BLOCK.asItem())
                 .inputItems(GTOItems.TWO_WAY_FOIL.asItem())
@@ -338,22 +218,10 @@ final class ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("double_compressed_crafting_table")
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .inputItems(ModBlocks.compressed_crafting_table.get().asItem(), 64)
-                .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
-                .save();
-
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("eternal_singularity")
                 .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Eternity, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.SpaceTime)
-                .outputItems(ModItems.eternal_singularity.get())
-                .save();
-
-        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("crystal_matrix")
-                .inputItems(ModBlocks.diamond_lattice_block.get().asItem())
-                .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
-                .outputItems(ModBlocks.crystal_matrix.get().asItem())
+                .outputItems(GTOItems.INFINITY_SINGULARITY.get())
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("command_block_core")
@@ -363,14 +231,8 @@ final class ImplosionCompressor {
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("neutron_nugget")
-                .inputItems(ModItems.neutron_pile.get(), 1024)
-                .outputItems(ModItems.neutron_nugget.get())
-                .save();
-
-        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("diamond_lattice")
-                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
-                .inputItems(Items.NETHERITE_SCRAP.asItem())
-                .outputItems(ModItems.diamond_lattice.get())
+                .inputItems(GTOItems.NEUTRON_PILE.get(), 1024)
+                .outputItems(neutron_nugget)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("heavy_duty_plate_3")

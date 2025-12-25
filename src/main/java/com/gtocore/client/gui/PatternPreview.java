@@ -322,13 +322,9 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     private MBPattern initializePattern(MultiblockDefinition definition, MultiblockDefinition.Pattern pattern, int index) {
-        var patternMap = pattern.blockMap();
-        var pos = pattern.multiController();
-        if (patternMap == null) {
-            var pair = pattern.initialize(definition, index);
-            patternMap = pair.getSecond();
-            pos = pair.getFirst();
-        }
+        var pair = pattern.initialize(definition, index);
+        var patternMap = pair.getSecond();
+        var pos = pair.getFirst();
         Long2ReferenceOpenHashMap<BlockInfo> blockMap = new Long2ReferenceOpenHashMap<>(patternMap.values().stream().mapToInt(LongOpenHashSet::size).sum());
         patternMap.forEach((b, i) -> i.forEach(p -> blockMap.put(p, b)));
         IMultiController controllerBase = blockMap.get(pos.asLong()).getBlockEntity(pos) instanceof MetaMachineBlockEntity blockEntity ? blockEntity.metaMachine instanceof IMultiController controller ? controller : null : null;

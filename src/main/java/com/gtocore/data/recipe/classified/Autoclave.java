@@ -14,11 +14,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.level.block.Blocks;
-
-import com.enderio.base.common.init.EIOItems;
-import committee.nova.mods.avaritia.init.registry.ModItems;
-
 import static com.gtocore.common.data.GTORecipeTypes.AUTOCLAVE_RECIPES;
 
 final class Autoclave {
@@ -32,7 +27,7 @@ final class Autoclave {
                 .duration(25).EUt(7680).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("spacetime_catalyst")
-                .inputItems(ModItems.infinity_catalyst.get())
+                .inputItems(GTOItems.INFINITY_CATALYST.get())
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(1000))
                 .outputItems(GTOItems.SPACETIME_CATALYST.asItem())
                 .EUt(8053063680L)
@@ -47,20 +42,10 @@ final class Autoclave {
                 .duration(260)
                 .save();
 
-        AUTOCLAVE_RECIPES.recipeBuilder("soul_soil")
-                .inputItems(EIOItems.FILLED_SOUL_VIAL.asItem())
-                .inputItems(Blocks.ROOTED_DIRT.asItem())
-                .inputFluids(GTMaterials.LiquidNetherAir.getFluid(100))
-                .outputItems(EIOItems.EMPTY_SOUL_VIAL.asItem())
-                .outputItems(Blocks.SOUL_SOIL.asItem())
-                .EUt(480)
-                .duration(240)
-                .save();
-
         AUTOCLAVE_RECIPES.recipeBuilder("ender_crystal")
-                .inputItems(EIOItems.VIBRANT_CRYSTAL.asItem())
+                .inputItems(GTOItems.VIBRANT_CRYSTAL.asItem())
                 .inputFluids(GTOMaterials.Enderium.getFluid(8))
-                .outputItems(EIOItems.ENDER_CRYSTAL.asItem())
+                .outputItems(GTOItems.ENDER_CRYSTAL.asItem())
                 .EUt(30)
                 .duration(200)
                 .addCondition(new VacuumCondition(4))
@@ -128,9 +113,9 @@ final class Autoclave {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("prescient_crystal")
-                .inputItems(EIOItems.VIBRANT_CRYSTAL.asItem())
+                .inputItems(GTOItems.VIBRANT_CRYSTAL.asItem())
                 .inputFluids(GTOMaterials.Mithril.getFluid(8))
-                .outputItems(EIOItems.PRESCIENT_CRYSTAL.asItem())
+                .outputItems(GTOItems.PRESCIENT_CRYSTAL.asItem())
                 .EUt(30)
                 .duration(200)
                 .addCondition(new VacuumCondition(4))
@@ -139,7 +124,7 @@ final class Autoclave {
         AUTOCLAVE_RECIPES.recipeBuilder("vibrant_crystal")
                 .inputItems(TagPrefix.gem, GTMaterials.Emerald)
                 .inputFluids(GTOMaterials.PulsatingAlloy.getFluid(72))
-                .outputItems(EIOItems.VIBRANT_CRYSTAL.asItem())
+                .outputItems(GTOItems.VIBRANT_CRYSTAL.asItem())
                 .EUt(30)
                 .duration(160)
                 .addCondition(new VacuumCondition(2))
@@ -157,7 +142,7 @@ final class Autoclave {
         AUTOCLAVE_RECIPES.recipeBuilder("pulsating_crystal")
                 .inputItems(TagPrefix.gem, GTMaterials.Diamond)
                 .inputFluids(GTOMaterials.PulsatingAlloy.getFluid(72))
-                .outputItems(EIOItems.PULSATING_CRYSTAL.asItem())
+                .outputItems(GTOItems.PULSATING_CRYSTAL.asItem())
                 .EUt(30)
                 .duration(100)
                 .addCondition(new VacuumCondition(2))

@@ -17,7 +17,7 @@ public final class KeyMessage {
 
     public static void init() {}
 
-    public static final NetworkPack NETWORK_PACK = NetworkPack.registerC2S(7, (p, b) -> pressAction(p, b.readVarInt()));
+    public static final NetworkPack NETWORK_PACK = NetworkPack.registerC2S("keyPressC2S", (p, b) -> pressAction(p, b.readVarInt()));
 
     private static void pressAction(ServerPlayer player, int type) {
         Level level = player.level();
@@ -60,7 +60,7 @@ public final class KeyMessage {
             if (player.isShiftKeyDown()) {
                 itemStack.getOrCreateTag().putBoolean("MinersFervor", !itemStack.getOrCreateTag().getBoolean("MinersFervor"));
                 player.displayClientMessage(Component.translatable(itemStack.getOrCreateTag().getBoolean("MinersFervor") ?
-                        "tooltip.avaritia.active" : "tooltip.avaritia.inactive",
+                        "gui.active" : "gui.inactive",
                         Component.translatable("enchantment.apotheosis.miners_fervor")), true);
                 return;
             }

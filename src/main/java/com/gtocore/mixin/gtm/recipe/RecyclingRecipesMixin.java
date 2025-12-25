@@ -111,7 +111,7 @@ public abstract class RecyclingRecipesMixin {
         if (ignoreArcSmelting) return;
 
         if (materials.size() == 1) {
-            Material m = materials.get(0).material();
+            Material m = materials.getFirst().material();
 
             // skip non-ingot materials
             if (!m.hasProperty(PropertyKey.INGOT)) {

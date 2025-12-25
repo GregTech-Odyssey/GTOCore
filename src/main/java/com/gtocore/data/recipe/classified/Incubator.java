@@ -1,12 +1,12 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
 
 import com.gtolib.GTOCore;
-import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.core.definitions.AEItems;
-import com.enderio.base.common.init.EIOFluids;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
 import static com.gregtechceu.gtceu.api.GTValues.UEV;
@@ -584,7 +583,7 @@ final class Incubator {
                 .inputItems(Blocks.DIRT.asItem(), 64)
                 .inputItems(Blocks.SCULK_VEIN.asItem(), 64)
                 .inputFluids(GTOMaterials.UnknowWater.getFluid(1000))
-                .inputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 1000))
+                .inputFluids(new FluidStack(GTOFluids.XP_JUICE.get().getSource(), 1000))
                 .outputItems(TagPrefix.block, GTMaterials.Sculk, 64)
                 .outputFluids(GTMaterials.EchoShard.getFluid(10000))
                 .EUt(1920)
@@ -742,7 +741,6 @@ final class Incubator {
                 .save();
         INCUBATOR_RECIPES.builder("dopamine")
                 .chancedInput(GTOItems.CEREBRUM.asItem(), 32, 2000, 100)
-                .chancedInput(RegistriesUtils.getItemStack("enderio:zombie_electrode", 32), 100, 0)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.RockSalt)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Salt)
                 .chancedInput(GTOMaterials.Perfluorobenzene.getFluid(1000), 1000, 0)

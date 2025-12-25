@@ -14,10 +14,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
-import com.enderio.base.common.init.EIOItems;
-import committee.nova.mods.avaritia.init.registry.ModBlocks;
-import committee.nova.mods.avaritia.init.registry.ModItems;
-
 import static com.gtocore.common.data.GTORecipeTypes.STELLAR_FORGE_RECIPES;
 
 final class StellarForge {
@@ -224,7 +220,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("exciteddtec")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
-                .inputItems(EIOItems.PRESCIENT_POWDER.asItem())
+                .inputItems(GTOItems.PRESCIENT_CRYSTAL.asItem())
                 .inputFluids(GTOMaterials.DimensionallyTranscendentExoticCatalyst.getFluid(10000))
                 .outputFluids(GTOMaterials.ExcitedDtec.getFluid(10000))
                 .EUt(503316480)
@@ -234,7 +230,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("eternity_dust")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem(), 4)
-                .inputItems(ModItems.eternal_singularity.get())
+                .inputItems(GTOItems.INFINITY_SINGULARITY.get())
                 .inputFluids(GTOMaterials.PrimordialMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.Eternity)
@@ -256,7 +252,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("infinity_ingot")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
-                .inputItems(EIOItems.VIBRANT_POWDER.asItem())
+                .inputItems(GTOItems.VIBRANT_CRYSTAL.asItem())
                 .inputFluids(GTOMaterials.CrystalMatrix.getFluid(2000))
                 .inputFluids(GTOMaterials.CosmicNeutronium.getFluid(1000))
                 .outputItems(TagPrefix.ingotHot, GTOMaterials.Infinity)
@@ -335,7 +331,7 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("enderium_plasma")
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem())
-                .inputItems(EIOItems.ENDER_CRYSTAL_POWDER.asItem())
+                .inputItems(GTOItems.ENDER_CRYSTAL.asItem())
                 .inputFluids(GTMaterials.EnderEye.getFluid(2304))
                 .inputFluids(GTMaterials.Lead.getFluid(2304))
                 .inputFluids(GTMaterials.Bismuth.getFluid(2304))
@@ -349,7 +345,6 @@ final class StellarForge {
 
         STELLAR_FORGE_RECIPES.recipeBuilder("crystal_matrix_plasma")
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asItem())
-                .inputItems(ModBlocks.crystal_matrix.get().asItem())
                 .inputItems(GTOItems.CORPOREAL_MATTER.asItem(), 16)
                 .inputFluids(GTOMaterials.FreeProtonGas.getFluid(20000))
                 .outputFluids(GTOMaterials.CrystalMatrix.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -361,7 +356,7 @@ final class StellarForge {
         STELLAR_FORGE_RECIPES.recipeBuilder("high_energy_quark_gluon_plasma")
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.HeavyQuarkDegenerateMatter, 10)
-                .inputItems(EIOItems.PULSATING_POWDER.asItem())
+                .inputItems(GTOItems.PULSATING_CRYSTAL.asItem())
                 .outputFluids(GTOMaterials.HighEnergyQuarkGluon.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .EUt(125829120)
                 .duration(200)

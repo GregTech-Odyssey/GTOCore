@@ -16,13 +16,6 @@ ordering = "BEFORE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
-modId = "gtolib"
-mandatory = true
-versionRange = "[1,)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies.${mod_id}]]
 modId = "ad_astra"
 mandatory = true
 versionRange = "[1,)"

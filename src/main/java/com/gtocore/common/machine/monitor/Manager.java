@@ -50,7 +50,7 @@ public final class Manager {
     private static final Queue<Runnable> Loading = new LinkedList<>();
     private static final Map<GridFacedPoint, GridNetwork> gridToNetwork = new ConcurrentHashMap<>();
 
-    private static final NetworkPack MONITOR_CHANGED = NetworkPack.registerS2C(7, (p, buf) -> {
+    private static final NetworkPack MONITOR_CHANGED = NetworkPack.registerS2C("monitorUpdateC2S", (p, buf) -> {
         CompoundTag tag = new CompoundTag();
         AtomicInteger i = new AtomicInteger(0);
         gridToNetwork.values().forEach(network -> {

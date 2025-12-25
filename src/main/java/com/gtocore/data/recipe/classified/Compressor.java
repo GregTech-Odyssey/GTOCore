@@ -11,20 +11,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
-import committee.nova.mods.avaritia.init.registry.ModBlocks;
 
 import static com.gtocore.common.data.GTORecipeTypes.COMPRESSOR_RECIPES;
 
 final class Compressor {
 
     public static void init() {
-        COMPRESSOR_RECIPES.recipeBuilder("compressed_crafting_table")
-                .inputItems(Blocks.CRAFTING_TABLE.asItem(), 64)
-                .outputItems(ModBlocks.compressed_crafting_table.get().asItem())
-                .EUt(480)
-                .duration(200)
-                .save();
-
         COMPRESSOR_RECIPES.recipeBuilder("spacetime_block")
                 .inputItems(TagPrefix.ingot, GTOMaterials.SpaceTime, 9)
                 .outputItems(TagPrefix.block, GTOMaterials.SpaceTime)
@@ -72,13 +64,6 @@ final class Compressor {
                 .outputItems(TagPrefix.block, GTOMaterials.SuperheavyMix)
                 .EUt(524288)
                 .duration(200)
-                .save();
-
-        COMPRESSOR_RECIPES.recipeBuilder("diamond_lattice_block")
-                .inputItems("avaritia:diamond_lattice", 9)
-                .outputItems("avaritia:diamond_lattice_block")
-                .EUt(1920)
-                .duration(400)
                 .save();
 
         COMPRESSOR_RECIPES.builder("dense_steel_plate")
@@ -138,7 +123,7 @@ final class Compressor {
                 .save();
 
         COMPRESSOR_RECIPES.builder("special_industrial_components_0")
-                .inputItems("avaritia:neutron_pile", 64)
+                .inputItems(GTOItems.NEUTRON_PILE.asItem(), 64)
                 .outputItems(GTOItems.INDUSTRIAL_COMPONENTS[2][0])
                 .EUt(7680)
                 .duration(20)

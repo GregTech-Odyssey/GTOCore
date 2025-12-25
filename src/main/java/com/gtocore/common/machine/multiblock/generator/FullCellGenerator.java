@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
@@ -49,18 +50,21 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 @Scanned
 public class FullCellGenerator extends ElectricMultiblockMachine {
 
+    @RegisterLanguage(cn = "燃料效率乘数：%s", en = "Fuel Efficiency Multiplier: %s")
+    private static final String FUEL_EFFICIENCY = "gtocore.machine.fuelcell_efficiency";
+
     @DescSynced
     private boolean isGenerator = false;
     @Persisted
     private double bonusEfficiency = 1.0f;
     private static final int MaxCanReleaseParallel = 50;
 
-    @DynamicInitialValue(key = "fuelcell.chance_consume", easyValue = "0.0d", normalValue = "0.035d", expertValue = "0.055d", typeKey = DynamicInitialValueTypes.KEY_PROBABILITY, cn = "放电时膜损坏概率", cnComment = """
+    @DynamicInitialValue(key = "fuelcell.chance_consume", easyValue = "0.0d", normalValue = "0.017d", expertValue = "0.027d", typeKey = DynamicInitialValueTypes.KEY_PROBABILITY, cn = "放电时膜损坏概率", cnComment = """
             放电时使用的膜材料的损坏概率。
             """, en = "Fuel Cell Membrane Damage Chance on Discharge", enComment = """
             The chance of the membrane material used being damaged upon discharging.
             """)
-    public static double chanceConsumeMembraneOnDischarge = 0.035d;
+    public static double chanceConsumeMembraneOnDischarge = 0.017d;
 
     public FullCellGenerator(MetaMachineBlockEntity holder) {
         super(holder);
@@ -197,7 +201,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         super.customText(textList);
         if (!isGenerator) {
             textList.add(
-                    Component.translatable("tooltip.enderio.capacitor.fuel_efficiency", FormattingUtil.formatNumber2Places(bonusEfficiency * 400) + "%"));
+                    Component.translatable(FUEL_EFFICIENCY, FormattingUtil.formatNumber2Places(bonusEfficiency * 400) + "%"));
         }
     }
 

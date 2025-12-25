@@ -126,7 +126,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(Recipe recipe) {
         if (mismatched || isEmpty()) return false;
         return super.beforeWorking(recipe);
     }

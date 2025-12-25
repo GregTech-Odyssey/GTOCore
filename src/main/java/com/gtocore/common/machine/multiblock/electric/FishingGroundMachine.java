@@ -13,6 +13,7 @@ import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.holder.IntHolder;
+import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -32,7 +33,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.sounds.SoundEvents.*;
 
@@ -46,9 +46,8 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
         super(holder);
     }
 
-    @Nullable
     private Recipe getRecipe() {
-        Recipe recipe = null;
+        ObjectHolder<Recipe> recipe = new ObjectHolder<>(null);
         int mode = checkingCircuit(false);
         if (mode > 0) {
             RecipeBuilder builder = getRecipeBuilder().duration(20).EUt(480);
@@ -66,12 +65,12 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                         .withParameter(LootContextParams.ORIGIN, new Vec3(getPos().getX(), getPos().getY(), getPos().getZ()))
                         .create(LootContextParamSets.FISHING);
                 ItemStackSet itemStacks = new ItemStackSet();
-                recipe = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
-                if (recipe == null) return null;
+                recipe.value = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
+                if (recipe.value == null) return null;
                 IntHolder nbt = new IntHolder(0);
-                builder.EUt(recipe.getInputEUt());
-                var parallel = Math.min(1024, recipe.parallels);
-                var multiplier = recipe.parallels / parallel;
+                builder.EUt(recipe.value.getInputEUt());
+                var parallel = Math.min(1024, recipe.value.parallels);
+                var multiplier = recipe.value.parallels / parallel;
                 GTOLoots.modifyLoot = false;
                 for (int i = 0; i < parallel; i++) {
                     lootTable.getRandomItems(lootContext).forEach(itemStack -> {
@@ -89,19 +88,20 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                     }
                     builder.outputItems(i);
                 });
-                recipe = builder.buildRawRecipe();
+                recipe.value = builder.buildRawRecipe();
             }
         } else {
-            recipe = getRecipeType().lookup().findRecipe(this);
-            if (recipe != null) {
-                recipe = fullModifyRecipe(recipe.copy());
-                fishingHook = null;
-            }
+            getRecipeType().findRecipe(this, r -> {
+                var modify = (Recipe) fullModifyRecipe(r.copy());
+                if (modify != null && RecipeRunner.matchRecipe(this, modify) && RecipeRunner.matchTickRecipe(this, recipe.value)) {
+                    fishingHook = null;
+                    recipe.value = modify;
+                    return true;
+                }
+                return false;
+            });
         }
-        if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
-            return recipe;
-        }
-        return null;
+        return recipe.value;
     }
 
     @Override

@@ -92,7 +92,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(Recipe recipe) {
         if (inventory.getStackInSlot(0).isEmpty()) return false;
         return super.beforeWorking(recipe);
     }

@@ -951,49 +951,48 @@ public final class MultiBlockD {
                     .register(),
             GTValues.UHV, GTValues.UEV);
 
-    public static final MultiblockMachineDefinition[] KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR = registerTieredMultis("kuangbiao_one_giant_nuclear_fusion_reactor", tier -> "狂飙" + StringUtils.numberToChinese(tier - 5) + "号巨型聚变反应堆控制电脑",
-            AdvancedFusionReactorMachine::new, (tier, builder) -> builder
-                    .nonYAxisRotation()
-                    .langValue("Advanced Fusion Reactor MK %s".formatted(FormattingUtil.toRomanNumeral(tier - 5)))
-                    .recipeTypes(GTRecipeTypes.FUSION_RECIPES)
-                    .tooltips(GTOMachineStories.INSTANCE.getKuangbiaoGiantNuclearFusionReactorTooltips().getSupplier())
-                    .tooltips(GTOMachineTooltipsA.INSTANCE.getKuangbiaoGiantNuclearFusionReactorTooltips().getSupplier())
-                    .tooltips(GTOMachineTooltipsA.INSTANCE.getKuangbiaoGiantNuclearFusionReactorEnergyStorageTooltip().invoke(FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L).getSupplier())
-                    .parallelizableTooltips()
-                    .moduleTooltips(THREAD_HATCH, OVERCLOCK_HATCH)
-                    .laserTooltips()
-                    .block(() -> FusionCasings.getCasingState(tier))
-                    .pattern(definition -> {
-                        TraceabilityPredicate casing = blocks(FusionCasings.getCasingState(tier));
-                        return MultiBlockFileReader.builder()
-                                .LUF(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
-                                .name("kuangbiao1")
-                                .startBuild(definition)
-                                .where('A', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
-                                .where('B', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
-                                .where('C', frames(GTMaterials.Tungsten))
-                                .where('D', casing.or(abilities(IMPORT_FLUIDS).setPreviewCount(16))
-                                        .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
-                                        .or(abilities(EXPORT_FLUIDS).setPreviewCount(16))
-                                        .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
-                                        .or(abilities(INPUT_LASER).setMaxGlobalLimited(16, 16))
-                                        .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
-                                .where('E', casing)
-                                .where('F', blocks(FusionCasings.getFrameState(tier)))
-                                .where('G', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))
-                                .where('H', blocks(FusionCasings.getCompressedCoilState(tier)))
-                                .where('I', blocks(GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.get()))
-                                .where('J', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                                .where('K', blocks(GTBlocks.FUSION_GLASS.get()))
-                                .where('L', blocks(GTOBlocks.FISSION_REACTOR_CASING.get()))
-                                .where('M', controller(blocks(definition.get())))
-                                .where(' ', any())
-                                .build();
-                    })
-                    .renderer(() -> new AdvancedFusionReactorRenderer(FusionCasings.getCasingType(tier).getTexture(), GTCEu.id("block/multiblock/fusion_reactor")))
-                    .hasTESR(true)
-                    .register(),
-            LuV, UEV);
+    public static final MultiblockMachineDefinition KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR = multiblock("luv_kuangbiao_one_giant_nuclear_fusion_reactor", "狂飙一号巨型聚变反应堆控制电脑",
+            AdvancedFusionReactorMachine::new)
+            .nonYAxisRotation()
+            .langValue("Advanced Fusion Reactor MK-I")
+            .recipeTypes(GTRecipeTypes.FUSION_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getKuangbiaoGiantNuclearFusionReactorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getKuangbiaoGiantNuclearFusionReactorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getKuangbiaoGiantNuclearFusionReactorEnergyStorageTooltip().invoke(FusionReactorMachine.calculateEnergyStorageFactor(LuV, 16) / 1000000L).getSupplier())
+            .parallelizableTooltips()
+            .moduleTooltips(THREAD_HATCH, OVERCLOCK_HATCH)
+            .laserTooltips()
+            .block(() -> FusionCasings.getCasingState(LuV))
+            .pattern(definition -> {
+                TraceabilityPredicate casing = blocks(FusionCasings.getCasingState(LuV));
+                return MultiBlockFileReader.builder()
+                        .LUF(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
+                        .name("kuangbiao1")
+                        .startBuild(definition)
+                        .where('A', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
+                        .where('B', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
+                        .where('C', frames(GTMaterials.Tungsten))
+                        .where('D', casing.or(abilities(IMPORT_FLUIDS).setPreviewCount(16))
+                                .or(blocks(GTMachines.CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))
+                                .or(abilities(EXPORT_FLUIDS).setPreviewCount(16))
+                                .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(INPUT_LASER).setMaxGlobalLimited(16, 16))
+                                .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
+                        .where('E', casing)
+                        .where('F', blocks(FusionCasings.getFrameState(LuV)))
+                        .where('G', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))
+                        .where('H', blocks(FusionCasings.getCompressedCoilState(LuV)))
+                        .where('I', blocks(GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.get()))
+                        .where('J', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                        .where('K', blocks(GTBlocks.FUSION_GLASS.get()))
+                        .where('L', blocks(GTOBlocks.FISSION_REACTOR_CASING.get()))
+                        .where('M', controller(blocks(definition.get())))
+                        .where(' ', any())
+                        .build();
+            })
+            .renderer(() -> new AdvancedFusionReactorRenderer(FusionCasings.getCasingType(LuV).getTexture(), GTCEu.id("block/multiblock/fusion_reactor")))
+            .hasTESR(true)
+            .register();
 
     public static final MultiblockMachineDefinition INCUBATOR = multiblock("incubator", "培养缸", IncubatorMachine::new)
             .nonYAxisRotation()
@@ -1247,9 +1246,7 @@ public final class MultiBlockD {
                         .where('J', controller(blocks(def.get())))
                         .where(' ', any())
                         .build());
-        KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[LuV].setSubPatternFactory(
+        KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR.setSubPatternFactory(
                 KUANGBIAO_subs);
-        KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[UEV].setSubPatternFactory(
-                List.of(KUANGBIAO_subs.getLast()));
     }
 }

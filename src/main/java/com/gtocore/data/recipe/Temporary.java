@@ -127,17 +127,6 @@ public final class Temporary {
                 .EUt(33554432)
                 .save();
 
-        STELLAR_FORGE_RECIPES.builder("enhancement_core")
-                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asItem(), 64)
-                .inputItems(GTOItems.WYVERN_CORE.asItem(), 64)
-                .inputItems(GTOItems.WYVERN_CORE.asItem(), 64)
-                .outputItems("avaritia:enhancement_core")
-                .duration(2000)
-                .EUt(33554432)
-                .runLimit(1)
-                .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save();
-
         ASSEMBLER_RECIPES.builder("ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING".toLowerCase(Locale.ROOT))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)
                 .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_LUV.asItem())

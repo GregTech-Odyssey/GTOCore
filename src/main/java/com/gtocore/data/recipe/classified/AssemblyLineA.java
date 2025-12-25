@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.machines.*;
 import com.gtocore.data.CraftingComponents;
 
@@ -17,8 +18,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
-
-import com.enderio.base.common.init.EIOFluids;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLY_LINE_RECIPES;
 
@@ -126,7 +125,7 @@ final class AssemblyLineA {
                 .inputItems(GCYMMachines.LARGE_FORMING.asItem(), 64)
                 .inputItems(GTItems.ELECTRIC_PISTON_UEV.asItem(), 64)
                 .inputItems(GTItems.ELECTRIC_PISTON_UEV.asItem(), 32)
-                .inputItems("avaritia:neutron_pile", 16)
+                .inputItems(GTOItems.NEUTRON_PILE.asItem(), 16)
                 .inputItems(TagPrefix.ring, GTOMaterials.Adamantium, 16)
                 .inputItems(TagPrefix.ring, GTOMaterials.Quantanium, 16)
                 .inputItems(TagPrefix.gearSmall, GTOMaterials.Quantanium, 8)
@@ -202,7 +201,7 @@ final class AssemblyLineA {
                 .outputItems(MultiBlockH.TRANSLIMINAL_OASIS.asItem())
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 10000)
                 .inputFluids(GTMaterials.Naquadria, 11000)
-                .inputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.getSource(), 20000))
+                .inputFluids(new FluidStack(GTOFluids.LIQUID_SUNSHINE.getSource(), 20000))
                 .EUt(16777215)
                 .duration(720)
                 .researchStation(b -> b.researchStack(MultiBlockG.LARGE_GREENHOUSE.asItem())

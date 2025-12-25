@@ -4,6 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.misc.OrganType;
@@ -58,6 +59,10 @@ public final class LangHandler {
 
     private static void init() {
         GTOItemTooltips.INSTANCE.initLanguage();
+        GTOFluids.LANG.forEach((k, v) -> {
+            addCN("fluid.gtocore." + k, v);
+            addCN("item.gtocore." + k + "_bucke", v + "桶");
+        });
         MaterialsRegisterUtils.LANG.forEach((k, v) -> addCNEN("material.gtocore." + k, v));
         RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addCNEN("gtceu." + k, v));
         GTOBedrockFluids.LANG.forEach((k, v) -> addCNEN("gtceu.jei.bedrock_fluid." + k, v));
@@ -203,6 +208,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.vacuum_tier_provider", "[GTOCore] 真空等级", "[GTOCore] Vacuum Tier");
         addCNEN("config.jade.plugin_gtocore.temperature_provider", "[GTOCore] 机器温度", "[GTOCore] Machine Temperature");
         addCNEN("config.jade.plugin_gtocore.ae_grid_provider", "[GTOCore] AE网络信息", "[GTOCore] AE Grid Info");
+        addCNEN("config.jade.plugin_gtocore.ae_item_amount", "[GTOCore] AE物品数量", "[GTOCore] AE Item Amount");
         addCNEN("config.jade.plugin_gtocore.tick_time_provider", "[GTOCore] Tick时间", "[GTOCore] Tick Time");
         addCNEN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] 无线交互机器信息", "[GTOCore] Wireless Interactive Machine Info");
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
@@ -263,6 +269,17 @@ public final class LangHandler {
         addCNEN("ftbquests.task.gtocore.scheduled.intervalInSeconds", "时间（以秒为单位）", "Time (in seconds)");
         addCNEN("ftbquests.task.gtocore.scheduled.isInGame", "游戏内时间（设为false则为现实时间）", "In-game time (set to false for real time)");
         addCNEN("ftbquests.task.gtocore.scheduled.refreshInFixedTime", "以固定时间刷新（例如当时间设为180，即每个3分钟时间间隔仅判定一次完成）", "Refresh in fixed time (for example, when the time is set to 180, it is only judged once every fixed 3-minute time interval)");
+
+        addCNEN("affix.apotheosis:ftbu", "连锁", "Chainbound");
+        addCNEN("affix.apotheosis:ftbu.suffix", "矿脉爆破", "the Veinseeker");
+        addCNEN("affix.apotheosis:bedrock_ore", "勘探", "Prospecting");
+        addCNEN("affix.apotheosis:bedrock_ore.suffix", "基岩透视者", "the Bedrock Seer");
+        addCNEN("affix.apotheosis:bedrock_fluid_ore", "寻流", "Flowseeking");
+        addCNEN("affix.apotheosis:bedrock_fluid_ore.suffix", "石油之眼", "the Oil Penetrator");
+        addCNEN("affix.apotheosis:stress", "应力", "Stress");
+        addCNEN("affix.apotheosis:stress.suffix", "千钧一发", "the Brinkbreaker");
+        addCNEN("affix.apotheosis:kinetic", "动能", "Kinetic");
+        addCNEN("affix.apotheosis:kinetic.suffix", "势如破竹", "the Momentum Master");
 
         addCNEN("gtocore.bar.distillation.1", "产出，消耗水", "Output , Consumption water");
         addCNEN("gtocore.bar.exploration", "爆炸", "Explosion");
@@ -352,6 +369,8 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.missing_start", "缺失合成", "Missing Crafting");
         addCNEN("gtocore.ae.appeng.craft.missing_start.desc", "在材料不足的情况下仍然开始合成，缺失的原料将被等待", "Start crafting even when materials are insufficient, missing ingredients will be waited for");
         addCNEN("gtocore.ae.appeng.craft.used_percent", "已使用 %s%%", "Used %s%%");
+        addCNEN("gtocore.ae.appeng.fetching_items", "取得信息中...", "Fetching items...");
+        addCNEN("gtocore.ae.appeng.me_storage_amount", "ME网络存储数量", "ME Network Stored Amount");
         addCNEN("gtocore.ae.appeng.pick_craft.error.title", "Pick-Craft 错误", "Pick-Craft Error");
         addCNEN("gtocore.ae.appeng.pick_craft.all_right.title", "Pick-Craft 成功", "Pick-Craft Success");
         addCNEN("gtocore.ae.appeng.pick_craft.all_right", "已启动合成！", "Crafting started!");

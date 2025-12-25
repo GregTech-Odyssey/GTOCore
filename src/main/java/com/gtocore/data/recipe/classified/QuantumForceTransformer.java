@@ -10,8 +10,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import committee.nova.mods.avaritia.init.registry.ModItems;
-
 import static com.gtocore.common.data.GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES;
 
 final class QuantumForceTransformer {
@@ -196,7 +194,7 @@ final class QuantumForceTransformer {
                 .inputFluids(GTOMaterials.CosmicNeutronium.getFluid(1000))
                 .inputFluids(GTOMaterials.ExcitedDtec.getFluid(1000))
                 .inputFluids(GTOMaterials.SpatialFluid.getFluid(1000))
-                .outputItems(ModItems.eternal_singularity.get(), 16)
+                .outputItems(GTOItems.INFINITY_SINGULARITY.get(), 16)
                 .EUt(32212254720L)
                 .duration(200)
                 .save();
@@ -213,7 +211,7 @@ final class QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder("taranium_dust")
-                .notConsumable(ModItems.infinity_catalyst.get())
+                .notConsumable(GTOItems.INFINITY_CATALYST.get())
                 .inputItems(TagPrefix.dust, GTOMaterials.Bedrockium, 176)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Deepslate, 640)
@@ -226,7 +224,7 @@ final class QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder("eternal_singularity")
-                .notConsumable(ModItems.infinity_catalyst.get())
+                .notConsumable(GTOItems.INFINITY_CATALYST.get())
                 .inputItems(TagPrefix.block, GTOMaterials.Neutron, 64)
                 .inputItems(GTOItems.COMBINED_SINGULARITY_0.asItem())
                 .inputItems(GTOItems.COMBINED_SINGULARITY_1.asItem())
@@ -247,7 +245,7 @@ final class QuantumForceTransformer {
                 .inputFluids(GTOMaterials.AwakenedDraconium.getFluid(1000))
                 .inputFluids(GTOMaterials.CosmicNeutronium.getFluid(1000))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentStellarCatalyst.getFluid(1000))
-                .outputItems(ModItems.eternal_singularity.get())
+                .outputItems(GTOItems.INFINITY_SINGULARITY.get())
                 .EUt(32212254720L)
                 .duration(200)
                 .save();

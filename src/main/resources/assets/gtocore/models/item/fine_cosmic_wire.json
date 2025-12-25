@@ -5,7 +5,7 @@
     "layer1": "gtceu:item/material_sets/dull/wire_fine_secondary",
     "layer2": "gtceu:item/material_sets/dull/wire_fine_overlay"
   },
-  "loader": "avaritia:cosmic",
+  "loader": "renderblender:cosmic",
   "cosmic": {
     "mask": "gtocore:mask/cosmic_wire_fine"
   }

@@ -37,14 +37,10 @@ import appeng.integration.modules.emi.EmiUseCraftingRecipeHandler;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
-import com.enderio.base.common.integrations.jei.EnderIOJEI;
-import com.enderio.machines.common.integrations.jei.MachinesJEI;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
-import committee.nova.mods.avaritia.Const;
-import committee.nova.mods.avaritia.init.compat.emi.AvaritiaEmiPlugin;
 import de.mari_023.ae2wtlib.wct.WCTMenu;
 import de.mari_023.ae2wtlib.wet.WETMenu;
 import dev.emi.emi.VanillaPlugin;
@@ -79,8 +75,6 @@ public final class GTEMIPlugin implements EmiPlugin {
     public static void addJEIPlugin(List<IModPlugin> list) {
         list.add(new mezz.jei.library.plugins.vanilla.VanillaPlugin());
         list.add(new JeiInternalPlugin());
-        list.add(new EnderIOJEI());
-        list.add(new MachinesJEI());
         list.add(new JemiPlugin());
         list.add(new EnchJEIPlugin());
         list.add(new AdventureJEIPlugin());
@@ -92,6 +86,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIArsNouveauPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
         list.add(new JEICompat());
+        // list.add(new com.glodblock.github.extendedae.xmod.jei.JEIPlugin());
     }
 
     public static void addEMIPlugin(List<EmiPluginContainer> list) {
@@ -102,7 +97,6 @@ public final class GTEMIPlugin implements EmiPlugin {
         if (Mods.SOPHISTICATEDBACKPACKS.isLoaded()) {
             list.add(new EmiPluginContainer(new net.p3pp3rf1y.sophisticatedbackpacks.compat.recipeviewers.emi.BackpackEmiPlugin(), "backpack"));
         }
-        list.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Const.MOD_ID));
         list.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
         list.add(new EmiPluginContainer(new EmiExtrabotanyPlugin(), ExtraBotanyAPI.MODID));
         list.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));

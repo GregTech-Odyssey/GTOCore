@@ -99,7 +99,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
                 selectedPlanet = planet;
                 rebuildWidgets();
             }, menu.getPlanetName(planet.dimension())));
-            widget.setTooltip(Tooltip.create(Component.translatable("tooltip.avaritia.tier", tier).append(" ").append(Component.translatable(PlanetManagement.isClientUnlocked(resourceLocation) ? "gtocore.unlocked" : "gtocore.ununlocked"))));
+            widget.setTooltip(Tooltip.create(Component.translatable("ars_nouveau.tier", tier).append(" ").append(Component.translatable(PlanetManagement.isClientUnlocked(resourceLocation) ? "gtocore.unlocked" : "gtocore.ununlocked"))));
             buttons.add(widget);
         }
     }
