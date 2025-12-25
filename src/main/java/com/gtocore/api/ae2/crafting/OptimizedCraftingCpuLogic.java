@@ -423,9 +423,9 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                     this.craftingResults.put(targetOutputKey, result);
                     cluster.markDirty();
                     if (iCraftingProvider instanceof BlockEntity be) {
-                        this.pendingRequests.put(targetOutputKey, GlobalPos.of(level.dimension(), be.getBlockPos()));
+                        this.pendingRequests.put(targetOutputKey, GlobalPos.of(be.getLevel().dimension(), be.getBlockPos()));
                     } else if (iCraftingProvider instanceof MetaMachine mm) {
-                        this.pendingRequests.put(targetOutputKey, GlobalPos.of(level.dimension(), mm.getPos()));
+                        this.pendingRequests.put(targetOutputKey, GlobalPos.of(mm.getLevel().dimension(), mm.getPos()));
                     }
                     switch (result) {
                         case BREAK:
