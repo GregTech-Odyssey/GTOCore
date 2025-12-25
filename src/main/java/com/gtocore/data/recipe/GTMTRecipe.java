@@ -574,7 +574,7 @@ public final class GTMTRecipe {
         ASSEMBLER_RECIPES.recipeBuilder("wireless_computation_transmitter_hatch")
                 .inputItems(GTResearchMachines.COMPUTATION_HATCH_TRANSMITTER.asItem())
                 .inputItems(CustomTags.UV_CIRCUITS)
-                .inputItems(GTItems.SENSOR_ZPM)
+                .inputItems(GTItems.EMITTER_ZPM)
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(576))
                 .outputItems(WirelessMachines.WIRELESS_COMPUTATION_HATCH_TRANSMITTER)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -583,9 +583,9 @@ public final class GTMTRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("wireless_computation_receiver_hatch")
-                .inputItems(GTResearchMachines.COMPUTATION_HATCH_TRANSMITTER.asItem())
+                .inputItems(GTResearchMachines.COMPUTATION_HATCH_RECEIVER.asItem())
                 .inputItems(CustomTags.UV_CIRCUITS)
-                .inputItems(GTItems.EMITTER_ZPM)
+                .inputItems(GTItems.SENSOR_ZPM)
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(576))
                 .outputItems(WirelessMachines.WIRELESS_COMPUTATION_HATCH_RECEIVER)
                 .cleanroom(CleanroomType.CLEANROOM)

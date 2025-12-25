@@ -102,19 +102,14 @@ public class TradeLang {
         addTradeLang("gtocore.trade_group.repeatedly2", "同时按下Ctrl Shift尝试交易100次", "Simultaneously press Ctrl Shift to attempt 100 trades");
         addTradeLang("gtocore.trade_group.exchanged", "将%2$s兑换为%1$s", "Exchange %1$s for %2$s");
 
-        addTradeLang("gtocore.trading_station.inventory", "库存", "Inventory");
         addTradeLang("gtocore.trading_station.unlock_shop", "解锁商店", "Unlock Store");
+        addTradeLang("gtocore.trading_station.item_storage", "物品存储", "Item Storage");
+        addTradeLang("gtocore.trading_station.fluid_storage", "流体存储", "Fluid Storage");
 
-        addTradeLang("gtocore.trading_station.textList.1", "这台机器不属于你, 你无法操作这台机器", "This machine does not belong to you, you cannot operate it.");
         addTradeLang("gtocore.trading_station.textList.2", "⇦ 请放入会员卡", "⇦ Please insert your membership card.");
         addTradeLang("gtocore.trading_station.textList.3", "欢迎「 %s 」", "Welcome「 %s 」");
         addTradeLang("gtocore.trading_station.textList.4", "共享给: ", "Share with: ");
-        addTradeLang("gtocore.trading_station.textList.5", "[展开]", "[Expand]");
-        addTradeLang("gtocore.trading_station.textList.6", "[收起]", "[Collapse]");
-        addTradeLang("gtocore.trading_station.textList.7", "--详细介绍--", "--Detailed Introduction--");
         addTradeLang("gtocore.trading_station.textList.8", "[刷新]", "[Refresh]");
-        addTradeLang("gtocore.trading_station.textList.9", "物品存储", "Item Storage");
-        addTradeLang("gtocore.trading_station.textList.10", "流体存储", "Fluid Storage");
 
         addTradeLang("gtocore.trading_station.textList.11", "请从掌上银行获取会员卡以使用交易站", "Please obtain a membership card from your mobile banking app to use the trading platform.");
 

@@ -723,7 +723,7 @@ public final class MachineRecipeLoader {
 
         ASSEMBLER_RECIPES.recipeBuilder("assembly_control_casing")
                 .inputItems(HIGH_POWER_INTEGRATED_CIRCUIT)
-                .inputItems(CustomTags.EV_CIRCUITS, 4)
+                .inputItems(GTOCore.isExpert() ? CustomTags.LuV_CIRCUITS : CustomTags.EV_CIRCUITS, 4)
                 .inputItems(SENSOR_IV)
                 .inputItems(EMITTER_IV)
                 .inputItems(ELECTRIC_MOTOR_IV)
