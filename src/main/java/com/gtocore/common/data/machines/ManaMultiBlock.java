@@ -490,8 +490,8 @@ public final class ManaMultiBlock {
             .register();
 
     public static final MultiblockMachineDefinition RESONANCE_FLOWER = multiblock("resonance_flower", "共鸣之花", ResonanceFlowerMachine::new)
+            .tooltips(GTOMachineTooltips.INSTANCE.getResonanceFlowerTooltips().getSupplier())
             .parallelizableTooltips()
-            .perfectOCTooltips()
             .parallelizableManaOverclock()
             .recipeTypes(GTORecipeTypes.ELEMENTAL_RESONANCE)
             .block(GTOBlocks.THE_ORIGIN_CASING)
@@ -510,6 +510,7 @@ public final class ManaMultiBlock {
                     .where('L', blocks(RegistriesUtils.getBlock("ars_nouveau:void_prism")))
                     .where('M', blocks(GTOBlocks.THE_ORIGIN_CASING.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('N', blocks(RegistriesUtils.getBlock("botania:dragonstone_block")))
                     .where('O', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))

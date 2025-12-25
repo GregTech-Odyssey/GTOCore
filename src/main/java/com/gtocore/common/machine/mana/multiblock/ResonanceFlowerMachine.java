@@ -3,25 +3,18 @@ package com.gtocore.common.machine.mana.multiblock;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
-import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -32,7 +25,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,7 +34,7 @@ import java.util.Objects;
 
 import static com.lowdragmc.lowdraglib.LDLib.random;
 
-public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements IStorageMultiblock, IDropSaveMachine {
+public class ResonanceFlowerMachine extends ManaMultiblockMachine implements IStorageMultiblock, IDropSaveMachine {
 
     // 时间消耗波动系数
     @Persisted
@@ -60,6 +52,14 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
     private List<CompoundTag> recipeIncremental = new ArrayList<>();
     private static final int MAX_SIZE = 10;
     private static final String NBT_KEY_RECIPE_INCREMENTAL = "RecipeIncremental";
+
+    // 额外共鸣输入
+    @Persisted
+    private int frequency = Integer.MAX_VALUE;
+    @Persisted
+    private ItemStack resonanceItem = ItemStack.EMPTY;
+    @Persisted
+    private FluidStack resonanceFluid = FluidStack.EMPTY;
 
     @Persisted
     protected final NotifiableItemStackHandler machineStorage;
@@ -81,16 +81,26 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
 
     @Override
     protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
-        recipe = super.getRealRecipe(recipe);
-        if (recipe == null) return null;
+        resetResonance();
+
         String id = recipe.id.getPath();
         Object[] tierEffect = getTierEffect(id);
 
-        if (recipe.data.contains("resonance")) enhanceRecipe(recipe);
+        if (recipe.data.contains("resonance")) {
+            Object[] resonance = fromResonanceTag(recipe.data.getCompound("resonance"));
+            if (resonance[0] instanceof ItemStack itemStack) {
+                resonanceItem = itemStack;
+                resonanceFluid = FluidStack.EMPTY;
+            } else if (resonance[0] instanceof FluidStack fluidStack) {
+                resonanceItem = ItemStack.EMPTY;
+                resonanceFluid = fluidStack;
+            }
+            frequency = (int) resonance[1];
+        }
 
         double durationMultiplier = recipe.duration * timeFluctuationCoefficient * (float) tierEffect[0];
         recipe.duration = (int) Math.max(1, durationMultiplier);
-        long maxContentParallel = Math.max(ParallelLogic.getMaxContentParallel(this, recipe), (long) tierEffect[1]);
+        long maxContentParallel = Math.min(ParallelLogic.getMaxContentParallel(this, recipe), (long) tierEffect[1]);
 
         addEntry(id, maxContentParallel);
         upgradeEntry(id);
@@ -102,17 +112,34 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
+        resetResonance();
+
         updateStableTime();
         if (stableTime > 0) stableTime--;
         else triggerFluctuation();
     }
 
     @Override
+    public boolean onWorking() {
+        if (super.onWorking()) {
+            if (frequency > 0 && getRecipeLogic().getProgress() % frequency == 0 && getRecipeLogic().getProgress() != 0) {
+                if (!resonanceFluid.isEmpty()) {
+                    return inputFluid(resonanceFluid);
+                } else if (!resonanceItem.isEmpty()) {
+                    return inputItem(resonanceItem);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.resonance_flower.stable_operation_times", stableTime));
-        textList.add(Component.translatable("gtocore.machine.resonance_flower.time_fluctuation_coefficient", timeFluctuationCoefficient));
-        textList.add(Component.translatable("gtocore.machine.resonance_flower.elemental_fluctuation_coefficient", elementalFluctuationCoefficient));
+        textList.add(Component.translatable("gtocore.machine.resonance_flower.time_fluctuation_coefficient", String.format("%.6f", timeFluctuationCoefficient)));
+        textList.add(Component.translatable("gtocore.machine.resonance_flower.elemental_fluctuation_coefficient", String.format("%.6f", elementalFluctuationCoefficient)));
     }
 
     @Override
@@ -130,8 +157,19 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
         }
     }
 
+    @Override
+    public boolean hasOverclockConfig() {
+        return false;
+    }
+
+    private void resetResonance() {
+        resonanceItem = ItemStack.EMPTY;
+        resonanceFluid = FluidStack.EMPTY;
+        frequency = Integer.MAX_VALUE;
+    }
+
     private void updateStableTime() {
-        if (stableTime >= 1000000000) return;
+        if (stableTime >= 100000000) return;
         ItemStack stack = machineStorage.getStackInSlot(0);
         if (stack.isEmpty()) return;
         if (stack.getItem() == GTOItems.STABILIZER_CORE.asItem()) {
@@ -149,62 +187,56 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
     /////////////////////////////////////
 
     private static final String KEY_TYPE = "type";
-    private static final String TYPE_ITEM = "item";
-    private static final String TYPE_FLUID = "fluid";
+    private static final String KEY_FREQUENCY = "frequency";
+    private static final String KEY_STACK = "stack";
 
-    // 通用序列化：ItemStack/FluidStack → CompoundTag
-    public static CompoundTag toTag(Object stack) {
+    // 通用序列化：ItemStack/FluidStack + 频率 → CompoundTag
+    public static CompoundTag toResonanceTag(Object stack, int frequency) {
         CompoundTag root = new CompoundTag();
+        root.putInt(KEY_FREQUENCY, frequency);
         if (stack instanceof ItemStack itemStack) {
-            root.putString(KEY_TYPE, TYPE_ITEM);
-            root.merge(itemStack.save(new CompoundTag()));
+            CompoundTag stackTag = new CompoundTag();
+            root.putString(KEY_TYPE, "item");
+            stackTag.merge(itemStack.save(new CompoundTag()));
+            root.put(KEY_STACK, stackTag);
         } else if (stack instanceof FluidStack fluidStack) {
-            root.putString(KEY_TYPE, TYPE_FLUID);
-            root.putString("fluidId", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid())).toString());
-            root.putInt("amount", fluidStack.getAmount());
-            if (fluidStack.hasTag()) root.put("tag", fluidStack.getTag().copy());
+            CompoundTag stackTag = new CompoundTag();
+            root.putString(KEY_TYPE, "fluid");
+            stackTag.putString("FluidName", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid())).toString());
+            stackTag.putInt("Amount", fluidStack.getAmount());
+            if (fluidStack.hasTag()) stackTag.put("tag", fluidStack.getTag().copy());
+            root.put(KEY_STACK, stackTag);
         }
         return root;
     }
 
-    // 通用反序列化：CompoundTag → ItemStack/FluidStack（修复核心问题）
-    public static Object fromTag(CompoundTag tag) {
+    // 通用反序列化：CompoundTag → Object[] [stack, frequency]
+    public static Object[] fromResonanceTag(CompoundTag tag) {
+        int frequency = tag.getInt(KEY_FREQUENCY);
         String type = tag.getString(KEY_TYPE);
-        if (TYPE_ITEM.equals(type)) {
-            CompoundTag itemTag = tag.copy();
-            itemTag.remove(KEY_TYPE);
-            return ItemStack.of(itemTag);
-        } else if (TYPE_FLUID.equals(type)) {
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(tag.getString("fluidId")));
-            if (fluid == null || fluid == Fluids.EMPTY) return null;
-            int amount = tag.getInt("amount");
-            CompoundTag extraTag = tag.contains("tag", Tag.TAG_COMPOUND) ? tag.getCompound("tag") : new CompoundTag();
-            return new FluidStack(fluid, amount, extraTag);
-        }
-        return null;
-    }
+        if (!tag.contains(KEY_STACK, Tag.TAG_COMPOUND)) return new Object[] { null, frequency };
 
-    /** 修改配方：添加共鸣消耗 */
-    private void enhanceRecipe(Recipe recipe) {
-        Object resonance = fromTag(recipe.data.getCompound("resonance"));
-        if (resonance instanceof ItemStack itemStack) {
-            int count = (int) Math.max(1, itemStack.getCount() * elementalFluctuationCoefficient);
-            recipe.tickInputs.computeIfAbsent(ItemRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
-                    new Content(ItemRecipeCapability.CAP.of(FastSizedIngredient.create(itemStack.getItem(), count)),
-                            ChanceLogic.getMaxChancedValue(), 0));
-        } else if (resonance instanceof FluidStack fluidStack) {
-            int amount = (int) Math.max(1, fluidStack.getAmount() * elementalFluctuationCoefficient);
-            recipe.tickInputs.computeIfAbsent(FluidRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
-                    new Content(FluidRecipeCapability.CAP.of(FastFluidIngredient.of(amount, fluidStack.getFluid())),
-                            ChanceLogic.getMaxChancedValue(), 0));
+        CompoundTag stackTag = tag.getCompound(KEY_STACK);
+        Object stack = null;
+        if (type.equals("item")) {
+            CompoundTag itemTag = stackTag.copy();
+            stack = ItemStack.of(itemTag);
+        } else if (type.equals("fluid")) {
+            Fluid fluid = RegistriesUtils.getFluid(stackTag.getString("FluidName"));
+            if (fluid != null && fluid != Fluids.EMPTY) {
+                int amount = stackTag.getInt("Amount");
+                CompoundTag extraTag = stackTag.contains("tag", Tag.TAG_COMPOUND) ? stackTag.getCompound("tag") : null;
+                stack = new FluidStack(fluid, amount, extraTag);
+            }
         }
+        return new Object[] { stack, frequency };
     }
 
     /** 波动系数系统 */
     public void triggerFluctuation() {
-        // 1. 时间消耗波动：每次跳变倍数范围 0.2 ~ 2.6，最终倍数范围 0.005 ~ 20
+        // 1. 时间消耗波动：每次跳变倍数范围 0.2 ~ 2.6，最终倍数范围 0.05 ~ 20
         double newTimeMultiplier = timeFluctuationCoefficient * (0.2D + random.nextDouble() * 2.4D);
-        timeFluctuationCoefficient = Mth.clamp(newTimeMultiplier, 0.005D, 20.0D);
+        timeFluctuationCoefficient = Mth.clamp(newTimeMultiplier, 0.05D, 20.0D);
         // 2. 元素消耗波动：每次跳变倍数范围 0.5 ~ 1.8，最终倍数范围 0.1 ~ 16
         double newElemMultiplier = elementalFluctuationCoefficient * (0.5D + random.nextDouble() * 1.3D);
         elementalFluctuationCoefficient = Mth.clamp(newElemMultiplier, 0.1D, 16.0D);
@@ -265,7 +297,7 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
         if (entry == null) return;
 
         short currentTier = entry.getShort("tier");
-        if (currentTier > 256) return;
+        if (currentTier >= 256) return;
 
         long currentFrequency = entry.getLong("frequency");
         long upgradeRequirement = calculateUpgradeRequirement(currentTier);

@@ -1,19 +1,29 @@
 package com.gtocore.data.recipe.magic;
 
-import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.ManaMachine;
+import com.gtocore.common.data.machines.ManaMultiBlock;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.data.GTODimensions;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
+import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import mythicbotany.register.ModItems;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -25,13 +35,9 @@ import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.CRYSTAL_SEED;
 import static com.gtocore.common.data.GTOItems.*;
-import static com.gtocore.common.data.GTOItems.BONE_ASH_GRANULE;
-import static com.gtocore.common.data.GTOItems.HOLY_ROOT_MYCELIUM;
-import static com.gtocore.common.data.GTOItems.SOUL_SHADOW_DUST;
-import static com.gtocore.common.data.GTOItems.SOURCE_SPIRIT_DEBRIS;
-import static com.gtocore.common.data.GTOItems.STAR_DEBRIS_SAND;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.common.machine.mana.multiblock.ResonanceFlowerMachine.toResonanceTag;
 import static com.gtocore.utils.PlayerHeadUtils.itemStackAddNbtString;
 
 public final class MagicRecipesB {
@@ -263,6 +269,71 @@ public final class MagicRecipesB {
                     .EUt(8)
                     .save();
 
+        }
+
+        INFUSER_CORE_RECIPES.builder("resonance_flower")
+                .notConsumable(ModItems.fimbultyrTablet)
+                .notConsumable(ExtraBotanyItems.manaRingMaster)
+                .notConsumable(BotaniaItems.dice)
+                .notConsumable(ExtraBotanyItems.pandorasBox)
+                .inputItems(GTOBlocks.THE_ORIGIN_CASING.asItem(), 16)
+                .inputItems(GTOBlocks.THE_END_CASING.asItem(), 16)
+                .inputItems(GTOBlocks.THE_CHAOS_CASING.asItem(), 16)
+                .inputItems(TagPrefix.gemFlawless, GTOMaterials.OriginCoreCrystal, 16)
+                .inputItems(TagPrefix.gemFlawless, GTOMaterials.StarBloodCrystal, 16)
+                .inputItems(TagPrefix.gemFlawless, GTOMaterials.SoulJadeCrystal, 16)
+                .inputItems(TagPrefix.gemFlawless, GTOMaterials.RemnantSpiritStone, 16)
+                .inputItems(TagPrefix.block, GTOMaterials.Runerock, 64)
+                .inputItems(GTOBlocks.STAR_STONE[4], 64)
+                .inputItems(GTOItems.PHILOSOPHERS_STONE.asItem())
+                .inputItems(ItemsRegistry.WILDEN_TRIBUTE, 64)
+                .inputItems(ItemsRegistry.MANIPULATION_ESSENCE, 64)
+                .inputItems(TagPrefix.gem, GTMaterials.NetherStar, 64)
+                .inputItems(AFFIX_ESSENCE.get("apotheosis:sword/special/thunderstruck"), 16)
+                .inputFluids(GTMaterials.MaragingSteel300, L * 9 * 16)
+                .inputFluids(GTOMaterials.EnergySolidifier, 8000)
+                .inputFluids(GTOMaterials.Aether, FluidStorageKeys.LIQUID, 8000)
+                .outputItems(ManaMultiBlock.RESONANCE_FLOWER)
+                .duration(1200)
+                .MANAt(32768)
+                .save();
+
+        // 元素共鸣
+        {
+            ELEMENTAL_RESONANCE.recipeBuilder("fluctuation")
+                    .inputItems(ManaMultiBlock.RESONANCE_FLOWER)
+                    .outputItems(ManaMultiBlock.RESONANCE_FLOWER)
+                    .addData("resonance", toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(1), 5))
+                    .MANAt(4)
+                    .duration(10)
+                    .circuitMeta(32)
+                    .save();
+
+            ELEMENTAL_RESONANCE.recipeBuilder("recycle_life_essence_from_gaia_dust")
+                    .notConsumable(BotaniaItems.lifeEssence)
+                    .inputItems(dust, Gaia, 16)
+                    .inputItems(dust, StarStone)
+                    .inputFluids(FinalPurifier, 250)
+                    .outputItems(BotaniaItems.lifeEssence, 8)
+                    .dimension(GTODimensions.ALFHEIM)
+                    .addData("resonance", toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(100), 10))
+                    .MANAt(128)
+                    .duration(3600)
+                    .circuitMeta(8)
+                    .save();
+
+            ELEMENTAL_RESONANCE.recipeBuilder("recycle_nether_star_from_netherember_dust")
+                    .notConsumable(Items.NETHER_STAR)
+                    .inputItems(dust, NetherEmber, 256)
+                    .inputItems(dust, StarStone)
+                    .inputFluids(EnergySolidifier, 250)
+                    .outputItems(Items.NETHER_STAR, 16)
+                    .dimension(GTODimensions.ALFHEIM)
+                    .addData("resonance", toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(100), 10))
+                    .MANAt(128)
+                    .duration(3600)
+                    .circuitMeta(8)
+                    .save();
         }
 
         // 命树灵脉 - 处理线

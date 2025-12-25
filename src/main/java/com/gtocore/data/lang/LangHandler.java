@@ -395,7 +395,8 @@ public final class LangHandler {
         addCNEN("gtocore.celestial_condenser.voidflux", "虚湮：%s", "Voidflux: %s");
         addCNEN("gtocore.celestial_condenser.any", "任意：%s", "Any: %s");
 
-        addCNEN("gtocore.elemental_resonance", "共鸣输入: %d× %s/t", "Resonance input: %d× %s/t");
+        addCNEN("gtocore.elemental_resonance.0", "共鸣消耗: %s/%st", "Resonance consumption: %s/%st");
+        addCNEN("gtocore.elemental_resonance.1", "共鸣消耗: %s×%s/%st", "Resonance consumption: %s×%s/%st");
 
         addCNEN("tooltip.gtocore.hold_for_more", "§1按住 %s 显示更多信息。§r", "§1Hold %s for more info.§r");
 

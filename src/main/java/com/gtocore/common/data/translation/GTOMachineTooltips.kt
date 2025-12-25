@@ -1879,6 +1879,41 @@ object GTOMachineTooltips {
         info("消耗魔力，强行将宝石镶嵌到物品上" translatedTo "Consume magic power to forcibly inserting gems into items")
     }
 
+    // 共鸣之花
+    val ResonanceFlowerTooltips = ComponentListSupplier {
+        setTranslationPrefix("resonance_flower")
+
+        story(
+            "诞生于虚空的共鸣之花，携带着野性的魔力能量，经格雷科技的工业锚定后，成为魔力工业化的核心枢纽" translatedTo
+                "The Resonance Flower, born from the Void with wild mana energy, became the core hub of mana industrialization after being anchored by GregTech's industry.",
+        )
+
+        section("魔力工业的核心转化枢纽" translatedTo "Core Conversion Hub of Mana Industry")
+        highlight("虚空能量的工业驯服者" translatedTo "Industrial Tamer of Void Energy") { rainbowSlow() }
+        section("累计配方次数解锁等级，提升转化效率与并行倍率" translatedTo "Accumulate recipe runs to unlock tiers, boosting conversion efficiency and parallel multipliers")
+        danger("波动效应失控会加剧消耗！！！" translatedTo "Uncontrolled fluctuation effects will exacerbate consumption!!!")
+        section("需补充稳定资源抑制波动" translatedTo "Requires stability resources to suppress fluctuations. ")
+        highlight("泛银河魔力工业体系核心装备" translatedTo "Core Equipment of the Pan-Galactic Mana Industrial System") { rainbowSlow() }
+
+        // 核心机制
+        section("核心机制" translatedTo "Core Mechanism")
+        function("配方运行次数累计解锁等级" translatedTo "Accumulate recipe runs to unlock tiers")
+        command("等级越高，耗时减免越多，并行处理倍率越高（每台机器最多10条记录）" translatedTo "Higher tiers grant more duration reduction and higher parallel multiplier (max 10 records per Machine)")
+        function("机器消耗系数随机跳变" translatedTo "Random jump of machine consumption coefficient")
+        command("时间消耗波动系数[0.05 ~ 20] · 元素消耗波动系数[0.1 ~ 16]" translatedTo "Time consumption fluctuation coefficient [0.05~20] · Element consumption fluctuation coefficient [0.1~16]")
+        command("向主机存储放入物品延长稳定次数" translatedTo "Add items to host storage to extend stable time")
+        info("放入§b下界之星§r：每颗增加5次的稳定次数" translatedTo "Put §bNether Star§r: +5 of the stable time per star")
+        info("放入§b稳定剂核心§r：每个增加10000000次的稳定次数" translatedTo "Put §bStabilizer Core§r: +10000000 for each stable time")
+
+        section("共鸣消耗" translatedTo "Resonance Consumption")
+        function("配方带共鸣标签时，按频率消耗指定资源" translatedTo "Recipes with resonance tags consume specified resources at set frequency")
+        info("消耗失败直接中断配方执行！" translatedTo "Consumption failure interrupts recipe execution directly!")
+
+        section("等级加成" translatedTo "Tier Bonuses")
+        increase("耗时减免 - 1-8级每级减2.5% | 9-64级每级额外减1.25% | ≥64级固定减90%" translatedTo "Duration Reduction - Tier1-8: -2.5% per tier | Tier9-64: Extra -1.25% per tier | ≥Tier64: Fixed -90%")
+        increase("并行倍率 - 1-64级线性递增 | 65-255级倍率陡增 | ≥256级Long.MAX_VALUE" translatedTo "Parallel Multiplier - Tier1-64: Linear increase | Tier65-255: Sharp multiplier increase | ≥Tier256: Long.MAX_VALUE")
+    }
+
     // 炼金装置
     val AlchemicalDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("alchemical_device")
