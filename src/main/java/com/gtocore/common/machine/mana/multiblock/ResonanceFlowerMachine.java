@@ -88,7 +88,8 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
 
         if (recipe.data.contains("resonance")) enhanceRecipe(recipe);
 
-        recipe.duration = (int) Math.max(1, recipe.duration * timeFluctuationCoefficient * (float) tierEffect[0]);
+        double durationMultiplier = recipe.duration * timeFluctuationCoefficient * (float) tierEffect[0];
+        recipe.duration = (int) Math.max(1, durationMultiplier);
         long maxContentParallel = Math.max(ParallelLogic.getMaxContentParallel(this, recipe), (long) tierEffect[1]);
 
         addEntry(id, maxContentParallel);
@@ -125,23 +126,21 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
     public void loadFromItem(CompoundTag tag) {
         if (tag.contains(NBT_KEY_RECIPE_INCREMENTAL, Tag.TAG_LIST)) {
             ListTag tagList = tag.getList(NBT_KEY_RECIPE_INCREMENTAL, Tag.TAG_COMPOUND);
-            for (Tag itemTag : tagList) {
-                if (itemTag instanceof CompoundTag compoundTag) this.recipeIncremental.add(compoundTag);
-            }
+            tagList.forEach(itemTag -> this.recipeIncremental.add((CompoundTag) itemTag));
         }
     }
 
     private void updateStableTime() {
-        if (!machineStorage.isEmpty() && stableTime < 1000000000) {
-            ItemStack stack = machineStorage.getStackInSlot(0);
-            if (stack.getItem() == GTOItems.STABILIZER_CORE.asItem()) {
-                stableTime += 1000000000;
-                stack.setCount(stack.getCount() - 1);
-                machineStorage.setStackInSlot(0, stack);
-            } else if (stack.getItem() == Items.NETHER_STAR) {
-                stableTime += 5 * stack.getCount();
-                machineStorage.setStackInSlot(0, ItemStack.EMPTY);
-            }
+        if (stableTime >= 1000000000) return;
+        ItemStack stack = machineStorage.getStackInSlot(0);
+        if (stack.isEmpty()) return;
+        if (stack.getItem() == GTOItems.STABILIZER_CORE.asItem()) {
+            stableTime += 10000000;
+            stack.shrink(1);
+            machineStorage.setStackInSlot(0, stack);
+        } else if (stack.getItem() == Items.NETHER_STAR) {
+            stableTime += 5 * stack.getCount();
+            machineStorage.setStackInSlot(0, ItemStack.EMPTY);
         }
     }
 
@@ -189,25 +188,25 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
     private void enhanceRecipe(Recipe recipe) {
         Object resonance = fromTag(recipe.data.getCompound("resonance"));
         if (resonance instanceof ItemStack itemStack) {
+            int count = (int) Math.max(1, itemStack.getCount() * elementalFluctuationCoefficient);
             recipe.tickInputs.computeIfAbsent(ItemRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
-                    new Content(ItemRecipeCapability.CAP.of(
-                            FastSizedIngredient.create(itemStack.getItem(), (int) Math.max(1, itemStack.getCount() * elementalFluctuationCoefficient))),
+                    new Content(ItemRecipeCapability.CAP.of(FastSizedIngredient.create(itemStack.getItem(), count)),
                             ChanceLogic.getMaxChancedValue(), 0));
         } else if (resonance instanceof FluidStack fluidStack) {
+            int amount = (int) Math.max(1, fluidStack.getAmount() * elementalFluctuationCoefficient);
             recipe.tickInputs.computeIfAbsent(FluidRecipeCapability.CAP, k -> new ObjectArrayList<>()).add(
-                    new Content(FluidRecipeCapability.CAP.of(
-                            FastFluidIngredient.of((int) Math.max(1, fluidStack.getAmount() * elementalFluctuationCoefficient), fluidStack.getFluid())),
+                    new Content(FluidRecipeCapability.CAP.of(FastFluidIngredient.of(amount, fluidStack.getFluid())),
                             ChanceLogic.getMaxChancedValue(), 0));
         }
     }
 
     /** 波动系数系统 */
     public void triggerFluctuation() {
-        // 1. 时间消耗波动：每次跳变倍数范围 0.2 ~ 2.6，最终倍数范围 0.05 ~ 20
-        double newTimeMultiplier = timeFluctuationCoefficient * (0.2D + random.nextDouble() * (2.6D - 0.2D));
-        timeFluctuationCoefficient = Mth.clamp(newTimeMultiplier, 0.05D, 20.0D);
+        // 1. 时间消耗波动：每次跳变倍数范围 0.2 ~ 2.6，最终倍数范围 0.005 ~ 20
+        double newTimeMultiplier = timeFluctuationCoefficient * (0.2D + random.nextDouble() * 2.4D);
+        timeFluctuationCoefficient = Mth.clamp(newTimeMultiplier, 0.005D, 20.0D);
         // 2. 元素消耗波动：每次跳变倍数范围 0.5 ~ 1.8，最终倍数范围 0.1 ~ 16
-        double newElemMultiplier = elementalFluctuationCoefficient * (0.5D + random.nextDouble() * (1.8D - 0.5D));
+        double newElemMultiplier = elementalFluctuationCoefficient * (0.5D + random.nextDouble() * 1.3D);
         elementalFluctuationCoefficient = Mth.clamp(newElemMultiplier, 0.1D, 16.0D);
     }
 
@@ -227,8 +226,8 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
         // 查找并移除旧条目（存在则累加，且移到末尾）
         CompoundTag oldEntry = null;
         for (int i = 0; i < recipeIncremental.size(); i++) {
-            Tag element = recipeIncremental.get(i);
-            if (element instanceof CompoundTag entryTag && id.equals(entryTag.getString("id"))) {
+            CompoundTag entryTag = recipeIncremental.get(i);
+            if (id.equals(entryTag.getString("id"))) {
                 oldEntry = entryTag;
                 recipeIncremental.remove(i);
                 break;
@@ -254,10 +253,8 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
     /** 按id查找条目 */
     public CompoundTag getEntryById(String id) {
         if (id == null || id.isEmpty()) return null;
-        for (Tag element : recipeIncremental) {
-            if (element instanceof CompoundTag entryTag && id.equals(entryTag.getString("id"))) {
-                return entryTag;
-            }
+        for (CompoundTag entryTag : recipeIncremental) {
+            if (id.equals(entryTag.getString("id"))) return entryTag;
         }
         return null;
     }
@@ -281,8 +278,8 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
 
     /** 计算升级所需frequency */
     private long calculateUpgradeRequirement(short currentTier) {
-        if (currentTier <= 0) return 10L;
         if (currentTier >= 256) return Long.MAX_VALUE;
+        if (currentTier <= 0) return 10L;
 
         if (currentTier <= 4) {
             return 10L + currentTier * 100L;
@@ -315,18 +312,10 @@ public class ResonanceFlowerMachine extends NoEnergyMultiblockMachine implements
     }
 
     public float getTimeMultiplier(short tier) {
-        if (tier >= 32) return 0.5f;
+        if (tier >= 64) return 0.1f;
         if (tier <= 0) return 1.0f;
 
-        if (tier <= 8) {
-            return 1.0f - (tier * 0.025f);
-        } else if (tier <= 16) {
-            return 0.8f - ((tier - 8) * 0.0125f);
-        } else if (tier <= 24) {
-            return 0.7f - ((tier - 16) * 0.0125f);
-        } else {
-            return 0.6f - ((tier - 24) * 0.0125f);
-        }
+        return tier <= 8 ? 1.0f - tier * 0.025f : 0.8f - (tier - 8) * 0.0125f;
     }
 
     public long getMaxParallel(short tier) {

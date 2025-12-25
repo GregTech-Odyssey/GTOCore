@@ -607,19 +607,34 @@ public final class MagicMaterial {
                 .buildAndRegister().setFormula("Su", false);
 
         OriginCoreCrystal = magicMaterial("origin_core_crystal", "源核晶")
-                .ore(true).gem().color(0xF2E8C6).iconSet(OPAL)
+                .ore(true)
+                .gem()
+                .color(0xF2E8C6)
+                .iconSet(OPAL)
                 .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
                 .buildAndRegister().setFormula("\uD83C\uDF00 \uD83C\uDF31 \uD83C\uDF33", false);
+
         StarBloodCrystal = magicMaterial("star_blood_crystal", "星血晶")
-                .ore(true).gem().color(0x7B68EE).iconSet(OPAL)
+                .ore(true)
+                .gem()
+                .color(0x7B68EE)
+                .iconSet(OPAL)
                 .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
                 .buildAndRegister().setFormula("\uD83D\uDCAB \uD83E\uDE78 ⚖️", false);
+
         SoulJadeCrystal = magicMaterial("soul_jade_crystal", "魂玉晶")
-                .ore(true).gem().color(0xB19CD9).iconSet(OPAL)
+                .ore(true)
+                .gem()
+                .color(0xB19CD9)
+                .iconSet(OPAL)
                 .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
                 .buildAndRegister().setFormula("\uD83D\uDCA0 \uD83D\uDD2E \uD83C\uDF0C", false);
+
         RemnantSpiritStone = magicMaterial("remnant_spirit_stone", "骸灵石")
-                .ore(true).gem().color(0x4F4F4F).iconSet(OPAL)
+                .ore(true)
+                .gem()
+                .color(0x4F4F4F)
+                .iconSet(OPAL)
                 .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
                 .buildAndRegister().setFormula("\uD83D\uDC80 ⚰️ ⚜️", false);
 

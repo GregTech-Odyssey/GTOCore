@@ -124,19 +124,19 @@ public final class MagicRecipesB {
 
         // 符文铭刻
         {
-            Item[] runeItem = {
+            Item[] runeItem1 = {
                     BotaniaItems.runeEarth, BotaniaItems.runeAir, BotaniaItems.runeFire, BotaniaItems.runeWater,
                     BotaniaItems.runeSpring, BotaniaItems.runeSummer, BotaniaItems.runeAutumn, BotaniaItems.runeWinter,
                     BotaniaItems.runeMana, BotaniaItems.runeLust, BotaniaItems.runeGluttony, BotaniaItems.runeGreed,
                     BotaniaItems.runeSloth, BotaniaItems.runeWrath, BotaniaItems.runeEnvy, BotaniaItems.runePride,
             };
-            String[] runeString = {
-                    "asgard_rune", "vanaheim_rune", "alfheim_rune",
-                    "midgard_rune", "joetunheim_rune", "muspelheim_rune",
-                    "niflheim_rune", "nidavellir_rune", "helheim_rune"
+            Item[] runeItem2 = {
+                    ModItems.asgardRune, ModItems.vanaheimRune, ModItems.alfheimRune,
+                    ModItems.midgardRune, ModItems.joetunheimRune, ModItems.muspelheimRune,
+                    ModItems.niflheimRune, ModItems.nidavellirRune, ModItems.helheimRune,
             };
 
-            for (Item rune : runeItem) {
+            for (Item rune : runeItem1) {
                 RUNE_ENGRAVING_RECIPES.recipeBuilder("engraving_" + rune.toString())
                         .notConsumable(rune)
                         .inputItems(BotaniaBlocks.livingrock.asItem())
@@ -147,13 +147,13 @@ public final class MagicRecipesB {
                         .duration(200)
                         .save();
             }
-            for (String rune : runeString) {
-                RUNE_ENGRAVING_RECIPES.recipeBuilder("engraving_" + rune)
-                        .notConsumable("mythicbotany:" + rune)
+            for (Item rune : runeItem2) {
+                RUNE_ENGRAVING_RECIPES.recipeBuilder("engraving_" + rune.toString())
+                        .notConsumable(rune)
                         .inputItems(BotaniaBlocks.livingrock.asItem())
                         .inputFluids(Animium.getFluid(9000))
                         .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(1000))
-                        .outputItems("mythicbotany:" + rune, 9)
+                        .outputItems(rune, 9)
                         .MANAt(256)
                         .duration(200)
                         .save();

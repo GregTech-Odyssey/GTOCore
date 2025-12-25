@@ -1,7 +1,5 @@
 package com.gtocore.mixin.botania;
 
-import com.gtocore.common.data.GTOItems;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +17,7 @@ import mythicbotany.alfheim.Alfheim;
 import mythicbotany.alfheim.teleporter.AlfheimPortalHandler;
 import mythicbotany.alfheim.teleporter.AlfheimTeleporter;
 import mythicbotany.config.MythicConfig;
+import mythicbotany.register.ModBlocks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
@@ -82,18 +81,18 @@ public abstract class AlfheimEventListenerMixin {
     @Unique
     private boolean gtocore$additionalChecks(ServerPlayer player) {
         Item[] REQUIRED_ITEMS = {
-                BotaniaItems.kingKey.asItem(),
-                BotaniaItems.flugelEye.asItem(),
-                BotaniaItems.infiniteFruit.asItem(),
-                BotaniaItems.thorRing.asItem(),
-                BotaniaItems.odinRing.asItem(),
-                BotaniaItems.lokiRing.asItem(),
-                ExtraBotanyItems.excalibur.asItem(),
-                ExtraBotanyItems.failnaught.asItem(),
-                ExtraBotanyItems.rheinHammer.asItem(),
-                ExtraBotanyItems.achillesShield.asItem(),
-                ExtraBotanyItems.voidArchives.asItem(),
-                GTOItems.PHILOSOPHERS_STONE.asItem() };
+                BotaniaItems.kingKey,
+                BotaniaItems.flugelEye,
+                BotaniaItems.infiniteFruit,
+                BotaniaItems.thorRing,
+                BotaniaItems.odinRing,
+                BotaniaItems.lokiRing,
+                ModBlocks.mjoellnir.asItem(),
+                ExtraBotanyItems.excalibur,
+                ExtraBotanyItems.failnaught,
+                ExtraBotanyItems.rheinHammer,
+                ExtraBotanyItems.achillesShield,
+                ExtraBotanyItems.voidArchives };
         for (Item requiredItem : REQUIRED_ITEMS) {
             boolean itemExists = gtocore$checkItemInIterable(requiredItem, player.getInventory().items) || gtocore$checkItemInIterable(requiredItem, List.of(player.getOffhandItem())) || gtocore$checkItemInIterable(requiredItem, gtocore$getCuriosItemStacks(player));
             if (!itemExists) return false;
