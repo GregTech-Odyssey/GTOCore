@@ -4,7 +4,7 @@ import com.gtocore.api.gui.ktflexible.multiPageAdvanced
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
-import com.gtocore.integration.ae.WirelessMachine
+import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.core.BlockPos

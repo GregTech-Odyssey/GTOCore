@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
+import com.gtocore.data.record.EnchantmentRecord;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;

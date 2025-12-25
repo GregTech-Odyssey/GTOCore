@@ -60,6 +60,8 @@ import org.jetbrains.annotations.NotNull;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTModels.overrideModel;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
+import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
+import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.ItemRegisterUtils.*;
 
