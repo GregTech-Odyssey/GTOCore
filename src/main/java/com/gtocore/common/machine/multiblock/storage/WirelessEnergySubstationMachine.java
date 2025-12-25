@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.storage;
 
+import com.gtocore.client.hud.IMoveableHUD;
+import com.gtocore.client.hud.WirelessEnergyHUD;
 import com.gtocore.common.block.WirelessEnergyUnitBlock;
 
 import com.gtolib.api.GTOValues;
@@ -12,12 +14,16 @@ import com.gtolib.utils.FunctionContainer;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
@@ -27,6 +33,7 @@ import com.google.common.collect.Multimaps;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.hepdd.gtmthings.utils.TeamUtil;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -41,6 +48,9 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
     private final Multimap<Integer, BlockPos> wirelessEnergyUnitPositions = Multimaps.newMultimap(new Int2ObjectOpenHashMap<>(), ObjectOpenHashSet::new);
+
+    @Persisted
+    private ResourceLocation dimension;
 
     public WirelessEnergySubstationMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -76,7 +86,8 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         }
         container.setLoss(i == 0 ? 0 : loss / i);
         container.setCapacity(capacity.multiply(BigInteger.valueOf(Math.max(1, i / 2))));
-        container.setDimension(level.dimension().location(), true);
+        dimension = level.dimension().location();
+        container.setDimension(dimension, true);
     }
 
     private void unloadContainer() {
@@ -106,7 +117,12 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     @Override
     public void onLoad() {
         super.onLoad();
-        if (isFormed()) loadContainer();
+        if (getLevel() instanceof ServerLevel) {
+            var container = getWirelessEnergyContainer();
+            if (container == null) return;
+            if (dimension != null) container.setDimension(dimension, true);
+            if (isFormed()) loadContainer();
+        }
     }
 
     @Override
@@ -125,6 +141,13 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1", FormattingUtil.formatNumbers(container.getStorage()) + " / " + FormattingUtil.formatNumbers(container.getCapacity())).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.2", FormattingUtil.formatNumbers(container.getRate()), container.getRate() / GTValues.VEX[GTUtil.getFloorTierByVoltage(container.getRate())], Component.literal(GTValues.VNF[GTUtil.getFloorTierByVoltage(container.getRate())])).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtceu.machine.fluid_drilling_rig.depletion", (double) container.getLoss() / 10));
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+        configuratorPanel.attachConfigurators(
+                new IMoveableHUD.Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF, WirelessEnergyHUD.INSTANCE));
     }
 
     @Override

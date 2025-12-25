@@ -6,8 +6,6 @@ import com.gtolib.api.misc.IMapValueCache;
 import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
-
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,6 +17,7 @@ import net.minecraft.world.level.ItemLike;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
+import com.fast.recipesearch.IntLongMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 
@@ -165,9 +164,9 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     }
 
     @Override
-    public void gtolib$convert(long amount, IntIngredientMap map) {
+    public void gtolib$convert(long amount, IntLongMap map) {
         if (gtocore$is == null) {
-            var m = new IntIngredientMap();
+            var m = new IntLongMap();
             MapIngredient.ITEM_CONVERTER.convert(getReadOnlyStack(), 1, m);
             gtocore$is = m.toIntArray();
         }

@@ -4,6 +4,8 @@ import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.client.forge.GTOComponentHandler;
 import com.gtocore.client.forge.GTOComponentRegistry;
 import com.gtocore.client.forge.GTORender;
+import com.gtocore.client.hud.AdAstraHUD;
+import com.gtocore.client.hud.WirelessEnergyHUD;
 import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOFluids;
@@ -26,6 +28,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,6 +53,7 @@ public final class ClientProxy extends CommonProxy {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(ClientProxy::clientSetup);
         eventBus.addListener(ClientProxy::registerItemDeco);
+        eventBus.addListener(ClientProxy::registerGuiOverlays);
         eventBus.addListener(ClientProxy::registerMenuScreen);
         eventBus.register(GTOComponentRegistry.class);
         MinecraftForge.EVENT_BUS.register(ForgeClientEvent.class);
@@ -93,6 +97,11 @@ public final class ClientProxy extends CommonProxy {
                 event.register(BuiltInRegistries.BLOCK.get(item), MonitorItemDecorations.DECORATOR);
             }
         });
+    }
+
+    private static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+        event.registerAboveAll("wireless_energy_hud", WirelessEnergyHUD.INSTANCE);
+        event.registerAboveAll("adastra_hud", AdAstraHUD.gto$INSTANCE);
     }
 
     private static void registerMenuScreen(FMLClientSetupEvent event) {

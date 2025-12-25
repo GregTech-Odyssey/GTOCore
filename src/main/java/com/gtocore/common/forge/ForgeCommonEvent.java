@@ -1,9 +1,6 @@
 package com.gtocore.common.forge;
 
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOCommands;
-import com.gtocore.common.data.GTOEffects;
-import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.*;
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gtocore.common.saved.DysonSphereSavaedData;
@@ -21,18 +18,24 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.RLUtils;
+import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.explosion.SphereExplosion;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -42,6 +45,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,9 +55,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -73,11 +79,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.MissingMappingsEvent;
 
+import com.google.common.collect.ImmutableMap;
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
 import org.apache.logging.log4j.core.config.Configurator;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @DataGeneratorScanned
 public final class ForgeCommonEvent {
@@ -361,7 +370,65 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.asItem());
             }
         });
+        event.getMappings(Registries.BLOCK, "avaritia").forEach(mapping -> {
+            if (AvaritiaBlocks.get().containsKey(mapping.getKey().getPath())) {
+                mapping.remap(AvaritiaBlocks.get().get(mapping.getKey().getPath()));
+            }
+        });
+        event.getMappings(Registries.BLOCK, "enderio").forEach(mapping -> {
+            if (mapping.getKey().getNamespace().equals("enderio")) {
+                var block = RegistriesUtils.getBlock(GTOCore.id(mapping.getKey().getPath()).toString());
+                if (block != null && block != Blocks.AIR) {
+                    mapping.remap(block);
+                }
+            }
+        });
+        event.getMappings(Registries.ITEM, "avaritia").forEach(mapping -> {
+            if (AvaritiaItems.get().containsKey(mapping.getKey().getPath())) {
+                mapping.remap(AvaritiaItems.get().get(mapping.getKey().getPath()));
+            }
+        });
+        event.getMappings(Registries.ITEM, "enderio").forEach(mapping -> {
+            if (mapping.getKey().getNamespace().equals("enderio")) {
+                var item = RegistriesUtils.getItem(GTOCore.id(mapping.getKey().getPath()));
+                if (mapping.getKey().getPath().startsWith("powdered_")) {
+                    var mat = GTCEuAPI.materialManager.getMaterial(mapping.getKey().getPath().replace("powdered_", ""));
+                    if (mat == null) return;
+                    item = ChemicalHelper.getItem(TagPrefix.dust, mat);
+                }
+                if (item != Items.AIR && item != Items.BARRIER) {
+                    mapping.remap(item);
+                }
+            }
+        });
+        event.getMappings(Registries.FLUID, "enderio").forEach(mapping -> {
+            if (mapping.getKey().getNamespace().equals("enderio")) {
+                var fluid = RegistriesUtils.getFluid(GTOCore.id(mapping.getKey().getPath()));
+                if (fluid != null && fluid != Fluids.EMPTY) {
+                    mapping.remap(fluid);
+                }
+                if (mapping.getKey().equals(ResourceLocation.parse("enderio:rocket_fuel"))) {
+                    mapping.remap(GTMaterials.RocketFuel.getFluid());
+                }
+            }
+        });
     }
+
+    private static Supplier<Map<String, Item>> AvaritiaItems = GTMemoizer.memoize(() -> ImmutableMap.<String, Item>builder()
+            .put("neutron_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Neutron))
+            .put("crystal_matrix_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.CrystalMatrix))
+            .put("infinity_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Infinity))
+            .put("neutron_nugget", ChemicalHelper.getItem(TagPrefix.nugget, GTOMaterials.Neutron))
+            .put("singularity", GTOItems.INFINITY_SINGULARITY.asItem())
+            .put("eternal_singularity", GTOItems.COSMIC_SINGULARITY.asItem())
+            .put("infinity_catalyst", GTOItems.INFINITY_CATALYST.asItem())
+            .build());
+    @SuppressWarnings("ConstantConditions")
+    private static Supplier<Map<String, Block>> AvaritiaBlocks = GTMemoizer.memoize(() -> ImmutableMap.<String, Block>builder()
+            .put("infinity", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Infinity))
+            .put("crystal_matrix", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.CrystalMatrix))
+            .put("neutron", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Neutron))
+            .build());
 
     // ===================== CLIENT ONLY HOOKS =====================
 }

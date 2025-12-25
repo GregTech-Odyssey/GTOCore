@@ -292,6 +292,7 @@ object ClientForge {
         }
 
         val onClose: () -> Unit = {
+            mc.setScreen(null)
             showHistoricalMessages = false
         }
 

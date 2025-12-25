@@ -1,9 +1,9 @@
 package com.gtocore.common.machine.multiblock.part.ae
 
 import com.gtocore.api.gui.ktflexible.misc.InitFancyMachineUIWidget
-import com.gtocore.integration.ae.WirelessMachine
-import com.gtocore.integration.ae.WirelessMachinePersisted
-import com.gtocore.integration.ae.WirelessMachineRunTime
+import com.gtocore.integration.ae.wireless.WirelessMachine
+import com.gtocore.integration.ae.wireless.WirelessMachinePersisted
+import com.gtocore.integration.ae.wireless.WirelessMachineRunTime
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.core.BlockPos
@@ -180,10 +180,21 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     @Persisted
     @DescSynced
-    override var wirelessMachinePersisted: WirelessMachinePersisted = createWirelessMachinePersisted()
+    var wirelessMachinePersisted: WirelessMachinePersisted = createWirelessMachinePersisted()
+
+    override fun getWirelessMachinePersisted0(): WirelessMachinePersisted? = wirelessMachinePersisted
+    override fun setWirelessMachinePersisted0(data: WirelessMachinePersisted) {
+        wirelessMachinePersisted = data
+    }
 
     @SyncedManager
-    override var wirelessMachineRunTime: WirelessMachineRunTime = createWirelessMachineRunTime()
+    var wirelessMachineRunTime: WirelessMachineRunTime = createWirelessMachineRunTime()
+
+    override fun getWirelessMachineRunTime0(): WirelessMachineRunTime = wirelessMachineRunTime
+    override fun setWirelessMachineRunTime0(data: WirelessMachineRunTime) {
+        wirelessMachineRunTime = data
+    }
+
     override fun attachSideTabs(sideTabs: TabsWidget) {
         super<TieredIOPartMachine>.attachSideTabs(sideTabs)
         sideTabs.attachSubTab(getSetupFancyUIProvider())

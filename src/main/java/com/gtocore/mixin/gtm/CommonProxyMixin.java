@@ -3,7 +3,6 @@ package com.gtocore.mixin.gtm;
 import com.gtocore.common.data.GTORecipes;
 import com.gtocore.data.loot.DungeonLoot;
 
-import com.gtolib.api.recipe.ingredient.CircuitIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
@@ -57,7 +56,7 @@ public class CommonProxyMixin {
     public void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             CraftingHelper.register(SizedIngredient.TYPE, FastSizedIngredient.SERIALIZER);
-            CraftingHelper.register(IntCircuitIngredient.TYPE, CircuitIngredient.SERIALIZER);
+            CraftingHelper.register(IntCircuitIngredient.TYPE, IntCircuitIngredient.SERIALIZER);
             CraftingHelper.register(FluidContainerIngredient.TYPE, FluidContainerIngredient.SERIALIZER);
         });
     }

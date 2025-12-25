@@ -15,7 +15,7 @@ import com.fast.fastcollection.OpenCacheHashSet;
 import com.google.common.collect.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -37,8 +37,7 @@ public class PigmentMixer extends ElectricMultiblockMachine implements IMultiFlu
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
-        if (recipe == null) return false;
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         cachedYellowOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("yellow", new OpenCacheHashSet<>()));
         cachedCyanOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("cyan", new OpenCacheHashSet<>()));
         cachedMagentaOffsets.addAll(getMultiblockState().getMatchContext().getOrDefault("magenta", new OpenCacheHashSet<>()));

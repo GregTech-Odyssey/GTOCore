@@ -113,7 +113,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     private final TierCasingTrait tierCasingTrait;
 
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
-        super(holder, 1, i -> true);
+        super(holder, 1, i -> false);
         tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
     }
 
@@ -243,7 +243,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 }
                 if (!(entity instanceof Mob mob)) continue;
                 if (CommonProxy.isBoss(entity)) continue;
-                xp += mob.getExperienceReward() * multiplier;
+                xp += (long) mob.getExperienceReward() * multiplier;
                 getAllDeathLoot(player, serverLevel, mob, source, lootParams, itemStacks, multiplier);
             }
             if (xp > 0) outputFluid(GTOFluids.XP_JUICE.getSource(), xp);

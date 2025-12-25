@@ -2,7 +2,6 @@ package com.gtocore.client;
 
 import com.gtocore.config.GTOConfig;
 
-import com.gtolib.GTOCore;
 import com.gtolib.utils.ClientUtil;
 
 import net.minecraft.client.KeyMapping;
@@ -12,9 +11,6 @@ import net.minecraftforge.client.settings.KeyModifier;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
-import dev.toma.configuration.config.ConfigHolder;
-import dev.toma.configuration.config.io.ConfigIO;
-import dev.toma.configuration.config.value.BooleanValue;
 import org.lwjgl.glfw.GLFW;
 
 public final class KeyBind {
@@ -25,11 +21,7 @@ public final class KeyBind {
         @Override
         public void setDown(boolean isDown) {
             if (isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
-                ConfigHolder.getConfig(GTOCore.MOD_ID).ifPresent(config -> {
-                    ((BooleanValue) (config.getValueMap().get("nightVision"))).setValue(!GTOConfig.INSTANCE.nightVision);
-                    ConfigIO.saveClientValues(config);
-                    ConfigIO.reloadClientValues(config);
-                });
+                GTOConfig.set("nightVision", !GTOConfig.INSTANCE.nightVision);
                 ClientUtil.getPlayer().displayClientMessage(GTOConfig.INSTANCE.nightVision ?
                         Component.translatable("metaarmor.message.nightvision.enabled") :
                         Component.translatable("metaarmor.message.nightvision.disabled"), true);

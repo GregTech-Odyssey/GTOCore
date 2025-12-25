@@ -33,7 +33,7 @@ public final class MaterialA {
                 .components(NetherQuartz, 1, CertusQuartz, 1, Redstone, 1)
                 .color(0x8f5ccb)
                 .iconSet(QUARTZ)
-                .flags(NO_SMASHING, NO_SMELTING, DISABLE_DECOMPOSITION, GENERATE_PLATE)
+                .flags(NO_SMASHING, NO_SMELTING, DISABLE_DECOMPOSITION, GENERATE_PLATE, CRYSTALLIZABLE)
                 .buildAndRegister();
 
         // ad
@@ -722,7 +722,7 @@ public final class MaterialA {
                 .fluid()
                 .ore()
                 .radioactiveHazard(10)
-                .addOreByproducts(Europium)
+                .addOreByproducts(Europium, Etrium)
                 .blastTemp(14600, HIGHER, GTValues.VA[GTValues.UIV], 1200)
                 .element(GTOElements.URUIUM)
                 .color(0x87ceeb)

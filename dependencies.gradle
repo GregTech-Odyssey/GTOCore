@@ -6,6 +6,12 @@ dependencies {
     implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
     jarJar(implementation("dev:fastcollection:1.0"))
+    implementation("dev:RecipeSearch-1.0")
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+    jarJar(implementation("org.apache.commons:commons-math3:3.6.1"))
+//    implementation("org.apache.commons:commons-math3:3.6.1")
+
 
     compileOnly('org.projectlombok:lombok:1.18.42')
     annotationProcessor('org.projectlombok:lombok:1.18.42')
@@ -158,9 +164,9 @@ dependencies {
 
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 
-//    modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
 //    modRuntimeOnly("curse.maven:just-enough-characters-250702:7176519")
-//    modRuntimeOnly("curse.maven:imblocker-483760:6922546")
+    modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
+    modRuntimeOnly("curse.maven:imblocker-483760:6922546")
 //    modRuntimeOnly("curse.maven:effortless-building-302113:6330928")
 
     modRuntimeOnly("curse.maven:huge-structure-blocks-474114:4803547")
@@ -183,4 +189,5 @@ dependencies {
     modImplementation("curse.maven:cc-tweaked-282001:5714507")
     modImplementation("curse.maven:super-factory-manager-306935:7021189")
     modImplementation("curse.maven:modular-routers-250294:5056687")
+//    modRuntimeOnly("curse.maven:tool-belt-260262:5929061")
 }

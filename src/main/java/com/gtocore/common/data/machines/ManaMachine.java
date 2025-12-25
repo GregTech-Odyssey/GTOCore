@@ -11,10 +11,7 @@ import com.gtocore.common.machine.mana.AlchemyCauldron;
 import com.gtocore.common.machine.mana.AreaDestructionToolsMachine;
 import com.gtocore.common.machine.mana.CelestialCondenser;
 import com.gtocore.common.machine.mana.ManaHeaterMachine;
-import com.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
-import com.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
-import com.gtocore.common.machine.mana.part.ManaHatchPartMachine;
-import com.gtocore.common.machine.mana.part.WirelessManaHatchPartMachine;
+import com.gtocore.common.machine.mana.part.*;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -135,6 +132,13 @@ public final class ManaMachine {
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getManaAmplifierHatchTooltips().getSupplier())
             .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/mana"))
+            .register();
+
+    public static final MachineDefinition ME_MANA_AMPLIFIER_HATCH = manaMachine("me_mana_amplifier_hatch", "ME魔力增幅仓", MEManaAmplifierPartMachine::new)
+            .tier(HV)
+            .allRotation()
+            .tooltips(GTOMachineTooltips.INSTANCE.getManaAmplifierHatchTooltips().getSupplier())
+            .workableManaTieredHullRenderer(7, GTOCore.id("block/multiblock/mana"))
             .register();
 
     public static final MachineDefinition ALCHEMY_CAULDRON = manaMachine("alchemy_cauldron", "炼金锅", AlchemyCauldron::new)

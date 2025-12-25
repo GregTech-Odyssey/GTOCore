@@ -8,7 +8,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
-import com.gtocore.data.record.EnchantmentRecord;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
@@ -1169,6 +1168,16 @@ public final class MagicRecipesA {
                     .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(8000))
                     .duration(800)
                     .MANAt(8192)
+                    .save();
+
+            ASSEMBLER_RECIPES.builder("me_mana_amplifier_hatch")
+                    .inputItems("gtocore:mana_amplifier_hatch")
+                    .inputItems(AEItems.SPEED_CARD.asItem())
+                    .inputItems("appbot:fluix_mana_pool")
+                    .inputItems(TagPrefix.gemExquisite, GTOMaterials.Fluix, 4)
+                    .outputItems("gtocore:me_mana_amplifier_hatch")
+                    .duration(200)
+                    .MANAt(1280)
                     .save();
 
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("alchemy_cauldron"), ManaMachine.ALCHEMY_CAULDRON.asItem(),

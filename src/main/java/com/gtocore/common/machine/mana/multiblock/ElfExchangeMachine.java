@@ -13,6 +13,7 @@ import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.holder.IntHolder;
+import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -46,7 +47,7 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
 
     @Nullable
     private Recipe getRecipe() {
-        Recipe recipe;
+        ObjectHolder<Recipe> recipe = new ObjectHolder<>(null);
         int mode = checkingCircuit(false);
         if (getLevel() instanceof ServerLevel level && level.dimension() == NETHER && mode > 0) {
             RecipeBuilder builder = getRecipeBuilder().duration(120).MANAt(10);
@@ -58,13 +59,13 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
                     .create(LootContextParamSets.PIGLIN_BARTER);
             ItemStackSet itemStacks = new ItemStackSet();
 
-            recipe = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).inputItems(GOLD_INGOT).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
-            if (recipe == null) return null;
+            recipe.value = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).inputItems(GOLD_INGOT).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
+            if (recipe.value == null) return null;
             IntHolder nbt = new IntHolder(0);
-            builder.MANAt(recipe.getInputMANAt());
-            builder.inputItems(FastSizedIngredient.create(GOLD_INGOT, recipe.parallels));
-            var parallel = Math.min(1024, recipe.parallels);
-            var multiplier = recipe.parallels / parallel;
+            builder.MANAt(recipe.value.getInputMANAt());
+            builder.inputItems(FastSizedIngredient.create(GOLD_INGOT, recipe.value.parallels));
+            var parallel = Math.min(1024, recipe.value.parallels);
+            var multiplier = recipe.value.parallels / parallel;
             GTOLoots.modifyLoot = false;
             for (int i = 0; i < parallel; i++) {
                 lootTable.getRandomItems(lootContext).forEach(itemStack -> {
@@ -82,18 +83,19 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
                 }
                 builder.outputItems(i);
             });
-            recipe = builder.buildRawRecipe();
+            recipe.value = builder.buildRawRecipe();
         } else {
-            recipe = getRecipeType().lookup().findRecipe(this);
-            if (recipe != null) {
-                recipe = (Recipe) fullModifyRecipe(recipe.copy());
-                piglin = null;
-            }
+            getRecipeType().findRecipe(this, r -> {
+                var modify = (Recipe) fullModifyRecipe(r.copy());
+                if (modify != null && RecipeRunner.matchRecipe(this, modify) && RecipeRunner.matchTickRecipe(this, recipe.value)) {
+                    piglin = null;
+                    recipe.value = modify;
+                    return true;
+                }
+                return false;
+            });
         }
-        if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
-            return recipe;
-        }
-        return null;
+        return recipe.value;
     }
 
     private int piglinSoundPlayCD = 0;

@@ -433,6 +433,7 @@ object GTOMachineTooltips {
         section(MainFunction)
         content("如果运行前输入了等同机器最大功率的魔力" translatedTo "If mana equivalent to the machine's maximum power is input prior to operation")
         increase("则将本次配方改为无损超频" translatedTo "The current recipe will switch to perfect overclocking.")
+        increase("对于跨配方机器，则将其超频系数额外x2 " translatedTo "For cross-recipe machines, the overclocking factor is further multiplied by x2.")
         decrease("否则，机器不执行配方" translatedTo "Otherwise, the machine will not execute the recipe.")
     }
 

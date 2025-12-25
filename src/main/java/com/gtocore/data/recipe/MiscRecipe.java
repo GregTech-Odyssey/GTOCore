@@ -652,7 +652,7 @@ public final class MiscRecipe {
 
         if (GTOCore.isExpert()) {
 
-            BRICK_FURNACE_RECIPES.builder("firebricks")
+            BRICK_FURNACE_RECIPES.builder("firebrick_exp")
                     .inputItems(Items.COAL)
                     .inputItems(GTItems.FIRECLAY_BRICK.asItem(), 6)
                     .inputItems(GTOTagPrefix.dust, GTMaterials.Gypsum, 2)
@@ -660,13 +660,14 @@ public final class MiscRecipe {
                     .inputFluids(GTMaterials.Concrete, 1000)
                     .duration(200)
                     .save();
+        } else {
+            BRICK_FURNACE_RECIPES.builder("firebrick")
+                    .inputItems(Items.COAL)
+                    .inputItems(GTItems.COMPRESSED_FIRECLAY.asItem(), 8)
+                    .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 2)
+                    .duration(100)
+                    .save();
         }
-        BRICK_FURNACE_RECIPES.builder("firebrick")
-                .inputItems(Items.COAL)
-                .inputItems(GTItems.COMPRESSED_FIRECLAY.asItem(), 8)
-                .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 2)
-                .duration(100)
-                .save();
 
         BRICK_FURNACE_RECIPES.builder("coke_oven_brick")
                 .inputItems(Items.COAL)
@@ -680,6 +681,24 @@ public final class MiscRecipe {
                 .inputItems(GTItems.COMPRESSED_CLAY.asItem(), 8)
                 .outputItems(Blocks.BRICKS.asItem(), 2)
                 .duration(100)
+                .save();
+
+        FIBER_EXTRUSION_RECIPES.builder("quartz_fiber")
+                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 3)
+                .outputItems("ae2:quartz_fiber", 3)
+                .EUt(30)
+                .blastFurnaceTemp(2200)
+                .duration(100)
+                .save();
+
+        DRAWING_RECIPES.builder("quartz_fiber")
+                .circuitMeta(4)
+                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 768)
+                .outputItems("ae2:quartz_fiber", 768)
+                .EUt(120)
+                .blastFurnaceTemp(3200)
+                .duration(25600)
+                .addData("spool", 5)
                 .save();
     }
 }

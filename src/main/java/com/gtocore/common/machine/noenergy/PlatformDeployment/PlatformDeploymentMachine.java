@@ -51,7 +51,7 @@ import static com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformCre
 @MethodsReturnNonnullByDefault
 public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
-    private static final NetworkPack HIGHLIGHT_REGION = NetworkPack.registerS2C(9, (p, b) -> {
+    private static final NetworkPack HIGHLIGHT_REGION = NetworkPack.registerS2C("platformDeploymentMachineHighlight", (p, b) -> {
         var dimension = b.readResourceKey(Registries.DIMENSION);
         var start = b.readBlockPos();
         var end = b.readBlockPos();
@@ -60,7 +60,7 @@ public class PlatformDeploymentMachine extends MetaMachine implements IFancyUIMa
         ForgeClientEvent.highlightRegion(dimension, start, end, color, durationTicks);
     });
 
-    private static final NetworkPack STOP_HIGHLIGHT = NetworkPack.registerS2C(10, (p, b) -> {
+    private static final NetworkPack STOP_HIGHLIGHT = NetworkPack.registerS2C("platformDeploymentMachineStopHighlight", (p, b) -> {
         var start = b.readBlockPos();
         var end = b.readBlockPos();
         ForgeClientEvent.stopHighlight(start, end);

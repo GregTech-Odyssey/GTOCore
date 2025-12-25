@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.bioengineering;
 import com.gtocore.common.machine.trait.RadioactivityTrait;
 
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
+import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.block.IFilterType;
@@ -12,7 +13,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -66,9 +66,9 @@ public final class IncubatorMachine extends TierCasingMultiblockMachine {
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
-        if (recipe == null) return false;
+    protected boolean beforeWorking(Recipe recipe) {
         if (recipe.data.contains("filter_casing") && recipe.data.getInt("filter_casing") > cleanroomTier) {
+            setIdleReason(IdleReason.BLOCK_TIER_NOT_SATISFIES);
             return false;
         }
         return super.beforeWorking(recipe);

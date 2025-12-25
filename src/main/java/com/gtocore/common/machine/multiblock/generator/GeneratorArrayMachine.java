@@ -35,7 +35,6 @@ import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -112,7 +111,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         return recipeTypes();
     }
 
-    @NotNull
     @Override
     public RecipeType getRecipeType() {
         return (RecipeType) recipeTypes()[getActiveRecipeType()];
@@ -158,7 +156,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(Recipe recipe) {
         if (isEmpty()) return false;
         return super.beforeWorking(recipe);
     }

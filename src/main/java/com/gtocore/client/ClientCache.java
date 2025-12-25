@@ -15,6 +15,8 @@ public final class ClientCache {
 
     public static boolean disableDrift;
 
+    public static boolean disableAdditionalEmiTooltip;
+
     public static final Set<ResourceLocation> UNLOCKED_PLANET = new OpenCacheHashSet<>();
 
     public static boolean initializedBook;

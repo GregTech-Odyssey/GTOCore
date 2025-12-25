@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.lookup.IntIngredientMap;
 import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
 import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
 
@@ -36,6 +35,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.fast.recipesearch.IntLongMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import lombok.Getter;
@@ -43,8 +43,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -125,32 +123,23 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public <T extends GTRecipeType, R extends GTRecipe> Iterator<R> searchRecipe(IRecipeCapabilityHolder holder, T type, Predicate<R> canHandle) {
-            if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return Collections.emptyIterator();
-            if (slot.recipe != null) {
-                if (!RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) return Collections.emptyIterator();
-                R r = (R) slot.recipe;
+        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
+            if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return false;
+            if (slot.recipe != null && RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) {
                 holder.setCurrentHandlerList(this, null);
-                if (canHandle.test(r)) {
-                    return new Iterator<>() {
-
-                        private boolean hasNext = true;
-
-                        @Override
-                        public boolean hasNext() {
-                            return hasNext;
-                        }
-
-                        @Override
-                        public R next() {
-                            hasNext = false;
-                            return r;
-                        }
-                    };
+                if (canHandle.test(slot.recipe)) return true;
+            }
+            if (slot.machine.recipeType != GTORecipeTypes.HATCH_COMBINED) {
+                if (GTRecipeType.available(slot.machine.recipeType, machine.getRecipeTypes())) {
+                    recipeType = slot.machine.recipeType;
+                } else {
+                    return false;
                 }
             }
-            this.recipeType = slot.machine.recipeType == GTORecipeTypes.HATCH_COMBINED ? null : slot.machine.recipeType;
-            return SEARCH.search(holder, type, this, canHandle);
+            var map = this.getIngredientMap(recipeType);
+            if (map.isEmpty()) return false;
+            holder.setCurrentHandlerList(this, null);
+            return recipeType.db.find(map, canHandle);
         }
 
         @Override
@@ -346,7 +335,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
             if (slot.itemChanged) {
                 slot.itemChanged = false;
                 slot.itemIngredientMap.clear();
@@ -435,7 +424,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public IntIngredientMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
             if (slot.fluidChanged) {
                 slot.fluidChanged = false;
                 slot.fluidIngredientMap.clear();

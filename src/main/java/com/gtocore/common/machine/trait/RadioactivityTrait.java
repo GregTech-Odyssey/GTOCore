@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 
-public final class RadioactivityTrait extends MultiblockTrait {
+public class RadioactivityTrait extends MultiblockTrait {
 
     @Persisted
     private int recipeRadioactivity;
@@ -66,7 +66,7 @@ public final class RadioactivityTrait extends MultiblockTrait {
         super.afterWorking();
     }
 
-    private int getRecipeRadioactivity() {
+    protected int getRecipeRadioactivity() {
         int radioactivity = 0;
         for (RadiationHatchPartMachine partMachine : radiationHatchPartMachines) {
             radioactivity += partMachine.getRadioactivity();

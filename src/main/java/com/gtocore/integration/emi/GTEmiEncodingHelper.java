@@ -15,6 +15,7 @@ import net.minecraft.world.level.material.Fluid;
 
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import com.hepdd.gtmthings.api.misc.Hatch;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
@@ -24,21 +25,23 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.ItemEmiStack;
 import dev.emi.emi.api.stack.TagEmiIngredient;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class GTEmiEncodingHelper { // also accessed by gtolib
 
     @Nullable
-    private static GenericStack ofVirtual(EmiStack stack) {
+    private static GenericStack ofVirtual(EmiStack stack, long amount) {
         if (stack.getKey() instanceof Item) {
             var item = CustomItems.VIRTUAL_ITEM_PROVIDER.asStack();
             item.getOrCreateTag().putBoolean("marked", true);
-            return new GenericStack(AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(item, stack.getItemStack())), 1);
+            return new GenericStack(AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(item, stack.getItemStack())), amount);
         }
         return null;
     }
@@ -56,7 +59,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
     private static GenericStack fromEmiStackVirtualConvertible(EmiStack stack, long amount, boolean virtual) {
         if (stack.getKey() instanceof Item) {
             if (virtual) {
-                return ofVirtual(stack);
+                return ofVirtual(stack, amount);
             }
             return new GenericStack(AEItemKey.of(stack.getItemStack()), amount);
         } else if (stack.getKey() instanceof Fluid fluid) {
@@ -71,29 +74,32 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
 
     public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
         if (emiRecipe instanceof MultiblockInfoEmiRecipe recipe) {
-            var stream = recipe.getInputs(recipe.i)
-                    .stream()
-                    .map(s -> {
-                        if (s instanceof ItemEmiStack stack && stack.getKey() instanceof BucketItem bucketItem) {
-                            return EmiStack.of(bucketItem.getFluid(), s.getAmount() * 1000);
-                        }
-                        return s;
-                    })
-                    .filter(GTEmiEncodingHelper::isNotHatch)
-                    .map(GTEmiEncodingHelper::intoGenericStack);
-            if (recipe.i > 0 && recipe.definition.getSubPatternFactory() != null && GTUtil.isCtrlDown()) {
-                stream = Stream.concat(recipe.getInputs(0)
-                        .stream()
-                        .map(s -> {
-                            if (s instanceof ItemEmiStack stack && stack.getKey() instanceof BucketItem bucketItem) {
-                                return EmiStack.of(bucketItem.getFluid(), s.getAmount() * 1000);
-                            }
-                            return s;
-                        })
-                        .filter(GTEmiEncodingHelper::isNotHatch)
-                        .map(GTEmiEncodingHelper::intoGenericStack), stream);
+            var layerInputsStream = getProcessedLayerInputs(recipe, recipe.i);
+            if (recipe.i > 0 && recipe.definition.getSubPatternFactory() != null) {
+                if (GTUtil.isShiftDown()) {
+                    layerInputsStream = Stream.concat(getProcessedLayerInputs(recipe, 0), layerInputsStream);
+                }
+                if (GTUtil.isCtrlDown()) {
+                    layerInputsStream = IntStream.rangeClosed(0, recipe.i)
+                            .boxed()
+                            .flatMap(layerIndex -> getProcessedLayerInputs(recipe, layerIndex));
+                }
             }
-            return stream.toList();
+            List<List<GenericStack>> layerInputs = layerInputsStream.toList();
+            AEItemKey controllerKey = AEItemKey.of(recipe.definition.asItem());
+            long controllerCount = 0;
+            for (List<GenericStack> stackList : layerInputs) {
+                for (GenericStack stack : stackList) {
+                    if (controllerKey == stack.what()) {
+                        controllerCount += stack.amount();
+                    }
+                }
+            }
+            if (controllerCount > 1) {
+                return consolidateControllerStacks(layerInputs, controllerKey);
+            }
+
+            return layerInputs;
         }
         var list = new ArrayList<List<GenericStack>>();
         if (GTUtil.isShiftDown() || GTUtil.isCtrlDown()) {
@@ -114,9 +120,46 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
         return list;
     }
 
+    private static @NotNull List<List<GenericStack>> consolidateControllerStacks(List<List<GenericStack>> layerInputs, AEItemKey controllerKey) {
+        List<List<GenericStack>> filteredList = new ArrayList<>();
+        boolean controllerKept = false;
+
+        for (List<GenericStack> stackList : layerInputs) {
+            List<GenericStack> newStackList = new ArrayList<>();
+            for (GenericStack stack : stackList) {
+                AEKey key = stack.what();
+                if (!(controllerKey == key)) {
+                    newStackList.add(stack);
+                } else {
+                    if (!controllerKept) {
+                        newStackList.add(new GenericStack(key, 1));
+                        controllerKept = true;
+                    }
+                }
+            }
+            if (!newStackList.isEmpty()) {
+                filteredList.add(newStackList);
+            }
+        }
+        return filteredList;
+    }
+
+    private static Stream<List<GenericStack>> getProcessedLayerInputs(MultiblockInfoEmiRecipe recipe, int layerIndex) {
+        return recipe.getInputs(layerIndex)
+                .stream()
+                .map(emiStack -> {
+                    if (emiStack instanceof ItemEmiStack itemStack && itemStack.getKey() instanceof BucketItem bucketItem) {
+                        return EmiStack.of(bucketItem.getFluid(), emiStack.getAmount() * 1000);
+                    }
+                    return emiStack;
+                })
+                .filter(GTEmiEncodingHelper::isNotHatch)
+                .map(GTEmiEncodingHelper::intoGenericStack);
+    }
+
     private static boolean isNotHatch(EmiIngredient ingredient) {
         if (ingredient instanceof EmiStack stack) {
-            return GTUtil.isShiftDown() || !(stack.getKey() instanceof MetaMachineItem meta) || !Hatch.Set.contains(meta.getBlock());
+            return !(stack.getKey() instanceof MetaMachineItem meta) || !Hatch.Set.contains(meta.getBlock());
         }
         return false;
     }

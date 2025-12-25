@@ -1,7 +1,7 @@
 package com.gtocore.integration.jade.provider;
 
 import com.gtocore.common.saved.WirelessSavedData;
-import com.gtocore.integration.ae.WirelessMachine;
+import com.gtocore.integration.ae.wireless.WirelessMachine;
 
 import com.gtolib.GTOCore;
 
@@ -39,7 +39,7 @@ public final class WirelessGridProvider extends CapabilityBlockProvider<Wireless
     @Override
     protected void write(CompoundTag data, WirelessMachine capability) {
         if (capability != null) {
-            String id = capability.getWirelessMachinePersisted().getGridConnectedName();
+            String id = capability.getWirelessMachinePersisted0().getGridConnectedName();
             data.putString("grid", id);
             String nick = id;
             try {
