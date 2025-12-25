@@ -73,10 +73,19 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     @Override
     public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
-        configuratorPanel.attachConfigurators(
-                new IMoveableHUD.Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF, AdAstraHUD.gto$INSTANCE)
-                        .setTooltipsSupplier(b -> List.of(
-                                Component.translatable(HUD_DRAG))));
+        if (isRemote()) {
+            HUDConfiguratorHolder.attachHUDConfigurators(configuratorPanel);
+        }
+    }
+
+    private static class HUDConfiguratorHolder {
+
+        private static void attachHUDConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
+            configuratorPanel.attachConfigurators(
+                    new IMoveableHUD.Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF, AdAstraHUD.gto$INSTANCE)
+                            .setTooltipsSupplier(b -> List.of(
+                                    Component.translatable(HUD_DRAG))));
+        }
     }
 
     @Override

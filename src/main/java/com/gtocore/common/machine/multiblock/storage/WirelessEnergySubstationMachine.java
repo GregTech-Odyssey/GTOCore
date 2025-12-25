@@ -146,8 +146,17 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     @Override
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
-        configuratorPanel.attachConfigurators(
-                new IMoveableHUD.Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF, WirelessEnergyHUD.INSTANCE));
+        if (isRemote()) {
+            HUDConfiguratorAttacher.attachHUDConfigurators(configuratorPanel);
+        }
+    }
+
+    private static class HUDConfiguratorAttacher {
+
+        private static void attachHUDConfigurators(ConfiguratorPanel configuratorPanel) {
+            configuratorPanel.attachConfigurators(
+                    new IMoveableHUD.Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF, WirelessEnergyHUD.INSTANCE));
+        }
     }
 
     @Override
