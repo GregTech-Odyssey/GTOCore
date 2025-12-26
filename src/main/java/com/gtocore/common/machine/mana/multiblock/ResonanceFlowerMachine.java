@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTOItems;
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
@@ -18,11 +17,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +28,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.lowdragmc.lowdraglib.LDLib.random;
 
@@ -189,23 +186,25 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     private static final String KEY_TYPE = "type";
     private static final String KEY_FREQUENCY = "frequency";
     private static final String KEY_STACK = "stack";
+    private static final String KEY_COUNT = "count";
+    private static final String TYPE_ITEM = "item";
+    private static final String TYPE_FLUID = "fluid";
 
     // 通用序列化：ItemStack/FluidStack + 频率 → CompoundTag
     public static CompoundTag toResonanceTag(Object stack, int frequency) {
         CompoundTag root = new CompoundTag();
         root.putInt(KEY_FREQUENCY, frequency);
+
         if (stack instanceof ItemStack itemStack) {
-            CompoundTag stackTag = new CompoundTag();
-            root.putString(KEY_TYPE, "item");
-            stackTag.merge(itemStack.save(new CompoundTag()));
-            root.put(KEY_STACK, stackTag);
+            root.putString(KEY_TYPE, TYPE_ITEM);
+            root.putInt(KEY_COUNT, itemStack.getCount());
+            AEItemKey itemKey = AEItemKey.of(itemStack);
+            if (itemKey != null) root.put(KEY_STACK, itemKey.toTag());
         } else if (stack instanceof FluidStack fluidStack) {
-            CompoundTag stackTag = new CompoundTag();
-            root.putString(KEY_TYPE, "fluid");
-            stackTag.putString("FluidName", Objects.requireNonNull(ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid())).toString());
-            stackTag.putInt("Amount", fluidStack.getAmount());
-            if (fluidStack.hasTag()) stackTag.put("tag", fluidStack.getTag().copy());
-            root.put(KEY_STACK, stackTag);
+            root.putString(KEY_TYPE, TYPE_FLUID);
+            root.putInt(KEY_COUNT, fluidStack.getAmount());
+            AEFluidKey fluidKey = AEFluidKey.of(fluidStack);
+            if (fluidKey != null) root.put(KEY_STACK, fluidKey.toTag());
         }
         return root;
     }
@@ -213,21 +212,16 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     // 通用反序列化：CompoundTag → Object[] [stack, frequency]
     public static Object[] fromResonanceTag(CompoundTag tag) {
         int frequency = tag.getInt(KEY_FREQUENCY);
-        String type = tag.getString(KEY_TYPE);
-        if (!tag.contains(KEY_STACK, Tag.TAG_COMPOUND)) return new Object[] { null, frequency };
-
-        CompoundTag stackTag = tag.getCompound(KEY_STACK);
         Object stack = null;
-        if (type.equals("item")) {
-            CompoundTag itemTag = stackTag.copy();
-            stack = ItemStack.of(itemTag);
-        } else if (type.equals("fluid")) {
-            Fluid fluid = RegistriesUtils.getFluid(stackTag.getString("FluidName"));
-            if (fluid != null && fluid != Fluids.EMPTY) {
-                int amount = stackTag.getInt("Amount");
-                CompoundTag extraTag = stackTag.contains("tag", Tag.TAG_COMPOUND) ? stackTag.getCompound("tag") : null;
-                stack = new FluidStack(fluid, amount, extraTag);
-            }
+        CompoundTag stackTag = tag.getCompound(KEY_STACK);
+        int count = tag.getInt(KEY_COUNT);
+        String type = tag.getString(KEY_TYPE);
+        if (TYPE_ITEM.equals(type)) {
+            AEItemKey itemKey = AEItemKey.fromTag(stackTag);
+            if (itemKey != null) stack = itemKey.toStack(count);
+        } else if (TYPE_FLUID.equals(type)) {
+            AEFluidKey fluidKey = AEFluidKey.fromTag(stackTag);
+            if (fluidKey != null) stack = fluidKey.toStack(count);
         }
         return new Object[] { stack, frequency };
     }

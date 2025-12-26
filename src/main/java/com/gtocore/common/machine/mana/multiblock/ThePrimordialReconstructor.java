@@ -116,13 +116,13 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                     inputsItems.add(stack);
                 }
                 if (circuit == 2 || circuit == 4)
-                    if (stack.getItem().equals(Items.ENCHANTED_BOOK.asItem()))
+                    if (stack.getItem() == Items.ENCHANTED_BOOK.asItem())
                         if (disassembleEnchantments(nbt, outputsItems)) {
                             inputsItems.add(stack);
                             outputsItems.add(new ItemStack(Items.BOOK));
                         }
                 if (circuit == 3 || circuit == 4)
-                    if (stack.getItem().equals(GTOItems.AFFIX_CANVAS.asItem()))
+                    if (stack.getItem() == GTOItems.AFFIX_CANVAS.asItem())
                         if (disassembleAffixCanvas(nbt, outputsItems)) {
                             inputsItems.add(stack);
                             outputsItems.add(new ItemStack(GTOItems.AFFIX_CANVAS));
@@ -265,11 +265,11 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      * @return 是否成功提取
      */
     private static boolean extractAffix1(CompoundTag nbt, List<ItemStack> outputsItems) {
-        if (nbt.contains("affix_data", TAG_COMPOUND)) {
-            CompoundTag affixData = nbt.getCompound("affix_data");
+        CompoundTag affixData = nbt.getCompound("affix_data");
+        if (!affixData.isEmpty()) {
 
-            if (affixData.contains("affixes", TAG_COMPOUND)) {
-                CompoundTag affixes = affixData.getCompound("affixes");
+            CompoundTag affixes = affixData.getCompound("affixes");
+            if (!affixes.isEmpty()) {
 
                 Set<String> affixKeys = affixes.getAllKeys();
 
@@ -302,10 +302,10 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      * @return 是否成功提取
      */
     private static boolean extractAffix2(CompoundTag nbt, List<ItemStack> outputsItems) {
-        if (nbt.contains("affix_data", TAG_COMPOUND)) {
-            CompoundTag affixData = nbt.getCompound("affix_data");
-            if (affixData.contains("affixes", TAG_COMPOUND)) {
-                CompoundTag affixes = affixData.getCompound("affixes");
+        CompoundTag affixData = nbt.getCompound("affix_data");
+        if (!affixData.isEmpty()) {
+            CompoundTag affixes = affixData.getCompound("affixes");
+            if (!affixes.isEmpty()) {
                 for (String affixKey : affixes.getAllKeys()) {
                     outputsItems.add(new ItemStack(AFFIX_ESSENCE.get(affixKey)));
                 }
@@ -411,7 +411,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 if (enchantmentId != null)
                     essence.value = stackItem;
             }
-            if (essence.value != null && essence.value.equals(stackItem))
+            if (essence.value != null && essence.value == stackItem)
                 count.value += amount;
             return false;
         });
@@ -554,7 +554,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getAffixCanvasLoadRecipe() {
         RecipeBuilder affixCanvasLoadRecipeBuilder = getRecipeBuilder();
 
-        Set<Item> uniqueItems = new HashSet<>();
+        Set<Item> uniqueItems = new ReferenceOpenHashSet<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             String affixId = AFFIX_ITEM_ID.get(stackItem.toString());
@@ -1062,9 +1062,12 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private static String getGemRarity(ItemStack gemStack) {
         if (gemStack.hasTag()) {
             CompoundTag tag = gemStack.getTag();
-            if (tag != null && tag.contains("affix_data")) {
+            if (tag != null) {
                 CompoundTag affixData = tag.getCompound("affix_data");
-                if (affixData.contains("rarity")) return affixData.getString("rarity");
+                if (!affixData.isEmpty()) {
+                    String rarity = affixData.getString("rarity");
+                    return !rarity.isEmpty() ? rarity : "apotheosis:common";
+                }
             }
         }
         return "apotheosis:common";

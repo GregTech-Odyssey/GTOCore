@@ -12,6 +12,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.data.GTODimensions;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -303,7 +304,7 @@ public final class MagicRecipesB {
             ELEMENTAL_RESONANCE.recipeBuilder("fluctuation")
                     .inputItems(ManaMultiBlock.RESONANCE_FLOWER)
                     .outputItems(ManaMultiBlock.RESONANCE_FLOWER)
-                    .addData("resonance", toResonanceTag(TheWaterFromTheWellOfWisdom.getFluid(1), 5))
+                    .addData("resonance", toResonanceTag(ChemicalHelper.get(dust, Livingrock), 5))
                     .MANAt(4)
                     .duration(10)
                     .circuitMeta(32)

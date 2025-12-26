@@ -72,7 +72,7 @@ public abstract class AlfheimEventListenerMixin {
     @SubscribeEvent
     public void playerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
-        if (player.tickCount % 20 == 1 && !player.level().isClientSide && Alfheim.DIMENSION.equals(player.level().dimension()) && !player.isCreative()) {
+        if (player.tickCount % 20 == 1 && !player.level().isClientSide && Alfheim.DIMENSION == player.level().dimension() && !player.isCreative()) {
             if (MythicConfig.lockAlfheim && !MythicPlayerData.getData(player).getBoolean("KvasirKnowledge") && !MythicPlayerData.getData(player).getBoolean("enterAlfheim"))
                 player.kill();
         }
