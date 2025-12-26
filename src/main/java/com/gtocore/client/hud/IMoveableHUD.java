@@ -34,13 +34,6 @@ public interface IMoveableHUD extends IGuiOverlay, GuiEventListener, Renderable 
         event.registerAboveAll(id, hud);
     }
 
-    Map<String, IMoveableHUD> REGISTERED_HUDS = new java.util.HashMap<>();
-
-    static void registerHUD(RegisterGuiOverlaysEvent event, String id, IMoveableHUD hud) {
-        REGISTERED_HUDS.put(id, hud);
-        event.registerAboveAll(id, hud);
-    }
-
     @RegisterLanguage(cn = "左键开关HUD显示（已启用）", en = "Left click to toggle HUD display (Enabled)")
     String HUD_TOGGLE_ON = "gtocore.hud.toggle.on";
     @RegisterLanguage(cn = "左键开关HUD显示（已禁用）", en = "Left click to toggle HUD display (Disabled)")
