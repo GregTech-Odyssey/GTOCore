@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space;
 
-import com.gtocore.client.hud.AdAstraHUD;
-import com.gtocore.client.hud.IMoveableHUD;
+import com.gtocore.client.hud.Configurator;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -40,8 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.gtocore.client.hud.IMoveableHUD.HUD_DRAG;
-
 @DataGeneratorScanned
 public final class SatelliteControlCenterMachine extends ElectricMultiblockMachine {
 
@@ -73,10 +70,10 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     @Override
     public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
+        Configurator c;
         configuratorPanel.attachConfigurators(
-                new IMoveableHUD.Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF, AdAstraHUD.gto$INSTANCE)
-                        .setTooltipsSupplier(b -> List.of(
-                                Component.translatable(HUD_DRAG))));
+                c = new Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF));
+        if (isRemote()) c.setHudInstance("adastra_hud");
     }
 
     @Override
