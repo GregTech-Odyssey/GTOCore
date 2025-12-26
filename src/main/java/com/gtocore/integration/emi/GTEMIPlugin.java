@@ -47,6 +47,7 @@ import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
+import commoble.jumbofurnace.client.jei.JEIProxy;
 import de.mari_023.ae2wtlib.wct.WCTMenu;
 import de.mari_023.ae2wtlib.wet.WETMenu;
 import dev.emi.emi.VanillaPlugin;
@@ -93,6 +94,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIArsNouveauPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
         list.add(new JEICompat());
+        list.add(new JEIProxy());
         // list.add(new com.glodblock.github.extendedae.xmod.jei.JEIPlugin());
     }
 

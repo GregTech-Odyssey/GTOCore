@@ -111,7 +111,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     // ==================== 持久化属性 ====================
     @Persisted
     @DescSynced
-    private var patternInventory: CustomItemStackHandler = CustomItemStackHandler(maxPatternCount)
+    protected var patternInventory: CustomItemStackHandler = CustomItemStackHandler(maxPatternCount)
 
     @Persisted
     private var internalInventory: Array<AbstractInternalSlot> = createInternalSlotArray()

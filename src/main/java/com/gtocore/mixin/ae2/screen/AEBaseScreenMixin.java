@@ -6,17 +6,33 @@ import com.gtolib.api.ae2.gui.hooks.IAEBaseScreenLifecycle;
 import com.gtolib.api.ae2.gui.hooks.IconSlot;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
 import appeng.client.gui.AEBaseScreen;
+import appeng.menu.AEBaseMenu;
+import com.glodblock.github.extendedae.client.button.HighlightButton;
+import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
+import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AEBaseScreen.class)
-public class AEBaseScreenMixin {
+public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractContainerScreen<T> {
+
+    public AEBaseScreenMixin(T menu, Inventory playerInventory, Component title) {
+        super(menu, playerInventory, title);
+    }
+
+    @Shadow(remap = false)
+    public abstract boolean isHandlingRightClick();
 
     @Inject(method = "init", at = @At("TAIL"))
     private void gtolib$onInitAfterWidgets(CallbackInfo ci) {
@@ -58,5 +74,24 @@ public class AEBaseScreenMixin {
             RenderUtil.drawRainbowBorder(guiGraphics, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), 300, 1.0f);
             ci.cancel();
         }
+    }
+
+    @Redirect(
+              method = "mouseClicked",
+              at = @At(
+                       value = "INVOKE",
+                       target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;mouseClicked(DDI)Z",
+                       remap = false,
+                       ordinal = 0),
+              remap = false)
+    private boolean gtolib$redirectMouseClicked(AbstractContainerScreen<?> instance, double xCoord, double yCoord, int fakeBtn, @Local(argsOnly = true) int btn) {
+        if (isHandlingRightClick() && instance instanceof GuiExPatternTerminal<?>) {
+            for (var widget : this.children()) {
+                if (widget.isMouseOver(xCoord, yCoord) && widget instanceof HighlightButton) {
+                    return super.mouseClicked(xCoord, yCoord, btn);
+                }
+            }
+        }
+        return instance.mouseClicked(xCoord, yCoord, fakeBtn);
     }
 }

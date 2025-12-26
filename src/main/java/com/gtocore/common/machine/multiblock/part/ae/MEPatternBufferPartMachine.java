@@ -48,7 +48,6 @@ import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -86,6 +85,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -534,7 +535,11 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final NotifiableNotConsumableFluidHandler shareTank;
         public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
+        @Getter
         private boolean lock;
+        @Getter
+        @Setter
+        boolean shouldLockRecipe = true;
 
         private InternalSlot(MEPatternBufferPartMachine machine, int index) {
             this.machine = machine;
@@ -558,6 +563,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         }
 
         public void setRecipe(@Nullable Recipe recipe) {
+            if (!shouldLockRecipe) return;
             this.recipe = recipe;
             machine.caches[index] = recipe != null;
         }

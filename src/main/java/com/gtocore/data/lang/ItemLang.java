@@ -75,6 +75,12 @@ final class ItemLang {
         addCNEN("tagprefix.carbon_fiber", "%s纤维", "%s Fiber");
         addCNEN("tagprefix.carbon_fibres", "%s纤维原丝", "%s Fiber Tow");
         addCNEN("tagprefix.carbon_fiber_mesh", "%s纤维网", "%s Fiber Mesh");
+        addCNEN("tagprefix.nano", "纳米质%s", "Nano %s");
+        addCNEN("gtocore.any.liquid", "任何液体物质", "Any Liquid Material");
+        addCNEN("gtocore.any.gas", "任何气体物质", "Any Gas Material");
+        addCNEN("gtocore.any.gem", "任何宝石", "Any Gem");
+        addCNEN("gtocore.any.turbine_rotor_coated", "任何镀膜涡轮转子", "Any Coated Turbine Rotor");
+        addCNEN("gtocore.any.artificial_gem", "任何人造宝石", "Any Artificial Gem");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");
@@ -122,6 +128,8 @@ final class ItemLang {
         addCNEN("item.gtocore.disc.data", "光盘数据：%s", "Disc data: %s");
 
         addCNEN("item.gtocore.order.config", "订单配置", "Order Config");
+
+        addCNEN("item.gtocore.pattern.wildcard", "含通配符处理样板", "With Wildcard Processing Pattern");
 
         addCNEN("item.gtocore.data_item.type.title", "§n%s配方数据：", "§n%s Recipes Data:");
         addCNEN("gtocore.tooltip.item.empty_data", "§n空数据：", "§nEmpty Data:");

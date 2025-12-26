@@ -612,6 +612,9 @@ object GTOMachineTooltips {
 
         section(MainFunction)
         ok("允许使用通配符生成样板" translatedTo "Allows the use of wildcards to generate patterns")
+        guide("在样板终端中编码带有通配符的样板以使用" translatedTo "Encode patterns with wildcards in the Pattern Terminal to use")
+        guide("机器将自动生成所有可制作的配方" translatedTo "The machine will automatically generate all craftable recipes")
+        content("在机器中设置黑名单材料以跳过该材料相关的配方生成" translatedTo "Set blacklist materials in the machine to skip recipe generation related to that material")
     }
 
     // ME自动连接
