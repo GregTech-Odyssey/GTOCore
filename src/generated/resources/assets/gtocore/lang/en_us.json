@@ -5499,8 +5499,6 @@
   "gtocore.tooltip.item.suprachronal_circuit": "Running outside of known spacetime",
   "gtocore.tooltip.item.tier_circuit": "%s Tier Circuit",
   "gtocore.tooltip.item.transcendent_max_battery": "Filling it up can allow you to complete GregTech Odyssey",
-  "gtocore.tooltip.item.turbine_rotor.0": "§cDeprecated",
-  "gtocore.tooltip.item.turbine_rotor.1": "§7Please clean up and replace the relevant turbine rotor production equipment",
   "gtocore.tooltip.item.universal_circuit": "A universal circuit",
   "gtocore.tooltip.item.uruium_coil_block.0": "Can provide 32000K furnace temperature for the hyper-dimensional plasma furnace",
   "gtocore.tooltip.item.uruium_coil_block.1": "Only this coil can be used in stellar furnace mode",
