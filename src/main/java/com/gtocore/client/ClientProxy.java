@@ -44,6 +44,8 @@ import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
 import com.lowdragmc.shimmer.forge.event.ForgeShimmerReloadEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
+import static com.gtocore.client.hud.IMoveableHUD.registerHUD;
+
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy extends CommonProxy {
 
@@ -100,8 +102,8 @@ public final class ClientProxy extends CommonProxy {
     }
 
     private static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("wireless_energy_hud", WirelessEnergyHUD.INSTANCE);
-        event.registerAboveAll("adastra_hud", AdAstraHUD.gto$INSTANCE);
+        registerHUD(event, "wireless_energy_hud", WirelessEnergyHUD.INSTANCE);
+        registerHUD(event, "adastra_hud", AdAstraHUD.gto$INSTANCE);
     }
 
     private static void registerMenuScreen(FMLClientSetupEvent event) {
