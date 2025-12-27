@@ -361,23 +361,21 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     private AEProcessingPattern validatePattern(GenericStack[] sparseInput, GenericStack[] sparseOutput) {
         ObjectHolder<Recipe> valid = new ObjectHolder<>(null);
+        var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
             if (!getRecipeTypes().isEmpty()) {
                 for (var rt : getRecipeTypes()) {
-                    rt.findRecipe(virtual(sparseInput), r -> {
+                    if (rt.findRecipe(inputHolder, r -> {
                         if (checkProb(r)) {
                             valid.value = (Recipe) r;
                             return true;
                         }
                         return false;
-                    });
-                    if (valid.value != null) {
-                        break;
-                    }
+                    })) break;
                 }
             }
         } else {
-            recipeType.findRecipe(virtual(sparseInput), r -> {
+            recipeType.findRecipe(inputHolder, r -> {
                 if (checkProb(r)) {
                     valid.value = (Recipe) r;
                     return true;
@@ -435,7 +433,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
         private final GenericStack[] sparseInput;
 
-        public VirtualList(MEWildcardPatternBufferPartMachine buffer, GenericStack[] sparseInput) {
+        private VirtualList(MEWildcardPatternBufferPartMachine buffer, GenericStack[] sparseInput) {
             super(IO.IN, null);
             this.sparseInput = sparseInput;
             var slot = buffer.getInternalInventory()[0];
@@ -452,7 +450,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                     if (virtualItem.isEmpty()) continue;
                     key = AEItemKey.of(virtualItem);
                 }
-                ((IIngredientConvertible) key).gtolib$convert(Long.MAX_VALUE, ings);
+                ((IIngredientConvertible) key).gtolib$convert(Integer.MAX_VALUE, ings);
             }
             return ings;
         }

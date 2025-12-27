@@ -6,7 +6,7 @@ dependencies {
     implementation("dev:gtonativelib:1.0")//jarJar无法加载
 
     jarJar(implementation("dev:fastcollection:1.0"))
-    implementation("dev:RecipeSearch-1.0")
+    implementation("dev:RecipeSearch-1.1")
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
     jarJar(implementation("org.apache.commons:commons-math3:3.6.1"))
