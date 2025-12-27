@@ -261,7 +261,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
             var blacklistSet = blacklistedMaterials.values();
             GTCEuAPI.materialManager.getRegisteredMaterials().forEach(material -> {
-                if (!blacklistSet.contains(material)) return;
+                if (blacklistSet.contains(material)) return;
                 for (int i = 0; i < patterns.size(); i++) {
                     var cp = patterns.get(i);
                     if (cp instanceof AEProcessingPattern) {
