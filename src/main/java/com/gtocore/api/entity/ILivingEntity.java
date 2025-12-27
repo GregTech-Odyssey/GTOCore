@@ -7,5 +7,5 @@ import java.util.Set;
 
 public interface ILivingEntity {
 
-    void gtocore$getAllDeathLoot(DamageSource source, Set<ItemStack> itemStacks, int multiplier);
+    void gtocore$getAllDeathLoot(DamageSource source, Set<ItemStack> itemStacks, int multiplier, boolean filterNbt);
 }

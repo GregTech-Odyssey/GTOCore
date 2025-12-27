@@ -189,7 +189,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     }
 
     @Override
-    public @NotNull List<RecipeHandlerList> gtolib$getOutput() {
+    public @NotNull List<RecipeHandlerList> getOutputList() {
         return this.gtolib$output;
     }
 }

@@ -342,7 +342,7 @@ public final class GTOConfig {
         @Configurable
         @Configurable.Comment({ "启用无线能量 HUD 显示", "Enable Wireless Energy HUD display" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Enabled", cn = "无线能量 HUD 启用")
-        public boolean wirelessEnergyHUDEnabled = true;
+        public boolean wirelessEnergyHUDEnabled = false;
 
         @Configurable
         @Configurable.Comment({ "无线能量 HUD 的默认 X 相对位置", "0意味着屏幕左侧，100意味着屏幕右侧", "The default X relative position of the Wireless Energy HUD", "0.0 means the left side of the screen, 1.0 means the right side of the screen" })

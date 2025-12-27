@@ -607,6 +607,21 @@ object GTOMachineTooltips {
         ok("不消耗催化剂耐久，可以让催化剂重复使用" translatedTo "Not consume catalyst durability each time, allowing the catalyst to be reused")
     }
 
+    // ME催化剂样板总成
+    val MeWildcardPatternBufferTooltips = ComponentListSupplier {
+        setTranslationPrefix("me_wildcard_pattern_buffer")
+
+        section(MainFunction)
+        ok("允许使用通配符生成样板" translatedTo "Allows the use of wildcards to generate patterns")
+        function("在样板终端中编码带有通配符的样板以使用" translatedTo "Encode patterns with wildcards in the Pattern Terminal to use")
+        function("机器将自动生成所有可制作的配方" translatedTo "The machine will automatically generate all craftable recipes")
+        guide("例如，编写一个§6任何锭->任何板材§r的样板" translatedTo "For example, write a §6any ingot -> any plate§r pattern")
+        guide("机器将自动生成§6铁锭->铁板§r、§6金锭->金板§r等所有可制作的§6锭->板材§r配方" translatedTo "The machine will automatically generate all craftable §6ingot -> plate§r recipes like §6iron ingot -> iron plate§r, §6gold ingot -> gold plate§r, etc.")
+        command("注意：生成时，机器会检查当前配方类型与存储的电路/模具等是否与样板匹配" translatedTo "Note: When generating, the machine will check whether the current recipe type matches the stored circuit/mold, etc. with the pattern")
+        command("不匹配的配方将不会被生成" translatedTo "Mismatched recipes will not be generated")
+        content("在机器中设置黑名单材料以跳过该材料相关的配方生成" translatedTo "Set blacklist materials in the machine to skip recipe generation related to that material")
+    }
+
     // ME自动连接
     val AutoConnectMETooltips = ComponentListSupplier {
         setTranslationPrefix("auto_connect_me")
@@ -1119,7 +1134,8 @@ object GTOMachineTooltips {
         increase("电压等级每高出LV1级，每次处理次数x3" translatedTo "Voltage tier above LV1 increases the number of processes x3")
         info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
-        content("如果在机器GUI内放置了电动刷怪笼则只会刷出刷怪笼里的内容" translatedTo "If an electric spawner is placed in the machine GUI, only the contents of the spawner will spawn")
+        content("如果在机器GUI内放置了刷怪蛋则只会刷出刷怪蛋对应生物的内容" translatedTo "If a spawn egg is placed in the machine GUI, only the creature corresponding to the spawn egg will be spawned")
+        content("如果在机器GUI内放置了神化Boss召唤器（物品），则只会刷出对应的神化Boss" translatedTo "If a Apotheosis Boss Summoner (item) is placed in the machine GUI, only the corresponding Deific Boss will be spawned")
         content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
         info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")
     }

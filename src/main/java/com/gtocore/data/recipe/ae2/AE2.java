@@ -2,7 +2,6 @@ package com.gtocore.data.recipe.ae2;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.GTOCore;
@@ -433,28 +432,11 @@ public final class AE2 {
                 .duration(300)
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
-                "ABA",
-                "BCB",
-                "ABA",
-                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asItem(), 'C', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()));
-
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
                 "ABC",
                 "BDB",
                 "CBA",
                 'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asItem(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
-
-        var cell = RegistriesUtils.getItemStack("expatternprovider:infinity_cell", 1, "{record:{\"#c\":\"ae2:i\",id:\"minecraft:cobblestone\"}}");
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("infinity_cell"), cell,
-                "ABA",
-                "CDE",
-                "ABA",
-                'A', RegistriesUtils.getItemStack("botania:rune_earth"),
-                'B', GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(),
-                'C', new ItemStack(Items.WATER_BUCKET.asItem()),
-                'D', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()),
-                'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
 
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("ex_pattern_provider_up"), EPPItemAndBlock.PATTERN_PROVIDER_UPGRADE.getDefaultInstance(),
                 new ItemStack(RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider").getItem()),

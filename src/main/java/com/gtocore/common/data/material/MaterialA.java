@@ -128,7 +128,7 @@ public final class MaterialA {
                 .ingot()
                 .color(0x414751)
                 .iconSet(DULL)
-                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GENERATE_GEAR)
                 .blastTemp(1450, LOW, GTValues.VA[GTValues.MV], 600)
                 .components(Iron, 1, Coal, 1, Obsidian, 1)
                 .toolStats(ToolProperty.Builder.of(30, 16, 8192, 5, GTOToolType.VAJRA_HV).magnetic().build())

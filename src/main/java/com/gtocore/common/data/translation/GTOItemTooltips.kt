@@ -9,6 +9,7 @@ import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
 import com.gregtechceu.gtceu.utils.FormattingUtil
+import dev.shadowsoffire.apotheosis.adventure.Adventure
 import earth.terrarium.adastra.common.registry.ModBlocks
 
 object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
@@ -182,6 +183,16 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     command("直接通入氧气与电以工作" translatedTo "Needs oxygen and power to work")
                 }.editionByGTONormal(),
+            )
+        }
+
+        listOf(Adventure.Items.BOSS_SUMMONER.get()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("boss_summoner")
+
+                    info("由捕捉附魔击杀神化Boss概率掉落" translatedTo "Dropped by killing deified Bosses with the Capture enchantment")
+                },
             )
         }
     }

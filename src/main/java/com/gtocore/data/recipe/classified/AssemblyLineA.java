@@ -19,6 +19,8 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.core.definitions.AEItems;
+
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLY_LINE_RECIPES;
 
 final class AssemblyLineA {
@@ -591,6 +593,32 @@ final class AssemblyLineA {
                         .duration(1200)
                         .EUt(GTValues.VA[GTValues.UEV])
                         .CWUt(1024))
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("me_wildcard_pattern_buffer")
+                .inputItems(GTOMachines.HUGE_ITEM_IMPORT_BUS.asItem())
+                .inputItems("gtocore:me_extend_pattern_buffer_ultra")
+                .inputItems(AEItems.FUZZY_CARD.asItem(), 4)
+                .inputItems(AEItems.EQUAL_DISTRIBUTION_CARD.asItem(), 2)
+                .inputItems(GTOMachines.ME_PATTERN_CONTENT_SORT_MACHINE.asItem(), 4)
+                .inputItems(GTItems.SMART_ITEM_FILTER.asItem(), 4)
+                .inputItems(GTItems.FLUID_FILTER.asItem(), 4)
+                .inputItems(GTItems.TAG_FILTER.asItem(), 4)
+                .inputItems(GTItems.TAG_FLUID_FILTER.asItem(), 4)
+                .inputItems(TagPrefix.gear, GTOMaterials.HighEntropyShapeMemoryAlloy, 4)
+                .inputItems(TagPrefix.gear, GTOMaterials.Orichalcos, 4)
+                .inputItems(TagPrefix.foil, GTOMaterials.Quicksilver, 64)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 64)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 64)
+                .outputItems("gtocore:me_wildcard_pattern_buffer")
+                .inputFluids(GTOMaterials.MutatedLivingSolder, 2000)
+                .inputFluids(GTMaterials.Lubricant, 1000)
+                .EUt(152000)
+                .duration(200)
+                .researchStation(b -> b.researchStack(GTOMachines.ME_PATTERN_CONTENT_SORT_MACHINE)
+                        .duration(1200)
+                        .EUt(GTValues.VA[GTValues.UV])
+                        .CWUt(256))
                 .save();
     }
 }
