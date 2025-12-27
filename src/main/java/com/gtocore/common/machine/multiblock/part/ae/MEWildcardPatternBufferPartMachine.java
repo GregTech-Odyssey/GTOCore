@@ -8,7 +8,11 @@ import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.api.ae2.stacks.IIngredientConvertible;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -34,7 +38,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.crafting.IPatternDetails;
-import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.networking.crafting.ICraftingProvider;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
@@ -44,6 +47,7 @@ import appeng.crafting.pattern.ProcessingPatternItem;
 import com.fast.recipesearch.IntLongMap;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.gui.widget.layout.Align;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
@@ -59,12 +63,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.*;
 
 import static com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget.drawSelectionOverlay;
 import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawItemStack;
 
+@DataGeneratorScanned
 public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachineKt {
 
     private List<IPatternDetails> cachedPatterns;
@@ -74,6 +79,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     @Setter
     @Persisted
     private int patternPriority = 0;
+    @Getter
+    @Persisted
+    private int maxFluidsOutput = 1;
+    @Getter
+    @Persisted
+    private int maxItemsOutput = 1;
     @Persisted
     private final CustomItemStackHandler blacklistedItems;
     @Persisted
@@ -154,33 +165,54 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     @Override
     public @NotNull Widget createUIWidget() {
-        var widget = new WidgetGroup(0, 0, 178, 220);
+        var widget = new WidgetGroup(0, 0, 196, 220);
 
         var dsl = super.createUIWidget();
         widget.addWidget(dsl);
 
-        WidgetGroup priorityGroup = new WidgetGroup(64, 120, 64, 40);
+        widget.addWidget(createLabeledConfiguratorWidget(0, 120,
+                this::getPatternPriority, this::setPatternPriority,
+                LANG_WILDCARD_PATTERN_BUFFER_PRIORITY,
+                LANG_WILDCARD_PATTERN_BUFFER_PRIORITY_DESC));
 
-        Widget labelWidget = new LabelWidget(0, 0, "gtocore.ae.appeng.pattern.priority")
-                .setHoverTooltips(Component.translatable("gtocore.ae.appeng.pattern.priority.desc"));
-        priorityGroup.addWidget(labelWidget);
+        widget.addWidget(createLabeledConfiguratorWidget(64, 120,
+                this::getMaxFluidsOutput, this::setMaxFluidsOutput,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_DESC,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_EXAMPLE));
 
-        final var priority = patternPriority;
-        Widget priorityWidget = new IntInputWidget(0, 14, 60, 12, this::getPatternPriority, this::setPatternPriority)
-                .setMin(Integer.MIN_VALUE).setValue(priority);
-        priorityGroup.addWidget(priorityWidget);
-        widget.addWidget(priorityGroup);
+        widget.addWidget(createLabeledConfiguratorWidget(128, 120,
+                this::getMaxItemsOutput, this::setMaxItemsOutput,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_DESC,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_EXAMPLE));
 
         WidgetGroup AlignContainer = new WidgetGroup(0, 160, 178, 20);
-        Widget labelWidget1 = new LabelWidget(64, 152, "gtocore.ae.appeng.wildcard_pattern_buffer.blacklist")
+        Widget labelWidget1 = new LabelWidget(64, 152, LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST)
                 .setAlign(Align.CENTER)
-                .setHoverTooltips(Component.translatable("gtocore.ae.appeng.wildcard_pattern_buffer.blacklist.desc"));
+                .setHoverTooltips(Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST_DESC));
         AlignContainer.addWidget(labelWidget1);
         widget.addWidget(AlignContainer);
         widget.addWidget(createFluidBlacklistWidget());
         widget.addWidget(createItemBlacklistWidget());
 
         return widget;
+    }
+
+    private void setMaxFluidsOutput(int integer) {
+        final int last = this.maxFluidsOutput;
+        maxFluidsOutput = Math.max(0, integer);
+        if (last != this.maxFluidsOutput) {
+            requestPatternUpdate();
+        }
+    }
+
+    private void setMaxItemsOutput(int integer) {
+        final int last = this.maxItemsOutput;
+        maxItemsOutput = Math.max(0, integer);
+        if (last != this.maxItemsOutput) {
+            requestPatternUpdate();
+        }
     }
 
     private void loadBlacklistData() {
@@ -291,10 +323,11 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                             substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting1);
                         }
 
-                        var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), output.toArray(new GenericStack[0]));
+                        // var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]),
+                        // output.toArray(new GenericStack[0]));
                         long startValidating1 = System.nanoTime();
-                        var detail = MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
-                        if (validatePattern(detail)) {
+                        var detail = validatePattern(input.toArray(new GenericStack[0]), output.toArray(new GenericStack[0]));
+                        if (detail != null) {
                             var converted = IParallelPatternDetails.of(convertPattern(detail, 0), getLevel(), 1);
                             newPatterns.add(converted);
                         }
@@ -327,25 +360,51 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     // ========== Pattern Validation ==========
 
-    private boolean validatePattern(AEProcessingPattern pattern) {
+    private AEProcessingPattern validatePattern(GenericStack[] sparseInput, GenericStack[] sparseOutput) {
+        ObjectHolder<Recipe> valid = new ObjectHolder<>(null);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
-            return !getRecipeTypes().isEmpty() &&
-                    getRecipeTypes().stream().anyMatch(rt -> {
-                        AtomicBoolean valid = new AtomicBoolean(false);
-                        rt.findRecipe(virtual(pattern), r -> {
-                            valid.set(checkProb(r));
-                            return valid.get();
-                        });
-                        return valid.get();
+            if (!getRecipeTypes().isEmpty()) {
+                for (var rt : getRecipeTypes()) {
+                    rt.findRecipe(virtual(sparseInput), r -> {
+                        if (checkProb(r)) {
+                            valid.value = (Recipe) r;
+                            return true;
+                        }
+                        return false;
                     });
+                    if (valid.value != null) {
+                        break;
+                    }
+                }
+            }
         } else {
-            AtomicBoolean valid = new AtomicBoolean(false);
-            recipeType.findRecipe(virtual(pattern), r -> {
-                valid.set(checkProb(r));
-                return valid.get();
+            recipeType.findRecipe(virtual(sparseInput), r -> {
+                if (checkProb(r)) {
+                    valid.value = (Recipe) r;
+                    return true;
+                }
+                return false;
             });
-            return valid.get();
         }
+        var outPattern = MyPatternDetailsHelper.convertFromGTRecipe(valid.value, maxItemsOutput, maxFluidsOutput);
+        // outPattern的output 需要包含 sparseOutput的所有东西
+        if (outPattern != null) {
+            var outSparse = outPattern.getSparseOutputs();
+            for (var reqStack : sparseOutput) {
+                boolean found = false;
+                for (var outStack : outSparse) {
+                    if (reqStack.what() == outStack.what() && reqStack.amount() <= outStack.amount()) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    return null;
+                }
+            }
+            return outPattern;
+        }
+        return null;
     }
 
     private boolean checkProb(GTRecipe recipe) {
@@ -358,12 +417,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return true;
     }
 
-    private IRecipeCapabilityHolder virtual(AEProcessingPattern pattern) {
+    private IRecipeCapabilityHolder virtual(GenericStack[] sparseInput) {
         return new IRecipeCapabilityHolder() {
 
             @Override
             public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-                return Map.of(IO.IN, List.of(new VirtualList(MEWildcardPatternBufferPartMachine.this, pattern)));
+                return Map.of(IO.IN, List.of(new VirtualList(MEWildcardPatternBufferPartMachine.this, sparseInput)));
             }
 
             @Override
@@ -375,11 +434,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
     private static class VirtualList extends ExtendedRecipeHandlerList {
 
-        private final AEProcessingPattern pattern;
+        private final GenericStack[] sparseInput;
 
-        private VirtualList(MEWildcardPatternBufferPartMachine buffer, AEProcessingPattern pattern) {
+        public VirtualList(MEWildcardPatternBufferPartMachine buffer, GenericStack[] sparseInput) {
             super(IO.IN, null);
-            this.pattern = pattern;
+            this.sparseInput = sparseInput;
+            // this.sparseOutput = sparseOutput;
             var slot = buffer.getInternalInventory()[0];
             addHandlers(slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
         }
@@ -387,7 +447,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         @Override
         public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
             var ings = super.getIngredientMap(type);
-            var sparseInput = pattern.getSparseInputs();
+            // var sparseInput = pattern.getSparseInputs();
             for (var stack : sparseInput) {
                 var key = stack.what();
                 if (key instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
@@ -581,4 +641,48 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         this.blacklistedFluids[index].setFluid(newFluid);
         loadBlacklistData();
     }
+
+    private Widget createLabeledConfiguratorWidget(int x, int y,
+                                                   Supplier<Integer> getter, Consumer<Integer> setter,
+                                                   String labelLangKey, String... descLangKey) {
+        WidgetGroup priorityGroup = new WidgetGroup(x, y, 60, 40);
+
+        Widget labelWidget = new ImageWidget(
+                0, 0, 60, 12,
+                new TextTexture(Component.translatable(labelLangKey).getString())
+                        .setType(TextTexture.TextType.LEFT_HIDE)
+                        .setWidth(65))
+                .setHoverTooltips(Arrays.stream(descLangKey).map(Component::translatable).toArray(Component[]::new));
+        priorityGroup.addWidget(labelWidget);
+
+        final var priority = getter.get();
+        Widget priorityWidget = new IntInputWidget(0, 14, 60, 12, getter, setter)
+                .setMin(Integer.MIN_VALUE)
+                .setValue(priority);
+        priorityGroup.addWidget(priorityWidget);
+        return priorityGroup;
+    }
+
+    // ========== Localization ==========
+
+    @RegisterLanguage(cn = "样板优先级：", en = "Pattern Priority: ")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_PRIORITY = "gtocore.ae.appeng.pattern.priority";
+    @RegisterLanguage(cn = "此样板总成提供的样板优先级。合成计算将优先考虑优先级最高的样板。", en = "The priority for the patterns offered by this provider. The crafting calculation will prioritize patterns with the highest priority.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_PRIORITY_DESC = "gtocore.ae.appeng.pattern.priority.desc";
+    @RegisterLanguage(cn = "通配符样板总成材料黑名单", en = "Wildcard Pattern Provider Material Blacklist")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST = "gtocore.ae.appeng.wildcard_pattern_buffer.blacklist";
+    @RegisterLanguage(cn = "添加到黑名单中的材料将不会被通配符样板总成所使用。", en = "Materials added to the blacklist will not be used by the Wildcard Pattern Provider.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST_DESC = "gtocore.ae.appeng.wildcard_pattern_buffer.blacklist.desc";
+    @RegisterLanguage(cn = "最大物品输出种数：", en = "Max Item Output Types: ")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES = "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types";
+    @RegisterLanguage(cn = "自动生成的样板中产物允许的最大物品种类数。", en = "The maximum number of item types allowed in the outputs of auto-generated patterns.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_DESC = "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types.desc";
+    @RegisterLanguage(cn = "例如，生成的样板中，若配方输出既含有物品，又含有流体，将此项设为0，则仅允许流体作为样板的产物。", en = "For example, in generated patterns, if the recipe outputs both items and fluids, setting this to 0 will only allow fluids as outputs of the pattern.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_EXAMPLE = "gtocore.ae.appeng.wildcard_pattern_buffer.max_item_output_types.example";
+    @RegisterLanguage(cn = "最大流体输出种数：", en = "Max Fluid Output Types: ")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES = "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types";
+    @RegisterLanguage(cn = "自动生成的样板中产物允许的最大流体种类数。", en = "The maximum number of fluid types allowed in the outputs of auto-generated patterns.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_DESC = "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types.desc";
+    @RegisterLanguage(cn = "例如，生成的样板中，若配方输出含有多种流体，将此项设为1，则仅允许配方中的第一种流体作为样板的产物。", en = "For example, in generated patterns, if the recipe outputs multiple fluids, setting this to 1 will only allow the first fluid in the recipe as the output of the pattern.")
+    private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_EXAMPLE = "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types.example";
 }

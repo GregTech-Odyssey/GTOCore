@@ -381,10 +381,6 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.pick_craft.error.1", "计算合成路径时发生错误。", "An error occurred while calculating the crafting path.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.3", "创建的任务数已达上限。", "The number of created tasks has reached the limit.");
-        addCNEN("gtocore.ae.appeng.pattern.priority", "样板优先级：", "Pattern Priority: ");
-        addCNEN("gtocore.ae.appeng.pattern.priority.desc", "此样板总成提供的样板优先级。合成计算将优先考虑优先级最高的样板。", "The priority for the patterns offered by this provider. The crafting calculation will prioritize patterns with the highest priority.");
-        addCNEN("gtocore.ae.appeng.wildcard_pattern_buffer.blacklist", "通配符样板总成材料黑名单", "Wildcard Pattern Provider Material Blacklist");
-        addCNEN("gtocore.ae.appeng.wildcard_pattern_buffer.blacklist.desc", "添加到黑名单中的材料将不会被通配符样板总成所使用。", "Materials added to the blacklist will not be used by the Wildcard Pattern Provider.");
         addCNEN("gtocore.ae.appeng.highlight_button.try_open_ui", "当目标为样板总成，右键以试图打开其界面", "When the target is a Pattern Provider, right-click to try to open its UI");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
