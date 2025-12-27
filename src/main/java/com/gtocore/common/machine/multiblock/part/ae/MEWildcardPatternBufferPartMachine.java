@@ -168,6 +168,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         var widget = new WidgetGroup(0, 0, 196, 220);
 
         var dsl = super.createUIWidget();
+        dsl.setSelfPositionX(9);
         widget.addWidget(dsl);
 
         widget.addWidget(createLabeledConfiguratorWidget(0, 120,
@@ -323,8 +324,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                             substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting1);
                         }
 
-                        // var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]),
-                        // output.toArray(new GenericStack[0]));
                         long startValidating1 = System.nanoTime();
                         var detail = validatePattern(input.toArray(new GenericStack[0]), output.toArray(new GenericStack[0]));
                         if (detail != null) {
@@ -439,7 +438,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         public VirtualList(MEWildcardPatternBufferPartMachine buffer, GenericStack[] sparseInput) {
             super(IO.IN, null);
             this.sparseInput = sparseInput;
-            // this.sparseOutput = sparseOutput;
             var slot = buffer.getInternalInventory()[0];
             addHandlers(slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
         }
@@ -447,7 +445,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         @Override
         public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
             var ings = super.getIngredientMap(type);
-            // var sparseInput = pattern.getSparseInputs();
             for (var stack : sparseInput) {
                 var key = stack.what();
                 if (key instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
