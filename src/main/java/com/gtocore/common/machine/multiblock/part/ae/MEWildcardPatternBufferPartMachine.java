@@ -61,7 +61,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Predicate;
 
 import static com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget.drawSelectionOverlay;
 import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawItemStack;
@@ -399,13 +398,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                 ((IIngredientConvertible) key).gtolib$convert(Long.MAX_VALUE, ings);
             }
             return ings;
-        }
-
-        @Override
-        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
-            var ings = this.getIngredientMap(recipeType);
-            if (ings.isEmpty()) return false;
-            return recipeType.db.find(ings, canHandle);
         }
     }
 
