@@ -8,6 +8,7 @@ import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.api.ae2.stacks.IIngredientConvertible;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
+import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -60,7 +61,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Predicate;
 
 import static com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget.drawSelectionOverlay;
 import static com.lowdragmc.lowdraglib.gui.util.DrawerHelper.drawItemStack;
@@ -77,7 +77,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     @Persisted
     private final CustomItemStackHandler blacklistedItems;
     @Persisted
-    private ItemStackTransfer blacklistedItemsStorageTransfer;
+    private final ItemStackTransfer blacklistedItemsStorageTransfer;
     @Persisted
     private final CustomFluidTank[] blacklistedFluids;
     private final Int2ReferenceOpenHashMap<Material> blacklistedMaterials = new Int2ReferenceOpenHashMap<>();
@@ -110,7 +110,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     }
 
     @Override
-    public @Nullable IPatternDetails decodePattern(ItemStack stack, int index) {
+    public @Nullable IPatternDetails decodePattern(@NotNull ItemStack stack, int index) {
         var pattern = MyPatternDetailsHelper.decodePattern(stack, holder, getGrid());
         if (pattern == null) return null;
         getAvailablePatterns();
@@ -134,7 +134,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         super.onChanged();
     }
 
-    public void requestPatternUpdate() {
+    private void requestPatternUpdate() {
         if (lock) return;
         lock = true;
         this.dirty = true;
@@ -183,7 +183,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return widget;
     }
 
-    public void loadBlacklistData() {
+    private void loadBlacklistData() {
         blacklistedMaterials.clear();
         int i = 0;
         for (; i < blacklistedItems.getSlots(); i++) {
@@ -260,50 +260,48 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting);
 
             var blacklistSet = blacklistedMaterials.values();
-            GTCEuAPI.materialManager.getRegisteredMaterials().stream()
-                    .filter(material -> !blacklistSet.contains(material))
-                    .forEach(
-                            material -> {
-                                for (int i = 0; i < patterns.size(); i++) {
-                                    var cp = patterns.get(i);
-                                    if (cp instanceof AEProcessingPattern) {
+            GTCEuAPI.materialManager.getRegisteredMaterials().forEach(material -> {
+                if (blacklistSet.contains(material)) return;
+                for (int i = 0; i < patterns.size(); i++) {
+                    var cp = patterns.get(i);
+                    if (cp instanceof AEProcessingPattern) {
 
-                                        ObjectArrayList<GenericStack> input = new ObjectArrayList<>(sharedInputs[i]);
-                                        var tagPrefixInput = tagPrefixInputs[i];
-                                        ObjectArrayList<GenericStack> output = new ObjectArrayList<>(sharedOutputs[i]);
-                                        var tagPrefixOutput = tagPrefixOutputs[i];
+                        ObjectArrayList<GenericStack> input = new ObjectArrayList<>(sharedInputs[i]);
+                        var tagPrefixInput = tagPrefixInputs[i];
+                        ObjectArrayList<GenericStack> output = new ObjectArrayList<>(sharedOutputs[i]);
+                        var tagPrefixOutput = tagPrefixOutputs[i];
 
-                                        long startSubstituting1 = System.nanoTime();
-                                        try {
-                                            for (Object stack : tagPrefixInput) {
-                                                GenericStack gs = (GenericStack) stack;
-                                                var tagPrefixKey = (TagPrefixKey) gs.what();
-                                                var what = tagPrefixKey.getFromMaterial(material);
-                                                if (what == null) return;
-                                                input.add(new GenericStack(what, gs.amount()));
-                                            }
-                                            for (Object stack : tagPrefixOutput) {
-                                                GenericStack gs = (GenericStack) stack;
-                                                var tagPrefixKey = (TagPrefixKey) gs.what();
-                                                var what = tagPrefixKey.getFromMaterial(material);
-                                                if (what == null) return;
-                                                output.add(new GenericStack(what, gs.amount()));
-                                            }
-                                        } finally {
-                                            substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting1);
-                                        }
+                        long startSubstituting1 = System.nanoTime();
+                        try {
+                            for (Object stack : tagPrefixInput) {
+                                GenericStack gs = (GenericStack) stack;
+                                var tagPrefixKey = (TagPrefixKey) gs.what();
+                                var what = tagPrefixKey.getFromMaterial(material);
+                                if (what == null) return;
+                                input.add(new GenericStack(what, gs.amount()));
+                            }
+                            for (Object stack : tagPrefixOutput) {
+                                GenericStack gs = (GenericStack) stack;
+                                var tagPrefixKey = (TagPrefixKey) gs.what();
+                                var what = tagPrefixKey.getFromMaterial(material);
+                                if (what == null) return;
+                                output.add(new GenericStack(what, gs.amount()));
+                            }
+                        } finally {
+                            substitutingIngredients.addAndGet(System.nanoTime() - startSubstituting1);
+                        }
 
-                                        var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), output.toArray(new GenericStack[0]));
-                                        long startValidating1 = System.nanoTime();
-                                        var detail = MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
-                                        if (validatePattern(detail)) {
-                                            var converted = IParallelPatternDetails.of(convertPattern(detail, 0), getLevel(), 1);
-                                            newPatterns.add(converted);
-                                        }
-                                        validatingPatterns.addAndGet(System.nanoTime() - startValidating1);
-                                    }
-                                }
-                            });
+                        var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), output.toArray(new GenericStack[0]));
+                        long startValidating1 = System.nanoTime();
+                        var detail = MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
+                        if (validatePattern(detail)) {
+                            var converted = IParallelPatternDetails.of(convertPattern(detail, 0), getLevel(), 1);
+                            newPatterns.add(converted);
+                        }
+                        validatingPatterns.addAndGet(System.nanoTime() - startValidating1);
+                    }
+                }
+            });
             cachedPatterns = newPatterns;
             if (GTOConfig.INSTANCE.aeLog) {
                 GTOCore.LOGGER.info("MEWildcardPatternBufferPartMachine recalculated patterns: {} patterns in {} ms",
@@ -365,7 +363,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
 
             @Override
             public @NotNull Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-                return Map.of(IO.IN, List.of(new VirtualList(pattern)));
+                return Map.of(IO.IN, List.of(new VirtualList(MEWildcardPatternBufferPartMachine.this, pattern)));
             }
 
             @Override
@@ -375,15 +373,14 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         };
     }
 
-    private class VirtualList extends RecipeHandlerList {
+    private static class VirtualList extends ExtendedRecipeHandlerList {
 
-        final AEProcessingPattern pattern;
+        private final AEProcessingPattern pattern;
 
-        public VirtualList(AEProcessingPattern pattern) {
+        private VirtualList(MEWildcardPatternBufferPartMachine buffer, AEProcessingPattern pattern) {
             super(IO.IN, null);
             this.pattern = pattern;
-            var slot = getInternalInventory()[0];
-            var buffer = MEWildcardPatternBufferPartMachine.this;
+            var slot = buffer.getInternalInventory()[0];
             addHandlers(slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
         }
 
@@ -391,24 +388,16 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
             var ings = super.getIngredientMap(type);
             var sparseInput = pattern.getSparseInputs();
-            Arrays.stream(sparseInput).map(GenericStack::what)
-                    .forEach(key -> {
-                        if (key instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
-                            ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
-                            if (virtualItem.isEmpty()) return;
-                            key = AEItemKey.of(virtualItem);
-                        }
-                        ((IIngredientConvertible) key).gtolib$convert(Long.MAX_VALUE, ings);
-                    });
+            for (var stack : sparseInput) {
+                var key = stack.what();
+                if (key instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
+                    ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
+                    if (virtualItem.isEmpty()) continue;
+                    key = AEItemKey.of(virtualItem);
+                }
+                ((IIngredientConvertible) key).gtolib$convert(Long.MAX_VALUE, ings);
+            }
             return ings;
-        }
-
-        @Override
-        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
-            var ings = this.getIngredientMap(recipeType);
-            if (ings.isEmpty()) return false;
-            // holder.setCurrentHandlerList(this, null);
-            return recipeType.db.find(ings, canHandle);
         }
     }
 
@@ -483,7 +472,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                                 GuiTextures.CONFIG_ARROW_DARK.draw(graphics, mouseX, mouseY, position.x, position.y, 18, 18);
                                 int stackX = position.x + 1;
                                 int stackY = position.y + 1;
-                                ItemStack stack = null;
+                                ItemStack stack;
                                 if (getHandler() != null) {
                                     stack = getHandler().getItem();
                                     drawItemStack(graphics, stack, stackX, stackY, 0xFFFFFFFF, null);

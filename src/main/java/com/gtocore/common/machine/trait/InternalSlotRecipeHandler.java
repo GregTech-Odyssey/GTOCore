@@ -126,7 +126,7 @@ public final class InternalSlotRecipeHandler {
         public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return false;
             if (slot.recipe != null && RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) {
-                holder.setCurrentHandlerList(this, null);
+                holder.setCurrentHandlerList(this);
                 if (canHandle.test(slot.recipe)) return true;
             }
             if (slot.machine.recipeType != GTORecipeTypes.HATCH_COMBINED) {
@@ -138,7 +138,7 @@ public final class InternalSlotRecipeHandler {
             }
             var map = this.getIngredientMap(recipeType);
             if (map.isEmpty()) return false;
-            holder.setCurrentHandlerList(this, null);
+            holder.setCurrentHandlerList(this);
             return recipeType.db.find(map, canHandle);
         }
 
@@ -324,7 +324,6 @@ public final class InternalSlotRecipeHandler {
             }
             return slot.itemIngredientMap;
         }
-
     }
 
     private static final class SlotFluidRecipeHandler extends NonstandardSlotRecipeHandler<FluidIngredient> {
@@ -388,11 +387,11 @@ public final class InternalSlotRecipeHandler {
         }
     }
 
-    public abstract static class NonstandardSlotRecipeHandler<ING> extends NotifiableRecipeHandlerTrait<ING> implements NonStandardHandler {
+    private abstract static class NonstandardSlotRecipeHandler<ING> extends NotifiableRecipeHandlerTrait<ING> implements NonStandardHandler {
 
-        protected final MEPatternBufferPartMachine.InternalSlot slot;
+        final MEPatternBufferPartMachine.InternalSlot slot;
 
-        protected NonstandardSlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
+        private NonstandardSlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
             super(buffer);
             this.slot = slot;
             slot.setOnContentsChanged(this::notifyListeners);

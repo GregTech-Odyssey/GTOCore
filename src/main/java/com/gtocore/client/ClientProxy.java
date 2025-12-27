@@ -1,7 +1,5 @@
 package com.gtocore.client;
 
-import appeng.api.client.AEKeyRendering;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.client.forge.GTOComponentHandler;
 import com.gtocore.client.forge.GTOComponentRegistry;
@@ -21,12 +19,13 @@ import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubScreen;
-
-import com.gregtechceu.gtceu.GTCEu;
-
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
 import com.gtolib.api.emi.stack.TagPrefixRenderer;
+
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,11 +37,11 @@ import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import appeng.api.client.AEKeyRendering;
 import appeng.api.parts.PartModels;
 import appeng.init.client.InitScreens;
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
