@@ -168,6 +168,19 @@ public final class GTEMIPlugin implements EmiPlugin {
 
             @Override
             public boolean dropStack(Screen screen, EmiIngredient stack, int x, int y) {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                if (stack.getEmiStacks().getFirst() instanceof EmiSearchTextStack searchTextStack) {
+                    for (var widget : screen.renderables) {
+                        if (widget instanceof EditBox editBox && editBox.isMouseOver(x, y)) {
+                            String text = searchTextStack.getText();
+                            editBox.setValue(text);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
                 if (EmiScreenManager.search.isMouseOver(x, y)) {
                     stack.getEmiStacks().stream().findFirst().ifPresent(s -> EmiScreenManager.search.setValue(s.getName().getString()));
                     return true;
@@ -179,19 +192,34 @@ public final class GTEMIPlugin implements EmiPlugin {
             public void render(Screen screen, EmiIngredient dragged, GuiGraphics draw, int mouseX, int mouseY, float delta) {
                 EmiDragDropHandler.super.render(screen, dragged, draw, mouseX, mouseY, delta);
 
-                var area = EmiScreenManager.search.getRectangle();
-                draw.fill(
-                        area.left(),
-                        area.top(),
-                        area.right(),
-                        area.bottom(),
-                        0x8822BB33);
+                if (!dragged.isEmpty() &&
+                        dragged.getEmiStacks().getFirst() instanceof EmiSearchTextStack) {
+                    for (var widget : screen.renderables) {
+                        if (widget instanceof EditBox editBox) {
+                            var area = editBox.getRectangle();
+                            draw.fill(
+                                    area.left(),
+                                    area.top(),
+                                    area.right(),
+                                    area.bottom(),
+                                    0x8822BB33);
+                        }
+                    }
+                } else {
+                    var area = EmiScreenManager.search.getRectangle();
+                    draw.fill(
+                            area.left(),
+                            area.top(),
+                            area.right(),
+                            area.bottom(),
+                            0x8822BB33);
+                }
             }
         });
 
         registry.addIngredientSerializer(EmiSearchTextStack.class, new EmiSearchTextStackSerializer());
         registry.addIngredientSerializer(EmiTagprefixStack.class, new EmiTagprefixStackSerializer());
-        registry.addStackProvider(Screen.class, (Screen screen, int x, int y) -> {
+        registry.addGenericStackProvider((Screen screen, int x, int y) -> {
             for (var widget : screen.renderables) {
                 if (widget instanceof EditBox editBox && !editBox.isFocused() && editBox.isMouseOver(x, y)) {
                     String text = editBox.getValue();
