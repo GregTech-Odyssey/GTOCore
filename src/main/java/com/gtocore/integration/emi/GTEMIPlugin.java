@@ -204,15 +204,14 @@ public final class GTEMIPlugin implements EmiPlugin {
                                     0x8822BB33);
                         }
                     }
-                } else {
-                    var area = EmiScreenManager.search.getRectangle();
-                    draw.fill(
-                            area.left(),
-                            area.top(),
-                            area.right(),
-                            area.bottom(),
-                            0x8822BB33);
                 }
+                var area = EmiScreenManager.search.getRectangle();
+                draw.fill(
+                        area.left(),
+                        area.top(),
+                        area.right(),
+                        area.bottom(),
+                        0x8822BB33);
             }
         });
 
