@@ -179,7 +179,6 @@ public final class GTEMIPlugin implements EmiPlugin {
                             return true;
                         }
                     }
-                    return false;
                 }
                 if (EmiScreenManager.search.isMouseOver(x, y)) {
                     stack.getEmiStacks().stream().findFirst().ifPresent(s -> EmiScreenManager.search.setValue(s.getName().getString()));
