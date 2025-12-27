@@ -226,6 +226,12 @@ public final class GTEMIPlugin implements EmiPlugin {
                     }
                 }
             }
+            if (EmiScreenManager.search.isMouseOver(x, y)) {
+                String text = EmiScreenManager.search.getValue();
+                if (!text.isEmpty()) {
+                    return new EmiStackInteraction(new EmiSearchTextStack(text), null, screen instanceof IStackInteractionScreen);
+                }
+            }
             return EmiStackInteraction.EMPTY;
         });
     }
