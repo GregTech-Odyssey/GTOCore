@@ -146,7 +146,6 @@ dependencies {
 
     modRuntimeOnly("curse.maven:redstone-pen-461710:5242883")
     modRuntimeOnly("curse.maven:more-red-387638:4691333")
-    modImplementation("curse.maven:jumbo-furnace-390880:4685578")
 
 //    modRuntimeOnly("curse.maven:worldedit-225608:4586218")
 
