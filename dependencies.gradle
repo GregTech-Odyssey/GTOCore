@@ -184,6 +184,8 @@ dependencies {
 
     modCompileOnly("dev:gtoepp:1.0.1")
 
+    modImplementation("curse.maven:jumbo-furnace-390880:4685578")
+
     modImplementation("curse.maven:easy-villagers-400514:6831415")
 
     modImplementation("curse.maven:cc-tweaked-282001:5714507")

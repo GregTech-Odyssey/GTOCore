@@ -1,7 +1,5 @@
 package com.gtocore.client.forge;
 
-import appeng.hooks.BuiltInModelHooks;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gtocore.client.ClientCache;
 import com.gtocore.client.GTOClientCommands;
 import com.gtocore.client.Tooltips;
@@ -36,7 +34,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
@@ -48,9 +45,6 @@ import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import snownee.jade.util.Color;
-import vazkii.botania.forge.client.ForgeFloatingFlowerModel;
-import vazkii.botania.forge.client.ForgeManaBlasterModel;
-import vazkii.botania.xplat.ClientXplatAbstractions;
 
 import java.util.Set;
 

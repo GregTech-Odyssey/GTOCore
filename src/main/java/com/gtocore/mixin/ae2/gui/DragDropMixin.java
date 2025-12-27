@@ -1,9 +1,10 @@
 package com.gtocore.mixin.ae2.gui;
 
-import appeng.api.stacks.GenericStack;
-import appeng.integration.modules.emi.EmiStackHelper;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.emi.stack.EmiTagprefixStack;
+
+import appeng.api.stacks.GenericStack;
+import appeng.integration.modules.emi.EmiStackHelper;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -16,6 +17,7 @@ import java.util.Set;
 
 @Mixin(targets = "appeng.integration.modules.emi.EmiAeBaseScreenDragDropHandler")
 public class DragDropMixin {
+
     @Redirect(method = "dropStack", at = @At(value = "INVOKE", target = "Lappeng/integration/modules/emi/EmiStackHelper;toGenericStack(Ldev/emi/emi/api/stack/EmiStack;)Lappeng/api/stacks/GenericStack;", remap = false), remap = false)
     private GenericStack redirectToGenericStack(EmiStack emiStack) {
         if (emiStack instanceof EmiTagprefixStack stack) {
@@ -30,8 +32,7 @@ public class DragDropMixin {
         ((Set<GenericStack>) original).addAll(
                 dragged.getEmiStacks().stream()
                         .filter(EmiTagprefixStack.class::isInstance)
-                        .map(stack -> TagPrefixKey.toGenericStack(((EmiTagprefixStack) stack))
-                ).toList());
+                        .map(stack -> TagPrefixKey.toGenericStack(((EmiTagprefixStack) stack))).toList());
         return original;
     }
 }

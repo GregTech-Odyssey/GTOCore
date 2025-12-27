@@ -1,6 +1,5 @@
 package com.gtocore.common;
 
-import appeng.api.stacks.AEKeyTypes;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.KeyMessage;
@@ -54,6 +53,7 @@ import net.minecraftforge.registries.RegisterEvent;
 
 import appeng.api.features.GridLinkables;
 import appeng.api.networking.pathing.ChannelMode;
+import appeng.api.stacks.AEKeyTypes;
 import appeng.core.AEConfig;
 import appeng.hotkeys.HotkeyActions;
 import appeng.items.tools.powered.WirelessTerminalItem;

@@ -606,6 +606,7 @@ object GTOMachineTooltips {
         section(MainFunction)
         ok("不消耗催化剂耐久，可以让催化剂重复使用" translatedTo "Not consume catalyst durability each time, allowing the catalyst to be reused")
     }
+
     // ME催化剂样板总成
     val MeWildcardPatternBufferTooltips = ComponentListSupplier {
         setTranslationPrefix("me_wildcard_pattern_buffer")
