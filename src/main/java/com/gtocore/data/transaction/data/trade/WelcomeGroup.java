@@ -25,14 +25,13 @@ import java.util.Set;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOMachines.TRADING_STATION;
-import static com.gtocore.common.data.GTOMaterials.Adamantine;
-import static com.gtocore.common.data.GTOMaterials.Infinity;
+import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.data.transaction.data.TradeLang.TECH_OPERATOR_COIN;
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 import static com.lowdragmc.lowdraglib.LDLib.random;
 
-public class WelcomeGroup {
+public final class WelcomeGroup {
 
     /**
      * 欢迎来到格雷科技
@@ -51,9 +50,9 @@ public class WelcomeGroup {
                 addTradeLang("格雷科技销售部兑币区", "Currency Exchange Area of Gray Technology Sales Department"),
                 UNLOCK_BASE,
                 Set.of(TECH_OPERATOR_COIN),
-                new ItemStackTexture(ChemicalHelper.get(GTOTagPrefix.COIN, Infinity)));
+                new ItemStackTexture(ChemicalHelper.get(GTOTagPrefix.COIN, Neutronium)));
 
-        Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity };
+        Material[] materials = { Copper, Cupronickel, Silver, Gold, Osmium, Naquadah, Neutronium, Adamantine, Infinity, Neutron };
 
         for (int i = 0; i < materials.length; i++) {
             TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1, createCoinExchangeTrade(materials[i], i));

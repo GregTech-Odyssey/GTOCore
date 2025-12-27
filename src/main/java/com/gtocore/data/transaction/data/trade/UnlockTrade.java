@@ -20,7 +20,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
 import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 
-public class UnlockTrade {
+public final class UnlockTrade {
 
     public static final String SINGLE_TRANSACTION = "Single Transaction";
 

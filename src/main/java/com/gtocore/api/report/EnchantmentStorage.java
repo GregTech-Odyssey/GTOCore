@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class EnchantmentStorage {
 
@@ -114,8 +113,6 @@ public class EnchantmentStorage {
                 // 写入CSV表头
                 csvWriter.println("Enchantment ID,Max Level,Translation Key,Localized Name,Simplified ID");
 
-                AtomicInteger i = new AtomicInteger();
-
                 // 按字母顺序排序并写入数据
                 enchantments.entrySet().stream()
                         .sorted(Map.Entry.comparingByKey())
@@ -132,13 +129,11 @@ public class EnchantmentStorage {
                                     localizedName + "," +
                                     simplifiedId);
 
-                            txtWriter.println("records.add(EnchantmentRecord.create(" +
-                                    i + ",\"" +
+                            txtWriter.println("addRecord(\"" +
                                     enchantmentId + "\"," +
                                     data.maxLevel + ",\"" +
                                     localizedName + "\",\"" +
-                                    data.translationKey + "\"));");
-                            i.getAndIncrement();
+                                    data.translationKey + "\");");
 
                             // 收集数据用于转置
                             enchantmentIds.add(enchantmentId);

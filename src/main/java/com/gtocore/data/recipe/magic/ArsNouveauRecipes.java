@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.magic;
 
+import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.recipe.builder.ars.EnchantingApparatusRecipeBuilder;
@@ -12,6 +13,7 @@ import com.gtolib.utils.RegistriesUtils;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
@@ -132,6 +134,16 @@ public final class ArsNouveauRecipes {
             EnchantingApparatusRecipe("copy_heros_soul", Ingredient.of(GTOItems.HEROS_SOUL), new ItemStack(GTOItems.HEROS_SOUL, 2), 10000, false,
                     new Ingredient[] { Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE),
                             Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), });
+
+            EnchantingApparatusRecipe("the_origin_casing", Ingredient.of(ExtraBotanyItems.theOrigin), new ItemStack(GTOBlocks.THE_ORIGIN_CASING, 4), 10000, false,
+                    new Ingredient[] { Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel),
+                            Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel) });
+            EnchantingApparatusRecipe("the_end_casing", Ingredient.of(ExtraBotanyItems.theEnd), new ItemStack(GTOBlocks.THE_END_CASING, 4), 10000, false,
+                    new Ingredient[] { Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel),
+                            Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel) });
+            EnchantingApparatusRecipe("the_chaos_casing", Ingredient.of(ExtraBotanyItems.theChaos), new ItemStack(GTOBlocks.THE_CHAOS_CASING, 4), 10000, false,
+                    new Ingredient[] { Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel),
+                            Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel) });
 
         }
 
@@ -367,6 +379,20 @@ public final class ArsNouveauRecipes {
                     new Ingredient[] { Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE),
                             Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), Ingredient.of(Tags.ENCHANTMENT_ESSENCE), Ingredient.of(Tags.AFFIX_ESSENCE), },
                     new FluidStack[0]);
+
+            MultiblockImbuementRecipe(5, true, "the_origin_casing", Ingredient.of(ExtraBotanyItems.theOrigin), new ItemStack(GTOBlocks.THE_ORIGIN_CASING, 4), 10000,
+                    new Ingredient[] { Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel),
+                            Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel) },
+                    new FluidStack[0]);
+            MultiblockImbuementRecipe(5, true, "the_end_casing", Ingredient.of(ExtraBotanyItems.theEnd), new ItemStack(GTOBlocks.THE_END_CASING, 4), 10000,
+                    new Ingredient[] { Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel),
+                            Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel) },
+                    new FluidStack[0]);
+            MultiblockImbuementRecipe(5, true, "the_chaos_casing", Ingredient.of(ExtraBotanyItems.theChaos), new ItemStack(GTOBlocks.THE_CHAOS_CASING, 4), 10000,
+                    new Ingredient[] { Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel),
+                            Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE), Ingredient.of(GCYMBlocks.CASING_STRESS_PROOF), Ingredient.of(ExtraBotanyItems.spiritFuel) },
+                    new FluidStack[0]);
+
         }
 
         // 多方块特供配方
@@ -385,6 +411,9 @@ public final class ArsNouveauRecipes {
                     new Ingredient[] { Ingredient.of(Items.SUGAR), Ingredient.of(Items.FERMENTED_SPIDER_EYE) }, new FluidStack[] { Aether.getFluid(LIQUID, 500), Milk.getFluid(1000) });
             MultiblockImbuementRecipe2(5, true, "enchanting_conjuration_essence_lot", new ItemStack(ItemsRegistry.SOURCE_GEM, 64), new ItemStack(ItemsRegistry.CONJURATION_ESSENCE, 64), 4000,
                     new Ingredient[] { Ingredient.of(Items.BOOK), Ingredient.of(ItemsRegistry.WILDEN_HORN), Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD) }, new FluidStack[] { Aether.getFluid(LIQUID, 500) });
+
+            MultiblockImbuementRecipe2(1, false, "gaia_core_dust", ChemicalHelper.get(dust, GaiaCore, 16), new ItemStack(GTOItems.GAIA_CORE), 10000,
+                    new Ingredient[] { Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence) }, new FluidStack[0]);
 
         }
 
@@ -668,7 +697,7 @@ public final class ArsNouveauRecipes {
         var build = INFUSER_CORE_RECIPES.builder(id);
         if (!model) {
             build
-                    .inputItems(input, 4)
+                    .inputItems(input)
                     .outputItems(output.copyWithCount(output.getCount() << 2))
                     .circuitMeta(circuitMeta)
                     .duration(400)

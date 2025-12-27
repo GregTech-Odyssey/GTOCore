@@ -74,7 +74,7 @@ final class GTOMaterialRecipeHandler {
             processTinyDust(material);
         }
 
-        if (material.shouldGenerateRecipesFor(gemExquisite)) {
+        if (material.shouldGenerateRecipesFor(gemExquisite) && !material.hasFlag(DISABLE_GEM_RECIPES)) {
             for (TagPrefix orePrefix : Arrays.asList(gem, gemFlawless, gemExquisite)) {
                 processGemConversion(orePrefix, material);
             }
@@ -302,7 +302,7 @@ final class GTOMaterialRecipeHandler {
                     String[] pattern = new String[sizeSqrt];
                     Arrays.fill(pattern, patternString);
                     MaterialEntry blockEntry;
-                    if (material.hasProperty(PropertyKey.GEM)) {
+                    if (material.hasProperty(PropertyKey.GEM) && !material.hasFlag(DISABLE_GEM_RECIPES)) {
                         blockEntry = new MaterialEntry(gem, material);
                     } else if (material.hasProperty(PropertyKey.INGOT)) {
                         blockEntry = new MaterialEntry(ingot, material);
@@ -328,7 +328,7 @@ final class GTOMaterialRecipeHandler {
                         .duration(mass << 1).EUt(8L * GTOUtils.getVoltageMultiplier(material))
                         .save();
 
-            } else if (material.hasProperty(PropertyKey.GEM)) {
+            } else if (material.hasProperty(PropertyKey.GEM) && !material.hasFlag(DISABLE_GEM_RECIPES)) {
                 COMPRESSOR_RECIPES.recipeBuilder("compress_" + material.getName() + "_gem_to_block")
                         .inputItems(gem, material, amount)
                         .outputItems(blockStack)
@@ -530,7 +530,7 @@ final class GTOMaterialRecipeHandler {
                     .save();
         }
 
-        if (material.hasProperty(PropertyKey.GEM)) {
+        if (material.hasProperty(PropertyKey.GEM) && !material.hasFlag(DISABLE_GEM_RECIPES)) {
             ItemStack gemStack = ChemicalHelper.get(gem, material);
 
             if (material.hasFlag(CRYSTALLIZABLE)) {

@@ -22,7 +22,7 @@ import static com.gtocore.data.transaction.data.TradeLang.*;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.GT_Values;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 
-public class EnergyGroup {
+public final class EnergyGroup {
 
     /**
      * 能源部

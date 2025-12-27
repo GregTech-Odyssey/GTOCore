@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/crudely_fused_star_blood_crystal_ore"
+  }
+}

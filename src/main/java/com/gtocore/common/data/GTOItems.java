@@ -50,6 +50,7 @@ import net.minecraft.world.item.*;
 import net.minecraftforge.common.Tags;
 
 import appeng.items.materials.StorageComponentItem;
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -59,6 +60,8 @@ import org.jetbrains.annotations.NotNull;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTModels.overrideModel;
 import static com.gtocore.common.item.tarotArcanumRegister.registerTarotArcanum;
+import static com.gtocore.data.record.ApotheosisAffixRecord.registerAffixEssence;
+import static com.gtocore.data.record.EnchantmentRecord.registerEnchantmentEssence;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.ItemRegisterUtils.*;
 
@@ -365,10 +368,6 @@ public final class GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();
 
-    public static final ItemEntry<ComponentItem> CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT = item("closed_timelike_curve_guidance_unit", "封闭类时曲线引导单元", ComponentItem::create)
-            .onRegister(attach(new DataItemBehavior(true)))
-            .register();
-
     public static final ItemEntry<DiscItem> DATA_DISC = item("data_disc", "数据光盘", DiscItem::new)
             .register();
 
@@ -389,6 +388,10 @@ public final class GTOItems {
             .onRegister(attachRenderer(() -> HaloItemRenderer.COSMIC_HALO))
             .onRegister(attach(new DataItemBehavior(true)))
             .register();// OPV鸿蒙之眼后解锁,MAX初期开使用
+
+    public static final ItemEntry<ComponentItem> CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT = item("closed_timelike_curve_guidance_unit", "封闭类时曲线引导单元", ComponentItem::create)
+            .onRegister(attach(new DataItemBehavior(true)))
+            .register();
 
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK1 = register("data_crystal_component_mk1", "数据晶片组件 mk1");
     public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK2 = register("data_crystal_component_mk2", "数据晶片组件 mk2");
@@ -910,10 +913,50 @@ public final class GTOItems {
         }
     }).register();
 
+    public static final ItemEntry<Item> MANA_CRYSTAL = register("mana_crystal", "魔力结晶");
+
+    public static final ItemEntry<Item> SOURCE_SPIRIT_DEBRIS = registerTooltip("source_spirit_debris", "源灵碎屑", () -> Component.literal("✨"));
+    public static final ItemEntry<Item> HOLY_ROOT_MYCELIUM = registerTooltip("holy_root_mycelium", "圣根菌丝", () -> Component.literal("🍄"));
+    public static final ItemEntry<Item> STAR_DEBRIS_SAND = registerTooltip("star_debris_sand", "星屑砂", () -> Component.literal("⭐"));
+    public static final ItemEntry<Item> VEIN_BLOOD_MUCUS = registerTooltip("vein_blood_mucus", "脉血粘液", () -> Component.literal("🩸"));
+    public static final ItemEntry<Item> SOUL_SHADOW_DUST = registerTooltip("soul_shadow_dust", "魂影尘", () -> Component.literal("🌑"));
+    public static final ItemEntry<Item> CONSCIOUSNESS_THREAD = registerTooltip("consciousness_thread", "识念丝", () -> Component.literal("🧵"));
+    public static final ItemEntry<Item> BONE_ASH_GRANULE = registerTooltip("bone_ash_granule", "骸灰粒", () -> Component.literal("💀"));
+    public static final ItemEntry<Item> SPIRIT_BONE_FRAGMENT = registerTooltip("spirit_bone_fragment", "灵骸碎片", () -> Component.literal("👻"));
+
+    public static final ItemEntry<Item> ORIGIN_CORE_ENERGY_BODY = register("origin_core_energy_body", "源核能量体");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_EMBRYO = register("source_energy_catalyst_embryo", "源能催化晶胚");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_CRYSTAL = register("source_energy_catalyst_crystal", "源能催化晶");
+    public static final ItemEntry<Item> SOURCE_ENERGY_CATALYST_CRYSTAL_SHARD = register("source_energy_catalyst_crystal_shard", "源能催化晶残片");
+    public static final ItemEntry<Item> REGENERATED_SOURCE_ENERGY_BODY = register("regenerated_source_energy_body", "再生源能能量体");
+
+    public static final ItemEntry<Item> SOUL_THOUGHT_CONDENSATE = register("soul_thought_condensate", "魂念凝聚体");
+    public static final ItemEntry<Item> ANCHORED_SOUL_CORE = register("anchored_soul_core", "锚定魂核");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_EMBRYO = register("soul_thought_catalyst_embryo", "魂念催化胚");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_CORE = register("soul_thought_catalyst_core", "魂念催化核");
+    public static final ItemEntry<Item> SOUL_THOUGHT_CATALYST_CORE_SHARD = register("soul_thought_catalyst_core_shard", "魂念催化核碎片");
+    public static final ItemEntry<Item> REGENERATED_SOUL_CORE = register("regenerated_soul_core", "再生魂核");
+
+    public static final ItemEntry<Item> REMNANT_ENERGY_ADSORBER = register("remnant_energy_adsorber", "骸能吸附体");
+    public static final ItemEntry<Item> REMNANT_EROSION_CATALYST_EMBRYO = register("remnant_erosion_catalyst_embryo", "骸蚀催化胚");
+    public static final ItemEntry<Item> REGENERATED_REMNANT_ENERGY_ADSORBER = register("regenerated_remnant_energy_adsorber", "再生骸能吸附体");
+
+    public static final ItemEntry<Item> PURIFY_REFINED_ORIGIN_CORE_CRYSTAL_ORE = register("purify_refined_origin_core_crystal_ore", "净化精炼源核晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_STAR_BLOOD_CRYSTAL_ORE = register("purify_refined_star_blood_crystal_ore", "净化精炼星血晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_SOUL_JADE_CRYSTAL_ORE = register("purify_refined_soul_jade_crystal_ore", "净化精炼魂玉晶矿石");
+    public static final ItemEntry<Item> PURIFY_REFINED_REMNANT_SPIRIT_STONE_ORE = register("purify_refined_remnant_spirit_stone_ore", "净化精炼骸灵石矿石");
+
+    public static final ItemEntry<Item> CRUDELY_PURIFIED_ORIGIN_CORE_CRYSTAL_ORE = register("crudely_purified_origin_core_crystal_ore", "粗劣提纯源核晶矿石");
+    public static final ItemEntry<Item> CRUDELY_FUSED_STAR_BLOOD_CRYSTAL_ORE = register("crudely_fused_star_blood_crystal_ore", "粗劣融合星血晶矿石");
+    public static final ItemEntry<Item> CRUDELY_HARMONIZED_SOUL_JADE_CRYSTAL_ORE = register("crudely_harmonized_soul_jade_crystal_ore", "粗劣调和魂玉晶矿石");
+    public static final ItemEntry<Item> CRUDELY_SHAPED_REMNANT_SPIRIT_STONE_ORE = register("crudely_shaped_remnant_spirit_stone_ore", "粗劣塑形骸灵石矿石");
+
     @SuppressWarnings("rawtypes")
     public static final ItemEntry[] TAROT_ARCANUM = registerTarotArcanum();
 
     public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new).register();
+    public static final O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
+    public static final O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> AFFIX_ESSENCE = registerAffixEssence();
 
     private static final String[] IndustrialComponents = { "standard", "extended", "special", "blasting" };
     private static final String[] IndustrialComponents2 = { "基础", "扩展", "特种", "爆破" };

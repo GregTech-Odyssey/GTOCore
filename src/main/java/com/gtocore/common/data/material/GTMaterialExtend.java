@@ -308,14 +308,14 @@ public final class GTMaterialExtend {
         Tungsten.getProperty(ORE).setOreByProducts(Lithium, Calcium);
         Indium.setProperty(ORE, new OreProperty());
         Indium.getProperty(ORE).setOreByProducts(Aluminium, Zinc);
-        Borax.setProperty(PropertyKey.ORE, new OreProperty(2, 1, false));
+        Borax.setProperty(ORE, new OreProperty(2, 1, false));
         Borax.getProperty(ORE).setOreByProducts(Lithium, Boron);
         NaquadahEnriched.setProperty(ORE, new OreProperty());
         NaquadahEnriched.getProperty(ORE).setOreByProducts(Naquadah, Sulfur);
         Naquadah.getProperty(ORE).setOreByProducts(List.of(NaquadahOxideMixture));
         Palladium.getProperty(ORE).setOreByProducts(List.of(PalladiumMetal));
-        Cooperite.getProperty(PropertyKey.ORE).setOreByProducts(Nickel, Nickel, Cobalt, PalladiumMetal);
-        Nickel.getProperty(PropertyKey.ORE).setOreByProducts(Cobalt, Iron, PlatinumMetal);
+        Cooperite.getProperty(ORE).setOreByProducts(Nickel, Nickel, Cobalt, PalladiumMetal);
+        Nickel.getProperty(ORE).setOreByProducts(Cobalt, Iron, PlatinumMetal);
         EchoShard.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Graphite.setProperty(INGOT, new IngotProperty());
         VanadiumSteel.addFlags(GENERATE_FRAME);

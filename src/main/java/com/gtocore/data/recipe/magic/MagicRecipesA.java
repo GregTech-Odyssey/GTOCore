@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
+import com.gtocore.data.record.EnchantmentRecord;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
@@ -580,6 +581,37 @@ public final class MagicRecipesA {
                     .MANAt(128)
                     .save();
 
+            ASSEMBLER_RECIPES.builder("heretical_mechanical_casing")
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("apotheosis:berserkers_fury", 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("apotheosis:exploitation", 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("apotheosis:life_mending", 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("apotheosis:tempting", 1))
+                    .inputItems(GTOBlocks.ORIGINAL_BRONZE_CASING, 4)
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("farmersdelight:backstabbing", 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("minecraft:binding_curse", 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("minecraft:thorns", 1))
+                    .inputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId("minecraft:vanishing_curse", 1))
+                    .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
+                    .inputFluids(Aether.getFluid(LIQUID, 1000))
+                    .duration(200)
+                    .MANAt(32)
+                    .save();
+
+            ASSEMBLER_RECIPES.builder("heretical_mechanical_casing_2")
+                    .inputItems(ENCHANTMENT_ESSENCE.get("apotheosis:berserkers_fury"))
+                    .inputItems(ENCHANTMENT_ESSENCE.get("apotheosis:exploitation"))
+                    .inputItems(ENCHANTMENT_ESSENCE.get("apotheosis:life_mending"))
+                    .inputItems(ENCHANTMENT_ESSENCE.get("apotheosis:tempting"))
+                    .inputItems(GTOBlocks.ORIGINAL_BRONZE_CASING, 4)
+                    .inputItems(ENCHANTMENT_ESSENCE.get("farmersdelight:backstabbing"))
+                    .inputItems(ENCHANTMENT_ESSENCE.get("minecraft:binding_curse"))
+                    .inputItems(ENCHANTMENT_ESSENCE.get("minecraft:thorns"))
+                    .inputItems(ENCHANTMENT_ESSENCE.get("minecraft:vanishing_curse"))
+                    .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
+                    .inputFluids(Aether.getFluid(LIQUID, 1000))
+                    .duration(200)
+                    .MANAt(32)
+                    .save();
         }
 
         // 结构主方块

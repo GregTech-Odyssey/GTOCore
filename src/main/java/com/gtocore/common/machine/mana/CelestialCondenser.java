@@ -18,6 +18,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
@@ -40,16 +41,15 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     }
 
     @Override
-    public boolean beforeWorking(GTRecipe recipe) {
-        if (recipe == null) return false;
+    public boolean beforeWorking(@NotNull GTRecipe recipe) {
         int solarisCost = recipe.data.contains("solaris") ? recipe.data.getInt("solaris") : 0;
         int lunaraCost = recipe.data.contains("lunara") ? recipe.data.getInt("lunara") : 0;
         int voidfluxCost = recipe.data.contains("voidflux") ? recipe.data.getInt("voidflux") : 0;
         int anyCost = recipe.data.contains("any") ? recipe.data.getInt("any") : 0;
-        if (solarisCost > 0) if (solarisCost > this.solaris) return false;
-        else if (lunaraCost > 0) if (lunaraCost > this.lunara) return false;
-        else if (voidfluxCost > 0) if (voidfluxCost > this.voidflux) return false;
-        else if (anyCost > 0) if (this.solaris < anyCost && this.lunara < anyCost && this.voidflux < anyCost) return false;
+        if (solarisCost > 0 && solarisCost > this.solaris) return false;
+        else if (lunaraCost > 0 && lunaraCost > this.lunara) return false;
+        else if (voidfluxCost > 0 && voidfluxCost > this.voidflux) return false;
+        else if (anyCost > 0 && anyCost > this.solaris && anyCost > this.lunara && anyCost > this.voidflux) return false;
 
         if (!super.beforeWorking(recipe)) return false;
 

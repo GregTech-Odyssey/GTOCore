@@ -60,17 +60,13 @@ public class AffixReporter {
                 List<String> affixPrefixName = new ArrayList<>();
                 List<String> affixSuffixName = new ArrayList<>();
 
-                int i = 0;
-
                 for (Affix affix : allAffixes) {
                     ResourceLocation id = AffixRegistry.INSTANCE.getKey(affix);
 
-                    writer.write("records.add(ApotheosisAffixRecord.create(" +
-                            i + ",\"" +
+                    writer.write("addRecord(\"" +
                             id.toString() + "\",\"" +
                             affix.getName(true).getString() + " · " + affix.getName(false).getString() + "\",\"" +
-                            affix.getName(true).getString() + " · " + affix.getName(false).getString() + "\"));\n");
-                    i++;
+                            affix.getName(true).getString() + " · " + affix.getName(false).getString() + "\");\n");
 
                     affixId.add(id.toString());
                     affixType.add(String.valueOf(affix.getType()));

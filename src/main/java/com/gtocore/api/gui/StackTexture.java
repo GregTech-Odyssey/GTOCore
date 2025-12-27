@@ -1,5 +1,7 @@
 package com.gtocore.api.gui;
 
+import com.gtolib.GTOCore;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -82,6 +84,13 @@ public class StackTexture extends TransformTexture {
         resetAnimation();
     }
 
+    /**
+     * 通过 Object 创建纹理（自动识别类型）
+     */
+    public StackTexture(Object stackObject) {
+        setStack(stackObject);
+    }
+
     // ===================== Setter 方法（链式调用） =====================
     /**
      * 设置物品栈（切换为物品模式，重置动画）
@@ -100,6 +109,35 @@ public class StackTexture extends TransformTexture {
         this.fluidStacks = fluidStacks;
         this.itemStacks = new ItemStack[0];
         resetAnimation();
+        return this;
+    }
+
+    /**
+     * 通过 Object 设置栈（自动识别类型，支持链式调用）
+     */
+    public StackTexture setStack(Object stackObject) {
+        switch (stackObject) {
+            case null -> {
+                this.itemStacks = new ItemStack[0];
+                this.fluidStacks = new FluidStack[0];
+                resetAnimation();
+                return this;
+            }
+
+            case Item item -> setItems(new ItemStack(item));
+            case ItemStack itemStack -> setItems(itemStack);
+            case FluidStack fluidStack -> setFluids(fluidStack);
+            case ItemStack[] itemStacks -> setItems(itemStacks);
+            case FluidStack[] fluidStacks -> setFluids(fluidStacks);
+            default -> {
+                this.itemStacks = new ItemStack[0];
+                this.fluidStacks = new FluidStack[0];
+                resetAnimation();
+                GTOCore.LOGGER.error("Unsupported stack type: {}\nSupported types: Item, ItemStack, FluidStack, ItemStack[], FluidStack[]", stackObject.getClass().getName());
+                return this;
+            }
+        }
+
         return this;
     }
 

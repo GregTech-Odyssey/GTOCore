@@ -1,14 +1,13 @@
 package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
-import com.gtocore.common.data.GTOBlocks;
-
 import com.gtolib.GTOCore;
-import com.gtolib.utils.RegistriesUtils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
@@ -16,9 +15,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.unimi.dsi.fastutil.chars.Char2ReferenceLinkedOpenHashMap;
@@ -26,97 +23,73 @@ import it.unimi.dsi.fastutil.chars.Char2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.chars.CharOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Reference2CharLinkedOpenHashMap;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 class PlatformCreators {
 
-    // 非法字符集合
-    private static final CharOpenHashSet ILLEGAL_CHARS;
-
-    static {
-        ILLEGAL_CHARS = new CharOpenHashSet();
-
-        for (char c : new char[] {
-                '.', '(', ')', ',', '/', '\\', '"', '\'', '`'
-        }) {
-            ILLEGAL_CHARS.add(c);
-        }
-
-        for (int i = 0; i <= Character.MAX_VALUE; i++) {
-            char c = (char) i;
-            if (Character.isISOControl(c)) {
-                ILLEGAL_CHARS.add(c);
-            }
-        }
-
-        for (char c : new char[] {
-                '\u200B', '\u200C', '\u200D', '\u200E', '\u200F', '\u2028', '\u2029', '\u2060',
-                '\u2061', '\u2062', '\u2063', '\u2064', '\uFFF9', '\uFFFA', '\uFFFB', '\uFEFF',
-                '\u00A0', '\u2002', '\u2003', '\u2009', '\u200A', '\u00AD', '\u1680', '\u180E',
-                '\u3000', '\u202F', '\u205F'
-        }) {
-            ILLEGAL_CHARS.add(c);
-        }
-    }
-
+    private static final CharOpenHashSet ILLEGAL_CHARS = new CharOpenHashSet();
+    private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss-SSS");
+    private static final long PROGRESS_THRESHOLD = 10_000_000L;
     private static volatile boolean isExporting = false;
 
-    // BLOCK_MAP 特殊方块处理
-    private static final Map<Block, BiConsumer<StringBuilder, Character>> BLOCK_MAP;
+    private static final ThreadFactory VIRTUAL_THREAD_FACTORY = Thread.ofVirtual().name("structure-export-", 0).factory();
+    private static final java.util.concurrent.ExecutorService EXPORT_EXECUTOR = Executors.newThreadPerTaskExecutor(VIRTUAL_THREAD_FACTORY);
 
     static {
-        BLOCK_MAP = ImmutableMap.<Block, BiConsumer<StringBuilder, Character>>builder()
-                .put(Blocks.OAK_LOG, (b, c) -> b.append("controller(blocks(definition.get())))"))
-                .put(Blocks.DIRT, (b, c) -> b.append("heatingCoils())"))
-                .put(Blocks.WHITE_WOOL, (b, c) -> b.append("air())"))
-                .put(Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass())"))
-                .put(Blocks.GLOWSTONE, (b, c) -> b.append("GTOPredicates.light())"))
-                .put(GTOBlocks.ABS_WHITE_CASING.get(), (b, c) -> b.append("GTOPredicates.absBlocks())"))
-                .put(Blocks.FURNACE, (b, c) -> b.append("abilities(MUFFLER))"))
-                .build();
+        for (char c : new char[] { '.', '(', ')', ',', '/', '\\', '"', '\'', '`' }) {
+            ILLEGAL_CHARS.add(c);
+        }
+        for (int i = Character.MIN_VALUE; i <= Character.MAX_VALUE; i++) {
+            char c = (char) i;
+            if (Character.isISOControl(c)) ILLEGAL_CHARS.add(c);
+        }
+        for (char c : """
+                \u200B\u200C\u200D\u200E\u200F\u2028\u2029\u2060
+                \u2061\u2062\u2063\u2064\uFFF9\uFFFA\uFFFB\uFEFF
+                \u00A0\u2002\u2003\u2009\u200A\u00AD\u1680\u180E
+                \u3000\u202F\u205F""".replace("\n", "").toCharArray()) {
+            ILLEGAL_CHARS.add(c);
+        }
     }
 
     /**
      * 异步导出结构（支持 XZ 平面镜像和绕 Y 轴旋转）
      */
-    private static void exportStructureAsync(ServerLevel level, BlockPos pos1, BlockPos pos2,
-                                             boolean xMirror, boolean zMirror, int rotation,
-                                             Block chamberBlock, boolean laserMode) {
+    static void PlatformCreationAsync(ServerLevel level, BlockPos startPos, BlockPos endPos,
+                                      boolean xMirror, boolean zMirror, int rotation) {
         if (isExporting) return;
         isExporting = true;
         CompletableFuture.runAsync(() -> {
             try {
-                exportStructure(level, pos1, pos2, xMirror, zMirror, rotation, chamberBlock, laserMode);
+                exportStructure(level, startPos, endPos, xMirror, zMirror, rotation);
+            } catch (Exception e) {
+                GTOCore.LOGGER.error("Structure export failed", e);
             } finally {
                 isExporting = false;
             }
-        });
+        }, EXPORT_EXECUTOR);
     }
 
     /**
      * 平台创建函数（异步）
      */
-    static void PlatformCreationAsync(ServerLevel level, BlockPos startPos, BlockPos endPos,
-                                      boolean xMirror, boolean zMirror, int rotation,
-                                      Block chamberBlock, boolean laserMode) {
-        exportStructureAsync(level, startPos, endPos, xMirror, zMirror, rotation, chamberBlock, laserMode);
-    }
-
-    /**
-     * 导出结构和映射文件到 logs/platform/ 目录
-     */
     private static void exportStructure(ServerLevel level, BlockPos pos1, BlockPos pos2,
-                                        boolean xMirror, boolean zMirror, int rotation,
-                                        Block chamberBlock, boolean laserMode) {
+                                        boolean xMirror, boolean zMirror, int rotation) {
+        // 输出目录创建
         Path outputDir = Paths.get("logs", "platform");
         try {
             Files.createDirectories(outputDir);
@@ -125,11 +98,9 @@ class PlatformCreators {
             return;
         }
 
-        GTOCore.LOGGER.info("Start exporting the structure");
-
-        String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss-SSS").format(new Date());
-        String structureFile = outputDir.resolve(timestamp).toString();
-        String mappingFile = outputDir.resolve(timestamp + ".json").toString();
+        String timestamp = LocalDateTime.now().format(TIMESTAMP_FORMATTER);
+        Path structurePath = outputDir.resolve(timestamp);
+        Path mappingPath = outputDir.resolve(timestamp + ".json");
 
         int minX = Math.min(pos1.getX(), pos2.getX());
         int minY = Math.min(pos1.getY(), pos2.getY());
@@ -142,100 +113,133 @@ class PlatformCreators {
         int dy = maxY - minY + 1;
         int dz = maxZ - minZ + 1;
 
-        boolean swapXZ = (rotation == 90 || rotation == 270);
+        boolean swapXZ = rotation == 90 || rotation == 270;
         if (swapXZ) {
             int temp = dx;
             dx = dz;
             dz = temp;
         }
 
-        // 原始 BlockState -> Character 映射（不去重）
+        // 映射表初始化
         Reference2CharLinkedOpenHashMap<BlockState> stateToChar = new Reference2CharLinkedOpenHashMap<>();
         char nextChar = getNextValidChar('A');
         BlockState air = Blocks.AIR.defaultBlockState();
         stateToChar.put(air, ' ');
 
-        // 第一次遍历：收集旋转后的映射 & 统计方块数量
-        for (int y = minY; y <= maxY; y++) {
-            for (int z = minZ; z <= maxZ; z++) {
-                for (int x = minX; x <= maxX; x++) {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    LevelChunk chunk = level.getChunkAt(pos);
-                    int sectionIndex = chunk.getSectionIndex(y);
-                    LevelChunkSection section = chunk.getSection(sectionIndex);
+        // 进度统计
+        long totalBlocks = (long) dx * dy * dz;
+        long[] progress = { 0 };
 
-                    BlockState originalState = section.getBlockState(x & 15, y & 15, z & 15);
-                    BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
+        // 复用MutableBlockPos减少对象创建
+        MutableBlockPos mutablePos = new MutableBlockPos();
 
-                    if (!stateToChar.containsKey(transformedState)) {
-                        stateToChar.put(transformedState, nextChar);
-                        nextChar = getNextValidChar((char) (nextChar + 1));
-                    }
-                }
-            }
-        }
+        // Chunk缓存（修复ChunkPos获取逻辑）
+        Map<ChunkPos, LevelChunk> chunkCache = new HashMap<>();
 
-        // 写 structureFile
-        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structureFile), StandardCharsets.UTF_8)) {
-            writer.write(".size(" + dx + ", " + dy + ", " + dz + ")");
+        // 结构文件写入
+        try (BufferedWriter writer = Files.newBufferedWriter(structurePath, StandardCharsets.UTF_8)) {
+            GTOCore.LOGGER.info("Starting structure export");
+            writer.write(String.format(".size(%d, %d, %d)", dx, dy, dz));
             writer.newLine();
+            writer.flush();
 
+            // 遍历Z层
             for (int outZ = 0; outZ < dz; outZ++) {
-                List<String> ySlices = new ArrayList<>();
-                for (int outY = 0; outY < dy; outY++) {
-                    StringBuilder xChars = new StringBuilder();
-                    for (int outX = 0; outX < dx; outX++) {
-                        int rx = outX, rz = outZ;
-                        switch (rotation) {
-                            case 90 -> {
-                                int t = rx;
-                                rx = dz - 1 - rz;
-                                rz = t;
-                            }
-                            case 180 -> {
-                                rx = dx - 1 - rx;
-                                rz = dz - 1 - rz;
-                            }
-                            case 270 -> {
-                                int t = rx;
-                                rx = rz;
-                                rz = dx - 1 - t;
-                            }
-                        }
-                        if (xMirror) rx = dx - 1 - rx;
-                        if (zMirror) rz = dz - 1 - rz;
+                List<String> ySlices = new ArrayList<>(dy); // 预分配容量
 
+                for (int outY = 0; outY < dy; outY++) {
+                    StringBuilder xChars = new StringBuilder(dx); // 预分配容量
+
+                    for (int outX = 0; outX < dx; outX++) {
+                        // 坐标转换
+                        int[] transformed = transformCoords(outX, outZ, dx, dz, rotation, xMirror, zMirror);
+                        int rx = transformed[0];
+                        int rz = transformed[1];
+
+                        // 世界坐标计算
                         int worldX = minX + rx;
                         int worldY = minY + outY;
                         int worldZ = minZ + rz;
 
-                        BlockPos pos = new BlockPos(worldX, worldY, worldZ);
-                        LevelChunk chunk = level.getChunkAt(pos);
-                        int sectionIndex = chunk.getSectionIndex(worldY);
-                        LevelChunkSection section = chunk.getSection(sectionIndex);
-                        BlockState originalState = section.getBlockState(worldX & 15, worldY & 15, worldZ & 15);
+                        // 获取BlockState（修复Chunk缓存逻辑）
+                        mutablePos.set(worldX, worldY, worldZ);
+                        BlockState originalState = getCachedBlockState(level, mutablePos, chunkCache);
 
+                        // 变换BlockState
                         BlockState transformedState = transformBlockState(originalState, rotation, xMirror, zMirror);
 
-                        xChars.append(stateToChar.getOrDefault(transformedState, ' '));
+                        // 更新映射表
+                        if (!stateToChar.containsKey(transformedState)) {
+                            stateToChar.put(transformedState, nextChar);
+                            nextChar = getNextValidChar((char) (nextChar + 1));
+                        }
+                        xChars.append(stateToChar.get(transformedState));
+
+                        // 进度汇报
+                        if (++progress[0] % PROGRESS_THRESHOLD == 0 || progress[0] == totalBlocks) {
+                            double percent = (double) progress[0] / totalBlocks * 100;
+                            GTOCore.LOGGER.info(String.format("Export progress: %d / %d blocks (%.2f%%)",
+                                    progress[0], totalBlocks, percent));
+                        }
                     }
-                    ySlices.add("\"" + xChars + "\"");
+                    ySlices.add(String.format("\"%s\"", xChars));
                 }
-                writer.write(".aisle(" + String.join(", ", ySlices) + ")");
+
+                // 写入当前层并Flush
+                writer.write(String.format(".aisle(%s)", String.join(", ", ySlices)));
                 writer.newLine();
+                writer.flush();
             }
         } catch (IOException e) {
             GTOCore.LOGGER.error("Failed to write structure file", e);
         }
 
-        // 写 mappingFile
+        // 生成映射文件
         Char2ReferenceLinkedOpenHashMap<BlockState> charToState = new Char2ReferenceLinkedOpenHashMap<>();
         stateToChar.reference2CharEntrySet().fastForEach(e -> charToState.put(e.getCharValue(), e.getKey()));
-        saveMappingToJson(charToState, mappingFile);
+        saveMappingToJson(charToState, mappingPath);
 
+        // 日志输出
         GTOCore.LOGGER.info("Exported files:");
-        GTOCore.LOGGER.info(" - Structure: {}", structureFile);
-        GTOCore.LOGGER.info(" - Mapping: {}", mappingFile);
+        GTOCore.LOGGER.info(" - Structure: {}", structurePath);
+        GTOCore.LOGGER.info(" - Mapping: {}", mappingPath);
+    }
+
+    private static BlockState getCachedBlockState(ServerLevel level, MutableBlockPos pos, Map<ChunkPos, LevelChunk> chunkCache) {
+        ChunkPos chunkPos = new ChunkPos(pos);
+        LevelChunk chunk = chunkCache.computeIfAbsent(chunkPos, cp -> level.getChunk(cp.x, cp.z));
+        return chunk.getBlockState(pos);
+    }
+
+    /**
+     * 坐标转换提取
+     */
+    private static int[] transformCoords(int outX, int outZ, int dx, int dz, int rotation, boolean xMirror, boolean zMirror) {
+        int rx = outX;
+        int rz = outZ;
+
+        // Java 21增强switch
+        rx = switch (rotation) {
+            case 90 -> {
+                int t = rx;
+                rx = dz - 1 - rz;
+                rz = t;
+                yield rx;
+            }
+            case 180 -> dx - 1 - rx;
+            case 270 -> {
+                int t = rx;
+                rx = rz;
+                rz = dx - 1 - t;
+                yield rx;
+            }
+            default -> rx;
+        };
+
+        if (xMirror) rx = dx - 1 - rx;
+        if (zMirror) rz = dz - 1 - rz;
+
+        return new int[] { rx, rz };
     }
 
     /**
@@ -251,8 +255,7 @@ class PlatformCreators {
         BlockState state = original.rotate(rotationEnum);
 
         if (xMirror && zMirror) {
-            state = state.mirror(Mirror.LEFT_RIGHT);
-            state = state.mirror(Mirror.FRONT_BACK);
+            state = state.mirror(Mirror.LEFT_RIGHT).mirror(Mirror.FRONT_BACK);
         } else if (xMirror) {
             state = state.mirror(Mirror.FRONT_BACK);
         } else if (zMirror) {
@@ -266,18 +269,15 @@ class PlatformCreators {
      */
     private static char getNextValidChar(char start) {
         char ch = start;
-        while (ILLEGAL_CHARS.contains(ch)) {
-            ch++;
-        }
+        while (ILLEGAL_CHARS.contains(ch)) ch++;
         return ch;
     }
 
     /**
      * 保存映射到 JSON 文件
      */
-    private static void saveMappingToJson(Map<Character, BlockState> mapping, String filePath) {
+    private static void saveMappingToJson(Map<Character, BlockState> mapping, Path path) {
         try {
-            Path path = Paths.get(filePath);
             if (path.getParent() != null) Files.createDirectories(path.getParent());
 
             Gson gson = new GsonBuilder()
@@ -285,11 +285,11 @@ class PlatformCreators {
                     .setPrettyPrinting()
                     .create();
 
-            try (FileWriter writer = new FileWriter(path.toFile(), StandardCharsets.UTF_8)) {
+            try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
                 gson.toJson(mapping, writer);
             }
         } catch (IOException e) {
-            GTOCore.LOGGER.error("Failed to save mapping to JSON file", e);
+            GTOCore.LOGGER.error("Failed to save mapping to {}", path, e);
         }
     }
 
@@ -297,21 +297,20 @@ class PlatformCreators {
      * 从数据包加载映射
      */
     static Char2ReferenceOpenHashMap<BlockState> loadMappingFromJson(ResourceLocation resLoc) {
-        try {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(PlatformBlockType.class.getClassLoader()
-                    .getResourceAsStream("assets/" + resLoc.toString().replace(":", "/"))), StandardCharsets.UTF_8))) {
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter())
-                        .create();
-                Type type = new TypeToken<Char2ReferenceOpenHashMap<BlockState>>() {}.getType();
-                return gson.fromJson(reader, type);
-            } catch (Exception e) {
-                GTOCore.LOGGER.error("Resource not found: {}", resLoc);
-            }
+        String resourcePath = String.format("assets/%s/%s", resLoc.getNamespace(), resLoc.getPath());
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(Objects.requireNonNull(
+                        PlatformCreators.class.getClassLoader().getResourceAsStream(resourcePath)),
+                        StandardCharsets.UTF_8))) {
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(BlockState.class, new BlockStateTypeAdapter())
+                    .create();
+            Type type = new TypeToken<Char2ReferenceOpenHashMap<BlockState>>() {}.getType();
+            return gson.fromJson(reader, type);
         } catch (Exception e) {
-            GTOCore.LOGGER.error("Failed to load mapping from resource", e);
+            GTOCore.LOGGER.error("Failed to load mapping from {}", resLoc, e);
+            return new Char2ReferenceOpenHashMap<>();
         }
-        return new Char2ReferenceOpenHashMap<>();
     }
 
     /**
@@ -326,9 +325,9 @@ class PlatformCreators {
             obj.addProperty("id", id.toString());
 
             JsonObject props = new JsonObject();
-            for (Property<?> prop : src.getProperties()) {
+            src.getProperties().forEach(prop -> {
                 props.addProperty(prop.getName(), getPropertyValue(src, prop));
-            }
+            });
             obj.add("properties", props);
             return obj;
         }
@@ -336,45 +335,30 @@ class PlatformCreators {
         @Override
         public BlockState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject obj = json.getAsJsonObject();
-            Block block = RegistriesUtils.getBlock(obj.get("id").getAsString());
+            Block block = BuiltInRegistries.BLOCK.get(new ResourceLocation(obj.get("id").getAsString()));
+            if (block == Blocks.AIR) return Blocks.AIR.defaultBlockState();
 
-            BlockState state = block.defaultBlockState();
+            final BlockState[] state = { block.defaultBlockState() };
             JsonObject props = obj.getAsJsonObject("properties");
 
-            for (Map.Entry<String, JsonElement> entry : props.entrySet()) {
-                Property<?> prop = getPropertyByName(block, entry.getKey());
+            props.entrySet().forEach(entry -> {
+                Property<?> prop = block.getStateDefinition().getProperty(entry.getKey());
                 if (prop != null) {
-                    String valueStr = entry.getValue().getAsString();
-                    Optional<?> value = prop.getValue(valueStr);
-                    if (value.isPresent()) {
-                        state = setPropertyValue(state, prop, (Comparable<?>) value.get());
+                    Optional<?> valueOpt = prop.getValue(entry.getValue().getAsString());
+                    if (valueOpt.isPresent()) {
+                        Object value = valueOpt.get();
+                        @SuppressWarnings({ "rawtypes", "unchecked" })
+                        BlockState newState = state[0].setValue((Property) prop, (Comparable) value);
+                        state[0] = newState;
                     }
                 }
-            }
-            return state;
+            });
+
+            return state[0];
         }
 
-        @SuppressWarnings("unchecked")
-        private static <T extends Comparable<T>> BlockState setPropertyValue(BlockState state, Property<?> prop, Comparable<?> value) {
-            return state.setValue((Property<T>) prop, (T) value);
-        }
-
-        private static String getPropertyValue(BlockState state, Property<?> prop) {
-            return getPropertyValueRaw(state, prop).toString();
-        }
-
-        @SuppressWarnings("unchecked")
-        private static <T extends Comparable<T>> T getPropertyValueRaw(BlockState state, Property<?> prop) {
-            return state.getValue((Property<T>) prop);
-        }
-
-        private static Property<?> getPropertyByName(Block block, String name) {
-            for (Property<?> prop : block.getStateDefinition().getProperties()) {
-                if (prop.getName().equals(name)) {
-                    return prop;
-                }
-            }
-            return null;
+        private static <T extends Comparable<T>> String getPropertyValue(BlockState state, Property<T> prop) {
+            return state.getValue(prop).toString();
         }
     }
 }

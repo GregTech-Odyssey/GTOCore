@@ -14,4 +14,6 @@ public final class Core {
     public Core() {
         DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     }
+
+    // todo 实现实体捕捉，重写Enchantment
 }
