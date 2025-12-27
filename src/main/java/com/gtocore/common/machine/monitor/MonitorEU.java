@@ -197,8 +197,8 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
                     Component.literal(FormatUtil.voltageAmperage(OutputEnergy).toEngineeringString()),
                     FormatUtil.voltageName(OutputEnergy)));
 
-            int compare = OutputEnergy.compareTo(BigDecimal.valueOf(0L));
-            BigInteger multiply = OutputEnergy.abs().toBigInteger().multiply(BigInteger.valueOf(20L));
+            int compare = avgEnergy.compareTo(BigDecimal.valueOf(0L));
+            BigInteger multiply = avgEnergy.abs().toBigInteger().multiply(BigInteger.valueOf(20L));
             if (compare > 0) {
                 textListCache[17] = (Component.translatable("gtceu.multiblock.power_substation.time_to_fill",
                         container.getCapacity() == null ?
