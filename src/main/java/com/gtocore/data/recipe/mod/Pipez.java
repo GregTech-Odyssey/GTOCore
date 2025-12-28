@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class Pipez {
@@ -45,12 +44,12 @@ public class Pipez {
                 "AAA",
                 "BCB",
                 "BDB",
-                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.RedstoneAlloy), 'C', new ItemStack(Items.PISTON), 'D', new ItemStack(Items.REDSTONE_TORCH));
+                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.RedstoneAlloy), 'C', Items.PISTON, 'D', Items.REDSTONE_TORCH);
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("improved_upgrade"), RegistriesUtils.getItemStack("pipez:improved_upgrade", 2),
                 "AAA",
                 "BCB",
                 "BDB",
-                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.ConductiveAlloy), 'C', new ItemStack(Items.PISTON), 'D', new ItemStack(Items.REDSTONE_TORCH));
+                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.ConductiveAlloy), 'C', Items.PISTON, 'D', Items.REDSTONE_TORCH);
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("advanced_upgrade"), RegistriesUtils.getItemStack("pipez:advanced_upgrade", 2),
                 "AAA",
                 "BCB",
