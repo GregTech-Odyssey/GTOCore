@@ -49,7 +49,7 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
 
     // 存储信息
     @Persisted
-    private List<CompoundTag> recipeIncremental = new ArrayList<>();
+    private final List<CompoundTag> recipeIncremental = new ArrayList<>();
     private static final int MAX_SIZE = 10;
     private static final String NBT_KEY_RECIPE_INCREMENTAL = "RecipeIncremental";
 
@@ -200,7 +200,7 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
         if (stack instanceof ItemStack itemStack) {
             root.putString(KEY_TYPE, TYPE_ITEM);
             CompoundTag stackTag = new CompoundTag();
-            stackTag.merge(itemStack.save(new CompoundTag()));
+            itemStack.save(stackTag);
             root.put(KEY_STACK, stackTag);
         } else if (stack instanceof FluidStack fluidStack) {
             root.putString(KEY_TYPE, TYPE_FLUID);
@@ -222,8 +222,7 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
         CompoundTag stackTag = tag.getCompound(KEY_STACK);
         Object stack = null;
         if (type.equals(TYPE_ITEM)) {
-            CompoundTag itemTag = stackTag.copy();
-            stack = ItemStack.of(itemTag);
+            stack = ItemStack.of(stackTag);
         } else if (type.equals(TYPE_FLUID)) {
             Fluid fluid = RegistriesUtils.getFluid(stackTag.getString("FluidName"));
             if (fluid != null && fluid != Fluids.EMPTY) {
