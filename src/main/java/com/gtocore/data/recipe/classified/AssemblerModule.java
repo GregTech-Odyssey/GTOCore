@@ -478,7 +478,7 @@ final class AssemblerModule {
                 .inputItems(GTOBlocks.SHINING_OBSIDIAN.asItem(), 65536)
                 .inputItems(GTOBlocks.ENDER_OBSIDIAN.asItem(), 65536)
                 .inputItems(GTOBlocks.INFUSED_OBSIDIAN.asItem(), 65536)
-                .inputItems("enderio:reinforced_obsidian_block", 65536)
+                .inputItems(GTOBlocks.REINFORCED_OBSIDIAN.asItem(), 65536)
                 .outputItems(GTOItems.OBSIDIAN_MATRIX.asItem())
                 .inputFluids(GTOMaterials.Haderoth, L * 8)
                 .inputFluids(GTOMaterials.CosmicComputingMixture, 16000)

@@ -110,7 +110,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
         }
 
         var catalyst = lastRecipe.getInputContents(ItemRecipeCapability.CAP);
-        if (ItemRecipeCapability.CAP.of(catalyst.getFirst().content).getItems()[0].getItem() != objectHolder.getCatalystItem(false).getItem()) {
+        if (ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(catalyst.getFirst().content)).getItem() != objectHolder.getCatalystItem(false).getItem()) {
             ItemStack hold = objectHolder.getHeldItem(true);
             objectHolder.setHeldItem(objectHolder.getCatalystItem(true));
             objectHolder.setCatalystItem(hold);

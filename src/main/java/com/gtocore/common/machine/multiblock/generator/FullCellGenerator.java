@@ -14,6 +14,7 @@ import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -214,7 +215,8 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     private Recipe getReleaseRecipe(Recipe recipe) {
         var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
-            inputItem(((Ingredient) input.getFirst().content).getItems()[0]);
+            var ingredient = (Ingredient) input.getFirst().content;
+            inputItem(ItemUtils.getFirstSized(ingredient).getItem(), ItemUtils.getSizedAmount(ingredient));
         }
         return ParallelLogic.accurateParallel(this, recipe, MaxCanReleaseParallel);
     }

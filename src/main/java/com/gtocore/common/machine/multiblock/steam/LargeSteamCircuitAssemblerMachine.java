@@ -5,7 +5,7 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
+import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -112,7 +112,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
         if (count < Engraving_needed_amount) return null;
         Content content = recipe.outputs.get(ItemRecipeCapability.CAP).get(0);
-        if (FastSizedIngredient.getInner(ItemRecipeCapability.CAP.of(content.getContent())).getItems()[0].getItem() == item) {
+        if (ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(content.getContent())).getItem() == item) {
             if (isMultiMode) {
                 recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content.copy(ItemRecipeCapability.CAP, ContentModifier.multiplier(PRODUCT_MULTIPLY))));
                 recipe = super.getRealRecipe(recipe);

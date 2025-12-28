@@ -76,14 +76,7 @@ public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractCo
         }
     }
 
-    @Redirect(
-              method = "mouseClicked",
-              at = @At(
-                       value = "INVOKE",
-                       target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;mouseClicked(DDI)Z",
-                       remap = false,
-                       ordinal = 0),
-              remap = false)
+    @Redirect(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;mouseClicked(DDI)Z", ordinal = 0))
     private boolean gtolib$redirectMouseClicked(AbstractContainerScreen<?> instance, double xCoord, double yCoord, int fakeBtn, @Local(argsOnly = true) int btn) {
         if (isHandlingRightClick() && instance instanceof GuiExPatternTerminal<?>) {
             for (var widget : this.children()) {
