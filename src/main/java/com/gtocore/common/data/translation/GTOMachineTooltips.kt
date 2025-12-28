@@ -1859,7 +1859,7 @@ object GTOMachineTooltips {
 
         section("信号需求" translatedTo "Signal Requirement")
         command("1, 3, 5, 7, 9：通过惰性气体进行臭氧曝气" translatedTo "1, 3, 5, 7, 9: Ozone aeration via Inert Gases")
-        info("对应 10,000mB氦气 / 8,000mB氖气 / 6,000mB氩气 / 4,000mB氪气 / 2,000mB氙气" translatedTo "Which is 10,000mB Helium / 8,000mB Neon / 6,000mB Argon / 4,000mB Krypton / 2,000mB Xenon")
+        info("对应 10,000mB气态氦 / 8,000mB气态氖 / 6,000mB气态氩 / 4,000mB氪 / 2,000mB气态氙" translatedTo "Which is 10,000mB Helium / 8,000mB Neon / 6,000mB Argon / 4,000mB Krypton / 2,000mB Xenon")
         command("2, 4, 6, 8, 10：超导去离子" translatedTo "2, 4, 6, 8, 10: Superconductive deionization")
         info("需要输入1,000mB对应IV，LuV，ZPM，UV，UHV的液态超导" translatedTo "Needs input of 1,000mB of liquid superconductors corresponding to IV, LuV, ZPM, UV, UHV.")
         command("11, 13, 15：引力生成差异真空提取" translatedTo "11, 13, 15: Gravitational Differential Vacuum Extraction")
@@ -1868,7 +1868,7 @@ object GTOMachineTooltips {
         info("不输入任何东西" translatedTo "Do not input anything.")
         command("0：机器过载" translatedTo "0: Machine overload")
         info("在罕见情况下，机器可能会过载并且不会输出任何控制信号" translatedTo "In rare situations, the machine may overload and not output any control signals.")
-        info("为防止机器损坏，输入10,000mB液氦" translatedTo "To prevent machine damage, input 10,000mB Liquid Helium.")
+        info("为防止机器损坏，输入10,000mB液态氦" translatedTo "To prevent machine damage, input 10,000mB Liquid Helium.")
         error("输入信号未请求的任何流体将始终导致配方失败" translatedTo "Any liquid not requested by the input signal will always cause the recipe to fail.")
     }
 
