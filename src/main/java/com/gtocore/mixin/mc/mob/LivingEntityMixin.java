@@ -54,13 +54,16 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
     }
 
     @Override
-    public void gtocore$getAllDeathLoot(DamageSource source, Set<ItemStack> itemStacks, int multiplier) {
+    public void gtocore$getAllDeathLoot(DamageSource source, Set<ItemStack> itemStacks, int multiplier, boolean filterNbt) {
         this.captureDrops(new ObjectArrayList<>());
         this.dropCustomDeathLoot(source, ForgeHooks.getLootingLevel(this, source.getEntity(), source), true);
         this.dropEquipment();
         this.captureDrops(null).forEach(e -> {
             if (e != null) {
                 var item = e.getItem();
+                if (filterNbt && item.hasTag()) {
+                    return;
+                }
                 var count = item.getCount();
                 if (count < 1) return;
                 item.setCount(count * getRandom().nextInt(multiplier / 2, multiplier));

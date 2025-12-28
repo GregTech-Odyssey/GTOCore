@@ -58,9 +58,9 @@ public final class InternalSlotRecipeHandler {
         }
     }
 
-    public static class WrapperRHL extends AbstractRHL {
+    private static class WrapperRHL extends AbstractRHL {
 
-        public WrapperRHL(AbstractRHL rhl) {
+        private WrapperRHL(AbstractRHL rhl) {
             super(rhl.slot, rhl.part);
         }
 
@@ -112,9 +112,9 @@ public final class InternalSlotRecipeHandler {
         }
     }
 
-    public static abstract class AbstractRHL extends ExtendedRecipeHandlerList {
+    static abstract class AbstractRHL extends ExtendedRecipeHandlerList {
 
-        public final MEPatternBufferPartMachine.InternalSlot slot;
+        final MEPatternBufferPartMachine.InternalSlot slot;
 
         AbstractRHL(MEPatternBufferPartMachine.InternalSlot slot, IMultiPart part) {
             super(IO.IN, part);
@@ -123,10 +123,15 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
+        public ExtendedRecipeHandlerList wrapper() {
+            return new WrapperRHL(this);
+        }
+
+        @Override
         public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return false;
             if (slot.recipe != null && RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) {
-                holder.setCurrentHandlerList(this, null);
+                holder.setCurrentHandlerList(this);
                 if (canHandle.test(slot.recipe)) return true;
             }
             if (slot.machine.recipeType != GTORecipeTypes.HATCH_COMBINED) {
@@ -138,7 +143,7 @@ public final class InternalSlotRecipeHandler {
             }
             var map = this.getIngredientMap(recipeType);
             if (map.isEmpty()) return false;
-            holder.setCurrentHandlerList(this, null);
+            holder.setCurrentHandlerList(this);
             return recipeType.db.find(map, canHandle);
         }
 
@@ -167,18 +172,18 @@ public final class InternalSlotRecipeHandler {
                     long available = 0;
                     for (var it = slot.itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                         var e = it.next();
-                        if (FastSizedIngredient.testItem(ingredient, e.getKey().getItem())) {
-                            available = e.getLongValue();
-                            break;
+                        if (ingredient.testItem(e.getKey().getItem())) {
+                            available += e.getLongValue();
+                            if (available >= needed) break;
                         }
                     }
-                    if (available == 0) {
+                    if (available < needed) {
                         if (ingredientStacks == null) ingredientStacks = getItemMap(parallelCache);
                         for (var iter = ingredientStacks.reference2LongEntrySet().fastIterator(); iter.hasNext();) {
                             var inventoryEntry = iter.next();
-                            if (FastSizedIngredient.testItem(ingredient, inventoryEntry.getKey())) {
-                                available = inventoryEntry.getLongValue();
-                                break;
+                            if (ingredient.testItem(inventoryEntry.getKey())) {
+                                available += inventoryEntry.getLongValue();
+                                if (available >= needed) break;
                             }
                         }
                     }
@@ -219,8 +224,9 @@ public final class InternalSlotRecipeHandler {
             return parallelAmount;
         }
 
-        public boolean handleRecipeContent(GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
-            if (slot.isEmpty() || (slot.recipe != null && !slot.recipe.id.getPath().equals(recipe.id.getPath()))) return false;
+        @Override
+        public boolean handleRecipeContent(IO io, Recipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
+            if (slot.isEmpty()) return false;
             boolean item = contents.item == null;
             if (!item) {
                 List left = contents.item;
@@ -233,19 +239,19 @@ public final class InternalSlotRecipeHandler {
                 }
             }
             if (item) {
-                if (contents.fluid != null) {
+                if (contents.fluid == null) {
+                    slot.setRecipe(recipe.rootRecipe);
+                    return true;
+                } else {
                     List left = contents.fluid;
                     for (var handler : getCapability(FluidRecipeCapability.CAP)) {
                         left = handler.handleRecipe(IO.IN, recipe, left, simulate);
                         if (left == null) {
-                            slot.setRecipe(((Recipe) recipe).rootRecipe);
+                            slot.setRecipe(recipe.rootRecipe);
                             return true;
                         }
                     }
-                    return false;
                 }
-                slot.setRecipe(((Recipe) recipe).rootRecipe);
-                return true;
             }
             return false;
         }
@@ -258,26 +264,17 @@ public final class InternalSlotRecipeHandler {
 
         private SlotRHL(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
             super(slot, buffer);
-            slot.rhl = this;
             itemRecipeHandler = new SlotItemRecipeHandler(buffer, slot);
             fluidRecipeHandler = new SlotFluidRecipeHandler(buffer, slot);
             addHandlers(itemRecipeHandler, fluidRecipeHandler, slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);
         }
     }
 
-    private static final class SlotItemRecipeHandler extends NotifiableRecipeHandlerTrait<Ingredient> implements NonStandardHandler {
-
-        private final MEPatternBufferPartMachine.InternalSlot slot;
+    private static final class SlotItemRecipeHandler extends NonstandardSlotRecipeHandler<Ingredient> {
 
         private SlotItemRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
-            super(buffer);
-            this.slot = slot;
+            super(buffer, slot);
             slot.setOnContentsChanged(this::notifyListeners);
-        }
-
-        @Override
-        public boolean hasCapability(@Nullable Direction side) {
-            return false;
         }
 
         @Override
@@ -292,23 +289,8 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public int getSize() {
-            return 81;
-        }
-
-        @Override
-        public boolean isDistinct() {
-            return true;
-        }
-
-        @Override
         public RecipeCapability<Ingredient> getCapability() {
             return ItemRecipeCapability.CAP;
-        }
-
-        @Override
-        public IO getHandlerIO() {
-            return IO.IN;
         }
 
         @Override
@@ -347,26 +329,13 @@ public final class InternalSlotRecipeHandler {
             }
             return slot.itemIngredientMap;
         }
-
-        @Override
-        public boolean isRecipeOnly() {
-            return true;
-        }
     }
 
-    private static final class SlotFluidRecipeHandler extends NotifiableRecipeHandlerTrait<FluidIngredient> implements NonStandardHandler {
-
-        private final MEPatternBufferPartMachine.InternalSlot slot;
+    private static final class SlotFluidRecipeHandler extends NonstandardSlotRecipeHandler<FluidIngredient> {
 
         private SlotFluidRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
-            super(buffer);
-            this.slot = slot;
+            super(buffer, slot);
             slot.setOnContentsChanged(this::notifyListeners);
-        }
-
-        @Override
-        public boolean hasCapability(@Nullable Direction side) {
-            return false;
         }
 
         @Override
@@ -381,23 +350,8 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public int getSize() {
-            return 81;
-        }
-
-        @Override
-        public boolean isDistinct() {
-            return true;
-        }
-
-        @Override
         public RecipeCapability<FluidIngredient> getCapability() {
             return FluidRecipeCapability.CAP;
-        }
-
-        @Override
-        public IO getHandlerIO() {
-            return IO.IN;
         }
 
         @Override
@@ -435,6 +389,37 @@ public final class InternalSlotRecipeHandler {
                 });
             }
             return slot.fluidIngredientMap;
+        }
+    }
+
+    private abstract static class NonstandardSlotRecipeHandler<ING> extends NotifiableRecipeHandlerTrait<ING> implements NonStandardHandler {
+
+        final MEPatternBufferPartMachine.InternalSlot slot;
+
+        private NonstandardSlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
+            super(buffer);
+            this.slot = slot;
+            slot.setOnContentsChanged(this::notifyListeners);
+        }
+
+        @Override
+        public boolean hasCapability(@Nullable Direction side) {
+            return false;
+        }
+
+        @Override
+        public int getSize() {
+            return 81;
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public IO getHandlerIO() {
+            return IO.IN;
         }
 
         @Override

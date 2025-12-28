@@ -108,7 +108,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
             item = i;
         }
 
-        return itemSet.size() == 1 && FastSizedIngredient.testItem(currentIngredient, item);
+        return itemSet.size() == 1 && currentIngredient.testItem(item);
     }
 
     @Override

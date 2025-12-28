@@ -85,6 +85,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -113,6 +115,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     @Persisted
     @DescSynced
+    @Getter
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
@@ -515,7 +518,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     public static final class InternalSlot extends AbstractInternalSlot {
 
-        public InternalSlotRecipeHandler.AbstractRHL rhl;
         public Recipe recipe;
         public final MEPatternBufferPartMachine machine;
         public final int index;
@@ -532,7 +534,11 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         public final NotifiableNotConsumableFluidHandler shareTank;
         public final NotifiableItemStackHandler circuitInventory;
         final LockableItemStackHandler lockableInventory;
+        @Getter
         private boolean lock;
+        @Getter
+        @Setter
+        boolean shouldLockRecipe = true;
 
         private InternalSlot(MEPatternBufferPartMachine machine, int index) {
             this.machine = machine;
@@ -556,6 +562,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         }
 
         public void setRecipe(@Nullable Recipe recipe) {
+            if (!shouldLockRecipe) return;
             this.recipe = recipe;
             machine.caches[index] = recipe != null;
         }

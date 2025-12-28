@@ -46,9 +46,6 @@ public class SpaceBioResearchModule extends RecipeExtension {
                     .gtolib$setIdleReason(Component.translatable(LANGUAGE_INSUFFICIENT_CLEANROOM));
             return null;
         }
-        if (radioactivityTrait.beforeWorking(recipe)) {
-            return null;
-        }
         return super.getRealRecipe(recipe);
     }
 
