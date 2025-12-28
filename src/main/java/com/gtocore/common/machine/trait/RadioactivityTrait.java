@@ -15,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
@@ -50,14 +49,13 @@ public class RadioactivityTrait extends MultiblockTrait {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable Recipe recipe) {
-        if (recipe == null) return true;
+    public Recipe modifyRecipe(@NotNull Recipe recipe) {
         recipeRadioactivity = recipe.data.getInt("radioactivity");
         if (recipeRadioactivity > 0 && outside()) {
             if (machine instanceof IRecipeLogicMachine recipeLogicMachine) IdleReason.setIdleReason(recipeLogicMachine, IdleReason.RADIATION);
-            return true;
+            return null;
         }
-        return super.beforeWorking(recipe);
+        return recipe;
     }
 
     @Override
