@@ -32,11 +32,12 @@ public class TagPrefixItemRendererMixin {
     private static void reinitModels(CallbackInfo ci) {
         for (var tagPrefix : TagPrefix.values()) {
             var iconType = tagPrefix.materialIconType();
-            if (iconType == null) {
-                continue;
+            if (iconType == null) continue;
+            if (tagPrefix.miningToolTag().isEmpty()) {
+                GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(iconType.getItemModelPath(MaterialIconSet.DULL, true)));
+            } else {
+                GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(iconType.getBlockModelPath(MaterialIconSet.DULL, true)));
             }
-            GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()),
-                    () -> new DelegatedModel(iconType.getItemModelPath(MaterialIconSet.DULL, true)).get());
         }
     }
 }
