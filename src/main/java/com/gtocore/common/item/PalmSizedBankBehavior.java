@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
-import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 
 import net.minecraft.ChatFormatting;
@@ -27,6 +26,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 import com.fast.fastcollection.O2LOpenCacheHashMap;
+import com.hepdd.gtmthings.api.gui.widget.SimpleNumberInputWidget;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -290,13 +290,12 @@ public class PalmSizedBankBehavior implements IItemUIFactory, IFancyUIProvider {
                     }
                 }));
 
-                IntInputWidget amountInput = new IntInputWidget(width / 2 + 5, 4 + 31, width / 2 - 17, 8,
+                mainGroup.addWidget(new SimpleNumberInputWidget(width / 2 + 5, 4 + 31, width / 4, 8,
                         () -> tradeAmount,
-                        (newValue) -> {
+                        newValue -> {
                             tradeAmount = newValue;
                             confirm1 = false;
-                        });
-                mainGroup.addWidget(amountInput);
+                        }));
 
                 group.addWidget(mainGroup);
                 group.setBackground(GuiTextures.BACKGROUND_INVERSE);

@@ -38,7 +38,7 @@ import static com.gtocore.data.transaction.data.TradeLang.addTradeLang;
 import static com.gtocore.data.transaction.data.trade.UnlockTrade.UNLOCK_BASE;
 import static com.gtocore.utils.PlayerHeadUtils.itemStackAddNbtString;
 
-public class WelfareGroup {
+public final class WelfareGroup {
 
     /**
      * 员工福利兑换中心

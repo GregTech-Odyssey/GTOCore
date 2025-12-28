@@ -2,6 +2,7 @@ package com.gtocore.api.data.material;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 
 public final class GTOMaterialFlags {
 
@@ -82,4 +83,7 @@ public final class GTOMaterialFlags {
 
     public static final MaterialFlag HAS_NANOSCALE_FORM = new MaterialFlag.Builder("need_blast_in_space")
             .build();
+
+    public static final MaterialFlag DISABLE_GEM_RECIPES = new MaterialFlag.Builder("disable_gem_recipes")
+            .requireProps(new PropertyKey[] { PropertyKey.ORE }).build();
 }

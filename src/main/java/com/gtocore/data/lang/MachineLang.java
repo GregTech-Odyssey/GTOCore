@@ -268,11 +268,17 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.rotation", "Y轴旋转: ", "Y-axis rotation: ");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.start", "[开始]", "[Start]");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中.%s]", "[In Progress.%s]");
+        addCNEN("gtocore.machine.industrial_platform_deployment_tools.export", "[导出]", "[Export]");
+
         addCNEN("gtocore.machine.village_trading_station.increase", "使用 %s 提升 1 最大交易次数", "Use %s to increase the maximum number of transactions by 1.");
         addCNEN("gtocore.machine.village_trading_station.enhance", "使用 %s 升级", "Upgrade using %s");
         addCNEN("gtocore.machine.village_trading_station.upper_limit", "已达到提升上限", "The upgrade limit has been reached.");
         addCNEN("gtocore.machine.village_trading_station.replenishment_interval", "补货间隔: %s tick", "Replenishment Interval: %s tick");
         addCNEN("gtocore.machine.village_trading_station.trading_multiple", "交易倍数: %s", "Trading Multiple: %s");
+
+        addCNEN("gtocore.machine.resonance_flower.stable_operation_times", "剩余稳定运行次数: %s", "Remaining stable operation times: %s");
+        addCNEN("gtocore.machine.resonance_flower.time_fluctuation_coefficient", "时间波动系数: %s", "Time fluctuation coefficient: %s");
+        addCNEN("gtocore.machine.resonance_flower.elemental_fluctuation_coefficient", "元素波动系数: %s", "Elemental fluctuation coefficient: %s");
 
         addSingleMachineTooltips();
 

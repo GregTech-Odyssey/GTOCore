@@ -809,6 +809,83 @@ public final class GTOOres {
                     .surfaceRock(PerditioCrystal)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
+    private static final GTOreDefinition MANA_STEEL_VEIN = create("mana_steel_vein", vein -> vein
+            .clusterSize(UniformInt.of(32, 64)).density(0.9f).weight(30)
+            .layer(ALL_LAYER)
+            .dimensions(ALFHEIM, OTHERSIDE)
+            .heightRangeTriangle(20, 100)
+            .veinedVeinGenerator(generator -> generator
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(ManaDiamond, 2))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(SourceGem, 2))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Manasteel, 3))
+                    .rareBlock(new VeinedVeinGenerator.VeinBlockDefinition(PerditioCrystal, 1))
+                    .rareBlockChance(0.01f)
+                    .veininessThreshold(0.25f)
+                    .maxRichnessThreshold(0.35f)
+                    .minRichness(0.8f)
+                    .maxRichness(1.0f)
+                    .edgeRoundoffBegin(5)
+                    .maxEdgeRoundoff(0.1f))
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Manasteel)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
+
+    private static final GTOreDefinition ELEMENTIUM_VEIN = create("elementium_vein", vein -> vein
+            .clusterSize(UniformInt.of(32, 64)).density(1.0F).weight(30)
+            .layer(ALL_LAYER)
+            .dimensions(ALFHEIM, OTHERSIDE)
+            .heightRangeTriangle(20, 100)
+            .veinedVeinGenerator(generator -> generator
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Dragonstone, 2))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Elementium, 2))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(InfusedGold, 3))
+                    .rareBlock(new VeinedVeinGenerator.VeinBlockDefinition(PerditioCrystal, 1))
+                    .rareBlockChance(0.01f)
+                    .veininessThreshold(0.25f)
+                    .maxRichnessThreshold(0.35f)
+                    .minRichness(0.6f)
+                    .maxRichness(1.0f)
+                    .edgeRoundoffBegin(5)
+                    .maxEdgeRoundoff(0.1f))
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Elementium)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
+
+    private static final GTOreDefinition GAIA_CORE_VEIN = create("gaia_core_vein", vein -> vein
+            .clusterSize(UniformInt.of(48, 64)).density(0.9f).weight(15)
+            .layer(ALL_LAYER)
+            .dimensions(ALFHEIM, OTHERSIDE)
+            .heightRangeTriangle(-20, 60)
+            .veinedVeinGenerator(generator -> generator
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(GaiaCore, 4))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(NetherEmber, 2))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Thaumium, 2))
+                    .rareBlock(new VeinedVeinGenerator.VeinBlockDefinition(PerditioCrystal, 1))
+                    .rareBlockChance(0.01f)
+                    .veininessThreshold(0.15f)
+                    .maxRichnessThreshold(0.5f)
+                    .minRichness(0.8f)
+                    .maxRichness(1.0f)
+                    .edgeRoundoffBegin(1)
+                    .maxEdgeRoundoff(0.05f))
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(GaiaCore)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
+
+    private static final GTOreDefinition ANIMA_TREE_LEYLINE = create("anima_tree_leyline", vein -> vein
+            .clusterSize(UniformInt.of(64, 521)).density(0.8f).weight(5)
+            .layer(ALL_LAYER)
+            .dimensions(ANCIENT_WORLD, ALFHEIM, OTHERSIDE)
+            .heightRangeUniform(-60, 100)
+            .dikeVeinGenerator(generator -> generator
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(RemnantSpiritStone, 3, 0, 100))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(SoulJadeCrystal, 3, -20, 80))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(StarBloodCrystal, 2, -40, 60))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(OriginCoreCrystal, 2, -60, 0)))
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(RemnantSpiritStone)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
+
     private static GTOreDefinition create(String name, Consumer<GTOreDefinition> config) {
         ResourceLocation id = GTCEu.id(name);
         GTOreDefinition definition = GTOres.create(id, config);

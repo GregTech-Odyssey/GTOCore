@@ -20,8 +20,8 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.HIGHEST;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.LOW;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Silver;
-import static com.gtocore.api.data.material.GTOMaterialFlags.CAN_BE_COOLED_DOWN_BY_BATHING;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.api.data.material.GTOMaterialFlags.*;
 import static com.gtocore.api.data.material.GTOMaterialIconSet.LIMPID;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtolib.utils.register.MaterialsRegisterUtils.material;
@@ -31,9 +31,11 @@ public final class MagicMaterial {
     public static void init() {
         Mana = magicMaterial("mana", "魔力")
                 .gas()
+                .fluid()
                 .dust()
                 .color(0x00A7F7)
                 .iconSet(BRIGHT)
+                .flags(GENERATE_CRYSTAL_SEED)
                 .buildAndRegister()
                 .setFormula(ChatFormatting.ITALIC + "*Ma*", false);
 
@@ -191,8 +193,16 @@ public final class MagicMaterial {
                 .iconSet(FLUID)
                 .buildAndRegister();
 
+        NetherEmber = magicMaterial("nether_ember", "下界之辉")
+                .rarity(Rarity.UNCOMMON)
+                .color(0xeeeeee)
+                .ore()
+                .iconSet(BRIGHT)
+                .buildAndRegister();
+
         ManaDiamond = magicMaterial("mana_diamond", "魔力钻石")
                 .gem()
+                .ore()
                 .components(GTMaterials.Diamond, 1)
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0x00daef)
@@ -203,6 +213,7 @@ public final class MagicMaterial {
 
         Dragonstone = magicMaterial("dragonstone", "龙石")
                 .gem()
+                .ore()
                 .components(GTMaterials.SiliconDioxide, 2)
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0xbb0067)
@@ -212,6 +223,7 @@ public final class MagicMaterial {
 
         SourceGem = magicMaterial("sourcegem", "魔源宝石")
                 .gem()
+                .ore()
                 .components(GTMaterials.SiliconDioxide, 2)
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0xca65fc)
@@ -311,6 +323,7 @@ public final class MagicMaterial {
         Thaumium = magicMaterial("thaumium", "神秘")
                 .ingot()
                 .fluid()
+                .ore()
                 .components(InfusedGold, 1)
                 .color(0x8153a9)
                 .iconSet(DULL)
@@ -370,6 +383,7 @@ public final class MagicMaterial {
         Manasteel = magicMaterial("manasteel", "魔力钢")
                 .ingot()
                 .fluid()
+                .ore()
                 .element(GTOElements.MANASTEEL)
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .color(0x3396fe)
@@ -395,6 +409,7 @@ public final class MagicMaterial {
         Elementium = magicMaterial("elementium", "源质钢")
                 .ingot()
                 .fluid()
+                .ore()
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .element(GTOElements.ELEMENTIUM)
                 .blastTemp(3400, LOW)
@@ -427,6 +442,12 @@ public final class MagicMaterial {
                 .iconSet(BRIGHT)
                 .toolStats(ToolProperty.Builder.of(16.0F, 12, 32000, 7, GTToolType.SWORD, GTToolType.PICKAXE, GTToolType.SHOVEL, GTToolType.AXE, GTToolType.HOE, GTToolType.MINING_HAMMER, GTToolType.SPADE, GTToolType.SAW, GTToolType.HARD_HAMMER, GTToolType.WRENCH, GTToolType.FILE, GTToolType.CROWBAR, GTToolType.SCREWDRIVER, GTToolType.WIRE_CUTTER, GTToolType.SCYTHE, GTToolType.KNIFE, GTToolType.BUTCHERY_KNIFE, GTToolType.DRILL_LV, GTToolType.DRILL_MV, GTToolType.DRILL_HV, GTToolType.DRILL_EV, GTToolType.DRILL_IV, GTToolType.CHAINSAW_LV, GTToolType.WRENCH_LV, GTToolType.WRENCH_HV, GTToolType.WRENCH_IV, GTToolType.BUZZSAW, GTToolType.SCREWDRIVER_LV, GTToolType.WIRE_CUTTER_LV, GTToolType.WIRE_CUTTER_HV, GTToolType.WIRE_CUTTER_IV).build())
                 .rotorStats(250, 180, 9.0f, 5000)
+                .buildAndRegister();
+
+        GaiaCore = magicMaterial("gaia_core", "盖亚之核")
+                .rarity(Rarity.RARE)
+                .color(0x888888)
+                .ore()
                 .buildAndRegister();
 
         Gaia = magicMaterial("gaia", "盖亚魂")
@@ -584,6 +605,102 @@ public final class MagicMaterial {
                 .iconSet(METALLIC)
                 .flags(GENERATE_PLATE, GENERATE_GEAR)
                 .buildAndRegister().setFormula("Su", false);
+
+        OriginCoreCrystal = magicMaterial("origin_core_crystal", "源核晶")
+                .ore(true)
+                .gem()
+                .color(0xF2E8C6)
+                .iconSet(OPAL)
+                .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
+                .buildAndRegister().setFormula("\uD83C\uDF00 \uD83C\uDF31 \uD83C\uDF33", false);
+
+        StarBloodCrystal = magicMaterial("star_blood_crystal", "星血晶")
+                .ore(true)
+                .gem()
+                .color(0x7B68EE)
+                .iconSet(OPAL)
+                .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
+                .buildAndRegister().setFormula("\uD83D\uDCAB \uD83E\uDE78 ⚖️", false);
+
+        SoulJadeCrystal = magicMaterial("soul_jade_crystal", "魂玉晶")
+                .ore(true)
+                .gem()
+                .color(0xB19CD9)
+                .iconSet(OPAL)
+                .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
+                .buildAndRegister().setFormula("\uD83D\uDCA0 \uD83D\uDD2E \uD83C\uDF0C", false);
+
+        RemnantSpiritStone = magicMaterial("remnant_spirit_stone", "骸灵石")
+                .ore(true)
+                .gem()
+                .color(0x4F4F4F)
+                .iconSet(OPAL)
+                .flags(GTOMaterialFlags.DISABLE_GEM_RECIPES)
+                .buildAndRegister().setFormula("\uD83D\uDC80 ⚰️ ⚜️", false);
+
+        OriginCoreCrystalResidue = material("origin_core_crystal_residue", "源核晶残渣")
+                .dust().color(0xF2E8C6).iconSet(SAND).buildAndRegister();
+        StarBloodCrystalResidue = material("star_blood_crystal_residue", "星血晶残渣")
+                .dust().color(0x7B68EE).iconSet(SAND).buildAndRegister();
+        SoulJadeCrystalResidue = material("soul_jade_crystal_residue", "魂玉晶残渣")
+                .dust().color(0xB19CD9).iconSet(SAND).buildAndRegister();
+        RemnantSpiritStoneResidue = material("remnant_spirit_stone_residue", "骸灵石残渣")
+                .dust().color(0x4F4F4F).iconSet(SAND).buildAndRegister();
+
+        SourceEnergyExtract = magicMaterial("source_energy_extract", "源能萃取液")
+                .liquid(new FluidBuilder().temperature(300).viscosity(1200))
+                .color(0xF2E8C6).iconSet(LIMPID).buildAndRegister();
+        StarVeinFusion = magicMaterial("star_vein_fusion", "星脉融合液")
+                .liquid(new FluidBuilder().temperature(400).viscosity(1300))
+                .color(0x7B68EE).iconSet(LIMPID).buildAndRegister();
+        SoulThoughtHarmony = magicMaterial("soul_thought_harmony", "魂念调和液")
+                .liquid(new FluidBuilder().temperature(290).viscosity(1400))
+                .color(0xB19CD9).iconSet(LIMPID).buildAndRegister();
+        RemnantErosionActivate = magicMaterial("remnant_erosion_activate", "骸蚀活化液")
+                .liquid(new FluidBuilder().temperature(350).viscosity(1600))
+                .color(0x4F4F4F).iconSet(LIMPID).buildAndRegister();
+        FinalPurifier = magicMaterial("final_purifier", "终纯化剂")
+                .liquid(new FluidBuilder().temperature(280).viscosity(1100))
+                .color(0xFFFFFF).iconSet(LIMPID).buildAndRegister();
+        EnergySolidifier = magicMaterial("energy_solidifier", "能量固化剂")
+                .liquid(new FluidBuilder().temperature(320).viscosity(1500))
+                .color(0xFFD700).iconSet(LIMPID).buildAndRegister();
+
+        ExtractionResidue = material("extraction_residue", "萃取残渣")
+                .dust().color(0xB8A97C).iconSet(SAND).buildAndRegister();
+        FusionResidue = material("fusion_residue", "融合残渣")
+                .dust().color(0x5A4C9E).iconSet(SAND).buildAndRegister();
+        HarmonyResidue = material("harmony_residue", "调和残渣")
+                .dust().color(0x8A7BA6).iconSet(SAND).buildAndRegister();
+        ErosionActivateResidue = material("erosion_activate_residue", "活化残渣")
+                .dust().color(0x333333).iconSet(SAND).buildAndRegister();
+
+        StarVeinBase = magicMaterial("star_vein_base", "星脉基础液")
+                .liquid(new FluidBuilder().temperature(300).viscosity(1200))
+                .color(0x8A79F0).iconSet(LIMPID).buildAndRegister();
+        StarVeinActive = magicMaterial("star_vein_active", "星脉活性液")
+                .liquid(new FluidBuilder().temperature(350).viscosity(1250))
+                .color(0x7B68EE).iconSet(LIMPID).buildAndRegister();
+        StarVeinCatalystPrecursor = magicMaterial("star_vein_catalyst_precursor", "星脉催化液前体")
+                .liquid(new FluidBuilder().temperature(380).viscosity(1350))
+                .color(0x6C58D0).iconSet(LIMPID).buildAndRegister();
+        StarVeinCatalyst = magicMaterial("star_vein_catalyst", "星脉催化液")
+                .liquid(new FluidBuilder().temperature(380).viscosity(1300))
+                .color(0x7B68EE).iconSet(LIMPID).buildAndRegister();
+        StarVeinCatalystWaste = magicMaterial("star_vein_catalyst_waste", "星脉催化残液")
+                .liquid(new FluidBuilder().temperature(320).viscosity(1400))
+                .color(0x5D49B0).iconSet(LIMPID).buildAndRegister();
+        PurifiedStarVeinCatalystWaste = magicMaterial("purified_star_vein_catalyst_waste", "提纯星脉催化残液")
+                .liquid(new FluidBuilder().temperature(330).viscosity(1380))
+                .color(0x6854C8).iconSet(LIMPID).buildAndRegister();
+        RegeneratedStarVeinActive = magicMaterial("regenerated_star_vein_active", "再生星脉活性液")
+                .liquid(new FluidBuilder().temperature(350).viscosity(1250))
+                .color(0x7B68EE).iconSet(LIMPID).buildAndRegister();
+
+        RemnantErosionCatalyst = material("remnant_erosion_catalyst", "骸蚀催化尘")
+                .dust().color(0x454545).iconSet(BRIGHT).buildAndRegister();
+        InactiveRemnantErosionCatalyst = material("inactive_remnant_erosion_catalyst", "失活骸蚀催化尘")
+                .dust().color(0x3A3A3A).iconSet(BRIGHT).buildAndRegister();
     }
 
     public static GTOMaterialBuilder magicMaterial(String name, String cn) {

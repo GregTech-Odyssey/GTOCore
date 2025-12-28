@@ -60,6 +60,14 @@ public final class MaterialIgnored {
         oreProp.getOreByProducts().clear();
         oreProp.setOreByProducts(Thorium, Neodymium, Bastnasite);
 
+        oreProp = GaiaCore.getProperty(PropertyKey.ORE);
+        oreProp.setOreByProducts(PerditioCrystal, NetherEmber, NetherEmber, Gaia);
+        oreProp.setWashedIn(FlowingCiphers, 500);
+
+        oreProp = NetherEmber.getProperty(PropertyKey.ORE);
+        oreProp.setOreByProducts(PerditioCrystal, GaiaCore, GaiaCore, NetherStar);
+        oreProp.setWashedIn(Undine, 500);
+
         TagPrefix.gem.setIgnored(Fluix, () -> AEItems.FLUIX_CRYSTAL);
         TagPrefix.block.setIgnored(Fluix, AEBlocks.FLUIX_BLOCK::block);
         TagPrefix.dust.setIgnored(Fluix, () -> AEItems.FLUIX_DUST);

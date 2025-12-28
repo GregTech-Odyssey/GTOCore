@@ -113,6 +113,7 @@
     "arseng.ScribesTileMixin",
     "arsnouveau.RewardsMixin",
     "biomeswevegone.ManOWarMixin",
+    "botania.AlfheimEventListenerMixin",
     "botania.ContributorListMixin",
     "botania.DandelifeonBlockEntityMixin",
     "botania.GaiaGuardianEntityMixin",

@@ -268,6 +268,7 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
             fixedTabs.add(ItemStorageUI());
             fixedTabs.add(FluidStorageUI());
             fixedTabs.add(TransactionUnlock());
+            fixedTabs.add(CombinedDirectionalFancyConfigurator.of(this, this));
         }
 
         // 动态生成商店标签
@@ -277,7 +278,6 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
         // 添加所有标签
         fixedTabs.forEach(sideTabs::attachSubTab);
         displayShopTabs.forEach(sideTabs::attachSubTab);
-        sideTabs.attachSubTab(CombinedDirectionalFancyConfigurator.of(this, this));
 
         // 标签切换监听器
         sideTabs.setOnTabSwitch((oldTab, newTab) -> {
