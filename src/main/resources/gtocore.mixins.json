@@ -234,7 +234,9 @@
     "patchouli.BookEntryMixin",
     "patchouli.BookMixin",
     "patchouli.ForgeModInitializerMixin",
-    "patchouli.PageDoubleRecipeRegistryMixin"
+    "patchouli.PageDoubleRecipeRegistryMixin",
+    "pipez.FluidPipeTypeMixin",
+    "pipez.ItemPipeTypeMixin"
   ],
   "injectors": {
     "defaultRequire": 1,
