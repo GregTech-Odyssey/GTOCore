@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -32,11 +33,11 @@ public class TagPrefixItemRendererMixin {
     private static void reinitModels(CallbackInfo ci) {
         for (var tagPrefix : TagPrefix.values()) {
             var iconType = tagPrefix.materialIconType();
-            if (iconType == null) continue;
-            if (tagPrefix.miningToolTag().isEmpty()) {
-                GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(iconType.getItemModelPath(MaterialIconSet.DULL, true)));
+            if (iconType == null || (!tagPrefix.doGenerateItem() && !tagPrefix.doGenerateBlock())) continue;
+            if (tagPrefix.doGenerateBlock()) {
+                GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(GTCEu.id(String.format("block/material_sets/dull/%s", iconType))));
             } else {
-                GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(iconType.getBlockModelPath(MaterialIconSet.DULL, true)));
+                GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(GTCEu.id(String.format("item/material_sets/dull/%s", iconType))));
             }
         }
     }
