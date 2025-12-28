@@ -36,7 +36,7 @@ public final class GenerateDisassembly {
 
     private static final String[] outputItem = { "_frame", "_fence", "_electric_motor",
             "_electric_pump", "_conveyor_module", "_electric_piston", "_robot_arm", "_field_generator",
-            "_emitter", "_sensor", "smd_", "_lamp", "ae2:blank_pattern", "gtocore:carbon_nanites", "_integrated_control_core" };
+            "_emitter", "_sensor", "smd_", "_lamp", "_integrated_control_core", "ae2:blank_pattern", "gtocore:carbon_nanites", "gtmthings:virtual_item_provider" };
 
     private static boolean isExcludeItems(String id) {
         for (String pattern : outputItem) {
@@ -55,7 +55,7 @@ public final class GenerateDisassembly {
             GTOCore.LOGGER.error("配方{}没有输出", recipeBuilder.id);
             return;
         }
-        Ingredient output = ItemRecipeCapability.CAP.of(c.get(0).getContent());
+        Ingredient output = ItemRecipeCapability.CAP.of(c.getFirst().getContent());
         if (output.isEmpty()) return;
         var item = ItemUtils.getFirstSized(output).getItem();
         if (recipeBuilder.recipeType == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {

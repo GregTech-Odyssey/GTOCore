@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.adventure;
 
 import com.gtocore.api.entity.ILivingEntity;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.data.IdleReason;
 
@@ -29,22 +30,26 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.util.Platform;
-import com.enderio.api.capability.StoredEntityData;
-import com.enderio.base.common.init.EIOFluids;
-import com.enderio.machines.common.init.MachineBlocks;
+import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import dev.shadowsoffire.apotheosis.adventure.AdventureConfig;
+import dev.shadowsoffire.apotheosis.adventure.boss.ApothBoss;
+import dev.shadowsoffire.apotheosis.adventure.boss.BossRegistry;
+import dev.shadowsoffire.apotheosis.adventure.boss.BossSummonerItem;
 import dev.shadowsoffire.apotheosis.adventure.compat.GameStagesCompat;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
 import dev.shadowsoffire.placebo.reload.WeightedDynamicRegistry;
@@ -66,10 +71,12 @@ import static com.gtolib.api.GTOValues.GLASS_TIER;
 @MethodsReturnNonnullByDefault
 public final class SlaughterhouseMachine extends StorageMultiblockMachine implements ITierCasingMachine {
 
-    private long attackDamage;
+    private int attackDamage;
     private DamageSource damageSource;
     private ItemStack activeWeapon = ItemStack.EMPTY;
-    private StoredEntityData data;
+    private boolean bossMode = false;
+    @Persisted
+    private boolean filterNbt = false;
     private String entityId;
     private static final String[] mobList1 = {
             "minecraft:chicken",
@@ -112,11 +119,9 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     };
 
     private final TierCasingTrait tierCasingTrait;
-    private static final int MIN_DURATION = 60;
-    private static final int MAX_DURATION = 600;
 
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
-        super(holder, 1, i -> i.is(MachineBlocks.POWERED_SPAWNER.asItem()));
+        super(holder, 1, i -> i.getItem() instanceof SpawnEggItem || i.getItem() instanceof BossSummonerItem);
         tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
     }
 
@@ -138,12 +143,11 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
 
     @Override
     public void onMachineChanged() {
-        data = null;
         entityId = null;
         ItemStack itemStack = getStorageStack();
-        if (itemStack.isEmpty() || !itemStack.hasTag()) return;
-        data = new StoredEntityData(itemStack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("EntityStorage").getCompound("Entity"), 1);
-        entityId = itemStack.getOrCreateTag().getCompound("BlockEntityTag").getCompound("EntityStorage").getCompound("Entity").getString("id");
+        bossMode = itemStack.getItem() instanceof BossSummonerItem;
+        if (itemStack.isEmpty() || !(itemStack.getItem() instanceof SpawnEggItem egg)) return;
+        entityId = ForgeRegistries.ENTITY_TYPES.getKey(egg.getType(null)).toString();
     }
 
     @Override
@@ -156,7 +160,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                     if (activeWeapon.isEmpty()) {
                         activeWeapon = stack;
                     }
-                    attackDamage += (long) (swordItem.getDamage() * amount);
+                    attackDamage += (int) swordItem.getDamage();
                 }
                 return false;
             });
@@ -175,6 +179,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         super.customText(textList);
         textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
         textList.add(Component.translatable("gtocore.machine.slaughterhouse.active_weapon", activeWeapon.getDisplayName()));
+        textList.add(Component.translatable("gtocore.machine.slaughterhouse.filter_nbt").append(ComponentPanelWidget.withButton(Component.literal("[").append(filterNbt ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "filter_nbt")));
     }
 
     @Override
@@ -191,6 +196,17 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 entity.kill();
         }
         return super.onWorking();
+    }
+
+    @Override
+    public void handleDisplayClick(String componentData, ClickData clickData) {
+        if (!clickData.isRemote) {
+            if (componentData.equals("filter_nbt")) {
+                filterNbt = !filterNbt;
+            } else {
+                super.handleDisplayClick(componentData, clickData);
+            }
+        }
     }
 
     @Nullable
@@ -210,14 +226,13 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
             ItemStackSet itemStacks = new ItemStackSet();
             Vec3 origin = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos()).getCenter();
             Entity entity = null;
-            if (data != null) {
-                entity = EntityType.loadEntityRecursive(data.getEntityTag(), serverLevel, (entity1) -> {
-                    entity1.moveTo(origin.x, origin.y, origin.z, entity1.getYRot(), entity1.getXRot());
-                    return entity1;
-                });
-                if (entity instanceof AbstractChestedHorse) {
-                    entity = null;
-                }
+            if (bossMode) {
+                ApothBoss item = BossRegistry.INSTANCE.getRandomItem(serverLevel.getRandom(), player.getLuck(), WeightedDynamicRegistry.IDimensional.matches(serverLevel), GameStagesCompat.IStaged.matches(player));
+                if (item != null) entity = item.createBoss(serverLevel, player.getOnPos(), serverLevel.getRandom(), player.getLuck());
+            }
+            if (entityId != null) {
+                Optional<EntityType<?>> entityType = EntityType.byString(entityId);
+                if (entityType.isPresent()) entity = entityType.get().create(serverLevel);
             }
             boolean isFixed = entity != null;
             String[] mobList = isFixed ? null : c == 1 ? mobList1 : mobList2;
@@ -249,8 +264,8 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 xp += (long) mob.getExperienceReward() * multiplier;
                 getAllDeathLoot(player, serverLevel, mob, source, lootParams, itemStacks, multiplier);
             }
-            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
-            int duration = Math.clamp(MAX_DURATION - attackDamage, MIN_DURATION, MAX_DURATION);
+            if (xp > 0) outputFluid(GTOFluids.XP_JUICE.getSource(), xp);
+            int duration = Math.max(60, 600 - attackDamage);
             RecipeBuilder builder = getRecipeBuilder().duration(duration).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
             Recipe recipe = builder.buildRawRecipe();
@@ -259,17 +274,19 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
         return null;
     }
 
-    private static void getAllDeathLoot(Player player, ServerLevel level, LivingEntity entity, DamageSource source, LootParams.Builder lootParams, Set<ItemStack> itemStacks, int multiplier) {
+    private void getAllDeathLoot(Player player, ServerLevel level, LivingEntity entity, DamageSource source, LootParams.Builder lootParams, Set<ItemStack> itemStacks, int multiplier) {
         LootTable lootTable = level.getServer().getLootData().getLootTable(entity.getLootTable());
         lootTable.getRandomItems(lootParams.withParameter(LootContextParams.THIS_ENTITY, entity).create(lootTable.getParamSet())).forEach(item -> {
             var count = item.getCount();
             if (count < 1) return;
+            if (filterNbt && item.hasTag()) return;
             item.setCount(count * multiplier);
             itemStacks.add(item);
         });
         var sqrt = (int) Math.sqrt(multiplier);
-        ((ILivingEntity) entity).gtocore$getAllDeathLoot(source, itemStacks, sqrt);
+        ((ILivingEntity) entity).gtocore$getAllDeathLoot(source, itemStacks, sqrt, filterNbt);
         if (entity instanceof Monster) {
+            if (filterNbt) return;
             float chance = AdventureConfig.gemDropChance + (entity.getPersistentData().contains("apoth.boss") ? AdventureConfig.gemBossBonus : 0);
             if (player.getRandom().nextFloat() <= chance) {
                 sqrt = sqrt * 2;

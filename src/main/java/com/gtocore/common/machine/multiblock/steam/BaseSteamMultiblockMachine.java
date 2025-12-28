@@ -40,7 +40,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine implements DummyEnergyMachine {
 
-    private int maxOCamount;
+    protected int maxOCamount;
     private int euMultiplier;
 
     @Persisted

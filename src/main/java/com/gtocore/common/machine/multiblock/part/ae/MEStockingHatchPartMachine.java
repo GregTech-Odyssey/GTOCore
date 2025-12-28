@@ -4,6 +4,8 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidList
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidSlot;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEStockingFluidList;
 
+import com.gtolib.GTOCore;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -158,22 +160,26 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
 
         var queue = new PriorityQueue<>(CONFIG_SIZE, Comparator.comparingLong(GenericStack::amount));
 
-        for (var entry : counter) {
-            long amount = entry.getLongValue();
-            if (amount <= 0) continue;
-            var what = entry.getKey();
-            if (!(what instanceof AEFluidKey)) continue;
-            boolean free = queue.size() < CONFIG_SIZE;
-            if (!free && queue.peek().amount() >= amount) continue;
-            if (!test(what)) continue;
-            var stack = new GenericStack(what, amount);
-            if (testConfiguredInOtherPart(stack)) continue;
-            if (free) {
-                queue.offer(stack);
-            } else {
-                queue.poll();
-                queue.offer(stack);
+        try {
+            for (var entry : counter) {
+                long amount = entry.getLongValue();
+                if (amount <= 0) continue;
+                var what = entry.getKey();
+                if (!(what instanceof AEFluidKey)) continue;
+                boolean free = queue.size() < CONFIG_SIZE;
+                if (!free && queue.peek().amount() >= amount) continue;
+                if (!test(what)) continue;
+                var stack = new GenericStack(what, amount);
+                if (testConfiguredInOtherPart(stack)) continue;
+                if (free) {
+                    queue.offer(stack);
+                } else {
+                    queue.poll();
+                    queue.offer(stack);
+                }
             }
+        } catch (Exception e) {
+            GTOCore.LOGGER.error("exception in MEStockingHatchPartMachine.refreshList");
         }
 
         int index;

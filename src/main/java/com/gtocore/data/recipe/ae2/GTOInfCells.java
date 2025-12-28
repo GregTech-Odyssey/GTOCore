@@ -2,20 +2,30 @@ package com.gtocore.data.recipe.ae2;
 
 import com.gtocore.common.data.GTOItems;
 
+import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
+import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import com.google.common.collect.Sets;
+import com.lowdragmc.lowdraglib.LDLib;
+
+import java.util.Set;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
@@ -27,6 +37,8 @@ public class GTOInfCells {
             Blocks.LIGHT_GRAY_CONCRETE, Blocks.CYAN_CONCRETE, Blocks.PURPLE_CONCRETE, Blocks.BLUE_CONCRETE,
             Blocks.BROWN_CONCRETE, Blocks.GREEN_CONCRETE, Blocks.RED_CONCRETE, Blocks.BLACK_CONCRETE
     };
+    // will be set to null after emi loaded
+    public static Set<ItemStack> AddedInfCells;
 
     static void init() {
         for (var i = 0; i < 16; ++i) {
@@ -50,9 +62,41 @@ public class GTOInfCells {
                 .duration(400)
                 .euVATier(GTValues.EV)
                 .save();
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("infinity_cell"), infCell(Blocks.COBBLESTONE),
+                "ABA",
+                "CDE",
+                "ABA",
+                'A', RegistriesUtils.getItemStack("botania:rune_earth"),
+                'B', GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(),
+                'C', new ItemStack(Items.WATER_BUCKET.asItem()),
+                'D', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()),
+                'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("water_infinity_cell"), infCell(Fluids.WATER),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asItem(), 'C', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()));
     }
 
     static ItemStack infCell(ItemLike item) {
-        return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
+        if (!LDLib.isRemote()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
+        if (AddedInfCells == null) {
+            AddedInfCells = Sets.newHashSet();
+        }
+        var cell = EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
+        AddedInfCells.add(cell);
+        return cell;
+    }
+
+    static ItemStack infCell(Fluid fluid) {
+        if (!LDLib.isRemote()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEFluidKey.of(fluid));
+        if (AddedInfCells == null) {
+            AddedInfCells = Sets.newHashSet();
+        }
+        var cell = EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEFluidKey.of(fluid));
+        AddedInfCells.add(cell);
+        return cell;
     }
 }

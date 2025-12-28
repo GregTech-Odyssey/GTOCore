@@ -28,6 +28,7 @@ import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +44,8 @@ import static com.gtolib.utils.ServerUtils.getServer;
 
 public class Core extends AbstractSpaceStation implements ILargeSpaceStationMachine, IWirelessDimensionProvider {
 
-    private @Nullable CleanroomProvider provider = null;
-    private @Nullable SpaceStationEnergyConversionModule laserProvider = null;
+    @Getter
+    private final Map<Class<? extends ISpaceServiceMachine>, ISpaceServiceMachine> serviceMachineMap = new Reference2ObjectOpenHashMap<>();
 
     private final Set<ILargeSpaceStationMachine> subMachinesFlat;
     private WirelessEnergyContainer WirelessEnergyContainerCache;
@@ -138,8 +139,9 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     /// 很吃性能的操作，使用dirty标记需要更新
     private void refreshModules() {
         removeAllSubMachines();
-        provider = null;
-        laserProvider = null;
+        // provider = null;
+        // laserProvider = null;
+        serviceMachineMap.clear();
         Set<ILargeSpaceStationMachine> its = new ReferenceOpenHashSet<>(getConnectedModules());
         while (!its.isEmpty()) {
             var it = its.iterator();
@@ -147,11 +149,8 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
             it.remove();
             if (m.getRoot() != null) continue;
             m.setRoot(this);
-            if (m instanceof CleanroomProvider p && provider == null) {
-                provider = p;
-            }
-            if (m instanceof SpaceStationEnergyConversionModule l && laserProvider == null) {
-                laserProvider = l;
+            if (m instanceof ISpaceServiceMachine serviceMachine) {
+                serviceMachineMap.putIfAbsent(serviceMachine.getClass(), serviceMachine);
             }
             if (subMachinesFlat.add(m)) {
                 its.addAll(m.getConnectedModules());
@@ -241,6 +240,7 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
 
     @Override
     public Set<CleanroomType> getTypes() {
+        CleanroomProvider provider = (CleanroomProvider) serviceMachineMap.get(CleanroomProvider.class);
         if (provider == null) {
             return Collections.emptySet();
         }
@@ -248,6 +248,14 @@ public class Core extends AbstractSpaceStation implements ILargeSpaceStationMach
     }
 
     public boolean canUseLaser() {
-        return laserProvider != null;
+        return serviceMachineMap.get(SpaceStationEnergyConversionModule.class) != null;
+    }
+
+    public double getDurationMultiplierFromSpaceElevator() {
+        SpaceElevatorConnectorModule provider = (SpaceElevatorConnectorModule) serviceMachineMap.get(SpaceElevatorConnectorModule.class);
+        if (provider == null) {
+            return 1.0;
+        }
+        return provider.getDurationMultiplier();
     }
 }

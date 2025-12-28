@@ -33,7 +33,7 @@ object LineChartHelper {
      * @param dataPointRadius 数据点标记的半径
      * @return 实际绘制尺寸 (width, height)
      */
-    fun drawLineChart(graphics: GuiGraphics, data: List<Number>, totalWidth: Int, totalHeight: Int, borderWidth: Int = 1, backgroundColor: Int = 0xFF404040.toInt(), borderColor: Int = 0xFF000000.toInt(), lineColor: Int = 0xFF2ECC71.toInt(), lineWidth: Float = 1.5f, drawAreaFill: Boolean = false, areaFillColor: Int = 0x402ECC71, drawDataPoints: Boolean = true, dataPointColor: Int = 0xFFFFFFFF.toInt(), dataPointRadius: Float = 2f): Pair<Int, Int> {
+    fun drawLineChart(graphics: GuiGraphics, data: List<Number>?, totalWidth: Int, totalHeight: Int, borderWidth: Int = 1, backgroundColor: Int = 0xFF404040.toInt(), borderColor: Int = 0xFF000000.toInt(), lineColor: Int = 0xFF2ECC71.toInt(), lineWidth: Float = 1.5f, drawAreaFill: Boolean = false, areaFillColor: Int = 0x402ECC71, drawDataPoints: Boolean = true, dataPointColor: Int = 0xFFFFFFFF.toInt(), dataPointRadius: Float = 2f, autoReboundY: Boolean = true, minYBound: Double = Double.NaN, maxYBound: Double = Double.NaN): Pair<Int, Int> {
         val innerX = borderWidth
         val innerY = borderWidth
         val innerWidth = totalWidth - borderWidth * 2
@@ -48,18 +48,33 @@ object LineChartHelper {
             DrawerHelper.drawSolidRect(graphics, innerX, innerY, innerWidth, innerHeight, backgroundColor)
         }
 
-        if (data.isEmpty() || innerWidth <= 0 || innerHeight <= 0) {
+        if (data.isNullOrEmpty() || innerWidth <= 0 || innerHeight <= 0) {
             return totalWidth to totalHeight
         }
 
         // 2. 数据处理与坐标映射 (优化为单次遍历)
+        val doubleData: List<Double>
         var minValue = Double.MAX_VALUE
         var maxValue = Double.MIN_VALUE
-        val doubleData = data.map {
-            val d = it.toDouble()
-            if (d < minValue) minValue = d
-            if (d > maxValue) maxValue = d
-            d
+        if (autoReboundY) {
+            doubleData = data.map {
+                val d = it.toDouble()
+                if (d < minValue) minValue = d
+                if (d > maxValue) maxValue = d
+                d
+            }
+        } else {
+            doubleData = data.map { it.toDouble() }
+            minValue = if (!minYBound.isNaN()) {
+                minYBound
+            } else {
+                doubleData.minOrNull() ?: 0.0
+            }
+            maxValue = if (!maxYBound.isNaN()) {
+                maxYBound
+            } else {
+                doubleData.maxOrNull() ?: 0.0
+            }
         }
 
         if (data.size == 1) { // 特殊处理只有一个点的情况
@@ -196,14 +211,21 @@ object LineChartHelper {
         RenderSystem.disableBlend()
     }
 
-    fun drawLineChart(graphics: GuiGraphics, OrDefault: List<Long>, SizeWidth: Int, SizeHeight: Int, color: Int) {
-        drawLineChart(
-            graphics = graphics,
-            data = OrDefault,
-            totalWidth = SizeWidth,
-            totalHeight = SizeHeight,
-            borderColor = color,
-            lineColor = color,
-        )
-    }
+    /**
+     * 创建一个 LineChartBuilder 用于链式调用构建线形图
+     * @param graphics GuiGraphics 绘制上下文
+     * @param data 要绘制的数据点列表
+     * @return LineChartBuilder 实例，支持链式调用
+     *
+     * 使用示例:
+     * ```
+     * LineChartHelper.builder(graphics, data)
+     *     .width(300)
+     *     .height(200)
+     *     .lineColor(0xFF2ECC71)
+     *     .drawAreaFill(true)
+     *     .draw()
+     * ```
+     */
+    fun builder(graphics: GuiGraphics, data: List<Number>?): LineChartBuilder = LineChartBuilder(graphics, data)
 }

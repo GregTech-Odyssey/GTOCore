@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.Fluid;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -30,7 +30,7 @@ public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implem
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         cachedFluid = IFluidRendererMachine.getFluid(recipe);
         return super.beforeWorking(recipe);
     }

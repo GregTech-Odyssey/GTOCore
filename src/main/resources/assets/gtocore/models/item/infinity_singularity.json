@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/singularity/eternity_singularity",
+    "layer1": "gtocore:item/singularity/eternity_singularity_overlay"
+  }
+}

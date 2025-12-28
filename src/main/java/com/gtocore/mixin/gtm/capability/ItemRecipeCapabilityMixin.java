@@ -5,7 +5,6 @@ import com.gtocore.common.recipe.condition.ResearchCondition;
 
 import com.gtolib.api.item.ItemHandlerModifiable;
 import com.gtolib.api.recipe.ContentBuilder;
-import com.gtolib.api.recipe.ingredient.CircuitIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ItemUtils;
 
@@ -19,6 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
+import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemEntryList;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemStackList;
@@ -140,7 +140,7 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
                     }
                     tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", amount).withStyle(ChatFormatting.GRAY));
                 });
-                if (io == IO.IN && (content.chance == 0 || this.of(content.content) instanceof CircuitIngredient)) {
+                if (io == IO.IN && (content.chance == 0 || this.of(content.content) instanceof IntCircuitIngredient)) {
                     slot.setIngredientIO(IngredientIO.CATALYST);
                 }
             }

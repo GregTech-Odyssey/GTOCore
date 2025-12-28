@@ -12,8 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -51,7 +49,7 @@ public final class GreenhouseMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(Recipe recipe) {
         getGreenhouseLight();
         if (SkyLight == 0) {
             return false;

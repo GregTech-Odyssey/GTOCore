@@ -2,7 +2,6 @@ package com.gtocore.data.transaction.data.trade;
 
 import com.gtocore.api.gui.StackTexture;
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.data.record.EnchantmentRecord;
 import com.gtocore.data.transaction.manager.TradeEntry;
 import com.gtocore.data.transaction.manager.TradingManager;
 
@@ -113,9 +112,6 @@ public class WelfareGroup {
 
         TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
                 simpleItemTrading(true, UNLOCK_BASE, GTItems.STICKY_RESIN.asStack(16), TECH_OPERATOR_COIN, 4));
-
-        TradingManager.INSTANCE.addTradeEntryByIndices(GroupIndex, ShopIndex1,
-                simpleItemTrading(true, UNLOCK_BASE, EnchantmentRecord.getEnchantedBookBySerialNumber(58, 1), TECH_OPERATOR_COIN, 128));
 
         {
             ItemStack stack = itemStackAddNbtString(AEItems.PORTABLE_ITEM_CELL16K.stack(), "{internalCurrentPower:20000.0d}");

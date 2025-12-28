@@ -14,7 +14,6 @@ import net.minecraft.world.level.Level;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +39,7 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         return GTODimensions.isPlanet(getDimension().location()) && super.beforeWorking(recipe);
     }
 

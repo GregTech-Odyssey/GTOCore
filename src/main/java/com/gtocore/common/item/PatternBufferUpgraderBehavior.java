@@ -3,6 +3,8 @@ package com.gtocore.common.item;
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
 
+import com.gtolib.api.item.IMachineUpgraderBehavior;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 

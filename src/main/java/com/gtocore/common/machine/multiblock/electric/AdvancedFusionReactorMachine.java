@@ -30,6 +30,7 @@ import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine.calculateEnergyStorageFactor;
 
 @ParametersAreNonnullByDefault
@@ -39,16 +40,15 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     @Getter
     @DescSynced
     private int color = -1;
-    private final int tier;
+    private static final int tier = LuV;
     @Persisted
     private long heat = 0;
     @Persisted
     private final EnergyContainerTrait energyContainer;
     private final ConditionalSubscriptionHandler preHeatSubs;
 
-    public AdvancedFusionReactorMachine(MetaMachineBlockEntity holder, int tier) {
+    public AdvancedFusionReactorMachine(MetaMachineBlockEntity holder) {
         super(holder, false, true, MachineUtils::getHatchParallel);
-        this.tier = tier;
         this.energyContainer = createEnergyContainer();
         preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, 0, () -> isFormed || heat > 0);
     }

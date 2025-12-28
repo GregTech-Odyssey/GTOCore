@@ -4,6 +4,8 @@ import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.client.forge.GTOComponentHandler;
 import com.gtocore.client.forge.GTOComponentRegistry;
 import com.gtocore.client.forge.GTORender;
+import com.gtocore.client.hud.AdAstraHUD;
+import com.gtocore.client.hud.WirelessEnergyHUD;
 import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOFluids;
@@ -17,8 +19,12 @@ import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubScreen;
+import com.gtolib.api.ae2.stacks.TagPrefixKey;
+import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
+import com.gtolib.api.emi.stack.TagPrefixRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -26,6 +32,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -33,6 +41,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import appeng.api.client.AEKeyRendering;
 import appeng.api.parts.PartModels;
 import appeng.init.client.InitScreens;
 import com.lowdragmc.shimmer.client.light.ColorPointLight;
@@ -40,6 +49,8 @@ import com.lowdragmc.shimmer.client.light.LightManager;
 import com.lowdragmc.shimmer.event.ShimmerReloadEvent.ReloadType;
 import com.lowdragmc.shimmer.forge.event.ForgeShimmerReloadEvent;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+
+import static com.gtocore.client.hud.IMoveableHUD.registerHUD;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy extends CommonProxy {
@@ -50,6 +61,8 @@ public final class ClientProxy extends CommonProxy {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(ClientProxy::clientSetup);
         eventBus.addListener(ClientProxy::registerItemDeco);
+        eventBus.addListener(ClientProxy::registerGuiOverlays);
+        eventBus.addListener(ClientProxy::registerAdditionalModels);
         eventBus.addListener(ClientProxy::registerMenuScreen);
         eventBus.register(GTOComponentRegistry.class);
         MinecraftForge.EVENT_BUS.register(ForgeClientEvent.class);
@@ -57,6 +70,7 @@ public final class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(GTORender.class);
         MinecraftForge.EVENT_BUS.register(ClientForge.class);
         registerAEModels();
+        AEKeyRendering.register(TagPrefixKeyType.TYPE, TagPrefixKey.class, new TagPrefixRenderer.AEKeyHandler());
         if (GTCEu.Mods.isShimmerLoaded()) eventBus.addListener(ClientProxy::registerLights);
     }
 
@@ -95,6 +109,11 @@ public final class ClientProxy extends CommonProxy {
         });
     }
 
+    private static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+        registerHUD(event, "wireless_energy_hud", WirelessEnergyHUD.INSTANCE);
+        registerHUD(event, "adastra_hud", AdAstraHUD.gto$INSTANCE);
+    }
+
     private static void registerMenuScreen(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             InitScreens.register(
@@ -110,6 +129,12 @@ public final class ClientProxy extends CommonProxy {
                     CategoryMappingSubScreen::new,
                     "/screens/categoru_mapping_config.json");
         });
+    }
+
+    private static void registerAdditionalModels(ModelEvent.RegisterAdditional evt) {
+        for (TagPrefix tagPrefix : TagPrefix.values()) {
+            evt.register(GTOCore.id("item/" + tagPrefix.getLowerCaseName()));
+        }
     }
 
     private static void registerAEModels() {

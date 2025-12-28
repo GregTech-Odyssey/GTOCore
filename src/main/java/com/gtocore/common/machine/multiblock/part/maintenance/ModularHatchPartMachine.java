@@ -84,19 +84,19 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     public ModularHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
 
-        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         temperatureModuleInv.setFilter(stack -> stack.getItem() == Wrapper.TEMPERATURE_CHECK);
         temperatureModuleInv.addChangedListener(this::onConditionChange);
 
-        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         gravityModuleInv.setFilter(stack -> stack.getItem() == Wrapper.GRAVITY_CHECK);
         gravityModuleInv.addChangedListener(this::onConditionChange);
 
-        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         vacuumModuleInv.setFilter(stack -> stack.getItem() == Wrapper.VACUUM_CHECK);
         vacuumModuleInv.addChangedListener(this::onConditionChange);
 
-        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
+        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, SingleCustomItemStackHandler::new);
         cleanroomModuleInv.setFilter(stack -> Wrapper.CLEAN_CHECK.containsKey(stack.getItem()));
         cleanroomModuleInv.addChangedListener(this::onConditionChange);
     }

@@ -457,8 +457,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("pulsating_photovoltaic_block")
-                .inputItems("enderio:pulsating_photovoltaic_module")
-                .inputItems("enderio:energy_conduit", 8)
+                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV, 4)
                 .inputItems(GTItems.VACUUM_TUBE.asItem(), 8)
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.PulsatingAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Titanium, 2)
@@ -996,8 +995,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("energetic_photovoltaic_block")
-                .inputItems("enderio:energetic_photovoltaic_module")
-                .inputItems("enderio:energy_conduit", 4)
+                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV)
                 .inputItems(GTItems.VACUUM_TUBE.asItem(), 4)
                 .inputItems(TagPrefix.cableGtDouble, GTMaterials.RedAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 2)
@@ -2141,9 +2139,8 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("conversion_simulate_card")
-                .inputItems("enderio:skeletal_contractor")
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asItem())
-                .inputItems("enderio:vibrant_gear", 4)
+                .inputItems(gear, GTOMaterials.VibrantAlloy)
                 .inputItems(CustomTags.UV_CIRCUITS, 8)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Technetium, 4)
                 .inputFluids(GTMaterials.Indium.getFluid(288))
@@ -2679,8 +2676,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("vibrant_photovoltaic_block")
-                .inputItems("enderio:vibrant_photovoltaic_module")
-                .inputItems("enderio:energy_conduit", 16)
+                .inputItems(GTItems.COVER_SOLAR_PANEL_LV)
                 .inputItems(GTItems.VACUUM_TUBE.asItem(), 16)
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.VibrantAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 2)
@@ -3185,15 +3181,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("ender_fluid_conduit")
-                .inputItems("enderio:pressurized_fluid_conduit")
-                .inputItems(TagPrefix.dustTiny, GTMaterials.EnderPearl)
-                .inputItems("enderio:conduit_binder")
-                .outputItems("enderio:ender_fluid_conduit", 2)
-                .EUt(16)
-                .duration(120)
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder("data_disc")
                 .inputItems(CustomTags.LV_CIRCUITS, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.Silver)
@@ -3404,7 +3391,7 @@ final class Assembler {
                 .inputItems(GTItems.BATTERY_HV_CADMIUM.asItem(), 4)
                 .inputItems(GTItems.EMITTER_HV.asItem(), 2)
                 .inputItems(GTItems.POWER_THRUSTER_ADVANCED.asItem(), 2)
-                .inputItems("enderio:photovoltaic_plate", 2)
+                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV, 2)
                 .inputItems(GTItems.ROBOT_ARM_HV.asItem())
                 .inputItems(TagPrefix.rod, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 16)
@@ -3424,7 +3411,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("super_capacitor")
-                .inputItems("enderio:basic_capacitor", 8)
+                .inputItems(GTItems.BATTERY_ULV_TANTALUM, 4)
                 .inputItems(TagPrefix.foil, GTMaterials.Manganese, 8)
                 .inputItems(TagPrefix.rod, GTMaterials.Iron, 2)
                 .inputItems(TagPrefix.rod, GTMaterials.Lapis, 16)

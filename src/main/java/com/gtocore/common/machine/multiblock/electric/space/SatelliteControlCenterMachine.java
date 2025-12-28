@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.space;
 
+import com.gtocore.client.hud.Configurator;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -16,6 +17,8 @@ import com.gtolib.utils.RegistriesUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -65,6 +68,15 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     }
 
     @Override
+    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+        Configurator c;
+        configuratorPanel.attachConfigurators(
+                c = new Configurator(GuiTextures.LIGHT_ON, GuiTextures.LIGHT_OFF));
+        if (isRemote()) c.setHudInstance("adastra_hud");
+    }
+
+    @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         var buttonText = Component.translatable(PLANET).append(Component.translatable(Wrapper.LIST[index].getKey()));
@@ -73,7 +85,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
         buttonText.append(" ");
         buttonText.append(ComponentPanelWidget.withButton(Component.literal("[+]"), "add"));
         textList.add(buttonText);
-        textList.add(Component.translatable("tooltip.avaritia.tier", Wrapper.LIST[index].getTier()));
+        textList.add(Component.translatable("ars_nouveau.tier", Wrapper.LIST[index].getTier()));
         Item item = getRocket(Wrapper.LIST[index].getTier());
         if (item != null) {
             textList.add(Component.translatable(ROCKET).append(item.getDescription()));

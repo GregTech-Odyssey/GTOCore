@@ -23,7 +23,6 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import com.kyanite.deeperdarker.content.DDItems;
-import committee.nova.mods.avaritia.init.registry.ModItems;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLY_LINE_RECIPES;
@@ -323,7 +322,7 @@ final class AssemblyLine {
 
         ASSEMBLY_LINE_RECIPES.builder("neutronium_wire_cutting")
                 .inputItems(GTMachines.CUTTER[GTValues.UHV].asItem(), 16)
-                .inputItems("avaritia:neutron_pile", 16)
+                .inputItems(GTOItems.NEUTRON_PILE.asItem(), 16)
                 .inputItems(GTItems.ROBOT_ARM_UEV.asItem(), 16)
                 .inputItems(GTItems.ELECTRIC_MOTOR_UEV.asItem(), 32)
                 .inputItems(GTItems.CONVEYOR_MODULE_UEV.asItem(), 16)
@@ -3708,7 +3707,7 @@ final class AssemblyLine {
                 .inputItems(GTOBlocks.QUANTUM_FORCE_TRANSFORMER_COIL.asItem())
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.SpaceTime, 8)
                 .inputItems(TagPrefix.rod, GTOMaterials.Eternity, 4)
-                .inputItems(ModItems.eternal_singularity.get())
+                .inputItems(GTOItems.INFINITY_SINGULARITY.get())
                 .inputItems(GTOItems.COSMIC_FABRIC.asItem(), 64)
                 .inputItems(TagPrefix.screw, GTOMaterials.Infinity, 64)
                 .inputItems(TagPrefix.foil, GTOMaterials.Radox, 64)
@@ -4194,7 +4193,7 @@ final class AssemblyLine {
                 .inputFluids(GTMaterials.Polybenzimidazole, 576)
                 .EUt(122880)
                 .duration(200)
-                .researchStation(b -> b.researchStack(RegistriesUtils.getItemStack("avaritia:double_compressed_crafting_table"))
+                .researchStation(b -> b.researchStack(AEItems.CRAFTING_PATTERN)
                         .CWUt(32)
                         .EUt(122880))
                 .save();
@@ -4211,7 +4210,7 @@ final class AssemblyLine {
                 .outputItems(MultiBlockG.SUPER_MOLECULAR_ASSEMBLER.asItem())
                 .inputFluids(GTOMaterials.Indalloy140, 2304)
                 .inputFluids(GTMaterials.Polybenzimidazole, 2304)
-                .researchStation(b -> b.researchStack(RegistriesUtils.getItemStack("enderio:crafter"))
+                .researchStation(b -> b.researchStack(AEBlocks.MOLECULAR_ASSEMBLER)
                         .CWUt(16)
                         .EUt(122880))
                 .EUt(122880)

@@ -4,6 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTORecipeCategories;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.misc.OrganType;
@@ -58,6 +59,10 @@ public final class LangHandler {
 
     private static void init() {
         GTOItemTooltips.INSTANCE.initLanguage();
+        GTOFluids.LANG.forEach((k, v) -> {
+            addCN("fluid.gtocore." + k, v);
+            addCN("item.gtocore." + k + "_bucket", v + "桶");
+        });
         MaterialsRegisterUtils.LANG.forEach((k, v) -> addCNEN("material.gtocore." + k, v));
         RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addCNEN("gtceu." + k, v));
         GTOBedrockFluids.LANG.forEach((k, v) -> addCNEN("gtceu.jei.bedrock_fluid." + k, v));
@@ -153,6 +158,10 @@ public final class LangHandler {
         addCNEN("gtocore.patternModifierPro.4", "最大流体数：所有流体不会超过此桶数", "Set Maximum Fluid Amount / Bucket");
         addCNEN("gtocore.patternModifierPro.5", "应用次数为：循环上述操作次数，最大为16", "Set Application Cycles , Up to 16");
 
+        addCNEN("gtocore.emi.tagprefix.tooltip", "材料标签类型", "Material Tag Prefix");
+        addCNEN("gtocore.emi.tagprefix.tooltip.1", "在编码样板时将它们拖入终端，可以制作通配符样板", "When encoding patterns, drag them into the terminal to create wildcard patterns.");
+        addCNEN("gtocore.emi.tagprefix.tooltip.2", "在通配符样板总成中，将自动匹配所有符合标签的物品或流体", "In wildcard pattern assemblies, all items or fluids that match the tag will be automatically matched.");
+
         addCNEN("gtceu.jei.ore_vein.bauxite_vein", "铝土矿脉", "Bauxite Vein");
         addCNEN("gtceu.jei.ore_vein.chromite_vein", "铬铁矿脉", "Chromite Vein");
         addCNEN("gtceu.jei.ore_vein.pitchblende_vein", "沥青铀矿脉", "Pitchblende Vein");
@@ -203,6 +212,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.vacuum_tier_provider", "[GTOCore] 真空等级", "[GTOCore] Vacuum Tier");
         addCNEN("config.jade.plugin_gtocore.temperature_provider", "[GTOCore] 机器温度", "[GTOCore] Machine Temperature");
         addCNEN("config.jade.plugin_gtocore.ae_grid_provider", "[GTOCore] AE网络信息", "[GTOCore] AE Grid Info");
+        addCNEN("config.jade.plugin_gtocore.ae_item_amount", "[GTOCore] AE物品数量", "[GTOCore] AE Item Amount");
         addCNEN("config.jade.plugin_gtocore.tick_time_provider", "[GTOCore] Tick时间", "[GTOCore] Tick Time");
         addCNEN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] 无线交互机器信息", "[GTOCore] Wireless Interactive Machine Info");
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
@@ -263,6 +273,17 @@ public final class LangHandler {
         addCNEN("ftbquests.task.gtocore.scheduled.intervalInSeconds", "时间（以秒为单位）", "Time (in seconds)");
         addCNEN("ftbquests.task.gtocore.scheduled.isInGame", "游戏内时间（设为false则为现实时间）", "In-game time (set to false for real time)");
         addCNEN("ftbquests.task.gtocore.scheduled.refreshInFixedTime", "以固定时间刷新（例如当时间设为180，即每个3分钟时间间隔仅判定一次完成）", "Refresh in fixed time (for example, when the time is set to 180, it is only judged once every fixed 3-minute time interval)");
+
+        addCNEN("affix.apotheosis:ftbu", "连锁", "Chainbound");
+        addCNEN("affix.apotheosis:ftbu.suffix", "矿脉爆破", "the Veinseeker");
+        addCNEN("affix.apotheosis:bedrock_ore", "勘探", "Prospecting");
+        addCNEN("affix.apotheosis:bedrock_ore.suffix", "基岩透视者", "the Bedrock Seer");
+        addCNEN("affix.apotheosis:bedrock_fluid_ore", "寻流", "Flowseeking");
+        addCNEN("affix.apotheosis:bedrock_fluid_ore.suffix", "石油之眼", "the Oil Penetrator");
+        addCNEN("affix.apotheosis:stress", "应力", "Stress");
+        addCNEN("affix.apotheosis:stress.suffix", "千钧一发", "the Brinkbreaker");
+        addCNEN("affix.apotheosis:kinetic", "动能", "Kinetic");
+        addCNEN("affix.apotheosis:kinetic.suffix", "势如破竹", "the Momentum Master");
 
         addCNEN("gtocore.bar.distillation.1", "产出，消耗水", "Output , Consumption water");
         addCNEN("gtocore.bar.exploration", "爆炸", "Explosion");
@@ -352,12 +373,15 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.missing_start", "缺失合成", "Missing Crafting");
         addCNEN("gtocore.ae.appeng.craft.missing_start.desc", "在材料不足的情况下仍然开始合成，缺失的原料将被等待", "Start crafting even when materials are insufficient, missing ingredients will be waited for");
         addCNEN("gtocore.ae.appeng.craft.used_percent", "已使用 %s%%", "Used %s%%");
+        addCNEN("gtocore.ae.appeng.fetching_items", "取得信息中...", "Fetching items...");
+        addCNEN("gtocore.ae.appeng.me_storage_amount", "ME网络存储数量", "ME Network Stored Amount");
         addCNEN("gtocore.ae.appeng.pick_craft.error.title", "Pick-Craft 错误", "Pick-Craft Error");
         addCNEN("gtocore.ae.appeng.pick_craft.all_right.title", "Pick-Craft 成功", "Pick-Craft Success");
         addCNEN("gtocore.ae.appeng.pick_craft.all_right", "已启动合成！", "Crafting started!");
         addCNEN("gtocore.ae.appeng.pick_craft.error.1", "计算合成路径时发生错误。", "An error occurred while calculating the crafting path.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.3", "创建的任务数已达上限。", "The number of created tasks has reached the limit.");
+        addCNEN("gtocore.ae.appeng.highlight_button.try_open_ui", "当目标为样板总成，右键以试图打开其界面", "When the target is a Pattern Provider, right-click to try to open its UI");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.cancel", "取消", "Cancel");
@@ -401,6 +425,9 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.recipeInfoButton.clickToClear", "点击清除已记录的配方信息", "Click to clear recorded recipe info");
 
         addCNEN("gtocore.recipe.recycler.random_output", "随机物品", "Random Item");
+
+        addCNEN("gtocore.emi.search_text", "已保存的搜索: %s", "Saved Search: %s");
+        addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");
     }
 
     public static void enInitialize(LanguageProvider provider) {

@@ -40,7 +40,7 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
-            textList.add(Component.translatable("gui.enderio.sag_mill_chance", chance));
+            textList.add(Component.translatable("gtceu.jei.ore_vein_diagram.chance", chance));
         }
     }
 

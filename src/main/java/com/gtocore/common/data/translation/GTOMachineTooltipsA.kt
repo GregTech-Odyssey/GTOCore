@@ -6,11 +6,37 @@ import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
+import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 
 import net.minecraft.network.chat.Component
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
+
+    val spaceBioResearchModuleTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("space_bio_research_module")
+
+        section(MainFunction)
+        command("用于在空间站内进行生物研究" translatedTo "Used for biological research in the space station")
+        command("超净间环境等级由环境维护舱决定" translatedTo "The cleanroom environment level is determined by the Environmental Maintenance Module")
+        info("当运行培养缸或生化反应室配方时，提供可调节的0~40Sv背景辐射环境" translatedTo "Provides an adjustable 0~40Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
+    }
+    val spaceElevatorConnectorModuleTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("space_elevator_connector_module")
+
+        command("与当前星球的太空电梯连接" translatedTo "Connects to the space elevator of the current planet")
+        increase(
+            "连接后，空间站各运行模块（如轨道冶炼舱等）可获得(0.8^n)×的耗时减免，n为太空电梯的动力模块等级" translatedTo
+                "After connecting, each operating module of the space station (such as orbital smelting chamber, etc.) can get a time reduction of (0.8^n)×, where n is the power module level of the space elevator",
+        )
+        increase(
+            "太空电梯安装的模块也将获得额外(0.8^(n/2))×的耗时减免" translatedTo
+                "Modules installed on the space elevator will also receive a time reduction of (0.8^(n/2))×",
+        )
+        decrease("会增加太空电梯50%的算力消耗" translatedTo "Increases the space elevator's Computational Workload consumption by 50%")
+
+        command("该模块仅能连接在其他模块的下方" translatedTo "This module can only connect below other modules")
+    }
 
     // 溶解罐
     val DissolvingTankTooltips = ComponentListSupplier {
@@ -136,5 +162,11 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
                     ("r:" + algae.redAbsorption + " g:" + algae.greenAbsorption + " b:" + algae.blueAbsorption).toLiteralSupplier(),
             )
         }
+    }
+
+    val LargeSteamCrackerTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_steam_cracker")
+        info("原料效率仅正常裂化机的80%" translatedTo "The raw material efficiency is only 80% of that of a normal cracker")
+        increase("每使用高一等级的蒸汽输入仓，原料效率提升20%" translatedTo "For each higher level of steam input hatch used, the raw material efficiency increases by 20%")
     }
 }

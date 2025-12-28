@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine {
 
@@ -36,7 +36,7 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
     }
 
     @Override
-    protected boolean beforeWorking(@Nullable Recipe recipe) {
+    protected boolean beforeWorking(@NotNull Recipe recipe) {
         if (!super.beforeWorking(recipe)) return false;
         if (getRecipeType() == GTORecipeTypes.ATOMIZATION_CONDENSATION_RECIPES &&
                 getSubFormedAmount() == 0) {

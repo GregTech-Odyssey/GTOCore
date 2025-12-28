@@ -85,8 +85,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     }
 
     @Override
-    public boolean beforeWorking(@Nullable Recipe recipe) {
-        if (recipe == null) return true;
+    public boolean beforeWorking(@NotNull Recipe recipe) {
         recipeHeat = getRecipeHeat(recipe);
         return super.beforeWorking(recipe);
     }
@@ -125,7 +124,7 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
     }
 
     @Nullable
-    TickableSubscription tickSubscription;
+    private TickableSubscription tickSubscription;
 
     @Override
     public void onUnload() {
@@ -247,9 +246,9 @@ public class FastNeutronBreederReactor extends CustomParallelMultiblockMachine i
 
     private static class Wrapper {
 
-        public static final Map<Item, Integer> NEUTRON_SOURCES;
-        public static final Map<Fluid, Integer> COOLANTS;
-        public static final Map<Fluid, Fluid> COOLANT_OUTPUTS;
+        private static final Map<Item, Integer> NEUTRON_SOURCES;
+        private static final Map<Fluid, Integer> COOLANTS;
+        private static final Map<Fluid, Fluid> COOLANT_OUTPUTS;
         static {
             ImmutableMap.Builder<Item, Integer> builder = ImmutableMap.builder();
             builder.put(ChemicalHelper.get(TagPrefix.dust, GTMaterials.Graphite).getItem(), -1000);

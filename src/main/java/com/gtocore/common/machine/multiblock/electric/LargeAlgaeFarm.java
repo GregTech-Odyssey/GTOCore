@@ -211,7 +211,7 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
     }
 
     @Override
-    public Widget createUIWidget() {
+    public @NotNull Widget createUIWidget() {
         WidgetGroup widget = (WidgetGroup) super.createUIWidget();
         widget.getWidgetsByType(DraggableScrollableWidgetGroup.class).stream().findAny()
                 .ifPresent(ds -> ds.setSizeHeight(ds.getSizeHeight() - 55));
@@ -275,12 +275,17 @@ public class LargeAlgaeFarm extends ElectricMultiblockMachine implements ITierCa
         public void drawInBackground(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
             graphics.pose().pushPose();
             graphics.pose().translate(getPositionX(), getPositionY(), 0f);
-            LineChartHelper.INSTANCE.drawLineChart(
-                    graphics,
-                    statistics.getOrDefault(selectedAlgae, LongList.of()),
-                    getSizeWidth(),
-                    getSizeHeight(),
-                    selectedAlgae.getColor() | 0xFF000000);
+            // LineChartHelper.INSTANCE.drawLineChart(
+            // graphics,
+            // statistics.getOrDefault(selectedAlgae, LongList.of()),
+            // getSizeWidth(),
+            // getSizeHeight(),
+            // selectedAlgae.getColor() | 0xFF000000);
+            LineChartHelper.INSTANCE.builder(graphics, statistics.getOrDefault(selectedAlgae, LongList.of()))
+                    .width(getSizeWidth())
+                    .height(getSizeHeight())
+                    .lineColor(selectedAlgae.getColor() | 0xFF000000)
+                    .draw();
             graphics.pose().popPose();
             super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         }

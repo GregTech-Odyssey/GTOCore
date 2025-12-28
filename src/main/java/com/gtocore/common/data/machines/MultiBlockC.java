@@ -9,6 +9,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.EnergyInjectorMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.ComponentAssemblerMachine;
 import com.gtocore.common.machine.multiblock.electric.bioengineering.BiochemicalReactionRoomMachine;
@@ -21,7 +22,7 @@ import com.gtocore.common.machine.multiblock.noenergy.LargeSteamStorageTank;
 import com.gtocore.common.machine.multiblock.noenergy.NeutronVortexMachine;
 import com.gtocore.common.machine.multiblock.noenergy.PrimitiveDistillationTowerMachine;
 import com.gtocore.common.machine.multiblock.noenergy.ThermalPowerPumpMachine;
-import com.gtocore.common.machine.multiblock.steam.BaseSteamMultiblockMachine;
+import com.gtocore.common.machine.multiblock.steam.LargeSteamCracker;
 import com.gtocore.common.machine.multiblock.steam.LargeSteamMultiblockMachine;
 import com.gtocore.common.machine.multiblock.steam.SteamMultiblockMachine;
 
@@ -89,9 +90,11 @@ public final class MultiBlockC {
             .renderer(PrimitiveDistillationRenderer::new)
             .register();
 
-    public static final MultiblockMachineDefinition STEAM_CRACKER = multiblock("steam_cracker", "蒸汽裂化机", p -> new BaseSteamMultiblockMachine(p, 1, 32, 1))
+    public static final MultiblockMachineDefinition STEAM_CRACKER = multiblock("steam_cracker", "蒸汽裂化机", LargeSteamCracker::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.STEAM_CRACKING_RECIPES)
+            .steamOverclock()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getLargeSteamCrackerTooltips().getSupplier())
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .where('~', controller(blocks(definition.get())))

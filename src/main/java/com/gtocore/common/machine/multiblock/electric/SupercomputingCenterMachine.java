@@ -350,7 +350,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         if (incompatible) {
-            textList.add(Component.translatable("tooltip.avaritia.tier", machineTier));
+            textList.add(Component.translatable("ars_nouveau.tier", machineTier));
             textList.add(Component.translatable("gtceu.multiblock.invalid_structure").withStyle(ChatFormatting.RED));
         } else {
             super.addDisplayText(textList);
@@ -360,7 +360,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("tooltip.avaritia.tier", machineTier));
+        textList.add(Component.translatable("ars_nouveau.tier", machineTier));
         textList.add(Component.translatable("gtceu.multiblock.energy_consumption", maxEUt, GTValues.VNF[GTUtil.getTierByVoltage(maxEUt)]).withStyle(ChatFormatting.YELLOW));
         textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(cacheCWUt + " / " + getAdjustedMaxCWU()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtocore.machine.cwut_modification", ((double) maxCWUtModification / 10000)).withStyle(ChatFormatting.AQUA));

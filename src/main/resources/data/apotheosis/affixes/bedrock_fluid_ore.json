@@ -1,0 +1,27 @@
+{
+  "_comment": "Torch Placer - value is the durability cost.",
+  "type": "gtocore:bedrockore",
+  "fluid": true,
+  "values": {
+    "rare": {
+      "min": 5,
+      "steps": 4,
+      "step": 5
+    },
+    "epic": {
+      "min": 25,
+      "steps": 5,
+      "step": 5
+    },
+    "mythic": {
+      "min": 50,
+      "steps": 5,
+      "step": 5
+    },
+    "ancient": {
+      "min": 75,
+      "steps": 3,
+      "step": 5
+    }
+  }
+}

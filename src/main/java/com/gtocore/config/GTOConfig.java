@@ -11,9 +11,14 @@ import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.Configurable;
 import dev.toma.configuration.config.format.ConfigFormats;
+import dev.toma.configuration.config.io.ConfigIO;
+import dev.toma.configuration.config.value.ConfigValue;
+import dev.toma.configuration.config.value.ObjectValue;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
+
+import static dev.toma.configuration.config.ConfigHolder.getConfig;
 
 @DataGeneratorScanned
 @Config(id = GTOCore.MOD_ID, group = GTOCore.MOD_ID)
@@ -155,10 +160,11 @@ public final class GTOConfig {
     public boolean disableMufflerPart = false;
 
     @Configurable
-    @Configurable.Range(min = 36, max = 144000)
-    @Configurable.Comment({ "扩展样板供应器容量(请不要调的很大，否则gui界面将非常卡顿！)", "专家模式下，此选项无效",
-            "Extended Pattern Provider Size (Please do not set it too high, otherwise the GUI interface will be very laggy!)", "In Expert mode, this option is invalid" })
+    @Configurable.Range(min = 36, max = 216)
+    @Configurable.Comment({ "扩展样板供应器容量", "专家模式下，此选项无效",
+            "Extended Pattern Provider Size", "In Expert mode, this option is invalid" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
+    @Configurable.Gui.Slider
     public int exPatternSize = 36;
 
     @Configurable
@@ -182,6 +188,11 @@ public final class GTOConfig {
     public boolean nonCheatEmiInteraction = true;
 
     @Configurable
+    @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，在 EMI 界面中悬停物品时，将显示 AE 系统中该物品的数量信息", "When enabled, and EMI cheats are not enabled, hovering over an item in the EMI interface will show the quantity information of that item in the AE system" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show AE Amount Tooltip Everywhere in EMI", cn = "在EMI显示 AE 数量提示")
+    public boolean showAEAmountTooltipEverywhereEmi = true;
+
+    @Configurable
     @Configurable.Comment({ "启用后，选取方块时，若AE终端没有相关物品，但相关物品可合成，则自动触发合成请求", "When enabled, when picking a block, if the AE terminal does not have the relevant item but it can be crafted, an automatic crafting request is triggered" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Auto Craft on Pick Block", cn = "选取方块自动合成")
     public boolean pickCraft = true;
@@ -189,6 +200,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment({ "选取方块时，自动触发的最大合成任务数", "The maximum number of crafting tasks automatically triggered when picking a block" })
     @Configurable.Range(min = 1, max = 100)
+    @Configurable.Gui.Slider
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Pick Block Craft Max Tasks", cn = "选取方块合成最大任务数")
     public int pickCraftMaxTasks = 3;
 
@@ -201,6 +213,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment({ "批处理模式的最大持续时间（tick）", "Maximum duration of batch processing mode (ticks)" })
     @Configurable.Range(min = 600, max = 144000)
+    @Configurable.Gui.Slider
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Batch Processing Max Duration", cn = "批处理模式最大持续时间")
     public int batchProcessingMaxDuration = 1200;
 
@@ -208,6 +221,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment({ "连锁挖掘（不连续模式）时，检查相邻方块的范围", "The range to check adjacent blocks during chain mining (non-continuous mode)" })
     @Configurable.Range(min = 1, max = 20)
+    @Configurable.Gui.Slider
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Range", cn = "连锁挖掘检查范围")
     public int ftbUltimineRange = 3;
 
@@ -238,6 +252,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment({ "调整监控器的最大成型尺寸", "Adjust the maximum formed size of the monitor" })
     @Configurable.Range(min = 4, max = 64)
+    @Configurable.Gui.Slider
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Maximum Monitor Size", cn = "监控器最大尺寸")
     public int maxMonitorSize = 16;
 
@@ -257,6 +272,7 @@ public final class GTOConfig {
     @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，影响的半径（格）", "The radius (blocks) affected when a player consumes food derived from an animal near that animal" })
     @Configurable.Range(min = 1, max = 64)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Radius", cn = "食肉惩罚半径")
+    @Configurable.Gui.Slider
     public int cannibalismRadius = 32;
 
     @Configurable
@@ -315,4 +331,73 @@ public final class GTOConfig {
     @Configurable.Comment({ "Spark 性能分析器的启动阶段", "The startup phase of the Spark profiler" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Profiler Start Phase", cn = "Spark 分析器启动阶段")
     public SparkRange startSpark = SparkRange.NONE;
+
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
+    public HUDConfig hud = new HUDConfig();
+
+    @DataGeneratorScanned
+    public static class HUDConfig {
+
+        @Configurable
+        @Configurable.Comment({ "启用无线能量 HUD 显示", "Enable Wireless Energy HUD display" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Enabled", cn = "无线能量 HUD 启用")
+        public boolean wirelessEnergyHUDEnabled = false;
+
+        @Configurable
+        @Configurable.Comment({ "无线能量 HUD 的默认 X 相对位置", "0意味着屏幕左侧，100意味着屏幕右侧", "The default X relative position of the Wireless Energy HUD", "0.0 means the left side of the screen, 1.0 means the right side of the screen" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Default X", cn = "无线能量 HUD 默认 X 位置")
+        @Configurable.Range(min = 0, max = 100)
+        @Configurable.Gui.Slider
+        public int wirelessEnergyHUDDefaultX = 5;
+
+        @Configurable
+        @Configurable.Comment({ "无线能量 HUD 的默认 Y 相对位置", "0意味着屏幕顶部，100意味着屏幕底部", "The default Y relative position of the Wireless Energy HUD", "0.0 means the top of the screen, 1.0 means the bottom of the screen" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Default Y", cn = "无线能量 HUD 默认 Y 位置")
+        @Configurable.Range(min = 0, max = 100)
+        @Configurable.Gui.Slider
+        public int wirelessEnergyHUDDefaultY = 75;
+
+        @Configurable
+        @Configurable.Comment({ "无线能量 HUD 显示的历史秒数", "例如：设为30则显示过去30秒的能量变化情况", "The number of historical seconds displayed by the Wireless Energy HUD", "For example: setting it to 30 will show the energy changes over the past 30 seconds" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD History Seconds", cn = "无线能量 HUD 历史秒数")
+        @Configurable.Range(min = 5, max = 300)
+        @Configurable.Gui.Slider
+        public int wirelessEnergyHUDHistorySeconds = 30;
+
+        @Configurable
+        @Configurable.Comment({ "无线能量 HUD 折线颜色", "Wireless Energy HUD line color" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Line Color", cn = "无线能量 HUD 折线颜色")
+        @Configurable.StringPattern(value = "#[0-9a-fA-F]{1,6}")
+        @Configurable.Gui.ColorValue
+        public String wirelessEnergyHUDLineColor = "#ECEC71";
+    }
+
+    public static <T> void set(String fieldName, T value) {
+        getConfig(GTOCore.MOD_ID).ifPresent(config -> {
+            ((ConfigValue<T>) (config.getValueMap().get(fieldName))).setValue(value);
+            ConfigIO.saveClientValues(config);
+            ConfigIO.reloadClientValues(config);
+        });
+    }
+
+    public static <T> void set(String fieldName, T value, String... objectPath) {
+        getConfig(GTOCore.MOD_ID).ifPresent(config -> {
+            if (objectPath.length == 0) {
+                set(fieldName, value);
+                return;
+            }
+            ObjectValue valueMap0 = (ObjectValue) config.getValueMap().get(objectPath[0]);
+            if (objectPath.length == 1) {
+                ((ConfigValue<T>) (valueMap0.getChildById(fieldName))).setValue(value);
+            } else {
+                for (int i = 1; i < objectPath.length; i++) {
+                    valueMap0 = (ObjectValue) valueMap0.getChildById(objectPath[i]);
+                }
+                ((ConfigValue<T>) (valueMap0.getChildById(fieldName))).setValue(value);
+            }
+            ConfigIO.saveClientValues(config);
+            ConfigIO.reloadClientValues(config);
+        });
+    }
 }

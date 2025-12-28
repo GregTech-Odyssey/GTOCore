@@ -49,7 +49,7 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public boolean beforeWorking(Recipe recipe) {
+    public boolean beforeWorking(@NotNull Recipe recipe) {
         if (!effective() || recipe.data.getInt("ebf_temp") > nanitesIntegratedMachine.getTemperature() || recipe.data.getInt("module") != type) return false;
         return super.beforeWorking(recipe);
     }

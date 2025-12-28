@@ -32,7 +32,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CLEANROOM_NOT_SET;
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CURRENT_CLEANROOM;
 
-public class CleanroomProvider extends Extension implements IDroneControlCenterMachine {
+public class CleanroomProvider extends Extension implements IDroneControlCenterMachine, ISpaceServiceMachine {
 
     private @Nullable ICleanroomProvider cleanroomType = null;
     private final ObjectList<DroneHatchPartMachine> droneHatchPartMachine = new ObjectArrayList<>();

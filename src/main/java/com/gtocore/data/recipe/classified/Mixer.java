@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOFluidStorageKey;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
@@ -19,8 +20,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
-import com.enderio.base.common.init.EIOFluids;
-import com.enderio.base.common.init.EIOItems;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -93,7 +92,7 @@ final class Mixer {
         MIXER_RECIPES.recipeBuilder("sunnarium")
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.getSource(), 1000))
+                .inputFluids(new FluidStack(GTOFluids.LIQUID_SUNSHINE.getSource(), 1000))
                 .outputFluids(GTOMaterials.Sunnarium.getFluid(1000))
                 .EUt(125829120)
                 .duration(400)
@@ -208,14 +207,6 @@ final class Mixer {
                 .outputFluids(GTOMaterials.SodiumNitrateSolution.getFluid(1000))
                 .EUt(120)
                 .duration(80)
-                .save();
-
-        MIXER_RECIPES.recipeBuilder("filled_soul_vial")
-                .notConsumable(Blocks.SOUL_CAMPFIRE.asItem())
-                .inputItems(EIOItems.EMPTY_SOUL_VIAL.asItem())
-                .outputItems(EIOItems.FILLED_SOUL_VIAL.asItem())
-                .EUt(2)
-                .duration(2000)
                 .save();
 
         MIXER_RECIPES.recipeBuilder("fertilizer_")
@@ -677,11 +668,11 @@ final class Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder("dew_of_the_void")
-                .inputItems("enderio:pulsating_powder")
+                .inputItems(GTOItems.PULSATING_CRYSTAL)
                 .inputItems(GTOItems.GREEN_ALGAE.asItem(), 8)
                 .inputItems(GTOItems.BROWN_ALGAE.asItem(), 8)
-                .inputFluids(new FluidStack(EIOFluids.NUTRIENT_DISTILLATION.getSource(), 4000))
-                .outputFluids(new FluidStack(EIOFluids.DEW_OF_THE_VOID.getSource(), 4000))
+                .inputFluids(new FluidStack(GTOFluids.NUTRIENT_DISTILLATION.getSource(), 4000))
+                .outputFluids(new FluidStack(GTOFluids.DEW_OF_THE_VOID.getSource(), 4000))
                 .EUt(120)
                 .duration(400)
                 .save();

@@ -2,6 +2,7 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.client.renderer.machine.MultiFluidRenderer;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
@@ -22,8 +23,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.material.Fluids;
-
-import com.enderio.base.common.init.EIOFluids;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
@@ -88,7 +87,7 @@ public class MultiblockI {
             .block(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get()))
-                    .where('a', fluids(EIOFluids.VAPOR_OF_LEVITY.getSource()))
+                    .where('a', fluids(GTOFluids.VAPOR_OF_LEVITY.getSource()))
                     .where('B', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(blocks(GTAEMachines.ALGAE_ACCESS_HATCH.get()).setExactLimit(1))
@@ -106,7 +105,7 @@ public class MultiblockI {
                     .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
                     .where('K', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
                     .where('L', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
-                    .where('l', fluids(EIOFluids.NUTRIENT_DISTILLATION.getSource()))
+                    .where('l', fluids(GTOFluids.NUTRIENT_DISTILLATION.getSource()))
                     .where('M', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
                     .where('w', fluids(Fluids.WATER.getSource()))

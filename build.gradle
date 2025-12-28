@@ -29,6 +29,22 @@ generateModMetadata.doFirst {
     mkdir('run/data')
 }
 
+
+def configureLegacyWriter = { taskName , preferredConfigName, outFileName ->
+    tasks.named(taskName) {
+        doLast {
+            def cfg = configurations.findByName(preferredConfigName) ?: configurations.getByName("runtimeClasspath")
+            def out = file("$buildDir/moddev/${outFileName}")
+            out.parentFile.mkdirs()
+            out.text += cfg.files.collect { it.absolutePath }.findAll {it.contains("commons-math3")}.join(System.lineSeparator())
+        }
+    }
+}
+
+configureLegacyWriter("writeClientLegacyClasspath", "clientRuntimeClasspath", "clientLegacyClasspath.txt")
+configureLegacyWriter("writeServerLegacyClasspath", "serverRuntimeClasspath", "serverLegacyClasspath.txt")
+configureLegacyWriter("writeDataLegacyClasspath",   "dataRuntimeClasspath",   "dataLegacyClasspath.txt")
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
     options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal"

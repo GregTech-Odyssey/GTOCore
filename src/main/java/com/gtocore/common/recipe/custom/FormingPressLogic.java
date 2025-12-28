@@ -1,12 +1,10 @@
 package com.gtocore.common.recipe.custom;
 
-import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.holder.ObjectHolder;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -65,11 +63,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder h) {
         if (h instanceof IRecipeLogicMachine recipeLogicMachine) {
             RecipeData data = new RecipeData(IEnhancedRecipeLogic.of(recipeLogicMachine.getRecipeLogic()).gtolib$getRecipeBuilder());
-            if (h instanceof IExtendedRecipeCapabilityHolder holder) {
-                return collect(data, holder.gtolib$getInput(), holder);
-            } else {
-                return collect(data, recipeLogicMachine.getCapabilitiesForIO(IO.IN), h);
-            }
+            return collect(data, h.getInputList(), h);
         }
         return null;
     }
@@ -94,7 +88,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
                     if (data.found()) {
                         var recipe = data.buildRecipe();
                         if (recipe != null) {
-                            h.setCurrentHandlerList(rhl, null);
+                            h.setCurrentHandlerList(rhl);
                             recipeObjectHolder.value = recipe;
                             return true;
                         }
