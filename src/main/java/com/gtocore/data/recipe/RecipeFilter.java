@@ -67,6 +67,7 @@ public final class RecipeFilter {
         if (GTOCore.isEasy()) return;
         if (Mods.COMPUTERCRAFT.isLoaded()) filters.add("computercraft");
         if (Mods.SFM.isLoaded()) filters.add("sfm");
+        if (Mods.PIPEZ.isLoaded()) filters.add("pipez");
     }
 
     private static void initIdFilter(Set<ResourceLocation> filters) {

@@ -154,6 +154,7 @@ public final class Data {
         ComputerCraft.init();
         ModularRouters.init();
         SuperFactoryManager.init();
+        Pipez.init();
         Sophisticated.init();
         $ClassifiedRecipe.init();
         Temporary.init();
