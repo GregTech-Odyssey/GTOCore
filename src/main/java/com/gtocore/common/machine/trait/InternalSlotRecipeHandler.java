@@ -58,9 +58,9 @@ public final class InternalSlotRecipeHandler {
         }
     }
 
-    public static class WrapperRHL extends AbstractRHL {
+    private static class WrapperRHL extends AbstractRHL {
 
-        public WrapperRHL(AbstractRHL rhl) {
+        private WrapperRHL(AbstractRHL rhl) {
             super(rhl.slot, rhl.part);
         }
 
@@ -112,14 +112,19 @@ public final class InternalSlotRecipeHandler {
         }
     }
 
-    public static abstract class AbstractRHL extends ExtendedRecipeHandlerList {
+    static abstract class AbstractRHL extends ExtendedRecipeHandlerList {
 
-        public final MEPatternBufferPartMachine.InternalSlot slot;
+        final MEPatternBufferPartMachine.InternalSlot slot;
 
         AbstractRHL(MEPatternBufferPartMachine.InternalSlot slot, IMultiPart part) {
             super(IO.IN, part);
             this.slot = slot;
             priority = 1000;
+        }
+
+        @Override
+        public ExtendedRecipeHandlerList wrapper() {
+            return new WrapperRHL(this);
         }
 
         @Override
@@ -167,18 +172,18 @@ public final class InternalSlotRecipeHandler {
                     long available = 0;
                     for (var it = slot.itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                         var e = it.next();
-                        if (FastSizedIngredient.testItem(ingredient, e.getKey().getItem())) {
-                            available = e.getLongValue();
-                            break;
+                        if (ingredient.testItem(e.getKey().getItem())) {
+                            available += e.getLongValue();
+                            if (available >= needed) break;
                         }
                     }
-                    if (available == 0) {
+                    if (available < needed) {
                         if (ingredientStacks == null) ingredientStacks = getItemMap(parallelCache);
                         for (var iter = ingredientStacks.reference2LongEntrySet().fastIterator(); iter.hasNext();) {
                             var inventoryEntry = iter.next();
-                            if (FastSizedIngredient.testItem(ingredient, inventoryEntry.getKey())) {
-                                available = inventoryEntry.getLongValue();
-                                break;
+                            if (ingredient.testItem(inventoryEntry.getKey())) {
+                                available += inventoryEntry.getLongValue();
+                                if (available >= needed) break;
                             }
                         }
                     }
@@ -219,8 +224,9 @@ public final class InternalSlotRecipeHandler {
             return parallelAmount;
         }
 
-        public boolean handleRecipeContent(GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
-            if (slot.isEmpty() || (slot.recipe != null && !slot.recipe.id.getPath().equals(recipe.id.getPath()))) return false;
+        @Override
+        public boolean handleRecipeContent(IO io, Recipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
+            if (slot.isEmpty()) return false;
             boolean item = contents.item == null;
             if (!item) {
                 List left = contents.item;
@@ -233,19 +239,19 @@ public final class InternalSlotRecipeHandler {
                 }
             }
             if (item) {
-                if (contents.fluid != null) {
+                if (contents.fluid == null) {
+                    slot.setRecipe(recipe.rootRecipe);
+                    return true;
+                } else {
                     List left = contents.fluid;
                     for (var handler : getCapability(FluidRecipeCapability.CAP)) {
                         left = handler.handleRecipe(IO.IN, recipe, left, simulate);
                         if (left == null) {
-                            slot.setRecipe(((Recipe) recipe).rootRecipe);
+                            slot.setRecipe(recipe.rootRecipe);
                             return true;
                         }
                     }
-                    return false;
                 }
-                slot.setRecipe(((Recipe) recipe).rootRecipe);
-                return true;
             }
             return false;
         }
@@ -258,7 +264,6 @@ public final class InternalSlotRecipeHandler {
 
         private SlotRHL(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
             super(slot, buffer);
-            slot.rhl = this;
             itemRecipeHandler = new SlotItemRecipeHandler(buffer, slot);
             fluidRecipeHandler = new SlotFluidRecipeHandler(buffer, slot);
             addHandlers(itemRecipeHandler, fluidRecipeHandler, slot.circuitInventory, slot.shareInventory, slot.shareTank, buffer.circuitInventorySimulated, buffer.shareInventory, buffer.shareTank);

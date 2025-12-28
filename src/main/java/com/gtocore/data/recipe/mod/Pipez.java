@@ -40,7 +40,7 @@ public class Pipez {
                 "AAA",
                 " B ",
                 " C ",
-                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'B', new ItemStack(Items.PISTON), 'C', new ItemStack(Items.REDSTONE_TORCH));
+                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'B', Items.PISTON, 'C', Items.REDSTONE_TORCH);
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("basic_upgrade"), RegistriesUtils.getItemStack("pipez:basic_upgrade", 2),
                 "AAA",
                 "BCB",
@@ -55,17 +55,17 @@ public class Pipez {
                 "AAA",
                 "BCB",
                 "BDB",
-                'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.DarkSteel), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.Soularium), 'C', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'D', GTItems.VACUUM_TUBE.asStack());
+                'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.DarkSteel), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.Soularium), 'C', GTOItems.ULV_ELECTRIC_PISTON.asItem(), 'D', GTItems.VACUUM_TUBE.asItem());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ultimate_upgrade"), RegistriesUtils.getItemStack("pipez:ultimate_upgrade", 2),
                 "AAA",
                 "BCB",
                 "BDB",
-                'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.DarkSteel), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.EnergeticAlloy), 'C', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'D', GTItems.VACUUM_TUBE.asStack());
+                'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.DarkSteel), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.EnergeticAlloy), 'C', GTOItems.ULV_ELECTRIC_PISTON.asItem(), 'D', GTItems.VACUUM_TUBE.asItem());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("filter_destination_tool"), RegistriesUtils.getItemStack("pipez:filter_destination_tool"),
                 "A A",
                 "BCB",
                 "BDB",
-                'A', new MaterialEntry(TagPrefix.wireGtSingle, GTMaterials.RedAlloy), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron), 'C', new ItemStack(Items.REDSTONE_TORCH), 'D', GTItems.VACUUM_TUBE.asStack());
+                'A', new MaterialEntry(TagPrefix.wireGtSingle, GTMaterials.RedAlloy), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron), 'C', Items.REDSTONE_TORCH, 'D', GTItems.VACUUM_TUBE.asItem());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wrench"), RegistriesUtils.getItemStack("pipez:wrench"),
                 " A ",
                 " BA",

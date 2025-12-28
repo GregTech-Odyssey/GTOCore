@@ -10,7 +10,6 @@ import com.gtolib.api.ae2.stacks.IIngredientConvertible;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.holder.ObjectHolder;
 
@@ -429,7 +428,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         };
     }
 
-    private static class VirtualList extends ExtendedRecipeHandlerList {
+    private static class VirtualList extends RecipeHandlerList {
 
         private final GenericStack[] sparseInput;
 

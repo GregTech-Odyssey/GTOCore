@@ -518,7 +518,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     public static final class InternalSlot extends AbstractInternalSlot {
 
-        public InternalSlotRecipeHandler.AbstractRHL rhl;
         public Recipe recipe;
         public final MEPatternBufferPartMachine machine;
         public final int index;
