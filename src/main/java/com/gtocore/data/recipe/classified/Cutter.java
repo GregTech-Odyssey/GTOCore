@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import javax.annotation.Nullable;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.EnderPearl;
 import static com.gtocore.common.data.GTORecipeTypes.CUTTER_RECIPES;
 
 final class Cutter {
@@ -167,6 +168,14 @@ final class Cutter {
                 .inputItems(TagPrefix.block, GTOMaterials.UltraHighPuritySilicon)
                 .outputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.UltraHighPuritySilicon, 16)
                 .inputFluids(GTOMaterials.PHNeutralWater.getFluid(10000))
+                .EUt(1920)
+                .duration(6000)
+                .save();
+
+        CUTTER_RECIPES.recipeBuilder("ender_crystal_seed")
+                .inputItems(TagPrefix.block, EnderPearl)
+                .outputItems(GTOTagPrefix.CRYSTAL_SEED, EnderPearl, 16)
+                .inputFluids(GTMaterials.DistilledWater.getFluid(10000))
                 .EUt(1920)
                 .duration(6000)
                 .save();

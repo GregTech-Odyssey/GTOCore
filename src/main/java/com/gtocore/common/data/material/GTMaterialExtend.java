@@ -94,6 +94,7 @@ public final class GTMaterialExtend {
         Obsidian.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
         Stone.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         Silicon.addFlags(GTOMaterialFlags.GENERATE_CRYSTAL_SEED);
+        EnderPearl.addFlags(GTOMaterialFlags.GENERATE_CRYSTAL_SEED);
         Diamond.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Sapphire.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Ruby.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
