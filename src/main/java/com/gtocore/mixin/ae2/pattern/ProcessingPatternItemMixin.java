@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.pattern;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
+import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.utils.RLUtils;
 
 import net.minecraft.nbt.IntArrayTag;
@@ -20,6 +21,7 @@ import appeng.crafting.pattern.ProcessingPatternItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Mixin(ProcessingPatternItem.class)
@@ -67,5 +69,14 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
             lines.add(Component.translatable("gtocore.pattern.type", Component.translatable(key)));
         }
         super.appendHoverText(stack, level, lines, advancedTooltips);
+    }
+
+    @Override
+    public Component getName(ItemStack stack) {
+        if (Arrays.stream(MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack)).getSparseInputs()).anyMatch(g -> g.what() instanceof TagPrefixKey)) {
+            return Component.translatable("item.gtocore.pattern.wildcard");
+        } else {
+            return super.getName(stack);
+        }
     }
 }

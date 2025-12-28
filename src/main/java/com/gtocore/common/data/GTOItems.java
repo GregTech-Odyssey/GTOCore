@@ -10,6 +10,7 @@ import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
 import com.gtocore.common.item.PalmSizedBankBehavior;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
+import com.gtocore.common.item.devtool.CreativeAllFluidCellItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 import com.gtocore.data.lootTables.RewardBagLoot;
 
@@ -1268,6 +1269,11 @@ public final class GTOItems {
                             "§7When upgrading from a BigInt Storage Access Hatch to this Storage Access Hatch, if the original storage exceeds 9.2E18, the excess will be §c§lpermanently lost§r§7!§r")
                     .build().getArray())
             .onRegister(attach(MEStorageHatchReplacer.LongIO))
+            .register();
+
+    public static final ItemEntry<CreativeAllFluidCellItem> ALL_FLUIDS_CELL = item("all_fluids_cell", "创造流体元件（已充满）", p -> new CreativeAllFluidCellItem(p.stacksTo(1).rarity(Rarity.EPIC)))
+            .lang("Creative Fluid Cell (Filled)")
+            .model(NonNullBiConsumer.noop())
             .register();
 
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除

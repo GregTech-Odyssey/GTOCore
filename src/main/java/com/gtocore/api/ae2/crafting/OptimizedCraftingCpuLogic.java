@@ -532,10 +532,14 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         this.inventory.readFromNBT(data.getList("inventory", 10));
         if (data.contains("job")) {
             this.job = new ExecutingCraftingJob(data.getCompound("job"), this::postChange, this);
-            cluster.updateOutput(new GenericStack(job.finalOutput.what(), job.remainingAmount));
-        } else {
-            cluster.updateOutput(null);
+            if (job.finalOutput == null) {
+                this.job = null;
+            } else {
+                cluster.updateOutput(new GenericStack(job.finalOutput.what(), job.remainingAmount));
+                return;
+            }
         }
+        cluster.updateOutput(null);
     }
 
     @Override

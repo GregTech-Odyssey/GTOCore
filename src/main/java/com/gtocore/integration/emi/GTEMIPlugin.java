@@ -10,6 +10,10 @@ import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.UtilsMiscs;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
+import com.gtolib.api.emi.stack.EmiSearchTextStack;
+import com.gtolib.api.emi.stack.EmiSearchTextStackSerializer;
+import com.gtolib.api.emi.stack.EmiTagprefixStack;
+import com.gtolib.api.emi.stack.EmiTagprefixStackSerializer;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -27,6 +31,7 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTOreVeinEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.alchemy.PotionUtils;
 
@@ -34,6 +39,7 @@ import appeng.core.AppEng;
 import appeng.integration.modules.emi.AppEngEmiPlugin;
 import appeng.integration.modules.emi.EmiEncodePatternHandler;
 import appeng.integration.modules.emi.EmiUseCraftingRecipeHandler;
+import appeng.integration.modules.emi.IStackInteractionScreen;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
@@ -41,6 +47,7 @@ import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
+import commoble.jumbofurnace.client.jei.JEIProxy;
 import de.mari_023.ae2wtlib.wct.WCTMenu;
 import de.mari_023.ae2wtlib.wet.WETMenu;
 import dev.emi.emi.VanillaPlugin;
@@ -49,6 +56,7 @@ import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStackInteraction;
 import dev.emi.emi.jemi.JemiPlugin;
 import dev.emi.emi.registry.EmiPluginContainer;
 import dev.emi.emi.screen.EmiScreenManager;
@@ -86,6 +94,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIArsNouveauPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
         list.add(new JEICompat());
+        list.add(new JEIProxy());
         // list.add(new com.glodblock.github.extendedae.xmod.jei.JEIPlugin());
     }
 
@@ -159,6 +168,18 @@ public final class GTEMIPlugin implements EmiPlugin {
 
             @Override
             public boolean dropStack(Screen screen, EmiIngredient stack, int x, int y) {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                if (stack.getEmiStacks().getFirst() instanceof EmiSearchTextStack searchTextStack) {
+                    for (var widget : screen.renderables) {
+                        if (widget instanceof EditBox editBox && editBox.isMouseOver(x, y)) {
+                            String text = searchTextStack.getText();
+                            editBox.setValue(text);
+                            return true;
+                        }
+                    }
+                }
                 if (EmiScreenManager.search.isMouseOver(x, y)) {
                     stack.getEmiStacks().stream().findFirst().ifPresent(s -> EmiScreenManager.search.setValue(s.getName().getString()));
                     return true;
@@ -170,6 +191,20 @@ public final class GTEMIPlugin implements EmiPlugin {
             public void render(Screen screen, EmiIngredient dragged, GuiGraphics draw, int mouseX, int mouseY, float delta) {
                 EmiDragDropHandler.super.render(screen, dragged, draw, mouseX, mouseY, delta);
 
+                if (!dragged.isEmpty() &&
+                        dragged.getEmiStacks().getFirst() instanceof EmiSearchTextStack) {
+                    for (var widget : screen.renderables) {
+                        if (widget instanceof EditBox editBox) {
+                            var area = editBox.getRectangle();
+                            draw.fill(
+                                    area.left(),
+                                    area.top(),
+                                    area.right(),
+                                    area.bottom(),
+                                    0x8822BB33);
+                        }
+                    }
+                }
                 var area = EmiScreenManager.search.getRectangle();
                 draw.fill(
                         area.left(),
@@ -178,6 +213,26 @@ public final class GTEMIPlugin implements EmiPlugin {
                         area.bottom(),
                         0x8822BB33);
             }
+        });
+
+        registry.addIngredientSerializer(EmiSearchTextStack.class, new EmiSearchTextStackSerializer());
+        registry.addIngredientSerializer(EmiTagprefixStack.class, new EmiTagprefixStackSerializer());
+        registry.addGenericStackProvider((Screen screen, int x, int y) -> {
+            for (var widget : screen.renderables) {
+                if (widget instanceof EditBox editBox && !editBox.isFocused() && editBox.isMouseOver(x, y)) {
+                    String text = editBox.getValue();
+                    if (!text.isEmpty()) {
+                        return new EmiStackInteraction(new EmiSearchTextStack(text), null, screen instanceof IStackInteractionScreen);
+                    }
+                }
+            }
+            if (EmiScreenManager.search.isMouseOver(x, y)) {
+                String text = EmiScreenManager.search.getValue();
+                if (!text.isEmpty()) {
+                    return new EmiStackInteraction(new EmiSearchTextStack(text), null, screen instanceof IStackInteractionScreen);
+                }
+            }
+            return EmiStackInteraction.EMPTY;
         });
     }
 }

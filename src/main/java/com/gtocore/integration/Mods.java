@@ -16,6 +16,7 @@ public enum Mods {
     SOPHISTICATEDBACKPACKS("sophisticatedbackpacks"),
     BIOMESOPLENTY("biomesoplenty"),
     BIOMESWEVEGONE("biomeswevegone"),
+    PIPEZ("pipez"),
     FTBQUESTS("ftbquests");
 
     @Getter

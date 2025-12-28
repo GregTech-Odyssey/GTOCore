@@ -10,6 +10,7 @@
     "adastra.AdAstraOverlayScreenMixin",
     "adastra.PlanetsScreenMixin",
     "ae2.gui.CraftConfirmTableRendererMixin",
+    "ae2.gui.HighlightButtonMixin",
     "ae2.gui.ProcessingEncodingPanelMixin",
     "ae2.gui.ScreenStyleMixin",
     "ae2.gui.SettingToggleButtonMixin",
@@ -60,6 +61,7 @@
     "ae2.gui.ActionButtonMixin",
     "ae2.gui.ConfigManagerMixin",
     "ae2.gui.CraftingStatusTableRendererMixin",
+    "ae2.gui.DragDropMixin",
     "ae2.gui.RepoSlotMixin",
     "ae2.gui.SettingsMixin",
     "ae2.gui.StyleManagerMixin",
@@ -108,6 +110,7 @@
     "ae2.wtlib.WirelessTerminalMenuHostMixin",
     "apoth.AffixRegistry",
     "appbot.FluixPoolBlockEntityMixin",
+    "arseng.ScribesTileMixin",
     "arsnouveau.RewardsMixin",
     "biomeswevegone.ManOWarMixin",
     "botania.AlfheimEventListenerMixin",
@@ -232,7 +235,9 @@
     "patchouli.BookEntryMixin",
     "patchouli.BookMixin",
     "patchouli.ForgeModInitializerMixin",
-    "patchouli.PageDoubleRecipeRegistryMixin"
+    "patchouli.PageDoubleRecipeRegistryMixin",
+    "pipez.FluidPipeTypeMixin",
+    "pipez.ItemPipeTypeMixin"
   ],
   "injectors": {
     "defaultRequire": 1,
