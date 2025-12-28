@@ -102,67 +102,67 @@ object ClientForge {
     }
 
     // 消息列表
-    val MESSAGE_DEFINITIONS = mutableListOf(
-        MessageDefinition(
-            id = "en_translation_notice",
-            gameVersion = "0.4.8",
-            dateString = "20251002",
-            languagePredicate = { it.lowercase(Locale.ROOT).startsWith("en") },
-            messages = listOf(
-                Component.literal("If you are using the English translation. This translation is community-maintained with help from AI. Have suggestions or corrections? No Chinese required.")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-                Component.literal("Thanks to all the contributors who have contributed to the English translation.")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA)),
-                Component.literal("Until pp>10 : xinxinsuried (666.28), 暮心 (406.55), KatNite (294.84), Rain-Flying (122.37), Xelo (108.85), Ormakent (84.7), totallynormal-tree (47.65), Hvm (42.85), LEgenD-Leo (32.02), nebniloc (19.35)")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
-                Component.literal("Click Here to Join the English translation project on ParaTranz")
-                    .withStyle(
-                        Style.EMPTY.withColor(ChatFormatting.AQUA)
-                            .withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://paratranz.cn/projects/16320")),
-                    ),
-                Component.literal("Click Here to Join the Discord for more information and updates")
-                    .withStyle(
-                        Style.EMPTY.withColor(ChatFormatting.GOLD)
-                            .withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/ZSVb4dgVNB")),
-                    ),
-            ),
-        ),
-        MessageDefinition(
-            id = "zh_qq_group",
-            gameVersion = "0.4.8",
-            dateString = "20251004",
-            languagePredicate = { it.lowercase(Locale.ROOT).startsWith("zh") },
-            messages = listOf(
-                Component.literal("GTO寰宇重工集团·Alpha部门(927923997)，欢迎加入")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
-                Component.literal("点击此处加入：https://qm.qq.com/q/evWgwcXde0")
-                    .withStyle(
-                        Style.EMPTY.withColor(ChatFormatting.GOLD)
-                            .withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://qm.qq.com/q/evWgwcXde0")),
-                    ),
-            ),
-        ),
-        MessageDefinition(
-            id = "ae2_update_and_algorithm_migration",
-            gameVersion = "0.4.9",
-            dateString = "20251004",
-            languagePredicate = { true },
-            priority = 100,
-            messages = listOf(
-                ("新ME算法对比原ME算法的区别和迁移指南" translatedTo "Differences between the new me algorithm and the original me algorithm, and migration guide").red().bold().get(),
-                ("1. 新算法支持模糊合成样板，可以使用多种输入进行合成。" translatedTo "1. The new algorithm supports fuzzy crafting patterns, which can use multiple inputs for crafting.").yellow().get(),
-                ("2. 新算法支持自增功能，可以自动计算初始需求并进行循环计算。" translatedTo "2. The new algorithm supports self-incrementing functionality, which can automatically calculate initial requirements and perform iterative calculations.").yellow().get(),
-                ("自增殖算法可能有卡合成问题，暂时谨慎使用" translatedTo "The self-incrementing algorithm may cause stuck crafting issues; use cautiously for now.").red().bold().get(),
-                ("3. 新算法支持催化剂输入，可以智能提出需求。" translatedTo "3. The new algorithm supports catalyst inputs, which can intelligently propose requirements.").yellow().get(),
-                ("4. 新算法的算子并行数可设置，默认为1。" translatedTo "4. The operator parallelism of the new algorithm is configurable, with a default value of 1.").yellow().get(),
-                ("5. 迁移指南：" translatedTo "5. Migration Guide:").green().get(),
-                ("   - 将拥有超过一万次计算的含模糊样板的合成配方，关闭模糊模式，选择一个明确的输入。" translatedTo "   - For crafting recipes with fuzzy patterns that have more than ten thousand calculations, disable fuzzy mode and select a specific input.").green().get(),
-                ("   - 体验单样板循环增殖和催化剂输入的新功能。" translatedTo "   - Experience the new features of single-pattern cyclic proliferation and catalyst input.").green().get(),
-                ("   - 及时报告BUG。" translatedTo "   - Report bugs in a timely manner.").green().get(),
-                ("点击此处查看完整的更新日志" translatedTo "Click here to see the full changelog").aqua().get()
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA).withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/wiki/gtocore-0.4.9pre9+%E8%BF%81%E7%A7%BB%E6%8C%87%E5%8D%97"))),
-            ),
-        ),
+    val MESSAGE_DEFINITIONS: MutableList<MessageDefinition> = mutableListOf(
+//        MessageDefinition(
+//            id = "en_translation_notice",
+//            gameVersion = "0.4.8",
+//            dateString = "20251002",
+//            languagePredicate = { it.lowercase(Locale.ROOT).startsWith("en") },
+//            messages = listOf(
+//                Component.literal("If you are using the English translation. This translation is community-maintained with help from AI. Have suggestions or corrections? No Chinese required.")
+//                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
+//                Component.literal("Thanks to all the contributors who have contributed to the English translation.")
+//                    .withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA)),
+//                Component.literal("Until pp>10 : xinxinsuried (666.28), 暮心 (406.55), KatNite (294.84), Rain-Flying (122.37), Xelo (108.85), Ormakent (84.7), totallynormal-tree (47.65), Hvm (42.85), LEgenD-Leo (32.02), nebniloc (19.35)")
+//                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
+//                Component.literal("Click Here to Join the English translation project on ParaTranz")
+//                    .withStyle(
+//                        Style.EMPTY.withColor(ChatFormatting.AQUA)
+//                            .withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://paratranz.cn/projects/16320")),
+//                    ),
+//                Component.literal("Click Here to Join the Discord for more information and updates")
+//                    .withStyle(
+//                        Style.EMPTY.withColor(ChatFormatting.GOLD)
+//                            .withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/ZSVb4dgVNB")),
+//                    ),
+//            ),
+//        ),
+//        MessageDefinition(
+//            id = "zh_qq_group",
+//            gameVersion = "0.4.8",
+//            dateString = "20251004",
+//            languagePredicate = { it.lowercase(Locale.ROOT).startsWith("zh") },
+//            messages = listOf(
+//                Component.literal("GTO寰宇重工集团·Alpha部门(927923997)，欢迎加入")
+//                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
+//                Component.literal("点击此处加入：https://qm.qq.com/q/evWgwcXde0")
+//                    .withStyle(
+//                        Style.EMPTY.withColor(ChatFormatting.GOLD)
+//                            .withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://qm.qq.com/q/evWgwcXde0")),
+//                    ),
+//            ),
+//        ),
+//        MessageDefinition(
+//            id = "ae2_update_and_algorithm_migration",
+//            gameVersion = "0.4.9",
+//            dateString = "20251004",
+//            languagePredicate = { true },
+//            priority = 100,
+//            messages = listOf(
+//                ("新ME算法对比原ME算法的区别和迁移指南" translatedTo "Differences between the new me algorithm and the original me algorithm, and migration guide").red().bold().get(),
+//                ("1. 新算法支持模糊合成样板，可以使用多种输入进行合成。" translatedTo "1. The new algorithm supports fuzzy crafting patterns, which can use multiple inputs for crafting.").yellow().get(),
+//                ("2. 新算法支持自增功能，可以自动计算初始需求并进行循环计算。" translatedTo "2. The new algorithm supports self-incrementing functionality, which can automatically calculate initial requirements and perform iterative calculations.").yellow().get(),
+//                ("自增殖算法可能有卡合成问题，暂时谨慎使用" translatedTo "The self-incrementing algorithm may cause stuck crafting issues; use cautiously for now.").red().bold().get(),
+//                ("3. 新算法支持催化剂输入，可以智能提出需求。" translatedTo "3. The new algorithm supports catalyst inputs, which can intelligently propose requirements.").yellow().get(),
+//                ("4. 新算法的算子并行数可设置，默认为1。" translatedTo "4. The operator parallelism of the new algorithm is configurable, with a default value of 1.").yellow().get(),
+//                ("5. 迁移指南：" translatedTo "5. Migration Guide:").green().get(),
+//                ("   - 将拥有超过一万次计算的含模糊样板的合成配方，关闭模糊模式，选择一个明确的输入。" translatedTo "   - For crafting recipes with fuzzy patterns that have more than ten thousand calculations, disable fuzzy mode and select a specific input.").green().get(),
+//                ("   - 体验单样板循环增殖和催化剂输入的新功能。" translatedTo "   - Experience the new features of single-pattern cyclic proliferation and catalyst input.").green().get(),
+//                ("   - 及时报告BUG。" translatedTo "   - Report bugs in a timely manner.").green().get(),
+//                ("点击此处查看完整的更新日志" translatedTo "Click here to see the full changelog").aqua().get()
+//                    .withStyle(Style.EMPTY.withColor(ChatFormatting.AQUA).withClickEvent(ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/wiki/gtocore-0.4.9pre9+%E8%BF%81%E7%A7%BB%E6%8C%87%E5%8D%97"))),
+//            ),
+//        ),
     )
 
     // 配置读写
