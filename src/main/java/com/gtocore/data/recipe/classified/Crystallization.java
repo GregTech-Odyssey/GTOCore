@@ -12,7 +12,8 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gtocore.common.data.GTOItems.HIGH_PURITY_SINGLE_CRYSTAL_SILICON;
+import static com.gtocore.common.data.GTOItems.*;
+import static com.gtocore.common.data.GTOMaterials.VibrantAlloy;
 import static com.gtocore.common.data.GTORecipeTypes.CRYSTALLIZATION_RECIPES;
 import static com.gtolib.api.machine.GTOCleanroomType.LAW_CLEANROOM;
 
@@ -28,6 +29,17 @@ final class Crystallization {
                 .EUt(120)
                 .duration(2000)
                 .blastFurnaceTemp(2400)
+                .save();
+
+        CRYSTALLIZATION_RECIPES.recipeBuilder("end_crystal")
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, EnderPearl)
+                .inputItems(TagPrefix.dust, VibrantAlloy)
+                .outputItems(ENDER_CRYSTAL)
+                .inputFluids(EnderPearl.getFluid(4320000))
+                .inputFluids(GTMaterials.Oxygen.getFluid(4000))
+                .EUt(120)
+                .duration(20000)
+                .blastFurnaceTemp(5600)
                 .save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder("sapphire")

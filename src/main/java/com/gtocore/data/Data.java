@@ -16,7 +16,6 @@ import com.gtocore.data.recipe.magic.BotaniaRecipes;
 import com.gtocore.data.recipe.magic.MagicRecipesA;
 import com.gtocore.data.recipe.magic.MagicRecipesB;
 import com.gtocore.data.recipe.misc.ComponentRecipes;
-import com.gtocore.data.recipe.misc.EIOAlternativeRecipes;
 import com.gtocore.data.recipe.misc.SpaceStationRecipes;
 import com.gtocore.data.recipe.mod.*;
 import com.gtocore.data.recipe.processing.*;
@@ -127,7 +126,6 @@ public final class Data {
         MachineRecipe.init();
         MiscRecipe.init();
         SpaceStationRecipes.init();
-        EIOAlternativeRecipes.init();
         OrganRecipes.INSTANCE.init();
         BotaniaRecipes.init();
         ArsNouveauRecipes.init();
