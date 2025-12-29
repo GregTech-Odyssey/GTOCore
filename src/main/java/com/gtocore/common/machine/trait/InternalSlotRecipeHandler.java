@@ -130,13 +130,18 @@ public final class InternalSlotRecipeHandler {
         @Override
         public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return false;
-            if (slot.recipe != null && RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) {
-                holder.setCurrentHandlerList(this);
-                if (canHandle.test(slot.recipe)) return true;
+            if (slot.recipe != null) {
+                if (RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) {
+                    holder.setCurrentHandlerList(this);
+                    return canHandle.test(slot.recipe);
+                } else {
+                    slot.setRecipe(null);
+                }
             }
-            if (slot.machine.recipeType != GTORecipeTypes.HATCH_COMBINED) {
-                if (GTRecipeType.available(slot.machine.recipeType, machine.getRecipeTypes())) {
-                    recipeType = slot.machine.recipeType;
+            final var type = slot.machine.recipeType;
+            if (type != GTORecipeTypes.HATCH_COMBINED && type != recipeType && !machine.disabledCombined()) {
+                if (GTRecipeType.available(type, machine.getRecipeTypes())) {
+                    recipeType = type;
                 } else {
                     return false;
                 }
@@ -226,7 +231,7 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public boolean handleRecipeContent(IO io, Recipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
-            if (slot.isEmpty()) return false;
+            if (slot.isEmpty() || (slot.recipe != null && slot.recipe != recipe.rootRecipe)) return false;
             boolean item = contents.item == null;
             if (!item) {
                 List left = contents.item;

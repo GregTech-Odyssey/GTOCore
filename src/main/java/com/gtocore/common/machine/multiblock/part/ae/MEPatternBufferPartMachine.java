@@ -536,9 +536,8 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         final LockableItemStackHandler lockableInventory;
         @Getter
         private boolean lock;
-        @Getter
         @Setter
-        boolean shouldLockRecipe = true;
+        private boolean shouldLockRecipe = true;
 
         private InternalSlot(MEPatternBufferPartMachine machine, int index) {
             this.machine = machine;

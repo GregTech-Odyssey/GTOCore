@@ -14,16 +14,14 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
-import com.gregtechceu.gtceu.utils.TaskHandler;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.api.machine.IProgrammableMachine;
@@ -54,15 +52,6 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
 
     private void changeMode(GTRecipeType type) {
         this.recipeType = type == null ? GTORecipeTypes.HATCH_COMBINED : type;
-        this.getHandlerList().wrapper.recipeType = type;
-    }
-
-    @Override
-    public void onPaintingColorChanged(int color) {
-        super.onPaintingColorChanged(color);
-        if (getLevel() instanceof ServerLevel serverLevel) {
-            TaskHandler.enqueueServerTask(serverLevel, () -> this.getHandlerList().wrapper.recipeType = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType, 1);
-        }
     }
 
     @Override
@@ -80,7 +69,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
-    protected @NotNull ProgrammableRHL getHandlerList() {
+    protected @NotNull RecipeHandlerList getHandlerList() {
         if (handlerList == null) {
             List<IRecipeHandler<?>> handlers = new ObjectArrayList<>();
             for (var trait : traits) {
@@ -91,7 +80,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
             handlerList = new ProgrammableRHL(IO.IN, this);
             handlerList.addHandlers(handlers);
         }
-        return (ProgrammableRHL) handlerList;
+        return handlerList;
     }
 
     @Override
@@ -100,7 +89,6 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
         if (recipeType == GTORecipeTypes.DUMMY_RECIPES) {
             recipeType = GTORecipeTypes.HATCH_COMBINED;
         }
-        this.getHandlerList().wrapper.recipeType = recipeType == GTORecipeTypes.HATCH_COMBINED ? null : recipeType;
     }
 
     @Override
@@ -160,31 +148,30 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
 
     private static class ProgrammableRHL extends ExtendedRecipeHandlerList {
 
-        private ProgrammableRHL wrapper = this;
-        private GTRecipeType recipeType;
+        private final ProgrammableHatchPartMachine part;
 
-        private ProgrammableRHL(IO handlerIO, IMultiPart part) {
+        private ProgrammableRHL(IO handlerIO, ProgrammableHatchPartMachine part) {
             super(handlerIO, part);
+            this.part = part;
         }
 
         @Override
         public ExtendedRecipeHandlerList wrapper() {
-            var rhl = new ProgrammableRHL(IO.IN, null);
-            wrapper = rhl;
-            return rhl;
+            return new ProgrammableRHL(IO.IN, part);
         }
 
         @Override
         public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
-            var map = this.getIngredientMap(recipeType);
-            if (map.isEmpty()) return false;
-            if (this.recipeType != null && this.recipeType != recipeType && holder instanceof IRecipeLogicMachine machine && !machine.disabledCombined()) {
-                if (GTRecipeType.available(this.recipeType, machine.getRecipeTypes())) {
-                    recipeType = this.recipeType;
+            final var type = part.recipeType;
+            if (type != GTORecipeTypes.HATCH_COMBINED && type != recipeType && holder instanceof IRecipeLogicMachine machine && !machine.disabledCombined()) {
+                if (GTRecipeType.available(type, machine.getRecipeTypes())) {
+                    recipeType = type;
                 } else {
                     return false;
                 }
             }
+            var map = this.getIngredientMap(recipeType);
+            if (map.isEmpty()) return false;
             holder.setCurrentHandlerList(this);
             return recipeType.db.find(map, canHandle);
         }
