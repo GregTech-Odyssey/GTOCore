@@ -4841,6 +4841,7 @@
   "gtocore.machine.black_hole_data_access_hatch.tooltip.0": "可以放入§6原子檔案§r及以下等級的數據存儲介質。",
   "gtocore.machine.block_conversion_room.am": "每次轉化數量: %s",
   "gtocore.machine.boiler.tooltip.warning": "§c警告§r: 請勿在鍋爐內積攢過多的蒸汽！",
+  "gtocore.machine.components_list": "組件列錶: ",
   "gtocore.machine.current_temperature": "當前溫度: %sK",
   "gtocore.machine.cwut_modification": "算力修正繫數: %s",
   "gtocore.machine.dimensionally_transcendent_plasma_forge.coil": "當前配方模式無法使用該線圈",
