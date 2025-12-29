@@ -139,48 +139,62 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             return;
         }
         if (machineTier == 3) canBridge = true;
+
         for (IMultiPart part : getParts()) {
             if (incompatible) return;
-            if (part instanceof HPCAComponentPartMachine componentPartMachine) {
-                maxEUt += componentPartMachine.getMaxEUt();
+            if (!(part instanceof HPCAComponentPartMachine componentPartMachine)) continue;
 
-                addToComponentsMap(componentPartMachine);
+            maxEUt += componentPartMachine.getMaxEUt();
+            addToComponentsMap(componentPartMachine);
 
-                if (componentPartMachine instanceof ExResearchBasePartMachine basePartMachine) {
-                    if (basePartMachine.getTier() - 1 != machineTier) {
+            switch (componentPartMachine) {
+                // NICH & GWCA
+                case ExResearchBasePartMachine exPart -> {
+                    if (exPart.getTier() - 1 != machineTier) {
                         incompatible = true;
                         return;
                     }
-                    if (basePartMachine instanceof ExResearchBridgePartMachine) {
-                        canBridge = true;
-                    } else if (basePartMachine instanceof ExResearchComputationPartMachine computationPartMachine && !computationPartMachine.isDamaged()) {
-                        maxCWUt += computationPartMachine.getCWUPerTick();
-                        coolingAmountRequired += computationPartMachine.getCoolingPerTick();
-                    } else if (basePartMachine instanceof ExResearchCoolerPartMachine coolerPartMachine) {
-                        coolingAmountProvided += coolerPartMachine.getCoolingAmount();
-                        maxCoolantAmount += coolerPartMachine.getMaxCoolantPerTick();
+
+                    switch (exPart) {
+                        case ExResearchBridgePartMachine b -> canBridge = true;
+                        case ExResearchComputationPartMachine c when !c.isDamaged() -> {
+                            maxCWUt += c.getCWUPerTick();
+                            coolingAmountRequired += c.getCoolingPerTick();
+                        }
+                        case ExResearchCoolerPartMachine c -> {
+                            coolingAmountProvided += c.getCoolingAmount();
+                            maxCoolantAmount += c.getMaxCoolantPerTick();
+                        }
+                        default -> {}
                     }
-                } else {
+                }
+
+                // HPCA
+                // must be handled after NICH & GWCA as they extend HPCAComponentPartMachine
+                case HPCAComponentPartMachine hpcaPart -> {
                     if (machineTier > 1) {
                         incompatible = true;
                         return;
                     }
-                }
 
-                if (componentPartMachine instanceof HPCABridgePartMachine) {
-                    canBridge = componentPartMachine.isBridge();
-                } else if (componentPartMachine instanceof HPCAComputationPartMachine computationPartMachine && !computationPartMachine.isDamaged()) {
-                    maxCWUt += computationPartMachine.getCWUPerTick();
-                    coolingAmountRequired += computationPartMachine.getCoolingPerTick();
-                } else if (componentPartMachine instanceof HPCACoolerPartMachine coolerPartMachine) {
-                    coolingAmountProvided += coolerPartMachine.getCoolingAmount();
-                    hpcaPassiveCoolingAmount += !coolerPartMachine.isActiveCooler() ? coolerPartMachine.getCoolingAmount() : 0;
-                    maxCoolantAmount += coolerPartMachine.getMaxCoolantPerTick();
+                    switch (hpcaPart) {
+                        case HPCABridgePartMachine b -> canBridge = true;
+                        case HPCAComputationPartMachine c when !c.isDamaged() -> {
+                            maxCWUt += c.getCWUPerTick();
+                            coolingAmountRequired += c.getCoolingPerTick();
+                        }
+                        case HPCACoolerPartMachine c -> {
+                            coolingAmountProvided += c.getCoolingAmount();
+                            if (!c.isActiveCooler()) hpcaPassiveCoolingAmount += c.getCoolingAmount();
+                            maxCoolantAmount += c.getMaxCoolantPerTick();
+                        }
+                        default -> {}
+                    }
                 }
             }
         }
 
-        if (coolingAmountProvided > 0) {
+        if (coolingAmountProvided > 0 && coolingAmountProvided > hpcaPassiveCoolingAmount) {
             var coolantRatio = (double) maxCoolantAmount / (coolingAmountProvided - hpcaPassiveCoolingAmount);
             var activeCoolingNeeded = Math.max(0, coolingAmountRequired - hpcaPassiveCoolingAmount);
             coolantAmount = (int) Math.ceil(activeCoolingNeeded * coolantRatio);
@@ -219,12 +233,9 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
         var stack = partMachine.getDefinition().asStack();
         var item = stack.getItem();
-        var existing = componentsMap.get(item);
-        if (existing == null) {
-            componentsMap.put(item, Pair.of(stack.getDisplayName(), 1));
-        } else {
-            componentsMap.put(item, Pair.of(existing.left(), existing.right() + 1));
-        }
+        componentsMap.merge(item,
+                Pair.of(stack.getDisplayName(), 1),
+                (oldVal, newVal) -> Pair.of(oldVal.left(), oldVal.right() + 1));
     }
 
     private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22, 1 };
