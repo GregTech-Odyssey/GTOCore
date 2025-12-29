@@ -47,6 +47,7 @@ public final class Sophisticated {
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:compacting_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:upgrade_base"), GTItems.ELECTRIC_PISTON_LV.asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("pickup_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:pickup_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:upgrade_base"), GTMachines.ITEM_COLLECTOR[GTValues.LV].asItem());
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("advanced_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:advanced_pump_upgrade"), RegistriesUtils.getItemStack("sophisticatedbackpacks:pump_upgrade"), GTItems.ELECTRIC_PUMP_MV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("xp_pump_upgrade"), RegistriesUtils.getItem("sophisticatedbackpacks:xp_pump_upgrade"), RegistriesUtils.getItem("sophisticatedbackpacks:upgrade_base"), RegistriesUtils.getItem("gtocore:exp_obelisk"), GTItems.FLUID_REGULATOR_MV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("backpack"), RegistriesUtils.getItemStack("sophisticatedbackpacks:backpack"),
                 "ABA",

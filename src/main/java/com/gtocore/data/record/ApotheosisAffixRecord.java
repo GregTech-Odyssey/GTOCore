@@ -129,6 +129,11 @@ public class ApotheosisAffixRecord {
         addRecord("apotheosis:armor/mob_effect/bolstering", "Bolstering · of Fortitude", "支撑 · 坚韧");
         addRecord("apotheosis:sword/attribute/spellbreaking", "Spellbreaking · of the Petricite Golem", "破法 · 岩石傀儡");
         addRecord("apotheosis:shield/mob_effect/devilish", "Devilish · of the Veteran", "残忍 · 老兵");
+        addRecord("apotheosis:ftbu", "Chainbound · of Veinseeking", "连锁 · 矿脉爆破");
+        addRecord("apotheosis:bedrock_ore", "Prospecting · of the Bedrock Seer", "勘探 · 基岩透视者");
+        addRecord("apotheosis:bedrock_fluid_ore", "Flowseeking · of the Oil Penetrator", "寻流 · 石油之眼");
+        addRecord("apotheosis:stress", "Stress · of the Brinkbreaker", "应力 · 千钧一发");
+        addRecord("apotheosis:kinetic", "Kinetic · of the Momentum Master", "动能 · 势如破竹");
     }
 
     // 辅助方法：添加记录到Map

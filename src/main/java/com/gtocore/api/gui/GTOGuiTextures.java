@@ -1,6 +1,7 @@
 package com.gtocore.api.gui;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 
@@ -32,6 +33,9 @@ public final class GTOGuiTextures {
     public static final ResourceTexture HIGH_SPEED_MODE = getTexture("overlay/high_speed_mode");
     public static final ResourceTexture OVERCLOCK_CONFIG = getTexture("overlay/overclock_config");
     public static final ResourceTexture STRUCTURE_CHECK = getTexture("overlay/structure_check");
+    public static final ResourceTexture XP_ORBS = new ResourceTexture(RLUtils.mc("textures/entity/experience_orb.png"));
+    public static final ResourceTexture SMALL_XP_ORB = XP_ORBS.getSubTexture(0.25, 0, 0.25, 0.25);
+    public static final ResourceTexture LARGE_XP_ORB = XP_ORBS.getSubTexture(0, 0.5, 0.25, 0.25);
 
     private static ResourceTexture getTexture(String string) {
         return new ResourceTexture(GTOCore.id("textures/gui/" + string + ".png"));
