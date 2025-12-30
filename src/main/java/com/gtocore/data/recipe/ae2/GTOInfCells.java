@@ -18,13 +18,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.google.common.collect.Sets;
-import com.lowdragmc.lowdraglib.LDLib;
-import net.minecraftforge.fml.loading.FMLLoader;
 
 import java.util.Set;
 
