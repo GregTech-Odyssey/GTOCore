@@ -28,6 +28,17 @@ import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
  */
 object GTOMachineTooltips {
 
+    var experienceObeliskTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("experience_obelisk")
+        section(MainFunction)
+        content("存储并管理经验值，以便随时取用" translatedTo "Store and manage experience points for convenient access")
+    }
+    var AEManaInterfaceTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_mana_interface")
+        section(MainFunction)
+        content("将无线魔力网络中的魔力纳入ME网络管理" translatedTo "Incorporate mana from the wireless mana network into ME network management")
+    }
+
     // 区域破坏器
     val AreaDestructionToolsTooltips = ComponentListSupplier {
         setTranslationPrefix("area_destruction_tools")
