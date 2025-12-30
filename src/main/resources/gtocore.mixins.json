@@ -11,6 +11,7 @@
     "adastra.PlanetsScreenMixin",
     "ae2.gui.CraftConfirmTableRendererMixin",
     "ae2.gui.HighlightButtonMixin",
+    "ae2.gui.NumberEntryWidgetMixin",
     "ae2.gui.ProcessingEncodingPanelMixin",
     "ae2.gui.ScreenStyleMixin",
     "ae2.gui.SettingToggleButtonMixin",
