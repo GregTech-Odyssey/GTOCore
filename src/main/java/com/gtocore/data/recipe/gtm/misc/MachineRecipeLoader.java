@@ -471,21 +471,21 @@ public final class MachineRecipeLoader {
                 .inputFluids(SolderingAlloy, L / 2)
                 .outputItems(COVER_ENERGY_DETECTOR)
                 .EUt(16).duration(100).save();
-        if (GTOCore.isExpert()) {
-            ASSEMBLER_RECIPES.recipeBuilder("cover_machine_controller_exp")
-                    .inputItems(Blocks.LEVER)
-                    .inputItems(plate, Iron, 16)
-                    .inputItems(plate, WroughtIron, 16)
-                    .outputItems(COVER_MACHINE_CONTROLLER)
-                    .EUt(7).duration(400).save();
-            ASSEMBLER_RECIPES.recipeBuilder("cover_energy_detector_exp")
-                    .inputItems(cableGtSingle, RedAlloy, 4)
-                    .inputItems(CustomTags.ULV_CIRCUITS, 2)
-                    .inputItems(plate, Iron, 16)
-                    .inputItems(plate, WroughtIron, 16)
-                    .outputItems(COVER_ENERGY_DETECTOR)
-                    .EUt(7).duration(400).save();
-        }
+
+        // all difficulty expanded recipes
+        ASSEMBLER_RECIPES.recipeBuilder("cover_machine_controller_exp")
+                .inputItems(Blocks.LEVER)
+                .inputItems(plate, Iron, 16)
+                .inputItems(plate, WroughtIron, 16)
+                .outputItems(COVER_MACHINE_CONTROLLER)
+                .EUt(7).duration(400).save();
+        ASSEMBLER_RECIPES.recipeBuilder("cover_energy_detector_exp")
+                .inputItems(cableGtSingle, RedAlloy, 4)
+                .inputItems(CustomTags.ULV_CIRCUITS, 2)
+                .inputItems(plate, Iron, 16)
+                .inputItems(plate, WroughtIron, 16)
+                .outputItems(COVER_ENERGY_DETECTOR)
+                .EUt(7).duration(400).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_advanced_energy_detector")
                 .inputItems(COVER_ENERGY_DETECTOR)

@@ -3,7 +3,10 @@ package com.gtocore.data.tag;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -93,6 +96,8 @@ public final class TagsHandler {
         create(provider, Tags.HUMAN_EGG, Items.VILLAGER_SPAWN_EGG, Items.WITCH_SPAWN_EGG);
         create(provider, ItemTags.create(ResourceLocation.fromNamespaceAndPath("curios", "curio")),
                 GTOItems.WIRELESS_ME2IN1.asItem());
+        create(provider, ItemTags.create(ResourceLocation.parse("forge:ingots/redstone_alloy")),
+                ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RedAlloy));
     }
 
     private static void create(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, Block... rls) {

@@ -1181,6 +1181,24 @@ public final class MagicRecipesA {
                     .MANAt(1280)
                     .save();
 
+            ASSEMBLER_RECIPES.builder("me_mana_interface")
+                    .inputItems("gtocore:zpm_mana_machine_hull")
+                    .inputItems("arseng:me_source_jar")
+                    .inputItems("appbot:fluix_mana_pool")
+                    .inputItems("gtocore:advanced_mana_distributor", 32)
+                    .inputItems(GTOItems.SOURCE_ENERGY_CATALYST_CRYSTAL.asItem())
+                    .outputItems("gtocore:me_mana_interface")
+                    .inputFluids(GTOMaterials.StarVeinCatalyst, 1000)
+                    .duration(450)
+                    .MANAt(5240)
+                    .save();
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("exp_obelisk"), RegistriesUtils.getItem("gtocore:exp_obelisk"),
+                    "AAA",
+                    "ABC",
+                    "ADA",
+                    'A', RegistriesUtils.getItem("botania:mana_glass_pane"), 'B', GTOBlocks.ORIGINAL_BRONZE_CASING.asItem(), 'C', Items.DISPENSER, 'D', RegistriesUtils.getItem("botania:mana_bottle"));
+
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("alchemy_cauldron"), ManaMachine.ALCHEMY_CAULDRON.asItem(),
                     "BBB", "ADA", "AAA",
                     'A', new MaterialEntry(TagPrefix.plate, Steel), 'B', new MaterialEntry(rod, Steel), 'D', Items.CAULDRON);
@@ -1289,6 +1307,7 @@ public final class MagicRecipesA {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("shimmerrock_mortar"), RegistriesUtils.getItemStack("gtocore:shimmerrock_mortar"),
                     " A ", "BAB", "BBB",
                     'A', new MaterialEntry(TagPrefix.block, GTOMaterials.Shimmerrock), 'B', new MaterialEntry(TagPrefix.rock, GTMaterials.Stone));
+
         }
     }
 }
