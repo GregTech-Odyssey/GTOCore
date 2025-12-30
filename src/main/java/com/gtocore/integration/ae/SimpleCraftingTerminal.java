@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 import appeng.api.behaviors.ExternalStorageStrategy;
@@ -42,6 +43,7 @@ import appeng.util.inv.AppEngInternalInventory;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 public class SimpleCraftingTerminal extends AbstractTerminalPart
@@ -220,6 +222,16 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
             var player = IPlayerRegistry.getConnected(server, this.getActionableNode().getOwningPlayerId());
             if (player != null) {
                 AdvancementTriggers.RECURSIVE.trigger(player);
+            }
+        }
+    }
+
+    @Override
+    public void addAdditionalDrops(List<ItemStack> drops, boolean wrenched) {
+        super.addAdditionalDrops(drops, wrenched);
+        for (var is : this.craftingGrid) {
+            if (!is.isEmpty()) {
+                drops.add(is);
             }
         }
     }
