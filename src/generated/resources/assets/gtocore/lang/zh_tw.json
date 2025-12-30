@@ -2184,6 +2184,7 @@
   "gtocore.ae.appeng.pick_craft.error.title": "Pick-Craft 錯誤",
   "gtocore.ae.appeng.wildcard_pattern_buffer.blacklist": "通配符樣板總成材料黑名單",
   "gtocore.ae.appeng.wildcard_pattern_buffer.blacklist.desc": "添加到黑名單中的材料將不會被通配符樣板總成所使用。",
+  "gtocore.ae.appeng.wildcard_pattern_buffer.loaded_patterns": "已掃描加載%s種通配符樣板。",
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types": "最大流體輸齣種數：",
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types.desc": "自動生成的樣板中產物允許的最大流體種類數。",
   "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types.example": "例如，生成的樣板中，若配方輸齣含有多種流體，將此項設為1，則僅允許配方中的第一種流體作為樣板的產物。",

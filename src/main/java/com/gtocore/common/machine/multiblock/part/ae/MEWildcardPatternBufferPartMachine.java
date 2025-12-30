@@ -74,6 +74,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private List<IPatternDetails> cachedPatterns;
     private boolean dirty = true;
     private boolean lock = false;
+    private int scannedPatterns = 0;
     @Getter
     @Setter
     @Persisted
@@ -123,7 +124,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     public @Nullable IPatternDetails decodePattern(@NotNull ItemStack stack, int index) {
         var pattern = MyPatternDetailsHelper.decodePattern(stack, holder, getGrid());
         if (pattern == null) return null;
-        getAvailablePatterns();
         return IParallelPatternDetails.of(pattern, getLevel(), 1);
     }
 
@@ -167,8 +167,14 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         var widget = new WidgetGroup(0, 0, 196, 220);
 
         var dsl = super.createUIWidget();
-        dsl.setSelfPositionX(9);
-        widget.addWidget(dsl);
+        var dslContainer = new DraggableScrollableWidgetGroup(9, 0, 187, 100);
+        dslContainer.addWidget(dsl);
+        widget.addWidget(dslContainer);
+        widget.addWidget(new WidgetGroup(0, 104, 196, 14)
+                .addWidget(new LabelWidget(0, 0,
+                        () -> Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_LOADED_PATTERNS, scannedPatterns).getString())
+                        .setAlign(Align.CENTER))
+                .setBackground(GuiTextures.BACKGROUND_INVERSE));
 
         widget.addWidget(createLabeledConfiguratorWidget(0, 120,
                 this::getPatternPriority, this::setPatternPriority,
@@ -241,7 +247,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     /**
      * 开销大约为1.5ms~2ms每次调用
      */
-    private void rebuildCacheIfNeeded() {
+    private void rebuildCacheIfNeeded(List<IPatternDetails> patterns) {
         if (dirty || cachedPatterns == null) {
             dirty = false;
             // profiler start
@@ -249,7 +255,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             AtomicLong substitutingIngredients = new AtomicLong();
             AtomicLong validatingPatterns = new AtomicLong();
 
-            var patterns = super.getAvailablePatterns();
+            // var patterns = super.getAvailablePatterns();
             var newPatterns = new FastObjectArrayList<IPatternDetails>();
 
             var sharedInputs = new ObjectArrayList[patterns.size()];
@@ -334,9 +340,10 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                 }
             });
             cachedPatterns = newPatterns;
+            scannedPatterns = cachedPatterns.size();
             if (GTOConfig.INSTANCE.aeLog) {
                 GTOCore.LOGGER.info("MEWildcardPatternBufferPartMachine recalculated patterns: {} patterns in {} ms",
-                        cachedPatterns.size(), (System.nanoTime() - nanos) / 1_000_000.0);
+                        scannedPatterns, (System.nanoTime() - nanos) / 1_000_000.0);
                 GTOCore.LOGGER.info("  substituting ingredients took {} ms ({})%",
                         substitutingIngredients.get() / 1_000_000.0, substitutingIngredients.get() * 100.0 / (System.nanoTime() - nanos));
                 GTOCore.LOGGER.info("  validating patterns took {} ms ({})%",
@@ -350,10 +357,17 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     public @NotNull List<@NotNull IPatternDetails> getAvailablePatterns() {
         var patterns = super.getAvailablePatterns();
         if (patterns.isEmpty()) {
-            return patterns;
+            patterns = readInv();
+            if (patterns.isEmpty()) return patterns;
         }
-        rebuildCacheIfNeeded();
+        rebuildCacheIfNeeded(patterns);
         return cachedPatterns;
+    }
+
+    private List<@NotNull IPatternDetails> readInv() {
+        var pattern = getPatternInventory().getStackInSlot(0);
+        var details = decodePattern(pattern, 0);
+        return details == null ? List.of() : List.of(details);
     }
 
     // ========== Pattern Validation ==========
@@ -679,4 +693,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_DESC = "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types.desc";
     @RegisterLanguage(cn = "例如，生成的样板中，若配方输出含有多种流体，将此项设为1，则仅允许配方中的第一种流体作为样板的产物。", en = "For example, in generated patterns, if the recipe outputs multiple fluids, setting this to 1 will only allow the first fluid in the recipe as the output of the pattern.")
     private static final String LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_EXAMPLE = "gtocore.ae.appeng.wildcard_pattern_buffer.max_fluid_output_types.example";
+    @RegisterLanguage(cn = "已扫描加载%s种通配符样板。", en = "Scanned and loaded %s wildcard patterns.")
+    static final String LANG_WILDCARD_PATTERN_BUFFER_LOADED_PATTERNS = "gtocore.ae.appeng.wildcard_pattern_buffer.loaded_patterns";
 }
