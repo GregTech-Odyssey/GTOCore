@@ -1,18 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric;
 
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.machine.multiblock.part.ThermalConductorHatchPartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
-import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
-
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.RecipeRunner;
-
+import com.google.common.collect.ImmutableMap;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
@@ -27,7 +15,22 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComputation
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCACoolerPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.machine.multiblock.part.ThermalConductorHatchPartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
+import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
+import com.gtolib.IItem;
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.RecipeRunner;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import earth.terrarium.adastra.common.registry.ModItems;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
+import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -35,20 +38,12 @@ import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
-import com.fast.fastcollection.O2OOpenCacheHashMap;
-import com.google.common.collect.ImmutableMap;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import earth.terrarium.adastra.common.registry.ModItems;
-import it.unimi.dsi.fastutil.Pair;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
@@ -90,7 +85,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private int coolingAmountRequired;
     private int coolingAmountProvided;
     private int coolantAmount;
-    private O2OOpenCacheHashMap<Item, Pair<Component, Integer>> componentsMap = new O2OOpenCacheHashMap<>();
+    private final Reference2IntOpenHashMap<IItem> componentsMap = new Reference2IntOpenHashMap<>();
     private long allocatedCWUt;
     private long cacheCWUt;
     private long maxEUt;
@@ -231,11 +226,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             }
         }
 
-        var stack = partMachine.getDefinition().asStack();
-        var item = stack.getItem();
-        componentsMap.merge(item,
-                Pair.of(stack.getDisplayName(), 1),
-                (oldVal, newVal) -> Pair.of(oldVal.left(), oldVal.right() + 1));
+        componentsMap.merge((IItem) partMachine.getDefinition().asItem().asItem(), 1, Integer::sum);
     }
 
     private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22, 1 };
@@ -435,8 +426,8 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         textList.add(Component.translatable("gtocore.machine.cwut_modification", ((double) maxCWUtModification / 10000)).withStyle(ChatFormatting.AQUA));
         textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_coolant_required", Component.literal(coolingAmountRequired + " / " + coolingAmountProvided + "  " + coolantAmount).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtocore.machine.components_list").withStyle(ChatFormatting.YELLOW));
-        for (var component : componentsMap.values()) {
-            textList.add(Component.literal(" - ").append(component.left()).append(Component.literal(" x" + component.right())).withStyle(ChatFormatting.GRAY));
+        for (var entries : componentsMap.reference2IntEntrySet()) {
+            textList.add(Component.literal(" - ").append(entries.getKey().gtolib$getReadOnlyStack().getDisplayName()).append(Component.literal(" x" + entries.getIntValue())).withStyle(ChatFormatting.GRAY));
         }
     }
 }
