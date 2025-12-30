@@ -7,10 +7,7 @@ import com.gtocore.client.renderer.machine.OverlayManaTieredMachineRenderer;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
-import com.gtocore.common.machine.mana.AlchemyCauldron;
-import com.gtocore.common.machine.mana.AreaDestructionToolsMachine;
-import com.gtocore.common.machine.mana.CelestialCondenser;
-import com.gtocore.common.machine.mana.ManaHeaterMachine;
+import com.gtocore.common.machine.mana.*;
 import com.gtocore.common.machine.mana.part.*;
 
 import com.gtolib.GTOCore;
@@ -179,5 +176,17 @@ public final class ManaMachine {
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getAreaDestructionToolsTooltips().apply(list))
             .nonYAxisRotation()
             .workableManaTieredHullRenderer(4, GTOCore.id("block/multiblock/area_destruction_tools"))
+            .register();
+    public static final MachineDefinition AE_MANA_INTERFACE = machine("me_mana_interface", "ME魔力接口", MEManaInterface::new)
+            .tier(ZPM)
+            .tooltips(GTOMachineTooltips.INSTANCE.getAEManaInterfaceTooltips().getSupplier())
+            .allRotation()
+            .workableManaTieredHullRenderer(7, GTOCore.id("block/multiblock/mana"))
+            .register();
+    public static final MachineDefinition XP_OBELISK = machine("exp_obelisk", "经验方尖碑", ExperienceObelisk::new)
+            .tier(ULV)
+            .tooltips(GTOMachineTooltips.INSTANCE.getExperienceObeliskTooltips().getSupplier())
+            .allRotation()
+            .workableManaTieredHullRenderer(0, GTOCore.id("block/multiblock/mana"))
             .register();
 }

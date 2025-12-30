@@ -186,13 +186,13 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     public boolean onWorking() {
         if (getLevel() instanceof ServerLevel serverLevel && getOffsetTimer() % 200 == 0) {
             var blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());
-            for (Entity entity : serverLevel.getEntitiesOfClass(Entity.class, new AABB(
+            for (Entity entity : serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(
                     blockPos.getX() - 3,
                     blockPos.getY() - 1,
                     blockPos.getZ() - 3,
                     blockPos.getX() + 3,
                     blockPos.getY() + 6,
-                    blockPos.getZ() + 3)))
+                    blockPos.getZ() + 3).deflate(0.1)))
                 entity.kill();
         }
         return super.onWorking();
