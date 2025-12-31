@@ -13,6 +13,8 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public final class Message {
 
+    public static void init() {}
+
     public static final NetworkPack NETWORK_PACK = NetworkPack.registerC2S("openContainerC2S", (p, b) -> tryOpenMetaMachineUI(p, b.readGlobalPos()));
 
     private static void tryOpenMetaMachineUI(ServerPlayer p, GlobalPos globalPos) {
