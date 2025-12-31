@@ -946,6 +946,13 @@ final class Vanilla {
                 "CDC",
                 "EEE",
                 'A', new MaterialEntry(GTOTagPrefix.pipeQuadrupleFluid, GTOMaterials.GraphiteCopperComposite), 'B', new MaterialEntry(GTOTagPrefix.rotor, GTMaterials.TungstenSteel), 'C', GTItems.FLUID_REGULATOR_IV.asStack(), 'D', GTMachines.MIXER[GTValues.IV].asStack(), 'E', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("reinforced_obsidian"), GTOBlocks.REINFORCED_OBSIDIAN.asItem(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', new MaterialEntry(TagPrefix.bolt, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.rod, GTOMaterials.DarkSteel), 'C', new MaterialEntry(TagPrefix.rock, GTMaterials.Obsidian));
+
         addUpg(GTAEMachines.ME_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER0.asStack());
         addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER1.asStack());
         addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER2.asStack());

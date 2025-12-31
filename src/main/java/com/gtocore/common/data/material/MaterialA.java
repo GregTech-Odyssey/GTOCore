@@ -69,7 +69,7 @@ public final class MaterialA {
         CopperAlloy = material("copper_alloy", "铜合金")
                 .ingot()
                 .color(0xc79738)
-                .iconSet(SHINY)
+                .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .components(Copper, 1, Silicon, 1)
                 .buildAndRegister();
@@ -77,7 +77,7 @@ public final class MaterialA {
         EnergeticAlloy = material("energetic_alloy", "充能合金")
                 .ingot()
                 .color(0xffb545)
-                .iconSet(SHINY)
+                .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .blastTemp(1650, LOW, GTValues.VA[GTValues.MV], 700)
                 .components(Redstone, 1, Gold, 1, Glowstone, 1)
@@ -99,7 +99,7 @@ public final class MaterialA {
                 .ingot()
                 .fluid()
                 .color(0xf66565)
-                .iconSet(SHINY)
+                .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_PLATE, GENERATE_FRAME)
                 .components(Redstone, 1, Silicon, 1)
                 .buildAndRegister();
@@ -118,7 +118,7 @@ public final class MaterialA {
                 .ingot()
                 .fluid()
                 .color(0x6ae26e)
-                .iconSet(SHINY)
+                .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)
                 .components(Iron, 1, EnderPearl, 1)
                 .cableProperties(8, 1, 0, true)
@@ -127,7 +127,7 @@ public final class MaterialA {
         DarkSteel = material("dark_steel", "玄钢")
                 .ingot()
                 .color(0x414751)
-                .iconSet(DULL)
+                .iconSet(METALLIC)
                 .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GENERATE_GEAR)
                 .blastTemp(1450, LOW, GTValues.VA[GTValues.MV], 600)
                 .components(Iron, 1, Coal, 1, Obsidian, 1)
@@ -1271,7 +1271,7 @@ public final class MaterialA {
                 .blastTemp(3800, HIGH, GTValues.VA[GTValues.HV], 700)
                 .components(Iron, 15, Niobium, 1, Vanadium, 4, Carbon, 2)
                 .color(0xb4b3b0)
-                .iconSet(SHINY)
+                .iconSet(METALLIC)
                 .flags(GENERATE_DENSE, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
