@@ -191,7 +191,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     setTranslationPrefix("boss_summoner")
 
-                    info("由捕捉附魔击杀神化Boss概率掉落" translatedTo "Dropped by killing deified Bosses with the Capture enchantment")
+                    info("由捕捉附魔击杀神化Boss概率掉落" translatedTo "Dropped by killing Apotheosis Bosses with the Capture enchantment")
                 },
             )
         }

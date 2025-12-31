@@ -4,6 +4,8 @@ import com.gtocore.api.ae2.gui.TinyTextButton;
 
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
 
+import com.gtolib.api.ae2.ModifyIcon;
+import com.gtolib.api.ae2.ModifyIconButton;
 import net.minecraft.network.chat.Component;
 
 import appeng.client.gui.WidgetContainer;
@@ -36,9 +38,9 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     @Unique
     private TinyTextButton gtolib$dividingFive;
     @Unique
-    private TinyTextButton gtolib$clearSecOutput;
+    private ModifyIconButton gtolib$clearSecOutput;
     @Unique
-    private TinyTextButton gtolib$recipeInfo;
+    private ModifyIconButton gtolib$recipeInfo;
 
     protected ProcessingEncodingPanelMixin(PatternEncodingTermScreen<?> screen, WidgetContainer widgets) {
         super(screen, widgets);
@@ -70,11 +72,13 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
                 Component.translatable("gtocore.pattern.divide", 5),
                 Component.translatable("gtocore.pattern.tooltip.divide", 5));
 
-        gtolib$clearSecOutput = new TinyTextButton(Component.literal("C"), b -> ((IPatterEncodingTermMenu) menu).gtolib$clearSecOutput(),
+        gtolib$clearSecOutput = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$clearSecOutput(),
+                ModifyIcon.CLEAR_SEC_OUTPUT,
                 Component.translatable("gtocore.pattern.clearSecOutput"),
                 Component.translatable("gtocore.pattern.tooltip.clearSecOutput"));
 
-        gtolib$recipeInfo = new TinyTextButton(Component.literal("I"), b -> ((IPatterEncodingTermMenu) menu).gtolib$clickRecipeInfo(),
+        gtolib$recipeInfo = new ModifyIconButton(b -> ((IPatterEncodingTermMenu) menu).gtolib$clickRecipeInfo(),
+                ModifyIcon.RECORD_RECIPE_INFO,
                 Component.empty(),
                 Component.empty()) {
 

@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -89,7 +90,7 @@ public final class MEManaInterface extends MetaMachine implements
 
     @Override
     public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (getWirelessManaContainer() == null) {
+        if (getWirelessManaContainer() == null || (what != ManaKey.KEY && what != SourceKey.KEY)) {
             return 0;
         }
         var converted = convert(what, amount);
@@ -101,7 +102,7 @@ public final class MEManaInterface extends MetaMachine implements
 
     @Override
     public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (getWirelessManaContainer() == null) {
+        if (getWirelessManaContainer() == null || (what != ManaKey.KEY && what != SourceKey.KEY)) {
             return 0;
         }
         var converted = convert(what, amount);
@@ -157,7 +158,10 @@ public final class MEManaInterface extends MetaMachine implements
         intWidget.setMax(100000000);
         intWidget.setMin(-100000000);
         intWidget.setValue(before);
-        return new WidgetGroup(0, 0, 100, 20).addWidget(intWidget);
+        return new WidgetGroup(0, 0, 100, 20)
+                .addWidget(intWidget)
+                .addWidget(new LabelWidget(24, -16, () -> "gui.ae2.Priority")
+                        .setHoverTooltips("gui.ae2.PriorityExtractionHint", "gui.ae2.PriorityInsertionHint"));
     }
 
     private void setPriority(int integer) {
