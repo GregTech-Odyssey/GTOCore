@@ -27,6 +27,7 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine {
 
     @Getter
+    @Nullable
     SpaceElevatorMachine spaceElevatorMachine;
 
     private final boolean powerModuleTier;
@@ -69,7 +70,7 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
         if (getSpaceElevatorTier() < 8) {
             return null;
         }
-        if (powerModuleTier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) {
+        if (spaceElevatorMachine != null && powerModuleTier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) {
             return null;
         }
         return RecipeModifierFunction.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);
@@ -92,7 +93,10 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     }
 
     private double getDurationMultiplier() {
-        var mul = getSpaceElevatorMachine().netMachineCache == null ? 1.0d : getSpaceElevatorMachine().netMachineCache.getDurationMultiplier();
+        double mul = 1;
+        if (getSpaceElevatorMachine() != null) {
+            mul = getSpaceElevatorMachine().netMachineCache == null ? 1.0d : getSpaceElevatorMachine().netMachineCache.getDurationMultiplier();
+        }
         return Math.sqrt(mul / ((getSpaceElevatorTier() - GTValues.ZPM) * (isSuper() ? 2 : 1)));
     }
 }
