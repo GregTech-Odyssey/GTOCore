@@ -3,6 +3,7 @@ package com.gtocore.common;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.KeyMessage;
+import com.gtocore.client.Message;
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOItemTooltips;
@@ -136,6 +137,7 @@ public class CommonProxy {
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
         } else {
             KeyMessage.init();
+            Message.init();
         }
         GTOItemTooltips.INSTANCE.initLanguage();
     }

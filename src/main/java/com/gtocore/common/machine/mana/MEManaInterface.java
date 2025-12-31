@@ -27,6 +27,7 @@ import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -89,7 +90,7 @@ public final class MEManaInterface extends MetaMachine implements
 
     @Override
     public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (getWirelessManaContainer() == null) {
+        if ((what != ManaKey.KEY && what != SourceKey.KEY) || getWirelessManaContainer() == null) {
             return 0;
         }
         var converted = convert(what, amount);
@@ -101,7 +102,7 @@ public final class MEManaInterface extends MetaMachine implements
 
     @Override
     public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (getWirelessManaContainer() == null) {
+        if ((what != ManaKey.KEY && what != SourceKey.KEY) || getWirelessManaContainer() == null) {
             return 0;
         }
         var converted = convert(what, amount);
@@ -157,7 +158,10 @@ public final class MEManaInterface extends MetaMachine implements
         intWidget.setMax(100000000);
         intWidget.setMin(-100000000);
         intWidget.setValue(before);
-        return new WidgetGroup(0, 0, 100, 20).addWidget(intWidget);
+        return new WidgetGroup(0, 0, 100, 20)
+                .addWidget(intWidget)
+                .addWidget(new LabelWidget(24, -16, () -> "gui.ae2.Priority")
+                        .setHoverTooltips("gui.ae2.PriorityExtractionHint", "gui.ae2.PriorityInsertionHint"));
     }
 
     private void setPriority(int integer) {

@@ -339,6 +339,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.shift_transfer_to", "Shift + 左键将样板转移到", "Shift + Left Click to transfer pattern to");
         addCNEN("gtocore.ae.appeng.me2in1.shift_transfer_to.inventory_or_buffer", "背包或缓冲区", "Inventory or buffer");
         addCNEN("gtocore.ae.appeng.me2in1.shift_transfer_to.accessor", "当前页面中空白的样板管理终端", "Blank slots on the current page of the Pattern Terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.encode_to.accessor.title", "编码到样板管理终端", "Encode to Pattern Terminal");
         addCNEN("gtocore.ae.appeng.me2in1.encode_to.accessor", "直接编码到当前页面中的空白部分", "Encode directly to the blank slots on the current page of terminal");
         addCNEN("gtocore.ae.appeng.me2in1.draggable_mark.tooltip", "按住并拖动以调整该面板位置", "Hold and drag to adjust the position of this panel");
         addCNEN("gtocore.ae.appeng.me2in1.material_slot", "材料槽", "Material Slot");
@@ -368,7 +369,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern", "点击移除以此为主产物的处理样板至缓冲槽", "Click to remove patterns with this main product to the buffer slot");
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its crafting tree that are not involved in other patterns");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge", "安装纠缠奇点", "Install Quantum Entangled Singularity");
-        addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "量子环已内置", "Quantum ring is built-in");
+        addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "该终端已内置量子环，无需额外插件即可实现远程访问ME网络", "This terminal has a built-in quantum ring, allowing remote access to the ME network without additional plugins");
         addCNEN("gtocore.ae.appeng.me2in1.add_mapping", "添加配方搜索映射", "Add Recipe Search Mapping");
         addCNEN("gtocore.ae.appeng.me2in1.add_mapping.desc", "单击打开EMI中的配方，然后点击想要自定义映射的目录中配方的\"+\"按钮以添加映射。自定义的配方映射保存于config/me2in1category.json中。", "Click to open the recipe in EMI, then click the \"+\" button of the recipe in the directory you want to customize the mapping for to add the mapping. The custom recipe mappings are saved in config/me2in1category.json.");
         addCNEN("gtocore.ae.appeng.me2in1.config_mapping", "配置配方搜索映射", "Configure Recipe Search Mapping");
