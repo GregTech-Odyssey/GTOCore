@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -604,12 +603,12 @@ public class CompositeMaterialsProcessing {
                 .save();
 
         SUPERMATERIAL_FORGING_RECIPES.builder("zirconia_nickel_base_graded_composite_rough_blank1")
-                .inputItems(GTOTagPrefix.plate, GTOMaterials.BoronCarbideCompositeProtectiveCeramic, 9)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.BoronCarbideCeramics, 16)
                 .inputItems(GTOTagPrefix.plate, GTMaterials.TungstenCarbide, 5)
                 .inputItems(GTOTagPrefix.plate, GTOMaterials.DepletedUraniumAlloy, 3)
                 .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.Kevlar, 5)
                 .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.SiliconCarbide, 5)
-                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.ZirconiaNickelBaseGradedComposite, 3)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.BoronCarbideCompositeProtectiveCeramic, 3)
                 .inputFluids(GTOMaterials.PhenolicResin, 576)
                 .EUt(524200)
                 .duration(1500)
@@ -846,17 +845,6 @@ public class CompositeMaterialsProcessing {
                 .inputFluids(GTMaterials.ReinforcedEpoxyResin, 1000)
                 .EUt(32700)
                 .duration(500)
-                .save();
-
-        SUPERMATERIAL_FORGING_RECIPES.builder("boron_carbide_composite_protective_ceramic_rough_blank")
-                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.BoronCarbideCeramics, 4)
-                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.T700CarbonFiber, 2)
-                .inputItems(TagPrefix.dust, GTOMaterials.EnergeticAlloy, 4)
-                .inputItems(TagPrefix.dust, GTOMaterials.NanoScaleSiliconCarbide)
-                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.BoronCarbideCompositeProtectiveCeramic)
-                .inputFluids(GTOMaterials.PhosphoricAcidChromiumPhosphateCement, 1008)
-                .EUt(120000)
-                .duration(560)
                 .save();
     }
 }
