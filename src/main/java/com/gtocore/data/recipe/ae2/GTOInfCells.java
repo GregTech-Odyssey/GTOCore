@@ -18,12 +18,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.google.common.collect.Sets;
-import com.lowdragmc.lowdraglib.LDLib;
 
 import java.util.Set;
 
@@ -81,7 +81,7 @@ public class GTOInfCells {
     }
 
     static ItemStack infCell(ItemLike item) {
-        if (!LDLib.isRemote()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
+        if (FMLLoader.getDist().isDedicatedServer()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
         if (AddedInfCells == null) {
             AddedInfCells = Sets.newHashSet();
         }
@@ -91,7 +91,7 @@ public class GTOInfCells {
     }
 
     static ItemStack infCell(Fluid fluid) {
-        if (!LDLib.isRemote()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEFluidKey.of(fluid));
+        if (FMLLoader.getDist().isDedicatedServer()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEFluidKey.of(fluid));
         if (AddedInfCells == null) {
             AddedInfCells = Sets.newHashSet();
         }
