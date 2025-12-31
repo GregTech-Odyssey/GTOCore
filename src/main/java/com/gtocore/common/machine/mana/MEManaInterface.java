@@ -90,7 +90,7 @@ public final class MEManaInterface extends MetaMachine implements
 
     @Override
     public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (getWirelessManaContainer() == null || (what != ManaKey.KEY && what != SourceKey.KEY)) {
+        if ((what != ManaKey.KEY && what != SourceKey.KEY) || getWirelessManaContainer() == null) {
             return 0;
         }
         var converted = convert(what, amount);
@@ -102,7 +102,7 @@ public final class MEManaInterface extends MetaMachine implements
 
     @Override
     public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (getWirelessManaContainer() == null || (what != ManaKey.KEY && what != SourceKey.KEY)) {
+        if ((what != ManaKey.KEY && what != SourceKey.KEY) || getWirelessManaContainer() == null) {
             return 0;
         }
         var converted = convert(what, amount);

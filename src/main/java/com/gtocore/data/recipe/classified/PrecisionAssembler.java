@@ -134,7 +134,7 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("dyson_swarm_module")
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched, 16)
-                .inputItems(GTItems.COVER_SOLAR_PANEL, 64)
+                .inputItems(GTOBlocks.VIBRANT_PHOTOVOLTAIC_BLOCK.asItem(), 64)
                 .inputItems(GTItems.SENSOR_UEV)
                 .inputItems(GTItems.EMITTER_UEV)
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 20000)

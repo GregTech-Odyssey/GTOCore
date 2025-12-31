@@ -457,7 +457,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("pulsating_photovoltaic_block")
-                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV, 4)
+                .inputItems(GTItems.COVER_SOLAR_PANEL, 4)
                 .inputItems(GTItems.VACUUM_TUBE, 8)
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.PulsatingAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Titanium, 2)
@@ -995,7 +995,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("energetic_photovoltaic_block")
-                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV)
+                .inputItems(GTItems.COVER_SOLAR_PANEL)
                 .inputItems(GTItems.VACUUM_TUBE, 4)
                 .inputItems(TagPrefix.cableGtDouble, GTMaterials.RedAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 2)
@@ -2676,7 +2676,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("vibrant_photovoltaic_block")
-                .inputItems(GTItems.COVER_SOLAR_PANEL_LV)
+                .inputItems(GTItems.COVER_SOLAR_PANEL, 16)
                 .inputItems(GTItems.VACUUM_TUBE, 16)
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.VibrantAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 2)
@@ -3391,7 +3391,7 @@ final class Assembler {
                 .inputItems(GTItems.BATTERY_HV_CADMIUM, 4)
                 .inputItems(GTItems.EMITTER_HV, 2)
                 .inputItems(GTItems.POWER_THRUSTER_ADVANCED, 2)
-                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV, 2)
+                .inputItems(GTItems.COVER_SOLAR_PANEL, 2)
                 .inputItems(GTItems.ROBOT_ARM_HV)
                 .inputItems(TagPrefix.rod, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 16)
