@@ -3,9 +3,9 @@ package com.gtocore.mixin.ae2.gui;
 import com.gtocore.api.ae2.gui.TinyTextButton;
 
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
-
 import com.gtolib.api.ae2.ModifyIcon;
 import com.gtolib.api.ae2.ModifyIconButton;
+
 import net.minecraft.network.chat.Component;
 
 import appeng.client.gui.WidgetContainer;
