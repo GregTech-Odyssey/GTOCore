@@ -7,6 +7,7 @@ import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartM
 import com.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
 import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
 
+import com.gtolib.IItem;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
@@ -25,6 +26,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCABridgePartM
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComputationPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCACoolerPartMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
@@ -38,6 +40,7 @@ import net.minecraft.world.item.ItemStack;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import earth.terrarium.adastra.common.registry.ModItems;
+import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -84,8 +87,10 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private boolean incompatible;
     private boolean canBridge;
     private int maxCWUt;
-    private int coolingAmount;
-    private int maxCoolingAmount;
+    private int coolingAmountRequired;
+    private int coolingAmountProvided;
+    private int coolantAmount;
+    private final Reference2IntOpenHashMap<IItem> componentsMap = new Reference2IntOpenHashMap<>();
     private long allocatedCWUt;
     private long cacheCWUt;
     private long maxEUt;
@@ -98,20 +103,25 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, 10, () -> isFormed);
     }
 
-    private void clean() {
+    private void clean(boolean scanOnly) {
         canBridge = false;
         incompatible = false;
         runRecipe = null;
-        allocatedCWUt = 0;
-        cacheCWUt = 0;
+        allocatedCWUt = scanOnly ? allocatedCWUt : 0;
+        cacheCWUt = scanOnly ? cacheCWUt : 0;
         maxCWUt = 0;
-        coolingAmount = 0;
-        maxCoolingAmount = 0;
+        coolingAmountRequired = 0;
+        coolingAmountProvided = 0;
+        coolantAmount = 0;
         maxEUt = 0;
+        componentsMap.clear();
     }
 
-    private void changed() {
-        clean();
+    private void changed(boolean scanOnly) {
+        int maxCoolantAmount = 0;
+        int hpcaPassiveCoolingAmount = 0;
+
+        clean(scanOnly);
         if (!isFormed) return;
         Integer computerTier = getMultiblockState().getMatchContext().get(GTOValues.COMPUTER_CASING_TIER);
         if (computerTier == null || machineTier != computerTier) {
@@ -129,44 +139,72 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             return;
         }
         if (machineTier == 3) canBridge = true;
+
         for (IMultiPart part : getParts()) {
             if (incompatible) return;
-            if (part instanceof HPCAComponentPartMachine componentPartMachine) {
-                maxEUt += componentPartMachine.getMaxEUt();
-                if (componentPartMachine instanceof ExResearchBasePartMachine basePartMachine) {
-                    if (basePartMachine.getTier() - 1 != machineTier) {
+            if (!(part instanceof HPCAComponentPartMachine componentPartMachine)) continue;
+
+            maxEUt += componentPartMachine.getMaxEUt();
+            addToComponentsMap(componentPartMachine);
+
+            switch (componentPartMachine) {
+                // NICH & GWCA
+                case ExResearchBasePartMachine exPart -> {
+                    if (exPart.getTier() - 1 != machineTier) {
                         incompatible = true;
                         return;
                     }
-                    if (basePartMachine instanceof ExResearchBridgePartMachine) {
-                        canBridge = true;
-                    } else if (basePartMachine instanceof ExResearchComputationPartMachine computationPartMachine) {
-                        maxCWUt += computationPartMachine.getCWUPerTick();
-                        coolingAmount += computationPartMachine.getCoolingPerTick();
-                    } else if (basePartMachine instanceof ExResearchCoolerPartMachine coolerPartMachine) {
-                        maxCoolingAmount += coolerPartMachine.getMaxCoolantPerTick();
+
+                    switch (exPart) {
+                        case ExResearchBridgePartMachine b -> canBridge = true;
+                        case ExResearchComputationPartMachine c when !c.isDamaged() -> {
+                            maxCWUt += c.getCWUPerTick();
+                            coolingAmountRequired += c.getCoolingPerTick();
+                        }
+                        case ExResearchCoolerPartMachine c -> {
+                            coolingAmountProvided += c.getCoolingAmount();
+                            maxCoolantAmount += c.getMaxCoolantPerTick();
+                        }
+                        default -> {}
                     }
-                } else {
+                }
+
+                // HPCA
+                // must be handled after NICH & GWCA as they extend HPCAComponentPartMachine
+                case HPCAComponentPartMachine hpcaPart -> {
                     if (machineTier > 1) {
                         incompatible = true;
                         return;
                     }
-                }
-                if (componentPartMachine instanceof HPCABridgePartMachine) {
-                    canBridge = true;
-                } else if (componentPartMachine instanceof HPCAComputationPartMachine computationPartMachine) {
-                    maxCWUt += computationPartMachine.getCWUPerTick();
-                    coolingAmount += computationPartMachine.getCoolingPerTick();
-                } else if (componentPartMachine instanceof HPCACoolerPartMachine coolerPartMachine) {
-                    maxCoolingAmount += coolerPartMachine.getMaxCoolantPerTick();
+
+                    switch (hpcaPart) {
+                        case HPCABridgePartMachine b -> canBridge = true;
+                        case HPCAComputationPartMachine c when !c.isDamaged() -> {
+                            maxCWUt += c.getCWUPerTick();
+                            coolingAmountRequired += c.getCoolingPerTick();
+                        }
+                        case HPCACoolerPartMachine c -> {
+                            coolingAmountProvided += c.getCoolingAmount();
+                            if (!c.isActiveCooler()) hpcaPassiveCoolingAmount += c.getCoolingAmount();
+                            maxCoolantAmount += c.getMaxCoolantPerTick();
+                        }
+                        default -> {}
+                    }
                 }
             }
         }
+
+        if (coolingAmountProvided > 0 && coolingAmountProvided > hpcaPassiveCoolingAmount) {
+            var coolantRatio = (double) maxCoolantAmount / (coolingAmountProvided - hpcaPassiveCoolingAmount);
+            var activeCoolingNeeded = Math.max(0, coolingAmountRequired - hpcaPassiveCoolingAmount);
+            coolantAmount = (int) Math.ceil(activeCoolingNeeded * coolantRatio);
+        }
+
         if (maxEUt > 0) {
             if (machineTier == 1)
-                runRecipe = RecipeBuilder.ofRaw().inputFluids(PCBCoolant.getFluid(LIQUID, coolingAmount)).EUt(maxEUt / 4).duration(20).buildRawRecipe();
+                runRecipe = RecipeBuilder.ofRaw().inputFluids(PCBCoolant.getFluid(LIQUID, coolantAmount)).EUt(maxEUt / 4).duration(20).buildRawRecipe();
             else
-                runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolingAmount)).outputFluids(Helium.getFluid(GAS, coolingAmount)).EUt(maxEUt).duration(20).buildRawRecipe();
+                runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolantAmount)).outputFluids(Helium.getFluid(GAS, coolantAmount)).EUt(maxEUt).duration(20).buildRawRecipe();
         }
         maxCWUtModificationSubs.initialize(getLevel());
 
@@ -175,6 +213,25 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     private static int getIndexForItem(Item item) {
         return ITEM_INDEX_MAP.getOrDefault(item, -1);
+    }
+
+    private void addToComponentsMap(HPCAComponentPartMachine partMachine) {
+        switch (partMachine) {
+            case HPCAComponentPartMachine p when ( //
+            p instanceof HPCAComputationPartMachine || //
+                    p instanceof HPCACoolerPartMachine || //
+                    p instanceof ExResearchComputationPartMachine || //
+                    p instanceof ExResearchCoolerPartMachine) -> {
+                if (partMachine.isDamaged()) {
+                    return;
+                }
+            }
+            default -> {
+                return;
+            }
+        }
+
+        componentsMap.addTo((IItem) partMachine.getDefinition().asItem(), 1);
     }
 
     private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22, 1 };
@@ -194,13 +251,13 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         if (integer != null) {
             machineTier = integer;
         }
-        changed();
+        changed(false);
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        changed();
+        changed(false);
     }
 
     @Override
@@ -208,7 +265,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         super.onStructureInvalid();
         ThermalConductorHatchPart = null;
         maxCWUtModification = 10000;
-        clean();
+        clean(false);
     }
 
     @Override
@@ -244,17 +301,24 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     @Override
     public void afterWorking() {
-        if (coolingAmount > maxCoolingAmount) {
-            int damaged = coolingAmount - maxCoolingAmount;
+        boolean dirty = false;
+
+        if (coolingAmountRequired > coolingAmountProvided) {
+            int damaged = coolingAmountRequired - coolingAmountProvided;
             for (IMultiPart part : getParts()) {
-                if (part instanceof HPCAComponentPartMachine componentPartMachine && componentPartMachine.canBeDamaged()) {
+                if (part instanceof HPCAComponentPartMachine componentPartMachine && componentPartMachine.canBeDamaged() && !componentPartMachine.isDamaged()) {
                     damaged -= GTValues.RNG.nextInt(256);
                     componentPartMachine.setDamaged(true);
+                    dirty = true;
                 }
                 if (damaged <= 0) break;
             }
         }
         super.afterWorking();
+
+        if (dirty) {
+            changed(true);
+        }
     }
 
     @Override
@@ -361,9 +425,14 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("ars_nouveau.tier", machineTier));
-        textList.add(Component.translatable("gtceu.multiblock.energy_consumption", maxEUt, GTValues.VNF[GTUtil.getTierByVoltage(maxEUt)]).withStyle(ChatFormatting.YELLOW));
+        textList.add(Component.translatable(canBridge ? "gtceu.multiblock.hpca.info_bridging_enabled" : "gtceu.multiblock.hpca.info_bridging_disabled").withStyle(canBridge ? ChatFormatting.GREEN : ChatFormatting.RED));
+        textList.add(Component.translatable("gtceu.multiblock.energy_consumption", FormattingUtil.formatNumbers(maxEUt), GTValues.VNF[GTUtil.getTierByVoltage(maxEUt)]).withStyle(ChatFormatting.YELLOW));
         textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(cacheCWUt + " / " + getAdjustedMaxCWU()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtocore.machine.cwut_modification", ((double) maxCWUtModification / 10000)).withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_coolant_required", Component.literal(coolingAmount + " / " + maxCoolingAmount).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_coolant_required", Component.literal(coolingAmountRequired + " / " + coolingAmountProvided + "  " + coolantAmount).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("gtocore.machine.components_list").withStyle(ChatFormatting.YELLOW));
+        for (var entries : componentsMap.reference2IntEntrySet()) {
+            textList.add(Component.literal(" - ").append(entries.getKey().gtolib$getReadOnlyStack().getDisplayName()).append(Component.literal(" x" + entries.getIntValue())).withStyle(ChatFormatting.GRAY));
+        }
     }
 }
