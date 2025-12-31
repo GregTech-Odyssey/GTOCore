@@ -48,9 +48,9 @@ public final class SpaceElevatorConnectorModuleRenderer extends WorkableCasingMa
             if (metaMachine instanceof SpaceElevatorConnectorModule machine && machine.isFormed() && (machine.getMaxTier() > 0 || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 double x = 0.5, y = -15, z = 0.5;
                 switch (machine.getFrontFacing().getOpposite()) {
-                    case NORTH -> z = 4.5;
+                    case NORTH -> z = 2.5;
                     case SOUTH -> z = -1.5;
-                    case WEST -> x = 4.5;
+                    case WEST -> x = 2.5;
                     case EAST -> x = -1.5;
                 }
                 {

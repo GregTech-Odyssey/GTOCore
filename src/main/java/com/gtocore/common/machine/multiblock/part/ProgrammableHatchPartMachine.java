@@ -69,7 +69,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
-    protected @NotNull RecipeHandlerList getHandlerList() {
+    public @NotNull RecipeHandlerList getHandlerList() {
         if (handlerList == null) {
             List<IRecipeHandler<?>> handlers = new ObjectArrayList<>();
             for (var trait : traits) {

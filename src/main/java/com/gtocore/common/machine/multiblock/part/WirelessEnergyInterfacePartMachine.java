@@ -3,14 +3,14 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableMultiblockPartMachine;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public final class WirelessEnergyInterfacePartMachine extends MultiblockPartMachine implements IExtendWirelessEnergyContainerHolder {
+public final class WirelessEnergyInterfacePartMachine extends WorkableMultiblockPartMachine implements IExtendWirelessEnergyContainerHolder {
 
     private WirelessEnergyContainer WirelessEnergyContainerCache;
 

@@ -120,7 +120,7 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     }
 
     @Override
-    protected @NotNull RecipeHandlerList getHandlerList() {
+    public @NotNull RecipeHandlerList getHandlerList() {
         return RecipeHandlerList.NO_DATA;
     }
 

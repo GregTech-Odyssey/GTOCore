@@ -7,7 +7,7 @@ import com.gtolib.utils.holder.BooleanHolder;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableMultiblockPartMachine;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class SpaceShieldHatch extends MultiblockPartMachine implements ISpaceWorkspaceMachine {
+public class SpaceShieldHatch extends WorkableMultiblockPartMachine implements ISpaceWorkspaceMachine {
 
     private BooleanHolder hasLaser;
 

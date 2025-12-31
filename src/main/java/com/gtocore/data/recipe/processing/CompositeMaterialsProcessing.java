@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -845,6 +846,17 @@ public class CompositeMaterialsProcessing {
                 .inputFluids(GTMaterials.ReinforcedEpoxyResin, 1000)
                 .EUt(32700)
                 .duration(500)
+                .save();
+
+        SUPERMATERIAL_FORGING_RECIPES.builder("boron_carbide_composite_protective_ceramic_rough_blank")
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.BoronCarbideCeramics, 4)
+                .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.T700CarbonFiber, 2)
+                .inputItems(TagPrefix.dust, GTOMaterials.EnergeticAlloy, 4)
+                .inputItems(TagPrefix.dust, GTOMaterials.NanoScaleSiliconCarbide)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.BoronCarbideCompositeProtectiveCeramic)
+                .inputFluids(GTOMaterials.PhosphoricAcidChromiumPhosphateCement, 1008)
+                .EUt(120000)
+                .duration(560)
                 .save();
     }
 }
