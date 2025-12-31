@@ -4844,6 +4844,7 @@
   "gtocore.machine.black_hole_data_access_hatch.tooltip.0": "Can hold §6Atomic Archive§r and lower tier data storage media.",
   "gtocore.machine.block_conversion_room.am": "Amount converted each time: %s",
   "gtocore.machine.boiler.tooltip.warning": "§cWarning: §rDo not accumulate too much steam in the boiler!",
+  "gtocore.machine.components_list": "Components List: ",
   "gtocore.machine.current_temperature": "Current Temperature: %sK",
   "gtocore.machine.cwut_modification": "Hashrate correction factor: %s",
   "gtocore.machine.dimensionally_transcendent_plasma_forge.coil": "Current recipe mode cannot use this coil",
