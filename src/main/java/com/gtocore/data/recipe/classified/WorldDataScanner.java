@@ -14,10 +14,10 @@ final class WorldDataScanner {
 
     public static void init() {
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder("end_data")
-                .inputItems(GTItems.TOOL_DATA_STICK.asItem())
+                .inputItems(GTItems.TOOL_DATA_STICK)
                 .inputItems(TagPrefix.dust, GTMaterials.Endstone, 64)
-                .inputFluids(GTMaterials.PCBCoolant.getFluid(1000))
-                .inputFluids(GTMaterials.EnderAir.getFluid(64000))
+                .inputFluids(GTMaterials.PCBCoolant, 1000)
+                .inputFluids(GTMaterials.EnderAir, 64000)
                 .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_END))
                 .EUt(480)
                 .duration(4000)
@@ -25,10 +25,10 @@ final class WorldDataScanner {
                 .save();
 
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder("nether_data")
-                .inputItems(GTItems.TOOL_DATA_STICK.asItem())
+                .inputItems(GTItems.TOOL_DATA_STICK)
                 .inputItems(TagPrefix.dust, GTMaterials.Netherrack, 64)
-                .inputFluids(GTMaterials.PCBCoolant.getFluid(1000))
-                .inputFluids(GTMaterials.NetherAir.getFluid(64000))
+                .inputFluids(GTMaterials.PCBCoolant, 1000)
+                .inputFluids(GTMaterials.NetherAir, 64000)
                 .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_NETHER))
                 .EUt(120)
                 .duration(4000)
@@ -36,9 +36,9 @@ final class WorldDataScanner {
                 .save();
 
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder("otherside_data")
-                .inputItems(GTItems.TOOL_DATA_STICK.asItem())
+                .inputItems(GTItems.TOOL_DATA_STICK)
                 .inputItems(TagPrefix.dust, GTMaterials.EchoShard, 64)
-                .inputFluids(GTMaterials.PCBCoolant.getFluid(64000))
+                .inputFluids(GTMaterials.PCBCoolant, 64000)
                 .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.OTHERSIDE))
                 .EUt(122880)
                 .duration(4000)

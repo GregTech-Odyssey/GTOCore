@@ -132,7 +132,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                         .where('Q', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                         .where('R', blocks(GTOBlocks.HOLLOW_CASING.get()))
                         .where('S', blocks(GTBlocks.HERMETIC_CASING_ZPM.get()))
-                        .where('T', controller(blocks(definition.get())))
+                        .where('T', controller(definition))
                         .where(' ', any())
                         .build();
                 case 3 -> builder.aisle("               AAAAAAAAAAAAAAAAA               ", "                   A   A   A                   ", "                   A   A   A                   ", "               CCCCCCCCCCCCCCCCC               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ", "                                               ")
@@ -208,7 +208,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                         .where('V', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Europium)))
                         .where('W', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                         .where('X', blocks(GTBlocks.HERMETIC_CASING_ZPM.get()))
-                        .where('Y', controller(blocks(definition.get())))
+                        .where('Y', controller(definition))
                         .where(' ', any())
                         .build();
                 default -> builder.aisle("    AAAAA    ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "    BBBBB    ", "      B      ")
@@ -238,7 +238,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                         .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Europium)))
                         .where('I', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                         .where('J', blocks(GTBlocks.HERMETIC_CASING_ZPM.get()))
-                        .where('K', controller(blocks(definition.get())))
+                        .where('K', controller(definition))
                         .build();
             };
         });

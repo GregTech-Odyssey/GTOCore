@@ -28,40 +28,40 @@ final class Vacuum {
                 .save();
 
         VACUUM_RECIPES.recipeBuilder("metastable_oganesson")
-                .inputFluids(GTOMaterials.HotOganesson.getFluid(1000))
+                .inputFluids(GTOMaterials.HotOganesson, 1000)
                 .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), 144))
                 .outputItems(TagPrefix.dustSmall, GTOMaterials.Enderium, 2)
-                .outputFluids(GTOMaterials.MetastableOganesson.getFluid(144))
+                .outputFluids(GTOMaterials.MetastableOganesson, 144)
                 .EUt(491520)
                 .duration(280)
                 .save();
 
         VACUUM_RECIPES.recipeBuilder("fullerene_polymer_matrix_fine_tubing")
-                .inputItems(GTOItems.FULLERENE_POLYMER_MATRIX_SOFT_TUBING.asItem())
-                .outputItems(GTOItems.FULLERENE_POLYMER_MATRIX_FINE_TUBING.asItem())
+                .inputItems(GTOItems.FULLERENE_POLYMER_MATRIX_SOFT_TUBING)
+                .outputItems(GTOItems.FULLERENE_POLYMER_MATRIX_FINE_TUBING)
                 .EUt(500)
                 .duration(240)
                 .save();
 
         VACUUM_RECIPES.recipeBuilder("cold_ice_casing")
                 .inputItems(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.asItem())
-                .inputFluids(GTMaterials.Ice.getFluid(10000))
-                .inputFluids(GTMaterials.VanadiumGallium.getFluid(576))
+                .inputFluids(GTMaterials.Ice, 10000)
+                .inputFluids(GTMaterials.VanadiumGallium, 576)
                 .outputItems(GTOBlocks.COLD_ICE_CASING.asItem())
                 .EUt(1920)
                 .duration(200)
                 .save();
 
         VACUUM_RECIPES.recipeBuilder("fuming_nitric_acid")
-                .inputFluids(GTOMaterials.FumingNitricAcid.getFluid(1000))
+                .inputFluids(GTOMaterials.FumingNitricAcid, 1000)
                 .outputItems(TagPrefix.dust, GTOMaterials.CrystallineNitricAcid, 5)
                 .EUt(120)
                 .duration(180)
                 .save();
 
         VACUUM_RECIPES.recipeBuilder("liquid_hydrogen")
-                .inputFluids(GTOMaterials.HighPressureHydrogen.getFluid(1000))
-                .outputFluids(GTOMaterials.LiquidHydrogen.getFluid(1000))
+                .inputFluids(GTOMaterials.HighPressureHydrogen, 1000)
+                .outputFluids(GTOMaterials.LiquidHydrogen, 1000)
                 .EUt(7680)
                 .duration(240)
                 .save();
@@ -70,24 +70,24 @@ final class Vacuum {
                 .inputItems(TagPrefix.ingotHot, GTOMaterials.Draconium)
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 1000))
                 .outputItems(TagPrefix.ingot, GTOMaterials.Draconium)
-                .outputFluids(GTMaterials.Helium.getFluid(500))
+                .outputFluids(GTMaterials.Helium, 500)
                 .EUt(125829120)
                 .duration(100)
                 .save();
 
         VACUUM_RECIPES.builder("liquid_oxygen")
-                .inputFluids(GTOMaterials.HighPressureOxygen.getFluid(1000))
+                .inputFluids(GTOMaterials.HighPressureOxygen, 1000)
                 .outputFluids(Oxygen.getFluid(FluidStorageKeys.LIQUID, 1000))
                 .duration(240).EUt(VA[EV]).save();
 
         VACUUM_RECIPES.builder("liquid_nitrogen")
-                .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(1000))
-                .outputFluids(GTOMaterials.LiquidNitrogen.getFluid(1000))
+                .inputFluids(GTOMaterials.HighPressureNitrogen, 1000)
+                .outputFluids(GTOMaterials.LiquidNitrogen, 1000)
                 .duration(320).EUt(VA[EV]).save();
 
         VACUUM_RECIPES.builder("liquid_ammonia")
-                .inputFluids(GTMaterials.Ammonia.getFluid(8000))
-                .outputFluids(GTOMaterials.LiquidAmmonia.getFluid(1000))
+                .inputFluids(GTMaterials.Ammonia, 8000)
+                .outputFluids(GTOMaterials.LiquidAmmonia, 1000)
                 .duration(200).EUt(VA[HV]).save();
 
         VACUUM_RECIPES.builder("stainless_steel_ingot")
@@ -105,8 +105,8 @@ final class Vacuum {
                 .save();
 
         VACUUM_RECIPES.builder("space_coolant_cell_10k")
-                .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asItem())
-                .outputItems(GTOItems.SPACE_COOLANT_CELL_10K.asItem())
+                .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL)
+                .outputItems(GTOItems.SPACE_COOLANT_CELL_10K)
                 .inputFluids(GTOMaterials.CoolantLiquid, 1000)
                 .EUt(7680)
                 .duration(400)

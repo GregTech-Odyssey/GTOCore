@@ -149,7 +149,6 @@
     "ftbxmodcompat.FTBXModCompatMixin",
     "gtm.CommonProxyMixin",
     "gtm.FluidPipeTypeMixin",
-    "gtm.ForgeCommonEventListenerMixin",
     "gtm.GTCEuMixin",
     "gtm.GTRecipeWidgetMixin",
     "gtm.GTSyncedFieldAccessorsMixin",

@@ -318,7 +318,7 @@ public final class MachineRegisterUtils {
                         .where('C', blocks(casing.get()).setMinGlobalLimited(3).or(autoAbilities(definition.getRecipeTypes(), false, false, true, true, true, true)).or(autoAbilities(true, true, false)))
                         .where('D', ability(PartAbility.OUTPUT_ENERGY, Stream.of(EV, IV, LuV, ZPM, UV, UHV).filter(t -> t >= tier).mapToInt(Integer::intValue).toArray()).addTooltips(Component.translatable("gtceu.machine.large_combustion_engine.tooltip.boost_regular", VN[tier])))
                         .where('A', blocks(intake.get()).addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_1")))
-                        .where('Y', controller(blocks(definition.get())))
+                        .where('Y', controller(definition))
                         .build())
                 .workableCasingRenderer(casingTexture, overlayModel);
         if (tier == EV) {
@@ -340,7 +340,7 @@ public final class MachineRegisterUtils {
                         .where('F', blocks(GTBlocks.CASING_TITANIUM_STABLE.get())
                                 .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                         .where('G', blocks(GTBlocks.CASING_ENGINE_INTAKE.get()))
-                        .where('H', controller(blocks(definition.get())))
+                        .where('H', controller(definition))
                         .where(' ', any())
                         .build());
             } else {
@@ -361,7 +361,7 @@ public final class MachineRegisterUtils {
                         .where('F', blocks(GTBlocks.CASING_TITANIUM_STABLE.get())
                                 .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                         .where('G', blocks(GTBlocks.CASING_ENGINE_INTAKE.get()))
-                        .where('H', controller(blocks(definition.get())))
+                        .where('H', controller(definition))
                         .where(' ', any())
                         .build());
             }
@@ -383,7 +383,7 @@ public final class MachineRegisterUtils {
                     .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                     .where('G', blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get()))
-                    .where('H', controller(blocks(definition.get())))
+                    .where('H', controller(definition))
                     .where(' ', any())
                     .build());
         }
@@ -409,7 +409,7 @@ public final class MachineRegisterUtils {
                         .aisle("CCCC", "CHHC", "CCCC")
                         .aisle("CHHC", "RGGR", "CHHC")
                         .aisle("CCCC", "CSHC", "CCCC")
-                        .where('S', controller(blocks(definition.get())))
+                        .where('S', controller(definition))
                         .where('G', blocks(gear.get()))
                         .where('C', blocks(casing.get()))
                         .where('R', GTOPredicates.RotorBlock(tier).setExactLimit(1)
@@ -429,7 +429,7 @@ public final class MachineRegisterUtils {
                     .where('C', blocks(GTBlocks.CASING_STEEL_TURBINE.get()))
                     .where('D', blocks(GTBlocks.CASING_STEEL_TURBINE.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
-                    .where('E', controller(blocks(definition.get())))
+                    .where('E', controller(definition))
                     .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                     .where(' ', any())
                     .build());
@@ -445,7 +445,7 @@ public final class MachineRegisterUtils {
                     .where('C', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
                     .where('D', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
-                    .where('E', controller(blocks(definition.get())))
+                    .where('E', controller(definition))
                     .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
                     .where(' ', any())
                     .build());
@@ -461,7 +461,7 @@ public final class MachineRegisterUtils {
                     .where('C', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
                     .where('D', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
-                    .where('E', controller(blocks(definition.get())))
+                    .where('E', controller(definition))
                     .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
                     .where(' ', any())
                     .build());
@@ -477,7 +477,7 @@ public final class MachineRegisterUtils {
                     .where('C', blocks(GTOBlocks.SUPERCRITICAL_TURBINE_CASING.get()))
                     .where('D', blocks(GTOBlocks.SUPERCRITICAL_TURBINE_CASING.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
-                    .where('E', controller(blocks(definition.get())))
+                    .where('E', controller(definition))
                     .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
                     .where(' ', any())
                     .build());
@@ -551,7 +551,7 @@ public final class MachineRegisterUtils {
                                 .or(abilities(EXPORT_FLUIDS).setMaxGlobalLimited(2))
                                 .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(4))
                                 .or(blocks(GTOMachines.ROTOR_HATCH.get()).setMaxGlobalLimited(1)))
-                        .where('D', controller(blocks(definition.get())))
+                        .where('D', controller(definition))
                         .where('E', blocks(gear.get()))
                         .where('F', abilities(MUFFLER))
                         .where('G', heatingCoils())

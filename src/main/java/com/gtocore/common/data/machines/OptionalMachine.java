@@ -60,7 +60,7 @@ public final class OptionalMachine {
                     .where('D', blocks(GTBlocks.STEEL_HULL.get()))
                     .where('E', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
                     .where('F', blocks(Blocks.IRON_BARS))
-                    .where('G', controller(blocks(definition.get())))
+                    .where('G', controller(definition))
                     .where('H', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where(' ', any())
                     .build())

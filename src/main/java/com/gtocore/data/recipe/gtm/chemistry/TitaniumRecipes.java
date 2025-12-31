@@ -33,7 +33,7 @@ final class TitaniumRecipes {
         CHEMICAL_RECIPES.recipeBuilder("titanium_tetrachloride")
                 .inputItems(dust, Carbon, 2)
                 .inputItems(dust, Rutile)
-                .inputFluids(Chlorine.getFluid(4000))
+                .inputFluids(Chlorine, 4000)
                 .outputFluids(CarbonMonoxide.getFluid(2000))
                 .outputFluids(TitaniumTetrachloride.getFluid(1000))
                 .displayPriority(1)
@@ -43,7 +43,7 @@ final class TitaniumRecipes {
         // TiCl4 + 2Mg -> Ti + 2MgCl2
         REACTION_FURNACE_RECIPES.recipeBuilder("titanium_from_tetrachloride")
                 .inputItems(dust, Magnesium, 2)
-                .inputFluids(TitaniumTetrachloride.getFluid(1000))
+                .inputFluids(TitaniumTetrachloride, 1000)
                 .outputItems(ingotHot, Titanium)
                 .outputItems(dust, MagnesiumChloride, 6)
                 .blastFurnaceTemp(Titanium.getBlastTemperature() + 200)
@@ -71,9 +71,9 @@ final class TitaniumRecipes {
         // NaCl(H2O) + CO2 + NH3 -> NH4Cl + NaHCO3
         CHEMICAL_RECIPES.recipeBuilder("sodium_bicarbonate_from_salt")
                 .inputItems(dust, Salt, 4)
-                .inputFluids(CarbonDioxide.getFluid(1000))
-                .inputFluids(Ammonia.getFluid(1000))
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(CarbonDioxide, 1000)
+                .inputFluids(Ammonia, 1000)
+                .inputFluids(Water, 1000)
                 .outputItems(dust, AmmoniumChloride, 2)
                 .outputItems(dust, SodiumBicarbonate, 6)
                 .duration(400).EUt(VA[MV]).save();
@@ -102,7 +102,7 @@ final class TitaniumRecipes {
                 .inputItems(crushed, Bauxite, 32)
                 .inputItems(dust, SodaAsh, 12)
                 .inputItems(dust, CalciumChloride, 6)
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputFluids(BauxiteSlurry.getFluid(4000))
                 .duration(500).EUt(VA[HV]).save();
 
@@ -111,22 +111,22 @@ final class TitaniumRecipes {
                 .inputItems(crushedPurified, Bauxite, 32)
                 .inputItems(dust, SodaAsh, 12)
                 .inputItems(dust, CalciumChloride, 6)
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputFluids(BauxiteSlurry.getFluid(4000))
                 .duration(500).EUt(VA[HV]).save();
 
         // Bauxite Slurry -> Cracked Bauxite Slurry
         CRACKING_RECIPES.recipeBuilder("cracked_bauxite_slurry")
                 .circuitMeta(1)
-                .inputFluids(BauxiteSlurry.getFluid(16000))
-                .inputFluids(Steam.getFluid(1000))
+                .inputFluids(BauxiteSlurry, 16000)
+                .inputFluids(Steam, 1000)
                 .outputFluids(CrackedBauxiteSlurry.getFluid(16000))
                 .duration(500).EUt(VA[HV]).save();
 
         // Bauxite Slurry + Sulfuric -> Aluminium, Slag, Sludge, and SO3 (for looping back to Sulfuric Acid)
         LARGE_CHEMICAL_RECIPES.recipeBuilder("bauxite_sludge_from_slurry")
-                .inputFluids(CrackedBauxiteSlurry.getFluid(4000))
-                .inputFluids(SulfuricAcid.getFluid(1000))
+                .inputFluids(CrackedBauxiteSlurry, 4000)
+                .inputFluids(SulfuricAcid, 1000)
                 .outputItems(dust, Aluminium, 24)
                 .outputItems(dust, BauxiteSlag, 8)
                 .outputFluids(BauxiteSludge.getFluid(2500))
@@ -144,14 +144,14 @@ final class TitaniumRecipes {
         // Bauxite Sludge -> Calcite (looped) + Decalcified Bauxite Sludge
         DISTILLERY_RECIPES.recipeBuilder("bauxite_sludge_decalcification")
                 .circuitMeta(1)
-                .inputFluids(BauxiteSludge.getFluid(500))
+                .inputFluids(BauxiteSludge, 500)
                 .outputItems(dust, Calcite, 2)
                 .outputFluids(DecalcifiedBauxiteSludge.getFluid(500))
                 .duration(100).EUt(VA[MV]).save();
 
         // Decalcified Bauxite Sludge -> Rutile, Gallium, SiO2, Iron, Water
         CENTRIFUGE_RECIPES.recipeBuilder("bauxite_sludge_centrifuge")
-                .inputFluids(DecalcifiedBauxiteSludge.getFluid(250))
+                .inputFluids(DecalcifiedBauxiteSludge, 250)
                 .outputItems(dust, Rutile, 2)
                 .chancedOutput(dust, Gallium, 5000, 550)
                 .chancedOutput(dust, Gallium, 3000, 800)

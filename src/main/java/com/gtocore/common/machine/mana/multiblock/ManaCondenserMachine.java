@@ -86,7 +86,7 @@ public final class ManaCondenserMachine extends ManaMultiblockMachine implements
                                 .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4, 1))
                                 .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
                                 .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4, 1)))
-                        .where('O', controller(blocks(definition.get())))
+                        .where('O', controller(definition))
                         .build();
             } else {
                 return builder.aisle("                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "            A       ", "            K       ", "            K       ", "            K       ", "            K       ", "            K       ", "            A       ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ", "                    ")
@@ -142,7 +142,7 @@ public final class ManaCondenserMachine extends ManaMultiblockMachine implements
                                 .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4, 1))
                                 .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4, 1))
                                 .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4, 1)))
-                        .where('V', controller(blocks(definition.get())))
+                        .where('V', controller(definition))
                         .where(' ', any())
                         .build();
             }

@@ -153,7 +153,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('Q', blocks(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.get()))
                         .where('R', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
-                        .where('S', controller(blocks(definition.get())))
+                        .where('S', controller(definition))
                         .build();
             } else {
                 return builder.aisle("    AHHHHHA    ", "    AHHHHHA    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    AAAAAAA    ", "    AAAAAAA    ")
@@ -193,7 +193,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('I', blocks(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.get()))
                         .where('J', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
-                        .where('K', controller(blocks(definition.get())))
+                        .where('K', controller(definition))
                         .build();
             }
         });

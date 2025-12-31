@@ -31,7 +31,7 @@ final class Extractor {
     public static void init() {
         EXTRACTOR_RECIPES.recipeBuilder("tannic")
                 .inputItems(Blocks.NETHER_WART_BLOCK.asItem())
-                .outputFluids(GTOMaterials.Tannic.getFluid(50))
+                .outputFluids(GTOMaterials.Tannic, 50)
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -53,14 +53,14 @@ final class Extractor {
         EXTRACTOR_RECIPES.recipeBuilder("milk")
                 .inputItems(Items.MILK_BUCKET.asItem())
                 .outputItems(Items.BUCKET.asItem())
-                .outputFluids(GTMaterials.Milk.getFluid(1000))
+                .outputFluids(GTMaterials.Milk, 1000)
                 .EUt(16)
                 .duration(60)
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("tcetieseaweedextract")
-                .inputItems(GTOItems.TCETIEDANDELIONS.asItem(), 64)
-                .outputItems(GTOItems.TCETIESEAWEEDEXTRACT.asItem())
+                .inputItems(GTOItems.TCETIEDANDELIONS, 64)
+                .outputItems(GTOItems.TCETIESEAWEEDEXTRACT)
                 .EUt(16)
                 .duration(200)
                 .addCondition(new GravityCondition(false))
@@ -76,7 +76,7 @@ final class Extractor {
         EXTRACTOR_RECIPES.recipeBuilder("dragon_breath")
                 .inputItems(Ench.Items.INFUSED_BREATH.get(), 3)
                 .outputItems(Items.GLASS_BOTTLE.asItem())
-                .outputFluids(GTOMaterials.DragonBreath.getFluid(1000))
+                .outputFluids(GTOMaterials.DragonBreath, 1000)
                 .EUt(30)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
@@ -84,7 +84,7 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("tin")
                 .inputItems(TagPrefix.dust, GTMaterials.Tin)
-                .outputFluids(GTMaterials.Tin.getFluid(144))
+                .outputFluids(GTMaterials.Tin, 144)
                 .duration(240)
                 .EUt(30)
                 .heat(600)
@@ -107,7 +107,7 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("blood")
                 .inputItems(TagPrefix.dust, GTMaterials.Meat)
-                .outputFluids(GTOMaterials.Blood.getFluid(100))
+                .outputFluids(GTOMaterials.Blood, 100)
                 .EUt(120)
                 .duration(50)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
@@ -115,7 +115,7 @@ final class Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder("chitin")
                 .inputItems(TagUtils.createTag(RLUtils.forge("mushrooms")))
-                .outputFluids(GTOMaterials.Chitin.getFluid(100))
+                .outputFluids(GTOMaterials.Chitin, 100)
                 .EUt(30)
                 .duration(100)
                 .save();
@@ -123,7 +123,7 @@ final class Extractor {
         EXTRACTOR_RECIPES.recipeBuilder("honey")
                 .inputItems(Items.HONEY_BOTTLE)
                 .outputItems(Items.GLASS_BOTTLE)
-                .outputFluids(GTOMaterials.Honey.getFluid(250))
+                .outputFluids(GTOMaterials.Honey, 250)
                 .EUt(30)
                 .duration(20)
                 .save();

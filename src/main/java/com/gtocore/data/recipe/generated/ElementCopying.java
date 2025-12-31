@@ -159,7 +159,7 @@ public final class ElementCopying {
             ItemStack data = GTOItems.DATA_DISC.get().getDisc(fluid);
             FluidStack stack = new FluidStack(fluid, 1000);
             SCANNER_RECIPES.recipeBuilder(e.getName())
-                    .inputItems(GTOItems.DATA_DISC.asItem())
+                    .inputItems(GTOItems.DATA_DISC)
                     .inputFluids(stack)
                     .outputItems(data)
                     .EUt(480)
@@ -182,7 +182,7 @@ public final class ElementCopying {
             ItemStack data = GTOItems.DATA_DISC.get().getDisc(stack);
 
             SCANNER_RECIPES.recipeBuilder(e.getName())
-                    .inputItems(GTOItems.DATA_DISC.asItem())
+                    .inputItems(GTOItems.DATA_DISC)
                     .inputItems(stack)
                     .outputItems(data)
                     .EUt(480)

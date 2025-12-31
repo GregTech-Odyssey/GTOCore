@@ -78,7 +78,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     public static BlockPattern getBlockPattern(int tier, MultiblockMachineDefinition definition) {
         return PATTERNS.computeIfAbsent(tier, t -> {
             FactoryBlockPattern builder = FactoryBlockPattern.start(definition)
-                    .where('~', controller(blocks(definition.get())))
+                    .where('~', controller(definition))
                     .where(' ', any());
             return switch (t) {
                 case 2 -> builder.aisle("                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "    A              ", "    A              ", "    A              ", "    A              ", "    A              ", "    A              ", "    A              ", "    A              ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ", "                   ")

@@ -10,26 +10,26 @@ final class NuclearRecipes {
     public static void init() {
         CHEMICAL_RECIPES.recipeBuilder("uranium_hexafluoride").duration(200).EUt(VA[LV])
                 .inputItems(dust, Uraninite, 3)
-                .inputFluids(HydrofluoricAcid.getFluid(4000))
-                .inputFluids(Fluorine.getFluid(2000))
+                .inputFluids(HydrofluoricAcid, 4000)
+                .inputFluids(Fluorine, 2000)
                 .outputFluids(UraniumHexafluoride.getFluid(1000))
                 .outputFluids(Water.getFluid(2000))
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("uranium_hexafluoride_separation").duration(160).EUt(VA[HV])
-                .inputFluids(UraniumHexafluoride.getFluid(1000))
+                .inputFluids(UraniumHexafluoride, 1000)
                 .outputFluids(EnrichedUraniumHexafluoride.getFluid(100))
                 .outputFluids(DepletedUraniumHexafluoride.getFluid(900))
                 .save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("enriched_uranium_hexafluoride_separation").duration(160).EUt(VA[MV])
-                .inputFluids(EnrichedUraniumHexafluoride.getFluid(1000))
+                .inputFluids(EnrichedUraniumHexafluoride, 1000)
                 .outputItems(dust, Uranium235)
                 .outputFluids(Fluorine.getFluid(6000))
                 .save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("depleted_uranium_hexafluoride_separation").duration(160).EUt(VA[MV])
-                .inputFluids(DepletedUraniumHexafluoride.getFluid(1000))
+                .inputFluids(DepletedUraniumHexafluoride, 1000)
                 .outputItems(dust, Uranium238)
                 .outputFluids(Fluorine.getFluid(6000))
                 .save();

@@ -36,8 +36,8 @@ public final class NewResearchSystem {
         // 重写配方
         CHEMICAL_RECIPES.recipeBuilder("polydimethylsiloxane_from_silicon")
                 .inputItems(dust, Silicon)
-                .inputFluids(HydrochloricAcid.getFluid(2000))
-                .inputFluids(Methanol.getFluid(2000))
+                .inputFluids(HydrochloricAcid, 2000)
+                .inputFluids(Methanol, 2000)
                 .outputItems(dust, Polydimethylsiloxane, 3)
                 .outputFluids(DilutedHydrochloricAcid.getFluid(2000))
                 .circuitMeta(2)
@@ -47,7 +47,7 @@ public final class NewResearchSystem {
         {
             CHEMICAL_RECIPES.recipeBuilder("make_carbon_tetrafluoride_1")
                     .inputItems(dust, Carbon, 1)
-                    .inputFluids(Fluorine.getFluid(2000))
+                    .inputFluids(Fluorine, 2000)
                     .outputFluids(CarbonTetrafluoride.getFluid(1000))
                     .circuitMeta(1)
                     .duration(200)
@@ -57,7 +57,7 @@ public final class NewResearchSystem {
             CHEMICAL_RECIPES.recipeBuilder("make_carbon_tetrafluoride_2")
                     .inputItems(dust, Carbon, 1)
                     .notConsumableFluid(BromineTrifluoride.getFluid(1000))
-                    .inputFluids(Fluorine.getFluid(2000))
+                    .inputFluids(Fluorine, 2000)
                     .outputFluids(CarbonTetrafluoride.getFluid(1000))
                     .circuitMeta(2)
                     .duration(20)
@@ -65,8 +65,8 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("make_ethyl_silicate_1")
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
-                    .inputFluids(Ethanol.getFluid(4000))
+                    .inputFluids(Tetrachlorosilane, 1000)
+                    .inputFluids(Ethanol, 4000)
                     .outputFluids(EthylSilicate.getFluid(1000))
                     .outputFluids(HydrochloricAcid.getFluid(4000))
                     .duration(1000)
@@ -76,7 +76,7 @@ public final class NewResearchSystem {
             AUTOCLAVE_RECIPES.recipeBuilder("make_ethyl_silicate_2")
                     .inputItems(CATALYST, Brass)
                     .inputItems(dust, ElectronicGradeSilicon, 1)
-                    .inputFluids(AbsoluteEthanol.getFluid(4000))
+                    .inputFluids(AbsoluteEthanol, 4000)
                     .outputFluids(EthylSilicate.getFluid(1000))
                     .cleanroom(CleanroomType.CLEANROOM)
                     .duration(20)
@@ -84,8 +84,8 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("hydrolysis_silicic_acid")
-                    .inputFluids(SilicicAcid.getFluid(1000))
-                    .inputFluids(HydrofluoricAcid.getFluid(4000))
+                    .inputFluids(SilicicAcid, 1000)
+                    .inputFluids(HydrofluoricAcid, 4000)
                     .outputFluids(Tetrafluorosilane.getFluid(1000))
                     .outputFluids(Water.getFluid(3000))
                     .duration(40)
@@ -93,8 +93,8 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("hydrolysis_tetrafluorosilane_1")
-                    .inputFluids(Tetrafluorosilane.getFluid(1000))
-                    .inputFluids(Water.getFluid(2000))
+                    .inputFluids(Tetrafluorosilane, 1000)
+                    .inputFluids(Water, 2000)
                     .outputFluids(DiluteHexafluorosilicicAcid.getFluid(1000))
                     .circuitMeta(1)
                     .duration(40)
@@ -103,8 +103,8 @@ public final class NewResearchSystem {
 
             CHEMICAL_RECIPES.recipeBuilder("hydrolysis_tetrafluorosilane_2")
                     .notConsumable(DUST_CRYOTHEUM)
-                    .inputFluids(Tetrafluorosilane.getFluid(1000))
-                    .inputFluids(Water.getFluid(2000))
+                    .inputFluids(Tetrafluorosilane, 1000)
+                    .inputFluids(Water, 2000)
                     .outputFluids(TetrafluorosilaneSolution.getFluid(1000))
                     .circuitMeta(2)
                     .duration(40)
@@ -113,7 +113,7 @@ public final class NewResearchSystem {
 
             MIXER_RECIPES.recipeBuilder("mixer_silver_nitrate_solution")
                     .inputItems(dust, SilverNitrate, 5)
-                    .inputFluids(Water.getFluid(1000))
+                    .inputFluids(Water, 1000)
                     .outputFluids(SilverNitrateSolution.getFluid(1000))
                     .EUt(60)
                     .duration(80)
@@ -121,7 +121,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_silver_nitrate_solution")
                     .inputItems(dust, SilverChloride, 2)
-                    .inputFluids(NitricAcid.getFluid(1000))
+                    .inputFluids(NitricAcid, 1000)
                     .outputFluids(SilverNitrateSolution.getFluid(1000))
                     .outputFluids(HydrochloricAcid.getFluid(1000))
                     .EUt(60)
@@ -129,8 +129,8 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_trimethylsilanol")
-                    .inputFluids(Trimethylchlorosilane.getFluid(1000))
-                    .inputFluids(Water.getFluid(1000))
+                    .inputFluids(Trimethylchlorosilane, 1000)
+                    .inputFluids(Water, 1000)
                     .outputFluids(Trimethylsilanol.getFluid(1000))
                     .outputFluids(HydrochloricAcid.getFluid(1000))
                     .EUt(1920)
@@ -139,7 +139,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_hexamethyldisiloxane")
                     .notConsumable(dust, SiliconDioxide)
-                    .inputFluids(Trimethylsilanol.getFluid(1000))
+                    .inputFluids(Trimethylsilanol, 1000)
                     .outputFluids(Hexamethyldisiloxane.getFluid(1000))
                     .outputFluids(Water.getFluid(1000))
                     .EUt(1920)
@@ -149,7 +149,7 @@ public final class NewResearchSystem {
             LARGE_CHEMICAL_RECIPES.recipeBuilder("chemical_triethoxysilane")
                     .inputItems(CATALYST, Brass)
                     .inputItems(dust, UltraHighPuritySilicon)
-                    .inputFluids(AbsoluteEthanol.getFluid(3000))
+                    .inputFluids(AbsoluteEthanol, 3000)
                     .outputFluids(Triethoxysilane.getFluid(1000))
                     .outputFluids(Hydrogen.getFluid(1000))
                     .cleanroom(CleanroomType.CLEANROOM)
@@ -160,7 +160,7 @@ public final class NewResearchSystem {
                     .inputItems(CATALYST, Brass)
                     .inputItems(dust, ElectronicGradeSilicon)
                     .inputItems(dustSmall, ElectronicGradeSilicon, 2)
-                    .inputFluids(AbsoluteEthanol.getFluid(3000))
+                    .inputFluids(AbsoluteEthanol, 3000)
                     .outputFluids(Triethoxysilane.getFluid(1000))
                     .outputFluids(Hydrogen.getFluid(1000))
                     .cleanroom(CleanroomType.CLEANROOM)
@@ -170,16 +170,16 @@ public final class NewResearchSystem {
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_chloropropyltriethoxysilane")
                     .inputItems(CATALYST, Platinum)
-                    .inputFluids(Triethoxysilane.getFluid(1000))
-                    .inputFluids(AllylChloride.getFluid(1000))
+                    .inputFluids(Triethoxysilane, 1000)
+                    .inputFluids(AllylChloride, 1000)
                     .outputFluids(Chloropropyltriethoxysilane.getFluid(1000))
                     .EUt(16380)
                     .duration(300)
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_kh550_silane_coupling_agent")
-                    .inputFluids(Chloropropyltriethoxysilane.getFluid(1000))
-                    .inputFluids(Ammonia.getFluid(4000))
+                    .inputFluids(Chloropropyltriethoxysilane, 1000)
+                    .inputFluids(Ammonia, 4000)
                     .outputFluids(KH550SilaneCouplingAgent.getFluid(1000))
                     .outputFluids(HydrochloricAcid.getFluid(2000))
                     .EUt(120)
@@ -191,7 +191,7 @@ public final class NewResearchSystem {
         {
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_tetrachlorosilane")
                     .inputItems(dust, Silicon, 1)
-                    .inputFluids(Chlorine.getFluid(4000))
+                    .inputFluids(Chlorine, 4000)
                     .outputFluids(Tetrachlorosilane.getFluid(1000))
                     .circuitMeta(1)
                     .duration(400)
@@ -200,7 +200,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_trichlorosilane")
                     .inputItems(dust, Silicon, 1)
-                    .inputFluids(HydrochloricAcid.getFluid(3000))
+                    .inputFluids(HydrochloricAcid, 3000)
                     .outputFluids(Trichlorosilane.getFluid(1000))
                     .outputFluids(Hydrogen.getFluid(1000))
                     .circuitMeta(1)
@@ -209,7 +209,7 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_electronic_grade_silicon_1")
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
+                    .inputFluids(Tetrachlorosilane, 1000)
                     .inputItems(dust, Zinc, 2)
                     .outputItems(dust, ElectronicGradeSilicon, 1)
                     .outputItems(dust, ZincChloride, 6)
@@ -218,7 +218,7 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_electronic_grade_silicon_2")
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
+                    .inputFluids(Tetrachlorosilane, 1000)
                     .inputItems(dust, Sodium, 4)
                     .outputItems(dust, ElectronicGradeSilicon, 1)
                     .outputItems(dust, Salt, 8)
@@ -227,8 +227,8 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_electronic_grade_silicon_3")
-                    .inputFluids(Trichlorosilane.getFluid(1000))
-                    .inputFluids(Hydrogen.getFluid(1000))
+                    .inputFluids(Trichlorosilane, 1000)
+                    .inputFluids(Hydrogen, 1000)
                     .outputItems(dust, ElectronicGradeSilicon, 1)
                     .outputFluids(HydrochloricAcid.getFluid(3000))
                     .duration(600)
@@ -236,8 +236,8 @@ public final class NewResearchSystem {
                     .save();
 
             REACTION_FURNACE_RECIPES.recipeBuilder("chemical_make_silane")
-                    .inputFluids(Trichlorosilane.getFluid(1000))
-                    .inputFluids(Hydrogen.getFluid(3000))
+                    .inputFluids(Trichlorosilane, 1000)
+                    .inputFluids(Hydrogen, 3000)
                     .outputFluids(Silane.getFluid(1000))
                     .outputFluids(HydrochloricAcid.getFluid(3000))
                     .duration(40)
@@ -246,7 +246,7 @@ public final class NewResearchSystem {
                     .save();
 
             REACTION_FURNACE_RECIPES.recipeBuilder("chemical_make_electronic_grade_silicon_4")
-                    .inputFluids(Silane.getFluid(1000))
+                    .inputFluids(Silane, 1000)
                     .outputItems(dust, ElectronicGradeSilicon, 1)
                     .outputFluids(Hydrogen.getFluid(2000))
                     .duration(20)
@@ -256,7 +256,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("chemical_wash_electronic_grade_silicon")
                     .inputItems(dust, ElectronicGradeSilicon, 1)
-                    .inputFluids(HydrofluoricAcid.getFluid(1000))
+                    .inputFluids(HydrofluoricAcid, 1000)
                     .chancedOutput(ChemicalHelper.get(dust, PickledElectronicGradeSilicon, 1), 9500, 0)
                     .outputFluids(HydrofluoricAcid.getFluid(950))
                     .duration(200)
@@ -265,7 +265,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_pure_trichlorosilane")
                     .inputItems(dust, PickledElectronicGradeSilicon, 1)
-                    .inputFluids(HydrochloricAcid.getFluid(3000))
+                    .inputFluids(HydrochloricAcid, 3000)
                     .outputFluids(PureTrichlorosilane.getFluid(1000))
                     .outputFluids(Hydrogen.getFluid(1000))
                     .circuitMeta(1)
@@ -274,8 +274,8 @@ public final class NewResearchSystem {
                     .save();
 
             REACTION_FURNACE_RECIPES.recipeBuilder("chemical_make_pure_silane")
-                    .inputFluids(PureTrichlorosilane.getFluid(1000))
-                    .inputFluids(Hydrogen.getFluid(1000))
+                    .inputFluids(PureTrichlorosilane, 1000)
+                    .inputFluids(Hydrogen, 1000)
                     .outputFluids(PureSilane.getFluid(1000))
                     .outputFluids(HydrochloricAcid.getFluid(3000))
                     .duration(40)
@@ -284,7 +284,7 @@ public final class NewResearchSystem {
                     .save();
 
             DISTILLATION_RECIPES.recipeBuilder("distillation_pure_silane")
-                    .inputFluids(Silane.getFluid(1000))
+                    .inputFluids(Silane, 1000)
                     .chancedOutput(ChemicalHelper.get(dustTiny, BariumChloride, 1), 1000, 0)
                     .outputFluids(PureSilane.getFluid(850))
                     .outputFluids(Steam.getFluid(100))
@@ -294,7 +294,7 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("make_high_purity_silicon_boule")
-                    .inputFluids(PureSilane.getFluid(32000))
+                    .inputFluids(PureSilane, 32000)
                     .outputItems(HIGH_PURITY_SILICON_BOULE, 1)
                     .outputFluids(Hydrogen.getFluid(64000))
                     .duration(12000)
@@ -304,7 +304,7 @@ public final class NewResearchSystem {
 
             BLAST_RECIPES.recipeBuilder("make_regional_smelting_silicon_boule")
                     .inputItems(HIGH_PURITY_SILICON_BOULE, 1)
-                    .inputFluids(Helium.getFluid(1000))
+                    .inputFluids(Helium, 1000)
                     .outputItems(REGIONAL_SMELTING_SILICON_BOULE, 1)
                     .duration(6000)
                     .blastFurnaceTemp(5000)
@@ -331,7 +331,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_tetrafluorosilane_solution")
                     .inputItems(FLOATING_ZONE_PURIFICATION_SILICON_BOULE, 1)
-                    .inputFluids(HydrofluoricAcid.getFluid(416000))
+                    .inputFluids(HydrofluoricAcid, 416000)
                     .outputFluids(TetrafluorosilaneSolution.getFluid(104000))
                     .outputFluids(Hydrogen.getFluid(52000))
                     .duration(6000)
@@ -340,8 +340,8 @@ public final class NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder("chemical_make_ultra_high_purity_silicon")
-                    .inputFluids(TetrafluorosilaneSolution.getFluid(4000))
-                    .inputFluids(Hydrogen.getFluid(2000))
+                    .inputFluids(TetrafluorosilaneSolution, 4000)
+                    .inputFluids(Hydrogen, 2000)
                     .outputItems(dust, UltraHighPuritySilicon, 1)
                     .outputFluids(HydrofluoricAcid.getFluid(16000))
                     .duration(200)
@@ -353,8 +353,8 @@ public final class NewResearchSystem {
         // 高纯度二氧化硅/光纤产线
         {
             REACTION_FURNACE_RECIPES.recipeBuilder("make_high_purity_silica")
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
-                    .inputFluids(Oxygen.getFluid(1000))
+                    .inputFluids(Tetrachlorosilane, 1000)
+                    .inputFluids(Oxygen, 1000)
                     .outputItems(dust, HighPuritySilica, 1)
                     .outputFluids(Chlorine.getFluid(2000))
                     .duration(400)
@@ -365,7 +365,7 @@ public final class NewResearchSystem {
             BLAST_RECIPES.recipeBuilder("make_high_purity_silica_column")
                     .inputItems(dust, HighPuritySilica, 64)
                     .inputItems(dust, HighPuritySilica, 64)
-                    .inputFluids(Helium.getFluid(8000))
+                    .inputFluids(Helium, 8000)
                     .outputItems(HIGH_PURITY_SILICA_COLUMN, 1)
                     .blastFurnaceTemp(2800)
                     .circuitMeta(10)
@@ -392,7 +392,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube2")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 2))
-                    .inputFluids(HydrochloricAcid.getFluid(1000))
+                    .inputFluids(HydrochloricAcid, 1000)
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 3))
                     .duration(100)
                     .EUt(VA[LV])
@@ -400,7 +400,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube4")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 3))
-                    .inputFluids(SodiumHydroxideSolution.getFluid(1000))
+                    .inputFluids(SodiumHydroxideSolution, 1000)
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 4))
                     .duration(100)
                     .EUt(VA[LV])
@@ -410,9 +410,9 @@ public final class NewResearchSystem {
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_0")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 4))
-                    .inputFluids(Tetrachlorosilane.getFluid(200))
+                    .inputFluids(Tetrachlorosilane, 200)
                     .inputFluids(GermaniumTetrachlorideSolution.getFluid(FluidStorageKeys.GAS, 10))
-                    .inputFluids(Oxygen.getFluid(1000))
+                    .inputFluids(Oxygen, 1000)
                     .outputItems(stack1)
                     .duration(100)
                     .EUt(VA[MV])
@@ -421,9 +421,9 @@ public final class NewResearchSystem {
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_" + 1)
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 1))
-                    .inputFluids(Tetrachlorosilane.getFluid(2000))
+                    .inputFluids(Tetrachlorosilane, 2000)
                     .inputFluids(GermaniumTetrachlorideSolution.getFluid(FluidStorageKeys.GAS, 100))
-                    .inputFluids(Oxygen.getFluid(10000))
+                    .inputFluids(Oxygen, 10000)
                     .outputItems(MultiStepItemHelper.locateStep(stack1, 2))
                     .duration(6000)
                     .EUt(VA[HV])
@@ -432,9 +432,9 @@ public final class NewResearchSystem {
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_2")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 2))
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
-                    .inputFluids(CarbonTetrafluoride.getFluid(100))
-                    .inputFluids(Oxygen.getFluid(1000))
+                    .inputFluids(Tetrachlorosilane, 1000)
+                    .inputFluids(CarbonTetrafluoride, 100)
+                    .inputFluids(Oxygen, 1000)
                     .outputItems(MultiStepItemHelper.locateStep(stack1, 3))
                     .duration(400)
                     .EUt(VA[MV])
@@ -457,7 +457,7 @@ public final class NewResearchSystem {
                         .inputItems(rod, forSpools[n], 6)
                         .inputItems(ring, forSpools[n], 12)
                         .inputItems(screw, forSpools[n], 12)
-                        .inputFluids(Polytetrafluoroethylene.getFluid(1152))
+                        .inputFluids(Polytetrafluoroethylene, 1152)
                         .outputItems(Spools[n])
                         .circuitMeta(13)
                         .duration(600)
@@ -501,7 +501,7 @@ public final class NewResearchSystem {
 
             LAMINATOR_RECIPES.recipeBuilder("make_simple_fiber_optic")
                     .inputItems(SIMPLE_FIBER_OPTIC_ROUGH)
-                    .inputFluids(EthylAcrylate.getFluid(18))
+                    .inputFluids(EthylAcrylate, 18)
                     .outputItems(SIMPLE_FIBER_OPTIC)
                     .duration(100)
                     .EUt(7)
@@ -524,8 +524,8 @@ public final class NewResearchSystem {
         // MFPC相变微粒产线
         {
             LARGE_CHEMICAL_RECIPES.recipeBuilder("make_silicic_acid")
-                    .inputFluids(EthylSilicate.getFluid(1000))
-                    .inputFluids(ClearAmmoniaSolution.getFluid(4000))
+                    .inputFluids(EthylSilicate, 1000)
+                    .inputFluids(ClearAmmoniaSolution, 4000)
                     .outputFluids(SilicicAcid.getFluid(1000))
                     .outputFluids(Ethanol.getFluid(4000))
                     .outputFluids(Ammonia.getFluid(4000))
@@ -535,7 +535,7 @@ public final class NewResearchSystem {
 
             LARGE_CHEMICAL_RECIPES.recipeBuilder("make_mfpc_1")
                     .inputItems(dust, Polystyrene, 1)
-                    .inputFluids(SilicicAcid.getFluid(500))
+                    .inputFluids(SilicicAcid, 500)
                     .outputItems(dust, HollowCeramicMicrosphereRoughEmbryo, 16)
                     .outputFluids(Water.getFluid(500))
                     .duration(100)
@@ -552,8 +552,8 @@ public final class NewResearchSystem {
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("make_mfpc_3")
                     .inputItems(dust, HollowCeramicMicrospheres, 8)
-                    .inputFluids(SilverNitrateSolution.getFluid(500))
-                    .inputFluids(Hydrazine.getFluid(500))
+                    .inputFluids(SilverNitrateSolution, 500)
+                    .inputFluids(Hydrazine, 500)
                     .outputItems(dust, SilverCoatedHollowCeramicMicrospheres, 8)
                     .outputFluids(Ammonia.getFluid(1000))
                     .duration(12000)
@@ -563,7 +563,7 @@ public final class NewResearchSystem {
 
             CANNER_RECIPES.recipeBuilder("make_mfpc_4")
                     .inputItems(dust, SilverCoatedHollowCeramicMicrospheres, 10)
-                    .inputFluids(Octane.getFluid(800))
+                    .inputFluids(Octane, 800)
                     .outputItems(dust, SilverCoatedOctaneCeramicBeads, 10)
                     .duration(2000)
                     .EUt(VA[MV])
@@ -572,7 +572,7 @@ public final class NewResearchSystem {
             LASER_ENGRAVER_RECIPES.recipeBuilder("make_mfpc_5")
                     .inputItems(dust, SilverCoatedOctaneCeramicBeads, 4)
                     .notConsumable(lens, NetherStar)
-                    .inputFluids(Hexamethyldisiloxane.getFluid(50))
+                    .inputFluids(Hexamethyldisiloxane, 50)
                     .inputFluids(Argon.getFluid(PLASMA, 1))
                     .outputItems(dust, SealedPhaseChangeBeads, 4)
                     .duration(300)
@@ -582,8 +582,8 @@ public final class NewResearchSystem {
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("make_mfpc_6")
                     .notConsumable(dust, Cobalt)
                     .inputItems(dust, SealedPhaseChangeBeads, 16)
-                    .inputFluids(Methane.getFluid(1000))
-                    .inputFluids(Hydrogen.getFluid(4000))
+                    .inputFluids(Methane, 1000)
+                    .inputFluids(Hydrogen, 4000)
                     .inputFluids(Argon.getFluid(PLASMA, 100))
                     .outputItems(dust, CarbonNanotubeCoatedPhaseChangeMicrobeads, 16)
                     .duration(800)
@@ -602,7 +602,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_mfpc_8")
                     .inputItems(dust, MicrowaveAttenuatingCoatedPhaseChangeMicrobeads)
-                    .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
+                    .inputFluids(KH550SilaneCouplingAgent, 5)
                     .outputItems(dust, SurfaceFunctionalizedPhaseChangeMicrobeads)
                     .duration(100)
                     .EUt(VA[MV])
@@ -610,7 +610,7 @@ public final class NewResearchSystem {
 
             ISOSTATIC_PRESSING_RECIPES.recipeBuilder("make_mfpc_9")
                     .inputItems(dust, SurfaceFunctionalizedPhaseChangeMicrobeads)
-                    .inputFluids(MutatedLivingSolder.getFluid(10))
+                    .inputFluids(MutatedLivingSolder, 10)
                     .outputItems(dust, BasicMFPC)
                     .duration(400)
                     .EUt(VA[UV])
@@ -625,7 +625,7 @@ public final class NewResearchSystem {
 
             CANNER_RECIPES.recipeBuilder("recycle_mfpc_2")
                     .inputItems(dust, RecycledPhaseChangeMicrobeads, 10)
-                    .inputFluids(Octane.getFluid(800))
+                    .inputFluids(Octane, 800)
                     .outputItems(dust, OctaneLoadedPhaseChangeMicrobeads, 10)
                     .duration(2000)
                     .EUt(VA[MV])
@@ -633,7 +633,7 @@ public final class NewResearchSystem {
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("recycle_mfpc_3")
                     .inputItems(dust, OctaneLoadedPhaseChangeMicrobeads)
-                    .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
+                    .inputFluids(KH550SilaneCouplingAgent, 5)
                     .outputItems(dust, ReactivatedPhaseChangeMicrobeads)
                     .duration(100)
                     .EUt(VA[MV])
@@ -641,7 +641,7 @@ public final class NewResearchSystem {
 
             ISOSTATIC_PRESSING_RECIPES.recipeBuilder("recycle_mfpc_4")
                     .inputItems(dust, ReactivatedPhaseChangeMicrobeads)
-                    .inputFluids(MutatedLivingSolder.getFluid(10))
+                    .inputFluids(MutatedLivingSolder, 10)
                     .outputItems(dust, BasicMFPC)
                     .duration(400)
                     .EUt(VA[UV])

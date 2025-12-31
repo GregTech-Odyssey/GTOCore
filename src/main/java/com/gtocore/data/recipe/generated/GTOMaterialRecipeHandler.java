@@ -155,7 +155,7 @@ final class GTOMaterialRecipeHandler {
         if (GTOUtils.isGeneration(ingotHot, material) && material.hasFlag(CAN_BE_COOLED_DOWN_BY_BATHING)) {
             CHEMICAL_BATH_RECIPES.builder("%s_cool_down".formatted(material))
                     .inputItems(ingotHot, material)
-                    .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                    .inputFluids(GTOMaterials.CoolantLiquid, 100)
                     .outputItems(ingot, material)
                     .duration(mass * 5).EUt(VA[MV]).save();
         }
@@ -377,7 +377,7 @@ final class GTOMaterialRecipeHandler {
             LASER_ENGRAVER_RECIPES.recipeBuilder("engrave_" + material.getName() + "_" + FormattingUtil.toLowerCaseUnderscore(gemPrefix.name) + "_to_" + FormattingUtil.toLowerCaseUnderscore(prevPrefix.name))
                     .inputItems(prevStack)
                     .notConsumable(lens, MarkerMaterials.Color.White)
-                    .inputFluids(DistilledWater.getFluid(10))
+                    .inputFluids(DistilledWater, 10)
                     .outputItems(gemPrefix, material)
                     .duration(300)
                     .EUt(240)
@@ -451,9 +451,9 @@ final class GTOMaterialRecipeHandler {
                         .category(GTORecipeCategories.CONDENSE_MOLTEN_TO_DUST);
                 if (needLiquidHelium) {
                     b.inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 500))
-                            .outputFluids(GTMaterials.Helium.getFluid(250));
+                            .outputFluids(GTMaterials.Helium, 250);
                     bl.inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 500))
-                            .outputFluids(GTMaterials.Helium.getFluid(250));
+                            .outputFluids(GTMaterials.Helium, 250);
                 }
                 b.save();
                 bl.save();
@@ -536,14 +536,14 @@ final class GTOMaterialRecipeHandler {
             if (material.hasFlag(CRYSTALLIZABLE)) {
                 AUTOCLAVE_RECIPES.recipeBuilder("autoclave_" + id + "_water")
                         .inputItems(dustStack)
-                        .inputFluids(GTMaterials.Water.getFluid(250))
+                        .inputFluids(GTMaterials.Water, 250)
                         .chancedOutput(gemStack, 7000, 1000)
                         .duration(1200).EUt(24)
                         .save();
 
                 AUTOCLAVE_RECIPES.recipeBuilder("autoclave_" + id + "_distilled")
                         .inputItems(dustStack)
-                        .inputFluids(DistilledWater.getFluid(50))
+                        .inputFluids(DistilledWater, 50)
                         .outputItems(gemStack)
                         .duration(600).EUt(24)
                         .save();

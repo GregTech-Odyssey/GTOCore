@@ -361,7 +361,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @Override
     public PatternContainerGroup getTerminalGroup() {
         if (isFormed()) {
-            IMultiController controller = getControllers().first();
+            IMultiController controller = getController();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
             GTRecipeType rt = this.recipeType;
             MutableComponent lidComp = null;
@@ -536,9 +536,8 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         final LockableItemStackHandler lockableInventory;
         @Getter
         private boolean lock;
-        @Getter
         @Setter
-        boolean shouldLockRecipe = true;
+        private boolean shouldLockRecipe = true;
 
         private InternalSlot(MEPatternBufferPartMachine machine, int index) {
             this.machine = machine;

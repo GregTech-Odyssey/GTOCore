@@ -282,7 +282,7 @@ public final class CircuitRecipes {
                 .inputItems(dust, Carbon)
                 .inputItems(wireFine, AnnealedCopper, 4)
                 .outputItems(RESISTOR, 4)
-                .inputFluids(Glue.getFluid(100))
+                .inputFluids(Glue, 100)
                 .duration(160).EUt(6).save();
 
         // Capacitor
@@ -542,14 +542,14 @@ public final class CircuitRecipes {
 
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_from_part_mutagen")
                 .inputItems(RAW_CRYSTAL_CHIP_PART)
-                .inputFluids(Mutagen.getFluid(250))
+                .inputFluids(Mutagen, 250)
                 .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 8000, 250)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(VA[HV]).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("raw_crystal_chip_from_part_bacterial_sludge")
                 .inputItems(RAW_CRYSTAL_CHIP_PART)
-                .inputFluids(BacterialSludge.getFluid(250))
+                .inputFluids(BacterialSludge, 250)
                 .chancedOutput(RAW_CRYSTAL_CHIP.asItem(), 8000, 250)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .duration(12000).EUt(VA[HV]).save();
@@ -559,14 +559,14 @@ public final class CircuitRecipes {
         CHEMICAL_RECIPES.recipeBuilder("good_circuit_board_persulfate").EUt(VA[LV]).duration(300)
                 .inputItems(foil, Silver, 4)
                 .inputItems(PHENOLIC_BOARD)
-                .inputFluids(SodiumPersulfate.getFluid(200))
+                .inputFluids(SodiumPersulfate, 200)
                 .outputItems(GOOD_CIRCUIT_BOARD)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("good_circuit_board_iron3").EUt(VA[LV]).duration(300)
                 .inputItems(foil, Silver, 4)
                 .inputItems(PHENOLIC_BOARD)
-                .inputFluids(Iron3Chloride.getFluid(100))
+                .inputFluids(Iron3Chloride, 100)
                 .outputItems(GOOD_CIRCUIT_BOARD)
                 .save();
 
@@ -574,28 +574,28 @@ public final class CircuitRecipes {
         CHEMICAL_RECIPES.recipeBuilder("plastic_board_polyethylene").duration(500).EUt(10)
                 .inputItems(plate, Polyethylene)
                 .inputItems(foil, Copper, 4)
-                .inputFluids(SulfuricAcid.getFluid(250))
+                .inputFluids(SulfuricAcid, 250)
                 .outputItems(PLASTIC_BOARD)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("plastic_board_pvc").duration(500).EUt(10)
                 .inputItems(plate, PolyvinylChloride)
                 .inputItems(foil, Copper, 4)
-                .inputFluids(SulfuricAcid.getFluid(250))
+                .inputFluids(SulfuricAcid, 250)
                 .outputItems(PLASTIC_BOARD, 2)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("plastic_board_ptfe").duration(500).EUt(10)
                 .inputItems(plate, Polytetrafluoroethylene)
                 .inputItems(foil, Copper, 4)
-                .inputFluids(SulfuricAcid.getFluid(250))
+                .inputFluids(SulfuricAcid, 250)
                 .outputItems(PLASTIC_BOARD, 4)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("plastic_board_pbi").duration(500).EUt(10)
                 .inputItems(plate, Polybenzimidazole)
                 .inputItems(foil, Copper, 4)
-                .inputFluids(SulfuricAcid.getFluid(250))
+                .inputFluids(SulfuricAcid, 250)
                 .outputItems(PLASTIC_BOARD, 8)
                 .save();
 
@@ -603,7 +603,7 @@ public final class CircuitRecipes {
         CHEMICAL_RECIPES.recipeBuilder("epoxy_board").duration(600).EUt(VA[LV])
                 .inputItems(plate, Epoxy)
                 .inputItems(foil, Gold, 8)
-                .inputFluids(SulfuricAcid.getFluid(500))
+                .inputFluids(SulfuricAcid, 500)
                 .outputItems(EPOXY_BOARD)
                 .save();
 
@@ -630,7 +630,7 @@ public final class CircuitRecipes {
         CHEMICAL_RECIPES.recipeBuilder("fiber_board").duration(500).EUt(10)
                 .inputItems(plate, ReinforcedEpoxyResin)
                 .inputItems(foil, AnnealedCopper, 8)
-                .inputFluids(SulfuricAcid.getFluid(125))
+                .inputFluids(SulfuricAcid, 125)
                 .outputItems(FIBER_BOARD)
                 .save();
 
@@ -638,7 +638,7 @@ public final class CircuitRecipes {
         CHEMICAL_RECIPES.recipeBuilder("multilayer_fiber_board").duration(500).EUt(VA[HV])
                 .inputItems(FIBER_BOARD, 2)
                 .inputItems(foil, Palladium, 8)
-                .inputFluids(SulfuricAcid.getFluid(500))
+                .inputFluids(SulfuricAcid, 500)
                 .outputItems(MULTILAYER_FIBER_BOARD)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
@@ -1128,7 +1128,7 @@ public final class CircuitRecipes {
                 .inputItems(plate, Electrum, 8)
                 .inputItems(foil, SiliconeRubber, 16)
                 .inputItems(bolt, HSSE, 8)
-                .inputFluids(SterileGrowthMedium.getFluid(250))
+                .inputFluids(SterileGrowthMedium, 250)
                 .outputItems(NEURO_PROCESSOR)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
@@ -1168,7 +1168,7 @@ public final class CircuitRecipes {
                 .inputItems(wireFine, YttriumBariumCuprate, 24)
                 .inputItems(foil, Polybenzimidazole, 32)
                 .inputItems(plate, Europium, 4)
-                .inputFluids(SolderingAlloy.getFluid(1152))
+                .inputFluids(SolderingAlloy, 1152)
                 .inputFluids(Polybenzimidazole.getFluid(L << 2))
                 .inputFluids(Zinc.getFluid(FluidStorageKeys.PLASMA, 144))
                 .outputItems(WETWARE_SUPER_COMPUTER_UV)

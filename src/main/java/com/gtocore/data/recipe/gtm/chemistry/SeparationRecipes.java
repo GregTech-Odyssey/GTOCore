@@ -18,23 +18,23 @@ final class SeparationRecipes {
     public static void init() {
         // Centrifuge
         CENTRIFUGE_RECIPES.recipeBuilder("refinery_gas_separation")
-                .inputFluids(RefineryGas.getFluid(8000))
+                .inputFluids(RefineryGas, 8000)
                 .outputFluids(Methane.getFluid(4000))
                 .outputFluids(LPG.getFluid(4000))
                 .duration(200).EUt(5).save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("butane_separation")
-                .inputFluids(Butane.getFluid(320))
+                .inputFluids(Butane, 320)
                 .outputFluids(LPG.getFluid(370))
                 .duration(20).EUt(5).save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("propane_separation")
-                .inputFluids(Propane.getFluid(320))
+                .inputFluids(Propane, 320)
                 .outputFluids(LPG.getFluid(290))
                 .duration(20).EUt(5).save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("nitration_mixture_separation")
-                .inputFluids(NitrationMixture.getFluid(2000))
+                .inputFluids(NitrationMixture, 2000)
                 .outputFluids(NitricAcid.getFluid(1000))
                 .outputFluids(SulfuricAcid.getFluid(1000))
                 .duration(192).EUt(VA[LV]).save();
@@ -180,7 +180,7 @@ final class SeparationRecipes {
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("lava_separation").duration(80).EUt(80)
-                .inputFluids(Lava.getFluid(100))
+                .inputFluids(Lava, 100)
                 .chancedOutput(dust, SiliconDioxide, 1250, 80)
                 .chancedOutput(dust, Magnesia, 250, 70)
                 .chancedOutput(dust, Quicklime, 250, 70)
@@ -197,34 +197,34 @@ final class SeparationRecipes {
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("hydrogen_separation").duration(160).EUt(20)
-                .inputFluids(Hydrogen.getFluid(160))
+                .inputFluids(Hydrogen, 160)
                 .outputFluids(Deuterium.getFluid(40))
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("deuterium_separation").duration(160).EUt(80)
-                .inputFluids(Deuterium.getFluid(160))
+                .inputFluids(Deuterium, 160)
                 .outputFluids(Tritium.getFluid(40))
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("helium_separation").duration(160).EUt(80)
-                .inputFluids(Helium.getFluid(80))
+                .inputFluids(Helium, 80)
                 .outputFluids(Helium3.getFluid(5))
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("air_separation").duration(1600).EUt(VA[ULV])
-                .inputFluids(Air.getFluid(10000))
+                .inputFluids(Air, 10000)
                 .outputFluids(Nitrogen.getFluid(3900))
                 .outputFluids(Oxygen.getFluid(1000))
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("nether_air_separation").duration(1600).EUt(VA[MV])
-                .inputFluids(NetherAir.getFluid(10000))
+                .inputFluids(NetherAir, 10000)
                 .outputFluids(CarbonMonoxide.getFluid(3900))
                 .outputFluids(SulfurDioxide.getFluid(1000))
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("ender_air_separation").duration(1600).EUt(VA[HV])
-                .inputFluids(EnderAir.getFluid(10000))
+                .inputFluids(EnderAir, 10000)
                 .outputFluids(NitrogenDioxide.getFluid(3900))
                 .outputFluids(Deuterium.getFluid(1000))
                 .save();
@@ -275,7 +275,7 @@ final class SeparationRecipes {
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("salt_water_separation").duration(51).EUt(VA[LV])
-                .inputFluids(SaltWater.getFluid(1000))
+                .inputFluids(SaltWater, 1000)
                 .outputItems(dust, Salt, 2)
                 .outputFluids(Water.getFluid(1000))
                 .save();
@@ -294,7 +294,7 @@ final class SeparationRecipes {
                 .duration(150).EUt(VA[LV]).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("salt_water_electrolysis")
-                .inputFluids(SaltWater.getFluid(1000))
+                .inputFluids(SaltWater, 1000)
                 .outputItems(dust, SodiumHydroxide, 3)
                 .outputFluids(Chlorine.getFluid(1000))
                 .outputFluids(Hydrogen.getFluid(1000))
@@ -308,13 +308,13 @@ final class SeparationRecipes {
                 .duration(200).EUt(VA[LV]).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("water_electrolysis")
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputFluids(Hydrogen.getFluid(2000))
                 .outputFluids(Oxygen.getFluid(1000))
                 .duration(1500).EUt(VA[LV]).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("distilled_water_electrolysis")
-                .inputFluids(DistilledWater.getFluid(1000))
+                .inputFluids(DistilledWater, 1000)
                 .outputFluids(Hydrogen.getFluid(2000))
                 .outputFluids(Oxygen.getFluid(1000))
                 .duration(1500).EUt(VA[LV]).save();
@@ -330,39 +330,39 @@ final class SeparationRecipes {
                 .duration(100).EUt(60).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("acetic_acid_electrolysis")
-                .inputFluids(AceticAcid.getFluid(2000))
+                .inputFluids(AceticAcid, 2000)
                 .outputFluids(Ethane.getFluid(1000))
                 .outputFluids(CarbonDioxide.getFluid(2000))
                 .outputFluids(Hydrogen.getFluid(2000))
                 .duration(512).EUt(60).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("chloromethane_electrolysis")
-                .inputFluids(Chloromethane.getFluid(2000))
+                .inputFluids(Chloromethane, 2000)
                 .outputFluids(Ethane.getFluid(1000))
                 .outputFluids(Chlorine.getFluid(2000))
                 .duration(400).EUt(60).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("acetone_electrolysis")
-                .inputFluids(Acetone.getFluid(2000))
+                .inputFluids(Acetone, 2000)
                 .outputItems(dust, Carbon, 3)
                 .outputFluids(Propane.getFluid(1000))
                 .outputFluids(Water.getFluid(2000))
                 .duration(480).EUt(60).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("butane_electrolysis")
-                .inputFluids(Butane.getFluid(1000))
+                .inputFluids(Butane, 1000)
                 .outputFluids(Butene.getFluid(1000))
                 .outputFluids(Hydrogen.getFluid(2000))
                 .duration(240).EUt(VA[MV]).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("butene_electrolysis")
-                .inputFluids(Butene.getFluid(1000))
+                .inputFluids(Butene, 1000)
                 .outputFluids(Butadiene.getFluid(1000))
                 .outputFluids(Hydrogen.getFluid(2000))
                 .duration(240).EUt(VA[MV]).save();
 
         ELECTROLYZER_RECIPES.recipeBuilder("propane_electrolysis")
-                .inputFluids(Propane.getFluid(1000))
+                .inputFluids(Propane, 1000)
                 .outputFluids(Propene.getFluid(1000))
                 .outputFluids(Hydrogen.getFluid(2000))
                 .duration(640).EUt(VA[MV]).save();

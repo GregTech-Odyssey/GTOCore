@@ -11,14 +11,14 @@ final class LavaFurnace {
     public static void init() {
         LAVA_FURNACE_RECIPES.recipeBuilder("lava_furnace")
                 .inputItems(TagUtils.createForgeTag("cobblestone"))
-                .outputFluids(GTMaterials.Lava.getFluid(1000))
+                .outputFluids(GTMaterials.Lava, 1000)
                 .EUt(16)
                 .duration(200)
                 .save();
 
         LAVA_FURNACE_RECIPES.recipeBuilder("lava_furnace1")
                 .inputItems(TagUtils.createForgeTag("stone"))
-                .outputFluids(GTMaterials.Lava.getFluid(1000))
+                .outputFluids(GTMaterials.Lava, 1000)
                 .EUt(16)
                 .duration(200)
                 .save();

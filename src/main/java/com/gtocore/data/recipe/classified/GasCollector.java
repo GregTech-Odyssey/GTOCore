@@ -13,7 +13,7 @@ final class GasCollector {
     public static void init() {
         GAS_COLLECTOR_RECIPES.recipeBuilder("barnarda_c")
                 .circuitMeta(6)
-                .outputFluids(GTOMaterials.BarnardaAir.getFluid(10000))
+                .outputFluids(GTOMaterials.BarnardaAir, 10000)
                 .EUt(1024)
                 .duration(20)
                 .dimension(GTODimensions.BARNARDA_C)
@@ -21,7 +21,7 @@ final class GasCollector {
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("flat")
                 .circuitMeta(5)
-                .outputFluids(GTMaterials.Air.getFluid(10000))
+                .outputFluids(GTMaterials.Air, 10000)
                 .EUt(16)
                 .duration(20)
                 .dimension(GTODimensions.FLAT)
@@ -29,7 +29,7 @@ final class GasCollector {
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("void")
                 .circuitMeta(4)
-                .outputFluids(GTMaterials.Air.getFluid(10000))
+                .outputFluids(GTMaterials.Air, 10000)
                 .EUt(16)
                 .duration(20)
                 .dimension(GTODimensions.VOID)

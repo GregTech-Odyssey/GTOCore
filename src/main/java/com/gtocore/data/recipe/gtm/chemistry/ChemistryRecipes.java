@@ -35,44 +35,44 @@ public final class ChemistryRecipes {
         // A Few Random Recipes
         FLUID_HEATER_RECIPES.recipeBuilder("ethenone")
                 .circuitMeta(1)
-                .inputFluids(Acetone.getFluid(100))
+                .inputFluids(Acetone, 100)
                 .outputFluids(Ethenone.getFluid(100))
                 .duration(16).EUt(VA[LV]).save();
 
         FLUID_HEATER_RECIPES.recipeBuilder("acetone")
                 .circuitMeta(1)
-                .inputFluids(DissolvedCalciumAcetate.getFluid(200))
+                .inputFluids(DissolvedCalciumAcetate, 200)
                 .outputFluids(Acetone.getFluid(200))
                 .duration(16).EUt(VA[LV]).save();
 
         VACUUM_RECIPES.recipeBuilder("ice")
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputFluids(Ice.getFluid(1000))
                 .duration(50).EUt(VA[LV]).save();
 
         VACUUM_RECIPES.recipeBuilder("liquid_air")
-                .inputFluids(Air.getFluid(4000))
+                .inputFluids(Air, 4000)
                 .outputFluids(LiquidAir.getFluid(4000))
                 .duration(80).EUt(VA[HV]).save();
 
         VACUUM_RECIPES.recipeBuilder("liquid_nether_air")
-                .inputFluids(NetherAir.getFluid(4000))
+                .inputFluids(NetherAir, 4000)
                 .outputFluids(LiquidNetherAir.getFluid(4000))
                 .duration(80).EUt(VA[EV]).save();
 
         VACUUM_RECIPES.recipeBuilder("liquid_ender_air")
-                .inputFluids(EnderAir.getFluid(4000))
+                .inputFluids(EnderAir, 4000)
                 .outputFluids(LiquidEnderAir.getFluid(4000))
                 .duration(80).EUt(VA[IV]).save();
 
         VACUUM_RECIPES.recipeBuilder("liquid_helium")
-                .inputFluids(Helium.getFluid(1000))
+                .inputFluids(Helium, 1000)
                 .outputFluids(Helium.getFluid(FluidStorageKeys.LIQUID, 1000))
                 .duration(240).EUt(VA[EV]).save();
 
         BLAST_RECIPES.recipeBuilder("nickel_zinc_ferrite")
                 .inputItems(dust, FerriteMixture)
-                .inputFluids(Oxygen.getFluid(2000))
+                .inputFluids(Oxygen, 2000)
                 .outputItems(ingot, NickelZincFerrite)
                 .blastFurnaceTemp(1500)
                 .duration(400).EUt(VA[MV]).save();
@@ -102,14 +102,14 @@ public final class ChemistryRecipes {
 
         PYROLYSE_RECIPES.recipeBuilder("activated_carbon_from_carbon").circuitMeta(1)
                 .inputItems(dust, Carbon)
-                .inputFluids(Nitrogen.getFluid(2000))
+                .inputFluids(Nitrogen, 2000)
                 .outputItems(dust, ActivatedCarbon)
                 .duration(320).EUt(64)
                 .save();
 
         PYROLYSE_RECIPES.recipeBuilder("activated_carbon_from_charcoal").circuitMeta(1)
                 .inputItems(dust, Charcoal)
-                .inputFluids(Nitrogen.getFluid(2000))
+                .inputFluids(Nitrogen, 2000)
                 .outputItems(dust, ActivatedCarbon)
                 .duration(640).EUt(64)
                 .save();

@@ -596,13 +596,13 @@ public final class GTOOreRecipeHandler {
         ORE_WASHER_RECIPES.recipeBuilder(material.getName() + "_crushed_ore_to_purified_ore_fast")
                 .inputItems(stack)
                 .circuitMeta(2)
-                .inputFluids(Water.getFluid(100))
+                .inputFluids(Water, 100)
                 .outputItems(crushedPurifiedOre)
                 .duration(8).EUt(4).save();
 
         ORE_WASHER_RECIPES.recipeBuilder(material.getName() + "_crushed_ore_to_purified_ore")
                 .inputItems(stack)
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .circuitMeta(1)
                 .outputItems(crushedPurifiedOre)
                 .chancedOutput(TagPrefix.dust, byproductMaterial, 3333, 0)
@@ -611,7 +611,7 @@ public final class GTOOreRecipeHandler {
 
         ORE_WASHER_RECIPES.recipeBuilder(material.getName() + "_crushed_ore_to_purified_ore_distilled")
                 .inputItems(stack)
-                .inputFluids(DistilledWater.getFluid(100))
+                .inputFluids(DistilledWater, 100)
                 .outputItems(crushedPurifiedOre)
                 .chancedOutput(TagPrefix.dust, byproductMaterial, 3333, 0)
                 .outputItems(TagPrefix.dust, GTMaterials.Stone)
@@ -773,7 +773,7 @@ public final class GTOOreRecipeHandler {
         ORE_WASHER_RECIPES.recipeBuilder(material.getName() + "_dirty_dust_to_dust")
                 .inputItems(stack)
                 .circuitMeta(2)
-                .inputFluids(Water.getFluid(100))
+                .inputFluids(Water, 100)
                 .outputItems(dustStack)
                 .duration(8).EUt(4).save();
 
@@ -818,7 +818,7 @@ public final class GTOOreRecipeHandler {
         ORE_WASHER_RECIPES.recipeBuilder(material.getName() + "_pure_dust_to_dust")
                 .inputItems(stack)
                 .circuitMeta(2)
-                .inputFluids(Water.getFluid(100))
+                .inputFluids(Water, 100)
                 .outputItems(dustStack)
                 .duration(8).EUt(4).save();
 

@@ -512,7 +512,7 @@ public final class GTOItems {
 
     public static ItemEntry<Item> NEUTRON_PILE = register("neutron_pile", "中子尘埃");
 
-    public static ItemEntry<Item> INFINITY_CATALYST = register("infinity_catalyst", "无尽催化剂");
+    public static ItemEntry<Item> INFINITY_CATALYST = registerCustomModel("infinity_catalyst", "无尽催化剂");
 
     public static ItemEntry<Item> INFINITY_SINGULARITY = item("infinity_singularity", "无尽奇点")
             .model(NonNullBiConsumer.noop())

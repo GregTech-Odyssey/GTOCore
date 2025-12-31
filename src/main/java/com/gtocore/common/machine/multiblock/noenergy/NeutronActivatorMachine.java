@@ -66,7 +66,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
                 IO io = itemBusPart.getInventory().getHandlerIO();
                 if (io == IO.IN || io == IO.BOTH) {
                     busMachines.add(itemBusPart);
-                    for (var handler : part.getRecipeHandlers()) {
+                    for (var handler : itemBusPart.getRecipeHandlers()) {
                         traitSubscriptions.add(handler.subscribe(this::absorptionUpdate));
                     }
                 }

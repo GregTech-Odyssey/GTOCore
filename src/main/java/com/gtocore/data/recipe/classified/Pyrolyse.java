@@ -14,9 +14,9 @@ final class Pyrolyse {
         PYROLYSE_RECIPES.recipeBuilder("rawradox1")
                 .inputItems(GTOBlocks.VARIATION_WOOD.asItem(), 16)
                 .circuitMeta(1)
-                .inputFluids(GTOMaterials.EnrichedXenoxene.getFluid(1000))
+                .inputFluids(GTOMaterials.EnrichedXenoxene, 1000)
                 .outputItems(TagPrefix.dust, GTMaterials.Ash)
-                .outputFluids(GTOMaterials.RawRadox.getFluid(10000))
+                .outputFluids(GTOMaterials.RawRadox, 10000)
                 .EUt(7864320)
                 .duration(600)
                 .save();
@@ -24,9 +24,9 @@ final class Pyrolyse {
         PYROLYSE_RECIPES.recipeBuilder("rawradox")
                 .inputItems(GTOBlocks.VARIATION_WOOD.asItem(), 16)
                 .circuitMeta(1)
-                .inputFluids(GTOMaterials.Xenoxene.getFluid(1000))
+                .inputFluids(GTOMaterials.Xenoxene, 1000)
                 .outputItems(TagPrefix.dust, GTMaterials.Ash)
-                .outputFluids(GTOMaterials.RawRadox.getFluid(1000))
+                .outputFluids(GTOMaterials.RawRadox, 1000)
                 .EUt(491520)
                 .duration(900)
                 .save();

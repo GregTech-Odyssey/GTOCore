@@ -80,8 +80,8 @@ final class DrillingModule {
         DRILLING_MODULE_RECIPES.recipeBuilder("space_fluid_29")
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asItem(), 64)
                 .circuitMeta(29)
-                .inputFluids(GTOMaterials.StellarEnergyRocketFuel.getFluid(10000))
-                .outputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(100000))
+                .inputFluids(GTOMaterials.StellarEnergyRocketFuel, 10000)
+                .outputFluids(GTOMaterials.WhiteDwarfMatter, 100000)
                 .EUt(503316480)
                 .duration(750)
                 .save();
@@ -89,8 +89,8 @@ final class DrillingModule {
         DRILLING_MODULE_RECIPES.recipeBuilder("space_fluid_30")
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asItem(), 64)
                 .circuitMeta(30)
-                .inputFluids(GTOMaterials.StellarEnergyRocketFuel.getFluid(10000))
-                .outputFluids(GTOMaterials.BlackDwarfMatter.getFluid(100000))
+                .inputFluids(GTOMaterials.StellarEnergyRocketFuel, 10000)
+                .outputFluids(GTOMaterials.BlackDwarfMatter, 100000)
                 .EUt(503316480)
                 .duration(750)
                 .save();
