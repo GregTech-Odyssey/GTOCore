@@ -10,21 +10,21 @@ final class HeatExchanger {
 
     public static void init() {
         HEAT_EXCHANGER_RECIPES.recipeBuilder("hot_sodium_potassium")
-                .inputFluids(GTOMaterials.HotSodiumPotassium.getFluid(1))
-                .inputFluids(GTMaterials.Water.getFluid(160))
-                .outputFluids(GTMaterials.SodiumPotassium.getFluid(1))
-                .outputFluids(GTMaterials.Steam.getFluid(25600))
-                .outputFluids(GTOMaterials.HighPressureSteam.getFluid(6400))
+                .inputFluids(GTOMaterials.HotSodiumPotassium, 1)
+                .inputFluids(GTMaterials.Water, 160)
+                .outputFluids(GTMaterials.SodiumPotassium, 1)
+                .outputFluids(GTMaterials.Steam, 25600)
+                .outputFluids(GTOMaterials.HighPressureSteam, 6400)
                 .duration(200)
                 .addData("eu", 12800)
                 .save();
 
         HEAT_EXCHANGER_RECIPES.recipeBuilder("supercritical_sodium_potassium")
-                .inputFluids(GTOMaterials.SupercriticalSodiumPotassium.getFluid(1))
-                .inputFluids(GTMaterials.DistilledWater.getFluid(160))
-                .outputFluids(GTMaterials.SodiumPotassium.getFluid(1))
-                .outputFluids(GTOMaterials.HighPressureSteam.getFluid(6400))
-                .outputFluids(GTOMaterials.SupercriticalSteam.getFluid(1600))
+                .inputFluids(GTOMaterials.SupercriticalSodiumPotassium, 1)
+                .inputFluids(GTMaterials.DistilledWater, 160)
+                .outputFluids(GTMaterials.SodiumPotassium, 1)
+                .outputFluids(GTOMaterials.HighPressureSteam, 6400)
+                .outputFluids(GTOMaterials.SupercriticalSteam, 1600)
                 .duration(200)
                 .addData("eu", 12800)
                 .save();

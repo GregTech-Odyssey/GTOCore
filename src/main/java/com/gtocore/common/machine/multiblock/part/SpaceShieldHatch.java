@@ -7,7 +7,7 @@ import com.gtolib.utils.holder.BooleanHolder;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -18,14 +18,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.gregtechceu.gtceu.api.GTValues.UEV;
-
-public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspaceMachine {
+public class SpaceShieldHatch extends MultiblockPartMachine implements ISpaceWorkspaceMachine {
 
     private BooleanHolder hasLaser;
 
     public SpaceShieldHatch(MetaMachineBlockEntity holder) {
-        super(holder, UEV);
+        super(holder);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class SpaceShieldHatch extends TieredPartMachine implements ISpaceWorkspa
     @Override
     public boolean isWorkspaceReady() {
         if (hasLaser == null) {
-            hasLaser = new BooleanHolder(Stream.of(getControllers().first().getParts())
+            hasLaser = new BooleanHolder(Stream.of(getController().getParts())
                     .anyMatch(p -> (PartAbility.INPUT_LASER.isApplicable(p.self().getBlockState().getBlock()))));
         }
         return hasLaser.value;

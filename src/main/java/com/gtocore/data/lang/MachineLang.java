@@ -132,6 +132,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.recipe.run", "运行%s配方时: ", "When running the % recipe: ");
         addCNEN("gtocore.machine.parallel", "最大并行数: %s", "Maximum number of parallel: %s");
         addCNEN("gtocore.machine.cwut_modification", "算力修正系数: %s", "Hashrate correction factor: %s");
+        addCNEN("gtocore.machine.components_list", "组件列表: ", "Components List: ");
         addCNEN("gtocore.machine.tag_filter.tag_config_title", "标签过滤配置", "Tag Filtering Configuration");
         addCNEN("gtocore.machine.tag_filter.tooltip.0", "* 表示通配符 () 表示优先", "* Indicates a wildcard () Indicates Priority");
         addCNEN("gtocore.machine.tag_filter.tooltip.1", "& = 逻辑与 | = 逻辑或 ^ = 逻辑异或", "& = Logic with | = Logic or ^ = Logical XOR");

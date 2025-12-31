@@ -298,21 +298,21 @@ public final class MachineRecipeLoader {
     private static void registerMixingCrystallizationRecipes() {
         AUTOCLAVE_RECIPES.recipeBuilder("silicon_dioxide_to_quartzite_gem")
                 .inputItems(dust, SiliconDioxide)
-                .inputFluids(DistilledWater.getFluid(250))
+                .inputFluids(DistilledWater, 250)
                 .chancedOutput(ChemicalHelper.get(gem, Quartzite), 1000, 1000)
                 .duration(1200).EUt(24).save();
 
         // todo find UU-Matter replacement
         // AUTOCLAVE_RECIPES.recipeBuilder()
         // .inputItems(dust, NetherStar)
-        // .inputFluids(UUMatter.getFluid(576))
+        // .inputFluids(UUMatter,576)
         // .chancedOutput(new ItemStack(Items.NETHER_STAR), 3333, 3333)
         // .duration(72000).EUt(VA[HV]).save();
 
         MIXER_RECIPES.recipeBuilder("indium_concentrate")
                 .inputItems(crushedPurified, Sphalerite)
                 .inputItems(crushedPurified, Galena)
-                .inputFluids(SulfuricAcid.getFluid(4000))
+                .inputFluids(SulfuricAcid, 4000)
                 .outputFluids(IndiumConcentrate.getFluid(1000))
                 .duration(60).EUt(150).save();
     }
@@ -428,7 +428,7 @@ public final class MachineRecipeLoader {
 
         CANNER_RECIPES.recipeBuilder("spray_can_solvent")
                 .inputItems(SPRAY_EMPTY)
-                .inputFluids(Acetone.getFluid(1000))
+                .inputFluids(Acetone, 1000)
                 .outputItems(SPRAY_SOLVENT)
                 .EUt(VA[ULV]).duration(200).save();
 
@@ -442,13 +442,13 @@ public final class MachineRecipeLoader {
         CANNER_RECIPES.recipeBuilder("pack_paracetamol")
                 .inputItems(dust, Paracetamol, 16)
                 .notConsumable(GTItems.SHAPE_MOLD_PILL)
-                .outputItems(GTItems.PARACETAMOL_PILL.asItem(), 16)
+                .outputItems(GTItems.PARACETAMOL_PILL, 16)
                 .duration(60).EUt(VA[LV]).save();
 
         CANNER_RECIPES.recipeBuilder("pack_rad_away")
                 .inputItems(dust, RadAway, 16)
                 .notConsumable(GTItems.SHAPE_MOLD_PILL)
-                .outputItems(GTItems.RAD_AWAY_PILL.asItem(), 16)
+                .outputItems(GTItems.RAD_AWAY_PILL, 16)
                 .duration(60).EUt(VA[LV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_shutter")
@@ -629,7 +629,7 @@ public final class MachineRecipeLoader {
                 .duration(50).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("casing_ptfe_inert").EUt(16).inputItems(GTBlocks.CASING_STEEL_SOLID.asItem())
-                .inputFluids(Polytetrafluoroethylene.getFluid(216)).circuitMeta(6)
+                .inputFluids(Polytetrafluoroethylene, 216).circuitMeta(6)
                 .outputItems(GTBlocks.CASING_PTFE_INERT.asItem()).duration(50)
                 .save();
 
@@ -796,16 +796,16 @@ public final class MachineRecipeLoader {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("duct_tape_polyethylene").EUt(VA[LV]).inputItems(foil, Polyethylene, 4)
-                .inputItems(CARBON_MESH).inputFluids(Polyethylene.getFluid(288)).outputItems(DUCT_TAPE).duration(100)
+                .inputItems(CARBON_MESH).inputFluids(Polyethylene, 288).outputItems(DUCT_TAPE).duration(100)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("duct_tape_silicone_rubber").EUt(VA[LV]).inputItems(foil, SiliconeRubber, 2)
-                .inputItems(CARBON_MESH).inputFluids(Polyethylene.getFluid(288)).outputItems(DUCT_TAPE, 2).duration(100)
+                .inputItems(CARBON_MESH).inputFluids(Polyethylene, 288).outputItems(DUCT_TAPE, 2).duration(100)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("duct_tape_polycaprolactam").EUt(VA[LV]).inputItems(foil, Polycaprolactam, 2)
                 .inputItems(CARBON_MESH).inputFluids(Polyethylene.getFluid(L)).outputItems(DUCT_TAPE, 4).duration(100)
                 .save();
         ASSEMBLER_RECIPES.recipeBuilder("duct_tape_polybenzimidazole").EUt(VA[LV]).inputItems(foil, Polybenzimidazole)
-                .inputItems(CARBON_MESH).inputFluids(Polyethylene.getFluid(72)).outputItems(DUCT_TAPE, 8).duration(100)
+                .inputItems(CARBON_MESH).inputFluids(Polyethylene, 72).outputItems(DUCT_TAPE, 8).duration(100)
                 .save();
 
         VanillaRecipeHelper.addShapedRecipe("basic_tape", BASIC_TAPE.asItem(),
@@ -852,15 +852,15 @@ public final class MachineRecipeLoader {
 
     private static void registerBlastFurnaceRecipes() {
         BLAST_RECIPES.recipeBuilder("steel_from_iron").duration(500).EUt(VA[MV]).inputItems(ingot, Iron)
-                .inputFluids(Oxygen.getFluid(200)).outputItems(ingot, Steel).chancedOutput(dust, Ash, 1111, 0)
+                .inputFluids(Oxygen, 200).outputItems(ingot, Steel).chancedOutput(dust, Ash, 1111, 0)
                 .blastFurnaceTemp(1000).save();
         BLAST_RECIPES.recipeBuilder("steel_from_wrought_iron").duration(300).EUt(VA[MV]).inputItems(ingot, WroughtIron)
-                .inputFluids(Oxygen.getFluid(200)).outputItems(ingot, Steel).chancedOutput(dust, Ash, 1111, 0)
+                .inputFluids(Oxygen, 200).outputItems(ingot, Steel).chancedOutput(dust, Ash, 1111, 0)
                 .blastFurnaceTemp(1000).save();
 
         BLAST_RECIPES.recipeBuilder("tempered_glass_blasting")
                 .inputItems(block, Glass)
-                .inputFluids(Oxygen.getFluid(100))
+                .inputFluids(Oxygen, 100)
                 .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asItem())
                 .blastFurnaceTemp(1000)
                 .duration(200).EUt(VA[MV]).save();
@@ -1056,7 +1056,7 @@ public final class MachineRecipeLoader {
                 .outputFluids(Water.getFluid(L)).save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("solidify_gelled_toluene")
-                .inputFluids(Toluene.getFluid(100))
+                .inputFluids(Toluene, 100)
                 .notConsumable(SHAPE_MOLD_BALL)
                 .outputItems(GELLED_TOLUENE)
                 .duration(100).EUt(16).save();
@@ -1070,9 +1070,9 @@ public final class MachineRecipeLoader {
         }
 
         FLUID_HEATER_RECIPES.recipeBuilder("heat_water_to_steam").duration(30).EUt(VA[LV])
-                .inputFluids(Water.getFluid(6)).circuitMeta(1).outputFluids(Steam.getFluid(960)).save();
+                .inputFluids(Water, 6).circuitMeta(1).outputFluids(Steam.getFluid(960)).save();
         FLUID_HEATER_RECIPES.recipeBuilder("heat_distilled_to_steam").duration(30).EUt(VA[LV])
-                .inputFluids(DistilledWater.getFluid(6)).circuitMeta(1).outputFluids(Steam.getFluid(960))
+                .inputFluids(DistilledWater, 6).circuitMeta(1).outputFluids(Steam.getFluid(960))
                 .save();
     }
 
@@ -1121,14 +1121,14 @@ public final class MachineRecipeLoader {
             MIXER_RECIPES.recipeBuilder(mossId.getPath() + "_from_moss_block")
                     .inputItems(regularStack.get(i))
                     .inputItems(Blocks.MOSS_BLOCK)
-                    .inputFluids(Water.getFluid(250))
+                    .inputFluids(Water, 250)
                     .outputItems(mossStack.get(i))
                     .duration(40).EUt(1).save();
 
             MIXER_RECIPES.recipeBuilder(mossId.getPath() + "_from_vine")
                     .inputItems(regularStack.get(i))
                     .inputItems(Blocks.VINE)
-                    .inputFluids(Water.getFluid(250))
+                    .inputFluids(Water, 250)
                     .outputItems(mossStack.get(i))
                     .duration(40).EUt(1).save();
         }

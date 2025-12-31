@@ -30,7 +30,7 @@ public final class DyeRecipes {
             if (abs != null && color != DyeColor.WHITE) {
                 CHEMICAL_BATH_RECIPES.recipeBuilder("abs_%s".formatted(colorName))
                         .inputItems(GTOBlocks.ABS_WHITE_CASING.asItem())
-                        .inputFluids(CHEMICAL_DYES[i].getFluid(144))
+                        .inputFluids(CHEMICAL_DYES[i], 144)
                         .outputItems(abs.asItem())
                         .EUt(7).duration(200)
                         .category(GTRecipeCategories.CHEM_DYES)

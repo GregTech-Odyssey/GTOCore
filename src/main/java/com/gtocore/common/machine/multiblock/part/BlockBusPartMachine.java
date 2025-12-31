@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -21,13 +21,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class BlockBusPartMachine extends TieredIOPartMachine implements IMachineLife {
+public final class BlockBusPartMachine extends MultiblockPartMachine implements IMachineLife {
 
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
     public BlockBusPartMachine(MetaMachineBlockEntity holder) {
-        super(holder, 6, IO.BOTH);
+        super(holder);
         inventory = new NotifiableItemStackHandler(this, 81, IO.NONE, IO.BOTH);
     }
 
@@ -44,7 +44,7 @@ public final class BlockBusPartMachine extends TieredIOPartMachine implements IM
         int index = 0;
         for (int y = 0; y < rowSize; y++) {
             for (int x = 0; x < rowSize; x++) {
-                container.addWidget(new SlotWidget(inventory.storage, index, 4 + x * 18, 4 + y * 18, true, io.support(IO.IN)).setBackgroundTexture(GuiTextures.SLOT).setIngredientIO(io == IO.IN ? IngredientIO.INPUT : IngredientIO.OUTPUT));
+                container.addWidget(new SlotWidget(inventory.storage, index, 4 + x * 18, 4 + y * 18, true, true).setBackgroundTexture(GuiTextures.SLOT).setIngredientIO(IngredientIO.INPUT));
                 index++;
             }
         }

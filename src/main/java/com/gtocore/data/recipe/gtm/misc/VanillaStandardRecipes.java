@@ -505,7 +505,7 @@ public final class VanillaStandardRecipes {
 
             CHEMICAL_BATH_RECIPES.recipeBuilder(dyeName + "_concrete").duration(20).EUt(VA[ULV])
                     .inputItems(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_concrete_powder")))
-                    .inputFluids(Water.getFluid(1000))
+                    .inputFluids(Water, 1000)
                     .outputItems(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_concrete")))
                     .category(GTRecipeCategories.CHEM_DYES)
                     .save();
@@ -584,62 +584,62 @@ public final class VanillaStandardRecipes {
         // todo new tags to avoid white -> white recipe?
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_wool")
                 .inputItems(ItemTags.WOOL)
-                .inputFluids(Chlorine.getFluid(50))
+                .inputFluids(Chlorine, 50)
                 .outputItems(Blocks.WHITE_WOOL)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_carpet")
                 .inputItems(ItemTags.WOOL_CARPETS)
-                .inputFluids(Chlorine.getFluid(25))
+                .inputFluids(Chlorine, 25)
                 .outputItems(Blocks.WHITE_CARPET)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_terracotta")
                 .inputItems(ItemTags.TERRACOTTA)
-                .inputFluids(Chlorine.getFluid(50))
+                .inputFluids(Chlorine, 50)
                 .outputItems(Items.TERRACOTTA)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_stained_glass")
                 .inputItems(Tags.Items.STAINED_GLASS)
-                .inputFluids(Chlorine.getFluid(50))
+                .inputFluids(Chlorine, 50)
                 .outputItems(Items.GLASS)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_stained_glass_pane")
                 .inputItems(Tags.Items.STAINED_GLASS_PANES)
-                .inputFluids(Chlorine.getFluid(20))
+                .inputFluids(Chlorine, 20)
                 .outputItems(Items.GLASS_PANE)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_concrete")
                 .inputItems(CustomTags.CONCRETE_ITEM)
-                .inputFluids(Chlorine.getFluid(20))
+                .inputFluids(Chlorine, 20)
                 .outputItems(Items.WHITE_CONCRETE)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("sticky_piston_to_piston")
                 .inputItems(Blocks.STICKY_PISTON)
-                .inputFluids(Chlorine.getFluid(10))
+                .inputFluids(Chlorine, 10)
                 .outputItems(Blocks.PISTON)
                 .duration(30).EUt(VA[LV]).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_candle")
                 .inputItems(ItemTags.CANDLES)
-                .inputFluids(Chlorine.getFluid(20))
+                .inputFluids(Chlorine, 20)
                 .outputItems(Items.CANDLE)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("decolor_bed")
                 .inputItems(ItemTags.BEDS)
-                .inputFluids(Chlorine.getFluid(20))
+                .inputFluids(Chlorine, 20)
                 .outputItems(Items.WHITE_BED)
                 .category(GTRecipeCategories.CHEM_DYES)
                 .duration(400).EUt(2).save();
@@ -663,7 +663,7 @@ public final class VanillaStandardRecipes {
 
         ASSEMBLER_RECIPES.recipeBuilder("sticky_piston_glue")
                 .inputItems(Blocks.PISTON)
-                .inputFluids(Glue.getFluid(100))
+                .inputFluids(Glue, 100)
                 .outputItems(Blocks.STICKY_PISTON)
                 .duration(100).EUt(4).save();
 
@@ -848,14 +848,14 @@ public final class VanillaStandardRecipes {
         ASSEMBLER_RECIPES.recipeBuilder("book_from_leather")
                 .inputItems(Items.PAPER, 3)
                 .inputItems(Items.LEATHER)
-                .inputFluids(Glue.getFluid(20))
+                .inputFluids(Glue, 20)
                 .outputItems(Items.BOOK)
                 .duration(32).EUt(VA[ULV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("book_from_pvc")
                 .inputItems(Items.PAPER, 3)
                 .inputItems(foil, PolyvinylChloride)
-                .inputFluids(Glue.getFluid(20))
+                .inputFluids(Glue, 20)
                 .outputItems(Items.BOOK)
                 .duration(20).EUt(16).save();
 
@@ -886,7 +886,7 @@ public final class VanillaStandardRecipes {
         ASSEMBLER_RECIPES.recipeBuilder("name_tag")
                 .inputItems(Items.LEATHER)
                 .inputItems(Items.LEAD)
-                .inputFluids(Glue.getFluid(100))
+                .inputFluids(Glue, 100)
                 .outputItems(Items.NAME_TAG)
                 .duration(100).EUt(VA[ULV]).save();
 
@@ -906,17 +906,17 @@ public final class VanillaStandardRecipes {
                 .duration(100).EUt(4).save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("snowball").duration(128).EUt(4).notConsumable(SHAPE_MOLD_BALL)
-                .inputFluids(Water.getFluid(250)).outputItems(Items.SNOWBALL).save();
+                .inputFluids(Water, 250).outputItems(Items.SNOWBALL).save();
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("snowball_distilled").duration(128).EUt(4)
-                .notConsumable(SHAPE_MOLD_BALL).inputFluids(DistilledWater.getFluid(250))
+                .notConsumable(SHAPE_MOLD_BALL).inputFluids(DistilledWater, 250)
                 .outputItems(Items.SNOWBALL).save();
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("snow_block").duration(512).EUt(4).notConsumable(SHAPE_MOLD_BLOCK)
-                .inputFluids(Water.getFluid(1000)).outputItems(Blocks.SNOW_BLOCK).save();
+                .inputFluids(Water, 1000).outputItems(Blocks.SNOW_BLOCK).save();
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("snow_block_distilled").duration(512).EUt(4)
-                .notConsumable(SHAPE_MOLD_BLOCK).inputFluids(DistilledWater.getFluid(1000))
+                .notConsumable(SHAPE_MOLD_BLOCK).inputFluids(DistilledWater, 1000)
                 .outputItems(Blocks.SNOW_BLOCK).save();
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("obsidian").duration(1024).EUt(16).notConsumable(SHAPE_MOLD_BLOCK)
-                .inputFluids(Lava.getFluid(1000)).outputItems(Blocks.OBSIDIAN).save();
+                .inputFluids(Lava, 1000).outputItems(Blocks.OBSIDIAN).save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder("solidify_anvil").duration(1680).EUt(16)
                 .notConsumable(SHAPE_MOLD_ANVIL).inputFluids(Iron.getFluid(L * 31))
@@ -930,28 +930,28 @@ public final class VanillaStandardRecipes {
         MIXER_RECIPES.recipeBuilder("mossy_cobblestone_from_vine")
                 .inputItems(Blocks.COBBLESTONE)
                 .inputItems(Blocks.VINE)
-                .inputFluids(Water.getFluid(250))
+                .inputFluids(Water, 250)
                 .outputItems(Blocks.MOSSY_COBBLESTONE)
                 .duration(40).EUt(1).save();
 
         MIXER_RECIPES.recipeBuilder("mossy_cobblestone_from_moss_block")
                 .inputItems(Blocks.COBBLESTONE)
                 .inputItems(Blocks.MOSS_BLOCK)
-                .inputFluids(Water.getFluid(250))
+                .inputFluids(Water, 250)
                 .outputItems(Blocks.MOSSY_COBBLESTONE)
                 .duration(40).EUt(1).save();
 
         MIXER_RECIPES.recipeBuilder("mossy_stone_bricks_from_vine")
                 .inputItems(Blocks.STONE_BRICKS)
                 .inputItems(Blocks.VINE)
-                .inputFluids(Water.getFluid(250))
+                .inputFluids(Water, 250)
                 .outputItems(Blocks.MOSSY_STONE_BRICKS)
                 .duration(40).EUt(1).save();
 
         MIXER_RECIPES.recipeBuilder("mossy_stone_bricks_from_moss_block")
                 .inputItems(Blocks.STONE_BRICKS)
                 .inputItems(Blocks.MOSS_BLOCK)
-                .inputFluids(Water.getFluid(250))
+                .inputFluids(Water, 250)
                 .outputItems(Blocks.MOSSY_STONE_BRICKS)
                 .duration(40).EUt(1).save();
 
@@ -1036,13 +1036,13 @@ public final class VanillaStandardRecipes {
 
         AUTOCLAVE_RECIPES.recipeBuilder("clay_from_dust")
                 .inputItems(dust, Clay)
-                .inputFluids(Water.getFluid(250))
+                .inputFluids(Water, 250)
                 .outputItems(Items.CLAY_BALL)
                 .duration(600).EUt(24).save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("clay_from_dust_distilled")
                 .inputItems(dust, Clay)
-                .inputFluids(DistilledWater.getFluid(250))
+                .inputFluids(DistilledWater, 250)
                 .outputItems(Items.CLAY_BALL)
                 .duration(300).EUt(24).save();
 

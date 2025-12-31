@@ -14,7 +14,7 @@ final class Extruder {
         EXTRUDER_RECIPES.recipeBuilder("special_ceramics")
                 .inputItems(TagPrefix.dust, GTOMaterials.SpecialCeramics, 2)
                 .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE.asItem())
-                .outputItems(GTOItems.SPECIAL_CERAMICS.asItem())
+                .outputItems(GTOItems.SPECIAL_CERAMICS)
                 .EUt(480)
                 .duration(20)
                 .save();

@@ -34,7 +34,7 @@ import static net.minecraft.network.chat.Component.translatable;
 public final class VoidMinerMachine extends StorageMultiblockMachine {
 
     private static final Recipe RECIPE = RecipeBuilder.ofRaw()
-            .inputFluids(DrillingFluid.getFluid(1000))
+            .inputFluids(DrillingFluid, 1000)
             .EUt(VA[GTValues.EV])
             .duration(20)
             .buildRawRecipe();

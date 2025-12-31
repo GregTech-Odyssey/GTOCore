@@ -23,7 +23,7 @@ import net.minecraftforge.fml.loading.FMLLoader;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
-import com.google.common.collect.Sets;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 import java.util.Set;
 
@@ -43,10 +43,10 @@ public class GTOInfCells {
     static void init() {
         for (var i = 0; i < 16; ++i) {
             ASSEMBLER_RECIPES.builder("concrete_infinity_cell_" + i)
-                    .inputItems(GTOItems.CELL_COMPONENT_1M.asItem())
+                    .inputItems(GTOItems.CELL_COMPONENT_1M)
                     .inputItems(GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(), 4)
                     .inputItems(GTMachines.MACERATOR[GTValues.EV].asItem(), 4)
-                    .inputItems(GTItems.COVER_INFINITE_WATER.asItem(), 4)
+                    .inputItems(GTItems.COVER_INFINITE_WATER, 4)
                     .outputItems(infCell(CONCRETE_BLOCKS[i]))
                     .inputFluids(GTMaterials.CHEMICAL_DYES[i], 64 * 144)
                     .duration(400)
@@ -54,11 +54,11 @@ public class GTOInfCells {
                     .save();
         }
         ASSEMBLER_RECIPES.builder("infinity_cell")
-                .inputItems(GTOItems.CELL_COMPONENT_1M.asItem())
+                .inputItems(GTOItems.CELL_COMPONENT_1M)
                 .inputItems(GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(), 4)
                 .inputItems("easy_villagers:iron_farm", 64)
                 .inputItems("easy_villagers:villager", 6)
-                .outputItems(infCell(RegistriesUtils.getItemStack("factory_blocks:factory").getItem()))
+                .outputItems(infCell(RegistriesUtils.getItem("factory_blocks:factory")))
                 .duration(400)
                 .euVATier(GTValues.EV)
                 .save();
@@ -67,11 +67,11 @@ public class GTOInfCells {
                 "ABA",
                 "CDE",
                 "ABA",
-                'A', RegistriesUtils.getItemStack("botania:rune_earth"),
+                'A', RegistriesUtils.getItem("botania:rune_earth"),
                 'B', GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(),
-                'C', new ItemStack(Items.WATER_BUCKET.asItem()),
-                'D', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()),
-                'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
+                'C', Items.WATER_BUCKET.asItem(),
+                'D', GTOItems.CELL_COMPONENT_1M.asItem(),
+                'E', Items.LAVA_BUCKET.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("water_infinity_cell"), infCell(Fluids.WATER),
                 "ABA",
@@ -83,7 +83,7 @@ public class GTOInfCells {
     static ItemStack infCell(ItemLike item) {
         if (FMLLoader.getDist().isDedicatedServer()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
         if (AddedInfCells == null) {
-            AddedInfCells = Sets.newHashSet();
+            AddedInfCells = new ReferenceOpenHashSet<>();
         }
         var cell = EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEItemKey.of(item));
         AddedInfCells.add(cell);
@@ -93,7 +93,7 @@ public class GTOInfCells {
     static ItemStack infCell(Fluid fluid) {
         if (FMLLoader.getDist().isDedicatedServer()) return EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEFluidKey.of(fluid));
         if (AddedInfCells == null) {
-            AddedInfCells = Sets.newHashSet();
+            AddedInfCells = new ReferenceOpenHashSet<>();
         }
         var cell = EPPItemAndBlock.INFINITY_CELL.getRecordCell(AEFluidKey.of(fluid));
         AddedInfCells.add(cell);

@@ -250,7 +250,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun getTerminalGroup(): PatternContainerGroup {
         val (itemKey, description) = when {
             isFormed -> {
-                val controller = getControllers().first()
+                val controller = getController()
                 val controllerDefinition = controller.self().definition
                 AEItemKey.of(controllerDefinition.asStack()) to
                     if (customName.isNotEmpty()) {

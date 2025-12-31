@@ -6,7 +6,6 @@ import com.gtocore.common.data.machines.*;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
-import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
@@ -605,15 +604,15 @@ final class Vanilla {
                 "EBE",
                 'A', new MaterialEntry(TagPrefix.rod, GTMaterials.NaquadahEnriched), 'B', CustomTags.LuV_CIRCUITS, 'C', GTItems.FIELD_GENERATOR_LuV.asItem(), 'D', GTMachines.HULL[GTValues.LuV].asItem(), 'E', new MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.NiobiumNitride));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("neutronium_gearbox"), GTOBlocks.AMPROSIUM_GEARBOX.asItem(),
-                "ABA",
+                "AhA",
                 "CDC",
-                "AEA",
-                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', TagUtils.createTag(RLUtils.forge("tools/hammers")), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Neutronium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium), 'E', TagUtils.createTag(RLUtils.forge("tools/wrench")));
+                "AwA",
+                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Neutronium), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Neutronium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("iridium_gearbox"), GTOBlocks.IRIDIUM_GEARBOX.asItem(),
-                "ABA",
+                "AhA",
                 "CDC",
-                "AEA",
-                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Iridium), 'B', TagUtils.createTag(RLUtils.forge("tools/hammers")), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Iridium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Iridium), 'E', TagUtils.createTag(RLUtils.forge("tools/wrench")));
+                "AwA",
+                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Iridium), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Iridium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Iridium));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("lava_furnace"), MultiBlockA.LAVA_FURNACE.asItem(),
                 "ABA",
                 "CDC",

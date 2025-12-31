@@ -35,7 +35,7 @@ final class ForgeHammer {
                 .save();
 
         FORGE_HAMMER_RECIPES.recipeBuilder("wrought_iron")
-                .inputItems(GTOItems.HOT_IRON_INGOT.asItem())
+                .inputItems(GTOItems.HOT_IRON_INGOT)
                 .outputItems(TagPrefix.ingot, GTMaterials.WroughtIron)
                 .EUt(16)
                 .duration(200)

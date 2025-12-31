@@ -83,7 +83,7 @@ public class SuperFactoryManager {
                 'A', RegistriesUtils.getItemStack("sfm:fancy_cable"));
 
         ASSEMBLER_RECIPES.builder("disk")
-                .inputItems(GTItems.TOOL_DATA_STICK.asItem(), 8)
+                .inputItems(GTItems.TOOL_DATA_STICK, 8)
                 .inputItems(GTOTagPrefix.plate, GTMaterials.TitaniumCarbide, 4)
                 .inputItems(GTOTagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
                 .inputItems("gtmthings:advanced_terminal")

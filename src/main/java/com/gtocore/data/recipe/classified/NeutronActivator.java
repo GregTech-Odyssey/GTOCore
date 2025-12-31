@@ -19,8 +19,8 @@ final class NeutronActivator {
 
     public static void init() {
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("oganesson")
-                .inputFluids(GTOMaterials.MetastableOganesson.getFluid(1000))
-                .outputFluids(GTMaterials.Oganesson.getFluid(1000))
+                .inputFluids(GTOMaterials.MetastableOganesson, 1000)
+                .outputFluids(GTMaterials.Oganesson, 1000)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .addData("ev_min", 720)
@@ -29,14 +29,14 @@ final class NeutronActivator {
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("quantanium")
-                .inputItems(GTItems.QUANTUM_STAR.asItem(), 4)
-                .inputItems(GTItems.QUANTUM_EYE.asItem(), 8)
+                .inputItems(GTItems.QUANTUM_STAR, 4)
+                .inputItems(GTItems.QUANTUM_EYE, 8)
                 .inputItems(TagPrefix.dust, GTOMaterials.Mithril, 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Gadolinium, 16)
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.Fluix, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.EnergeticNetherite, 64)
-                .inputFluids(GTOMaterials.Lemurite.getFluid(10000))
-                .outputFluids(GTOMaterials.Quantanium.getFluid(10000))
+                .inputFluids(GTOMaterials.Lemurite, 10000)
+                .outputFluids(GTOMaterials.Quantanium, 10000)
                 .duration(1200)
                 .addData("ev_min", 1020)
                 .addData("ev_max", 1200)
@@ -46,7 +46,7 @@ final class NeutronActivator {
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("draconium_dust")
                 .notConsumable(TagPrefix.plate, GTOMaterials.DegenerateRhenium)
                 .inputItems(Blocks.DRAGON_EGG.asItem())
-                .inputFluids(GTOMaterials.UuAmplifier.getFluid(1000))
+                .inputFluids(GTOMaterials.UuAmplifier, 1000)
                 .outputItems(TagPrefix.dust, GTMaterials.EnderEye, 8)
                 .outputItems(TagPrefix.dust, GTMaterials.EnderPearl, 4)
                 .chancedOutput(GTOItems.DRACONIUM_DIRT.asItem(), 4000, 0)
@@ -58,7 +58,7 @@ final class NeutronActivator {
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("hassium")
                 .inputFluids(GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.LIQUID, 1000))
-                .outputFluids(GTMaterials.Hassium.getFluid(1000))
+                .outputFluids(GTMaterials.Hassium, 1000)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .addData("ev_min", 340)
@@ -69,7 +69,7 @@ final class NeutronActivator {
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder("netherite")
                 .inputItems(Items.NETHERITE_SCRAP.asItem(), 4)
                 .outputItems(TagPrefix.dust, GTMaterials.Netherite)
-                .inputFluids(GTMaterials.Gold.getFluid(576))
+                .inputFluids(GTMaterials.Gold, 576)
                 .duration(600)
                 .addData("ev_min", 100)
                 .addData("ev_max", 1200)
@@ -97,7 +97,7 @@ final class NeutronActivator {
                 .save();
 
         NEUTRON_ACTIVATOR_RECIPES.builder("alduorite_dust")
-                .inputItems(GTOItems.DUST_CRYOTHEUM.asItem())
+                .inputItems(GTOItems.DUST_CRYOTHEUM)
                 .inputItems(TagPrefix.dust, GTOMaterials.Ceruclase)
                 .outputItems(TagPrefix.dust, GTOMaterials.Alduorite)
                 .inputFluids(GTOMaterials.TranscendingMatter, 80)

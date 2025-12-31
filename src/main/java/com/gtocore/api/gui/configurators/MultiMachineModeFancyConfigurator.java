@@ -27,7 +27,7 @@ public class MultiMachineModeFancyConfigurator extends CustomModeFancyConfigurat
         setRecipeType(selected);
     }
 
-    public static List<GTRecipeType> extractRecipeTypes(SortedSet<IMultiController> machines) {
+    public static List<GTRecipeType> extractRecipeTypes(Set<IMultiController> machines) {
         if (machines == null || machines.isEmpty()) {
             return Collections.emptyList();
         }

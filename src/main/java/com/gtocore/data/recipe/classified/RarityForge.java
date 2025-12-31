@@ -85,17 +85,17 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("speed_upgrade_module")
-                .inputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
+                .inputItems(GTOItems.LV_POWER_AMPLIFIERS)
                 .inputItems(TagPrefix.gem, GTOMaterials.Fluix)
-                .outputItems(GTOItems.SPEED_UPGRADE_MODULE.asItem())
+                .outputItems(GTOItems.SPEED_UPGRADE_MODULE)
                 .EUt(32)
                 .duration(400)
                 .save();
 
         RARITY_FORGE_RECIPES.builder("energy_upgrade_module")
-                .inputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
+                .inputItems(GTOItems.LV_POWER_AMPLIFIERS)
                 .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
-                .outputItems(GTOItems.ENERGY_UPGRADE_MODULE.asItem())
+                .outputItems(GTOItems.ENERGY_UPGRADE_MODULE)
                 .EUt(32)
                 .duration(400)
                 .save();

@@ -11,9 +11,11 @@ import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IRotorHolderMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
@@ -27,11 +29,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import vazkii.botania.common.block.block_entity.mana.ManaPoolBlockEntity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +49,10 @@ import static com.gtocore.common.block.BlockMap.*;
 import static com.gtolib.api.GTOValues.*;
 
 public final class GTOPredicates {
+
+    public static TraceabilityPredicate module(MachineDefinition... definition) {
+        return Predicates.blocks(Blocks.BARRIER).or(Predicates.air().setPreviewCount(0)).or(Predicates.blocks(Arrays.stream(definition).map(MachineDefinition::get).toArray(MetaMachineBlock[]::new)).setPreviewCount(0));
+    }
 
     public static TraceabilityPredicate glass() {
         return tierBlock(GLASSMAP, GLASS_TIER);
@@ -244,5 +252,9 @@ public final class GTOPredicates {
                 return false;
             }
         };
+    }
+
+    static {
+        BlockPattern.addWhitelistBlockEntity(ManaPoolBlockEntity.class);
     }
 }

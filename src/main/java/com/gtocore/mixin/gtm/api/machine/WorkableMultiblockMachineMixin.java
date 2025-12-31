@@ -11,11 +11,11 @@ import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -91,35 +91,31 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
         } else return gtolib$isFluidOutput;
     }
 
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
-    protected void onStructureFormedAfter() {
-        super.onStructureFormedAfter();
+    @Redirect(method = "onStructureFormedAfter", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/machine/trait/RecipeLogic;updateTickSubscription()V"), remap = false)
+    private void gtolib$onStructureFormedAfter(RecipeLogic instance) {
         this.arrangeAll();
     }
 
-    @Redirect(method = "onStructureFormed", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMultiPart;getRecipeHandlers()Ljava/util/List;"), remap = false)
-    private List<RecipeHandlerList> gtolib$getRecipeHandlers(IMultiPart part) {
-        if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
-            enhancedRecipeLogicMachine.onPartScan(part);
-        }
-        if (gtolib$isItemOutput && gtolib$isFluidOutput) {
-            gtolib$isDualOutput = true;
-        } else {
-            if (part instanceof MEDualOutputPartMachine) {
-                gtolib$isItemOutput = true;
-                gtolib$isFluidOutput = true;
+    @Inject(method = "onStructureFormed", at = @At("TAIL"), remap = false)
+    private void onPartScan(CallbackInfo ci) {
+        for (var part : parts) {
+            if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
+                enhancedRecipeLogicMachine.onPartScan(part);
+            }
+            if (gtolib$isItemOutput && gtolib$isFluidOutput) {
                 gtolib$isDualOutput = true;
-            } else if (part instanceof MEOutputBusPartMachine) {
-                gtolib$isItemOutput = true;
-            } else if (part instanceof MEOutputHatchPartMachine) {
-                gtolib$isFluidOutput = true;
+            } else {
+                if (part instanceof MEDualOutputPartMachine) {
+                    gtolib$isItemOutput = true;
+                    gtolib$isFluidOutput = true;
+                    gtolib$isDualOutput = true;
+                } else if (part instanceof MEOutputBusPartMachine) {
+                    gtolib$isItemOutput = true;
+                } else if (part instanceof MEOutputHatchPartMachine) {
+                    gtolib$isFluidOutput = true;
+                }
             }
         }
-        return part.getRecipeHandlers();
     }
 
     @Inject(method = "onStructureInvalid", at = @At("TAIL"), remap = false)

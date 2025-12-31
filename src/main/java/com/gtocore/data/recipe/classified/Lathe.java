@@ -12,8 +12,8 @@ final class Lathe {
 
     public static void init() {
         LATHE_RECIPES.recipeBuilder("non_linear_optical_lens")
-                .inputItems(GTOItems.PERIODICALLY_POLED_LITHIUM_NIOBATE_BOULE.asItem())
-                .outputItems(GTOItems.NON_LINEAR_OPTICAL_LENS.asItem())
+                .inputItems(GTOItems.PERIODICALLY_POLED_LITHIUM_NIOBATE_BOULE)
+                .outputItems(GTOItems.NON_LINEAR_OPTICAL_LENS)
                 .EUt(1966080)
                 .duration(360)
                 .cleanroom(CleanroomType.CLEANROOM)

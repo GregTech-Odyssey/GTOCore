@@ -22,9 +22,9 @@ final class AlloySmelter {
 
     public static void init() {
         ALLOY_SMELTER_RECIPES.builder("mica_insulator_sheet")
-                .inputItems(GTOItems.MICA_BASED_SHEET.asItem(), 5)
+                .inputItems(GTOItems.MICA_BASED_SHEET, 5)
                 .inputItems(TagPrefix.dust, GTMaterials.SiliconDioxide, 3)
-                .outputItems(GTOItems.MICA_INSULATOR_SHEET.asItem(), 5)
+                .outputItems(GTOItems.MICA_INSULATOR_SHEET, 5)
                 .EUt(30)
                 .duration(400)
                 .save();
@@ -47,7 +47,7 @@ final class AlloySmelter {
                 .save();
 
         ALLOY_SMELTER_RECIPES.builder("slime_ball")
-                .inputItems(GTItems.STICKY_RESIN.asItem())
+                .inputItems(GTItems.STICKY_RESIN)
                 .inputItems(Items.CACTUS.asItem())
                 .outputItems(Items.SLIME_BALL.asItem())
                 .EUt(16)

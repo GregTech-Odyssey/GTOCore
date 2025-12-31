@@ -166,7 +166,7 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
 
     public static BlockPattern getBlockPattern(MultiblockMachineDefinition definition) {
         return MultiBlockFileReader.start(definition)
-                .where('~', Predicates.controller(Predicates.blocks(definition.get())))
+                .where('~', Predicates.controller(definition))
                 .where(' ', Predicates.any())
                 .where('A', Predicates.blocks(GTOBlocks.TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING.get()).or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1)))
                 .where('B', Predicates.blocks(GTOBlocks.SINGULARITY_REINFORCED_STELLAR_SHIELDING_CASING.get()))

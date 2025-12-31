@@ -832,7 +832,7 @@ public final class BotaniaRecipes {
 
             INDUSTRIAL_ALTAR_RECIPES.builder("colorful_mystical_flower")
                     .inputItems(ForgeTags.SEEDS, 8)
-                    .inputFluids(Water.getFluid(8000))
+                    .inputFluids(Water, 8000)
                     .outputItems(COLORFUL_MYSTICAL_FLOWER, 8)
                     .duration(20)
                     .MANAt(32)
@@ -880,7 +880,7 @@ public final class BotaniaRecipes {
 
                 for (int i = 0; i < EndremEyes.length; i++) {
                     MANA_CONDENSER_RECIPES.builder(EndremEyes[i])
-                            .inputItems(GTItems.QUANTUM_EYE.asItem())
+                            .inputItems(GTItems.QUANTUM_EYE)
                             .inputItems(EndremEyes_input[i])
                             .outputItems("endrem:" + EndremEyes[i])
                             .duration(200)
@@ -891,7 +891,7 @@ public final class BotaniaRecipes {
                 MANA_CONDENSER_RECIPES.builder("enriched_naquadah_trinium_europium_duranide")
                         .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
                         .outputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
-                        .inputFluids(GTOMaterials.Aether.getFluid(1000))
+                        .inputFluids(GTOMaterials.Aether, 1000)
                         .duration(80)
                         .MANAt(2048)
                         .save();
@@ -899,7 +899,7 @@ public final class BotaniaRecipes {
                 MANA_CONDENSER_RECIPES.builder("ruthenium_trinium_americium_neutronate")
                         .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
                         .outputItems(TagPrefix.wireGtSingle, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
-                        .inputFluids(GTOMaterials.Aether.getFluid(1000))
+                        .inputFluids(GTOMaterials.Aether, 1000)
                         .duration(80)
                         .MANAt(8192)
                         .save();
@@ -1223,7 +1223,7 @@ public final class BotaniaRecipes {
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
         build
                 .inputItems(ForgeTags.SEEDS, 8)
-                .inputFluids(Water.getFluid(8000))
+                .inputFluids(Water, 8000)
                 .outputItems(output, 8)
                 .duration(20)
                 .circuitMeta(circuitMeta)

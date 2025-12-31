@@ -15,7 +15,7 @@ final class BiochemicalExtraction {
     public static void init() {
         BIOCHEMICAL_EXTRACTION_RECIPES.recipeBuilder("cow_spawn_egg")
                 .notConsumable(Items.COW_SPAWN_EGG.asItem())
-                .outputFluids(GTMaterials.Milk.getFluid(1000))
+                .outputFluids(GTMaterials.Milk, 1000)
                 .EUt(2)
                 .duration(200)
                 .save();
@@ -36,36 +36,36 @@ final class BiochemicalExtraction {
 
         BIOCHEMICAL_EXTRACTION_RECIPES.recipeBuilder("mycgene")
                 .notConsumable("ad_astra:pygro_spawn_egg")
-                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells.getFluid(1000))
-                .inputFluids(GTOMaterials.DNAExtractionBuffer.getFluid(100))
-                .outputFluids(GTOMaterials.MycGene.getFluid(100))
+                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells, 1000)
+                .inputFluids(GTOMaterials.DNAExtractionBuffer, 100)
+                .outputFluids(GTOMaterials.MycGene, 100)
                 .EUt(480)
                 .duration(200)
                 .save();
 
         BIOCHEMICAL_EXTRACTION_RECIPES.recipeBuilder("oct4gene")
                 .notConsumable("ad_astra:pygro_brute_spawn_egg")
-                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells.getFluid(1000))
-                .inputFluids(GTOMaterials.DNAExtractionBuffer.getFluid(100))
-                .outputFluids(GTOMaterials.Oct4Gene.getFluid(100))
+                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells, 1000)
+                .inputFluids(GTOMaterials.DNAExtractionBuffer, 100)
+                .outputFluids(GTOMaterials.Oct4Gene, 100)
                 .EUt(480)
                 .duration(200)
                 .save();
 
         BIOCHEMICAL_EXTRACTION_RECIPES.recipeBuilder("sox2gene")
                 .notConsumable("ad_astra:mogler_spawn_egg")
-                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells.getFluid(1000))
-                .inputFluids(GTOMaterials.DNAExtractionBuffer.getFluid(100))
-                .outputFluids(GTOMaterials.Sox2Gene.getFluid(100))
+                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells, 1000)
+                .inputFluids(GTOMaterials.DNAExtractionBuffer, 100)
+                .outputFluids(GTOMaterials.Sox2Gene, 100)
                 .EUt(480)
                 .duration(200)
                 .save();
 
         BIOCHEMICAL_EXTRACTION_RECIPES.recipeBuilder("kfl4gene")
                 .notConsumable("ad_astra:sulfur_creeper_spawn_egg")
-                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells.getFluid(1000))
-                .inputFluids(GTOMaterials.DNAExtractionBuffer.getFluid(100))
-                .outputFluids(GTOMaterials.Kfl4Gene.getFluid(100))
+                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells, 1000)
+                .inputFluids(GTOMaterials.DNAExtractionBuffer, 100)
+                .outputFluids(GTOMaterials.Kfl4Gene, 100)
                 .EUt(480)
                 .duration(200)
                 .save();

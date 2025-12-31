@@ -3,14 +3,13 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gtocore.api.machine.ITempPartMachine;
 import com.gtocore.api.machine.IVacuumPartMachine;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 
-public class TempVacuumInterfacePartMachine extends TieredPartMachine implements ITempPartMachine, IVacuumPartMachine {
+public class TempVacuumInterfacePartMachine extends MultiblockPartMachine implements ITempPartMachine, IVacuumPartMachine {
 
     @Persisted
     private int temperature = 293;
@@ -18,7 +17,7 @@ public class TempVacuumInterfacePartMachine extends TieredPartMachine implements
     private TickableSubscription tickableSubscription;
 
     public TempVacuumInterfacePartMachine(MetaMachineBlockEntity holder) {
-        super(holder, GTValues.LV);
+        super(holder);
     }
 
     @Override

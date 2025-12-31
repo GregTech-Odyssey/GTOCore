@@ -182,7 +182,7 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
             }
 
             return builder.where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
-                    .where('B', controller(blocks(definition.get())))
+                    .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('c', MODULE.traceabilityPredicate.get())
                     .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))

@@ -27,6 +27,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -89,7 +90,7 @@ public final class StructureWriteBehavior implements IItemUIFactory {
         if (getPos(playerInventoryHolder.getHeld()) != null && playerInventoryHolder.getPlayer() instanceof ServerPlayer player) {
             if (BLOCK_MAP == null) {
                 BLOCK_MAP = ImmutableMap.<Block, BiConsumer<StringBuilder, Character>>builder()
-                        .put(net.minecraft.world.level.block.Blocks.OAK_LOG, (b, c) -> b.append("controller(blocks(definition.get())))"))
+                        .put(net.minecraft.world.level.block.Blocks.OAK_LOG, (b, c) -> b.append("controller(definition))"))
                         .put(net.minecraft.world.level.block.Blocks.DIRT, (b, c) -> b.append("heatingCoils())"))
                         .put(net.minecraft.world.level.block.Blocks.WHITE_WOOL, (b, c) -> b.append("air())"))
                         .put(net.minecraft.world.level.block.Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass())"))
@@ -146,10 +147,13 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             });
             if (blockPattern.hasAir) builder.append(".where(' ', any())\n");
             builder.append(".build())\n");
-            String string = builder.toString();
-            GTOCore.LOGGER.info(string);
             FileUtils.saveToFile(blockPattern.pattern, new File(GTOCore.getFile(), "structure_pattern.mbs"), FileUtils.Serialize.array(FileUtils.Serialize.array(FileUtils.Serializer.STRING)));
-            FileUtils.saveToFile(string, new File(GTOCore.getFile(), "structure_pattern.txt"), FileUtils.Serializer.TXT_STRING);
+            FileUtils.saveToFile(builder.toString(), new File(GTOCore.getFile(), "structure_pattern.txt"), FileUtils.Serializer.TXT_STRING);
+            for (int i = 0; i < blockPattern.pattern.length; i++) {
+                String[] strings = blockPattern.pattern[i];
+                builder.append(".aisle(\"%s\")\n".formatted(Joiner.on("\", \"").join(strings)));
+            }
+            GTOCore.LOGGER.info(builder.toString());
         }
     }
 
