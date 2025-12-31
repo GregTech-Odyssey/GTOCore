@@ -26,6 +26,7 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -33,6 +34,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.network.GTNetwork;
+import com.gregtechceu.gtceu.common.network.packets.SCPacketUpdateActiveBlock;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -97,6 +100,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private long time;
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;
+    private boolean activated;
 
     public PrimitiveDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -174,8 +178,9 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * 如果机器当前未激活，将其状态设为激活并更新激活的区块。
      */
     private void activateMachine() {
+        if (activated) return;
         activated = true;
-        this.requestSync();
+        GTNetwork.NETWORK.sendToAll(new SCPacketUpdateActiveBlock(getMultiblockState().matchContext.vaBlocks, true));
     }
 
     /**
@@ -249,8 +254,10 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * 如果机器当前处于激活状态，则将其状态设为非激活，并更新相关的活动块标志。
      */
     private void deactivateMachine() {
-        activated = false;
-        this.requestSync();
+        if (activated) {
+            activated = false;
+            GTNetwork.NETWORK.sendToAll(new SCPacketUpdateActiveBlock(getMultiblockState().matchContext.vaBlocks, false));
+        }
     }
 
     /**
@@ -352,7 +359,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     public void onStructureFormed() {
         super.onStructureFormed();
         int startY = getPos().getY() + 1;
-        List<IMultiPart> parts = Arrays.stream(getParts()).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
+        List<IWorkableMultiPart> parts = Arrays.stream(getParts()).filter(IWorkableMultiPart.class::isInstance).map(IWorkableMultiPart.class::cast).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
         if (!parts.isEmpty()) {
             int maxY = parts.get(parts.size() - 1).self().getPos().getY();
             fluidOutputs = new ObjectArrayList<>(maxY - startY);

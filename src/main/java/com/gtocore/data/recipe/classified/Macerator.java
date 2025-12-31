@@ -33,7 +33,7 @@ final class Macerator {
 
         MACERATOR_RECIPES.recipeBuilder("essence")
                 .inputItems(GTOBlocks.ESSENCE_BLOCK.asItem())
-                .outputItems(GTOItems.ESSENCE.asItem())
+                .outputItems(GTOItems.ESSENCE)
                 .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 400)
                 .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 200)
                 .chancedOutput(GTOItems.ESSENCE.asItem(), 5000, 100)
@@ -50,7 +50,7 @@ final class Macerator {
 
         MACERATOR_RECIPES.recipeBuilder("draconium_dust")
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asItem())
-                .outputItems(GTOItems.DRACONIUM_DIRT.asItem(), 9)
+                .outputItems(GTOItems.DRACONIUM_DIRT, 9)
                 .outputItems(TagPrefix.dust, GTMaterials.Obsidian)
                 .outputItems(TagPrefix.dust, GTMaterials.EnderEye)
                 .outputItems(TagPrefix.dust, GTMaterials.Redstone)

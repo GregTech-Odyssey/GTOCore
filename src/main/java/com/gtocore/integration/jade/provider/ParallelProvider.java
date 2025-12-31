@@ -8,12 +8,11 @@ import com.gtolib.api.recipe.RecipeHelper;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -26,8 +25,6 @@ import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-
-import java.util.Optional;
 
 public final class ParallelProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
@@ -63,13 +60,13 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
                 compoundTag.putBoolean("exact", true);
             }
             long originParallel = 1L;
-            if (machine instanceof IMultiController controller) {
+            if (machine instanceof IWorkableMultiController controller) {
                 if (controller instanceof IParallelMachine parallelHatch) {
                     originParallel = parallelHatch.getParallel();
                 } else {
-                    Optional<IParallelHatch> parallelHatch = controller.getParallelHatch();
-                    if (parallelHatch.isPresent()) {
-                        originParallel = ((ParallelHatchPartMachine) parallelHatch.get()).getCurrentParallelLong();
+                    var parallelHatch = controller.getParallelHatch();
+                    if (parallelHatch != null) {
+                        originParallel = ((ParallelHatchPartMachine) parallelHatch).getCurrentParallelLong();
                     }
                 }
             }

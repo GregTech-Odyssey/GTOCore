@@ -361,7 +361,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @Override
     public PatternContainerGroup getTerminalGroup() {
         if (isFormed()) {
-            IMultiController controller = getControllers().first();
+            IMultiController controller = getController();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
             GTRecipeType rt = this.recipeType;
             MutableComponent lidComp = null;

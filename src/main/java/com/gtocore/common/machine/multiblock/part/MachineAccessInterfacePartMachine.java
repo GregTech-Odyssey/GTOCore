@@ -19,7 +19,7 @@ public final class MachineAccessInterfacePartMachine extends ItemHatchPartMachin
 
     @Override
     public @NotNull NotifiableItemStackHandler getInventory() {
-        if (!getControllers().isEmpty() && getControllers().first() instanceof ProcessingArrayMachine arrayMachine) {
+        if (!getControllers().isEmpty() && getController() instanceof ProcessingArrayMachine arrayMachine) {
             return arrayMachine.getInventory();
         }
         return inventory;

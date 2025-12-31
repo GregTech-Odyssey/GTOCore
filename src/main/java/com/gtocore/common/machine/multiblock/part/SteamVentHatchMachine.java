@@ -5,7 +5,7 @@ import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExhaustVentMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableMultiblockPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -27,7 +27,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SteamVentHatchMachine extends MultiblockPartMachine implements IExhaustVentMachine {
+public class SteamVentHatchMachine extends WorkableMultiblockPartMachine implements IExhaustVentMachine {
 
     @Persisted
     private boolean needsVenting;

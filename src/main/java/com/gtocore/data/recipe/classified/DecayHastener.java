@@ -12,14 +12,14 @@ final class DecayHastener {
 
     public static void init() {
         DECAY_HASTENER_RECIPES.recipeBuilder("polonium_dust")
-                .inputFluids(GTMaterials.Bismuth.getFluid(144))
+                .inputFluids(GTMaterials.Bismuth, 144)
                 .outputItems(TagPrefix.dust, GTMaterials.Polonium)
                 .EUt(480)
                 .duration(8000)
                 .save();
 
         DECAY_HASTENER_RECIPES.recipeBuilder("rutherfordium_dust")
-                .inputFluids(GTMaterials.Seaborgium.getFluid(144))
+                .inputFluids(GTMaterials.Seaborgium, 144)
                 .outputItems(TagPrefix.dust, GTMaterials.Rutherfordium)
                 .EUt(480)
                 .duration(4000)
@@ -33,35 +33,35 @@ final class DecayHastener {
                 .save();
 
         DECAY_HASTENER_RECIPES.recipeBuilder("rutherfordium_dust1")
-                .inputFluids(GTMaterials.Actinium.getFluid(144))
+                .inputFluids(GTMaterials.Actinium, 144)
                 .outputItems(TagPrefix.dust, GTMaterials.Rutherfordium)
                 .EUt(480)
                 .duration(8000)
                 .save();
 
         DECAY_HASTENER_RECIPES.recipeBuilder("hafnium")
-                .inputFluids(GTOMaterials.Ytterbium178.getFluid(144))
-                .outputFluids(GTMaterials.Hafnium.getFluid(144))
+                .inputFluids(GTOMaterials.Ytterbium178, 144)
+                .outputFluids(GTMaterials.Hafnium, 144)
                 .EUt(30720)
                 .duration(120)
                 .save();
 
         DECAY_HASTENER_RECIPES.recipeBuilder("copper76_dust")
-                .inputFluids(GTMaterials.Copper.getFluid(144))
+                .inputFluids(GTMaterials.Copper, 144)
                 .outputItems(TagPrefix.dust, GTOMaterials.Copper76)
                 .EUt(1920)
                 .duration(4000)
                 .save();
 
         DECAY_HASTENER_RECIPES.recipeBuilder("actinium_dust")
-                .inputFluids(GTMaterials.Radium.getFluid(144))
+                .inputFluids(GTMaterials.Radium, 144)
                 .outputItems(TagPrefix.dust, GTMaterials.Actinium)
                 .EUt(480)
                 .duration(2000)
                 .save();
 
         DECAY_HASTENER_RECIPES.recipeBuilder("meitnerium_dust")
-                .inputFluids(GTMaterials.Hassium.getFluid(144))
+                .inputFluids(GTMaterials.Hassium, 144)
                 .outputItems(TagPrefix.dust, GTMaterials.Meitnerium)
                 .EUt(480)
                 .duration(8000)

@@ -63,7 +63,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected GTRecipe lastOriginRecipe;
 
     @Shadow
-    protected RecipeLogic.Status status;
+    protected int status;
 
     @Shadow
     public abstract boolean checkMatchedRecipeAvailable(GTRecipe match);

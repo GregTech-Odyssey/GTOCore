@@ -14,7 +14,7 @@ final class DragonEggCopier {
     public static void init() {
         DRAGON_EGG_COPIER_RECIPES.recipeBuilder("dragon_egg_copier")
                 .inputItems(Blocks.DRAGON_EGG.asItem())
-                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(100))
+                .inputFluids(GTOMaterials.BiohmediumSterilized, 100)
                 .outputItems(Blocks.DRAGON_EGG.asItem())
                 .chancedOutput(new ItemStack(Blocks.DRAGON_EGG.asItem()), 2000, 1000)
                 .EUt(122880)

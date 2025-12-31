@@ -93,7 +93,7 @@ final class MolecularTransformer {
 
         MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder("energy_crystal")
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Ruby)
-                .outputItems(GTItems.ENERGIUM_CRYSTAL.asItem(), 2)
+                .outputItems(GTItems.ENERGIUM_CRYSTAL, 2)
                 .EUt(524288)
                 .duration(200)
                 .save();

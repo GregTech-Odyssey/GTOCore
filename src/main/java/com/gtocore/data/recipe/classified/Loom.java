@@ -17,50 +17,50 @@ final class Loom {
 
     public static void init() {
         LOOM_RECIPES.recipeBuilder("string")
-                .inputItems(GTOItems.PLANT_FIBER.asItem(), 4)
+                .inputItems(GTOItems.PLANT_FIBER, 4)
                 .outputItems(Blocks.TRIPWIRE.asItem())
                 .EUt(120)
                 .duration(200)
                 .save();
 
         LOOM_RECIPES.recipeBuilder("plant_fiber")
-                .inputItems(GTItems.PLANT_BALL.asItem())
-                .outputItems(GTOItems.PLANT_FIBER.asItem(), 2)
+                .inputItems(GTItems.PLANT_BALL)
+                .outputItems(GTOItems.PLANT_FIBER, 2)
                 .EUt(7)
                 .duration(200)
                 .save();
 
         LOOM_RECIPES.recipeBuilder("gold_algae_fiber")
-                .inputItems(GTOItems.GOLD_ALGAE.asItem(), 3)
-                .outputItems(GTOItems.GOLD_ALGAE_FIBER.asItem())
+                .inputItems(GTOItems.GOLD_ALGAE, 3)
+                .outputItems(GTOItems.GOLD_ALGAE_FIBER)
                 .EUt(30)
                 .duration(240)
                 .save();
 
         LOOM_RECIPES.recipeBuilder("green_algae_fiber")
-                .inputItems(GTOItems.GREEN_ALGAE.asItem(), 3)
-                .outputItems(GTOItems.GREEN_ALGAE_FIBER.asItem())
+                .inputItems(GTOItems.GREEN_ALGAE, 3)
+                .outputItems(GTOItems.GREEN_ALGAE_FIBER)
                 .EUt(30)
                 .duration(240)
                 .save();
 
         LOOM_RECIPES.recipeBuilder("red_algae_fiber")
-                .inputItems(GTOItems.RED_ALGAE.asItem(), 3)
-                .outputItems(GTOItems.RED_ALGAE_FIBER.asItem())
+                .inputItems(GTOItems.RED_ALGAE, 3)
+                .outputItems(GTOItems.RED_ALGAE_FIBER)
                 .EUt(30)
                 .duration(240)
                 .save();
 
         LOOM_RECIPES.recipeBuilder("algae_plant_fiber")
                 .inputItems(TagUtils.createTag(GTOCore.id("algae_fiber")))
-                .outputItems(GTOItems.PLANT_FIBER.asItem())
+                .outputItems(GTOItems.PLANT_FIBER)
                 .EUt(30)
                 .duration(20)
                 .save();
 
         // LOOM_RECIPES.recipeBuilder("woven_kevlar")
-        // .inputItems(GTOItems.KEVLAR_FIBER.asItem(), 8)
-        // .outputItems(GTOItems.WOVEN_KEVLAR.asItem())
+        // .inputItems(GTOItems.KEVLAR_FIBER, 8)
+        // .outputItems(GTOItems.WOVEN_KEVLAR)
         // .EUt(120)
         // .duration(200)
         // .cleanroom(CleanroomType.CLEANROOM)
@@ -68,7 +68,7 @@ final class Loom {
 
         LOOM_RECIPES.recipeBuilder("nanotube_spool")
                 .inputItems(TagPrefix.wireFine, GTOMaterials.CarbonNanotubes, 16)
-                .outputItems(GTOItems.NANOTUBE_SPOOL.asItem())
+                .outputItems(GTOItems.NANOTUBE_SPOOL)
                 .EUt(7680)
                 .duration(200)
                 .save();

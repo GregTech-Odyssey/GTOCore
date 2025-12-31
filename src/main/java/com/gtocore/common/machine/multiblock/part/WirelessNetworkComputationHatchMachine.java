@@ -5,7 +5,7 @@ import com.gtolib.api.machine.trait.WirelessComputationContainerTrait;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IWailaDisplayProvider;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableMultiblockPartMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.Util;
@@ -33,7 +33,7 @@ import java.util.UUID;
 import static com.gtocore.integration.jade.GTOJadePlugin.getProgress;
 import static com.hepdd.gtmthings.utils.TeamUtil.GetName;
 
-public final class WirelessNetworkComputationHatchMachine extends MultiblockPartMachine implements IInteractedMachine, IBindable, IWailaDisplayProvider {
+public final class WirelessNetworkComputationHatchMachine extends WorkableMultiblockPartMachine implements IInteractedMachine, IBindable, IWailaDisplayProvider {
 
     private final WirelessComputationContainerTrait trait;
 

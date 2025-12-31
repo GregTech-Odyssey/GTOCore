@@ -258,7 +258,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                         .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
                         .or(abilities(GTOPartAbility.OUTPUT_MANA).setMaxGlobalLimited(4))
                         .or(abilities(MAINTENANCE).setExactLimit(1)))
-                .where('~', controller(blocks(definition.get())))
+                .where('~', controller(definition))
                 .where(' ', any())
                 .build();
     }
@@ -316,7 +316,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                         .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
                         .or(abilities(GTOPartAbility.OUTPUT_MANA).setMaxGlobalLimited(4))
                         .or(abilities(MAINTENANCE).setExactLimit(1)))
-                .where('D', controller(blocks(definition.get())))
+                .where('D', controller(definition))
                 .where(' ', any())
                 .build();
     }

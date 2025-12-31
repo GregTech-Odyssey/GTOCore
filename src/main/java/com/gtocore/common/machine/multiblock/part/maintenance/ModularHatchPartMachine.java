@@ -234,7 +234,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     private MutableComponent getCurrentCleanroom() {
         if (!getControllers().isEmpty() &&
-                getControllers().first() instanceof ICleanroomReceiver receiver) {
+                getController() instanceof ICleanroomReceiver receiver) {
             if (receiver.getCleanroom() != null) {
                 List<MutableComponent> cleanroomTypes = receiver.getCleanroom().getTypes().stream()
                         .map(type -> Component.translatable(type.getTranslationKey()))
@@ -293,8 +293,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         gravityMode = !gravityModuleInv.getStackInSlot(0).isEmpty();
         vacuumMode = !vacuumModuleInv.getStackInSlot(0).isEmpty();
         var cleanroom = Wrapper.CLEAN_CHECK.get(cleanroomModuleInv.getStackInSlot(0).getItem());
-        if (!getControllers().isEmpty() &&
-                getControllers().first() instanceof ICleanroomReceiver receiver && receiver.getCleanroom() != cleanroom) {
+        if (getController() instanceof ICleanroomReceiver receiver && receiver.getCleanroom() != cleanroom) {
             receiver.setCleanroom(cleanroom);
         }
         if (gravityWidget != null) {

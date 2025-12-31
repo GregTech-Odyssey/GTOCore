@@ -114,21 +114,21 @@ public final class AssemblerRecipeLoader {
         ASSEMBLER_RECIPES.recipeBuilder("small_wood_pipe").duration(200).EUt(VA[LV])
                 .inputItems(plate, Wood)
                 .circuitMeta(12)
-                .inputFluids(Glue.getFluid(50))
+                .inputFluids(Glue, 50)
                 .outputItems(pipeSmallFluid, Wood)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("normal_wood_pipe").duration(200).EUt(VA[LV])
                 .inputItems(plate, Wood, 3)
                 .circuitMeta(6)
-                .inputFluids(Glue.getFluid(20))
+                .inputFluids(Glue, 20)
                 .outputItems(pipeNormalFluid, Wood)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("large_wood_pipe").duration(100).EUt(VA[LV])
                 .inputItems(plate, Wood, 6)
                 .circuitMeta(2)
-                .inputFluids(Glue.getFluid(10))
+                .inputFluids(Glue, 10)
                 .outputItems(pipeLargeFluid, Wood)
                 .save();
 
@@ -136,21 +136,21 @@ public final class AssemblerRecipeLoader {
         ASSEMBLER_RECIPES.recipeBuilder("small_treated_wood_pipe").duration(200).EUt(VA[LV])
                 .inputItems(plate, TreatedWood)
                 .circuitMeta(12)
-                .inputFluids(Glue.getFluid(50))
+                .inputFluids(Glue, 50)
                 .outputItems(pipeSmallFluid, TreatedWood)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("normal_treated_wood_pipe").duration(200).EUt(VA[LV])
                 .inputItems(plate, TreatedWood, 3)
                 .circuitMeta(6)
-                .inputFluids(Glue.getFluid(20))
+                .inputFluids(Glue, 20)
                 .outputItems(pipeNormalFluid, TreatedWood)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("large_treated_wood_pipe").duration(100).EUt(VA[LV])
                 .inputItems(plate, TreatedWood, 6)
                 .circuitMeta(2)
-                .inputFluids(Glue.getFluid(10))
+                .inputFluids(Glue, 10)
                 .outputItems(pipeLargeFluid, TreatedWood)
                 .save();
 

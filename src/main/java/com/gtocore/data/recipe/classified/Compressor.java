@@ -123,7 +123,7 @@ final class Compressor {
                 .save();
 
         COMPRESSOR_RECIPES.builder("special_industrial_components_0")
-                .inputItems(GTOItems.NEUTRON_PILE.asItem(), 64)
+                .inputItems(GTOItems.NEUTRON_PILE, 64)
                 .outputItems(GTOItems.INDUSTRIAL_COMPONENTS[2][0])
                 .EUt(7680)
                 .duration(20)

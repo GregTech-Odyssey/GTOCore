@@ -161,7 +161,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
                 return;
             }
         }
-        setStatus(Status.IDLE);
+        setStatus(IDLE);
         progress = 0;
         duration = 0;
     }

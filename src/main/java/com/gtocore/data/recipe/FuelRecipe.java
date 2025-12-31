@@ -69,7 +69,7 @@ public final class FuelRecipe {
                 .save();
 
         STEAM_BOILER_RECIPES.recipeBuilder("creosote")
-                .inputFluids(Creosote.getFluid(250))
+                .inputFluids(Creosote, 250)
                 .duration(3000)
                 .save();
 
@@ -79,43 +79,43 @@ public final class FuelRecipe {
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("creosote")
-                .inputFluids(Creosote.getFluid(250))
+                .inputFluids(Creosote, 250)
                 .duration(25)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("biomass")
-                .inputFluids(Biomass.getFluid(40))
+                .inputFluids(Biomass, 40)
                 .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("oil")
-                .inputFluids(Oil.getFluid(200))
+                .inputFluids(Oil, 200)
                 .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("oil_heavy")
-                .inputFluids(OilHeavy.getFluid(32))
+                .inputFluids(OilHeavy, 32)
                 .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("sulfuric_heavy_fuel")
-                .inputFluids(SulfuricHeavyFuel.getFluid(32))
+                .inputFluids(SulfuricHeavyFuel, 32)
                 .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("heavy_fuel")
-                .inputFluids(HeavyFuel.getFluid(16))
+                .inputFluids(HeavyFuel, 16)
                 .duration(120)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("fish_oil")
-                .inputFluids(FishOil.getFluid(160))
+                .inputFluids(FishOil, 160)
                 .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("water_gas")
-                .inputFluids(GTOMaterials.CoalSlurry.getFluid(1000))
-                .outputFluids(GTOMaterials.WaterGas.getFluid(1000))
+                .inputFluids(GTOMaterials.CoalSlurry, 1000)
+                .outputFluids(GTOMaterials.WaterGas, 1000)
                 .duration(80)
                 .temperature(1000)
                 .priority(1)
@@ -123,106 +123,106 @@ public final class FuelRecipe {
 
         // diesel generator fuels
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("naphtha")
-                .inputFluids(Naphtha.getFluid(2))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(Naphtha, 2)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("sulfuric_light_fuel")
-                .inputFluids(SulfuricLightFuel.getFluid(16))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(SulfuricLightFuel, 16)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("methanol")
-                .inputFluids(Methanol.getFluid(12))
-                .inputFluids(Air.getFluid(24))
+                .inputFluids(Methanol, 12)
+                .inputFluids(Air, 24)
                 .duration(24)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("ethanol")
-                .inputFluids(Ethanol.getFluid(3))
-                .inputFluids(Air.getFluid(18))
+                .inputFluids(Ethanol, 3)
+                .inputFluids(Air, 18)
                 .duration(18)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("octane")
-                .inputFluids(Octane.getFluid(8))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(Octane, 8)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("biodiesel")
-                .inputFluids(BioDiesel.getFluid(3))
-                .inputFluids(Air.getFluid(24))
+                .inputFluids(BioDiesel, 3)
+                .inputFluids(Air, 24)
                 .duration(24)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("light_fuel")
-                .inputFluids(LightFuel.getFluid(2))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(LightFuel, 2)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("diesel")
-                .inputFluids(Diesel.getFluid(1))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(Diesel, 1)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("cetane_diesel")
-                .inputFluids(CetaneBoostedDiesel.getFluid(2))
-                .inputFluids(Air.getFluid(120))
+                .inputFluids(CetaneBoostedDiesel, 2)
+                .inputFluids(Air, 120)
                 .duration(120)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("gasoline")
-                .inputFluids(Gasoline.getFluid(1))
-                .inputFluids(Air.getFluid(80))
+                .inputFluids(Gasoline, 1)
+                .inputFluids(Air, 80)
                 .duration(80)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("high_octane_gasoline")
-                .inputFluids(HighOctaneGasoline.getFluid(1))
-                .inputFluids(Air.getFluid(150))
+                .inputFluids(HighOctaneGasoline, 1)
+                .inputFluids(Air, 150)
                 .duration(150)
                 .EUt(-V[LV])
                 .save();
 
         COMBUSTION_GENERATOR_FUELS.recipeBuilder("toluene")
-                .inputFluids(Toluene.getFluid(2))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(Toluene, 2)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         // steam generator fuels
         STEAM_TURBINE_FUELS.recipeBuilder("steam")
-                .inputFluids(Steam.getFluid(1280))
+                .inputFluids(Steam, 1280)
                 .outputFluids(DistilledWater.getFluid(8))
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         STEAM_TURBINE_FUELS.recipeBuilder("high_pressure_steam")
-                .inputFluids(GTOMaterials.HighPressureSteam.getFluid(320))
+                .inputFluids(GTOMaterials.HighPressureSteam, 320)
                 .outputFluids(DistilledWater.getFluid(8))
                 .duration(20)
                 .EUt(-V[MV])
                 .save();
 
         SUPERCRITICAL_STEAM_TURBINE_FUELS.recipeBuilder("supercritical_steam")
-                .inputFluids(GTOMaterials.SupercriticalSteam.getFluid(80))
+                .inputFluids(GTOMaterials.SupercriticalSteam, 80)
                 .outputFluids(DistilledWater.getFluid(8))
                 .duration(30)
                 .EUt(-V[MV])
@@ -230,127 +230,127 @@ public final class FuelRecipe {
 
         // gas turbine fuels
         GAS_TURBINE_FUELS.recipeBuilder("natural_gas")
-                .inputFluids(NaturalGas.getFluid(32))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(NaturalGas, 32)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("wood_gas")
-                .inputFluids(WoodGas.getFluid(24))
-                .inputFluids(Air.getFluid(18))
+                .inputFluids(WoodGas, 24)
+                .inputFluids(Air, 18)
                 .duration(18)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("sulfuric_gas")
-                .inputFluids(SulfuricGas.getFluid(32))
-                .inputFluids(Air.getFluid(25))
+                .inputFluids(SulfuricGas, 32)
+                .inputFluids(Air, 25)
                 .duration(25)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("sulfuric_naphtha")
-                .inputFluids(SulfuricNaphtha.getFluid(16))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(SulfuricNaphtha, 16)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("coal_gas")
-                .inputFluids(CoalGas.getFluid(7))
-                .inputFluids(Air.getFluid(21))
+                .inputFluids(CoalGas, 7)
+                .inputFluids(Air, 21)
                 .duration(21)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("methane")
-                .inputFluids(Methane.getFluid(6))
-                .inputFluids(Air.getFluid(21))
+                .inputFluids(Methane, 6)
+                .inputFluids(Air, 21)
                 .duration(21)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("ethylene")
-                .inputFluids(Ethylene.getFluid(5))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(Ethylene, 5)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("refinery_gas")
-                .inputFluids(RefineryGas.getFluid(4))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(RefineryGas, 4)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("ethane")
-                .inputFluids(Ethane.getFluid(4))
-                .inputFluids(Air.getFluid(21))
+                .inputFluids(Ethane, 4)
+                .inputFluids(Air, 21)
                 .duration(21)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("propene")
-                .inputFluids(Propene.getFluid(3))
-                .inputFluids(Air.getFluid(18))
+                .inputFluids(Propene, 3)
+                .inputFluids(Air, 18)
                 .duration(18)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("butadiene")
-                .inputFluids(Butadiene.getFluid(16))
-                .inputFluids(Air.getFluid(102))
+                .inputFluids(Butadiene, 16)
+                .inputFluids(Air, 102)
                 .duration(102)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("propane")
-                .inputFluids(Propane.getFluid(4))
-                .inputFluids(Air.getFluid(29))
+                .inputFluids(Propane, 4)
+                .inputFluids(Air, 29)
                 .duration(29)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("butene")
-                .inputFluids(Butene.getFluid(3))
-                .inputFluids(Air.getFluid(24))
+                .inputFluids(Butene, 3)
+                .inputFluids(Air, 24)
                 .duration(24)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("phenol")
-                .inputFluids(Phenol.getFluid(2))
-                .inputFluids(Air.getFluid(18))
+                .inputFluids(Phenol, 2)
+                .inputFluids(Air, 18)
                 .duration(18)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("benzene")
-                .inputFluids(Benzene.getFluid(2))
-                .inputFluids(Air.getFluid(22))
+                .inputFluids(Benzene, 2)
+                .inputFluids(Air, 22)
                 .duration(22)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("butane")
-                .inputFluids(Butane.getFluid(4))
-                .inputFluids(Air.getFluid(37))
+                .inputFluids(Butane, 4)
+                .inputFluids(Air, 37)
                 .duration(37)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("lpg")
-                .inputFluids(LPG.getFluid(2))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(LPG, 2)
+                .inputFluids(Air, 20)
                 .duration(20)
                 .EUt(-V[LV])
                 .save();
 
         GAS_TURBINE_FUELS.recipeBuilder("nitrobenzene")
-                .inputFluids(Nitrobenzene.getFluid(1))
-                .inputFluids(Air.getFluid(40))
+                .inputFluids(Nitrobenzene, 1)
+                .inputFluids(Air, 40)
                 .duration(40)
                 .EUt(-V[LV])
                 .save();
@@ -393,14 +393,14 @@ public final class FuelRecipe {
 
         PLASMA_GENERATOR_FUELS.recipeBuilder("orichalcum")
                 .inputFluids(GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA, 5))
-                .outputFluids(GTOMaterials.Orichalcum.getFluid(4))
+                .outputFluids(GTOMaterials.Orichalcum, 4)
                 .duration(64)
                 .EUt(-V[EV])
                 .save();
 
         PLASMA_GENERATOR_FUELS.recipeBuilder("mithril")
                 .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 5))
-                .outputFluids(GTOMaterials.Mithril.getFluid(4))
+                .outputFluids(GTOMaterials.Mithril, 4)
                 .duration(72)
                 .EUt(-V[EV])
                 .save();
@@ -497,121 +497,121 @@ public final class FuelRecipe {
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("seed_oil")
-                .inputFluids(SeedOil.getFluid(24))
-                .inputFluids(Air.getFluid(6))
+                .inputFluids(SeedOil, 24)
+                .inputFluids(Air, 6)
                 .duration(24)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("fish_oil")
-                .inputFluids(FishOil.getFluid(24))
-                .inputFluids(Air.getFluid(6))
+                .inputFluids(FishOil, 24)
+                .inputFluids(Air, 6)
                 .duration(24)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("biomass")
-                .inputFluids(Biomass.getFluid(24))
-                .inputFluids(Air.getFluid(6))
+                .inputFluids(Biomass, 24)
+                .inputFluids(Air, 6)
                 .duration(24)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("oil")
-                .inputFluids(Oil.getFluid(2))
-                .inputFluids(Air.getFluid(5))
+                .inputFluids(Oil, 2)
+                .inputFluids(Air, 5)
                 .duration(20)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("oil_light")
-                .inputFluids(OilLight.getFluid(2))
-                .inputFluids(Air.getFluid(5))
+                .inputFluids(OilLight, 2)
+                .inputFluids(Air, 5)
                 .duration(20)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("creosote")
-                .inputFluids(Creosote.getFluid(2))
-                .inputFluids(Air.getFluid(6))
+                .inputFluids(Creosote, 2)
+                .inputFluids(Air, 6)
                 .duration(24)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("oil_heavy")
-                .inputFluids(OilHeavy.getFluid(2))
-                .inputFluids(Air.getFluid(8))
+                .inputFluids(OilHeavy, 2)
+                .inputFluids(Air, 8)
                 .duration(30)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("oil_medium")
-                .inputFluids(RawOil.getFluid(2))
-                .inputFluids(Air.getFluid(8))
+                .inputFluids(RawOil, 2)
+                .inputFluids(Air, 8)
                 .duration(30)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("coal_tar")
-                .inputFluids(CoalTar.getFluid(6))
-                .inputFluids(Air.getFluid(6))
+                .inputFluids(CoalTar, 6)
+                .inputFluids(Air, 6)
                 .duration(24)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("sulfuric_heavy_fuel")
-                .inputFluids(SulfuricHeavyFuel.getFluid(1))
-                .inputFluids(Air.getFluid(5))
+                .inputFluids(SulfuricHeavyFuel, 1)
+                .inputFluids(Air, 5)
                 .duration(20)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("glycerol")
-                .inputFluids(Glycerol.getFluid(1))
-                .inputFluids(Air.getFluid(20))
+                .inputFluids(Glycerol, 1)
+                .inputFluids(Air, 20)
                 .duration(82)
                 .EUt(-V[ULV])
                 .save();
 
         SEMI_FLUID_GENERATOR_FUELS.recipeBuilder("heavy_fuel")
-                .inputFluids(HeavyFuel.getFluid(1))
-                .inputFluids(Air.getFluid(22))
+                .inputFluids(HeavyFuel, 1)
+                .inputFluids(Air, 22)
                 .duration(90)
                 .EUt(-V[ULV])
                 .save();
 
         ROCKET_ENGINE_FUELS.recipeBuilder("rocket_engine_fuel_1")
-                .inputFluids(RocketFuel.getFluid(10))
+                .inputFluids(RocketFuel, 10)
                 .duration(20)
                 .EUt(-512)
                 .save();
 
         ROCKET_ENGINE_FUELS.recipeBuilder("rocket_engine_fuel_2")
-                .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(10))
+                .inputFluids(GTOMaterials.RocketFuelRp1, 10)
                 .duration(40)
                 .EUt(-512)
                 .save();
 
         ROCKET_ENGINE_FUELS.recipeBuilder("rocket_engine_fuel_3")
-                .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10))
+                .inputFluids(GTOMaterials.DenseHydrazineFuelMixture, 10)
                 .duration(64)
                 .EUt(-512)
                 .save();
 
         ROCKET_ENGINE_FUELS.recipeBuilder("rocket_engine_fuel_4")
-                .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(10))
+                .inputFluids(GTOMaterials.RocketFuelCn3h7o3, 10)
                 .duration(96)
                 .EUt(-512)
                 .save();
 
         ROCKET_ENGINE_FUELS.recipeBuilder("rocket_engine_fuel_5")
-                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(10))
+                .inputFluids(GTOMaterials.RocketFuelH8n4c2o4, 10)
                 .duration(160)
                 .EUt(-512)
                 .save();
 
         ROCKET_ENGINE_FUELS.recipeBuilder("rocket_engine_fuel_6")
-                .inputFluids(GTOMaterials.ExplosiveHydrazine.getFluid(10))
+                .inputFluids(GTOMaterials.ExplosiveHydrazine, 10)
                 .duration(320)
                 .EUt(-512)
                 .save();
@@ -623,105 +623,105 @@ public final class FuelRecipe {
                 .save();
 
         ROCKET_ENGINE_FUELS.recipeBuilder("rocket_engine_fuel_8")
-                .inputFluids(GTOMaterials.StellarEnergyRocketFuel.getFluid(10))
+                .inputFluids(GTOMaterials.StellarEnergyRocketFuel, 10)
                 .duration(960)
                 .EUt(-512)
                 .save();
 
         NAQUADAH_REACTOR.recipeBuilder("naquadah")
-                .inputFluids(Naquadah.getFluid(1))
+                .inputFluids(Naquadah, 1)
                 .duration(240)
                 .EUt(-8192)
                 .save();
 
         NAQUADAH_REACTOR.recipeBuilder("enriched_naquadah")
-                .inputFluids(NaquadahEnriched.getFluid(1))
+                .inputFluids(NaquadahEnriched, 1)
                 .duration(360)
                 .EUt(-8192)
                 .save();
 
         NAQUADAH_REACTOR.recipeBuilder("naquadah_fuel")
-                .inputFluids(GTOMaterials.NaquadahFuel.getFluid(1))
+                .inputFluids(GTOMaterials.NaquadahFuel, 1)
                 .duration(2184)
                 .EUt(-8192)
                 .save();
 
         NAQUADAH_REACTOR.recipeBuilder("enriched_naquadah_fuel")
-                .inputFluids(GTOMaterials.EnrichedNaquadahFuel.getFluid(1))
+                .inputFluids(GTOMaterials.EnrichedNaquadahFuel, 1)
                 .duration(3276)
                 .EUt(-8192)
                 .save();
 
         LARGE_NAQUADAH_REACTOR_RECIPES.recipeBuilder("naquadah_fuel")
-                .inputFluids(GTOMaterials.NaquadahFuel.getFluid(16))
-                .inputFluids(Hydrogen.getFluid(80))
+                .inputFluids(GTOMaterials.NaquadahFuel, 16)
+                .inputFluids(Hydrogen, 80)
                 .duration(875)
                 .EUt(-524288)
                 .save();
 
         LARGE_NAQUADAH_REACTOR_RECIPES.recipeBuilder("enriched_naquadah_fuel")
-                .inputFluids(GTOMaterials.EnrichedNaquadahFuel.getFluid(16))
-                .inputFluids(Hydrogen.getFluid(80))
+                .inputFluids(GTOMaterials.EnrichedNaquadahFuel, 16)
+                .inputFluids(Hydrogen, 80)
                 .duration(1250)
                 .EUt(-524288)
                 .save();
 
         LARGE_NAQUADAH_REACTOR_RECIPES.recipeBuilder("naquadah_fuel1")
-                .inputFluids(GTOMaterials.NaquadahFuel.getFluid(160))
+                .inputFluids(GTOMaterials.NaquadahFuel, 160)
                 .inputFluids(Oxygen.getFluid(FluidStorageKeys.PLASMA, 40))
                 .duration(16 * 875)
                 .EUt(-524288)
                 .save();
 
         LARGE_NAQUADAH_REACTOR_RECIPES.recipeBuilder("enriched_naquadah_fuel1")
-                .inputFluids(GTOMaterials.EnrichedNaquadahFuel.getFluid(160))
+                .inputFluids(GTOMaterials.EnrichedNaquadahFuel, 160)
                 .inputFluids(Nitrogen.getFluid(FluidStorageKeys.PLASMA, 40))
                 .duration(16 * 1250)
                 .EUt(-524288)
                 .save();
 
         HYPER_REACTOR_RECIPES.recipeBuilder("hyper_fuel_1")
-                .inputFluids(GTOMaterials.HyperFuel1.getFluid(8))
+                .inputFluids(GTOMaterials.HyperFuel1, 8)
                 .inputFluids(Argon.getFluid(FluidStorageKeys.PLASMA, 4))
                 .duration(200)
                 .EUt(-V[UEV])
                 .save();
 
         HYPER_REACTOR_RECIPES.recipeBuilder("hyper_fuel_2")
-                .inputFluids(GTOMaterials.HyperFuel2.getFluid(8))
+                .inputFluids(GTOMaterials.HyperFuel2, 8)
                 .inputFluids(Iron.getFluid(FluidStorageKeys.PLASMA, 4))
                 .duration(200)
                 .EUt(-V[UXV])
                 .save();
 
         HYPER_REACTOR_RECIPES.recipeBuilder("hyper_fuel_3")
-                .inputFluids(GTOMaterials.HyperFuel3.getFluid(8))
+                .inputFluids(GTOMaterials.HyperFuel3, 8)
                 .inputFluids(Nickel.getFluid(FluidStorageKeys.PLASMA, 4))
                 .duration(200)
                 .EUt(-V[OpV])
                 .save();
 
         HYPER_REACTOR_RECIPES.recipeBuilder("hyper_fuel_4")
-                .inputFluids(GTOMaterials.HyperFuel4.getFluid(8))
+                .inputFluids(GTOMaterials.HyperFuel4, 8)
                 .inputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.PLASMA, 1))
                 .duration(200)
                 .EUt(-V[MAX])
                 .save();
 
         ADVANCED_HYPER_REACTOR_RECIPES.recipeBuilder("concentration_mixing_hyper_fuel_1")
-                .inputFluids(GTOMaterials.ConcentrationMixingHyperFuel1.getFluid(16))
+                .inputFluids(GTOMaterials.ConcentrationMixingHyperFuel1, 16)
                 .duration(200)
                 .EUt(-16 * V[MAX])
                 .save();
 
         ADVANCED_HYPER_REACTOR_RECIPES.recipeBuilder("concentration_mixing_hyper_fuel_2")
-                .inputFluids(GTOMaterials.ConcentrationMixingHyperFuel2.getFluid(16))
+                .inputFluids(GTOMaterials.ConcentrationMixingHyperFuel2, 16)
                 .duration(200)
                 .EUt(-64 * V[MAX])
                 .save();
 
         DYSON_SPHERE_RECIPES.recipeBuilder("a")
-                .inputItems(GTOItems.DYSON_SWARM_MODULE.asItem(), 64)
+                .inputItems(GTOItems.DYSON_SWARM_MODULE, 64)
                 .CWUt(512)
                 .duration(200)
                 .EUt(VA[UIV])

@@ -84,8 +84,8 @@ public final class MiscRecipe {
                 WORLD_DATA_SCANNER_RECIPES.recipeBuilder(hasGlobe.withSuffix("_globe").getPath())
                         .inputItems(PLANET_DATA_CHIP.asItem())
                         .inputItems(frameGt, Steel)
-                        .inputFluids(PolyvinylButyral.getFluid(576))
-                        .inputFluids(CHEMICAL_DYES[i1++].getFluid(72))
+                        .inputFluids(PolyvinylButyral, 576)
+                        .inputFluids(CHEMICAL_DYES[i1++], 72)
                         .outputItems(globe)
                         .dimension(hasGlobe)
                         .EUt(VA[tier])
@@ -197,7 +197,7 @@ public final class MiscRecipe {
 
         WOOD_DISTILLATION_RECIPES.builder("muhuasanhaodianlu")
                 .inputItems(ItemTags.LOGS, 16)
-                .outputItems(GTItems.FERTILIZER.asItem(), 6)
+                .outputItems(GTItems.FERTILIZER, 6)
                 .inputFluids(GTMaterials.Water, 6000)
                 .outputFluids(GTMaterials.Methane, 3300)
                 .outputFluids(GTMaterials.CarbonDioxide, 2200)
@@ -214,13 +214,13 @@ public final class MiscRecipe {
         AUTOCLAVE_RECIPES.recipeBuilder("water_agar_mix").EUt(VA[HV]).duration(600)
                 .chancedInput(GTOItems.RED_ALGAE_FIBER.asItem(), 1000, 0)
                 .inputItems(dust, Gelatin)
-                .inputFluids(DistilledWater.getFluid(1000))
-                .outputFluids(GTOMaterials.WaterAgarMix.getFluid(1000))
+                .inputFluids(DistilledWater, 1000)
+                .outputFluids(GTOMaterials.WaterAgarMix, 1000)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder("agar")
-                .inputFluids(GTOMaterials.WaterAgarMix.getFluid(1000))
+                .inputFluids(GTOMaterials.WaterAgarMix, 1000)
                 .outputItems(dust, Agar, 1)
                 .duration(420).EUt(VA[MV])
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
@@ -384,20 +384,20 @@ public final class MiscRecipe {
         CHEMICAL_RECIPES.builder("plastic_circuit_board_persulfate").duration(600).EUt(VA[LV])
                 .inputItems(PLASTIC_BOARD)
                 .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.AluminaCeramic, 2)
-                .inputFluids(SodiumPersulfate.getFluid(500))
+                .inputFluids(SodiumPersulfate, 500)
                 .outputItems(PLASTIC_CIRCUIT_BOARD)
                 .save();
 
         CHEMICAL_RECIPES.builder("plastic_circuit_board_iron3").duration(600).EUt(VA[LV])
                 .inputItems(PLASTIC_BOARD)
                 .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.AluminaCeramic, 2)
-                .inputFluids(Iron3Chloride.getFluid(250))
+                .inputFluids(Iron3Chloride, 250)
                 .outputItems(PLASTIC_CIRCUIT_BOARD)
                 .save();
 
         CHEMICAL_RECIPES.builder("polyethylene_from_oxygen")
                 .circuitMeta(4)
-                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(Oxygen, 1000)
                 .inputFluids(Ethylene.getFluid(L))
                 .outputFluids(Polyethylene.getFluid(144))
                 .heat(600)
@@ -405,7 +405,7 @@ public final class MiscRecipe {
 
         CHEMICAL_RECIPES.builder("polyethylene_from_air")
                 .notConsumable(TagPrefix.rod, GTMaterials.Ruby)
-                .inputFluids(Air.getFluid(1000))
+                .inputFluids(Air, 1000)
                 .inputFluids(Ethylene.getFluid(L))
                 .outputFluids(Polyethylene.getFluid(126))
                 .heat(600)
@@ -413,7 +413,7 @@ public final class MiscRecipe {
 
         CHEMICAL_RECIPES.builder("polyvinyl_chloride_from_oxygen")
                 .notConsumable(TagPrefix.rod, GTMaterials.Ruby)
-                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(Oxygen, 1000)
                 .inputFluids(VinylChloride.getFluid(L))
                 .outputFluids(PolyvinylChloride.getFluid(144))
                 .heat(700)
@@ -421,8 +421,8 @@ public final class MiscRecipe {
 
         CHEMICAL_RECIPES.builder("methanol_from_monoxide")
                 .circuitMeta(1)
-                .inputFluids(Hydrogen.getFluid(4000))
-                .inputFluids(CarbonMonoxide.getFluid(1000))
+                .inputFluids(Hydrogen, 4000)
+                .inputFluids(CarbonMonoxide, 1000)
                 .outputFluids(Methanol.getFluid(1000))
                 .duration(360).EUt(30).save();
 
@@ -439,7 +439,7 @@ public final class MiscRecipe {
                 .inputItems(GLASS_TUBE)
                 .inputItems(bolt, Steel)
                 .inputItems(wireGtSingle, Copper, 2)
-                .inputFluids(RedAlloy.getFluid(18))
+                .inputFluids(RedAlloy, 18)
                 .outputItems(VACUUM_TUBE, 4)
                 .addCondition(new VacuumCondition(2))
                 .duration(40).EUt(16).save();
@@ -448,7 +448,7 @@ public final class MiscRecipe {
                 .inputItems(GLASS_TUBE)
                 .inputItems(bolt, Steel)
                 .inputItems(wireGtSingle, AnnealedCopper, 2)
-                .inputFluids(RedAlloy.getFluid(18))
+                .inputFluids(RedAlloy, 18)
                 .outputItems(VACUUM_TUBE, 6)
                 .addCondition(new VacuumCondition(3))
                 .duration(40).EUt(VA[LV]).save();
@@ -456,7 +456,7 @@ public final class MiscRecipe {
         BLAST_RECIPES.builder("engraved_crystal_chip_from_olivine")
                 .inputItems(plate, Olivine)
                 .inputItems(RAW_CRYSTAL_CHIP)
-                .inputFluids(Helium.getFluid(1000))
+                .inputFluids(Helium, 1000)
                 .outputItems(ENGRAVED_CRYSTAL_CHIP)
                 .blastFurnaceTemp(5000)
                 .duration(900).EUt(VA[HV])
@@ -465,7 +465,7 @@ public final class MiscRecipe {
 
         CHEMICAL_BATH_RECIPES.builder("quantum_star")
                 .inputItems(gem, NetherStar)
-                .inputFluids(Radon.getFluid(1250))
+                .inputFluids(Radon, 1250)
                 .outputItems(QUANTUM_STAR)
                 .duration(1920).EUt(VA[HV])
                 .addCondition(new GravityCondition(true))
@@ -481,15 +481,15 @@ public final class MiscRecipe {
 
         CHEMICAL_BATH_RECIPES.builder("quantum_eye")
                 .inputItems(gem, EnderEye)
-                .inputFluids(Radon.getFluid(250))
+                .inputFluids(Radon, 250)
                 .outputItems(QUANTUM_EYE)
                 .duration(480).EUt(VA[HV])
                 .addCondition(new GravityCondition(true))
                 .save();
 
         CHEMICAL_RECIPES.builder("formic_acid")
-                .inputFluids(GTOMaterials.SodiumFormate.getFluid(2000))
-                .inputFluids(SulfuricAcid.getFluid(1000))
+                .inputFluids(GTOMaterials.SodiumFormate, 2000)
+                .inputFluids(SulfuricAcid, 1000)
                 .circuitMeta(1)
                 .outputFluids(FormicAcid.getFluid(2000))
                 .outputItems(dust, GTOMaterials.SodiumSulfate, 7)
@@ -520,23 +520,23 @@ public final class MiscRecipe {
                 .save();
 
         MIXER_RECIPES.builder("pcb_coolant").duration(200).EUt(VA[HV])
-                .inputFluids(PolychlorinatedBiphenyl.getFluid(750))
-                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(250))
+                .inputFluids(PolychlorinatedBiphenyl, 750)
+                .inputFluids(GTOMaterials.CoolantLiquid, 250)
                 .outputFluids(PCBCoolant.getFluid(1000))
                 .save();
 
         CHEMICAL_RECIPES.builder("hypochlorous_acid_mercury")
                 .circuitMeta(10)
-                .inputFluids(Mercury.getFluid(1000))
-                .inputFluids(Water.getFluid(10000))
-                .inputFluids(Chlorine.getFluid(10000))
+                .inputFluids(Mercury, 1000)
+                .inputFluids(Water, 10000)
+                .inputFluids(Chlorine, 10000)
                 .outputFluids(HypochlorousAcid.getFluid(10000))
                 .duration(600).EUt(VA[ULV]).save();
 
         CHEMICAL_RECIPES.builder("hypochlorous_acid")
                 .circuitMeta(11)
-                .inputFluids(Water.getFluid(1000))
-                .inputFluids(Chlorine.getFluid(2000))
+                .inputFluids(Water, 1000)
+                .inputFluids(Chlorine, 2000)
                 .outputFluids(DilutedHydrochloricAcid.getFluid(1000))
                 .outputFluids(HypochlorousAcid.getFluid(1000))
                 .duration(120).EUt(VA[LV]).save();
@@ -544,14 +544,14 @@ public final class MiscRecipe {
         CHEMICAL_RECIPES.builder("benzene_from_biphenyl")
                 .circuitMeta(1)
                 .inputItems(dust, Biphenyl, 2)
-                .inputFluids(Hydrogen.getFluid(2000))
+                .inputFluids(Hydrogen, 2000)
                 .outputFluids(Benzene.getFluid(2000))
                 .duration(400).EUt(VA[EV]).save();
 
         CHEMICAL_RECIPES.builder("polychlorinated_biphenyl")
                 .circuitMeta(2)
                 .inputItems(dust, Biphenyl, 2)
-                .inputFluids(Chlorine.getFluid(4000))
+                .inputFluids(Chlorine, 4000)
                 .outputFluids(PolychlorinatedBiphenyl.getFluid(1000))
                 .outputFluids(HydrochloricAcid.getFluid(2000))
                 .duration(200).EUt(VH[HV]).save();
@@ -559,21 +559,21 @@ public final class MiscRecipe {
         CHEMICAL_RECIPES.builder("calcium_hydroxide")
                 .circuitMeta(1)
                 .inputItems(dust, Quicklime, 2)
-                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Water, 1000)
                 .outputItems(dust, CalciumHydroxide, 3)
                 .duration(100).EUt(VHA[MV]).save();
 
         CHEMICAL_RECIPES.builder("calcite_from_quicklime")
                 .circuitMeta(1)
                 .inputItems(dust, Quicklime, 2)
-                .inputFluids(CarbonDioxide.getFluid(1000))
+                .inputFluids(CarbonDioxide, 1000)
                 .outputItems(dust, Calcite, 5)
                 .duration(80).EUt(VA[LV]).save();
 
         CHEMICAL_RECIPES.builder("ethylene_from_ethanol")
                 .circuitMeta(1)
-                .inputFluids(SulfuricAcid.getFluid(1000))
-                .inputFluids(Ethanol.getFluid(1000))
+                .inputFluids(SulfuricAcid, 1000)
+                .inputFluids(Ethanol, 1000)
                 .outputFluids(Ethylene.getFluid(1000))
                 .outputFluids(DilutedSulfuricAcid.getFluid(1000))
                 .duration(1200).EUt(VA[MV]).save();
@@ -581,21 +581,21 @@ public final class MiscRecipe {
         CHEMICAL_RECIPES.builder("dimethylchlorosilane_from_chloromethane")
                 .circuitMeta(1)
                 .inputItems(dust, Silicon)
-                .inputFluids(Chloromethane.getFluid(2000))
+                .inputFluids(Chloromethane, 2000)
                 .outputFluids(Dimethyldichlorosilane.getFluid(1000))
                 .duration(240).EUt(96).save();
 
         CHEMICAL_RECIPES.builder("vinyl_chloride_from_ethane")
                 .circuitMeta(1)
-                .inputFluids(Chlorine.getFluid(4000))
-                .inputFluids(Ethane.getFluid(1000))
+                .inputFluids(Chlorine, 4000)
+                .inputFluids(Ethane, 1000)
                 .outputFluids(VinylChloride.getFluid(1000))
                 .outputFluids(HydrochloricAcid.getFluid(3000))
                 .duration(160).EUt(VA[LV]).save();
 
         CHEMICAL_RECIPES.builder("styrene_from_ethylbenzene")
                 .circuitMeta(1)
-                .inputFluids(Ethylbenzene.getFluid(1000))
+                .inputFluids(Ethylbenzene, 1000)
                 .outputFluids(Styrene.getFluid(1000))
                 .outputFluids(Hydrogen.getFluid(2000))
                 .duration(30).EUt(VA[LV])
@@ -604,7 +604,7 @@ public final class MiscRecipe {
         CHEMICAL_RECIPES.builder("soda_ash_from_carbon_dioxide")
                 .circuitMeta(2)
                 .inputItems(dust, SodiumHydroxide, 6)
-                .inputFluids(CarbonDioxide.getFluid(1000))
+                .inputFluids(CarbonDioxide, 1000)
                 .outputItems(dust, SodaAsh, 6)
                 .outputFluids(Water.getFluid(1000))
                 .duration(80).EUt(VA[HV])
@@ -612,8 +612,8 @@ public final class MiscRecipe {
 
         LARGE_CHEMICAL_RECIPES.builder("iron_2_chloride")
                 .circuitMeta(1)
-                .inputFluids(Iron3Chloride.getFluid(2000))
-                .inputFluids(Chlorobenzene.getFluid(1000))
+                .inputFluids(Iron3Chloride, 2000)
+                .inputFluids(Chlorobenzene, 1000)
                 .outputFluids(Iron2Chloride.getFluid(2000))
                 .outputFluids(HydrochloricAcid.getFluid(1000))
                 .outputFluids(Dichlorobenzene.getFluid(1000))
@@ -654,7 +654,7 @@ public final class MiscRecipe {
 
             BRICK_FURNACE_RECIPES.builder("firebrick_exp")
                     .inputItems(Items.COAL)
-                    .inputItems(GTItems.FIRECLAY_BRICK.asItem(), 6)
+                    .inputItems(GTItems.FIRECLAY_BRICK, 6)
                     .inputItems(GTOTagPrefix.dust, GTMaterials.Gypsum, 2)
                     .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem())
                     .inputFluids(GTMaterials.Concrete, 1000)
@@ -663,7 +663,7 @@ public final class MiscRecipe {
         } else {
             BRICK_FURNACE_RECIPES.builder("firebrick")
                     .inputItems(Items.COAL)
-                    .inputItems(GTItems.COMPRESSED_FIRECLAY.asItem(), 8)
+                    .inputItems(GTItems.COMPRESSED_FIRECLAY, 8)
                     .outputItems(GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 2)
                     .duration(100)
                     .save();
@@ -671,14 +671,14 @@ public final class MiscRecipe {
 
         BRICK_FURNACE_RECIPES.builder("coke_oven_brick")
                 .inputItems(Items.COAL)
-                .inputItems(GTItems.COMPRESSED_COKE_CLAY.asItem(), 8)
+                .inputItems(GTItems.COMPRESSED_COKE_CLAY, 8)
                 .outputItems(GTBlocks.CASING_COKE_BRICKS.asItem(), 2)
                 .duration(100)
                 .save();
 
         BRICK_FURNACE_RECIPES.builder("brick")
                 .inputItems(Items.COAL)
-                .inputItems(GTItems.COMPRESSED_CLAY.asItem(), 8)
+                .inputItems(GTItems.COMPRESSED_CLAY, 8)
                 .outputItems(Blocks.BRICKS.asItem(), 2)
                 .duration(100)
                 .save();

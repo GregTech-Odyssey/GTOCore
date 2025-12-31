@@ -56,7 +56,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     @Override
     public void calculateMaintenance(IMaintenanceMachine maintenanceMachine, int duration) {
         if (maintenanceMachine.isFullAuto()) return;
-        var pa = getControllers().getFirst().getParts().length;
+        var pa = getController().getParts().length;
         timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getDurationMultiplier() * GTOCore.difficulty * pa)));
         var value = ((float) timeActive / MINIMUM_MAINTENANCE_TIME) - 0.7;
         if (GTValues.RNG.nextFloat() <= value && !GTOCore.isEasy()) {

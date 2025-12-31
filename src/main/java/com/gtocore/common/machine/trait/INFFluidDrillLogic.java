@@ -113,7 +113,7 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
                 return;
             }
         }
-        setStatus(Status.IDLE);
+        setStatus(IDLE);
         progress = 0;
         duration = 0;
     }

@@ -97,8 +97,6 @@ public final class $ClassifiedRecipe {
         AlloyBlast.init();
         Extruder.init();
         Brewing.init();
-        CreateAggregation.init();
-        DoorOfCreate.init();
         HeatExchanger.init();
         DragonEggCopier.init();
         LavaFurnace.init();
