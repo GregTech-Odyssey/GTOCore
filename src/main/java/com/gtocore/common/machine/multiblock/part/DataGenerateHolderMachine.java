@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
 import com.gregtechceu.gtceu.api.item.component.IDataItem;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableMultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
@@ -27,7 +27,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-public class DataGenerateHolderMachine extends WorkableMultiblockPartMachine implements IMachineLife {
+public class DataGenerateHolderMachine extends MultiblockPartMachine implements IMachineLife {
 
     public static final int CATALYST_SLOT_1 = 0;
     public static final int CATALYST_SLOT_2 = 1;

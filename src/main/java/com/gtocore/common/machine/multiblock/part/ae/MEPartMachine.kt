@@ -28,6 +28,7 @@ import com.gregtechceu.gtceu.api.item.tool.GTToolType
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.gtolib.api.annotation.SyncedManager
@@ -46,7 +47,7 @@ import javax.annotation.ParametersAreNonnullByDefault
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
-    TieredIOPartMachine(holder, GTValues.LuV, io),
+    WorkableTieredIOPartMachine(holder, GTValues.LuV, io),
     WirelessMachine,
     IMEPartMachine,
     ISync,
@@ -196,7 +197,7 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     }
 
     override fun attachSideTabs(sideTabs: TabsWidget) {
-        super<TieredIOPartMachine>.attachSideTabs(sideTabs)
+        super<WorkableTieredIOPartMachine>.attachSideTabs(sideTabs)
         sideTabs.attachSubTab(getSetupFancyUIProvider())
     }
 }

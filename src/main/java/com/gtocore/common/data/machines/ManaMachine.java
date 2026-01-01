@@ -13,6 +13,7 @@ import com.gtocore.common.machine.mana.part.*;
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.machine.mana.ManaAmplifierPartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;

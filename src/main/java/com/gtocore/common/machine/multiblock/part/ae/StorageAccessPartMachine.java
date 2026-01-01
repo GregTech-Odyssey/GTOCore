@@ -7,7 +7,7 @@ import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
+import com.gtolib.api.machine.part.AmountConfigurationPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -52,7 +52,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 @DataGeneratorScanned
-public abstract class StorageAccessPartMachine extends AmountConfigurationHatchPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IStorageProvider {
+public abstract class StorageAccessPartMachine extends AmountConfigurationPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IStorageProvider {
 
     public static StorageAccessPartMachine create(MetaMachineBlockEntity holder) {
         return new StorageAccessPartMachine.LONG(holder);

@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
+import com.gtolib.api.machine.part.WorkableAmountConfigurationPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
@@ -12,9 +12,10 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import org.jetbrains.annotations.NotNull;
 
 @DataGeneratorScanned
-public final class AccelerateHatchPartMachine extends AmountConfigurationHatchPartMachine {
+public final class AccelerateHatchPartMachine extends WorkableAmountConfigurationPartMachine {
 
     @RegisterLanguage(cn = "耗时百分比", en = "Percentage of duration")
     private static final String PERCENTAGE = "gtocore.machine.accelerate_hatch.percentage";
@@ -29,7 +30,7 @@ public final class AccelerateHatchPartMachine extends AmountConfigurationHatchPa
     }
 
     @Override
-    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
+    public GTRecipe modifyRecipe(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
         if (controller instanceof WorkableElectricMultiblockMachine machine) {
             int reduction = (int) getCurrent();
             int t = machine.getTier() - getTier();

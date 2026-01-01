@@ -9,7 +9,7 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 import com.gtolib.api.machine.trait.CoilTrait;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
@@ -81,7 +81,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     @Persisted
     private float highSpeedFactor = 1.0f;
     final List<RotorHolderPartMachine> rotorHolderMachines = new ObjectArrayList<>();
-    private ItemHatchPartMachine rotorHatchPartMachine;
+    private ItemPartMachine rotorHatchPartMachine;
     private final ConditionalSubscriptionHandler rotorSubs;
 
     private double extraOutput = 1;
@@ -131,7 +131,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
         if (part instanceof RotorHolderPartMachine rotorHolderMachine) {
             rotorHolderMachines.add(rotorHolderMachine);
             traitSubscriptions.add(rotorHolderMachine.inventory.addChangedListener(rotorSubs::updateSubscription));
-        } else if (rotorHatchPartMachine == null && part instanceof ItemHatchPartMachine rotorHatchPart) {
+        } else if (rotorHatchPartMachine == null && part instanceof ItemPartMachine rotorHatchPart) {
             rotorHatchPartMachine = rotorHatchPart;
             traitSubscriptions.add(rotorHatchPartMachine.getInventory().addChangedListener(rotorSubs::updateSubscription));
         }

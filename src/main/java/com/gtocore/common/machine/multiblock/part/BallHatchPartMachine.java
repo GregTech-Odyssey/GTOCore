@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.common.data.GTOItems;
 
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.WorkableItemPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
@@ -34,7 +34,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class BallHatchPartMachine extends ItemHatchPartMachine implements IInteractedMachine {
+public final class BallHatchPartMachine extends WorkableItemPartMachine implements IInteractedMachine {
 
     public static final Map<Item, Integer> GRINDBALL;
 

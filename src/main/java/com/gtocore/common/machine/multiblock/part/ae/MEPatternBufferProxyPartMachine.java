@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
@@ -44,7 +44,7 @@ import static com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartM
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine implements IMachineLife, IDataStickInteractable, IWailaDisplayProvider {
+public final class MEPatternBufferProxyPartMachine extends WorkableTieredIOPartMachine implements IMachineLife, IDataStickInteractable, IWailaDisplayProvider {
 
     private ProxySlotRecipeHandler proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
     @Persisted

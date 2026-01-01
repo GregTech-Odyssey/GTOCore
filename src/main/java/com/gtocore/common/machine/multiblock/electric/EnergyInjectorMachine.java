@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric;
 
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyInterfacePartMachine;
-
+import com.gtolib.api.machine.impl.part.WirelessEnergyInterfacePartMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.IdleReason;

@@ -6,10 +6,10 @@ import com.gtocore.client.renderer.machine.FluidRenderer;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.electric.gcym.*;
-import com.gtocore.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.gtocore.utils.register.MachineRegisterUtils;
 
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.impl.part.ParallelHatchPartMachine;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 

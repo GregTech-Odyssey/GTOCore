@@ -27,7 +27,6 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine {
 
     @Getter
-    @Nullable
     SpaceElevatorMachine spaceElevatorMachine;
 
     private final boolean powerModuleTier;
@@ -36,7 +35,7 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
         this(holder, powerModuleTier, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER) - 1) : 0);
     }
 
-    public SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean powerModuleTier, ToLongFunction<CustomParallelMultiblockMachine> getParallel) {
+    SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean powerModuleTier, ToLongFunction<CustomParallelMultiblockMachine> getParallel) {
         super(holder, false, getParallel);
         this.powerModuleTier = powerModuleTier;
     }
@@ -67,12 +66,8 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
     @Nullable
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
-        if (getSpaceElevatorTier() < 8) {
-            return null;
-        }
-        if (spaceElevatorMachine != null && powerModuleTier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) {
-            return null;
-        }
+        if (getSpaceElevatorTier() < 8) return null;
+        if (powerModuleTier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) return null;
         return RecipeModifierFunction.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);
     }
 
@@ -94,8 +89,8 @@ public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine 
 
     private double getDurationMultiplier() {
         double mul = 1;
-        if (getSpaceElevatorMachine() != null) {
-            mul = getSpaceElevatorMachine().netMachineCache == null ? 1.0d : getSpaceElevatorMachine().netMachineCache.getDurationMultiplier();
+        if (spaceElevatorMachine != null) {
+            mul = spaceElevatorMachine.netMachineCache == null ? 1.0d : spaceElevatorMachine.netMachineCache.getDurationMultiplier();
         }
         return Math.sqrt(mul / ((getSpaceElevatorTier() - GTValues.ZPM) * (isSuper() ? 2 : 1)));
     }

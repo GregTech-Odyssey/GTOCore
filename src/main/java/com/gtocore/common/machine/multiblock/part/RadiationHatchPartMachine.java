@@ -13,7 +13,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableMultiblockPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -37,7 +37,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class RadiationHatchPartMachine extends WorkableMultiblockPartMachine implements IMachineLife, IRecipeCapabilityHolder {
+public final class RadiationHatchPartMachine extends MultiblockPartMachine implements IMachineLife, IRecipeCapabilityHolder {
 
     @Persisted
     private final NotifiableItemStackHandler inventory;

@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 
@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.UUID;
 
 @Mixin(EnergyHatchPartMachine.class)
-public class EnergyHatchPartMachineMixin extends TieredIOPartMachine implements IWirelessChargerInteraction, IElectricMachine {
+public class EnergyHatchPartMachineMixin extends WorkableTieredIOPartMachine implements IWirelessChargerInteraction, IElectricMachine {
 
     @Shadow(remap = false)
     @Final

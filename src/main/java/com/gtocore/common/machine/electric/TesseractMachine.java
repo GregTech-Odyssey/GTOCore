@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.electric;
 
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -67,7 +67,7 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
 
     @Override
     public Widget createUIWidget() {
-        return ItemHatchPartMachine.createSLOTWidget(inventory);
+        return ItemPartMachine.createSLOTWidget(inventory);
     }
 
     @Override

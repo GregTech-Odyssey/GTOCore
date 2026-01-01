@@ -1,8 +1,7 @@
 package com.gtocore.integration.jade.provider;
 
-import com.gtocore.common.machine.multiblock.part.ParallelHatchPartMachine;
-
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
+import com.gtolib.api.machine.impl.part.ParallelHatchPartMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeHelper;
 
