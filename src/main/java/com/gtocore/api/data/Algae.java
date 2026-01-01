@@ -18,12 +18,20 @@ public enum Algae {
     GreenAlge(180, 40, 220, GTOItems.GREEN_ALGAE),
     RedAlge(40, 200, 230, GTOItems.RED_ALGAE);
 
+    public static void init() {
+        for (Algae algae : VALUES) {
+            algae.item = algae.itemSupplier.get();
+            algae.itemSupplier = null;
+        }
+    }
+
     private static final Algae[] VALUES = values();
 
     public final int redAbsorption;
     public final int greenAbsorption;
     public final int blueAbsorption;
-    public final Supplier<Item> itemSupplier;
+    private Supplier<Item> itemSupplier;
+    private Item item;
 
     Algae(int redAbsorption, int greenAbsorption, int blueAbsorption, Supplier<Item> itemSupplier) {
         this.redAbsorption = redAbsorption;
@@ -33,13 +41,13 @@ public enum Algae {
     }
 
     public AEItemKey aeKey() {
-        return AEItemKey.of(itemSupplier.get());
+        return AEItemKey.of(item);
     }
 
     public static boolean isAlgae(AEItemKey key) {
         var item = key.getItem();
         for (Algae algae : VALUES) {
-            if (algae.itemSupplier.get() == item) {
+            if (algae.item == item) {
                 return true;
             }
         }
