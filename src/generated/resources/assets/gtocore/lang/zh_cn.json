@@ -1621,6 +1621,8 @@
   "config.gtocore.option.hud": "HUD 设置",
   "config.gtocore.option.lightningRodEffect": "引雷针特效",
   "config.gtocore.option.maxMonitorSize": "监控器最大尺寸",
+  "config.gtocore.option.mobConfig": "生物设置",
+  "config.gtocore.option.naturalRegeneration": "生物自然回血",
   "config.gtocore.option.nightVision": "内置夜视",
   "config.gtocore.option.nonCheatEmiInteraction": "非作弊时EMI交互",
   "config.gtocore.option.pickCraft": "选取方块自动合成",
