@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.mana.multiblock;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.item.ApothItem;
 import com.gtocore.data.record.EnchantmentRecord;
 
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -228,8 +229,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 if (enchantment.contains("id", 8) && enchantment.contains("lvl", 2)) {
                     int lvl = 1 << (enchantment.getShort("lvl") - 1);
-                    Item essence = ENCHANTMENT_ESSENCE.get(ENCHANTMENT_ESSENCE.containsKey(enchantment.getString("id")) ?
-                            enchantment.getString("id") : "original").get();
+                    Item essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id")).get();
+                    if (!(essence instanceof ApothItem)) essence = ENCHANTMENT_ESSENCE.get("original").get();
                     outputsItems.add(new ItemStack(essence, lvl));
                 }
             }
@@ -355,8 +356,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             for (int i = 0; i < enchantmentCount; i++) {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 int lvl = 1 << (enchantment.getInt("lvl") - 1);
-                Item essence = ENCHANTMENT_ESSENCE.get(ENCHANTMENT_ESSENCE.containsKey(enchantment.getString("id")) ?
-                        enchantment.getString("id") : "original").get();
+                Item essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id")).get();
+                if (!(essence instanceof ApothItem)) essence = ENCHANTMENT_ESSENCE.get("original").get();
                 outputsItems.add(new ItemStack(essence, lvl));
             }
             return true;
