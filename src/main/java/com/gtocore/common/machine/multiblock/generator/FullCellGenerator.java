@@ -36,7 +36,6 @@ import net.minecraft.world.level.material.Fluid;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectImmutableList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.jetbrains.annotations.NotNull;
@@ -168,7 +167,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         // content output check
         if (!this.canVoidRecipeOutputs(FluidRecipeCapability.CAP)) {
             var contents = result.getOutputContents(FluidRecipeCapability.CAP);
-            List<FluidIngredient> copied = new ObjectArrayList<>(contents.size());
+            List<FluidIngredient> copied = new ArrayList<>(contents.size());
             for (var ing : contents) {
                 copied.add(((FluidIngredient) (ing.content)).copy());
             }

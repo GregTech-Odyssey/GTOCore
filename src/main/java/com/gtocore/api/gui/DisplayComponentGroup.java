@@ -13,11 +13,11 @@ import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectBooleanPair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -30,7 +30,7 @@ public class DisplayComponentGroup extends WidgetGroup {
     @NotNull
     private final List<ResourceLocation> originList;
     /// Uses both sides
-    private final List<ObjectBooleanPair<ResourceLocation>> current = new ObjectArrayList<>();
+    private final List<ObjectBooleanPair<ResourceLocation>> current = new ArrayList<>();
     private final Map<ResourceLocation, DisplayComponentWidget> displayWidgets = new O2OOpenCacheHashMap<>();
     private DraggableScrollableWidgetGroup scrollArea;
 

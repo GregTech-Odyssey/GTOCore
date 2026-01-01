@@ -69,7 +69,7 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
         if (getOverclockVoltage() > VA[GTValues.LuV] && !isEmpty()) {
             if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
                 Recipe recipe = RECIPE.copy();
-                recipe.setEut(VA[getTier()]);
+                recipe.eut = VA[getTier()];
                 FluidStack fluidStack = fluidStacks.get(Math.min(fluidStacks.size() - 1, c)).copy();
                 int amount = fluidStack.getAmount() * (1 << getTier() - 2);
                 var machine = getNetMachine();

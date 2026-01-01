@@ -15,8 +15,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -42,7 +42,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     @Persisted
     private boolean cycle;
 
-    private final List<SensorPartMachine> sensorMachine = new ObjectArrayList<>();
+    private final List<SensorPartMachine> sensorMachine = new ArrayList<>();
 
     public ExtremeTemperatureFluctuationPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 16);
