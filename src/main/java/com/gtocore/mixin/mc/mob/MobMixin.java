@@ -26,7 +26,7 @@ import snownee.jade.util.CommonProxy;
 import java.util.UUID;
 
 @Mixin(value = Mob.class, priority = 0)
-@SuppressWarnings({ "ConstantConditions", "resource" })
+@SuppressWarnings("resource")
 public abstract class MobMixin extends LivingEntity {
 
     @Unique
