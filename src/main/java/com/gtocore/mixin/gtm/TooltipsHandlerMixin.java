@@ -26,7 +26,7 @@ public class TooltipsHandlerMixin {
 
     @Inject(method = "appendFluidTooltips", at = @At("TAIL"), remap = false)
     private static void gappendFluidTooltips(FluidStack fluidStack, Consumer<Component> tooltips, TooltipFlag flag, CallbackInfo ci,
-                                             @Local Fluid fluid) {
+                                             @Local(name = "fluid") Fluid fluid) {
         var material = ChemicalHelper.getMaterial(fluid);
         if (FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.containsKey(material)) {
             long euPerMb = FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.get(material);

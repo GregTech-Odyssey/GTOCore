@@ -19,14 +19,14 @@ import net.minecraft.world.item.ItemStack;
 
 import com.fast.fastcollection.O2LOpenCustomCacheHashMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
 
-    private final List<MECraftPatternPartMachine> partMachines = new ObjectArrayList<>();
+    private final List<MECraftPatternPartMachine> partMachines = new ArrayList<>();
 
     public SuperMolecularAssemblerMachine(MetaMachineBlockEntity holder) {
         super(holder);

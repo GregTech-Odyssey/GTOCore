@@ -170,6 +170,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
 
     @Override
     public int getTier() {
-        return this.tier + calculateBonusTier();
+        return tier + calculateBonusTier();
     }
 }

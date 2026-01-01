@@ -29,7 +29,6 @@ import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -71,7 +70,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     @Override
     public @NotNull RecipeHandlerList getHandlerList() {
         if (recipeHandlerList == null) {
-            List<IRecipeHandler<?>> handlers = new ObjectArrayList<>();
+            List<IRecipeHandler<?>> handlers = new ArrayList<>();
             for (var trait : traits) {
                 if (trait instanceof IRecipeHandlerTrait<?> rht && rht.isAvailable() && rht.getHandlerIO() == IO.IN) {
                     handlers.add(rht);

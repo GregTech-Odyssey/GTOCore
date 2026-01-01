@@ -243,7 +243,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     private static class StorageBusInventory extends MEInventoryHandler {
 
-        public StorageBusInventory(MEStorage inventory) {
+        StorageBusInventory(MEStorage inventory) {
             super(inventory);
         }
 

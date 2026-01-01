@@ -27,7 +27,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.item.tool.GTToolType
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
@@ -74,8 +73,7 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     override fun onToolClick(toolType: MutableSet<GTToolType>, itemStack: ItemStack, context: UseOnContext): Pair<GTToolType?, InteractionResult?> {
         val result = super.onToolClick(toolType, itemStack, context)
         if (result.second == InteractionResult.PASS && toolType.contains(GTToolType.WIRE_CUTTER)) {
-            val player = context.player
-            if (player == null) return result
+            val player = context.player ?: return result
             return Pair.of<GTToolType?, InteractionResult?>(GTToolType.WIRE_CUTTER, onWireCutterClick(player, context.hand))
         }
         return result
@@ -198,6 +196,6 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun attachSideTabs(sideTabs: TabsWidget) {
         super<WorkableTieredIOPartMachine>.attachSideTabs(sideTabs)
-        sideTabs.attachSubTab(getSetupFancyUIProvider())
+        sideTabs.attachSubTab(setupFancyUIProvider)
     }
 }

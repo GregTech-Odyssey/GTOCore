@@ -310,7 +310,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
         override fun setOnContentsChanged(a: Runnable?) {
             onContentChanged = a
         }
-        override fun getOnContentsChanged(): Runnable? = Runnable {
+        override fun getOnContentsChanged(): Runnable = Runnable {
             onContentsChanged()
             onContentChanged?.run()
         }

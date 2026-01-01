@@ -14,7 +14,7 @@ import appeng.client.gui.me.crafting.CraftingStatusTableRenderer;
 import appeng.core.localization.GuiText;
 import appeng.menu.me.crafting.CraftingStatusEntry;
 import com.llamalad7.mixinextras.sugar.Local;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -52,7 +52,7 @@ public abstract class CraftingStatusTableRendererMixin extends AbstractTableRend
             var lastResults = handler.gto$getLastCraftingResults();
             if (lastResults != null &&
                     lastResults.containsKey(entry.getWhat())) {
-                Set<IPatternProviderLogic.PushResult> results = new ObjectOpenHashSet<>(lastResults.get(entry.getWhat()));
+                Set<IPatternProviderLogic.PushResult> results = new ReferenceOpenHashSet<>(lastResults.get(entry.getWhat()));
                 var v = cir.getReturnValue();
                 v.addAll(results.stream().filter(Objects::nonNull).map(r -> Component.translatable(r.getTranslationKey()).withStyle(r.success() ? ChatFormatting.GREEN : ChatFormatting.GOLD)).toList());
                 cir.setReturnValue(v);

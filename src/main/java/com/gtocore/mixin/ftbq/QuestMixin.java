@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-@Mixin(value = Quest.class)
+@Mixin(Quest.class)
 public class QuestMixin {
 
     @Redirect(method = "isVisible", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;anyMatch(Ljava/util/function/Predicate;)Z"), remap = false)

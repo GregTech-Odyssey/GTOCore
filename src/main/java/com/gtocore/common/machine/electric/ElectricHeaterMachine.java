@@ -67,7 +67,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
 
     @Nullable
     private Recipe getRecipe() {
-        if (temperature >= getMaxTemperature()) return null;
+        if (temperature >= MaxTemperature) return null;
         Recipe recipe = IEnhancedRecipeLogic.of(getRecipeLogic()).gtolib$getRecipeBuilder().duration(20).EUt(30).buildRawRecipe();
         if (RecipeRunner.matchTickRecipe(this, recipe)) {
             return recipe;
@@ -120,7 +120,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     @Override
     public boolean onWorking() {
         if (super.onWorking()) {
-            if (getOffsetTimer() % 10 == 0 && getMaxTemperature() > temperature + 4) {
+            if (getOffsetTimer() % 10 == 0 && MaxTemperature > temperature + 4) {
                 raiseTemperature(4);
             }
             return true;

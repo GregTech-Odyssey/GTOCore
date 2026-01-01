@@ -20,7 +20,7 @@ import static com.gtocore.common.block.BlockMap.MACHINECASINGMAP;
 @Mixin(GTBlocks.class)
 public class GTBlocksMixin {
 
-    @Inject(method = "createMachineCasingBlock(I)Lcom/tterrag/registrate/util/entry/BlockEntry;", at = @At(value = "TAIL"), remap = false)
+    @Inject(method = "createMachineCasingBlock(I)Lcom/tterrag/registrate/util/entry/BlockEntry;", at = @At("TAIL"), remap = false)
     private static void createMachineCasingBlock(int tier, CallbackInfoReturnable<BlockEntry<Block>> cir) {
         BlockEntry<Block> block = cir.getReturnValue();
         MACHINECASINGMAP.put(tier, block);

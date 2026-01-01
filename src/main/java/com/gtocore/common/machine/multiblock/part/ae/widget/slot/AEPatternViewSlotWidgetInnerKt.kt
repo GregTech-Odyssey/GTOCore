@@ -28,11 +28,15 @@ class AEPatternViewSlotWidgetInnerKt(itemHandler: IItemHandlerModifiable, slotIn
     }
 }
 
-class AEPatternViewSlotWidgetKt(x: Int, y: Int, val slotIndex: Int, val applyIndexSupplier: IntSupplier, val itemHandler: IItemHandlerModifiable, val clicked: Runnable) : SyncWidget(x, y, 18, 18) {
+class AEPatternViewSlotWidgetKt(x: Int, y: Int, val slotIndex: Int, val applyIndexSupplier: IntSupplier, val itemHandler: IItemHandlerModifiable, val destroy: Runnable, val clicked: Runnable) : SyncWidget(x, y, 18, 18) {
     var applyIndex = syncInt({ applyIndexSupplier.asInt }, -1, -1)
     var inner: AEPatternViewSlotWidgetInnerKt = AEPatternViewSlotWidgetInnerKt(itemHandler, slotIndex, 0, 0, clicked)
     init {
         addWidget(inner)
+    }
+
+    fun onDestroy() {
+        destroy.run()
     }
 
     @OnlyIn(Dist.CLIENT)

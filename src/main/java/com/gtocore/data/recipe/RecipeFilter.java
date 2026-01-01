@@ -18,9 +18,9 @@ import net.minecraft.resources.ResourceLocation;
 
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.kyanite.deeperdarker.DeeperDarker;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -43,7 +43,7 @@ public final class RecipeFilter {
     }
 
     public static Predicate<ResourceLocation> getJsonFilter() {
-        List<Predicate<ResourceLocation>> filters = new ObjectArrayList<>();
+        List<Predicate<ResourceLocation>> filters = new ArrayList<>();
         addFilter(filters);
         Predicate<ResourceLocation> filter = filters.getFirst();
         for (int i = 1; i < filters.size(); i++) {

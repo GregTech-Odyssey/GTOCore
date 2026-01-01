@@ -88,7 +88,7 @@ public class SpaceBioResearchModule extends RecipeExtension {
 
     private class Trait extends RadioactivityTrait {
 
-        public Trait(IMultiblockTraitHolder machine) {
+        Trait(IMultiblockTraitHolder machine) {
             super(machine);
         }
 

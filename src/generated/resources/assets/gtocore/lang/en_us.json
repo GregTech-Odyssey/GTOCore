@@ -1630,6 +1630,8 @@
   "config.gtocore.option.hud": "HUD Settings",
   "config.gtocore.option.lightningRodEffect": "Lightning Rod Effect",
   "config.gtocore.option.maxMonitorSize": "Maximum Monitor Size",
+  "config.gtocore.option.mobConfig": "Mob Settings",
+  "config.gtocore.option.naturalRegeneration": "Mob Natural Regeneration",
   "config.gtocore.option.nightVision": "Built-in Night Vision",
   "config.gtocore.option.nonCheatEmiInteraction": "Non-Cheat EMI Interaction",
   "config.gtocore.option.pickCraft": "Auto Craft on Pick Block",

@@ -30,8 +30,8 @@ import net.minecraft.world.level.Level;
 
 import earth.terrarium.adastra.common.recipes.SpaceStationRecipe;
 import earth.terrarium.adastra.common.recipes.base.IngredientHolder;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -83,7 +83,7 @@ public class SpaceStationRecipes {
 
     private static class SpaceStationBuilder {
 
-        private final List<IngredientHolder> ingredients = new ObjectArrayList<>();
+        private final List<IngredientHolder> ingredients = new ArrayList<>();
         private ResourceKey<Level> orbit;
         private Dimension dimension;
         private final ResourceLocation id;

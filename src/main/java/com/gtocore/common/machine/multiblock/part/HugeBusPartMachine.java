@@ -248,7 +248,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         @Nullable
         public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
             if (io != IO.IN && ((HugeCustomItemStackHandler) storage).count > 0) return left.isEmpty() ? null : left;
-            for (var it = left.listIterator(0); it.hasNext();) {
+            for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();

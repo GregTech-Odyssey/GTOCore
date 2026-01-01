@@ -30,10 +30,10 @@ import net.minecraft.world.item.Item;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -50,8 +50,8 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     protected int eV;
     private final ConditionalSubscriptionHandler neutronEnergySubs;
     private SensorPartMachine sensorMachine;
-    private final List<ItemBusPartMachine> busMachines = new ObjectArrayList<>(2);
-    private final List<NeutronAcceleratorPartMachine> acceleratorMachines = new ObjectArrayList<>(2);
+    private final List<ItemBusPartMachine> busMachines = new ArrayList<>(2);
+    private final List<NeutronAcceleratorPartMachine> acceleratorMachines = new ArrayList<>(2);
 
     public NeutronActivatorMachine(MetaMachineBlockEntity holder) {
         super(holder);

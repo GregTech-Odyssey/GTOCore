@@ -54,7 +54,7 @@ public abstract class NotifiableFluidTankMixin {
         boolean changed = false;
         SimpleFluidIngredient[] visited = new SimpleFluidIngredient[storages.length];
         IFluidHandler.FluidAction action = simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE;
-        for (var it = left.listIterator(0); it.hasNext();) {
+        for (var it = left.iterator(); it.hasNext();) {
             var ingredient = it.next();
             var fluids = FastFluidIngredient.getFluidStack(ingredient);
             if (fluids.length == 0 || fluids[0].isEmpty()) {

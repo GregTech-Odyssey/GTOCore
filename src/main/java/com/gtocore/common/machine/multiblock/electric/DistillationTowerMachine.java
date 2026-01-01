@@ -28,7 +28,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.VoidFluidHandler;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.*;
 
@@ -61,7 +60,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
         List<IWorkableMultiPart> parts = Arrays.stream(getParts()).filter(IWorkableMultiPart.class::isInstance).map(IWorkableMultiPart.class::cast).filter(part -> PartAbility.EXPORT_FLUIDS.isApplicable(part.self().getBlockState().getBlock())).filter(part -> part.self().getPos().getY() >= startY).toList();
         if (!parts.isEmpty()) {
             int maxY = parts.get(parts.size() - 1).self().getPos().getY();
-            fluidOutputs = new ObjectArrayList<>(maxY - startY);
+            fluidOutputs = new ArrayList<>(maxY - startY);
             int outputIndex = 0;
             for (int y = startY; y <= maxY; ++y) {
                 if (parts.size() <= outputIndex) {

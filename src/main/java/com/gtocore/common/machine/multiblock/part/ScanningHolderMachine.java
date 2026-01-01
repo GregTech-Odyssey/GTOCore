@@ -199,7 +199,7 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
 
     private static final class ScanningWidget extends TankWidget {
 
-        public ScanningWidget(NotifiableFluidTank fluidTank, int x, int y, int width, int height, boolean allowFill, boolean allowDrain) {
+        ScanningWidget(NotifiableFluidTank fluidTank, int x, int y, int width, int height, boolean allowFill, boolean allowDrain) {
             super(fluidTank, x, y, width, height, allowFill, allowDrain);
         }
 

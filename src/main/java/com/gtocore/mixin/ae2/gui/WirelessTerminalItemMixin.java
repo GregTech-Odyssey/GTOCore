@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(WirelessTerminalItem.class)
 public abstract class WirelessTerminalItemMixin implements IUniversalWirelessTerminalItem {
 
-    @Inject(remap = false, method = "getConfigManager", at = @At(value = "TAIL"))
+    @Inject(remap = false, method = "getConfigManager", at = @At("TAIL"))
     private void gto$ae2$getConfigManager(ItemStack target, CallbackInfoReturnable<IConfigManager> cir, @Local(name = "out") ConfigManager out) {
         out.registerSetting(GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS, ShowMolecularAssembler.ALL);
     }

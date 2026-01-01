@@ -116,18 +116,18 @@ public final class WelcomeGroup {
 
     // 前置检查逻辑：检查本周是否签过到
     private static int checkThisWeek(TradeData data, TradeEntry entry) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
         long time = WalletUtils.getGameMinuteKey(level) / Weekly_time * Weekly_time;
-        if (WalletUtils.getTransactionMinuteAmount(data.getUuid(), serverLevel, Weekly_check_in, time) == 0) return 1;
+        if (WalletUtils.getTransactionMinuteAmount(data.uuid(), serverLevel, Weekly_check_in, time) == 0) return 1;
         return 0;
     }
 
     // 执行逻辑：添加标记，随机给予0-100技术员币
     private static void performCheckIn(TradeData data, TradeEntry entry, int multiplier) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addTimingCompressionStrategyTransaction(data.getUuid(), serverLevel, Weekly_check_in, Weekly_time, 1);
-        WalletUtils.addCurrency(data.getUuid(), serverLevel, TECH_OPERATOR_COIN, random.nextInt() & 100);
+        WalletUtils.addTimingCompressionStrategyTransaction(data.uuid(), serverLevel, Weekly_check_in, Weekly_time, 1);
+        WalletUtils.addCurrency(data.uuid(), serverLevel, TECH_OPERATOR_COIN, random.nextInt() & 100);
     }
 }

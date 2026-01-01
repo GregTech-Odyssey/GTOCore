@@ -41,7 +41,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     @Nullable
     private Collection<BlockPos> outputDistilledWaterHatches;
     @Nullable
-    private ObjectArrayList<RecipeHandlerList> outputDistilledWaterHatchesList;
+    private List<RecipeHandlerList> outputDistilledWaterHatchesList;
     /// 空间站附赠超净间
     @Nullable
     private CleanroomType cleanroomType = null;
@@ -57,7 +57,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
     public void addHandlerList(RecipeHandlerList handler) {
         if (outputDistilledWaterHatches != null && outputDistilledWaterHatches.stream().anyMatch(p -> handler.part.self().getPos() == p)) {
             if (outputDistilledWaterHatchesList == null) {
-                outputDistilledWaterHatchesList = new ObjectArrayList<>();
+                outputDistilledWaterHatchesList = new ArrayList<>();
             }
             outputDistilledWaterHatchesList.add(handler);
             if (handler.getHandlerIO() == IO.OUT) return;

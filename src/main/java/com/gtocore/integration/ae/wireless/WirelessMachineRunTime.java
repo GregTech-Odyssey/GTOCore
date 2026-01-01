@@ -6,10 +6,10 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 
 import net.minecraftforge.fml.LogicalSide;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.gtocore.common.saved.WirelessSavedDataKt.createWirelessSyncedField;
@@ -44,8 +44,8 @@ public class WirelessMachineRunTime {
 
         // 初始化枚举同步字段
         this.FilterInMachineTypeSyncField = ISync.createEnumField(machine);
-        this.gridCache = createWirelessSyncedField(machine).set(new ObjectArrayList<>());
-        this.gridAccessibleCache = createWirelessSyncedField(machine).set(new ObjectArrayList<>());
+        this.gridCache = createWirelessSyncedField(machine).set(new ArrayList<>());
+        this.gridAccessibleCache = createWirelessSyncedField(machine).set(new ArrayList<>());
 
         gridCache.setReceiverListener(this::clientRefresh);
         gridCache.setSenderListener(this::serverNoop);

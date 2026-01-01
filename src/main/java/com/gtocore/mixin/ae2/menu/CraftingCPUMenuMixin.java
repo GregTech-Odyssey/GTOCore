@@ -22,7 +22,6 @@ import com.glodblock.github.glodium.network.packet.sync.IActionHolder;
 import com.glodblock.github.glodium.network.packet.sync.Paras;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -59,7 +58,7 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
             var gStack = GenericStack.fromItemStack(stack);
             if (gStack != null) {
                 var aeKey = gStack.what();
-                List<Object> toSend = new ObjectArrayList<>();
+                var toSend = new ArrayList<>();
                 ((OptimizedCraftingCpuLogic) cpu.craftingLogic).getPendingRequests(aeKey).forEach(gpos -> {
                     toSend.add(gpos.pos().asLong());
                     toSend.add(gpos.dimension().location().toString());

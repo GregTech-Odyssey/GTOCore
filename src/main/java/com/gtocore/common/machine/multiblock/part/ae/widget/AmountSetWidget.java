@@ -25,7 +25,7 @@ class AmountSetWidget extends Widget {
     private final TextFieldWidget amountText;
     private final ConfigWidget parentWidget;
 
-    public AmountSetWidget(int x, int y, ConfigWidget widget) {
+    AmountSetWidget(int x, int y, ConfigWidget widget) {
         super(x, y, 80, 30);
         this.parentWidget = widget;
         this.amountText = new TextFieldWidget(x + 8, y + 12, 60, 13, this::getAmountStr, this::setNewAmount).setNumbersOnly(0, Long.MAX_VALUE);
