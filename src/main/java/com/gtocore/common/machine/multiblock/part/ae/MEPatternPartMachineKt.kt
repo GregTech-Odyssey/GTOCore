@@ -459,6 +459,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             index,
             getApplyIndex(),
             patternInventory,
+            { onMouseClicked(-1) },
         ) { onMouseClicked(index) }
 
         slot.inner.setOccupiedTexture(GuiTextures.SLOT)

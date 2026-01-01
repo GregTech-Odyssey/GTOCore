@@ -10,6 +10,7 @@ import com.gtolib.api.ae2.stacks.IIngredientConvertible;
 import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.gui.ktflexible.VBoxBuilder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.holder.ObjectHolder;
 
@@ -160,49 +161,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         } finally {
             lock = false;
         }
-    }
-
-    @Override
-    public @NotNull Widget createUIWidget() {
-        var widget = new WidgetGroup(0, 0, 196, 220);
-
-        var dsl = super.createUIWidget();
-        var dslContainer = new DraggableScrollableWidgetGroup(9, 0, 187, 100);
-        dslContainer.addWidget(dsl);
-        widget.addWidget(dslContainer);
-        widget.addWidget(new WidgetGroup(0, 104, 196, 14)
-                .addWidget(new LabelWidget(0, 0,
-                        () -> Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_LOADED_PATTERNS, scannedPatterns).getString())
-                        .setAlign(Align.CENTER))
-                .setBackground(GuiTextures.BACKGROUND_INVERSE));
-
-        widget.addWidget(createLabeledConfiguratorWidget(0, 120,
-                this::getPatternPriority, this::setPatternPriority,
-                LANG_WILDCARD_PATTERN_BUFFER_PRIORITY,
-                LANG_WILDCARD_PATTERN_BUFFER_PRIORITY_DESC));
-
-        widget.addWidget(createLabeledConfiguratorWidget(64, 120,
-                this::getMaxFluidsOutput, this::setMaxFluidsOutput,
-                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES,
-                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_DESC,
-                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_EXAMPLE));
-
-        widget.addWidget(createLabeledConfiguratorWidget(128, 120,
-                this::getMaxItemsOutput, this::setMaxItemsOutput,
-                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES,
-                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_DESC,
-                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_EXAMPLE));
-
-        WidgetGroup AlignContainer = new WidgetGroup(0, 160, 178, 20);
-        Widget labelWidget1 = new LabelWidget(64, 152, LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST)
-                .setAlign(Align.CENTER)
-                .setHoverTooltips(Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST_DESC));
-        AlignContainer.addWidget(labelWidget1);
-        widget.addWidget(AlignContainer);
-        widget.addWidget(createFluidBlacklistWidget());
-        widget.addWidget(createItemBlacklistWidget());
-
-        return widget;
     }
 
     private void setMaxFluidsOutput(int integer) {
@@ -358,7 +316,10 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         var patterns = super.getAvailablePatterns();
         if (patterns.isEmpty()) {
             patterns = readInv();
-            if (patterns.isEmpty()) return patterns;
+            if (patterns.isEmpty()) {
+                scannedPatterns = 0;
+                return patterns;
+            }
         }
         rebuildCacheIfNeeded(patterns);
         return cachedPatterns;
@@ -477,6 +438,55 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private static final int colSize = 6;
     private static final int width = 18 * rowSize + 8;
     private static final int height = width - 20;
+
+    @Override
+    public void buildToolBoxContent(@NotNull VBoxBuilder $this$buildToolBoxContent) {
+        $this$buildToolBoxContent.hBox(14, (s) -> {
+            s.setPaddingBottom(4);
+            return null;
+        }, true, (b) -> {
+            b.widget(new LabelWidget(0, 0,
+                    () -> Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_LOADED_PATTERNS, scannedPatterns).getString()));
+            return null;
+        });
+        super.buildToolBoxContent($this$buildToolBoxContent);
+    }
+
+    @Override
+    public @NotNull Widget createUIWidget() {
+        var widget = new WidgetGroup(0, 0, 196, 220);
+
+        var dsl = super.createUIWidget();
+        widget.addWidget(dsl);
+
+        widget.addWidget(createLabeledConfiguratorWidget(0, 120,
+                this::getPatternPriority, this::setPatternPriority,
+                LANG_WILDCARD_PATTERN_BUFFER_PRIORITY,
+                LANG_WILDCARD_PATTERN_BUFFER_PRIORITY_DESC));
+
+        widget.addWidget(createLabeledConfiguratorWidget(64, 120,
+                this::getMaxFluidsOutput, this::setMaxFluidsOutput,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_DESC,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_FLUID_OUTPUT_TYPES_EXAMPLE));
+
+        widget.addWidget(createLabeledConfiguratorWidget(128, 120,
+                this::getMaxItemsOutput, this::setMaxItemsOutput,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_DESC,
+                LANG_WILDCARD_PATTERN_BUFFER_MAX_ITEM_OUTPUT_TYPES_EXAMPLE));
+
+        WidgetGroup AlignContainer = new WidgetGroup(0, 160, 178, 20);
+        Widget labelWidget1 = new LabelWidget(64, 152, LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST)
+                .setAlign(Align.CENTER)
+                .setHoverTooltips(Component.translatable(LANG_WILDCARD_PATTERN_BUFFER_BLACKLIST_DESC));
+        AlignContainer.addWidget(labelWidget1);
+        widget.addWidget(AlignContainer);
+        widget.addWidget(createFluidBlacklistWidget());
+        widget.addWidget(createItemBlacklistWidget());
+
+        return widget;
+    }
 
     private Widget createItemBlacklistWidget() {
         var container = new WidgetGroup(left, top, width, height);
