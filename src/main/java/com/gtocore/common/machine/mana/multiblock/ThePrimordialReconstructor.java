@@ -106,8 +106,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      */
     private Recipe getDisassembleRecipe() {
         RecipeBuilder disassembleRecipeBuilder = getRecipeBuilder();
-        List<ItemStack> inputsItems = new ObjectArrayList<>();
-        List<ItemStack> outputsItems = new ObjectArrayList<>();
+        List<ItemStack> inputsItems = new ArrayList<>();
+        List<ItemStack> outputsItems = new ArrayList<>();
         forEachInputItems((stack, amount) -> {
             CompoundTag nbt = stack.getTag();
             if (nbt != null) {
@@ -596,7 +596,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getGemSynthesisRecipe() {
         RecipeBuilder GemSynthesisRecipeBuilder = getRecipeBuilder();
 
-        ObjectArrayList<ItemStack> inputsGems = new ObjectArrayList<>();
+        List<ItemStack> inputsGems = new ArrayList<>();
         forEachInputItems((stack, amount) -> {
             if (stack.getItem() == Adventure.Items.GEM.get()) {
                 inputsGems.add(stack);
@@ -613,7 +613,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             nbtCountMap.addTo(nbt, count);
         }
         // 创建合并后的堆叠列表
-        ObjectArrayList<ItemStack> mergedGems = new ObjectArrayList<>();
+        List<ItemStack> mergedGems = new ArrayList<>();
         for (Object2IntMap.Entry<CompoundTag> entry : nbtCountMap.object2IntEntrySet()) {
             ItemStack mergedStack = new ItemStack(Adventure.Items.GEM.get(), entry.getIntValue());
             CompoundTag nbt = entry.getKey();
@@ -634,8 +634,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         // 根据稀有度将宝石分配到不同的列表中
         @SuppressWarnings("unchecked")
-        ObjectArrayList<ItemStack>[] gemsByRarity = new ObjectArrayList[5];
-        for (int i = 0; i < 5; i++) gemsByRarity[i] = new ObjectArrayList<>();
+        List<ItemStack>[] gemsByRarity = new ArrayList[5];
+        for (int i = 0; i < 5; i++) gemsByRarity[i] = new ArrayList<>();
         for (ItemStack gem : mergedGems) {
             String rarity = getGemRarity(gem);
             if ("apotheosis:ancient".equals(rarity)) continue;
@@ -652,7 +652,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             if (i == 4) return null;
         }
         for (int i = 0; i < 5; i++) {
-            ObjectArrayList<ItemStack> gems = gemsByRarity[i];
+            List<ItemStack> gems = gemsByRarity[i];
             if (gems.isEmpty()) continue;
             for (ItemStack gem : gems) {
                 int count = gem.getCount() / 2;
@@ -698,7 +698,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getGemCrushingRecipe() {
         RecipeBuilder gemCrushingRecipeBuilder = getRecipeBuilder();
 
-        List<ItemStack> inputsItems = new ObjectArrayList<>();
+        List<ItemStack> inputsItems = new ArrayList<>();
         LongHolder totalDustCount = new LongHolder(0);
 
         forEachInputItems((stack, amount) -> {
@@ -939,7 +939,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         RecipeBuilder ForcedMosaicGemRecipeBuilder = getRecipeBuilder();
 
         ObjectHolder<ItemStack> addGemItem = new ObjectHolder<>(null);
-        List<ItemStack> gemItems = new ObjectArrayList<>();
+        List<ItemStack> gemItems = new ArrayList<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
@@ -971,7 +971,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             gems.removeLast();
         }
 
-        List<ItemStack> inputGemItems = new ObjectArrayList<>();
+        List<ItemStack> inputGemItems = new ArrayList<>();
         boolean full = false;
         for (ItemStack inputGemItem : gemItems) {
             int stackCount = inputGemItem.getCount();

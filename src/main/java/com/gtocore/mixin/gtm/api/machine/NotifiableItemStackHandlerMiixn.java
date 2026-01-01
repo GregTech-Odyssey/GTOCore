@@ -37,7 +37,7 @@ public abstract class NotifiableItemStackHandlerMiixn implements IItemHandlerMod
         }
         boolean changed = false;
         SimpleIngredient[] visited = new SimpleIngredient[storage.size];
-        for (var it = left.listIterator(0); it.hasNext();) {
+        for (var it = left.iterator(); it.hasNext();) {
             var ingredient = it.next();
             if (ingredient.isEmpty()) {
                 it.remove();

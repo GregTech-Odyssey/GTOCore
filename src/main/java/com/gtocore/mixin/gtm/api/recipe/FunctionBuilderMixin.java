@@ -35,7 +35,8 @@ public abstract class FunctionBuilderMixin {
     public ModifierFunction build() {
         if (parallels == 0) return ModifierFunction.NULL;
         return recipe -> {
-            Recipe copied = Recipe.of(recipe).modifier(inputModifier, false);
+            Recipe copied = Recipe.of(recipe);
+            copied.modifier(inputModifier, false);
             copied.ocLevel = copied.ocLevel + addOCs;
             if (copied.data.getBoolean("duration_is_total_cwu")) {
                 copied.duration = (int) Math.max(1, (copied.duration * (1.0F - 0.025F * addOCs)));
@@ -46,9 +47,9 @@ public abstract class FunctionBuilderMixin {
                 long preEUt = copied.eut;
                 long eut = Math.max(1, eutModifier.apply(Math.abs(preEUt)));
                 if (preEUt > 0) {
-                    copied.setEut(eut);
+                    copied.eut = eut;
                 } else {
-                    copied.setEut(-eut);
+                    copied.eut = -eut;
                 }
             }
             return copied;

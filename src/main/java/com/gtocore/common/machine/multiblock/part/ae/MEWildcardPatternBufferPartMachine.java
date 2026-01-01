@@ -54,12 +54,12 @@ import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -216,10 +216,10 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             // var patterns = super.getAvailablePatterns();
             var newPatterns = new FastObjectArrayList<IPatternDetails>();
 
-            var sharedInputs = new ObjectArrayList[patterns.size()];
-            var tagPrefixInputs = new ObjectArrayList[patterns.size()];
-            var sharedOutputs = new ObjectArrayList[patterns.size()];
-            var tagPrefixOutputs = new ObjectArrayList[patterns.size()];
+            var sharedInputs = new ArrayList[patterns.size()];
+            var tagPrefixInputs = new ArrayList[patterns.size()];
+            var sharedOutputs = new ArrayList[patterns.size()];
+            var tagPrefixOutputs = new ArrayList[patterns.size()];
 
             long startSubstituting = System.nanoTime();
             for (int i = 0; i < patterns.size(); i++) {
@@ -227,8 +227,8 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                 if (p instanceof AEProcessingPattern processingPattern) {
 
                     var sparseInput = processingPattern.getSparseInputs();
-                    var sharedInputList = new ObjectArrayList<GenericStack>(sparseInput.length);
-                    var tagPrefixInputList = new ObjectArrayList<GenericStack>(sparseInput.length);
+                    var sharedInputList = new ArrayList<GenericStack>(sparseInput.length);
+                    var tagPrefixInputList = new ArrayList<GenericStack>(sparseInput.length);
                     for (var stack : sparseInput) {
                         if (stack.what() instanceof TagPrefixKey) {
                             tagPrefixInputList.add(stack);
@@ -240,8 +240,8 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                     tagPrefixInputs[i] = tagPrefixInputList;
 
                     var sparseOutput = processingPattern.getSparseOutputs();
-                    var sharedOutputList = new ObjectArrayList<GenericStack>(sparseOutput.length);
-                    var tagPrefixOutputList = new ObjectArrayList<GenericStack>(sparseOutput.length);
+                    var sharedOutputList = new ArrayList<GenericStack>(sparseOutput.length);
+                    var tagPrefixOutputList = new ArrayList<GenericStack>(sparseOutput.length);
                     for (var stack : sparseOutput) {
                         if (stack.what() instanceof TagPrefixKey) {
                             tagPrefixOutputList.add(stack);
@@ -262,9 +262,9 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                     var cp = patterns.get(i);
                     if (cp instanceof AEProcessingPattern) {
 
-                        ObjectArrayList<GenericStack> input = new ObjectArrayList<>(sharedInputs[i]);
+                        List<GenericStack> input = new ArrayList<>(sharedInputs[i]);
                         var tagPrefixInput = tagPrefixInputs[i];
-                        ObjectArrayList<GenericStack> output = new ObjectArrayList<>(sharedOutputs[i]);
+                        List<GenericStack> output = new ArrayList<>(sharedOutputs[i]);
                         var tagPrefixOutput = tagPrefixOutputs[i];
 
                         long startSubstituting1 = System.nanoTime();

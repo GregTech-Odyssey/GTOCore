@@ -26,10 +26,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.fast.recipesearch.IntLongMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMachine {
@@ -70,7 +70,7 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
         @Override
         public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
             if (io == IO.IN) {
-                for (var it = left.listIterator(0); it.hasNext();) {
+                for (var it = left.iterator(); it.hasNext();) {
                     var f = FastFluidIngredient.getFluid(it.next());
                     if (f == Fluids.WATER) {
                         it.remove();
@@ -88,7 +88,7 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
 
         @Override
         public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> list, boolean simulate) {
-            return handleRecipeInner(io, recipe, new ObjectArrayList(list), simulate);
+            return handleRecipeInner(io, recipe, new ArrayList(list), simulate);
         }
 
         @Override

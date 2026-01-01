@@ -60,9 +60,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.hepdd.gtmthings.GTMThings;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.lang3.function.TriFunction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -245,7 +245,7 @@ public final class MachineRegisterUtils {
     }
 
     public static Component[] workableNoEnergy(GTRecipeType recipeType, long tankCapacity) {
-        List<Component> tooltipComponents = new ObjectArrayList<>();
+        List<Component> tooltipComponents = new ArrayList<>();
         if (recipeType.getMaxInputs(FluidRecipeCapability.CAP) > 0 ||
                 recipeType.getMaxOutputs(FluidRecipeCapability.CAP) > 0)
             tooltipComponents

@@ -45,11 +45,11 @@ import appeng.helpers.patternprovider.PatternProviderTarget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
@@ -60,7 +60,7 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     private final WeakReference<BlockEntity>[] blockEntityReference = new WeakReference[20];
 
     @Persisted
-    public final List<BlockPos> poss = new ObjectArrayList<>(20);
+    public final List<BlockPos> poss = new ArrayList<>(20);
 
     @Persisted
     protected NotifiableItemStackHandler inventory;
@@ -68,8 +68,8 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     @Persisted
     private boolean roundRobin;
 
-    private final List<IItemHandler> itemHandlers = new ObjectArrayList<>(20);
-    private final List<IFluidHandler> fluidHandlers = new ObjectArrayList<>(20);
+    private final List<IItemHandler> itemHandlers = new ArrayList<>(20);
+    private final List<IFluidHandler> fluidHandlers = new ArrayList<>(20);
 
     private boolean call;
 
@@ -232,7 +232,7 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     @Override
     public IPatternProviderLogic.PushResult pushPattern(IPatternProviderLogic logic, IActionSource actionSource, BooleanHolder success, Operate operate, Set<AEKey> patternInputs, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, Direction adjBeSide) {
         var size = poss.size();
-        List<PatternProviderTarget> targets = new ObjectArrayList<>(size);
+        List<PatternProviderTarget> targets = new ArrayList<>(size);
         for (int i = 0; i < size; ++i) {
             var targetPos = poss.get(i);
             if (targetPos == null) {

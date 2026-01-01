@@ -49,10 +49,10 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -80,7 +80,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     private boolean highSpeedMode;
     @Persisted
     private float highSpeedFactor = 1.0f;
-    final List<RotorHolderPartMachine> rotorHolderMachines = new ObjectArrayList<>();
+    final List<RotorHolderPartMachine> rotorHolderMachines = new ArrayList<>();
     private ItemPartMachine rotorHatchPartMachine;
     private final ConditionalSubscriptionHandler rotorSubs;
 

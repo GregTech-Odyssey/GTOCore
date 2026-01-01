@@ -21,12 +21,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -74,8 +73,8 @@ public class SpaceDroneDock extends RecipeExtension {
             return null;
         }
 
-        ObjectList<Content> newInput = new ObjectArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
-        // ObjectList<Content> newOutput = new ObjectArrayList<>(recipe.outputs.get(ItemRecipeCapability.CAP));
+        List<Content> newInput = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
+        // ObjectList<Content> newOutput = new ArrayList<>(recipe.outputs.get(ItemRecipeCapability.CAP));
         newInput.removeFirst();
         recipe.inputs.put(ItemRecipeCapability.CAP, newInput);
         // recipe.outputs.put(ItemRecipeCapability.CAP, newOutput);

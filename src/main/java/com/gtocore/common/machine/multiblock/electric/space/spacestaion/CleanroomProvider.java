@@ -18,15 +18,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 import com.google.common.collect.ImmutableSet;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatchPartMachine.CLEANROOM_NOT_SET;
@@ -35,7 +30,7 @@ import static com.gtocore.common.machine.multiblock.part.maintenance.ModularHatc
 public class CleanroomProvider extends Extension implements IDroneControlCenterMachine, ISpaceServiceMachine {
 
     private @Nullable ICleanroomProvider cleanroomType = null;
-    private final ObjectList<DroneHatchPartMachine> droneHatchPartMachine = new ObjectArrayList<>();
+    private final List<DroneHatchPartMachine> droneHatchPartMachine = new ArrayList<>();
 
     public CleanroomProvider(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity, ILargeSpaceStationMachine.twoWayPositionFunction(41));
@@ -97,7 +92,7 @@ public class CleanroomProvider extends Extension implements IDroneControlCenterM
     }
 
     @Override
-    public ObjectList<DroneHatchPartMachine> getDroneHatchPartMachine() {
+    public List<DroneHatchPartMachine> getDroneHatchPartMachine() {
         return droneHatchPartMachine;
     }
 
