@@ -7,6 +7,7 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.holder.IntHolder;
 import com.gtolib.utils.holder.LongHolder;
 import com.gtolib.utils.holder.ObjectHolder;
@@ -36,8 +37,8 @@ import java.util.*;
 
 import static com.gtocore.common.data.GTOItems.AFFIX_ESSENCE;
 import static com.gtocore.common.data.GTOItems.ENCHANTMENT_ESSENCE;
-import static com.gtocore.data.record.ApotheosisAffixRecord.AFFIX_ITEM_ID;
-import static com.gtocore.data.record.EnchantmentRecord.ENCHANTMENT_ITEM_ID;
+import static com.gtocore.data.record.ApotheosisAffixRecord.AFFIX_ITEM_MAP;
+import static com.gtocore.data.record.EnchantmentRecord.ENCHANTMENT_ITEM_MAP;
 import static net.minecraft.nbt.Tag.TAG_COMPOUND;
 import static net.minecraft.nbt.Tag.TAG_LIST;
 
@@ -407,8 +408,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (essence.value == null) {
-                String enchantmentId = ENCHANTMENT_ITEM_ID.get(stackItem.toString());
-                if (enchantmentId != null)
+                var enchantment = ENCHANTMENT_ITEM_MAP.get(stackItem);
+                if (enchantment != null)
                     essence.value = stackItem;
             }
             if (essence.value != null && essence.value == stackItem)
@@ -418,10 +419,10 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         int lvl = Math.min(64 - Long.numberOfLeadingZeros(count.value), 30);
         if (essence.value != null && lvl > 0) {
-            String enchantment = ENCHANTMENT_ITEM_ID.get(essence.value.toString());
+            var enchantment = ENCHANTMENT_ITEM_MAP.get(essence.value);
             enchantmentsLoadRecipeBuilder.inputItems(Items.BOOK);
             enchantmentsLoadRecipeBuilder.inputItems(essence.value, 1 << (lvl - 1));
-            enchantmentsLoadRecipeBuilder.outputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId(enchantment, (short) lvl));
+            enchantmentsLoadRecipeBuilder.outputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId(enchantment.enchantmentId(), (short) lvl));
             enchantmentsLoadRecipeBuilder.duration(20);
             enchantmentsLoadRecipeBuilder.MANAt(256);
             return enchantmentsLoadRecipeBuilder.buildRawRecipe();
@@ -557,8 +558,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         Set<Item> uniqueItems = new ReferenceOpenHashSet<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
-            String affixId = AFFIX_ITEM_ID.get(stackItem.toString());
-            if (affixId != null) uniqueItems.add(stackItem);
+            var affix = AFFIX_ITEM_MAP.get(stackItem);
+            if (affix != null) uniqueItems.add(stackItem);
             return false;
         });
         if (uniqueItems.isEmpty()) return null;
@@ -568,7 +569,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         ListTag affixList = new ListTag();
         for (Item item : uniqueItems) {
             CompoundTag affixEntry = new CompoundTag();
-            affixEntry.putString("id", AFFIX_ITEM_ID.get(item.toString()));
+            affixEntry.putString("id", AFFIX_ITEM_MAP.get(item).affixId());
             affixList.add(affixEntry);
             affixCanvasLoadRecipeBuilder.inputItems(item);
         }
@@ -857,7 +858,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         });
         if (rarityUpItem.value == null || materialItem.value == null) return null;
 
-        String rarity = "apotheosis:" + getPrefix(materialItem.value.getItem().toString());
+        String rarity = "apotheosis:" + getPrefix(ItemUtils.getIdLocation(materialItem.value.getItem()).getPath());
 
         ItemStack inputRarityUpItem = rarityUpItem.value.copy();
         ItemStack inputMaterialItem = materialItem.value.copy();

@@ -4,6 +4,7 @@ import com.gtocore.common.item.ApothItem;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -11,52 +12,44 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.google.common.collect.ImmutableMap;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static com.gtolib.utils.register.ItemRegisterUtils.item;
 import static net.minecraft.nbt.Tag.TAG_COMPOUND;
 
-public class EnchantmentRecord {
+public record EnchantmentRecord(String enchantmentId, int maxLevels, String simplifiedId, String translationKey, int color, String processedId) {
 
-    public record EnchantmentRecords(
-                                     String enchantmentId,
-                                     int maxLevels,
-                                     String simplifiedId,
-                                     String translationKey,
-                                     int color,
-                                     String processedId) {
-
-        public static EnchantmentRecords create(String enchantmentId, int maxLevels,
-                                                String simplifiedId, String translationKey) {
-            int color = generateColorFromId(enchantmentId);
-            String processedId = enchantmentId.indexOf(':') > 0 ? enchantmentId.substring(enchantmentId.indexOf(':') + 1) : enchantmentId;
-            return new EnchantmentRecords(enchantmentId, maxLevels, simplifiedId, translationKey, color, processedId);
-        }
-
-        private static int generateColorFromId(String enchantmentId) {
-            int hash = enchantmentId.hashCode();
-            int r = (hash & 0xFF0000) >> 16;
-            int g = (hash & 0x00FF00) >> 8;
-            int b = hash & 0x0000FF;
-            r = Math.max(r, 0x30);
-            g = Math.max(g, 0x30);
-            b = Math.max(b, 0x30);
-            return (r << 16) | (g << 8) | b;
-        }
+    public static EnchantmentRecord create(String enchantmentId, int maxLevels,
+                                           String simplifiedId, String translationKey) {
+        int color = generateColorFromId(enchantmentId);
+        String processedId = enchantmentId.indexOf(':') > 0 ? enchantmentId.substring(enchantmentId.indexOf(':') + 1) : enchantmentId;
+        return new EnchantmentRecord(enchantmentId, maxLevels, simplifiedId, translationKey, color, processedId);
     }
 
-    private static final O2OOpenCacheHashMap<String, EnchantmentRecords> ENCHANTMENT_ID_MAP = new O2OOpenCacheHashMap<>();
+    private static int generateColorFromId(String enchantmentId) {
+        int hash = enchantmentId.hashCode();
+        int r = (hash & 0xFF0000) >> 16;
+        int g = (hash & 0x00FF00) >> 8;
+        int b = hash & 0x0000FF;
+        r = Math.max(r, 0x30);
+        g = Math.max(g, 0x30);
+        b = Math.max(b, 0x30);
+        return (r << 16) | (g << 8) | b;
+    }
+
+    private static List<EnchantmentRecord> ENCHANTMENTS = new ArrayList<>();
 
     static {
-        initializeEnchantmentRecords();
-        ENCHANTMENT_ID_MAP.replaceAll((k, v) -> v);
-    }
-
-    private static void initializeEnchantmentRecords() {
         addRecord("original", 0, "原始", "original");
         addRecord("apotheosis:bane_of_illagers", 5, "灾厄村民杀手", "enchantment.apotheosis.bane_of_illagers");
         addRecord("apotheosis:berserkers_fury", 3, "狂战士之怒", "enchantment.apotheosis.berserkers_fury");
@@ -133,18 +126,8 @@ public class EnchantmentRecord {
 
     // 辅助方法：添加记录到Map
     private static void addRecord(String enchantmentId, int maxLevels, String simplifiedId, String translationKey) {
-        EnchantmentRecords record = EnchantmentRecords.create(enchantmentId, maxLevels, simplifiedId, translationKey);
-        ENCHANTMENT_ID_MAP.put(enchantmentId, record);
-    }
-
-    // 根据enchantmentId查询记录
-    public static EnchantmentRecords findByEnchantmentId(String enchantmentId) {
-        return ENCHANTMENT_ID_MAP.getOrDefault(enchantmentId, null);
-    }
-
-    // 获取附魔总数
-    public static int getEnchantmentSize() {
-        return ENCHANTMENT_ID_MAP.size();
+        var record = EnchantmentRecord.create(enchantmentId, maxLevels, simplifiedId, translationKey);
+        ENCHANTMENTS.add(record);
     }
 
     // 生成附魔书
@@ -165,15 +148,15 @@ public class EnchantmentRecord {
     }
 
     private static boolean isEnchantmentValid(String enchantmentId) {
-        ResourceLocation rl = new ResourceLocation(enchantmentId);
+        ResourceLocation rl = RLUtils.parse(enchantmentId);
         return BuiltInRegistries.ENCHANTMENT.containsKey(rl);
     }
 
-    public static O2OOpenCacheHashMap<String, String> ENCHANTMENT_ITEM_ID = new O2OOpenCacheHashMap<>();
+    public final static Map<Item, EnchantmentRecord> ENCHANTMENT_ITEM_MAP = new Reference2ReferenceOpenHashMap<>();
 
-    public static O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> registerEnchantmentEssence() {
-        O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> entries = new O2OOpenCacheHashMap<>();
-        for (EnchantmentRecords record : ENCHANTMENT_ID_MAP.values()) {
+    public static Map<String, ItemEntry<ApothItem>> registerEnchantmentEssence() {
+        ImmutableMap.Builder<String, ItemEntry<ApothItem>> entries = ImmutableMap.builder();
+        for (var record : ENCHANTMENTS) {
             String itemId = "enchantment_essence_" + record.processedId();
             String cnName = "附魔精粹 (" + record.simplifiedId() + ")";
             String enName = "Enchantment Essence (" + FormattingUtil.toEnglishName(record.processedId()) + ")";
@@ -183,10 +166,11 @@ public class EnchantmentRecord {
                     .lang(enName)
                     .color(() -> ApothItem::color)
                     .tag(Tags.ENCHANTMENT_ESSENCE)
+                    .onRegister(i -> ENCHANTMENT_ITEM_MAP.put(i, record))
                     .register();
             entries.put(record.enchantmentId(), entry);
-            ENCHANTMENT_ITEM_ID.put(itemId, record.enchantmentId());
         }
-        return entries;
+        ENCHANTMENTS = null;
+        return entries.build();
     }
 }

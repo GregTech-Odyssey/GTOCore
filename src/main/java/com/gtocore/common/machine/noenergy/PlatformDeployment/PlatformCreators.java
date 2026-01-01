@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.noenergy.PlatformDeployment;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -335,7 +336,7 @@ class PlatformCreators {
         @Override
         public BlockState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonObject obj = json.getAsJsonObject();
-            Block block = BuiltInRegistries.BLOCK.get(new ResourceLocation(obj.get("id").getAsString()));
+            Block block = BuiltInRegistries.BLOCK.get(RLUtils.parse(obj.get("id").getAsString()));
             if (block == Blocks.AIR) return Blocks.AIR.defaultBlockState();
 
             final BlockState[] state = { block.defaultBlockState() };
