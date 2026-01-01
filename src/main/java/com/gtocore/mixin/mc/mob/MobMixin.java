@@ -26,6 +26,7 @@ import snownee.jade.util.CommonProxy;
 import java.util.UUID;
 
 @Mixin(value = Mob.class, priority = 0)
+@SuppressWarnings({ "ConstantConditions", "resource" })
 public abstract class MobMixin extends LivingEntity {
 
     @Unique
@@ -40,7 +41,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (level().isClientSide()) return;
+        if (level() == null || level().isClientSide()) return;
         if (GTOCore.isEasy() || level().getDifficulty().getId() == 0) return;
         boolean isBoss = CommonProxy.isBoss(this);
         if (!isBoss && getRandom().nextBoolean()) return;
@@ -71,7 +72,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void tick(CallbackInfo ci) {
-        if (GTOConfig.INSTANCE.mobConfig.naturalRegeneration && !level().isClientSide() && tickCount % 80 == 8 && getRandom().nextBoolean()) {
+        if (GTOConfig.INSTANCE.mobConfig.naturalRegeneration && level() == null || !level().isClientSide() && tickCount % 80 == 8 && getRandom().nextBoolean()) {
             int value = Math.max(1, (int) (Math.log(getMaxHealth() * Math.max(1, level().getDifficulty().getId())) + 0.5));
             heal(value);
         }
