@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -229,8 +230,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 if (enchantment.contains("id", 8) && enchantment.contains("lvl", 2)) {
                     int lvl = 1 << (enchantment.getShort("lvl") - 1);
-                    Item essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id")).get();
-                    if (!(essence instanceof ApothItem)) essence = ENCHANTMENT_ESSENCE.get("original").get();
+                    ItemEntry<ApothItem> essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id"));
+                    if (essence == null) essence = ENCHANTMENT_ESSENCE.get("original");
                     outputsItems.add(new ItemStack(essence, lvl));
                 }
             }
@@ -356,8 +357,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             for (int i = 0; i < enchantmentCount; i++) {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 int lvl = 1 << (enchantment.getInt("lvl") - 1);
-                Item essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id")).get();
-                if (!(essence instanceof ApothItem)) essence = ENCHANTMENT_ESSENCE.get("original").get();
+                ItemEntry<ApothItem> essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id"));
+                if (essence == null) essence = ENCHANTMENT_ESSENCE.get("original");
                 outputsItems.add(new ItemStack(essence, lvl));
             }
             return true;
