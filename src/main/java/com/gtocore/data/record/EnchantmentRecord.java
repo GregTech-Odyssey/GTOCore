@@ -121,7 +121,7 @@ public record EnchantmentRecord(String enchantmentId, int maxLevels, String simp
         addRecord("minecraft:thorns", 3, "荆棘", "enchantment.minecraft.thorns");
         addRecord("minecraft:unbreaking", 3, "耐久", "enchantment.minecraft.unbreaking");
         addRecord("minecraft:vanishing_curse", 1, "消失诅咒", "enchantment.minecraft.vanishing_curse");
-        addRecord("mythicbotany:hammer_mobility", 5, "迅锤", "enchantment.mythicbotany.hammer_mobility");
+        addRecord("mythicbotany:hammer_mobility", 5, "快速挥锤", "enchantment.mythicbotany.hammer_mobility");
     }
 
     // 辅助方法：添加记录到Map
