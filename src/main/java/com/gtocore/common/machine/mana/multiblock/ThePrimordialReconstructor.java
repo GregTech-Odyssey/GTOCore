@@ -228,7 +228,9 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 if (enchantment.contains("id", 8) && enchantment.contains("lvl", 2)) {
                     int lvl = 1 << (enchantment.getShort("lvl") - 1);
-                    outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE.get(enchantment.getString("id")), lvl));
+                    Item essence = ENCHANTMENT_ESSENCE.get(ENCHANTMENT_ESSENCE.containsKey(enchantment.getString("id")) ?
+                            enchantment.getString("id") : "original").get();
+                    outputsItems.add(new ItemStack(essence, lvl));
                 }
             }
             return true;
@@ -353,7 +355,9 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             for (int i = 0; i < enchantmentCount; i++) {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 int lvl = 1 << (enchantment.getInt("lvl") - 1);
-                outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE.get(enchantment.getString("id")), lvl));
+                Item essence = ENCHANTMENT_ESSENCE.get(ENCHANTMENT_ESSENCE.containsKey(enchantment.getString("id")) ?
+                        enchantment.getString("id") : "original").get();
+                outputsItems.add(new ItemStack(essence, lvl));
             }
             return true;
         }
@@ -962,7 +966,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             gems.add(airTag);
         }
         while (gems.size() > socketCount) {
-            gems.remove(gems.size() - 1);
+            gems.removeLast();
         }
 
         List<ItemStack> inputGemItems = new ObjectArrayList<>();
