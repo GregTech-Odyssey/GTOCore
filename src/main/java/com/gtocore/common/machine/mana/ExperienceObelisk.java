@@ -180,10 +180,10 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
                     }
                 });
         toggleHolder.value = toggleButton;
-        toggleButton.setPressed(isConfiguringLevels());
+        toggleButton.setPressed(isConfiguringLevels);
         toggleButton.setTexture(new GuiTextureGroup(GuiTextures.BUTTON, GTOGuiTextures.SMALL_XP_ORB),
                 new GuiTextureGroup(GuiTextures.BUTTON, GTOGuiTextures.LARGE_XP_ORB.scale(0.8f)));
-        toggleButton.setHoverTooltips(getConfigureLevelsOrPointsTooltip(isConfiguringLevels()));
+        toggleButton.setHoverTooltips(getConfigureLevelsOrPointsTooltip(isConfiguringLevels));
         return toggleButton;
     }
 
@@ -229,8 +229,8 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
     }
 
     private int calculateConfiguredAmount(Player player, boolean toPlayer) {
-        int amount = toPlayer ? getCurrentConfigAmount() : -getCurrentConfigAmount();
-        if (isConfiguringLevels()) {
+        int amount = toPlayer ? currentConfigAmount : -currentConfigAmount;
+        if (isConfiguringLevels) {
             int targetLevel = player.experienceLevel + (toPlayer ? amount : -amount);
             int experienceNeeded = EnchantmentUtils.getTotalExperienceForLevel(targetLevel) - getExperiencePoints(player);
             amount = toPlayer ? experienceNeeded : -experienceNeeded;

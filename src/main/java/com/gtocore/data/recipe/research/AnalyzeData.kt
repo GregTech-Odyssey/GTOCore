@@ -534,7 +534,7 @@ object AnalyzeData : AutoInitialize<AnalyzeData>() {
     private fun addResearch(key: String, cnName: String, enName: String, dataTier: Int, dataCrystal: Int, tooltip: ComponentListSupplier? = null) {
         if (!itemRegister) {
             tooltip?.let { researchTooltips[generateSerialId(key)] = it }
-            if (GTCEu.isDataGen()) (langMap as O2OOpenCacheHashMap).put(key, CNEN(cnName, enName))
+            if (GTCEu.isDataGen()) (langMap as O2OOpenCacheHashMap)[key] = CNEN(cnName, enName)
         } else {
             writeAnalyzeResearchToMap(key, dataTier, dataCrystal)
         }

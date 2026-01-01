@@ -27,7 +27,6 @@ import net.minecraftforge.event.level.LevelEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
-import com.gregtechceu.gtceu.utils.GTUtil
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.DataGeneratorScanned
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap

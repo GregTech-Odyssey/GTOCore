@@ -380,7 +380,7 @@ public final class GTOConfig {
         @Configurable
         @Configurable.Comment({ "无线能量 HUD 折线颜色", "Wireless Energy HUD line color" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Line Color", cn = "无线能量 HUD 折线颜色")
-        @Configurable.StringPattern(value = "#[0-9a-fA-F]{1,6}")
+        @Configurable.StringPattern("#[0-9a-fA-F]{1,6}")
         @Configurable.Gui.ColorValue
         public String wirelessEnergyHUDLineColor = "#ECEC71";
     }

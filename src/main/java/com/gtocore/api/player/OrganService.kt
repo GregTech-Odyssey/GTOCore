@@ -107,7 +107,6 @@ class OrganService : IOrganService {
 
             val tier: Int = planet.tier()
             val lowerTierTag = ((tier - 1) / 2) + 1
-            val cache = playerData
 
             if (playerData.getSetOrganTier() < lowerTierTag) {
                 val customComponent: Component = Component.translatable(
@@ -117,22 +116,22 @@ class OrganService : IOrganService {
                     "最低Tier $lowerTierTag",
                 )
 
-                val currentCount = cache.floatCache.getOrPut("try_attack_count") { 0.0f } + 1.0f
+                val currentCount = playerData.floatCache.getOrPut("try_attack_count") { 0.0f } + 1.0f
 
                 player.hurt(
                     GTODamageTypes.getGenericDamageSource(
                         player,
                         customComponent,
-                    ) { cache.floatCache.put("try_attack_count", 0.0f) },
+                    ) { playerData.floatCache.put("try_attack_count", 0.0f) },
                     currentCount,
                 )
 
                 if (currentCount > 40.0f) {
                     player.server.tell(TickTask(1, player::kill))
                     player.server.playerList.broadcastSystemMessage(customComponent, true)
-                    cache.floatCache.put("try_attack_count", 0.0f)
+                    playerData.floatCache.put("try_attack_count", 0.0f)
                 } else {
-                    cache.floatCache["try_attack_count"] = currentCount
+                    playerData.floatCache["try_attack_count"] = currentCount
                 }
             }
         }

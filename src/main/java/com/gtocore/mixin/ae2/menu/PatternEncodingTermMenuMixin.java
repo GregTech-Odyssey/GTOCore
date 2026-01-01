@@ -186,7 +186,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     }
 
     @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lappeng/menu/slot/RestrictedInputSlot;set(Lnet/minecraft/world/item/ItemStack;)V", ordinal = 1, remap = true), remap = false, cancellable = true)
-    private void encoding(CallbackInfo ci, @Local(ordinal = 0) ItemStack stack) {
+    private void encoding(CallbackInfo ci, @Local(name = "encodedPattern") ItemStack stack) {
         var player = getPlayer();
         if (player instanceof IEnhancedPlayer enhancedPlayer) {
             if (enhancedPlayer.getPlayerData().shiftState) {
@@ -235,7 +235,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                      remap = false),
             remap = false,
             cancellable = true)
-    private void tryAutoRefillBlankPattern(CallbackInfo ci, @Local(ordinal = 1) ItemStack blankPattern) {
+    private void tryAutoRefillBlankPattern(CallbackInfo ci, @Local(name = "encodeOutput") ItemStack blankPattern) {
         // 如果空白样板槽位没有有效的样板，尝试自动补充
         if (!isPattern(blankPattern)) {
             if (gtolib$tryRefillBlankPattern()) {

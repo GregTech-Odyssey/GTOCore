@@ -304,9 +304,7 @@ object AdvMathExpParser {
 
         var allPass = true
         for ((expr, expected) in testCases) {
-            val result = runCatching { parse(expr, DecimalFormat("#.##########")) }.let { result ->
-                result.getOrNull()
-            }
+            val result = runCatching { parse(expr, DecimalFormat("#.##########")) }.getOrNull()
 
             val pass = result != null && result.compareTo(expected) == 0
             allPass = allPass && pass

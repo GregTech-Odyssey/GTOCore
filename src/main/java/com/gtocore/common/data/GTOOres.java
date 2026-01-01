@@ -1000,7 +1000,7 @@ public final class GTOOres {
         int combinedWeight;
         float density;
 
-        public OreData(double totalOreWeight, int totalVeinWeight, int combinedWeight, float density) {
+        OreData(double totalOreWeight, int totalVeinWeight, int combinedWeight, float density) {
             this.totalOreWeight = totalOreWeight;
             this.totalVeinWeight = totalVeinWeight;
             this.combinedWeight = combinedWeight;

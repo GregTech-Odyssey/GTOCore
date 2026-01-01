@@ -14,6 +14,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import appeng.api.client.AEKeyRendering;
+import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AmountFormat;
 import appeng.api.stacks.GenericStack;
 import appeng.client.gui.me.common.StackSizeRenderer;
@@ -258,8 +259,8 @@ public abstract class DisplayComponent implements IDisplayComponent {
         @Override
         public TextWithStack setInformation(Object... information) {
             super.setInformation(information);
-            if (information.length > 1 && information[1] instanceof GenericStack stack) {
-                this.genericStack = new GenericStack(stack.what(), stack.amount());
+            if (information.length > 1 && information[1] instanceof GenericStack(AEKey what, long amount)) {
+                this.genericStack = new GenericStack(what, amount);
             }
             return this;
         }

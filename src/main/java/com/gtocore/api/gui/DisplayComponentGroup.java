@@ -175,11 +175,9 @@ public class DisplayComponentGroup extends WidgetGroup {
         private final ResourceLocation id;
         private final SwitchWidget switchWidget;
         private final LabelWidget labelWidget;
-        private final ButtonWidget upButton;
-        private final ButtonWidget downButton;
 
         @SuppressWarnings("ConstantConditions")
-        public DisplayComponentWidget(ResourceLocation id, boolean enabledInitially) {
+        DisplayComponentWidget(ResourceLocation id, boolean enabledInitially) {
             this.id = id;
 
             var color = enabledInitially ? ChatFormatting.GREEN : ChatFormatting.YELLOW;
@@ -204,27 +202,29 @@ public class DisplayComponentGroup extends WidgetGroup {
             switchWidget.setHoverTooltips(Component.translatable("gtocore.machine.monitor.adjust_component.switch"));
 
             // Add up and down buttons for moving the widget
+            ButtonWidget upButton;
             this.addWidget(upButton = new ButtonWidget(125, 0, 10, 10, (click) -> {
                 if (!isRemote()) moveWidgetUp(this);
             }).setButtonTexture(GuiTextures.BUTTON, GuiTextures.BUTTON_RIGHT.copy().rotate(-45).scale(0.8f)));
             upButton.setHoverTooltips(Component.translatable("gtocore.machine.monitor.adjust_component.move_up"));
 
+            ButtonWidget downButton;
             this.addWidget(downButton = new ButtonWidget(140, 0, 10, 10, (click) -> {
                 if (!isRemote()) moveWidgetDown(this);
             }).setButtonTexture(GuiTextures.BUTTON, GuiTextures.BUTTON_LEFT.copy().rotate(-45).scale(0.8f)));
             downButton.setHoverTooltips(Component.translatable("gtocore.machine.monitor.adjust_component.move_down"));
         }
 
-        public ResourceLocation getRL() {
+        ResourceLocation getRL() {
             return id;
         }
 
-        public boolean isEnabled() {
+        boolean isEnabled() {
             return switchWidget.isPressed();
         }
 
         @SuppressWarnings("ConstantConditions")
-        public DisplayComponentWidget setEnabled(boolean enabled) {
+        DisplayComponentWidget setEnabled(boolean enabled) {
             switchWidget.setPressed(enabled);
             if (isRemote()) labelWidget.setColor(enabled ? ChatFormatting.GREEN.getColor() : ChatFormatting.YELLOW.getColor());
             return this;

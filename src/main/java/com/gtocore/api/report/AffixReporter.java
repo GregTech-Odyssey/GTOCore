@@ -18,10 +18,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class AffixReporter {
 
     private static final Path LOG_DIR = Paths.get("logs", "report");
+    private static final Pattern PATTERN = Pattern.compile("[^a-zA-Z0-9.-]");
 
     public static void getAffixReporter() {
         exportAllAffixesToFile();
@@ -133,7 +135,7 @@ public class AffixReporter {
 
             // 创建带时间戳的文件名
             String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
-            String itemName = stack.getDisplayName().getString().replaceAll("[^a-zA-Z0-9.-]", "_");
+            String itemName = PATTERN.matcher(stack.getDisplayName().getString()).replaceAll("_");
             Path outputFile = LOG_DIR.resolve("item_affixes_" + itemName + "_" + timestamp + ".txt");
 
             // 写入文件

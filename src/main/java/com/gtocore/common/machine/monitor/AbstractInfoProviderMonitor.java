@@ -112,7 +112,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
 
     @Override
     public Widget createUIWidget() {
-        final var initialPriority = this.getPriority();
+        final var initialPriority = this.priority;
         LongInputWidget input = new LongInputWidget(Position.of(50, 144),
                 this::getPriority, this::setPriority);
         input.setMax((long) Integer.MAX_VALUE).setMin((long) Integer.MIN_VALUE).setValue(initialPriority);

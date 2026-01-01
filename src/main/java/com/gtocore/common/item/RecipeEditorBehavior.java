@@ -497,9 +497,9 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
 
         @Override
         public boolean equals(Object o) {
-            if (o instanceof BiCache cache) {
-                if (a.equals(cache.a) && b.equals(cache.b)) return true;
-                return a.equals(cache.b) && b.equals(cache.a);
+            if (o instanceof BiCache(Object a1, Object b1)) {
+                if (a.equals(a1) && b.equals(b1)) return true;
+                return a.equals(b1) && b.equals(a1);
             }
             return false;
         }

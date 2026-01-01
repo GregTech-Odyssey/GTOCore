@@ -194,7 +194,7 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
                 val isRead = config.isConfirmed(message.contentHash)
 
                 // 背景
-                val bgColor = if (hovering) 0x80FFFFFF.toInt() else 0x40000000.toInt()
+                val bgColor = if (hovering) 0x80FFFFFF.toInt() else 0x40000000
                 guiGraphics.fill(left, top, left + width, top + height, bgColor)
 
                 // 状态指示器
@@ -220,7 +220,7 @@ class MessageListScreen : Screen(Component.translatable(title_Key)) {
                 // 计算可用宽度：总宽度 - 左边距 - 右边距 - 优先级图标空间
                 val availableWidth = width - 30
                 val maxChars = (availableWidth / font.width("W")).coerceAtLeast(20)
-                val trimmedPreview = if (preview.length > maxChars) "${preview.substring(0, maxChars.toInt())}..." else preview
+                val trimmedPreview = if (preview.length > maxChars) "${preview.take(maxChars)}..." else preview
                 guiGraphics.drawString(
                     font,
                     trimmedPreview,

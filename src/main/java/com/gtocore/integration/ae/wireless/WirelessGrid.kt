@@ -1,6 +1,5 @@
 package com.gtocore.integration.ae.wireless
 
-import com.gtocore.api.misc.NetworkStats
 import com.gtocore.api.misc.WirelessNetworkTopologyManager
 import com.gtocore.api.misc.codec.CodecAbleTyped
 import com.gtocore.api.misc.codec.CodecAbleTypedCompanion
@@ -54,14 +53,14 @@ class WirelessGrid(
     // ///////////////////////////////
     // ****** RUN TIME ******//
     // //////////////////////////////
-    class MachineInfo(var pos: BlockPos = BlockPos.ZERO, var owner: String = "", var descriptionId: String = "", var level: ResourceKey<Level> = WirelessSavedData.Companion.UNKNOWN) : CodecAbleTyped<MachineInfo, MachineInfo.Companion> {
+    class MachineInfo(var pos: BlockPos = BlockPos.ZERO, var owner: String = "", var descriptionId: String = "", var level: ResourceKey<Level> = WirelessSavedData.UNKNOWN) : CodecAbleTyped<MachineInfo, MachineInfo.Companion> {
         companion object : CodecAbleTypedCompanion<MachineInfo> {
             override fun getCodec(): Codec<MachineInfo> = RecordCodecBuilder.create { b ->
                 b.group(
                     BlockPos.CODEC.optionalFieldOf("pos", BlockPos.ZERO).forGetter { it.pos },
                     Codec.STRING.optionalFieldOf("owner", "").forGetter { it.owner },
                     Codec.STRING.optionalFieldOf("descriptionId", "").forGetter { it.descriptionId },
-                    ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("level", WirelessSavedData.Companion.UNKNOWN).forGetter { it.level },
+                    ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("level", WirelessSavedData.UNKNOWN).forGetter { it.level },
                 ).apply(b, ::MachineInfo)
             }
         }

@@ -414,7 +414,7 @@ public final class ForgeCommonEvent {
         });
     }
 
-    private static Supplier<Map<String, Item>> AvaritiaItems = GTMemoizer.memoize(() -> ImmutableMap.<String, Item>builder()
+    private static final Supplier<Map<String, Item>> AvaritiaItems = GTMemoizer.memoize(() -> ImmutableMap.<String, Item>builder()
             .put("neutron_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Neutron))
             .put("crystal_matrix_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.CrystalMatrix))
             .put("infinity_ingot", ChemicalHelper.getItem(TagPrefix.ingot, GTOMaterials.Infinity))
@@ -424,7 +424,7 @@ public final class ForgeCommonEvent {
             .put("infinity_catalyst", GTOItems.INFINITY_CATALYST.asItem())
             .build());
     @SuppressWarnings("ConstantConditions")
-    private static Supplier<Map<String, Block>> AvaritiaBlocks = GTMemoizer.memoize(() -> ImmutableMap.<String, Block>builder()
+    private static final Supplier<Map<String, Block>> AvaritiaBlocks = GTMemoizer.memoize(() -> ImmutableMap.<String, Block>builder()
             .put("infinity", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Infinity))
             .put("crystal_matrix", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.CrystalMatrix))
             .put("neutron", ChemicalHelper.getBlock(TagPrefix.block, GTOMaterials.Neutron))

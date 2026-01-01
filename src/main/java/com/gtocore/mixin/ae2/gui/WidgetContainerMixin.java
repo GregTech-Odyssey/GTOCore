@@ -62,7 +62,7 @@ public class WidgetContainerMixin implements IWidgetsGetter {
     private final Map<String, IStylelessCompositeWidget> gtolib$compositeStylelessWidgets = new O2OOpenCacheHashMap<>();
 
     @Inject(method = "add(Ljava/lang/String;Lappeng/client/gui/ICompositeWidget;)V",
-            at = @At(value = "HEAD"),
+            at = @At("HEAD"),
             remap = false,
             cancellable = true)
     private void gtolib$addCompositeWidget(String id, ICompositeWidget widget, CallbackInfo ci) {
@@ -78,7 +78,7 @@ public class WidgetContainerMixin implements IWidgetsGetter {
     }
 
     @Inject(method = "populateScreen",
-            at = @At(value = "HEAD"),
+            at = @At("HEAD"),
             remap = false)
     private void gtolib$populateScreen(Consumer<AbstractWidget> addWidget, Rect2i bounds, AEBaseScreen<?> screen, CallbackInfo ci) {
         // For composite widgets, just position them. Positions for these widgets are generally relative to the dialog

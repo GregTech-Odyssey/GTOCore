@@ -11,7 +11,6 @@ import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -39,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mixin(WorkableMultiblockMachine.class)
-public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, IExtendedRecipeCapabilityHolder, IWorkInSpaceMachine {
+public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IExtendedRecipeCapabilityHolder, IWorkInSpaceMachine {
 
     @Shadow(remap = false)
     @Final

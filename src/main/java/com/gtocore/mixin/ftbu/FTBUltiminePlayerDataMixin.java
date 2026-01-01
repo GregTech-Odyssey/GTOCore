@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(FTBUltiminePlayerData.class)
 public class FTBUltiminePlayerDataMixin {
 
-    @ModifyVariable(method = "updateBlocks", at = @At(value = "STORE", ordinal = 2), remap = false)
+    @ModifyVariable(method = "updateBlocks", at = @At(value = "STORE", ordinal = 2), remap = false, name = "matcher")
     private BlockMatcher modifyBlockMatcher(BlockMatcher matcher) {
         if (GTOConfig.INSTANCE.breakBlocksBlackList == null || GTOConfig.INSTANCE.breakBlocksBlackList.length < 1) {
             return matcher;

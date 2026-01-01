@@ -157,7 +157,7 @@ public final class PlatformBlockType {
                             .getResourceAsStream("assets/" + resource.toString().replace(":", "/")))))) {
 
                         String line = reader.readLine().trim();
-                        if (line.startsWith(".size(") && line.endsWith(")")) {
+                        if (line.startsWith(".size(") && !line.isEmpty() && line.charAt(line.length() - 1) == ')') {
                             String[] parts = line.substring(6, line.length() - 1).split(",");
                             sizes = new int[] { Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()), Integer.parseInt(parts[2].trim()) };
                         } else {

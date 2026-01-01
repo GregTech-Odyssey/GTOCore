@@ -58,7 +58,7 @@ public abstract class MobMixin extends LivingEntity {
         }
     }
 
-    @Inject(method = "readAdditionalSaveData", at = @At(value = "HEAD"))
+    @Inject(method = "readAdditionalSaveData", at = @At("HEAD"))
     private void readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
         AttributeInstance maxHealthInstance = getAttribute(Attributes.MAX_HEALTH);
         if (maxHealthInstance != null) {
@@ -70,7 +70,7 @@ public abstract class MobMixin extends LivingEntity {
         }
     }
 
-    @Inject(method = "tick", at = @At(value = "HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
         if (GTOConfig.INSTANCE.mobConfig.naturalRegeneration && !level().isClientSide() && tickCount % 80 == 8 && getRandom().nextBoolean()) {
             int value = Math.max(1, (int) (Math.log(getMaxHealth() * Math.max(1, level().getDifficulty().getId())) + 0.5));
@@ -78,7 +78,7 @@ public abstract class MobMixin extends LivingEntity {
         }
     }
 
-    @Inject(method = "checkDespawn", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "checkDespawn", at = @At("HEAD"), cancellable = true)
     private void checkDespawn(CallbackInfo ci) {
         if (tickCount % 20 != 5) ci.cancel();
     }

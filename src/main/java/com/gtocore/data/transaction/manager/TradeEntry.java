@@ -70,29 +70,29 @@ public record TradeEntry(
      * 输入资源检查
      */
     private int checkInputEnough(TradeData data) {
-        if (!(data.getLevel() instanceof ServerLevel serverLevel)) return 0;
+        if (!(data.level() instanceof ServerLevel serverLevel)) return 0;
 
-        int inputItem = inputGroup().items().isEmpty() ? Integer.MAX_VALUE : checkMaxMultiplier(data.getInputItem(), inputGroup().items());
+        int inputItem = inputGroup().items().isEmpty() ? Integer.MAX_VALUE : checkMaxMultiplier(data.inputItem(), inputGroup().items());
         if (inputItem == 0) return 0;
 
-        int inputFluid = inputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxConsumeMultiplier(data.getInputFluid(), inputGroup().fluids());
+        int inputFluid = inputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxConsumeMultiplier(data.inputFluid(), inputGroup().fluids());
         if (inputFluid == 0) return 0;
 
-        int outputFluid = outputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxCapacityMultiplier(data.getOutputFluid(), outputGroup().fluids());
+        int outputFluid = outputGroup().fluids().isEmpty() ? Integer.MAX_VALUE : checkMaxCapacityMultiplier(data.outputFluid(), outputGroup().fluids());
         if (outputFluid == 0) return 0;
 
         int inputCurrencies = inputGroup().currencies().isEmpty() ? Integer.MAX_VALUE : (int) Math.min(inputGroup().currencies().object2LongEntrySet().stream()
                 .filter(entry -> entry.getLongValue() != 0)
-                .mapToLong(entry -> WalletUtils.getCurrencyAmount(data.getUuid(), serverLevel, entry.getKey()) / entry.getLongValue())
+                .mapToLong(entry -> WalletUtils.getCurrencyAmount(data.uuid(), serverLevel, entry.getKey()) / entry.getLongValue())
                 .min().orElse(0L), Integer.MAX_VALUE);
         if (inputCurrencies == 0) return 0;
 
-        int inputEnergy = inputGroup().energy().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID()).getStorage()
+        int inputEnergy = inputGroup().energy().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessEnergyContainer.getOrCreateContainer(data.teamUUID()).getStorage()
                 .divide(inputGroup().energy())
                 .min(BigInteger.valueOf(Integer.MAX_VALUE)).intValueExact();
         if (inputEnergy == 0) return 0;
 
-        int inputMana = inputGroup().mana().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessManaContainer.getOrCreateContainer(data.getTeamUUID()).getStorage()
+        int inputMana = inputGroup().mana().equals(BigInteger.ZERO) ? Integer.MAX_VALUE : WirelessManaContainer.getOrCreateContainer(data.teamUUID()).getStorage()
                 .divide(inputGroup().mana())
                 .min(BigInteger.valueOf(Integer.MAX_VALUE)).intValueExact();
         if (inputMana == 0) return 0;
@@ -105,40 +105,40 @@ public record TradeEntry(
      * 运行交易的实际输入输出
      */
     private void executeInputOutput(TradeData data, int multiplier) {
-        if (!(data.getLevel() instanceof ServerLevel serverLevel)) return;
+        if (!(data.level() instanceof ServerLevel serverLevel)) return;
 
         if (!inputGroup().items().isEmpty()) {
-            deductMultipliedItems(data.getInputItem(), inputGroup().items(), multiplier);
+            deductMultipliedItems(data.inputItem(), inputGroup().items(), multiplier);
         }
         if (!outputGroup().items().isEmpty()) {
-            addMultipliedItems(data.getOutputItem(), outputGroup().items(), multiplier, serverLevel, data.getPos());
+            addMultipliedItems(data.outputItem(), outputGroup().items(), multiplier, serverLevel, data.pos());
         }
         if (!inputGroup().fluids().isEmpty()) {
-            deductMultipliedFluids(data.getInputFluid(), inputGroup().fluids(), multiplier);
+            deductMultipliedFluids(data.inputFluid(), inputGroup().fluids(), multiplier);
         }
         if (!outputGroup().fluids().isEmpty()) {
-            addMultipliedFluids(data.getOutputFluid(), outputGroup().fluids(), multiplier);
+            addMultipliedFluids(data.outputFluid(), outputGroup().fluids(), multiplier);
         }
         if (!inputGroup().currencies().isEmpty()) {
-            inputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.subtractCurrency(data.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
+            inputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.subtractCurrency(data.uuid(), serverLevel, currencyId, singleAmount * multiplier));
         }
         if (!outputGroup().currencies().isEmpty()) {
-            outputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.addCurrency(data.getUuid(), serverLevel, currencyId, singleAmount * multiplier));
+            outputGroup().currencies().forEach((currencyId, singleAmount) -> WalletUtils.addCurrency(data.uuid(), serverLevel, currencyId, singleAmount * multiplier));
         }
         if (!inputGroup().energy().equals(BigInteger.ZERO)) {
-            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID());
+            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(data.teamUUID());
             energyContainer.setStorage(energyContainer.getStorage().subtract(inputGroup().energy().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!outputGroup().energy().equals(BigInteger.ZERO)) {
-            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(data.getTeamUUID());
+            WirelessEnergyContainer energyContainer = WirelessEnergyContainer.getOrCreateContainer(data.teamUUID());
             energyContainer.setStorage(energyContainer.getStorage().add(outputGroup().energy().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!inputGroup().mana().equals(BigInteger.ZERO)) {
-            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(data.getTeamUUID());
+            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(data.teamUUID());
             manaContainer.setStorage(manaContainer.getStorage().subtract(inputGroup().mana().multiply(BigInteger.valueOf(multiplier))));
         }
         if (!outputGroup().mana().equals(BigInteger.ZERO)) {
-            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(data.getTeamUUID());
+            WirelessManaContainer manaContainer = WirelessManaContainer.getOrCreateContainer(data.teamUUID());
             manaContainer.setStorage(manaContainer.getStorage().add(outputGroup().mana().multiply(BigInteger.valueOf(multiplier))));
         }
     }
@@ -147,7 +147,7 @@ public record TradeEntry(
      * 可执行交易的次数
      */
     public int check(TradeData data) {
-        if (!(data.getLevel() instanceof ServerLevel)) return 0;
+        if (!(data.level() instanceof ServerLevel)) return 0;
         int multiplier = Integer.MAX_VALUE;
         int preCheckMaxCount = canExecuteCount(data);
         if (preCheckMaxCount == 0) return 0;
@@ -163,17 +163,17 @@ public record TradeEntry(
      * 执行完整交易（资源变更+回调）
      */
     public void executeTrade(TradeData data, int requestedMultiplier) {
-        if (!(data.getLevel() instanceof ServerLevel)) return;
+        if (!(data.level() instanceof ServerLevel)) return;
         int finalMultiplier = Math.min(check(data), requestedMultiplier);
         if (finalMultiplier <= 0) {
-            data.getLevel().playSound(null, data.getPos(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.8F, 1.4F);
+            data.level().playSound(null, data.pos(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.8F, 1.4F);
             return;
         }
         executeInputOutput(data, finalMultiplier);
         if (onExecute != null) {
             onExecute.run(data, this, finalMultiplier);
         }
-        data.getLevel().playSound(null, data.getPos(), SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.BLOCKS, 1.8F, 1.4F);
+        data.level().playSound(null, data.pos(), SoundEvents.ALLAY_ITEM_GIVEN, SoundSource.BLOCKS, 1.8F, 1.4F);
     }
 
     public List<Component> getDescription() {
