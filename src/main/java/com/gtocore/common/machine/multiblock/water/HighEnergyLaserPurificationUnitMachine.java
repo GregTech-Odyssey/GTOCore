@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.water;
 
 import com.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -57,7 +57,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     private long inputCount;
 
     private IndicatorHatchPartMachine indicatorHatchPartMachine;
-    private ItemHatchPartMachine itemHatchPartMachine;
+    private ItemPartMachine ItemPartMachine;
 
     public HighEnergyLaserPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 32);
@@ -68,8 +68,8 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
         super.onPartScan(part);
         if (indicatorHatchPartMachine == null && part instanceof IndicatorHatchPartMachine lensSensorPart) {
             indicatorHatchPartMachine = lensSensorPart;
-        } else if (itemHatchPartMachine == null && part instanceof ItemHatchPartMachine itemHatchPart) {
-            itemHatchPartMachine = itemHatchPart;
+        } else if (ItemPartMachine == null && part instanceof ItemPartMachine itemHatchPart) {
+            ItemPartMachine = itemHatchPart;
         }
     }
 
@@ -77,7 +77,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     public void onStructureInvalid() {
         super.onStructureInvalid();
         indicatorHatchPartMachine = null;
-        itemHatchPartMachine = null;
+        ItemPartMachine = null;
     }
 
     @Override
@@ -123,7 +123,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     }
 
     private boolean match() {
-        return itemHatchPartMachine.getInventory().storage.getStackInSlot(0).is(LENS.get(index));
+        return ItemPartMachine.getInventory().storage.getStackInSlot(0).is(LENS.get(index));
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.gtolib.api.machine.feature.IElectricMachine;
 import com.gtolib.api.machine.feature.IOverclockConfigMachine;
 import com.gtolib.api.machine.feature.IPowerAmplifierMachine;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
-import com.gtolib.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -135,13 +134,9 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GuiTextures.BUTTON_POWER.getSubTexture(0, 0, 1, 0.5), GuiTextures.BUTTON_POWER.getSubTexture(0, 0.5, 1, 0.5), this::isWorkingEnabled, (clickData, pressed) -> this.setWorkingEnabled(pressed)).setTooltipsSupplier(pressed -> List.of(Component.translatable(pressed ? "behaviour.soft_hammer.enabled" : "behaviour.soft_hammer.disabled"))));
         if (!isGenerator()) {
             if (hasOverclockConfig()) configuratorPanel.attachConfigurators(new OverclockConfigurator(this));
-            if (this.hasBatchConfig()) configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
-                    GuiTextures.BUTTON_BATCH.getSubTexture(0, 0, 1, 0.5),
-                    GuiTextures.BUTTON_BATCH.getSubTexture(0, 0.5, 1, 0.5),
-                    this::isBatchEnabled, (cd, p) -> batchEnabled = p)
-                    .setTooltipsSupplier(p -> List.of(Component.translatable("gtceu.machine.batch_" + (p ? "enabled" : "disabled")))));
+            if (this.hasBatchConfig()) MachineUtils.attachBatchConfigurators(configuratorPanel, this::isBatchEnabled, (clickData, pressed) -> batchEnabled = pressed);
         }
-        ICheckPatternMachine.attachConfigurators(configuratorPanel, self());
+        MachineUtils.attachStructureCheckConfigurators(configuratorPanel, this);
         for (var direction : Direction.values()) {
             if (getCoverContainer().hasCover(direction)) {
                 var configurator = getCoverContainer().getCoverAtSide(direction).getConfigurator();

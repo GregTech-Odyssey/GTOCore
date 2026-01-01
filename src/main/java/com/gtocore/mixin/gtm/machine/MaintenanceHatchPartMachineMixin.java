@@ -13,13 +13,16 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 
 import net.minecraft.world.entity.player.Player;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MaintenanceHatchPartMachine.class)
-public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements IMaintenanceMachine, IDroneInteractionMachine {
+public abstract class MaintenanceHatchPartMachineMixin extends WorkableTieredPartMachine implements IMaintenanceMachine, IDroneInteractionMachine {
 
     @Shadow(remap = false)
     protected int timeActive;
@@ -71,13 +74,12 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
         timeActive = 0;
     }
 
-    @Override
-    public boolean hasModifyRecipeMethod() {
-        return true;
-    }
-
-    @Override
-    public GTRecipe modifyRecipe(IWorkableMultiController controller, GTRecipe recipe) {
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public @Nullable GTRecipe modifyRecipe(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
         if (hasMaintenanceProblems()) {
             ((IEnhancedRecipeLogic) controller.getRecipeLogic()).gtolib$setIdleReason(IdleReason.MAINTENANCE_BROKEN.reason());
             return null;

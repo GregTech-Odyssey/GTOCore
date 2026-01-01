@@ -28,7 +28,7 @@ import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.impl.part.*;
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.machine.part.ItemPartMachine;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.api.registries.GTORegistration;
 import com.gtolib.utils.register.BlockRegisterUtils;
@@ -246,7 +246,7 @@ public final class GTOMachines {
     // ********** Part **********//
     /// ///////////////////////////////////
     public static final MachineDefinition[] THREAD_HATCH = registerTieredMachines("thread_hatch", tier -> GTOValues.VNFR[tier] + "线程仓",
-            ThreadHatchPartMachine::new, (tier, builder) -> builder
+            ThreadPartMachine::new, (tier, builder) -> builder
                     .langValue(GTOValues.VNFR[tier] + " Thread Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.THREAD_HATCH)
@@ -256,7 +256,7 @@ public final class GTOMachines {
             UV, UHV, UEV, UIV, UXV, OpV, MAX);
 
     public static final MachineDefinition[] OVERCLOCK_HATCH = registerTieredMachines("overclock_hatch", tier -> GTOValues.VNFR[tier] + "超频仓",
-            OverclockHatchPartMachine::new, (tier, builder) -> builder
+            OverclockPartMachine::new, (tier, builder) -> builder
                     .langValue(GTOValues.VNFR[tier] + " Overclock Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.OVERCLOCK_HATCH)
@@ -717,7 +717,7 @@ public final class GTOMachines {
             .allowCoverOnFront(true)
             .register();
 
-    public static final MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemHatchPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
+    public static final MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
             .tooltips(GTOMachineTooltips.INSTANCE.getRotorHatchTooltips().getSupplier())
             .tier(EV)
             .allRotation()
@@ -741,7 +741,7 @@ public final class GTOMachines {
             .allowCoverOnFront(true)
             .register();
 
-    public static final MachineDefinition LENS_HOUSING = machine("lens_housing", "透镜仓", h -> new ItemHatchPartMachine(h, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.lens))
+    public static final MachineDefinition LENS_HOUSING = machine("lens_housing", "透镜仓", h -> new ItemPartMachine(h, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.lens))
             .tier(EV)
             .allRotation()
             .notAllowSharedTooltips()

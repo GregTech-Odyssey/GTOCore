@@ -7,7 +7,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Mixin(DataAccessHatchMachine.class)
-public class DataAccessHatchMachineMixin extends TieredPartMachine {
+public class DataAccessHatchMachineMixin extends WorkableTieredPartMachine {
 
     @Unique
     private static final Map<Item, Integer> gtolib$DATA = Map.of(

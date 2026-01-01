@@ -1,7 +1,6 @@
 package com.gtocore.common.machine.multiblock.generator;
 
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyInterfacePartMachine;
-
+import com.gtolib.api.machine.impl.part.WirelessEnergyInterfacePartMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;

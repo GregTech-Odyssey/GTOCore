@@ -796,7 +796,7 @@ public final class MultiBlockC {
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.NeodymiumMagnetic)))
-                    .where('K', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('K', heatingCoils())
                     .where('L', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
                     .where('M', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where('N', GTOPredicates.module(ORE_EXTRACTION_MODULE, POLYMER_TWISTING_MODULE, BIOENGINEERING_MODULE))

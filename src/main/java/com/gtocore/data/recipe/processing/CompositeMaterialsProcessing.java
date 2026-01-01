@@ -603,12 +603,12 @@ public class CompositeMaterialsProcessing {
                 .save();
 
         SUPERMATERIAL_FORGING_RECIPES.builder("zirconia_nickel_base_graded_composite_rough_blank1")
-                .inputItems(GTOTagPrefix.plate, GTOMaterials.BoronCarbideCompositeProtectiveCeramic, 9)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.BoronCarbideCeramics, 16)
                 .inputItems(GTOTagPrefix.plate, GTMaterials.TungstenCarbide, 5)
                 .inputItems(GTOTagPrefix.plate, GTOMaterials.DepletedUraniumAlloy, 3)
                 .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.Kevlar, 5)
                 .inputItems(GTOTagPrefix.FIBER_MESH, GTOMaterials.SiliconCarbide, 5)
-                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.ZirconiaNickelBaseGradedComposite, 3)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.BoronCarbideCompositeProtectiveCeramic, 3)
                 .inputFluids(GTOMaterials.PhenolicResin, 576)
                 .EUt(524200)
                 .duration(1500)

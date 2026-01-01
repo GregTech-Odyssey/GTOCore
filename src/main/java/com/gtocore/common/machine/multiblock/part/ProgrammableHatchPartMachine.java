@@ -69,18 +69,18 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
-    protected @NotNull RecipeHandlerList getHandlerList() {
-        if (handlerList == null) {
+    public @NotNull RecipeHandlerList getHandlerList() {
+        if (recipeHandlerList == null) {
             List<IRecipeHandler<?>> handlers = new ObjectArrayList<>();
             for (var trait : traits) {
                 if (trait instanceof IRecipeHandlerTrait<?> rht && rht.isAvailable() && rht.getHandlerIO() == IO.IN) {
                     handlers.add(rht);
                 }
             }
-            handlerList = new ProgrammableRHL(IO.IN, this);
-            handlerList.addHandlers(handlers);
+            recipeHandlerList = new ProgrammableRHL(IO.IN, this);
+            recipeHandlerList.addHandlers(handlers);
         }
-        return handlerList;
+        return recipeHandlerList;
     }
 
     @Override
