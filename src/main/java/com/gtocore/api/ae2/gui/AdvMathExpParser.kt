@@ -27,7 +27,8 @@ object AdvMathExpParser {
         "-" to 2,
         "*" to 3,
         "/" to 3,
-        "^" to 4,
+        "u" to 4, // unary minus
+        "^" to 5,
     )
 
     /**
@@ -118,7 +119,17 @@ object AdvMathExpParser {
                     i += 2
                 }
 
-                c == '+' || c == '-' || c == '*' || c == '/' || c == '^' -> {
+                c == '-' -> {
+                    // unary minus
+                    if (tokens.isEmpty() || (tokens.last() is String && tokens.last() != ")")) {
+                        tokens.add("u")
+                    } else {
+                        tokens.add(c.toString())
+                    }
+                    i++
+                }
+
+                c == '+' || c == '*' || c == '/' || c == '^' -> {
                     tokens.add(c.toString())
                     i++
                 }
@@ -179,10 +190,19 @@ object AdvMathExpParser {
             if (token is BigDecimal) {
                 stack.push(token)
             } else {
+                val op = token as String
+
+                // Unary minus
+                if (op == "u") {
+                    if (stack.isEmpty()) throw IllegalArgumentException("Invalid expression: missing operand for unary minus")
+                    val b = stack.pop()
+                    stack.push(b.negate(mc))
+                    continue
+                }
+
                 if (stack.size < 2) throw IllegalArgumentException("Invalid expression")
                 val b = stack.pop()
                 val a = stack.pop()
-                val op = token as String
 
                 val res = when (op) {
                     "+" -> a.add(b, mc)
@@ -216,7 +236,8 @@ object AdvMathExpParser {
         return stack.pop()
     }
 
-    fun test() {
+    @JvmOverloads
+    fun test(performance: Boolean = false) {
         val testCases = mapOf(
             // Basic Arithmetic
             "0" to BigDecimal("0"),
@@ -226,6 +247,10 @@ object AdvMathExpParser {
             "10 / 2" to BigDecimal("5"),
             "10 / 4" to BigDecimal("2.5"),
             "0.1 + 0.2" to BigDecimal("0.3"),
+            "-1 + 5" to BigDecimal("4"),
+            "-3 * 2" to BigDecimal("-6"),
+            "5 + -2" to BigDecimal("3"),
+            "5 - -2" to BigDecimal("7"),
 
             // Precedence and Parentheses
             "1 + 2 * 3" to BigDecimal("7"),
@@ -274,12 +299,32 @@ object AdvMathExpParser {
             "1 << 4 + 1" to BigDecimal("32"),
             "3 * 5m" to BigDecimal("15000000"),
             "100 * (2 + 1.2e2k / 60k)" to BigDecimal("400"),
+            "100 * (-2) + 50k / (2 + 3)" to BigDecimal("9800"),
         )
 
+        var allPass = true
         for ((expr, expected) in testCases) {
-            val result = parse(expr, DecimalFormat("#.##########"))
-            println("Expression: $expr = $result (Expected: $expected) -> ${if (result.compareTo(expected) == 0) "PASS" else "FAIL"}")
+            val result = runCatching { parse(expr, DecimalFormat("#.##########")) }.let { result ->
+                result.getOrNull()
+            }
+
+            val pass = result != null && result.compareTo(expected) == 0
+            allPass = allPass && pass
+
+            if (pass) {
+                println("\u001B[32mPASS\u001B[0m: $expr = $result")
+            } else {
+                println("\u001B[31mFAIL\u001B[0m: $expr -> Expected: $expected, Got: $result")
+            }
         }
+
+        if (allPass) {
+            println("\u001B[32mAll test cases passed!\u001B[0m")
+        } else {
+            println("\u001B[31mSome test cases failed.\u001B[0m")
+        }
+
+        if (!performance) return
 
         val expression = "1k * 2 + 500 - (300 / 2) + 4 ^ 3 - 1 << 5 + 1.5m / 3"
         val iterations = 1_000_000
