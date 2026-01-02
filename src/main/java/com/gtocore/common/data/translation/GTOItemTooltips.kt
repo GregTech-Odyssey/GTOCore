@@ -63,6 +63,12 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         increase("PRO版本可以批量应用" translatedTo "PRO version can apply in batch")
     }
 
+    val ConversionSimulationCard = ComponentListSupplier {
+        setTranslationPrefix("conversion_simulation_card")
+
+        function("为大型方块转换室提供模拟转换环境" translatedTo "Provides a simulated conversion environment for large block conversion chambers")
+    }
+
     // AE2 订单
     val OrderTooltips = ComponentListSupplier {
         setTranslationPrefix("order")
