@@ -234,5 +234,8 @@ public final class GTEMIPlugin implements EmiPlugin {
             }
             return EmiStackInteraction.EMPTY;
         });
+
+        registry.addCategory(AlfheimEntryRequirements.CATEGORY);
+        registry.addRecipe(new AlfheimEntryRequirements());
     }
 }

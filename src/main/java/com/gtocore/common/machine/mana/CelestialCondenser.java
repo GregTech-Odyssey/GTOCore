@@ -124,11 +124,11 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
             lunara = Math.min(max_capacity, lunara + 5);
         }
         // OTHERSIDE维度：voidflux 加50
-        else if (GTODimensions.OTHERSIDE.equals(dimLocation)) {
+        else if (GTODimensions.OTHERSIDE == dimLocation) {
             voidflux = Math.min(max_capacity, voidflux + 50);
         }
         // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
-        else if (GTODimensions.ALFHEIM.equals(dimLocation)) {
+        else if (GTODimensions.ALFHEIM == dimLocation) {
             if (world.isDay()) {
                 solaris = Math.min(max_capacity, solaris + 20);
             } else if (world.isNight()) {
@@ -136,7 +136,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
             }
         }
         // 主世界/末地的资源增加逻辑
-        else if (world.dimension().equals(Level.END)) {
+        else if (world.dimension() == Level.END) {
             voidflux = Math.min(max_capacity, voidflux + 10);
         } else if (world.isDay()) {
             solaris = Math.min(max_capacity, solaris + 10);

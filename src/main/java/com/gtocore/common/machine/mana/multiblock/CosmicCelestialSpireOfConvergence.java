@@ -204,11 +204,11 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             lunara = Math.min(max_capacity, lunara + 500L * i);
         }
         // OTHERSIDE维度：voidflux 加50
-        else if (GTODimensions.OTHERSIDE.equals(dimLocation)) {
+        else if (GTODimensions.OTHERSIDE == dimLocation) {
             voidflux = Math.min(max_capacity, voidflux + 5000L * i);
         }
         // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
-        else if (GTODimensions.ALFHEIM.equals(dimLocation)) {
+        else if (GTODimensions.ALFHEIM == dimLocation) {
             if (world.isDay()) {
                 solaris = Math.min(max_capacity, solaris + 2000L * i);
             } else if (world.isNight()) {
@@ -216,7 +216,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             }
         }
         // 主世界/末地的资源增加逻辑
-        else if (world.dimension().equals(Level.END)) {
+        else if (world.dimension() == Level.END) {
             voidflux = Math.min(max_capacity, voidflux + 1000L * i);
         } else if (world.isDay()) {
             solaris = Math.min(max_capacity, solaris + 1000L * i);

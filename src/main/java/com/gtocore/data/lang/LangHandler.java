@@ -437,6 +437,13 @@ public final class LangHandler {
 
         addCNEN("gtocore.emi.search_text", "已保存的搜索: %s", "Saved Search: %s");
         addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");
+
+        addCNEN("emi.category.gtocore.alfheim_entry_requirements", "亚尔夫海姆准入条件", "Alfheim Access Requirements");
+        addCNEN("gtocore.entry_alfheim.1", "你需要饮下诗之蜜酒", "You must drink Kvasir’s Mead");
+        addCNEN("gtocore.entry_alfheim.2", "你需要携带十二遗物", "You must bear the Twelve Relics");
+        addCNEN("gtocore.entry_alfheim.3",
+                "夫迷雾蔽境，亚尔夫海姆启门之期将至。新章既降，唯饮诗泉之醴、聚十二古器者，可涉此秘域。凡欲绕法偷渡之徒，皆不为乾坤所容——寰宇律令自临，未符契而擅闯者，神魂俱殒。",
+                "The mists enshroud the realm, and the hour of Alfheim’s gate-opening draws nigh. A new chapter unfolds—only those who quaff the mead of the Kvasir’s Mead and gather the Twelve Ancient Relics may tread this secret domain. All who seek to trespass by craft or ruse shall not be borne by heaven and earth. For the Law of the Cosmos descends: whosoever dares to breach these halls without the sacred covenant shall perish, body and soul alike.");
     }
 
     public static void enInitialize(LanguageProvider provider) {
