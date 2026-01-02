@@ -34,8 +34,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.network.GTNetwork;
-import com.gregtechceu.gtceu.common.network.packets.SCPacketUpdateActiveBlock;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -99,7 +97,6 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private long time;
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;
-    private boolean activated;
 
     public PrimitiveDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -177,9 +174,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * 如果机器当前未激活，将其状态设为激活并更新激活的区块。
      */
     private void activateMachine() {
-        if (activated) return;
         activated = true;
-        GTNetwork.NETWORK.sendToAll(new SCPacketUpdateActiveBlock(getMultiblockState().matchContext.vaBlocks, true));
     }
 
     /**
@@ -253,10 +248,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * 如果机器当前处于激活状态，则将其状态设为非激活，并更新相关的活动块标志。
      */
     private void deactivateMachine() {
-        if (activated) {
-            activated = false;
-            GTNetwork.NETWORK.sendToAll(new SCPacketUpdateActiveBlock(getMultiblockState().matchContext.vaBlocks, false));
-        }
+        activated = false;
     }
 
     /**

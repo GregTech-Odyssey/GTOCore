@@ -51,13 +51,12 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
     @Override
     protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
-        int solarisCost = recipe.data.contains(SOLARIS) ? recipe.data.getInt(SOLARIS) : 0;
-        int lunaraCost = recipe.data.contains(LUNARA) ? recipe.data.getInt(LUNARA) : 0;
-        int voidfluxCost = recipe.data.contains(VOIDFLUX) ? recipe.data.getInt(VOIDFLUX) : 0;
-        int stellarmCost = recipe.data.contains(STELLARM) ? recipe.data.getInt(STELLARM) : 0;
-        int anyCost = recipe.data.contains("any") ? recipe.data.getInt("any") : 0;
-
         if (!super.beforeWorking(recipe)) return null;
+        int solarisCost = recipe.data.getInt(SOLARIS);
+        int lunaraCost = recipe.data.getInt(LUNARA);
+        int voidfluxCost = recipe.data.getInt(VOIDFLUX);
+        int stellarmCost = recipe.data.getInt(STELLARM);
+        int anyCost = recipe.data.getInt("any");
 
         long parallel = 0;
         if (solarisCost > 0) parallel = this.solaris / solarisCost;
@@ -65,21 +64,22 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         else if (voidfluxCost > 0) parallel = this.voidflux / voidfluxCost;
         else if (stellarmCost > 0) parallel = this.stellarm / stellarmCost;
         else if (anyCost > 0) parallel = (this.solaris + this.lunara + this.voidflux + this.stellarm) / anyCost;
+        if (parallel == 0) return null;
+        recipe = ParallelLogic.accurateParallel(this, recipe, parallel);
 
-        long maxContentParallel = Math.min(ParallelLogic.getMaxContentParallel(this, recipe), parallel);
-
-        if (maxContentParallel == 0) return null;
+        if (recipe == null) return null;
+        parallel = recipe.parallels;
 
         if (solarisCost > 0) {
-            this.solaris = Math.max(0L, this.solaris - (solarisCost * maxContentParallel));
+            this.solaris = Math.max(0L, this.solaris - (solarisCost * parallel));
         } else if (lunaraCost > 0) {
-            this.lunara = Math.max(0L, this.lunara - (lunaraCost * maxContentParallel));
+            this.lunara = Math.max(0L, this.lunara - (lunaraCost * parallel));
         } else if (voidfluxCost > 0) {
-            this.voidflux = Math.max(0L, this.voidflux - (voidfluxCost * maxContentParallel));
+            this.voidflux = Math.max(0L, this.voidflux - (voidfluxCost * parallel));
         } else if (stellarmCost > 0) {
-            this.stellarm = Math.max(0L, this.stellarm - (stellarmCost * maxContentParallel));
-        } else if (anyCost > 0) {
-            long remainingCost = anyCost * maxContentParallel;
+            this.stellarm = Math.max(0L, this.stellarm - (stellarmCost * parallel));
+        } else {
+            long remainingCost = anyCost * parallel;
             if (remainingCost > 0 && this.solaris > 0) {
                 long deduct = Math.min(this.solaris, remainingCost);
                 this.solaris = Math.max(0, this.solaris - deduct);
@@ -105,7 +105,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             }
         }
 
-        return ParallelLogic.accurateParallel(this, recipe, maxContentParallel);
+        return recipe;
     }
 
     @Override

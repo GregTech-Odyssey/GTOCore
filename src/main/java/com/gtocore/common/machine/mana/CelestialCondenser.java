@@ -50,11 +50,11 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
 
     @Override
     public boolean beforeWorking(@NotNull GTRecipe recipe) {
-        int solarisCost = recipe.data.contains(SOLARIS) ? recipe.data.getInt(SOLARIS) : 0;
-        int lunaraCost = recipe.data.contains(LUNARA) ? recipe.data.getInt(LUNARA) : 0;
-        int voidfluxCost = recipe.data.contains(VOIDFLUX) ? recipe.data.getInt(VOIDFLUX) : 0;
-        int stellarmCost = recipe.data.contains(STELLARM) ? recipe.data.getInt(STELLARM) : 0;
-        int anyCost = recipe.data.contains("any") ? recipe.data.getInt("any") : 0;
+        int solarisCost = recipe.data.getInt(SOLARIS);
+        int lunaraCost = recipe.data.getInt(LUNARA);
+        int voidfluxCost = recipe.data.getInt(VOIDFLUX);
+        int stellarmCost = recipe.data.getInt(STELLARM);
+        int anyCost = recipe.data.getInt("any");
         if (solarisCost > 0 && solarisCost > this.solaris) return false;
         else if (lunaraCost > 0 && lunaraCost > this.lunara) return false;
         else if (voidfluxCost > 0 && voidfluxCost > this.voidflux) return false;
