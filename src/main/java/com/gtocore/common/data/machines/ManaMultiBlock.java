@@ -1,6 +1,7 @@
 package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.client.renderer.machine.CosmicCelestialSpireOfConvergenceRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
@@ -552,12 +553,13 @@ public final class ManaMultiBlock {
                     .where('U', blocks(RegistriesUtils.getBlock("botania:corporea_index")))
                     .where('V', blocks(RegistriesUtils.getBlock("botania:cacophonium_block")))
                     .where('W', blocks(RegistriesUtils.getBlock("botania:azulejo_2")))
-                    .where('X', blocks(GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.get()))
+                    .where('X', blocks(GTOBlocks.THE_SOLARIS_LENS.get()))
+                    .where('[', blocks(RegistriesUtils.getBlock("ars_nouveau:sky_block")))
                     .where('Y', controller(definition))
                     .where('Z', blocks(RegistriesUtils.getBlock("botania:alfheim_portal")))
-                    .where('[', blocks(RegistriesUtils.getBlock("ars_nouveau:sky_block")))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/spell_prism_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
+            .renderer(CosmicCelestialSpireOfConvergenceRenderer::new)
+            .hasTESR(true)
             .register();
 }

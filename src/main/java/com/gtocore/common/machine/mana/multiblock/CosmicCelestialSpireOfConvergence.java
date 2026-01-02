@@ -1,20 +1,30 @@
 package com.gtocore.common.machine.mana.multiblock;
 
+import com.gtocore.client.renderer.StructurePattern;
+import com.gtocore.client.renderer.StructureVBO;
+import com.gtocore.common.data.GTOBlocks;
+
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtolib.utils.ClientUtil;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -44,6 +54,8 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
     private int timing;
     private TickableSubscription tickSubs;
+
+    private boolean clientRemovedBlocks = false;
 
     public CosmicCelestialSpireOfConvergence(MetaMachineBlockEntity holder) {
         super(holder);
@@ -160,6 +172,20 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     }
 
     @Override
+    public void clientTick() {
+        super.clientTick();
+        if (isFormed()) {
+            if (!clientRemovedBlocks) {
+                clientRemovedBlocks = removeBlockFromWorld();
+            }
+        } else {
+            if (clientRemovedBlocks) {
+                clientRemovedBlocks = !addBlockToWorld();
+            }
+        }
+    }
+
+    @Override
     public void onUnload() {
         super.onUnload();
         ITickSubscription.unsubscribe(tickSubs);
@@ -223,5 +249,61 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         } else if (world.isNight()) {
             lunara = Math.min(max_capacity, lunara + 1000L * i);
         }
+    }
+
+    private boolean removeBlockFromWorld() {
+        String[][] structure = StructurePattern.tinyLight;
+        for (int x = 0; x < structure.length; x++) {
+            String[] plane = structure[x];
+            for (int y = 0; y < plane.length; y++) {
+                String row = plane[y];
+                for (int z = 0; z < row.length(); z++) {
+                    char letter = row.charAt(z);
+                    if (letter == ' ') continue;
+                    BlockPos realPos = getRealPos(x, y, z);
+                    if (!getLevel().isLoaded(realPos)) return false;
+                    getLevel().setBlock(realPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_KNOWN_SHAPE);
+                    ClientUtil.getPreventUpdate(getLevel()).add(realPos.asLong());
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean addBlockToWorld() {
+        StructureVBO ringStructure = (new StructureVBO())
+                .addMapping('X', GTOBlocks.THE_SOLARIS_LENS.get())
+                .addMapping('[', RegistriesUtils.getBlock("ars_nouveau:sky_block"));
+
+        String[][] structure = StructurePattern.tinyLight;
+        ringStructure.assignStructure(structure);
+
+        for (int x = 0; x < structure.length; x++) {
+            String[] plane = structure[x];
+            for (int y = 0; y < plane.length; y++) {
+                String row = plane[y];
+                for (int z = 0; z < row.length(); z++) {
+                    char letter = row.charAt(z);
+                    if (letter == ' ') continue;
+                    BlockPos realPos = getRealPos(x, y, z);
+                    if (!getLevel().isLoaded(realPos)) return false;
+                    BlockState blockState = ringStructure.mapper.get(letter).defaultBlockState();
+                    ClientUtil.getPreventUpdate(getLevel()).remove(realPos.asLong());
+                    getLevel().setBlock(realPos, blockState, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_KNOWN_SHAPE);
+                }
+            }
+        }
+        return true;
+    }
+
+    private BlockPos getRealPos(int x, int y, int z) {
+        String[][] structure = StructurePattern.tinyLight;
+        BlockPos.MutableBlockPos pos = BlockPos.ZERO.offset(5 + structure.length / 2 - x, -structure[0].length / 2 + y + 8, -structure[0][0].length() / 2 + z).mutable();
+        switch (getFrontFacing()) {
+            case EAST -> pos.set(-pos.getX(), pos.getY(), -pos.getZ());
+            case NORTH -> pos.set(-pos.getZ(), pos.getY(), pos.getX());
+            case SOUTH -> pos.set(pos.getZ(), pos.getY(), -pos.getX());
+        }
+        return pos.offset(this.getPos());
     }
 }
