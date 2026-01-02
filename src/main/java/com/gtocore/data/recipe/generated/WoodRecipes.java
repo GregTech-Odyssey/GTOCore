@@ -303,7 +303,7 @@ public final class WoodRecipes {
                 .pressurePlate(DDBlocks.ECHO_PRESSURE_PLATE.get().asItem(), "echo_pressure_plate")
                 .build());
         entries.add(new WoodTypeEntry.Builder(DeeperDarker.MOD_ID, "bloom")
-                .logTag(TagUtils.createTag(DeeperDarker.rl("bloom_stems")))
+                .logTag(TagUtils.createItemTag(DeeperDarker.rl("bloom_stems")))
                 .planks(DDBlocks.BLOOM_PLANKS.get().asItem(), "bloom_planks")
                 .door(DDBlocks.BLOOM_DOOR.get().asItem(), "bloom_door")
                 .trapdoor(DDBlocks.BLOOM_TRAPDOOR.get().asItem(), "bloom_trapdoor")
@@ -1045,7 +1045,7 @@ public final class WoodRecipes {
         }
         entries.add(new WoodTypeEntry.Builder("ars_nouveau", "archwood")
                 .planks(BlockRegistry.ARCHWOOD_PLANK.asItem(), "archwood_planks")
-                .logTag(TagUtils.createTag("forge:logs/archwood"))
+                .logTag(TagUtils.createItemTag("forge:logs/archwood"))
                 .door(BlockRegistry.ARCHWOOD_DOOR.asItem(), "archwood_door")
                 .trapdoor(BlockRegistry.ARCHWOOD_TRAPDOOR.asItem(), "archwood_trapdoor")
                 .slab(BlockRegistry.ARCHWOOD_SLABS.asItem(), "archwood_slab")

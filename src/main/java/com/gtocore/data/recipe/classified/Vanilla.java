@@ -963,7 +963,7 @@ final class Vanilla {
 
     private static void addUpg(Item input, ItemStack output) {
         VanillaRecipeHelper.addShapelessRecipe("upg_" + input.toString(), output,
-                TagUtils.createTGTag("ingots"),
+                TagUtils.createTGItemTag("ingots"),
                 input);
     }
 }

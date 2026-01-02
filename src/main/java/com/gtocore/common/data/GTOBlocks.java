@@ -616,4 +616,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> THE_END_CASING = createCasingBlock("the_end_casing", "终末之铭符", GTOCore.id("block/casings/the_end_casing"));
     // 混沌之铭符 the_chaos_casing
     public static final BlockEntry<Block> THE_CHAOS_CASING = createCasingBlock("the_chaos_casing", "混沌之铭符", GTOCore.id("block/casings/the_chaos_casing"));
+    // 天辉凝聚之镜 the_solaris_lens
+    public static final BlockEntry<Block> THE_SOLARIS_LENS = createGlassCasingBlock("the_solaris_lens", "天辉凝聚之镜", GTOCore.id("block/casings/the_solaris_lens"));
 }

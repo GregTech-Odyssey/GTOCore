@@ -11,7 +11,26 @@ import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 
 import net.minecraft.network.chat.Component
 
+import appeng.api.config.PowerUnits
+import com.gregtechceu.gtceu.config.ConfigHolder
+
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
+
+    val meEnergySubstationTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("me_energy_substation")
+
+        section(MainFunction)
+        ok("为ME网络提供额外的能量供应" translatedTo "Provides additional energy supply for the ME network")
+        command(
+            ("每一点EU可以转换成 " translatedTo "Each point of EU can be converted into ") +
+                PowerUnits.FE.convertTo(PowerUnits.AE, ConfigHolder.INSTANCE.compat.energy.euToFeRatio.toDouble()).toLiteralSupplier() +
+                (" 点AE能量" translatedTo " points of AE energy"),
+        )
+        info("使用ME能量访问仓导出能量到ME网络" translatedTo "Use the ME Energy Access Hatch to export energy to the ME network")
+        increase("玻璃等级每级可将转换效率提升30%" translatedTo "Each glass level can increase the conversion efficiency by 30%")
+        section(AfterModuleInstallation)
+        increase("安装模块可使转换效率额外x2" translatedTo "Installing modules can further double the conversion efficiency")
+    }
 
     val spaceBioResearchModuleTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("space_bio_research_module")

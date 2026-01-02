@@ -157,11 +157,6 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
         }
     }
 
-    @Override
-    public boolean hasOverclockConfig() {
-        return false;
-    }
-
     private void resetResonance() {
         resonanceItem = ItemStack.EMPTY;
         resonanceFluid = FluidStack.EMPTY;

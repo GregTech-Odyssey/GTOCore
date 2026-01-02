@@ -17,7 +17,7 @@ final class ElectricCooking {
 
     public static void init() {
         ELECTRIC_COOKING_RECIPES.recipeBuilder("baked_cod_stew")
-                .inputItems(TagUtils.createForgeTag("raw_fishes/cod"))
+                .inputItems(TagUtils.createForgeItemTag("raw_fishes/cod"))
                 .inputItems(Items.POTATO.asItem())
                 .inputItems(Items.EGG.asItem())
                 .inputItems("farmersdelight:tomato")
@@ -30,7 +30,7 @@ final class ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("squid_ink_pasta")
-                .inputItems(TagUtils.createForgeTag("raw_fishes"))
+                .inputItems(TagUtils.createForgeItemTag("raw_fishes"))
                 .inputItems("farmersdelight:raw_pasta")
                 .inputItems("farmersdelight:tomato")
                 .inputItems(Items.INK_SAC.asItem())
@@ -45,7 +45,7 @@ final class ElectricCooking {
                 .inputItems(Items.BLAZE_POWDER.asItem(), 2)
                 .inputItems(Items.NETHER_WART.asItem(), 2)
                 .inputItems("farmersrespite:coffee_beans")
-                .inputItems(TagUtils.createForgeTag("raw_beef"))
+                .inputItems(TagUtils.createForgeItemTag("raw_beef"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersrespite:blazing_chili")
                 .circuitMeta(1)
@@ -58,7 +58,7 @@ final class ElectricCooking {
                 .inputItems(Items.RABBIT.asItem())
                 .inputItems(Items.CARROT.asItem())
                 .inputItems(Items.BOWL.asItem())
-                .inputItems(TagUtils.createForgeTag("mushrooms"))
+                .inputItems(TagUtils.createForgeItemTag("mushrooms"))
                 .outputItems(Items.RABBIT_STEW.asItem())
                 .inputFluids(GTMaterials.Water, 1000)
                 .circuitMeta(1)
@@ -68,7 +68,7 @@ final class ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("bone_broth")
                 .inputItems(Items.BONE.asItem())
-                .inputItems(TagUtils.createForgeTag("mushrooms"))
+                .inputItems(TagUtils.createForgeItemTag("mushrooms"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:bone_broth")
                 .inputFluids(GTMaterials.Water, 1000)
@@ -80,8 +80,8 @@ final class ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("tea_curry")
                 .inputItems("farmersrespite:yellow_tea_leaves", 2)
-                .inputItems(TagUtils.createForgeTag("raw_chicken"))
-                .inputItems(TagUtils.createForgeTag("crops/cabbage"))
+                .inputItems(TagUtils.createForgeItemTag("raw_chicken"))
+                .inputItems(TagUtils.createForgeItemTag("crops/cabbage"))
                 .inputItems("farmersdelight:onion")
                 .inputItems("farmersdelight:rice")
                 .inputItems(Items.BOWL.asItem())
@@ -93,8 +93,8 @@ final class ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("cabbage_rolls")
-                .inputItems(TagUtils.createForgeTag("crops/cabbage"))
-                .inputItems(TagUtils.createTag(RLUtils.fd("cabbage_roll_ingredients")))
+                .inputItems(TagUtils.createForgeItemTag("crops/cabbage"))
+                .inputItems(TagUtils.createItemTag(RLUtils.fd("cabbage_roll_ingredients")))
                 .outputItems("farmersdelight:cabbage_rolls")
                 .circuitMeta(2)
                 .EUt(120)
@@ -102,7 +102,7 @@ final class ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("beef_stew")
-                .inputItems(TagUtils.createForgeTag("raw_beef"))
+                .inputItems(TagUtils.createForgeItemTag("raw_beef"))
                 .inputItems(Items.CARROT.asItem())
                 .inputItems(Items.POTATO.asItem())
                 .inputItems(Items.BOWL.asItem())
@@ -140,8 +140,8 @@ final class ElectricCooking {
                 .inputItems(Items.CARROT.asItem())
                 .inputItems(Items.BROWN_MUSHROOM.asItem())
                 .inputItems("farmersdelight:raw_pasta")
-                .inputItems(TagUtils.createForgeTag("crops/cabbage"))
-                .inputItems(TagUtils.createForgeTag("vegetables"))
+                .inputItems(TagUtils.createForgeItemTag("crops/cabbage"))
+                .inputItems(TagUtils.createForgeItemTag("vegetables"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:vegetable_noodles")
                 .circuitMeta(1)
@@ -151,9 +151,9 @@ final class ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("dumplings")
                 .inputItems(GTItems.DOUGH)
-                .inputItems(TagUtils.createForgeTag("crops/cabbage"))
+                .inputItems(TagUtils.createForgeItemTag("crops/cabbage"))
                 .inputItems("farmersdelight:onion")
-                .inputItems(TagUtils.createForgeTag("raw_pork"))
+                .inputItems(TagUtils.createForgeItemTag("raw_pork"))
                 .outputItems("farmersdelight:dumplings", 2)
                 .inputFluids(GTMaterials.Water, 1000)
                 .circuitMeta(1)
@@ -177,7 +177,7 @@ final class ElectricCooking {
                 .inputItems(Items.CARROT.asItem())
                 .inputItems(Items.POTATO.asItem())
                 .inputItems(Items.BEETROOT.asItem())
-                .inputItems(TagUtils.createForgeTag("crops/cabbage"))
+                .inputItems(TagUtils.createForgeItemTag("crops/cabbage"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:vegetable_soup")
                 .inputFluids(GTMaterials.Water, 1000)
@@ -202,8 +202,8 @@ final class ElectricCooking {
                 .inputItems("farmersdelight:onion")
                 .inputItems(Items.BROWN_MUSHROOM.asItem())
                 .inputItems(Items.POTATO.asItem())
-                .inputItems(TagUtils.createTag(RLUtils.mc("fox_food")))
-                .inputItems(TagUtils.createForgeTag("vegetables"))
+                .inputItems(TagUtils.createItemTag(RLUtils.mc("fox_food")))
+                .inputItems(TagUtils.createForgeItemTag("vegetables"))
                 .inputItems(Items.PUMPKIN.asItem())
                 .outputItems("farmersdelight:stuffed_pumpkin_block")
                 .circuitMeta(1)
@@ -212,10 +212,10 @@ final class ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("chicken_soup")
-                .inputItems(TagUtils.createForgeTag("raw_chicken"))
+                .inputItems(TagUtils.createForgeItemTag("raw_chicken"))
                 .inputItems(Items.CARROT.asItem())
-                .inputItems(TagUtils.createForgeTag("vegetables"))
-                .inputItems(TagUtils.createForgeTag("crops/cabbage"))
+                .inputItems(TagUtils.createForgeItemTag("vegetables"))
+                .inputItems(TagUtils.createForgeItemTag("crops/cabbage"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:chicken_soup")
                 .inputFluids(GTMaterials.Water, 1000)
@@ -260,7 +260,7 @@ final class ElectricCooking {
         ELECTRIC_COOKING_RECIPES.recipeBuilder("dog_food")
                 .inputItems(Items.ROTTEN_FLESH.asItem())
                 .inputItems(Items.BONE.asItem())
-                .inputItems(TagUtils.createTag(RLUtils.fd("wolf_prey")))
+                .inputItems(TagUtils.createItemTag(RLUtils.fd("wolf_prey")))
                 .inputItems("farmersdelight:rice")
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:dog_food")
@@ -283,7 +283,7 @@ final class ElectricCooking {
                 .inputItems("farmersdelight:tomato")
                 .inputItems("farmersdelight:onion")
                 .inputItems(Items.BEETROOT.asItem())
-                .inputItems(TagUtils.createForgeTag("vegetables"))
+                .inputItems(TagUtils.createForgeItemTag("vegetables"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:ratatouille")
                 .circuitMeta(1)
@@ -292,7 +292,7 @@ final class ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("pasta_with_mutton_chop")
-                .inputItems(TagUtils.createForgeTag("raw_mutton"))
+                .inputItems(TagUtils.createForgeItemTag("raw_mutton"))
                 .inputItems("farmersdelight:raw_pasta")
                 .inputItems("farmersdelight:tomato_sauce")
                 .inputItems(Items.BOWL.asItem())
@@ -305,8 +305,8 @@ final class ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("pumpkin_soup")
                 .inputItems("farmersdelight:pumpkin_slice")
-                .inputItems(TagUtils.createForgeTag("crops/cabbage"))
-                .inputItems(TagUtils.createForgeTag("raw_pork"))
+                .inputItems(TagUtils.createForgeItemTag("crops/cabbage"))
+                .inputItems(TagUtils.createForgeItemTag("raw_pork"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:pumpkin_soup")
                 .inputFluids(GTMaterials.Milk, 1000)
@@ -319,7 +319,7 @@ final class ElectricCooking {
                 .inputItems("farmersdelight:raw_pasta")
                 .inputItems("farmersdelight:fried_egg")
                 .inputItems(Items.DRIED_KELP.asItem())
-                .inputItems(TagUtils.createForgeTag("raw_pork"))
+                .inputItems(TagUtils.createForgeItemTag("raw_pork"))
                 .inputItems(Items.BOWL.asItem())
                 .outputItems("farmersdelight:noodle_soup")
                 .inputFluids(GTMaterials.Water, 1000)
@@ -329,7 +329,7 @@ final class ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("fish_stew")
-                .inputItems(TagUtils.createForgeTag("raw_fishes"))
+                .inputItems(TagUtils.createForgeItemTag("raw_fishes"))
                 .inputItems("farmersdelight:tomato_sauce")
                 .inputItems("farmersdelight:onion")
                 .inputItems(Items.BOWL.asItem())
@@ -391,7 +391,7 @@ final class ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("dandelion_tea")
                 .inputItems(Items.DANDELION.asItem())
-                .inputItems(TagUtils.createTag(RLUtils.fr("tea_leaves")))
+                .inputItems(TagUtils.createItemTag(RLUtils.fr("tea_leaves")))
                 .inputItems(Items.GLASS_BOTTLE.asItem())
                 .outputItems("farmersrespite:dandelion_tea")
                 .inputFluids(GTMaterials.Water, 1000)
@@ -402,7 +402,7 @@ final class ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder("long_dandelion_tea")
                 .inputItems(Items.DANDELION.asItem())
-                .inputItems(TagUtils.createTag(RLUtils.fr("tea_leaves")))
+                .inputItems(TagUtils.createItemTag(RLUtils.fr("tea_leaves")))
                 .inputItems(Items.GLASS_BOTTLE.asItem())
                 .outputItems("farmersrespite:long_dandelion_tea")
                 .inputFluids(GTMaterials.Water, 1000)

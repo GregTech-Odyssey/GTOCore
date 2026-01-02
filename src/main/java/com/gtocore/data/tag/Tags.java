@@ -20,16 +20,16 @@ public final class Tags {
 
     public static final Map<TagKey<Item>, Integer> CIRCUITS_ARRAY;
 
-    public static final TagKey<Block> ALL_LAYER_STONE = TagUtil.createBlockTag("all_layer_stone");
-    public static final TagKey<Item> HUMAN_EGG = TagUtils.createTag(GTOCore.id("human_egg"));
+    public static final TagKey<Block> ALL_LAYER_STONE = TagUtils.createBlockTag(GTOCore.id("all_layer"));
+    public static final TagKey<Item> HUMAN_EGG = TagUtils.createItemTag(GTOCore.id("human_egg"));
 
     public static final TagKey<Block> ARCHWOOD_LOG = TagUtil.createBlockTag("logs/archwood_logs");
 
-    public static final TagKey<Item> TAROT_ARCANUM = TagUtils.createTag(GTOCore.id("tarot_arcanum"));
+    public static final TagKey<Item> TAROT_ARCANUM = TagUtils.createItemTag(GTOCore.id("tarot_arcanum"));
 
-    public static final TagKey<Item> STAR_STONE = TagUtils.createTag(GTOCore.id("star_stone"));
-    public static final TagKey<Item> ENCHANTMENT_ESSENCE = TagUtils.createTag(GTOCore.id("enchantment_essence"));
-    public static final TagKey<Item> AFFIX_ESSENCE = TagUtils.createTag(GTOCore.id("affix_essence"));
+    public static final TagKey<Item> STAR_STONE = TagUtils.createItemTag(GTOCore.id("star_stone"));
+    public static final TagKey<Item> ENCHANTMENT_ESSENCE = TagUtils.createItemTag(GTOCore.id("enchantment_essence"));
+    public static final TagKey<Item> AFFIX_ESSENCE = TagUtils.createItemTag(GTOCore.id("affix_essence"));
 
     static {
         ImmutableMap.Builder<TagKey<Item>, Integer> circuits_array = ImmutableMap.builder();

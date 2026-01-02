@@ -69,6 +69,7 @@ public final class GTAEMachines {
             .langValue("ME Energy Access Hatch")
             .tier(EV)
             .allRotation()
+            .tooltipsText("Provides Energy for ME Network", "为ME网络提供能量")
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();

@@ -614,7 +614,7 @@ public final class BotaniaRecipes {
 
             MANA_INFUSER_RECIPES.builder("mana_powder_dust")
                     .notConsumable(BotaniaBlocks.livingrock.asItem())
-                    .inputItems(TagUtils.createTGTag("dusts"))
+                    .inputItems(TagUtils.createTGItemTag("dusts"))
                     .outputItems(BotaniaItems.manaPowder)
                     .duration(20)
                     .circuitMeta(1)
