@@ -5,6 +5,8 @@ import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.utils.setTooltips
 
+import net.minecraft.world.level.block.Blocks
+
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
@@ -198,6 +200,15 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     setTranslationPrefix("boss_summoner")
 
                     info("由捕捉附魔击杀神化Boss概率掉落" translatedTo "Dropped by killing Apotheosis Bosses with the Capture enchantment")
+                },
+            )
+        }
+
+        listOf(Blocks.OBSIDIAN.asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("obsidian")
+                    story("要不试试在它上面用砧板切洋葱？" translatedTo "How about trying to chop onions on it with a cutting board?")
                 },
             )
         }
