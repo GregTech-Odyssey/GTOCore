@@ -1,12 +1,14 @@
 package com.gtocore.common.machine.mana.multiblock;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.item.ApothItem;
 import com.gtocore.data.record.EnchantmentRecord;
 
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.holder.IntHolder;
 import com.gtolib.utils.holder.LongHolder;
 import com.gtolib.utils.holder.ObjectHolder;
@@ -26,6 +28,7 @@ import net.minecraft.world.item.Items;
 import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.fast.fastcollection.OpenCacheHashSet;
+import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.shadowsoffire.apotheosis.adventure.Adventure;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
@@ -36,8 +39,8 @@ import java.util.*;
 
 import static com.gtocore.common.data.GTOItems.AFFIX_ESSENCE;
 import static com.gtocore.common.data.GTOItems.ENCHANTMENT_ESSENCE;
-import static com.gtocore.data.record.ApotheosisAffixRecord.AFFIX_ITEM_ID;
-import static com.gtocore.data.record.EnchantmentRecord.ENCHANTMENT_ITEM_ID;
+import static com.gtocore.data.record.ApotheosisAffixRecord.AFFIX_ITEM_MAP;
+import static com.gtocore.data.record.EnchantmentRecord.ENCHANTMENT_ITEM_MAP;
 import static net.minecraft.nbt.Tag.TAG_COMPOUND;
 import static net.minecraft.nbt.Tag.TAG_LIST;
 
@@ -103,8 +106,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      */
     private Recipe getDisassembleRecipe() {
         RecipeBuilder disassembleRecipeBuilder = getRecipeBuilder();
-        List<ItemStack> inputsItems = new ObjectArrayList<>();
-        List<ItemStack> outputsItems = new ObjectArrayList<>();
+        List<ItemStack> inputsItems = new ArrayList<>();
+        List<ItemStack> outputsItems = new ArrayList<>();
         forEachInputItems((stack, amount) -> {
             CompoundTag nbt = stack.getTag();
             if (nbt != null) {
@@ -227,7 +230,9 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 if (enchantment.contains("id", 8) && enchantment.contains("lvl", 2)) {
                     int lvl = 1 << (enchantment.getShort("lvl") - 1);
-                    outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE.get(enchantment.getString("id")), lvl));
+                    ItemEntry<ApothItem> essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id"));
+                    if (essence == null) essence = ENCHANTMENT_ESSENCE.get("original");
+                    outputsItems.add(new ItemStack(essence, lvl));
                 }
             }
             return true;
@@ -352,7 +357,9 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             for (int i = 0; i < enchantmentCount; i++) {
                 CompoundTag enchantment = enchantments.getCompound(i);
                 int lvl = 1 << (enchantment.getInt("lvl") - 1);
-                outputsItems.add(new ItemStack(ENCHANTMENT_ESSENCE.get(enchantment.getString("id")), lvl));
+                ItemEntry<ApothItem> essence = ENCHANTMENT_ESSENCE.get(enchantment.getString("id"));
+                if (essence == null) essence = ENCHANTMENT_ESSENCE.get("original");
+                outputsItems.add(new ItemStack(essence, lvl));
             }
             return true;
         }
@@ -407,8 +414,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (essence.value == null) {
-                String enchantmentId = ENCHANTMENT_ITEM_ID.get(stackItem.toString());
-                if (enchantmentId != null)
+                var enchantment = ENCHANTMENT_ITEM_MAP.get(stackItem);
+                if (enchantment != null)
                     essence.value = stackItem;
             }
             if (essence.value != null && essence.value == stackItem)
@@ -418,10 +425,10 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         int lvl = Math.min(64 - Long.numberOfLeadingZeros(count.value), 30);
         if (essence.value != null && lvl > 0) {
-            String enchantment = ENCHANTMENT_ITEM_ID.get(essence.value.toString());
+            var enchantment = ENCHANTMENT_ITEM_MAP.get(essence.value);
             enchantmentsLoadRecipeBuilder.inputItems(Items.BOOK);
             enchantmentsLoadRecipeBuilder.inputItems(essence.value, 1 << (lvl - 1));
-            enchantmentsLoadRecipeBuilder.outputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId(enchantment, (short) lvl));
+            enchantmentsLoadRecipeBuilder.outputItems(EnchantmentRecord.getEnchantedBookByEnchantmentId(enchantment.enchantmentId(), (short) lvl));
             enchantmentsLoadRecipeBuilder.duration(20);
             enchantmentsLoadRecipeBuilder.MANAt(256);
             return enchantmentsLoadRecipeBuilder.buildRawRecipe();
@@ -557,8 +564,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         Set<Item> uniqueItems = new ReferenceOpenHashSet<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
-            String affixId = AFFIX_ITEM_ID.get(stackItem.toString());
-            if (affixId != null) uniqueItems.add(stackItem);
+            var affix = AFFIX_ITEM_MAP.get(stackItem);
+            if (affix != null) uniqueItems.add(stackItem);
             return false;
         });
         if (uniqueItems.isEmpty()) return null;
@@ -568,7 +575,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         ListTag affixList = new ListTag();
         for (Item item : uniqueItems) {
             CompoundTag affixEntry = new CompoundTag();
-            affixEntry.putString("id", AFFIX_ITEM_ID.get(item.toString()));
+            affixEntry.putString("id", AFFIX_ITEM_MAP.get(item).affixId());
             affixList.add(affixEntry);
             affixCanvasLoadRecipeBuilder.inputItems(item);
         }
@@ -589,7 +596,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getGemSynthesisRecipe() {
         RecipeBuilder GemSynthesisRecipeBuilder = getRecipeBuilder();
 
-        ObjectArrayList<ItemStack> inputsGems = new ObjectArrayList<>();
+        List<ItemStack> inputsGems = new ArrayList<>();
         forEachInputItems((stack, amount) -> {
             if (stack.getItem() == Adventure.Items.GEM.get()) {
                 inputsGems.add(stack);
@@ -606,7 +613,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             nbtCountMap.addTo(nbt, count);
         }
         // 创建合并后的堆叠列表
-        ObjectArrayList<ItemStack> mergedGems = new ObjectArrayList<>();
+        List<ItemStack> mergedGems = new ArrayList<>();
         for (Object2IntMap.Entry<CompoundTag> entry : nbtCountMap.object2IntEntrySet()) {
             ItemStack mergedStack = new ItemStack(Adventure.Items.GEM.get(), entry.getIntValue());
             CompoundTag nbt = entry.getKey();
@@ -627,8 +634,8 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
 
         // 根据稀有度将宝石分配到不同的列表中
         @SuppressWarnings("unchecked")
-        ObjectArrayList<ItemStack>[] gemsByRarity = new ObjectArrayList[5];
-        for (int i = 0; i < 5; i++) gemsByRarity[i] = new ObjectArrayList<>();
+        List<ItemStack>[] gemsByRarity = new ArrayList[5];
+        for (int i = 0; i < 5; i++) gemsByRarity[i] = new ArrayList<>();
         for (ItemStack gem : mergedGems) {
             String rarity = getGemRarity(gem);
             if ("apotheosis:ancient".equals(rarity)) continue;
@@ -645,7 +652,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             if (i == 4) return null;
         }
         for (int i = 0; i < 5; i++) {
-            ObjectArrayList<ItemStack> gems = gemsByRarity[i];
+            List<ItemStack> gems = gemsByRarity[i];
             if (gems.isEmpty()) continue;
             for (ItemStack gem : gems) {
                 int count = gem.getCount() / 2;
@@ -691,7 +698,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     private Recipe getGemCrushingRecipe() {
         RecipeBuilder gemCrushingRecipeBuilder = getRecipeBuilder();
 
-        List<ItemStack> inputsItems = new ObjectArrayList<>();
+        List<ItemStack> inputsItems = new ArrayList<>();
         LongHolder totalDustCount = new LongHolder(0);
 
         forEachInputItems((stack, amount) -> {
@@ -857,7 +864,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         });
         if (rarityUpItem.value == null || materialItem.value == null) return null;
 
-        String rarity = "apotheosis:" + getPrefix(materialItem.value.getItem().toString());
+        String rarity = "apotheosis:" + getPrefix(ItemUtils.getIdLocation(materialItem.value.getItem()).getPath());
 
         ItemStack inputRarityUpItem = rarityUpItem.value.copy();
         ItemStack inputMaterialItem = materialItem.value.copy();
@@ -932,7 +939,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         RecipeBuilder ForcedMosaicGemRecipeBuilder = getRecipeBuilder();
 
         ObjectHolder<ItemStack> addGemItem = new ObjectHolder<>(null);
-        List<ItemStack> gemItems = new ObjectArrayList<>();
+        List<ItemStack> gemItems = new ArrayList<>();
         forEachInputItems((stack, amount) -> {
             Item stackItem = stack.getItem();
             if (stackItem == GTItems.PROGRAMMED_CIRCUIT.asItem()) return false;
@@ -961,10 +968,10 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             gems.add(airTag);
         }
         while (gems.size() > socketCount) {
-            gems.remove(gems.size() - 1);
+            gems.removeLast();
         }
 
-        List<ItemStack> inputGemItems = new ObjectArrayList<>();
+        List<ItemStack> inputGemItems = new ArrayList<>();
         boolean full = false;
         for (ItemStack inputGemItem : gemItems) {
             int stackCount = inputGemItem.getCount();

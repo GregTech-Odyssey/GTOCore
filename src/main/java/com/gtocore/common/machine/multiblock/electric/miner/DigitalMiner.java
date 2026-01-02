@@ -418,7 +418,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
             textList.add(Component.translatable("gtceu.multiblock.large_miner.needspower")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)));
         textList.addAll(NewDataAttributes.LEVEL.create(tier).get());
-        RecipeLogicProvider.getEUtTooltip(textList, getEnergyPerTick(), false);
+        RecipeLogicProvider.getEUtTooltip(textList, energyPerTick, false);
         textList.add(Component.translatable(PARALLEL, parallelMining));
     }
 
@@ -469,7 +469,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
             maxHeight = temp;
         }
         BlockPos pos = getPos();
-        BlockPos pos1 = pos.offset(getXOffset(), 0, getZOffset()).atY(minHeight);
+        BlockPos pos1 = pos.offset(xOffset, 0, zOffset).atY(minHeight);
         BlockPos pos2 = pos1.offset((xRadialLength), 0, (zRadialLength)).atY(maxHeight);
         return new AABB(pos1, pos2);
     }
@@ -482,7 +482,7 @@ public class DigitalMiner extends TierCasingMultiblockMachine implements IDigita
         double lastX = 0, lastY = 0;
         WaypointItem startWaypoint = null;
 
-        public ProspectorMap(int x, int y, int width, int height, int radius, ProspectorMode mode, int scale, Widget parent) {
+        ProspectorMap(int x, int y, int width, int height, int radius, ProspectorMode mode, int scale, Widget parent) {
             super(x, y, width, height, radius, mode, scale);
             this.parent = parent;
             this.itemList.setVisible(false).setActive(false);

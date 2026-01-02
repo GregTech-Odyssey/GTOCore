@@ -5,48 +5,38 @@ import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
+import net.minecraft.world.item.Item;
+
+import com.google.common.collect.ImmutableMap;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 
 import java.util.*;
 
 import static com.gtolib.utils.register.ItemRegisterUtils.item;
 
-public class ApotheosisAffixRecord {
+public record ApotheosisAffixRecord(String affixId, String enId, String cnId, int color, String processedId) {
 
-    public record ApotheosisAffixRecords(
-                                         String affixId,
-                                         String enId,
-                                         String cnId,
-                                         int color,
-                                         String processedId) {
-
-        public static ApotheosisAffixRecords create(String apotheosisAffixId, String enId, String cnId) {
-            int color = generateColorFromId(apotheosisAffixId);
-            String processedId = apotheosisAffixId.indexOf(':') > 0 ? apotheosisAffixId.substring(apotheosisAffixId.indexOf(':') + 1).replace("/", "_") : apotheosisAffixId;
-            return new ApotheosisAffixRecords(apotheosisAffixId, enId, cnId, color, processedId);
-        }
-
-        private static int generateColorFromId(String apotheosisAffixId) {
-            int hash = apotheosisAffixId.hashCode();
-            int r = (hash & 0xFF0000) >> 16;
-            int g = (hash & 0x00FF00) >> 8;
-            int b = hash & 0x0000FF;
-            r = Math.max(r, 0x30);
-            g = Math.max(g, 0x30);
-            b = Math.max(b, 0x30);
-            return (r << 16) | (g << 8) | b;
-        }
+    public static ApotheosisAffixRecord create(String apotheosisAffixId, String enId, String cnId) {
+        int color = generateColorFromId(apotheosisAffixId);
+        String processedId = apotheosisAffixId.indexOf(':') > 0 ? apotheosisAffixId.substring(apotheosisAffixId.indexOf(':') + 1).replace("/", "_") : apotheosisAffixId;
+        return new ApotheosisAffixRecord(apotheosisAffixId, enId, cnId, color, processedId);
     }
 
-    private static final O2OOpenCacheHashMap<String, ApotheosisAffixRecords> AFFIX_ID_MAP = new O2OOpenCacheHashMap<>();
+    private static int generateColorFromId(String apotheosisAffixId) {
+        int hash = apotheosisAffixId.hashCode();
+        int r = (hash & 0xFF0000) >> 16;
+        int g = (hash & 0x00FF00) >> 8;
+        int b = hash & 0x0000FF;
+        r = Math.max(r, 0x30);
+        g = Math.max(g, 0x30);
+        b = Math.max(b, 0x30);
+        return (r << 16) | (g << 8) | b;
+    }
+
+    private static List<ApotheosisAffixRecord> AFFIXS = new ArrayList<>();
 
     static {
-        initializeApotheosisAffixRecords();
-        AFFIX_ID_MAP.replaceAll((k, v) -> v);
-    }
-
-    private static void initializeApotheosisAffixRecords() {
         addRecord("original", "original", "原始");
         addRecord("apotheosis:armor/attribute/ironforged", "Ironforged · of Iron", "铁铸 · 铁");
         addRecord("apotheosis:sword/attribute/vampiric", "Vampiric · of Bloodletting", "吸血 · 放血");
@@ -136,27 +126,15 @@ public class ApotheosisAffixRecord {
         addRecord("apotheosis:kinetic", "Kinetic · of the Momentum Master", "动能 · 势如破竹");
     }
 
-    // 辅助方法：添加记录到Map
     private static void addRecord(String affixId, String enId, String cnId) {
-        ApotheosisAffixRecords record = ApotheosisAffixRecords.create(affixId, enId, cnId);
-        AFFIX_ID_MAP.put(affixId, record);
+        AFFIXS.add(ApotheosisAffixRecord.create(affixId, enId, cnId));
     }
 
-    // 根据affixId查询记录（唯一对外查询接口）
-    public static ApotheosisAffixRecords findByApotheosisAffixId(String apotheosisAffixId) {
-        return AFFIX_ID_MAP.getOrDefault(apotheosisAffixId, null);
-    }
+    public final static Map<Item, ApotheosisAffixRecord> AFFIX_ITEM_MAP = new Reference2ReferenceOpenHashMap<>();
 
-    // 获取词缀总数（简化后直接取Map.size）
-    public static int getAffixSize() {
-        return AFFIX_ID_MAP.size();
-    }
-
-    public static O2OOpenCacheHashMap<String, String> AFFIX_ITEM_ID = new O2OOpenCacheHashMap<>();
-
-    public static O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> registerAffixEssence() {
-        O2OOpenCacheHashMap<String, ItemEntry<ApothItem>> entries = new O2OOpenCacheHashMap<>();
-        for (ApotheosisAffixRecords record : AFFIX_ID_MAP.values()) {
+    public static Map<String, ItemEntry<ApothItem>> registerAffixEssence() {
+        ImmutableMap.Builder<String, ItemEntry<ApothItem>> entries = ImmutableMap.builder();
+        for (var record : AFFIXS) {
             String itemId = "affix_essence_" + record.processedId();
             String cnName = "刻印精粹 (" + record.cnId() + ")";
             String enName = "Affix Essence (" + record.enId() + ")";
@@ -166,10 +144,11 @@ public class ApotheosisAffixRecord {
                     .lang(enName)
                     .color(() -> ApothItem::color)
                     .tag(Tags.AFFIX_ESSENCE)
+                    .onRegister(i -> AFFIX_ITEM_MAP.put(i, record))
                     .register();
             entries.put(record.affixId(), entry);
-            AFFIX_ITEM_ID.put(itemId, record.affixId());
         }
-        return entries;
+        AFFIXS = null;
+        return entries.build();
     }
 }

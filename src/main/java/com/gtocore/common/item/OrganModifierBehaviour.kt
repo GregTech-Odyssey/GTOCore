@@ -65,7 +65,7 @@ class OrganModifierBehaviour :
         }
         fun save() {
             organItemStacks.clear()
-            handlers.forEach { _, handler ->
+            handlers.forEach { (_, handler) ->
                 for (i in 0 until handler.slots) {
                     val itemStack = handler.getStackInSlot(i)
                     if (itemStack.isNotEmpty()) {
@@ -79,7 +79,7 @@ class OrganModifierBehaviour :
         val handlerContainer = HandlerContainer(player)
         vScroll(width = availableWidth, height = availableHeight, { spacing = 8 }) {
             blank()
-            handlerContainer.handlers.forEach { organType, handler ->
+            handlerContainer.handlers.forEach { (organType, handler) ->
                 hBox(height = 50) {
                     blank(width = 8)
                     vBox(width = availableWidth) {
@@ -110,7 +110,7 @@ class OrganModifierBehaviour :
     override fun attachSideTabs(configuratorPanel: TabsWidget?) {
         configuratorPanel?.mainTab = this@OrganModifierBehaviour
     }
-    override fun getTabIcon(): IGuiTexture? = ItemStackTexture(ORGAN_MODIFIER.get())
+    override fun getTabIcon(): IGuiTexture = ItemStackTexture(ORGAN_MODIFIER.get())
 
-    override fun getTitle(): Component? = organModifierName.get()
+    override fun getTitle(): Component = organModifierName.get()
 }

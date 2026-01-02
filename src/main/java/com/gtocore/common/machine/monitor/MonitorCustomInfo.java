@@ -78,7 +78,7 @@ public class MonitorCustomInfo extends AbstractInfoProviderMonitor {
         var infoList = super.provideInformation();
         infoList.addIfAbsent(
                 DisplayRegistry.CUSTOM_DISPLAY.id(),
-                Component.literal(getContent())
+                Component.literal(content)
                         .getVisualOrderText());
         return infoList;
     }

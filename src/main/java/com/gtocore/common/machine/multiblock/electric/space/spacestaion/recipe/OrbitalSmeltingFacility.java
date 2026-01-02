@@ -15,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
-
 public class OrbitalSmeltingFacility extends RecipeExtension implements ICoilMachine {
 
     private final CoilTrait coilTrait;

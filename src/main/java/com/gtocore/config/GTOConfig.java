@@ -267,20 +267,6 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Built-in Night Vision", cn = "内置夜视")
     public boolean nightVision = false;
 
-    // 新增：食肉惩罚设置
-    @Configurable
-    @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，影响的半径（格）", "The radius (blocks) affected when a player consumes food derived from an animal near that animal" })
-    @Configurable.Range(min = 1, max = 64)
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Radius", cn = "食肉惩罚半径")
-    @Configurable.Gui.Slider
-    public int cannibalismRadius = 32;
-
-    @Configurable
-    @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，对该动物造成的伤害值（半颗心=1.0）", "The amount of damage dealt to the animal when a player consumes food derived from that animal nearby (Half Heart = 1.0)" })
-    @Configurable.Range(min = 0, max = 100)
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Damage", cn = "食肉惩罚伤害")
-    public float cannibalismDamage = 1.0F;
-
     @Configurable
     @Configurable.Comment({ "禁用后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要开启此选项才能正常渲染", "When turned disable, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn on this option to render properly" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Embeddium Global BE Culling", cn = "禁用Embbedium Global方块实体剔除")
@@ -333,6 +319,32 @@ public final class GTOConfig {
     public SparkRange startSpark = SparkRange.NONE;
 
     @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Settings", cn = "生物设置")
+    public MobConfig mobConfig = new MobConfig();
+
+    @DataGeneratorScanned
+    public static class MobConfig {
+
+        @Configurable
+        @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，影响的半径（格）", "The radius (blocks) affected when a player consumes food derived from an animal near that animal" })
+        @Configurable.Range(min = 1, max = 64)
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Radius", cn = "食肉惩罚半径")
+        @Configurable.Gui.Slider
+        public int cannibalismRadius = 32;
+
+        @Configurable
+        @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，对该动物造成的伤害值（半颗心=1.0）", "The amount of damage dealt to the animal when a player consumes food derived from that animal nearby (Half Heart = 1.0)" })
+        @Configurable.Range(min = 0, max = 100)
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Damage", cn = "食肉惩罚伤害")
+        public float cannibalismDamage = 1.0F;
+
+        @Configurable
+        @Configurable.Comment({ "启用后，所有生物将能够自然回血", "When enabled, all mobs will naturally regenerate health" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Natural Regeneration", cn = "生物自然回血")
+        public boolean naturalRegeneration = true;
+    }
+
+    @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
     public HUDConfig hud = new HUDConfig();
 
@@ -368,7 +380,7 @@ public final class GTOConfig {
         @Configurable
         @Configurable.Comment({ "无线能量 HUD 折线颜色", "Wireless Energy HUD line color" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Line Color", cn = "无线能量 HUD 折线颜色")
-        @Configurable.StringPattern(value = "#[0-9a-fA-F]{1,6}")
+        @Configurable.StringPattern("#[0-9a-fA-F]{1,6}")
         @Configurable.Gui.ColorValue
         public String wirelessEnergyHUDLineColor = "#ECEC71";
     }

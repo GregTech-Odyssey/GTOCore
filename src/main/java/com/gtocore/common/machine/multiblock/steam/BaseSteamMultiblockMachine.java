@@ -116,7 +116,7 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine i
             recipe.duration = (int) (recipe.duration * durationMultiplier);
             if (maxOCamount > 0) {
                 eut *= recipe.parallels;
-                recipe.setEut(eut << (amountOC << 1));
+                recipe.eut = eut << (amountOC << 1);
                 recipe.duration = Math.max(1, recipe.duration / (1 << amountOC));
             }
             return recipe;

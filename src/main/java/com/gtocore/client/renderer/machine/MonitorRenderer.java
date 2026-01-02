@@ -230,7 +230,7 @@ public class MonitorRenderer extends MachineRenderer {
     @OnlyIn(Dist.CLIENT)
     public static class RenderedCacheClearer {
 
-        @SubscribeEvent()
+        @SubscribeEvent
         public static void clearRenderCache(ScreenEvent.Render.Pre event) {
             renderedThisTick.clear();
         }

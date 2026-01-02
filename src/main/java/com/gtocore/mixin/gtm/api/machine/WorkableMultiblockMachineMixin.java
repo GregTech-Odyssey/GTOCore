@@ -11,7 +11,6 @@ import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -23,7 +22,6 @@ import net.minecraft.server.level.ServerLevel;
 
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
@@ -34,12 +32,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Mixin(WorkableMultiblockMachine.class)
-public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, IExtendedRecipeCapabilityHolder, IWorkInSpaceMachine {
+public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IExtendedRecipeCapabilityHolder, IWorkInSpaceMachine {
 
     @Shadow(remap = false)
     @Final
@@ -139,12 +138,12 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     public void addHandlerList(RecipeHandlerList handler) {
         if (handler == RecipeHandlerList.NO_DATA) return;
         IO io = handler.getHandlerIO();
-        getCapabilitiesProxy().computeIfAbsent(io, i -> new ObjectArrayList<>()).add(handler);
+        getCapabilitiesProxy().computeIfAbsent(io, i -> new ArrayList<>()).add(handler);
         var inner = getCapabilitiesFlat().computeIfAbsent(io, i -> new Reference2ObjectOpenHashMap<>(handler.handlerMap.size()));
         for (ObjectIterator<Reference2ObjectMap.Entry<RecipeCapability<?>, List<IRecipeHandler<?>>>> it = handler.handlerMap.reference2ObjectEntrySet().fastIterator(); it.hasNext();) {
             var entry = it.next();
             var entryList = entry.getValue();
-            inner.computeIfAbsent(entry.getKey(), c -> new ObjectArrayList<>(entryList.size())).addAll(entryList);
+            inner.computeIfAbsent(entry.getKey(), c -> new ArrayList<>(entryList.size())).addAll(entryList);
         }
         if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine && (handler.hasCapability(ItemRecipeCapability.CAP) || handler.hasCapability(FluidRecipeCapability.CAP))) {
             traitSubscriptions.add(handler.subscribe(() -> enhancedRecipeLogicMachine.onContentChanges(handler)));

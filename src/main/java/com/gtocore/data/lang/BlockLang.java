@@ -25,7 +25,7 @@ final class BlockLang {
                 Dimension.CERES, Dimension.IO, Dimension.GANYMEDE, Dimension.BARNARDA_C, Dimension.ENCELADUS, Dimension.TITAN, Dimension.PLUTO
         }) {
             var cnName = dim.getCn();
-            var cnSuffix = cnName.endsWith("星") ? "仪" : "星球仪";
+            var cnSuffix = !cnName.isEmpty() && cnName.charAt(cnName.length() - 1) == '星' ? "仪" : "星球仪";
             addCNEN("block.ad_astra." + dim.name().toLowerCase() + "_globe", dim.getCn() + cnSuffix, dim.getEn() + " Globe");
         }
     }

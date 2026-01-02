@@ -74,7 +74,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     @SyncedManager
     var wirelessMachineRunTime = createWirelessMachineRunTime()
 
-    private val fancyUIProvider: IFancyUIProvider by lazy { getSetupFancyUIProvider() }
+    private val fancyUIProvider: IFancyUIProvider by lazy { setupFancyUIProvider }
 
     override fun isRemote() = super<MetaMachine>.isRemote
 

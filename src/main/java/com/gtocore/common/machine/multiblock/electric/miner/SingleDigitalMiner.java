@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IDataInfoProvider;
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -57,7 +56,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalMiner, IFancyUIMachine, IDataInfoProvider {
+public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalMiner, IDataInfoProvider {
     // modify from gtmt
 
     private static final int BORDER_WIDTH = 3;
@@ -335,9 +334,9 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
             if (currentRadius == 1)
                 minerRadius = this.maximumRadius;
             else if (playerIn.isShiftKeyDown())
-                setMinerRadius(Math.max(1, Math.round(currentRadius / 2.0f)));
+                minerRadius = Math.max(1, Math.round(currentRadius / 2.0f));
             else
-                setMinerRadius(Math.max(1, currentRadius - 1));
+                minerRadius = Math.max(1, currentRadius - 1);
 
             getRecipeLogic().resetArea(true);
 
@@ -377,8 +376,8 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
                             return;
                         }
                         need = new ForgeClientEvent.HighlightNeed(
-                                getPos().east(getMinerRadius()).north(getMinerRadius()).atY(getMaxHeight()),
-                                getPos().west(getMinerRadius()).south(getMinerRadius()).atY(getMinHeight()),
+                                getPos().east(minerRadius).north(minerRadius).atY(maxHeight),
+                                getPos().west(minerRadius).south(minerRadius).atY(minHeight),
                                 ChatFormatting.WHITE.getColor());
                         ForgeClientEvent.CUstomHighlightNeeds.computeIfAbsent(
                                 need, k -> 20 * 10);

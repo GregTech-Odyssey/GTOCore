@@ -57,16 +57,16 @@ public final class UnlockTrade {
 
     // 前置检查逻辑：检查标签是否添加
     private static int checkUnlock(TradeData data, TradeEntry entry, String tagKey, String tagValue) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        if (!WalletUtils.containsTagValueInWallet(data.getUuid(), serverLevel, tagKey, tagValue)) return 1;
+        if (!WalletUtils.containsTagValueInWallet(data.uuid(), serverLevel, tagKey, tagValue)) return 1;
         return 0;
     }
 
     // 执行逻辑：添加标签
     private static void performUnlock(TradeData data, TradeEntry entry, int multiplier, String tagKey, String tagValue) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addTagToWallet(data.getUuid(), serverLevel, tagKey, tagValue);
+        WalletUtils.addTagToWallet(data.uuid(), serverLevel, tagKey, tagValue);
     }
 }

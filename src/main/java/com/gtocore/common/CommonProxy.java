@@ -1,5 +1,6 @@
 package com.gtocore.common;
 
+import com.gtocore.api.data.Algae;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.KeyMessage;
@@ -110,6 +111,7 @@ public class CommonProxy {
         Data.init();
         BlockMap.build();
         GTOPartAbility.init();
+        Algae.init();
         if (GTOCore.isExpert()) {
             AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
         } else {

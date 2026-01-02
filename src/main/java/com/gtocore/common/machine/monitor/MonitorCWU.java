@@ -108,7 +108,7 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements IOpticalC
 
     private class InnerComputationContainer extends NotifiableComputationContainer {
 
-        public InnerComputationContainer() {
+        InnerComputationContainer() {
             super(MonitorCWU.this, false);
         }
 

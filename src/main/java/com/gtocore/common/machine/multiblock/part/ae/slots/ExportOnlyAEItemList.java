@@ -104,7 +104,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
         if (io == IO.IN) {
             boolean changed = false;
-            for (var it = left.listIterator(0); it.hasNext();) {
+            for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();

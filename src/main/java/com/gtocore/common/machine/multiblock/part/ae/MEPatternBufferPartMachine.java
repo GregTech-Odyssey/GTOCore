@@ -83,7 +83,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import lombok.Getter;
 import lombok.Setter;
@@ -291,7 +290,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     public IPatternDetails convertPattern(IPatternDetails pattern, int index) {
         if (pattern instanceof AEProcessingPattern processingPattern) {
             var sparseInput = processingPattern.getSparseInputs();
-            var input = new ObjectArrayList<GenericStack>(sparseInput.length);
+            var input = new ArrayList<GenericStack>(sparseInput.length);
             var in = 0;
             var slot = getInternalInventory()[index];
             var locked = false;
@@ -632,7 +631,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         @Nullable
         public List<Ingredient> handleItemInternal(List<Ingredient> left, boolean simulate) {
             boolean changed = false;
-            for (var it = left.listIterator(0); it.hasNext();) {
+            for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -670,7 +669,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         @Nullable
         public List<FluidIngredient> handleFluidInternal(List<FluidIngredient> left, boolean simulate) {
             boolean changed = false;
-            for (var it = left.listIterator(0); it.hasNext();) {
+            for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();

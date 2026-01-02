@@ -36,13 +36,27 @@ public class MachineBuilderMixin {
      */
     @Overwrite(remap = false)
     public MachineBuilder recipeModifier(RecipeModifier recipeModifier) {
-        this.recipeModifier = recipeModifier instanceof RecipeModifierFunctionList list ? list : new RecipeModifierFunctionList(recipeModifier);
+        this.recipeModifier = recipeModifier;
+        return (MachineBuilder) (Object) this;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public MachineBuilder noRecipeModifier() {
+        this.recipeModifier = RecipeModifierFunction.IDENTITY;
         return (MachineBuilder) (Object) this;
     }
 
     @Inject(method = "recipeModifiers([Lcom/gregtechceu/gtceu/api/recipe/modifier/RecipeModifier;)Lcom/gregtechceu/gtceu/api/registry/registrate/MachineBuilder;", at = @At("HEAD"), remap = false, cancellable = true)
     private void injectRecipeModifiers(RecipeModifier[] recipeModifiers, CallbackInfoReturnable<MachineBuilder> cir) {
-        this.recipeModifier = new RecipeModifierFunctionList(recipeModifiers);
+        if (recipeModifiers.length > 1) {
+            this.recipeModifier = new RecipeModifierFunctionList(recipeModifiers);
+        } else {
+            this.recipeModifier = recipeModifiers[0];
+        }
         cir.setReturnValue((MachineBuilder) (Object) this);
     }
 }

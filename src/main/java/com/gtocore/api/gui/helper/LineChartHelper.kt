@@ -34,8 +34,6 @@ object LineChartHelper {
      * @return 实际绘制尺寸 (width, height)
      */
     fun drawLineChart(graphics: GuiGraphics, data: List<Number>?, totalWidth: Int, totalHeight: Int, borderWidth: Int = 1, backgroundColor: Int = 0xFF404040.toInt(), borderColor: Int = 0xFF000000.toInt(), lineColor: Int = 0xFF2ECC71.toInt(), lineWidth: Float = 1.5f, drawAreaFill: Boolean = false, areaFillColor: Int = 0x402ECC71, drawDataPoints: Boolean = true, dataPointColor: Int = 0xFFFFFFFF.toInt(), dataPointRadius: Float = 2f, autoReboundY: Boolean = true, minYBound: Double = Double.NaN, maxYBound: Double = Double.NaN): Pair<Int, Int> {
-        val innerX = borderWidth
-        val innerY = borderWidth
         val innerWidth = totalWidth - borderWidth * 2
         val innerHeight = totalHeight - borderWidth * 2
 
@@ -45,7 +43,7 @@ object LineChartHelper {
             DrawerHelper.drawBorder(graphics, 0, 0, totalWidth, totalHeight, borderColor, borderWidth)
         }
         if (innerWidth > 0 && innerHeight > 0) {
-            DrawerHelper.drawSolidRect(graphics, innerX, innerY, innerWidth, innerHeight, backgroundColor)
+            DrawerHelper.drawSolidRect(graphics, borderWidth, borderWidth, innerWidth, innerHeight, backgroundColor)
         }
 
         if (data.isNullOrEmpty() || innerWidth <= 0 || innerHeight <= 0) {
@@ -79,8 +77,8 @@ object LineChartHelper {
 
         if (data.size == 1) { // 特殊处理只有一个点的情况
             if (drawDataPoints) {
-                val pointX = innerX + innerWidth / 2f
-                val pointY = innerY + innerHeight / 2f
+                val pointX = borderWidth + innerWidth / 2f
+                val pointY = borderWidth + innerHeight / 2f
                 DrawerHelper.drawSolidRect(graphics, (pointX - dataPointRadius).toInt(), (pointY - dataPointRadius).toInt(), (dataPointRadius * 2).toInt(), (dataPointRadius * 2).toInt(), dataPointColor)
             }
             return totalWidth to totalHeight
@@ -89,13 +87,13 @@ object LineChartHelper {
         val dataRange = if (maxValue == minValue) 0.0 else maxValue - minValue
 
         val mapX = { index: Int ->
-            innerX + (index.toFloat() / (data.size - 1)) * innerWidth
+            borderWidth + (index.toFloat() / (data.size - 1)) * innerWidth
         }
         val mapY = { value: Double ->
             if (dataRange == 0.0) {
-                innerY + innerHeight / 2f
+                borderWidth + innerHeight / 2f
             } else {
-                (innerY + innerHeight - ((value - minValue) / dataRange) * innerHeight).toFloat()
+                (borderWidth + innerHeight - ((value - minValue) / dataRange) * innerHeight).toFloat()
             }
         }
 
@@ -104,7 +102,7 @@ object LineChartHelper {
 
         // 3. 绘制线下填充区域 (单次Draw Call)
         if (drawAreaFill) {
-            drawArea(matrix, points, innerY.toFloat() + innerHeight, areaFillColor)
+            drawArea(matrix, points, borderWidth.toFloat() + innerHeight, areaFillColor)
         }
 
         // 4. 批量绘制所有线段 (单次Draw Call)
