@@ -230,6 +230,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                 ApothBoss item = BossRegistry.INSTANCE.getRandomItem(serverLevel.getRandom(), player.getLuck(), WeightedDynamicRegistry.IDimensional.matches(serverLevel), GameStagesCompat.IStaged.matches(player));
                 if (item != null) entity = item.createBoss(serverLevel, player.getOnPos(), serverLevel.getRandom(), player.getLuck());
             }
+            var entityId = this.entityId;
             if (entityId != null) {
                 Optional<EntityType<?>> entityType = EntityType.byString(entityId);
                 if (entityType.isPresent()) entity = entityType.get().create(serverLevel);
