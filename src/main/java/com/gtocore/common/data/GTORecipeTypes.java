@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
+import static com.gtocore.common.machine.mana.CelestialCondenser.*;
 import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_1;
 import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_2;
 import static com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.SPOOL;
@@ -1049,13 +1050,15 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
             .addDataInfo(data -> {
-                int solaris = data.getInt("solaris");
-                int lunara = data.getInt("lunara");
-                int voidflux = data.getInt("voidflux");
+                int solaris = data.getInt(SOLARIS);
+                int lunara = data.getInt(LUNARA);
+                int voidflux = data.getInt(VOIDFLUX);
+                int stellarm = data.getInt(STELLARM);
                 int any = data.getInt("any");
                 if (solaris > 0) return I18n.get("gtocore.celestial_condenser.solaris", solaris);
                 if (lunara > 0) return I18n.get("gtocore.celestial_condenser.lunara", lunara);
                 if (voidflux > 0) return I18n.get("gtocore.celestial_condenser.voidflux", voidflux);
+                if (stellarm > 0) return I18n.get("gtocore.celestial_condenser.stellarm", stellarm);
                 if (any > 0) return I18n.get("gtocore.celestial_condenser.any", any);
                 return "";
             })

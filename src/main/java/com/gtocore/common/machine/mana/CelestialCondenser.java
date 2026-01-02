@@ -18,6 +18,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -25,12 +26,19 @@ import snownee.jade.api.config.IPluginConfig;
 
 public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaDisplayProvider {
 
+    public static final String SOLARIS = "solaris";
+    public static final String LUNARA = "lunara";
+    public static final String VOIDFLUX = "voidflux";
+    public static final String STELLARM = "stellarm";
+
     @Persisted
     private int solaris = 0;
     @Persisted
     private int lunara = 0;
     @Persisted
     private int voidflux = 0;
+    @Persisted
+    private int stellarm = 0;
     private static final int max_capacity = 1000000;
     private int timing;
     private boolean clearSky;
@@ -42,24 +50,28 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
 
     @Override
     public boolean beforeWorking(@NotNull GTRecipe recipe) {
-        int solarisCost = recipe.data.contains("solaris") ? recipe.data.getInt("solaris") : 0;
-        int lunaraCost = recipe.data.contains("lunara") ? recipe.data.getInt("lunara") : 0;
-        int voidfluxCost = recipe.data.contains("voidflux") ? recipe.data.getInt("voidflux") : 0;
+        int solarisCost = recipe.data.contains(SOLARIS) ? recipe.data.getInt(SOLARIS) : 0;
+        int lunaraCost = recipe.data.contains(LUNARA) ? recipe.data.getInt(LUNARA) : 0;
+        int voidfluxCost = recipe.data.contains(VOIDFLUX) ? recipe.data.getInt(VOIDFLUX) : 0;
+        int stellarmCost = recipe.data.contains(STELLARM) ? recipe.data.getInt(STELLARM) : 0;
         int anyCost = recipe.data.contains("any") ? recipe.data.getInt("any") : 0;
         if (solarisCost > 0 && solarisCost > this.solaris) return false;
         else if (lunaraCost > 0 && lunaraCost > this.lunara) return false;
         else if (voidfluxCost > 0 && voidfluxCost > this.voidflux) return false;
-        else if (anyCost > 0 && anyCost > this.solaris && anyCost > this.lunara && anyCost > this.voidflux) return false;
+        else if (stellarmCost > 0 && stellarmCost > this.stellarm) return false;
+        else if (anyCost > 0 && anyCost > this.solaris && anyCost > this.lunara && anyCost > this.voidflux && anyCost > this.stellarm) return false;
 
         if (!super.beforeWorking(recipe)) return false;
 
         if (solarisCost > 0) this.solaris -= solarisCost;
         else if (lunaraCost > 0) this.lunara -= lunaraCost;
         else if (voidfluxCost > 0) this.voidflux -= voidfluxCost;
+        else if (stellarmCost > 0) this.stellarm -= stellarmCost;
         else if (anyCost > 0) {
             if (this.solaris >= anyCost) this.solaris -= anyCost;
             else if (this.lunara >= anyCost) this.lunara -= anyCost;
-            else this.voidflux -= anyCost;
+            else if (this.voidflux >= anyCost) this.voidflux -= anyCost;
+            else this.stellarm -= anyCost;
         }
 
         return true;
@@ -102,8 +114,12 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     private void increase(Level world) {
         ResourceLocation dimLocation = world.dimension().location();
 
+        // 太空维度
+        if (PlanetApi.API.isSpace(getLevel())) {
+            stellarm = Math.min(max_capacity, stellarm + 20);
+        }
         // Void维度：solaris 和 lunara 各加5
-        if (GTODimensions.isVoid(dimLocation)) {
+        else if (GTODimensions.isVoid(dimLocation)) {
             solaris = Math.min(max_capacity, solaris + 5);
             lunara = Math.min(max_capacity, lunara + 5);
         }
@@ -150,9 +166,10 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
 
     @Override
     public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        int solaris = data.getInt("solaris");
-        int lunara = data.getInt("lunara");
-        int voidflux = data.getInt("voidflux");
+        int solaris = data.getInt(SOLARIS);
+        int lunara = data.getInt(LUNARA);
+        int voidflux = data.getInt(VOIDFLUX);
+        int stellarm = data.getInt(STELLARM);
         int maxCapacity = data.getInt("max_capacity");
 
         if (solaris > 0) {
@@ -164,13 +181,17 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         if (voidflux > 0) {
             iTooltip.add(Component.translatable("gtocore.celestial_condenser.voidflux", (voidflux + "/" + maxCapacity)));
         }
+        if (stellarm > 0) {
+            iTooltip.add(Component.translatable("gtocore.celestial_condenser.stellarm", (stellarm + "/" + maxCapacity)));
+        }
     }
 
     @Override
     public void appendWailaData(CompoundTag data, BlockAccessor blockAccessor) {
-        data.putInt("solaris", solaris);
-        data.putInt("lunara", lunara);
-        data.putInt("voidflux", voidflux);
+        data.putInt(SOLARIS, solaris);
+        data.putInt(LUNARA, lunara);
+        data.putInt(VOIDFLUX, voidflux);
+        data.putInt(STELLARM, stellarm);
         data.putInt("max_capacity", max_capacity);
     }
 }

@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.utils.ItemUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -28,22 +29,24 @@ public final class FuelRecipe {
 
     public static void init() {
         Set<Item> addedItems = new ReferenceOpenHashSet<>();
-        for (var fuelEntry : FurnaceBlockEntity.getFuel().entrySet()) {
-            if (fuelEntry.getKey() instanceof BucketItem) continue;
-            addedItems.add(fuelEntry.getKey());
-            var resLoc = ItemUtils.getIdLocation(fuelEntry.getKey());
-            long burnTime = fuelEntry.getValue();
-            STEAM_BOILER_RECIPES.recipeBuilder(resLoc.getNamespace() + "_" + resLoc.getPath())
-                    .inputItems(fuelEntry.getKey())
-                    .duration((int) Math.min(Integer.MAX_VALUE, burnTime << 3))
-                    .save();
 
-            int time = (int) (burnTime / 20);
-            if (time > 0) LARGE_BOILER_RECIPES.recipeBuilder(resLoc.getNamespace() + "_" + resLoc.getPath())
-                    .inputItems(fuelEntry.getKey())
-                    .duration(time)
-                    .save();
-        }
+        if (!GTCEu.isDev())
+            for (var fuelEntry : FurnaceBlockEntity.getFuel().entrySet()) {
+                if (fuelEntry.getKey() instanceof BucketItem) continue;
+                addedItems.add(fuelEntry.getKey());
+                var resLoc = ItemUtils.getIdLocation(fuelEntry.getKey());
+                long burnTime = fuelEntry.getValue();
+                STEAM_BOILER_RECIPES.recipeBuilder(resLoc.getNamespace() + "_" + resLoc.getPath())
+                        .inputItems(fuelEntry.getKey())
+                        .duration((int) Math.min(Integer.MAX_VALUE, burnTime << 3))
+                        .save();
+
+                int time = (int) (burnTime / 20);
+                if (time > 0) LARGE_BOILER_RECIPES.recipeBuilder(resLoc.getNamespace() + "_" + resLoc.getPath())
+                        .inputItems(fuelEntry.getKey())
+                        .duration(time)
+                        .save();
+            }
 
         for (Item item : BuiltInRegistries.ITEM) {
             if (item instanceof BucketItem) continue;

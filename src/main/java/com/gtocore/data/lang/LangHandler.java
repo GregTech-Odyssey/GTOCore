@@ -415,6 +415,7 @@ public final class LangHandler {
         addCNEN("gtocore.celestial_condenser.solaris", "曦煌：%s", "Solaris: %s");
         addCNEN("gtocore.celestial_condenser.lunara", "胧华：%s", "Lunara: %s");
         addCNEN("gtocore.celestial_condenser.voidflux", "虚湮：%s", "Voidflux: %s");
+        addCNEN("gtocore.celestial_condenser.stellarm", "星髓：%s", "Stellarm: %s");
         addCNEN("gtocore.celestial_condenser.any", "任意：%s", "Any: %s");
 
         addCNEN("gtocore.elemental_resonance.0", "共鸣消耗: %s/%st", "Resonance consumption: %s/%st");
