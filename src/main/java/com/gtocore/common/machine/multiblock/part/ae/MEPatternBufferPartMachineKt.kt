@@ -45,7 +45,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
         when {
             configuratorField.get() < 0 -> {
             }
-            configuratorField.get() >= 0 && configuratorField.get() < maxPatternCount -> {
+            configuratorField.get() in 0..<maxPatternCount -> {
                 vBox(width = availableWidth, alwaysHorizonCenter = true, style = { spacing = 2 }) {
                     val width = this@vBox.availableWidth
                     val itemHandler = getInternalInventory()[configuratorField.get()].lockableInventory

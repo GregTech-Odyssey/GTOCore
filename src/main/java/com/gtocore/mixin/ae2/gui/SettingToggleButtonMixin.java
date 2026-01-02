@@ -14,13 +14,13 @@ import appeng.api.config.Settings;
 import appeng.client.gui.Icon;
 import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.localization.ButtonToolTips;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class SettingToggleButtonMixin {
 
     @Unique
     private static <T extends Enum<T>> void gto$registerApp(Icon icon, Setting<T> setting, T val, Component title, Component... tooltipLines) {
-        var lines = new ObjectArrayList<Component>();
+        var lines = new ArrayList<Component>();
         lines.add(title);
         Collections.addAll(lines, tooltipLines);
 

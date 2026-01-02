@@ -152,7 +152,7 @@ public final class GTOTrade {
 
     // 执行逻辑：抽奖
     private static void performLottery(TradeData data, TradeEntry entry, int multiplier, List<IntObjectHolder<ItemStack>> rewards) {
-        if (!(data.getLevel() instanceof ServerLevel serverLevel)) return;
+        if (!(data.level() instanceof ServerLevel serverLevel)) return;
         int totalWeight = rewards.stream().mapToInt(i -> i.number).sum();
         List<ItemStack> stackList = new ArrayList<>();
         RandomSource random = serverLevel.getRandom();
@@ -168,7 +168,7 @@ public final class GTOTrade {
                 }
             }
         }
-        addMultipliedItems(data.getOutputItem(), stackList, 1, data.getLevel(), data.getPos());
+        addMultipliedItems(data.outputItem(), stackList, 1, data.level(), data.pos());
     }
 
     /**
@@ -192,18 +192,18 @@ public final class GTOTrade {
 
     // 前置检查逻辑：检查交易历史次数
     public static int checkMultiplier(TradeData data, TradeEntry entry, String record, int maxMultiplier) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        long amount = WalletUtils.getTransactionTotalAmount(data.getUuid(), serverLevel, record);
+        long amount = WalletUtils.getTransactionTotalAmount(data.uuid(), serverLevel, record);
         if (maxMultiplier > amount) return Math.toIntExact(maxMultiplier - amount);
         return 0;
     }
 
     // 执行逻辑：添加交易历史标记
     public static void performAddMultiplier(TradeData data, TradeEntry entry, int multiplier, String record, long time) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addScheduledDeletion(data.getUuid(), serverLevel, record, time, multiplier);
+        WalletUtils.addScheduledDeletion(data.uuid(), serverLevel, record, time, multiplier);
     }
 
     /**
@@ -225,17 +225,17 @@ public final class GTOTrade {
 
     // 前置检查逻辑：检查交易是否交易过
     public static int checkTag(TradeData data, TradeEntry entry, String tag) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        if (!WalletUtils.containsTagValueInWallet(data.getUuid(), serverLevel, SINGLE_TRANSACTION, tag)) return 1;
+        if (!WalletUtils.containsTagValueInWallet(data.uuid(), serverLevel, SINGLE_TRANSACTION, tag)) return 1;
         return 0;
     }
 
     // 执行逻辑：添加交易历史标记
     public static void performTag(TradeData data, TradeEntry entry, int multiplier, String tag) {
-        Level level = data.getLevel();
+        Level level = data.level();
         ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
-        WalletUtils.addTagToWallet(data.getUuid(), serverLevel, SINGLE_TRANSACTION, tag);
+        WalletUtils.addTagToWallet(data.uuid(), serverLevel, SINGLE_TRANSACTION, tag);
     }
 
     // 测试用交易

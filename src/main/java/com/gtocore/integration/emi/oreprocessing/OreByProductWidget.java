@@ -74,7 +74,7 @@ final class OreByProductWrapper {
         return ChemicalHelper.get(TagPrefix.dust, transformed, 1);
     }
 
-    public OreByProductWrapper(Material material) {
+    OreByProductWrapper(Material material) {
         var property = material.getProperty(PropertyKey.ORE);
         int oreMultiplier = property.getOreMultiplier();
         int byproductMultiplier = property.getByProductMultiplier();

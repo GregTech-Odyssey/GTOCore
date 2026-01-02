@@ -17,8 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -36,7 +36,7 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     @Persisted
     private long inputCount;
 
-    private final List<SensorPartMachine> sensorPartMachines = new ObjectArrayList<>(2);
+    private final List<SensorPartMachine> sensorPartMachines = new ArrayList<>(2);
 
     public PHNeutralizationPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 8);

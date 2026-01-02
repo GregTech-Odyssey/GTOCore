@@ -12,7 +12,6 @@ import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -20,6 +19,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import snownee.jade.addon.universal.ItemIterator;
 import snownee.jade.util.JadeForgeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -45,7 +45,7 @@ public abstract class JadeForgeUtilsMixin {
                         return mufflerPartMachine.getInventory();
                     }
                     var ts = blockEntity.metaMachine.getTraits();
-                    List<IItemHandler> filteredTraits = new ObjectArrayList<>(ts.size());
+                    List<IItemHandler> filteredTraits = new ArrayList<>(ts.size());
                     for (var t : ts) {
                         if (t instanceof IItemHandler handler) {
                             if (handler instanceof NotifiableItemStackHandler stackHandler) {

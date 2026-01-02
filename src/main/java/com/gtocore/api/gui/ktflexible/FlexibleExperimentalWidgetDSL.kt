@@ -35,7 +35,7 @@ fun LayoutBuilder<*>.progressBar(currentSupplier: IntSupplier, totalSupplier: In
             graphics.pose().pushPose()
             graphics.pose().translate(positionX.toFloat(), positionY.toFloat(), 0f)
 
-            val (actualWidth, actualHeight) = ProgressBarHelper.drawProgressBarWithText(
+            val (_, _) = ProgressBarHelper.drawProgressBarWithText(
                 graphics = graphics,
                 progress = percentage,
                 totalWidth = width,
@@ -94,7 +94,7 @@ fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, 
             graphics.pose().pushPose()
             graphics.pose().translate((positionX + tab).toFloat(), (positionY + yPadding).toFloat(), 0f)
 
-            val (actualWidth, actualHeight) = TextBlockHelper.drawTextBlock(
+            val (_, _) = TextBlockHelper.drawTextBlock(
                 graphics = graphics,
                 text = text,
                 lineGap = lineSpacing,

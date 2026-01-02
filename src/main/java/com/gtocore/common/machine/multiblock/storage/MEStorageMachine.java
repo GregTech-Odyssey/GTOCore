@@ -29,11 +29,11 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +50,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
     @Persisted
     private boolean player = true;
     private StorageAccessPartMachine accessPartMachine;
-    private final List<Reference2ReferenceMap.Entry<AEKey, BigInteger>> list = new ObjectArrayList<>();
+    private final List<Reference2ReferenceMap.Entry<AEKey, BigInteger>> list = new ArrayList<>();
 
     public MEStorageMachine(MetaMachineBlockEntity holder) {
         super(holder);

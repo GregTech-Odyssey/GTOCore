@@ -200,7 +200,7 @@ abstract class VariantCounter implements Iterable<Object2LongMap.Entry<AEKey>> {
             return records.iterator();
         }
 
-        @SuppressWarnings({ "unchecked" })
+        @SuppressWarnings("unchecked")
         private static <T extends SortedMap<K, V>, K, V> T findFuzzy(T map, AEKey key, FuzzyMode fuzzy) {
             return (T) map.subMap((K) makeLowerBound(key, fuzzy), (K) makeUpperBound(key, fuzzy));
         }

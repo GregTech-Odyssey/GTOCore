@@ -2,7 +2,6 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
-import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.machines.*;
 import com.gtocore.data.CraftingComponents;
 

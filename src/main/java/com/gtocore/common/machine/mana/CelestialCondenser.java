@@ -31,7 +31,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     private int lunara = 0;
     @Persisted
     private int voidflux = 0;
-    private final int max_capacity = 1000000;
+    private static final int max_capacity = 1000000;
     private int timing;
     private boolean clearSky;
     private TickableSubscription tickSubs;

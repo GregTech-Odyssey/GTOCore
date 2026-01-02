@@ -7,6 +7,7 @@ import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
+import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt;
 
 import com.gtolib.GTOCore;
 import com.gtolib.IItem;
@@ -36,6 +37,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,6 +45,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.hepdd.gtmthings.data.CustomItems;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import snownee.jade.util.Color;
 
@@ -183,6 +186,17 @@ public final class ForgeClientEvent {
                     RenderHelper.highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos);
                 });
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onScreenClosing(ScreenEvent.Closing event) {
+        if (event.getScreen() instanceof ModularUIGuiContainer gui) {
+            var p = gui.getMenu().getModularUI().getFlatWidgetCollection().stream()
+                    .filter(AEPatternViewSlotWidgetKt.class::isInstance)
+                    .map(AEPatternViewSlotWidgetKt.class::cast)
+                    .findFirst();
+            p.ifPresent(AEPatternViewSlotWidgetKt::onDestroy);
         }
     }
 

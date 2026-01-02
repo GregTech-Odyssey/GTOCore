@@ -129,7 +129,7 @@ object TextBlockHelper {
     }.toList()
 
     private fun findCutIndex(text: String, font: Font, maxWidth: Int): Int = (1..text.length)
-        .takeWhile { font.width(text.substring(0, it)) <= maxWidth }
+        .takeWhile { font.width(text.take(it)) <= maxWidth }
         .lastOrNull() ?: 1
     // endregion
 }

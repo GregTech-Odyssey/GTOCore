@@ -4,7 +4,6 @@ import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
-import appeng.me.InWorldGridNode
 
 import kotlin.math.pow
 import kotlin.math.sqrt

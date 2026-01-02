@@ -16,7 +16,6 @@ import net.minecraft.network.chat.MutableComponent
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
@@ -194,10 +193,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     // ==================== 生命周期方法 ====================
     val newPageField = ISync.createIntField(this).set(0)
-
-    override fun onMachinePlaced(player: LivingEntity?, stack: ItemStack?) {
-        super<MEPartMachine>.onMachinePlaced(player, stack)
-    }
 
     override fun onLoad() {
         super.onLoad()
@@ -435,8 +430,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun convertPattern(pattern: IPatternDetails, index: Int): IPatternDetails = pattern
 
     open fun decodePattern(stack: ItemStack, index: Int): IPatternDetails? {
-        val pattern = MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid())
-        if (pattern == null) return null
+        val pattern = MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid()) ?: return null
         return IParallelPatternDetails.of(convertPattern(pattern, index), level, 1)
     }
 
@@ -459,6 +453,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             index,
             getApplyIndex(),
             patternInventory,
+            { onMouseClicked(-1) },
         ) { onMouseClicked(index) }
 
         slot.inner.setOccupiedTexture(GuiTextures.SLOT)

@@ -1,11 +1,9 @@
 package com.gtocore.common.forge
 
-import com.gtocore.api.lang.translatedTo
 import com.gtocore.client.screen.MessageScreen
 
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraftforge.api.distmarker.Dist
@@ -89,7 +87,7 @@ object ClientForge {
             }.getOrDefault(true)
 
         fun formatDate() = if (dateString.length == 8) {
-            "${dateString.substring(0, 4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}"
+            "${dateString.take(4)}-${dateString.substring(4, 6)}-${dateString.substring(6, 8)}"
         } else {
             dateString
         }

@@ -1185,7 +1185,7 @@ public final class BotaniaRecipes {
                 .duration(300)
                 .circuitMeta(circuitMeta)
                 .MANAt(mana / 50);
-        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue()));
+        CountMap.reference2IntEntrySet().fastForEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue()));
         build.save();
     }
 
@@ -1206,7 +1206,7 @@ public final class BotaniaRecipes {
                 .duration(300)
                 .circuitMeta(circuitMeta)
                 .MANAt(mana / 50);
-        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 4));
+        CountMap.reference2IntEntrySet().fastForEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 4));
         build.save();
     }
 
@@ -1228,7 +1228,7 @@ public final class BotaniaRecipes {
                 .duration(20)
                 .circuitMeta(circuitMeta)
                 .MANAt(32);
-        CountMap.reference2IntEntrySet().forEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 2));
+        CountMap.reference2IntEntrySet().fastForEach(entry -> build.inputItems(entry.getKey(), entry.getIntValue() * 2));
         build.save();
     }
 

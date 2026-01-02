@@ -12,10 +12,7 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.widgets.ConfirmableTextField;
 import appeng.client.gui.widgets.NumberEntryWidget;
 import appeng.client.gui.widgets.ValidationIcon;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -45,6 +42,7 @@ public abstract class NumberEntryWidgetMixin {
     private Point currentScreenOrigin;
     @Shadow
     private Rect2i bounds;
+    @Final
     @Shadow
     private ConfirmableTextField textField;
     @Shadow
@@ -54,30 +52,30 @@ public abstract class NumberEntryWidgetMixin {
     @Shadow
     private ValidationIcon validationIcon;
     @Shadow
-    long minValue;
+    private long minValue;
     @Shadow
-    long maxValue;
+    private long maxValue;
 
     @Shadow
-    abstract void validate();
+    protected abstract void validate();
 
     @Shadow
-    abstract Optional<BigDecimal> getValueInternal();
+    protected abstract Optional<BigDecimal> getValueInternal();
 
     @Shadow
-    abstract void setValueInternal(BigDecimal value);
+    protected abstract void setValueInternal(BigDecimal value);
 
     @Shadow
-    abstract Component makeLabel(Component operator, long step);
+    protected abstract Component makeLabel(Component operator, long step);
 
     @Shadow
-    abstract void addQty(long qty);
+    protected abstract void addQty(long qty);
 
     @Shadow
-    abstract void setTextFieldBounds(Rect2i bounds);
+    public abstract void setTextFieldBounds(Rect2i bounds);
 
     @Shadow
-    abstract BigDecimal convertToInternalValue(long externalValue);
+    protected abstract BigDecimal convertToInternalValue(long externalValue);
 
     /**
      * @author FYWinds
@@ -160,7 +158,7 @@ public abstract class NumberEntryWidgetMixin {
 
     @Unique
     private void gtolib$multQty(double qty) {
-        BigDecimal currentValue = (BigDecimal) this.getValueInternal().orElse(BigDecimal.ZERO);
+        BigDecimal currentValue = this.getValueInternal().orElse(BigDecimal.ZERO);
         BigDecimal newValue = currentValue.multiply(BigDecimal.valueOf(qty));
         BigDecimal minimum = this.convertToInternalValue(this.minValue).setScale(0, RoundingMode.CEILING);
         BigDecimal maximum = this.convertToInternalValue(this.maxValue).setScale(0, RoundingMode.FLOOR);

@@ -21,8 +21,8 @@ import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -56,9 +56,9 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
     private boolean successful;
 
     @Persisted
-    private final List<ItemStack> outputs = new ObjectArrayList<>();
+    private final List<ItemStack> outputs = new ArrayList<>();
 
-    private final List<ItemBusPartMachine> busMachines = new ObjectArrayList<>();
+    private final List<ItemBusPartMachine> busMachines = new ArrayList<>();
 
     public AbsoluteBaryonicPerfectionPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 128);

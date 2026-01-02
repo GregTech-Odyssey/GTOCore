@@ -153,7 +153,7 @@ public final class MEManaInterface extends MetaMachine implements
 
     @Override
     public Widget createUIWidget() {
-        final int before = getPriority();
+        final int before = priority;
         var intWidget = new IntInputWidget(this::getPriority, this::setPriority);
         intWidget.setMax(100000000);
         intWidget.setMin(-100000000);

@@ -36,7 +36,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.fast.recipesearch.IntLongMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.Reference2LongOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -285,7 +284,7 @@ public final class InternalSlotRecipeHandler {
         @Override
         public List<Ingredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
             if (slot.itemInventory.isEmpty()) return left;
-            return handleRecipeInner(io, recipe, new ObjectArrayList(left), simulate);
+            return handleRecipeInner(io, recipe, new ArrayList(left), simulate);
         }
 
         @Override
@@ -346,7 +345,7 @@ public final class InternalSlotRecipeHandler {
         @Override
         public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
             if (slot.fluidInventory.isEmpty()) return left;
-            return handleRecipeInner(io, recipe, new ObjectArrayList(left), simulate);
+            return handleRecipeInner(io, recipe, new ArrayList(left), simulate);
         }
 
         @Override

@@ -242,7 +242,7 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
         tag.putBoolean("DistinctBuses", isDistinct());
         if (!circuitInventory.storage.getStackInSlot(0).isEmpty()) {
             tag.putByte("GhostCircuit", (byte) IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0)));
-        } ;
+        }
         return tag;
     }
 

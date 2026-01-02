@@ -1,5 +1,7 @@
 package com.gtocore.mixin.mc.mob;
 
+import com.gtocore.config.GTOConfig;
+
 import com.gtolib.GTOCore;
 
 import net.minecraft.nbt.CompoundTag;
@@ -24,6 +26,7 @@ import snownee.jade.util.CommonProxy;
 import java.util.UUID;
 
 @Mixin(value = Mob.class, priority = 0)
+@SuppressWarnings("resource")
 public abstract class MobMixin extends LivingEntity {
 
     @Unique
@@ -38,6 +41,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
+        if (level().isClientSide()) return;
         if (GTOCore.isEasy() || level().getDifficulty().getId() == 0) return;
         boolean isBoss = CommonProxy.isBoss(this);
         if (!isBoss && getRandom().nextBoolean()) return;
@@ -54,7 +58,7 @@ public abstract class MobMixin extends LivingEntity {
         }
     }
 
-    @Inject(method = "readAdditionalSaveData", at = @At(value = "HEAD"))
+    @Inject(method = "readAdditionalSaveData", at = @At("HEAD"))
     private void readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
         AttributeInstance maxHealthInstance = getAttribute(Attributes.MAX_HEALTH);
         if (maxHealthInstance != null) {
@@ -66,15 +70,15 @@ public abstract class MobMixin extends LivingEntity {
         }
     }
 
-    @Inject(method = "tick", at = @At(value = "HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
-        if (tickCount % 80 == 8 && getRandom().nextBoolean()) {
+        if (GTOConfig.INSTANCE.mobConfig.naturalRegeneration && !level().isClientSide() && tickCount % 80 == 8 && getRandom().nextBoolean()) {
             int value = Math.max(1, (int) (Math.log(getMaxHealth() * Math.max(1, level().getDifficulty().getId())) + 0.5));
             heal(value);
         }
     }
 
-    @Inject(method = "checkDespawn", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "checkDespawn", at = @At("HEAD"), cancellable = true)
     private void checkDespawn(CallbackInfo ci) {
         if (tickCount % 20 != 5) ci.cancel();
     }

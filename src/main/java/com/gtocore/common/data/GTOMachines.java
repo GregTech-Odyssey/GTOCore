@@ -15,7 +15,6 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
-import com.gtocore.common.machine.noenergy.VillageTradingStationMachine;
 import com.gtocore.common.machine.noenergy.tradingstation.TradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;

@@ -14,7 +14,7 @@ public class ComponentAssemblerMachine extends TierCasingMultiblockMachine {
     private int casingTier;
 
     public ComponentAssemblerMachine(MetaMachineBlockEntity holder) {
-        super(holder, COMPONENT_ASSEMBLY_CASING_TIER);;
+        super(holder, COMPONENT_ASSEMBLY_CASING_TIER);
     }
 
     @Override

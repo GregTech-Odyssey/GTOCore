@@ -17,9 +17,9 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectBooleanPair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractInfoProviderMonitor extends BasicMonitor implements IInformationProvider {
@@ -81,7 +81,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
             return getAvailableRLs(); // Default: all available are enabled
         }
 
-        var list = new ObjectArrayList<ResourceLocation>();
+        var list = new ArrayList<ResourceLocation>();
         for (int i = 0; i < displayOrderCache.length; i++) {
             // Check if the component is still available and if it is enabled
             if (i < displayEnabledCache.length && displayEnabledCache[i] && getAvailableRLs().contains(displayOrderCache[i])) {
@@ -99,7 +99,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
                     .toList();
         }
 
-        var list = new ObjectArrayList<ObjectBooleanPair<ResourceLocation>>();
+        var list = new ArrayList<ObjectBooleanPair<ResourceLocation>>();
         for (int i = 0; i < displayOrderCache.length; i++) {
             // Only add components that are still available to the machine
             if (getAvailableRLs().contains(displayOrderCache[i])) {
@@ -112,7 +112,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
 
     @Override
     public Widget createUIWidget() {
-        final var initialPriority = this.getPriority();
+        final var initialPriority = this.priority;
         LongInputWidget input = new LongInputWidget(Position.of(50, 144),
                 this::getPriority, this::setPriority);
         input.setMax((long) Integer.MAX_VALUE).setMin((long) Integer.MIN_VALUE).setValue(initialPriority);

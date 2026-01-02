@@ -10,7 +10,7 @@ import static com.gtolib.api.GTOValues.MACHINE_CASING_TIER;
 public final class PrecisionAssemblerMachine extends TierCasingParallelMultiblockMachine {
 
     public PrecisionAssemblerMachine(MetaMachineBlockEntity holder) {
-        super(holder, true, m -> 1 << (m.getCasingTier(GLASS_TIER)), GLASS_TIER, MACHINE_CASING_TIER);
+        super(holder, true, m -> 1L << (m.getCasingTier(GLASS_TIER)), GLASS_TIER, MACHINE_CASING_TIER);
     }
 
     @Override

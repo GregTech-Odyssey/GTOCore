@@ -216,19 +216,15 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     private void addToComponentsMap(HPCAComponentPartMachine partMachine) {
-        switch (partMachine) {
-            case HPCAComponentPartMachine p when ( //
-            p instanceof HPCAComputationPartMachine || //
-                    p instanceof HPCACoolerPartMachine || //
-                    p instanceof ExResearchComputationPartMachine || //
-                    p instanceof ExResearchCoolerPartMachine) -> {
-                if (partMachine.isDamaged()) {
-                    return;
-                }
-            }
-            default -> {
+        if (partMachine instanceof HPCAComponentPartMachine p && (p instanceof HPCAComputationPartMachine ||
+                p instanceof HPCACoolerPartMachine ||
+                p instanceof ExResearchComputationPartMachine ||
+                p instanceof ExResearchCoolerPartMachine)) {
+            if (partMachine.isDamaged()) {
                 return;
             }
+        } else {
+            return;
         }
 
         componentsMap.addTo((IItem) partMachine.getDefinition().asItem(), 1);

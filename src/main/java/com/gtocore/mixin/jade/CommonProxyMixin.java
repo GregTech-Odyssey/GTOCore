@@ -20,7 +20,6 @@ import net.minecraftforge.items.IItemHandler;
 import appeng.integration.modules.jade.JadeModule;
 import dev.shadowsoffire.apotheosis.adventure.compat.AdventureHwylaPlugin;
 import dev.shadowsoffire.apotheosis.ench.compat.EnchHwylaPlugin;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,6 +33,7 @@ import snownee.jade.impl.WailaClientRegistration;
 import snownee.jade.impl.WailaCommonRegistration;
 import snownee.jade.util.CommonProxy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(CommonProxy.class)
@@ -63,7 +63,7 @@ public class CommonProxyMixin {
                 return LazyOptional.of(mufflerPartMachine::getInventory).cast();
             }
             var ts = blockEntity.metaMachine.getTraits();
-            List<IItemHandler> filteredTraits = new ObjectArrayList<>(ts.size());
+            List<IItemHandler> filteredTraits = new ArrayList<>(ts.size());
             for (var t : ts) {
                 if (t instanceof IItemHandler handler) {
                     if (handler instanceof NotifiableItemStackHandler stackHandler) {
@@ -85,7 +85,7 @@ public class CommonProxyMixin {
         if (instance instanceof MetaMachineBlockEntity blockEntity) {
             if (blockEntity.metaMachine instanceof MEPatternPartMachineKt<?>) return LazyOptional.empty();
             var ts = blockEntity.metaMachine.getTraits();
-            List<IFluidHandler> filteredTraits = new ObjectArrayList<>(ts.size());
+            List<IFluidHandler> filteredTraits = new ArrayList<>(ts.size());
             for (var t : ts) {
                 if (t instanceof IFluidHandler) {
                     filteredTraits.add((IFluidHandler) t);

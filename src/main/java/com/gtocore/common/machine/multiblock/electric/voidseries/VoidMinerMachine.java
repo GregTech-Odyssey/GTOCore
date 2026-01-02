@@ -62,7 +62,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
         if (!isEmpty()) {
             if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
                 Recipe recipe = RECIPE.copy();
-                recipe.setEut(GTValues.VA[getTier()]);
+                recipe.eut = GTValues.VA[getTier()];
                 recipe.outputs.put(ItemRecipeCapability.CAP, ContentBuilder.createList().items(getItems()).buildList());
                 return ParallelLogic.accurateParallel(this, recipe, 64);
             }
