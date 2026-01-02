@@ -115,7 +115,7 @@ final class Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder("algae_paper")
-                .inputItems(TagUtils.createTag(GTOCore.id("algae_fiber")))
+                .inputItems(TagUtils.createItemTag(GTOCore.id("algae_fiber")))
                 .outputItems(TagPrefix.dust, GTMaterials.Paper)
                 .duration(320)
                 .EUt(2)

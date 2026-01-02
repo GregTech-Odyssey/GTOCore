@@ -33,7 +33,6 @@ import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.gtolib.api.annotation.SyncedManager
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.machine.feature.IMEPartMachine
-import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder
 import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
@@ -114,23 +113,14 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
 
     override fun onPaintingColorChanged(color: Int) {
-        for (c in getControllers()) {
-            if (c is IExtendedRecipeCapabilityHolder) {
-                c.arrangeDistinct()
-            }
-        }
+        handlerList.setColor(color, true)
     }
 
     override fun isDistinct(): Boolean = distinctField
 
     override fun setDistinct(isDistinct: Boolean) {
         this.distinctField = isDistinct
-        getHandlerList().isDistinct = isDistinct
-        for (controller in getControllers()) {
-            if (controller is IExtendedRecipeCapabilityHolder) {
-                controller.arrangeDistinct()
-            }
-        }
+        handlerList.setDistinctAndNotify(isDistinct)
     }
 
     override fun setOnline(isOnline: Boolean) {

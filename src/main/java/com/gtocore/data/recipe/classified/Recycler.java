@@ -10,21 +10,21 @@ final class Recycler {
 
     public static void init() {
         RECYCLER_RECIPES.recipeBuilder("recycler_a")
-                .inputItems(TagUtils.createTGTag("ingots"))
+                .inputItems(TagUtils.createTGItemTag("ingots"))
                 .outputItems(GTOItems.SCRAP)
                 .EUt(30)
                 .duration(200)
                 .save();
 
         RECYCLER_RECIPES.recipeBuilder("recycler_b")
-                .inputItems(TagUtils.createTGTag("storage_blocks"))
+                .inputItems(TagUtils.createTGItemTag("storage_blocks"))
                 .outputItems(GTOItems.SCRAP, 9)
                 .EUt(120)
                 .duration(200)
                 .save();
 
         RECYCLER_RECIPES.recipeBuilder("recycler_c")
-                .inputItems(TagUtils.createTGTag("gems"))
+                .inputItems(TagUtils.createTGItemTag("gems"))
                 .outputItems(GTOItems.SCRAP)
                 .EUt(30)
                 .duration(200)

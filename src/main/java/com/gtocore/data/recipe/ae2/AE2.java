@@ -41,7 +41,7 @@ public final class AE2 {
         Ae2wtlibRecipes.init();
         GTOInfCells.init();
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("aesilicon"), EPPItemAndBlock.SILICON_BLOCK,
-                TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"));
+                TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"));
         if (GTOCore.isEasy()) return;
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
