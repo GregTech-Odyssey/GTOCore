@@ -43,6 +43,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.util.Platform;
+import com.hollingsworth.arsnouveau.common.items.MobJarItem;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -121,7 +122,8 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     private final TierCasingTrait tierCasingTrait;
 
     public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
-        super(holder, 1, i -> i.getItem() instanceof SpawnEggItem || i.getItem() instanceof BossSummonerItem);
+        super(holder, 1, i -> i.getItem() instanceof SpawnEggItem ||
+                i.getItem() instanceof BossSummonerItem || i.getItem() instanceof MobJarItem);
         tierCasingTrait = new TierCasingTrait(this, GLASS_TIER);
     }
 
@@ -144,10 +146,25 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
     @Override
     public void onMachineChanged() {
         entityId = null;
+        bossMode = false;
         ItemStack itemStack = getStorageStack();
-        bossMode = itemStack.getItem() instanceof BossSummonerItem;
-        if (itemStack.isEmpty() || !(itemStack.getItem() instanceof SpawnEggItem egg)) return;
-        entityId = ForgeRegistries.ENTITY_TYPES.getKey(egg.getType(null)).toString();
+        switch (itemStack.getItem()) {
+            case BossSummonerItem b -> {
+                bossMode = true;
+            }
+            case MobJarItem mj -> {
+                var entity = MobJarItem.fromItem(itemStack, getLevel());
+                if (entity != null) {
+                    entityId = ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()).toString();
+                }
+            }
+            case SpawnEggItem egg -> {
+                entityId = ForgeRegistries.ENTITY_TYPES.getKey(egg.getType(null)).toString();
+            }
+            default -> {
+
+            }
+        }
     }
 
     @Override

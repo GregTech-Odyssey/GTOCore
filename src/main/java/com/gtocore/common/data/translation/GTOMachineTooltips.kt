@@ -1143,6 +1143,7 @@ object GTOMachineTooltips {
         info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
         content("如果在机器GUI内放置了刷怪蛋则只会刷出刷怪蛋对应生物的内容" translatedTo "If a spawn egg is placed in the machine GUI, only the creature corresponding to the spawn egg will be spawned")
+        content("如果在机器GUI内放置了收容罐则只会刷出收容罐对应生物的内容" translatedTo "If a mob jar is placed in the machine GUI, only the creature corresponding to the containment unit will be spawned")
         content("如果在机器GUI内放置了神化Boss召唤器（物品），则只会刷出对应的神化Boss" translatedTo "If a Apotheosis Boss Summoner (item) is placed in the machine GUI, only the corresponding Deific Boss will be spawned")
         content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
         info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")
