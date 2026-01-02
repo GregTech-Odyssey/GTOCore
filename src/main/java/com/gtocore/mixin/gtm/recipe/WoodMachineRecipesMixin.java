@@ -1,5 +1,6 @@
 package com.gtocore.mixin.gtm.recipe;
 
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gtocore.data.recipe.generated.WoodRecipes;
 
 import com.gtolib.utils.RLUtils;
@@ -104,13 +105,17 @@ public final class WoodMachineRecipesMixin {
                 .save();
 
         if (entry.generateLogToPlankRecipe) {
-            VanillaRecipeHelper.addShapelessRecipe(
-                    hasPlanksRecipe ? entry.planksRecipeName : name + "_planks",
-                    new ItemStack(entry.planks, 2), logTag);
+            // log -> plank crafting
+            // nerfWoodCrafting = difficulty > 1
+            if (ConfigHolder.INSTANCE.recipes.nerfWoodCrafting) {
+                VanillaRecipeHelper.addShapelessRecipe(
+                        hasPlanksRecipe ? entry.planksRecipeName : name + "_planks",
+                        new ItemStack(entry.planks, 2), logTag);
+            }
 
             // log -> plank saw crafting
             VanillaRecipeHelper.addShapedRecipe(name + "_planks_saw",
-                    new ItemStack(entry.planks, 4),
+                    new ItemStack(entry.planks, ConfigHolder.INSTANCE.recipes.nerfWoodCrafting ? 4 : 6),
                     "s", "L", 'L', logTag);
 
             // log -> plank cutting
