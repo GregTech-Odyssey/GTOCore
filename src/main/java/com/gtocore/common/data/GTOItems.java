@@ -1280,4 +1280,20 @@ public final class GTOItems {
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())
             .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_1 = item("delicious_food_1", "好吃的鱼 I", p -> new RandomPositiveFoodItem(p, 4, 0.6F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish1")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_2 = item("delicious_food_2", "好吃的鱼 II", p -> new RandomPositiveFoodItem(p, 6, 0.7F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish2")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_3 = item("delicious_food_3", "好吃的鱼 III", p -> new RandomPositiveFoodItem(p, 8, 0.8F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish3")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_4 = item("delicious_food_4", "好吃的鱼 IV", p -> new RandomPositiveFoodItem(p, 10, 0.9F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish4")))
+            .register();
 }

@@ -27,6 +27,11 @@ public final class DungeonLoot {
         ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, GTOItems.MYSTERIOUS_BOOST_DRINK[GTValues.MV].asStack(), 1, 2, 3);
         ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, GTOItems.RUNE1_REWARD_BAG.asStack(), 1, 1, 3);
 
+        ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, GTOItems.RANDOM_POSITIVE_FOOD_1.asStack(), 1, 2, 6);
+        ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, GTOItems.RANDOM_POSITIVE_FOOD_2.asStack(), 1, 2, 5);
+        ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, GTOItems.RANDOM_POSITIVE_FOOD_3.asStack(), 1, 1, 4);
+        ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, GTOItems.RANDOM_POSITIVE_FOOD_4.asStack(), 1, 1, 3);
+
         ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper), 1, 12, 6);
         ChestGenHooks.addItem(BuiltInLootTables.IGLOO_CHEST, ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper), 1, 8, 3);
         ChestGenHooks.addItem(BuiltInLootTables.SHIPWRECK_TREASURE, ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper), 1, 8, 3);
