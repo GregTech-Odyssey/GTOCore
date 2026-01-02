@@ -70,7 +70,7 @@ final class HatchRecipe {
                 new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.TranscendentMetal));
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("primitive_blast_furnace_hatch"), GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asItem(),
                 "ABA",
-                'B', GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 'A', TagUtils.createTag(RLUtils.forge("chests")));
+                'B', GTBlocks.CASING_PRIMITIVE_BRICKS.asItem(), 'A', TagUtils.createItemTag(RLUtils.forge("chests")));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("steam_fluid_input_hatch"), GTOMachines.STEAM_FLUID_INPUT_HATCH.asItem(),
                 " A ",

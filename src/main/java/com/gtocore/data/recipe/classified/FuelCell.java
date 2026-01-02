@@ -5,14 +5,12 @@ import com.gtocore.common.data.GTOFluidStorageKey;
 import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 
 import com.gtolib.utils.FluidUtils;
+import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
@@ -65,7 +63,7 @@ public class FuelCell {
             Fluid fluid = fluidStack.getStacks()[0].getFluid();
             long totalEu = (long) duration * 4;
             FUEL_CELL_ENERGY_ABSORPTION_RECIPES.recipeBuilder(FluidUtils.getIdLocation(fluid).getPath())
-                    .notConsumable(TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("gt", "membrane_electrodes")))
+                    .notConsumable(TagUtils.createTGItemTag("membrane_electrodes"))
                     .inputFluids(Oxygen.getFluid(FluidStorageKeys.LIQUID), fluidStack.getAmount())
                     .inputFluids(fluid, fluidStack.getAmount())
                     .EUt(1)

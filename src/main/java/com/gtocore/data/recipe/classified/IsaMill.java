@@ -14,7 +14,7 @@ final class IsaMill {
     public static void init() {
         ISA_MILL_RECIPES.recipeBuilder("milled_grossular_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/grossular"))
+                .inputItems(TagUtils.createTGItemTag("ores/grossular"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Grossular, 96)
                 .EUt(1920)
@@ -24,7 +24,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_grossular_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/grossular"))
+                .inputItems(TagUtils.createTGItemTag("ores/grossular"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Grossular, 72)
                 .EUt(1920)
@@ -34,7 +34,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_almandine_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/almandine"))
+                .inputItems(TagUtils.createTGItemTag("ores/almandine"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Almandine, 72)
                 .EUt(1920)
@@ -64,7 +64,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_almandine_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/almandine"))
+                .inputItems(TagUtils.createTGItemTag("ores/almandine"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Almandine, 96)
                 .EUt(1920)
@@ -74,7 +74,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_chalcopyrite_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/chalcopyrite"))
+                .inputItems(TagUtils.createTGItemTag("ores/chalcopyrite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Chalcopyrite, 96)
                 .EUt(1920)
@@ -84,7 +84,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_chalcopyrite_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/chalcopyrite"))
+                .inputItems(TagUtils.createTGItemTag("ores/chalcopyrite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Chalcopyrite, 72)
                 .EUt(1920)
@@ -134,7 +134,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_enriched_naquadah_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/enriched_naquadah"))
+                .inputItems(TagUtils.createTGItemTag("ores/enriched_naquadah"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.NaquadahEnriched, 72)
                 .EUt(1920)
@@ -144,7 +144,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_enriched_naquadah_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/enriched_naquadah"))
+                .inputItems(TagUtils.createTGItemTag("ores/enriched_naquadah"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.NaquadahEnriched, 96)
                 .EUt(1920)
@@ -174,7 +174,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_platinum_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/platinum"))
+                .inputItems(TagUtils.createTGItemTag("ores/platinum"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Platinum, 96)
                 .EUt(1920)
@@ -184,7 +184,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_platinum_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/platinum"))
+                .inputItems(TagUtils.createTGItemTag("ores/platinum"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Platinum, 72)
                 .EUt(1920)
@@ -214,7 +214,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_pentlandite_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/pentlandite"))
+                .inputItems(TagUtils.createTGItemTag("ores/pentlandite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Pentlandite, 96)
                 .EUt(1920)
@@ -224,7 +224,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_pentlandite_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/pentlandite"))
+                .inputItems(TagUtils.createTGItemTag("ores/pentlandite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Pentlandite, 72)
                 .EUt(1920)
@@ -234,7 +234,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_nickel_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/nickel"))
+                .inputItems(TagUtils.createTGItemTag("ores/nickel"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Nickel, 96)
                 .EUt(1920)
@@ -244,7 +244,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_nickel_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/nickel"))
+                .inputItems(TagUtils.createTGItemTag("ores/nickel"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Nickel, 72)
                 .EUt(1920)
@@ -274,7 +274,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_redstone_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/redstone"))
+                .inputItems(TagUtils.createTGItemTag("ores/redstone"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Redstone, 72)
                 .EUt(1920)
@@ -284,7 +284,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_redstone_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/redstone"))
+                .inputItems(TagUtils.createTGItemTag("ores/redstone"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Redstone, 96)
                 .EUt(1920)
@@ -294,7 +294,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_pyrope_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/pyrope"))
+                .inputItems(TagUtils.createTGItemTag("ores/pyrope"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Pyrope, 72)
                 .EUt(1920)
@@ -304,7 +304,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_pyrope_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/pyrope"))
+                .inputItems(TagUtils.createTGItemTag("ores/pyrope"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Pyrope, 96)
                 .EUt(1920)
@@ -334,7 +334,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_monazite_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/monazite"))
+                .inputItems(TagUtils.createTGItemTag("ores/monazite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Monazite, 96)
                 .EUt(1920)
@@ -344,7 +344,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_monazite_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/monazite"))
+                .inputItems(TagUtils.createTGItemTag("ores/monazite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Monazite, 72)
                 .EUt(1920)
@@ -374,7 +374,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_spessartine_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/spessartine"))
+                .inputItems(TagUtils.createTGItemTag("ores/spessartine"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Spessartine, 72)
                 .EUt(1920)
@@ -384,7 +384,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_spessartine_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/spessartine"))
+                .inputItems(TagUtils.createTGItemTag("ores/spessartine"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Spessartine, 96)
                 .EUt(1920)
@@ -474,7 +474,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_sphalerite_bgs")
                 .circuitMeta(1)
-                .inputItems(TagUtils.createTGTag("ores/sphalerite"))
+                .inputItems(TagUtils.createTGItemTag("ores/sphalerite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Sphalerite, 96)
                 .EUt(1920)
@@ -484,7 +484,7 @@ final class IsaMill {
 
         ISA_MILL_RECIPES.recipeBuilder("milled_sphalerite_bal")
                 .circuitMeta(10)
-                .inputItems(TagUtils.createTGTag("ores/sphalerite"))
+                .inputItems(TagUtils.createTGItemTag("ores/sphalerite"))
                 .inputFluids(GTMaterials.DistilledWater, 100)
                 .outputItems(GTOTagPrefix.MILLED, GTMaterials.Sphalerite, 72)
                 .EUt(1920)

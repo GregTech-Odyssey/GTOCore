@@ -1197,6 +1197,8 @@ object GTOMachineTooltips {
         section("电压等级加成" translatedTo "Voltage Tier Bonus")
         increase("每高出MV1级，转换方块数量+64" translatedTo "For each tier above MV1, block conversion +64")
         important("不会重复转换同一方块" translatedTo "Will not repeatedly convert the same block")
+
+        function("在主机内放置§6转换模拟卡§r，且安装方块总线后，可直接转换方块总线内的方块" translatedTo "By placing §6Conversion Simulation Card§r in the mainframe and installing a block bus, blocks inside the block bus can be directly converted")
     }
 
     // 宇宙探测器地面接收单元

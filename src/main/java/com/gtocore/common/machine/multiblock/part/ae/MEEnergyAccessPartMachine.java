@@ -58,6 +58,7 @@ public class MEEnergyAccessPartMachine extends MEPartMachine implements IAEPower
         }
         this.ratio = ConfigHolder.INSTANCE.compat.energy.euToFeRatio;
         this.ratio *= 1 + 0.3 * controller.getCasingTier(GLASS_TIER);
+        this.ratio *= controller.getSubFormedAmount() + 1;
         if (this.getMainNode().getGrid() != null) {
             this.getMainNode().getGrid().postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER));
         }

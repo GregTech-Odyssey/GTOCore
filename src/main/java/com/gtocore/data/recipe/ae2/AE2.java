@@ -41,7 +41,7 @@ public final class AE2 {
         Ae2wtlibRecipes.init();
         GTOInfCells.init();
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("aesilicon"), EPPItemAndBlock.SILICON_BLOCK,
-                TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"), TagUtils.createForgeTag("silicon"));
+                TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"));
         if (GTOCore.isEasy()) return;
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
@@ -701,8 +701,8 @@ public final class AE2 {
                     .inputItems(GTItems.ROBOT_ARM_EV, 2)
                     .inputItems(GTItems.CONVEYOR_MODULE_EV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
-                    .inputItems(CustomTags.EV_CIRCUITS, 4)
-                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 8)
+                    .inputItems(CustomTags.EV_CIRCUITS)
+                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 12)
                     .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
                     .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])
@@ -715,8 +715,8 @@ public final class AE2 {
                     .inputItems(GTItems.ROBOT_ARM_EV, 2)
                     .inputItems(GTItems.CONVEYOR_MODULE_EV, 2)
                     .inputItems(AEItems.ENGINEERING_PROCESSOR.asItem(), 4)
-                    .inputItems(CustomTags.EV_CIRCUITS, 4)
-                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 8)
+                    .inputItems(CustomTags.EV_CIRCUITS)
+                    .outputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 12)
                     .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
                     .duration(600)
                     .EUt(GTValues.VA[GTValues.EV])

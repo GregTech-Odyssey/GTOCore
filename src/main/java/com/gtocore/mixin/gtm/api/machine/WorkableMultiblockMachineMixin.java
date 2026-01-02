@@ -14,14 +14,12 @@ import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.server.level.ServerLevel;
 
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import it.unimi.dsi.fastutil.ints.Int2ReferenceOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
@@ -29,7 +27,6 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
@@ -43,20 +40,17 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     @Shadow(remap = false)
     @Final
     protected List<ISubscription> traitSubscriptions;
-    @Unique
-    private List<RecipeHandlerList> gtolib$distinct;
+
     @Unique
     private Map<RecipeCapability<?>, List<IRecipeHandler<?>>> gtolib$input;
-    @Unique
-    private List<RecipeHandlerList> gtolib$output;
+
     @Unique
     private boolean gtolib$isItemOutput;
     @Unique
     private boolean gtolib$isFluidOutput;
     @Unique
     private boolean gtolib$isDualOutput;
-    @Unique
-    private Int2ReferenceOpenHashMap<RecipeHandlerList> gtolib$outputColorMap;
+
     @Unique
     private ISpaceWorkspaceMachine gto$workspaceProvider;
 
@@ -72,10 +66,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(MetaMachineBlockEntity holder, Object[] args, CallbackInfo ci) {
-        gtolib$distinct = Collections.emptyList();
         gtolib$input = Map.of();
-        gtolib$output = Collections.emptyList();
-        gtolib$outputColorMap = new Int2ReferenceOpenHashMap<>();
     }
 
     protected WorkableMultiblockMachineMixin(MetaMachineBlockEntity holder) {
@@ -90,9 +81,9 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
         } else return gtolib$isFluidOutput;
     }
 
-    @Redirect(method = "onStructureFormedAfter", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/machine/trait/RecipeLogic;updateTickSubscription()V"), remap = false)
-    private void gtolib$onStructureFormedAfter(RecipeLogic instance) {
-        this.arrangeAll();
+    @Inject(method = "onStructureFormedAfter", at = @At("HEAD"), remap = false)
+    private void onStructureFormedAfter(CallbackInfo ci) {
+        arrangeFlat();
     }
 
     @Inject(method = "onStructureFormed", at = @At("TAIL"), remap = false)
@@ -154,21 +145,6 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     }
 
     @Override
-    public Int2ReferenceOpenHashMap<RecipeHandlerList> gtolib$getOutputColorMap() {
-        return this.gtolib$outputColorMap;
-    }
-
-    @Override
-    public void gtolib$setInput(final List<RecipeHandlerList> distinct) {
-        this.gtolib$distinct = distinct;
-    }
-
-    @Override
-    public @NotNull List<RecipeHandlerList> getInputList() {
-        return this.gtolib$distinct;
-    }
-
-    @Override
     public void gtolib$setInputFlat(final Map<RecipeCapability<?>, List<IRecipeHandler<?>>> input) {
         this.gtolib$input = input;
     }
@@ -176,15 +152,5 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     @Override
     public @NotNull Map<RecipeCapability<?>, List<IRecipeHandler<?>>> gtolib$getInputFlat() {
         return this.gtolib$input;
-    }
-
-    @Override
-    public void gtolib$setOutput(final List<RecipeHandlerList> output) {
-        this.gtolib$output = output;
-    }
-
-    @Override
-    public @NotNull List<RecipeHandlerList> getOutputList() {
-        return this.gtolib$output;
     }
 }

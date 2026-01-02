@@ -5,6 +5,8 @@ import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
 import com.gtocore.utils.setTooltips
 
+import net.minecraft.world.level.block.Blocks
+
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
@@ -61,6 +63,12 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         function("它可以自动翻倍样板，不用任何操作" translatedTo "It can automatically double the pattern, no operation is required")
         content(ComponentSlang.RecommendedToUse("样板总成" translatedTo "Pattern Buffer"))
         increase("PRO版本可以批量应用" translatedTo "PRO version can apply in batch")
+    }
+
+    val ConversionSimulationCard = ComponentListSupplier {
+        setTranslationPrefix("conversion_simulation_card")
+
+        function("为大型方块转换室提供模拟转换环境" translatedTo "Provides a simulated conversion environment for large block conversion chambers")
     }
 
     // AE2 订单
@@ -192,6 +200,15 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     setTranslationPrefix("boss_summoner")
 
                     info("由捕捉附魔击杀神化Boss概率掉落" translatedTo "Dropped by killing Apotheosis Bosses with the Capture enchantment")
+                },
+            )
+        }
+
+        listOf(Blocks.OBSIDIAN.asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("obsidian")
+                    story("要不试试在它上面用砧板切洋葱？" translatedTo "How about trying to chop onions on it with a cutting board?")
                 },
             )
         }
