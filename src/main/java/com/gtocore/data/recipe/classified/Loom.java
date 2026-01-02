@@ -52,7 +52,7 @@ final class Loom {
                 .save();
 
         LOOM_RECIPES.recipeBuilder("algae_plant_fiber")
-                .inputItems(TagUtils.createTag(GTOCore.id("algae_fiber")))
+                .inputItems(TagUtils.createItemTag(GTOCore.id("algae_fiber")))
                 .outputItems(GTOItems.PLANT_FIBER)
                 .EUt(30)
                 .duration(20)

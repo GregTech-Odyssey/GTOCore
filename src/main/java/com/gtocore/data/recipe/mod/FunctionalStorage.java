@@ -71,7 +71,7 @@ public final class FunctionalStorage {
                     "ABA",
                     "CDC",
                     "CBC",
-                    'A', GTItems.FLUID_REGULATOR_LV.asItem(), 'B', GTItems.ROBOT_ARM_LV.asItem(), 'C', CustomTags.LV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
+                    'A', GTItems.FLUID_REGULATOR_LV.asItem(), 'B', GTItems.ROBOT_ARM_LV.asItem(), 'C', CustomTags.LV_CIRCUITS, 'D', TagUtils.createItemTag("functionalstorage:drawer"));
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("framed_storage_controller"), RegistriesUtils.getItemStack("functionalstorage:framed_storage_controller"),
                     " A ",
                     "ABA",
@@ -86,7 +86,7 @@ public final class FunctionalStorage {
                     "ABA",
                     "CDC",
                     "CBC",
-                    'A', GTItems.FLUID_REGULATOR_MV.asItem(), 'B', GTItems.ROBOT_ARM_MV.asItem(), 'C', CustomTags.MV_CIRCUITS, 'D', TagUtils.createTag("functionalstorage:drawer"));
+                    'A', GTItems.FLUID_REGULATOR_MV.asItem(), 'B', GTItems.ROBOT_ARM_MV.asItem(), 'C', CustomTags.MV_CIRCUITS, 'D', TagUtils.createItemTag("functionalstorage:drawer"));
         }
     }
 

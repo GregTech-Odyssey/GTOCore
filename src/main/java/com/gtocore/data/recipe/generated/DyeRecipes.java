@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.utils.RLUtils;
-import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 
@@ -61,13 +60,13 @@ public final class DyeRecipes {
             BWG.put("black", false);
             DyeRecipes.BWG.forEach((k, v) -> {
                 EXTRACTOR_RECIPES.recipeBuilder(k + "_bwg_dye")
-                        .inputItems(TagUtils.createTag(RLUtils.fromNamespaceAndPath("biomeswevegone", "dye/makes_" + k)))
+                        .inputItemTags(RLUtils.fromNamespaceAndPath("biomeswevegone", "dye/makes_" + k))
                         .outputItems("minecraft:" + k + "_dye")
                         .duration(400)
                         .EUt(2)
                         .save();
                 if (v) EXTRACTOR_RECIPES.recipeBuilder(k + "_bwg_2_dye")
-                        .inputItems(TagUtils.createTag(RLUtils.fromNamespaceAndPath("biomeswevegone", "dye/makes_2_" + k)))
+                        .inputItemTags(RLUtils.fromNamespaceAndPath("biomeswevegone", "dye/makes_2_" + k))
                         .outputItems("minecraft:" + k + "_dye")
                         .duration(400)
                         .EUt(2)
@@ -95,7 +94,7 @@ public final class DyeRecipes {
 
     private static void addBotDye(String dye) {
         EXTRACTOR_RECIPES.recipeBuilder(dye + "_petals")
-                .inputItems(TagUtils.createTag(RLUtils.bot("petals/" + dye)))
+                .inputItemTags(RLUtils.bot("petals/" + dye))
                 .outputItems("minecraft:" + dye + "_dye")
                 .duration(400)
                 .EUt(2)

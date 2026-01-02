@@ -296,5 +296,13 @@ final class Canner {
                 .EUt(30720)
                 .duration(160)
                 .save();
+
+        CANNER_RECIPES.builder("cacophonium_block")
+                .inputItems(Items.NOTE_BLOCK)
+                .inputItems("botania:cacophonium")
+                .outputItems("botania:cacophonium_block")
+                .EUt(7)
+                .duration(100)
+                .save();
     }
 }

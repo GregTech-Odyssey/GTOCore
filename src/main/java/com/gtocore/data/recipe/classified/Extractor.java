@@ -91,7 +91,7 @@ final class Extractor {
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("algae")
-                .inputItems(TagUtils.createTag(GTOCore.id("algae")))
+                .inputItems(TagUtils.createItemTag(GTOCore.id("algae")))
                 .outputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract)
                 .duration(120)
                 .EUt(30)
@@ -114,7 +114,7 @@ final class Extractor {
                 .save();
 
         EXTRACTOR_RECIPES.recipeBuilder("chitin")
-                .inputItems(TagUtils.createTag(RLUtils.forge("mushrooms")))
+                .inputItems(TagUtils.createItemTag(RLUtils.forge("mushrooms")))
                 .outputFluids(GTOMaterials.Chitin, 100)
                 .EUt(30)
                 .duration(100)

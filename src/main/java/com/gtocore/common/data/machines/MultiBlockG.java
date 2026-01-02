@@ -10,6 +10,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
 import com.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
 import com.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
@@ -701,6 +702,7 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition ME_ENERGY_SUBSTATION = multiblock("me_energy_substation", "ME能源塔", TierCasingMultiblockMachine.createMachine(GLASS_TIER))
             .langValue("ME Energy Substation")
             .allRotation()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getMeEnergySubstationTooltips().getSupplier())
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition)

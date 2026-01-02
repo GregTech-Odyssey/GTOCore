@@ -1,24 +1,17 @@
 package com.gtocore.common.machine.mana;
 
-import com.gtolib.api.gui.OverclockConfigurator;
-import com.gtolib.api.machine.feature.IOverclockConfigMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEnergyMachine, IOverclockConfigMachine {
-
-    @Persisted
-    private int ocLimit = 20;
+public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEnergyMachine {
 
     private final IEnergyContainer container;
 
@@ -37,22 +30,6 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
         } else {
             return RecipeModifierFunction.manaOverclocking(this, recipe, getTierMana());
         }
-    }
-
-    @Override
-    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
-        super.attachConfigurators(configuratorPanel);
-        configuratorPanel.attachConfigurators(new OverclockConfigurator(this));
-    }
-
-    @Override
-    public void gtolib$setOCLimit(int number) {
-        ocLimit = number;
-    }
-
-    @Override
-    public int gtolib$getOCLimit() {
-        return ocLimit;
     }
 
     @Override
