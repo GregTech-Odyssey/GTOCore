@@ -1296,4 +1296,21 @@ public final class GTOItems {
     public static final ItemEntry<RandomPositiveFoodItem> RANDOM_POSITIVE_FOOD_4 = item("delicious_food_4", "好吃的鱼 IV", p -> new RandomPositiveFoodItem(p, 10, 0.9F))
             .model((a, b) -> b.generated(a, GTOCore.id("item/food/fish/fish4")))
             .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_1 = item("chopper_popper_fish_head_1", "剁椒鱼头 I", p -> new RandomPositiveFoodItem(p, 4, 0.6F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head0")))
+            .register();
+
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_2 = item("chopper_popper_fish_head_2", "剁椒鱼头 II", p -> new RandomPositiveFoodItem(p, 6, 0.7F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head1")))
+            .register();
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_3 = item("chopper_popper_fish_head_3", "剁椒鱼头 III", p -> new RandomPositiveFoodItem(p, 8, 0.8F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head2")))
+            .register();
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_4 = item("chopper_popper_fish_head_4", "剁椒鱼头 IV", p -> new RandomPositiveFoodItem(p, 10, 0.9F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head3")))
+            .register();
+    public static final ItemEntry<RandomPositiveFoodItem> CHOPPER_POPPER_FISH_HEAD_5 = item("chopper_popper_fish_head_5", "剁椒鱼头 V", p -> new RandomPositiveFoodItem(p, 10, 1F))
+            .model((a, b) -> b.generated(a, GTOCore.id("item/food/fishhead/fish_head4")))
+            .register();
 }
