@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.utils.DummyWorld;
+import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -154,7 +154,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     @Override
     public void clientTick() {
         super.clientTick();
-        if (getLevel() == null || getLevel() instanceof DummyWorld) return;
+        if (getLevel() == null || getLevel() instanceof TrackedDummyWorld) return;
         if (isFormed()) {
             if (!clientRemovedBlocks) {
                 clientRemovedBlocks = removeBlockFromWorld();
