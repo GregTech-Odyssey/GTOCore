@@ -237,7 +237,7 @@ public final class GTOItems {
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.FLUID_REGULATOR_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.fluid.regulator.tooltip"));
-                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", 16);
+                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", 16));
             })))
             .register();
 
@@ -906,9 +906,13 @@ public final class GTOItems {
     public static final ItemEntry<Item> HEROS_SOUL = item("heros_soul", "英雄之魂").properties(p -> p.rarity(Rarity.UNCOMMON)).register();
 
     @SuppressWarnings("unchecked")
-    public static final ItemEntry<Item> PHILOSOPHERS_STONE=(ItemEntry<Item>)(ItemEntry<?extends Item>)item("philosophers_stone","贤者之石",p->new Item(p){
+    public static final ItemEntry<Item> PHILOSOPHERS_STONE = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("philosophers_stone", "贤者之石", p -> new Item(p) {
 
-    @Override public @NotNull Component getName(@NotNull ItemStack pStack){return Component.translatable(this.getDescriptionId(pStack)).withStyle(s->s.withColor(new OffsetGradientColor(2f)));}}).register();
+        @Override
+        public @NotNull Component getName(@NotNull ItemStack pStack) {
+            return Component.translatable(this.getDescriptionId(pStack)).withStyle(s -> s.withColor(new OffsetGradientColor(2f)));
+        }
+    }).register();
 
     public static final ItemEntry<Item> MANA_CRYSTAL = register("mana_crystal", "魔力结晶");
 

@@ -550,7 +550,7 @@ public final class MultiBlockA {
                     .where('B', blocks(GTOBlocks.RHENIUM_REINFORCED_ENERGY_GLASS.get()))
                     .where('C', blocks(GTBlocks.MACHINE_CASING_UXV.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH).setExactLimit(1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('D', blocks(GTOBlocks.TITANSTEEL_COIL_BLOCK.get()))
                     .where('E', blocks(GTOBlocks.HOLLOW_CASING.get()))
