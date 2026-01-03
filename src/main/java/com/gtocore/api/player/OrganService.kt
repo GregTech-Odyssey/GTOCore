@@ -42,7 +42,7 @@ class OrganService : IOrganService {
         (0..4).forEach { tier ->
             val modifierNAME = "gtocore:organ_speed_tier_$tier"
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.getInt(OrganType.LeftLeg) > tier && playerData.organTierCache.getInt(OrganType.RightLeg) > tier) {
+            when (playerData.organTierCache.getInt(OrganType.LeftLeg) >= tier && playerData.organTierCache.getInt(OrganType.RightLeg) >= tier) {
                 true -> run {
                     val modifierAmplify = MovementSpeedFunction(tier)
                     val shouldAdd = player.getAttribute(Attributes.MOVEMENT_SPEED)?.modifiers?.all { it.name != modifierNAME } ?: true
@@ -60,7 +60,7 @@ class OrganService : IOrganService {
         run {
             val modifierNAME = "gtocore:organ_reach"
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.getInt(OrganType.RightArm) > 1) {
+            when (playerData.organTierCache.getInt(OrganType.RightArm) >= 2) {
                 true -> run {
                     val modifierAmplify = BlockReachFunction
                     val shouldAdd = player.getAttribute(BLOCK_REACH.get())?.modifiers?.all { it.name != modifierNAME } ?: true
