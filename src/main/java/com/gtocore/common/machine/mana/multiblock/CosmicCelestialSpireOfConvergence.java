@@ -193,12 +193,12 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             mode = Mode.VOID;
             return;
         }
-        switch (Dimension.from(dim)) {
-            case OTHERSIDE -> mode = Mode.OTHERSIDE;
-            case ALFHEIM -> mode = Mode.ALFHEIM;
-            case THE_END -> mode = Mode.END;
-            default -> mode = Mode.OVERWORLD;
-        }
+        mode = switch (Dimension.from(dim)) {
+            case OTHERSIDE -> Mode.OTHERSIDE;
+            case ALFHEIM -> Mode.ALFHEIM;
+            case THE_END -> Mode.END;
+            default -> Mode.OVERWORLD;
+        };
     }
 
     private void increase() {
