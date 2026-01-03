@@ -44,6 +44,9 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     private boolean clearSky;
     private TickableSubscription tickSubs;
 
+    @Persisted
+    private short strategy = 0;
+
     public CelestialCondenser(MetaMachineBlockEntity holder) {
         super(holder, 1, t -> 16000);
     }
@@ -100,9 +103,10 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         BlockPos pos = getPos();
         if (timing == 0) {
             getRecipeLogic().updateTickSubscription();
+            checkDimensions();
             clearSky = hasClearSky(world, pos);
-            timing = 20;
-        } else if (timing % 5 == 0) {
+            timing = 40;
+        } else if (timing % 10 == 0) {
             clearSky = hasClearSky(world, pos);
             timing--;
         } else {
@@ -112,23 +116,21 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     }
 
     private void increase(Level world) {
-        ResourceLocation dimLocation = world.dimension().location();
-
         // 太空维度
-        if (PlanetApi.API.isSpace(getLevel())) {
+        if (strategy == 1) {
             stellarm = Math.min(max_capacity, stellarm + 20);
         }
         // Void维度：solaris 和 lunara 各加5
-        else if (GTODimensions.isVoid(dimLocation)) {
+        else if (strategy == 2) {
             solaris = Math.min(max_capacity, solaris + 5);
             lunara = Math.min(max_capacity, lunara + 5);
         }
         // OTHERSIDE维度：voidflux 加50
-        else if (GTODimensions.OTHERSIDE == dimLocation) {
+        else if (strategy == 3) {
             voidflux = Math.min(max_capacity, voidflux + 50);
         }
         // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
-        else if (GTODimensions.ALFHEIM == dimLocation) {
+        else if (strategy == 4) {
             if (world.isDay()) {
                 solaris = Math.min(max_capacity, solaris + 20);
             } else if (world.isNight()) {
@@ -136,12 +138,32 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
             }
         }
         // 主世界/末地的资源增加逻辑
-        else if (world.dimension() == Level.END) {
+        else if (strategy == 5) {
             voidflux = Math.min(max_capacity, voidflux + 10);
         } else if (world.isDay()) {
             solaris = Math.min(max_capacity, solaris + 10);
         } else if (world.isNight()) {
             lunara = Math.min(max_capacity, lunara + 10);
+        }
+    }
+
+    private void checkDimensions() {
+        Level world = getLevel();
+        if (world == null) {
+            strategy = 0;
+            return;
+        }
+        ResourceLocation dimLocation = world.dimension().location();
+        if (PlanetApi.API.isSpace(world)) {
+            strategy = 1;
+        } else if (GTODimensions.isVoid(dimLocation)) {
+            strategy = 2;
+        } else if (GTODimensions.OTHERSIDE == dimLocation) {
+            strategy = 3;
+        } else if (GTODimensions.ALFHEIM == dimLocation) {
+            strategy = 4;
+        } else if (world.dimension() == Level.END) {
+            strategy = 5;
         }
     }
 

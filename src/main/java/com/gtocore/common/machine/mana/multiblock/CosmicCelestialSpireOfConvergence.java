@@ -57,6 +57,9 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
     private boolean clientRemovedBlocks = false;
 
+    @Persisted
+    private short strategy = 0;
+
     public CosmicCelestialSpireOfConvergence(MetaMachineBlockEntity holder) {
         super(holder);
     }
@@ -136,19 +139,6 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         if (lunara > 0) textList.add(Component.translatable("gtocore.celestial_condenser." + LUNARA, lunara));
         if (voidflux > 0) textList.add(Component.translatable("gtocore.celestial_condenser." + VOIDFLUX, voidflux));
         if (stellarm > 0) textList.add(Component.translatable("gtocore.celestial_condenser." + STELLARM, stellarm));
-        /*
-         * textList.add(Component.translatable("gtocore.machine.resonance_flower.stable_operation_times", stableTime));
-         * textList.add(Component.translatable("gtocore.machine.resonance_flower.time_fluctuation_coefficient",
-         * String.format("%.6f", timeFluctuationCoefficient)));
-         * textList.add(Component.translatable("gtocore.machine.resonance_flower.elemental_fluctuation_coefficient",
-         * String.format("%.6f", elementalFluctuationCoefficient)));
-         * textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
-         * textList.add(Component.translatable("gtocore.machine.slaughterhouse.active_weapon",
-         * activeWeapon.getDisplayName()));
-         * textList.add(Component.translatable("gtocore.machine.slaughterhouse.filter_nbt").append(ComponentPanelWidget.
-         * withButton(Component.literal("[").append(filterNbt ? Component.translatable("gtocore.machine.on") :
-         * Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "filter_nbt")));
-         */
     }
 
     @Override
@@ -169,6 +159,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         super.onStructureInvalid();
         ITickSubscription.unsubscribe(tickSubs);
         tickSubs = null;
+        timing = 0;
     }
 
     @Override
@@ -199,15 +190,14 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         increase(world);
         if (timing == 0) {
             getRecipeLogic().updateTickSubscription();
-            timing = 20;
+            checkDimensions();
+            timing = 80;
         } else {
             timing--;
         }
     }
 
     private void increase(Level world) {
-        ResourceLocation dimLocation = world.dimension().location();
-
         if (accelerate > 0) {
             int cost = GTOValues.MANA[accelerate * 2 + 4] * 2;
             if (cost > removeMana(cost, 1, false)) {
@@ -221,20 +211,20 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
         int i = 1 << (accelerate * 5);
         // 太空维度
-        if (PlanetApi.API.isSpace(getLevel())) {
+        if (strategy == 1) {
             stellarm = Math.min(max_capacity, stellarm + 2000L * i);
         }
         // Void维度：solaris 和 lunara 各加5
-        else if (GTODimensions.isVoid(dimLocation)) {
+        else if (strategy == 2) {
             solaris = Math.min(max_capacity, solaris + 500L * i);
             lunara = Math.min(max_capacity, lunara + 500L * i);
         }
         // OTHERSIDE维度：voidflux 加50
-        else if (GTODimensions.OTHERSIDE == dimLocation) {
+        else if (strategy == 3) {
             voidflux = Math.min(max_capacity, voidflux + 5000L * i);
         }
         // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
-        else if (GTODimensions.ALFHEIM == dimLocation) {
+        else if (strategy == 4) {
             if (world.isDay()) {
                 solaris = Math.min(max_capacity, solaris + 2000L * i);
             } else if (world.isNight()) {
@@ -242,12 +232,32 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             }
         }
         // 主世界/末地的资源增加逻辑
-        else if (world.dimension() == Level.END) {
+        else if (strategy == 5) {
             voidflux = Math.min(max_capacity, voidflux + 1000L * i);
         } else if (world.isDay()) {
             solaris = Math.min(max_capacity, solaris + 1000L * i);
         } else if (world.isNight()) {
             lunara = Math.min(max_capacity, lunara + 1000L * i);
+        }
+    }
+
+    private void checkDimensions() {
+        Level world = getLevel();
+        if (world == null) {
+            strategy = 0;
+            return;
+        }
+        ResourceLocation dimLocation = world.dimension().location();
+        if (PlanetApi.API.isSpace(world)) {
+            strategy = 1;
+        } else if (GTODimensions.isVoid(dimLocation)) {
+            strategy = 2;
+        } else if (GTODimensions.OTHERSIDE == dimLocation) {
+            strategy = 3;
+        } else if (GTODimensions.ALFHEIM == dimLocation) {
+            strategy = 4;
+        } else if (world.dimension() == Level.END) {
+            strategy = 5;
         }
     }
 
