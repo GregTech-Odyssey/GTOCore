@@ -5,6 +5,7 @@ import com.gtocore.client.renderer.StructureVBO;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.api.GTOValues;
+import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
@@ -19,7 +20,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -186,29 +186,18 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         var world = getLevel();
         var dim = world.dimension();
 
-        var dimLocation = dim.location();
-
-        // 太空维度
         if (PlanetApi.API.isSpace(getLevel())) {
             mode = Mode.SPACE;
-        }
-        // Void维度：solaris 和 lunara 各加5
-        else if (GTODimensions.isVoid(dimLocation)) {
+            return;
+        } else if (GTODimensions.isVoid(dim.location())) {
             mode = Mode.VOID;
+            return;
         }
-        // OTHERSIDE维度：voidflux 加50
-        else if (GTODimensions.OTHERSIDE == dimLocation) {
-            mode = Mode.OTHERSIDE;
-        }
-        // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
-        else if (GTODimensions.ALFHEIM == dimLocation) {
-            mode = Mode.ALFHEIM;
-        }
-        // 主世界/末地的资源增加逻辑
-        else if (dim == Level.END) {
-            mode = Mode.END;
-        } else {
-            mode = Mode.OVERWORLD;
+        switch (Dimension.from(dim)) {
+            case OTHERSIDE -> mode = Mode.OTHERSIDE;
+            case ALFHEIM -> mode = Mode.ALFHEIM;
+            case THE_END -> mode = Mode.END;
+            default -> mode = Mode.OVERWORLD;
         }
     }
 
