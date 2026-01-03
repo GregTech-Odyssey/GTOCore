@@ -11,15 +11,13 @@ import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.ClientUtil;
 import com.gtolib.utils.RegistriesUtils;
 
-import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -29,6 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.utils.DummyWorld;
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,16 +51,14 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     @Persisted
     private short accelerate = 0;
 
-    private int timing;
-    private TickableSubscription tickSubs;
+    private final ConditionalSubscriptionHandler tickSubs;
+    private Mode mode = Mode.OVERWORLD;
 
     private boolean clientRemovedBlocks = false;
 
-    @Persisted
-    private short strategy = 0;
-
     public CosmicCelestialSpireOfConvergence(MetaMachineBlockEntity holder) {
         super(holder);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 10, this::isFormed);
     }
 
     @Override
@@ -151,20 +148,13 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 10);
-    }
-
-    @Override
-    public void onStructureInvalid() {
-        super.onStructureInvalid();
-        ITickSubscription.unsubscribe(tickSubs);
-        tickSubs = null;
-        timing = 0;
+        tickSubs.initialize(getLevel());
     }
 
     @Override
     public void clientTick() {
         super.clientTick();
+        if (getLevel() == null || getLevel() instanceof DummyWorld) return;
         if (isFormed()) {
             if (!clientRemovedBlocks) {
                 clientRemovedBlocks = removeBlockFromWorld();
@@ -176,28 +166,54 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         }
     }
 
-    @Override
-    public void onUnload() {
-        super.onUnload();
-        ITickSubscription.unsubscribe(tickSubs);
-        tickSubs = null;
+    private void tickUpdate() {
+        increase();
+        if (getOffsetTimer() % 40 == 0) {
+            getRecipeLogic().updateTickSubscription();
+        }
+        tickSubs.updateSubscription();
     }
 
-    private void tickUpdate() {
-        if (!isFormed()) return;
-        Level world = getLevel();
-        if (world == null) return;
-        increase(world);
-        if (timing == 0) {
-            getRecipeLogic().updateTickSubscription();
-            checkDimensions();
-            timing = 80;
-        } else {
-            timing--;
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (getLevel() != null) {
+            initMode();
         }
     }
 
-    private void increase(Level world) {
+    private void initMode() {
+        var world = getLevel();
+        var dim = world.dimension();
+
+        var dimLocation = dim.location();
+
+        // 太空维度
+        if (PlanetApi.API.isSpace(getLevel())) {
+            mode = Mode.SPACE;
+        }
+        // Void维度：solaris 和 lunara 各加5
+        else if (GTODimensions.isVoid(dimLocation)) {
+            mode = Mode.VOID;
+        }
+        // OTHERSIDE维度：voidflux 加50
+        else if (GTODimensions.OTHERSIDE == dimLocation) {
+            mode = Mode.VOID;
+        }
+        // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
+        else if (GTODimensions.ALFHEIM == dimLocation) {
+            mode = Mode.ALFHEIM;
+        }
+        // 主世界/末地的资源增加逻辑
+        else if (dim == Level.END) {
+            mode = Mode.END;
+        } else {
+            mode = Mode.OVERWORLD;
+        }
+    }
+
+    private void increase() {
+        if (getLevel() == null) return;
         if (accelerate > 0) {
             int cost = GTOValues.MANA[accelerate * 2 + 4] * 2;
             if (cost > removeMana(cost, 1, false)) {
@@ -210,54 +226,28 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         }
 
         int i = 1 << (accelerate * 5);
-        // 太空维度
-        if (strategy == 1) {
-            stellarm = Math.min(max_capacity, stellarm + 2000L * i);
-        }
-        // Void维度：solaris 和 lunara 各加5
-        else if (strategy == 2) {
-            solaris = Math.min(max_capacity, solaris + 500L * i);
-            lunara = Math.min(max_capacity, lunara + 500L * i);
-        }
-        // OTHERSIDE维度：voidflux 加50
-        else if (strategy == 3) {
-            voidflux = Math.min(max_capacity, voidflux + 5000L * i);
-        }
-        // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
-        else if (strategy == 4) {
-            if (world.isDay()) {
-                solaris = Math.min(max_capacity, solaris + 2000L * i);
-            } else if (world.isNight()) {
-                lunara = Math.min(max_capacity, lunara + 2000L * i);
-            }
-        }
-        // 主世界/末地的资源增加逻辑
-        else if (strategy == 5) {
-            voidflux = Math.min(max_capacity, voidflux + 1000L * i);
-        } else if (world.isDay()) {
-            solaris = Math.min(max_capacity, solaris + 1000L * i);
-        } else if (world.isNight()) {
-            lunara = Math.min(max_capacity, lunara + 1000L * i);
-        }
-    }
 
-    private void checkDimensions() {
-        Level world = getLevel();
-        if (world == null) {
-            strategy = 0;
-            return;
-        }
-        ResourceLocation dimLocation = world.dimension().location();
-        if (PlanetApi.API.isSpace(world)) {
-            strategy = 1;
-        } else if (GTODimensions.isVoid(dimLocation)) {
-            strategy = 2;
-        } else if (GTODimensions.OTHERSIDE == dimLocation) {
-            strategy = 3;
-        } else if (GTODimensions.ALFHEIM == dimLocation) {
-            strategy = 4;
-        } else if (world.dimension() == Level.END) {
-            strategy = 5;
+        switch (mode) {
+            case SPACE -> stellarm = Math.min(max_capacity, stellarm + 2000L * i);
+            case VOID -> {
+                solaris = Math.min(max_capacity, solaris + 500L * i);
+                lunara = Math.min(max_capacity, lunara + 500L * i);
+            }
+            case ALFHEIM -> {
+                if (getLevel().isDay()) {
+                    solaris = Math.min(max_capacity, solaris + 2000L * i);
+                } else if (getLevel().isNight()) {
+                    lunara = Math.min(max_capacity, lunara + 2000L * i);
+                }
+            }
+            case END -> voidflux = Math.min(max_capacity, voidflux + 1000L * i);
+            case OVERWORLD -> {
+                if (getLevel().isDay()) {
+                    solaris = Math.min(max_capacity, solaris + 1000L * i);
+                } else if (getLevel().isNight()) {
+                    lunara = Math.min(max_capacity, lunara + 1000L * i);
+                }
+            }
         }
     }
 
@@ -315,5 +305,14 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             case SOUTH -> pos.set(pos.getZ(), pos.getY(), -pos.getX());
         }
         return pos.offset(this.getPos());
+    }
+
+    private enum Mode {
+        VOID,
+        SPACE,
+        ALFHEIM,
+        END,
+        OVERWORLD
+
     }
 }
