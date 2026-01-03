@@ -21,6 +21,7 @@ import static com.mojang.blaze3d.vertex.DefaultVertexFormat.BLOCK;
 public class StructureVBO {
 
     private String[][] structure;
+    private float offsetX = 0f, offsetY = 0f, offsetZ = 0f;
 
     public final Char2ObjectOpenHashMap<Block> mapper = new Char2ObjectOpenHashMap<>();
 
@@ -31,6 +32,13 @@ public class StructureVBO {
 
     public StructureVBO addMapping(char letter, Block block) {
         mapper.put(letter, block);
+        return this;
+    }
+
+    public StructureVBO offset(float x, float y, float z) {
+        this.offsetX = x;
+        this.offsetY = y;
+        this.offsetZ = z;
         return this;
     }
 
@@ -98,6 +106,7 @@ public class StructureVBO {
                     poseStack.translate(structure.length / 2f - x,
                             -plane.length / 2f + y,
                             -row.length() / 2f + z);
+                    poseStack.translate(offsetX, offsetY, offsetZ);
 
                     int light = block.getLightEmission(block.defaultBlockState(), EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
                     renderer.renderModelLists(model, block.asItem().getDefaultInstance(), LightTexture.pack(light, 13), OverlayTexture.NO_OVERLAY, poseStack, bufferBuilder);

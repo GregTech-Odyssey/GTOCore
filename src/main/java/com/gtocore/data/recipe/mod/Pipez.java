@@ -20,17 +20,17 @@ public class Pipez {
     public static void init() {
         if (GTOCore.isEasy()) return;
         if (!Mods.PIPEZ.isLoaded()) return;
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("item_pipe"), RegistriesUtils.getItemStack("pipez:item_pipe", 6),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("item_pipe"), RegistriesUtils.getItemStack("pipez:item_pipe", 12),
                 "AAA",
                 "BBB",
                 "AAA",
                 'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'B', new MaterialEntry(TagPrefix.pipeSmallItem, GTMaterials.Cobalt));
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("fluid_pipe"), RegistriesUtils.getItemStack("pipez:fluid_pipe", 6),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("fluid_pipe"), RegistriesUtils.getItemStack("pipez:fluid_pipe", 12),
                 "AAA",
                 "BBB",
                 "AAA",
                 'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Bronze), 'B', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Potin));
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("universal_pipe"), RegistriesUtils.getItemStack("pipez:universal_pipe", 6),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("universal_pipe"), RegistriesUtils.getItemStack("pipez:universal_pipe", 12),
                 "AAA",
                 "BCD",
                 "EEE",
@@ -39,7 +39,7 @@ public class Pipez {
                 "AAA",
                 "BCB",
                 "BDB",
-                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.WroughtIron), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.RedstoneAlloy), 'C', Items.PISTON, 'D', Items.REDSTONE_TORCH);
+                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.WroughtIron), 'B', new MaterialEntry(TagPrefix.ingot, GTMaterials.RedAlloy), 'C', Items.PISTON, 'D', Items.REDSTONE_TORCH);
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("improved_upgrade"), RegistriesUtils.getItem("pipez:improved_upgrade"),
                 "AAA",
                 "BCB",
