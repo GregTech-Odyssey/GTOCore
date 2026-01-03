@@ -198,7 +198,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         }
         // OTHERSIDE维度：voidflux 加50
         else if (GTODimensions.OTHERSIDE == dimLocation) {
-            mode = Mode.VOID;
+            mode = Mode.OTHERSIDE;
         }
         // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
         else if (GTODimensions.ALFHEIM == dimLocation) {
@@ -240,6 +240,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
                     lunara = Math.min(max_capacity, lunara + 2000L * i);
                 }
             }
+            case OTHERSIDE -> voidflux = Math.min(max_capacity, voidflux + 5000L * i);
             case END -> voidflux = Math.min(max_capacity, voidflux + 1000L * i);
             case OVERWORLD -> {
                 if (getLevel().isDay()) {
@@ -309,6 +310,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
     private enum Mode {
         VOID,
+        OTHERSIDE,
         SPACE,
         ALFHEIM,
         END,
