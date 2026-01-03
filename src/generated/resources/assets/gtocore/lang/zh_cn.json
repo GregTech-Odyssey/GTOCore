@@ -4840,6 +4840,7 @@
   "gtocore.machine.block_conversion_room.am": "每次转化数量: %s",
   "gtocore.machine.boiler.tooltip.warning": "§c警告§r: 请勿在锅炉内积攒过多的蒸汽！",
   "gtocore.machine.components_list": "组件列表: ",
+  "gtocore.machine.conversion_rate": "转换比例: %s mb/EU",
   "gtocore.machine.current_temperature": "当前温度: %sK",
   "gtocore.machine.cwut_modification": "算力修正系数: %s",
   "gtocore.machine.dimensionally_transcendent_plasma_forge.coil": "当前配方模式无法使用该线圈",

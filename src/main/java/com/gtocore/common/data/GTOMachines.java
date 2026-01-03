@@ -495,7 +495,8 @@ public final class GTOMachines {
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(4096000)),
-                    Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"))
+                    Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"),
+                    Component.translatable(LargeSteamHatchPartMachine.CONVERSION_RATE, Component.literal("2").withStyle(ChatFormatting.RED)))
             .allowCoverOnFront(true)
             .register();
 
@@ -504,7 +505,8 @@ public final class GTOMachines {
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(65536000)),
-                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()))
+                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.HighPressureSteam.getFluid(1).getDisplayName()),
+                    Component.translatable(LargeSteamHatchPartMachine.CONVERSION_RATE, Component.literal("0.25").withStyle(ChatFormatting.GREEN)))
             .allowCoverOnFront(true)
             .register();
 
@@ -513,7 +515,8 @@ public final class GTOMachines {
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(1048576000)),
-                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()))
+                    Component.translatable(LargeSteamHatchPartMachine.ACCEPTED_FLUID).append(GTOMaterials.SupercriticalSteam.getFluid(1).getDisplayName()),
+                    Component.translatable(LargeSteamHatchPartMachine.CONVERSION_RATE, Component.literal("0.25").withStyle(ChatFormatting.GREEN)))
             .allowCoverOnFront(true)
             .register();
 

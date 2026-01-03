@@ -22,7 +22,7 @@ final class Scanner {
                 .save();
 
         SCANNER_RECIPES.recipeBuilder("planet_data_chip")
-                .notConsumable(GTOItems.PLANET_DATA_CHIP.get())
+                .inputItems(GTOItems.PLANET_DATA_CHIP.get())
                 .EUt(120)
                 .duration(600)
                 .save();

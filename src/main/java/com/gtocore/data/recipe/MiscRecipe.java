@@ -29,6 +29,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
@@ -676,12 +677,14 @@ public final class MiscRecipe {
                 .duration(100)
                 .save();
 
-        BRICK_FURNACE_RECIPES.builder("brick")
-                .inputItems(Items.COAL)
-                .inputItems(GTItems.COMPRESSED_CLAY, 8)
-                .outputItems(Blocks.BRICKS.asItem(), 2)
-                .duration(100)
-                .save();
+        if (ConfigHolder.INSTANCE.recipes.harderBrickRecipes) {
+            BRICK_FURNACE_RECIPES.builder("brick")
+                    .inputItems(Items.COAL)
+                    .inputItems(GTItems.COMPRESSED_CLAY, 8)
+                    .outputItems(Blocks.BRICKS.asItem(), 2)
+                    .duration(100)
+                    .save();
+        }
 
         FIBER_EXTRUSION_RECIPES.builder("quartz_fiber")
                 .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 3)

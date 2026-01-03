@@ -237,7 +237,7 @@ public final class GTOItems {
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.FLUID_REGULATOR_ULV)))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.gtceu.fluid.regulator.tooltip"));
-                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", (1280 / 2) / 20));
+                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", 16));
             })))
             .register();
 

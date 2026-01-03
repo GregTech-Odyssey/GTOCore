@@ -14,6 +14,8 @@ public final class LargeSteamHatchPartMachine extends SteamHatchPartMachine {
 
     @RegisterLanguage(cn = "§e接受流体：", en = "§eAccepted Fluid: ")
     public static final String ACCEPTED_FLUID = "gtocore.machine.accepted_fluid";
+    @RegisterLanguage(cn = "转换比例: %s mb/EU", en = "Conversion Rate: %s mb/EU")
+    public static final String CONVERSION_RATE = "gtocore.machine.conversion_rate";
 
     public final int o;
     public final int m;

@@ -416,12 +416,11 @@ public final class GCYMMachines {
                 return 1;
             }, true, true, false))
             .genLang("合金冶炼炉")
+            .tooltipsText("安装附属模块后运行速度翻倍", "The running speed doubles after installing the auxiliary module")
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_blast_smelter"))
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_smelter"))
-            .tooltipsText("安装附属模块后运行速度翻倍", "The running speed doubles after installing the auxiliary module")
             .coilParallelTooltips()
             .moduleTooltips(new PartAbility[0])
             .allRotation()
