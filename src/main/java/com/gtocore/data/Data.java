@@ -156,6 +156,7 @@ public final class Data {
         Sophisticated.init();
         $ClassifiedRecipe.init();
         Temporary.init();
+        VanillaFluidRecipeHandler.init();
         if (GTCEu.isDev() || GTOCore.isEasy()) {
             EasyModeRecipe.init();
         }
