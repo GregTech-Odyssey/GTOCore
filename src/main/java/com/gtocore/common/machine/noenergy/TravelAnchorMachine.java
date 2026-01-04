@@ -21,22 +21,19 @@ import net.minecraft.world.item.Items;
 
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
-import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class TravelMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
+public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
     @Persisted
     private final ItemStackTransfer itemTransfer;
 
-    public TravelMachine(MetaMachineBlockEntity holder) {
+    public TravelAnchorMachine(MetaMachineBlockEntity holder) {
         super(holder);
         itemTransfer = new ItemStackTransfer();
         itemTransfer.setOnContentsChanged(this::onInventoryContentsChanged);
@@ -53,16 +50,24 @@ public class TravelMachine extends MetaMachine implements IFancyUIMachine, IMach
     @Override
     public Widget createUIWidget() {
         var group = new WidgetGroup(0, 0, 140, 100);;
+        var setNameLabel = new LabelWidget(14, 8, "ftblibrary.select_item.display_name");
+        group.addWidget(setNameLabel);
         var textInputWidget = new TextFieldWidget()
                 .setTextSupplier(this::getName)
                 .setTextResponder(this::setName);
         textInputWidget.setSelfPosition(14, 20);
         group.addWidget(textInputWidget);
         var toggleButton = createToggleButton();
-        toggleButton.setSelfPosition(110, 10);
+        toggleButton.setSelfPosition(110, 20);
         group.addWidget(toggleButton);
         var size = group.getSize();
-        return group.addWidget(new PhantomSlotWidget(itemTransfer, 0, size.width - 30, size.height - 30).setBackground(GuiTextures.SLOT));
+        var setIconLabel = new LabelWidget(14, size.height - 30, "ftbquests.icon");
+        group.addWidget(setIconLabel);
+        var slot = new PhantomSlotWidget(itemTransfer, 0, size.width - 30, size.height - 30);
+        slot.setMaxStackSize(1);
+        slot.setBackground(GuiTextures.SLOT);
+        group.addWidget(slot);
+        return group;
     }
 
     private void onInventoryContentsChanged() {
@@ -101,7 +106,7 @@ public class TravelMachine extends MetaMachine implements IFancyUIMachine, IMach
         if (travelTarget.isPresent() && travelTarget.get() instanceof AnchorTravelTarget anchorTravelTarget) {
             return anchorTravelTarget;
         }
-        AnchorTravelTarget anchorTravelTarget = new AnchorTravelTarget(worldPosition, "", Items.AIR, true);
+        AnchorTravelTarget anchorTravelTarget = new AnchorTravelTarget(worldPosition, "", Items.AIR, false);
         getTravelData().addTravelTarget(getLevel(), anchorTravelTarget);
         return anchorTravelTarget;
     }

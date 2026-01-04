@@ -318,7 +318,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun isDistinct(): Boolean = true
     override fun setDistinct(isDistinct: Boolean) {}
     override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {
-        super.attachConfigurators(configuratorPanel)
         val configuratorToggle = IFancyConfiguratorButton.Toggle(
             GuiTextureGroup(
                 GuiTextures.BUTTON,

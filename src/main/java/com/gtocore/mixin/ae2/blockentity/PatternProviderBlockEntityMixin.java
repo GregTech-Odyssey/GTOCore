@@ -4,6 +4,7 @@ import com.gtocore.eio_travel.api.ITravelHandlerHook;
 import com.gtocore.eio_travel.api.TravelSavedData;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,7 +27,7 @@ public class PatternProviderBlockEntityMixin extends AENetworkBlockEntity {
     @Inject(method = "onReady", at = @At("RETURN"), remap = false)
     private void onReady(CallbackInfo ci) {
         Level level = getLevel();
-        if (level != null) {
+        if (level instanceof ServerLevel) {
             ITravelHandlerHook.removeAndReadd(level, (PatternProviderLogicHost) this);
         }
     }
@@ -35,7 +36,7 @@ public class PatternProviderBlockEntityMixin extends AENetworkBlockEntity {
     public void setRemoved() {
         super.setRemoved();
         Level level = getLevel();
-        if (level != null) {
+        if (level instanceof ServerLevel) {
             TravelSavedData.getTravelData(level).removeTravelTargetAt(level, getBlockPos());
         }
     }

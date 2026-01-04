@@ -3,6 +3,7 @@ package com.gtocore.mixin.ae2.blockentity;
 import com.gtocore.eio_travel.api.ITravelHandlerHook;
 import com.gtocore.eio_travel.api.TravelSavedData;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
 import appeng.api.parts.IPartItem;
@@ -24,7 +25,7 @@ public abstract class PatternProviderPartMixin extends AEBasePart {
     @Inject(method = "addToWorld", at = @At("RETURN"), remap = false)
     private void addToWorld(CallbackInfo ci) {
         Level level = getLevel();
-        if (level != null) {
+        if (level instanceof ServerLevel) {
             ITravelHandlerHook.removeAndReadd(level, (PatternProviderLogicHost) this);
         }
     }
@@ -33,7 +34,7 @@ public abstract class PatternProviderPartMixin extends AEBasePart {
     public void removeFromWorld() {
         super.removeFromWorld();
         Level level = getLevel();
-        if (level != null) {
+        if (level instanceof ServerLevel) {
             TravelSavedData.getTravelData(level).removeTravelTargetAt(level, getBlockEntity().getBlockPos());
         }
     }

@@ -61,7 +61,7 @@ public class TravelAnchorHud implements IGuiOverlay {
             // Draw icon as an item
             Item icon = anchorTarget.getIcon();
             if (icon == Blocks.AIR.asItem()) {
-                icon = GTOMachines.BLOCK_BUS.asItem();
+                icon = GTOMachines.TRAVEL_ANCHOR.asItem();
             }
             ItemStack itemStack = icon.getDefaultInstance();
             int x = centerX + getOffset(CURSOR_GAP, ITEM_SIZE, direction.getStepX());

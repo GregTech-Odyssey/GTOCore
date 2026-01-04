@@ -57,6 +57,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.hepdd.gtmthings.GTMThings;
 import it.unimi.dsi.fastutil.Function;
@@ -941,10 +942,10 @@ public final class GTOMachines {
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
             .register();
 
-    public static final MachineDefinition TRAVEL_ANCHOR = machine("travel_anchor", "旅行锚", TravelMachine::new)
-            .nonYAxisRotation()
+    public static final MachineDefinition TRAVEL_ANCHOR = machine("travel_anchor", "旅行锚", TravelAnchorMachine::new)
+            .noneRotation()
             .tooltips(GTOMachineStories.INSTANCE.getTravelAnchorTooltips().getSupplier())
-            .renderer(() -> new OverlayTieredMachineRenderer(ULV, GTCEu.id("block/machine/part/optical_data_hatch")))
+            .modelRenderer(() -> ResourceLocation.fromNamespaceAndPath("enderio", "block/travel_anchor"))
             .register();
 
     public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,

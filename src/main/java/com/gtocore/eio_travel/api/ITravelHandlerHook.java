@@ -125,7 +125,7 @@ public interface ITravelHandlerHook {
         if (travelTarget.isPresent() && travelTarget.get() instanceof ITravelTarget anchorTravelTarget) {
             TravelSavedData.getTravelData(level).removeTravelTargetAt(level, anchorTravelTarget.getPos());
         }
-        if (!GTOConfig.INSTANCE.staffOfTravellingPatternNodes) return;
+        if (!GTOConfig.INSTANCE.travelConfig.staffOfTravellingPatternNodes) return;
         ITravelTarget anchorTravelTarget = new PatternTravelTarget(host);
         TravelSavedData.getTravelData(level).addTravelTarget(level, anchorTravelTarget);
         requireResync(level);
@@ -136,7 +136,7 @@ public interface ITravelHandlerHook {
         if (travelTarget.isPresent() && travelTarget.get() instanceof ITravelTarget anchorTravelTarget) {
             TravelSavedData.getTravelData(level).removeTravelTargetAt(level, anchorTravelTarget.getPos());
         }
-        if (!GTOConfig.INSTANCE.staffOfTravellingPatternNodes) return;
+        if (!GTOConfig.INSTANCE.travelConfig.staffOfTravellingPatternNodes) return;
         ITravelTarget anchorTravelTarget = new PatternTravelTarget(host);
         TravelSavedData.getTravelData(level).addTravelTarget(level, anchorTravelTarget);
         requireResync(level);

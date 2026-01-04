@@ -178,11 +178,6 @@ public final class GTOConfig {
     public boolean allowMissingCraftingJobs = true;
 
     @Configurable
-    @Configurable.Comment({ "启用后，样板供应器/样板总成会显示在旅行权杖的节点列表中，以便捷传送", "When enabled, Pattern Providers/Pattern Assemblers will appear in the node list of the Staff Of Travelling for easy teleportation" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff Of Travelling Pattern Nodes", cn = "旅行权杖样板节点")
-    public boolean staffOfTravellingPatternNodes = true;
-
-    @Configurable
     @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，EMI 的作弊交互功能将转为试图从现有的ME终端/无线终端中提取物品", "When enabled, and EMI cheats are not enabled, EMI's cheat interaction feature will attempt to extract items from existing ME Terminals/Wireless Terminals" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Non-Cheat EMI Interaction", cn = "非作弊时EMI交互")
     public boolean nonCheatEmiInteraction = true;
@@ -191,18 +186,6 @@ public final class GTOConfig {
     @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，在 EMI 界面中悬停物品时，将显示 AE 系统中该物品的数量信息", "When enabled, and EMI cheats are not enabled, hovering over an item in the EMI interface will show the quantity information of that item in the AE system" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show AE Amount Tooltip Everywhere in EMI", cn = "在EMI显示 AE 数量提示")
     public boolean showAEAmountTooltipEverywhereEmi = true;
-
-    @Configurable
-    @Configurable.Comment({ "启用后，选取方块时，若AE终端没有相关物品，但相关物品可合成，则自动触发合成请求", "When enabled, when picking a block, if the AE terminal does not have the relevant item but it can be crafted, an automatic crafting request is triggered" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Auto Craft on Pick Block", cn = "选取方块自动合成")
-    public boolean pickCraft = true;
-
-    @Configurable
-    @Configurable.Comment({ "选取方块时，自动触发的最大合成任务数", "The maximum number of crafting tasks automatically triggered when picking a block" })
-    @Configurable.Range(min = 1, max = 100)
-    @Configurable.Gui.Slider
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Pick Block Craft Max Tasks", cn = "选取方块合成最大任务数")
-    public int pickCraftMaxTasks = 3;
 
     // 性能优化设置
     @Configurable
@@ -338,17 +321,25 @@ public final class GTOConfig {
         @Configurable.Comment({ "锚到锚之间的最大传送距离（格）", "The maximum teleportation distance between anchors (blocks)" })
         @Configurable.Gui.Slider
         public int blockRange = 96;
+
         @Configurable
         @Configurable.Range(min = 4, max = 16 * 32)
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Travel Anchor Item Range (blocks)", cn = "旅行锚物品范围（格）")
         @Configurable.Comment({ "旅行手杖向锚点传送的最大距离（格）", "The maximum distance (blocks) the Staff of Travelling can teleport to an anchor" })
         @Configurable.Gui.Slider
         public int itemRange = 192;
+
         @Configurable
         @Configurable.Range(min = 4, max = 64)
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff of Travelling Blink Range (blocks)", cn = "旅行手杖瞬移范围（格）")
         @Configurable.Comment({ "旅行手杖瞬移功能的最大距离（格）", "The maximum distance (blocks) for the Staff of Travelling's blink function" })
+        @Configurable.Gui.Slider
         public int blinkRange = 24;
+
+        @Configurable
+        @Configurable.Comment({ "启用后，样板供应器/样板总成会显示在旅行手杖的节点列表中，以便捷传送", "When enabled, Pattern Providers/Pattern Assemblers will appear in the node list of the Staff Of Travelling for easy teleportation" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff Of Travelling Pattern Nodes", cn = "旅行手杖样板节点")
+        public boolean staffOfTravellingPatternNodes = true;
     }
 
     @Configurable
