@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.mana;
 
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gtocore.api.gui.GTOGuiTextures;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -152,6 +153,11 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
         return new ModularUI(176, 166, this, entityPlayer)
                 .widget(new FancyMachineUIWidget(this, 176, 166))
                 .widget(widgetsOuter);
+    }
+
+    @Override
+    public void attachSideTabs(TabsWidget sideTabs) {
+        sideTabs.setMainTab(this);
     }
 
     @Override
