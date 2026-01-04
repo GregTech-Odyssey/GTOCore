@@ -48,7 +48,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gtocore.common.machine.mana.CelestialCondenser.*;
+import static com.gtocore.common.machine.mana.CelestialHandler.*;
 import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_1;
 import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_2;
 import static com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.SPOOL;

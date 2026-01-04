@@ -3,10 +3,9 @@ package com.gtocore.common.machine.mana.multiblock;
 import com.gtocore.client.renderer.StructurePattern;
 import com.gtocore.client.renderer.StructureVBO;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.machine.mana.CelestialHandler;
 
 import com.gtolib.api.GTOValues;
-import com.gtolib.api.data.Dimension;
-import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.ClientUtil;
@@ -20,6 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,36 +28,44 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
-import earth.terrarium.adastra.api.planets.PlanetApi;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.gtocore.common.machine.mana.CelestialCondenser.*;
+import static com.gtocore.common.machine.mana.CelestialHandler.*;
 
 public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
+    private final CelestialHandler celestialHandler;
+
+    @Getter
     @Persisted
     private long solaris = 0;
+    @Getter
     @Persisted
     private long lunara = 0;
+    @Getter
     @Persisted
     private long voidflux = 0;
+    @Getter
     @Persisted
     private long stellarm = 0;
-    private static final long max_capacity = 5000000000000000000L;
+
+    @Persisted
+    private CelestialHandler.Mode mode = CelestialHandler.Mode.OVERWORLD;
 
     @Persisted
     private short accelerate = 0;
 
+    private int timing;
     private final ConditionalSubscriptionHandler tickSubs;
-    private Mode mode = Mode.OVERWORLD;
-
     private boolean clientRemovedBlocks = false;
 
     public CosmicCelestialSpireOfConvergence(MetaMachineBlockEntity holder) {
         super(holder);
+        this.celestialHandler = new CelestialHandler(5000000000000000000L);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 10, this::isFormed);
     }
 
@@ -75,48 +83,33 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         else if (lunaraCost > 0) parallel = this.lunara / lunaraCost;
         else if (voidfluxCost > 0) parallel = this.voidflux / voidfluxCost;
         else if (stellarmCost > 0) parallel = this.stellarm / stellarmCost;
-        else if (anyCost > 0) parallel = (this.solaris + this.lunara + this.voidflux + this.stellarm) / anyCost;
+        else if (anyCost > 0)
+            parallel = (this.solaris + this.lunara + this.voidflux + this.stellarm) / anyCost;
         if (parallel == 0) return null;
         recipe = ParallelLogic.accurateParallel(this, recipe, parallel);
 
         if (recipe == null) return null;
         parallel = recipe.parallels;
 
+        Object[] deductResult = null;
         if (solarisCost > 0) {
-            this.solaris = Math.max(0L, this.solaris - (solarisCost * parallel));
+            deductResult = celestialHandler.deductResource(SOLARIS, solarisCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         } else if (lunaraCost > 0) {
-            this.lunara = Math.max(0L, this.lunara - (lunaraCost * parallel));
+            deductResult = celestialHandler.deductResource(LUNARA, lunaraCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         } else if (voidfluxCost > 0) {
-            this.voidflux = Math.max(0L, this.voidflux - (voidfluxCost * parallel));
+            deductResult = celestialHandler.deductResource(VOIDFLUX, voidfluxCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         } else if (stellarmCost > 0) {
-            this.stellarm = Math.max(0L, this.stellarm - (stellarmCost * parallel));
-        } else {
-            long remainingCost = anyCost * parallel;
-            if (remainingCost > 0 && this.solaris > 0) {
-                long deduct = Math.min(this.solaris, remainingCost);
-                this.solaris = Math.max(0, this.solaris - deduct);
-                remainingCost -= deduct;
-            }
-            if (remainingCost > 0 && this.lunara > 0) {
-                long deduct = Math.min(this.lunara, remainingCost);
-                this.lunara = Math.max(0, this.lunara - deduct);
-                remainingCost -= deduct;
-            }
-            if (remainingCost > 0 && this.voidflux > 0) {
-                long deduct = Math.min(this.voidflux, remainingCost);
-                this.voidflux = Math.max(0, this.voidflux - deduct);
-                remainingCost -= deduct;
-            }
-            if (remainingCost > 0 && this.stellarm > 0) {
-                long deduct = Math.min(this.stellarm, remainingCost);
-                this.stellarm = Math.max(0, this.stellarm - deduct);
-                remainingCost -= deduct;
-            }
-            if (remainingCost > 0) {
-                return null;
-            }
+            deductResult = celestialHandler.deductResource(STELLARM, stellarmCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
+        } else if (anyCost > 0) {
+            deductResult = celestialHandler.deductResource("ANY", anyCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         }
 
+        if (deductResult != null && (boolean) deductResult[0]) {
+            this.solaris = (long) deductResult[1];
+            this.lunara = (long) deductResult[2];
+            this.voidflux = (long) deductResult[3];
+            this.stellarm = (long) deductResult[4];
+        }
         return recipe;
     }
 
@@ -132,10 +125,15 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
                     .append(ComponentPanelWidget.withButton(Component.literal("[-] "), "ocSub"))
                     .append(ComponentPanelWidget.withButton(Component.literal("[+]"), "ocAdd")));
         }
-        if (solaris > 0) textList.add(Component.translatable("gtocore.celestial_condenser." + SOLARIS, solaris));
-        if (lunara > 0) textList.add(Component.translatable("gtocore.celestial_condenser." + LUNARA, lunara));
-        if (voidflux > 0) textList.add(Component.translatable("gtocore.celestial_condenser." + VOIDFLUX, voidflux));
-        if (stellarm > 0) textList.add(Component.translatable("gtocore.celestial_condenser." + STELLARM, stellarm));
+
+        if (this.solaris > 0)
+            textList.add(Component.translatable("gtocore.celestial_condenser." + SOLARIS, this.solaris));
+        if (this.lunara > 0)
+            textList.add(Component.translatable("gtocore.celestial_condenser." + LUNARA, this.lunara));
+        if (this.voidflux > 0)
+            textList.add(Component.translatable("gtocore.celestial_condenser." + VOIDFLUX, this.voidflux));
+        if (this.stellarm > 0)
+            textList.add(Component.translatable("gtocore.celestial_condenser." + STELLARM, this.stellarm));
     }
 
     @Override
@@ -167,42 +165,30 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     }
 
     private void tickUpdate() {
-        increase();
-        if (getOffsetTimer() % 40 == 0) {
+        Level world = getLevel();
+        if (world == null) return;
+        if (timing == 0) {
             getRecipeLogic().updateTickSubscription();
+            timing = 40;
+        } else {
+            timing--;
         }
-        tickSubs.updateSubscription();
+        long[] updatedResources = celestialHandler.increase(world, getMultiple() * 100, this.solaris, this.lunara, this.voidflux, this.stellarm, this.mode);
+        this.solaris = updatedResources[0];
+        this.lunara = updatedResources[1];
+        this.voidflux = updatedResources[2];
+        this.stellarm = updatedResources[3];
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
         if (getLevel() != null) {
-            initMode();
+            this.mode = celestialHandler.initMode(getLevel());
         }
     }
 
-    private void initMode() {
-        var world = getLevel();
-        var dim = world.dimension();
-
-        if (PlanetApi.API.isSpace(getLevel())) {
-            mode = Mode.SPACE;
-            return;
-        } else if (GTODimensions.isVoid(dim.location())) {
-            mode = Mode.VOID;
-            return;
-        }
-        mode = switch (Dimension.from(dim)) {
-            case OTHERSIDE -> Mode.OTHERSIDE;
-            case ALFHEIM -> Mode.ALFHEIM;
-            case THE_END -> Mode.END;
-            default -> Mode.OVERWORLD;
-        };
-    }
-
-    private void increase() {
-        if (getLevel() == null) return;
+    private int getMultiple() {
         if (accelerate > 0) {
             int cost = GTOValues.MANA[accelerate * 2 + 4] * 2;
             if (cost > removeMana(cost, 1, false)) {
@@ -213,32 +199,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
                 }
             }
         }
-
-        int i = 1 << (accelerate * 5);
-
-        switch (mode) {
-            case SPACE -> stellarm = Math.min(max_capacity, stellarm + 2000L * i);
-            case VOID -> {
-                solaris = Math.min(max_capacity, solaris + 500L * i);
-                lunara = Math.min(max_capacity, lunara + 500L * i);
-            }
-            case ALFHEIM -> {
-                if (getLevel().isDay()) {
-                    solaris = Math.min(max_capacity, solaris + 2000L * i);
-                } else if (getLevel().isNight()) {
-                    lunara = Math.min(max_capacity, lunara + 2000L * i);
-                }
-            }
-            case OTHERSIDE -> voidflux = Math.min(max_capacity, voidflux + 5000L * i);
-            case END -> voidflux = Math.min(max_capacity, voidflux + 1000L * i);
-            case OVERWORLD -> {
-                if (getLevel().isDay()) {
-                    solaris = Math.min(max_capacity, solaris + 1000L * i);
-                } else if (getLevel().isNight()) {
-                    lunara = Math.min(max_capacity, lunara + 1000L * i);
-                }
-            }
-        }
+        return 1 << (accelerate * 5);
     }
 
     private boolean removeBlockFromWorld() {
@@ -295,15 +256,5 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             case SOUTH -> pos.set(pos.getZ(), pos.getY(), -pos.getX());
         }
         return pos.offset(this.getPos());
-    }
-
-    private enum Mode {
-        VOID,
-        OTHERSIDE,
-        SPACE,
-        ALFHEIM,
-        END,
-        OVERWORLD
-
     }
 }

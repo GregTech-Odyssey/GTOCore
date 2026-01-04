@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.mana;
 
-import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -12,43 +11,49 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import earth.terrarium.adastra.api.planets.PlanetApi;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+import static com.gtocore.common.machine.mana.CelestialHandler.*;
+
 public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaDisplayProvider {
 
-    public static final String SOLARIS = "solaris";
-    public static final String LUNARA = "lunara";
-    public static final String VOIDFLUX = "voidflux";
-    public static final String STELLARM = "stellarm";
+    private final CelestialHandler celestialHandler;
+
+    @Getter
+    @Persisted
+    private long solaris = 0;
+    @Getter
+    @Persisted
+    private long lunara = 0;
+    @Getter
+    @Persisted
+    private long voidflux = 0;
+    @Getter
+    @Persisted
+    private long stellarm = 0;
 
     @Persisted
-    private int solaris = 0;
+    private final long MAX_CAPACITY = 1000000;
+
     @Persisted
-    private int lunara = 0;
-    @Persisted
-    private int voidflux = 0;
-    @Persisted
-    private int stellarm = 0;
-    private static final int max_capacity = 1000000;
+    private CelestialHandler.Mode mode = CelestialHandler.Mode.OVERWORLD;
+
     private int timing;
     private boolean clearSky;
     private TickableSubscription tickSubs;
 
-    @Persisted
-    private short strategy = 0;
-
     public CelestialCondenser(MetaMachineBlockEntity holder) {
         super(holder, 1, t -> 16000);
+        this.celestialHandler = new CelestialHandler(MAX_CAPACITY);
     }
 
     @Override
@@ -58,24 +63,27 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         int voidfluxCost = recipe.data.getInt(VOIDFLUX);
         int stellarmCost = recipe.data.getInt(STELLARM);
         int anyCost = recipe.data.getInt("any");
-        if (solarisCost > 0 && solarisCost > this.solaris) return false;
-        else if (lunaraCost > 0 && lunaraCost > this.lunara) return false;
-        else if (voidfluxCost > 0 && voidfluxCost > this.voidflux) return false;
-        else if (stellarmCost > 0 && stellarmCost > this.stellarm) return false;
-        else if (anyCost > 0 && anyCost > this.solaris && anyCost > this.lunara && anyCost > this.voidflux && anyCost > this.stellarm) return false;
 
-        if (!super.beforeWorking(recipe)) return false;
-
-        if (solarisCost > 0) this.solaris -= solarisCost;
-        else if (lunaraCost > 0) this.lunara -= lunaraCost;
-        else if (voidfluxCost > 0) this.voidflux -= voidfluxCost;
-        else if (stellarmCost > 0) this.stellarm -= stellarmCost;
-        else if (anyCost > 0) {
-            if (this.solaris >= anyCost) this.solaris -= anyCost;
-            else if (this.lunara >= anyCost) this.lunara -= anyCost;
-            else if (this.voidflux >= anyCost) this.voidflux -= anyCost;
-            else this.stellarm -= anyCost;
+        Object[] deductResult = null;
+        if (solarisCost > 0) {
+            deductResult = celestialHandler.deductResource(SOLARIS, solarisCost, 1, solaris, lunara, voidflux, stellarm);
+        } else if (lunaraCost > 0) {
+            deductResult = celestialHandler.deductResource(LUNARA, lunaraCost, 1, solaris, lunara, voidflux, stellarm);
+        } else if (voidfluxCost > 0) {
+            deductResult = celestialHandler.deductResource(VOIDFLUX, voidfluxCost, 1, solaris, lunara, voidflux, stellarm);
+        } else if (stellarmCost > 0) {
+            deductResult = celestialHandler.deductResource(STELLARM, stellarmCost, 1, solaris, lunara, voidflux, stellarm);
+        } else if (anyCost > 0) {
+            deductResult = celestialHandler.deductResource("ANY", anyCost, 1, solaris, lunara, voidflux, stellarm);
         }
+
+        if (deductResult == null || !(boolean) deductResult[0]) {
+            return false;
+        }
+        this.solaris = (long) deductResult[1];
+        this.lunara = (long) deductResult[2];
+        this.voidflux = (long) deductResult[3];
+        this.stellarm = (long) deductResult[4];
 
         return true;
     }
@@ -83,6 +91,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     @Override
     public void onLoad() {
         super.onLoad();
+        this.mode = celestialHandler.initMode(getLevel());
         if (!isRemote()) {
             tickSubs = subscribeServerTick(tickSubs, this::tickUpdate, 10);
         }
@@ -103,7 +112,6 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         BlockPos pos = getPos();
         if (timing == 0) {
             getRecipeLogic().updateTickSubscription();
-            checkDimensions();
             clearSky = hasClearSky(world, pos);
             timing = 40;
         } else if (timing % 10 == 0) {
@@ -112,58 +120,12 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         } else {
             timing--;
         }
-        if (clearSky) increase(world);
-    }
-
-    private void increase(Level world) {
-        // 太空维度
-        if (strategy == 1) {
-            stellarm = Math.min(max_capacity, stellarm + 20);
-        }
-        // Void维度：solaris 和 lunara 各加5
-        else if (strategy == 2) {
-            solaris = Math.min(max_capacity, solaris + 5);
-            lunara = Math.min(max_capacity, lunara + 5);
-        }
-        // OTHERSIDE维度：voidflux 加50
-        else if (strategy == 3) {
-            voidflux = Math.min(max_capacity, voidflux + 50);
-        }
-        // ALFHEIM维度：白天 solaris 20，黑夜 lunara + 20
-        else if (strategy == 4) {
-            if (world.isDay()) {
-                solaris = Math.min(max_capacity, solaris + 20);
-            } else if (world.isNight()) {
-                lunara = Math.min(max_capacity, lunara + 20);
-            }
-        }
-        // 主世界/末地的资源增加逻辑
-        else if (strategy == 5) {
-            voidflux = Math.min(max_capacity, voidflux + 10);
-        } else if (world.isDay()) {
-            solaris = Math.min(max_capacity, solaris + 10);
-        } else if (world.isNight()) {
-            lunara = Math.min(max_capacity, lunara + 10);
-        }
-    }
-
-    private void checkDimensions() {
-        Level world = getLevel();
-        if (world == null) {
-            strategy = 0;
-            return;
-        }
-        ResourceLocation dimLocation = world.dimension().location();
-        if (PlanetApi.API.isSpace(world)) {
-            strategy = 1;
-        } else if (GTODimensions.isVoid(dimLocation)) {
-            strategy = 2;
-        } else if (GTODimensions.OTHERSIDE == dimLocation) {
-            strategy = 3;
-        } else if (GTODimensions.ALFHEIM == dimLocation) {
-            strategy = 4;
-        } else if (world.dimension() == Level.END) {
-            strategy = 5;
+        if (clearSky) {
+            long[] updatedResources = celestialHandler.increase(world, 1, solaris, lunara, voidflux, stellarm, mode);
+            this.solaris = updatedResources[0];
+            this.lunara = updatedResources[1];
+            this.voidflux = updatedResources[2];
+            this.stellarm = updatedResources[3];
         }
     }
 
@@ -188,32 +150,23 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
 
     @Override
     public void appendWailaTooltip(CompoundTag data, ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        int solaris = data.getInt(SOLARIS);
-        int lunara = data.getInt(LUNARA);
-        int voidflux = data.getInt(VOIDFLUX);
-        int stellarm = data.getInt(STELLARM);
-        int maxCapacity = data.getInt("max_capacity");
-
-        if (solaris > 0) {
-            iTooltip.add(Component.translatable("gtocore.celestial_condenser.solaris", (solaris + "/" + maxCapacity)));
-        }
-        if (lunara > 0) {
-            iTooltip.add(Component.translatable("gtocore.celestial_condenser.lunara", (lunara + "/" + maxCapacity)));
-        }
-        if (voidflux > 0) {
-            iTooltip.add(Component.translatable("gtocore.celestial_condenser.voidflux", (voidflux + "/" + maxCapacity)));
-        }
-        if (stellarm > 0) {
-            iTooltip.add(Component.translatable("gtocore.celestial_condenser.stellarm", (stellarm + "/" + maxCapacity)));
-        }
+        long solaris = data.getLong(SOLARIS);
+        long lunara = data.getLong(LUNARA);
+        long voidflux = data.getLong(VOIDFLUX);
+        long stellarm = data.getLong(STELLARM);
+        long maxCapacity = data.getLong("max_capacity");
+        if (solaris > 0) iTooltip.add(Component.translatable("gtocore.celestial_condenser.solaris", solaris + "/" + maxCapacity));
+        if (lunara > 0) iTooltip.add(Component.translatable("gtocore.celestial_condenser.lunara", lunara + "/" + maxCapacity));
+        if (voidflux > 0) iTooltip.add(Component.translatable("gtocore.celestial_condenser.voidflux", voidflux + "/" + maxCapacity));
+        if (stellarm > 0) iTooltip.add(Component.translatable("gtocore.celestial_condenser.stellarm", stellarm + "/" + maxCapacity));
     }
 
     @Override
     public void appendWailaData(CompoundTag data, BlockAccessor blockAccessor) {
-        data.putInt(SOLARIS, solaris);
-        data.putInt(LUNARA, lunara);
-        data.putInt(VOIDFLUX, voidflux);
-        data.putInt(STELLARM, stellarm);
-        data.putInt("max_capacity", max_capacity);
+        data.putLong(SOLARIS, this.solaris);
+        data.putLong(LUNARA, this.lunara);
+        data.putLong(VOIDFLUX, this.voidflux);
+        data.putLong(STELLARM, this.stellarm);
+        data.putLong("max_capacity", this.MAX_CAPACITY);
     }
 }
