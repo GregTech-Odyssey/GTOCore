@@ -4,6 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.data.machines.*;
+import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.electric.*;
 import com.gtocore.common.machine.generator.LightningRodMachine;
@@ -938,6 +939,12 @@ public final class GTOMachines {
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getVillageTradingStationTooltips().apply(list))
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
+            .register();
+
+    public static final MachineDefinition TRAVEL_ANCHOR = machine("travel_anchor", "旅行锚", TravelMachine::new)
+            .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getTravelAnchorTooltips().getSupplier())
+            .renderer(() -> new OverlayTieredMachineRenderer(ULV, GTCEu.id("block/machine/part/optical_data_hatch")))
             .register();
 
     public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,

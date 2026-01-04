@@ -1276,6 +1276,11 @@ public final class GTOItems {
             .model(NonNullBiConsumer.noop())
             .register();
 
+    public static final ItemEntry<ComponentItem> TRAVEL_STAFF = item("travel_staff", "旅行手杖", p -> ComponentItem.create(p.stacksTo(1)))
+            .lang("The Staff of Travelling")
+            .onRegister(attach(TravelStaffBehavior.create()))
+            .register();
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())

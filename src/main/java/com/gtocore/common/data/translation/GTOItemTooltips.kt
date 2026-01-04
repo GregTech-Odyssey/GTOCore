@@ -96,6 +96,21 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         info("前期大量获取种子去种地的好帮手" translatedTo "A good helper for obtaining seeds in large quantities in the early game")
     }
 
+    val TravelStaff = ComponentListSupplier {
+        setTranslationPrefix("the_staff_of_travelling")
+
+        info("末影接口经典款式传送工具仿制品" translatedTo "A replica of the classic teleportation tool of the Ender IO Inc.")
+
+        section(ComponentSlang.MainFunction)
+        guide("右键选择目标并传送" translatedTo "Right click to select target and teleport")
+        guide("潜行右键可短距离折跃" translatedTo "Shift + Right click to blink a short distance")
+        guide("左键可以切换三种模式" translatedTo "Left click air to switch between three modes")
+        command("1.可以选中所有目标" translatedTo "First mode: Can select all targets")
+        command("2.可以在每个区块选中一个目标" translatedTo "Second mode: Can select one target per block")
+        command("3.可以选中点击到的目标" translatedTo "Third mode: Can select the target you clicked")
+        info("很多AE节点现在都可以作为传送锚点" translatedTo "Many AE nodes can now be used as teleport anchors")
+    }
+
     // 时间扭曲者
     val TimeTwisterTooltips = ComponentListSupplier {
         setTranslationPrefix("time_twister")

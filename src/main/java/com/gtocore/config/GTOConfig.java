@@ -319,6 +319,39 @@ public final class GTOConfig {
     public SparkRange startSpark = SparkRange.NONE;
 
     @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Travel Settings", cn = "旅行手杖/旅行锚设置")
+    public TravelConfig travelConfig = new TravelConfig();
+
+    @DataGeneratorScanned
+    public static class TravelConfig {
+
+        @Configurable
+        @Configurable.Range(min = 0, max = 20 * 60)
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Travel Staff Cooldown (ticks)", cn = "旅行权杖冷却时间（tick）")
+        @Configurable.Comment({ "旅行权杖使用后的冷却时间（tick）", "Cooldown time after using the Staff of Travelling (ticks)" })
+        @Configurable.Gui.Slider
+        public int travelStaffCooldown = 5;
+
+        @Configurable
+        @Configurable.Range(min = 4, max = 16 * 32)
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Travel Anchor Block Range (blocks)", cn = "旅行锚方块范围（格）")
+        @Configurable.Comment({ "锚到锚之间的最大传送距离（格）", "The maximum teleportation distance between anchors (blocks)" })
+        @Configurable.Gui.Slider
+        public int blockRange = 96;
+        @Configurable
+        @Configurable.Range(min = 4, max = 16 * 32)
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Travel Anchor Item Range (blocks)", cn = "旅行锚物品范围（格）")
+        @Configurable.Comment({ "旅行手杖向锚点传送的最大距离（格）", "The maximum distance (blocks) the Staff of Travelling can teleport to an anchor" })
+        @Configurable.Gui.Slider
+        public int itemRange = 192;
+        @Configurable
+        @Configurable.Range(min = 4, max = 64)
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Staff of Travelling Blink Range (blocks)", cn = "旅行手杖瞬移范围（格）")
+        @Configurable.Comment({ "旅行手杖瞬移功能的最大距离（格）", "The maximum distance (blocks) for the Staff of Travelling's blink function" })
+        public int blinkRange = 24;
+    }
+
+    @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Settings", cn = "生物设置")
     public MobConfig mobConfig = new MobConfig();
 
@@ -394,11 +427,11 @@ public final class GTOConfig {
     }
 
     public static <T> void set(String fieldName, T value, String... objectPath) {
+        if (objectPath.length == 0) {
+            set(fieldName, value);
+            return;
+        }
         getConfig(GTOCore.MOD_ID).ifPresent(config -> {
-            if (objectPath.length == 0) {
-                set(fieldName, value);
-                return;
-            }
             ObjectValue valueMap0 = (ObjectValue) config.getValueMap().get(objectPath[0]);
             if (objectPath.length == 1) {
                 ((ConfigValue<T>) (valueMap0.getChildById(fieldName))).setValue(value);

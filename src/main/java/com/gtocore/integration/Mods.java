@@ -17,7 +17,8 @@ public enum Mods {
     BIOMESOPLENTY("biomesoplenty"),
     BIOMESWEVEGONE("biomeswevegone"),
     PIPEZ("pipez"),
-    FTBQUESTS("ftbquests");
+    FTBQUESTS("ftbquests"),
+    CONSTRUCTION_WAND("constructionwand");
 
     @Getter
     private final boolean loaded;

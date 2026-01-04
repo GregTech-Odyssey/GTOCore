@@ -2,6 +2,7 @@ package com.gtocore.common.data.translation
 
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.misc.AutoInitialize
+import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 
 /**
  * 用于收纳机器小作文
@@ -1378,5 +1379,13 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("它集成了多种先进的化学处理技术" translatedTo "It integrates multiple advanced chemical processing technologies")
         story("能够高效地进行复杂的化学反应和物质分离" translatedTo "Capable of efficiently performing complex chemical reactions and material separations")
         highlight("工业化学的未来已然到来" translatedTo "The future of industrial chemistry is here")
+    }
+    val travelAnchorTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("travel_anchor")
+
+        story("几年前，末影接口基团因一场重大的管道事故被迫终止与格雷寰宇重工的合作" translatedTo "Several years ago, the Ender IO Group was forced to terminate its cooperation with GregTech Cosmic Heavy Industries due to a major pipeline accident")
+        story("但短距离的空间折跃传送技术一直是双方合作的重点之一" translatedTo "However, short-distance spatial warp teleportation technology has always been one of the focuses of cooperation between the two parties")
+        story("为了弥补这一空白，员工们夜以继日地开展逆向工程" translatedTo "To fill this gap, employees worked day and night on reverse engineering")
+        story("最终成功仿制出了这台旅行锚点装置" translatedTo "Finally successfully replicated this travel anchor device")
     }
 }
