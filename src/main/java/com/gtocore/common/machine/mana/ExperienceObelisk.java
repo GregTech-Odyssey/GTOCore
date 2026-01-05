@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.mana;
 
-import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gtocore.api.gui.GTOGuiTextures;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -11,6 +10,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.ToggleButtonWidget;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;

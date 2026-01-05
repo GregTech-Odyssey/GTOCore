@@ -1,15 +1,24 @@
 package com.gtocore.common.data.translation
 
 import com.gtocore.api.lang.ComponentListSupplier
+import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
+import com.gtocore.common.data.GTOBlocks
+import com.gtocore.common.data.GTOItems
+import com.gtocore.config.GTOConfig
 import com.gtocore.utils.setTooltips
 
+import net.minecraft.network.chat.Component
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
+import com.gregtechceu.gtceu.GTCEu
+import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.shadowsoffire.apotheosis.adventure.Adventure
 import earth.terrarium.adastra.common.registry.ModBlocks
@@ -179,6 +188,36 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 }.editionByGTONormal(),
             )
         }
+        val bomb = { block: Block, activateItem: Item ->
+            block.asItem().setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("charge_bomb")
+
+                    if (GTCEu.isDataGen() || !GTOConfig.INSTANCE.disableChargeBomb) {
+                        info(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.activate_by",
+                                    activateItem.description,
+                                ),
+                            ),
+                        )
+                        info("也可以把它喂给热爆花..." translatedTo "It can also be fed to entropinnyum flowers...")
+                    } else {
+                        error(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.charge_bomb.disabled",
+                                ),
+                            ),
+                        )
+                    }
+                },
+            )
+        }
+        bomb(GTOBlocks.NAQUADRIA_CHARGE.get(), GTItems.QUANTUM_STAR.asItem())
+        bomb(GTOBlocks.LEPTONIC_CHARGE.get(), GTItems.GRAVI_STAR.asItem())
+        bomb(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get(), GTOItems.UNSTABLE_STAR.asItem())
 
         listOf(AEItems.ITEM_CELL_256K.asItem(), AEItems.FLUID_CELL_256K.asItem()).forEach {
             it.setTooltips(

@@ -435,6 +435,16 @@ final class ElectricCooking {
                 .EUt(120)
                 .duration(300)
                 .save();
+        ELECTRIC_COOKING_RECIPES.builder("cake")
+                .inputItems(GTItems.DOUGH)
+                .inputItems(TagPrefix.dust, GTMaterials.Sugar, 2)
+                .inputItems(Items.EGG)
+                .outputItems(Items.CAKE)
+                .inputFluids(GTMaterials.Milk, 750)
+                .circuitMeta(1)
+                .EUt(120)
+                .duration(200)
+                .save();
     }
 
     private static void addSmoking(String input, String output) {

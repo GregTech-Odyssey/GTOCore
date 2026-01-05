@@ -1388,4 +1388,11 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         story("为了弥补这一空白，员工们夜以继日地开展逆向工程" translatedTo "To fill this gap, employees worked day and night on reverse engineering")
         story("最终成功仿制出了这台旅行锚点装置" translatedTo "Finally successfully replicated this travel anchor device")
     }
+
+    var electricCookingTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("electric_cooking")
+
+        story("我就是电力烟熏炉" translatedTo "I am the Electric Smoker")
+        story("§e@§e§n电力高炉§r" translatedTo "§e@§e§nElectric Blast Furnace§r")
+    }
 }
