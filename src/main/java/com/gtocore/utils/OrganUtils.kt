@@ -22,7 +22,6 @@ fun PlayerData.ktGetOrganStack(): Map<OrganType, List<ItemStack>> = this.organIt
 fun PlayerData.ktMatchOrganTier(tier: Int, type: OrganType): Boolean {
     val maxTier = ktGetOrganStack()[type]
         ?.asSequence()
-        ?.filterIsInstance<ItemStack>()
         ?.mapNotNull { it.item as? OrganItemBase.TierOrganItem }
         ?.maxOfOrNull { it.tier }
         ?: return false

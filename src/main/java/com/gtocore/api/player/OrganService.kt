@@ -190,18 +190,18 @@ class OrganService : IOrganService {
                 val armorAmplify = 5.0 * tier
                 val toughnessAmplify = 5.0 * tier
                 
-                val armorAttribute = player.getAttribute(Attributes.ARMOR)
-                val shouldAddArmor = armorAttribute?.modifiers?.all { it.name != armorModifierName } ?: true
-                if (shouldAddArmor) {
-                    armorAttribute?.addPermanentModifier(
+                val armorAttribute = player.getAttribute(Attributes.ARMOR) ?: return@forEach
+                val hasArmorModifier = armorAttribute.modifiers.any { it.name == armorModifierName }
+                if (!hasArmorModifier) {
+                    armorAttribute.addPermanentModifier(
                         AttributeModifier(armorModifierUUID, armorModifierName, armorAmplify, AttributeModifier.Operation.ADDITION)
                     )
                 }
                 
-                val toughnessAttribute = player.getAttribute(Attributes.ARMOR_TOUGHNESS)
-                val shouldAddToughness = toughnessAttribute?.modifiers?.all { it.name != toughnessModifierName } ?: true
-                if (shouldAddToughness) {
-                    toughnessAttribute?.addPermanentModifier(
+                val toughnessAttribute = player.getAttribute(Attributes.ARMOR_TOUGHNESS) ?: return@forEach
+                val hasToughnessModifier = toughnessAttribute.modifiers.any { it.name == toughnessModifierName }
+                if (!hasToughnessModifier) {
+                    toughnessAttribute.addPermanentModifier(
                         AttributeModifier(toughnessModifierUUID, toughnessModifierName, toughnessAmplify, AttributeModifier.Operation.ADDITION)
                     )
                 }

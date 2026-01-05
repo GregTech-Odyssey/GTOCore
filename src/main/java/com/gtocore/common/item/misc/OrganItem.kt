@@ -91,29 +91,26 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
             // 添加等级信息
             tooltipComponents.add(OrganTranslation.level(tier).get())
             
-            // 卫语句：提前退出
-            if (tier < 1) {
-                super.appendHoverText(stack, level, tooltipComponents, isAdvanced)
-                return
+            // 只有tier >= 1时才添加属性信息
+            if (tier >= 1) {
+                // 速度加成和护甲（t1+）
+                tooltipComponents.add(OrganTranslation.speedBoostInfo((1..tier).sumOf { TierData.MovementSpeedFunction(it) * 10 }.toFloat()).get())
+                tooltipComponents.add(OrganTranslation.armor(tier * 5).get())
+                tooltipComponents.add(OrganTranslation.armor_toughness(tier * 5).get())
+                
+                // t2+ 特性
+                if (tier >= 2) {
+                    tooltipComponents.add(OrganTranslation.blockReachInfo(4).get())
+                    if (organType == OrganType.Liver) tooltipComponents.add(OrganTranslation.noPoisonAndWither.get())
+                    if (organType == OrganType.Lung) tooltipComponents.add(OrganTranslation.breathUnderWater.get())
+                }
+                
+                // t3+ 特性
+                if (tier >= 3) tooltipComponents.add(OrganTranslation.alwaysSaturation.get())
+                
+                // t4+ 特性
+                if (tier >= 4) tooltipComponents.add(OrganTranslation.flightInfo.get())
             }
-            
-            // 速度加成和护甲（t1+）
-            tooltipComponents.add(OrganTranslation.speedBoostInfo((1..tier).sumOf { TierData.MovementSpeedFunction(it) * 10 }.toFloat()).get())
-            tooltipComponents.add(OrganTranslation.armor(tier * 5).get())
-            tooltipComponents.add(OrganTranslation.armor_toughness(tier * 5).get())
-            
-            // t2+ 特性
-            if (tier >= 2) {
-                tooltipComponents.add(OrganTranslation.blockReachInfo(4).get())
-                if (organType == OrganType.Liver) tooltipComponents.add(OrganTranslation.noPoisonAndWither.get())
-                if (organType == OrganType.Lung) tooltipComponents.add(OrganTranslation.breathUnderWater.get())
-            }
-            
-            // t3+ 特性
-            if (tier >= 3) tooltipComponents.add(OrganTranslation.alwaysSaturation.get())
-            
-            // t4+ 特性
-            if (tier >= 4) tooltipComponents.add(OrganTranslation.flightInfo.get())
 
             super.appendHoverText(stack, level, tooltipComponents, isAdvanced)
         }
