@@ -23,6 +23,7 @@ object OrganTranslation : AutoInitialize<OrganTranslation>() {
     // 杂项
     val durability = ("耐久" translatedTo "durability").initialize()
     val organModifierName = ("器官修改器" translatedTo "Organ Modifier").initialize()
+    val minimumTier = { tier: Int -> ("最低Tier " translatedTo "Minimum Tier ") + tier.toLiteralSupplier() }.initialize()
 
     // 器官编辑器
     val organModifierDescriptions = ComponentListSupplier {

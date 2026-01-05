@@ -57,7 +57,7 @@ class OrganModifierBehaviour :
             OrganType.entries.forEach { organType ->
                 handlers[organType] = CustomItemStackHandler(organType.slotCount).apply {
                     filter = Predicate { itemStack -> 
-                        (itemStack.item as? OrganItemBase)?.organType == organType
+                        (itemStack.item as? OrganItemBase)?.organType == organType ?: false
                     }
                 }
             }

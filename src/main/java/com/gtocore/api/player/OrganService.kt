@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTODamageTypes
 import com.gtocore.common.data.GTOOrganItems.FAIRY_WING
 import com.gtocore.common.data.GTOOrganItems.MANA_STEEL_WING
 import com.gtocore.common.data.GTOOrganItems.MECHANICAL_WING
+import com.gtocore.common.data.translation.OrganTranslation
 import com.gtocore.common.item.misc.OrganType
 import com.gtocore.common.item.misc.TierData.Companion.BlockReachFunction
 import com.gtocore.common.item.misc.TierData.Companion.MovementSpeedFunction
@@ -132,7 +133,7 @@ class OrganService : IOrganService {
             "gtocore.death.attack.turbulence_of_another_star",
             player.name,
             tier,
-            "最低Tier $lowerTierTag"
+            OrganTranslation.minimumTier(lowerTierTag).get()
         )
         
         val currentCount = playerData.floatCache.getOrPut("try_attack_count") { 0.0f } + 1.0f
