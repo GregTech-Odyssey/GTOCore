@@ -36,35 +36,51 @@ import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
 class OrganModifierBehaviour :
     IItemUIFactory,
     IFancyUIProvider {
-    lateinit var player: Player
+    
+    private lateinit var player: Player
+    
+    @Override
     override fun use(item: Item?, level: Level?, player: Player, usedHand: InteractionHand?): InteractionResultHolder<ItemStack?>? {
         this.player = player
         return super.use(item, level, player, usedHand)
     }
-    override fun createUI(p0: HeldItemUIFactory.HeldItemHolder?, p1: Player): ModularUI? = ModularUI(176, 166, p0, p1)
+    
+    @Override
+    override fun createUI(holder: HeldItemUIFactory.HeldItemHolder?, player: Player): ModularUI? = ModularUI(176, 166, holder, player)
         .widget(FancyMachineUIWidget(this, 176, 166))
+    
     class HandlerContainer(val player: Player) {
         val organItemStacks = IEnhancedPlayer.of(player).playerData.organItemStacks
         var handlers = mutableMapOf<OrganType, CustomItemStackHandler>()
+        
         init {
             OrganType.entries.forEach { organType ->
                 handlers[organType] = CustomItemStackHandler(organType.slotCount).apply {
-                    filter = Predicate { itemStack -> itemStack.item is OrganItemBase && (itemStack.item as OrganItemBase).organType == organType }
+                    filter = Predicate { itemStack -> 
+                        itemStack.item is OrganItemBase && (itemStack.item as OrganItemBase).organType == organType 
+                    }
                 }
             }
             read()
         }
+        
         fun read() {
             val organStacks = IEnhancedPlayer.of(player).playerData.ktGetOrganStack()
             OrganType.entries.forEach { organType ->
                 handlers[organType]?.clear()
                 organStacks[organType]?.forEachIndexed { index, itemStack ->
-                    if (index < organType.slotCount)handlers[organType]?.setStackInSlot(index, itemStack)
+                    if (index < organType.slotCount) {
+                        handlers[organType]?.setStackInSlot(index, itemStack)
+                    }
                 }
             }
         }
+        
         fun save() {
+            // 资源清理：清空旧数据
             organItemStacks.clear()
+            
+            // 显式副作用：保存数据到全局状态
             handlers.forEach { (_, handler) ->
                 for (i in 0 until handler.slots) {
                     val itemStack = handler.getStackInSlot(i)
@@ -74,8 +90,19 @@ class OrganModifierBehaviour :
                 }
             }
         }
+        
+        /**
+         * 资源清理：卸载时清理资源
+         */
+        fun cleanup() {
+            handlers.forEach { (_, handler) ->
+                handler.clear()
+            }
+            handlers.clear()
+        }
     }
-    override fun createMainPage(p0: FancyMachineUIWidget?) = root(176, 166) {
+    @Override
+    override fun createMainPage(widget: FancyMachineUIWidget?) = root(176, 166) {
         val handlerContainer = HandlerContainer(player)
         vScroll(width = availableWidth, height = availableHeight, { spacing = 8 }) {
             blank()
@@ -101,16 +128,21 @@ class OrganModifierBehaviour :
                 setChangeListener {
                     handlerContainer.save()
                     handlerContainer.read()
+                    // 数据持久化感知：标记数据为脏
                     IEnhancedPlayer.of(player).playerData.ktFreshOrganState()
                 }
             },
         )
     }
 
+    @Override
     override fun attachSideTabs(configuratorPanel: TabsWidget?) {
         configuratorPanel?.mainTab = this@OrganModifierBehaviour
     }
+    
+    @Override
     override fun getTabIcon(): IGuiTexture = ItemStackTexture(ORGAN_MODIFIER.get())
 
+    @Override
     override fun getTitle(): Component = organModifierName.get()
 }

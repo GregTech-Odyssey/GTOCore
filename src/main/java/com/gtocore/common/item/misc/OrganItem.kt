@@ -52,20 +52,23 @@ enum class OrganType(val key: String, val cn: String, val slotCount: Int = 1) {
 sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
     ComponentItem(properties),
     GTOTooltipComponentItem {
+    
+    @Override
     override fun attachGTOTooltip(itemStack: ItemStack?, tooltips: MutableList<GTOToolTipComponent>) {
-        // 耐久度使用进度条
-        run {
-            val maxDamage = itemStack?.maxDamage ?: 0
-            if (maxDamage <= 0) return@run
-            val damage = itemStack?.damageValue ?: 0
-            tooltips.add(
-                GTOProgressToolTipComponent(
-                    percentage = 1 - (damage toPercentageWith maxDamage),
-                    progressColorStyle = ProgressBarColorStyle.DURATION,
-                    text = "${OrganTranslation.durability.get().string} : ${maxDamage - damage}/${maxDamage}s",
-                ),
-            )
-        }
+        // 卫语句：防御性编程
+        if (itemStack == null) return
+        
+        val maxDamage = itemStack.maxDamage
+        if (maxDamage <= 0) return
+        
+        val damage = itemStack.damageValue
+        tooltips.add(
+            GTOProgressToolTipComponent(
+                percentage = 1 - (damage toPercentageWith maxDamage),
+                progressColorStyle = ProgressBarColorStyle.DURATION,
+                text = "${OrganTranslation.durability.get().string} : ${maxDamage - damage}/${maxDamage}s",
+            ),
+        )
     }
 
     companion object {
@@ -81,20 +84,35 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
         }
     }
     class OrganItem(properties: Properties, organType: OrganType) : OrganItemBase(properties, organType)
+    
     class TierOrganItem(val tier: Int, properties: Properties, organType: OrganType) : OrganItemBase(properties, organType) {
+        @Override
         override fun appendHoverText(stack: ItemStack, level: Level?, tooltipComponents: MutableList<Component?>, isAdvanced: TooltipFlag) {
+            // 添加等级信息
             tooltipComponents.add(OrganTranslation.level(tier).get())
-            if (tier >= 1) {
-                tooltipComponents.add(OrganTranslation.speedBoostInfo((1..tier).sumOf { TierData.MovementSpeedFunction(it) * 10 }.toFloat()).get())
+            
+            // 卫语句：提前退出
+            if (tier < 1) {
+                super.appendHoverText(stack, level, tooltipComponents, isAdvanced)
+                return
             }
-            if (tier >= 1) {
-                tooltipComponents.add(OrganTranslation.armor(tier * 5).get())
-                tooltipComponents.add(OrganTranslation.armor_toughness(tier * 5).get())
+            
+            // 速度加成和护甲（t1+）
+            tooltipComponents.add(OrganTranslation.speedBoostInfo((1..tier).sumOf { TierData.MovementSpeedFunction(it) * 10 }.toFloat()).get())
+            tooltipComponents.add(OrganTranslation.armor(tier * 5).get())
+            tooltipComponents.add(OrganTranslation.armor_toughness(tier * 5).get())
+            
+            // t2+ 特性
+            if (tier >= 2) {
+                tooltipComponents.add(OrganTranslation.blockReachInfo(4).get())
+                if (organType == OrganType.Liver) tooltipComponents.add(OrganTranslation.noPoisonAndWither.get())
+                if (organType == OrganType.Lung) tooltipComponents.add(OrganTranslation.breathUnderWater.get())
             }
-            if (tier >= 2) tooltipComponents.add(OrganTranslation.blockReachInfo(4).get())
+            
+            // t3+ 特性
             if (tier >= 3) tooltipComponents.add(OrganTranslation.alwaysSaturation.get())
-            if (tier >= 2 && organType == OrganType.Liver) tooltipComponents.add(OrganTranslation.noPoisonAndWither.get())
-            if (tier >= 2 && organType == OrganType.Lung) tooltipComponents.add(OrganTranslation.breathUnderWater.get())
+            
+            // t4+ 特性
             if (tier >= 4) tooltipComponents.add(OrganTranslation.flightInfo.get())
 
             super.appendHoverText(stack, level, tooltipComponents, isAdvanced)
