@@ -169,6 +169,7 @@ dependencies {
 
 //    modRuntimeOnly("curse.maven:just-enough-characters-250702:7176519")
     modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
+    modCompileOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
     modRuntimeOnly("curse.maven:imblocker-483760:6922546")
 //    modRuntimeOnly("curse.maven:effortless-building-302113:6330928")
 
