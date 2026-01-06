@@ -28,6 +28,8 @@
     "ae2.screen.PatternProviderScreenMixin",
     "eae.ExPATScreensMixin",
     "eae.GuiExPatternTerminalMixin",
+    "eae.GuiExPatternTerminalMixinWithJech",
+    "eae.GuiExPatternTerminalMixinWithoutJech",
     "eae.GuiPatternMixin",
     "gtm.TooltipsHandlerMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",

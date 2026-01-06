@@ -121,11 +121,11 @@ public final class ClientProxy extends CommonProxy {
             InitScreens.register(
                     Me2in1Menu.TYPE,
                     Me2in1Screen<Me2in1Menu>::new,
-                    "/screens/ex_pattern_access_terminal.json");
+                    "/screens/me2in1.json");
             InitScreens.register(
                     Wireless.TYPE,
                     Wireless.Screen::new,
-                    "/screens/ex_pattern_access_terminal.json");
+                    "/screens/me2in1wireless.json");
             InitScreens.register(
                     CategoryMappingSubMenu.TYPE,
                     CategoryMappingSubScreen::new,
