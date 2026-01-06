@@ -97,8 +97,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
     val SpaceStationDockingModule = ComponentListSupplier {
         setTranslationPrefix("space_station_docking_module")
         important("使用高级终端的模块搭建功能来选择该舱的不同形态" translatedTo "Use the module building function of the advanced terminal to select different forms of this chamber")
-//        important("因该机器为多形态机器，故不支持镜像搭建" translatedTo "As this machine is a multi-form machine, mirror building is not supported")
-//        important("请通过旋转主机来调整对接口方向" translatedTo "Please adjust the docking port direction by rotating the main machine")
+        important("仅在成型任意一个形态后，该模块才可正常工作" translatedTo "This module can only function properly after forming any shape")
         error("无法同时成型多个形态" translatedTo "Cannot form multiple shapes at the same time")
     }
 
