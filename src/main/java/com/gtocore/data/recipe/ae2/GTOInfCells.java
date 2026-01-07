@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.ae2;
 
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.GTOCore;
@@ -12,7 +13,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -27,6 +27,8 @@ import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 import java.util.Set;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Lava;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Water;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 public class GTOInfCells {
@@ -63,15 +65,15 @@ public class GTOInfCells {
                 .euVATier(GTValues.EV)
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("infinity_cell"), infCell(Blocks.COBBLESTONE),
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(GTOCore.id("infinity_cell"), infCell(Blocks.COBBLESTONE),
                 "ABA",
                 "CDE",
                 "ABA",
                 'A', RegistriesUtils.getItem("botania:rune_earth"),
                 'B', GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(),
-                'C', Items.WATER_BUCKET.asItem(),
+                'C', new FluidContainerIngredient(Water.getFluid(1000)),
                 'D', GTOItems.CELL_COMPONENT_1M.asItem(),
-                'E', Items.LAVA_BUCKET.asItem());
+                'E', new FluidContainerIngredient(Lava.getFluid(1000)));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("water_infinity_cell"), infCell(Fluids.WATER),
                 "ABA",

@@ -1,5 +1,7 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -12,7 +14,10 @@ import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import com.gtolib.GTOCore;
+import com.gtolib.utils.RegistriesUtils;
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -178,6 +183,36 @@ public final class CraftingRecipeLoader {
                 "ABA",
                 " A ",
                 'A', new MaterialEntry(plate, Steel), 'B', new MaterialEntry(plate, Glass));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("easy_villagers","iron_farm",null), RegistriesUtils.getItemStack("easy_villagers:iron_farm"),
+                "AAA",
+                "ABA",
+                "CDC",
+                'A', Items.GLASS_PANE, 'B', new FluidContainerIngredient(Lava.getFluid(1000)), 'C', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'D', new MaterialEntry(TagPrefix.rock, GTMaterials.Stone));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("easy_villagers","farmer",null), RegistriesUtils.getItemStack("easy_villagers:farmer"),
+                "AAA",
+                "ABA",
+                "CDC",
+                'A', Items.GLASS_PANE, 'B', new FluidContainerIngredient(Water.getFluid(1000)), 'C', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'D', Items.DIRT);
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("extrabotany","feather_of_jingwei",null), RegistriesUtils.getItemStack("extrabotany:feather_of_jingwei"),
+                "ABA",
+                "ACA",
+                "ADA",
+                'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Blaze), 'B', new FluidContainerIngredient(Lava.getFluid(1000)), 'C', Items.FEATHER, 'D', RegistriesUtils.getItemStack("extrabotany:hero_medal"));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("apotheosis", "sigil_of_withdrawal",null), RegistriesUtils.getItemStack("apotheosis:sigil_of_withdrawal", 4),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', RegistriesUtils.getItemStack("apotheosis:gem_fused_slate"), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Blaze), 'C', new MaterialEntry(TagPrefix.gem, GTMaterials.EnderPearl), 'D', new FluidContainerIngredient(Lava.getFluid(1000)), 'E', RegistriesUtils.getItemStack("apotheosis:gem_dust"));
+
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(new ResourceLocation("apotheosis", "salvaging_table",null), RegistriesUtils.getItemStack("apotheosis:salvaging_table"),
+                "AAA",
+                "BCD",
+                "EFE",
+                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Copper), 'B', Items.IRON_PICKAXE, 'C', Items.SMITHING_TABLE, 'D', Items.IRON_AXE, 'E', RegistriesUtils.getItem("apotheosis:gem_dust"), 'F', new FluidContainerIngredient(Lava.getFluid(1000)));
 
         ///////////////////////////////////////////////////
         // Shapes and Molds //

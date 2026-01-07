@@ -442,6 +442,13 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "black_tea_leaves_sack"));
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "coffee_beans_sack"));
 
+        // 去除被替换流体的配方
+        filters.add(RLUtils.fromNamespaceAndPath("easy_villagers", "iron_farm"));
+        filters.add(RLUtils.fromNamespaceAndPath("easy_villagers", "farmer"));
+        filters.add(RLUtils.fromNamespaceAndPath("extrabotany", "feather_of_jingwei"));
+        filters.add(RLUtils.fromNamespaceAndPath("apotheosis","sigil_of_withdrawal"));
+        filters.add(RLUtils.fromNamespaceAndPath("apotheosis","salvaging_table"));
+
         if (Mods.BIOMESWEVEGONE.isLoaded()) {
             DyeRecipes.BWG.forEach((k, v) -> {
                 filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_dye_tag"));

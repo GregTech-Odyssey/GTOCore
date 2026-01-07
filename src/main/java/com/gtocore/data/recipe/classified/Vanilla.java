@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.*;
@@ -33,6 +34,7 @@ import vectorwing.farmersdelight.common.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ForgeTags;
 import vectorwing.farmersdelight.data.builder.CuttingBoardRecipeBuilder;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Water;
 import static com.gtocore.common.data.GTOItems.SPOOLS_LARGE;
 
 final class Vanilla {
@@ -124,11 +126,11 @@ final class Vanilla {
                 'D', AEBlocks.DENSE_ENERGY_CELL.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("paper_dust"), ChemicalHelper.get(TagPrefix.dust, GTMaterials.Paper), "S", "m", 'S', RegistriesUtils.getItemStack("farmersdelight:tree_bark"));
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("cooking_pot"), RegistriesUtils.getItemStack("farmersdelight:cooking_pot"),
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(GTOCore.id("cooking_pot"), RegistriesUtils.getItemStack("farmersdelight:cooking_pot"),
                 "ABA",
                 "CDC",
                 "EEE",
-                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Brick), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Iron), 'C', new MaterialEntry(TagPrefix.plate, GTMaterials.Iron), 'D', new ItemStack(Items.WATER_BUCKET.asItem()), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron));
+                'A', new MaterialEntry(TagPrefix.ingot, GTMaterials.Brick), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Iron), 'C', new MaterialEntry(TagPrefix.plate, GTMaterials.Iron), 'D', new FluidContainerIngredient(Water.getFluid(1000)), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron));
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("gas_tank"), RegistriesUtils.getItemStack("ad_astra:gas_tank"),
                 "AAA",
                 "BCB",
