@@ -953,6 +953,18 @@ final class Vanilla {
                 "ABA",
                 'A', new MaterialEntry(TagPrefix.bolt, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.rod, GTOMaterials.DarkSteel), 'C', new MaterialEntry(TagPrefix.rock, GTMaterials.Obsidian));
 
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("travel_staff"), GTOItems.TRAVEL_STAFF.asItem(),
+                "  A",
+                " B ",
+                "B  ",
+                'A', GTOItems.VIBRANT_CRYSTAL.asItem(), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Silver));
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("travel_anchor"), GTOMachines.TRAVEL_ANCHOR.asItem(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.DarkSteel), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.EnderPearl), 'C', GTMachines.HULL[GTValues.LV].asItem());
+
         addUpg(GTAEMachines.ME_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER0.asStack());
         addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER1.asStack());
         addUpg(GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA.asItem(), GTOItems.PATTERN_BUFFER_UPGRADER2.asStack());

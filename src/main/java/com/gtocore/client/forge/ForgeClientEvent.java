@@ -47,6 +47,7 @@ import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIGuiContainer;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.emi.emi.screen.RecipeScreen;
 import snownee.jade.util.Color;
 
 import java.util.Set;
@@ -195,8 +196,20 @@ public final class ForgeClientEvent {
             var p = gui.getMenu().getModularUI().getFlatWidgetCollection().stream()
                     .filter(AEPatternViewSlotWidgetKt.class::isInstance)
                     .map(AEPatternViewSlotWidgetKt.class::cast)
+                    .filter(AEPatternViewSlotWidgetKt::emiFlagFilter)
                     .findFirst();
             p.ifPresent(AEPatternViewSlotWidgetKt::onDestroy);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onScreenOpening(ScreenEvent.Opening event) {
+        if (event.getCurrentScreen() instanceof ModularUIGuiContainer gui &&
+                event.getNewScreen() instanceof RecipeScreen) {
+            gui.getMenu().getModularUI().getFlatWidgetCollection().stream()
+                    .filter(AEPatternViewSlotWidgetKt.class::isInstance)
+                    .map(AEPatternViewSlotWidgetKt.class::cast)
+                    .forEach(a -> a.setEmiFlag(true));
         }
     }
 

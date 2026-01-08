@@ -135,6 +135,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
     /// C2S sync field for configurator slot index
+    @Getter
     protected IntSyncedField configuratorField = ISync.createIntField(this)
             .set(-1)
             .setSenderListener((side, o, n) -> {
