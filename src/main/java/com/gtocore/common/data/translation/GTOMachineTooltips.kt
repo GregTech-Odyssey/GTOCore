@@ -1386,16 +1386,22 @@ object GTOMachineTooltips {
         setTranslationPrefix("primitive_distillation_tower")
 
         section("热管理机制" translatedTo "Heat Management")
-        info("每20单位时间，若热量>373，消耗最多9000水调节热量" translatedTo "Every 20 time units, if heat > 373, consumes up to 9000 water to regulate — more water cools faster")
-        info("机器在温度400以上工作，工作时热量轻微降低" translatedTo "Operates above 400°C; heat slightly decreases during operation")
-        info("每20tick消耗一次水：>100降温，≤100升温并加速" translatedTo "Every 20 ticks: water >100 cools, ≤100 heats & speeds up")
-        command("添加煤块 +21600时间 | 煤 +1200 | 煤粉 +500(同时升温)" translatedTo "Add Coal Block +21600 | Coal +1200 | Coal Dust +500 (also raises heat)")
-        error(("热量超过850会" translatedTo "if heat exceeds 850 it will") + ComponentSlang.Explosion)
-        function("传感器定期更新热量状态" translatedTo "Sensors periodically update heat status")
+        info("需要 >400K 的热量才能运行配方" translatedTo "Requires >400K heat to process recipes")
+        info("运行配方会消耗热量，有助于稳定温度" translatedTo "Processing recipes consumes heat, helping to stabilize temperature")
+        info("无燃料时，热量会缓慢散失至298K" translatedTo "Without fuel, it will slowly cool down to 298K (room temperature)")
 
-        section(RunningRequirements)
-        command("配方中每种产物都需要一层蒸馏塔节" translatedTo "Each recipe product requires one distillation tower layer")
-        important(ComponentSlang.RecipeLevelBelow(GTValues.MV))
+        command("使用燃料来升温：煤块产热慢但持久；煤/煤粉产热快但消耗快" translatedTo "Use fuel to increase heat: Coal Blocks provide slow, long-lasting heat; Coal/Dust provides fast, short-lived heat")
+
+        info("热量 > 373K 时会消耗水进行冷却" translatedTo "Consumes water for cooling when heat exceeds 373K")
+        important("足量的水(>100mb)才能有效降温" translatedTo "Sufficient water (>100mb) is required for effective cooling")
+        error("注意：水量不足(≤100mb)会适得其反，导致机器异常升温并加速燃料消耗！" translatedTo "Warning: Insufficient water (≤100mb) will backfire, causing extra heat gain and faster fuel consumption!")
+
+        error("热量超过 850K 将导致爆炸！" translatedTo "Heat exceeding 850K will cause an explosion!")
+
+        section("运行机制" translatedTo "Operation Mechanics")
+        info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
+        important("每个流体产物都需要一个对应高度的流体输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
+        important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
     }
 
     // 化学气相沉积系统
