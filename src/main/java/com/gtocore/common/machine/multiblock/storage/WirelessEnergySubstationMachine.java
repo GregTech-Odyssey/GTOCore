@@ -26,7 +26,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
@@ -211,33 +210,32 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
      * @return 成功替换的方块数量
      */
     public int substituteBlocks(WirelessEnergyUnitBlock block, int count, ServerPlayer player) {
-        if (getLevel() == null || wirelessEnergyUnitPositions.isEmpty()) {
+        if (getLevel() == null || wirelessEnergyUnitPositions.isEmpty() || count <= 0) {
             return 0;
         }
-        Map<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> map = new O2OOpenCacheHashMap<>(count);
+        List<WirelessEnergyUnitBlock.BlockData> candidates = new ArrayList<>();
         int tier = block.getTier();
-        // 寻找低级方块或空气，并迭代所有map中的blockpos进行替换，直到替换数量满足要求
-        loop:
         for (int t = 1; t < tier; t++) {
-            for (BlockPos pos : wirelessEnergyUnitPositions.get(t)) {
-                if (count <= 0) {
-                    break loop;
+            var positionsForTier = wirelessEnergyUnitPositions.get(t);
+            for (BlockPos pos : positionsForTier) {
+                if (pos != null) {
+                    candidates.add(new WirelessEnergyUnitBlock.BlockData(WirelessEnergyUnitBlock.get(t), pos));
                 }
-                if (pos == null) {
-                    continue;
-                }
-                map.put(new WirelessEnergyUnitBlock.BlockData(WirelessEnergyUnitBlock.get(t), pos), block);
-                count--;
             }
         }
-        if (map.isEmpty()) {
+        if (candidates.isEmpty()) {
             return 0;
         }
+        candidates.sort(Comparator.comparingInt((WirelessEnergyUnitBlock.BlockData data) -> data.pos().getY())
+                .thenComparingInt(data -> data.pos().getX())
+                .thenComparingInt(data -> data.pos().getZ()));
+        int numToReplace = Math.min(count, candidates.size());
+        List<WirelessEnergyUnitBlock.BlockData> toReplace = candidates.subList(0, numToReplace);
         int successfulCount = 0;
-        for (Map.Entry<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> entry : map.entrySet()) {
-            BlockPos pos = entry.getKey().pos();
-            var originBlockDrop = entry.getKey().block();
-            if (getLevel().setBlock(pos, entry.getValue().defaultBlockState(), 11)) {
+        for (WirelessEnergyUnitBlock.BlockData data : toReplace) {
+            BlockPos pos = data.pos();
+            var originBlockDrop = data.block();
+            if (getLevel().setBlock(pos, block.defaultBlockState(), 11)) {
                 successfulCount++;
                 if (originBlockDrop != null && !player.getInventory().add(originBlockDrop.asItem().getDefaultInstance())) {
                     player.drop(originBlockDrop.asItem().getDefaultInstance(), false);
