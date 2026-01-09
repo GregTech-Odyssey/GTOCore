@@ -154,7 +154,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("crystallization_chamber")
         story("你说工业生产的粗硅可以直接用电力高炉烧制成单晶硅？" translatedTo "You think crude silicon from industrial production can be directly smelted into monocrystalline silicon in an electric furnace?")
         story("醒醒！我们这里可是GTO重工集团！" translatedTo "Wake up! This is GTO Heavy Industries Group!")
-        story("如果继续停留在粗放的生产模式中，怎么能实现高精度的芯片制造呢？" translatedTo "How can we produce proper chips when working with these vermin!")
+        story("如果继续停留在粗放的生产模式中，怎么能实现高精度的芯片制造呢？" translatedTo "How can we produce proper chips while persisting with such rough fabrication techniques?")
         story("通过电子级硅的缓慢结晶，最终培育出能胜任高精度加工的硅晶圆" translatedTo "Through slow crystallization of electronic-grade silicon, we finally cultivate silicon wafers capable of high-precision processing")
     }
 

@@ -478,7 +478,7 @@ public final class MultiBlockD {
                     h -> h.addLines("自ULV起，电压每高出1级，获得的并行数+2", "From ULV, each voltage tier increases the obtained parallelism by 2"),
                     c -> c.addCommentLines("公式 : 2 * (tier - 0), 算去吧", "Formula: 2 * (tier - 0), go calculate it yourself")))
             .tooltips(NewDataAttributes.RECIPES_TYPE.create(ProcessingPlantMachine.getComponent()))
-            .moduleTooltips(CATALYST_HATCH)
+            .moduleTooltips(CATALYST_HATCH, MANA_AMPLIFIER_HATCH)
             .block(GTOBlocks.MULTI_FUNCTIONAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("bbb", "bbb", "bbb")

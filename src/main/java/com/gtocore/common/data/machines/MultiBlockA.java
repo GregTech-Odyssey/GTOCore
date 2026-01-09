@@ -1688,7 +1688,6 @@ public final class MultiBlockA {
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.vacuum_drying"))
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
-            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.dehydrator"))
             .coilParallelTooltips()
             .disabledCombined()
             .recipeModifier((m, r) -> {
