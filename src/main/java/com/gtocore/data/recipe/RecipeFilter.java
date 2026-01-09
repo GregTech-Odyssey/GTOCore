@@ -446,8 +446,8 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("easy_villagers", "iron_farm"));
         filters.add(RLUtils.fromNamespaceAndPath("easy_villagers", "farmer"));
         filters.add(RLUtils.fromNamespaceAndPath("extrabotany", "feather_of_jingwei"));
-        filters.add(RLUtils.fromNamespaceAndPath("apotheosis","sigil_of_withdrawal"));
-        filters.add(RLUtils.fromNamespaceAndPath("apotheosis","salvaging_table"));
+        filters.add(RLUtils.fromNamespaceAndPath("apotheosis", "sigil_of_withdrawal"));
+        filters.add(RLUtils.fromNamespaceAndPath("apotheosis", "salvaging_table"));
 
         if (Mods.BIOMESWEVEGONE.isLoaded()) {
             DyeRecipes.BWG.forEach((k, v) -> {
