@@ -218,7 +218,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         int tier = block.getTier();
         // 寻找低级方块或空气，并迭代所有map中的blockpos进行替换，直到替换数量满足要求
         loop:
-        for (int t = 0; t <= tier; t++) {
+        for (int t = 1; t < tier; t++) {
             for (BlockPos pos : wirelessEnergyUnitPositions.get(t)) {
                 if (count <= 0) {
                     break loop;
@@ -229,6 +229,9 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
                 map.put(new WirelessEnergyUnitBlock.BlockData(WirelessEnergyUnitBlock.get(t), pos), block);
                 count--;
             }
+        }
+        if (map.isEmpty()) {
+            return 0;
         }
         int successfulCount = 0;
         for (Map.Entry<WirelessEnergyUnitBlock.BlockData, WirelessEnergyUnitBlock> entry : map.entrySet()) {
@@ -241,7 +244,9 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
                 }
             }
         }
-        this.requestCheck();
+        if (successfulCount > 0) {
+            this.requestCheck();
+        }
         return successfulCount;
     }
 }
