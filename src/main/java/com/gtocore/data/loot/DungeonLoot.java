@@ -40,7 +40,6 @@ public final class DungeonLoot {
         ChestGenHooks.addItem(BuiltInLootTables.SIMPLE_DUNGEON, ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper), 1, 12, 6);
         ChestGenHooks.addItem(BuiltInLootTables.IGLOO_CHEST, ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper), 1, 8, 3);
         ChestGenHooks.addItem(BuiltInLootTables.SHIPWRECK_TREASURE, ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper), 1, 8, 3);
-        ChestGenHooks.addItem(BuiltInLootTables.BURIED_TREASURE, ChemicalHelper.get(GTOTagPrefix.COIN, GTMaterials.Copper), 4, 24, 30);
 
         ChestGenHooks.addItem(BuiltInLootTables.JUNGLE_TEMPLE, GTOItems.MYSTERIOUS_BOOST_DRINK[GTValues.ULV].asStack(), 1, 4, 4);
         ChestGenHooks.addItem(BuiltInLootTables.JUNGLE_TEMPLE, GTOItems.MYSTERIOUS_BOOST_DRINK[GTValues.LV].asStack(), 1, 3, 3);
