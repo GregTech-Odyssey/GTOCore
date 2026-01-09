@@ -144,7 +144,7 @@ public final class MultiBlockG {
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get())
                             .or(GTOPredicates.autoGCYMAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH).setExactLimit(1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()))
                     .where('C', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
