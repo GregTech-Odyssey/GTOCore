@@ -1281,6 +1281,27 @@ public final class GTOItems {
             .onRegister(attach(TravelStaffBehavior.create()))
             .register();
 
+    public static final ItemEntry<ComponentItem> TESSERACT_TARGET_MARKER = item("tesseract_target_marker", "坐标标签枪", ComponentItem::create)
+            .toolTips(ComponentBuilder.create()
+                    .addLines("§7可以按顺序标记超立方体传输目标位置。§r",
+                            "§7Used to mark the target location for Tesseract proxy in order.§r")
+                    .addLines("§a右键方块：§r 标记位置 §7(按正序)§r",
+                            "§aRight-Click:§r Mark Position §7(in order)§r")
+                    .addLines("§aShift + 右键方块：§r 清除该位置的标记§r",
+                            "§aShift + Right-Click:§r Clear the mark of this position§r")
+                    .addLines("§aShift + 右键空气：§r 清除所有标记§r",
+                            "§aShift + Right-Click Air:§r Clear all marks§r")
+                    .addLines("§a左键方块：§r 标记位置 §7(按倒序)§r",
+                            "§aRight-Click:§r Mark Position §7(in reverse order)§r")
+                    .addLines("§aShift + 左键超立方体：§r 将当前的标签应用到该超立方体§r",
+                            "§aShift + Left-Click Tesseract:§r Apply the current markers to this Tesseract§r")
+                    .addLines("§6注意：§r 向基于坐标信息卡的超立方体应用标签时需要足量的坐标信息卡！§r",
+                            "§6Note:§r Applying markers to a coordinate card-based Tesseract requires sufficient coordinate cards!§r")
+                    .build().getArray())
+            .properties(p -> p.stacksTo(1))
+            .onRegister(attach(new TesseractTargetMarker()))
+            .register();
+
     // TODO 所有带有此物品的配方都是临时配方，后续会随时被删除
     public static final ItemEntry<Item> STOPGAP_MEASURES = item("stopgap_measures", "权宜之计")
             .toolTips(ComponentBuilder.create().addLines("§7在写了~~§r", "§7On working~~§r").build().getArray())

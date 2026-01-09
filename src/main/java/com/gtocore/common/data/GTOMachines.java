@@ -6,6 +6,8 @@ import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.data.machines.*;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
+import com.gtocore.common.machine.dev.TestReportOutput;
 import com.gtocore.common.machine.electric.*;
 import com.gtocore.common.machine.generator.LightningRodMachine;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
@@ -18,6 +20,9 @@ import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
 import com.gtocore.common.machine.noenergy.tradingstation.TradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
+import com.gtocore.common.machine.tesseract.AdvancedTesseractMachine;
+import com.gtocore.common.machine.tesseract.DirectedTesseractMachine;
+import com.gtocore.common.machine.tesseract.TesseractMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
 import com.gtocore.integration.ae.SyncTesterMachine;
 
@@ -924,6 +929,14 @@ public final class GTOMachines {
     public static final MachineDefinition ADVANCED_TESSERACT_GENERATOR = blockEntityMachine("advanced_tesseract_generator", "进阶超立方体发生器", AdvancedTesseractMachine::new, TesseractBlockEntity::new)
             .allRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedHyperCubeMachineTooltips().getSupplier())
+            .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
+            .tier(IV)
+            .allowCoverOnFront(true)
+            .register();
+
+    public static final MachineDefinition DIRECTED_TESSERACT_GENERATOR = blockEntityMachine("directed_tesseract_generator", "有向超立方体发生器", DirectedTesseractMachine::new, TesseractBlockEntity::new)
+            .allRotation()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getDirectedHyperCubeMachineTooltips().getSupplier())
             .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
             .tier(IV)
             .allowCoverOnFront(true)

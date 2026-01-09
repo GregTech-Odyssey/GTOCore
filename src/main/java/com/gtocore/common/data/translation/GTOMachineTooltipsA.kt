@@ -16,6 +16,19 @@ import com.gregtechceu.gtceu.config.ConfigHolder
 
 object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
 
+    val directedHyperCubeMachineTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("directed_hyper_cube_machine")
+
+        section(MainFunction)
+        highlight("代理多个流体或物品存储器，且指定代理方向" translatedTo "Proxy (a or multi) (fluid or item or both)storage with directed sides")
+        command("使用§b坐标标签枪§r按照分配顺序绑定方块" translatedTo "Use the §bTesseract Target Marker§r to bind blocks in allocation order")
+        section("被样板供应器推送时" translatedTo "When being pushed by the Pattern Provider")
+        function("将样板供应器的样板内容按照编写顺序依次输出到多个方块的多个面" translatedTo "Outputs the pattern contents of the Pattern Provider to multiple sides of multiple blocks in the order written")
+        command("原料在样板中对应的编号严格对应绑定方块的编号" translatedTo "The number corresponding to the raw material in the pattern strictly corresponds to the number of the bound block")
+        command("若样板内容的长度大于绑定的方块数量，则该样板将拒绝被推送" translatedTo "If the length of the pattern content is greater than the number of bound blocks, the pattern will refuse to be pushed")
+        guide("适用于一些较为复杂的自动化场景（如新生魔艺的附魔装置自动化）" translatedTo "Suitable for some more complex automation scenarios (such as Ars Nouveau's Enchanting Apparatus)")
+    }
+
     val meEnergySubstationTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("me_energy_substation")
 

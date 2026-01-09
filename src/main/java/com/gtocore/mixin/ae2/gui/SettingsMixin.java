@@ -1,9 +1,6 @@
 package com.gtocore.mixin.ae2.gui;
 
-import com.gtolib.api.ae2.BlockingType;
-import com.gtolib.api.ae2.GTOSettings;
-import com.gtolib.api.ae2.ShiftTransferTo;
-import com.gtolib.api.ae2.ShowMolecularAssembler;
+import com.gtolib.api.ae2.*;
 
 import appeng.api.config.Setting;
 import appeng.api.config.Settings;
@@ -27,5 +24,6 @@ public class SettingsMixin {
         GTOSettings.BLOCKING_TYPE = register("blocking_type", BlockingType.NONE, BlockingType.ALL, BlockingType.CONTAIN, BlockingType.NON_CONTAIN, BlockingType.PARALLEL);
         GTOSettings.TERMINAL_SHOW_MOLECULAR_ASSEMBLERS = register("show_molecular_assemblers", ShowMolecularAssembler.ALL, ShowMolecularAssembler.ONLY_MOLECULAR_ASSEMBLER, ShowMolecularAssembler.EXPECT_MOLECULAR_ASSEMBLER);
         GTOSettings.ME2IN1_SHIFT_TRANSFER_TO = register("me2in1_shift_transfer_to", ShiftTransferTo.INVENTORY_OR_BUFFER, ShiftTransferTo.CURRENTLY_VISIBLE_ACCESSOR);
+        GTOSettings.COORDS_RECORDING_MODE = register("coords_recording_mode", CoordsRecordingModes.ABSOLUTE, CoordsRecordingModes.RELATIVE);
     }
 }
