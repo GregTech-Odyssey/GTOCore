@@ -14,6 +14,7 @@
     "ae2.gui.MathExpressionParserMixin",
     "ae2.gui.NumberEntryWidgetMixin",
     "ae2.gui.ProcessingEncodingPanelMixin",
+    "ae2.gui.RepoSearchMixin",
     "ae2.gui.ScreenStyleMixin",
     "ae2.gui.SettingToggleButtonMixin",
     "ae2.gui.WidgetContainerMixin",

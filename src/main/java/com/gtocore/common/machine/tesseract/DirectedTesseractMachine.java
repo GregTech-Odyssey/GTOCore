@@ -22,6 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -30,6 +31,7 @@ import net.minecraftforge.items.IItemHandler;
 import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
@@ -203,6 +205,15 @@ public class DirectedTesseractMachine extends MetaMachine implements
         setTargets(targets);
         player.displayClientMessage(Component.translatable(WRITE_SUCCESS_TEXT), true);
         return true;
+    }
+
+    @Override
+    public void onMachineRemoved() {
+        unfinishedPushLists.unfinishedStacks.forEach(stack -> {
+            if (getLevel() != null && stack.what() instanceof AEItemKey item) {
+                Block.popResource(getLevel(), getHolder().getBlockPos(), item.toStack(Math.toIntExact(stack.amount())));
+            }
+        });
     }
 
     private static MEStorage getMEStorage(TesseractDirectedTarget target, MinecraftServer levelGetter) {

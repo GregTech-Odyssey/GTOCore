@@ -228,7 +228,11 @@ public final class GTOConfig {
     public boolean disableChargeBomb = false;
 
     @Configurable
-    @Configurable.Comment({ "在物品下方显示英文名称", "Show the English name below the item" })
+    @Configurable.Comment({ "在物品下方显示英文名称",
+            "同时允许在ME终端中使用英文名称搜索物品",
+            "Show the English name below the item",
+            "Also allows searching for items by English name in ME Terminals"
+    })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show Item English Name", cn = "显示物品英文名称")
     public boolean showEnglishName = false;
 
