@@ -64,10 +64,10 @@ public abstract class GuiTagStorageBusMixin extends UpgradeableScreen<ContainerT
         gtolib$listBox.setCatchScrollbar(false);
         gtolib$whitelistSlot = hookedMenu.gtolib$getWhitelistSlot();
         gtolib$blacklistSlot = hookedMenu.gtolib$getBlacklistSlot();
-        ((SlotAccessor) gtolib$whitelistSlot).setX(140);
-        ((SlotAccessor) gtolib$whitelistSlot).setY(40);
-        ((SlotAccessor) gtolib$blacklistSlot).setX(140);
-        ((SlotAccessor) gtolib$blacklistSlot).setY(60);
+        ((SlotAccessor) gtolib$whitelistSlot).setX(146);
+        ((SlotAccessor) gtolib$whitelistSlot).setY(22);
+        ((SlotAccessor) gtolib$blacklistSlot).setX(146);
+        ((SlotAccessor) gtolib$blacklistSlot).setY(70);
         hookedMenu.gtolib$setBlacklistChanged(key -> gtolib$onChangedCallback(false, key));
         hookedMenu.gtolib$setWhitelistChanged(key -> gtolib$onChangedCallback(true, key));
         widgets.add("gtolib$listBox", gtolib$listBox);
