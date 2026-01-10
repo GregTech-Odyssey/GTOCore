@@ -41,6 +41,7 @@ import appeng.helpers.patternprovider.PatternProviderTarget;
 import appeng.me.helpers.IGridConnectedBlockEntity;
 import appeng.me.storage.CompositeStorage;
 import appeng.me.storage.ExternalStorageFacade;
+import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
@@ -144,42 +145,47 @@ public class DirectedTesseractMachine extends MetaMachine implements
 
     @Override
     public IPatternProviderLogic.PushResult pushPattern(IPatternProviderLogic logic, IActionSource actionSource, BooleanHolder success, Operate operate, Set<AEKey> patternInputs, IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, Supplier<IPatternProviderLogic.PushResult> pushPatternSuccess, BooleanSupplier canPush, Direction direction, Direction adjBeSide) {
-        if (unfinishedPushLists.hasWorkToDo() ||
-                targets.isEmpty() ||
-                patternInputs.size() > targets.size()) {
-            return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
-        }
         if (!(patternDetails instanceof AEProcessingPattern processingPattern)) return IPatternProviderLogic.PushResult.REJECTED;
         var sparseInputs = processingPattern.getSparseInputs();
 
-        List<PatternProviderTarget> toPushes = new ArrayList<>(sparseInputs.length);
-        List<GenericStack> subPushStacks = new ArrayList<>(sparseInputs.length);
+        if (unfinishedPushLists.hasWorkToDo() ||
+                targets.isEmpty() ||
+                sparseInputs.length > targets.size()) {
+            return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+        }
+
+        boolean terminateWhenBlocked = false;
+
+        Map<TesseractDirectedTarget, GenericStack> remainingStacks = new O2OOpenCacheHashMap<>(sparseInputs.length);
+        Map<PatternProviderTarget, GenericStack> readyToPushStacks = new O2OOpenCacheHashMap<>(sparseInputs.length);
+        boolean cycleSuccess = true;
         for (var i = 0; i < sparseInputs.length; i++) {
             var targetAt = targets.get(i);
             var be = getBlockEntity(i);
+            var subPushStack = sparseInputs[i];
             if (be == null) {
                 return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
             }
-            var subPushStack = sparseInputs[i];
             var toPush = PatternProviderTargetCache.find(be, logic, targetAt.face(), actionSource, targetAt.pos().pos().asLong());
             if (toPush == null) {
-                unfinishedPushLists.addTask(targetAt, subPushStack);
-                continue;
+                return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+            }
+            var blocked = toPush.containsPatternInput(patternInputs);
+            if (blocked) {
+                return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
             }
             var haveEnoughSpace = toPush.insert(subPushStack.what(), subPushStack.amount(), Actionable.SIMULATE) == subPushStack.amount();
             if (!haveEnoughSpace) {
-                unfinishedPushLists.addTask(targetAt, subPushStack);
+                remainingStacks.put(targetAt, subPushStack);
                 continue;
             }
-            subPushStacks.add(subPushStack);
-            toPushes.add(toPush);
+            readyToPushStacks.put(toPush, subPushStack);
         }
 
-        for (var i = 0; i < toPushes.size(); i++) {
-            var toPush = toPushes.get(i);
-            var stack = subPushStacks.get(i);
+        remainingStacks.forEach(unfinishedPushLists::addTask);
+        readyToPushStacks.forEach((toPush, stack) -> {
             toPush.insert(stack.what(), stack.amount(), Actionable.MODULATE);
-        }
+        });
         unfinishedPushLists.push();
         return pushPatternSuccess.get();
     }
@@ -260,6 +266,7 @@ public class DirectedTesseractMachine extends MetaMachine implements
         @Override
         public void onChanged() {
             machine.onChanged();
+            machine.task.updateSubscription();
         }
 
         void push() {
