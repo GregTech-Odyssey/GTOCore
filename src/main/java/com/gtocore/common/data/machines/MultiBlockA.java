@@ -41,7 +41,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.*;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
@@ -1684,7 +1683,7 @@ public final class MultiBlockA {
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.vacuum_drying"))
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
-            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.dehydrator").withStyle(ChatFormatting.DARK_BLUE))
+            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.dehydrator"))
             .coilParallelTooltips()
             .disabledCombined()
             .recipeModifier((m, r) -> {
