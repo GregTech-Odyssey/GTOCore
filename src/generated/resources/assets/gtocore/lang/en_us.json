@@ -5345,6 +5345,8 @@
   "gtocore.machine.uxv_rolling.tooltip": "§7Spacetime Roller",
   "gtocore.machine.uxv_unpacker.tooltip": "§7Spatial Decompression Unit",
   "gtocore.machine.uxv_world_data_scanner.tooltip": "§7Quantum State World Scanner",
+  "gtocore.machine.vacuum_drying_furnace.tooltip.0": "For every 900K increase in coil temperature, the parallel number doubles",
+  "gtocore.machine.vacuum_drying_furnace.tooltip.1": "§7Formula: 2^(Round down(temperature / 900))",
   "gtocore.machine.village_trading_station.enhance": "Upgrade using %s",
   "gtocore.machine.village_trading_station.increase": "Use %s to increase the maximum number of transactions by 1.",
   "gtocore.machine.village_trading_station.replenishment_interval": "Replenishment Interval: %s tick",

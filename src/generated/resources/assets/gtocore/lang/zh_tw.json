@@ -5336,6 +5336,8 @@
   "gtocore.machine.uxv_rolling.tooltip": "§7時空碾壓機",
   "gtocore.machine.uxv_unpacker.tooltip": "§7空間解壓縮裝置",
   "gtocore.machine.uxv_world_data_scanner.tooltip": "§7量子態世界掃描儀",
+  "gtocore.machine.vacuum_drying_furnace.tooltip.0": "線圈溫度每高齣900K，併行數x2",
+  "gtocore.machine.vacuum_drying_furnace.tooltip.1": "§7公式 : 2^(嚮下取整(溫度 / 900))",
   "gtocore.machine.village_trading_station.enhance": "使用 %s 升級",
   "gtocore.machine.village_trading_station.increase": "使用 %s 提升 1 最大交易次數",
   "gtocore.machine.village_trading_station.replenishment_interval": "補貨間隔: %s tick",
