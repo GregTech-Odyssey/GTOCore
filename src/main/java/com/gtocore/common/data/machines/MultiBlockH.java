@@ -47,7 +47,6 @@ import static com.gtocore.api.pattern.GTOPredicates.*;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_EXTRACTION_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public final class MultiBlockH {
@@ -184,12 +183,10 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/hastelloy_n_75_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 
-    public static final MultiblockMachineDefinition ENTROPY_FLUX_ENGINE = multiblock("entropy_flux_engine", "熵流引擎", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
+    public static final MultiblockMachineDefinition ENTROPY_FLUX_ENGINE = multiblock("entropy_flux_engine", "熵流引擎", TierCasingCrossRecipeMultiblockMachine.createGasTieredParallel())
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getEntropyFluxEngineTooltips().getSupplier())
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
+            .glassParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.DECAY_HASTENER_RECIPES)
@@ -216,12 +213,10 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/graviton_field_constraint_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 
-    public static final MultiblockMachineDefinition TRANSLIMINAL_OASIS = multiblock("transliminal_oasis", "超限绿洲", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
+    public static final MultiblockMachineDefinition TRANSLIMINAL_OASIS = multiblock("transliminal_oasis", "超限绿洲", TierCasingCrossRecipeMultiblockMachine.createGasTieredParallel())
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getTransliminalOasisTooltips().getSupplier())
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
+            .glassParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
@@ -298,9 +293,10 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 
-    public static final MultiblockMachineDefinition DISSOLUTION_CORE = multiblock("dissolution_core", "溶解核心", CoilCrossRecipeMultiblockMachine.createCoilParallelEBF())
+    public static final MultiblockMachineDefinition DISSOLUTION_CORE = multiblock("dissolution_core", "溶解核心", CoilCrossRecipeMultiblockMachine.createCheckedTemperatureParallel(true))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getDissolutionCoreTooltips().getSupplier())
+            .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -613,15 +609,12 @@ public final class MultiBlockH {
 
     // 巨型烧结阵列
     public static final MultiblockMachineDefinition GIANT_SINTERING_ARRAY = multiblock("giant_sintering_array", "巨型烧结阵列",
-            CoilTieredCasingMultiblockMachine.createEBFParallel(m -> 1L << (2 * (m.getCasingTier(GLASS_TIER) - 1)), true, GLASS_TIER))
+            CoilTieredCasingMultiblockMachine.createGlassTieredParallel(true, true))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getGiantSinteringArrayTooltips().getSupplier())
+            .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
             .parallelizableTooltips()
             .laserTooltips()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
-            .tooltipsText("线圈温度越高，运行速度越快", "The higher the coil temperature, the faster the operation speed")
             .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.log(900) / Math.log(((ICoilMachine) machine).getTemperature())), RecipeModifierFunction.OVERCLOCKING)
             .recipeTypes(GTORecipeTypes.SINTERING_FURNACE_RECIPES)
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
@@ -727,14 +720,12 @@ public final class MultiBlockH {
 
     // 智能筛选中枢
     public static final MultiblockMachineDefinition SMART_FILTERING_HUB = multiblock("smart_siftering_hub", "智能筛选中枢",
-            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
+            TierCasingCrossRecipeMultiblockMachine.createGasTieredParallel())
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getSmartSifteringHubTooltips().getSupplier())
             .multipleRecipesTooltips()
             .laserTooltips()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
+            .glassParallelTooltips()
             .recipeTypes(GTORecipeTypes.SIFTER_RECIPES)
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)

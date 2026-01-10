@@ -1053,8 +1053,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("culturing_tank")
 
         section(RunningRequirements)
-        command("过滤器等级决定配方等级" translatedTo "Filter tier§r determines recipe tier")
-        command("玻璃等级决定可用电压上限" translatedTo "Glass tier§r determines upper limit of voltage usable")
+        important("玻璃等级决定配方等级上限" translatedTo "The glass casing tier determines the upper limit of recipe tier")
     }
 
     // 大型培养缸
@@ -1062,8 +1061,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("large_culturing_tank")
 
         section(RunningRequirements)
-        command("过滤器等级决定配方等级" translatedTo "Filter tier§r determines recipe tier")
-        command("玻璃等级决定可用电压上限" translatedTo "Glass tier§r determines upper limit of voltage usable")
+        important("玻璃等级决定配方等级上限" translatedTo "The glass casing tier determines the upper limit of recipe tier")
     }
 
     // 纳米锻炉
@@ -1146,8 +1144,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("cold_ice_freezer")
 
         section(RunningRequirements)
-        command("需每秒提供10x配方等级^2的§b液态冰§r" translatedTo "Requires to provide 10x(Recipe tier)² of §bLiquid Ice§r per second")
-        command("雾化冷凝配方需要机器安装模块" translatedTo "Atomization condensation recipes require the machine to be equipped with modules")
+        command("需提供§6（10x配方等级²）mb/s§r的§b液态冰§r" translatedTo "Requires to provide §610x(Recipe tier)²§r of §bLiquid Ice§r")
     }
 
     // 烈焰高炉
@@ -1155,7 +1152,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("blaze_blast_furnace")
 
         section(RunningRequirements)
-        command("需每秒提供10x配方等级^2的§6液态烈焰§r" translatedTo "Requires to provide §b10x(Recipe tier)²§r of §6Liquid Blaze§r per second")
+        command("需提供§b（10x配方等级²）mb/s§r的§6液态烈焰§r" translatedTo "Requires to provide §b10x(Recipe tier)²mb/s§r of §6Liquid Blaze§r")
     }
 
     // PCB工厂
