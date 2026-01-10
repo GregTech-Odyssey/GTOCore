@@ -154,11 +154,8 @@ public class DirectedTesseractMachine extends MetaMachine implements
             return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
         }
 
-        boolean terminateWhenBlocked = false;
-
         Map<TesseractDirectedTarget, GenericStack> remainingStacks = new O2OOpenCacheHashMap<>(sparseInputs.length);
         Map<PatternProviderTarget, GenericStack> readyToPushStacks = new O2OOpenCacheHashMap<>(sparseInputs.length);
-        boolean cycleSuccess = true;
         for (var i = 0; i < sparseInputs.length; i++) {
             var targetAt = targets.get(i);
             var be = getBlockEntity(i);
