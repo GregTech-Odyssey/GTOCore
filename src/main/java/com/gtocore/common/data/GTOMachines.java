@@ -292,12 +292,12 @@ public final class GTOMachines {
                             p -> p.addCommentLines(
                                     """
                                             运行时长调整范围：%s%%~100%%
-                                            加速仓的等级低于机器配方等级时加速效力减弱20%%每级
+                                            加速仓的等级低于机器最大电压等级时加速效力减弱20%%每级
                                             来自 GTO 的神秘力量
                                             尽情享受吧！""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)),
                                     """
                                             Operation duration adjustment range: %s%%~100%%
-                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the machine recipe level
+                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the machine's maximum voltage level
                                             Mysterious power from GTO
                                             Enjoy it to the fullest!""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)))))
                     .notAllowSharedTooltips()
