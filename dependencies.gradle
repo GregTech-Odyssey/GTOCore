@@ -109,6 +109,7 @@ dependencies {
 //    modRuntimeOnly("curse.maven:ftb-quests-forge-289412:6259628")  // 不能参与runData任务
 
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
+    modRuntimeOnly("curse.maven:ftb-xmod-compat-889915:6402486")
 
     modImplementation("curse.maven:ftb-ultimine-forge-386134:5363345")
 
