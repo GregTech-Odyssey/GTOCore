@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RegistriesUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -55,15 +56,17 @@ public class GTOInfCells {
                     .euVATier(GTValues.EV)
                     .save();
         }
-        ASSEMBLER_RECIPES.builder("infinity_cell")
-                .inputItems(GTOItems.CELL_COMPONENT_1M)
-                .inputItems(GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(), 4)
-                .inputItems("easy_villagers:iron_farm", 64)
-                .inputItems("easy_villagers:villager", 6)
-                .outputItems(infCell(RegistriesUtils.getItem("factory_blocks:factory")))
-                .duration(400)
-                .euVATier(GTValues.EV)
-                .save();
+        if (GTCEu.isModLoaded("factory_blocks")) {
+            ASSEMBLER_RECIPES.builder("infinity_cell")
+                    .inputItems(GTOItems.CELL_COMPONENT_1M)
+                    .inputItems(GTMachines.ROCK_CRUSHER[GTValues.EV].asItem(), 4)
+                    .inputItems("easy_villagers:iron_farm", 64)
+                    .inputItems("easy_villagers:villager", 6)
+                    .outputItems(infCell(RegistriesUtils.getItem("factory_blocks:factory")))
+                    .duration(400)
+                    .euVATier(GTValues.EV)
+                    .save();
+        }
 
         VanillaRecipeHelper.addShapedFluidContainerRecipe(GTOCore.id("infinity_cell"), infCell(Blocks.COBBLESTONE),
                 "ABA",
