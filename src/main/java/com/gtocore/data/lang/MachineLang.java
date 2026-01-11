@@ -36,6 +36,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.eye_of_harmony.eu", "启动耗能: %s EU", "Startup Energy Consumption: %s EU");
         addCNEN("gtocore.machine.eye_of_harmony.helium", "氦储量: %smB", "Helium Storage: %smB");
         addCNEN("gtocore.machine.eye_of_harmony.hydrogen", "氢储量: %smB", "Hydrogen Storage: %smB");
+        addCNEN("gtocore.machine.eye_of_harmony.cosmicElement", "宇宙素储量: %smB", "Cosmic Element Storage: %smB");
         addCNEN("gtocore.machine.fission_reactor.cooler", "冷却组件数量: %s，相邻数: %s", "Number of Cooling Components: %s, Adjacent Count: %s");
         addCNEN("gtocore.machine.fission_reactor.damaged", "损坏: %s", "Damage: %s");
         addCNEN("gtocore.machine.fission_reactor.fuel", "燃料组件数量: %s，相邻数: %s", "Number of Fuel Components: %s, Adjacent Count: %s");
