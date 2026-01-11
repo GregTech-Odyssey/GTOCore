@@ -4,6 +4,7 @@ import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
+import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
@@ -1044,8 +1045,11 @@ object GTOMachineTooltips {
         error("无法通过超净维护仓获得洁净环境" translatedTo "Cannot obtain clean environment through clean maintenance")
 
         section(ComponentSlang.EfficiencyBonus)
-        content("配方等级每高出ULV一级，并行数+2，安装附属模块后+4" translatedTo "For each tier above ULV, parallelism +2, After installing the auxiliary module +4")
+        content("配方等级每高出ULV一级，并行数+2" translatedTo "For each tier above ULV, parallelism +2")
         command("最终配方等级受限于整体框架等级" translatedTo "Final recipe tier is constrained by framework tier")
+
+        section(AfterModuleInstallation)
+        increase("配方等级每高出ULV一级，并行数额外+2" translatedTo "For each tier above ULV, parallelism +2 additionally")
     }
 
     // 培养缸

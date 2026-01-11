@@ -1684,7 +1684,8 @@ public final class MultiBlockA {
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
             .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.dehydrator"))
-            .coilParallelTooltips()
+            .tooltipsText("线圈温度每高出900K，并行数x2", "For every 900K increase in coil temperature, the parallel number doubles")
+            .tooltipsText("§7公式 : 2^(向下取整(温度 / 900))", "§7Formula: 2^(Round down(temperature / 900))")
             .disabledCombined()
             .recipeModifier((m, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {
