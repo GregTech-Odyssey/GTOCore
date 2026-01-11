@@ -21,6 +21,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,6 +39,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -83,7 +85,11 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
             blocks.clear();
         }
         container.setLoss(i == 0 ? 0 : loss / i);
-        container.setCapacity(capacity.multiply(BigInteger.valueOf(Math.max(1, i / 2))));
+        if (i > 2) {
+            container.setCapacity(capacity.multiply(BigInteger.valueOf(i)).divide(BigInteger.valueOf(2)));
+        } else {
+            container.setCapacity(capacity);
+        }
         dimension = level.dimension().location();
         container.setDimension(dimension, true);
     }
@@ -136,9 +142,48 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         var container = getWirelessEnergyContainer();
         if (container == null) return;
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.0", TeamUtil.GetName(getLevel(), this.getUUID())).withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1", FormattingUtil.formatNumbers(container.getStorage()) + " / " + FormattingUtil.formatNumbers(container.getCapacity())).withStyle(ChatFormatting.GRAY));
+        BigInteger storage = container.getStorage();
+        BigInteger capacity = container.getCapacity();
+        ChatFormatting color = getStorageColor(capacity, storage);
+        Component valueComponent = Component.literal(
+                FormattingUtil.formatNumbers(storage)).withStyle(color).append(Component.literal(" / " + FormattingUtil.formatNumbers(capacity)).withStyle(ChatFormatting.WHITE));
+        textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1", valueComponent).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.2", FormattingUtil.formatNumbers(container.getRate()), container.getRate() / GTValues.VEX[GTUtil.getFloorTierByVoltage(container.getRate())], Component.literal(GTValues.VNF[GTUtil.getFloorTierByVoltage(container.getRate())])).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("gtceu.machine.fluid_drilling_rig.depletion", (double) container.getLoss() / 10));
+        int casingTier = getCasingTier(GTOValues.GLASS_TIER);
+        wirelessEnergyUnitPositions.keySet().stream()
+                .sorted()
+                .forEach(tier -> {
+                    var block = WirelessEnergyUnitBlock.get(tier);
+                    if (block != null) {
+                        MutableComponent name = block.getName();
+                        textList.add(Component.literal(" - ").append(name).append(Component.literal(" x" + wirelessEnergyUnitPositions.get(tier).size()).withStyle(tier > casingTier ? ChatFormatting.RED : ChatFormatting.GREEN)));
+                    }
+
+                });
+    }
+
+    private @NotNull ChatFormatting getStorageColor(BigInteger capacity, BigInteger storage) {
+        ChatFormatting color;
+        if (capacity.signum() == 0) {
+            if (storage.signum() == 1) {
+                color = ChatFormatting.GOLD;
+            } else {
+                color = ChatFormatting.GRAY;
+            }
+        } else {
+            BigDecimal percentage = new BigDecimal(storage).divide(new BigDecimal(capacity), 4, java.math.RoundingMode.HALF_UP);
+            double ratio = percentage.doubleValue();
+
+            if (ratio < 0.10) {
+                color = ChatFormatting.RED;
+            } else if (ratio < 0.50) {
+                color = ChatFormatting.YELLOW;
+            } else {
+                color = ChatFormatting.GREEN;
+            }
+        }
+        return color;
     }
 
     @Override

@@ -1335,7 +1335,7 @@ object GTOMachineTooltips {
         section("电网容量" translatedTo "Electricity Capacity")
         content("可在内部安装任意无线能量单元来提高容量上限" translatedTo "Install wireless energy units inside to increase capacity limit")
         command("实际起作用的单元受玻璃等级限制" translatedTo "Effective units are limited by glass tier")
-        info("总容量 = Σ(单元容量) × 单元数 ÷ 2" translatedTo "Total Capacity = Σ(Unit Capacities) × Unit Count ÷ 2")
+        info("容量奖励乘数 = （单元数 / 2）≥ 1" translatedTo "Capacity Bonus Multiplier = (Units Count / 2) ≥ 1")
         info("总损耗 = 单元损耗平均值" translatedTo "Total Loss = Average of Unit Losses")
     }
 
