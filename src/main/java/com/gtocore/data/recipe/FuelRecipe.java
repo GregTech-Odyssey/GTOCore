@@ -28,6 +28,7 @@ public final class FuelRecipe {
 
     public static void init() {
         Set<Item> addedItems = new ReferenceOpenHashSet<>();
+
         for (var fuelEntry : FurnaceBlockEntity.getFuel().entrySet()) {
             if (fuelEntry.getKey() instanceof BucketItem) continue;
             addedItems.add(fuelEntry.getKey());

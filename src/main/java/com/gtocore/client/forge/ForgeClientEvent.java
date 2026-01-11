@@ -50,6 +50,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.emi.screen.RecipeScreen;
 import snownee.jade.util.Color;
 
+import java.util.List;
 import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
@@ -110,11 +111,8 @@ public final class ForgeClientEvent {
                 event.getToolTip().add(Component.translatable("gtocore.tooltip.item." + ItemUtils.getIdLocation(item).getPath() + "." + i));
             }
         } else {
-            String[] tooltips = Tooltips.TOOL_TIPS_KEY_MAP.get(item);
-            if (tooltips != null) {
-                if (tooltips.length == 1) event.getToolTip().add(Component.translatable(tooltips[0]));
-                else event.getToolTip().add(Component.translatable(tooltips[0], tooltips[1]));
-            }
+            List<Component> tooltips = Tooltips.TOOL_TIPS_KEY_MAP.get(item);
+            if (tooltips != null) event.getToolTip().addAll(tooltips);
         }
     }
 

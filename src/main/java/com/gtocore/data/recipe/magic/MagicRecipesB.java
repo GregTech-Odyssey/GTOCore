@@ -15,12 +15,14 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
@@ -38,6 +40,8 @@ import static com.gtocore.api.data.tag.GTOTagPrefix.CRYSTAL_SEED;
 import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.common.machine.mana.CelestialCondenser.*;
+import static com.gtocore.common.machine.mana.CelestialHandler.*;
 import static com.gtocore.common.machine.mana.multiblock.ResonanceFlowerMachine.toResonanceTag;
 import static com.gtocore.utils.PlayerHeadUtils.itemStackAddNbtString;
 
@@ -87,21 +91,21 @@ public final class MagicRecipesB {
             CELESTIAL_CONDENSER_RECIPES.recipeBuilder("astral_silver")
                     .inputItems(ingot, Silver)
                     .outputItems(ingot, AstralSilver)
-                    .addData("lunara", 1000)
+                    .addData(LUNARA, 1000)
                     .duration(10)
                     .save();
 
             CELESTIAL_CONDENSER_RECIPES.recipeBuilder("helio_coal")
                     .inputItems(Items.COAL)
                     .outputItems(HELIO_COAL)
-                    .addData("solaris", 1000)
+                    .addData(SOLARIS, 1000)
                     .duration(10)
                     .save();
 
             CELESTIAL_CONDENSER_RECIPES.recipeBuilder("ender_diamond")
                     .inputItems(Items.DIAMOND)
                     .outputItems(ENDER_DIAMOND)
-                    .addData("voidflux", 1000)
+                    .addData(VOIDFLUX, 1000)
                     .duration(10)
                     .save();
 
@@ -116,7 +120,7 @@ public final class MagicRecipesB {
                 CELESTIAL_CONDENSER_RECIPES.recipeBuilder("star_stone_" + (i + 1))
                         .inputItems(GTOBlocks.STAR_STONE[i].asItem())
                         .outputItems(GTOBlocks.STAR_STONE[i + 1].asItem())
-                        .addData("any", 2000 * (i + 2))
+                        .addData(i < 6 ? "any" : STELLARM, 2000 * (i + 2))
                         .duration(10)
                         .save();
             }
@@ -124,7 +128,7 @@ public final class MagicRecipesB {
             CELESTIAL_CONDENSER_RECIPES.recipeBuilder("nether_star")
                     .inputItems(ModItems.fadedNetherStar)
                     .outputItems(Items.NETHER_STAR)
-                    .addData("voidflux", 4000)
+                    .addData(VOIDFLUX, 4000)
                     .duration(10)
                     .save();
         }
@@ -334,6 +338,23 @@ public final class MagicRecipesB {
                     .MANAt(128)
                     .duration(3600)
                     .circuitMeta(8)
+                    .save();
+
+            // 寰宇星穹天体聚合圣坛
+            ELEMENTAL_RESONANCE.builder("cosmic_celestial_spire_of_convergence")
+                    .inputItems(GTOBlocks.SPELL_PRISM_CASING.asItem(), 8)
+                    .inputItems(ManaMachine.CELESTIAL_CONDENSER, 64)
+                    .inputItems(GTOBlocks.STAR_STONE[11], 16)
+                    .inputItems(TagPrefix.block, GTOMaterials.BifrostPerm, 64)
+                    .inputItems(GTItems.FIELD_GENERATOR_UHV, 64)
+                    .inputItems(GTOItems.PHILOSOPHERS_STONE)
+                    .inputFluids(GTOMaterials.Aether, FluidStorageKeys.LIQUID, 10000)
+                    .inputFluids(GTOMaterials.CycleofBlossomsSolvent, 100000)
+                    .inputFluids(GTOMaterials.WildenEssence, 100000)
+                    .outputItems(ManaMultiBlock.COSMIC_CELESTIAL_SPIRE_OF_CONVERGENCE)
+                    .addData("resonance", toResonanceTag(new ItemStack(Items.NETHER_STAR), 5))
+                    .duration(12000)
+                    .MANAt(16384)
                     .save();
         }
 

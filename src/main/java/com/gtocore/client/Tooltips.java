@@ -3,6 +3,7 @@ package com.gtocore.client;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 
+import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.lang.CNENS;
 
@@ -10,6 +11,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
@@ -17,18 +19,19 @@ import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.ImmutableMap;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
+import java.util.List;
 import java.util.Map;
 
 public final class Tooltips {
 
     public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
-    public static final ImmutableMap<Item, String[]> TOOL_TIPS_KEY_MAP;
+    public static final ImmutableMap<Item, List<Component>> TOOL_TIPS_KEY_MAP;
     public static final ImmutableMap<Item, CNENS> TOOL_TIPS_MAP;
 
     static {
-        ImmutableMap.Builder<Item, String[]> toolTipsKey = ImmutableMap.builder();
-        toolTipsKey.put(GTBlocks.CASING_TEMPERED_GLASS.asItem(), new String[] { "ars_nouveau.tier", String.valueOf(2) });
+        ImmutableMap.Builder<Item, List<Component>> toolTipsKey = ImmutableMap.builder();
+        toolTipsKey.put(GTBlocks.CASING_TEMPERED_GLASS.asItem(), NewDataAttributes.LEVEL.create(2).get());
         TOOL_TIPS_KEY_MAP = toolTipsKey.build();
 
         ImmutableMap.Builder<Item, CNENS> toolTipsBuilder = ImmutableMap.builder();

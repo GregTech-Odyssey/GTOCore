@@ -4,9 +4,11 @@ import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
+import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallation
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
+import com.gtocore.common.machine.mana.multiblock.CosmicCelestialSpireOfConvergence
 import com.gtocore.common.machine.multiblock.generator.TurbineMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
@@ -461,7 +463,6 @@ object GTOMachineTooltips {
     // 苍穹凝聚器
     val CelestialCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("celestial_condenser")
-
         content("凝聚苍穹之上的能量" translatedTo "Condenses energy from beyond the celestial vault")
         section(RunningRequirements)
         command("暴露于天空之下，不可有遮挡" translatedTo "Must be directly exposed to the open sky with no obstructions")
@@ -471,6 +472,31 @@ object GTOMachineTooltips {
         increase("在虚空和超平坦可以以较慢的速度凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara at a slower rate in the Void or Superflat")
         increase("在亚尔夫海姆可以更快的凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara faster in Alfheim")
         increase("在幽冥可以更快的凝聚 - 虚湮" translatedTo "Can condense Voidflux faster in the Otherside")
+        increase("在太空可以凝聚 - 星髓" translatedTo "Can condense Stellarm in the Space")
+        command("运行配方时需要消耗这些能量" translatedTo "Consumes this energy when processing recipes")
+    }
+
+    val CosmicCelestialSpireOfConvergenceTooltips = ComponentListSupplier {
+        setTranslationPrefix("cosmic_celestial_spire_of_convergence")
+        story("星穹光刃裂维度之障，格雷魔导，启百年征航。" translatedTo "Blade of starry vault rends the dimensional veil, Grey Mages embark on a century-long sail.")
+        story("越死寂虚空，踏混沌异疆，极域镌神符，黑岩铸圣腔。" translatedTo "Across the void’s stillness, through chaotic realms they prevail, Carve divine runes in polar bounds, forge sacred chambers from dark shale.")
+        story("解天体秘律，淬星髓凝钢，星海初启，圣坛威光乍放。" translatedTo "Unravel the celestial laws, temper star-marrow to steel, First lit in star-sea, the Sanctum’s radiance doth reveal.")
+        story("银河倒卷奔核心，日月织网，虚空震荡。" translatedTo "Galaxies surge backward into the core’s heart, Sun and moon weave a web, the void doth impart a mighty tremor.")
+        story("凭维度自生伟力，微芒亦可撬动洪荒。" translatedTo "By dimensional might it stands, A tiny spark stirs the primeval lands.")
+        story("格雷血汗凝奇迹，为文明拓宇，永奠天疆。" translatedTo "Grey’s blood and sweat forge a miracle grand, For civilisation’s cosmic expand, Eternally lay the heavenly land.")
+
+        content("凝聚群星之中的能量" translatedTo "Condense the power of the gathered stars")
+        command("可消耗魔力超频" translatedTo "Consumable Mana Overclocking")
+        increase("每次消耗 2^(超频等级*4+10) 点魔力，使凝聚效率翻 2^(超频等级*5) 倍" translatedTo "Consumes 2^(overclockingLevel * 4 + 10) mana points each time, boosts condensation efficiency by 2^(overclockingLevel * 5)")
+        section(RunningRequirements)
+        command("暴露于天空之下，不可有遮挡" translatedTo "Must be directly exposed to the open sky with no obstructions")
+        increase("在白天可以凝聚 - 曦煌" translatedTo "Can condense Solaris during daytime")
+        increase("在夜晚可以凝聚 - 胧华" translatedTo "Can condense Lunara during nighttime")
+        increase("在末地可以凝聚 - 虚湮" translatedTo "Can condense Voidflux in the End")
+        increase("在虚空和超平坦可以以较慢的速度凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara at a slower rate in the Void or Superflat")
+        increase("在亚尔夫海姆可以更快的凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara faster in Alfheim")
+        increase("在幽冥可以更快的凝聚 - 虚湮" translatedTo "Can condense Voidflux faster in the Otherside")
+        increase("在太空可以凝聚 - 星髓" translatedTo "Can condense Stellarm in the Space")
         command("运行配方时需要消耗这些能量" translatedTo "Consumes this energy when processing recipes")
     }
 
@@ -1044,8 +1070,11 @@ object GTOMachineTooltips {
         error("无法通过超净维护仓获得洁净环境" translatedTo "Cannot obtain clean environment through clean maintenance")
 
         section(ComponentSlang.EfficiencyBonus)
-        content("配方等级每高出ULV一级，并行数+2，安装附属模块后+4" translatedTo "For each tier above ULV, parallelism +2, After installing the auxiliary module +4")
+        content("配方等级每高出ULV一级，并行数+2" translatedTo "For each tier above ULV, parallelism +2")
         command("最终配方等级受限于整体框架等级" translatedTo "Final recipe tier is constrained by framework tier")
+
+        section(AfterModuleInstallation)
+        increase("配方等级每高出ULV一级，并行数额外+2" translatedTo "For each tier above ULV, parallelism +2 additionally")
     }
 
     // 培养缸
@@ -1053,8 +1082,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("culturing_tank")
 
         section(RunningRequirements)
-        command("过滤器等级决定配方等级" translatedTo "Filter tier§r determines recipe tier")
-        command("玻璃等级决定可用电压上限" translatedTo "Glass tier§r determines upper limit of voltage usable")
+        important("玻璃等级决定配方等级上限" translatedTo "The glass casing tier determines the upper limit of recipe tier")
     }
 
     // 大型培养缸
@@ -1062,8 +1090,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("large_culturing_tank")
 
         section(RunningRequirements)
-        command("过滤器等级决定配方等级" translatedTo "Filter tier§r determines recipe tier")
-        command("玻璃等级决定可用电压上限" translatedTo "Glass tier§r determines upper limit of voltage usable")
+        important("玻璃等级决定配方等级上限" translatedTo "The glass casing tier determines the upper limit of recipe tier")
     }
 
     // 纳米锻炉
@@ -1118,6 +1145,7 @@ object GTOMachineTooltips {
         info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
         content("如果在机器GUI内放置了刷怪蛋则只会刷出刷怪蛋对应生物的内容" translatedTo "If a spawn egg is placed in the machine GUI, only the creature corresponding to the spawn egg will be spawned")
+        content("如果在机器GUI内放置了收容罐则只会刷出收容罐对应生物的内容" translatedTo "If a mob jar is placed in the machine GUI, only the creature corresponding to the containment unit will be spawned")
         content("如果在机器GUI内放置了神化Boss召唤器（物品），则只会刷出对应的神化Boss" translatedTo "If a Apotheosis Boss Summoner (item) is placed in the machine GUI, only the corresponding Deific Boss will be spawned")
         content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
         info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")
@@ -1146,8 +1174,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("cold_ice_freezer")
 
         section(RunningRequirements)
-        command("需每秒提供10x配方等级^2的§b液态冰§r" translatedTo "Requires to provide 10x(Recipe tier)² of §bLiquid Ice§r per second")
-        command("雾化冷凝配方需要机器安装模块" translatedTo "Atomization condensation recipes require the machine to be equipped with modules")
+        command("需提供§6（10x配方等级²）mb/s§r的§b液态冰§r" translatedTo "Requires to provide §610x(Recipe tier)²§r of §bLiquid Ice§r")
     }
 
     // 烈焰高炉
@@ -1155,7 +1182,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("blaze_blast_furnace")
 
         section(RunningRequirements)
-        command("需每秒提供10x配方等级^2的§6液态烈焰§r" translatedTo "Requires to provide §b10x(Recipe tier)²§r of §6Liquid Blaze§r per second")
+        command("需提供§b（10x配方等级²）mb/s§r的§6液态烈焰§r" translatedTo "Requires to provide §b10x(Recipe tier)²mb/s§r of §6Liquid Blaze§r")
     }
 
     // PCB工厂
@@ -1334,7 +1361,7 @@ object GTOMachineTooltips {
         section("电网容量" translatedTo "Electricity Capacity")
         content("可在内部安装任意无线能量单元来提高容量上限" translatedTo "Install wireless energy units inside to increase capacity limit")
         command("实际起作用的单元受玻璃等级限制" translatedTo "Effective units are limited by glass tier")
-        info("总容量 = Σ(单元容量) × 单元数 ÷ 2" translatedTo "Total Capacity = Σ(Unit Capacities) × Unit Count ÷ 2")
+        info("容量奖励乘数 = （单元数 / 2）≥ 1" translatedTo "Capacity Bonus Multiplier = (Units Count / 2) ≥ 1")
         info("总损耗 = 单元损耗平均值" translatedTo "Total Loss = Average of Unit Losses")
     }
 
@@ -1386,16 +1413,22 @@ object GTOMachineTooltips {
         setTranslationPrefix("primitive_distillation_tower")
 
         section("热管理机制" translatedTo "Heat Management")
-        info("每20单位时间，若热量>373，消耗最多9000水调节热量" translatedTo "Every 20 time units, if heat > 373, consumes up to 9000 water to regulate — more water cools faster")
-        info("机器在温度400以上工作，工作时热量轻微降低" translatedTo "Operates above 400°C; heat slightly decreases during operation")
-        info("每20tick消耗一次水：>100降温，≤100升温并加速" translatedTo "Every 20 ticks: water >100 cools, ≤100 heats & speeds up")
-        command("添加煤块 +21600时间 | 煤 +1200 | 煤粉 +500(同时升温)" translatedTo "Add Coal Block +21600 | Coal +1200 | Coal Dust +500 (also raises heat)")
-        error(("热量超过850会" translatedTo "if heat exceeds 850 it will") + ComponentSlang.Explosion)
-        function("传感器定期更新热量状态" translatedTo "Sensors periodically update heat status")
+        info("需要 >400K 的热量才能运行配方" translatedTo "Requires >400K heat to process recipes")
+        info("运行配方会消耗热量，有助于稳定温度" translatedTo "Processing recipes consumes heat, helping to stabilize temperature")
+        info("无燃料时，热量会缓慢散失至298K" translatedTo "Without fuel, it will slowly cool down to 298K (room temperature)")
 
-        section(RunningRequirements)
-        command("配方中每种产物都需要一层蒸馏塔节" translatedTo "Each recipe product requires one distillation tower layer")
-        important(ComponentSlang.RecipeLevelBelow(GTValues.MV))
+        command("使用燃料来升温：煤块产热慢但持久；煤/煤粉产热快但消耗快" translatedTo "Use fuel to increase heat: Coal Blocks provide slow, long-lasting heat; Coal/Dust provides fast, short-lived heat")
+
+        info("热量 > 373K 时会消耗水进行冷却" translatedTo "Consumes water for cooling when heat exceeds 373K")
+        important("足量的水(>100mb)才能有效降温" translatedTo "Sufficient water (>100mb) is required for effective cooling")
+        error("注意：水量不足(≤100mb)会适得其反，导致机器异常升温并加速燃料消耗！" translatedTo "Warning: Insufficient water (≤100mb) will backfire, causing extra heat gain and faster fuel consumption!")
+
+        error("热量超过 850K 将导致爆炸！" translatedTo "Heat exceeding 850K will cause an explosion!")
+
+        section("运行机制" translatedTo "Operation Mechanics")
+        info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
+        important("每个流体产物都需要一个对应高度的流体输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
+        important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
     }
 
     // 化学气相沉积系统

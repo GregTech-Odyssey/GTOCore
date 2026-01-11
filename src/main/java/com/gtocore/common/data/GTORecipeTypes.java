@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
+import static com.gtocore.common.machine.mana.CelestialHandler.*;
 import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_1;
 import static com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine.BUILD_SPACE_STATION_DESC_2;
 import static com.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.SPOOL;
@@ -1049,15 +1050,17 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
             .addDataInfo(data -> {
-                int solaris = data.getInt("solaris");
-                int lunara = data.getInt("lunara");
-                int voidflux = data.getInt("voidflux");
+                int solaris = data.getInt(SOLARIS);
+                int lunara = data.getInt(LUNARA);
+                int voidflux = data.getInt(VOIDFLUX);
+                int stellarm = data.getInt(STELLARM);
                 int any = data.getInt("any");
                 if (solaris > 0) return I18n.get("gtocore.celestial_condenser.solaris", solaris);
-                if (lunara > 0) return I18n.get("gtocore.celestial_condenser.lunara", lunara);
-                if (voidflux > 0) return I18n.get("gtocore.celestial_condenser.voidflux", voidflux);
-                if (any > 0) return I18n.get("gtocore.celestial_condenser.any", any);
-                return "";
+                else if (lunara > 0) return I18n.get("gtocore.celestial_condenser.lunara", lunara);
+                else if (voidflux > 0) return I18n.get("gtocore.celestial_condenser.voidflux", voidflux);
+                else if (stellarm > 0) return I18n.get("gtocore.celestial_condenser.stellarm", stellarm);
+                else if (any > 0) return I18n.get("gtocore.celestial_condenser.any", any);
+                else return "";
             })
             .setMaxTooltips(1);
 
@@ -1135,11 +1138,11 @@ public final class GTORecipeTypes {
                 Object[] resonance = ResonanceFlowerMachine.fromResonanceTag(recipe.data.getCompound("resonance"));
                 if (resonance[0] instanceof ItemStack itemStack) {
                     widgetGroup.addWidget(new SlotWidget(new CycleItemStackHandler(List.of(List.of(itemStack))), 0,
-                            widgetGroup.getSize().width - 44, widgetGroup.getSize().height - 49, false, false)
+                            widgetGroup.getSize().width - 40, widgetGroup.getSize().height - 49, false, false)
                             .setHoverTooltips(Component.translatable("gtocore.elemental_resonance.1", itemStack.getDisplayName(), itemStack.getCount(), resonance[1])));
                 } else if (resonance[0] instanceof FluidStack fluidStack) {
                     widgetGroup.addWidget(new TankWidget(new CycleFluidTransfer(List.of(List.of(com.lowdragmc.lowdraglib.side.fluid.FluidStack.create(fluidStack.getFluid(), fluidStack.getAmount())))), 0,
-                            widgetGroup.getSize().width - 44, widgetGroup.getSize().height - 49, false, false)
+                            widgetGroup.getSize().width - 40, widgetGroup.getSize().height - 49, false, false)
                             .setHoverTooltips(Component.translatable("gtocore.elemental_resonance.1", fluidStack.getDisplayName(), fluidStack.getAmount() + "mB", resonance[1])));
                 }
             });

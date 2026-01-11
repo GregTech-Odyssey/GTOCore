@@ -316,7 +316,7 @@ public final class MachineRegisterUtils {
                         .where('X', blocks(casing.get()))
                         .where('G', blocks(gear.get()))
                         .where('C', blocks(casing.get()).setMinGlobalLimited(3).or(autoAbilities(definition.getRecipeTypes(), false, false, true, true, true, true)).or(autoAbilities(true, true, false)))
-                        .where('D', ability(PartAbility.OUTPUT_ENERGY, Stream.of(EV, IV, LuV, ZPM, UV, UHV).filter(t -> t >= tier).mapToInt(Integer::intValue).toArray()).addTooltips(Component.translatable("gtceu.machine.large_combustion_engine.tooltip.boost_regular", VN[tier])))
+                        .where('D', ability(PartAbility.OUTPUT_ENERGY, Stream.of(EV, IV, LuV, ZPM, UV, UHV).filter(t -> t >= tier).mapToInt(Integer::intValue).toArray()).addTooltips(Component.translatable("gtceu.machine.large_combustion_engine.tooltip.boost_regular", V[tier] * 6)))
                         .where('A', blocks(intake.get()).addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_1")))
                         .where('Y', controller(definition))
                         .build())

@@ -1,6 +1,7 @@
 package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.client.renderer.machine.CosmicCelestialSpireOfConvergenceRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
@@ -518,5 +519,47 @@ public final class ManaMultiBlock {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/the_origin_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
+            .register();
+
+    public static final MultiblockMachineDefinition COSMIC_CELESTIAL_SPIRE_OF_CONVERGENCE = multiblock("cosmic_celestial_spire_of_convergence", "寰宇星穹天体聚合圣坛", CosmicCelestialSpireOfConvergence::new)
+            .tooltips(GTOMachineTooltips.INSTANCE.getCosmicCelestialSpireOfConvergenceTooltips().getSupplier())
+            .parallelizableTooltips()
+            .recipeTypes(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
+            .block(GTOBlocks.SPELL_PRISM_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)
+                    .where('A', blocks(RegistriesUtils.getBlock("botania:polished_livingrock_wall")))
+                    .where('B', blocks(RegistriesUtils.getBlock("botania:shimmerrock")))
+                    .where('C', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
+                    .where('D', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
+                    .where('E', blocks(GTOBlocks.STAR_STONE[11].get()))
+                    .where('F', blocks(RegistriesUtils.getBlock("botania:corporea_brick_wall")))
+                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Orichalcos)))
+                    .where('H', blocks(RegistriesUtils.getBlock("botania:prism")))
+                    .where('I', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
+                    .where('J', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get()))
+                    .where('K', blocks(GTOBlocks.INFUSED_GOLD_REINFORCED_WOODEN_CASING.get()))
+                    .where('L', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
+                    .where('M', blocks(RegistriesUtils.getBlock("mythicbotany:alfsteel_pylon")))
+                    .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Photonium)))
+                    .where('O', blocks(GTOBlocks.SPELL_PRISM_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('P', blocks(GTOBlocks.THE_ORIGIN_CASING.get()))
+                    .where('Q', blocks(GTOBlocks.ORICHALCOS_CASING.get()))
+                    .where('R', blocks(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.get()))
+                    .where('S', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Shadowium)))
+                    .where('T', blocks(RegistriesUtils.getBlock("botania:mana_pool")))
+                    .where('U', blocks(RegistriesUtils.getBlock("botania:corporea_index")))
+                    .where('V', blocks(RegistriesUtils.getBlock("botania:cacophonium_block")))
+                    .where('W', blocks(RegistriesUtils.getBlock("botania:azulejo_2")))
+                    .where('X', blocks(GTOBlocks.THE_SOLARIS_LENS.get()))
+                    .where('[', blocks(RegistriesUtils.getBlock("ars_nouveau:sky_block")))
+                    .where('Y', controller(definition))
+                    .where('Z', blocks(RegistriesUtils.getBlock("botania:alfheim_portal")))
+                    .where(' ', any())
+                    .build())
+            .renderer(CosmicCelestialSpireOfConvergenceRenderer::new)
+            .hasTESR(true)
             .register();
 }

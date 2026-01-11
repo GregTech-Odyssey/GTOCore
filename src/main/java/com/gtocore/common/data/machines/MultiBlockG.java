@@ -144,7 +144,7 @@ public final class MultiBlockG {
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get())
                             .or(GTOPredicates.autoGCYMAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH).setExactLimit(1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()))
                     .where('C', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
@@ -771,11 +771,10 @@ public final class MultiBlockG {
             .register();
 
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统",
-            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GLASS_TIER) << 1), GLASS_TIER))
+            TierCasingCrossRecipeMultiblockMachine.createGasTieredParallel())
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
-            .specialParallelizableTooltips()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
+            .glassParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .recipeTypes(CHEMICAL_VAPOR_DEPOSITION_RECIPES, PHYSICAL_VAPOR_DEPOSITION_RECIPES)

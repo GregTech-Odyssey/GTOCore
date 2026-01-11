@@ -7,6 +7,7 @@ import com.gtolib.utils.RLUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.WoodTypeEntry;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
@@ -104,13 +105,17 @@ public final class WoodMachineRecipesMixin {
                 .save();
 
         if (entry.generateLogToPlankRecipe) {
-            VanillaRecipeHelper.addShapelessRecipe(
-                    hasPlanksRecipe ? entry.planksRecipeName : name + "_planks",
-                    new ItemStack(entry.planks, 2), logTag);
+            // log -> plank crafting
+            // nerfWoodCrafting = difficulty > 1
+            if (ConfigHolder.INSTANCE.recipes.nerfWoodCrafting) {
+                VanillaRecipeHelper.addShapelessRecipe(
+                        hasPlanksRecipe ? entry.planksRecipeName : name + "_planks",
+                        new ItemStack(entry.planks, 2), logTag);
+            }
 
             // log -> plank saw crafting
             VanillaRecipeHelper.addShapedRecipe(name + "_planks_saw",
-                    new ItemStack(entry.planks, 4),
+                    new ItemStack(entry.planks, ConfigHolder.INSTANCE.recipes.nerfWoodCrafting ? 4 : 6),
                     "s", "L", 'L', logTag);
 
             // log -> plank cutting

@@ -70,6 +70,14 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         command("该模块仅能连接在其他模块的下方" translatedTo "This module can only connect below other modules")
     }
 
+    // 合金冶炼炉
+    val AlloySmelterTooltips = ComponentListSupplier {
+        setTranslationPrefix("alloy_blast_smelter")
+
+        section(AfterModuleInstallation)
+        increase("运行速度翻倍" translatedTo "The running speed doubles")
+    }
+
     // 溶解罐
     val DissolvingTankTooltips = ComponentListSupplier {
         setTranslationPrefix("dissolving_tank")
@@ -79,7 +87,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         increase("当安装附属模块时，模块将帮助机器自动进行原料配比，无上述条件限制" translatedTo "When the auxiliary module is installed, the module will help the machine automatically match the raw materials, without the above conditions")
     }
 
-    // 框镖巨型核聚变反应堆
+    // 狂飙巨型核聚变反应堆
     val kuangbiaoGiantNuclearFusionReactorTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("kuangbiao_giant_nuclear_fusion_reactor")
 
