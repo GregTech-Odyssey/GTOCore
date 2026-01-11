@@ -233,7 +233,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.space_shield_hatch.insufficient", "机器太空护盾：无激光供应", "Machine Space Shield: No Laser Supply");
         addCNEN("gtocore.machine.space_shield_hatch.not_in_space", "机器太空护盾：不在太空中", "Machine Space Shield: Not in Space");
         addCNEN("gtocore.machine.tooltips.items_are_hidden", "（剩余%s项已隐藏）", "（%s items hidden）");
-        addCNEN("gtocore.machine.wireless_energy_unit.tooltip", "§7Shift右键主机可以安装/替换无线能量单元，替换优先级：空位>较低级单元>较高级单元§r", "§7Shift right-click the host to install/replace the wireless energy unit, replacement priority: empty slot > lower-level unit > higher-level unit§r");
+        addCNEN("gtocore.machine.tooltip.upgrade_action", "Shift + 右键点击%s，可升级内部等级较低的%s", "Shift + Right-click %s to upgrade lower-tier %s");
 
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.0", "简介", "Introduction");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.title.1", "选择预设", "Select Preset");
