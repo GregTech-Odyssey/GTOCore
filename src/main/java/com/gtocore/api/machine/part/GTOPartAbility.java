@@ -27,6 +27,7 @@ public final class GTOPartAbility extends PartAbility {
     public static final PartAbility EXTRACT_MANA = new GTOPartAbility("extract_mana", "魔力抽取仓", "Extract Mana");
     public static final PartAbility COMPUTING_COMPONENT = new GTOPartAbility("computing_component", "计算组件", "Computing Component Hatch");
     public static final PartAbility CATALYST_HATCH = new GTOPartAbility("catalyst_hatch", "催化剂仓", "Catalyst Hatch");
+    public static final PartAbility MANA_AMPLIFIER_HATCH = new GTOPartAbility("mana_amplifier_hatch", "魔力增幅仓", "Mana Amplifier Hatch");
 
     public static final PartAbility ITEMS_INPUT = new GTOPartAbility("items_input", "物品输入仓", "Items Input");
     public static final PartAbility ITEMS_OUTPUT = new GTOPartAbility("items_output", "物品输出仓", "Items Output");

@@ -62,6 +62,7 @@ public final class LangHandler {
         GTOFluids.LANG.forEach((k, v) -> {
             addCN("fluid.gtocore." + k, v);
             addCN("item.gtocore." + k + "_bucket", v + "桶");
+            addCN("block.gtocore." + k, v);
         });
         MaterialsRegisterUtils.LANG.forEach((k, v) -> addCNEN("material.gtocore." + k, v));
         RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addCNEN("gtceu." + k, v));
@@ -70,7 +71,7 @@ public final class LangHandler {
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
         GTORecipeCategories.LANG.forEach((k, v) -> addCNEN("gtceu.recipe.category." + k, v));
         GTOFluidStorageKey.initLang();
-        OrganType.getEntries().forEach(it -> { addCNEN(it.getTranslationKey(), it.getCn(), it.getKey()); });
+        OrganType.getEntries().forEach(it -> addCNEN(it.getTranslationKey(), it.getCn(), it.getKey()));
         GTOMachineBuilder.LANG.forEach(LangHandler::addCNEN);
         MultiblockBuilder.LANG.forEach(LangHandler::addCNEN);
         Tooltips.LANG.forEach(LangHandler::addCNEN);

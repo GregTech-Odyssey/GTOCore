@@ -28,7 +28,7 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     private final int[] currentRecipeParams = new int[3];
 
     public AlchemyCauldron(MetaMachineBlockEntity holder) {
-        super(holder, 1, t -> 16000);
+        super(holder, 3, t -> 16000);
     }
 
     @Nullable

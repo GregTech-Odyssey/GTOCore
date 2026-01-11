@@ -145,10 +145,11 @@ public final class ManaMachine {
             .recipeType(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getAlchemicalDeviceTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getAlchemyCauldronTooltips().getSupplier())
+            .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(GTOValues.MANA[HV] + "/t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+            .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES, 1600))
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
             .blockProp(p -> p.noOcclusion().isViewBlocking((state, level, pos) -> false))
-            .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES, 1600))
             .register();
 
     public static final MachineDefinition CELESTIAL_CONDENSER = machine("celestial_condenser", "苍穹凝聚器", CelestialCondenser::new)

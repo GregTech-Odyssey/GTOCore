@@ -1,20 +1,18 @@
 package com.gtocore.common.item;
 
-import com.gregtechceu.gtceu.api.item.ComponentItem;
-
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class RandomPositiveFoodItem extends ComponentItem {
+public final class RandomPositiveFoodItem extends Item {
 
     public RandomPositiveFoodItem(Properties properties, int nutrition, float saturation) {
         super(properties.food(new FoodProperties.Builder()
@@ -26,11 +24,11 @@ public final class RandomPositiveFoodItem extends ComponentItem {
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
-        ItemStack result = super.finishUsingItem(stack, level, entity);
-        if (!level.isClientSide && entity instanceof Player player) {
-            player.addEffect(randomPositiveEffectInstance(level.getRandom()));
+        ItemStack resultStack = super.finishUsingItem(stack, level, entity);
+        if (!level.isClientSide) {
+            entity.addEffect(randomPositiveEffectInstance(level.getRandom()));
         }
-        return result;
+        return resultStack;
     }
 
     private static @NotNull MobEffectInstance randomPositiveEffectInstance(@NotNull RandomSource rng) {

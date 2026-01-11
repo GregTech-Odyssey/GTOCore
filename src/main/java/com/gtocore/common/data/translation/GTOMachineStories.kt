@@ -154,7 +154,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("crystallization_chamber")
         story("你说工业生产的粗硅可以直接用电力高炉烧制成单晶硅？" translatedTo "You think crude silicon from industrial production can be directly smelted into monocrystalline silicon in an electric furnace?")
         story("醒醒！我们这里可是GTO重工集团！" translatedTo "Wake up! This is GTO Heavy Industries Group!")
-        story("和这些虫豸在一起，怎么能搞好芯片生产呢！" translatedTo "How can we produce proper chips when working with these vermin!")
+        story("如果继续停留在粗放的生产模式中，怎么能实现高精度的芯片制造呢？" translatedTo "How can we produce proper chips while persisting with such rough fabrication techniques?")
         story("通过电子级硅的缓慢结晶，最终培育出能胜任高精度加工的硅晶圆" translatedTo "Through slow crystallization of electronic-grade silicon, we finally cultivate silicon wafers capable of high-precision processing")
     }
 
@@ -1369,6 +1369,9 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("相传技艺来自景德镇，烧结一切材料于炉中" translatedTo "Legendary techniques from Jingdezhen, sintering all materials in the furnace") { gold() }
         add("用高温与压力将粉末烧结成坚固的块体" translatedTo "Using high temperature and pressure to sinter powders into solid blocks") { gray() }
         highlight("非遗技艺的工业化传承" translatedTo "Industrial inheritance of intangible cultural heritage")
+        section(ComponentSlang.EfficiencyBonus)
+        content("线圈温度越高，运行速度越快" translatedTo "Higher coil temperature → faster operation")
+        info("速度倍率: log(900) / log(温度)" translatedTo "Speed Multiplier: log(900) / log(Temperature)")
     }
 
     val giantElectrochemicalWorkstationTooltips = ComponentListSupplier {

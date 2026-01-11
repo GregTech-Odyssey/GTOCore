@@ -5,6 +5,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.FluidRenderer;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
 import com.gtocore.common.machine.multiblock.electric.gcym.*;
 import com.gtocore.utils.register.MachineRegisterUtils;
 
@@ -420,9 +421,8 @@ public final class GCYMMachines {
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_smelter"))
-            .tooltipsText("安装附属模块后运行速度翻倍", "The running speed doubles after installing the auxiliary module")
             .coilParallelTooltips()
+            .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getAlloySmelterTooltips().getSupplier())
             .moduleTooltips(new PartAbility[0])
             .allRotation()
             .recipeTypes(ALLOY_BLAST_RECIPES)
