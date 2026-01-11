@@ -4492,7 +4492,7 @@
   "gtocore.lang.resonance_flower.18.1656387791": "等级加成",
   "gtocore.lang.resonance_flower.19.1588982611": "耗时减免 - 1-8级每级减2.5% | 9-64级每级额外减1.25% | ≥64级固定减90%",
   "gtocore.lang.resonance_flower.2.820428101": "虚空能量的工业驯服者",
-  "gtocore.lang.resonance_flower.20.2094731837": "真空干燥炉",
+  "gtocore.lang.resonance_flower.20.2094731837": "并行倍率 - 1-64级线性递增 | 65-255级倍率陡增 | ≥256级Long.MAX_VALUE",
   "gtocore.lang.resonance_flower.3.-695432954": "累计配方次数解锁等级，提升转化效率与并行倍率",
   "gtocore.lang.resonance_flower.4.1235974173": "波动效应失控会加剧消耗！！！",
   "gtocore.lang.resonance_flower.5.-1982095793": "需补充稳定资源抑制波动",
