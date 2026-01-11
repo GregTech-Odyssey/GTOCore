@@ -1369,6 +1369,9 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("相传技艺来自景德镇，烧结一切材料于炉中" translatedTo "Legendary techniques from Jingdezhen, sintering all materials in the furnace") { gold() }
         add("用高温与压力将粉末烧结成坚固的块体" translatedTo "Using high temperature and pressure to sinter powders into solid blocks") { gray() }
         highlight("非遗技艺的工业化传承" translatedTo "Industrial inheritance of intangible cultural heritage")
+        section(ComponentSlang.EfficiencyBonus)
+        content("线圈温度越高，运行速度越快" translatedTo "Higher coil temperature → faster operation")
+        info("速度倍率: log(900) / log(温度)" translatedTo "Speed Multiplier: log(900) / log(Temperature)")
     }
 
     val giantElectrochemicalWorkstationTooltips = ComponentListSupplier {

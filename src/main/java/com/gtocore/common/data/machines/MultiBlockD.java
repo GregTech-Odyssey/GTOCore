@@ -311,7 +311,6 @@ public final class MultiBlockD {
             .durationMultiplierTooltips(0.5)
             .tooltips(GTOMachineStories.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
-            .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
             .block(GTOBlocks.BLAZE_CASING)
             .upgradable()
@@ -885,9 +884,6 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition INCUBATOR = multiblock("incubator", "培养缸", IncubatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
-                    c -> c.addLines("玻璃等级决定配方等级上限",
-                            "The glass casing tier determines the upper limit of recipe tier")))
             .tooltips(GTOMachineStories.INSTANCE.getCulturingTankTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
@@ -909,11 +905,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition LARGE_INCUBATOR = multiblock("large_incubator", "大型培养缸", IncubatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
-                    c -> c.addLines("玻璃等级决定配方等级上限",
-                            "The glass casing tier determines the upper limit of recipe tier")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .tooltips(GTOMachineStories.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .parallelizableTooltips()
             .parallelizableOverclock()

@@ -184,12 +184,11 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition ADVANCED_RARE_EARTH_CENTRIFUGAL = multiblock(
             "comprehensive_tombarthite_processing_facility",
             "稀土处理综合设施",
-            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GLASS_TIER) << 1), GLASS_TIER))
+            TierCasingCrossRecipeMultiblockMachine.createGasTieredParallel())
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.RARE_EARTH_CENTRIFUGAL_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getComprehensiveTombarthiteProcessingFacilityTooltips().getSupplier())
-            .specialParallelizableTooltips()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
+            .glassParallelTooltips()
             .laserTooltips()
             .block(GTOBlocks.SPS_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)// , RelativeDirection.FRONT,
@@ -567,11 +566,7 @@ public final class MultiBlockA {
             .recipeTypes(GTRecipeTypes.ASSEMBLER_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines(
-                            "高等级玻璃可以提供更多的并行数量",
-                            "Higher tier glass provides more parallelism")))
+            .glassParallelTooltips()
             .laserTooltips()
             .recipeModifier(RecipeModifierFunction::laserLossOverclocking)
             .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)
@@ -1394,7 +1389,7 @@ public final class MultiBlockA {
             .recoveryStacks(GTMachineModify::tinydustFromDustOutput)
             .register();
 
-    public static final MultiblockMachineDefinition MEGA_WIREMILL = multiblock("mega_wiremill", "特大线材轧机", CoilCrossRecipeMultiblockMachine::createCoilParallel)
+    public static final MultiblockMachineDefinition MEGA_WIREMILL = multiblock("mega_wiremill", "特大线材轧机", CoilCrossRecipeMultiblockMachine.createCheckedTemperatureParallel(false))
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.WIREMILL_RECIPES, FIBER_EXTRUSION_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getMegaWiremillTooltips().getSupplier())
