@@ -4889,6 +4889,7 @@
   "gtocore.machine.experience_obelisk.transfer_to_machine": "Transfer the configured experience from player to machine",
   "gtocore.machine.experience_obelisk.transfer_to_player": "Transfer the configured experience from machine to player",
   "gtocore.machine.experience_obelisk.vacuum_hopper_mode": "Vacuum Hopper Mode",
+  "gtocore.machine.eye_of_harmony.cosmicElement": "Cosmic Element Storage: %smB",
   "gtocore.machine.eye_of_harmony.eu": "Startup Energy Consumption: %s EU",
   "gtocore.machine.eye_of_harmony.helium": "Helium Storage: %smB",
   "gtocore.machine.eye_of_harmony.hydrogen": "Hydrogen Storage: %smB",

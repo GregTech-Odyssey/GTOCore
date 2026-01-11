@@ -4880,6 +4880,7 @@
   "gtocore.machine.experience_obelisk.transfer_to_machine": "從玩家轉移設定的經驗值到機器",
   "gtocore.machine.experience_obelisk.transfer_to_player": "從機器轉移設定的經驗值到玩家",
   "gtocore.machine.experience_obelisk.vacuum_hopper_mode": "真空箱子模式",
+  "gtocore.machine.eye_of_harmony.cosmicElement": "宇宙素儲量: %smB",
   "gtocore.machine.eye_of_harmony.eu": "啟動耗能: %s EU",
   "gtocore.machine.eye_of_harmony.helium": "氦儲量: %smB",
   "gtocore.machine.eye_of_harmony.hydrogen": "氫儲量: %smB",
