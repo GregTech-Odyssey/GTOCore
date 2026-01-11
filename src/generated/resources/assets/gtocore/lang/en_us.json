@@ -4830,7 +4830,7 @@
   "gtocore.lang.wireless_energy_substation.1.-1430140471": "Electricity Capacity",
   "gtocore.lang.wireless_energy_substation.2.42593670": "Install wireless energy units inside to increase capacity limit",
   "gtocore.lang.wireless_energy_substation.3.1586657939": "Effective units are limited by glass tier",
-  "gtocore.lang.wireless_energy_substation.4.1736251294": "Total Capacity = Σ(Unit Capacities) × Unit Count ÷ 2",
+  "gtocore.lang.wireless_energy_substation.4.-953105043": "Capacity Bonus Multiplier = (Units Count / 2) ≥ 1",
   "gtocore.lang.wireless_energy_substation.5.1467344491": "Total Loss = Average of Unit Losses",
   "gtocore.lang.wood_distillation.0.776542074": "Industrial典范 of green chemistry, transforming wood fibers into myriad chemical materials",
   "gtocore.lang.wood_distillation.1.-698931315": "Precise catalytic gas control enables efficient separation and重组 of lignin and cellulose",

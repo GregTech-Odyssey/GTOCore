@@ -30,7 +30,6 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTOreVeinEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
-import dev.ftb.mods.ftbxmodcompat.ftbquests.jei.FTBQuestsJEIIntegration;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -94,7 +93,9 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIArsNouveauPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
         list.add(new JEICompat());
-        list.add(new FTBQuestsJEIIntegration());
+        if (!GTCEu.isDataGen()) {
+            NotDataCompat.addPlugin(list);
+        }
     }
 
     public static void addEMIPlugin(List<EmiPluginContainer> list) {
