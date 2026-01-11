@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -29,7 +29,7 @@ import vazkii.botania.api.mana.ManaPool;
 import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.xplat.XplatAbstractions;
 
-public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMachine {
+public class ManaHatchPartMachine extends WorkableTieredIOPartMachine implements IManaMachine {
 
     TickableSubscription tickSubs;
     @Persisted
@@ -74,40 +74,42 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
     }
 
     void tickUpdate() {
-        BlockPos frontPos = getPos().relative(getFrontFacing());
-        Level level = getLevel();
-        if (level == null) return;
+        if (isWorkingEnabled()) {
+            BlockPos frontPos = getPos().relative(getFrontFacing());
+            Level level = getLevel();
+            if (level == null) return;
 
-        ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(level, frontPos, null);
-        if (receiver != null && !receiver.isFull()) {
-            int mana = MathUtil.saturatedCast(manaContainer.getCurrentMana());
-            if (receiver instanceof ManaCollector collector) {
-                mana = Math.min(mana, collector.getMaxMana() - collector.getCurrentMana());
-            } else if (receiver instanceof ManaPool pool) {
-                mana = Math.min(mana, pool.getMaxMana() - pool.getCurrentMana());
+            ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(level, frontPos, null);
+            if (receiver != null && !receiver.isFull()) {
+                int mana = MathUtil.saturatedCast(manaContainer.getCurrentMana());
+                if (receiver instanceof ManaCollector collector) {
+                    mana = Math.min(mana, collector.getMaxMana() - collector.getCurrentMana());
+                } else if (receiver instanceof ManaPool pool) {
+                    mana = Math.min(mana, pool.getMaxMana() - pool.getCurrentMana());
+                }
+                int change = MathUtil.saturatedCast(manaContainer.removeMana(mana, 20, false));
+                if (change > 0) {
+                    receiver.receiveMana(change);
+                    manaContainer.notifyListeners();
+                }
             }
-            int change = MathUtil.saturatedCast(manaContainer.removeMana(mana, 20, false));
-            if (change > 0) {
-                receiver.receiveMana(change);
-                manaContainer.notifyListeners();
-            }
-        }
 
-        for (ISpecialSourceProvider provider : SourceUtil.canGiveSource(frontPos, level, 0)) {
-            if (provider.getSource() instanceof SourceJarTile jarTile) {
-                if (!jarTile.canAcceptSource()) return;
-                int availableSpace = jarTile.getMaxSource() - jarTile.getSource();
-                if (availableSpace > 0) {
-                    int sourceToAdd = Math.min((int) (manaContainer.getCurrentMana() * 4), availableSpace);
-                    if (sourceToAdd > 0) {
-                        long removedMana = manaContainer.removeMana((sourceToAdd + 3) / 4, 20, false);
-                        if (removedMana > 0) {
-                            jarTile.addSource((int) (removedMana * 4));
-                            manaContainer.notifyListeners();
+            for (ISpecialSourceProvider provider : SourceUtil.canGiveSource(frontPos, level, 0)) {
+                if (provider.getSource() instanceof SourceJarTile jarTile) {
+                    if (!jarTile.canAcceptSource()) return;
+                    int availableSpace = jarTile.getMaxSource() - jarTile.getSource();
+                    if (availableSpace > 0) {
+                        int sourceToAdd = Math.min((int) (manaContainer.getCurrentMana() * 4), availableSpace);
+                        if (sourceToAdd > 0) {
+                            long removedMana = manaContainer.removeMana((sourceToAdd + 3) / 4, 20, false);
+                            if (removedMana > 0) {
+                                jarTile.addSource((int) (removedMana * 4));
+                                manaContainer.notifyListeners();
+                            }
                         }
                     }
+                    break;
                 }
-                break;
             }
         }
     }
