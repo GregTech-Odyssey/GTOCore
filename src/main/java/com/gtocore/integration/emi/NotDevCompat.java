@@ -6,7 +6,7 @@ import mezz.jei.api.IModPlugin;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class NotDataCompat {
+public class NotDevCompat {
 
     private static final Supplier<IModPlugin> questPlugin = FTBQuestsJEIIntegration::new;
 

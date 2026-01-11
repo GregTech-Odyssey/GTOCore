@@ -278,7 +278,7 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             itemStack.getOrCreateTag().putBoolean("laser", l);
         } else {
             Block block = context.getLevel().getBlockState(context.getClickedPos()).getBlock();
-            player.displayClientMessage(Component.literal("已设置 ").append(Component.translatable(block.getDescriptionId())).append(" 为仓室方块"), true);
+            player.displayClientMessage(Component.literal("已设置 ").append(block.getName()).append(" 为仓室方块"), true);
             tag.putString("part", ItemUtils.getId(block));
             return InteractionResult.CONSUME;
         }
