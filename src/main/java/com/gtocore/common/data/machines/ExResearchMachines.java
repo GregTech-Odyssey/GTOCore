@@ -138,7 +138,7 @@ public final class ExResearchMachines {
 
     public static final MachineDefinition NICH_EMPTY_COMPONENT = registerHPCAPart(
             "nich_empty_component", "空NICH组件",
-            ExResearchEmptyPartMachine::new, false, false, 3)
+            holder -> new ExResearchEmptyPartMachine(holder, 3), false, false, 3)
             .register();
 
     public static final MachineDefinition NICH_COMPUTING_COMPONENTS = registerHPCAPart(
@@ -171,7 +171,7 @@ public final class ExResearchMachines {
 
     public static final MachineDefinition GWCA_EMPTY_COMPONENT = registerHPCAPart(
             "gwca_empty_component", "空GWCA组件",
-            ExResearchEmptyPartMachine::new, false, false, 4)
+            holder -> new ExResearchEmptyPartMachine(holder, 4), false, false, 4)
             .register();
 
     public static final MachineDefinition GWCA_COMPUTING_COMPONENTS = registerHPCAPart(
