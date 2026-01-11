@@ -13,8 +13,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class ExResearchEmptyPartMachine extends ExResearchBasePartMachine {
 
-    public ExResearchEmptyPartMachine(MetaMachineBlockEntity holder) {
-        super(holder, 3);
+    public ExResearchEmptyPartMachine(MetaMachineBlockEntity holder, int tier) {
+        super(holder, tier);
     }
 
     @Override

@@ -15,7 +15,6 @@ import com.gtocore.common.machine.multiblock.water.*;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
@@ -42,7 +41,6 @@ import static com.gtocore.api.machine.part.GTOPartAbility.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public final class MultiBlockB {
@@ -323,8 +321,9 @@ public final class MultiBlockB {
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/corrosion_proof_casing"), GTCEu.id("block/multiblock/gcym/large_brewer"))
             .register();
 
-    public static final MultiblockMachineDefinition FUEL_REFINING_COMPLEX = multiblock("fuel_refining_complex", "燃料精炼复合体", CoilCrossRecipeMultiblockMachine.createCoilParallelEBF())
+    public static final MultiblockMachineDefinition FUEL_REFINING_COMPLEX = multiblock("fuel_refining_complex", "燃料精炼复合体", CoilCrossRecipeMultiblockMachine.createCheckedTemperatureParallel(true))
             .nonYAxisRotation()
+            .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
             .laserTooltips()
             .coilParallelTooltips()
             .recipeTypes(FUEL_REFINING_RECIPES)
@@ -425,14 +424,11 @@ public final class MultiBlockB {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
             .register();
 
-    public static final MultiblockMachineDefinition LIGHTNING_ROD = multiblock("lightning_rod", "引雷针", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
+    public static final MultiblockMachineDefinition LIGHTNING_ROD = multiblock("lightning_rod", "引雷针", TierCasingCrossRecipeMultiblockMachine.createGasTieredParallel())
             .nonYAxisRotation()
             .recipeTypes(ARC_GENERATOR_RECIPES)
-            .specialParallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getLightningRodTooltips().getSupplier())
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
+            .glassParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTBlocks.CASING_PALLADIUM_SUBSTATION)
@@ -788,7 +784,7 @@ public final class MultiBlockB {
             .workableCasingRenderer(GTOCore.id("block/reinforced_sterile_water_plant_casing"), GTOCore.id("block/multiblock/general2"))
             .register();
 
-    public static final MultiblockMachineDefinition MEGA_VACUUM_DRYING_FURNACE = multiblock("mega_vacuum_drying_furnace", "巨型真空干燥炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
+    public static final MultiblockMachineDefinition MEGA_VACUUM_DRYING_FURNACE = multiblock("mega_vacuum_drying_furnace", "巨型真空干燥炉", CoilCrossRecipeMultiblockMachine.createCheckedTemperatureParallel(false))
             .nonYAxisRotation()
             .recipeTypes(VACUUM_DRYING_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getMegaVacuumDryingFurnaceTooltips().getSupplier())

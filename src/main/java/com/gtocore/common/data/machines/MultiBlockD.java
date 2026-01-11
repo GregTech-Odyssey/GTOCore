@@ -311,7 +311,6 @@ public final class MultiBlockD {
             .durationMultiplierTooltips(0.5)
             .tooltips(GTOMachineStories.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
-            .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
             .block(GTOBlocks.BLAZE_CASING)
             .upgradable()
@@ -478,7 +477,7 @@ public final class MultiBlockD {
                     h -> h.addLines("自ULV起，电压每高出1级，获得的并行数+2", "From ULV, each voltage tier increases the obtained parallelism by 2"),
                     c -> c.addCommentLines("公式 : 2 * (tier - 0), 算去吧", "Formula: 2 * (tier - 0), go calculate it yourself")))
             .tooltips(NewDataAttributes.RECIPES_TYPE.create(ProcessingPlantMachine.getComponent()))
-            .moduleTooltips(CATALYST_HATCH)
+            .moduleTooltips(CATALYST_HATCH, MANA_AMPLIFIER_HATCH)
             .block(GTOBlocks.MULTI_FUNCTIONAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("bbb", "bbb", "bbb")
@@ -885,9 +884,6 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition INCUBATOR = multiblock("incubator", "培养缸", IncubatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
-                    c -> c.addLines("玻璃等级决定配方等级上限",
-                            "The glass casing tier determines the upper limit of recipe tier")))
             .tooltips(GTOMachineStories.INSTANCE.getCulturingTankTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
@@ -909,11 +905,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition LARGE_INCUBATOR = multiblock("large_incubator", "大型培养缸", IncubatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
-                    c -> c.addLines("玻璃等级决定配方等级上限",
-                            "The glass casing tier determines the upper limit of recipe tier")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .tooltips(GTOMachineStories.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .parallelizableTooltips()
             .parallelizableOverclock()
