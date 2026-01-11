@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.part.ae
 
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.GTORecipes
-import com.gtocore.integration.emi.GTEMIRecipe
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.FriendlyByteBuf
@@ -11,7 +10,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
 
-import com.google.common.collect.ImmutableList
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget
@@ -22,10 +20,8 @@ import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
 import com.gtolib.api.gui.ktflexible.blank
-import com.gtolib.api.gui.ktflexible.button
 import com.gtolib.api.gui.ktflexible.field
 import com.gtolib.api.gui.ktflexible.iconButton
-import com.gtolib.api.gui.ktflexible.text
 import com.gtolib.api.network.NetworkPack
 import com.gtolib.api.recipe.RecipeBuilder
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper

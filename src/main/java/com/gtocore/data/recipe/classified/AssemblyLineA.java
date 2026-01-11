@@ -6,6 +6,7 @@ import com.gtocore.common.data.machines.*;
 import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -592,6 +593,22 @@ final class AssemblyLineA {
                 .duration(800)
                 .researchStation(b -> b.researchStack(ExResearchMachines.BIO_DATA_ACCESS_HATCH)
                         .duration(1200)
+                        .EUt(GTValues.VA[GTValues.UEV])
+                        .CWUt(1024))
+                .save();
+        ASSEMBLY_LINE_RECIPES.builder("gwca_empty_component")
+                .inputItems(GTOBlocks.GRAVITON_COMPUTER_CASING.asItem())
+                .inputItems(GTOItems.ATOMIC_ARCHIVES, 4)
+                .inputItems(CustomTags.UEV_CIRCUITS, 4)
+                .inputItems(GTItems.FLUID_REGULATOR_UEV)
+                .inputItems(TagPrefix.pipeLargeFluid, GTOMaterials.Enderium, 2)
+                .inputItems("gtceu:network_switch", 4)
+                .outputItems("gtocore:gwca_empty_component")
+                .inputFluids(RegistriesUtils.getFluid("gtocore:gelid_cryotheum"), 2000)
+                .EUt(GTValues.VA[GTValues.UIV])
+                .duration(323)
+                .researchStation(b -> b.researchStack(RegistriesUtils.getItemStack("gtocore:nich_empty_component"))
+                        .duration(1800)
                         .EUt(GTValues.VA[GTValues.UEV])
                         .CWUt(1024))
                 .save();
