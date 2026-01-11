@@ -4830,7 +4830,7 @@
   "gtocore.lang.wireless_energy_substation.1.-1430140471": "電網容量",
   "gtocore.lang.wireless_energy_substation.2.42593670": "可在內部安裝任意無線能量單元來提高容量上限",
   "gtocore.lang.wireless_energy_substation.3.1586657939": "實際起作用的單元受玻璃等級限製",
-  "gtocore.lang.wireless_energy_substation.4.1736251294": "總容量 = Σ(單元容量) × 單元數 ÷ 2",
+  "gtocore.lang.wireless_energy_substation.4.-953105043": "容量獎勵乘數 = （單元數 / 2）≥ 1",
   "gtocore.lang.wireless_energy_substation.5.1467344491": "總損耗 = 單元損耗平均值",
   "gtocore.lang.wood_distillation.0.776542074": "綠色化學的工業典范，將木質纖維轉化為萬千化工原料",
   "gtocore.lang.wood_distillation.1.-698931315": "催化氣體精准調控，讓木質素和纖維素高效分離重組",

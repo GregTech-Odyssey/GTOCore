@@ -4830,7 +4830,7 @@
   "gtocore.lang.wireless_energy_substation.1.-1430140471": "电网容量",
   "gtocore.lang.wireless_energy_substation.2.42593670": "可在内部安装任意无线能量单元来提高容量上限",
   "gtocore.lang.wireless_energy_substation.3.1586657939": "实际起作用的单元受玻璃等级限制",
-  "gtocore.lang.wireless_energy_substation.4.1736251294": "总容量 = Σ(单元容量) × 单元数 ÷ 2",
+  "gtocore.lang.wireless_energy_substation.4.-953105043": "容量奖励乘数 = （单元数 / 2）≥ 1",
   "gtocore.lang.wireless_energy_substation.5.1467344491": "总损耗 = 单元损耗平均值",
   "gtocore.lang.wood_distillation.0.776542074": "绿色化学的工业典范，将木质纤维转化为万千化工原料",
   "gtocore.lang.wood_distillation.1.-698931315": "催化气体精准调控，让木质素和纤维素高效分离重组",
