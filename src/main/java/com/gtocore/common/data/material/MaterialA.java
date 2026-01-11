@@ -76,6 +76,7 @@ public final class MaterialA {
 
         EnergeticAlloy = material("energetic_alloy", "充能合金")
                 .ingot()
+                .fluid()
                 .color(0xffb545)
                 .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME)

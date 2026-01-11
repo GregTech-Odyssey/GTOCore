@@ -4,7 +4,10 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.data.machines.*;
+import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTooltipsA;
+import com.gtocore.common.machine.dev.TestReportOutput;
 import com.gtocore.common.machine.electric.*;
 import com.gtocore.common.machine.generator.LightningRodMachine;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
@@ -17,6 +20,9 @@ import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
 import com.gtocore.common.machine.noenergy.tradingstation.TradingStationMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
+import com.gtocore.common.machine.tesseract.AdvancedTesseractMachine;
+import com.gtocore.common.machine.tesseract.DirectedTesseractMachine;
+import com.gtocore.common.machine.tesseract.TesseractMachine;
 import com.gtocore.integration.ae.MeWirelessConnectMachine;
 import com.gtocore.integration.ae.SyncTesterMachine;
 
@@ -56,6 +62,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.hepdd.gtmthings.GTMThings;
 import it.unimi.dsi.fastutil.Function;
@@ -930,6 +937,14 @@ public final class GTOMachines {
             .allowCoverOnFront(true)
             .register();
 
+    public static final MachineDefinition DIRECTED_TESSERACT_GENERATOR = blockEntityMachine("directed_tesseract_generator", "有向超立方体发生器", DirectedTesseractMachine::new, TesseractBlockEntity::new)
+            .allRotation()
+            .tooltips(GTOMachineTooltipsA.INSTANCE.getDirectedHyperCubeMachineTooltips().getSupplier())
+            .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
+            .tier(IV)
+            .allowCoverOnFront(true)
+            .register();
+
     public static final MachineDefinition INDUSTRIAL_PLATFORM_DEPLOYMENT_TOOLS = machine("industrial_platform_deployment_tools", "工业平台展开工具", PlatformDeploymentMachine::new)
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getIndustrialPlatformDeploymentToolsTooltips().apply(list))
             .nonYAxisRotation()
@@ -941,6 +956,12 @@ public final class GTOMachines {
             .tooltipBuilder((stack, list) -> GTOMachineTooltips.INSTANCE.getVillageTradingStationTooltips().apply(list))
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/village_trading_station"))
+            .register();
+
+    public static final MachineDefinition TRAVEL_ANCHOR = machine("travel_anchor", "旅行锚", TravelAnchorMachine::new)
+            .noneRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getTravelAnchorTooltips().getSupplier())
+            .modelRenderer(() -> ResourceLocation.fromNamespaceAndPath("enderio", "block/travel_anchor"))
             .register();
 
     public static final MachineDefinition[] TRADING_STATION = registerTieredMachines("trading_station", tier -> "泛银河系格雷科技贸易站 " + "Tier " + tier, TradingStationMachine::new,

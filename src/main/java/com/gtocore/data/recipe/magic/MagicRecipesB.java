@@ -131,6 +131,13 @@ public final class MagicRecipesB {
                     .addData(VOIDFLUX, 4000)
                     .duration(10)
                     .save();
+
+            CELESTIAL_CONDENSER_RECIPES.builder("the_solaris_lens")
+                    .inputItems(TagPrefix.block, GTOMaterials.ElfGlass)
+                    .outputItems(GTOBlocks.THE_SOLARIS_LENS.asItem())
+                    .duration(100)
+                    .addData(SOLARIS, 500000)
+                    .save();
         }
 
         // 符文铭刻

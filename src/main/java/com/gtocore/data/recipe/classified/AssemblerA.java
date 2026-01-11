@@ -827,5 +827,14 @@ final class AssemblerA {
                 .EUt(300000)
                 .duration(2000)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("directed_tesseract_generator")
+                .inputItems(GTOMachines.ADVANCED_TESSERACT_GENERATOR.asItem())
+                .inputItems(GTItems.SENSOR_IV, 2)
+                .inputItems(GTItems.TOOL_DATA_STICK, 4)
+                .outputItems(GTOMachines.DIRECTED_TESSERACT_GENERATOR.asItem())
+                .EUt(480)
+                .duration(400)
+                .save();
     }
 }

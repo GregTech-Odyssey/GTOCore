@@ -1,4 +1,4 @@
-package com.gtocore.common.machine.electric;
+package com.gtocore.common.machine.dev;
 
 import com.gtocore.api.report.*;
 

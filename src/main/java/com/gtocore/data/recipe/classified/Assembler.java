@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.*;
 
 import com.gtolib.api.machine.GTOCleanroomType;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -4003,6 +4004,38 @@ final class Assembler {
                 .inputFluids(GTMaterials.Trinium, 1000)
                 .EUt(524288)
                 .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("graviton_computer_casing")
+                .inputItems(GTBlocks.ADVANCED_COMPUTER_CASING.asItem())
+                .inputItems(CustomTags.UIV_CIRCUITS, 2)
+                .inputItems(GTOBlocks.RESTRAINT_DEVICE.asItem(), 4)
+                .inputItems(TagPrefix.frameGt, GTOMaterials.NanoStrengthenedShapeMemoryAlloy)
+                .inputItems(TagPrefix.plateDense, GTMaterials.NaquadahAlloy, 16)
+                .inputItems(TagPrefix.wireFine, GTOMaterials.TriniumTitanium, 64)
+                .inputItems(TagPrefix.wireFine, GTOMaterials.Enderite, 64)
+                .outputItems(GTOBlocks.GRAVITON_COMPUTER_CASING.asItem())
+                .EUt(VA[UEV])
+                .duration(300)
+                .save();
+        ASSEMBLER_RECIPES.builder("graviton_computer_casing1")
+                .inputItems("gtocore:gwca_empty_component")
+                .inputItems(CustomTags.UXV_CIRCUITS, 8)
+                .inputItems(GTItems.FIELD_GENERATOR_UIV)
+                .outputItems("gtocore:gwca_computing_components")
+                .inputFluids(RegistriesUtils.getFluid("gtocore:gelid_cryotheum"), 2000)
+                .EUt(VA[UIV])
+                .duration(300)
+                .save();
+        ASSEMBLER_RECIPES.builder("gwca_cooling_components")
+                .inputItems("gtocore:gwca_empty_component")
+                .inputItems(TagPrefix.block, GTOMaterials.CascadeMFPC, 64)
+                .inputItems(TagPrefix.pipeTinyFluid, GTOMaterials.Enderium, 8)
+                .inputItems(TagPrefix.plate, GTOMaterials.TitaniumDioxideNanotubeReinforcedTitaniumMatrixComposite, 32)
+                .outputItems("gtocore:gwca_cooling_components")
+                .inputFluids(RegistriesUtils.getFluid("gtocore:gelid_cryotheum"), 2000)
+                .EUt(VA[UIV])
+                .duration(300)
                 .save();
     }
 }

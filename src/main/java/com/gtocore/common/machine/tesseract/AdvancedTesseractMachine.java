@@ -1,65 +1,76 @@
-package com.gtocore.common.machine.electric;
+package com.gtocore.common.machine.tesseract;
+
+import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.ae2.IPatternProviderLogic;
 import com.gtolib.api.ae2.PatternProviderTargetCache;
 import com.gtolib.api.ae2.machine.ICustomCraftingMachine;
+import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.holder.BooleanHolder;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
-import com.gregtechceu.gtceu.api.transfer.item.ItemHandlerList;
-import com.gregtechceu.gtceu.utils.LazyOptionalUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.helpers.patternprovider.PatternProviderTarget;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Multiset;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import org.jetbrains.annotations.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
-public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife, ICustomCraftingMachine {
+import static com.gtocore.common.machine.tesseract.DirectedTesseractMachine.HIGHLIGHT_TEXT;
+
+public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife, ICustomCraftingMachine, IMultiTesseract {
+
+    public static final Multiset<ImmutableList<Long>> HIGHLIGHTS = HashMultiset.create();
 
     private final WeakReference<BlockEntity>[] blockEntityReference = new WeakReference[20];
 
     @Persisted
+    @DescSynced
     public final List<BlockPos> poss = new ArrayList<>(20);
 
     @Persisted
@@ -68,16 +79,20 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     @Persisted
     private boolean roundRobin;
 
+    @Getter
     private final List<IItemHandler> itemHandlers = new ArrayList<>(20);
+    @Getter
     private final List<IFluidHandler> fluidHandlers = new ArrayList<>(20);
 
-    private boolean call;
+    @Getter
+    @Setter
+    private boolean called;
 
     public AdvancedTesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 20, IO.NONE, IO.NONE);
         inventory.storage.setOnContentsChangedAndfreeze(() -> {
-            call = false;
+            called = false;
             poss.clear();
             for (int i = 0; i < 20; i++) {
                 blockEntityReference[i] = null;
@@ -102,6 +117,19 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
             return InteractionResult.sidedSuccess(playerIn.level().isClientSide);
         }
         return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        IFancyUIMachine.super.attachConfigurators(configuratorPanel);
+        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
+                GuiTextures.LIGHT_ON, GuiTextures.LIGHT_ON, () -> false,
+                (clickData, pressed) -> {
+                    if (clickData.isRemote && getLevel() != null) {
+                        HIGHLIGHTS.add(poss.stream().map(BlockPos::asLong).collect(ImmutableList.toImmutableList()), 200);
+                    }
+                })
+                .setTooltipsSupplier(pressed -> Collections.singletonList(Component.translatable(HIGHLIGHT_TEXT))));
     }
 
     @Override
@@ -132,63 +160,13 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     }
 
     @Override
-    @Nullable
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (call) return null;
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            itemHandlers.clear();
-            var size = poss.size();
-            for (int i = 0; i < size; i++) {
-                var c = getBlockEntity(poss.get(i), i);
-                if (c != null) {
-                    call = true;
-                    var h = LazyOptionalUtil.get(c.getCapability(ForgeCapabilities.ITEM_HANDLER, side));
-                    call = false;
-                    if (h != null) {
-                        itemHandlers.add(h);
-                    }
-                }
-            }
-            var s = itemHandlers.size();
-            if (s > 0) {
-                var result = s > 1 ? new ItemHandlerList(itemHandlers.toArray(new IItemHandler[0])) : itemHandlers.get(0);
-                if (side != null) {
-                    CoverBehavior cover = getCoverContainer().getCoverAtSide(side);
-                    if (cover != null && result instanceof IItemHandlerModifiable modifiable) {
-                        result = cover.getItemHandlerCap(modifiable);
-                    }
-                }
-                IItemHandler finalResult = result;
-                return ForgeCapabilities.ITEM_HANDLER.orEmpty(cap, LazyOptional.of(() -> finalResult));
-            }
-        } else if (cap == ForgeCapabilities.FLUID_HANDLER) {
-            fluidHandlers.clear();
-            var size = poss.size();
-            for (int i = 0; i < size; i++) {
-                var c = getBlockEntity(poss.get(i), i);
-                if (c != null) {
-                    call = true;
-                    var h = LazyOptionalUtil.get(c.getCapability(ForgeCapabilities.FLUID_HANDLER, side));
-                    call = false;
-                    if (h != null) {
-                        fluidHandlers.add(h);
-                    }
-                }
-            }
-            var s = fluidHandlers.size();
-            if (s > 0) {
-                var result = s > 1 ? new FluidHandlerList(fluidHandlers.toArray(new IFluidHandler[0])) : fluidHandlers.get(0);
-                if (side != null) {
-                    CoverBehavior cover = getCoverContainer().getCoverAtSide(side);
-                    if (cover != null && result instanceof IFluidHandlerModifiable modifiable) {
-                        result = cover.getFluidHandlerCap(modifiable);
-                    }
-                }
-                IFluidHandler finalResult = result;
-                return ForgeCapabilities.FLUID_HANDLER.orEmpty(cap, LazyOptional.of(() -> finalResult));
-            }
-        }
-        return null;
+    public @Nullable BlockEntity getBlockEntity(int i) {
+        return getBlockEntity(poss.get(i), i);
+    }
+
+    @Override
+    public int getTotalBlockEntities() {
+        return poss.size();
     }
 
     public @Nullable BlockEntity getBlockEntity(@Nullable BlockPos pos, int i) {
@@ -256,5 +234,71 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
             if (done) break;
         }
         return IPatternProviderLogic.PushResult.NOWHERE_TO_PUSH;
+    }
+
+    @Override
+    public boolean onMarkerInteract(Player player, List<TesseractDirectedTarget> targets) {
+        if (targets.isEmpty()) {
+            ;
+            return false;
+        }
+        if (getLevel() == null || getLevel().isClientSide()) {
+            return true;
+        }
+        int availableCards = Arrays.stream(inventory.storage.stacks).filter(i -> !i.isEmpty()).toArray().length;
+        inventory.storage.clear();
+        var iterator = targets.iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            var target = iterator.next();
+            if (i >= 20) break;
+            var pos = target.pos().pos();
+            if (pos.equals(getPos())) {
+                iterator.remove();
+                continue;
+            }
+            ItemStack card = ItemStack.EMPTY;
+            if (availableCards > 0) {
+                availableCards--;
+                card = GTOItems.COORDINATE_CARD.asItem().getDefaultInstance();
+            }
+            if (card.isEmpty()) {
+                var idx = player.getInventory().findSlotMatchingItem(GTOItems.COORDINATE_CARD.asItem().getDefaultInstance());
+                if (idx < 0) {
+                    card = ItemStack.EMPTY;
+                } else {
+                    card = player.getInventory().removeItem(idx, 1);
+                }
+            }
+            ae:
+            if (card.isEmpty()) {
+                var meStorage = IEnhancedPlayer.getMEStorageService((ServerPlayer) player);
+                if (meStorage == null) {
+                    break ae;
+                }
+                var cardNum = meStorage.getInventory().extract(AEItemKey.of(GTOItems.COORDINATE_CARD.asItem()), 1, Actionable.MODULATE, IActionSource.ofPlayer(player));
+                if (cardNum <= 0) {
+                    break ae;
+                }
+                card = GTOItems.COORDINATE_CARD.asItem().getDefaultInstance();
+            }
+            if (card.isEmpty()) {
+                player.displayClientMessage(Component.translatable(WRITE_FAIL_TEXT), true);
+                return true;
+            }
+            CompoundTag posTags = card.getOrCreateTag();
+            posTags.putInt("x", pos.getX());
+            posTags.putInt("y", pos.getY());
+            posTags.putInt("z", pos.getZ());
+            inventory.storage.setStackInSlot(i, card);
+            i++;
+        }
+        if (availableCards > 0) {
+            for (; availableCards > 0; availableCards--) {
+                Block.popResource(getLevel(), getPos(), GTOItems.COORDINATE_CARD.asItem().getDefaultInstance());
+            }
+        }
+        player.displayClientMessage(Component.translatable(WRITE_SUCCESS_TEXT), true);
+        return true;
     }
 }

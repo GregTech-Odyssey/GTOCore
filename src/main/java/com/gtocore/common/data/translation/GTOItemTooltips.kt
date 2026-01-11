@@ -1,15 +1,24 @@
 package com.gtocore.common.data.translation
 
 import com.gtocore.api.lang.ComponentListSupplier
+import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
+import com.gtocore.common.data.GTOBlocks
+import com.gtocore.common.data.GTOItems
+import com.gtocore.config.GTOConfig
 import com.gtocore.utils.setTooltips
 
+import net.minecraft.network.chat.Component
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
+import com.gregtechceu.gtceu.GTCEu
+import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.shadowsoffire.apotheosis.adventure.Adventure
 import earth.terrarium.adastra.common.registry.ModBlocks
@@ -96,6 +105,21 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         info("前期大量获取种子去种地的好帮手" translatedTo "A good helper for obtaining seeds in large quantities in the early game")
     }
 
+    val TravelStaff = ComponentListSupplier {
+        setTranslationPrefix("the_staff_of_travelling")
+
+        info("末影接口经典款式传送工具仿制品" translatedTo "A replica of the classic teleportation tool of the Ender IO Inc.")
+
+        section(ComponentSlang.MainFunction)
+        guide("右键选择目标并传送" translatedTo "Right click to select target and teleport")
+        guide("潜行右键可短距离折跃" translatedTo "Shift + Right click to blink a short distance")
+        guide("左键可以切换三种模式" translatedTo "Left click air to switch between three modes")
+        command("1.可以选中所有目标" translatedTo "First mode: Can select all targets")
+        command("2.可以在每个区块选中一个目标" translatedTo "Second mode: Can select one target per block")
+        command("3.可以选中点击到的目标" translatedTo "Third mode: Can select the target you clicked")
+        info("很多AE节点现在都可以作为传送锚点" translatedTo "Many AE nodes can now be used as teleport anchors")
+    }
+
     // 时间扭曲者
     val TimeTwisterTooltips = ComponentListSupplier {
         setTranslationPrefix("time_twister")
@@ -164,6 +188,36 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 }.editionByGTONormal(),
             )
         }
+        val bomb = { block: Block, activateItem: Item ->
+            block.asItem().setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("charge_bomb")
+
+                    if (GTCEu.isDataGen() || !GTOConfig.INSTANCE.disableChargeBomb) {
+                        info(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.activate_by",
+                                    activateItem.description,
+                                ),
+                            ),
+                        )
+                        info("也可以把它喂给热爆花..." translatedTo "It can also be fed to entropinnyum flowers...")
+                    } else {
+                        error(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.charge_bomb.disabled",
+                                ),
+                            ),
+                        )
+                    }
+                },
+            )
+        }
+        bomb(GTOBlocks.NAQUADRIA_CHARGE.get(), GTItems.QUANTUM_STAR.asItem())
+        bomb(GTOBlocks.LEPTONIC_CHARGE.get(), GTItems.GRAVI_STAR.asItem())
+        bomb(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get(), GTOItems.UNSTABLE_STAR.asItem())
 
         listOf(AEItems.ITEM_CELL_256K.asItem(), AEItems.FLUID_CELL_256K.asItem()).forEach {
             it.setTooltips(

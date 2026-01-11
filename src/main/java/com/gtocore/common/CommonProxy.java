@@ -14,7 +14,12 @@ import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
 import com.gtocore.data.Datagen;
 import com.gtocore.data.lootTables.GTOLootTool.GTONumberProviders;
+import com.gtocore.eio_travel.api.TravelRegistry;
+import com.gtocore.eio_travel.client.travel.TravelAnchorRenderers;
+import com.gtocore.eio_travel.implementations.AnchorTravelTarget;
+import com.gtocore.eio_travel.implementations.PatternTravelTarget;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.construction_wand.ConstructionWandRegistrar;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbquests.GTOQuestTypes;
 import com.gtocore.integration.ftbu.AreaShape;
@@ -127,6 +132,11 @@ public class CommonProxy {
         AdAstraEvents.EntityGravityEvent.register(IEnhancedPlayer::gravity);
 
         initWTLib();
+        if (Mods.CONSTRUCTION_WAND.isLoaded()) {
+            ConstructionWandRegistrar.register();
+        }
+        TravelRegistry.addTravelEntry(AnchorTravelTarget.SERIALIZED_NAME, AnchorTravelTarget::load, () -> TravelAnchorRenderers::getRenderer);
+        TravelRegistry.addTravelEntry(PatternTravelTarget.SERIALIZED_NAME, PatternTravelTarget::loadClientTarget, () -> TravelAnchorRenderers::getRenderer);
 
         if (GTCEu.isProd()) {
             AreaShape.register();

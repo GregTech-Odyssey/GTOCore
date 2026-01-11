@@ -8,6 +8,7 @@ import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 import com.gtocore.common.saved.WirelessSavedData;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.botania.IEntropinnyum;
 import com.gtocore.integration.ftbquests.AdditionalTeamData;
 import com.gtocore.utils.OrganUtilsKt;
 
@@ -170,17 +171,23 @@ public final class ForgeCommonEvent {
         }
 
         if (!GTOConfig.INSTANCE.disableChargeBomb) {
-            if (item == GTItems.QUANTUM_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get()) {
+            if (item == GTItems.QUANTUM_STAR.get() &&
+                    level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get() &&
+                    !IEntropinnyum.absorbBomb(level, pos, (int) 1e6)) {
                 SphereExplosion.explosion(pos, level, 200, true, true);
                 return;
             }
 
-            if (item == GTItems.GRAVI_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get()) {
+            if (item == GTItems.GRAVI_STAR.get() &&
+                    level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get() &&
+                    !IEntropinnyum.absorbBomb(level, pos, (int) 4e6)) {
                 SphereExplosion.explosion(pos, level, 800, true, true);
                 return;
             }
 
-            if (item == GTOItems.UNSTABLE_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get()) {
+            if (item == GTOItems.UNSTABLE_STAR.get() &&
+                    level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get() &&
+                    !IEntropinnyum.absorbBomb(level, pos, (int) 1e7)) {
                 SphereExplosion.explosion(pos, level, 2000, true, true);
                 return;
             }

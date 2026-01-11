@@ -83,9 +83,6 @@ public final class Tooltips {
             add(GTOItems.EMERALD_CRYSTAL_CIRCUIT, "§7晶体电路-存储", "§7Crystal Circuit - Storage");
             add(GTOItems.SAPPHIRE_CRYSTAL_CIRCUIT, "§7晶体电路-转换", "§7Crystal Circuit - Conversion");
 
-            add(GTOBlocks.NAQUADRIA_CHARGE, "可由量子之星激活", "Can be activated by Quantum Star");
-            add(GTOBlocks.LEPTONIC_CHARGE, "可由重力之星激活", "Can be activated by Gravity Star");
-            add(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE, "可由易变之星激活", "Can be activated by Unstable Star");
         }
     }
 

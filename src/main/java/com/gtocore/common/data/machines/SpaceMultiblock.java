@@ -289,6 +289,7 @@ public class SpaceMultiblock {
             }
             return builder.build();
         }
+        machine.requestCheck();
         return Set.of();
     }))
             .allRotation()

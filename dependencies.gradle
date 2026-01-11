@@ -109,6 +109,7 @@ dependencies {
 //    modRuntimeOnly("curse.maven:ftb-quests-forge-289412:6259628")  // 不能参与runData任务
 
     modCompileOnly("curse.maven:ftb-xmod-compat-889915:6402486")
+    modRuntimeOnly("curse.maven:ftb-xmod-compat-889915:6402486")
 
     modImplementation("curse.maven:ftb-ultimine-forge-386134:5363345")
 
@@ -136,6 +137,7 @@ dependencies {
     modCompileOnly("curse.maven:sophisticated-core-618298:6545102")
     modRuntimeOnly("curse.maven:sophisticated-backpacks-422301:6539219")
     modRuntimeOnly("curse.maven:sophisticated-core-618298:6545102")
+    modImplementation("curse.maven:construction-wand-399558:4684054")
 
     modImplementation("curse.maven:pipez-443900:6945379")
     modRuntimeOnly("curse.maven:laserio-uel-1168178:6773950")
@@ -168,6 +170,7 @@ dependencies {
 
 //    modRuntimeOnly("curse.maven:just-enough-characters-250702:7176519")
     modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
+    modCompileOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
     modRuntimeOnly("curse.maven:imblocker-483760:6922546")
 //    modRuntimeOnly("curse.maven:effortless-building-302113:6330928")
 

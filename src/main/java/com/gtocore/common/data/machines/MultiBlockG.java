@@ -246,6 +246,7 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition ELECTRIC_COOKING = multiblock("electric_cooking", "电力烹饪锅", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.ELECTRIC_COOKING_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getElectricCookingTooltips().getSupplier())
             .perfectOverclock()
             .perfectOCTooltips()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)

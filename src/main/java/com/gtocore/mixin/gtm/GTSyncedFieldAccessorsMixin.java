@@ -1,6 +1,8 @@
 package com.gtocore.mixin.gtm;
 
+import com.gtocore.common.machine.tesseract.TesseractDirectedTarget;
 import com.gtocore.common.syncdata.GTORecipePayload;
+import com.gtocore.common.syncdata.GenericStackPayload;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -9,6 +11,7 @@ import com.gregtechceu.gtceu.syncdata.*;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.api.stacks.GenericStack;
 import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
 import com.lowdragmc.lowdraglib.syncdata.payload.NbtTagPayload;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,5 +36,7 @@ public final class GTSyncedFieldAccessorsMixin {
         registerSimple(MaterialPayload.class, MaterialPayload::new, Material.class, 1);
         registerSimple(GTORecipePayload.class, GTORecipePayload::new, GTRecipe.class, 100);
         registerSimple(FluidStackPayload.class, FluidStackPayload::new, FluidStack.class, -1);
+        registerSimple(TesseractDirectedTarget.Payload.class, TesseractDirectedTarget.Payload::new, TesseractDirectedTarget.class, 10);
+        registerSimple(GenericStackPayload.class, GenericStackPayload::new, GenericStack.class, 10);
     }
 }

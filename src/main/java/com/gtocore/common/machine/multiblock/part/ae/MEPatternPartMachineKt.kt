@@ -4,6 +4,8 @@ import com.gtocore.api.gui.ktflexible.multiPageAdvanced
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
+import com.gtocore.eio_travel.api.ITravelHandlerHook
+import com.gtocore.eio_travel.api.TravelSavedData
 import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
@@ -43,6 +45,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
@@ -197,11 +200,18 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun onLoad() {
         super.onLoad()
         detailsInit = false
+        level?.let { ITravelHandlerHook.removeAndReadd(it, this) }
     }
 
     override fun onUnload() {
         super.onUnload()
         detailsInit = false
+        level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
+    }
+
+    override fun addedToController(controller: IMultiController) {
+        super.addedToController(controller)
+        ITravelHandlerHook.requireResync(level!!)
     }
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
@@ -308,7 +318,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun isDistinct(): Boolean = true
     override fun setDistinct(isDistinct: Boolean) {}
     override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {
-        super.attachConfigurators(configuratorPanel)
         val configuratorToggle = IFancyConfiguratorButton.Toggle(
             GuiTextureGroup(
                 GuiTextures.BUTTON,
@@ -325,6 +334,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             { _: ClickData, b: Boolean ->
                 run {
                     showInTravelNetwork = b
+                    ITravelHandlerHook.requireResync(level!!)
                 }
             },
         ).setTooltipsSupplier { b ->
@@ -353,6 +363,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                     })
                     field(height = 12, getter = { customName }, setter = {
                         customName = it
+                        ITravelHandlerHook.requireResync(level!!)
                     })
                 }
                 val height1 = this@rootFresh.availableHeight - 24 - 16

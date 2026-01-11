@@ -11,6 +11,7 @@ import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.forge.ClientForge;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
+import com.gtocore.eio_travel.client.travel.TravelAnchorHud;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
@@ -112,6 +113,7 @@ public final class ClientProxy extends CommonProxy {
     private static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
         registerHUD(event, "wireless_energy_hud", WirelessEnergyHUD.INSTANCE);
         registerHUD(event, "adastra_hud", AdAstraHUD.gto$INSTANCE);
+        event.registerAboveAll("eio_travel_anchor_hud", TravelAnchorHud.INSTANCE);
     }
 
     private static void registerMenuScreen(FMLClientSetupEvent event) {
@@ -119,11 +121,11 @@ public final class ClientProxy extends CommonProxy {
             InitScreens.register(
                     Me2in1Menu.TYPE,
                     Me2in1Screen<Me2in1Menu>::new,
-                    "/screens/ex_pattern_access_terminal.json");
+                    "/screens/me2in1.json");
             InitScreens.register(
                     Wireless.TYPE,
                     Wireless.Screen::new,
-                    "/screens/ex_pattern_access_terminal.json");
+                    "/screens/me2in1wireless.json");
             InitScreens.register(
                     CategoryMappingSubMenu.TYPE,
                     CategoryMappingSubScreen::new,

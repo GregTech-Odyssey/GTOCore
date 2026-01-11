@@ -1,6 +1,9 @@
-package com.gtocore.common.machine.electric;
+package com.gtocore.common.machine.tesseract;
+
+import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.part.ItemPartMachine;
+import com.gtolib.api.player.IEnhancedPlayer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -14,6 +17,9 @@ import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
@@ -21,15 +27,19 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import appeng.api.config.Actionable;
+import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEItemKey;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 import java.util.Set;
 
-public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
+public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife, ITesseractMarkerInteractable {
 
     private static final Set<Capability<?>> CAPABILITIES = Set.of(ForgeCapabilities.ITEM_HANDLER, ForgeCapabilities.FLUID_HANDLER);
 
@@ -125,5 +135,43 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
             return result;
         }
         return null;
+    }
+
+    @Override
+    public boolean onMarkerInteract(Player player, List<TesseractDirectedTarget> targets) {
+        ItemStack card = GTOItems.COORDINATE_CARD.asItem().getDefaultInstance();
+        if (inventory.storage.getStackInSlot(0).isEmpty()) {
+            card = ItemStack.EMPTY;
+            if (card.isEmpty()) {
+                var idx = player.getInventory().findSlotMatchingItem(GTOItems.COORDINATE_CARD.asItem().getDefaultInstance());
+                if (idx >= 0) {
+                    card = player.getInventory().removeItem(idx, 1);
+                }
+            }
+            ae:
+            if (card.isEmpty()) {
+                var meStorage = IEnhancedPlayer.getMEStorageService((ServerPlayer) player);
+                if (meStorage == null) {
+                    break ae;
+                }
+                var cardNum = meStorage.getInventory().extract(AEItemKey.of(GTOItems.COORDINATE_CARD.asItem()), 1, Actionable.MODULATE, IActionSource.ofPlayer(player));
+                if (cardNum <= 0) {
+                    break ae;
+                }
+                card = GTOItems.COORDINATE_CARD.asItem().getDefaultInstance();
+            }
+            if (card.isEmpty()) {
+                player.displayClientMessage(Component.translatable(WRITE_FAIL_TEXT), true);
+                return true;
+            }
+        }
+        var pos = targets.getFirst().pos().pos();
+        CompoundTag posTags = card.getOrCreateTag();
+        posTags.putInt("x", pos.getX());
+        posTags.putInt("y", pos.getY());
+        posTags.putInt("z", pos.getZ());
+        inventory.storage.setStackInSlot(0, card);
+        player.displayClientMessage(Component.translatable(WRITE_SUCCESS_TEXT), true);
+        return true;
     }
 }

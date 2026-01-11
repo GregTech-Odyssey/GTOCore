@@ -135,6 +135,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
     /// C2S sync field for configurator slot index
+    @Getter
     protected IntSyncedField configuratorField = ISync.createIntField(this)
             .set(-1)
             .setSenderListener((side, o, n) -> {
@@ -403,6 +404,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorySimulated.storage));
         configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventory.storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
         configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTank.getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
+        super.attachConfigurators(configuratorPanel);
     }
 
     @Override

@@ -7,15 +7,22 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.mana.ManaAmplifierPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
+import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
+
+import net.minecraft.network.chat.Component;
 
 import appbot.ae2.ManaKey;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
@@ -25,10 +32,11 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import gripe._90.arseng.me.key.SourceKey;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 @DataGeneratorScanned
-public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine implements IGridConnectedMachine {
+public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine implements IGridConnectedMachine, IControllable {
 
     @RegisterLanguage(cn = "从ME网络拉取魔力", en = "Pull Mana from ME Network")
     public static final String LANG_USE_SOURCE = "gtceu.machine.mana_amplifier.use_source";
@@ -40,7 +48,10 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
     @Getter
     @Setter
     private boolean isOnline;
-    private @Nullable TickableSubscription updateSubs;
+    @Persisted
+    @Getter
+    private boolean workingEnabled;
+    private final ConditionalSubscriptionHandler updateSubs;
 
     private boolean useMana = true;
     private boolean useSource = true;
@@ -48,6 +59,7 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
     public MEManaAmplifierPartMachine(MetaMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
+        this.updateSubs = new ConditionalSubscriptionHandler(this, this::updateTick, 20, this::isWorkingEnabled);
     }
 
     @Override
@@ -58,7 +70,7 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
     @Override
     public void onLoad() {
         super.onLoad();
-        updateSubs = subscribeServerTick(updateSubs, this::updateTick, 20);
+        updateSubs.initialize(getLevel());
     }
 
     @Override
@@ -92,6 +104,7 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
     }
 
     private void updateTick() {
+        this.updateSubs.updateSubscription();
         if (getActionableNode() != null && getActionableNode().isActive()) {
             var meStorage = getActionableNode().getGrid().getStorageService().getInventory();
             long canInsert = manaContainer.getMaxMana() - manaContainer.getCurrentMana();
@@ -114,11 +127,32 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
     }
 
     @Override
-    public void onUnload() {
-        super.onUnload();
-        if (updateSubs != null) {
-            updateSubs.unsubscribe();
-            updateSubs = null;
+    public void setWorkingEnabled(boolean isWorkingAllowed) {
+        this.workingEnabled = isWorkingAllowed;
+        updateSubs.updateSubscription();
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.attachConfigurators(configuratorPanel);
+        configuratorPanel.attachConfigurators(new ButtonConfigurator(new GuiTextureGroup(GuiTextures.BUTTON, GuiTextures.REFUND_OVERLAY), this::refundAll).setTooltips(List.of(Component.translatable("gui.gtceu.refund_all.desc"))));
+    }
+
+    private void refundAll(ClickData clickData) {
+        if (clickData.isRemote) return;
+        setWorkingEnabled(false);
+        if (getActionableNode() != null && getActionableNode().isActive()) {
+            var meStorage = getActionableNode().getGrid().getStorageService().getInventory();
+            long currentMana = manaContainer.getCurrentMana();
+            if (currentMana > 0) {
+                manaContainer.removeMana(
+                        meStorage.insert(
+                                ManaKey.KEY,
+                                currentMana,
+                                Actionable.MODULATE,
+                                IActionSource.ofMachine(this)),
+                        1, false);
+            }
         }
     }
 }
