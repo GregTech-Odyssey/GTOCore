@@ -8,6 +8,7 @@ import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallatio
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
+import com.gtocore.common.machine.mana.multiblock.CosmicCelestialSpireOfConvergence
 import com.gtocore.common.machine.multiblock.generator.TurbineMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
@@ -462,7 +463,6 @@ object GTOMachineTooltips {
     // 苍穹凝聚器
     val CelestialCondenserTooltips = ComponentListSupplier {
         setTranslationPrefix("celestial_condenser")
-
         content("凝聚苍穹之上的能量" translatedTo "Condenses energy from beyond the celestial vault")
         section(RunningRequirements)
         command("暴露于天空之下，不可有遮挡" translatedTo "Must be directly exposed to the open sky with no obstructions")
@@ -472,6 +472,31 @@ object GTOMachineTooltips {
         increase("在虚空和超平坦可以以较慢的速度凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara at a slower rate in the Void or Superflat")
         increase("在亚尔夫海姆可以更快的凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara faster in Alfheim")
         increase("在幽冥可以更快的凝聚 - 虚湮" translatedTo "Can condense Voidflux faster in the Otherside")
+        increase("在太空可以凝聚 - 星髓" translatedTo "Can condense Stellarm in the Space")
+        command("运行配方时需要消耗这些能量" translatedTo "Consumes this energy when processing recipes")
+    }
+
+    val CosmicCelestialSpireOfConvergenceTooltips = ComponentListSupplier {
+        setTranslationPrefix("cosmic_celestial_spire_of_convergence")
+        story("星穹光刃裂维度之障，格雷魔导，启百年征航。" translatedTo "Blade of starry vault rends the dimensional veil, Grey Mages embark on a century-long sail.")
+        story("越死寂虚空，踏混沌异疆，极域镌神符，黑岩铸圣腔。" translatedTo "Across the void’s stillness, through chaotic realms they prevail, Carve divine runes in polar bounds, forge sacred chambers from dark shale.")
+        story("解天体秘律，淬星髓凝钢，星海初启，圣坛威光乍放。" translatedTo "Unravel the celestial laws, temper star-marrow to steel, First lit in star-sea, the Sanctum’s radiance doth reveal.")
+        story("银河倒卷奔核心，日月织网，虚空震荡。" translatedTo "Galaxies surge backward into the core’s heart, Sun and moon weave a web, the void doth impart a mighty tremor.")
+        story("凭维度自生伟力，微芒亦可撬动洪荒。" translatedTo "By dimensional might it stands, A tiny spark stirs the primeval lands.")
+        story("格雷血汗凝奇迹，为文明拓宇，永奠天疆。" translatedTo "Grey’s blood and sweat forge a miracle grand, For civilisation’s cosmic expand, Eternally lay the heavenly land.")
+
+        content("凝聚群星之中的能量" translatedTo "Condense the power of the gathered stars")
+        command("可消耗魔力超频" translatedTo "Consumable Mana Overclocking")
+        increase("每次消耗 2^(超频等级*4+10) 点魔力，使凝聚效率翻 2^(超频等级*5) 倍" translatedTo "Consumes 2^(overclockingLevel * 4 + 10) mana points each time, boosts condensation efficiency by 2^(overclockingLevel * 5)")
+        section(RunningRequirements)
+        command("暴露于天空之下，不可有遮挡" translatedTo "Must be directly exposed to the open sky with no obstructions")
+        increase("在白天可以凝聚 - 曦煌" translatedTo "Can condense Solaris during daytime")
+        increase("在夜晚可以凝聚 - 胧华" translatedTo "Can condense Lunara during nighttime")
+        increase("在末地可以凝聚 - 虚湮" translatedTo "Can condense Voidflux in the End")
+        increase("在虚空和超平坦可以以较慢的速度凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara at a slower rate in the Void or Superflat")
+        increase("在亚尔夫海姆可以更快的凝聚 - 曦煌/胧华" translatedTo "Can condense Solaris/Lunara faster in Alfheim")
+        increase("在幽冥可以更快的凝聚 - 虚湮" translatedTo "Can condense Voidflux faster in the Otherside")
+        increase("在太空可以凝聚 - 星髓" translatedTo "Can condense Stellarm in the Space")
         command("运行配方时需要消耗这些能量" translatedTo "Consumes this energy when processing recipes")
     }
 
@@ -1120,6 +1145,7 @@ object GTOMachineTooltips {
         info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
         content("如果在机器GUI内放置了刷怪蛋则只会刷出刷怪蛋对应生物的内容" translatedTo "If a spawn egg is placed in the machine GUI, only the creature corresponding to the spawn egg will be spawned")
+        content("如果在机器GUI内放置了收容罐则只会刷出收容罐对应生物的内容" translatedTo "If a mob jar is placed in the machine GUI, only the creature corresponding to the containment unit will be spawned")
         content("如果在机器GUI内放置了神化Boss召唤器（物品），则只会刷出对应的神化Boss" translatedTo "If a Apotheosis Boss Summoner (item) is placed in the machine GUI, only the corresponding Deific Boss will be spawned")
         content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
         info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")

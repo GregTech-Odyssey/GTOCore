@@ -254,8 +254,9 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
                             }
                         } else {
                             canTransfer = experienceTank.fill(new FluidStack(XP_JUICE.getSource(), -canTransfer), IFluidHandler.FluidAction.SIMULATE);
-                            EnchantmentUtils.chargeExperience(player, canTransfer);
-                            experienceTank.fill(new FluidStack(XP_JUICE.getSource(), canTransfer), IFluidHandler.FluidAction.EXECUTE);
+                            if (EnchantmentUtils.chargeExperience(player, canTransfer)) {
+                                experienceTank.fill(new FluidStack(XP_JUICE.getSource(), canTransfer), IFluidHandler.FluidAction.EXECUTE);
+                            }
                         }
                     }
                 }));
