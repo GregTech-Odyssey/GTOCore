@@ -11,6 +11,7 @@ import com.gtocore.common.item.*;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.devtool.CreativeAllFluidCellItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
+import com.gtocore.config.GTOConfig;
 import com.gtocore.data.lootTables.RewardBagLoot;
 
 import com.gtolib.GTOCore;
@@ -76,12 +77,15 @@ public final class GTOItems {
         GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.HYDROGEN, null);
         GTFluids.handleNonMaterialFluids(GTMaterials.Oil, ModFluids.OIL);
 
-        if (GTCEu.isDev()) {
+        if (GTOConfig.INSTANCE.enableCustomRecipes || GTCEu.isDev()) {
             item("recipe_editor", "配方编辑器", ComponentItem::create)
                     .properties(p -> p.stacksTo(1))
                     .onRegister(attach(RecipeEditorBehavior.INSTANCE))
                     .model(NonNullBiConsumer.noop())
                     .register();
+        }
+
+        if (GTCEu.isDev()) {
 
             item("debug_structure_writer", "多方块结构导出工具", ComponentItem::create)
                     .properties(p -> p.stacksTo(1))

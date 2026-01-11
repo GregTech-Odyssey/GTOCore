@@ -120,6 +120,7 @@ public final class LangHandler {
         addCNEN("selectWorld.gto_difficulty.current", "与当前游戏难度匹配", "Matches current game difficulty");
         addCNEN("selectWorld.gto_difficulty.not_current", "与当前游戏难度不匹配", "Does not match current game difficulty");
         addCNEN("message.gtocore.difficulty_mismatch", "服务器难度与当前客户端不符，无法加入游戏！（服务器：%s，当前：%s）", "The server difficulty does not match the current client and cannot join the game! (Server: %s, Current: %s)");
+        addCNEN("message.gtocore.custom_recipe.mismatch", "服务器的自定义配方脚本(hash=%s)启用情况与当前客户端不符，无法加入游戏！请确保双方的自定义配方脚本启用情况一致。", "The server's custom recipe script (hash=%s) enabled status does not match the current client and cannot join the game! Please ensure that both parties have the same custom recipe script enabled status.");
 
         addCNEN("selectWorld.gto_difficulty.tooltip.easy", "简单模式：游戏流程的各环节（资源获取，制作，自动化等）均有大量简化，游戏难度低。", "Easy Mode: All aspects of the game process (resource acquisition, crafting, automation, etc.) are greatly simplified, making the game easier. ");
         addCNEN("selectWorld.gto_difficulty.tooltip.normal", "普通模式：标准的GTO体验，机制玩法均为默认设定。", "Normal Mode: Standard GTO experience, with all mechanics and gameplay set to default. ");
