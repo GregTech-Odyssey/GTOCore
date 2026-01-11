@@ -1,6 +1,5 @@
 package com.gtocore.mixin.gtm.recipe;
 
-import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gtocore.data.recipe.generated.WoodRecipes;
 
 import com.gtolib.utils.RLUtils;
@@ -8,6 +7,7 @@ import com.gtolib.utils.RLUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.WoodTypeEntry;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;

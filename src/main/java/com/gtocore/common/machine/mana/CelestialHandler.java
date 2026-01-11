@@ -7,9 +7,7 @@ import net.minecraft.world.level.Level;
 
 import earth.terrarium.adastra.api.planets.PlanetApi;
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class CelestialHandler {
 
@@ -56,8 +54,8 @@ public class CelestialHandler {
         };
     }
 
-    public long[] increase(Level world, int multiple, long solaris, long lunara, long voidflux, long stellarm, Mode mode) {
-        if (world == null) return new long[] { solaris, lunara, voidflux, stellarm };
+    public Resource increase(Level world, int multiple, long solaris, long lunara, long voidflux, long stellarm, Mode mode) {
+        if (world == null) return new Resource(solaris, lunara, voidflux, stellarm);
 
         switch (mode) {
             case SPACE -> {
@@ -88,28 +86,28 @@ public class CelestialHandler {
                 }
             }
         }
-        return new long[] { solaris, lunara, voidflux, stellarm };
+        return new Resource(solaris, lunara, voidflux, stellarm);
     }
 
-    public Object[] deductResource(String type, int cost, long parallel, long solaris, long lunara, long voidflux, long stellarm) {
+    public ResourceResult deductResource(String type, int cost, long parallel, long solaris, long lunara, long voidflux, long stellarm) {
         long totalCost = (long) cost * parallel;
-        if (totalCost <= 0) return new Object[] { true, solaris, lunara, voidflux, stellarm };
+        if (totalCost <= 0) return new ResourceResult(true, solaris, lunara, voidflux, stellarm);
 
         switch (type) {
             case SOLARIS -> {
-                if (solaris < totalCost) return new Object[] { false, solaris, lunara, voidflux, stellarm };
+                if (solaris < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
                 solaris = Math.max(0L, solaris - totalCost);
             }
             case LUNARA -> {
-                if (lunara < totalCost) return new Object[] { false, solaris, lunara, voidflux, stellarm };
+                if (lunara < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
                 lunara = Math.max(0L, lunara - totalCost);
             }
             case VOIDFLUX -> {
-                if (voidflux < totalCost) return new Object[] { false, solaris, lunara, voidflux, stellarm };
+                if (voidflux < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
                 voidflux = Math.max(0L, voidflux - totalCost);
             }
             case STELLARM -> {
-                if (stellarm < totalCost) return new Object[] { false, solaris, lunara, voidflux, stellarm };
+                if (stellarm < totalCost) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
                 stellarm = Math.max(0L, stellarm - totalCost);
             }
             case "ANY" -> {
@@ -134,12 +132,16 @@ public class CelestialHandler {
                     stellarm = Math.max(0, stellarm - deduct);
                     remainingCost -= deduct;
                 }
-                if (remainingCost > 0) return new Object[] { false, solaris, lunara, voidflux, stellarm };
+                if (remainingCost > 0) return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
             }
             default -> {
-                return new Object[] { false, solaris, lunara, voidflux, stellarm };
+                return new ResourceResult(false, solaris, lunara, voidflux, stellarm);
             }
         }
-        return new Object[] { true, solaris, lunara, voidflux, stellarm };
+        return new ResourceResult(true, solaris, lunara, voidflux, stellarm);
     }
+
+    public record ResourceResult(boolean success, long solaris, long lunara, long voidflux, long stellarm) {}
+
+    public record Resource(long solaris, long lunara, long voidflux, long stellarm) {}
 }

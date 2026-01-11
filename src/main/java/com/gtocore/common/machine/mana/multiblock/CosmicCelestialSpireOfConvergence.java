@@ -91,7 +91,7 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         if (recipe == null) return null;
         parallel = recipe.parallels;
 
-        Object[] deductResult = null;
+        ResourceResult deductResult = null;
         if (solarisCost > 0) {
             deductResult = celestialHandler.deductResource(SOLARIS, solarisCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         } else if (lunaraCost > 0) {
@@ -104,11 +104,11 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
             deductResult = celestialHandler.deductResource("ANY", anyCost, parallel, this.solaris, this.lunara, this.voidflux, this.stellarm);
         }
 
-        if (deductResult != null && (boolean) deductResult[0]) {
-            this.solaris = (long) deductResult[1];
-            this.lunara = (long) deductResult[2];
-            this.voidflux = (long) deductResult[3];
-            this.stellarm = (long) deductResult[4];
+        if (deductResult != null && deductResult.success()) {
+            this.solaris = deductResult.solaris();
+            this.lunara = deductResult.lunara();
+            this.voidflux = deductResult.voidflux();
+            this.stellarm = deductResult.stellarm();
         }
         return recipe;
     }
@@ -173,11 +173,11 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
         } else {
             timing--;
         }
-        long[] updatedResources = celestialHandler.increase(world, getMultiple() * 100, this.solaris, this.lunara, this.voidflux, this.stellarm, this.mode);
-        this.solaris = updatedResources[0];
-        this.lunara = updatedResources[1];
-        this.voidflux = updatedResources[2];
-        this.stellarm = updatedResources[3];
+        Resource updatedResources = celestialHandler.increase(world, getMultiple() * 100, this.solaris, this.lunara, this.voidflux, this.stellarm, this.mode);
+        this.solaris = updatedResources.solaris();
+        this.lunara = updatedResources.lunara();
+        this.voidflux = updatedResources.voidflux();
+        this.stellarm = updatedResources.stellarm();
     }
 
     @Override

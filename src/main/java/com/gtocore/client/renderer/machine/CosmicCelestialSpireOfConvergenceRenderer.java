@@ -115,7 +115,7 @@ public class CosmicCelestialSpireOfConvergenceRenderer extends WorkableCasingMac
         var ticks = (machine.getOffsetTimer() + partialTicks) * rotSpeed;
         // rotate
         poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(1.0f, 1.0f, 1.0f, (ticks) % 360.0F));
-        poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(-1.0f, 2.0f, 0.0f, (ticks * ticks / 4) % 360.0F));
+        poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(-1.0f, 2.0f, 0.0f, (float) ((Math.sqrt(ticks) / 4) % 360.0F)));
         poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(-2.0f, -1.0f, 3.0f, (ticks / 2) % 360.0F));
 
         vbo.bind();

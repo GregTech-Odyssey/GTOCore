@@ -64,7 +64,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         int stellarmCost = recipe.data.getInt(STELLARM);
         int anyCost = recipe.data.getInt("any");
 
-        Object[] deductResult = null;
+        ResourceResult deductResult = null;
         if (solarisCost > 0) {
             deductResult = celestialHandler.deductResource(SOLARIS, solarisCost, 1, solaris, lunara, voidflux, stellarm);
         } else if (lunaraCost > 0) {
@@ -77,13 +77,13 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
             deductResult = celestialHandler.deductResource("ANY", anyCost, 1, solaris, lunara, voidflux, stellarm);
         }
 
-        if (deductResult == null || !(boolean) deductResult[0]) {
+        if (deductResult == null || !deductResult.success()) {
             return false;
         }
-        this.solaris = (long) deductResult[1];
-        this.lunara = (long) deductResult[2];
-        this.voidflux = (long) deductResult[3];
-        this.stellarm = (long) deductResult[4];
+        this.solaris = deductResult.solaris();
+        this.lunara = deductResult.lunara();
+        this.voidflux = deductResult.voidflux();
+        this.stellarm = deductResult.stellarm();
 
         return true;
     }
@@ -121,11 +121,11 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
             timing--;
         }
         if (clearSky) {
-            long[] updatedResources = celestialHandler.increase(world, 1, solaris, lunara, voidflux, stellarm, mode);
-            this.solaris = updatedResources[0];
-            this.lunara = updatedResources[1];
-            this.voidflux = updatedResources[2];
-            this.stellarm = updatedResources[3];
+            Resource updatedResources = celestialHandler.increase(world, 1, solaris, lunara, voidflux, stellarm, mode);
+            this.solaris = updatedResources.solaris();
+            this.lunara = updatedResources.lunara();
+            this.voidflux = updatedResources.voidflux();
+            this.stellarm = updatedResources.stellarm();
         }
     }
 
