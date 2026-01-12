@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 
+import appeng.core.definitions.AEBlocks
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
@@ -150,6 +151,15 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                     section("与存储设备进行交互" translatedTo "Interact with storage devices")
                     info("经过优化，吞吐量性能卓越" translatedTo "Throughput performance is excellent")
                 }.editionByGTONormal(),
+            )
+        }
+        listOf(AEBlocks.CONDENSER.asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("matter_condenser")
+
+                    story("近年垃圾回收商引起的一次事故让大家把目光投向了这台物质聚合器。" translatedTo "A recent incident involving a waste recycler has turned people's attention to this Matter Condenser.")
+                },
             )
         }
 

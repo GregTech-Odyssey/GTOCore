@@ -27,6 +27,7 @@ import net.minecraft.world.item.Items;
 import appeng.core.AppEng;
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
+import appeng.datagen.providers.tags.ConventionTags;
 import com.glodblock.github.extendedae.ExtendedAE;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 
@@ -60,6 +61,11 @@ public final class AE2 {
                 "CDB",
                 "EB ",
                 'A', new MaterialEntry(TagPrefix.wireFine, GTMaterials.RedAlloy), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.Aluminium), 'C', new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()), 'D', CustomTags.MV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.wireFine, GTMaterials.Gold));
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("matter_condenser"), new ItemStack(AEBlocks.CONDENSER.asItem()),
+                "ABA",
+                "B B",
+                "ABA",
+                'A', ConventionTags.IRON_INGOT, 'B', ConventionTags.GLASS);
 
         LASER_ENGRAVER_RECIPES.builder("printed_calculation_processor")
                 .inputItems(GTOTagPrefix.plate, GTMaterials.CertusQuartz)
@@ -744,6 +750,7 @@ public final class AE2 {
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
         filters.add(ExtendedAE.id("silicon_block"));
+        filters.add(AppEng.makeId("network/blocks/io_condenser"));
         if (GTOCore.isEasy()) return;
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_1k_part"));
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_4k_part"));
