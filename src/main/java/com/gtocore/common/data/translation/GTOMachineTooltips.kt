@@ -1253,7 +1253,7 @@ object GTOMachineTooltips {
         info("具体数值可在GUI内查看" translatedTo "Specific values can be viewed in the GUI")
 
         section("特殊超频" translatedTo "Special Overclocking")
-        increase("每提升16倍功率提升2倍速度" translatedTo "Speed increases 2x for every 16x power increase")
+        increase("每次超频提升16倍功率提升2倍速度" translatedTo "Speed increases 2x for every 16x power increase")
         command("超频由编程电路调节" translatedTo "Overclocking must be adjusted via programmed circuits")
         info("电路1: 不执行超频" translatedTo "Circuit 1: No overclocking")
         info("电路2-4: 分别执行1-3次超频" translatedTo "Circuits 2-4: Execute 1-3 stages of overclocking")

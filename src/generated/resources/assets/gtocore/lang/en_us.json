@@ -5324,7 +5324,7 @@
   "gtocore.machine.steam.tooltip.1": "default can process &s-Tier recipes and below, processing time is 1.5 times",
   "gtocore.machine.steam.tooltip.2": "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function",
   "gtocore.machine.steam_parallel_machine.modification_oc": "Modify Overclocking Times: ",
-  "gtocore.machine.steam_parallel_machine.oc": "Each time of overclocking will reduce time by 2 times and increase steam consumption by 3 times",
+  "gtocore.machine.steam_parallel_machine.oc": "Each overclock halves the processing time but quadruples the steam consumption",
   "gtocore.machine.stellar_forge.pressure": "Internal Pressure: ",
   "gtocore.machine.structure_check": "Update structure check (Clicking on Shift will recheck the structure).",
   "gtocore.machine.sync_tester_machine.tooltip.0": "用于测试机器同步的工具。",
