@@ -23,6 +23,7 @@ import com.gregtechceu.gtceu.common.data.GTItems
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.shadowsoffire.apotheosis.adventure.Adventure
 import earth.terrarium.adastra.common.registry.ModBlocks
+import vazkii.botania.common.block.BotaniaBlocks.fabulousPool
 
 object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
     // 升级模块 - 速度
@@ -241,6 +242,14 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 }.editionByGTONormal(),
             )
         }
+
+        fabulousPool.asItem().setTooltips(
+            ComponentListSupplier {
+                setTranslationPrefix("fabulous_pool")
+
+                content("能存一千普通池子的魔力" translatedTo "Can hold the mana of one thousand regular pools")
+            }.editionByGTONormal(),
+        )
 
         listOf(AEItems.CERTUS_QUARTZ_KNIFE.asItem(), AEItems.NETHER_QUARTZ_KNIFE.asItem()).forEach {
             it.setTooltips(
