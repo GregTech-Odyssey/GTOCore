@@ -38,7 +38,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(new FluidStack(fluid, 1, tag));
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(new FluidStack(fluid, 1, tag));
     }
 
     /**
@@ -64,7 +64,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(fluidVariant);
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(fluidVariant);
     }
 
     /**
@@ -78,7 +78,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(new FluidStack(fluid, 1, tag));
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(new FluidStack(fluid, 1, tag));
     }
 
     /**

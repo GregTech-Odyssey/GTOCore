@@ -111,9 +111,8 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
     private boolean matchItem(CustomItemStackHandler storage, FastSizedIngredient currentIngredient) {
         Item item = Items.AIR;
         for (var stack : storage.stacks) {
-            if (stack.isEmpty()) continue;
-
             Item providedItem = stack.getItem();
+            if (providedItem == Items.AIR) continue;
             if (providedItem != item) {
                 if (item != Items.AIR) {
                     return false;
@@ -127,7 +126,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
             }
         }
 
-        return currentIngredient.testItem(item);
+        return item != Items.AIR;
     }
 
     /**

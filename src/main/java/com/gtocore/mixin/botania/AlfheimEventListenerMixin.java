@@ -43,13 +43,13 @@ public abstract class AlfheimEventListenerMixin {
     public void alfPortalUpdate(ElvenPortalUpdateEvent event) {
         BlockEntity portal = event.getPortalTile();
         if (event.isOpen() && portal.getLevel() != null && !portal.getLevel().isClientSide) {
-            if (Alfheim.DIMENSION.equals(portal.getLevel().dimension())) {
+            if (Alfheim.DIMENSION == portal.getLevel().dimension()) {
                 if (portal instanceof AlfheimPortalBlockEntity alfPortal) {
                     alfPortal.consumeMana(new ArrayList<>(), 0, true);
                 }
             }
 
-            if (Level.OVERWORLD.equals(portal.getLevel().dimension()) && AlfheimPortalHandler.shouldCheck(portal.getLevel())) {
+            if (Level.OVERWORLD == portal.getLevel().dimension() && AlfheimPortalHandler.shouldCheck(portal.getLevel())) {
                 List<Player> playersInPortal = portal.getLevel().getEntitiesOfClass(Player.class, event.getAabb());
                 for (Player player : playersInPortal) {
                     if (player instanceof ServerPlayer serverPlayer && MythicPlayerData.getData(serverPlayer).getBoolean("KvasirKnowledge") && gtocore$additionalChecks(serverPlayer)) {

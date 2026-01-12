@@ -3,7 +3,6 @@ package com.gtocore.data;
 import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.config.GTOConfig;
 import com.gtocore.data.recipe.*;
 import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.ae2.Ae2wtlibRecipes;
@@ -27,7 +26,6 @@ import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.recipe.CustomRecipes;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
@@ -165,10 +163,6 @@ public final class Data {
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
         RecyclingRecipes.init();
-
-        if (GTOConfig.INSTANCE.enableCustomRecipes) {
-            CustomRecipes.loadScripts();
-        }
 
         ItemMaterialData.ITEM_MATERIAL_INFO.clear();
         RecipeBuilder.clean();
