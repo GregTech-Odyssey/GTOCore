@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.Configurable;
+import dev.toma.configuration.config.UpdateRestrictions;
 import dev.toma.configuration.config.format.ConfigFormats;
 import dev.toma.configuration.config.io.ConfigIO;
 import dev.toma.configuration.config.value.ConfigValue;
@@ -270,6 +271,19 @@ public final class GTOConfig {
     public String serverLang = "en_us";
 
     // 开发和调试设置
+    @Configurable
+    @Configurable.UpdateRestriction(UpdateRestrictions.GAME_RESTART)
+    @Configurable.Comment({ "启用自定义配方",
+            "自定义配方详情与教程参见https://gtodyssey.com/zh-hans/%E6%95%B4%E5%90%88%E5%8C%85%E6%95%99%E5%AD%A6/%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9gto%E9%85%8D%E6%96%B9/",
+            "注意：启用此选项后，若加载错误的配方脚本，可能会导致进入游戏后配方丢失，请务必在非常规游玩存档中测试配方脚本的正确性。",
+            "注意：在服务器上游玩时，服务器和客户端均需启用此选项且使用相同的配方脚本文件。",
+            "Enable custom recipes",
+            "For details and tutorials on custom recipes, please refer to https://gtodyssey.com/zh-hans/%E6%95%B4%E5%90%88%E5%8C%85%E6%95%99%E5%AD%A6/%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9gto%E9%85%8D%E6%96%B9/",
+            "Note: After enabling this option, if an incorrect recipe script is loaded, it may cause recipes to be lost after entering the game. Please be sure to test the correctness of the recipe script in a non-conventional play save.",
+            "Note: When playing on a server, both the server and client need to enable this option and use the same recipe script file." })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Enable Custom Recipes", cn = "启用自定义配方")
+    public boolean enableCustomRecipes = false;
+
     @Configurable
     @Configurable.Comment({ "开启开发者模式", "Enable Developer Mode" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Developer Mode", cn = "开发者模式")
