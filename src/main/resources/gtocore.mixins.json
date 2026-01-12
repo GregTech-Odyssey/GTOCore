@@ -33,6 +33,7 @@
     "eae.GuiExPatternTerminalMixinWithJech",
     "eae.GuiExPatternTerminalMixinWithoutJech",
     "eae.GuiPatternMixin",
+    "gtm.GTRecipeEMICategoryMixin",
     "gtm.TooltipsHandlerMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",
     "inventoryessentials.ClientOnlyInventoryControlsMixin",
