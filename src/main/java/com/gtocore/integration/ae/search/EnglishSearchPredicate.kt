@@ -7,7 +7,6 @@ import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.contents.TranslatableContents
 
 import appeng.menu.me.common.GridInventoryEntry
-import me.lucko.spark.lib.adventure.text.TranslatableComponent
 
 import java.util.*
 import java.util.function.Predicate
@@ -34,9 +33,6 @@ data class EnglishSearchPredicate(val term: String?) : Predicate<GridInventoryEn
 }
 
 fun findAllTranslatableComponent(component: Component, foundIds: MutableList<String>) {
-    if (component is TranslatableComponent) {
-        foundIds.add(component.key())
-    }
     if (component is MutableComponent) {
         if (component.contents is TranslatableContents) {
             val content: TranslatableContents = component.contents as TranslatableContents
