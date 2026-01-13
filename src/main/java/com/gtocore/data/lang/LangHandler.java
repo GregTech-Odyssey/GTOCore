@@ -449,6 +449,7 @@ public final class LangHandler {
         addCNEN("gtocore.entry_alfheim.3",
                 "夫迷雾蔽境，亚尔夫海姆启门之期将至。新章既降，唯饮诗泉之醴、聚十二古器者，可涉此秘域。凡欲绕法偷渡之徒，皆不为乾坤所容——寰宇律令自临，未符契而擅闯者，神魂俱殒。",
                 "The mists enshroud the realm, and the hour of Alfheim’s gate-opening draws nigh. A new chapter unfolds—only those who quaff the mead of the Kvasir’s Mead and gather the Twelve Ancient Relics may tread this secret domain. All who seek to trespass by craft or ruse shall not be borne by heaven and earth. For the Law of the Cosmos descends: whosoever dares to breach these halls without the sacred covenant shall perish, body and soul alike.");
+        addCNEN("message.mythicbotany.alfheim_overworld_only", "§c你只能在主世界进入亚尔夫海姆！", "§cYou can only enter Alfheim in the Overworld!");
     }
 
     public static void enInitialize(LanguageProvider provider) {

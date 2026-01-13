@@ -1,6 +1,8 @@
 package com.gtocore.mixin.botania;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -42,23 +44,57 @@ public abstract class AlfheimEventListenerMixin {
     @SubscribeEvent
     public void alfPortalUpdate(ElvenPortalUpdateEvent event) {
         BlockEntity portal = event.getPortalTile();
-        if (event.isOpen() && portal.getLevel() != null && !portal.getLevel().isClientSide) {
-            if (Alfheim.DIMENSION.equals(portal.getLevel().dimension())) {
-                if (portal instanceof AlfheimPortalBlockEntity alfPortal) {
-                    alfPortal.consumeMana(new ArrayList<>(), 0, true);
+        if (!event.isOpen() || portal.getLevel() == null || portal.getLevel().isClientSide) {
+            return; 
+        }
+        Level level = portal.getLevel();
+        ResourceKey<Level> dimension = level.dimension();
+        if (Alfheim.DIMENSION.equals(dimension)) {
+            if (portal instanceof AlfheimPortalBlockEntity alfPortal) {
+                alfPortal.consumeMana(new ArrayList<>(), 0, true);
+            }
+            return;
+        }
+        if (!AlfheimPortalHandler.shouldCheck(level)) {
+            return;
+        }
+        List<Player> playersInPortal = level.getEntitiesOfClass(Player.class, event.getAabb());
+        if (playersInPortal.isEmpty()) {
+            return;
+        }
+        if (Level.OVERWORLD.equals(dimension)) {
+            gtocore$handlePlayerTeleportation(playersInPortal, portal.getBlockPos());
+        } else {
+            gtocore$sendNonOverworldWarning(playersInPortal);
+        }
+    }
+
+    @Unique
+    private void gtocore$handlePlayerTeleportation(List<Player> players, BlockPos portalPos) {
+        for (Player player : players) {
+            if (player instanceof ServerPlayer serverPlayer && gtocore$canPlayerUsePortal(serverPlayer)) {
+                if (AlfheimPortalHandler.setInPortal(serverPlayer.level(), serverPlayer)) {
+                    if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portalPos)) {
+                        serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_not_loaded"));
+                    }
                 }
             }
+        }
+    }
 
-            if (Level.OVERWORLD.equals(portal.getLevel().dimension()) && AlfheimPortalHandler.shouldCheck(portal.getLevel())) {
-                List<Player> playersInPortal = portal.getLevel().getEntitiesOfClass(Player.class, event.getAabb());
-                for (Player player : playersInPortal) {
-                    if (player instanceof ServerPlayer serverPlayer && MythicPlayerData.getData(serverPlayer).getBoolean("KvasirKnowledge") && gtocore$additionalChecks(serverPlayer)) {
-                        if (AlfheimPortalHandler.setInPortal(portal.getLevel(), serverPlayer)) {
-                            if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portal.getBlockPos())) {
-                                serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_not_loaded"));
-                            }
-                        }
-                    }
+    @Unique
+    private boolean gtocore$canPlayerUsePortal(ServerPlayer player) {
+        boolean hasKnowledge = MythicPlayerData.getData(player).getBoolean("KvasirKnowledge");
+        boolean passesAdditionalChecks = gtocore$additionalChecks(player);
+        return hasKnowledge && passesAdditionalChecks;
+    }
+
+    @Unique
+    private void gtocore$sendNonOverworldWarning(List<Player> players) {
+        for (Player player : players) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                if (AlfheimPortalHandler.setInPortal(serverPlayer.level(), serverPlayer)) {
+                    serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_overworld_only"));
                 }
             }
         }
