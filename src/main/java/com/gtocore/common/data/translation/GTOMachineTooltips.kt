@@ -8,7 +8,6 @@ import com.gtocore.common.data.translation.ComponentSlang.AfterModuleInstallatio
 import com.gtocore.common.data.translation.ComponentSlang.MainFunction
 import com.gtocore.common.data.translation.ComponentSlang.RunningRequirements
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
-import com.gtocore.common.machine.mana.multiblock.CosmicCelestialSpireOfConvergence
 import com.gtocore.common.machine.multiblock.generator.TurbineMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
@@ -1158,15 +1157,6 @@ object GTOMachineTooltips {
         section(RunningRequirements)
         command("需要基岩在钻头下方" translatedTo "Requires bedrock below the drill head")
         decrease("每次运行有10%概率破坏基岩" translatedTo "Each run has 10% chance to destroy bedrock")
-    }
-
-    // 创造之门
-    val DoorOfCreateTooltips = ComponentListSupplier {
-        setTranslationPrefix("door_of_create")
-
-        section(RunningRequirements)
-        command("在主世界提供MAX级电压" translatedTo "Provides MAX tier voltage in the main world")
-        command("设置电路为1开始运行" translatedTo "Set circuit to 1 to start running")
     }
 
     // 寒冰冷冻机

@@ -21,7 +21,7 @@
       },
       "position": {
         "left": 8,
-        "top": 46
+        "top": 54
       },
       "align": "LEFT"
     },
@@ -69,7 +69,7 @@
   "widgets": {
     "filter_input": {
       "left": 8,
-      "top": 18,
+      "top": 26,
       "width": 134,
       "height": 26
     },
