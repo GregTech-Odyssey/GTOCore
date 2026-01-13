@@ -45,7 +45,7 @@ public abstract class AlfheimEventListenerMixin {
     public void alfPortalUpdate(ElvenPortalUpdateEvent event) {
         BlockEntity portal = event.getPortalTile();
         if (!event.isOpen() || portal.getLevel() == null || portal.getLevel().isClientSide) {
-            return; 
+            return;
         }
         Level level = portal.getLevel();
         ResourceKey<Level> dimension = level.dimension();

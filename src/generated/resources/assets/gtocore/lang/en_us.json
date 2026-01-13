@@ -8097,6 +8097,7 @@
   "material.gtocore.zylon": "Zylon",
   "message.gtocore.custom_recipe.mismatch": "The server's custom recipe script (hash=%s) enabled status does not match the current client and cannot join the game! Please ensure that both parties have the same custom recipe script enabled status.",
   "message.gtocore.difficulty_mismatch": "The server difficulty does not match the current client and cannot join the game! (Server: %s, Current: %s)",
+  "message.mythicbotany.alfheim_overworld_only": "§cYou can only enter Alfheim in the Overworld!",
   "metaitem.pipe.tooltip": "Use wrench press and hold shift while right clicking to set §eAuto Pull§r and §eRestrict Flow Direction§r",
   "metaitem.tool.tooltip.rotor.coating": "Coating Material: %s",
   "metaitem.tool.tooltip.rotor.coating.tooltip.0": "§6Coating Mechanism:",

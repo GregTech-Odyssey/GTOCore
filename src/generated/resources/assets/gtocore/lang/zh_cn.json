@@ -8097,6 +8097,7 @@
   "material.gtocore.zylon": "柴隆纤维",
   "message.gtocore.custom_recipe.mismatch": "服务器的自定义配方脚本(hash=%s)启用情况与当前客户端不符，无法加入游戏！请确保双方的自定义配方脚本启用情况一致。",
   "message.gtocore.difficulty_mismatch": "服务器难度与当前客户端不符，无法加入游戏！（服务器：%s，当前：%s）",
+  "message.mythicbotany.alfheim_overworld_only": "§c你只能在主世界进入亚尔夫海姆！",
   "metaitem.pipe.tooltip": "使用扳手shift右键以设置§e自动抽取§r和§e限制传输方向§r",
   "metaitem.tool.tooltip.rotor.coating": "镀层材料：%s",
   "metaitem.tool.tooltip.rotor.coating.tooltip.0": "§6镀层机制：",
