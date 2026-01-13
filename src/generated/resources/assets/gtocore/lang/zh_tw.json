@@ -5454,6 +5454,8 @@
   "gtocore.machine.zpm_world_data_scanner.tooltip": "§7維度特徵分析儀",
   "gtocore.me_any": "ME倉允許任意面連接",
   "gtocore.me_front": "ME倉只允許正面連接",
+  "gtocore.message.otherside_pass_required": "你感受到來自幽冥的隔絕感...",
+  "gtocore.message.otherside_pass_required.1": "似乎需要偽裝成幽冥中最強大的生物之一，纔能通過這裏。",
   "gtocore.miner.parallel": "同時採集§d%s§r個方塊",
   "gtocore.multiblock.invalid.message": "多方塊%s位於(%s)未成型！運行 /gtocorec multiblock on 查看詳情。",
   "gtocore.not_safe": "現在不安全",

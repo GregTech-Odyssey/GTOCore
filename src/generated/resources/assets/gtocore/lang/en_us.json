@@ -5454,6 +5454,8 @@
   "gtocore.machine.zpm_world_data_scanner.tooltip": "§7Dimensional Feature Analyzer",
   "gtocore.me_any": "ME hatch allows connection from any side.",
   "gtocore.me_front": "ME hatch only allows connection from the front side.",
+  "gtocore.message.otherside_pass_required": "You feel a sense of isolation from the Other Side...",
+  "gtocore.message.otherside_pass_required.1": "It seems you need to disguise yourself as one of the most powerful beings in the Other Side to pass through here.",
   "gtocore.miner.parallel": "Mining §d%s§r blocks simultaneously",
   "gtocore.multiblock.invalid.message": "Multiblock %s at (%s) is not formed! Run /gtocorec multiblock on for details.",
   "gtocore.not_safe": "It's not safe now",

@@ -15,6 +15,7 @@ import com.gtocore.utils.OrganUtilsKt;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
@@ -111,6 +112,14 @@ public final class ForgeCommonEvent {
     public static void onEntityTravelToDimension(EntityTravelToDimensionEvent event) {
         if (event.getEntity() instanceof FallingBlockEntity fallingBlock) {
             fallingBlock.discard();
+        }
+        if (event.getEntity() instanceof Player player && event.getDimension() == Dimension.OTHERSIDE.getResourceKey()) {
+            boolean othersidePass = IEnhancedPlayer.of(player).getPlayerData().wardenState || player.getAbilities().instabuild;
+            if (!othersidePass) {
+                event.setCanceled(true);
+                player.sendSystemMessage(Component.translatable("gtocore.message.otherside_pass_required").withStyle(ChatFormatting.DARK_GRAY));
+                player.sendSystemMessage(Component.translatable("gtocore.message.otherside_pass_required.1").withStyle(ChatFormatting.GRAY));
+            }
         }
     }
 
