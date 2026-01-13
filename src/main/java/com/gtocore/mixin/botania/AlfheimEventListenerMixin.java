@@ -62,21 +62,18 @@ public abstract class AlfheimEventListenerMixin {
         if (playersInPortal.isEmpty()) {
             return;
         }
-        if (Level.OVERWORLD.equals(dimension)) {
-            gtocore$handlePlayerTeleportation(playersInPortal, portal.getBlockPos());
-        } else {
-            gtocore$sendNonOverworldWarning(playersInPortal);
-        }
-    }
-
-    @Unique
-    private void gtocore$handlePlayerTeleportation(List<Player> players, BlockPos portalPos) {
-        for (Player player : players) {
+        BlockPos portalPos = portal.getBlockPos();
+        for (Player player : playersInPortal) {
             if (player instanceof ServerPlayer serverPlayer && gtocore$canPlayerUsePortal(serverPlayer)) {
                 if (AlfheimPortalHandler.setInPortal(serverPlayer.level(), serverPlayer)) {
-                    if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portalPos)) {
-                        serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_not_loaded"));
+                    if (Level.OVERWORLD.equals(dimension)) {
+                        if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portalPos)) {
+                            serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_not_loaded"));
+                        }
+                    } else {
+                        serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_overworld_only"));
                     }
+
                 }
             }
         }
@@ -87,17 +84,6 @@ public abstract class AlfheimEventListenerMixin {
         boolean hasKnowledge = MythicPlayerData.getData(player).getBoolean("KvasirKnowledge");
         boolean passesAdditionalChecks = gtocore$additionalChecks(player);
         return hasKnowledge && passesAdditionalChecks;
-    }
-
-    @Unique
-    private void gtocore$sendNonOverworldWarning(List<Player> players) {
-        for (Player player : players) {
-            if (player instanceof ServerPlayer serverPlayer) {
-                if (AlfheimPortalHandler.setInPortal(serverPlayer.level(), serverPlayer)) {
-                    serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_overworld_only"));
-                }
-            }
-        }
     }
 
     /**
