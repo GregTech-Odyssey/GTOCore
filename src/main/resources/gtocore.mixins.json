@@ -30,8 +30,6 @@
     "ae2.screen.PatternProviderScreenMixin",
     "eae.ExPATScreensMixin",
     "eae.GuiExPatternTerminalMixin",
-    "eae.GuiExPatternTerminalMixinWithJech",
-    "eae.GuiExPatternTerminalMixinWithoutJech",
     "eae.GuiPatternMixin",
     "gtm.GTRecipeEMICategoryMixin",
     "gtm.TooltipsHandlerMixin",
