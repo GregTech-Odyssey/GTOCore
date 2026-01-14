@@ -31,6 +31,7 @@
     "eae.ExPATScreensMixin",
     "eae.GuiExPatternTerminalMixin",
     "eae.GuiPatternMixin",
+    "ftbq.QuestScreenMixin",
     "gtm.GTRecipeEMICategoryMixin",
     "gtm.TooltipsHandlerMixin",
     "gtm.renderer.TagPrefixItemRendererMixin",

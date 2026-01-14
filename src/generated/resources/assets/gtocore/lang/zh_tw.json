@@ -1659,6 +1659,7 @@
   "config.jade.plugin_gtocore.ae_grid_provider": "[GTOCore] AE網絡信息",
   "config.jade.plugin_gtocore.ae_item_amount": "[GTOCore] AE物品數量",
   "config.jade.plugin_gtocore.destroy_time_provider": "[GTOCore] 硬度信息",
+  "config.jade.plugin_gtocore.en_lang": "[GTOCore] 英語顯示",
   "config.jade.plugin_gtocore.maintenance_hatch_provider": "[GTOCore] 維護倉信息",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] 魔力容器",
   "config.jade.plugin_gtocore.temperature_provider": "[GTOCore] 機器溫度",

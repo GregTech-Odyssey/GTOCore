@@ -1659,6 +1659,7 @@
   "config.jade.plugin_gtocore.ae_grid_provider": "[GTOCore] AE Grid Info",
   "config.jade.plugin_gtocore.ae_item_amount": "[GTOCore] AE Item Amount",
   "config.jade.plugin_gtocore.destroy_time_provider": "[GTOCore] Destroy Time Info",
+  "config.jade.plugin_gtocore.en_lang": "[GTOCore] English Display",
   "config.jade.plugin_gtocore.maintenance_hatch_provider": "[GTOCore] Maintenance Hatch Info",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] Mana Container",
   "config.jade.plugin_gtocore.temperature_provider": "[GTOCore] Machine Temperature",
