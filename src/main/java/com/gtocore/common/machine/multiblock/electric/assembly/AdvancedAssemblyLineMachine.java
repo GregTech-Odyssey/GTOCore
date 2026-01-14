@@ -29,8 +29,10 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeInputBusPartMachine;
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.CreativeInputHatchPartMachine;
 import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +46,7 @@ import java.util.Map;
 public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine {
 
     private final List<CustomItemStackHandler> itemStackTransfers = new ReferenceArrayList<>();
-    private final List<CustomFluidTank> fluidTankTransfers = new ReferenceArrayList<>();
+    private final List<CustomFluidTank[]> fluidTankTransfers = new ReferenceArrayList<>();
 
     public AdvancedAssemblyLineMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -57,14 +59,14 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
 
         if (config.orderedAssemblyLineItems) {
             if (!checkItemInputs(recipe)) {
-                setIdleReason(IdleReason.ORDERED);
+                setIdleReason(IdleReason.ORDERED_ITEM);
                 return null;
             }
         }
 
         if (config.orderedAssemblyLineFluids) {
             if (!checkFluidInputs(recipe)) {
-                setIdleReason(IdleReason.ORDERED);
+                setIdleReason(IdleReason.ORDERED_FLUID);
                 return null;
             }
         }
@@ -133,8 +135,24 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
     /**
      * 验证给定的流体存储区是否与当前需求匹配。
      */
-    private boolean matchFluid(CustomFluidTank storage, FastFluidIngredient currentIngredient) {
-        return currentIngredient.testFluid(storage.getFluid().getFluid());
+    private boolean matchFluid(CustomFluidTank[] storage, FastFluidIngredient currentIngredient) {
+        var fluid = Fluids.EMPTY;
+        for (var tank : storage) {
+            var providedFluid = tank.getFluid().getFluid();
+            if (providedFluid == Fluids.EMPTY) continue;
+            if (providedFluid != fluid) {
+                if (fluid != Fluids.EMPTY) {
+                    return false;
+                }
+
+                if (!currentIngredient.testFluid(providedFluid)) {
+                    return false;
+                }
+
+                fluid = providedFluid;
+            }
+        }
+        return fluid != Fluids.EMPTY;
     }
 
     @Override
@@ -162,9 +180,11 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
             } else if (part instanceof HugeBusPartMachine hugeBusPartMachine) {
                 itemStackTransfers.add(hugeBusPartMachine.getInventory().storage);
             } else if (part instanceof FluidHatchPartMachine fluidHatchPartMachine) {
-                Collections.addAll(fluidTankTransfers, fluidHatchPartMachine.tank.getStorages());
+                fluidTankTransfers.add(fluidHatchPartMachine.tank.getStorages());
+            } else if (part instanceof CreativeInputBusPartMachine creativeInputBusPartMachine) {
+                itemStackTransfers.add(creativeInputBusPartMachine.getInventory().storage);
             } else if (part instanceof CreativeInputHatchPartMachine creativeInputHatchPartMachine) {
-                // Not supported this as the creative hatch did not expose its real tanks
+                fluidTankTransfers.add(creativeInputHatchPartMachine.tank.getStorages());
             }
         }
     }
@@ -183,25 +203,24 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
 
         @Override
         protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
-            if (io == IO.IN) {
-                if (ConfigHolder.INSTANCE.machines.orderedAssemblyLineItems) {
-                    if (!consumeOrderedItemInputs(recipe)) {
-                        return false;
-                    }
-                } else {
-                    var items = recipe.getInputContents(ItemRecipeCapability.CAP);
-                    if (!RecipeHelper.handleRecipe(this.machine, recipe, io, Map.of(ItemRecipeCapability.CAP, items), chanceCaches, false)) {
-                        return false;
-                    }
-                }
-                if (ConfigHolder.INSTANCE.machines.orderedAssemblyLineFluids) {
-                    return consumeOrderedFluidInputs(recipe);
-                } else {
-                    var fluids = recipe.getInputContents(FluidRecipeCapability.CAP);
-                    return RecipeHelper.handleRecipe(this.machine, recipe, io, Map.of(FluidRecipeCapability.CAP, fluids), chanceCaches, false);
+            if (!(io == IO.IN)) {
+                return super.handleRecipeIO(recipe, io);
+            }
+            if (ConfigHolder.INSTANCE.machines.orderedAssemblyLineItems) {
+                if (!consumeOrderedItemInputs(recipe)) {
+                    return false;
                 }
             } else {
-                return super.handleRecipeIO(recipe, io);
+                var items = recipe.getInputContents(ItemRecipeCapability.CAP);
+                if (!RecipeHelper.handleRecipe(this.machine, recipe, io, Map.of(ItemRecipeCapability.CAP, items), chanceCaches, false)) {
+                    return false;
+                }
+            }
+            if (ConfigHolder.INSTANCE.machines.orderedAssemblyLineFluids) {
+                return consumeOrderedFluidInputs(recipe);
+            } else {
+                var fluids = recipe.getInputContents(FluidRecipeCapability.CAP);
+                return RecipeHelper.handleRecipe(this.machine, recipe, io, Map.of(FluidRecipeCapability.CAP, fluids), chanceCaches, false);
             }
         }
 
@@ -235,15 +254,24 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
             if (machineInputs.size() < fluidInputs.size()) return false;
 
             for (int i = 0; i < fluidInputs.size(); i++) {
-                var inputTank = machineInputs.get(i);
+                var inputTankArray = machineInputs.get(i);
                 var recipeInput = FluidRecipeCapability.CAP.of(fluidInputs.get(i).content);
+                long amountToDrain = recipeInput.getAmount();
 
-                if (inputTank.getFluid().isEmpty() ||
-                        !recipeInput.test(inputTank.getFluid())) {
-                    return false;
+                for (var tankInHatch : inputTankArray) {
+                    if (tankInHatch.getFluid().isEmpty() || !recipeInput.test(tankInHatch.getFluid())) {
+                        continue;
+                    }
+                    var drainedStack = tankInHatch.drain(MathUtil.saturatedCast(amountToDrain), IFluidHandler.FluidAction.EXECUTE);
+                    amountToDrain -= drainedStack.getAmount();
+                    if (amountToDrain <= 0) {
+                        break;
+                    }
                 }
 
-                inputTank.drain(recipeInput.getAmount(), IFluidHandler.FluidAction.EXECUTE);
+                if (amountToDrain > 0) {
+                    return false;
+                }
             }
             return true;
         }
