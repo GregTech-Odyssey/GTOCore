@@ -262,7 +262,7 @@ public final class MultiBlockA {
             .parallelizableTooltips()
             .multipleRecipesTooltips()
             .laserTooltips()
-            .block(GTBlocks.FUSION_CASING_MK2)
+            .block(GTOBlocks.SPS_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, FRONT, UP, RIGHT)
                     .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.SPS_CASING.get())
