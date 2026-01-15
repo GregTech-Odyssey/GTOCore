@@ -298,7 +298,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             for (var stack : sparseInput) {
                 if (stack != null && stack.what() instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
                     ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
-                    virtualItem.setCount(Math.clamp(stack.amount(), 1, virtualItem.getMaxStackSize()));
                     if (virtualItem.isEmpty()) continue;
                     if (!locked) {
                         slot.setLock(true);
@@ -307,6 +306,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
                         slot.circuitInventory.storage.setStackInSlot(0, virtualItem);
                     } else {
+                        virtualItem.setCount(Math.clamp(stack.amount(), 1, virtualItem.getMaxStackSize()));
                         var grid = getGrid();
                         if (grid != null && grid.getStorageService().getInventory().extract(what, 1, Actionable.SIMULATE, getActionSource()) == 1) {
                             var storage = slot.shareInventory.storage;

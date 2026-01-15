@@ -24,6 +24,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +43,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(4, 0.9F);
 
     @Persisted
+    @DescSynced
     private int machineTier;
 
     public NanoForgeMachine(MetaMachineBlockEntity holder) {
