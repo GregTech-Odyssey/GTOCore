@@ -83,7 +83,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.space_elevator.connected", "已连接正在运行的太空电梯", "Connected To A Running SpaceElevator");
         addCNEN("gtocore.machine.space_elevator.not_connected", "未连接正在运行的太空电梯", "Not Connected To A Running SpaceElevator");
         addCNEN("gtocore.machine.steam_parallel_machine.modification_oc", "修改超频次数: ", "Modify Overclocking Times: ");
-        addCNEN("gtocore.machine.steam_parallel_machine.oc", "每次超频将减少2倍耗时和增加3倍蒸汽消耗", "Each time of overclocking will reduce time by 2 times and increase steam consumption by 3 times");
+        addCNEN("gtocore.machine.steam_parallel_machine.oc", "每次超频将减少一半耗时和增加3倍蒸汽消耗", "Each time of overclocking will reduce time by 2 times and increase steam consumption by 3 times");
         addCNEN("gtocore.machine.total_time", "连续运行时间: %s Tick", "Continuous Running Time: %s Tick");
         addCNEN("gtocore.machine.uev_fusion_reactor.description", "核聚变反应堆MK-V是台大型多方块结构，用于融合元素形成更重的元素。它仅可使用UEV等级的能源仓。每个能源仓可增加160MEU的能量缓存，最大能量缓存为2560MEU。", "The Fusion Reactor MK V is a large multiblock structure used for fusing elements into heavier ones. It can only use UEV Energy Hatches. For every Hatch it has, its buffer increases by 160M EU, and has a maximum of 2560M.");
         addCNEN("gtocore.machine.uhv_fusion_reactor.description", "核聚变反应堆MK-IV是台大型多方块结构，用于融合元素形成更重的元素。它仅可使用UHV等级的能源仓。每个能源仓可增加80MEU的能量缓存，最大能量缓存为1280MEU。", "The Fusion Reactor MK-IV is a large multiblock structure used for fusing elements into heavier ones. It can only use UHV Energy Hatches. For every Hatch it has, its buffer increases by 80M EU, and has a maximum of 1280M.");
