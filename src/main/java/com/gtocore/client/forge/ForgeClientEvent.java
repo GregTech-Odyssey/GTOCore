@@ -10,7 +10,7 @@ import com.gtocore.common.item.StructureWriteBehavior;
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt;
 
 import com.gtolib.GTOCore;
-import com.gtolib.IItem;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.player.PlayerData;
 import com.gtolib.utils.ItemUtils;

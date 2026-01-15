@@ -2,6 +2,7 @@ package com.gtocore.client;
 
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.machine.multiblock.generator.FullCellGenerator;
 
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.lang.CNEN;
@@ -9,8 +10,11 @@ import com.gtolib.api.lang.CNENS;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.client.TooltipsHandler;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -18,8 +22,10 @@ import net.minecraft.world.level.ItemLike;
 
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.google.common.collect.ImmutableMap;
+import com.hepdd.gtmthings.utils.FormatUtil;
 import vectorwing.farmersdelight.common.registry.ModItems;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +37,20 @@ public final class Tooltips {
     public static final ImmutableMap<Item, CNENS> TOOL_TIPS_MAP;
 
     static {
+        TooltipsHandler.FLUID_EVENT.addListener(Tooltips.class, t -> {
+            var fluid = t.getLeft().getFluid();
+            var tooltips = t.getMiddle();
+            var material = ChemicalHelper.getMaterial(fluid);
+            if (FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.containsKey(material)) {
+                long euPerMb = FullCellGenerator.Wrapper.ELECTROLYTES_PER_MATERIAL_PER_MILLIBUCKET.get(material);
+                tooltips.accept(Component.translatable("gtocore.tooltip.fluid.electrolyte_energy_density",
+                        FormattingUtil.formatNumbers(euPerMb)));
+                tooltips.accept(Component.translatable("gtocore.tooltip.fluid.electrolyte_energy_density.va",
+                        FormatUtil.voltageName(BigDecimal.valueOf(euPerMb)),
+                        FormatUtil.voltageAmperage(BigDecimal.valueOf(euPerMb)).toEngineeringString()));
+            }
+        });
+
         ImmutableMap.Builder<Item, List<Component>> toolTipsKey = ImmutableMap.builder();
         toolTipsKey.put(GTBlocks.CASING_TEMPERED_GLASS.asItem(), NewDataAttributes.LEVEL.create(2).get());
         TOOL_TIPS_KEY_MAP = toolTipsKey.build();

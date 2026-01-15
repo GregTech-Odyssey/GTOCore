@@ -1,7 +1,7 @@
 package com.gtocore.mixin.ae2.stacks;
 
-import com.gtolib.IFluid;
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
+import com.gtolib.api.fluid.IFluid;
 import com.gtolib.api.misc.IMapValueCache;
 
 import net.minecraft.core.registries.BuiltInRegistries;

@@ -1,7 +1,7 @@
 package com.gtocore.mixin.ae2.stacks;
 
-import com.gtolib.IItem;
 import com.gtolib.api.ae2.stacks.IAEItemKey;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.misc.IMapValueCache;
 import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.RLUtils;

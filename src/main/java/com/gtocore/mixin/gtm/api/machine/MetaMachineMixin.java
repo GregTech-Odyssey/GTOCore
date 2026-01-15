@@ -1,7 +1,7 @@
 package com.gtocore.mixin.gtm.api.machine;
 
 import com.gtolib.api.capability.IIWirelessInteractor;
-import com.gtolib.api.machine.IDifficultyConfigDefinition;
+import com.gtolib.api.machine.IGTOMachineDefinition;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -16,6 +16,6 @@ public abstract class MetaMachineMixin implements IIWirelessInteractor.IWireless
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(MetaMachineBlockEntity holder, CallbackInfo ci) {
-        IDifficultyConfigDefinition.update((MetaMachine) (Object) this);
+        IGTOMachineDefinition.update((MetaMachine) (Object) this);
     }
 }

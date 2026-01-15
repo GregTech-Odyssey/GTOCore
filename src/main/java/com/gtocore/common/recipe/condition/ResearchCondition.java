@@ -4,7 +4,6 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.research.ResearchData;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 
 import net.minecraft.network.chat.Component;
 
@@ -16,11 +15,6 @@ public final class ResearchCondition extends AbstractRecipeCondition {
 
     public ResearchCondition(ResearchData data) {
         this.data = data;
-    }
-
-    @Override
-    public RecipeConditionType<ResearchCondition> getType() {
-        return RESEARCH;
     }
 
     @Override
