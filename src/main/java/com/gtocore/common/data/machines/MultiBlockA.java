@@ -262,7 +262,7 @@ public final class MultiBlockA {
             .parallelizableTooltips()
             .multipleRecipesTooltips()
             .laserTooltips()
-            .block(GTBlocks.FUSION_CASING_MK2)
+            .block(GTOBlocks.SPS_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, FRONT, UP, RIGHT)
                     .where('~', controller(definition))
                     .where('A', blocks(GTOBlocks.SPS_CASING.get())
@@ -285,7 +285,7 @@ public final class MultiBlockA {
                     .where('N', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/fusion/fusion_casing_mk2"), GTCEu.id("block/multiblock/assembly_line"))
+            .workableCasingRenderer(GTOCore.id("block/casings/sps_casing"), GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
     public static final MultiblockMachineDefinition MATTER_FABRICATOR = multiblock("matter_fabricator", "物质生成机", CrossRecipeMultiblockMachine::createHatchParallel)
