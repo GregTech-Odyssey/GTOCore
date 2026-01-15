@@ -2,6 +2,7 @@ package com.gtocore.data.tag;
 
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -90,6 +91,8 @@ public final class TagsHandler {
         create(provider, BotaniaTags.Blocks.UNETHICAL_TNT_CHECK,
                 GTBlocks.INDUSTRIAL_TNT.get(),
                 GTBlocks.POWDERBARREL.get());
+        create(provider, CustomTags.CLEANROOM_FLOORS,
+                GTOMachines.TRAVEL_ANCHOR.get());
     }
 
     public static void initItem(RegistrateTagsProvider<Item> provider) {
