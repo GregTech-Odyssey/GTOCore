@@ -176,7 +176,10 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
 
         for (Object part : getParts()) {
             if (part instanceof ItemBusPartMachine itemBusPart) {
-                itemStackTransfers.add(itemBusPart.getInventory().storage);
+                var inv = itemBusPart.getInventory();
+                if (inv.handlerIO == IO.IN || inv.handlerIO == IO.BOTH) {
+                    itemStackTransfers.add(inv.storage);
+                }
             } else if (part instanceof HugeBusPartMachine hugeBusPartMachine) {
                 itemStackTransfers.add(hugeBusPartMachine.getInventory().storage);
             } else if (part instanceof FluidHatchPartMachine fluidHatchPartMachine) {
