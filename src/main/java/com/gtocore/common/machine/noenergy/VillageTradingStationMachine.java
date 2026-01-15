@@ -809,8 +809,7 @@ public class VillageTradingStationMachine extends MetaMachine implements IAutoOu
     private void updateAutoOutputSubscription() {
         if (getLevel() == null) return;
         Direction outputFacing = getOutputFacingItems();
-        boolean needOutput = autoOutputItems && !output.isEmpty() && outputFacing != null && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos().relative(outputFacing), outputFacing.getOpposite());
-        if (needOutput) {
+        if (autoOutputItems && !output.isEmpty() && outputFacing != null && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), outputFacing)) {
             autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
         } else if (autoOutputSubs != null) {
             autoOutputSubs.unsubscribe();

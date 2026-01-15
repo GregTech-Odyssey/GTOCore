@@ -891,26 +891,11 @@ public class TradingStationMachine extends MetaMachine implements IFancyUIMachin
 
     private void updateAutoOutputSubscription() {
         if (getLevel() == null || isRemote()) return;
-
-        boolean canOutputItems = autoOutputItems && !outputItem.isEmpty() && getOutputFacingItems() != null && blockEntityDirectionCache.hasAdjacentItemHandler(
-                getLevel(),
-                getPos().relative(getOutputFacingItems()),
-                getOutputFacingItems().getOpposite());
-
-        boolean canOutputFluids = autoOutputFluids && !outputFluid.isEmpty() && getOutputFacingFluids() != null && blockEntityDirectionCache.hasAdjacentFluidHandler(
-                getLevel(),
-                getPos().relative(getOutputFacingFluids()),
-                getOutputFacingFluids().getOpposite());
-
-        if (canOutputItems || canOutputFluids) {
-            if (autoOutputSubs == null || !autoOutputSubs.stillSubscribed) {
-                autoOutputSubs = subscribeServerTick(this::autoOutput, 20);
-            }
-        } else {
-            if (autoOutputSubs != null) {
-                autoOutputSubs.unsubscribe();
-                autoOutputSubs = null;
-            }
+        if ((autoOutputItems && !outputItem.isEmpty() && getOutputFacingItems() != null && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getOutputFacingItems())) || (autoOutputFluids && !outputFluid.isEmpty() && getOutputFacingFluids() != null && blockEntityDirectionCache.hasAdjacentFluidHandler(getLevel(), getPos(), getOutputFacingFluids()))) {
+            autoOutputSubs = subscribeServerTick(autoOutputSubs, this::autoOutput, 20);
+        } else if (autoOutputSubs != null) {
+            autoOutputSubs.unsubscribe();
+            autoOutputSubs = null;
         }
     }
 
