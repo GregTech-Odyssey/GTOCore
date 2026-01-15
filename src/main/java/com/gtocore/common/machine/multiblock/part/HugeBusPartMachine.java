@@ -40,7 +40,6 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
@@ -115,8 +114,11 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
 
     private void updateInventorySubscription() {
         var level = getLevel();
-        if (level != null && isWorkingEnabled() && ItemTransferHelper.getItemTransfer(level, getPos().relative(getFrontFacing()), getFrontFacing().getOpposite()) != null) {
+        if (level != null && isWorkingEnabled() && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing())) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
+        } else if (autoIOSubs != null) {
+            autoIOSubs.unsubscribe();
+            autoIOSubs = null;
         }
     }
 
