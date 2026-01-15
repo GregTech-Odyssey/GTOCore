@@ -112,7 +112,7 @@ public final class Temporary {
                 .inputItems(GTOTagPrefix.NANITES, GTMaterials.Copper, 4)
                 .inputFluids(GTOMaterials.Haderoth, 2304)
                 .inputFluids(GTMaterials.Copper, 2304)
-                .outputFluids(GTOMaterials.HexaphaseCopper, 1000)
+                .outputFluids(GTOMaterials.HexaphaseCopper.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(33554432)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
