@@ -5,7 +5,10 @@ import com.gtolib.api.annotation.Scanned;
 @Scanned
 public final class IdleReason extends com.gtolib.api.recipe.IdleReason {
 
-    public static final IdleReason ORDERED = new IdleReason("gtocore.idle_reason.ordered", "未满足有序要求", "Ordered Not Satisfies");
+    public static final IdleReason ORDERED_ITEM = new IdleReason("gtocore.idle_reason.ordered.item", "未满足物品有序要求", "Item Ordered Not Satisfies");
+
+    public static final IdleReason ORDERED_FLUID = new IdleReason("gtocore.idle_reason.ordered.fluid", "未满足流体有序要求", "Fluid Ordered Not Satisfies");
+
     public static final IdleReason SET_CIRCUIT = new IdleReason("gtocore.idle_reason.set_circuit", "需要设置电路", "Need to set circuit");
 
     public static final IdleReason GRIND_BALL = new IdleReason("gtocore.idle_reason.grindball", "需要研磨球", "Need to grind ball");

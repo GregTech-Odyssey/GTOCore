@@ -1200,7 +1200,7 @@ object GTOMachineTooltips {
 
         section(RunningRequirements)
         ok("可以使用更大的输入总线" translatedTo "Can use larger input buses")
-        command("需要保证每片的物品与配方对应" translatedTo "Must ensure each item corresponds to the recipe")
+        command("需要保证每层的输入与配方对应" translatedTo "Must ensure each layer input corresponds to the recipe")
         command("只能使用数据靶仓" translatedTo "Only data target chambers can be used")
     }
 
