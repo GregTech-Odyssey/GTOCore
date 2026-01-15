@@ -452,6 +452,43 @@ public final class LangHandler {
                 "夫迷雾蔽境，亚尔夫海姆启门之期将至。新章既降，唯饮诗泉之醴、聚十二古器者，可涉此秘域。凡欲绕法偷渡之徒，皆不为乾坤所容——寰宇律令自临，未符契而擅闯者，神魂俱殒。",
                 "The mists enshroud the realm, and the hour of Alfheim’s gate-opening draws nigh. A new chapter unfolds—only those who quaff the mead of the Kvasir’s Mead and gather the Twelve Ancient Relics may tread this secret domain. All who seek to trespass by craft or ruse shall not be borne by heaven and earth. For the Law of the Cosmos descends: whosoever dares to breach these halls without the sacred covenant shall perish, body and soul alike.");
 
+        // 折跃卷轴维度翻译
+        addCNEN("alfheim.mythicbotany.name", "亚尔夫海姆", "Alfheim");
+        addCNEN("ancient_world.gtocore.name", "远古世界", "Ancient World");
+        addCNEN("barnarda_c.gtocore.name", "巴纳德C", "Barnarda C");
+        addCNEN("barnarda_c_orbit.gtocore.name", "巴纳德 C轨道", "Barnarda C Orbit");
+        addCNEN("ceres.gtocore.name", "谷神星", "Ceres");
+        addCNEN("ceres_orbit.gtocore.name", "谷神星轨道", "Ceres Orbit");
+        addCNEN("create.gtocore.name", "创造", "Create");
+        addCNEN("earth_orbit.ad_astra.name", "地球轨道", "Earth Orbit");
+        addCNEN("enceladus.gtocore.name", "土卫二", "Enceladus");
+        addCNEN("enceladus_orbit.gtocore.name", "土卫二轨道", "Enceladus Orbit");
+        addCNEN("ganymede.gtocore.name", "木卫三", "Ganymede");
+        addCNEN("ganymede_orbit.gtocore.name", "木卫三轨道", "Ganymede Orbit");
+        addCNEN("glacio.ad_astra.name", "霜原星", "Glacio");
+        addCNEN("glacio_orbit.ad_astra.name", "霜原星轨道", "Glacio Orbit");
+        addCNEN("io.gtocore.name", "木卫一", "Io");
+        addCNEN("io_orbit.gtocore.name", "木卫一轨道", "Io Orbit");
+        addCNEN("mars.ad_astra.name", "火星", "Mars");
+        addCNEN("mars_orbit.ad_astra.name", "火星轨道", "Mars Orbit");
+        addCNEN("mercury.ad_astra.name", "水星", "Mercury");
+        addCNEN("mercury_orbit.ad_astra.name", "水星轨道", "Mercury Orbit");
+        addCNEN("moon.ad_astra.name", "月球", "Moon");
+        addCNEN("moon_orbit.ad_astra.name", "月球轨道", "Moon Orbit");
+        addCNEN("otherside.deeperdarker.name", "幽冥", "Otherside");
+        addCNEN("overworld.minecraft.name", "主世界", "Overworld");
+        addCNEN("pluto.gtocore.name", "冥王星", "Pluto");
+        addCNEN("pluto_orbit.gtocore.name", "冥王星轨道", "Pluto Orbit");
+        addCNEN("the_end.minecraft.name", "末地", "The End");
+        addCNEN("the_nether.minecraft.name", "下界", "The Nether");
+        addCNEN("titan.gtocore.name", "土卫六", "Titan");
+        addCNEN("titan_orbit.gtocore.name", "土卫六轨道", "Titan Orbit");
+        addCNEN("venus.ad_astra.name", "金星", "Venus");
+        addCNEN("venus_orbit.ad_astra.name", "金星轨道", "Venus Orbit");
+        addCNEN("flat.gtocore.name", "超平坦", "Flat");
+        addCNEN("void.gtocore.name", "虚空", "Void");
+        addCNEN("spatial_storage.ae2.name", "封闭空间", "Spatial Storage");
+
         addCNEN("gtocore.message.otherside_pass_required", "你感受到来自幽冥的隔绝感...", "You feel a sense of isolation from the Other Side...");
         addCNEN("gtocore.message.otherside_pass_required.1", "似乎需要伪装成幽冥中最强大的生物之一，才能通过这里。", "It seems you need to disguise yourself as one of the most powerful beings in the Other Side to pass through here.");
     }

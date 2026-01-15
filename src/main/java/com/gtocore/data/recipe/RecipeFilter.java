@@ -450,6 +450,11 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("apotheosis", "salvaging_table"));
 
         if (Mods.BIOMESWEVEGONE.isLoaded()) {
+            filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "black_stained_glass_from_black_sand"));
+            filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "white_stained_glass_from_white_sand"));
+            filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "blue_stained_glass_from_blue_sand"));
+            filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "purple_stained_glass_from_purple_sand"));
+            filters.add(RLUtils.fromNamespaceAndPath("biomeswevegone", "pink_stained_glass_from_pink_sand"));
             DyeRecipes.BWG.forEach((k, v) -> {
                 filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_dye_tag"));
                 if (v) filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_2_dye_tag"));
