@@ -43,6 +43,11 @@ public final class AE2 {
         GTOInfCells.init();
         VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("aesilicon"), EPPItemAndBlock.SILICON_BLOCK,
                 TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"), TagUtils.createForgeItemTag("silicon"));
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("matter_condenser"), new ItemStack(AEBlocks.CONDENSER.asItem()),
+                "ABA",
+                "B B",
+                "ABA",
+                'A', ConventionTags.IRON_INGOT, 'B', ConventionTags.GLASS);
         if (GTOCore.isEasy()) return;
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
@@ -61,11 +66,6 @@ public final class AE2 {
                 "CDB",
                 "EB ",
                 'A', new MaterialEntry(TagPrefix.wireFine, GTMaterials.RedAlloy), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.Aluminium), 'C', new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()), 'D', CustomTags.MV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.wireFine, GTMaterials.Gold));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("matter_condenser"), new ItemStack(AEBlocks.CONDENSER.asItem()),
-                "ABA",
-                "B B",
-                "ABA",
-                'A', ConventionTags.IRON_INGOT, 'B', ConventionTags.GLASS);
 
         LASER_ENGRAVER_RECIPES.builder("printed_calculation_processor")
                 .inputItems(GTOTagPrefix.plate, GTMaterials.CertusQuartz)
