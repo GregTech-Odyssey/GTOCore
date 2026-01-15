@@ -155,7 +155,7 @@ public final class Data {
         ModularRouters.init();
         SuperFactoryManager.init();
         Pipez.init();
-        Sophisticated.init();
+        Sophisticated.backpack();
         $ClassifiedRecipe.init();
         Temporary.init();
         if (GTCEu.isDev() || GTOCore.isEasy()) {

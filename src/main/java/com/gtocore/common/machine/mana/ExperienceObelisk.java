@@ -4,6 +4,7 @@ import com.gtocore.api.gui.GTOGuiTextures;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -20,9 +21,11 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +33,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -59,6 +63,8 @@ import static com.gtocore.common.data.GTOFluids.XP_JUICE;
 @DataGeneratorScanned
 public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, IDropSaveMachine {
 
+    private static final TagKey<Fluid> XP_JUICE_TAG = TagKey.create(Registries.FLUID, RLUtils.forge("experience"));
+
     @Persisted
     private final NotifiableFluidTank experienceTank;
     @Persisted
@@ -75,7 +81,16 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
 
     public ExperienceObelisk(MetaMachineBlockEntity holder) {
         super(holder);
-        experienceTank = new NotifiableFluidTank(this, 1, Integer.MAX_VALUE, IO.NONE, IO.BOTH);
+        experienceTank = new NotifiableFluidTank(this, 1, Integer.MAX_VALUE, IO.NONE, IO.BOTH) {
+
+            @Override
+            public int fillInternal(FluidStack resource, FluidAction action) {
+                if (resource.getFluid().is(XP_JUICE_TAG)) {
+                    return super.fillInternal(new FluidStack(XP_JUICE.getSource(), resource.getAmount()), action);
+                }
+                return super.fillInternal(resource, action);
+            }
+        };
         experienceTank.setFilter(f -> f.getFluid() == XP_JUICE.getSource());
         tickSubs = new ConditionalSubscriptionHandler(this, this::absorbXpOrb, 20, this::isVacuumHopperMode);
     }
