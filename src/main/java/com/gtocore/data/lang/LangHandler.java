@@ -142,6 +142,7 @@ public final class LangHandler {
 
         addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energetics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energetics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
+        addCNEN("gtodyssey.com", "GTOdyssey 官方维基网站", "GTOdyssey Official Wiki Website");
         addCNEN("gtocore.fly_speed_reset", "飞行速度已重置", "fly Speed Reset");
         addCNEN("gtocore.fly_speed", "飞行速度 x%s", "fly Speed x%s");
         addCNEN("gtocore.reach_limit", "达到极限", "Reach Limit");
@@ -225,6 +226,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
+        addCNEN("config.jade.plugin_gtocore.en_lang", "[GTOCore] 英语显示", "[GTOCore] English Display");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
                 "Hatch types unlocked by installing auxiliary modules : %s");

@@ -22,6 +22,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -329,6 +330,13 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         var pattern = getPatternInventory().getStackInSlot(0);
         var details = decodePattern(pattern, 0);
         return details == null ? List.of() : List.of(details);
+    }
+
+    public static void onMultiblockRecipeTypeChange(MultiblockControllerMachine machine) {
+        Arrays.stream(machine.getParts())
+                .filter(MEWildcardPatternBufferPartMachine.class::isInstance)
+                .map(MEWildcardPatternBufferPartMachine.class::cast)
+                .forEach(MEWildcardPatternBufferPartMachine::requestPatternUpdate);
     }
 
     // ========== Pattern Validation ==========
