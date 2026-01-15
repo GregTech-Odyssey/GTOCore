@@ -1,0 +1,25 @@
+{
+	"type": "apotheosis:enchanting",
+	"conditions": [{
+		"type": "apotheosis:module",
+		"module": "enchantment"
+	}],
+	"input": {
+		"item": "minecraft:experience_bottle"
+	},
+	"requirements": {
+		"eterna": 25,
+		"quanta": 25,
+		"arcana": 40
+	},
+	"max_requirements": {
+		"eterna": -1,
+		"quanta": 30,
+		"arcana": -1
+	},
+	"display_level": 3,
+	"result": {
+		"item": "endrem:cryptic_eye",
+		"count": 1
+	}
+}
