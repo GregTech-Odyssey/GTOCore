@@ -21,12 +21,14 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.INPUT_LASER;
@@ -143,29 +146,89 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate RotorBlock(int tier) {
-        return new TraceabilityPredicate(new SimplePredicate(state -> {
+        return RotorBlock(tier, (Function<MultiblockState, Direction>) null);
+    }
+
+    public static TraceabilityPredicate RotorBlock(int tier, RelativeDirection relativeDirection) {
+        Function<MultiblockState, Direction> direction = s -> {
+            if (s.controller == null) {
+                return relativeDirection.equivalentGlobal;
+            }
+            var controller = s.controller.self();
+            return relativeDirection.getRelative(
+                    controller.getFrontFacing(),
+                    controller.getUpwardsFacing(),
+                    controller.isFlipped());
+        };
+        return RotorBlock(tier, direction);
+    }
+
+    public static TraceabilityPredicate RotorBlockFacingOutwards(int tier) {
+        Function<MultiblockState, Direction> faceAwayFromCenterline = state -> {
+            if (state.controller == null) {
+                return Direction.NORTH;
+            }
+            var controller = state.controller.self();
+            BlockPos controllerPos = controller.getPos();
+            BlockPos currentPos = state.getPos();
+            Direction controllerFront = controller.getFrontFacing();
+            Direction controllerUp = controller.getUpwardsFacing();
+            boolean isFlipped = controller.isFlipped();
+            Direction controllerRightDir = RelativeDirection.RIGHT.getRelative(controllerFront, controllerUp, isFlipped);
+            Vec3i offsetVector = currentPos.subtract(controllerPos);
+            int dotProduct = offsetVector.getX() * controllerRightDir.getStepX() +
+                    offsetVector.getY() * controllerRightDir.getStepY() +
+                    offsetVector.getZ() * controllerRightDir.getStepZ();
+            if (dotProduct > 0) {
+                return controllerRightDir;
+            } else if (dotProduct < 0) {
+                return controllerRightDir.getOpposite();
+            } else {
+                return controllerFront.getOpposite();
+            }
+        };
+        return RotorBlock(tier, faceAwayFromCenterline);
+    }
+
+    public static TraceabilityPredicate RotorBlock(int tier, Function<MultiblockState, Direction> direction) {
+        var predicate = new TraceabilityPredicate(new SimplePredicate(state -> {
             MetaMachine machine = MetaMachine.getMachine(state.getTileEntity());
             if (machine instanceof IRotorHolderMachine && machine.getDefinition().getTier() >= tier) {
-                Direction facing = machine.getFrontFacing();
-                boolean permuteXZ = facing.getAxis() == Direction.Axis.Z;
-                for (int x = -2; x < 3; x++) {
-                    for (int y = -2; y < 3; y++) {
-                        if (x == 0 && y == 0) continue;
-                        var offset = state.pos.offset(permuteXZ ? x : 0, y, permuteXZ ? 0 : x);
-                        if (getBlockState(state, offset).hasBlockEntity() && MetaMachine.getMachine(state.getWorld(), offset) instanceof RotorHolderPartMachine) {
-                            state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
-                            return false;
-                        }
-                        if (x == -2 || x == 2 || y == -2 || y == 2 || getBlockState(state, offset.relative(facing)).isAir()) continue;
-                        state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
-                        return false;
-                    }
-                }
-                return true;
+                return checkRotorClearance(state, machine.getFrontFacing());
             }
             state.setError(new PatternStringError("gtocore.idle_reason.block_tier_not_satisfies"));
             return false;
-        }, () -> BlockInfo.fromBlockState(GTMachines.ROTOR_HOLDER[tier].defaultBlockState()), () -> PartAbility.ROTOR_HOLDER.getAllBlocks().stream().filter(b -> b instanceof MetaMachineBlock metaMachineBlock && metaMachineBlock.getDefinition().getTier() >= tier).toArray(Block[]::new))).addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_3"));
+        },
+                () -> BlockInfo.fromBlockState(GTMachines.ROTOR_HOLDER[tier].defaultBlockState()),
+                () -> PartAbility.ROTOR_HOLDER.getAllBlocks().stream()
+                        .filter(b -> b instanceof MetaMachineBlock mmb && mmb.getDefinition().getTier() >= tier)
+                        .toArray(Block[]::new)))
+                .addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_3"));
+        if (direction != null) {
+            predicate.direction = direction;
+        }
+        return predicate;
+    }
+
+    private static boolean checkRotorClearance(MultiblockState state, Direction machineFacing) {
+        boolean permuteXZ = machineFacing.getAxis() == Direction.Axis.Z;
+        for (int x = -2; x < 3; x++) {
+            for (int y = -2; y < 3; y++) {
+                if (x == 0 && y == 0) continue;
+                var offset = state.getPos().offset(permuteXZ ? x : 0, y, permuteXZ ? 0 : x);
+                if (state.getWorld().getBlockState(offset).hasBlockEntity() &&
+                        MetaMachine.getMachine(state.getWorld(), offset) instanceof RotorHolderPartMachine) {
+                    state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
+                    return false;
+                }
+                if (x == -2 || x == 2 || y == -2 || y == 2) continue;
+                if (!state.getWorld().getBlockState(offset.relative(machineFacing)).isAir()) {
+                    state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static TraceabilityPredicate MEStorageCore() {
