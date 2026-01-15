@@ -29,7 +29,7 @@ dependencies {
     compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.2-beta.4"))
     implementation("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.2-beta.4")
 
-    modImplementation("curse.maven:ldlib-626676:6995785")
+    modImplementation("curse.maven:ldlib-626676:7412415")
 
     jarJar(modImplementation("dev:Registrate:$project.registrate_version"))
 
