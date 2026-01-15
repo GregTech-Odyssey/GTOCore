@@ -136,7 +136,7 @@ public final class MagicRecipesB {
                     .inputItems(TagPrefix.block, GTOMaterials.ElfGlass)
                     .outputItems(GTOBlocks.THE_SOLARIS_LENS.asItem())
                     .duration(100)
-                    .addData(SOLARIS, 500000)
+                    .addData(SOLARIS, 50000)
                     .save();
         }
 
