@@ -3,7 +3,6 @@ package com.gtocore.data;
 import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.config.GTOConfig;
 import com.gtocore.data.recipe.*;
 import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.ae2.Ae2wtlibRecipes;
@@ -27,7 +26,6 @@ import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.recipe.CustomRecipes;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
@@ -51,7 +49,6 @@ import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.block.Block;
 
 import com.google.common.collect.ImmutableSet;
@@ -61,13 +58,16 @@ import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
-import me.jellysquid.mods.sodium.mixin.core.render.MinecraftAccessor;
+import lombok.Getter;
 
 import java.util.Collections;
 
 import static com.gtocore.common.data.GTORecipes.EMI_RECIPES;
 
 public final class Data {
+
+    @Getter
+    private static Throwable throwable;
 
     public static void init() {
         if (GTCEu.isClientSide()) {
@@ -166,10 +166,6 @@ public final class Data {
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
         RecyclingRecipes.init();
 
-        if (GTOConfig.INSTANCE.enableCustomRecipes) {
-            CustomRecipes.loadScripts();
-        }
-
         ItemMaterialData.ITEM_MATERIAL_INFO.clear();
         RecipeBuilder.clean();
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
@@ -184,7 +180,11 @@ public final class Data {
     }
 
     private static void clientInit() {
-        commonInit();
+        try {
+            commonInit();
+        } catch (Throwable t) {
+            throwable = t;
+        }
         RecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
         if (GTCEu.Mods.isEMILoaded()) {
             MultiblockDefinition.init();
@@ -214,13 +214,6 @@ public final class Data {
                 }
             }
             GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
-        }
-    }
-
-    private static class Client {
-
-        private static void interrupt() {
-            ((MinecraftAccessor) Minecraft.getInstance()).embeddium$getGameThread().interrupt();
         }
     }
 }

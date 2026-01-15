@@ -511,7 +511,7 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/blast_furnace"))
             .register();
 
-    public static final MultiblockMachineDefinition ISOSTATIC_PRESS = multiblock("isostatic_press", "等静压成型", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition ISOSTATIC_PRESS = multiblock("isostatic_press", "等静压成型机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getIsostaticPressMachineTooltips().getSupplier())
             .parallelizableTooltips()

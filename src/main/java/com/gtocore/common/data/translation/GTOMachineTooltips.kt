@@ -1162,7 +1162,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         ok("可以使用更大的输入总线" translatedTo "Can use larger input buses")
-        command("需要保证每片的物品与配方对应" translatedTo "Must ensure each item corresponds to the recipe")
+        command("需要保证每层的输入与配方对应" translatedTo "Must ensure each layer input corresponds to the recipe")
         command("只能使用数据靶仓" translatedTo "Only data target chambers can be used")
     }
 
@@ -1215,7 +1215,7 @@ object GTOMachineTooltips {
         info("具体数值可在GUI内查看" translatedTo "Specific values can be viewed in the GUI")
 
         section("特殊超频" translatedTo "Special Overclocking")
-        increase("每提升16倍功率提升2倍速度" translatedTo "Speed increases 2x for every 16x power increase")
+        increase("每次超频提升16倍功率提升2倍速度" translatedTo "Speed increases 2x for every 16x power increase")
         command("超频由编程电路调节" translatedTo "Overclocking must be adjusted via programmed circuits")
         info("电路1: 不执行超频" translatedTo "Circuit 1: No overclocking")
         info("电路2-4: 分别执行1-3次超频" translatedTo "Circuits 2-4: Execute 1-3 stages of overclocking")
@@ -1399,7 +1399,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.EfficiencyBonus)
         content("线圈温度越高，运行速度越快" translatedTo "Higher coil temperature → faster operation")
-        info("速度倍率: log(900) / log(温度)" translatedTo "Speed Multiplier: log(900) / log(Temperature)")
+        info("时间倍率: log(900) / log(温度)" translatedTo "Time Multiplier: log(900) / log(Temperature)")
         section(ComponentSlang.ParallelBonus)
         content("由电压等级决定" translatedTo "Determined by Voltage Tier")
         info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")
@@ -1411,7 +1411,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.EfficiencyBonus)
         content("玻璃等级越高，运行速度越快" translatedTo "Higher glass tier → faster operation")
-        info("速度倍率: √(1 / 玻璃等级)" translatedTo "Speed Multiplier: √(1 / Glass Tier)")
+        info("时间倍率: √(1 / 玻璃等级)" translatedTo "Time Multiplier: √(1 / Glass Tier)")
         section(ComponentSlang.ParallelBonus)
         content("由电压等级决定" translatedTo "Determined by Voltage Tier")
         info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")

@@ -1,5 +1,6 @@
 package com.gtocore.mixin.botania;
 
+import com.gtolib.api.data.Dimension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -48,8 +49,8 @@ public abstract class AlfheimEventListenerMixin {
             return;
         }
         Level level = portal.getLevel();
-        ResourceKey<Level> dimension = level.dimension();
-        if (Alfheim.DIMENSION.equals(dimension)) {
+        Dimension dimension = Dimension.from(level);
+        if (dimension == Dimension.ALFHEIM) {
             if (portal instanceof AlfheimPortalBlockEntity alfPortal) {
                 alfPortal.consumeMana(new ArrayList<>(), 0, true);
             }
@@ -66,7 +67,7 @@ public abstract class AlfheimEventListenerMixin {
         for (Player player : playersInPortal) {
             if (player instanceof ServerPlayer serverPlayer && gtocore$canPlayerUsePortal(serverPlayer)) {
                 if (AlfheimPortalHandler.setInPortal(serverPlayer.level(), serverPlayer)) {
-                    if (Level.OVERWORLD.equals(dimension)) {
+                    if (dimension == Dimension.OVERWORLD) {
                         if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portalPos)) {
                             serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_not_loaded"));
                         }
