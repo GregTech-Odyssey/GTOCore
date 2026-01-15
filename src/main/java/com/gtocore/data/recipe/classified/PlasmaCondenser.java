@@ -412,5 +412,25 @@ final class PlasmaCondenser {
                 .EUt(1966080)
                 .duration(60)
                 .save();
+
+        PLASMA_CONDENSER_RECIPES.recipeBuilder("hexaphasecopper_condenser")
+                .circuitMeta(1)
+                .inputFluids(GTOMaterials.HexaphaseCopper.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
+                .outputFluids(GTOMaterials.HexaphaseCopper, 1000)
+                .outputFluids(GTMaterials.Helium, 100000)
+                .EUt(1966080)
+                .duration(600)
+                .save();
+
+        PLASMA_CONDENSER_RECIPES.recipeBuilder("hexaphasecopper_ingot_condenser")
+                .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asItem())
+                .inputFluids(GTOMaterials.HexaphaseCopper.getFluid(FluidStorageKeys.PLASMA, 144))
+                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 14400))
+                .outputItems(TagPrefix.ingot, GTOMaterials.HexaphaseCopper)
+                .outputFluids(GTMaterials.Helium, 14400)
+                .EUt(1966080)
+                .duration(60)
+                .save();
     }
 }

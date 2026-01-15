@@ -45,7 +45,6 @@ public final class MagicMaterial {
                 .dust()
                 .color(0xff0000)
                 .iconSet(BRIGHT)
-                .flags(NO_UNIFICATION)
                 .buildAndRegister()
                 .setFormula("*Sa*", false);
 
@@ -55,7 +54,6 @@ public final class MagicMaterial {
                 .dust()
                 .color(0x0099ff)
                 .iconSet(BRIGHT)
-                .flags(NO_UNIFICATION)
                 .buildAndRegister()
                 .setFormula("*Un*", false);
 
@@ -65,7 +63,6 @@ public final class MagicMaterial {
                 .dust()
                 .color(0x13e841)
                 .iconSet(BRIGHT)
-                .flags(NO_UNIFICATION)
                 .buildAndRegister()
                 .setFormula("*Sy*", false);
 
@@ -75,14 +72,12 @@ public final class MagicMaterial {
                 .dust()
                 .color(0xedc31c)
                 .iconSet(BRIGHT)
-                .flags(NO_UNIFICATION)
                 .buildAndRegister()
                 .setFormula("*Gn*", false);
 
         Aether = magicMaterial("aether", "以太")
                 .gas()
                 .fluid()
-                .dust()
                 .color(0xfbedff)
                 .iconSet(BRIGHT)
                 .flags(NO_UNIFICATION)
