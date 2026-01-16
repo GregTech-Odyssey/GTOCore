@@ -112,7 +112,7 @@ final class AtomicEnergyExcitation {
                 .save();
 
         ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder("enriched_naquadah_fuel")
-                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Vibranium)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Infuscolium)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Antimony, 4)
                 .notConsumableFluid(GTOMaterials.CaesiumFluoride.getFluid(1000))
