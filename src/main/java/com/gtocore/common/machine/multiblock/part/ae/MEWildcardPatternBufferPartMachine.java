@@ -22,6 +22,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -133,6 +134,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     public void onLoad() {
         super.onLoad();
         loadBlacklistData();
+    }
+
+    @Override
+    public void addedToController(IMultiController controller) {
+        super.addedToController(controller);
+        requestPatternUpdate();
     }
 
     @Override
