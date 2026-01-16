@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
+import appeng.api.util.AEColor;
 import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.me.crafting.AbstractTableRenderer;
 import appeng.client.gui.me.crafting.CraftingStatusTableRenderer;
@@ -66,7 +67,9 @@ public abstract class CraftingStatusTableRendererMixin extends AbstractTableRend
             cancellable = true)
     protected void entryBackgroundColor(CraftingStatusEntry entry, CallbackInfoReturnable<Integer> cir) {
         if (screen.getMenu() instanceof IPushResultsHandler handler) {
-            if (handler.gto$isPaused()) {
+            if (entry.getActiveAmount() > 0) {
+                cir.setReturnValue(AEColor.GREEN.blackVariant | 0x5A000000);
+            } else if (handler.gto$isPaused()) {
                 cir.setReturnValue(0xFF55FF | 0x5A000000);
             }
         }

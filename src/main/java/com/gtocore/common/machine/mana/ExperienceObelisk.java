@@ -26,6 +26,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
@@ -103,7 +104,7 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
         var xpOrbs = world.getEntitiesOfClass(ExperienceOrb.class, aabb);
         for (var xpOrb : xpOrbs) {
             int juiceAmount = xpOrb.getValue();
-            int xpAbsorbed = experienceTank.fill(new FluidStack(XP_JUICE.getSource(), juiceAmount), IFluidHandler.FluidAction.EXECUTE);
+            int xpAbsorbed = experienceTank.fill(new FluidStack(XP_JUICE.getSource(), xpToFluid(juiceAmount)), IFluidHandler.FluidAction.EXECUTE);
             if (xpAbsorbed > 0) {
                 xpOrb.discard();
                 int remainingXp = xpOrb.getValue() - xpAbsorbed;
@@ -153,7 +154,7 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
 
         // 切换等级/经验点模式
         widgets.addWidget(createLevelsModeToggleButton());
-        widgets.addWidget(new LabelWidget(20, 40, () -> Component.translatable(LANG_STORED_EXPERIENCE, EnchantmentUtils.getLevelForExperience(experienceTank.getFluidInTank(0).getAmount())).getString()));
+        widgets.addWidget(new LabelWidget(20, 40, () -> Component.translatable(LANG_STORED_EXPERIENCE, EnchantmentUtils.getLevelForExperience(fluidToXp(experienceTank.getFluidInTank(0).getAmount()))).getString()));
 
         // 经验转移按钮
         widgets.addWidget(createTransferConfiguredButton(entityPlayer, true, 0));
@@ -221,7 +222,7 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
     }
 
     private ButtonWidget createTransferAllButton(Player player, boolean toPlayer, int x) {
-        IntSupplier amountSupplier = toPlayer ? () -> experienceTank.getFluidInTank(0).getAmount() : () -> -getExperiencePoints(player);
+        IntSupplier amountSupplier = toPlayer ? () -> fluidToXp(experienceTank.getFluidInTank(0).getAmount()) : () -> -getExperiencePoints(player);
         var button = createTransferButton(player, amountSupplier, x);
         if (toPlayer) {
             button.setButtonTexture(GuiTextures.BUTTON_RIGHT.copy().rotate(45));
@@ -269,14 +270,14 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
                             int beforeAdd = getExperiencePoints(player);
                             EnchantmentUtils.chargeExperience(player, -amount);
                             int afterAdd = getExperiencePoints(player);
-                            int drained = experienceTank.drain(afterAdd - beforeAdd, IFluidHandler.FluidAction.EXECUTE).getAmount();
+                            int drained = fluidToXp(experienceTank.drain(xpToFluid(afterAdd - beforeAdd), IFluidHandler.FluidAction.EXECUTE).getAmount());
                             if (drained < canTransfer) {
                                 EnchantmentUtils.chargeExperience(player, canTransfer - drained);
                             }
                         } else {
-                            canTransfer = experienceTank.fill(new FluidStack(XP_JUICE.getSource(), -canTransfer), IFluidHandler.FluidAction.SIMULATE);
+                            canTransfer = fluidToXp(experienceTank.fill(new FluidStack(XP_JUICE.getSource(), xpToFluid(-canTransfer)), IFluidHandler.FluidAction.SIMULATE));
                             if (EnchantmentUtils.chargeExperience(player, canTransfer)) {
-                                experienceTank.fill(new FluidStack(XP_JUICE.getSource(), canTransfer), IFluidHandler.FluidAction.EXECUTE);
+                                experienceTank.fill(new FluidStack(XP_JUICE.getSource(), xpToFluid(canTransfer)), IFluidHandler.FluidAction.EXECUTE);
                             }
                         }
                     }
@@ -314,7 +315,7 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
     }
 
     private int durabilityToXp(int pDurability) {
-        return pDurability / 2;
+        return pDurability * 10;
     }
 
     public void setVacuumHopperMode(boolean vacuumHopperMode) {
@@ -345,6 +346,14 @@ public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, I
 
     private static int getExperiencePoints(Player player) {
         return (int) (EnchantmentUtils.getTotalExperienceForLevel(player.experienceLevel) + (player.experienceProgress) * player.getXpNeededForNextLevel());
+    }
+
+    private static int xpToFluid(int xp) {
+        return (int) Mth.clamp(xp * 20L, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private static int fluidToXp(int fluid) {
+        return fluid / 20;
     }
 
     @RegisterLanguage(cn = "单位：经验等级", en = "Unit: Experience Levels")
