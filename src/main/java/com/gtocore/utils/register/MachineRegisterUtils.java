@@ -326,11 +326,11 @@ public final class MachineRegisterUtils {
             if (recipeType == GTORecipeTypes.SEMI_FLUID_GENERATOR_FUELS) {
                 // 大型半流质
                 builder.addSubPattern(definition -> FactoryBlockPattern.start(definition)
-                        .aisle("ADDDA", "BFBFB", "BFFFB", "BBBBB")
-                        .aisle("ACCCA", "ACBCA", "ACCCA", " AAA ")
-                        .aisle("ACCCA", " EBE ", " CCC ", " GGG ")
+                        .aisle("ADDDA", "BF FB", "BFFFB", "BBBBB")
+                        .aisle("ADDDA", "AC CA", "ACCCA", " AAA ")
+                        .aisle("ADDDA", " C C ", " CCC ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
-                        .aisle("A   A", "     ", "     ", " GGG ")
+                        .aisle("A   A", "     ", "     ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
                         .aisle("A   A", "  H  ", "     ", "     ")
                         .where('A', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
@@ -347,11 +347,11 @@ public final class MachineRegisterUtils {
             } else {
                 // 大型内燃
                 builder.addSubPattern(definition -> FactoryBlockPattern.start(definition)
-                        .aisle("ADDDA", "BFBFB", "BFFFB", "BBBBB")
-                        .aisle("ACCCA", "ACBCA", "ACCCA", " AAA ")
-                        .aisle("ACCCA", " EBE ", " CCC ", " GGG ")
+                        .aisle("ADDDA", "BF FB", "BFFFB", "BBBBB")
+                        .aisle("ADDDA", "AC CA", "ACCCA", " AAA ")
+                        .aisle("ADDDA", " C C ", " CCC ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
-                        .aisle("A   A", "     ", "     ", " GGG ")
+                        .aisle("A   A", "     ", "     ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
                         .aisle("A   A", "  H  ", "     ", "     ")
                         .where('A', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
@@ -369,11 +369,11 @@ public final class MachineRegisterUtils {
         } else {
             // 极限内燃
             builder.addSubPattern(definition -> FactoryBlockPattern.start(definition)
-                    .aisle("ADDDA", "BFBFB", "BFFFB", "BBBBB")
-                    .aisle("ACCCA", "ACBCA", "ACCCA", " AAA ")
-                    .aisle("ACCCA", " EBE ", " CCC ", " GGG ")
+                    .aisle("ADDDA", "BF FB", "BFFFB", "BBBBB")
+                    .aisle("ADDDA", "AC CA", "ACCCA", " AAA ")
+                    .aisle("ADDDA", " C C ", " CCC ", " GEG ")
                     .aisle("A   A", "A   A", "A   A", " AAA ")
-                    .aisle("A   A", "     ", "     ", " GGG ")
+                    .aisle("A   A", "     ", "     ", " GEG ")
                     .aisle("A   A", "A   A", "A   A", " AAA ")
                     .aisle("A   A", "  H  ", "     ", "     ")
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))

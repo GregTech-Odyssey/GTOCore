@@ -916,13 +916,12 @@ object GTOMachineTooltips {
                 increase("提供20mB/s的§a氧气§r，并消耗§4双倍§r燃料以产生§e$oxygenBoost EU/t§r的功率" translatedTo "Provide 20mB/s of §eOxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t")
 
                 if (canExtremeBoost) {
-                    increase("提供80mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生§e$liquidOxygenBoost EU/t§r的功率" translatedTo "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t")
+                    increase("提供80mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生§e$liquidOxygenBoost EU/t§r的功率" translatedTo "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to §e$liquidOxygenBoost §rEU/t")
                 }
 
                 section(ComponentSlang.AfterModuleInstallation)
-                increase("空气进气速度加倍" translatedTo "Air intake speed is doubled")
-                increase("获得2倍速度" translatedTo "Gains 2x speed")
-                decrease("燃料消耗速度变为2倍" translatedTo "Fuel consumption rate becomes 2x")
+                increase("并行能力提升至 §e8§r" translatedTo "Parallelism increases to §e8x§r")
+                increase("空气进气速度变为 §e4§r 倍" translatedTo "Air intake speed becomes §e4x§r faster")
             }
         }
 
