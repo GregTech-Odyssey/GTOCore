@@ -59,4 +59,16 @@ public abstract class CraftingStatusTableRendererMixin extends AbstractTableRend
             }
         }
     }
+
+    @Inject(remap = false,
+            method = "getEntryBackgroundColor(Lappeng/menu/me/crafting/CraftingStatusEntry;)I",
+            at = @At("HEAD"),
+            cancellable = true)
+    protected void entryBackgroundColor(CraftingStatusEntry entry, CallbackInfoReturnable<Integer> cir) {
+        if (screen.getMenu() instanceof IPushResultsHandler handler) {
+            if (handler.gto$isPaused()) {
+                cir.setReturnValue(0xFF55FF | 0x5A000000);
+            }
+        }
+    }
 }
