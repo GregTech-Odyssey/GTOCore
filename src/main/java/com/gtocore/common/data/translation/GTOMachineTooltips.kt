@@ -1195,7 +1195,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("space_probe_surface_reception")
 
         section(ComponentSlang.RunningRequirements)
-        important("只能运行在空间站" translatedTo "Can only operate on space station")
+        important("只能运行在星球轨道上" translatedTo "Can only operate in orbit")
 
         section("戴森球连接" translatedTo "Dyson Sphere Connection")
         content("自动连接星系内未使用的戴森球" translatedTo "Automatically connects to unused Dyson spheres in the galaxy")
