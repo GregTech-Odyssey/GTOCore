@@ -5,14 +5,11 @@ import com.gtocore.common.fluid.types.GelidCryotheumFluidType;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.registries.GTORegistration;
-import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.FlowingFluid;
@@ -35,6 +32,8 @@ import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.entry.FluidEntry;
 
 import java.util.Map;
+
+import static com.gtocore.data.tag.Tags.XP_JUICE_TAG;
 
 public final class GTOFluids {
 
@@ -71,7 +70,7 @@ public final class GTOFluids {
     public static final FluidEntry<? extends ForgeFlowingFluid> XP_JUICE = fluid("xp_juice", "经验汁")
             .properties(p -> p.lightLevel(10).density(800).viscosity(1500))
             .lang("XP Juice")
-            .tag(TagKey.create(Registries.FLUID, RLUtils.forge("experience")))
+            .tag(XP_JUICE_TAG)
             .register();
 
     public static final FluidEntry<? extends ForgeFlowingFluid> LIQUID_SUNSHINE = fluid("liquid_sunshine", "液态阳光")

@@ -2382,7 +2382,7 @@ public final class MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        FilteredSater = material("filtered_water", "过滤水")
+        FilteredSater = material("filtered_water", "Filtered Water (T1)", "过滤水（T1）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2390,7 +2390,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        OzoneWater = material("ozone_water", "臭氧水")
+        OzoneWater = material("ozone_water", "Ozone Water (T2)", "臭氧水（T2）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2398,7 +2398,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        FlocculentWater = material("flocculent_water", "絮凝水")
+        FlocculentWater = material("flocculent_water", "Flocculent Water", "絮凝水（T3）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2406,7 +2406,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        PHNeutralWater = material("ph_neutral_water", "pH中和水")
+        PHNeutralWater = material("ph_neutral_water", "pH Neutral Water", "pH中和水（T4）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2414,7 +2414,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        ExtremeTemperatureWater = material("extreme_temperature_water", "极端温度水")
+        ExtremeTemperatureWater = material("extreme_temperature_water", "Extreme Temperature Water", "极端温度水（T5）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2422,7 +2422,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        ElectricEquilibriumWater = material("electric_equilibrium_water", "电平衡水")
+        ElectricEquilibriumWater = material("electric_equilibrium_water", "Electric Equilibrium Water", "电平衡水（T6）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2430,7 +2430,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        DegassedWater = material("degassed_water", "脱气水")
+        DegassedWater = material("degassed_water", "Degassed Water", "脱气水（T7）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)
@@ -2438,7 +2438,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        BaryonicPerfectionWater = material("baryonic_perfection_water", "重子完美水")
+        BaryonicPerfectionWater = material("baryonic_perfection_water", "Baryonic Perfection Water", "重子完美水（T8）")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)

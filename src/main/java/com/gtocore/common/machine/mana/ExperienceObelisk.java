@@ -4,7 +4,6 @@ import com.gtocore.api.gui.GTOGuiTextures;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -21,11 +20,9 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -34,7 +31,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -60,11 +56,10 @@ import java.util.Map;
 import java.util.function.IntSupplier;
 
 import static com.gtocore.common.data.GTOFluids.XP_JUICE;
+import static com.gtocore.data.tag.Tags.XP_JUICE_TAG;
 
 @DataGeneratorScanned
 public class ExperienceObelisk extends MetaMachine implements IFancyUIMachine, IDropSaveMachine {
-
-    private static final TagKey<Fluid> XP_JUICE_TAG = TagKey.create(Registries.FLUID, RLUtils.forge("experience"));
 
     @Persisted
     private final NotifiableFluidTank experienceTank;

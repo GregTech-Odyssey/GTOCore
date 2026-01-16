@@ -1,0 +1,12 @@
+{
+  "values": [
+    "gtocore:filtered_water",
+    "gtocore:ozone_water",
+    "gtocore:flocculent_water",
+    "gtocore:ph_neutral_water",
+    "gtocore:extreme_temperature_water",
+    "gtocore:electric_equilibrium_water",
+    "gtocore:degassed_water",
+    "gtocore:baryonic_perfection_water"
+  ]
+}
