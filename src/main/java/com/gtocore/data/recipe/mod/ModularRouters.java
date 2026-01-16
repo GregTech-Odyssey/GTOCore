@@ -59,6 +59,7 @@ public class ModularRouters {
                         .save();
 
                 ASSEMBLER_RECIPES.builder("augment_core")
+                        .circuitMeta(10)
                         .inputItems(GTOTagPrefix.plate, GTMaterials.Aluminium, 4)
                         .inputItems(GTOTagPrefix.plate, GTMaterials.EnderPearl, 4)
                         .inputItems(CustomTags.MV_CIRCUITS)
@@ -90,6 +91,7 @@ public class ModularRouters {
                         .save();
 
                 ASSEMBLER_RECIPES.builder("augment_core")
+                        .circuitMeta(10)
                         .inputItems(GTOTagPrefix.plate, GTMaterials.Steel, 4)
                         .inputItems(GTOTagPrefix.plate, GTMaterials.EnderPearl, 4)
                         .inputItems(CustomTags.LV_CIRCUITS)

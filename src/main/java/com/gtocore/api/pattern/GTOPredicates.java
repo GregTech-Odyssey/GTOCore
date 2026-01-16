@@ -218,7 +218,7 @@ public final class GTOPredicates {
                 var offset = state.getPos().offset(permuteXZ ? x : 0, y, permuteXZ ? 0 : x);
                 if (state.getWorld().getBlockState(offset).hasBlockEntity() &&
                         MetaMachine.getMachine(state.getWorld(), offset) instanceof RotorHolderPartMachine) {
-                    state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
+                    state.setError(new PatternStringError("gtceu.machine.rotor_holder.tooltip.2"));
                     return false;
                 }
                 if (x == -2 || x == 2 || y == -2 || y == 2) continue;
