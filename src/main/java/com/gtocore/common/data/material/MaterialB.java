@@ -3217,7 +3217,7 @@ public final class MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        AbsoluteEthanol = material("absolute_ethanol", "绝对乙醇")
+        AbsoluteEthanol = material("absolute_ethanol", "无水乙醇")
                 .fluid()
                 .color(0xff4500)
                 .components(Carbon, 2, Hydrogen, 6, Oxygen, 1)
