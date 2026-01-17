@@ -1570,6 +1570,10 @@ object GTOMachineTooltips {
     val LargeSteamCircuitAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_circuit_assembler")
 
+        section(ComponentSlang.RunningRequirements)
+        command("只能执行电路配方" translatedTo "Can only execute circuit recipes")
+        important("蚀刻电路后机器才能工作，并且只能加工此电路" translatedTo "The machine requires engraving a circuit to operate and only processes that specific circuit")
+
         section("配方等级" translatedTo "Recipe Tier")
         important(ComponentSlang.RecipeLevelBelow(GTValues.MV))
         val name = GTValues.VNF[GTValues.HV] + "§r"
@@ -1577,8 +1581,7 @@ object GTOMachineTooltips {
         increase("同时解锁超频功能" translatedTo "Unlocks overclocking function")
 
         section("电路倍产" translatedTo "Circuit Multiplication")
-        increase("允许通过铭刻电路倍增电路产物" translatedTo "Allows circuit products to be multiplied through engraved circuits")
-        important("铭刻后此机器只能加工此种电路" translatedTo "After engraving, this machine can only process this type of circuit")
+        increase("开启增产模式后倍增产出 (默认开启)" translatedTo "Multiply Mode multiplies circuit output (Enabled by default)")
     }
 
     val LargeSteamSolarBoilerTooltips = ComponentListSupplier {
