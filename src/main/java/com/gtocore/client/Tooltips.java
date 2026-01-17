@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.lang.CNENS;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -39,6 +40,7 @@ public final class Tooltips {
         toolTipsBuilder.put(GTOBlocks.URUIUM_COIL_BLOCK.asItem(), new CNENS(new String[] { "可为超维度等离子锻炉提供32000K炉温", "恒星锻炉模式仅可使用该线圈" }, new String[] { "Can provide 32000K furnace temperature for the hyper-dimensional plasma furnace", "Only this coil can be used in stellar furnace mode" }));
         toolTipsBuilder.put(GTOBlocks.QUANTUM_GLASS.asItem(), new CNENS(new String[] { "致密但透明", "§b玻璃&优雅" }, new String[] { "Dense but Transparent", "§bGlass & Elegance" }));
         toolTipsBuilder.put(ModItems.ONION.get(), new CNENS(new String[] { "假如你切它时流泪了，说明你还不够强大", "§7——来自它下方某块黑曜石的忠告" }, new String[] { "If you cry when you cut it, it means you are not strong enough", "§7——Advice from a block of obsidian below it" }));
+        toolTipsBuilder.put(RegistriesUtils.getItem("jumbofurnace:jumbo_furnace"), new CNENS(new String[] { "§6将 27 个熔炉以 3x3x3 的立方体摆放即可创建巨型熔炉", "§e在巨型熔炉内每 27 个熔炉可烧制成一个巨型熔炉物品", "§b巨型熔炉物品可放在 GUI 右下角，提供额外的并行" }, new String[] { "§6Place 27 furnaces in a 3x3x3 cube to create a Jumbo Furnace", "§eIn the Jumbo Furnace, every 27 furnaces can be smelted into a Jumbo Furnace item", "§bThe Jumbo Furnace item can be placed in the lower right corner of the GUI to provide additional parallelism" }));
 
         TOOL_TIPS_MAP = toolTipsBuilder.build();
 
