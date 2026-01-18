@@ -28,8 +28,8 @@ public abstract class TileExPatternProviderMixin {
     private void modifyCreateLogic(CallbackInfoReturnable<PatternProviderLogic> cir) {
         // This method is intentionally left empty to prevent the original logic from executing.
         // The logic is handled in the XModUtils class.
-        if (!GTOCore.isExpert() && GTOConfig.INSTANCE.exPatternSize > 36) {
-            cir.setReturnValue(new PatternProviderLogic(exae$getSelf().getMainNode(), exae$getSelf(), GTOConfig.INSTANCE.exPatternSize));
+        if (!GTOCore.isExpert() && GTOConfig.INSTANCE.gamePlay.exPatternSize > 36) {
+            cir.setReturnValue(new PatternProviderLogic(exae$getSelf().getMainNode(), exae$getSelf(), GTOConfig.INSTANCE.gamePlay.exPatternSize));
         }
     }
 }

@@ -167,7 +167,7 @@ public class CommonProxy {
     public static void afterStartup() {
         ScanningClass.VALUES = null;
         ModList.get().getAllScanData().clear();
-        if (GTOConfig.INSTANCE.startSpark == SparkRange.MAIN_MENU) {
+        if (GTOConfig.INSTANCE.devMode.startSpark == SparkRange.MAIN_MENU) {
             SparkLaunchProfiler.stop("all");
         }
     }

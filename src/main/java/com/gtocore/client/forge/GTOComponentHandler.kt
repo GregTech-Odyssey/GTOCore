@@ -98,7 +98,7 @@ object GTOComponentHandler {
     var englishLanguage: ClientLanguage? = null
     init {
         // 初始化英语语言
-        if (GTOConfig.INSTANCE.showEnglishName) {
+        if (GTOConfig.INSTANCE.gamePlay.showEnglishName) {
             run {
                 val manager = Minecraft.getInstance().languageManager
                 val list: MutableList<String?> = Lists.newArrayList("en_us")
@@ -118,7 +118,7 @@ object GTOComponentHandler {
 }
 
 private fun getEnglishName(itemStack: ItemStack): ComponentSupplier? {
-    if (!GTOConfig.INSTANCE.showEnglishName) return null
+    if (!GTOConfig.INSTANCE.gamePlay.showEnglishName) return null
     val englishName = englishLanguage?.getOrDefault(itemStack.descriptionId) ?: return null
     if (I18n.get(itemStack.descriptionId) == englishName) return null
     val item = itemStack.item

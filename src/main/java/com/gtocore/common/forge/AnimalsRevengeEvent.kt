@@ -106,8 +106,8 @@ object AnimalsRevengeEvent {
     private fun triggerCannibalismEffect(serverLevel: ServerLevel, player: ServerPlayer, eaten: ItemStack) {
         if (!ensureLootCache(serverLevel)) return
 
-        val radius = max(1, GTOConfig.INSTANCE.mobConfig.cannibalismRadius)
-        val damage = max(0.0f, GTOConfig.INSTANCE.mobConfig.cannibalismDamage)
+        val radius = max(1, GTOConfig.INSTANCE.gamePlay.mobConfig.cannibalismRadius)
+        val damage = max(0.0f, GTOConfig.INSTANCE.gamePlay.mobConfig.cannibalismDamage)
         if (damage <= 0.0f) return
 
         val center: Vec3 = player.position().add(0.0, 0.1, 0.0)
@@ -157,7 +157,7 @@ object AnimalsRevengeEvent {
             tag.putBoolean("gtocore_temp_aggressive", true)
             pm.goalSelector.addGoal(
                 1,
-                AnimalsRevengeAttackGoal(pm, 1.2, 1.6, 20, max(1.0f, GTOConfig.INSTANCE.mobConfig.cannibalismDamage)),
+                AnimalsRevengeAttackGoal(pm, 1.2, 1.6, 20, max(1.0f, GTOConfig.INSTANCE.gamePlay.mobConfig.cannibalismDamage)),
             )
             pm.targetSelector.addGoal(1, NearestAttackableTargetGoal(pm, ServerPlayer::class.java, true))
         }

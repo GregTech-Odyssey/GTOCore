@@ -248,7 +248,7 @@ public final class PatternPreview extends WidgetGroup {
 
                 @Override
                 public List<Component> getFullTooltipTexts() {
-                    if (this.slotReference == null || !GTOConfig.INSTANCE.showEnglishName) return super.getFullTooltipTexts();
+                    if (this.slotReference == null || !GTOConfig.INSTANCE.gamePlay.showEnglishName) return super.getFullTooltipTexts();
                     var stack = this.slotReference.getItem();
                     var tooltips = new ArrayList<>(super.getFullTooltipTexts());
                     GTOComponentHandlerKt.getEnglish(stack).ifPresent(tooltips::add);
