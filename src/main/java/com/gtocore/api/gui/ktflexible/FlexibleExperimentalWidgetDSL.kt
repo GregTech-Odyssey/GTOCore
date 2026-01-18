@@ -125,12 +125,12 @@ fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.()
         val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
         init {
             currentPage.setReceiverListener { side, old, newV ->
-                if (GTOConfig.INSTANCE.aeLog) println("Page changed from $old to $newV on $side")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("Page changed from $old to $newV on $side")
                 runOnUpdate.run()
                 refresh()
             }
             currentPage.setSenderListener { side, old, newV ->
-                if (GTOConfig.INSTANCE.aeLog) println("Page changed from $old to $newV on $side")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("Page changed from $old to $newV on $side")
                 runOnUpdate.run()
                 refresh()
             }

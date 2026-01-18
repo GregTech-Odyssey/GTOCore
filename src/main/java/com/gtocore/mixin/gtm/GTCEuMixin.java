@@ -19,6 +19,6 @@ public class GTCEuMixin {
     @Overwrite(remap = false)
     public static boolean isDev() {
         if (GTOConfig.INSTANCE == null) return false;
-        return !FMLLoader.isProduction() || GTOConfig.INSTANCE.dev || GTCEu.isDataGen();
+        return !FMLLoader.isProduction() || GTOConfig.INSTANCE.devMode.dev || GTCEu.isDataGen();
     }
 }

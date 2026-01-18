@@ -89,7 +89,7 @@ public class WirelessEnergyHUD implements IMoveableHUD {
                 .height(height)
                 .backgroundColor(0x8a404040)
                 .borderColor(0x8a000000)
-                .lineColor(0xbb000000 | Color.decode(GTOConfig.INSTANCE.hud.wirelessEnergyHUDLineColor).getRGB())
+                .lineColor(0xbb000000 | Color.decode(GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDLineColor).getRGB())
                 .drawAreaFill(true)
                 .areaFillColor(0x402ECC71)
                 .drawAreaFill(false)
@@ -104,8 +104,8 @@ public class WirelessEnergyHUD implements IMoveableHUD {
 
     @Override
     public Rect2i getBounds(int screenWidth, int screenHeight) {
-        int absX = (int) (GTOConfig.INSTANCE.hud.wirelessEnergyHUDDefaultX / 100d * (screenWidth - realWidth));
-        int absY = (int) (GTOConfig.INSTANCE.hud.wirelessEnergyHUDDefaultY / 100d * (screenHeight - realHeight));
+        int absX = (int) (GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDDefaultX / 100d * (screenWidth - realWidth));
+        int absY = (int) (GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDDefaultY / 100d * (screenHeight - realHeight));
         return new Rect2i(absX, absY, realWidth, realHeight);
     }
 
@@ -156,11 +156,11 @@ public class WirelessEnergyHUD implements IMoveableHUD {
 
     @Override
     public void toggleEnabled() {
-        GTOConfig.set("wirelessEnergyHUDEnabled", !GTOConfig.INSTANCE.hud.wirelessEnergyHUDEnabled, "hud");
+        GTOConfig.set("wirelessEnergyHUDEnabled", !GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDEnabled, "hud");
     }
 
     @Override
     public boolean isEnabled() {
-        return GTOConfig.INSTANCE.hud.wirelessEnergyHUDEnabled;
+        return GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDEnabled;
     }
 }

@@ -27,7 +27,7 @@ public class RepoSearchMixin {
                        ordinal = 4),
               remap = false)
     private boolean redirectAddNamePredicate(java.util.ArrayList<Object> instance, Object o, @Local(name = "part") String part) {
-        if (!GTOConfig.INSTANCE.showEnglishName) return instance.add(o);
+        if (!GTOConfig.INSTANCE.gamePlay.showEnglishName) return instance.add(o);
         return instance.add(new EnglishSearchPredicate(part).or((Predicate<? super GridInventoryEntry>) o));
     }
 }

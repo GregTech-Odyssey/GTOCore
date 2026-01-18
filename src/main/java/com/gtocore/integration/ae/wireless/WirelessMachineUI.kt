@@ -31,7 +31,6 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
 
     override fun createMainPage(p0: FancyMachineUIWidget?): Widget {
         return rootFresh(176, 166) {
-            if (GTOConfig.INSTANCE.aeLog) println(1)
             // 移除页面打开即同步，避免触发刷新循环；改为由机器加载与按钮操作驱动同步
             hBox(height = availableHeight, { spacing = 4 }) {
                 blank()

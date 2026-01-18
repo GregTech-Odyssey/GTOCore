@@ -31,7 +31,7 @@ public class LanguageMixin {
 
     @Inject(method = "getInstance", at = @At("HEAD"), cancellable = true)
     private static void getInstance(CallbackInfoReturnable<Language> cir) {
-        if (!gto$isDedicatedServer || GTOConfig.INSTANCE.serverLang.equals("en_us")) return;
+        if (!gto$isDedicatedServer || GTOConfig.INSTANCE.misc.serverLang.equals("en_us")) return;
         if (gto$serverLanguage != null) {
             cir.setReturnValue(gto$serverLanguage);
             return;

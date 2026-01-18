@@ -16,11 +16,11 @@ public class FTBUltiminePlayerDataMixin {
 
     @ModifyVariable(method = "updateBlocks", at = @At(value = "STORE", ordinal = 2), remap = false, name = "matcher")
     private BlockMatcher modifyBlockMatcher(BlockMatcher matcher) {
-        if (GTOConfig.INSTANCE.breakBlocksBlackList == null || GTOConfig.INSTANCE.breakBlocksBlackList.length < 1) {
+        if (GTOConfig.INSTANCE.gamePlay.breakBlocksBlackList == null || GTOConfig.INSTANCE.gamePlay.breakBlocksBlackList.length < 1) {
             return matcher;
         }
         return (original, state) -> {
-            boolean flag = !StringUtils.containsWithWildcard(GTOConfig.INSTANCE.breakBlocksBlackList,
+            boolean flag = !StringUtils.containsWithWildcard(GTOConfig.INSTANCE.gamePlay.breakBlocksBlackList,
                     ItemUtils.getId(state.getBlock()));
             return flag && state.getBlock() == original.getBlock();
         };

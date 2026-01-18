@@ -25,7 +25,7 @@ public class QuestScreenMixin {
 
     @Inject(method = "addMouseOverText", at = @At("TAIL"))
     private void addInfoTooltip(TooltipList list, TeamData teamData, CallbackInfo ci) {
-        if (!GTOConfig.INSTANCE.showEnglishName) return;
+        if (!GTOConfig.INSTANCE.gamePlay.showEnglishName) return;
         if (itemStack.isEmpty()) return;
         GTOComponentHandlerKt.getEnglish(itemStack).ifPresent(list::add);
     }

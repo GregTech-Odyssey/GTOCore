@@ -97,7 +97,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
         if (Objects.requireNonNull(context.getPlayer()).isShiftKeyDown()) {
-            if (GTOConfig.INSTANCE.recipeCheck) {
+            if (GTOConfig.INSTANCE.devMode.recipeCheck) {
                 var recipeMap = new Reference2ObjectOpenHashMap<GTRecipeType, Set<Recipe>>();
                 for (var recipe : RecipeBuilder.RECIPE_MAP.values()) {
                     var recipeType = recipe.recipeType;

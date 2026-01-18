@@ -26,7 +26,7 @@ public final class ClientCache {
 
     public static int highlightTime;
 
-    public static String autoRenameName = GTOConfig.INSTANCE.renamePatternDefaultString;
+    public static String autoRenameName = GTOConfig.INSTANCE.gamePlay.renamePatternDefaultString;
 
     public static boolean machineNotFormedHighlight = false;
 }
