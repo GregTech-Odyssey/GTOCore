@@ -159,6 +159,11 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     }
 
     @Override
+    public long getMinParallel() {
+        return Math.min(IParallelMachine.MIN_PARALLEL, getMaxParallel());
+    }
+
+    @Override
     public List<BlockPattern> getMultiPattern() {
         return List.of(getBlockPattern(1, getDefinition()), getBlockPattern(2, getDefinition()), getBlockPattern(3, getDefinition()));
     }

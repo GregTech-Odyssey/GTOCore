@@ -207,6 +207,11 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     }
 
     @Override
+    public long getMinParallel() {
+        return customParallelTrait.getMinParallel();
+    }
+
+    @Override
     public long getParallel() {
         return customParallelTrait.getParallel();
     }
