@@ -3,12 +3,16 @@ package com.gtocore.integration.emi;
 import com.gtolib.api.recipe.ContentBuilder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
+import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
+import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.ResearchManager;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -39,13 +43,11 @@ import dev.emi.emi.api.stack.TagEmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+import it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.IntSupplier;
 
 public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
@@ -173,6 +175,33 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                     });
                 }
             });
+            if (recipe.recipeType.isScanner()) {
+                ResearchManager.ResearchItem researchData = null;
+                for (Content content : recipe.getOutputContents(ItemRecipeCapability.CAP)) {
+                    var stack = ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(content.content));
+                    if (stack.isEmpty()) continue;
+                    researchData = ResearchManager.readResearchId(stack);
+                    if (researchData != null) break;
+                }
+                if (researchData != null) {
+                    var possibleRecipes = researchData.recipeType().getDataStickEntry(researchData.researchId());
+                    Set<ItemStack> cache = new ObjectOpenCustomHashSet<>(ItemStackHashStrategy.ITEM);
+                    if (possibleRecipes != null) {
+                        for (var r : possibleRecipes) {
+                            var outputs = r.getOutputContents(ItemRecipeCapability.CAP);
+                            if (outputs.isEmpty()) continue;
+                            var outputContent = outputs.getFirst();
+                            var ingredient = ItemRecipeCapability.CAP.of(outputContent.content);
+                            var stack = ItemUtils.getFirstSized(ingredient);
+                            if (stack.isEmpty()) continue;
+                            if (!cache.contains(stack)) {
+                                cache.add(stack);
+                                super.outputs.add((EmiStack) getEmiIngredient(ingredient, false));
+                            }
+                        }
+                    }
+                }
+            }
         }
         return inputs;
     }

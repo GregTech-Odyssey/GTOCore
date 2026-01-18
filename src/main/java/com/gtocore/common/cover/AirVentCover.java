@@ -55,7 +55,7 @@ public final class AirVentCover extends CoverBehavior {
 
     private void update() {
         if (machine != null && machine.getNeighborBlockState(attachedSide).isAir()) {
-            var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(coverHolder.getLevel().dimension().location());
+            var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(coverHolder.getLevel().dimension());
             if (fluid == null) {
                 subscription.unsubscribe();
                 return;

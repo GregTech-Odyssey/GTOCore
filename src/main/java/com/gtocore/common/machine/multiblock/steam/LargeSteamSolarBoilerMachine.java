@@ -189,7 +189,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
     }
 
     private boolean isAppropriateDimensionAndTime(Level world, BlockPos pos) {
-        if (GTODimensions.isVoid(world.dimension().location())) return true;
+        if (GTODimensions.isVoid(world.dimension())) return true;
         if (!world.isDay()) {
             getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails")
                     .append(": ").append(Component.translatable("recipe.condition.daytime.day.tooltip")));

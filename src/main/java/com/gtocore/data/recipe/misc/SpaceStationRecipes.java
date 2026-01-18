@@ -19,7 +19,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTDimensionMarkers;
 import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -103,7 +102,7 @@ public class SpaceStationRecipes {
         }
 
         SpaceStationBuilder dimension(Dimension dimension) {
-            this.orbit = ResourceKey.create(Registries.DIMENSION, dimension.getOrbit());
+            this.orbit = dimension.getOrbit();
             this.dimension = dimension;
             return this;
         }

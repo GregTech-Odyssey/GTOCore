@@ -87,6 +87,6 @@ public class GalaxyCondition extends DimensionCondition {
     @Override
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.machine.self().getLevel();
-        return level != null && GTODimensions.getGalaxy(level.dimension().location()) == galaxy;
+        return level != null && GTODimensions.getGalaxy(level.dimension()) == galaxy;
     }
 }

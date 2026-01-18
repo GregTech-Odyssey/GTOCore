@@ -38,7 +38,7 @@ public final class ManaCondenserMachine extends ManaMultiblockMachine implements
         super.onLoad();
         Level level = getLevel();
         if (level == null) return;
-        tier = level.dimension().location().equals(GTODimensions.ALFHEIM) ? 1 : 0;
+        tier = level.dimension() == GTODimensions.ALFHEIM ? 1 : 0;
     }
 
     public static BlockPattern getBlockPattern(int tier, MultiblockMachineDefinition definition) {

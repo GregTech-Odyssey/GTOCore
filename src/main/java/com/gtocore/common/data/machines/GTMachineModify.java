@@ -4,6 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOMachines;
 
+import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunctionList;
@@ -168,7 +169,7 @@ public final class GTMachineModify {
                                 String planet = tag.getString("planet");
                                 if (!planet.isEmpty()) {
                                     UUID uuid = tag.getUUID("uuid");
-                                    PlanetManagement.unlock(uuid, RLUtils.parse(planet));
+                                    PlanetManagement.unlock(uuid, GTODimensions.getDimensionKey(RLUtils.parse(planet)));
                                     stack.setCount(0);
                                     return true;
                                 }

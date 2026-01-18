@@ -46,7 +46,7 @@ public final class StarcoreMinerMachine extends ElectricMultiblockMachine {
 
     private Set<Material> getMaterials() {
         if (materials == null) {
-            var ores = GTOOres.ALL_ORES.get(Objects.requireNonNull(getLevel()).dimension().location());
+            var ores = GTOOres.ALL_ORES.get(Objects.requireNonNull(getLevel()).dimension());
             if (ores == null || ores.isEmpty()) return Set.of();
             materials = ores.keySet();
         }

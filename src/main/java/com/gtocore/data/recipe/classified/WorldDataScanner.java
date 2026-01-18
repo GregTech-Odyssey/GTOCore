@@ -21,7 +21,7 @@ final class WorldDataScanner {
                 .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_END))
                 .EUt(480)
                 .duration(4000)
-                .dimension(GTODimensions.VOID)
+                .dimension(GTODimensions.VOID.location())
                 .save();
 
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder("nether_data")
@@ -32,7 +32,7 @@ final class WorldDataScanner {
                 .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_NETHER))
                 .EUt(120)
                 .duration(4000)
-                .dimension(GTODimensions.FLAT)
+                .dimension(GTODimensions.FLAT.location())
                 .save();
 
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder("otherside_data")
@@ -42,7 +42,7 @@ final class WorldDataScanner {
                 .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.OTHERSIDE))
                 .EUt(122880)
                 .duration(4000)
-                .dimension(GTODimensions.OTHERSIDE)
+                .dimension(GTODimensions.OTHERSIDE.location())
                 .save();
     }
 }

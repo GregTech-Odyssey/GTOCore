@@ -43,7 +43,7 @@ public class CelestialHandler {
 
         if (PlanetApi.API.isSpace(world)) {
             return Mode.SPACE;
-        } else if (GTODimensions.isVoid(dim.location())) {
+        } else if (GTODimensions.isVoid(dim)) {
             return Mode.VOID;
         }
         return switch (Dimension.from(dim)) {

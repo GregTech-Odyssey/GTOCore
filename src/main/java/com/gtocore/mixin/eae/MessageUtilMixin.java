@@ -39,6 +39,6 @@ public abstract class MessageUtilMixin {
                        ordinal = 1,
                        remap = true))
     private static MutableComponent replaceDimensionComponent(String dimensionId, Player player, BlockPos targetPos, ResourceKey<Level> targetDimension, String translatable) {
-        return Component.translatable(GTODimensions.getTranslationKey(targetDimension.location()));
+        return Component.translatable(GTODimensions.getTranslationKey(targetDimension));
     }
 }

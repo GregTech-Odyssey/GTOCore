@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gtolib.api.data.GTODimensions;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -13,11 +15,12 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
@@ -28,10 +31,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +42,7 @@ import java.util.Map;
 
 public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMachine {
 
-    public static final Map<ResourceLocation, Fluid> AIR_MAP = new O2OOpenCacheHashMap<>();
+    public static final Map<ResourceKey<Level>, Fluid> AIR_MAP = new Reference2ReferenceOpenHashMap<>();
 
     private TickableSubscription intakeSubs;
 
@@ -62,7 +65,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
                 var dim = dimensionCondition.getDimension();
                 var fluids = RecipeHelper.getOutputFluids(recipeBuilder);
                 if (!fluids.isEmpty()) {
-                    AIR_MAP.put(dim, fluids.get(0).getFluid());
+                    AIR_MAP.put(GTODimensions.getDimensionKey(dim), fluids.get(0).getFluid());
                     break;
                 }
             }
@@ -141,7 +144,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     }
 
     private void intake() {
-        var fluid = AIR_MAP.get(getLevel().dimension().location());
+        var fluid = AIR_MAP.get(getLevel().dimension());
         if (fluid == null) {
             unsubscribe();
             return;

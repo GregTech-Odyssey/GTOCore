@@ -33,14 +33,14 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
 
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
-        int integer = GTODimensions.getPlanetDistances(getDimension().location());
+        int integer = GTODimensions.getPlanetDistances(getDimension());
         if (integer > 0) recipe.duration = recipe.duration * integer / 4;
         return recipe;
     }
 
     @Override
     protected boolean beforeWorking(@NotNull Recipe recipe) {
-        return GTODimensions.isPlanet(getDimension().location()) && super.beforeWorking(recipe);
+        return GTODimensions.isPlanet(getDimension()) && super.beforeWorking(recipe);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.gtocore.mixin.gtm.capability;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.recipe.condition.ResearchCondition;
 
 import com.gtolib.api.item.ItemHandlerModifiable;
 import com.gtolib.api.recipe.ContentBuilder;
@@ -20,6 +19,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
+import com.gregtechceu.gtceu.common.recipe.condition.ResearchCondition;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemEntryList;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemStackList;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemTagList;
@@ -112,7 +112,7 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
                 if (isXEI && recipeType.isHasResearchSlot() && index == items.getSlots()) {
                     ResearchCondition condition = recipeHolder.conditions().stream().filter(ResearchCondition.class::isInstance).findAny().map(ResearchCondition.class::cast).orElse(null);
                     if (condition != null) {
-                        slot.setHandlerSlot(new ItemHandlerModifiable(condition.data.dataStack()), 0);
+                        slot.setHandlerSlot(new ItemHandlerModifiable(condition.dataStack), 0);
                         slot.setIngredientIO(IngredientIO.CATALYST);
                         slot.setCanTakeItems(false);
                         slot.setCanPutItems(false);

@@ -275,7 +275,7 @@ public final class MiscRecipe {
                 .outputItems(dustTiny, Ash)
                 .duration(200)
                 .EUt(VHA[LV])
-                .dimension(GTODimensions.OVERWORLD)
+                .dimension(GTODimensions.OVERWORLD.location())
                 .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("void_scrubber")
@@ -283,7 +283,7 @@ public final class MiscRecipe {
                 .inputFluids(new FluidStack(Fluids.WATER, 1000))
                 .duration(200)
                 .EUt(VHA[LV])
-                .dimension(GTODimensions.VOID)
+                .dimension(GTODimensions.VOID.location())
                 .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("flat_scrubber")
@@ -291,7 +291,7 @@ public final class MiscRecipe {
                 .inputFluids(new FluidStack(Fluids.WATER, 1000))
                 .duration(200)
                 .EUt(VHA[LV])
-                .dimension(GTODimensions.FLAT)
+                .dimension(GTODimensions.FLAT.location())
                 .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("end_scrubber")
@@ -300,7 +300,7 @@ public final class MiscRecipe {
                 .outputFluids(NitricAcid.getFluid(500))
                 .duration(200)
                 .EUt(VHA[HV])
-                .dimension(GTODimensions.THE_END)
+                .dimension(GTODimensions.THE_END.location())
                 .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("nether_scrubber")
@@ -309,7 +309,7 @@ public final class MiscRecipe {
                 .outputFluids(SulfuricAcid.getFluid(500))
                 .duration(200)
                 .EUt(VHA[MV])
-                .dimension(GTODimensions.THE_NETHER)
+                .dimension(GTODimensions.THE_NETHER.location())
                 .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("otherside_scrubber")
@@ -318,7 +318,7 @@ public final class MiscRecipe {
                 .outputFluids(new FluidStack(GTOFluids.XP_JUICE.getSource(), 800))
                 .duration(200)
                 .EUt(VHA[EV])
-                .dimension(GTODimensions.OTHERSIDE)
+                .dimension(GTODimensions.OTHERSIDE.location())
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hopper_iron").EUt(2).inputItems(Tags.Items.CHESTS_WOODEN)

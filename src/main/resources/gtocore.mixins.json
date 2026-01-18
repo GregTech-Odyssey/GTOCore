@@ -199,7 +199,6 @@
     "gtm.machine.LargeBoilerMachineMixin",
     "gtm.machine.MaintenanceHatchPartMachineMixin",
     "gtm.machine.MufflerPartMachineMixin",
-    "gtm.machine.OpticalDataHatchMachineMixin",
     "gtm.map.OreVeinElementRendererMixin",
     "gtm.map.XaeroWaypointHandlerMixin",
     "gtm.recipe.AlloyBlastRecipeProducerMixin",

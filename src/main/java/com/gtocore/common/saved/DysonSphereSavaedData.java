@@ -26,25 +26,25 @@ public final class DysonSphereSavaedData extends SavedData {
     private final Reference2BooleanOpenHashMap<Galaxy> dysonUse;
 
     public static boolean getDimensionUse(ResourceKey<Level> dim) {
-        Galaxy galaxy = GTODimensions.getGalaxy(dim.location());
+        Galaxy galaxy = GTODimensions.getGalaxy(dim);
         if (galaxy == null) return false;
         return INSTANCE.dysonUse.getOrDefault(galaxy, false);
     }
 
     public static IntIntImmutablePair getDimensionData(ResourceKey<Level> dim) {
-        Galaxy galaxy = GTODimensions.getGalaxy(dim.location());
+        Galaxy galaxy = GTODimensions.getGalaxy(dim);
         if (galaxy == null) return IntIntImmutablePair.of(0, 0);
         return IntIntImmutablePair.of(INSTANCE.dysonLaunchData.getOrDefault(galaxy, 0), INSTANCE.dysonDamageData.getOrDefault(galaxy, 0));
     }
 
     public static int getDimensionLaunchData(ResourceKey<Level> dim) {
-        Galaxy galaxy = GTODimensions.getGalaxy(dim.location());
+        Galaxy galaxy = GTODimensions.getGalaxy(dim);
         if (galaxy == null) return 0;
         return INSTANCE.dysonLaunchData.getOrDefault(galaxy, 0);
     }
 
     public static void setDysonData(ResourceKey<Level> dim, int a, int b) {
-        Galaxy galaxy = GTODimensions.getGalaxy(dim.location());
+        Galaxy galaxy = GTODimensions.getGalaxy(dim);
         if (galaxy == null) return;
         INSTANCE.dysonLaunchData.put(galaxy, a);
         INSTANCE.dysonDamageData.put(galaxy, b);
@@ -52,7 +52,7 @@ public final class DysonSphereSavaedData extends SavedData {
     }
 
     public static void setDysonUse(ResourceKey<Level> dim, boolean a) {
-        Galaxy galaxy = GTODimensions.getGalaxy(dim.location());
+        Galaxy galaxy = GTODimensions.getGalaxy(dim);
         if (galaxy == null) return;
         INSTANCE.dysonUse.put(galaxy, a);
         INSTANCE.setDirty();

@@ -232,7 +232,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.CRYING_OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:flat")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.FLAT));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.FLAT);
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
                         data.putDouble("y_f", player.getY() + 1);
@@ -252,7 +252,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:void")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.VOID));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.VOID);
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
                         data.putDouble("y_v", player.getY() + 1);
@@ -272,7 +272,7 @@ public final class ForgeCommonEvent {
             if (block == BlockRegisterUtils.REACTOR_CORE.get()) {
                 if ("gtocore:ancient_world".equals(dim) || "minecraft:the_nether".equals(dim)) {
                     int dimdata = "gtocore:ancient_world".equals(dim) ? 1 : 2;
-                    ServerUtils.teleportToDimension(server, player, RLUtils.parse(data.getString("dim_" + dimdata)), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
+                    ServerUtils.teleportToDimension(server, player, GTODimensions.getDimensionKey(RLUtils.parse(data.getString("dim_" + dimdata))), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
                 }
             }
         }

@@ -132,7 +132,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
         if (level == null) return;
         actualPower = 0;
         ItemStack stack = inventory.storage.getStackInSlot(0);
-        if (!GTODimensions.isOverworld(level.dimension().location())) {
+        if (!GTODimensions.isOverworld(level.dimension())) {
             Planet planet = PlanetApi.API.getPlanet(level);
             if (planet == null || !planet.oxygen()) {
                 unsubscribe();

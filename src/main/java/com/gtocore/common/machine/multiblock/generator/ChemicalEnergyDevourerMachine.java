@@ -75,7 +75,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     }
 
     private void intake() {
-        var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(getLevel().dimension().location());
+        var fluid = InfiniteIntakeHatchPartMachine.AIR_MAP.get(getLevel().dimension());
         if (fluid == null) {
             tankSubs.unsubscribe();
             return;

@@ -69,9 +69,8 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
         if (GTCEu.isDev()) return;
         boolean close = false;
         Player player = getMenu().player();
-        ResourceLocation planet = dimension.location();
-        PlanetManagement.checkPlanetIsUnlocked(planet);
-        if (!PlanetManagement.isClientUnlocked(planet)) {
+        PlanetManagement.checkPlanetIsUnlocked(dimension);
+        if (!PlanetManagement.isClientUnlocked(dimension)) {
             close = true;
             player.displayClientMessage(Component.translatable("gtocore.ununlocked"), false);
         }
@@ -90,16 +89,15 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
         for (var planet : menu.getSortedPlanets()) {
             if (planet.isSpace()) continue;
             if (!planet.solarSystem().equals(selectedSolarSystem)) continue;
-            ResourceLocation resourceLocation = planet.dimension().location();
-            int tier = PlanetManagement.calculateTier(planet, getMenu().player().level().dimension().location());
+            int tier = PlanetManagement.calculateTier(planet, getMenu().player().level().dimension());
             if (menu.tier() < tier) continue;
-            PlanetManagement.checkPlanetIsUnlocked(resourceLocation);
+            PlanetManagement.checkPlanetIsUnlocked(planet.dimension());
             Button widget = addWidget(new LabeledImageButton(10, 0, 99, 20, 0, 0, 20, BUTTON, 99, 40, b -> {
                 pageIndex = 2;
                 selectedPlanet = planet;
                 rebuildWidgets();
             }, menu.getPlanetName(planet.dimension())));
-            widget.setTooltip(Tooltip.create(Component.translatable("ars_nouveau.tier", tier).append(" ").append(Component.translatable(PlanetManagement.isClientUnlocked(resourceLocation) ? "gtocore.unlocked" : "gtocore.ununlocked"))));
+            widget.setTooltip(Tooltip.create(Component.translatable("ars_nouveau.tier", tier).append(" ").append(Component.translatable(PlanetManagement.isClientUnlocked(planet.dimension()) ? "gtocore.unlocked" : "gtocore.ununlocked"))));
             buttons.add(widget);
         }
     }
