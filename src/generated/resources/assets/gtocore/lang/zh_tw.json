@@ -2564,6 +2564,7 @@
   "gtocore.drone.times": "工作次數: ",
   "gtocore.elemental_resonance.0": "共鳴消耗: %s/%st",
   "gtocore.elemental_resonance.1": "共鳴消耗: %s×%s/%st",
+  "gtocore.emi.insert_item_into_ae": "§a將光標上的物品置入已有的ME網絡中§r",
   "gtocore.emi.search_text": "已保存的搜索: %s",
   "gtocore.emi.search_text.how_to_use": "將它拖拽至文本框以快速填入搜索欄",
   "gtocore.emi.tagprefix.tooltip": "材料標簽類型",

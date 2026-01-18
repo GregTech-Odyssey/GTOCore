@@ -2564,6 +2564,7 @@
   "gtocore.drone.times": "Work Times: ",
   "gtocore.elemental_resonance.0": "Resonance consumption: %s/%st",
   "gtocore.elemental_resonance.1": "Resonance consumption: %s×%s/%st",
+  "gtocore.emi.insert_item_into_ae": "Insert the item on the cursor into the existing ME network",
   "gtocore.emi.search_text": "Saved Search: %s",
   "gtocore.emi.search_text.how_to_use": "Drag it to the text box to quickly fill in the search bar",
   "gtocore.emi.tagprefix.tooltip": "Material Tag Prefix",

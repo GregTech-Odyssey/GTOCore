@@ -1,8 +1,5 @@
 package com.gtocore.integration.emi;
 
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
-
 import net.minecraft.world.inventory.Slot;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
@@ -13,16 +10,10 @@ import dev.emi.emi.api.recipe.handler.EmiCraftContext;
 import dev.emi.emi.api.recipe.handler.StandardRecipeHandler;
 
 import java.util.List;
-import java.util.function.BiPredicate;
 
 final class GTEmiRecipeHandler implements StandardRecipeHandler<ModularUIContainer> {
 
-    static final List<CanCraftOverride> canCraftOverrides = new java.util.ArrayList<>();
-
-    static void registerCanCraftOverride(BiPredicate<EmiRecipe, EmiCraftContext<ModularUIContainer>> canCraft,
-                                         BiPredicate<EmiRecipe, EmiCraftContext<ModularUIContainer>> craft) {
-        canCraftOverrides.add(new CanCraftOverride(canCraft, craft));
-    }
+    static final List<CraftAction> canCraftOverrides = new java.util.ArrayList<>();
 
     @Override
     public List<Slot> getInputSources(ModularUIContainer handler) {
@@ -47,8 +38,8 @@ final class GTEmiRecipeHandler implements StandardRecipeHandler<ModularUIContain
 
     @Override
     public boolean canCraft(EmiRecipe recipe, EmiCraftContext<ModularUIContainer> context) {
-        for (CanCraftOverride override : canCraftOverrides) {
-            if (override.canCraft.test(recipe, context)) {
+        for (CraftAction override : canCraftOverrides) {
+            if (override.craft(recipe, context, true)) {
                 return true;
             }
         }
@@ -57,33 +48,11 @@ final class GTEmiRecipeHandler implements StandardRecipeHandler<ModularUIContain
 
     @Override
     public boolean craft(EmiRecipe recipe, EmiCraftContext<ModularUIContainer> context) {
-        for (CanCraftOverride override : canCraftOverrides) {
-            if (override.canCraft.test(recipe, context)) {
-                return override.craft.test(recipe, context);
+        for (CraftAction override : canCraftOverrides) {
+            if (override.craft(recipe, context, true)) {
+                return override.craft(recipe, context, false);
             }
         }
         return StandardRecipeHandler.super.craft(recipe, context);
-    }
-
-    public record CanCraftOverride(BiPredicate<EmiRecipe, EmiCraftContext<ModularUIContainer>> canCraft,
-                                   BiPredicate<EmiRecipe, EmiCraftContext<ModularUIContainer>> craft) {}
-
-    static {
-        registerCanCraftOverride(
-                (recipe, context) -> context.getScreenHandler().getModularUI().holder instanceof MEPatternBufferPartMachine,
-                (recipe, context) -> {
-                    if (context.getScreenHandler().getModularUI().holder instanceof MEPatternBufferPartMachine patternBuffer &&
-                            patternBuffer instanceof MEPatternBufferPartMachineKt && recipe.getId() != null) {
-                        var currentSlot = patternBuffer.getConfiguratorField().get();
-                        MEPatternBufferPartMachineKt.Companion.getSET_ID_CHANNEL()
-                                .send(buf -> {
-                                    buf.writeBlockPos(patternBuffer.getPos());
-                                    buf.writeVarInt(currentSlot);
-                                    buf.writeResourceLocation(recipe.getId());
-                                });
-                        return true;
-                    }
-                    return false;
-                });
     }
 }

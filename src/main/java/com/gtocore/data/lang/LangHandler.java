@@ -448,6 +448,7 @@ public final class LangHandler {
 
         addCNEN("gtocore.emi.search_text", "已保存的搜索: %s", "Saved Search: %s");
         addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");
+        addCNEN("gtocore.emi.insert_item_into_ae", "§a将光标上的物品置入已有的ME网络中§r", "Insert the item on the cursor into the existing ME network");
 
         addCNEN("emi.category.gtocore.alfheim_entry_requirements", "亚尔夫海姆准入条件", "Alfheim Access Requirements");
         addCNEN("gtocore.entry_alfheim.1", "你需要饮下诗之蜜酒", "You must drink Kvasir’s Mead");
