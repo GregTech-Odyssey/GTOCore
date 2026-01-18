@@ -7,8 +7,8 @@ import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartM
 import com.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
 import com.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
 
-import com.gtolib.IItem;
 import com.gtolib.api.GTOValues;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;

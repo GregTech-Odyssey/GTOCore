@@ -165,30 +165,38 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
         return Comparator.comparing(p -> p.self().getPos(), RelativeDirection.RIGHT.getSorter(getFrontFacing(), getUpwardsFacing(), isFlipped()));
     }
 
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        itemStackTransfers.clear();
+        fluidTankTransfers.clear();
+    }
+
     /**
      * 绑定物品和流体存储
      */
     @Override
     public void onStructureFormed() {
-        super.onStructureFormed();
         itemStackTransfers.clear();
         fluidTankTransfers.clear();
+        super.onStructureFormed();
+    }
 
-        for (Object part : getParts()) {
-            if (part instanceof ItemBusPartMachine itemBusPart) {
+    @Override
+    public void onPartScan(@NotNull IMultiPart part) {
+        super.onPartScan(part);
+        switch (part) {
+            case ItemBusPartMachine itemBusPart -> {
                 var inv = itemBusPart.getInventory();
                 if (inv.handlerIO == IO.IN || inv.handlerIO == IO.BOTH) {
                     itemStackTransfers.add(inv.storage);
                 }
-            } else if (part instanceof HugeBusPartMachine hugeBusPartMachine) {
-                itemStackTransfers.add(hugeBusPartMachine.getInventory().storage);
-            } else if (part instanceof FluidHatchPartMachine fluidHatchPartMachine) {
-                fluidTankTransfers.add(fluidHatchPartMachine.tank.getStorages());
-            } else if (part instanceof CreativeInputBusPartMachine creativeInputBusPartMachine) {
-                itemStackTransfers.add(creativeInputBusPartMachine.getInventory().storage);
-            } else if (part instanceof CreativeInputHatchPartMachine creativeInputHatchPartMachine) {
-                fluidTankTransfers.add(creativeInputHatchPartMachine.tank.getStorages());
             }
+            case HugeBusPartMachine hugeBusPartMachine -> itemStackTransfers.add(hugeBusPartMachine.getInventory().storage);
+            case FluidHatchPartMachine fluidHatchPartMachine -> fluidTankTransfers.add(fluidHatchPartMachine.tank.getStorages());
+            case CreativeInputBusPartMachine creativeInputBusPartMachine -> itemStackTransfers.add(creativeInputBusPartMachine.getInventory().storage);
+            case CreativeInputHatchPartMachine creativeInputHatchPartMachine -> fluidTankTransfers.add(creativeInputHatchPartMachine.tank.getStorages());
+            default -> {}
         }
     }
 
@@ -262,7 +270,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
                 long amountToDrain = recipeInput.getAmount();
 
                 for (var tankInHatch : inputTankArray) {
-                    if (tankInHatch.getFluid().isEmpty() || !recipeInput.test(tankInHatch.getFluid())) {
+                    if (tankInHatch.isEmpty() || !recipeInput.test(tankInHatch.getFluid())) {
                         continue;
                     }
                     var drainedStack = tankInHatch.drain(MathUtil.saturatedCast(amountToDrain), IFluidHandler.FluidAction.EXECUTE);
