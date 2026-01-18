@@ -4,6 +4,7 @@ import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
+import com.gtocore.common.block.BlockMap
 import com.gtocore.common.data.GTOBlocks
 import com.gtocore.common.data.GTOItems
 import com.gtocore.config.GTOConfig
@@ -20,9 +21,11 @@ import appeng.core.definitions.AEParts
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
 import com.gregtechceu.gtceu.GTCEu
 import com.gregtechceu.gtceu.common.data.GTItems
+import com.gregtechceu.gtceu.common.data.GTMachines
 import com.gregtechceu.gtceu.utils.FormattingUtil
 import dev.shadowsoffire.apotheosis.adventure.Adventure
 import earth.terrarium.adastra.common.registry.ModBlocks
+import vazkii.botania.common.block.BotaniaBlocks.fabulousPool
 
 object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
     // 升级模块 - 速度
@@ -242,6 +245,14 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
             )
         }
 
+        fabulousPool.asItem().setTooltips(
+            ComponentListSupplier {
+                setTranslationPrefix("fabulous_pool")
+
+                content("能存一千普通池子的魔力" translatedTo "Can hold the mana of one thousand regular pools")
+            }.editionByGTONormal(),
+        )
+
         listOf(AEItems.CERTUS_QUARTZ_KNIFE.asItem(), AEItems.NETHER_QUARTZ_KNIFE.asItem()).forEach {
             it.setTooltips(
                 ComponentListSupplier {
@@ -273,6 +284,31 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     setTranslationPrefix("obsidian")
                     story("要不试试在它上面用砧板切洋葱？" translatedTo "How about trying to chop onions on it with a cutting board?")
+                },
+            )
+        }
+        GTMachines.MUFFLER_HATCH.forEach {
+            it?.asItem()?.setTooltips(
+                ComponentListSupplier {
+                    setTranslationPrefix("muffler_hatch")
+
+                    if (GTOConfig.INSTANCE.disableMufflerPart) {
+                        info(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.muffler.disabled",
+                                ),
+                            ),
+                        )
+                    } else {
+                        info(
+                            ComponentSupplier(
+                                Component.translatable(
+                                    "gtocore.tooltip.item.muffler.enabled",
+                                ),
+                            ),
+                        )
+                    }
                 },
             )
         }

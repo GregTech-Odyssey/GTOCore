@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.electric.processing;
 
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.electric.space.spacestaion.AbstractSpaceStation;
+import com.gtocore.common.machine.multiblock.part.ae.MEWildcardPatternBufferPartMachine;
 
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.gui.ParallelConfigurator;
@@ -184,6 +185,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
                 mismatched = true;
             }
             recipeTypeCache = definition.getRecipeTypes();
+            MEWildcardPatternBufferPartMachine.onMultiblockRecipeTypeChange(this);
         }
     }
 

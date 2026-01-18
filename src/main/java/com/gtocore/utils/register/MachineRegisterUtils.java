@@ -37,6 +37,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
@@ -325,11 +326,11 @@ public final class MachineRegisterUtils {
             if (recipeType == GTORecipeTypes.SEMI_FLUID_GENERATOR_FUELS) {
                 // 大型半流质
                 builder.addSubPattern(definition -> FactoryBlockPattern.start(definition)
-                        .aisle("ADDDA", "BFBFB", "BFFFB", "BBBBB")
-                        .aisle("ACCCA", "ACBCA", "ACCCA", " AAA ")
-                        .aisle("ACCCA", " EBE ", " CCC ", " GGG ")
+                        .aisle("ADDDA", "BF FB", "BFFFB", "BBBBB")
+                        .aisle("ADDDA", "AC CA", "ACCCA", " AAA ")
+                        .aisle("ADDDA", " C C ", " CCC ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
-                        .aisle("A   A", "     ", "     ", " GGG ")
+                        .aisle("A   A", "     ", "     ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
                         .aisle("A   A", "  H  ", "     ", "     ")
                         .where('A', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
@@ -346,11 +347,11 @@ public final class MachineRegisterUtils {
             } else {
                 // 大型内燃
                 builder.addSubPattern(definition -> FactoryBlockPattern.start(definition)
-                        .aisle("ADDDA", "BFBFB", "BFFFB", "BBBBB")
-                        .aisle("ACCCA", "ACBCA", "ACCCA", " AAA ")
-                        .aisle("ACCCA", " EBE ", " CCC ", " GGG ")
+                        .aisle("ADDDA", "BF FB", "BFFFB", "BBBBB")
+                        .aisle("ADDDA", "AC CA", "ACCCA", " AAA ")
+                        .aisle("ADDDA", " C C ", " CCC ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
-                        .aisle("A   A", "     ", "     ", " GGG ")
+                        .aisle("A   A", "     ", "     ", " GEG ")
                         .aisle("A   A", "A   A", "A   A", " AAA ")
                         .aisle("A   A", "  H  ", "     ", "     ")
                         .where('A', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
@@ -368,11 +369,11 @@ public final class MachineRegisterUtils {
         } else {
             // 极限内燃
             builder.addSubPattern(definition -> FactoryBlockPattern.start(definition)
-                    .aisle("ADDDA", "BFBFB", "BFFFB", "BBBBB")
-                    .aisle("ACCCA", "ACBCA", "ACCCA", " AAA ")
-                    .aisle("ACCCA", " EBE ", " CCC ", " GGG ")
+                    .aisle("ADDDA", "BF FB", "BFFFB", "BBBBB")
+                    .aisle("ADDDA", "AC CA", "ACCCA", " AAA ")
+                    .aisle("ADDDA", " C C ", " CCC ", " GEG ")
                     .aisle("A   A", "A   A", "A   A", " AAA ")
-                    .aisle("A   A", "     ", "     ", " GGG ")
+                    .aisle("A   A", "     ", "     ", " GEG ")
                     .aisle("A   A", "A   A", "A   A", " AAA ")
                     .aisle("A   A", "  H  ", "     ", "     ")
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
@@ -412,7 +413,7 @@ public final class MachineRegisterUtils {
                         .where('S', controller(definition))
                         .where('G', blocks(gear.get()))
                         .where('C', blocks(casing.get()))
-                        .where('R', GTOPredicates.RotorBlock(tier).setExactLimit(1)
+                        .where('R', GTOPredicates.RotorBlockFacingOutwards(tier).setExactLimit(1)
                                 .or(abilities(PartAbility.OUTPUT_ENERGY)).setExactLimit(1))
                         .where('H', blocks(casing.get()).or(autoAbilities(definition.getRecipeTypes(), false, false, true, true, true, true).or(autoAbilities(true, true, false))))
                         .build())
@@ -501,10 +502,10 @@ public final class MachineRegisterUtils {
                 .pattern(definition -> FactoryBlockPattern.start(definition)
                         .aisle("   AAAAA   ", "  A  A  A  ", " AA  A  AA ", "A  A A A  A", "A   A A   A", "AAAA A AAAA", "A   A A   A", "A  A A A  A", " AA  A  AA ", "  A  A  A  ", "   AAAAA   ")
                         .aisle("   ABABA   ", "  BBBBBBB  ", " BBBBBBBBB ", "ABBBBBBBBBA", "BBBBBBBBBBB", "ABBBBBBBBBA", "BBBBBBBBBBB", "ABBBBBBBBBA", " BBBBBBBBB ", "  BBBBBBB  ", "   ABABA   ")
-                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
+                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEJEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BB   BB  ", " B       B ", "BB       BB", "B         B", "B         B", "B         B", "BB       BB", " B       B ", "  BB   BB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
-                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
+                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEJEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BB   BB  ", " B       B ", "BB       BB", "B         B", "B         B", "B         B", "BB       BB", " B       B ", "  BB   BB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
                         .aisle("   ABABA   ", "  BBBBBBB  ", " BBBBBBBBB ", "ABBBBBBBBBA", "BBBBBBBBBBB", "ABBBBEBBBBA", "BBBBBBBBBBB", "ABBBBBBBBBA", " BBBBBBBBB ", "  BBBBBBB  ", "   ABABA   ")
@@ -513,10 +514,10 @@ public final class MachineRegisterUtils {
                         .aisle("           ", "           ", "           ", "           ", "    AAA    ", "    AEA    ", "    AAA    ", "           ", "           ", "           ", "           ")
                         .aisle("   AAAAA   ", "  A  A  A  ", " AA  A  AA ", "A  A A A  A", "A   A A   A", "AAAA A AAAA", "A   A A   A", "A  A A A  A", " AA  A  AA ", "  A  A  A  ", "   AAAAA   ")
                         .aisle("   ABABA   ", "  BBBBBBB  ", " BBBBBBBBB ", "ABBBBBBBBBA", "BBBBBBBBBBB", "ABBBBBBBBBA", "BBBBBBBBBBB", "ABBBBBBBBBA", " BBBBBBBBB ", "  BBBBBBB  ", "   ABABA   ")
-                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
+                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEJEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BB   BB  ", " B       B ", "BB       BB", "B         B", "B         B", "B         B", "BB       BB", " B       B ", "  BB   BB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
-                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
+                        .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEJEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BB   BB  ", " B       B ", "BB       BB", "B         B", "B         B", "B         B", "BB       BB", " B       B ", "  BB   BB  ", "   BBBBB   ")
                         .aisle("   BBBBB   ", "  BBEEEBB  ", " B   E   B ", "BB   E   BB", "BE   E   EB", "BEEEEIEEEEB", "BE   E   EB", "BB   E   BB", " B   E   B ", "  BBEEEBB  ", "   BBBBB   ")
                         .aisle("   ABABA   ", "  BBBBBBB  ", " BBBBBBBBB ", "ABBBBBBBBBA", "BBBBBBBBBBB", "ABBBBEBBBBA", "BBBBBBBBBBB", "ABBBBBBBBBA", " BBBBBBBBB ", "  BBBBBBB  ", "   ABABA   ")
@@ -526,10 +527,10 @@ public final class MachineRegisterUtils {
                         .aisle("           ", "           ", "    AAA    ", "   A A A   ", "  A AAA A  ", "  AAAEAAA  ", "  A AAA A  ", "   A A A   ", "    AAA    ", "           ", "           ")
                         .aisle("           ", "           ", "    ABA    ", "   BBBBB   ", "  ABBBBBA  ", "  BBBEBBB  ", "  ABBBBBA  ", "   BBBBB   ", "    ABA    ", "           ", "           ")
                         .aisle("           ", "           ", "    BBB    ", "   B   B   ", "  B     B  ", "  B  E  B  ", "  B     B  ", "   B   B   ", "    BBB    ", "           ", "           ")
-                        .aisle("           ", "           ", "    BBB    ", "   BGGGB   ", "  BGAEAGB  ", "  HGEIEGH  ", "  BGAEAGB  ", "   BGGGB   ", "    BHB    ", "           ", "           ")
+                        .aisle("           ", "           ", "    BBB    ", "   BGGGB   ", "  BGAEAGB  ", "  HGEJEGH  ", "  BGAEAGB  ", "   BGGGB   ", "    BHB    ", "           ", "           ")
                         .aisle("           ", "           ", "    BBB    ", "   B   B   ", "  H     H  ", "  H     H  ", "  H     H  ", "   B   B   ", "    HHH    ", "           ", "           ")
                         .aisle("           ", "           ", "    BBB    ", "   BGGGB   ", "  HGAEAGH  ", "  HGEIEGH  ", "  HGAEAGH  ", "   BGGGB   ", "    HHH    ", "           ", "           ")
-                        .aisle("           ", "           ", "    BBB    ", "   BGGGB   ", "  HGAEAGH  ", "  HGEIEGH  ", "  HGAEAGH  ", "   BGGGB   ", "    HHH    ", "           ", "           ")
+                        .aisle("           ", "           ", "    BBB    ", "   BGGGB   ", "  HGAEAGH  ", "  HGEJEGH  ", "  HGAEAGH  ", "   BGGGB   ", "    HHH    ", "           ", "           ")
                         .aisle("           ", "           ", "    BBB    ", "   B   B   ", "  H     H  ", "  H     H  ", "  H     H  ", "   B   B   ", "    HHH    ", "           ", "           ")
                         .aisle("           ", "           ", "    BBB    ", "   BGGGB   ", "  BGAEAGB  ", "  HGEIEGH  ", "  BGAEAGB  ", "   BGGGB   ", "    BHB    ", "           ", "           ")
                         .aisle("           ", "           ", "    BBB    ", "   B   B   ", "  B     B  ", "  B  E  B  ", "  B     B  ", "   B   B   ", "    BBB    ", "           ", "           ")
@@ -556,7 +557,8 @@ public final class MachineRegisterUtils {
                         .where('F', abilities(MUFFLER))
                         .where('G', heatingCoils())
                         .where('H', GTOPredicates.glass())
-                        .where('I', GTOPredicates.RotorBlock(tier))
+                        .where('I', GTOPredicates.RotorBlock(tier, RelativeDirection.BACK))
+                        .where('J', GTOPredicates.RotorBlock(tier, RelativeDirection.FRONT))
                         .where(' ', any())
                         .build())
                 .addSubPattern(subPattern)

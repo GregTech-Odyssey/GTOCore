@@ -74,7 +74,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
                         Set<Item> items = new ReferenceOpenHashSet<>();
                         for (var itemStack : simplePredicate.getCandidates()) {
                             var item = itemStack.getItem();
-                            if (item == Items.AIR) continue;
+                            if (item == Items.AIR || item == Items.BARRIER) continue;
                             items.add(item);
                         }
                         if (items.size() > 1) parts.add(items);

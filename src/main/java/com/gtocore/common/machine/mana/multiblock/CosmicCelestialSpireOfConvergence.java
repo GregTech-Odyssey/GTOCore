@@ -53,7 +53,6 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     @Persisted
     private long stellarm = 0;
 
-    @Persisted
     private CelestialHandler.Mode mode = CelestialHandler.Mode.OVERWORLD;
 
     @Persisted

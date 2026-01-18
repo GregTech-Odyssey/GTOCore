@@ -203,7 +203,7 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
                 }
             }
         });
-        gtocore$isWorkingEnabled = true;
+        gtocore$isWorkingEnabled = false;
     }
 
     @Inject(method = "createUI", at = @At("RETURN"), remap = false, cancellable = true)

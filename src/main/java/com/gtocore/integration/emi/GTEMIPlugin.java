@@ -1,5 +1,7 @@
 package com.gtocore.integration.emi;
 
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachineKt;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
@@ -237,5 +239,25 @@ public final class GTEMIPlugin implements EmiPlugin {
 
         registry.addCategory(AlfheimEntryRequirements.CATEGORY);
         registry.addRecipe(new AlfheimEntryRequirements());
+
+        CraftAction.registerCanCraftOverride(
+                (recipe, context, simulate) -> {
+                    if (context.getScreenHandler().getModularUI().holder instanceof MEPatternBufferPartMachine patternBuffer) {
+                        if (simulate) {
+                            return true;
+                        }
+                        if (patternBuffer instanceof MEPatternBufferPartMachineKt && recipe.getId() != null) {
+                            var currentSlot = patternBuffer.getConfiguratorField().get();
+                            MEPatternBufferPartMachineKt.Companion.getSET_ID_CHANNEL()
+                                    .send(buf -> {
+                                        buf.writeBlockPos(patternBuffer.getPos());
+                                        buf.writeVarInt(currentSlot);
+                                        buf.writeResourceLocation(recipe.getId());
+                                    });
+                            return true;
+                        }
+                    }
+                    return false;
+                });
     }
 }

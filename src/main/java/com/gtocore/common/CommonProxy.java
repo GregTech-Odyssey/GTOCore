@@ -9,6 +9,9 @@ import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.forge.ForgeCommonEvent;
+import com.gtocore.common.machine.tesseract.TesseractDirectedTarget;
+import com.gtocore.common.syncdata.GTORecipePayload;
+import com.gtocore.common.syncdata.GenericStackPayload;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
 import com.gtocore.data.Data;
@@ -25,33 +28,33 @@ import com.gtocore.integration.ftbquests.GTOQuestTypes;
 import com.gtocore.integration.ftbu.AreaShape;
 
 import com.gtolib.GTOCore;
-import com.gtolib.IItem;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.ae2.me2in1.emi.CategoryMappingSubMenu;
 import com.gtolib.api.ae2.stacks.TagPrefixKeyType;
-import com.gtolib.api.data.Dimension;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.registries.ScanningClass;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.DimensionMarker;
-import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
+import com.gregtechceu.gtceu.common.data.GTSyncedFieldAccessors;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.syncdata.*;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
@@ -61,9 +64,12 @@ import net.minecraftforge.registries.RegisterEvent;
 import appeng.api.features.GridLinkables;
 import appeng.api.networking.pathing.ChannelMode;
 import appeng.api.stacks.AEKeyTypes;
+import appeng.api.stacks.GenericStack;
 import appeng.core.AEConfig;
 import appeng.hotkeys.HotkeyActions;
 import appeng.items.tools.powered.WirelessTerminalItem;
+import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
+import com.lowdragmc.lowdraglib.syncdata.payload.NbtTagPayload;
 import de.mari_023.ae2wtlib.AE2wtlib;
 import de.mari_023.ae2wtlib.TextConstants;
 import de.mari_023.ae2wtlib.hotkeys.Ae2WTLibLocatingService;
@@ -72,11 +78,11 @@ import de.mari_023.ae2wtlib.wut.WTDefinition;
 import earth.terrarium.adastra.api.events.AdAstraEvents;
 import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 
-import java.util.Arrays;
 import java.util.function.Supplier;
 
-import static com.gregtechceu.gtceu.common.data.GTDimensionMarkers.createAndRegister;
 import static com.gtolib.api.registries.GTORegistration.GTO;
+import static com.lowdragmc.lowdraglib.syncdata.TypedPayloadRegistries.register;
+import static com.lowdragmc.lowdraglib.syncdata.TypedPayloadRegistries.registerSimple;
 import static de.mari_023.ae2wtlib.wut.WUTHandler.terminalNames;
 import static de.mari_023.ae2wtlib.wut.WUTHandler.wirelessTerminals;
 
@@ -94,9 +100,22 @@ public class CommonProxy {
         eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);
         eventBus.addListener(CommonProxy::modConstruct);
-        eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
-        eventBus.addGenericListener(GTRecipeCategory.class, CommonProxy::registerRecipeCategory);
         ForgeCommonEvent.init();
+    }
+
+    public static void earlyStartup() {
+        GTSyncedFieldAccessors.EVENT.removeListener(GTSyncedFieldAccessors.class);
+        GTSyncedFieldAccessors.EVENT.addListener(CommonProxy.class, () -> {
+            register(FriendlyBufPayload.class, FriendlyBufPayload::new, GTSyncedFieldAccessors.GT_RECIPE_TYPE_ACCESSOR, 1000);
+            register(NbtTagPayload.class, NbtTagPayload::new, VirtualTankAccessor.INSTANCE, 2);
+            register(NbtTagPayload.class, NbtTagPayload::new, VirtualItemStorageAccessor.INSTANCE, 2);
+            register(NbtTagPayload.class, NbtTagPayload::new, VirtualRedstoneAccessor.INSTANCE, 2);
+            registerSimple(MaterialPayload.class, MaterialPayload::new, Material.class, 1);
+            registerSimple(GTORecipePayload.class, GTORecipePayload::new, GTRecipe.class, 100);
+            registerSimple(FluidStackPayload.class, FluidStackPayload::new, FluidStack.class, -1);
+            registerSimple(TesseractDirectedTarget.Payload.class, TesseractDirectedTarget.Payload::new, TesseractDirectedTarget.class, 10);
+            registerSimple(GenericStackPayload.class, GenericStackPayload::new, GenericStack.class, 10);
+        });
     }
 
     private static void init() {
@@ -152,16 +171,6 @@ public class CommonProxy {
             Message.init();
         }
         GTOItemTooltips.INSTANCE.initLanguage();
-    }
-
-    private static void registerDimensionMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {
-        Arrays.stream(Dimension.values()).filter(d -> !d.getLocation().getNamespace().equals("minecraft")).forEach(d -> {
-            createAndRegister(d.getLocation(), d.getTier(), d.getItemKey(), "gtocore.dimension." + d.getLocation().getPath());
-        });
-    }
-
-    private static void registerRecipeCategory(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeCategory> event) {
-        GTORecipeCategories.init();
     }
 
     public static void afterStartup() {

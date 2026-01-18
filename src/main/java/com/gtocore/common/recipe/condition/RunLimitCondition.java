@@ -6,7 +6,6 @@ import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 
 import net.minecraft.network.chat.Component;
 
@@ -20,11 +19,6 @@ public final class RunLimitCondition extends AbstractRecipeCondition {
 
     public RunLimitCondition(int count) {
         this.count = count;
-    }
-
-    @Override
-    public RecipeConditionType<?> getType() {
-        return RUN_LIMIT;
     }
 
     @Override

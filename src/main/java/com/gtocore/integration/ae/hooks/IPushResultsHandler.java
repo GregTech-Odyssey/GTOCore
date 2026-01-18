@@ -19,4 +19,8 @@ public interface IPushResultsHandler {
     void gtocore$syncCraftingResults(FriendlyByteBuf buf);
 
     Multimap<AEKey, IPatternProviderLogic.PushResult> gto$getLastCraftingResults();
+
+    boolean gto$isPaused();
+
+    void gto$setPaused(boolean paused);
 }

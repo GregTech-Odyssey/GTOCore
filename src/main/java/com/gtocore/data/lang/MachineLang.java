@@ -16,14 +16,15 @@ final class MachineLang {
         addCNEN("gui.tooltips.redstone_mode.disabled", "禁用红石模式，机器无视红石信号", "Disable redstone mode, the machine will ignore redstone signals");
         addCNEN("gtocore.machine.programmablec_hatch.tooltip", "通过虚拟物品提供器来设置电路槽物品", "Set the circuit slot items through a virtual item provider");
         addCNEN("gtocore.machine.energy_loss", "能量损失: %s", "Energy loss: %s");
-        addCNEN("gtocore.machine.highlight_module", "高亮显示模块位置", "Highlight module position.");
-        addCNEN("gtocore.machine.highlight_obstruction", "高亮显示会被阻挡的区域", "Highlight areas that will be obstructed.");
-        addCNEN("gtocore.machine.structure_check", "更新结构检查(shift点击将重新检查结构)", "Update structure check (Clicking on Shift will recheck the structure).");
-        addCNEN("gtocore.machine.overclock_configurator", "调整机器超频的最小时间", "Adjust the minimum time for machine overclocking.");
-        addCNEN("gtocore.machine.thread", "同时处理至多 %s 种不同配方，每种配方至多 %s 个", "Processing up to %s different recipes simultaneously, with a maximum of %s for each recipe.");
+        addCNEN("gtocore.machine.highlight_module", "高亮显示模块位置", "Highlight module position");
+        addCNEN("gtocore.machine.highlight_obstruction", "高亮显示会被阻挡的区域", "Highlight areas that will be obstructed");
+        addCNEN("gtocore.machine.structure_check", "更新结构检查", "Update structure check");
+        addCNEN("gtocore.machine.structure_check.shift", "Shift+点击 将强制重新检查结构", "Shift+click will forced recheck the structure");
+        addCNEN("gtocore.machine.overclock_configurator", "调整机器超频的最小时间", "Adjust the minimum time for machine overclocking");
+        addCNEN("gtocore.machine.thread", "同时处理至多 %1$s 种不同配方，每种配方至多 %2$s 个", "Processing up to %1$s different recipes simultaneously, with a maximum of %2$s for each recipe");
         addCNEN("gtocore.machine.thread.0", "同时处理至多 %s 种不同配方", "Processing up to %s different recipes simultaneously");
-        addCNEN("gtocore.machine.thread.1", "每种配方至多 %s 个", "With a maximum of %s for each recipe.");
-        addCNEN("gtocore.machine.thread_hatch.tooltip.0", "可为机器提供 %s 线程的并行", "Can provide %s thread parallel processing for the machine.");
+        addCNEN("gtocore.machine.thread.1", "每种配方至多 %s 个", "With a maximum of %s for each recipe");
+        addCNEN("gtocore.machine.thread_hatch.tooltip.0", "可为机器提供 %s 线程的并行", "Can provide %s thread parallel processing for the machine");
         addCNEN("gtocore.machine.rest_burn_time", "剩余燃烧时间: %s Tick", "Rest Burn Time %s Tick");
         addCNEN("gtocore.machine.total_time.duration", "额外耗时减免: %s", "Additional Duration Reduction: %s");
         addCNEN("gtocore.machine.block_conversion_room.am", "每次转化数量: %s", "Amount converted each time: %s");
@@ -70,8 +71,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.muffler.config", "设置消声仓运行时产灰被阻止的概率", "Set the probability of ash being blocked when the muffler hatch is running");
         addCNEN("gtocore.machine.muffler.config.desc", "每次产灰判定时有 %s%% 的概率被取消", "There is a %s%% chance of being canceled each time ash is produced");
         addCNEN("gtocore.machine.pattern.error.tier", "§c必须使用同种等级方块§r", "§cMust use blocks of the same tier§r");
-        addCNEN("gtocore.machine.primitive_magic_energy.tooltip.0", "无尽地吸收机器上方末地水晶的能量，如果能量已满，机器将会爆炸", "Endlessly absorbs the energy from ender crystals above the machine, if the energy capacity is full, the machine will explode.");
-        addCNEN("gtocore.machine.primitive_magic_energy.tooltip.1", "每秒需输入同电压x电流的魔力，否则爆炸", "Requires a constant mana input of [X] EU/s (Voltage × Current). Failure cause an explosion.");
+        addCNEN("gtocore.machine.primitive_magic_energy.tooltip.0", "无尽地吸收机器上方末地水晶的能量，如果能量已满，机器将会爆炸", "Endlessly absorbs the energy from ender crystals above the machine, if the energy capacity is full, the machine will explode");
+        addCNEN("gtocore.machine.primitive_magic_energy.tooltip.1", "每秒需输入同电压x电流的魔力，否则爆炸", "Requires a constant mana input of [X] EU/s (Voltage × Current). Failure cause an explosion");
         addCNEN("gtocore.machine.processing_plant.mismatched", "配方等级与小机器等级不匹配", "Recipe tier does not match small machine tier");
         addCNEN("gtocore.machine.radiation_hatch.inhibition_dose", "抑制量: %s Sv", "Inhibition Amount: %s Sv");
         addCNEN("gtocore.machine.radiation_hatch.time", "时间: %s / %s Tick", "Time: %s / %s Tick");
@@ -83,7 +84,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.space_elevator.connected", "已连接正在运行的太空电梯", "Connected To A Running SpaceElevator");
         addCNEN("gtocore.machine.space_elevator.not_connected", "未连接正在运行的太空电梯", "Not Connected To A Running SpaceElevator");
         addCNEN("gtocore.machine.steam_parallel_machine.modification_oc", "修改超频次数: ", "Modify Overclocking Times: ");
-        addCNEN("gtocore.machine.steam_parallel_machine.oc", "每次超频将减少一半耗时和增加3倍蒸汽消耗", "Each time of overclocking will reduce time by 2 times and increase steam consumption by 3 times");
+        addCNEN("gtocore.machine.steam_parallel_machine.oc", "每次超频会使处理时间减半，但使蒸汽消耗增至四倍。", "Each overclock halves the processing time but quadruples the steam consumption");
         addCNEN("gtocore.machine.total_time", "连续运行时间: %s Tick", "Continuous Running Time: %s Tick");
         addCNEN("gtocore.machine.uev_fusion_reactor.description", "核聚变反应堆MK-V是台大型多方块结构，用于融合元素形成更重的元素。它仅可使用UEV等级的能源仓。每个能源仓可增加160MEU的能量缓存，最大能量缓存为2560MEU。", "The Fusion Reactor MK V is a large multiblock structure used for fusing elements into heavier ones. It can only use UEV Energy Hatches. For every Hatch it has, its buffer increases by 160M EU, and has a maximum of 2560M.");
         addCNEN("gtocore.machine.uhv_fusion_reactor.description", "核聚变反应堆MK-IV是台大型多方块结构，用于融合元素形成更重的元素。它仅可使用UHV等级的能源仓。每个能源仓可增加80MEU的能量缓存，最大能量缓存为1280MEU。", "The Fusion Reactor MK-IV is a large multiblock structure used for fusing elements into heavier ones. It can only use UHV Energy Hatches. For every Hatch it has, its buffer increases by 80M EU, and has a maximum of 1280M.");
@@ -94,15 +95,15 @@ final class MachineLang {
         addCNEN("gtocore.machine.water_purification_plant.bind", "已绑定机器:", "Bound Machine:");
         addCNEN("gtocore.machine.absolute_baryonic_perfection_purification_unit.items", "本次循环组合:\n%s, %s", "Current combination for this cycle:\n%s, %s");
         addCNEN("gtocore.machine.residual_decontaminant_degasser_purification_unit.fluids", "本次循环需求:\n%s", "Current cycle requirements:\n%s");
-        addCNEN("gtocore.machine.wireless_data_hatch.bind", "无线数据仓绑定完成", "Wireless data hatch binding completed.");
-        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.tooltip.0", "需要使用闪存右键无线光学数据靶仓和无线数据源仓进行绑定", "Use the flash drive to right-click and bind the wireless optical data target hatch and the wireless data source hatch.");
-        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.to_bind", "源仓数据读取完成，请右键靶仓进行绑定", "Source hatch data reading completed, please right-click the target hatch to bind.");
-        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.bind", "已绑定无线光学数据靶仓(%s)", "Bound wireless optical data target hatch (%s).");
-        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.unbind", "未绑定无线光学数据靶仓", "Wireless optical data target hatch not bound.");
-        addCNEN("gtocore.machine.wireless_data_receiver_hatch.tooltip.0", "需要使用闪存右键无线光学数据靶仓和无线光学数据源仓进行绑定", "Use the flash drive to right-click and bind the wireless optical data target hatch and the wireless optical data source hatch.");
-        addCNEN("gtocore.machine.wireless_data_receiver_hatch.to_bind", "靶仓数据读取完成，请右键源仓进行绑定", "Target hatch data reading completed, please right-click the source hatch to bind.");
-        addCNEN("gtocore.machine.wireless_data_receiver_hatch.bind", "已绑定无线光学数据源仓(%s)", "Bound wireless optical data source hatch (%s).");
-        addCNEN("gtocore.machine.wireless_data_receiver_hatch.unbind", "未绑定无线光学数据源仓", "Wireless optical data source hatch not bound.");
+        addCNEN("gtocore.machine.wireless_data_hatch.bind", "无线数据仓绑定完成", "Wireless data hatch binding completed");
+        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.tooltip.0", "需要使用闪存右键无线光学数据靶仓和无线数据源仓进行绑定", "Use the flash drive to right-click and bind the wireless optical data target hatch and the wireless data source hatch");
+        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.to_bind", "源仓数据读取完成，请右键靶仓进行绑定", "Source hatch data reading completed, please right-click the target hatch to bind");
+        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.bind", "已绑定无线光学数据靶仓(%s)", "Bound wireless optical data target hatch (%s)");
+        addCNEN("gtocore.machine.wireless_data_transmitter_hatch.unbind", "未绑定无线光学数据靶仓", "Wireless optical data target hatch not bound");
+        addCNEN("gtocore.machine.wireless_data_receiver_hatch.tooltip.0", "需要使用闪存右键无线光学数据靶仓和无线光学数据源仓进行绑定", "Use the flash drive to right-click and bind the wireless optical data target hatch and the wireless optical data source hatch");
+        addCNEN("gtocore.machine.wireless_data_receiver_hatch.to_bind", "靶仓数据读取完成，请右键源仓进行绑定", "Target hatch data reading completed, please right-click the source hatch to bind");
+        addCNEN("gtocore.machine.wireless_data_receiver_hatch.bind", "已绑定无线光学数据源仓(%s)", "Bound wireless optical data source hatch (%s)");
+        addCNEN("gtocore.machine.wireless_data_receiver_hatch.unbind", "未绑定无线光学数据源仓", "Wireless optical data source hatch not bound");
         addCNEN("gtocore.machine.need", "需要: %s", "Need: %s");
         addCNEN("gtocore.machine.advanced_infinite_driller.not_fluid_head", "无钻头", "No drill head");
         addCNEN("gtocore.machine.advanced_infinite_driller.heat", "最大温度: %sK / 工作温度: %sK", "Max Temperature: %sK / Operating Temperature: %sK");
@@ -130,7 +131,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.binding_amount", "绑定数量: %s", "Binding amount: %s");
         addCNEN("gtocore.machine.accelerate_hatch.tooltip.0", "加速机器运行", "Accelerates machine operation");
         addCNEN("gtocore.machine.accelerate_hatch.tooltip.1", "加速仓的等级低于机器配方等级时加速效果减弱", "Acceleration effect is reduced when the accelerator hatch tier is lower than the machine recipe tier");
-        addCNEN("gtocore.machine.recipe.run", "运行%s配方时: ", "When running the % recipe: ");
+        addCNEN("gtocore.machine.recipe.run", "运行%s配方时: ", "When running the %s recipe: ");
         addCNEN("gtocore.machine.parallel", "最大并行数: %s", "Maximum number of parallel: %s");
         addCNEN("gtocore.machine.cwut_modification", "算力修正系数: %s", "Hashrate correction factor: %s");
         addCNEN("gtocore.machine.components_list", "组件列表: ", "Components List: ");
@@ -148,7 +149,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.analysis", "分析中...", "Analysing...");
         addCNEN("gtocore.machine.assembling", "装配中...", "Assembling...");
         addCNEN("gtocore.machine.wireless_mode", "无线模式", "Wireless Mode");
-        addCNEN("gtocore.machine.alchemical.chance_can_be_boosted", "该配方的概率会随运行次数提升", "The chance of this recipe increases with the number of attempts.");
+        addCNEN("gtocore.machine.alchemical.chance_can_be_boosted", "该配方的概率会随运行次数提升", "The chance of this recipe increases with the number of attempts");
         addCNEN("gtocore.machine.alchemical_device.1", "嬗变中", "Transmutation");
         addCNEN("gtocore.machine.alchemical_device.2", "完美嬗变中", "Perfect Transmutation");
         addCNEN("gtocore.machine.monitor.no_information", "没有可显示的信息", "No information to display");
@@ -272,9 +273,9 @@ final class MachineLang {
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.doing", "[运行中.%s]", "[In Progress.%s]");
         addCNEN("gtocore.machine.industrial_platform_deployment_tools.export", "[导出]", "[Export]");
 
-        addCNEN("gtocore.machine.village_trading_station.increase", "使用 %s 提升 1 最大交易次数", "Use %s to increase the maximum number of transactions by 1.");
+        addCNEN("gtocore.machine.village_trading_station.increase", "使用 %s 提升 1 最大交易次数", "Use %s to increase the maximum number of transactions by 1");
         addCNEN("gtocore.machine.village_trading_station.enhance", "使用 %s 升级", "Upgrade using %s");
-        addCNEN("gtocore.machine.village_trading_station.upper_limit", "已达到提升上限", "The upgrade limit has been reached.");
+        addCNEN("gtocore.machine.village_trading_station.upper_limit", "已达到提升上限", "The upgrade limit has been reached");
         addCNEN("gtocore.machine.village_trading_station.replenishment_interval", "补货间隔: %s tick", "Replenishment Interval: %s tick");
         addCNEN("gtocore.machine.village_trading_station.trading_multiple", "交易倍数: %s", "Trading Multiple: %s");
 

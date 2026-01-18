@@ -26,6 +26,7 @@ import com.gtolib.api.capability.IWirelessChargerInteraction
 import com.gtolib.api.data.GTODimensions
 import com.gtolib.api.player.IEnhancedPlayer
 import com.gtolib.api.player.PlayerData
+import dev.shadowsoffire.attributeslib.api.ALObjects.Attributes.CREATIVE_FLIGHT
 import earth.terrarium.adastra.api.planets.Planet
 import earth.terrarium.adastra.api.planets.PlanetApi
 
@@ -75,28 +76,33 @@ class OrganService : IOrganService {
             }
         }
         // Fly
-        when (playerData.getSetOrganTier() >= 4) { // 四级器官创造飞
-            true -> run {
-                playerData.wingState = true
-            }
-            false -> {}
-        }
+        var shouldFly: Boolean = playerData.getSetOrganTier() >= 4
         // Wing
         playerData.ktGetOrganStack().flatMap { it.value }.let root@{
             it.firstOrNull { it.item.asItem() == FAIRY_WING.asItem() }.let {
                 it?.let {
-                    if (tryUsingDurabilityWing(it, player, playerData)) return@root
+                    if (tryUsingDurabilityWing(it, player, playerData)) {
+                        shouldFly = true
+                        return@root
+                    }
                 }
             }
             it.firstOrNull { it.item.asItem() == MANA_STEEL_WING.asItem() }.let {
                 it?.let {
-                    if (tryUsingDurabilityWing(it, player, playerData)) return@root
+                    if (tryUsingDurabilityWing(it, player, playerData)) {
+                        shouldFly = true
+                        return@root
+                    }
                 }
             }
             it.filter { it.item.asItem() == MECHANICAL_WING.asItem() }.forEach {
-                if (whenUsingElectricWing(it, player, playerData)) return@root
+                if (whenUsingElectricWing(it, player, playerData)) {
+                    shouldFly = true
+                    return@root
+                }
             }
         }
+        updateFlight(shouldFly, player, playerData)
         // 外星球伤害
         run {
             val planet: Planet = PlanetApi.API.getPlanet(player.level()) ?: return@run
@@ -206,8 +212,6 @@ class OrganService : IOrganService {
 
     private fun whenUsingElectricWing(stack: ItemStack, player: ServerPlayer, playerData: PlayerData?): Boolean {
         val item = GTCapabilityHelper.getElectricItem(stack) ?: return false
-        if (item.charge <= 0) return false
-        playerData?.wingState = true
         playerData?.flySpeedAble = 0.25f
         IWirelessChargerInteraction.charge(playerData?.getNetMachine(), stack)
         if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
@@ -232,11 +236,28 @@ class OrganService : IOrganService {
                         )
                     }
                 }
-                playerData?.wingState = true
                 playerData?.flySpeedAble = 0.15f
                 return true
             }
         }
         return false
     }
+}
+
+fun updateFlight(shouldFly: Boolean, player: ServerPlayer, playerData: PlayerData) {
+    val modifierNAME = "gtocore:fly"
+    val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
+    when (shouldFly) { // 四级器官创造飞
+        true -> run {
+            if (player.getAttribute(CREATIVE_FLIGHT.get())?.modifiers?.any { it.name == modifierNAME } == true) return@run
+            player.getAttribute(CREATIVE_FLIGHT.get())?.addPermanentModifier(
+                AttributeModifier(modifierUUID, modifierNAME, 1.0, AttributeModifier.Operation.ADDITION),
+            )
+        }
+
+        false -> {
+            player.getAttribute(CREATIVE_FLIGHT.get())?.removeModifier(modifierUUID)
+        }
+    }
+    playerData.wingState = shouldFly
 }

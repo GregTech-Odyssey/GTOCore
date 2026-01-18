@@ -17,7 +17,6 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import net.minecraft.world.item.ItemStack;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
@@ -70,9 +69,8 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
         parallel = item.getCount() << 1;
     }
 
-    @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    protected @NotNull Recipe getRealRecipe(@NotNull Recipe recipe) {
         if (inputEUt == recipe.getInputEUt()) {
             recipe = ParallelLogic.accurateParallel(this, recipe, parallel);
         }

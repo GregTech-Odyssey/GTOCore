@@ -657,27 +657,27 @@ public final class FuelRecipe {
                 .inputFluids(GTOMaterials.NaquadahFuel, 16)
                 .inputFluids(Hydrogen, 80)
                 .duration(875)
-                .EUt(-524288)
+                .EUt(-524288 * 4)
                 .save();
 
         LARGE_NAQUADAH_REACTOR_RECIPES.recipeBuilder("enriched_naquadah_fuel")
                 .inputFluids(GTOMaterials.EnrichedNaquadahFuel, 16)
                 .inputFluids(Hydrogen, 80)
                 .duration(1250)
-                .EUt(-524288)
+                .EUt(-524288 * 4)
                 .save();
 
         LARGE_NAQUADAH_REACTOR_RECIPES.recipeBuilder("naquadah_fuel1")
                 .inputFluids(GTOMaterials.NaquadahFuel, 160)
                 .inputFluids(Oxygen.getFluid(FluidStorageKeys.PLASMA, 40))
-                .duration(16 * 875)
+                .duration(16 * 875 * 2)
                 .EUt(-524288)
                 .save();
 
         LARGE_NAQUADAH_REACTOR_RECIPES.recipeBuilder("enriched_naquadah_fuel1")
                 .inputFluids(GTOMaterials.EnrichedNaquadahFuel, 160)
                 .inputFluids(Nitrogen.getFluid(FluidStorageKeys.PLASMA, 40))
-                .duration(16 * 1250)
+                .duration(16 * 1250 * 2)
                 .EUt(-524288)
                 .save();
 

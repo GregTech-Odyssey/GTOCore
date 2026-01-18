@@ -7,12 +7,14 @@ import com.gtocore.api.gui.graphic.impl.GTOProgressToolTipComponent
 import com.gtocore.api.gui.graphic.impl.toPercentageWith
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
+import com.gtocore.client.forge.GTOComponentHandler.englishLanguage
 import com.gtocore.config.GTOConfig
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.resources.language.ClientLanguage
 import net.minecraft.client.resources.language.I18n
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.ItemStack
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 import net.minecraftforge.client.event.RenderTooltipEvent
@@ -28,6 +30,8 @@ import com.gregtechceu.gtceu.api.item.TagPrefixItem
 import com.gregtechceu.gtceu.api.item.tool.GTToolItem
 import com.gtolib.GTOCore
 import com.mojang.datafixers.util.Either
+
+import java.util.Optional
 
 @OnlyIn(Dist.CLIENT)
 object GTOComponentHandler {
@@ -82,32 +86,7 @@ object GTOComponentHandler {
         }
         // 英文翻译,优先级为0,英文环境不启用
         run {
-            if (!GTOConfig.INSTANCE.showEnglishName) return@run
-            val englishName = englishLanguage?.getOrDefault(itemStack.descriptionId) ?: return@run
-            if (I18n.get(itemStack.descriptionId) == englishName) return@run
-            val componentSupplier: ComponentSupplier = when {
-                itemStack.isEmpty -> return@run
-                item is TagPrefixItem -> {
-                    val tagPrefix = item.tagPrefix
-                    val material = item.material
-                    val format = englishLanguage?.getOrDefault(tagPrefix.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
-                    if (format?.contains("%s") == true) return@run
-                    format.toLiteralSupplier()
-                }
-                item is GTToolItem -> {
-                    val toolType = item.toolType
-                    val material = item.material
-                    if (toolType == null || material == null) return@run
-                    val format = englishLanguage?.getOrDefault(toolType.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
-                    if (format?.contains("%s") == true) return@run
-                    format.toLiteralSupplier()
-                }
-                item is GTBucketItem -> {
-                    return@run
-                }
-                else -> englishLanguage?.getOrDefault(itemStack.descriptionId).toLiteralSupplier()
-            }.gray()
-            if (componentSupplier.get().string.contains("%s")) return@run
+            val componentSupplier = getEnglishName(itemStack) ?: return@run
             components.add(
                 GTOComponentTooltipComponent(componentSupplier.get()),
             )
@@ -137,3 +116,39 @@ object GTOComponentHandler {
         }
     }
 }
+
+private fun getEnglishName(itemStack: ItemStack): ComponentSupplier? {
+    if (!GTOConfig.INSTANCE.showEnglishName) return null
+    val englishName = englishLanguage?.getOrDefault(itemStack.descriptionId) ?: return null
+    if (I18n.get(itemStack.descriptionId) == englishName) return null
+    val item = itemStack.item
+    val componentSupplier: ComponentSupplier = when {
+        itemStack.isEmpty -> return null
+        item is TagPrefixItem -> {
+            val tagPrefix = item.tagPrefix
+            val material = item.material
+            val format = englishLanguage?.getOrDefault(tagPrefix.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
+            if (format?.contains("%s") == true) return null
+            format.toLiteralSupplier()
+        }
+        item is GTToolItem -> {
+            val toolType = item.toolType
+            val material = item.material
+            if (toolType == null || material == null) return null
+            val format = englishLanguage?.getOrDefault(toolType.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
+            if (format?.contains("%s") == true) return null
+            format.toLiteralSupplier()
+        }
+        item is GTBucketItem -> {
+            return null
+        }
+        else -> englishLanguage?.getOrDefault(itemStack.descriptionId).toLiteralSupplier()
+    }.gray()
+    if (componentSupplier.get().string.contains("%s")) return null
+    return componentSupplier
+}
+
+/**
+ * for java code usage
+ */
+fun getEnglish(itemStack: ItemStack): Optional<Component> = Optional.ofNullable(getEnglishName(itemStack)?.get())

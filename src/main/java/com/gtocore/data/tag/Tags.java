@@ -1,6 +1,7 @@
 package com.gtocore.data.tag;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
@@ -9,6 +10,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -30,6 +32,10 @@ public final class Tags {
     public static final TagKey<Item> STAR_STONE = TagUtils.createItemTag(GTOCore.id("star_stone"));
     public static final TagKey<Item> ENCHANTMENT_ESSENCE = TagUtils.createItemTag(GTOCore.id("enchantment_essence"));
     public static final TagKey<Item> AFFIX_ESSENCE = TagUtils.createItemTag(GTOCore.id("affix_essence"));
+
+    public static final TagKey<Fluid> PURIFY_WATER = TagUtils.createFluidTag(GTOCore.id("purify_water"));
+
+    public static final TagKey<Fluid> XP_JUICE_TAG = TagUtils.createFluidTag(RLUtils.forge("experience"));
 
     static {
         ImmutableMap.Builder<TagKey<Item>, Integer> circuits_array = ImmutableMap.builder();

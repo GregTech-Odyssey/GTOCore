@@ -2,7 +2,7 @@ package com.gtocore.common.item;
 
 import com.gtocore.api.placeholder.IPlaceholder;
 
-import com.gtolib.IItem;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.recipe.lookup.IngredientConverter;
 import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.FluidUtils;

@@ -175,7 +175,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
     private int executeCrafting(int maxPatterns, CraftingService craftingService, IEnergyService energyService, Level level) {
         var job = this.job;
-        if (job == null) return 0;
+        if (job == null || job.paused) return 0;
 
         IntHolder pushedPatterns = new IntHolder(0);
 
@@ -489,6 +489,13 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         finishJob(false);
     }
 
+    public void setPaused(boolean paused) {
+        if (this.job != null) {
+            this.job.paused = paused;
+            cluster.markDirty();
+        }
+    }
+
     private void storeItems() {
         if (this.inventory.list.isEmpty()) return;
 
@@ -731,5 +738,12 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             inputHolder[x] = kc;
         }
         return inputHolder;
+    }
+
+    public boolean isPaused() {
+        if (this.job != null) {
+            return this.job.paused;
+        }
+        return false;
     }
 }

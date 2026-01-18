@@ -328,7 +328,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     return pattern;
                 }
                 var stack = PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs());
-                return MyPatternDetailsHelper.CACHE.get(AEItemKey.of(stack));
+                return MyPatternDetailsHelper.CACHE.getCache(AEItemKey.of(stack));
             }
         }
         return pattern;

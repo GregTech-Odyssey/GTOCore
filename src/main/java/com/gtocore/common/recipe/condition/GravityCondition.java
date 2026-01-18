@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 
 import net.minecraft.network.chat.Component;
 
@@ -20,11 +19,6 @@ public final class GravityCondition extends AbstractRecipeCondition {
 
     public GravityCondition(boolean zero) {
         this.zero = zero;
-    }
-
-    @Override
-    public RecipeConditionType<?> getType() {
-        return GRAVITY;
     }
 
     @Override

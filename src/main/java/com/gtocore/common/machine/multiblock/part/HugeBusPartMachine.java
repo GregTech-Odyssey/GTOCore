@@ -40,7 +40,6 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.side.item.ItemTransferHelper;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import org.jetbrains.annotations.NotNull;
@@ -114,7 +113,8 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
     }
 
     private void updateInventorySubscription() {
-        if (isWorkingEnabled() && ItemTransferHelper.getItemTransfer(getLevel(), getPos().relative(getFrontFacing()), getFrontFacing().getOpposite()) != null) {
+        var level = getLevel();
+        if (level != null && isWorkingEnabled() && blockEntityDirectionCache.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing())) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO, 40);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
@@ -129,11 +129,13 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         updateInventorySubscription();
     }
 
-    private void exportToNearby(HugeNotifiableItemStackHandler handler, @NotNull Direction facing) {
+    private void exportToNearby(HugeNotifiableItemStackHandler handler, Direction facing) {
         if (handler.getCount() < 1) return;
         var level = getLevel();
         var pos = getPos();
-        UnlimitItemTransferHelper.exportToTarget(handler.storage, Integer.MAX_VALUE, f -> true, level, pos.relative(facing), facing.getOpposite());
+        if (level != null) {
+            UnlimitItemTransferHelper.exportToTarget(handler.storage, Integer.MAX_VALUE, f -> true, level, pos.relative(facing), facing.getOpposite());
+        }
     }
 
     @Override
@@ -227,7 +229,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public IntLongMap getIngredientMap(@NotNull GTRecipeType type) {
+        public IntLongMap getIngredientMap(GTRecipeType type) {
             if (changed) {
                 changed = false;
                 intIngredientMap.clear();
@@ -299,21 +301,19 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public void setStackInSlot(int index, @NotNull ItemStack stack) {
+        public void setStackInSlot(int index, ItemStack stack) {
             this.stack = stack;
             count = stack.getCount();
             onContentsChanged(index);
         }
 
         @Override
-        @NotNull
         public ItemStack getStackInSlot(int slot) {
             return stack;
         }
 
         @Override
-        @NotNull
-        public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
             if (stack.isEmpty()) return ItemStack.EMPTY;
             if (count < 1 || this.stack.isEmpty()) {
                 if (!simulate) {
@@ -346,7 +346,6 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        @NotNull
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
             if (amount == 0 || count < 1 || this.stack.isEmpty()) return ItemStack.EMPTY;
             if (amount >= count) {

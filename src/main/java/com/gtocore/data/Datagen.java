@@ -29,6 +29,7 @@ public final class Datagen {
         if (GTCEu.isDataGen()) {
             GTO.addDataGenerator(ProviderType.BLOCK_TAGS, TagsHandler::initBlock);
             GTO.addDataGenerator(ProviderType.ITEM_TAGS, TagsHandler::initItem);
+            GTO.addDataGenerator(ProviderType.FLUID_TAGS, TagsHandler::initFluid);
             GTO.addDataGenerator(ProviderType.LANG, LangHandler::enInitialize);
             GTO.addDataGenerator(SimplifiedChineseLanguageProvider.LANG, LangHandler::cnInitialize);
             GTO.addDataGenerator(TraditionalChineseLanguageProvider.LANG, LangHandler::twInitialize);

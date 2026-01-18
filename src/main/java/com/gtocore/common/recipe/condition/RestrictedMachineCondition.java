@@ -6,7 +6,6 @@ import com.gtolib.api.recipe.Recipe;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 import net.minecraft.network.chat.Component;
@@ -28,11 +27,6 @@ public final class RestrictedMachineCondition extends AbstractRecipeCondition {
 
     public RestrictedMachineCondition(ResourceLocation id) {
         this.id = id;
-    }
-
-    @Override
-    public RecipeConditionType<?> getType() {
-        return RESTRICTED_MACHINE;
     }
 
     @Override

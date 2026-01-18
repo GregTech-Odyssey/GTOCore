@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
 
 import com.google.common.base.Supplier
-import com.gtolib.IItem
+import com.gtolib.api.item.IItem
 
 fun Item.setTooltips(vararg components: Supplier<Component>) {
     (this as IItem).`gtolib$setToolTips`(*components)

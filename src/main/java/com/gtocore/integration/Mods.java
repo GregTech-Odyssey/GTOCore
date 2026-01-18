@@ -1,6 +1,6 @@
 package com.gtocore.integration;
 
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 import lombok.Getter;
 
@@ -18,12 +18,13 @@ public enum Mods {
     BIOMESWEVEGONE("biomeswevegone"),
     PIPEZ("pipez"),
     FTBQUESTS("ftbquests"),
-    CONSTRUCTION_WAND("constructionwand");
+    CONSTRUCTION_WAND("constructionwand"),
+    JECHARACTERS("jecharacters");
 
     @Getter
     private final boolean loaded;
 
     Mods(String modId) {
-        loaded = ModList.get().isLoaded(modId);
+        loaded = FMLLoader.getLoadingModList().getModFileById(modId) != null;
     }
 }

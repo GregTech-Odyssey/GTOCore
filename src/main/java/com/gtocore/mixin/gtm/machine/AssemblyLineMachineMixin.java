@@ -16,11 +16,11 @@ public class AssemblyLineMachineMixin {
 
     @Inject(method = "checkItemInputs", at = @At("RETURN"), remap = false)
     public void checkItemInputs(GTRecipe recipe, CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValue()) IdleReason.setIdleReason((IRecipeLogicMachine) this, IdleReason.ORDERED);
+        if (!cir.getReturnValue()) IdleReason.setIdleReason((IRecipeLogicMachine) this, IdleReason.ORDERED_ITEM);
     }
 
     @Inject(method = "checkFluidInputs", at = @At("RETURN"), remap = false)
     public void checkFluidInputs(GTRecipe recipe, CallbackInfoReturnable<Boolean> cir) {
-        if (!cir.getReturnValue()) IdleReason.setIdleReason((IRecipeLogicMachine) this, IdleReason.ORDERED);
+        if (!cir.getReturnValue()) IdleReason.setIdleReason((IRecipeLogicMachine) this, IdleReason.ORDERED_FLUID);
     }
 }

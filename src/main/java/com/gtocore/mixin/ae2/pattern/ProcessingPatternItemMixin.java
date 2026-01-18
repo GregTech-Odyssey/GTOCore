@@ -40,7 +40,7 @@ public abstract class ProcessingPatternItemMixin extends EncodedPatternItem {
         }
 
         try {
-            return MyPatternDetailsHelper.CACHE.get(what);
+            return MyPatternDetailsHelper.CACHE.getCache(what);
         } catch (Exception e) {
             return null;
         }
