@@ -16,6 +16,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import com.google.common.base.Predicates;
 
@@ -47,7 +48,9 @@ public class TravelNetworks {
             TravelNetworks::handleRequest);
 
     public static void onServerTravelAdded(ITravelTarget target) {
-        ADD_TRAVEL.send(b -> b.writeNbt(target.save()), ServerUtils.getServer());
+        if (ServerLifecycleHooks.getCurrentServer() != null) {
+            ADD_TRAVEL.send(b -> b.writeNbt(target.save()), ServerUtils.getServer());
+        }
     }
 
     public static void syncTravelData(CompoundTag nbt, ServerPlayer player) {
@@ -59,7 +62,9 @@ public class TravelNetworks {
     }
 
     public static void onServerTravelRemoved(BlockPos pos) {
-        REMOVE_TRAVEL.send(b -> b.writeBlockPos(pos), ServerUtils.getServer());
+        if (ServerLifecycleHooks.getCurrentServer() != null) {
+            REMOVE_TRAVEL.send(b -> b.writeBlockPos(pos), ServerUtils.getServer());
+        }
     }
 
     public static void requestTravel(BlockPos pos) {
