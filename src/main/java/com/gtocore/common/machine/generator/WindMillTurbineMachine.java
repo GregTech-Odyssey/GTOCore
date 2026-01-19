@@ -8,6 +8,7 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.part.ItemPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -79,6 +80,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     @DescSynced
     private int actualPower;
     private TickableSubscription energySubs;
+    private TickableSubscription tickSubscription;
 
     public WindMillTurbineMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, args);
@@ -102,7 +104,9 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     @Override
     public void onLoad() {
         super.onLoad();
-        if (!isRemote()) {
+        if (isRemote()) {
+            tickSubscription = subscribeClientTick(tickSubscription, this::tickUpdate);
+        } else {
             energySubs = subscribeServerTick(energySubs, this::checkEnergy, 20);
         }
     }
@@ -111,12 +115,11 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     public void onUnload() {
         super.onUnload();
         unsubscribe();
+        tickSubscription = ITickSubscription.unsubscribe(tickSubscription);
     }
 
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick() {
-        super.clientTick();
+    private void tickUpdate() {
         bladeAngle += spinSpeed;
     }
 

@@ -130,7 +130,6 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     public void setWorkingEnabled(boolean isWorkingAllowed) {}
 
     @Override
-    @NotNull
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomLogic(this);
     }

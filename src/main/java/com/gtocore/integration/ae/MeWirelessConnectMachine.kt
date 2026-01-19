@@ -95,11 +95,6 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
         super.onUnload()
     }
 
-    override fun clientTick() {
-        onWirelessMachineClientTick()
-        super.clientTick()
-    }
-
     override fun createUI(entityPlayer: Player): ModularUI = (ModularUI(176, 166, this, entityPlayer)).widget(
         InitFancyMachineUIWidget(
             this,

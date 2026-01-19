@@ -88,7 +88,7 @@ final class ChemicalBath {
                 .outputItems(TagPrefix.dust, GTMaterials.DamascusSteel)
                 .EUt(120)
                 .duration(200)
-                .dimension(GTODimensions.ANCIENT_WORLD.location())
+                .dimension(GTODimensions.ANCIENT_WORLD)
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder("end_stone")

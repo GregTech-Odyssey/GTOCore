@@ -10,8 +10,7 @@ import com.gtolib.utils.MathUtil;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -26,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 
 public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
 
@@ -37,7 +37,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    public boolean forEachItems(ObjectLongPredicate<ItemStack> function) {
+    public boolean forEachItems(ObjLongPredicate<ItemStack> function) {
         if (machine.isWorkingEnabled()) {
             if (!machine.isOnline()) return false;
             var grid = machine.getMainNode().getGrid();
@@ -62,7 +62,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     }
 
     @Override
-    public void fastForEachItems(ObjectLongConsumer<ItemStack> function) {
+    public void fastForEachItems(ObjLongConsumer<ItemStack> function) {
         if (machine.isWorkingEnabled()) {
             if (!machine.isOnline()) return;
             var grid = machine.getMainNode().getGrid();

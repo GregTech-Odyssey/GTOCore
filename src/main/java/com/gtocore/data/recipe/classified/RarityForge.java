@@ -142,7 +142,6 @@ final class RarityForge {
                         .EUt(VA[i + 3])
                         .duration(200)
                         .category(GTORecipeCategories.RARITY_FORGE_RECIPES_GEM_UPGRADE)
-                        .supportFast(false)
                         .save();
             }
         }

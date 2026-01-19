@@ -126,7 +126,7 @@ object AnimalsRevengeEvent {
 
             val tick = intArrayOf(0)
             val holder = arrayOfNulls<TickableSubscription>(1)
-            holder[0] = TaskHandler.enqueueServerTick(serverLevel, {
+            holder[0] = TaskHandler.enqueueTick(serverLevel, {
                 tick[0]++
                 if (tick[0] >= preTicks) {
                     if (mob.isAlive) {
@@ -172,7 +172,7 @@ object AnimalsRevengeEvent {
 
         return suspendCancellableCoroutine { cont ->
             val subHolder = arrayOfNulls<TickableSubscription>(1)
-            subHolder[0] = TaskHandler.enqueueServerTick(level, {
+            subHolder[0] = TaskHandler.enqueueTick(level, {
                 var processed = 0
                 try {
                     while (processed < 12 && types.hasNext()) {

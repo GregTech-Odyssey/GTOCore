@@ -159,7 +159,7 @@
     "gtm.GTCEuMixin",
     "gtm.GTRecipeWidgetMixin",
     "gtm.GTUtilMixin",
-    "gtm.RockBreakerConditionMixin",
+    "gtm.AdjacentFluidConditionMixin",
     "gtm.api.machine.FluidDrillLogicMixin",
     "gtm.api.machine.MachineDefinitionMixin",
     "gtm.api.machine.MetaMachineMixin",

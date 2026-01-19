@@ -25,8 +25,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -43,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 import java.util.function.Predicate;
 
 @Getter
@@ -298,7 +298,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public boolean forEachItems(ObjectLongPredicate<ItemStack> function) {
+        public boolean forEachItems(ObjLongPredicate<ItemStack> function) {
             for (var it = slot.itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var e = it.next();
                 var a = e.getLongValue();
@@ -312,7 +312,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public void fastForEachItems(ObjectLongConsumer<ItemStack> function) {
+        public void fastForEachItems(ObjLongConsumer<ItemStack> function) {
             slot.itemInventory.reference2LongEntrySet().fastForEach(e -> {
                 var a = e.getLongValue();
                 if (a < 1) return;
@@ -359,7 +359,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public boolean forEachFluids(ObjectLongPredicate<FluidStack> function) {
+        public boolean forEachFluids(ObjLongPredicate<FluidStack> function) {
             for (var it = slot.fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var e = it.next();
                 var a = e.getLongValue();
@@ -373,7 +373,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public void fastForEachFluids(ObjectLongConsumer<FluidStack> function) {
+        public void fastForEachFluids(ObjLongConsumer<FluidStack> function) {
             slot.fluidInventory.reference2LongEntrySet().fastForEach(e -> {
                 var a = e.getLongValue();
                 if (a < 1) return;

@@ -1,8 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gtolib.api.data.GTODimensions;
-
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -53,6 +52,8 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     @DescSynced
     private boolean isWorking;
 
+    private TickableSubscription particleSubscription;
+
     public InfiniteIntakeHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.ULV, IO.IN);
         this.tank = new NotifiableFluidTank(this, 1, 256000, IO.IN, IO.NONE);
@@ -62,10 +63,10 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     public static void init(GTRecipeBuilder recipeBuilder) {
         for (var condition : recipeBuilder.conditions) {
             if (condition instanceof DimensionCondition dimensionCondition) {
-                var dim = dimensionCondition.getDimension();
+                var dim = dimensionCondition.dimension;
                 var fluids = RecipeHelper.getOutputFluids(recipeBuilder);
                 if (!fluids.isEmpty()) {
-                    AIR_MAP.put(GTODimensions.getDimensionKey(dim), fluids.get(0).getFluid());
+                    AIR_MAP.put(dim, fluids.getFirst().getFluid());
                     break;
                 }
             }
@@ -83,6 +84,8 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
         super.onLoad();
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateTankSubscription));
+        } else {
+            particleSubscription = subscribeClientTick(particleSubscription, this::particleTick, 5);
         }
     }
 
@@ -90,6 +93,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     public void onUnload() {
         super.onUnload();
         unsubscribe();
+        particleSubscription = ITickSubscription.unsubscribe(particleSubscription);
     }
 
     @Override
@@ -112,11 +116,9 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
         return false;
     }
 
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick() {
-        super.clientTick();
-        if (isWorking && getOffsetTimer() % 5 == 0) {
+    private void particleTick() {
+        if (isWorking) {
             var facing = this.getFrontFacing();
             int stepX = facing.getStepX();
             int stepY = facing.getStepY();

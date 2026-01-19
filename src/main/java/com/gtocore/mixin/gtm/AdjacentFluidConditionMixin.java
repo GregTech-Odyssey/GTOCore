@@ -1,30 +1,32 @@
 package com.gtocore.mixin.gtm;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.utils.FluidUtils;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
-import com.gregtechceu.gtceu.common.recipe.condition.RockBreakerCondition;
+import com.gregtechceu.gtceu.common.recipe.condition.AdjacentFluidCondition;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
 
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(RockBreakerCondition.class)
-public abstract class RockBreakerConditionMixin extends RecipeCondition {
+@Mixin(AdjacentFluidCondition.class)
+public abstract class AdjacentFluidConditionMixin extends RecipeCondition {
 
+    @Final
     @Shadow(remap = false)
-    private Fluid A;
+    public Fluid A;
 
+    @Final
     @Shadow(remap = false)
-    private Fluid B;
+    public Fluid B;
 
     /**
      * @author .
@@ -33,10 +35,6 @@ public abstract class RockBreakerConditionMixin extends RecipeCondition {
     @Override
     @Overwrite(remap = false)
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
-        if (A == null || B == null) {
-            A = FluidUtils.getFluid(recipe.data.getString("fluidA"));
-            B = FluidUtils.getFluid(recipe.data.getString("fluidB"));
-        }
         boolean hasFluidA = false, hasFluidB = false;
         if (recipeLogic.machine instanceof ElectricMultiblockMachine MMachine) {
             var as = MMachine.getFluidAmount(A, B);

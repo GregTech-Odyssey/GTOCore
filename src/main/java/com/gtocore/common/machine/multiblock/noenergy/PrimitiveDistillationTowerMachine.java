@@ -13,6 +13,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -23,6 +24,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -97,6 +99,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private long time;
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;
+    private TickableSubscription clientSubscription;
 
     public PrimitiveDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -105,14 +108,6 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     private boolean shouldTick() {
         return isFormed || heat > 298 || time > 0;
-    }
-
-    @Override
-    public void clientTick() {
-        super.clientTick();
-        if (getOffsetTimer() % 10 == 0) {
-            scheduleRenderUpdate();
-        }
     }
 
     /**
@@ -347,6 +342,11 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     }
 
     @Override
+    public void onStructureFormedClient() {
+        clientSubscription = subscribeClientTick(clientSubscription, this::scheduleRenderUpdate, 20);
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         int startY = getPos().getY() + 1;
@@ -371,6 +371,11 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
             }
         }
         tickSubs.initialize(getLevel());
+    }
+
+    @Override
+    public void onStructureInvalidClient() {
+        clientSubscription = ITickSubscription.unsubscribe(clientSubscription);
     }
 
     @Override

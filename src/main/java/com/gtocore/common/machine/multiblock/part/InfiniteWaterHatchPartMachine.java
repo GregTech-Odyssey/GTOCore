@@ -15,8 +15,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -31,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 
 public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMachine {
 
@@ -103,12 +103,12 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
         }
 
         @Override
-        public boolean forEachFluids(ObjectLongPredicate<FluidStack> function) {
+        public boolean forEachFluids(ObjLongPredicate<FluidStack> function) {
             return function.test(WATER, Long.MAX_VALUE);
         }
 
         @Override
-        public void fastForEachFluids(ObjectLongConsumer<FluidStack> function) {
+        public void fastForEachFluids(ObjLongConsumer<FluidStack> function) {
             function.accept(WATER, Long.MAX_VALUE);
         }
 

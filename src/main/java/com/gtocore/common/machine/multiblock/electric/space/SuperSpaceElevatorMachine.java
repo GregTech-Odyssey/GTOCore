@@ -210,7 +210,7 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
     }
 
     @Override
-    public void clientTick() {
+    void clientTick() {
         super.clientTick();
         if (getRecipeLogic().isWorking()) high = 8 * getBaseHigh() + 400 + ((400 + getBaseHigh()) * MathUtil.sin(getOffsetTimer() / 160.0F));
     }

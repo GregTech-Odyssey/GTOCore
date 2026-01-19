@@ -17,8 +17,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -46,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -203,7 +203,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public boolean forEachItems(ObjectLongPredicate<ItemStack> function) {
+        public boolean forEachItems(ObjLongPredicate<ItemStack> function) {
             var amount = ((HugeCustomItemStackHandler) storage).count;
             if (amount > 0) {
                 return function.test(getStackInSlot(0), amount);
@@ -212,7 +212,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
         }
 
         @Override
-        public void fastForEachItems(ObjectLongConsumer<ItemStack> function) {
+        public void fastForEachItems(ObjLongConsumer<ItemStack> function) {
             var amount = ((HugeCustomItemStackHandler) storage).count;
             if (amount > 0) {
                 function.accept(getStackInSlot(0), amount);

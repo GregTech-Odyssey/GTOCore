@@ -220,7 +220,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             if (!detailsInit) {
                 when (val level = getLevel()) {
                     is ServerLevel -> {
-                        TaskHandler.enqueueServerTask(level, {
+                        TaskHandler.enqueueTask(level, {
                             (0 until patternInventory.slots).forEach { i ->
                                 val pattern = patternInventory.getStackInSlot(i)
                                 decodePattern(pattern, i)?.let { patternDetails ->

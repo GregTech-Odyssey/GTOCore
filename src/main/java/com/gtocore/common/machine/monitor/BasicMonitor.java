@@ -1,8 +1,13 @@
 package com.gtocore.common.machine.monitor;
 
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
 import org.jetbrains.annotations.Nullable;
@@ -10,6 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 
 public class BasicMonitor extends MetaMachine implements IBindable, IMachineLife, IMonitor {
+
+    private TickableSubscription tickSubscription;
 
     BasicMonitor(MetaMachineBlockEntity holder) {
         super(holder);
@@ -24,6 +31,7 @@ public class BasicMonitor extends MetaMachine implements IBindable, IMachineLife
         super.onLoad();
         if (getLevel() != null && !getLevel().isClientSide) {
             Manager.addBlock(this);
+            tickSubscription = subscribeClientTick(tickSubscription, this::clientTick, 10);
         }
     }
 
@@ -33,14 +41,12 @@ public class BasicMonitor extends MetaMachine implements IBindable, IMachineLife
         if (getLevel() != null && !getLevel().isClientSide) {
             Manager.removeBlock(this);
         }
+        tickSubscription = ITickSubscription.unsubscribe(tickSubscription);
     }
 
-    @Override
-    public void clientTick() {
-        super.clientTick();
-        if (getOffsetTimer() % 10 == 0) {
-            Manager.updateAllNetworkDisplayMachines(getLevel());
-        }
+    @OnlyIn(Dist.CLIENT)
+    protected void clientTick() {
+        Manager.updateAllNetworkDisplayMachines(getLevel());
     }
 
     @Override

@@ -12,8 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraftforge.fluids.FluidStack;
 
@@ -27,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 
 public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
 
@@ -38,7 +38,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    public boolean forEachFluids(ObjectLongPredicate<FluidStack> function) {
+    public boolean forEachFluids(ObjLongPredicate<FluidStack> function) {
         if (machine.isWorkingEnabled()) {
             if (!machine.isOnline()) return false;
             var grid = machine.getMainNode().getGrid();
@@ -63,7 +63,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     }
 
     @Override
-    public void fastForEachFluids(ObjectLongConsumer<FluidStack> function) {
+    public void fastForEachFluids(ObjLongConsumer<FluidStack> function) {
         if (machine.isWorkingEnabled()) {
             if (!machine.isOnline()) return;
             var grid = machine.getMainNode().getGrid();

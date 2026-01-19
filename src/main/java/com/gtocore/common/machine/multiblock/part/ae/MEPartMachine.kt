@@ -136,11 +136,6 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         onWirelessMachinePlaced(player, stack)
     }
 
-    override fun clientTick() {
-        onWirelessMachineClientTick()
-        super.clientTick()
-    }
-
     override fun onUnload() {
         onWirelessMachineUnLoad()
         unregisterSync()

@@ -32,13 +32,8 @@ public class GalaxyCondition extends DimensionCondition {
     private DimensionMarker[] dimensions;
 
     public GalaxyCondition(Galaxy galaxy) {
-        super();
+        super(false, null);
         this.galaxy = galaxy;
-    }
-
-    public GalaxyCondition() {
-        super();
-        this.galaxy = Galaxy.NONE;
     }
 
     @Override

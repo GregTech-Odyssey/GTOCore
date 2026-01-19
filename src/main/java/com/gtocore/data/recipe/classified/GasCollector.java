@@ -16,7 +16,7 @@ final class GasCollector {
                 .outputFluids(GTOMaterials.BarnardaAir, 10000)
                 .EUt(1024)
                 .duration(20)
-                .dimension(GTODimensions.BARNARDA_C.location())
+                .dimension(GTODimensions.BARNARDA_C)
                 .save();
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("flat")
@@ -24,7 +24,7 @@ final class GasCollector {
                 .outputFluids(GTMaterials.Air, 10000)
                 .EUt(16)
                 .duration(20)
-                .dimension(GTODimensions.FLAT.location())
+                .dimension(GTODimensions.FLAT)
                 .save();
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("void")
@@ -32,7 +32,7 @@ final class GasCollector {
                 .outputFluids(GTMaterials.Air, 10000)
                 .EUt(16)
                 .duration(20)
-                .dimension(GTODimensions.VOID.location())
+                .dimension(GTODimensions.VOID)
                 .save();
     }
 }

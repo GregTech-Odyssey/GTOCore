@@ -1,6 +1,6 @@
 package com.gtocore.data.recipe.gtm.chemistry;
 
-import com.gtolib.utils.RLUtils;
+import com.gtolib.api.data.GTODimensions;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
@@ -85,19 +85,19 @@ public final class ChemistryRecipes {
         GAS_COLLECTOR_RECIPES.recipeBuilder("air")
                 .circuitMeta(1)
                 .outputFluids(Air.getFluid(10000))
-                .dimension(RLUtils.mc("overworld"))
+                .dimension(GTODimensions.OVERWORLD)
                 .duration(20).EUt(16).save();
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("nether_air")
                 .circuitMeta(2)
                 .outputFluids(NetherAir.getFluid(10000))
-                .dimension(RLUtils.mc("the_nether"))
+                .dimension(GTODimensions.THE_NETHER)
                 .duration(20).EUt(64).save();
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("ender_air")
                 .circuitMeta(3)
                 .outputFluids(EnderAir.getFluid(10000))
-                .dimension(RLUtils.mc("the_end"))
+                .dimension(GTODimensions.THE_END)
                 .duration(20).EUt(256).save();
 
         PYROLYSE_RECIPES.recipeBuilder("activated_carbon_from_carbon").circuitMeta(1)

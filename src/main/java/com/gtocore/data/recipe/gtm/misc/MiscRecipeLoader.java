@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.Tags;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -88,8 +89,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.COBBLESTONE.asItem())
                 .duration(16)
                 .EUt(VA[ULV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("stone")
@@ -97,8 +97,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.STONE.asItem())
                 .duration(16)
                 .EUt(VA[ULV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("andesite")
@@ -106,8 +105,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.ANDESITE.asItem())
                 .duration(16)
                 .EUt(VHA[MV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("granite")
@@ -115,8 +113,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.GRANITE.asItem())
                 .duration(16)
                 .EUt(VHA[MV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("diorite")
@@ -124,8 +121,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.DIORITE.asItem())
                 .duration(16)
                 .EUt(VHA[MV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("obsidian")
@@ -133,8 +129,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.OBSIDIAN.asItem())
                 .duration(16)
                 .EUt(VHA[HV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("basalt")
@@ -142,8 +137,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.BASALT.asItem())
                 .duration(16)
                 .EUt(VHA[HV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("blackstone")
@@ -151,8 +145,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.BLACKSTONE.asItem())
                 .duration(16)
                 .EUt(VHA[HV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("deepslate")
@@ -160,8 +153,7 @@ public final class MiscRecipeLoader {
                 .outputItems(Blocks.DEEPSLATE.asItem())
                 .duration(16)
                 .EUt(VHA[EV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("marble")
@@ -169,8 +161,7 @@ public final class MiscRecipeLoader {
                 .outputItems(rock, Marble)
                 .duration(16)
                 .EUt(VHA[HV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         ROCK_BREAKER_RECIPES.recipeBuilder("red_granite")
@@ -178,8 +169,7 @@ public final class MiscRecipeLoader {
                 .outputItems(rock, GraniteRed)
                 .duration(16)
                 .EUt(VHA[EV])
-                .addData("fluidA", "minecraft:lava")
-                .addData("fluidB", "minecraft:water")
+                .adjacentFluid(Fluids.LAVA, Fluids.WATER)
                 .save();
 
         // Jetpacks
