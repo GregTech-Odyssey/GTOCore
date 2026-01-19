@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT)
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class TravelParticleHandler {
 
     private static int tick = 0;

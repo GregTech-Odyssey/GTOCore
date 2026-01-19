@@ -59,7 +59,6 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
     private int timing;
     private final ConditionalSubscriptionHandler tickSubs;
-    private boolean clientRemovedBlocks = false;
 
     public CosmicCelestialSpireOfConvergence(MetaMachineBlockEntity holder) {
         super(holder);

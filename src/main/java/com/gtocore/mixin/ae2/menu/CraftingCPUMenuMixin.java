@@ -99,7 +99,7 @@ public class CraftingCPUMenuMixin extends AEBaseMenu implements IActionHolder, I
         }, player);
     }
 
-    @Inject(method = "broadcastChanges", at = @At(value = "HEAD"), remap = false)
+    @Inject(method = "broadcastChanges", at = @At("HEAD"), remap = false)
     private void gto$onBroadcastChangesFirst(CallbackInfo ci) {
         if (isServerSide()) {
             gto$paused = cpu != null && gto$isPaused();

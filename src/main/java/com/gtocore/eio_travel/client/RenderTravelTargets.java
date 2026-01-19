@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.Nullable;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT)
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class RenderTravelTargets {
 
     @SubscribeEvent

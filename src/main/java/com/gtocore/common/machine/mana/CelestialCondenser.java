@@ -165,6 +165,6 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         data.putLong(LUNARA, this.lunara);
         data.putLong(VOIDFLUX, this.voidflux);
         data.putLong(STELLARM, this.stellarm);
-        data.putLong("max_capacity", this.MAX_CAPACITY);
+        data.putLong("max_capacity", MAX_CAPACITY);
     }
 }

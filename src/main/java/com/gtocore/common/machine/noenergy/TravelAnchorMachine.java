@@ -49,7 +49,7 @@ public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine,
 
     @Override
     public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 140, 100);;
+        var group = new WidgetGroup(0, 0, 140, 100);
         var setNameLabel = new LabelWidget(14, 8, "ftblibrary.select_item.display_name");
         group.addWidget(setNameLabel);
         var textInputWidget = new TextFieldWidget()
