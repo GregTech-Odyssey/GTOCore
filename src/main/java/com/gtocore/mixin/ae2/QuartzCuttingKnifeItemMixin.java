@@ -9,12 +9,12 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import appeng.api.parts.IPart;
-import appeng.blockentity.networking.CableBusBlockEntity;
+import appeng.api.integrations.igtooltip.TooltipContext;
+import appeng.api.parts.IPartHost;
+import appeng.integration.modules.igtooltip.parts.PartHostTooltips;
 import appeng.items.tools.quartz.QuartzCuttingKnifeItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -36,14 +36,11 @@ public class QuartzCuttingKnifeItemMixin {
                 BlockState state = level.getBlockState(pos);
                 BlockEntity tile = level.getBlockEntity(pos);
                 Component blockNameComponent = null;
-
-                if (tile instanceof CableBusBlockEntity cable) {
-                    Vec3 hitVec = context.getClickLocation();
-                    Vec3 hitInBlock = new Vec3(hitVec.x - pos.getX(), hitVec.y - pos.getY(), hitVec.z - pos.getZ());
-                    IPart part = cable.getCableBus().selectPartLocal(hitInBlock).part;
-                    if (part != null) {
-                        blockNameComponent = part.getPartItem().asItem().getName(part.getPartItem().asItem().getDefaultInstance());
-                    }
+                if (tile instanceof IPartHost partHost) {
+                    blockNameComponent = PartHostTooltips.getName(partHost, new TooltipContext(
+                            null,
+                            context.getClickLocation(),
+                            player));
                 }
                 if (blockNameComponent == null && !state.isAir()) {
                     blockNameComponent = state.getBlock().getName();

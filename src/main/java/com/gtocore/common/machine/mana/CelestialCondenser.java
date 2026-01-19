@@ -41,10 +41,8 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     @Persisted
     private long stellarm = 0;
 
-    @Persisted
-    private final long MAX_CAPACITY = 1000000;
+    private static final long MAX_CAPACITY = 1000000;
 
-    @Persisted
     private CelestialHandler.Mode mode = CelestialHandler.Mode.OVERWORLD;
 
     private int timing;
@@ -132,7 +130,7 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
     private static boolean hasClearSky(Level world, BlockPos pos) {
         BlockPos checkPos = pos.above();
         if (!canSeeSky(world, pos)) return false;
-        if (world.dimension().equals(Level.END)) return true;
+        if (world.dimension() == Level.END) return true;
         Biome biome = world.getBiome(checkPos).value();
         boolean hasPrecipitation = world.isRaining() && (biome.warmEnoughToRain(checkPos) || biome.coldEnoughToSnow(checkPos));
         return !hasPrecipitation;
@@ -167,6 +165,6 @@ public class CelestialCondenser extends SimpleNoEnergyMachine implements IWailaD
         data.putLong(LUNARA, this.lunara);
         data.putLong(VOIDFLUX, this.voidflux);
         data.putLong(STELLARM, this.stellarm);
-        data.putLong("max_capacity", this.MAX_CAPACITY);
+        data.putLong("max_capacity", MAX_CAPACITY);
     }
 }

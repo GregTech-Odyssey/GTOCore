@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.core.mixins.StrictNBTIngredientAccessor;
 
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -59,6 +60,10 @@ public final class DimensionDataItem extends Item {
     public DimensionDataItem(Properties properties) {
         super(properties);
         DIMENSION_DATA = this;
+    }
+
+    public ItemStack getDimensionData(ResourceKey<Level> key) {
+        return getDimensionData(key.location());
     }
 
     public ItemStack getDimensionData(ResourceLocation resourceLocation) {

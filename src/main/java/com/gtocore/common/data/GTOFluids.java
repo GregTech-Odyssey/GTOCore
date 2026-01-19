@@ -33,6 +33,8 @@ import com.tterrag.registrate.util.entry.FluidEntry;
 
 import java.util.Map;
 
+import static com.gtocore.data.tag.Tags.XP_JUICE_TAG;
+
 public final class GTOFluids {
 
     public static final Map<String, String> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
@@ -68,6 +70,7 @@ public final class GTOFluids {
     public static final FluidEntry<? extends ForgeFlowingFluid> XP_JUICE = fluid("xp_juice", "经验汁")
             .properties(p -> p.lightLevel(10).density(800).viscosity(1500))
             .lang("XP Juice")
+            .tag(XP_JUICE_TAG)
             .register();
 
     public static final FluidEntry<? extends ForgeFlowingFluid> LIQUID_SUNSHINE = fluid("liquid_sunshine", "液态阳光")

@@ -13,8 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
-import com.gregtechceu.gtceu.utils.function.ObjectLongConsumer;
-import com.gregtechceu.gtceu.utils.function.ObjectLongPredicate;
+import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraftforge.fluids.FluidStack;
 
@@ -25,6 +24,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.ObjLongConsumer;
 import java.util.function.Supplier;
 
 @Getter
@@ -149,7 +149,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     }
 
     @Override
-    public boolean forEachFluids(ObjectLongPredicate<FluidStack> function) {
+    public boolean forEachFluids(ObjLongPredicate<FluidStack> function) {
         for (var i : inventory) {
             if (i.config == null) continue;
             var stock = i.stock;
@@ -160,7 +160,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     }
 
     @Override
-    public void fastForEachFluids(ObjectLongConsumer<FluidStack> function) {
+    public void fastForEachFluids(ObjLongConsumer<FluidStack> function) {
         for (var i : inventory) {
             if (i.config == null) continue;
             var stock = i.stock;

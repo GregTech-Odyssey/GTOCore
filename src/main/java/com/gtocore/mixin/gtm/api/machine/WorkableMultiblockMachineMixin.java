@@ -139,7 +139,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
         if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine && (handler.hasCapability(ItemRecipeCapability.CAP) || handler.hasCapability(FluidRecipeCapability.CAP))) {
             traitSubscriptions.add(handler.subscribe(() -> enhancedRecipeLogicMachine.onContentChanges(handler)));
             if (getLevel() instanceof ServerLevel serverLevel) {
-                TaskHandler.enqueueServerTask(serverLevel, () -> enhancedRecipeLogicMachine.onContentChanges(handler), 0);
+                TaskHandler.enqueueTask(serverLevel, () -> enhancedRecipeLogicMachine.onContentChanges(handler), 0);
             }
         }
     }

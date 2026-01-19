@@ -239,7 +239,6 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     @Override
     public boolean onMarkerInteract(Player player, List<TesseractDirectedTarget> targets) {
         if (targets.isEmpty()) {
-            ;
             return false;
         }
         if (getLevel() == null || getLevel().isClientSide()) {

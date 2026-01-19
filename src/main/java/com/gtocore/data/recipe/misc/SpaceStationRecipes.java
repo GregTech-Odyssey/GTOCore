@@ -19,7 +19,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTDimensionMarkers;
 import com.gregtechceu.gtceu.common.data.GTRecipes;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -103,7 +102,7 @@ public class SpaceStationRecipes {
         }
 
         SpaceStationBuilder dimension(Dimension dimension) {
-            this.orbit = ResourceKey.create(Registries.DIMENSION, dimension.getOrbit());
+            this.orbit = dimension.getOrbit();
             this.dimension = dimension;
             return this;
         }
@@ -134,7 +133,7 @@ public class SpaceStationRecipes {
 
         void build() {
             GTRecipes.RECIPE_MAP.put(id, new SpaceStationRecipe(id, ingredients, orbit, structure));
-            var recipe = SPACE_STATION_CONSTRUCTION_RECIPES.builder(id.getPath()).dimension(dimension.getLocation());
+            var recipe = SPACE_STATION_CONSTRUCTION_RECIPES.builder(id.getPath()).dimension(dimension.getResourceKey());
             ingredients.forEach(i -> recipe.inputItems(i.ingredient(), i.count()));
             recipe.outputItems(OrderItem.setTarget(GTOItems.ORDER.asStack(), GTRegistries.DIMENSION_MARKERS.getOrDefault(dimension.getLocation(), GTDimensionMarkers.OVERWORLD).getIcon()));
             recipe.save();

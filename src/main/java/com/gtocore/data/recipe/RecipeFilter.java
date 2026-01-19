@@ -76,7 +76,7 @@ public final class RecipeFilter {
         ModularRouters.initJsonFilter(filters);
         AE2.initJsonFilter(filters);
         SpaceStationRecipes.initJsonFilter(filters);
-        Sophisticated.initJsonFilter(filters);
+        Sophisticated.backpackFilter(filters);
 
         String[] ore1 = new String[] { "coal", "redstone", "emerald", "diamond" };
         String[] ore2 = new String[] { "iron", "copper", "gold" };

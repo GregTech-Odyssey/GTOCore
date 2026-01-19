@@ -183,4 +183,9 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
     public long getMaxParallel() {
         return fuel;
     }
+
+    @Override
+    public long getMinParallel() {
+        return Math.min(IParallelMachine.MIN_PARALLEL, getMaxParallel());
+    }
 }

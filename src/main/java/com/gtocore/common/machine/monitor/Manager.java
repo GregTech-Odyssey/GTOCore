@@ -622,7 +622,7 @@ public final class Manager {
         grid2Network.entrySet().removeIf(entry -> {
             GridFacedPoint point = entry.getKey();
             // 如果网格不在当前世界中，或者网格的点不在当前世界中，则移除该网格
-            return !point.facing.level.equals(level.dimension()) || !level.isLoaded(point.toBlockPos());
+            return point.facing.level != level.dimension() || !level.isLoaded(point.toBlockPos());
         });
     }
 

@@ -137,7 +137,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor implements IMach
     }
 
     @Override
-    public void clientTick() {
+    protected void clientTick() {
         super.clientTick();
         if (getOffsetTimer() % 10 == 0 && bufferCache != null) {
             textListCache = Stream.of(bufferCache)

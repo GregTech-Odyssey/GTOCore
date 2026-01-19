@@ -1,5 +1,8 @@
 package com.gtocore.mixin.botania;
 
+import com.gtolib.api.data.Dimension;
+
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -42,26 +45,46 @@ public abstract class AlfheimEventListenerMixin {
     @SubscribeEvent
     public void alfPortalUpdate(ElvenPortalUpdateEvent event) {
         BlockEntity portal = event.getPortalTile();
-        if (event.isOpen() && portal.getLevel() != null && !portal.getLevel().isClientSide) {
-            if (Alfheim.DIMENSION.equals(portal.getLevel().dimension())) {
-                if (portal instanceof AlfheimPortalBlockEntity alfPortal) {
-                    alfPortal.consumeMana(new ArrayList<>(), 0, true);
-                }
+        if (!event.isOpen() || portal.getLevel() == null || portal.getLevel().isClientSide) {
+            return;
+        }
+        Level level = portal.getLevel();
+        Dimension dimension = Dimension.from(level);
+        if (dimension == Dimension.ALFHEIM) {
+            if (portal instanceof AlfheimPortalBlockEntity alfPortal) {
+                alfPortal.consumeMana(new ArrayList<>(), 0, true);
             }
-
-            if (Level.OVERWORLD.equals(portal.getLevel().dimension()) && AlfheimPortalHandler.shouldCheck(portal.getLevel())) {
-                List<Player> playersInPortal = portal.getLevel().getEntitiesOfClass(Player.class, event.getAabb());
-                for (Player player : playersInPortal) {
-                    if (player instanceof ServerPlayer serverPlayer && MythicPlayerData.getData(serverPlayer).getBoolean("KvasirKnowledge") && gtocore$additionalChecks(serverPlayer)) {
-                        if (AlfheimPortalHandler.setInPortal(portal.getLevel(), serverPlayer)) {
-                            if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portal.getBlockPos())) {
-                                serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_not_loaded"));
-                            }
+            return;
+        }
+        if (!AlfheimPortalHandler.shouldCheck(level)) {
+            return;
+        }
+        List<Player> playersInPortal = level.getEntitiesOfClass(Player.class, event.getAabb());
+        if (playersInPortal.isEmpty()) {
+            return;
+        }
+        BlockPos portalPos = portal.getBlockPos();
+        for (Player player : playersInPortal) {
+            if (player instanceof ServerPlayer serverPlayer && gtocore$canPlayerUsePortal(serverPlayer)) {
+                if (AlfheimPortalHandler.setInPortal(serverPlayer.level(), serverPlayer)) {
+                    if (dimension == Dimension.OVERWORLD) {
+                        if (!AlfheimTeleporter.teleportToAlfheim(serverPlayer, portalPos)) {
+                            serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_not_loaded"));
                         }
+                    } else {
+                        serverPlayer.sendSystemMessage(Component.translatable("message.mythicbotany.alfheim_overworld_only"));
                     }
+
                 }
             }
         }
+    }
+
+    @Unique
+    private boolean gtocore$canPlayerUsePortal(ServerPlayer player) {
+        boolean hasKnowledge = MythicPlayerData.getData(player).getBoolean("KvasirKnowledge");
+        boolean passesAdditionalChecks = gtocore$additionalChecks(player);
+        return hasKnowledge && passesAdditionalChecks;
     }
 
     /**

@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.item.DimensionDataItem;
 
+import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.ContentBuilder;
@@ -20,8 +21,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +41,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
             .duration(20)
             .buildRawRecipe();
 
-    private ResourceLocation dim;
+    private ResourceKey<Level> dim;
 
     public VoidMinerMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> i.is(GTOItems.DIMENSION_DATA.get()) && i.hasTag());
@@ -49,7 +51,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     public void onMachineChanged() {
         dim = null;
         if (isEmpty()) return;
-        dim = DimensionDataItem.getDimension(getStorageStack());
+        dim = GTODimensions.getDimensionKey(DimensionDataItem.getDimension(getStorageStack()));
         if (GTOOres.ALL_ORES.containsKey(dim)) {
             getRecipeLogic().updateTickSubscription();
             return;

@@ -73,7 +73,7 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
                 DysonSphereSavaedData.setDysonData(getDimension(), pair.leftInt(), pair.rightInt() + 1);
             }
         }
-        int integer = GTODimensions.getPlanetDistances(getDimension().location());
+        int integer = GTODimensions.getPlanetDistances(getDimension());
         if (integer == 0) return null;
         Recipe recipe = getRecipeBuilder().duration(20)
                 .CWUt(Math.max(1, pair.leftInt() * integer / 2))

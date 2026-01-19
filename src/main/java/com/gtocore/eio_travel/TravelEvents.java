@@ -86,7 +86,7 @@ public class TravelEvents {
         tag.putString(ITravelHandlerHook.MODE_TAG, mode.getSerializedName());
     }
 
-    @Mod.EventBusSubscriber(value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(Dist.CLIENT)
     public static class Client {
 
         private static boolean LAST_JUMPING = false;

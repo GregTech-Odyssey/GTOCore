@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -13,11 +14,12 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
@@ -28,10 +30,10 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.fast.fastcollection.O2OOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +41,7 @@ import java.util.Map;
 
 public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMachine {
 
-    public static final Map<ResourceLocation, Fluid> AIR_MAP = new O2OOpenCacheHashMap<>();
+    public static final Map<ResourceKey<Level>, Fluid> AIR_MAP = new Reference2ReferenceOpenHashMap<>();
 
     private TickableSubscription intakeSubs;
 
@@ -50,6 +52,8 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     @DescSynced
     private boolean isWorking;
 
+    private TickableSubscription particleSubscription;
+
     public InfiniteIntakeHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.ULV, IO.IN);
         this.tank = new NotifiableFluidTank(this, 1, 256000, IO.IN, IO.NONE);
@@ -59,10 +63,10 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     public static void init(GTRecipeBuilder recipeBuilder) {
         for (var condition : recipeBuilder.conditions) {
             if (condition instanceof DimensionCondition dimensionCondition) {
-                var dim = dimensionCondition.getDimension();
+                var dim = dimensionCondition.dimension;
                 var fluids = RecipeHelper.getOutputFluids(recipeBuilder);
                 if (!fluids.isEmpty()) {
-                    AIR_MAP.put(dim, fluids.get(0).getFluid());
+                    AIR_MAP.put(dim, fluids.getFirst().getFluid());
                     break;
                 }
             }
@@ -80,6 +84,8 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
         super.onLoad();
         if (getLevel() instanceof ServerLevel serverLevel) {
             serverLevel.getServer().tell(new TickTask(0, this::updateTankSubscription));
+        } else {
+            particleSubscription = subscribeClientTick(particleSubscription, this::particleTick, 5);
         }
     }
 
@@ -87,6 +93,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     public void onUnload() {
         super.onUnload();
         unsubscribe();
+        particleSubscription = ITickSubscription.unsubscribe(particleSubscription);
     }
 
     @Override
@@ -109,11 +116,9 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
         return false;
     }
 
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick() {
-        super.clientTick();
-        if (isWorking && getOffsetTimer() % 5 == 0) {
+    private void particleTick() {
+        if (isWorking) {
             var facing = this.getFrontFacing();
             int stepX = facing.getStepX();
             int stepY = facing.getStepY();
@@ -141,7 +146,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
     }
 
     private void intake() {
-        var fluid = AIR_MAP.get(getLevel().dimension().location());
+        var fluid = AIR_MAP.get(getLevel().dimension());
         if (fluid == null) {
             unsubscribe();
             return;

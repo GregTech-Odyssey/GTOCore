@@ -62,7 +62,7 @@ final class PlatformStructurePlacer {
         this.onBatch = onBatch;
         this.onFinished = onFinished;
 
-        this.subscription = TaskHandler.enqueueServerTick(serverLevel, this::placeBatch, 0, 0);
+        this.subscription = TaskHandler.enqueueTick(serverLevel, this::placeBatch, 0, 0);
     }
 
     /**

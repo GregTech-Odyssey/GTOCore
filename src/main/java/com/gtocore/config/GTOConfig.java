@@ -1,5 +1,7 @@
 package com.gtocore.config;
 
+import com.gtocore.common.CommonProxy;
+
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
@@ -31,6 +33,7 @@ public final class GTOConfig {
     public final static GTOConfig INSTANCE;
 
     static {
+        CommonProxy.earlyStartup();
         ConfigHolder.init();
         INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.YAML).getConfigInstance();
         if (INSTANCE.startSpark == SparkRange.ALL || INSTANCE.startSpark == SparkRange.MAIN_MENU) {
@@ -39,7 +42,6 @@ public final class GTOConfig {
         if (INSTANCE.dev) Configurator.setRootLevel(Level.INFO);
         if (INSTANCE.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
         int difficulty = INSTANCE.difficulty.ordinal() + 1;
-        GTOCore.difficulty = difficulty;
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.harderRods = difficulty == 3;

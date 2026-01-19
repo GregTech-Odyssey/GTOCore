@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
@@ -187,14 +186,14 @@ final class CosmosSimulation {
         Int2ObjectOpenHashMap<Reference2IntOpenHashMap<Fluid>> fluidContent = new Int2ObjectOpenHashMap<>();
 
         for (var entry : GTOOres.ALL_ORES.entrySet()) {
-            ResourceLocation dimension = entry.getKey();
-            if (dimension.equals(GTODimensions.THE_NETHER)) continue;
+            var dimension = entry.getKey();
+            if (dimension == GTODimensions.THE_NETHER) continue;
             int tier = GTODimensions.getTier(dimension);
             if (tier == 0) tier = 1;
             if (tier > 9) tier = 9;
             Reference2IntOpenHashMap<Material> materialMap = new Reference2IntOpenHashMap<>();
             Reference2IntOpenHashMap<Fluid> fluid = new Reference2IntOpenHashMap<>();
-            RecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(dimension.getPath())
+            RecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(dimension.location().getPath())
                     .addData("tier", tier)
                     .inputFluids(GTOMaterials.CosmicElement, 1024000)
                     .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(dimension));
@@ -214,7 +213,7 @@ final class CosmosSimulation {
                     materialMap.merge(material.getKey(), (int) (Math.sqrt(material.getIntValue() << 20)) << 8, (a, b) -> (int) (a + b / 1.5));
                 }
             }
-            for (FluidStack fluidStack : GTOBedrockFluids.ALL_BEDROCK_FLUID.getOrDefault(GTODimensions.getDimensionKey(entry.getKey()), Collections.emptyList())) {
+            for (FluidStack fluidStack : GTOBedrockFluids.ALL_BEDROCK_FLUID.getOrDefault(entry.getKey(), Collections.emptyList())) {
                 fluid.merge(fluidStack.getFluid(), (int) Math.sqrt(fluidStack.getAmount() << 16) << 8, Integer::sum);
             }
             materialMap.putAll(dustContent.getOrDefault(tier, new Reference2IntOpenHashMap<>()));

@@ -217,7 +217,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 eut = inputFluid(GTMaterials.DistilledWater.getFluid(), basic / 4) ? basic << 4 : 0;
                 if (eut == 0) ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.insufficient_in").append(": ").append(GTMaterials.DistilledWater.getLocalizedName()));
             } else {
-                eut = (int) (basic * (GTODimensions.isVoid(level.dimension().location()) ? 14 : GTOUtils.getSunIntensity(level.getDayTime()) * 15 / 100 * (level.isRaining() ? (level.isThundering() ? 0.3f : 0.7f) : 1)));
+                eut = (int) (basic * (GTODimensions.isVoid(level.dimension()) ? 14 : GTOUtils.getSunIntensity(level.getDayTime()) * 15 / 100 * (level.isRaining() ? (level.isThundering() ? 0.3f : 0.7f) : 1)));
                 if (eut == 0) ((IEnhancedRecipeLogic) getRecipeLogic()).gtolib$setIdleReason(Component.translatable("recipe.condition.daytime.day.tooltip"));
             }
             if (eut == 0) return null;

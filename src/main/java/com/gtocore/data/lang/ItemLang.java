@@ -124,6 +124,8 @@ final class ItemLang {
         addCNEN("gtocore.tooltip.item.craft_step", "合成步骤：%s", "Craft Step: %s");
         addCNEN("gtocore.tooltip.item.activate_by", "可由%s激活", "Can be activated by %s");
         addCNEN("gtocore.tooltip.item.charge_bomb.disabled", "服务器配置已禁用爆弹的爆炸效果", "The explosive effect of the charge bomb has been disabled by server configuration");
+        addCNEN("gtocore.tooltip.item.muffler.disabled", "消声仓已被服务器配置禁用，无法产生灰烬", "The muffler has been disabled by server configuration and cannot produce ash");
+        addCNEN("gtocore.tooltip.item.muffler.enabled", "使用机器GUI左下方按钮以暂停/恢复灰烬回收功能", "Use the button at the bottom left of the machine GUI to pause/resume ash recovery function");
 
         addCNEN("item.gtocore.structure_detect.tooltip.0", "潜行右键主方块以检测多方块结构", "Sneak right-click the main block to detect multiblock structure.");
         addCNEN("item.gtocore.structure_detect.tooltip.1", "检测大型结构时可能会有延迟", "There may be lag when detecting large structures.");

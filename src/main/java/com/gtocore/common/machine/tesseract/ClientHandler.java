@@ -29,7 +29,7 @@ import org.joml.Matrix4f;
 import java.awt.*;
 import java.util.List;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT)
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientHandler {
 
     private static final float HUE_RED = 0.0f;

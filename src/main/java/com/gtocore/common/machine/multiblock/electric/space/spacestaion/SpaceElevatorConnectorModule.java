@@ -7,12 +7,16 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.IIWirelessInteractor;
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.fast.fastcollection.O2IOpenCacheHashMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -37,6 +41,7 @@ public class SpaceElevatorConnectorModule extends Extension implements ISpaceSer
     @Getter
     @DescSynced
     protected double high = 15;
+    private TickableSubscription highSubscription;
 
     public SpaceElevatorConnectorModule(MetaMachineBlockEntity metaMachineBlockEntity) {
         super(metaMachineBlockEntity);
@@ -116,8 +121,19 @@ public class SpaceElevatorConnectorModule extends Extension implements ISpaceSer
     }
 
     @Override
-    public void clientTick() {
-        super.clientTick();
+    public void onStructureFormedClient() {
+        super.onStructureFormedClient();
+        highSubscription = subscribeClientTick(highSubscription, this::clientTick);
+    }
+
+    @Override
+    public void onStructureInvalidClient() {
+        super.onStructureInvalidClient();
+        highSubscription = ITickSubscription.unsubscribe(highSubscription);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void clientTick() {
         if (maxTier > 0) high = 480 + ((480) * MathUtil.sin((float) (getOffsetTimer() / 240.0F + Math.PI))) + 15;
     }
 

@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.Direction;
@@ -22,11 +21,6 @@ public final class HeatCondition extends AbstractRecipeCondition {
 
     public HeatCondition(int temperature) {
         this.temperature = temperature;
-    }
-
-    @Override
-    public RecipeConditionType<?> getType() {
-        return HEAT;
     }
 
     @Override

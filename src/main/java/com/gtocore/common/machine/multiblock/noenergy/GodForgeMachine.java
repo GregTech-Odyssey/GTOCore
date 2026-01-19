@@ -15,6 +15,7 @@ import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
@@ -26,6 +27,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -50,6 +53,8 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
     @Persisted
     public int tier;
 
+    private TickableSubscription rotationSubscription;
+
     private final TierCasingTrait tierCasingTrait;
 
     public GodForgeMachine(MetaMachineBlockEntity holder) {
@@ -63,8 +68,13 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
     }
 
     @Override
-    public void clientTick() {
-        super.clientTick();
+    public void onStructureFormedClient() {
+        super.onStructureFormedClient();
+        rotationSubscription = subscribeClientTick(rotationSubscription, this::rotation);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void rotation() {
         if (this.isActive() || this.timer > this.rotation) {
             this.rotation++;
             this.timer = 20;

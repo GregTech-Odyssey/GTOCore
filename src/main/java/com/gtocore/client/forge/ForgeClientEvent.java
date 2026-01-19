@@ -10,7 +10,7 @@ import com.gtocore.common.item.StructureWriteBehavior;
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt;
 
 import com.gtolib.GTOCore;
-import com.gtolib.IItem;
+import com.gtolib.api.item.IItem;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.player.PlayerData;
 import com.gtolib.utils.ItemUtils;
@@ -180,7 +180,7 @@ public final class ForgeClientEvent {
                         RenderHelper.highlightBlock(camera, poseStack, color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, entry.getKey().start, entry.getKey().end);
                     });
             if (ClientCache.machineNotFormedHighlight) {
-                ((ILevel) level).gtceu$getHighlightCache().forEach(p -> {
+                ILevel.getHighlightCache(level).forEach(p -> {
                     var pos = BlockPos.of(p);
                     RenderHelper.highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos);
                 });

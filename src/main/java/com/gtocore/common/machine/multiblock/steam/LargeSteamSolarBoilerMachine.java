@@ -40,7 +40,7 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.Steam;
 @Scanned
 public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine implements IExplosionMachine, IDisplayUIMachine, IEnhancedRecipeLogicMachine {
 
-    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "30", normalValue = "18", expertValue = "12", cn = "基础蒸汽产率 : %s / t", en = "Basic steam production : %s / t")
+    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, easyValue = "30", normalValue = "18", expertValue = "12", cn = "单集热管产率 : %s / t", en = "Steam production per tube : %s / t")
     private static int basicSteamProduction = 10;
 
     private static final int MAX_LR_DIST = 62, MAX_B_DIST = 125;
@@ -189,7 +189,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
     }
 
     private boolean isAppropriateDimensionAndTime(Level world, BlockPos pos) {
-        if (GTODimensions.isVoid(world.dimension().location())) return true;
+        if (GTODimensions.isVoid(world.dimension())) return true;
         if (!world.isDay()) {
             getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails")
                     .append(": ").append(Component.translatable("recipe.condition.daytime.day.tooltip")));

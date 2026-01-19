@@ -18,10 +18,12 @@ import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.core.BlockPos;
@@ -30,6 +32,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -50,6 +54,8 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 @DataGeneratorScanned
 public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements IHighlightMachine, IIWirelessInteractor<SpaceElevatorConnectorModule> {
+
+    private TickableSubscription highSubscription;
 
     public SpaceElevatorMachine(MetaMachineBlockEntity holder) {
         super(holder, POWER_MODULE_TIER);
@@ -152,8 +158,19 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
-    public void clientTick() {
-        super.clientTick();
+    public void onStructureFormedClient() {
+        super.onStructureFormedClient();
+        highSubscription = subscribeClientTick(highSubscription, this::clientTick);
+    }
+
+    @Override
+    public void onStructureInvalidClient() {
+        super.onStructureInvalidClient();
+        highSubscription = ITickSubscription.unsubscribe(highSubscription);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    void clientTick() {
         if (getRecipeLogic().isWorking()) high = 12 * getBaseHigh() + 100 + ((100 + getBaseHigh()) * MathUtil.sin(getOffsetTimer() / 160.0F));
     }
 

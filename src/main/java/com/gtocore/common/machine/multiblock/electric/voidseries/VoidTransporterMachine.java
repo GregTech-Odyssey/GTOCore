@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.multiblock.electric.voidseries;
 
-import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.EnergyContainerTrait;
@@ -16,7 +15,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -47,13 +46,13 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
         return create(id, eu, null);
     }
 
-    public static BiConsumer<VoidTransporterMachine, Player> teleportToDimension(ResourceLocation dim, BlockPos pos) {
+    public static BiConsumer<VoidTransporterMachine, Player> teleportToDimension(ResourceKey<Level> dim, BlockPos pos) {
         return (m, player) -> {
             Level level = m.getLevel();
             if (level == null) return;
             MinecraftServer server = level.getServer();
             if (server == null) return;
-            ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(dim));
+            ServerLevel serverLevel = server.getLevel(dim);
             if (serverLevel == null) return;
             CompoundTag data = player.getPersistentData();
             data.putDouble("pos_x_" + m.id, player.getX());

@@ -2,6 +2,8 @@ package com.gtocore.data.tag;
 
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -19,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
 
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
@@ -90,6 +93,8 @@ public final class TagsHandler {
         create(provider, BotaniaTags.Blocks.UNETHICAL_TNT_CHECK,
                 GTBlocks.INDUSTRIAL_TNT.get(),
                 GTBlocks.POWDERBARREL.get());
+        create(provider, CustomTags.CLEANROOM_FLOORS,
+                GTOMachines.TRAVEL_ANCHOR.get());
     }
 
     public static void initItem(RegistrateTagsProvider<Item> provider) {
@@ -98,6 +103,17 @@ public final class TagsHandler {
                 GTOItems.WIRELESS_ME2IN1.asItem());
         create(provider, ItemTags.create(ResourceLocation.parse("forge:ingots/redstone_alloy")),
                 ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RedAlloy));
+    }
+
+    public static void initFluid(RegistrateTagsProvider<Fluid> provider) {
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.FilteredSater.getFluid());
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.OzoneWater.getFluid());
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.FlocculentWater.getFluid());
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.PHNeutralWater.getFluid());
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.ExtremeTemperatureWater.getFluid());
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.ElectricEquilibriumWater.getFluid());
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.DegassedWater.getFluid());
+        create(provider, Tags.PURIFY_WATER, GTOMaterials.BaryonicPerfectionWater.getFluid());
     }
 
     private static void create(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, Block... rls) {
@@ -111,6 +127,13 @@ public final class TagsHandler {
         var builder = provider.addTag(tagKey);
         for (Item item : rls) {
             builder.add(BuiltInRegistries.ITEM.getResourceKey(item).get());
+        }
+    }
+
+    private static void create(RegistrateTagsProvider<Fluid> provider, TagKey<Fluid> tagKey, Fluid... rls) {
+        var builder = provider.addTag(tagKey);
+        for (Fluid fluid : rls) {
+            builder.add(BuiltInRegistries.FLUID.getResourceKey(fluid).get());
         }
     }
 }

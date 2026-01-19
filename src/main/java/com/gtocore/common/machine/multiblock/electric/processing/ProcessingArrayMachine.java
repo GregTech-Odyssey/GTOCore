@@ -126,6 +126,11 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     }
 
     @Override
+    public long getMinParallel() {
+        return IParallelMachine.MIN_PARALLEL;
+    }
+
+    @Override
     public Item getStorageItem() {
         return inventory.getStackInSlot(0).getItem();
     }

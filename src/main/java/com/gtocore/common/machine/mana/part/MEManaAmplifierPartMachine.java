@@ -7,7 +7,6 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.mana.ManaAmplifierPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
@@ -36,7 +35,7 @@ import lombok.Setter;
 import java.util.List;
 
 @DataGeneratorScanned
-public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine implements IGridConnectedMachine, IControllable {
+public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine implements IGridConnectedMachine {
 
     @RegisterLanguage(cn = "从ME网络拉取魔力", en = "Pull Mana from ME Network")
     public static final String LANG_USE_SOURCE = "gtceu.machine.mana_amplifier.use_source";

@@ -19,6 +19,7 @@ import net.minecraftforge.fluids.FluidStack;
 import com.fast.fastcollection.O2OOpenCacheHashMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -41,7 +42,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensionKeys(VOID)));
+                    .dimensions(Collections.singleton(VOID)));
 
     private static final BedrockFluidDefinition VOID_LIGHT_OIL = create(GTCEu.id("void_light_oil_deposit"),
             "虚空轻油矿藏",
@@ -52,7 +53,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensionKeys(VOID)));
+                    .dimensions(Collections.singleton(VOID)));
 
     private static final BedrockFluidDefinition VOID_NATURAL_GAS = create(GTCEu.id("void_natural_gas_deposit"),
             "虚空天然气矿藏",
@@ -63,7 +64,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensionKeys(VOID)));
+                    .dimensions(Collections.singleton(VOID)));
 
     private static final BedrockFluidDefinition VOID_OIL = create(GTCEu.id("void_oil_deposit"),
             "虚空石油矿藏",
@@ -74,7 +75,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensionKeys(VOID)));
+                    .dimensions(Collections.singleton(VOID)));
 
     private static final BedrockFluidDefinition VOID_RAW_OIL = create(GTCEu.id("void_raw_oil_deposit"),
             "虚空原油矿藏",
@@ -85,7 +86,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensionKeys(VOID)));
+                    .dimensions(Collections.singleton(VOID)));
 
     private static final BedrockFluidDefinition VOID_ALT_WATER = create(GTCEu.id("void_salt_water_deposit"),
             "虚空盐水矿藏",
@@ -96,7 +97,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(15)
-                    .dimensions(getDimensionKeys(VOID)));
+                    .dimensions(Collections.singleton(VOID)));
 
     private static final BedrockFluidDefinition FLAT_HEAVY_OIL = create(GTCEu.id("flat_heavy_oil_deposit"),
             "超平坦重油矿藏",
@@ -107,7 +108,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensionKeys(FLAT)));
+                    .dimensions(Collections.singleton(FLAT)));
 
     private static final BedrockFluidDefinition FLAT_LIGHT_OIL = create(GTCEu.id("flat_light_oil_deposit"),
             "超平坦轻油矿藏",
@@ -118,7 +119,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensionKeys(FLAT)));
+                    .dimensions(Collections.singleton(FLAT)));
 
     private static final BedrockFluidDefinition FLAT_NATURAL_GAS = create(GTCEu.id("flat_natural_gas_deposit"),
             "超平坦天然气矿藏",
@@ -129,7 +130,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensionKeys(FLAT)));
+                    .dimensions(Collections.singleton(FLAT)));
 
     private static final BedrockFluidDefinition FLAT_OIL = create(GTCEu.id("flat_oil_deposit"),
             "超平坦石油矿藏",
@@ -140,7 +141,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensionKeys(FLAT)));
+                    .dimensions(Collections.singleton(FLAT)));
 
     private static final BedrockFluidDefinition FLAT_RAW_OIL = create(GTCEu.id("flat_raw_oil_deposit"),
             "超平坦原油矿藏",
@@ -151,7 +152,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensionKeys(FLAT)));
+                    .dimensions(Collections.singleton(FLAT)));
 
     private static final BedrockFluidDefinition FLAT_ALT_WATER = create(GTCEu.id("flat_salt_water_deposit"),
             "超平坦盐水矿藏",
@@ -162,7 +163,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(15)
-                    .dimensions(getDimensionKeys(FLAT)));
+                    .dimensions(Collections.singleton(FLAT)));
 
     private static final BedrockFluidDefinition HELIUM_3 = create(GTCEu.id("helium3_deposit"),
             "氦-3矿藏",
@@ -173,7 +174,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(MOON)));
+                    .dimensions(Collections.singleton(MOON)));
 
     private static final BedrockFluidDefinition HELIUM = create(GTCEu.id("helium_deposit"),
             "氦矿藏",
@@ -184,7 +185,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(MOON)));
+                    .dimensions(Collections.singleton(MOON)));
 
     private static final BedrockFluidDefinition SULFURIC_ACID = create(GTCEu.id("sulfuric_acid_deposit"),
             "硫酸矿藏",
@@ -195,7 +196,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(VENUS)));
+                    .dimensions(Collections.singleton(VENUS)));
 
     private static final BedrockFluidDefinition DEUTERIUM = create(GTCEu.id("deuterium_deposit"),
             "氘矿藏",
@@ -206,7 +207,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(MERCURY)));
+                    .dimensions(Collections.singleton(MERCURY)));
 
     private static final BedrockFluidDefinition RADON = create(GTCEu.id("radon_deposit"),
             "氡矿藏",
@@ -217,7 +218,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(MARS)));
+                    .dimensions(Collections.singleton(MARS)));
 
     private static final BedrockFluidDefinition CERES_RADON = create(GTCEu.id("ceres_radon_deposit"),
             "谷神星氡矿藏",
@@ -228,7 +229,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(CERES)));
+                    .dimensions(Collections.singleton(CERES)));
 
     private static final BedrockFluidDefinition METHANE = create(GTCEu.id("methane_deposit"),
             "甲烷矿藏",
@@ -239,7 +240,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(TITAN)));
+                    .dimensions(Collections.singleton(TITAN)));
 
     private static final BedrockFluidDefinition BENZENE = create(GTCEu.id("benzene_deposit"),
             "苯矿藏",
@@ -250,7 +251,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(TITAN)));
+                    .dimensions(Collections.singleton(TITAN)));
 
     private static final BedrockFluidDefinition CHARCOAL_BYPRODUCTS = create(GTCEu.id("charcoal_byproducts"),
             "木炭副产矿藏",
@@ -261,7 +262,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(TITAN)));
+                    .dimensions(Collections.singleton(TITAN)));
 
     private static final BedrockFluidDefinition COAL_GAS = create(GTCEu.id("coal_gas_deposit"),
             "煤气矿藏",
@@ -272,7 +273,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(IO)));
+                    .dimensions(Collections.singleton(IO)));
 
     private static final BedrockFluidDefinition NITRIC_ACID = create(GTCEu.id("nitric_acid_deposit"),
             "硝酸矿藏",
@@ -283,7 +284,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(PLUTO)));
+                    .dimensions(Collections.singleton(PLUTO)));
 
     private static final BedrockFluidDefinition HYDROCHLORIC_ACID = create(GTCEu.id("hydrochloric_acid_deposit"),
             "盐酸矿藏",
@@ -294,7 +295,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(GANYMEDE)));
+                    .dimensions(Collections.singleton(GANYMEDE)));
 
     private static final BedrockFluidDefinition CERES_XENON = create(GTCEu.id("ceres_xenon_deposit"),
             "氙矿藏",
@@ -305,7 +306,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(CERES)));
+                    .dimensions(Collections.singleton(CERES)));
 
     private static final BedrockFluidDefinition CERES_KRYPTON = create(GTCEu.id("ceres_krypton_deposit"),
             "氪矿藏",
@@ -316,7 +317,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(CERES)));
+                    .dimensions(Collections.singleton(CERES)));
 
     private static final BedrockFluidDefinition CERES_NEON = create(GTCEu.id("ceres_neon_deposit"),
             "氖矿藏",
@@ -327,7 +328,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(CERES)));
+                    .dimensions(Collections.singleton(CERES)));
 
     private static final BedrockFluidDefinition FLUORINE = create(GTCEu.id("fluorine_deposit"),
             "氟矿藏",
@@ -338,7 +339,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(ENCELADUS)));
+                    .dimensions(Collections.singleton(ENCELADUS)));
 
     private static final BedrockFluidDefinition CHLORINE = create(GTCEu.id("chlorine_deposit"),
             "氯矿藏",
@@ -349,7 +350,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(ENCELADUS)));
+                    .dimensions(Collections.singleton(ENCELADUS)));
 
     private static final BedrockFluidDefinition UNKNOWWATER = create(GTCEu.id("unknowwater_deposit"),
             "不明液体矿藏",
@@ -360,7 +361,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensionKeys(BARNARDA_C)));
+                    .dimensions(Collections.singleton(BARNARDA_C)));
 
     private static final BedrockFluidDefinition FRACTAL_PETAL_SOLVENT = create(GTCEu.id("fractal_petal_solvent_deposit"),
             "碎蕊调和溶剂矿藏",
@@ -371,7 +372,7 @@ public final class GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(5)
-                    .dimensions(getDimensionKeys(ALFHEIM)));
+                    .dimensions(Collections.singleton(ALFHEIM)));
 
     private static final BedrockFluidDefinition THE_WATER_FROM_THE_WELL_OF_WISDOM = create(GTCEu.id("the_water_from_the_well_of_wisdom_deposit"),
             "智慧之泉水矿藏",
@@ -383,7 +384,7 @@ public final class GTOBedrockFluids {
                     .depletionChance(100)
                     .depletedYield(5)
                     .biomes(5000, ResourceKey.create(Registries.BIOME, RLUtils.fromNamespaceAndPath("mythicbotany", "alfheim_lakes")))
-                    .dimensions(getDimensionKeys(ALFHEIM)));
+                    .dimensions(Collections.singleton(ALFHEIM)));
 
     private static final BedrockFluidDefinition ANIMIUM = create(GTCEu.id("animium_deposit"),
             "灵髓液矿藏",
@@ -395,7 +396,7 @@ public final class GTOBedrockFluids {
                     .depletionChance(100)
                     .depletedYield(5)
                     .biomes(100, ResourceKey.create(Registries.BIOME, RLUtils.fromNamespaceAndPath("mythicbotany", "golden_fields")))
-                    .dimensions(getDimensionKeys(ALFHEIM)));
+                    .dimensions(Collections.singleton(ALFHEIM)));
 
     private static BedrockFluidDefinition create(ResourceLocation id, String cn, Consumer<BedrockFluidDefinition.Builder> consumer) {
         if (LANG != null) {
@@ -416,7 +417,7 @@ public final class GTOBedrockFluids {
 
     public static void addVoid(BedrockFluidDefinition definition) {
         ResourceKey<Level> dimension = definition.dimensionFilter.iterator().next();
-        if (dimension != getDimensionKey(VOID) || dimension != getDimensionKey(FLAT) || dimension != getDimensionKey(CREATE)) {
+        if (dimension != VOID || dimension != FLAT || dimension != CREATE) {
             List<FluidStack> fluidStacks = ALL_BEDROCK_FLUID.computeIfAbsent(dimension, k -> new ArrayList<>());
             fluidStacks.add(new FluidStack(definition.getStoredFluid().get(), Math.max(1, definition.getMaximumYield() * definition.getWeight())));
             ALL_BEDROCK_FLUID.put(dimension, fluidStacks);

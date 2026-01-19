@@ -6,21 +6,13 @@ import com.gtolib.api.data.GTODimensions;
 import net.minecraft.world.level.Level;
 
 import earth.terrarium.adastra.api.planets.PlanetApi;
-import lombok.Getter;
 
-@Getter
-public class CelestialHandler {
+public record CelestialHandler(long maxCapacity) {
 
     public static final String SOLARIS = "solaris";
     public static final String LUNARA = "lunara";
     public static final String VOIDFLUX = "voidflux";
     public static final String STELLARM = "stellarm";
-
-    private final long MAX_CAPACITY;
-
-    public CelestialHandler(long MAX_CAPACITY) {
-        this.MAX_CAPACITY = MAX_CAPACITY;
-    }
 
     public enum Mode {
         VOID,
@@ -31,8 +23,8 @@ public class CelestialHandler {
         OVERWORLD
     }
 
-    public long clampToMaxCapacity(long value) {
-        return Math.min(MAX_CAPACITY, value);
+    private long clampToMaxCapacity(long value) {
+        return Math.min(maxCapacity, value);
     }
 
     public Mode initMode(Level world) {
@@ -43,7 +35,7 @@ public class CelestialHandler {
 
         if (PlanetApi.API.isSpace(world)) {
             return Mode.SPACE;
-        } else if (GTODimensions.isVoid(dim.location())) {
+        } else if (GTODimensions.isVoid(dim)) {
             return Mode.VOID;
         }
         return switch (Dimension.from(dim)) {

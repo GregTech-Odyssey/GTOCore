@@ -142,6 +142,7 @@ public final class LangHandler {
 
         addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energetics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energetics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
+        addCNEN("gtodyssey.com", "GTOdyssey 官方维基网站", "GTOdyssey Official Wiki Website");
         addCNEN("gtocore.fly_speed_reset", "飞行速度已重置", "fly Speed Reset");
         addCNEN("gtocore.fly_speed", "飞行速度 x%s", "fly Speed x%s");
         addCNEN("gtocore.reach_limit", "达到极限", "Reach Limit");
@@ -225,6 +226,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
+        addCNEN("config.jade.plugin_gtocore.en_lang", "[GTOCore] 英语显示", "[GTOCore] English Display");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
                 "Hatch types unlocked by installing auxiliary modules : %s");
@@ -392,6 +394,10 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.3", "创建的任务数已达上限。", "The number of created tasks has reached the limit.");
         addCNEN("gtocore.ae.appeng.highlight_button.try_open_ui", "当目标为样板总成，右键以试图打开其界面", "When the target is a Pattern Provider, right-click to try to open its UI");
+        addCNEN("gtocore.ae.appeng.craft.pause_job", "暂停", "Pause");
+        addCNEN("gtocore.ae.appeng.craft.resume_job", "继续", "Resume");
+        addCNEN("gtocore.ae.appeng.craft.pause_job.desc", "暂停正在进行中的发配；已推送的样板不会被撤回", "Pause the ongoing crafting; pushed patterns will not be withdrawn");
+        addCNEN("gtocore.ae.appeng.craft.resume_job.desc", "继续已暂停的发配", "Resume the paused crafting");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.cancel", "取消", "Cancel");
@@ -442,6 +448,7 @@ public final class LangHandler {
 
         addCNEN("gtocore.emi.search_text", "已保存的搜索: %s", "Saved Search: %s");
         addCNEN("gtocore.emi.search_text.how_to_use", "将它拖拽至文本框以快速填入搜索栏", "Drag it to the text box to quickly fill in the search bar");
+        addCNEN("gtocore.emi.insert_item_into_ae", "§a将光标上的物品置入已有的ME网络中§r", "Insert the item on the cursor into the existing ME network");
 
         addCNEN("emi.category.gtocore.alfheim_entry_requirements", "亚尔夫海姆准入条件", "Alfheim Access Requirements");
         addCNEN("gtocore.entry_alfheim.1", "你需要饮下诗之蜜酒", "You must drink Kvasir’s Mead");
@@ -449,6 +456,7 @@ public final class LangHandler {
         addCNEN("gtocore.entry_alfheim.3",
                 "夫迷雾蔽境，亚尔夫海姆启门之期将至。新章既降，唯饮诗泉之醴、聚十二古器者，可涉此秘域。凡欲绕法偷渡之徒，皆不为乾坤所容——寰宇律令自临，未符契而擅闯者，神魂俱殒。",
                 "The mists enshroud the realm, and the hour of Alfheim’s gate-opening draws nigh. A new chapter unfolds—only those who quaff the mead of the Kvasir’s Mead and gather the Twelve Ancient Relics may tread this secret domain. All who seek to trespass by craft or ruse shall not be borne by heaven and earth. For the Law of the Cosmos descends: whosoever dares to breach these halls without the sacred covenant shall perish, body and soul alike.");
+        addCNEN("message.mythicbotany.alfheim_overworld_only", "§c你只能在主世界进入亚尔夫海姆！", "§cYou can only enter Alfheim in the Overworld!");
 
         // 折跃卷轴维度翻译
         addCNEN("alfheim.mythicbotany.name", "亚尔夫海姆", "Alfheim");
@@ -486,6 +494,11 @@ public final class LangHandler {
         addCNEN("flat.gtocore.name", "超平坦", "Flat");
         addCNEN("void.gtocore.name", "虚空", "Void");
         addCNEN("spatial_storage.ae2.name", "封闭空间", "Spatial Storage");
+
+        addCNEN("tag.fluid.gtocore.purify_water", "净化水", "Purify Water");
+
+        addCNEN("gtocore.message.otherside_pass_required", "你感受到来自幽冥的隔绝感...", "You feel a sense of isolation from the Other Side...");
+        addCNEN("gtocore.message.otherside_pass_required.1", "似乎需要伪装成幽冥中最强大的生物之一，才能通过这里。", "It seems you need to disguise yourself as one of the most powerful beings in the Other Side to pass through here.");
     }
 
     public static void enInitialize(LanguageProvider provider) {

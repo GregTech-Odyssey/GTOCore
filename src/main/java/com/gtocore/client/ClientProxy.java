@@ -26,10 +26,12 @@ import com.gtolib.api.emi.stack.TagPrefixRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.data.pack.GTDynamicResourcePack;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.models.model.DelegatedModel;
 import net.minecraft.world.item.BlockItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -78,6 +80,17 @@ public final class ClientProxy extends CommonProxy {
     private static void init() {
         KeyBind.init();
         ClientForge.INSTANCE.getMESSAGE_DEFINITIONS().forEach(ClientForge.MessageDefinition::getContentHash);
+        GTDynamicResourcePack.EVENT.addListener(ClientProxy.class, () -> {
+            for (var tagPrefix : TagPrefix.values()) {
+                var iconType = tagPrefix.materialIconType();
+                if (iconType == null || (!tagPrefix.doGenerateItem() && !tagPrefix.doGenerateBlock())) continue;
+                if (tagPrefix.doGenerateBlock()) {
+                    GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(GTCEu.id(String.format("block/material_sets/dull/%s", iconType))));
+                } else {
+                    GTDynamicResourcePack.addItemModel(GTOCore.id(tagPrefix.getLowerCaseName()), new DelegatedModel(GTCEu.id(String.format("item/material_sets/dull/%s", iconType))));
+                }
+            }
+        });
     }
 
     @SuppressWarnings("all")

@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -120,7 +119,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
          */
         if (self().isRemote()) return;
         this.getWirelessMachineRunTime0().setInitTickableSubscription(
-                TaskHandler.enqueueServerTick((ServerLevel) getLevel(), () -> {
+                TaskHandler.enqueueTick(getLevel(), () -> {
                     if (this.getMainNode().getNode() != null) {
                         if (!this.getWirelessMachinePersisted0().isBeSet() && this.getWirelessMachineRunTime0().isShouldAutoConnect()) {
                             // 使用按请求者计算的可访问列表，寻找“当前玩家”的默认网格
@@ -151,10 +150,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
         if (self().isRemote()) return;
         this.getWirelessMachineRunTime0().getInitTickableSubscription().unsubscribe();
         unLinkGrid();
-    }
-
-    default void onWirelessMachineClientTick() {
-        // original empty body
     }
 
     default void onWirelessMachinePlaced(LivingEntity player, ItemStack stack) {

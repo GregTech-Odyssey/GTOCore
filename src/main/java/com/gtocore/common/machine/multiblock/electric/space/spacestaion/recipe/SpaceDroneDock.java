@@ -96,7 +96,7 @@ public class SpaceDroneDock extends RecipeExtension {
     public void customText(@NotNull List<Component> list) {
         super.customText(list);
         if (getLevel() == null) return;
-        var galaxy = GTODimensions.getGalaxy(getLevel().dimension().location());
+        var galaxy = GTODimensions.getGalaxy(getLevel().dimension());
         if (galaxy == null) {
             list.add(Component.translatable(NOT_IN_SPACETIME_DOMAIN));
             return;

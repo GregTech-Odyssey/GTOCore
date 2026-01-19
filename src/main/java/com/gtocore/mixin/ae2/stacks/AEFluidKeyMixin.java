@@ -1,7 +1,7 @@
 package com.gtocore.mixin.ae2.stacks;
 
-import com.gtolib.IFluid;
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
+import com.gtolib.api.fluid.IFluid;
 import com.gtolib.api.misc.IMapValueCache;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,7 +38,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(new FluidStack(fluid, 1, tag));
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(new FluidStack(fluid, 1, tag));
     }
 
     /**
@@ -64,7 +64,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(fluidVariant);
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(fluidVariant);
     }
 
     /**
@@ -78,7 +78,7 @@ public class AEFluidKeyMixin implements IAEFluidKey {
         if (tag == null || tag.isEmpty()) {
             return ((IFluid) fluid).gtolib$getAEKey();
         }
-        return IMapValueCache.FLUID_KEY_CACHE.get(new FluidStack(fluid, 1, tag));
+        return IMapValueCache.FLUID_KEY_CACHE.getCache(new FluidStack(fluid, 1, tag));
     }
 
     /**

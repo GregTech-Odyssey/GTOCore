@@ -27,7 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,7 +52,6 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     @Persisted
     private long stellarm = 0;
 
-    @Persisted
     private CelestialHandler.Mode mode = CelestialHandler.Mode.OVERWORLD;
 
     @Persisted
@@ -61,7 +59,6 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
 
     private int timing;
     private final ConditionalSubscriptionHandler tickSubs;
-    private boolean clientRemovedBlocks = false;
 
     public CosmicCelestialSpireOfConvergence(MetaMachineBlockEntity holder) {
         super(holder);
@@ -150,18 +147,15 @@ public class CosmicCelestialSpireOfConvergence extends ManaMultiblockMachine {
     }
 
     @Override
-    public void clientTick() {
-        super.clientTick();
-        if (getLevel() == null || getLevel() instanceof TrackedDummyWorld) return;
-        if (isFormed()) {
-            if (!clientRemovedBlocks) {
-                clientRemovedBlocks = removeBlockFromWorld();
-            }
-        } else {
-            if (clientRemovedBlocks) {
-                clientRemovedBlocks = !addBlockToWorld();
-            }
-        }
+    public void onStructureFormedClient() {
+        super.onStructureFormedClient();
+        removeBlockFromWorld();
+    }
+
+    @Override
+    public void onStructureInvalidClient() {
+        super.onStructureFormedClient();
+        addBlockToWorld();
     }
 
     private void tickUpdate() {

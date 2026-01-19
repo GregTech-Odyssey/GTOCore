@@ -15,6 +15,7 @@ import com.gtocore.utils.OrganUtilsKt;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
@@ -111,6 +112,14 @@ public final class ForgeCommonEvent {
     public static void onEntityTravelToDimension(EntityTravelToDimensionEvent event) {
         if (event.getEntity() instanceof FallingBlockEntity fallingBlock) {
             fallingBlock.discard();
+        }
+        if (event.getEntity() instanceof Player player && event.getDimension() == Dimension.OTHERSIDE.getResourceKey()) {
+            boolean othersidePass = IEnhancedPlayer.of(player).getPlayerData().wardenState || player.getAbilities().instabuild;
+            if (!othersidePass) {
+                event.setCanceled(true);
+                player.sendSystemMessage(Component.translatable("gtocore.message.otherside_pass_required").withStyle(ChatFormatting.DARK_GRAY));
+                player.sendSystemMessage(Component.translatable("gtocore.message.otherside_pass_required.1").withStyle(ChatFormatting.GRAY));
+            }
         }
     }
 
@@ -223,7 +232,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.CRYING_OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:flat")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.FLAT));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.FLAT);
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
                         data.putDouble("y_f", player.getY() + 1);
@@ -243,7 +252,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:void")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.VOID));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.VOID);
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
                         data.putDouble("y_v", player.getY() + 1);
@@ -263,7 +272,7 @@ public final class ForgeCommonEvent {
             if (block == BlockRegisterUtils.REACTOR_CORE.get()) {
                 if ("gtocore:ancient_world".equals(dim) || "minecraft:the_nether".equals(dim)) {
                     int dimdata = "gtocore:ancient_world".equals(dim) ? 1 : 2;
-                    ServerUtils.teleportToDimension(server, player, RLUtils.parse(data.getString("dim_" + dimdata)), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
+                    ServerUtils.teleportToDimension(server, player, GTODimensions.getDimensionKey(RLUtils.parse(data.getString("dim_" + dimdata))), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
                 }
             }
         }

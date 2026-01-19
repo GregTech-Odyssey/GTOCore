@@ -9,8 +9,10 @@ import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -50,10 +52,23 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     private int temperature = 298;
 
     private final ConditionalSubscriptionHandler tickSubs;
+    private TickableSubscription particleSubscription;
 
     public AdvancedPrimitiveBlastFurnaceMachine(MetaMachineBlockEntity holder) {
         super(holder, false, m -> (long) ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 0, () -> isFormed || temperature > 298);
+    }
+
+    @Override
+    public void onStructureFormedClient() {
+        super.onStructureFormedClient();
+        particleSubscription = subscribeClientTick(particleSubscription, this::particleTick);
+    }
+
+    @Override
+    public void onStructureInvalidClient() {
+        super.onStructureInvalidClient();
+        particleSubscription = ITickSubscription.unsubscribe(particleSubscription);
     }
 
     @Override
@@ -126,10 +141,8 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
         textList.add(Component.translatable("gtocore.machine.total_time.duration", FormattingUtil.formatNumbers(duration)));
     }
 
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public void clientTick() {
-        super.clientTick();
+    private void particleTick() {
         if (getRecipeLogic().isWorking() && pos != null && getLevel() != null) {
             BlockPos pos1 = MachineUtils.getOffsetPos(-1, 7 + height, getFrontFacing(), pos);
             var facing = getFrontFacing().getOpposite();

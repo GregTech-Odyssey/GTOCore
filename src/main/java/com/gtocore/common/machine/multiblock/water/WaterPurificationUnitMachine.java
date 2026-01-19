@@ -33,7 +33,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     private final ConditionalSubscriptionHandler tickSubs;
 
     WaterPurificationUnitMachine(MetaMachineBlockEntity holder, long multiple) {
-        super(holder, false, m -> IParallelMachine.MAX_PARALLEL);
+        super(holder, false, m -> IParallelMachine.MAX_PARALLEL, m -> 1000L);
         this.multiple = multiple;
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, 80, this::isFormed);
         customParallelTrait.setDefaultMax(false);
@@ -51,16 +51,10 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
 
     long parallel() {
         WaterPurificationPlantMachine machine = getNetMachine();
-        if (machine != null) {
-            var p = super.getParallel();
-            if (p < 1000) {
-                p = 1000;
-                super.setParallel(p);
-            }
-            p = Math.min(p, (machine.availableEu << 1) / multiple);
-            return p >= 1000 ? p : 0;
+        if (machine == null) {
+            return 0;
         }
-        return 0;
+        return Math.min(super.getParallel(), (machine.availableEu << 1) / multiple);
     }
 
     void setWorking(boolean isWorkingAllowed) {
@@ -136,7 +130,6 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     public void setWorkingEnabled(boolean isWorkingAllowed) {}
 
     @Override
-    @NotNull
     public RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomLogic(this);
     }
