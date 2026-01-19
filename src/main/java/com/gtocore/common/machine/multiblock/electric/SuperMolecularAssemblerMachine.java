@@ -6,13 +6,13 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 
 import net.minecraft.world.item.ItemStack;
@@ -73,7 +73,7 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
         for (var entry : map.object2LongEntrySet()) {
             var item = entry.getKey();
             item.setCount(MathUtil.saturatedCast(entry.getLongValue()));
-            builder.output(ItemRecipeCapability.CAP, FastSizedIngredient.create(entry.getKey(), entry.getLongValue()));
+            builder.output(ItemRecipeCapability.CAP, ItemIngredient.of(entry.getKey(), entry.getLongValue()));
         }
         return builder.buildRawRecipe();
     }

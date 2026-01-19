@@ -29,7 +29,6 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
@@ -404,22 +403,22 @@ final class GTOMaterialRecipeHandler {
             FluidIngredient N2HP = FluidIngredient.of(GTOMaterials.HighPressureNitrogen.getFluid(5 * mass));
 
             FluidIngredient inert = material.hasProperty(PropertyKey.BLAST) ? Optional.ofNullable(material.getProperty(PropertyKey.BLAST).getGasTier())
-                    .map(gas -> gas.getFluid().getStacks()[0])
-                    .map(fs -> FluidIngredient.of(new FluidStack(fs.getFluid(), fs.getAmount() * mass / 500 + 30 + mass)))
+                    .map(BlastProperty.GasTier::getFluid)
+                    .map(fs -> fs.copy(fs.amount * mass / 500 + 30 + mass))
                     .orElse(N2) : N2;
             FluidIngredient inertHighPressure = material.hasProperty(PropertyKey.BLAST) ?
                     Optional.ofNullable(material.getProperty(PropertyKey.BLAST).getGasTier())
-                            .map(gas -> gas.getFluid().getStacks()[0])
+                            .map(BlastProperty.GasTier::getFluid)
                             .map(fs -> {
                                 Fluid fluid = fs.getFluid();
                                 int amount = fs.getAmount() * mass / 450 + 40 + mass / 5 * 6;
                                 if (inertGas2HighPressureCache.containsKey(fluid)) {
-                                    return new FluidStack(inertGas2HighPressureCache.get(fluid), amount);
+                                    return FluidIngredient.of(inertGas2HighPressureCache.get(fluid), amount);
                                 }
                                 Fluid HP = GTCEuAPI.materialManager.getRegisteredMaterials().stream().filter(m -> m.hasFluid() && m.getFluid() == fluid).findAny().orElseThrow().getFluid(GTOFluidStorageKey.HIGH_PRESSURE_GAS);
                                 inertGas2HighPressureCache.put(fluid, HP);
-                                return new FluidStack(HP, amount);
-                            }).map(FluidIngredient::of)
+                                return FluidIngredient.of(HP, amount);
+                            })
                             .orElse(N2HP) :
                     N2HP;
             ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_dust")

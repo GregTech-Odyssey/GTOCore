@@ -4,8 +4,6 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 
 import com.gtolib.api.item.ItemHandlerModifiable;
 import com.gtolib.api.recipe.ContentBuilder;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -15,14 +13,9 @@ import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
-import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.common.recipe.condition.ResearchCondition;
-import com.gregtechceu.gtceu.integration.xei.entry.item.ItemEntryList;
-import com.gregtechceu.gtceu.integration.xei.entry.item.ItemStackList;
-import com.gregtechceu.gtceu.integration.xei.entry.item.ItemTagList;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
 import net.minecraft.ChatFormatting;
@@ -37,7 +30,6 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ItemRecipeCapability.class)
 public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredient> {
@@ -46,58 +38,9 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
         super(name, color, doRenderSlot, sortIndex, serializer);
     }
 
-    @Shadow(remap = false)
-    @Nullable
-    private static ItemEntryList tryMapInner(Ingredient inner, int amount) {
-        return null;
-    }
-
-    @Shadow(remap = false)
-    private static @Nullable ItemTagList tryMapTag(Ingredient ingredient, int amount) {
-        return null;
-    }
-
     /**
      * @author .
-     * @reason 换成FastSizedIngredient
-     */
-    @Overwrite(remap = false)
-    public Ingredient copyInner(Ingredient content) {
-        return FastSizedIngredient.copy(content);
-    }
-
-    /**
-     * @author .
-     * @reason 换成FastSizedIngredient
-     */
-    @Overwrite(remap = false)
-    public Ingredient copyWithModifier(Ingredient content, ContentModifier modifier) {
-        if (content instanceof FastSizedIngredient sizedIngredient) {
-            return FastSizedIngredient.create(sizedIngredient, modifier.apply(sizedIngredient.getAmount()));
-        }
-        return FastSizedIngredient.create(content, modifier.apply(1L));
-    }
-
-    /**
-     * @author .
-     * @reason 换成FastSizedIngredient
-     */
-    @Overwrite(remap = false)
-    private static ItemEntryList mapItem(final Ingredient ingredient) {
-        if (ingredient instanceof FastSizedIngredient sizedIngredient) {
-            final int amount = sizedIngredient.getSaturatedAmount();
-            var mapped = tryMapInner(sizedIngredient.getInner(), amount);
-            if (mapped != null) return mapped;
-        } else {
-            var tagList = tryMapTag(ingredient, 1);
-            if (tagList != null) return tagList;
-        }
-        return new ItemStackList(ingredient.getItems());
-    }
-
-    /**
-     * @author .
-     * @reason 换成FastSizedIngredient
+     * @reason .
      */
     @Overwrite(remap = false)
     public void applyWidgetInfo(@NotNull Widget widget, int index, boolean isXEI, IO io, GTRecipeTypeUI.@UnknownNullability("null when storage == null") RecipeHolder recipeHolder, @NotNull GTRecipeType recipeType, @UnknownNullability("null when content == null") GTRecipe recipe, @Nullable Content content, @Nullable Object storage, int recipeTier, int chanceTier) {
@@ -121,7 +64,7 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
             }
             if (content != null) {
                 float chance = (float) recipeType.getChanceFunction().getBoostedChance(content, recipeTier, chanceTier) / ContentBuilder.maxChance;
-                if (io == IO.IN && ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(content)).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
+                if (io == IO.IN && ItemRecipeCapability.CAP.of(content).getInnerItemStack().getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
                     slot.setIngredientIO(IngredientIO.CATALYST);
                     slot.setXEIChance(0);
                 } else {
@@ -132,15 +75,9 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
                     if (isTickSlot(index, io, recipe)) {
                         tooltips.add(Component.translatable("gtceu.gui.content.per_tick"));
                     }
-                    int amount;
-                    if (this.of(content) instanceof FastSizedIngredient sizedIngredient) {
-                        amount = sizedIngredient.getSaturatedAmount();
-                    } else {
-                        amount = this.of(content).getItems()[0].getCount();
-                    }
-                    tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", amount).withStyle(ChatFormatting.GRAY));
+                    tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", ItemRecipeCapability.CAP.of(content).amount).withStyle(ChatFormatting.GRAY));
                 });
-                if (io == IO.IN && (content.chance == 0 || this.of(content) instanceof IntCircuitIngredient)) {
+                if (io == IO.IN && content.chance == 0) {
                     slot.setIngredientIO(IngredientIO.CATALYST);
                 }
             }

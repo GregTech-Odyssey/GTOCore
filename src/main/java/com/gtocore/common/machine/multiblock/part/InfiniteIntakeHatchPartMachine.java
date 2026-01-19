@@ -3,6 +3,7 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMachine;
@@ -64,7 +65,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
         for (var condition : recipeBuilder.conditions) {
             if (condition instanceof DimensionCondition dimensionCondition) {
                 var dim = dimensionCondition.dimension;
-                var fluids = RecipeHelper.getOutputFluids(recipeBuilder);
+                var fluids = RecipeHelper.getInputContents(recipeBuilder, FluidRecipeCapability.CAP);
                 if (!fluids.isEmpty()) {
                     AIR_MAP.put(dim, fluids.getFirst().getFluid());
                     break;

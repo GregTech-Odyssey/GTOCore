@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -15,6 +14,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMac
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
@@ -27,7 +27,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 
 import com.fast.recipesearch.IntLongMap;
@@ -248,7 +247,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
 
         @Override
         @Nullable
-        public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
+        public List<ItemIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ItemIngredient> left, boolean simulate) {
             if (io != IO.IN && ((HugeCustomItemStackHandler) storage).count > 0) return left.isEmpty() ? null : left;
             for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
@@ -256,13 +255,7 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
                     it.remove();
                     continue;
                 }
-                long amount;
-                if (ingredient instanceof FastSizedIngredient si) amount = si.getAmount();
-                else amount = 1;
-                if (amount < 1) {
-                    it.remove();
-                    continue;
-                }
+                long amount = ingredient.amount;
                 long count = Math.min(amount, getCount());
                 if (count == 0) continue;
                 if (ingredient.test(getStackInSlot(0))) {
@@ -272,12 +265,10 @@ public final class HugeBusPartMachine extends WorkableTieredIOPartMachine implem
                         storage.onContentsChanged(0);
                     }
                     amount -= count;
-                }
-                if (amount <= 0) {
-                    it.remove();
-                } else {
-                    if (ingredient instanceof FastSizedIngredient si) {
-                        si.setAmount(amount);
+                    if (amount <= 0) {
+                        it.remove();
+                    } else {
+                        ingredient.amount = amount;
                     }
                 }
             }

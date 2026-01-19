@@ -13,7 +13,6 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -25,11 +24,11 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
@@ -213,8 +212,8 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     private Recipe getReleaseRecipe(Recipe recipe) {
         var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
-            var ingredient = (Ingredient) input.getFirst().inner;
-            inputItem(ItemUtils.getFirstSized(ingredient).getItem(), ItemUtils.getSizedAmount(ingredient));
+            var ingredient = (ItemIngredient) input.getFirst().inner;
+            inputItem(ingredient.getInnerItemStack().getItem(), ingredient.amount);
         }
         return ParallelLogic.accurateParallel(this, recipe, MaxCanReleaseParallel);
     }

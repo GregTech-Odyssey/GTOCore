@@ -5,9 +5,7 @@ import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -21,6 +19,7 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
@@ -82,7 +81,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
 
         for (int i = 0; i < inputs.size(); i++) {
             var content = inputs.get(i).inner;
-            if (content instanceof FastSizedIngredient ingredient && !ingredient.isEmpty()) {
+            if (content instanceof ItemIngredient ingredient && !ingredient.isEmpty()) {
                 if (!matchItem(this.itemStackTransfers.get(i), ingredient)) return false;
             }
         }
@@ -110,7 +109,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
     /**
      * 验证给定的存储区是否仅包含与当前需求匹配的唯一种类物品。
      */
-    private boolean matchItem(CustomItemStackHandler storage, FastSizedIngredient currentIngredient) {
+    private boolean matchItem(CustomItemStackHandler storage, ItemIngredient currentIngredient) {
         Item item = Items.AIR;
         for (int slot = 0; slot < storage.getSlots(); slot++) {
             var stack = storage.getStackInSlot(slot);
@@ -244,7 +243,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
                 var inputSlot = machineInputs.get(i);
                 var recipeInput = ItemRecipeCapability.CAP.of(itemInputs.get(i));
                 boolean tested = false;
-                var amount = ItemUtils.getSizedAmount(recipeInput);
+                var amount = recipeInput.amount;
                 for (int j = 0; j < inputSlot.size; j++) {
                     var stack = inputSlot.getStackInSlot(j);
                     if (stack.isEmpty() || (!tested && !recipeInput.test(stack))) continue;

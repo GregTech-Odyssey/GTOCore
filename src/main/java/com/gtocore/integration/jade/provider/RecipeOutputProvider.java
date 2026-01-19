@@ -67,7 +67,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 recipeMachine.getThreads().forEach(t -> {
                     var recipe = t.getRecipe();
                     for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
-                        items.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content)));
+                        items.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), ItemRecipeCapability.CAP.of(content).amount);
                     }
                     for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
                         fluids.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), FluidRecipeCapability.CAP.of(content).amount);
@@ -77,7 +77,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 var recipe = recipeLogic.getLastRecipe();
                 if (recipe == null) return;
                 for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
-                    items.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content)));
+                    items.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), ItemRecipeCapability.CAP.of(content).amount);
                 }
 
                 for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
@@ -89,7 +89,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 items.object2LongEntrySet().forEach(entry -> {
                     var nbt = new CompoundTag();
                     var ingredient = ItemRecipeCapability.CAP.of(entry.getKey());
-                    var stack = ItemUtils.getFirstSized(ingredient);
+                    var stack = ingredient.getInnerItemStack();
                     if (stack.isEmpty()) return;
                     nbt.putLong("p", entry.getKey().parallel);
                     nbt.putInt("c", entry.getKey().chance);
@@ -107,14 +107,14 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 fluids.object2LongEntrySet().forEach(entry -> {
                     var nbt = new CompoundTag();
                     var ingredient = FluidRecipeCapability.CAP.of(entry.getKey());
-                    var stacks = ingredient.getStacks();
-                    if (stacks.length == 0 || stacks[0].isEmpty()) return;
+                    var fluid = ingredient.getFluid();
+                    if (fluid == null) return;
                     nbt.putLong("p", entry.getKey().parallel);
                     nbt.putInt("c", entry.getKey().chance);
-                    nbt.putString("FluidName", FluidUtils.getId(stacks[0].getFluid()));
+                    nbt.putString("FluidName", FluidUtils.getId(fluid));
                     nbt.putLong("a", entry.getLongValue());
-                    if (stacks[0].getTag() != null) {
-                        nbt.put("tag", stacks[0].getTag());
+                    if (ingredient.nbt != null) {
+                        nbt.put("tag", ingredient.nbt);
                     }
                     fluidTags.add(nbt);
                 });

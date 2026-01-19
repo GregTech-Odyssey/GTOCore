@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -68,13 +67,13 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
             return RecipeModifierFunction.overclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
         }
         List<Content> fluidList = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, null);
-        FluidStack fluidStack1 = FluidRecipeCapability.CAP.of(fluidList.get(0)).getStacks()[0];
-        FluidStack fluidStack2 = FluidRecipeCapability.CAP.of(fluidList.get(1)).getStacks()[0];
+        var fluidStack1 = FluidRecipeCapability.CAP.of(fluidList.get(0));
+        var fluidStack2 = FluidRecipeCapability.CAP.of(fluidList.get(1));
         long[] a = getFluidAmount(fluidStack1.getFluid(), fluidStack2.getFluid());
         if (a[1] > 0) {
             recipe = RecipeModifierFunction.overclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
             if (recipe != null) {
-                if ((double) a[0] / a[1] != ((double) fluidStack1.getAmount()) / fluidStack2.getAmount()) {
+                if ((double) a[0] / a[1] != ((double) fluidStack1.amount) / fluidStack2.amount) {
                     recipe.outputs.clear();
                 }
                 return recipe;
