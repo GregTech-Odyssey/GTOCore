@@ -2,7 +2,6 @@ package com.gtocore.common.machine.multiblock.part.ae.slots;
 
 import com.gtolib.api.ae2.stacks.IAEFluidKey;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -81,25 +80,19 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
                     it.remove();
                     continue;
                 }
-                long a = FastFluidIngredient.getAmount(ingredient);
-                if (a < 1) {
-                    it.remove();
-                    continue;
-                }
                 for (var i : inventory) {
                     var stored = i.stock;
                     if (stored == null) continue;
                     long amount = stored.amount();
                     if (amount == 0) continue;
-                    if (stored.what() instanceof AEFluidKey fluidKey && FastFluidIngredient.testAeKay(ingredient, fluidKey)) {
-                        var drained = i.drain(a, simulate, false);
+                    if (stored.what() instanceof AEFluidKey fluidKey && ingredient.testAeKay(fluidKey)) {
+                        var drained = i.drain(ingredient.amount, simulate, false);
                         if (drained > 0) {
                             changed = true;
-                            a -= drained;
-                            FastFluidIngredient.setAmount(ingredient, a);
+                            ingredient.shrink(drained);
                         }
                     }
-                    if (a <= 0) {
+                    if (ingredient.amount <= 0) {
                         it.remove();
                         break;
                     }

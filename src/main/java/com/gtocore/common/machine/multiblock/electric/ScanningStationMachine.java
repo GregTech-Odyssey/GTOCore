@@ -120,9 +120,10 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
 
         var fluidInputs = lastRecipe.getInputContents(FluidRecipeCapability.CAP);
         if (!fluidInputs.isEmpty()) {
-            FluidStack requiredFluid = FluidRecipeCapability.CAP.of(fluidInputs.getFirst().content).getStacks()[0];
+            var ingredient = FluidRecipeCapability.CAP.of(fluidInputs.getFirst());
+            FluidStack requiredFluid = ingredient.getStacks()[0];
             FluidStack currentFluid = objectHolder.getCatalystFluidTank().getFluidInTank(0);
-            if (currentFluid.isEmpty() || !requiredFluid.isFluidEqual(currentFluid) || currentFluid.getAmount() < requiredFluid.getAmount()) {
+            if (currentFluid.isEmpty() || !requiredFluid.isFluidEqual(currentFluid) || currentFluid.getAmount() < ingredient.getAmount()) {
                 objectHolder.setLocked(false);
                 return true;
             }

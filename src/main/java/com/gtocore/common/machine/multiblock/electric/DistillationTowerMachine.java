@@ -6,7 +6,6 @@ import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
 import com.gtolib.api.misc.AsyncTask;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -182,11 +181,11 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
             for (int i = 0; i < size; ++i) {
                 var handler = outputs.get(i);
                 var ingredient = fluids.get(i);
-                var fluid = ingredient.getStacks()[0];
                 if (handler instanceof InaccessibleInfiniteTank tank) {
                     if (action.simulate()) continue;
-                    tank.fillInternal(fluid, FastFluidIngredient.getAmount(ingredient));
+                    tank.fillInternal(ingredient.getStacks()[0], ingredient.amount);
                 } else {
+                    var fluid = ingredient.getLatestStacks()[0];
                     int filled = (handler instanceof NotifiableFluidTank nft) ? nft.fillInternal(fluid, action) : handler.fill(fluid, action);
                     if (filled != fluid.getAmount()) valid = false;
                     if (action.simulate() && !valid) break;

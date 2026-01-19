@@ -12,7 +12,6 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MachineUtils;
@@ -156,11 +155,11 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         // electrolyte consumption adjustment
         long actuallyConsumedmB = result.parallels * fuelEnergyPerUnit / euPermB;
         var input = new ArrayList<>(result.inputs.get(FluidRecipeCapability.CAP));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE)), 10000, 0));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE)), 10000, 0));
+        input.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), actuallyConsumedmB), 10000, 0));
+        input.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), actuallyConsumedmB), 10000, 0));
         var output = new ArrayList<Content>();
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE)), 10000, 0));
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE)), 10000, 0));
+        output.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), actuallyConsumedmB), 10000, 0));
+        output.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), actuallyConsumedmB), 10000, 0));
         result.inputs.put(FluidRecipeCapability.CAP, input);
         result.outputs.put(FluidRecipeCapability.CAP, output);
 

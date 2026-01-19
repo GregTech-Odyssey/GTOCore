@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.recipe.ContentBuilder;
 import com.gtolib.api.recipe.SeparateContent;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.FluidUtils;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.ItemUtils;
@@ -71,7 +70,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                         items.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content.content)));
                     }
                     for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
-                        fluids.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), FastFluidIngredient.getAmount(FluidRecipeCapability.CAP.of(content.content)));
+                        fluids.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), FluidRecipeCapability.CAP.of(content.content).amount);
                     }
                 });
             } else {
@@ -82,7 +81,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 }
 
                 for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
-                    fluids.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), FastFluidIngredient.getAmount(FluidRecipeCapability.CAP.of(content.content)));
+                    fluids.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), FluidRecipeCapability.CAP.of(content.content).amount);
                 }
             }
             if (!items.isEmpty()) {
@@ -107,8 +106,8 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 ListTag fluidTags = new ListTag();
                 fluids.object2LongEntrySet().forEach(entry -> {
                     var nbt = new CompoundTag();
-                    var ingredient = FluidRecipeCapability.CAP.of(entry.getKey().content);
-                    var stacks = FastFluidIngredient.getFluidStack(ingredient);
+                    var ingredient = FluidRecipeCapability.CAP.of(entry.getKey());
+                    var stacks = ingredient.getStacks();
                     if (stacks.length == 0 || stacks[0].isEmpty()) return;
                     nbt.putLong("p", entry.getKey().parallel);
                     nbt.putInt("c", entry.getKey().chance);

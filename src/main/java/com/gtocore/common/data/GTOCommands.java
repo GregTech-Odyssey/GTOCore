@@ -6,11 +6,12 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.misc.PlanetManagement;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.StringConverter;
+
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
@@ -131,7 +132,7 @@ public final class GTOCommands {
         if (stack.getItem() instanceof BucketItem bucketItem) {
             player.sendSystemMessage(Component.literal("Held fluid:"));
             Fluid fluid = bucketItem.getFluid();
-            String f = StringConverter.fromFluid(FastFluidIngredient.of(1000L, fluid), false);
+            String f = StringConverter.fromFluid(FluidIngredient.of(fluid, 1000), false);
             if (f != null) {
                 player.sendSystemMessage(copy(Component.literal(f).withStyle(ChatFormatting.AQUA)));
             }

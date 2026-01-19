@@ -8,7 +8,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.DummyMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.FluidUtils;
 import com.gtolib.utils.ItemUtils;
@@ -36,6 +35,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -391,13 +391,13 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 for (int i = 0; i < machine.importFluids.getSize(); i++) {
                     FluidStack stack = machine.importFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FastFluidIngredient.of(stack), true);
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".inputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 for (int i = 0; i < machine.exportFluids.getSize(); i++) {
                     FluidStack stack = machine.exportFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FastFluidIngredient.of(stack), true);
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".outputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 if (machine.circuit > 0) {

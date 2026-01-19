@@ -5,7 +5,6 @@ import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.ItemUtils;
@@ -21,6 +20,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
@@ -99,7 +99,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
 
         for (int i = 0; i < inputs.size(); i++) {
             var content = inputs.get(i).getContent();
-            if (content instanceof FastFluidIngredient ingredient && !ingredient.isEmpty()) {
+            if (content instanceof FluidIngredient ingredient && !ingredient.isEmpty()) {
                 if (!matchFluid(this.fluidTankTransfers.get(i), ingredient)) return false;
             }
         }
@@ -135,7 +135,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
     /**
      * 验证给定的流体存储区是否与当前需求匹配。
      */
-    private boolean matchFluid(CustomFluidTank[] storage, FastFluidIngredient currentIngredient) {
+    private boolean matchFluid(CustomFluidTank[] storage, FluidIngredient currentIngredient) {
         var fluid = Fluids.EMPTY;
         for (var tank : storage) {
             var providedFluid = tank.getFluid().getFluid();

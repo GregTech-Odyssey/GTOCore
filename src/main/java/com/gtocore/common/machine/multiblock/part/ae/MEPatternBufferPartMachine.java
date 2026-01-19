@@ -15,7 +15,6 @@ import com.gtolib.api.network.SyncManagedFieldHolder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ExpandedR2LMap;
 import com.gtolib.utils.GTOUtils;
@@ -677,10 +676,10 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     it.remove();
                     continue;
                 }
-                long amount = FastFluidIngredient.getAmount(ingredient);
+                long amount = ingredient.amount;
                 for (var it2 = fluidInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!FastFluidIngredient.testAeKay(ingredient, entry.getKey())) continue;
+                    if (ingredient.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {

@@ -6,7 +6,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeCategories;
 
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -401,12 +400,12 @@ final class GTOMaterialRecipeHandler {
             }
             Fluid molten = material.getFluid(FluidStorageKeys.MOLTEN);
             Fluid liquid = material.getFluid();
-            FastFluidIngredient N2 = FastFluidIngredient.of(GTMaterials.Nitrogen.getFluid(4 * mass));
-            FastFluidIngredient N2HP = FastFluidIngredient.of(GTOMaterials.HighPressureNitrogen.getFluid(5 * mass));
+            FluidIngredient N2 = FluidIngredient.of(GTMaterials.Nitrogen.getFluid(4 * mass));
+            FluidIngredient N2HP = FluidIngredient.of(GTOMaterials.HighPressureNitrogen.getFluid(5 * mass));
 
             FluidIngredient inert = material.hasProperty(PropertyKey.BLAST) ? Optional.ofNullable(material.getProperty(PropertyKey.BLAST).getGasTier())
                     .map(gas -> gas.getFluid().getStacks()[0])
-                    .map(fs -> FastFluidIngredient.of(new FluidStack(fs.getFluid(), fs.getAmount() * mass / 500 + 30 + mass)))
+                    .map(fs -> FluidIngredient.of(new FluidStack(fs.getFluid(), fs.getAmount() * mass / 500 + 30 + mass)))
                     .orElse(N2) : N2;
             FluidIngredient inertHighPressure = material.hasProperty(PropertyKey.BLAST) ?
                     Optional.ofNullable(material.getProperty(PropertyKey.BLAST).getGasTier())
@@ -420,7 +419,7 @@ final class GTOMaterialRecipeHandler {
                                 Fluid HP = GTCEuAPI.materialManager.getRegisteredMaterials().stream().filter(m -> m.hasFluid() && m.getFluid() == fluid).findAny().orElseThrow().getFluid(GTOFluidStorageKey.HIGH_PRESSURE_GAS);
                                 inertGas2HighPressureCache.put(fluid, HP);
                                 return new FluidStack(HP, amount);
-                            }).map(FastFluidIngredient::of)
+                            }).map(FluidIngredient::of)
                             .orElse(N2HP) :
                     N2HP;
             ATOMIZATION_CONDENSATION_RECIPES.recipeBuilder("atomize_condense_" + id + "to_dust")

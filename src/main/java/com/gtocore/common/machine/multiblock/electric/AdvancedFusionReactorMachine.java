@@ -139,7 +139,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
             GTRecipe recipe = recipeLogic.getLastRecipe();
             assert recipe != null;
             if (!recipe.getOutputContents(FluidRecipeCapability.CAP).isEmpty()) {
-                var stack = FluidRecipeCapability.CAP.of(recipe.getOutputContents(FluidRecipeCapability.CAP).get(0).getContent()).getStacks()[0];
+                var stack = FluidRecipeCapability.CAP.of(recipe.getOutputContents(FluidRecipeCapability.CAP).getFirst().getContent()).getStacks()[0];
                 int newColor = -16777216 | GTUtil.getFluidColor(stack);
                 if (color != newColor) {
                     color = newColor;

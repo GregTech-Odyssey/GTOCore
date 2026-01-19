@@ -6,7 +6,6 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.block.IFilterType;
@@ -15,6 +14,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -172,7 +172,7 @@ public class SimpleSpaceStationMachine extends AbstractSpaceStation {
                     if (RecipeRunner.handleContent(
                             waterHolder,
                             IO.OUT,
-                            ObjectArrayList.of(FastFluidIngredient.of(DistilledWater.getFluid(waterAmountPerHatch))), FluidRecipeCapability.CAP, true, false) &&
+                            ObjectArrayList.of(FluidIngredient.of(DistilledWater.getFluid(waterAmountPerHatch))), FluidRecipeCapability.CAP, true, false) &&
                             inputFluid(DistilledWater.getFluid(waterAmountPerHatch))) {
 
                         MachineUtils.outputFluid(waterHolder, DistilledWater.getFluid(waterAmountPerHatch));

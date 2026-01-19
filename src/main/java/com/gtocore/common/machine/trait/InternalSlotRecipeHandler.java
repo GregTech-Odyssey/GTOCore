@@ -11,7 +11,6 @@ import com.gtolib.api.machine.trait.NonStandardHandler;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeCapabilityMap;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
@@ -77,7 +76,7 @@ public final class InternalSlotRecipeHandler {
             ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
             Reference2LongOpenHashMap<Fluid> ingredientStacks = null;
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FastFluidIngredient ingredient) {
+                if (content.chance > 0 && content.content instanceof FluidIngredient ingredient) {
                     long needed = ingredient.getAmount();
                     if (needed < 1) continue;
                     long available = 0;
@@ -206,7 +205,7 @@ public final class InternalSlotRecipeHandler {
         @Override
         public long getInputFluidParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FastFluidIngredient ingredient) {
+                if (content.chance > 0 && content.content instanceof FluidIngredient ingredient) {
                     long needed = ingredient.getAmount();
                     if (needed < 1) continue;
                     long available = 0;
