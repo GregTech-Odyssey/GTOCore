@@ -15,8 +15,6 @@ import com.gtolib.api.network.SyncManagedFieldHolder;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ExpandedR2LMap;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RLUtils;
@@ -41,6 +39,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -61,7 +60,6 @@ import net.minecraft.server.TickTask;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
@@ -631,7 +629,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         }
 
         @Nullable
-        public List<Ingredient> handleItemInternal(List<Ingredient> left, boolean simulate) {
+        public List<ItemIngredient> handleItemInternal(List<ItemIngredient> left, boolean simulate) {
             boolean changed = false;
             for (var it = left.iterator(); it.hasNext();) {
                 var ingredient = it.next();
@@ -639,12 +637,10 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     it.remove();
                     continue;
                 }
-                long amount;
-                if (ingredient instanceof FastSizedIngredient si) amount = si.getAmount();
-                else amount = 1;
+                long amount = ingredient.amount;
                 for (var it2 = itemInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!ingredient.test(entry.getKey().getReadOnlyStack())) continue;
+                    if (!ingredient.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {
@@ -677,10 +673,10 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
                     it.remove();
                     continue;
                 }
-                long amount = FastFluidIngredient.getAmount(ingredient);
+                long amount = ingredient.amount;
                 for (var it2 = fluidInventory.reference2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    if (!FastFluidIngredient.testAeKay(ingredient, entry.getKey())) continue;
+                    if (!ingredient.testAeKay(entry.getKey())) continue;
                     var count = entry.getLongValue();
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {

@@ -66,12 +66,12 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine {
         int matchRate = calculateMatchRate(recipeParams);
 
         recipe.outputs.put(ItemRecipeCapability.CAP, recipe.getOutputContents(ItemRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, 0);
+            if (content.chance < 11) return new Content(content.inner, matchRate, 0);
             else return content;
         }).toList());
 
         recipe.outputs.put(FluidRecipeCapability.CAP, recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(content -> {
-            if (content.chance < 11) return new Content(content.content, matchRate, 0);
+            if (content.chance < 11) return new Content(content.inner, matchRate, 0);
             else return content;
         }).toList());
 

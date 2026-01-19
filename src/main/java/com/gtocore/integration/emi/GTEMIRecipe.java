@@ -2,14 +2,13 @@ package com.gtocore.integration.emi;
 
 import com.gtolib.api.recipe.ContentBuilder;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 import com.gregtechceu.gtceu.utils.ResearchManager;
@@ -20,7 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.EmptyHandler;
@@ -93,17 +91,12 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
     }
 
     @SuppressWarnings("all")
-    private static EmiIngredient getEmiIngredient(Ingredient ingredient, boolean input) {
-        Ingredient inner = FastSizedIngredient.getInner(ingredient);
+    private static EmiIngredient getEmiIngredient(ItemIngredient ingredient, boolean input) {
+        Ingredient inner = ingredient.inner;
         ItemStack[] itemStacks = inner.getItems();
         if (itemStacks.length == 0) return EmiStack.EMPTY;
         ItemStack itemStack = itemStacks[0];
-        long amount;
-        if (ingredient instanceof FastSizedIngredient sizedIngredient) {
-            amount = sizedIngredient.getAmount();
-        } else {
-            amount = itemStack.getCount();
-        }
+        long amount = ingredient.amount;
         for (Ingredient.Value value : inner.values) {
             if (input && value instanceof Ingredient.TagValue tagValue) {
                 return new TagEmiIngredient(tagValue.tag, amount);
@@ -128,7 +121,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
             recipe.inputs.forEach((k, v) -> {
                 if (k instanceof ItemRecipeCapability) {
                     v.forEach(c -> {
-                        if (c.getContent() instanceof Ingredient ingredient) {
+                        if (c.inner instanceof ItemIngredient ingredient) {
                             float chance = (float) c.chance / ContentBuilder.maxChance;
                             EmiIngredient emiIngredient = getEmiIngredient(ingredient, true).setChance(chance);
                             if (chance > 0) {
@@ -140,11 +133,11 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                     });
                 } else if (k instanceof FluidRecipeCapability) {
                     v.forEach(c -> {
-                        if (c.getContent() instanceof FluidIngredient ingredient) {
-                            FluidStack[] stacks = ingredient.getStacks();
-                            if (stacks.length != 0) {
+                        if (c.inner instanceof FluidIngredient ingredient) {
+                            var fluid = ingredient.getFluid();
+                            if (fluid != null) {
                                 float chance = (float) c.chance / ContentBuilder.maxChance;
-                                EmiIngredient emiIngredient = EmiStack.of(stacks[0].getFluid(), stacks[0].getTag(), stacks[0].getAmount()).setChance(chance);
+                                EmiIngredient emiIngredient = EmiStack.of(fluid, ingredient.nbt, ingredient.amount).setChance(chance);
                                 if (chance > 0) {
                                     inputs.add(emiIngredient);
                                 } else {
@@ -158,18 +151,18 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
             recipe.outputs.forEach((k, v) -> {
                 if (k instanceof ItemRecipeCapability) {
                     v.forEach(c -> {
-                        if (c.getContent() instanceof Ingredient ingredient) {
+                        if (c.inner instanceof ItemIngredient ingredient) {
                             float chance = (float) c.chance / ContentBuilder.maxChance;
                             outputs.add((EmiStack) getEmiIngredient(ingredient, false).setChance(chance));
                         }
                     });
                 } else if (k instanceof FluidRecipeCapability) {
                     v.forEach(c -> {
-                        if (c.getContent() instanceof FluidIngredient ingredient) {
+                        if (c.inner instanceof FluidIngredient ingredient) {
                             float chance = (float) c.chance / ContentBuilder.maxChance;
-                            FluidStack[] stacks = ingredient.getStacks();
-                            if (stacks.length != 0) {
-                                outputs.add(EmiStack.of(stacks[0].getFluid(), stacks[0].getTag(), stacks[0].getAmount()).setChance(chance));
+                            var fluid = ingredient.getFluid();
+                            if (fluid != null) {
+                                outputs.add(EmiStack.of(fluid, ingredient.nbt, ingredient.amount).setChance(chance));
                             }
                         }
                     });
@@ -178,7 +171,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
             if (recipe.recipeType.isScanner()) {
                 ResearchManager.ResearchItem researchData = null;
                 for (Content content : recipe.getOutputContents(ItemRecipeCapability.CAP)) {
-                    var stack = ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(content.content));
+                    var stack = ItemRecipeCapability.CAP.of(content).getInnerItemStack();
                     if (stack.isEmpty()) continue;
                     researchData = ResearchManager.readResearchId(stack);
                     if (researchData != null) break;
@@ -191,8 +184,8 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                             var outputs = r.getOutputContents(ItemRecipeCapability.CAP);
                             if (outputs.isEmpty()) continue;
                             var outputContent = outputs.getFirst();
-                            var ingredient = ItemRecipeCapability.CAP.of(outputContent.content);
-                            var stack = ItemUtils.getFirstSized(ingredient);
+                            var ingredient = ItemRecipeCapability.CAP.of(outputContent);
+                            var stack = ingredient.getInnerItemStack();
                             if (stack.isEmpty()) continue;
                             if (!cache.contains(stack)) {
                                 cache.add(stack);

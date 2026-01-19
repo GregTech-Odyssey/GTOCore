@@ -5,7 +5,6 @@ import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -56,9 +55,9 @@ public final class GenerateDisassembly {
             GTOCore.LOGGER.error("配方{}没有输出", recipeBuilder.id);
             return;
         }
-        Ingredient output = ItemRecipeCapability.CAP.of(c.getFirst().getContent());
+        var output = ItemRecipeCapability.CAP.of(c.getFirst()).getItem();
         if (output.isEmpty()) return;
-        var item = ItemUtils.getFirstSized(output).getItem();
+        var item = output.getItem();
         if (recipeBuilder.recipeType == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {
             return;
         }
@@ -73,7 +72,7 @@ public final class GenerateDisassembly {
             return;
         }
         RecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
-                .inputItems(FastSizedIngredient.copy(output))
+                .inputItems(output)
                 .duration(recipeBuilder.duration)
                 .EUt(eut);
         boolean hasOutput = false;
@@ -81,17 +80,17 @@ public final class GenerateDisassembly {
         List<Content> fluidList = recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, null);
         if (itemList != null) {
             for (Content content : itemList) {
-                Ingredient input = ItemRecipeCapability.CAP.of(content.getContent());
-                if (input instanceof FastSizedIngredient sizedIngredient) {
-                    Ingredient inner = sizedIngredient.getInner();
+                if (content.chance == ChanceLogic.getMaxChancedValue()) {
+                    var input = ItemRecipeCapability.CAP.of(content);
+                    Ingredient inner = input.inner;
                     a:
                     for (Ingredient.Value value : inner.values) {
                         if (value instanceof Ingredient.ItemValue itemValue) {
                             Collection<ItemStack> stacks = itemValue.getItems();
                             if (stacks.size() == 1) {
                                 for (ItemStack stack : stacks) {
-                                    if (!stack.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !stack.hasTag()) {
-                                        builder.output(ItemRecipeCapability.CAP, FastSizedIngredient.copy(input));
+                                    if (!stack.isEmpty() && !stack.hasTag()) {
+                                        builder.output(ItemRecipeCapability.CAP, input);
                                         hasOutput = true;
                                         break a;
                                     }
@@ -100,7 +99,7 @@ public final class GenerateDisassembly {
                         } else if (value instanceof Ingredient.TagValue tagValue) {
                             Integer i = Tags.CIRCUITS_ARRAY.get(tagValue.tag);
                             if (i != null) {
-                                builder.outputItems(GTOItems.UNIVERSAL_CIRCUIT[i].get(), sizedIngredient.getSaturatedAmount());
+                                builder.outputItems(GTOItems.UNIVERSAL_CIRCUIT[i].get(), input.getAmount());
                                 break;
                             }
                         }
@@ -110,7 +109,7 @@ public final class GenerateDisassembly {
         }
         if (fluidList != null) {
             for (Content content : fluidList) {
-                FluidIngredient fluid = FluidRecipeCapability.CAP.of(content.getContent());
+                FluidIngredient fluid = FluidRecipeCapability.CAP.of(content);
                 if (content.chance == ChanceLogic.getMaxChancedValue() && !fluid.isEmpty()) {
                     builder.outputFluids(fluid.copy());
                     hasOutput = true;

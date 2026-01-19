@@ -60,7 +60,8 @@ public class FuelCell {
         }
 
         PowerlessJetpack.FUELS.forEach((fluidStack, duration) -> {
-            Fluid fluid = fluidStack.getStacks()[0].getFluid();
+            Fluid fluid = fluidStack.getFluid();
+            if (fluid == null) return;
             long totalEu = (long) duration * 4;
             FUEL_CELL_ENERGY_ABSORPTION_RECIPES.recipeBuilder(FluidUtils.getIdLocation(fluid).getPath())
                     .notConsumable(TagUtils.createTGItemTag("membrane_electrodes"))

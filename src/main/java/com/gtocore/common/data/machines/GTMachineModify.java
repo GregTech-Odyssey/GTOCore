@@ -8,7 +8,6 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunctionList;
-import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.RLUtils;
 
@@ -23,6 +22,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -34,7 +34,6 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -196,7 +195,7 @@ public final class GTMachineModify {
         if (machine.getLevel() == null) return ash;
         if (gtRecipe != null && gtRecipe.outputs.get(ItemRecipeCapability.CAP) != null) {
             var pool = gtRecipe.outputs.get(ItemRecipeCapability.CAP)
-                    .stream().map(ing -> ItemUtils.getFirstSized((Ingredient) ing.content))
+                    .stream().map(ing -> ((ItemIngredient) ing.inner).getInnerItemStack())
                     .filter(i -> !i.isEmpty() && ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.dust)
                     .map(i -> ChemicalHelper.get(TagPrefix.dustTiny, ChemicalHelper.getMaterialStack(i).material()))
                     .toList();

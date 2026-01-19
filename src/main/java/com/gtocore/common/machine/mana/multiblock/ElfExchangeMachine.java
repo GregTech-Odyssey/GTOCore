@@ -8,7 +8,6 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
@@ -17,6 +16,7 @@ import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -63,7 +63,7 @@ public class ElfExchangeMachine extends ManaMultiblockMachine {
             if (recipe.value == null) return null;
             IntHolder nbt = new IntHolder(0);
             builder.MANAt(recipe.value.getInputMANAt());
-            builder.inputItems(FastSizedIngredient.create(GOLD_INGOT, recipe.value.parallels));
+            builder.inputItems(ItemIngredient.of(GOLD_INGOT, recipe.value.parallels));
             var parallel = Math.min(1024, recipe.value.parallels);
             var multiplier = recipe.value.parallels / parallel;
             GTOLoots.modifyLoot = false;

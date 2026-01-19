@@ -12,9 +12,7 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
-import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -26,11 +24,11 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 
 import com.google.common.collect.ImmutableMap;
@@ -156,11 +154,11 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
         // electrolyte consumption adjustment
         long actuallyConsumedmB = result.parallels * fuelEnergyPerUnit / euPermB;
         var input = new ArrayList<>(result.inputs.get(FluidRecipeCapability.CAP));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE)), 10000, 0));
-        input.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE)), 10000, 0));
+        input.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_ANODE), actuallyConsumedmB), 10000, 0));
+        input.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_RELEASE_CATHODE), actuallyConsumedmB), 10000, 0));
         var output = new ArrayList<Content>();
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE)), 10000, 0));
-        output.add(new Content(FastFluidIngredient.of(actuallyConsumedmB, electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE)), 10000, 0));
+        output.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_CATHODE), actuallyConsumedmB), 10000, 0));
+        output.add(new Content(FluidIngredient.of(electrolytesExisting.getFluid(GTOFluidStorageKey.ENERGY_STORAGE_ANODE), actuallyConsumedmB), 10000, 0));
         result.inputs.put(FluidRecipeCapability.CAP, input);
         result.outputs.put(FluidRecipeCapability.CAP, output);
 
@@ -169,7 +167,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
             var contents = result.getOutputContents(FluidRecipeCapability.CAP);
             List<FluidIngredient> copied = new ArrayList<>(contents.size());
             for (var ing : contents) {
-                copied.add(((FluidIngredient) (ing.content)).copy());
+                copied.add(((FluidIngredient) (ing.inner)).copy());
             }
             boolean success = false;
             for (var handler : getCapabilitiesFlat(IO.OUT, FluidRecipeCapability.CAP)) {
@@ -214,8 +212,8 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     private Recipe getReleaseRecipe(Recipe recipe) {
         var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
-            var ingredient = (Ingredient) input.getFirst().content;
-            inputItem(ItemUtils.getFirstSized(ingredient).getItem(), ItemUtils.getSizedAmount(ingredient));
+            var ingredient = (ItemIngredient) input.getFirst().inner;
+            inputItem(ingredient.getInnerItemStack().getItem(), ingredient.amount);
         }
         return ParallelLogic.accurateParallel(this, recipe, MaxCanReleaseParallel);
     }

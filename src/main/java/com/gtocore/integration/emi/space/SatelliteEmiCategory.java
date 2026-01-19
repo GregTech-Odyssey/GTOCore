@@ -47,11 +47,11 @@ public class SatelliteEmiCategory extends EmiRecipeCategory {
             }
             var dimMarker = GTRegistries.DIMENSION_MARKERS.getOrDefault(entry.getLocation(), GTDimensionMarkers.OVERWORLD);
             inputs.put(ITEM, List.of(
-                    consume(ITEM.of(GTOItems.PLANET_DATA_CHIP)),
-                    consume(ITEM.of(GTOItems.PLANET_SCAN_SATELLITE)),
-                    consume(ITEM.of(SatelliteControlCenterMachine.getRocket(entry.getTier())))));
-            inputs.put(FLUID, List.of(consume(FLUID.of(SatelliteControlCenterMachine.getFuel(entry.getTier())))));
-            outputs.put(ITEM, List.of(consume(ITEM.of(dimMarker.getIcon()))));
+                    consume(ITEM.ofInner(GTOItems.PLANET_DATA_CHIP)),
+                    consume(ITEM.ofInner(GTOItems.PLANET_SCAN_SATELLITE)),
+                    consume(ITEM.ofInner(SatelliteControlCenterMachine.getRocket(entry.getTier())))));
+            inputs.put(FLUID, List.of(consume(FLUID.ofInner(SatelliteControlCenterMachine.getFuel(entry.getTier())))));
+            outputs.put(ITEM, List.of(consume(ITEM.ofInner(dimMarker.getIcon()))));
             registry.addRecipe(SatelliteEmiRecipe.fromInputOutput(GTOCore.id("gtocoresatellite").withSuffix("/launch_satellite/" + entry.getKey()), inputs.build(), outputs.build()));
         }
     }

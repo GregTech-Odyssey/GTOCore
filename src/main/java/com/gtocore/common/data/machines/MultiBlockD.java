@@ -45,6 +45,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.*;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.client.renderer.machine.FusionReactorRenderer;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
@@ -54,7 +55,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -562,7 +562,7 @@ public final class MultiBlockD {
             .workableCasingRenderer(GTOCore.id("block/casings/inconel_625_casing"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
             .recoveryStacks((m, r) -> {
                 if (r == null) return ItemStack.EMPTY;
-                return ItemUtils.getFirstSized((Ingredient) r.outputs.get(ItemRecipeCapability.CAP).getFirst().content).copyWithCount(1);
+                return ((ItemIngredient) r.outputs.get(ItemRecipeCapability.CAP).getFirst().inner).getInnerItemStack().copyWithCount(1);
             })
             .register();
 

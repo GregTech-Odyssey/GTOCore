@@ -5,7 +5,6 @@ import com.gtocore.common.machine.multiblock.part.DataGenerateHolderMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
-import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -13,11 +12,11 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.List;
 
@@ -108,7 +107,7 @@ public class SyntheticDataAssemblyPlantMachine extends ElectricMultiblockMachine
 
         ItemStack outputItem = ItemStack.EMPTY;
         var contents = getRecipeLogic().getLastRecipe().getOutputContents(ItemRecipeCapability.CAP);
-        if (!contents.isEmpty()) outputItem = ItemUtils.getFirstSized((Ingredient) contents.getFirst().content).copy();
+        if (!contents.isEmpty()) outputItem = ((ItemIngredient) contents.getFirst().inner).getInnerItemStack().copy();
         if (!outputItem.isEmpty()) objectHolder.setDataItem(outputItem);
 
         objectHolder.setLocked(false);

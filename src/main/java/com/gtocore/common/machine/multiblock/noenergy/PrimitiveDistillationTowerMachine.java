@@ -499,12 +499,12 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         }
 
         private boolean applyFluidOutputs(GTRecipe recipe, IFluidHandler.FluidAction action) {
-            var fluids = recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(Content::getContent).map(FluidRecipeCapability.CAP::of).toList();
+            var fluids = recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(FluidRecipeCapability.CAP::of).toList();
             boolean valid = true;
             var outputs = getMachine().getFluidOutputs();
             for (int i = 0; i < Math.min(fluids.size(), outputs.size()); ++i) {
                 var handler = outputs.get(i);
-                var fluid = fluids.get(i).getStacks()[0];
+                var fluid = fluids.get(i).getLatestStacks()[0];
                 int filled = (handler instanceof NotifiableFluidTank nft) ? nft.fillInternal(fluid, action) : handler.fill(fluid, action);
                 if (filled != fluid.getAmount()) valid = false;
                 if (action.simulate() && !valid) break;

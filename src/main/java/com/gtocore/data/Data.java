@@ -28,19 +28,16 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.ItemMaterialData;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.core.MixinHelpers;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
@@ -88,12 +85,6 @@ public final class Data {
         MaterialInfo.init();
         RecipeBuilder.initialization();
         RecipeFilter.init();
-
-        BlastProperty.GasTier.LOW.setFluid(() -> FastFluidIngredient.of(GTMaterials.Nitrogen.getFluid(1000)));
-        BlastProperty.GasTier.MID.setFluid(() -> FastFluidIngredient.of(GTMaterials.Helium.getFluid(100)));
-        BlastProperty.GasTier.HIGH.setFluid(() -> FastFluidIngredient.of(GTMaterials.Argon.getFluid(100)));
-        BlastProperty.GasTier.HIGHER.setFluid(() -> FastFluidIngredient.of(GTMaterials.Neon.getFluid(100)));
-        BlastProperty.GasTier.HIGHEST.setFluid(() -> FastFluidIngredient.of(GTMaterials.Krypton.getFluid(100)));
 
         ResearchRecipes.init();
 

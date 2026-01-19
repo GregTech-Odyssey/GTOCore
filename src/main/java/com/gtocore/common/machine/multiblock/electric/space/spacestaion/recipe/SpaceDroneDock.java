@@ -52,7 +52,7 @@ public class SpaceDroneDock extends RecipeExtension {
         ObjectHolder<BigInteger> costEU = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> outputHolder = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> inputHolder = new ObjectHolder<>(null);
-        Ingredient chargeable = (Ingredient) recipe.inputs.get(ItemRecipeCapability.CAP).getFirst().content;
+        Ingredient chargeable = (Ingredient) recipe.inputs.get(ItemRecipeCapability.CAP).getFirst().inner;
         fastForEachInputItems((stack, amount) -> {
             if (hasInput.get()) return;
             ItemStack output = stack.copyWithCount(1);

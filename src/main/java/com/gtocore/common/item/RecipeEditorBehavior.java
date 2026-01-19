@@ -8,8 +8,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.DummyMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.FluidUtils;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.StringConverter;
@@ -36,6 +34,8 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -114,11 +114,8 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                         var input = new OpenCacheHashSet<String>();
                         if (recipe.inputs.containsKey(ItemRecipeCapability.CAP)) {
                             for (Content content : recipe.inputs.get(ItemRecipeCapability.CAP)) {
-                                Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
-                                Ingredient inner = ingredient;
-                                if (ingredient instanceof FastSizedIngredient sizedIngredient) {
-                                    inner = sizedIngredient.getInner();
-                                }
+                                var ingredient = ItemRecipeCapability.CAP.of(content);
+                                Ingredient inner = ingredient.inner;
                                 a:
                                 for (Ingredient.Value value : inner.values) {
                                     if (value instanceof Ingredient.ItemValue itemValue) {
@@ -149,7 +146,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                         }
                         if (recipe.inputs.containsKey(FluidRecipeCapability.CAP)) {
                             for (Content content : recipe.inputs.get(FluidRecipeCapability.CAP)) {
-                                FluidStack[] stacks = FluidRecipeCapability.CAP.of(content.getContent()).getStacks();
+                                FluidStack[] stacks = FluidRecipeCapability.CAP.of(content).getStacks();
                                 if (stacks.length == 0) {
                                     GTOCore.LOGGER.error("配方 {} 存在空流体输入", id);
                                     continue;
@@ -385,19 +382,19 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 for (int i = 0; i < machine.exportItems.getSlots(); i++) {
                     ItemStack stack = machine.exportItems.getStackInSlot(i);
                     if (stack.isEmpty()) continue;
-                    String stringItem = StringConverter.fromItem(Ingredient.of(stack), 1);
+                    String stringItem = StringConverter.fromItem(ItemIngredient.of(stack), 1);
                     stringBuilder.append(".outputItems(").append(stringItem).append(")").append("\n");
                 }
                 for (int i = 0; i < machine.importFluids.getSize(); i++) {
                     FluidStack stack = machine.importFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FastFluidIngredient.of(stack), true);
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".inputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 for (int i = 0; i < machine.exportFluids.getSize(); i++) {
                     FluidStack stack = machine.exportFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FastFluidIngredient.of(stack), true);
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".outputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 if (machine.circuit > 0) {
@@ -424,7 +421,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
                 stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(");
                 stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
-                stringBuilder.append(StringConverter.fromItem(Ingredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
+                stringBuilder.append(StringConverter.fromItem(ItemIngredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
                 char c = 'A';
                 Reference2CharLinkedOpenHashMap<Item> map = new Reference2CharLinkedOpenHashMap<>();
                 for (int i = 0, j = 0; i < machine.importItems.getSlots(); i++, j++) {
@@ -451,15 +448,15 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
         return template;
     }
 
-    private static Ingredient getItemIngredient(ItemStack stack) {
+    private static ItemIngredient getItemIngredient(ItemStack stack) {
         if (ItemMap.UNIVERSAL_CIRCUITS.contains(stack.getItem())) {
             for (int tier : GTMachineUtils.ALL_TIERS) {
                 if (GTOItems.UNIVERSAL_CIRCUIT[tier].is(stack.getItem())) {
-                    return FastSizedIngredient.create(CustomTags.CIRCUITS_ARRAY[tier], stack.getCount());
+                    return ItemIngredient.of(CustomTags.CIRCUITS_ARRAY[tier], stack.getCount());
                 }
             }
         }
-        return FastSizedIngredient.create(stack);
+        return ItemIngredient.of(stack);
     }
 
     private static int getXOffset(GTRecipeType recipe) {

@@ -38,12 +38,12 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     @Nullable
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
-        water = FluidRecipeCapability.CAP.of(recipe.inputs.get(FluidRecipeCapability.CAP).get(1).getContent()).getStacks()[0].getFluid() == Fluids.WATER;
+        water = FluidRecipeCapability.CAP.of(recipe.inputs.get(FluidRecipeCapability.CAP).get(1)).getFluid() == Fluids.WATER;
         var result = ParallelLogic.accurateParallel(this, getRecipeBuilder()
                 .inputFluids(FluidRecipeCapability.CAP.of(recipe.inputs
-                        .get(FluidRecipeCapability.CAP).get(0).getContent()))
+                        .get(FluidRecipeCapability.CAP).getFirst()))
                 .outputFluids(FluidRecipeCapability.CAP.of(recipe.outputs
-                        .get(FluidRecipeCapability.CAP).get(0).getContent()))
+                        .get(FluidRecipeCapability.CAP).getFirst()))
                 .duration(200)
                 .buildRawRecipe(), Integer.MAX_VALUE);
         if (result == null) return null;

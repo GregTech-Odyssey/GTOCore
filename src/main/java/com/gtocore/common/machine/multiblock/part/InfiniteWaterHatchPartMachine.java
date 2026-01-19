@@ -2,8 +2,6 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtocore.common.data.GTORecipeTypes;
 
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -71,8 +69,7 @@ public final class InfiniteWaterHatchPartMachine extends WorkableTieredIOPartMac
         public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
             if (io == IO.IN) {
                 for (var it = left.iterator(); it.hasNext();) {
-                    var f = FastFluidIngredient.getFluid(it.next());
-                    if (f == Fluids.WATER) {
+                    if (it.next().getFluid() == Fluids.WATER) {
                         it.remove();
                         break;
                     }

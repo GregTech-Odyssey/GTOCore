@@ -3,12 +3,8 @@ package com.gtocore.mixin.gtm;
 import com.gtocore.common.data.GTORecipes;
 import com.gtocore.data.loot.DungeonLoot;
 
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
-
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.CommonProxy;
 import com.gregtechceu.gtceu.data.loot.DungeonLootLoader;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
@@ -49,14 +45,12 @@ public class CommonProxyMixin {
 
     /**
      * @author .
-     * @reason 换成FastSizedIngredient
+     * @reason .
      */
     @SubscribeEvent
     @Overwrite(remap = false)
     public void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            CraftingHelper.register(SizedIngredient.TYPE, FastSizedIngredient.SERIALIZER);
-            CraftingHelper.register(IntCircuitIngredient.TYPE, IntCircuitIngredient.SERIALIZER);
             CraftingHelper.register(FluidContainerIngredient.TYPE, FluidContainerIngredient.SERIALIZER);
         });
     }

@@ -7,8 +7,6 @@ import com.gtocore.data.recipe.classified.ManaSimulator;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gtolib.api.capability.recipe.ManaRecipeCapability;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -25,7 +23,6 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.level.material.Fluid;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
@@ -76,11 +73,11 @@ public final class RecipeTypeModify {
             long eu = recipeBuilder.duration * GTValues.V[GTValues.EV] * 2;
             int water = (int) (eu / 80);
             FluidIngredient output = FluidRecipeCapability.CAP.of(recipeBuilder.output
-                    .get(FluidRecipeCapability.CAP).get(0).getContent()).copy();
+                    .get(FluidRecipeCapability.CAP).getFirst()).depthCopy();
             FluidIngredient input = FluidRecipeCapability.CAP.of(recipeBuilder.input
-                    .get(FluidRecipeCapability.CAP).get(0).getContent()).copy();
-            output.setAmount(9);
-            input.setAmount(10);
+                    .get(FluidRecipeCapability.CAP).getFirst()).depthCopy();
+            output.changeAmount(9);
+            input.changeAmount(10);
             HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.id)
                     .inputFluids(input)
                     .inputFluids(GTMaterials.DistilledWater.getFluid(water))
@@ -162,11 +159,13 @@ public final class RecipeTypeModify {
 
             var list = builder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
             if (!list.isEmpty()) {
-                Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks()).forEach(stack -> SteamLiquidBoilerMachine.FUEL_CACHE.add(stack.getFluid()));
+                var fluid = FluidRecipeCapability.CAP.of(list.getFirst()).getFluid();
+                if (fluid != null) SteamLiquidBoilerMachine.FUEL_CACHE.add(fluid);
             }
             list = builder.input.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList());
             if (!list.isEmpty()) {
-                Arrays.stream(FastSizedIngredient.getInner(ItemRecipeCapability.CAP.of(list.get(0).content)).getItems()).forEach(stack -> SteamSolidBoilerMachine.FUEL_CACHE.add(stack.getItem()));
+                var item = ItemRecipeCapability.CAP.of(list.getFirst()).getItem();
+                if (!item.isEmpty()) SteamSolidBoilerMachine.FUEL_CACHE.add(item.getItem());
             }
         });
 
@@ -200,7 +199,7 @@ public final class RecipeTypeModify {
     private static void addCuttingFluid(GTRecipeBuilder recipeBuilder, int index) {
         CuttingFluid selected = FLUID_TIERS[index];
         long fluidAmount = Math.max(1, recipeBuilder.duration * recipeBuilder.EUt() / selected.divisor());
-        recipeBuilder.inputFluids(FastFluidIngredient.of(fluidAmount, selected.fluid()));
+        recipeBuilder.inputFluids(FluidIngredient.of(selected.fluid(), fluidAmount));
     }
 
     private static void addUpgradedCuttingFluid(GTRecipeBuilder recipeBuilder, int originalIndex, int index, int originalDuration, long originalEUt, double reductionFactor) {
@@ -208,7 +207,7 @@ public final class RecipeTypeModify {
 
         long fluidAmount = (long) Math.max(1, originalDuration * originalEUt * reductionFactor / FLUID_TIERS[originalIndex].divisor());
 
-        recipeBuilder.inputFluids(FastFluidIngredient.of(fluidAmount, selected.fluid()));
+        recipeBuilder.inputFluids(FluidIngredient.of(selected.fluid(), fluidAmount));
         recipeBuilder.save();
     }
 

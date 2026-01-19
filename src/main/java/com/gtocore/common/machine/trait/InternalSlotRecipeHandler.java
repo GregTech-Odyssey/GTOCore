@@ -11,8 +11,6 @@ import com.gtolib.api.machine.trait.NonStandardHandler;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeCapabilityMap;
 import com.gtolib.api.recipe.RecipeType;
-import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
-import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
@@ -25,12 +23,12 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.utils.function.ObjLongPredicate;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -77,8 +75,8 @@ public final class InternalSlotRecipeHandler {
             ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
             Reference2LongOpenHashMap<Fluid> ingredientStacks = null;
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FastFluidIngredient ingredient) {
-                    long needed = ingredient.getAmount();
+                if (content.chance > 0 && content.inner instanceof FluidIngredient ingredient) {
+                    long needed = ingredient.amount;
                     if (needed < 1) continue;
                     long available = 0;
                     for (var it = slot.fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
@@ -170,7 +168,7 @@ public final class InternalSlotRecipeHandler {
             ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
             Reference2LongOpenHashMap<Item> ingredientStacks = null;
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FastSizedIngredient ingredient) {
+                if (content.chance > 0 && content.inner instanceof ItemIngredient ingredient) {
                     long needed = ingredient.getAmount();
                     if (needed < 1) continue;
                     long available = 0;
@@ -206,8 +204,8 @@ public final class InternalSlotRecipeHandler {
         @Override
         public long getInputFluidParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FastFluidIngredient ingredient) {
-                    long needed = ingredient.getAmount();
+                if (content.chance > 0 && content.inner instanceof FluidIngredient ingredient) {
+                    long needed = ingredient.amount;
                     if (needed < 1) continue;
                     long available = 0;
                     for (var it = slot.fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
@@ -263,7 +261,7 @@ public final class InternalSlotRecipeHandler {
 
     static final class SlotRHL extends AbstractRHL {
 
-        final IRecipeHandlerTrait<Ingredient> itemRecipeHandler;
+        final IRecipeHandlerTrait<ItemIngredient> itemRecipeHandler;
         final IRecipeHandlerTrait<FluidIngredient> fluidRecipeHandler;
 
         private SlotRHL(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
@@ -274,7 +272,7 @@ public final class InternalSlotRecipeHandler {
         }
     }
 
-    private static final class SlotItemRecipeHandler extends NonstandardSlotRecipeHandler<Ingredient> {
+    private static final class SlotItemRecipeHandler extends NonstandardSlotRecipeHandler<ItemIngredient> {
 
         private SlotItemRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot) {
             super(buffer, slot);
@@ -282,18 +280,18 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public List<Ingredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
+        public List<ItemIngredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
             if (slot.itemInventory.isEmpty()) return left;
             return handleRecipeInner(io, recipe, new ArrayList(left), simulate);
         }
 
         @Override
-        public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
+        public List<ItemIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<ItemIngredient> left, boolean simulate) {
             return slot.handleItemInternal(left, simulate);
         }
 
         @Override
-        public RecipeCapability<Ingredient> getCapability() {
+        public RecipeCapability<ItemIngredient> getCapability() {
             return ItemRecipeCapability.CAP;
         }
 
