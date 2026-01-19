@@ -176,6 +176,13 @@ public final class GTOItems {
             .onRegister(attach(new DroneBehavior(GTValues.IV)))
             .register();
 
+    public static final ItemEntry<ComponentItem> HYPERDIMENSIONAL_DRONE = item("hyperdimensional_drone", "超维度无人机", ComponentItem::create)
+            .lang("Hyperdimensional Drone")
+            .properties(p -> p.stacksTo(1))
+            .onRegister(modelPredicate(GTCEu.id("battery"), ElectricStats::getStoredPredicate))
+            .onRegister(attach(new DroneBehavior(GTValues.MAX)))
+            .register();
+
     public static final ItemEntry<ComponentItem> MAX_ELECTRIC_PUMP = item("max_electric_pump", "§4§lMAX§r电动泵", ComponentItem::create)
             .lang("MAX Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_MAX)))
@@ -805,7 +812,6 @@ public final class GTOItems {
     public static final ItemEntry<Item> HUI_CIRCUIT_5 = registerLang("hui_circuit_5", "High Calculation Workstation MK-V", "高算力工作站 MK-V");
     public static final ItemEntry<Item> SPECIAL_CERAMICS = register("special_ceramics", "特种陶瓷");
     public static final ItemEntry<Item> PLANET_SCAN_SATELLITE = register("planet_scan_satellite", "行星扫描卫星");
-    public static final ItemEntry<Item> HYPERDIMENSIONAL_DRONE = register("hyperdimensional_drone", "超维度无人机");
 
     public static final ItemEntry<Item> HOT_IRON_INGOT = registerCustomModel("hot_iron_ingot", "热铁锭");
     public static final ItemEntry<Item> RAW_VACUUM_TUBE = registerCustomModel("raw_vacuum_tube", "粗真空管");
