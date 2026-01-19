@@ -121,7 +121,7 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
             }
             if (content != null) {
                 float chance = (float) recipeType.getChanceFunction().getBoostedChance(content, recipeTier, chanceTier) / ContentBuilder.maxChance;
-                if (io == IO.IN && ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(content.getContent())).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
+                if (io == IO.IN && ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(content)).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
                     slot.setIngredientIO(IngredientIO.CATALYST);
                     slot.setXEIChance(0);
                 } else {
@@ -133,14 +133,14 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
                         tooltips.add(Component.translatable("gtceu.gui.content.per_tick"));
                     }
                     int amount;
-                    if (this.of(content.content) instanceof FastSizedIngredient sizedIngredient) {
+                    if (this.of(content) instanceof FastSizedIngredient sizedIngredient) {
                         amount = sizedIngredient.getSaturatedAmount();
                     } else {
-                        amount = this.of(content.content).getItems()[0].getCount();
+                        amount = this.of(content).getItems()[0].getCount();
                     }
                     tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", amount).withStyle(ChatFormatting.GRAY));
                 });
-                if (io == IO.IN && (content.chance == 0 || this.of(content.content) instanceof IntCircuitIngredient)) {
+                if (io == IO.IN && (content.chance == 0 || this.of(content) instanceof IntCircuitIngredient)) {
                     slot.setIngredientIO(IngredientIO.CATALYST);
                 }
             }

@@ -65,7 +65,7 @@ public final class GTORecipeTypes {
         RecipeTypeModify.init();
     }
 
-    private static final Consumer<GTRecipeBuilder> addFuelProperties = (b) -> PowerlessJetpack.FUELS.putIfAbsent(FluidRecipeCapability.CAP.of(b.input.get(FluidRecipeCapability.CAP).get(0).content).copy(), (int) (b.duration * Math.abs(b.EUt())));
+    private static final Consumer<GTRecipeBuilder> addFuelProperties = (b) -> PowerlessJetpack.FUELS.putIfAbsent(FluidRecipeCapability.CAP.of(b.input.get(FluidRecipeCapability.CAP).getFirst()).copy(), (int) (b.duration * Math.abs(b.EUt())));
     public static final GTRecipeType HATCH_COMBINED = register("hatch_combined", "Combined / Machine", "组合模式/机器模式", DUMMY).setXEIVisible(false);
     public static final RecipeType ALLOY_BLAST_RECIPES = (RecipeType) GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
     public static final RecipeType STEAM_BOILER_RECIPES = (RecipeType) GTRecipeTypes.STEAM_BOILER_RECIPES;

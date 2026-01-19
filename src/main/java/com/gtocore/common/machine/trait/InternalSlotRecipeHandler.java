@@ -76,8 +76,8 @@ public final class InternalSlotRecipeHandler {
             ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
             Reference2LongOpenHashMap<Fluid> ingredientStacks = null;
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FluidIngredient ingredient) {
-                    long needed = ingredient.getAmount();
+                if (content.chance > 0 && content.inner instanceof FluidIngredient ingredient) {
+                    long needed = ingredient.amount;
                     if (needed < 1) continue;
                     long available = 0;
                     for (var it = slot.fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
@@ -169,7 +169,7 @@ public final class InternalSlotRecipeHandler {
             ParallelCache parallelCache = IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getParallelCache();
             Reference2LongOpenHashMap<Item> ingredientStacks = null;
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FastSizedIngredient ingredient) {
+                if (content.chance > 0 && content.inner instanceof FastSizedIngredient ingredient) {
                     long needed = ingredient.getAmount();
                     if (needed < 1) continue;
                     long available = 0;
@@ -205,8 +205,8 @@ public final class InternalSlotRecipeHandler {
         @Override
         public long getInputFluidParallel(IRecipeLogicMachine holder, List<Content> contents, long parallelAmount) {
             for (var content : contents) {
-                if (content.chance > 0 && content.content instanceof FluidIngredient ingredient) {
-                    long needed = ingredient.getAmount();
+                if (content.chance > 0 && content.inner instanceof FluidIngredient ingredient) {
+                    long needed = ingredient.amount;
                     if (needed < 1) continue;
                     long available = 0;
                     for (var it = slot.fluidInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {

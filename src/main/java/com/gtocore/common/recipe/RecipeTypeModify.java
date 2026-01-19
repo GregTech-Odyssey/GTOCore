@@ -75,9 +75,9 @@ public final class RecipeTypeModify {
             long eu = recipeBuilder.duration * GTValues.V[GTValues.EV] * 2;
             int water = (int) (eu / 80);
             FluidIngredient output = FluidRecipeCapability.CAP.of(recipeBuilder.output
-                    .get(FluidRecipeCapability.CAP).getFirst().getContent()).depthCopy();
+                    .get(FluidRecipeCapability.CAP).getFirst()).depthCopy();
             FluidIngredient input = FluidRecipeCapability.CAP.of(recipeBuilder.input
-                    .get(FluidRecipeCapability.CAP).getFirst().getContent()).depthCopy();
+                    .get(FluidRecipeCapability.CAP).getFirst()).depthCopy();
             output.changeAmount(9);
             input.changeAmount(10);
             HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.id)

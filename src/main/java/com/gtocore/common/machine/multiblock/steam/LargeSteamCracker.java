@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -26,12 +27,12 @@ public class LargeSteamCracker extends BaseSteamMultiblockMachine {
     }
 
     @Override
-    protected @Nullable GTRecipe getRealRecipe(GTRecipe r) {
+    protected @Nullable GTRecipe getRealRecipe(@NotNull GTRecipe r) {
         var r1 = super.getRealRecipe(r);
         if (r1 != null) {
             r1 = r1.copy();
-            var content = ((FluidIngredient) r1.getOutputContents(FluidRecipeCapability.CAP).getFirst().content).depthCopy();
-            content.changeAmount((long) (content.getAmount() * getEfficiencyMultiplier()));
+            var content = ((FluidIngredient) r1.getOutputContents(FluidRecipeCapability.CAP).getFirst().inner).depthCopy();
+            content.changeAmount((long) (content.amount * getEfficiencyMultiplier()));
             r1.outputs.put(FluidRecipeCapability.CAP, Collections.singletonList(new Content(content, 10000, 0)));
             return r1;
         }

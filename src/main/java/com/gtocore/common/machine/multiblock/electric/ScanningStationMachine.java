@@ -110,7 +110,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
         }
 
         var catalyst = lastRecipe.getInputContents(ItemRecipeCapability.CAP);
-        if (ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(catalyst.getFirst().content)).getItem() != objectHolder.getCatalystItem(false).getItem()) {
+        if (ItemUtils.getFirstSized(ItemRecipeCapability.CAP.of(catalyst.getFirst())).getItem() != objectHolder.getCatalystItem(false).getItem()) {
             ItemStack hold = objectHolder.getHeldItem(true);
             objectHolder.setHeldItem(objectHolder.getCatalystItem(true));
             objectHolder.setCatalystItem(hold);
@@ -123,7 +123,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
             var ingredient = FluidRecipeCapability.CAP.of(fluidInputs.getFirst());
             FluidStack requiredFluid = ingredient.getStacks()[0];
             FluidStack currentFluid = objectHolder.getCatalystFluidTank().getFluidInTank(0);
-            if (currentFluid.isEmpty() || !requiredFluid.isFluidEqual(currentFluid) || currentFluid.getAmount() < ingredient.getAmount()) {
+            if (currentFluid.isEmpty() || !requiredFluid.isFluidEqual(currentFluid) || currentFluid.getAmount() < ingredient.amount) {
                 objectHolder.setLocked(false);
                 return true;
             }
@@ -132,7 +132,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
         objectHolder.setHeldItem(ItemStack.EMPTY);
         ItemStack outputItem = ItemStack.EMPTY;
         var contents = lastRecipe.getOutputContents(ItemRecipeCapability.CAP);
-        if (!contents.isEmpty()) outputItem = ItemUtils.getFirstSized((Ingredient) contents.getFirst().content).copy();
+        if (!contents.isEmpty()) outputItem = ItemUtils.getFirstSized((Ingredient) contents.getFirst().inner).copy();
         if (!outputItem.isEmpty()) objectHolder.setDataItem(outputItem);
 
         objectHolder.getCatalystFluidTank().setFluidInTank(0, FluidStack.EMPTY);

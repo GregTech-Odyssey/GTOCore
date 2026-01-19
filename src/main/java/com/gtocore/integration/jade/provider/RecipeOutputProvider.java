@@ -67,28 +67,28 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 recipeMachine.getThreads().forEach(t -> {
                     var recipe = t.getRecipe();
                     for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
-                        items.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content.content)));
+                        items.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content)));
                     }
                     for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
-                        fluids.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), FluidRecipeCapability.CAP.of(content.content).amount);
+                        fluids.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), FluidRecipeCapability.CAP.of(content).amount);
                     }
                 });
             } else {
                 var recipe = recipeLogic.getLastRecipe();
                 if (recipe == null) return;
                 for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
-                    items.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content.content)));
+                    items.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), ItemUtils.getSizedAmount(ItemRecipeCapability.CAP.of(content)));
                 }
 
                 for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
-                    fluids.addTo(new SeparateContent(content.content, content.chance, content.tierChanceBoost, recipe.parallels), FluidRecipeCapability.CAP.of(content.content).amount);
+                    fluids.addTo(new SeparateContent(content.inner, content.chance, content.tierChanceBoost, recipe.parallels), FluidRecipeCapability.CAP.of(content).amount);
                 }
             }
             if (!items.isEmpty()) {
                 ListTag itemTags = new ListTag();
                 items.object2LongEntrySet().forEach(entry -> {
                     var nbt = new CompoundTag();
-                    var ingredient = ItemRecipeCapability.CAP.of(entry.getKey().content);
+                    var ingredient = ItemRecipeCapability.CAP.of(entry.getKey());
                     var stack = ItemUtils.getFirstSized(ingredient);
                     if (stack.isEmpty()) return;
                     nbt.putLong("p", entry.getKey().parallel);

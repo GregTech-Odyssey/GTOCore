@@ -173,7 +173,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
         }
 
         private boolean applyFluidOutputs(GTRecipe recipe, FluidAction action) {
-            var fluids = recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(Content::getContent).map(FluidRecipeCapability.CAP::of).toList();
+            var fluids = recipe.getOutputContents(FluidRecipeCapability.CAP).stream().map(FluidRecipeCapability.CAP::of).toList();
             if (fluids.isEmpty()) return true;
             boolean valid = true;
             var outputs = getMachine().getFluidOutputs();

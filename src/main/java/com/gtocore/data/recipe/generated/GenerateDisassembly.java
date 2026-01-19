@@ -56,7 +56,7 @@ public final class GenerateDisassembly {
             GTOCore.LOGGER.error("配方{}没有输出", recipeBuilder.id);
             return;
         }
-        Ingredient output = ItemRecipeCapability.CAP.of(c.getFirst().getContent());
+        Ingredient output = ItemRecipeCapability.CAP.of(c.getFirst());
         if (output.isEmpty()) return;
         var item = ItemUtils.getFirstSized(output).getItem();
         if (recipeBuilder.recipeType == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {
@@ -81,7 +81,7 @@ public final class GenerateDisassembly {
         List<Content> fluidList = recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, null);
         if (itemList != null) {
             for (Content content : itemList) {
-                Ingredient input = ItemRecipeCapability.CAP.of(content.getContent());
+                Ingredient input = ItemRecipeCapability.CAP.of(content);
                 if (input instanceof FastSizedIngredient sizedIngredient) {
                     Ingredient inner = sizedIngredient.getInner();
                     a:
@@ -110,7 +110,7 @@ public final class GenerateDisassembly {
         }
         if (fluidList != null) {
             for (Content content : fluidList) {
-                FluidIngredient fluid = FluidRecipeCapability.CAP.of(content.getContent());
+                FluidIngredient fluid = FluidRecipeCapability.CAP.of(content);
                 if (content.chance == ChanceLogic.getMaxChancedValue() && !fluid.isEmpty()) {
                     builder.outputFluids(fluid.copy());
                     hasOutput = true;

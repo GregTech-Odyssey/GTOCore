@@ -81,7 +81,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
         if (itemStackTransfers.size() < inputs.size()) return false;
 
         for (int i = 0; i < inputs.size(); i++) {
-            var content = inputs.get(i).getContent();
+            var content = inputs.get(i).inner;
             if (content instanceof FastSizedIngredient ingredient && !ingredient.isEmpty()) {
                 if (!matchItem(this.itemStackTransfers.get(i), ingredient)) return false;
             }
@@ -98,7 +98,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
         if (fluidTankTransfers.size() < inputs.size()) return false;
 
         for (int i = 0; i < inputs.size(); i++) {
-            var content = inputs.get(i).getContent();
+            var content = inputs.get(i).inner;
             if (content instanceof FluidIngredient ingredient && !ingredient.isEmpty()) {
                 if (!matchFluid(this.fluidTankTransfers.get(i), ingredient)) return false;
             }
@@ -242,7 +242,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
             if (machineInputs.size() < itemInputs.size()) return false;
             for (int i = 0; i < itemInputs.size(); i++) {
                 var inputSlot = machineInputs.get(i);
-                var recipeInput = ItemRecipeCapability.CAP.of(itemInputs.get(i).content);
+                var recipeInput = ItemRecipeCapability.CAP.of(itemInputs.get(i));
                 boolean tested = false;
                 var amount = ItemUtils.getSizedAmount(recipeInput);
                 for (int j = 0; j < inputSlot.size; j++) {
@@ -266,8 +266,8 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
 
             for (int i = 0; i < fluidInputs.size(); i++) {
                 var inputTankArray = machineInputs.get(i);
-                var recipeInput = FluidRecipeCapability.CAP.of(fluidInputs.get(i).content);
-                long amountToDrain = recipeInput.getAmount();
+                var recipeInput = FluidRecipeCapability.CAP.of(fluidInputs.get(i));
+                long amountToDrain = recipeInput.amount;
 
                 for (var tankInHatch : inputTankArray) {
                     if (tankInHatch.isEmpty() || !recipeInput.test(tankInHatch.getFluid())) {

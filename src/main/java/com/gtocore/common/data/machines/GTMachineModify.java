@@ -196,7 +196,7 @@ public final class GTMachineModify {
         if (machine.getLevel() == null) return ash;
         if (gtRecipe != null && gtRecipe.outputs.get(ItemRecipeCapability.CAP) != null) {
             var pool = gtRecipe.outputs.get(ItemRecipeCapability.CAP)
-                    .stream().map(ing -> ItemUtils.getFirstSized((Ingredient) ing.content))
+                    .stream().map(ing -> ItemUtils.getFirstSized((Ingredient) ing.inner))
                     .filter(i -> !i.isEmpty() && ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.dust)
                     .map(i -> ChemicalHelper.get(TagPrefix.dustTiny, ChemicalHelper.getMaterialStack(i).material()))
                     .toList();

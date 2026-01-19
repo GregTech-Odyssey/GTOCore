@@ -168,7 +168,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
             var contents = result.getOutputContents(FluidRecipeCapability.CAP);
             List<FluidIngredient> copied = new ArrayList<>(contents.size());
             for (var ing : contents) {
-                copied.add(((FluidIngredient) (ing.content)).copy());
+                copied.add(((FluidIngredient) (ing.inner)).copy());
             }
             boolean success = false;
             for (var handler : getCapabilitiesFlat(IO.OUT, FluidRecipeCapability.CAP)) {
@@ -213,7 +213,7 @@ public class FullCellGenerator extends ElectricMultiblockMachine {
     private Recipe getReleaseRecipe(Recipe recipe) {
         var input = new ArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
         if (GTValues.RNG.nextFloat() < chanceConsumeMembraneOnDischarge) {
-            var ingredient = (Ingredient) input.getFirst().content;
+            var ingredient = (Ingredient) input.getFirst().inner;
             inputItem(ItemUtils.getFirstSized(ingredient).getItem(), ItemUtils.getSizedAmount(ingredient));
         }
         return ParallelLogic.accurateParallel(this, recipe, MaxCanReleaseParallel);

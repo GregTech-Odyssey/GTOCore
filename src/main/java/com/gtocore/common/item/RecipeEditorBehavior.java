@@ -114,7 +114,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                         var input = new OpenCacheHashSet<String>();
                         if (recipe.inputs.containsKey(ItemRecipeCapability.CAP)) {
                             for (Content content : recipe.inputs.get(ItemRecipeCapability.CAP)) {
-                                Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
+                                Ingredient ingredient = ItemRecipeCapability.CAP.of(content);
                                 Ingredient inner = ingredient;
                                 if (ingredient instanceof FastSizedIngredient sizedIngredient) {
                                     inner = sizedIngredient.getInner();
@@ -149,7 +149,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                         }
                         if (recipe.inputs.containsKey(FluidRecipeCapability.CAP)) {
                             for (Content content : recipe.inputs.get(FluidRecipeCapability.CAP)) {
-                                FluidStack[] stacks = FluidRecipeCapability.CAP.of(content.getContent()).getStacks();
+                                FluidStack[] stacks = FluidRecipeCapability.CAP.of(content).getStacks();
                                 if (stacks.length == 0) {
                                     GTOCore.LOGGER.error("配方 {} 存在空流体输入", id);
                                     continue;
