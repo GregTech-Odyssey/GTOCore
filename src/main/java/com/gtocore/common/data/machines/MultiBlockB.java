@@ -456,7 +456,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .onWorking(machine -> {
-                if (GTOConfig.INSTANCE.lightningRodEffect && machine.self().getLevel() instanceof ServerLevel serverLevel && machine.self().getOffsetTimer() % serverLevel.random.nextInt(20, 200) == 0) {
+                if (GTOConfig.INSTANCE.client.lightningRodEffect && machine.self().getLevel() instanceof ServerLevel serverLevel && machine.self().getOffsetTimer() % serverLevel.random.nextInt(20, 200) == 0) {
                     LightningBolt entityToSpawn = EntityType.LIGHTNING_BOLT.create(serverLevel);
                     if (entityToSpawn != null) {
                         entityToSpawn.setPos(MachineUtils.getOffsetPos(9, 50, machine.self().getFrontFacing(), machine.self().getPos()).getCenter());
