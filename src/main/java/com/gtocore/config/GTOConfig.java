@@ -163,14 +163,6 @@ public final class GTOConfig {
     public boolean disableMufflerPart = false;
 
     @Configurable
-    @Configurable.Range(min = 36, max = 216)
-    @Configurable.Comment({ "扩展样板供应器容量", "专家模式下，此选项无效",
-            "Extended Pattern Provider Size", "In Expert mode, this option is invalid" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
-    @Configurable.Gui.Slider
-    public int exPatternSize = 36;
-
-    @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
     @Configurable.Comment({ "在装配线模式编码带有重命名物品的样板时使用的默认名字", "The default name used when encoding patterns with renamed items in assembly line mode" })
     public String renamePatternDefaultString = "";
@@ -315,6 +307,14 @@ public final class GTOConfig {
     @Configurable.Comment({ "AE2 无线网络使用的存储键，切换后将使用新的存储键重新生成网络（警告：切换后所有AE无线设备的设置将重置！）", "The storage key used by the AE2 wireless network. After switching, a new storage key will be used to regenerate the network (Warning: After switching, all AE wireless device settings will be reset!)" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", cn = "AE2 网格存储键", en = "AE2 Grid Storage Key")
     public String aeGridKey = "four";
+
+    @Configurable
+    @Configurable.Range(min = 36, max = 216)
+    @Configurable.Comment({ "扩展样板供应器容量", "仅用于性能测试",
+            "Extended Pattern Provider Size", "Only for performance testing" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
+    @Configurable.Gui.Slider
+    public int exPatternSize = 36;
 
     @Configurable
     @Configurable.Comment({ "Spark 性能分析器的启动阶段", "The startup phase of the Spark profiler" })
