@@ -111,6 +111,12 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
+    public boolean swapIO() {
+        // Programmable hatches should not be able to swap IO
+        return false;
+    }
+
+    @Override
     public boolean isProgrammable() {
         return true;
     }
