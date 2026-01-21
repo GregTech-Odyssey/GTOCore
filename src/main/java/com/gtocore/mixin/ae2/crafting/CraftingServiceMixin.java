@@ -3,6 +3,8 @@ package com.gtocore.mixin.ae2.crafting;
 import com.gtolib.api.ae2.crafting.OptimizedCalculation;
 import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
 
+import com.gregtechceu.gtceu.utils.GTUtil;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
@@ -30,15 +32,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 @Mixin(CraftingService.class)
 public abstract class CraftingServiceMixin {
-
-    @Shadow(remap = false)
-    @Final
-    private static ExecutorService CRAFTING_POOL;
 
     @Shadow(remap = false)
     @Final
@@ -121,7 +118,7 @@ public abstract class CraftingServiceMixin {
         if (level == null || simRequester == null) {
             throw new IllegalArgumentException("Invalid Crafting Job Request");
         }
-        return CRAFTING_POOL.submit(() -> OptimizedCalculation.executeV2(grid, simRequester, what, amount, strategy));
+        return GTUtil.ASYNC_EXECUTOR.submit(() -> OptimizedCalculation.executeV2(grid, simRequester, what, amount, strategy));
     }
 
     @Redirect(method = "submitJob", at = @At(value = "INVOKE", target = "Lappeng/api/networking/crafting/ICraftingPlan;simulation()Z"), remap = false)
