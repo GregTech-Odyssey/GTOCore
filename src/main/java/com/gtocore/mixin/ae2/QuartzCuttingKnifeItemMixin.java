@@ -1,5 +1,10 @@
 package com.gtocore.mixin.ae2;
 
+import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
+
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -43,7 +48,10 @@ public class QuartzCuttingKnifeItemMixin {
                             player));
                 }
                 if (blockNameComponent == null && !state.isAir()) {
-                    blockNameComponent = state.getBlock().getName();
+                    blockNameComponent = (tile instanceof MetaMachineBlockEntity machine && //
+                            machine.metaMachine instanceof StorageMultiblockMachine storageMachine && //
+                            storageMachine.getMachineStorage().storage.getStackInSlot(0).getItem() instanceof MetaMachineItem metaItem) //
+                                    ? metaItem.getBlock().getName() : state.getBlock().getName();
                 }
                 if (blockNameComponent != null) {
                     gtocore$setClipboard(blockNameComponent);
