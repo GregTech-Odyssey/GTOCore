@@ -1,11 +1,14 @@
 package com.gtocore.common.machine.multiblock.part.ae.widget;
 
+import com.gtocore.api.ae2.gui.AdvMathExpParser;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,10 +28,16 @@ class AmountSetWidget extends Widget {
     private final TextFieldWidget amountText;
     private final ConfigWidget parentWidget;
 
+    private static final Integer COLOR_DEFAULT = 0xFFFFFFFF;
+    private static final Integer COLOR_ERROR = 0xFFDF0000;
+
     AmountSetWidget(int x, int y, ConfigWidget widget) {
         super(x, y, 80, 30);
         this.parentWidget = widget;
-        this.amountText = new TextFieldWidget(x + 8, y + 12, 60, 13, this::getAmountStr, this::setNewAmount).setNumbersOnly(0, Long.MAX_VALUE);
+        this.amountText = (TextFieldWidget) new TextFieldWidget(x + 8, y + 12, 60, 13, this::getAmountStr, this::setNewAmount)
+                .setValidator(this::amountTextValidator)
+                .setMaxStringLength(24) // Long.MAX_VALUE 19 digits
+                .appendHoverTooltips(Component.translatable("gtocore.gui.widget.amount_set.hover_tooltip"));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -47,14 +56,19 @@ class AmountSetWidget extends Widget {
         }
         IConfigurableSlot slot = this.parentWidget.getConfig(this.index);
         if (slot.getConfig() != null) {
-            return String.valueOf(slot.getConfig().amount());
+            if (this.amountText.getCurrentString().isEmpty() || this.amountText.getCurrentString().equals("0")) {
+                return String.valueOf(slot.getConfig().amount());
+            }
+            return this.amountText.getCurrentString();
         }
         return "0";
     }
 
+    // We have two parses here, but it's acceptable for better UX. <= 1μs
+    // Otherwise, we cannot support complex expressions as it updates char by char.
     private void setNewAmount(String amount) {
         try {
-            long newAmount = Long.parseLong(amount);
+            long newAmount = AdvMathExpParser.parse(amount).longValue();
             if (this.index < 0) {
                 return;
             }
@@ -62,7 +76,20 @@ class AmountSetWidget extends Widget {
             if (newAmount > 0 && slot.getConfig() != null) {
                 slot.setConfig(new GenericStack(slot.getConfig().what(), newAmount));
             }
-        } catch (NumberFormatException ignore) {}
+        } catch (IllegalArgumentException | ArithmeticException ignore) {}
+    }
+
+    private String amountTextValidator(String text) {
+        try {
+            long value = AdvMathExpParser.parse(text).longValue();
+            if (value < 0) {
+                throw new IllegalArgumentException("Amount cannot be negative");
+            }
+            this.amountText.setTextColor(COLOR_DEFAULT);
+        } catch (IllegalArgumentException | ArithmeticException e) {
+            this.amountText.setTextColor(COLOR_ERROR);
+        }
+        return text;
     }
 
     @Override
