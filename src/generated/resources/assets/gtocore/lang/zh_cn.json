@@ -2621,6 +2621,7 @@
   "gtocore.integration.ae.WirelessMachine.gridNodeList": "网络节点列表",
   "gtocore.integration.ae.WirelessMachine.gridNodeSelector": "网络节点选择",
   "gtocore.integration.ae.WirelessMachine.leave": "断开无线网络",
+  "gtocore.integration.ae.WirelessMachine.notConnected": "无",
   "gtocore.integration.ae.WirelessMachine.player": "绑定到玩家 : %s",
   "gtocore.integration.ae.WirelessMachine.removeGrid": "删除",
   "gtocore.integration.ae.WirelessMachine.renameGrid": "修改网络昵称",

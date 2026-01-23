@@ -2621,6 +2621,7 @@
   "gtocore.integration.ae.WirelessMachine.gridNodeList": "ʇsıꞀ ǝpoN pıɹ⅁",
   "gtocore.integration.ae.WirelessMachine.gridNodeSelector": "ɹoʇɔǝןǝS ǝpoN pıɹ⅁",
   "gtocore.integration.ae.WirelessMachine.leave": "pıɹ⅁ ssǝןǝɹıM ǝʌɐǝꞀ",
+  "gtocore.integration.ae.WirelessMachine.notConnected": "ǝuoN",
   "gtocore.integration.ae.WirelessMachine.player": "%s :ɹǝʎɐןd oʇ puıᗺ",
   "gtocore.integration.ae.WirelessMachine.removeGrid": "ǝʌoɯǝᴚ",
   "gtocore.integration.ae.WirelessMachine.renameGrid": "pıɹ⅁ ǝɯɐuǝᴚ",
