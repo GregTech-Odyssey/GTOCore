@@ -14,7 +14,10 @@ import java.util.concurrent.TimeUnit
 object AdvMathExpParser {
 
     private val CACHE: Cache<String, BigDecimal> = CacheBuilder.newBuilder()
-        .maximumSize(1000)
+        .maximumWeight(100_000) // ~ 100KB - 1MB
+        .weigher { key: String, value: BigDecimal ->
+            key.length + value.precision()
+        }
         .expireAfterAccess(5, TimeUnit.MINUTES)
         .concurrencyLevel(4)
         .build()
