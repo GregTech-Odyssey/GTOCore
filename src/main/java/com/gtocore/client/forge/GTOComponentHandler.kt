@@ -26,8 +26,11 @@ import appeng.api.storage.cells.IBasicCellItem
 import appeng.me.cells.BasicCellHandler
 import com.google.common.collect.Lists
 import com.gregtechceu.gtceu.api.item.GTBucketItem
+import com.gregtechceu.gtceu.api.item.MaterialBlockItem
+import com.gregtechceu.gtceu.api.item.MaterialPipeBlockItem
 import com.gregtechceu.gtceu.api.item.TagPrefixItem
 import com.gregtechceu.gtceu.api.item.tool.GTToolItem
+import com.gregtechceu.gtceu.api.pipenet.IMaterialPipeType
 import com.gtolib.GTOCore
 import com.mojang.datafixers.util.Either
 
@@ -141,6 +144,20 @@ private fun getEnglishName(itemStack: ItemStack): ComponentSupplier? {
         }
         item is GTBucketItem -> {
             return null
+        }
+        item is MaterialBlockItem -> {
+            val material = item.material
+            val tagPrefix = item.tagPrefix
+            val format = englishLanguage?.getOrDefault(tagPrefix.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
+            if (format?.contains("%s") == true) return null
+            format.toLiteralSupplier()
+        }
+        item is MaterialPipeBlockItem -> {
+            val material = item.block.material
+            val tagPrefix = (item.block.pipeType as? IMaterialPipeType<*>)?.tagPrefix ?: return null
+            val format = englishLanguage?.getOrDefault(tagPrefix.unlocalizedName)?.format(englishLanguage?.getOrDefault(material.unlocalizedName))
+            if (format?.contains("%s") == true) return null
+            format.toLiteralSupplier()
         }
         else -> englishLanguage?.getOrDefault(itemStack.descriptionId).toLiteralSupplier()
     }.gray()
