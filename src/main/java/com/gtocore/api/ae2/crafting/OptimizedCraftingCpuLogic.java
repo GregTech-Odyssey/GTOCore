@@ -3,6 +3,7 @@ package com.gtocore.api.ae2.crafting;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.ae.CraftingCpuHelperExtended;
+import com.gtocore.integration.ae.hooks.ITemporaryCraftableService;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatternProviderLogic;
@@ -103,6 +104,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         cluster.updateOutput(plan.finalOutput());
         cluster.markDirty();
         notifyJobOwner(job, CraftingJobStatusPacket.Status.STARTED);
+        ((ITemporaryCraftableService) grid.getCraftingService()).gto$setTempPatternDetails(null);
         if (requester != null) {
             var linkReq = new CraftingLink(CraftingCpuHelper.generateLinkData(craftId, false, true), requester);
 
@@ -134,10 +136,11 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
         if (executeCrafting(cluster.getCoProcessors(), cc, eg, cluster.getLevel()) == 0) {
             GenericStack stack = getFinalJobOutput();
-            if (stack != null && stack.what() instanceof AEItemKey itemKey && itemKey.getItem() == GTOItems.ORDER.get()) {
+            if (job != null && job.isOrder && stack != null) {
                 // the job is crafting an order and is waiting for an order, which means its dependencies have been
                 // crafted
-                final var waitingFor = getWaitingFor(itemKey);
+                job.waitingFor.list.removeZeros();
+                final var waitingFor = getWaitingFor(stack.what());
                 if (waitingFor > 0) {
                     final var remainingAmount = job.remainingAmount - waitingFor;
                     // Simulate inserting final result with the same logic as CraftingCpuLogic.insert
@@ -145,8 +148,13 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                         finishJob(true);
                         cluster.updateOutput(null);
                     } else {
-                        cluster.updateOutput(new GenericStack(itemKey, remainingAmount));
+                        cluster.updateOutput(new GenericStack(stack.what(), remainingAmount));
                     }
+                } else if (job.waitingFor.list.isEmpty() && job.tasks.size() == 1 && stack.what() instanceof AEItemKey item && item.getItem() == GTOItems.TEMP_ORDER.asItem()) {
+                    // Temp order item has no real pattern details, so if it's the only task left, and we're not waiting
+                    // for anything, we can assume the job is done
+                    finishJob(true);
+                    cluster.updateOutput(null);
                 }
             }
         }

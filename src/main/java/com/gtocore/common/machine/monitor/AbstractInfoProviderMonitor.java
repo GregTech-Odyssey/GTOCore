@@ -40,16 +40,18 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
 
     AbstractInfoProviderMonitor(MetaMachineBlockEntity holder) {
         super(holder);
-        Class<? extends BasicMonitor> clazz = this.getClass();
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        tickableSubscription = this.subscribeServerTick(tickableSubscription, () -> {
-            this.syncInfoFromServer();
-            this.getSyncStorage().markAllDirty();
-            this.requestSync();
+        if (isRemote()) return;
+        tickableSubscription = this.subscribeAsyncTick(tickableSubscription, () -> {
+            try {
+                this.syncInfoFromServer();
+                this.getSyncStorage().markAllDirty();
+                this.requestSync();
+            } catch (Throwable ignored) {}
         }, 10);
     }
 

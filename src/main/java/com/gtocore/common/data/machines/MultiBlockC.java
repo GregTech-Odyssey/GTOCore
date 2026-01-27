@@ -210,7 +210,7 @@ public final class MultiBlockC {
                     .aisle("               ", "       A  I    ", "      AA       ", "       A       ", "               ", "               ", "       A       ", "      AA       ", "       A       ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ")
                     .where('A', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
                     .where('B', blocks(GTOBlocks.TUNGSTEN_ALLOY_RADIATION_SHIELDING_MECHANICAL_BLOCK.get()))
-                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('D', blocks(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.get()))
                     .where('E', blocks(GTBlocks.CASING_PTFE_INERT.get()))
                     .where('F', blocks(GTOBlocks.THREE_PROOF_COMPUTER_CASING.get()))

@@ -85,13 +85,6 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
         return rls;
     }
 
-    /**
-     * 因还需判断是否为NO_CONFIG状态，
-     * {@link State}的变更必须在继承类中实现！
-     */
-    @Override
-    public abstract void syncInfoFromServer();
-
     protected enum State {
         NO_GRID,
         NO_CONFIG,

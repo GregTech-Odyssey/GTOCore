@@ -3,7 +3,6 @@ package com.gtocore.common.machine.multiblock.electric;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
-import com.gtolib.api.misc.AsyncTask;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
@@ -20,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -156,7 +156,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
                 return handleIO;
             }
             if (getMachine().isDualMEOutput(recipe)) {
-                AsyncTask.addAsyncTask(this, () -> output((Recipe) recipe));
+                TaskHandler.enqueueAsyncTask(getMachine().getLevel(), () -> output((Recipe) recipe), 0);
             } else {
                 output((Recipe) recipe);
             }

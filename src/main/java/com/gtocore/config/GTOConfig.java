@@ -213,14 +213,6 @@ public final class GTOConfig {
         public boolean disableMufflerPart = false;
 
         @Configurable
-        @Configurable.Range(min = 36, max = 216)
-        @Configurable.Comment({ "扩展样板供应器容量", "专家模式下，此选项无效",
-                "Extended Pattern Provider Size", "In Expert mode, this option is invalid" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
-        @Configurable.Gui.Slider
-        public int exPatternSize = 36;
-
-        @Configurable
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
         @Configurable.Comment({ "在装配线模式编码带有重命名物品的样板时使用的默认名字", "The default name used when encoding patterns with renamed items in assembly line mode" })
         public String renamePatternDefaultString = "";
@@ -385,6 +377,14 @@ public final class GTOConfig {
         public boolean emiGlobalFavorites = true;
 
         @Configurable
+    @Configurable.Range(min = 36, max = 216)
+    @Configurable.Comment({ "扩展样板供应器容量", "仅用于性能测试",
+            "Extended Pattern Provider Size", "Only for performance testing" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
+    @Configurable.Gui.Slider
+    public int exPatternSize = 36;
+
+    @Configurable
         @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
         public boolean sendMultiblockErrorMessages = true;

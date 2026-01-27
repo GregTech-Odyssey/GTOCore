@@ -7,6 +7,7 @@ import com.gtolib.utils.ExpandedO2LMap;
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.AEKeyMap;
+import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -23,6 +24,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Mixin(KeyCounter.class)
 public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>, IKeyCounter {
@@ -295,6 +297,16 @@ public class KeyCounterMixin implements Iterable<Reference2LongMap.Entry<AEKey>>
     public Set<AEKey> keySet() {
         if (gtolib$map == null) return Collections.emptySet();
         return gtolib$map.keySet();
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public Set<GenericStack> entrySet() {
+        if (gtolib$map == null) return Collections.emptySet();
+        return gtolib$map.reference2LongEntrySet().stream().map(e -> new GenericStack(e.getKey(), e.getLongValue())).collect(Collectors.toSet());
     }
 
     @Override

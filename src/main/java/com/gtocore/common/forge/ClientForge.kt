@@ -13,6 +13,7 @@ import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 import com.google.gson.GsonBuilder
+import com.gregtechceu.gtceu.utils.TaskHandler
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
@@ -315,12 +316,7 @@ object ClientForge {
                     .filter { it.shouldShow(langCode) && !config.isConfirmed(it.contentHash) && (showHistoricalMessages || it.isRecent()) }
                     .size
                 // 延迟显示 GUI，确保客户端完全加载
-                Thread.startVirtualThread {
-                    Thread.sleep(1000)
-                    mc.execute {
-                        showMessageScreen(msg, 1, total)
-                    }
-                }
+                TaskHandler.enqueueTask(event.player.clientLevel, { showMessageScreen(msg, 1, total) }, 40)
             }
     }
 }

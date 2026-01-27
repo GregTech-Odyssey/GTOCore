@@ -2,7 +2,6 @@ package com.gtocore.mixin.gtm.api.machine;
 
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.misc.AsyncTask;
 import com.gtolib.api.recipe.*;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
@@ -13,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.network.chat.Component;
 
@@ -33,8 +33,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     private ParallelCache gtolib$parallelCache;
     @Unique
     private RecipeBuilder gtolib$recipeBuilder;
-    @Unique
-    private AsyncTask gtolib$asyncRecipeOutputTask;
+
     @Unique
     @DescSynced
     private Component gtolib$reason;
@@ -67,21 +66,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     public abstract boolean checkMatchedRecipeAvailable(GTRecipe match);
-
-    @Override
-    public void setAsyncTask(AsyncTask task) {
-        gtolib$asyncRecipeOutputTask = task;
-    }
-
-    @Override
-    public AsyncTask getAsyncTask() {
-        return gtolib$asyncRecipeOutputTask;
-    }
-
-    @Override
-    public void onMachineUnLoad() {
-        AsyncTask.removeAsyncTask(this);
-    }
 
     @Override
     public void gtolib$setIdleReason(Component reason) {
@@ -139,7 +123,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
         if (io == IO.OUT && machine instanceof IExtendedRecipeCapabilityHolder outputMachine && outputMachine.isDualMEOutput(recipe)) {
             var contents = new RecipeCapabilityMap<>(recipe.outputs);
-            AsyncTask.addAsyncTask(this, () -> RecipeRunner.handleRecipe(machine, (Recipe) recipe, IO.OUT, contents, getChanceCaches(), false));
+            TaskHandler.enqueueAsyncTask(getMachine().getLevel(), () -> RecipeRunner.handleRecipe(machine, (Recipe) recipe, IO.OUT, contents, getChanceCaches(), false), 0);
             return true;
         }
         return RecipeRunner.handleRecipeIO(machine, (Recipe) recipe, io, chanceCaches);
