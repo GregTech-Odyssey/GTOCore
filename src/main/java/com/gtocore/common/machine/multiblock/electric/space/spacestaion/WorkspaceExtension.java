@@ -181,7 +181,7 @@ public class WorkspaceExtension extends Extension implements IMultiStructureMach
                 builder = builder.aisle(aisle);
             }
 
-            return builder.where('A', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+            return builder.where('A', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('B', controller(definition))
                     .where('C', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
                     .where('c', MODULE.traceabilityPredicate.get())

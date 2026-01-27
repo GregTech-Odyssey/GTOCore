@@ -1,5 +1,7 @@
 package com.gtocore.api.ae2.crafting;
 
+import com.gtocore.common.data.GTOItems;
+
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.utils.holder.LongHolder;
 
@@ -42,6 +44,7 @@ class ExecutingCraftingJob {
     final ElapsedTimeTracker timeTracker;
     final IElapsedTimeTracker tt;
     GenericStack finalOutput;
+    boolean isOrder;
     long remainingAmount;
     Integer playerId;
     boolean paused = false;
@@ -65,6 +68,7 @@ class ExecutingCraftingJob {
 
     private ExecutingCraftingJob(ICraftingPlan plan, ListCraftingInventory.ChangeListener changeListener, CraftingLink link, @Nullable Integer playerId) {
         this.finalOutput = plan.finalOutput();
+        this.isOrder = isOrder(this.finalOutput);
         this.remainingAmount = this.finalOutput.amount();
         this.waitingFor = new ListCraftingInventory(changeListener);
 
@@ -110,6 +114,7 @@ class ExecutingCraftingJob {
         }
 
         this.finalOutput = GenericStack.readTag(data.getCompound(NBT_FINAL_OUTPUT));
+        this.isOrder = isOrder(this.finalOutput);
         this.remainingAmount = data.getLong(NBT_REMAINING_AMOUNT);
         this.waitingFor = new ListCraftingInventory(changeListener);
         this.waitingFor.readFromNBT(data.getList(NBT_WAITING_FOR, Tag.TAG_COMPOUND));
@@ -210,5 +215,12 @@ class ExecutingCraftingJob {
         data.putBoolean(NBT_PAUSED, this.paused);
 
         return data;
+    }
+
+    private static boolean isOrder(GenericStack finalOutput) {
+        if (finalOutput == null) {
+            return false;
+        }
+        return finalOutput.what() instanceof AEItemKey itemKey && (itemKey.getItem() == GTOItems.ORDER.get() || itemKey.getItem() == GTOItems.TEMP_ORDER.get());
     }
 }

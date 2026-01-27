@@ -1,5 +1,7 @@
 package com.gtocore.mixin.ae2.crafting;
 
+import com.gtocore.integration.ae.hooks.ITemporaryCraftableService;
+
 import com.gtolib.api.ae2.crafting.OptimizedCalculation;
 import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
 
@@ -8,6 +10,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
+import appeng.api.crafting.IPatternDetails;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
 import appeng.api.networking.crafting.CalculationStrategy;
@@ -22,6 +25,7 @@ import appeng.crafting.CraftingLinkNexus;
 import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.service.CraftingService;
+import appeng.me.service.helpers.NetworkCraftingProviders;
 import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,13 +33,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
 @Mixin(CraftingService.class)
-public abstract class CraftingServiceMixin {
+public abstract class CraftingServiceMixin implements ITemporaryCraftableService {
 
     @Shadow(remap = false)
     @Final
@@ -53,6 +58,12 @@ public abstract class CraftingServiceMixin {
 
     @Shadow(remap = false)
     private boolean updateList;
+
+    @Shadow(remap = false)
+    @Final
+    private NetworkCraftingProviders craftingProviders;
+    @Unique
+    private IPatternDetails gto$tempPatternDetails = null;
 
     @Inject(method = "onServerEndTick", at = @At(value = "INVOKE", target = "Ljava/util/Map;values()Ljava/util/Collection;"), remap = false, cancellable = true)
     private void onServerEndTick(CallbackInfo ci) {
@@ -124,5 +135,28 @@ public abstract class CraftingServiceMixin {
     @Redirect(method = "submitJob", at = @At(value = "INVOKE", target = "Lappeng/api/networking/crafting/ICraftingPlan;simulation()Z"), remap = false)
     private boolean ignoreCantCraftWhileManuallySubmitted(ICraftingPlan instance, @Local(argsOnly = true) IActionSource src) {
         return src.player().isEmpty() && instance.simulation();
+    }
+
+    /**
+     * @author ,
+     * @reason ,
+     */
+    @Overwrite(remap = false)
+    public Collection<IPatternDetails> getCraftingFor(AEKey whatToCraft) {
+        var i = this.craftingProviders.getCraftingFor(whatToCraft);
+        if (i.isEmpty() && this.gto$tempPatternDetails != null && this.gto$tempPatternDetails.getPrimaryOutput().what() == whatToCraft) {
+            return Set.of(this.gto$tempPatternDetails);
+        }
+        return i;
+    }
+
+    @Override
+    public IPatternDetails gto$getTempPatternDetails() {
+        return this.gto$tempPatternDetails;
+    }
+
+    @Override
+    public void gto$setTempPatternDetails(IPatternDetails patternDetails) {
+        this.gto$tempPatternDetails = patternDetails;
     }
 }
