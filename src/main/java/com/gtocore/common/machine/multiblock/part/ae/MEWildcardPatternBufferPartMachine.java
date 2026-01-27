@@ -307,7 +307,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             });
             cachedPatterns = newPatterns;
             scannedPatterns = cachedPatterns.size();
-            if (GTOConfig.INSTANCE.aeLog) {
+            if (GTOConfig.INSTANCE.devMode.aeLog) {
                 GTOCore.LOGGER.info("MEWildcardPatternBufferPartMachine recalculated patterns: {} patterns in {} ms",
                         scannedPatterns, (System.nanoTime() - nanos) / 1_000_000.0);
                 GTOCore.LOGGER.info("  substituting ingredients took {} ms ({})%",

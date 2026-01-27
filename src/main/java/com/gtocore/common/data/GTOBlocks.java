@@ -565,7 +565,7 @@ public final class GTOBlocks {
     // 耐压壳机械方块
     public static final BlockEntry<Block> PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK = createCasingBlock("pressure_resistant_housing_mechanical_block", "耐压壳机械方块", GTOCore.id("block/casings/pressure_resistant_housing_mechanical_block"));
     // 钛合金内部框架
-    public static final BlockEntry<Block> TITANIUM_ALLOY_INTERNAL_FRAME = createCasingBlock("titanium_alloy_frame_internal", "钛合金内部框架", GTOCore.id("block/casings/titanium_alloy_internal_frame"));
+    public static final BlockEntry<Block> TITANIUM_ALLOY_FRAME_INTERNAL = createCasingBlock("titanium_alloy_frame_internal", "钛合金内部框架", GTOCore.id("block/casings/titanium_alloy_internal_frame"));
     // 航天器密封机械方块
     public static final BlockEntry<Block> SPACECRAFT_SEALING_MECHANICAL_BLOCK = createCasingBlock("spacecraft_sealing_casing", "航天器密封机械方块", GTOCore.id("block/casings/spacecraft_sealing_casing"));
     // 钨合金抗冲击机械方块

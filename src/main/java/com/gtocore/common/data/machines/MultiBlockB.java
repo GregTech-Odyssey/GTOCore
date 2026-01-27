@@ -126,7 +126,7 @@ public final class MultiBlockB {
                     .where('K', blocks(GTOBlocks.TUNGSTEN_ALLOY_IMPACT_RESISTANT_MECHANICAL_BLOCK.get()))
                     .where('L', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
                     .where('M', blocks(GTOBlocks.INSULATION_TILE_MECHANICAL_BLOCK.get()))
-                    .where('N', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('N', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('O', blocks(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.get()))
                     .where(' ', any())
                     .build())
@@ -379,7 +379,7 @@ public final class MultiBlockB {
                     .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelJbk75)))
                     .where('H', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('I', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
-                    .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('J', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('K', blocks(GTOBlocks.SENSOR_PROTECTIVE_COVER_CASING.get()))
                     .where('L', blocks(GTOBlocks.LOW_TEMPERATURE_FUEL_PIPE_CASING.get()))
                     .where('M', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
@@ -456,7 +456,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .onWorking(machine -> {
-                if (GTOConfig.INSTANCE.lightningRodEffect && machine.self().getLevel() instanceof ServerLevel serverLevel && machine.self().getOffsetTimer() % serverLevel.random.nextInt(20, 200) == 0) {
+                if (GTOConfig.INSTANCE.client.lightningRodEffect && machine.self().getLevel() instanceof ServerLevel serverLevel && machine.self().getOffsetTimer() % serverLevel.random.nextInt(20, 200) == 0) {
                     LightningBolt entityToSpawn = EntityType.LIGHTNING_BOLT.create(serverLevel);
                     if (entityToSpawn != null) {
                         entityToSpawn.setPos(MachineUtils.getOffsetPos(9, 50, machine.self().getFrontFacing(), machine.self().getPos()).getCenter());

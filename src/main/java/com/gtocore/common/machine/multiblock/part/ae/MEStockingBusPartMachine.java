@@ -31,10 +31,12 @@ import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -272,4 +274,14 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
 
     @Override
     public void setAutoPullTest(final Predicate<GenericStack> autoPullTest) {}
+
+    @Override
+    public boolean isUpdateRequested(IStorageService service) {
+        return true;
+    }
+
+    @Override
+    public Set<Runnable> getListener() {
+        return new ReferenceOpenHashSet<>();
+    }
 }
