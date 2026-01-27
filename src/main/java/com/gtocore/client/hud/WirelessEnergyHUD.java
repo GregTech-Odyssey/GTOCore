@@ -142,9 +142,9 @@ public class WirelessEnergyHUD implements IMoveableHUD {
             int newY = bounds.getY() + pendingMovedY;
 
             GTOConfig.set("wirelessEnergyHUDDefaultX", (int) Mth.clamp((newX * 100d) / (screenWidth - realWidth),
-                    0, 100), "hud");
+                    0, 100), "client", "hud");
             GTOConfig.set("wirelessEnergyHUDDefaultY", (int) Mth.clamp((newY * 100d) / (screenHeight - realHeight),
-                    0, 100), "hud");
+                    0, 100), "client", "hud");
 
             pendingMovedX = 0;
             pendingMovedY = 0;
@@ -156,7 +156,7 @@ public class WirelessEnergyHUD implements IMoveableHUD {
 
     @Override
     public void toggleEnabled() {
-        GTOConfig.set("wirelessEnergyHUDEnabled", !GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDEnabled, "hud");
+        GTOConfig.set("wirelessEnergyHUDEnabled", !GTOConfig.INSTANCE.client.hud.wirelessEnergyHUDEnabled, "client", "hud");
     }
 
     @Override

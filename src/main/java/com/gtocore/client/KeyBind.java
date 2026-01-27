@@ -21,7 +21,7 @@ public final class KeyBind {
         @Override
         public void setDown(boolean isDown) {
             if (isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
-                GTOConfig.set("nightVision", !GTOConfig.INSTANCE.client.nightVision);
+                GTOConfig.set("nightVision", !GTOConfig.INSTANCE.client.nightVision, "client");
                 ClientUtil.getPlayer().displayClientMessage(GTOConfig.INSTANCE.client.nightVision ?
                         Component.translatable("metaarmor.message.nightvision.enabled") :
                         Component.translatable("metaarmor.message.nightvision.disabled"), true);
