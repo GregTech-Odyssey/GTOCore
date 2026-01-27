@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae.widget;
 
-import com.gtocore.api.ae2.gui.AdvMathExpParser;
+import com.gtocore.utils.AdvMathExpParser;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;

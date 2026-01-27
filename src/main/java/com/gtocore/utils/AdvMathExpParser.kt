@@ -1,4 +1,4 @@
-package com.gtocore.api.ae2.gui
+package com.gtocore.utils
 
 import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
@@ -8,8 +8,10 @@ import java.math.MathContext
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.ParsePosition
-import java.util.*
+import java.util.ArrayDeque
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
+import kotlin.collections.iterator
 
 object AdvMathExpParser {
 
