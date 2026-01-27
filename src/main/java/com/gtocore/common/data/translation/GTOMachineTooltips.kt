@@ -47,12 +47,12 @@ object GTOMachineTooltips {
         danger("一键清空方块！！！" translatedTo "One click to clear the blocks!!!")
         danger("无视一切条件！！！" translatedTo "Ignore all conditions!!!")
         danger("注意爆破安全！！！" translatedTo "Pay attention to blasting safety!!!")
-        highlight("多人游戏请务必提醒其他成员！" translatedTo "Be sure to remind other players in the multiplayer game! ")
+        highlight("多人游戏请务必提醒其他成员！" translatedTo "Be sure to warn other players in the multiplayer game! ")
 
         section("可用模式" translatedTo "Available Modes")
         function("向库存放入物品以切换模式" translatedTo "Add items to inventory to switch modes")
         command("放入§b模具(球)§r为§6球模式§r" translatedTo "Put §bCasting Mold (Ball)§r for §6Ball mode§r")
-        command("放入§b模具(圆柱)§r为§6圆柱模式§r" translatedTo "Put §bCasting Mold (Cylinder)§r for §6Casting mode§r")
+        command("放入§b模具(圆柱)§r为§6圆柱模式§r" translatedTo "Put §bCasting Mold (Cylinder)§r for §Cylinder mode§r")
         command("放入§b模具(块)§r为§6区块模式§r" translatedTo "Put §bCasting Mold (Block)§r for §6Chunk mode§r")
         command("放入§b奇点§r为§6指定区域模式§r" translatedTo "Put §bSingularity§r for §6Designated Area mode§r")
         info("此时用两个§9坐标信息卡§r来确定区域" translatedTo "Now use two §9Coordinate Cards§r to determine the area")
@@ -92,7 +92,7 @@ object GTOMachineTooltips {
         section("基于预设蓝图快速部署工业基地" translatedTo "Rapidly deploy industrial bases via preset blueprints")
         section(
             "需消耗指定型号的工业组件作为基础构建材料" translatedTo
-                "Requires specific industrial components components as basic construction materials.",
+                "Requires specific industrial components as basic construction materials.",
         )
         section(
             "部分高级蓝图需额外配备辅助材料" translatedTo
@@ -171,7 +171,7 @@ object GTOMachineTooltips {
         section("蓝图导出功能" translatedTo "Blueprint Export Function")
         content("将两张坐标卡插入工具底部插槽可激活导出模式" translatedTo "Insert two coordinate cards into the tool's bottom slots to activate export mode")
         highlight("欢迎提交优质蓝图至社区仓库" translatedTo "Welcome to submit high-quality blueprints to the community repository") { rainbowSlow() }
-        content("不支持框架方块和小方块" translatedTo "Not supporting frame blocks and small squares")
+        content("不支持框架方块和小方块" translatedTo "Does not support FramedBlocks or LittleTiles")
         highlight("https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets" translatedTo "https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets") { rainbowSlow() }
     }
 
@@ -193,7 +193,7 @@ object GTOMachineTooltips {
         )
         story(
             "升级后的批量交易与智能补货功能，让村民们常笑着称赞：“格雷科技的机器，比跑断腿的信使还贴心”" translatedTo
-                "With upgraded bulk trading and intelligent restocking, villagers often smiled and praised: 'Greg Tech's machine is more reliable than messengers who wear themselves out running'.",
+                "With upgraded bulk trading and intelligent restocking, villagers often smiled and praised: 'Greg Tech's machine is more reliable than couriers running their legs off'.",
         )
         story(
             "如今它已成为联结公司与村庄的友好纽带，既让资源流转效率提升数倍，也让双方的信任在顺畅交易中日益深厚" translatedTo
@@ -427,7 +427,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("输入魔力加热" translatedTo "Input mana to heat")
-        increase("如果输入§c火元素蒸汽§r，则加热速度翻5倍" translatedTo "If §cfire element gas§r is input, the heating speed will be 5 times faster")
+        increase("如果输入§c火元素蒸汽§r，则加热速度翻5倍" translatedTo "If §cSalamander Vapor§r is input, the heating speed will be 5 times faster")
         command(ComponentSlang.TemperatureMax(2400))
     }
 
@@ -449,12 +449,12 @@ object GTOMachineTooltips {
 
     val CosmicCelestialSpireOfConvergenceTooltips = ComponentListSupplier {
         setTranslationPrefix("cosmic_celestial_spire_of_convergence")
-        story("星穹光刃裂维度之障，格雷魔导，启百年征航。" translatedTo "Blade of starry vault rends the dimensional veil, Grey Mages embark on a century-long sail.")
+        story("星穹光刃裂维度之障，格雷魔导，启百年征航。" translatedTo "Blade of starry vault rends the dimensional veil, Greg Mages embark on a century-long sail.")
         story("越死寂虚空，踏混沌异疆，极域镌神符，黑岩铸圣腔。" translatedTo "Across the void’s stillness, through chaotic realms they prevail, Carve divine runes in polar bounds, forge sacred chambers from dark shale.")
         story("解天体秘律，淬星髓凝钢，星海初启，圣坛威光乍放。" translatedTo "Unravel the celestial laws, temper star-marrow to steel, First lit in star-sea, the Sanctum’s radiance doth reveal.")
         story("银河倒卷奔核心，日月织网，虚空震荡。" translatedTo "Galaxies surge backward into the core’s heart, Sun and moon weave a web, the void doth impart a mighty tremor.")
         story("凭维度自生伟力，微芒亦可撬动洪荒。" translatedTo "By dimensional might it stands, A tiny spark stirs the primeval lands.")
-        story("格雷血汗凝奇迹，为文明拓宇，永奠天疆。" translatedTo "Grey’s blood and sweat forge a miracle grand, For civilisation’s cosmic expand, Eternally lay the heavenly land.")
+        story("格雷血汗凝奇迹，为文明拓宇，永奠天疆。" translatedTo "Greg’s blood and sweat forge a miracle grand, For civilisation’s cosmic expand, Eternally lay the heavenly land.")
 
         content("凝聚群星之中的能量" translatedTo "Condense the power of the gathered stars")
         command("可消耗魔力超频" translatedTo "Consumable Mana Overclocking")
@@ -475,10 +475,10 @@ object GTOMachineTooltips {
         setTranslationPrefix("space_shield_hatch")
 
         content("在GTO寰宇重工的空间站技术还没完全完善的时候科研人员紧急开发出的小型防护罩" translatedTo "A small protective shield urgently developed by researchers when GTO Universal Heavy Industries' space station technology was not fully developed")
-        content("经过技术改良，现在可以保护机器免受太空环境干扰" translatedTo "After technical improvements, it can now protect machines from being unable to operate due to space environment interference")
+        content("经过技术改良，现在可以保护机器免受太空环境干扰" translatedTo "After technical improvements, it can now protect machines from space environment interference")
         decrease("需要机器内置的激光仓提供激光" translatedTo "Requires lasers provided by built-in laser hatches in the machine")
         section(ComponentSlang.MainFunction)
-        function("保护机器免受太空环境干扰而无法运行" translatedTo "Protects machines from being unable to operate due to space environment interference")
+        function("保护机器免受太空环境干扰而无法运行" translatedTo "Protects machines from space environment interference")
         decrease("需要机器同时配备激光能源仓" translatedTo "Requires the machine to be equipped with laser hatches at the same time")
     }
 
@@ -534,8 +534,8 @@ object GTOMachineTooltips {
         setTranslationPrefix("sensor")
 
         section("红石信号" translatedTo "Redstone Signal")
-        content("未反转时，数值低于最低值或高于最高值时输出0，介于两者之间时输出递增的1-15的红石信号" translatedTo "When not inverted, outputs 0 when the value is below the minimum or above the maximum, or an increasing redstone signal between 1-14 when in between")
-        content("反转时，数值低于最低值或高于最高值时输出15，介于两者之间时输出递减的1-15的红石信号" translatedTo "When inverted, outputs 15 when the value is above the maximum or below the minimum, or a decreasing redstone signal between 1-14 when in between")
+        content("未反转时，数值低于最低值或高于最高值时输出0，介于两者之间时输出递增的1-15的红石信号" translatedTo "When not inverted, outputs 0 when the value is below the minimum or above the maximum, or an increasing redstone signal between 1-15 when in between")
+        content("反转时，数值低于最低值或高于最高值时输出15，介于两者之间时输出递减的1-15的红石信号" translatedTo "When inverted, outputs 15 when the value is above the maximum or below the minimum, or a decreasing redstone signal between 1-15 when in between")
     }
 
     // 催化剂仓
@@ -608,7 +608,7 @@ object GTOMachineTooltips {
 
         section("允许自动连接ME无线网络" translatedTo "Allow automatically connecting to the ME Wireless network")
         guide("按下Shift放置以自动连接收藏的网络" translatedTo "Press Shift to place to automatically connect to the collected network")
-        danger("小心塞爆矿处！" translatedTo "Be careful to explode the ae storage! ")
+        danger("小心塞爆矿处！" translatedTo "Be careful not to overflow your AE storage! ")
     }
 
     // 多方块板条箱
@@ -647,7 +647,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("performance_monitor_machine")
 
         section(ComponentSlang.MainFunction)
-        function("能监测全部机器或AE网络3.2秒内的平均延迟" translatedTo "Can monitor all machines or AE grids' average delay within 3.2 seconds and support highlighting")
+        function("能监测全部机器或AE网络3.2秒内的平均延迟，并支持高亮显示" translatedTo "Can monitor all machines or AE grids' average delay within 3.2 seconds and support highlighting")
         guide("右键点击机器以打开性能监测界面" translatedTo "Right click on the machine to open performance monitoring interface")
     }
 
@@ -719,7 +719,7 @@ object GTOMachineTooltips {
     val HyperCubeMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("hyper_cube_machine")
 
-        highlight("代理一个流体或物品存储器" translatedTo "Proxy a fluid or item or both storage")
+        highlight("代理一个流体或物品存储器" translatedTo "Proxy a fluid or item or both storages")
         command("使用§b坐标信息卡§r绑定方块" translatedTo "Use the §bCordinate Card§r to bind a storage block")
         function("绑定某方块后，对此机器进行物品或流体操作视同对被绑定的方块操作" translatedTo "Bind a storage to this machine to operate it as if it were the bound storage")
         guide("右键点击以打开界面" translatedTo "Right click to open the interface")
@@ -731,7 +731,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("advanced_hyper_cube_machine")
 
         highlight("代理多个流体或物品存储器" translatedTo "Proxy (a or multi) (fluid or item or both)storage")
-        command("使用§b坐标信息卡§r绑定方块" translatedTo "Use the §bCordinate Card§r to bind a storage block")
+        command("使用§b坐标信息卡§r绑定方块" translatedTo "Use the §bCoordinate Card§r to bind a storage block")
         function("绑定某方块后，对此机器进行物品或流体操作视同对被绑定的方块操作" translatedTo "Bind a storage to this machine to operate it as if it were the bound storage")
         function("若绑定多个方块，则依序对他们操作" translatedTo "Operate them in order if bind multiple storages")
         guide("右键点击以打开界面" translatedTo "Right click to open the interface")
@@ -792,23 +792,23 @@ object GTOMachineTooltips {
 
         section("冷却系统" translatedTo "Cooling system")
         content(
-            "冷却液类型: 蒸馏水或钠钾合金" translatedTo "Cooling liquid types: Distilled water or sodium-potassium alloy",
+            "冷却液 (系数): 蒸馏水 (800) 钠钾合金 (20)" translatedTo "Cooling liquid (coefficients): Distilled Water (800) Sodium Potassium (20)",
             { green() },
         )
         info("冷却条件: 供给量 ≥ 需求量" translatedTo "Cooling condition: Supply ≥ demand")
-        info("最低需求量 = 配方产热 × 冷却参数 × 实际并行 × 当前温度 / 1500" translatedTo "Min demand = recipe heat × cooling param × actual parallel × current temp / 1500")
-        info("最高供给量 = (冷却组件 - 相邻数/3) × 8" translatedTo "Max supply = (cooling components - adjacent/3) × 8")
-        info("消耗量 = 需求量 × 冷却液系数" translatedTo "Consumption = demand × cooling liquid coefficient")
+        info("需求量 = 配方产热 × 实际并行 × 当前温度 / 1500" translatedTo "Demand = recipe heat × actual parallel × current temp / 1500")
+        info("供给量 = (冷却组件 - 相邻数/3) × 8" translatedTo "Supply = (cooling components - adjacent/3) × 8")
+        info("消耗量 = 需求量 × 冷却液系数" translatedTo "Consumption = Demand × cooling liquid coefficient")
 
         section("超频机制" translatedTo "Overclocking mechanism")
-        info("触发条件: 供给量 ≥ n × 需求量 (n>1)" translatedTo "Trigger condition: Supply ≥ n × demand (n>1")
-        info("超频效果: 减少n秒配方时间" translatedTo "Overclocking effect: Reduce n seconds recipe time")
+        info("触发条件: 供给量 ≥ n × 需求量 (n>1)" translatedTo "Trigger condition: Supply ≥ n × demand (n>1)")
+        info("超频效果: 运行速度提升至 n 倍" translatedTo "Overclocking effect: Operation speed increased to n times")
 
         section("冷却液产出" translatedTo "Cooling liquid output")
-        content("蒸馏水冷却: " translatedTo "Distilled water cooling: ", { green() })
+        content("蒸馏水冷却: " translatedTo "Distilled Water cooling: ", { green() })
         info("产出蒸汽，产量 = 消耗量 × min(160, 160/(1.4^(373-温度)))" translatedTo "Produces steam, Output = consumption × min(160, 160/(1.4^(373-temperature)))")
-        content("钠钾合金冷却:" translatedTo "Sodium-potassium alloy cooling:", { green() })
-        info("≤825K: 热钠钾合金；>825K: 超临界钠钾合金" translatedTo "≤825K: Hot sodium-potassium alloy; >825K: Supercritical sodium-potassium alloy")
+        content("钠钾合金冷却:" translatedTo "Sodium Potassium cooling:", { green() })
+        info("≤825K: 热钠钾合金；>825K: 超临界钠钾合金" translatedTo "≤825K: Hot Sodium Potassium; >825K: Supercritical Sodium Potassium")
     }
 
     // 计算中心
@@ -943,7 +943,7 @@ object GTOMachineTooltips {
 
             section(ComponentSlang.AfterModuleInstallation)
             increase("获得2倍速度" translatedTo "Gains 2x speed")
-            increase("获得额外120%涡轮效率" translatedTo "Gains additional 120% turbine efficiency")
+            increase("获得额外20%涡轮效率" translatedTo "Gains additional 20% turbine efficiency")
             decrease("转子损耗速度变为2倍" translatedTo "Rotor wear rate becomes 2x")
         }
     }
@@ -1004,7 +1004,7 @@ object GTOMachineTooltips {
                 (" EU/t的功率" translatedTo " EU/t"),
         )
         increase(
-            ("再提供480mB/s的§a四氧化二氮§r，并消耗§4四倍§r燃料以产生" translatedTo "Provide extra 480mB/s of §eNitrous Oxide§r, consuming §afour times§r fuel to produce up to ") +
+            ("再提供480mB/s的§a四氧化二氮§r，并消耗§4四倍§r燃料以产生" translatedTo "Provide extra 480mB/s of §eDinitrogen Tetroxide§r, consuming §afour times§r fuel to produce up to ") +
                 (GTValues.V[GTValues.UHV]).toLiteralSupplier().yellow() +
                 (" EU/t的功率" translatedTo " EU/t"),
         )
@@ -1335,7 +1335,7 @@ object GTOMachineTooltips {
         command("能量最大电压取决于使用的外壳等级" translatedTo "Maximum voltage depends on shell tier")
         ok("与电流大小无关" translatedTo "Not related to current size")
         content(
-            "没有电流上限简直是原始人的超级科技" translatedTo "No current limit is a super technology of the primitive",
+            "没有电流上限简直是原始人的超级科技" translatedTo "No current limit - truly primitive super-technology",
             { rainbowSlow().italic() },
         )
     }
@@ -1453,9 +1453,9 @@ object GTOMachineTooltips {
         highlight("利用维度技术和坚不可摧的钻头无情的抽取星球的每一分血液" translatedTo "Using dimensional technology and indestructible drills, they relentlessly extract every drop of blood from the planet.")
 
         section("启动与温控" translatedTo "Startup & Thermal Control")
-        command("需要升温启动，可通入液态烈焰或液态炽骨立方" translatedTo "Requires heating to start, input Liquid Blaze or Liquid Blaze Cubes")
+        command("需要升温启动，可通入液态烈焰或液态炽骨立方" translatedTo "Requires heating to start, input Liquid Blaze or Liquid Blazecube")
         info("升温材料消耗公式(单位：mB): 温度^1.3" translatedTo "Heating material consumption formula(unit: mB): Temperature^1.3")
-        info("升温速度：(每5tick) 液态烈焰：1K / 每次输入，液态炽骨立方：1000K / 每次输入" translatedTo "Heating speed: (every 5 ticks) Liquid Blaze: 1K / per input, Liquid Blaze Cubes: 1000K / per input")
+        info("升温速度：(每5tick) 液态烈焰：1K / 每次输入，液态炽骨立方：1000K / 每次输入" translatedTo "Heating speed: (every 5 ticks) Liquid Blaze: 1K / per input, Liquid Blazecube: 1000K / per input")
         increase("随着温度提升，效率也会提升" translatedTo "Higher temperature will give higher efficiency")
         error("当温度超过临界值，钻头将会融毁" translatedTo "If the machine overheats, drill head will melt")
         info("产热公式: 温度 / 2000" translatedTo "Heat generation formula: Temperature / 2000")
@@ -1892,17 +1892,17 @@ object GTOMachineTooltips {
         info("消耗魔力合成，需要一个铭刻之布" translatedTo "Consume magic power to synthesize, and requires an Affix Canvas")
         command("电路 8：宝石合并" translatedTo "Circuit 8: Gem Merge")
         info("使用同级的珍宝材料和宝石粉合并宝石" translatedTo "Use the same level of rarity materials and gem dust to merge gems")
-        command("电路 9：宝石粉碎" translatedTo "Circuit 8: Gem Crushing")
+        command("电路 9：宝石粉碎" translatedTo "Circuit 9: Gem Crushing")
         info("将宝石粉碎得到宝石粉" translatedTo "Crushing gems to obtain gem dust")
-        command("电路 10：强行附魔" translatedTo "Circuit 9: Forced enchantment")
+        command("电路 10：强行附魔" translatedTo "Circuit 10: Forced enchantment")
         info("消耗魔力强行将附魔书上的附魔添加到物品上" translatedTo "Consume magic power to forcibly adds the enchantment from the enchanted book to the item")
-        command("电路 11：强行刻印" translatedTo "Circuit 10: Forced add affixes")
+        command("电路 11：强行刻印" translatedTo "Circuit 11: Forced add affixes")
         info("消耗魔力强行将铭刻之布上的刻印添加到物品上" translatedTo "Consume magic power to forcibly adds the affixes from the affix canvas to the item")
-        command("电路 12：强行修改物品稀有度" translatedTo "Circuit 11: Forcefully modify item rarity")
+        command("电路 12：强行修改物品稀有度" translatedTo "Circuit 12: Forcefully modify item rarity")
         info("消耗魔力，珍宝材料和新生符文强行改变稀有度" translatedTo "Consume magic power and enter rarity material and sigil of rebirth to forcibly change the rarity")
-        command("电路 13：强行添加镶孔" translatedTo "Circuit 12: Forced addition of sockets")
+        command("电路 13：强行添加镶孔" translatedTo "Circuit 13: Forced addition of sockets")
         info("消耗魔力，镶孔符文强行添加镶孔" translatedTo "Consume magic power and enter sigil of socketing to forcibly addition of sockets")
-        command("电路 14：强行镶嵌宝石" translatedTo "Circuit 13: Forced gem inlay")
+        command("电路 14：强行镶嵌宝石" translatedTo "Circuit 14: Forced gem inlay")
         info("消耗魔力，强行将宝石镶嵌到物品上" translatedTo "Consume magic power to forcibly inserting gems into items")
     }
 
@@ -2002,7 +2002,7 @@ object GTOMachineTooltips {
         function("小撮/小堆/石墨粉分别降低0.1/0.25/1MeV" translatedTo "Small Pile/Big Pile/Graphite Dust reduce by 0.1/0.25/1MeV respectively")
         function("中子通量为E(keV)时，在主机内放入N个铱中子反射板后，中子通量每秒增加 (EN)^0.5 keV" translatedTo "When neutron flux is E (keV), after placing N Iridium Neutron Reflectors in the mainframe, neutron flux increases by (EN)^0.5 keV per second")
         info("初始温度298K，临界点2098K" translatedTo "Initial temperature 298K, critical point 2098K")
-        error("经过计算，当中子动能在7MeV以上时，堆温每秒将上升超过1800K，足以在一秒内达到临界点" translatedTo "According to calculations, when neutron kinetic energy is above 4.5keV, the pile temperature will rise by 1800K per second, enough to reach the critical point in one second")
+        error("经过计算，当中子动能在7MeV以上时，堆温每秒将上升超过1800K，足以在一秒内达到临界点" translatedTo "According to calculations, when neutron kinetic energy is above 7MeV, the pile temperature will rise by 1800K per second, enough to reach the critical point in one second")
         function("每秒产热公式：H=K×1.27×(E×10)^1.88，结果向上取整" translatedTo "Heat generation formula per second: H=K×1.27×(E×10)^1.88, result rounded up")
         function("冷却液系数(K/mB/s)：蒸馏水1，液氮4，液氦80" translatedTo "Coolant coefficients(K/mB/s): Distilled Water 1, Liquid Nitrogen 4, Liquid Helium 80")
         content("冷却后分别输出蒸汽、气态氮、气态氦" translatedTo "Outputs Steam, Gaseous Nitrogen, Gaseous Helium respectively after cooling")
@@ -2073,7 +2073,7 @@ object GTOMachineTooltips {
         important("安装的具体位置可在机器GUI内点击左下高亮按钮以在世界中高亮显示" translatedTo "The specific installation position can be highlighted in the world by clicking the highlight button at the bottom left in the GUI")
 
         section(ComponentSlang.RunningRequirements)
-        command("运行需要消耗7680EU/t的基础能量" translatedTo "Operation requires a base energy consumption of 1920EU/t")
+        command("运行需要消耗7680EU/t的基础能量" translatedTo "Operation requires a base energy consumption of 7680EU/t")
         command("会根据安装的拓展舱体数量增加额外能耗以及资源消耗" translatedTo "Will increase additional energy consumption and resource consumption based on the number of expansion modules installed")
         info("每秒固定消耗：" translatedTo "Fixed consumption every second:")
         important("15mB * (1 + 拓展舱体数量) 蒸馏水" translatedTo "15mB * (1 + number of expansion modules) Distilled Water")
