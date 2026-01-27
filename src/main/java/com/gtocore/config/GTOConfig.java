@@ -247,6 +247,14 @@ public final class GTOConfig {
         public int ftbUltimineRange = 3;
 
         @Configurable
+        @Configurable.Range(min = 36, max = 216)
+        @Configurable.Comment({ "扩展样板供应器容量", "仅用于性能测试",
+                "Extended Pattern Provider Size", "Only for performance testing" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
+        @Configurable.Gui.Slider
+        public int exPatternSize = 36;
+
+        @Configurable
         @Configurable.Comment({ "连锁挖掘功能的方块黑名单", "Block blacklist for chain mining feature" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Blacklist", cn = "连锁挖掘黑名单")
         public String[] breakBlocksBlackList = { "ae2:cable_bus" };
@@ -377,14 +385,6 @@ public final class GTOConfig {
         public boolean emiGlobalFavorites = true;
 
         @Configurable
-    @Configurable.Range(min = 36, max = 216)
-    @Configurable.Comment({ "扩展样板供应器容量", "仅用于性能测试",
-            "Extended Pattern Provider Size", "Only for performance testing" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
-    @Configurable.Gui.Slider
-    public int exPatternSize = 36;
-
-    @Configurable
         @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
         public boolean sendMultiblockErrorMessages = true;
