@@ -31,6 +31,7 @@ public class BasicMonitor extends MetaMachine implements IBindable, IMachineLife
         super.onLoad();
         if (getLevel() != null && !getLevel().isClientSide) {
             Manager.addBlock(this);
+        } else {
             tickSubscription = subscribeClientTick(tickSubscription, this::clientTick, 10);
         }
     }

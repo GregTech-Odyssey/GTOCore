@@ -2,6 +2,8 @@ package com.gtocore.common.machine.monitor;
 
 import com.gtocore.api.gui.DisplayComponentGroup;
 
+import com.gtolib.GTOCore;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -51,7 +53,9 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
                 this.syncInfoFromServer();
                 this.getSyncStorage().markAllDirty();
                 this.requestSync();
-            } catch (Throwable ignored) {}
+            } catch (Throwable throwable) {
+                GTOCore.LOGGER.error("Error syncing monitor info provider data", throwable);
+            }
         }, 10);
     }
 
