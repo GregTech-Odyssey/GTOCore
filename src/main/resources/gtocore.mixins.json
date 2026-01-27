@@ -41,7 +41,7 @@
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
-    "AppliedBotanicsForgeMixin",
+    "appbot.AppliedBotanicsForgeMixin",
     "adastra.GasTankItemMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
