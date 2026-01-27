@@ -24,7 +24,7 @@ public enum EnLangProvider implements IBlockComponentProvider, IEntityComponentP
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
-        if (!GTOConfig.INSTANCE.showEnglishName) return;
+        if (!GTOConfig.INSTANCE.gamePlay.showEnglishName) return;
         var enLang = GTOComponentHandler.INSTANCE.getEnglishLanguage();
         if (enLang == null) return;
         if (accessor.getBlock() instanceof MaterialBlock ||
@@ -37,7 +37,7 @@ public enum EnLangProvider implements IBlockComponentProvider, IEntityComponentP
 
     @Override
     public void appendTooltip(ITooltip tooltip, EntityAccessor accessor, IPluginConfig config) {
-        if (!GTOConfig.INSTANCE.showEnglishName) return;
+        if (!GTOConfig.INSTANCE.gamePlay.showEnglishName) return;
         var enLang = GTOComponentHandler.INSTANCE.getEnglishLanguage();
         if (enLang == null) return;
         switch (accessor.getEntity()) {

@@ -384,7 +384,7 @@ public final class Manager {
         }
 
         private boolean canMerge(GridNetwork other, Direction2D facing2D) {
-            var maxMonitorSize = GTOConfig.INSTANCE.maxMonitorSize;
+            var maxMonitorSize = GTOConfig.INSTANCE.gamePlay.maxMonitorSize;
             return other != null && other.facing == facing && other.color == color &&
                     (facing2D.isHorizontal ? other.height() == this.height() && other.width() + this.width() <= maxMonitorSize :
                             other.width() == this.width() && other.height() + this.height() <= maxMonitorSize);
@@ -425,7 +425,7 @@ public final class Manager {
                         // 将其他网格的点添加到当前网格中
                         put(point, this);
                     }
-                    if (GTOConfig.INSTANCE.dev) {
+                    if (GTOConfig.INSTANCE.devMode.dev) {
                         if (gridToNetwork.keySet().stream().filter(
                                 p -> p.facing == facing && p.x >= fromX && p.x <= toX && p.y >= fromY && p.y <= toY).anyMatch(p -> gridToNetwork.get(p) != this)) {
                             // 如果当前网格仍然有点存在
@@ -525,7 +525,7 @@ public final class Manager {
                     created.add(shifted);
                 }
             }
-            if (GTOConfig.INSTANCE.dev) {
+            if (GTOConfig.INSTANCE.devMode.dev) {
                 if (gridToNetwork.keySet().stream().anyMatch(p -> gridToNetwork.get(p) == this)) {
                     // 如果当前网格仍然有点存在
                     throw new IllegalStateException("GridNetwork still has points after split: " + this);

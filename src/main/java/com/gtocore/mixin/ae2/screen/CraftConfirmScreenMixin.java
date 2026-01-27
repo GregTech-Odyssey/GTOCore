@@ -100,8 +100,8 @@ public class CraftConfirmScreenMixin extends AEBaseScreen<CraftConfirmMenu> {
 
     @Redirect(method = "updateBeforeRender", at = @At(value = "INVOKE", target = "Lappeng/menu/me/crafting/CraftingPlanSummary;isSimulation()Z", ordinal = 0), remap = false)
     private boolean gto$ignoreUnstartable(appeng.menu.me.crafting.CraftingPlanSummary instance) {
-        start.setMessage((GTOConfig.INSTANCE.allowMissingCraftingJobs && instance.isSimulation()) ? Component.translatable("gtocore.ae.appeng.craft.missing_start") : GuiText.Start.text());
-        start.setTooltip(Tooltip.create((GTOConfig.INSTANCE.allowMissingCraftingJobs && instance.isSimulation()) ? Component.translatable("gtocore.ae.appeng.craft.missing_start.desc") : GuiText.Start.text()));
-        return !GTOConfig.INSTANCE.allowMissingCraftingJobs;
+        start.setMessage((GTOConfig.INSTANCE.gamePlay.allowMissingCraftingJobs && instance.isSimulation()) ? Component.translatable("gtocore.ae.appeng.craft.missing_start") : GuiText.Start.text());
+        start.setTooltip(Tooltip.create((GTOConfig.INSTANCE.gamePlay.allowMissingCraftingJobs && instance.isSimulation()) ? Component.translatable("gtocore.ae.appeng.craft.missing_start.desc") : GuiText.Start.text()));
+        return !GTOConfig.INSTANCE.gamePlay.allowMissingCraftingJobs;
     }
 }

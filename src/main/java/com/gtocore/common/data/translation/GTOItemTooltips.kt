@@ -206,7 +206,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     setTranslationPrefix("charge_bomb")
 
-                    if (GTCEu.isDataGen() || !GTOConfig.INSTANCE.disableChargeBomb) {
+                    if (GTCEu.isDataGen() || !GTOConfig.INSTANCE.gamePlay.disableChargeBomb) {
                         info(
                             ComponentSupplier(
                                 Component.translatable(
@@ -292,7 +292,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     setTranslationPrefix("muffler_hatch")
 
-                    if (GTOConfig.INSTANCE.disableMufflerPart) {
+                    if (GTOConfig.INSTANCE.gamePlay.disableMufflerPart) {
                         info(
                             ComponentSupplier(
                                 Component.translatable(

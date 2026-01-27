@@ -87,7 +87,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         if (!inventory.list.isEmpty()) GTOCore.LOGGER.error("Crafting CPU inventory is not empty yet a job was submitted.");
 
         KeyCounter missingIng;
-        if (GTOConfig.INSTANCE.allowMissingCraftingJobs && src.player().isPresent()) {
+        if (GTOConfig.INSTANCE.gamePlay.allowMissingCraftingJobs && src.player().isPresent()) {
             missingIng = CraftingCpuHelperExtended.tryExtractInitialItemsIgnoreMissing(plan, grid, inventory, src);
         } else {
             var missingIngredient = CraftingCpuHelper.tryExtractInitialItems(plan, grid, inventory, src);

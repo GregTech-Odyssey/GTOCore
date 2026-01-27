@@ -181,7 +181,7 @@ public final class ForgeCommonEvent {
             return;
         }
 
-        if (!GTOConfig.INSTANCE.disableChargeBomb) {
+        if (!GTOConfig.INSTANCE.gamePlay.disableChargeBomb) {
             if (item == GTItems.QUANTUM_STAR.get() &&
                     level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get() &&
                     !IEntropinnyum.absorbBomb(level, pos, (int) 1e6)) {
@@ -320,7 +320,7 @@ public final class ForgeCommonEvent {
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
-            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.aeGridKey));
+            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.devMode.aeGridKey));
             if (Mods.FTBQUESTS.isLoaded()) {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
             }
@@ -359,8 +359,8 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void serverStarting(ServerStartingEvent event) {
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-            if (Objects.equals(GTOConfig.INSTANCE.serverLang, "en_us")) return;
-            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.serverLang, event.getServer());
+            if (Objects.equals(GTOConfig.INSTANCE.misc.serverLang, "en_us")) return;
+            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.misc.serverLang, event.getServer());
         });
     }
 
