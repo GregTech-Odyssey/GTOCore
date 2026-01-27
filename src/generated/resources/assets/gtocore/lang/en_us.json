@@ -2589,6 +2589,7 @@
   "gtocore.gray_membership_card.hover_text.4": "Shared by: ",
   "gtocore.gtm": "The GregTech-Modern and Applied Energistics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.",
   "gtocore.gui.encoding_desc": "§o[Shift + Click] insert encoding pattern into player inventory / clear all encoded patterns",
+  "gtocore.gui.widget.amount_set.hover_tooltip": "Enter an integer from 1 to Long.MAX. Accepts k/m/g notation and expressions",
   "gtocore.hud.drag": "Right click to enable HUD drag mode",
   "gtocore.hud.toggle.off": "Left click to toggle HUD display (Disabled)",
   "gtocore.hud.toggle.on": "Left click to toggle HUD display (Enabled)",
