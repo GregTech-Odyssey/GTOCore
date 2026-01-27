@@ -9,8 +9,6 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.IGTOMufflerMachine;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
-import com.gtolib.api.misc.AsyncTask;
-import com.gtolib.api.misc.IAsyncTaskHolder;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -27,6 +25,7 @@ import com.gregtechceu.gtceu.api.transfer.item.SingleCustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -47,7 +46,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Scanned
-public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine, IAsyncTaskHolder {
+public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMufflerMachine {
 
     @Persisted
     private final KeyStorage internalBuffer;
@@ -59,8 +58,6 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
 
     @DescSynced
     private int recoveryChance = 0;
-
-    private AsyncTask asyncTask;
 
     private int muffler_tier = 0;
     @DynamicInitialValue(typeKey = DynamicInitialValueTypes.KEY_AMOUNT,
@@ -125,18 +122,8 @@ public class MEMufflerHatchPartMachine extends MEPartMachine implements IGTOMuff
     }
 
     @Override
-    public AsyncTask getAsyncTask() {
-        return asyncTask;
-    }
-
-    @Override
-    public void setAsyncTask(AsyncTask task) {
-        asyncTask = task;
-    }
-
-    @Override
     public void gtolib$insertAsh(MultiblockControllerMachine controller, GTRecipe lastRecipe) {
-        AsyncTask.addAsyncTask(this, () -> IGTOMufflerMachine.super.gtolib$insertAsh(controller, lastRecipe));
+        TaskHandler.enqueueAsyncTask(getLevel(), () -> IGTOMufflerMachine.super.gtolib$insertAsh(controller, lastRecipe), 0);
     }
 
     @Override

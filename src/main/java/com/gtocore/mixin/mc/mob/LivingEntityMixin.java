@@ -48,7 +48,7 @@ public abstract class LivingEntityMixin extends Entity implements ILivingEntity 
     @Inject(method = "hasEffect", at = @At("HEAD"), cancellable = true)
     @SuppressWarnings({ "ConstantConditions", "resource" })
     private void gto$hasEffectInject(MobEffect effect, CallbackInfoReturnable<Boolean> cir) {
-        if (effect == MobEffects.NIGHT_VISION && level().isClientSide() && (Object) this instanceof Player && GTOConfig.INSTANCE.nightVision) {
+        if (effect == MobEffects.NIGHT_VISION && level().isClientSide() && (Object) this instanceof Player && GTOConfig.INSTANCE.client.nightVision) {
             cir.setReturnValue(true);
         }
     }

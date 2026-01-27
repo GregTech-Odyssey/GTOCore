@@ -36,7 +36,7 @@ public abstract class HighlightButtonMixin extends EPPButton {
         if (containerScreen instanceof GuiExPatternTerminal<?> &&
                 button == 1 && this.isMouseOver(mouseX, mouseY)) {
             if (dim != null && pos != null) {
-                Message.NETWORK_PACK.send(buf -> buf.writeGlobalPos(GlobalPos.of(dim, pos)));
+                Message.OPEN_CONTAINER_C2S.send(buf -> buf.writeGlobalPos(GlobalPos.of(dim, pos)));
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);

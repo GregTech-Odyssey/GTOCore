@@ -77,7 +77,7 @@ public final class GTOItems {
         GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.HYDROGEN, null);
         GTFluids.handleNonMaterialFluids(GTMaterials.Oil, ModFluids.OIL);
 
-        if (GTOConfig.INSTANCE.enableCustomRecipes || GTCEu.isDev()) {
+        if (GTOConfig.INSTANCE.devMode.enableCustomRecipes || GTCEu.isDev()) {
             item("recipe_editor", "配方编辑器", ComponentItem::create)
                     .properties(p -> p.stacksTo(1))
                     .onRegister(attach(RecipeEditorBehavior.INSTANCE))
@@ -117,6 +117,11 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> ORDER = item("order", "%s 订单", ComponentItem::create)
             .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
             .properties(p -> p.stacksTo(1))
+            .onRegister(attach(OrderItem.INSTANCE))
+            .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
+            .register();
+    public static final ItemEntry<ComponentItem> TEMP_ORDER = item("temporary_order", "%s 临时订单", ComponentItem::create)
+            .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
             .onRegister(attach(OrderItem.INSTANCE))
             .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
             .register();

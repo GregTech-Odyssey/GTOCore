@@ -142,11 +142,11 @@ public interface ILargeSpaceStationMachine extends ICustomHighlightMachine, ISpa
 
     enum ConnectType {
 
-        CONJUNCTION(0xFFFF00, () -> blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get())
+        CONJUNCTION(0xFFFF00, () -> blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get())
                 .or(checkIsConjunction).or(checkIsModule)),
-        MODULE(0x00FFFF, () -> blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get())
+        MODULE(0x00FFFF, () -> blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get())
                 .or(checkIsConjunction)),
-        CORE(0xFF0000, () -> blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get())
+        CORE(0xFF0000, () -> blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get())
                 .or(checkIsConjunction));
 
         public final int color;

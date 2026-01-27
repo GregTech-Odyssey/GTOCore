@@ -876,7 +876,7 @@ public final class MultiBlockH {
                     .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteelGC4)))
                     .where('C', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
                     .where('D', blocks(GTBlocks.CASING_TITANIUM_GEARBOX.get()))
-                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get()))
+                    .where('E', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
                     .where('F', heatingCoils())
                     .where('G', controller(definition))
                     .where(' ', any())
