@@ -93,7 +93,6 @@ public final class MultiBlockC {
     public static final MultiblockMachineDefinition STEAM_CRACKER = multiblock("steam_cracker", "蒸汽裂化机", LargeSteamCracker::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.STEAM_CRACKING_RECIPES)
-            .steamOverclock()
             .tooltips(GTOMachineTooltipsA.INSTANCE.getLargeSteamCrackerTooltips().getSupplier())
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
