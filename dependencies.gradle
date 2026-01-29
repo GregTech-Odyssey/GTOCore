@@ -88,6 +88,8 @@ dependencies {
 
     modImplementation("curse.maven:modernfix-790626:6719008")
 
+    modImplementation("curse.maven:moremorelang-1444917:7528662")
+
     modImplementation("curse.maven:render-blender-1346485:7035162")
 
     modImplementation("curse.maven:farmers-delight-398521:6917255")
