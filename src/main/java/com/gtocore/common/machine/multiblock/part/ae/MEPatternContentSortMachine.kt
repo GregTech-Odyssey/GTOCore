@@ -131,6 +131,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
         @Volatile
         private var substitutionMap = AEKeySubstitutionMap.EMPTY
 
+        // TODO 使用PatternContentAccessTerminalPart获取(grid.getMachines(PatternContentAccessTerminalPart.class))
         override fun getAEKeyReplaced(stack: AEKey): AEKey = substitutionMap.getSubstitution(stack)
 
         fun fullyRefresh() {
