@@ -5,6 +5,8 @@ import com.gtocore.api.gui.ktflexible.progressBar
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.FLUID
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.ITEM
+import com.gtocore.utils.AEKeySubstitutionMap
+import com.gtocore.utils.AEPatternRefresher
 
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
@@ -16,8 +18,6 @@ import appeng.api.networking.IManagedGridNode
 import appeng.api.stacks.AEFluidKey
 import appeng.api.stacks.AEItemKey
 import appeng.api.stacks.AEKey
-import appeng.blockentity.crafting.PatternProviderBlockEntity
-import appeng.me.Grid
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
@@ -26,7 +26,6 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
-import com.gtolib.api.ae2.IExpandedGrid
 import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.button
@@ -39,14 +38,9 @@ import com.lowdragmc.lowdraglib.misc.ItemTransferList
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-
-import java.util.concurrent.ConcurrentHashMap
 
 @DataGeneratorScanned
 class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
@@ -95,146 +89,94 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
         class FlowData(val finished: Int, val total: Int)
         abstract fun applyRefresh()
         abstract fun receiveFlowData(flowData: FlowData)
-        abstract fun collectFlowRunner(): List<Runnable>
-        abstract fun buildCoroutine(run: List<Runnable>): CoroutineScope
     }
     private inner class InternalLogic : InternalLogicTemplate() {
         var lastFlowData: FlowData? = null
         var uniqueScope: CoroutineScope? = null
         var isRefreshing: Boolean = false
         override fun applyRefresh() {
-            val runnables = collectFlowRunner()
             uniqueScope?.cancel()
-            uniqueScope = buildCoroutine(runnables)
+            val grid = gridNodeHolder.mainNode?.grid ?: return
+            uniqueScope = CoroutineScope(Dispatchers.Default)
+
+            AEPatternRefresher.refreshAllPatternsAsync(grid)
+                .onStart {
+                    isRefreshing = true
+                    // 初始化进度条
+                    receiveFlowData(FlowData(0, 1))
+                }
+                .onEach { progress ->
+                    receiveFlowData(FlowData(progress.completed, progress.total))
+                }
+                .onCompletion {
+                    isRefreshing = false
+                    lastFlowData?.let {
+                        receiveFlowData(FlowData(it.total, it.total))
+                    }
+                }
+                .launchIn(uniqueScope!!)
         }
 
         override fun receiveFlowData(flowData: FlowData) {
             lastFlowData = flowData
         }
-
-        override fun collectFlowRunner(): List<Runnable> {
-            val runnable = mutableListOf<Runnable>()
-            if (gridNodeHolder.mainNode?.isActive == false) return runnable
-            val grid = gridNodeHolder.mainNode?.grid ?: return runnable
-            grid.getActiveMachines(PatternProviderBlockEntity::class.java).forEach {
-                runnable.add { it.logic.updatePatterns() }
-            }
-            if (grid is Grid && grid is IExpandedGrid) {
-                val machinesPart = mutableListOf<MEPatternPartMachineKt<*>>()
-                grid.machines.forEach { _, node ->
-                    if (node.isActive) {
-                        val logicHost = node.owner
-                        if (logicHost is MEPatternPartMachineKt<*>) {
-                            machinesPart.plusAssign(logicHost)
-                        }
-                    }
-                }
-                machinesPart.forEach { s ->
-                    runnable.add {
-                        (0 until s.maxPatternCount).forEach {
-                            if (!s.internalPatternInventory.getStackInSlot(it).isEmpty) {
-                                s.onPatternChange(it)
-                            }
-                        }
-                    }
-                }
-            }
-            return runnable
-        }
-
-        override fun buildCoroutine(run: List<Runnable>): CoroutineScope {
-            val scope = CoroutineScope(Dispatchers.Default)
-            flow {
-                val total = run.size
-                val block = 5
-                run.chunked(block).forEachIndexed { blockIndex, runnables ->
-                    runnables.forEach { it.run() }
-                    val finished = ((blockIndex + 1) * block).coerceAtMost(total)
-                    emit(FlowData(finished, total))
-                    delay(100)
-                }
-            }.onEach {
-                receiveFlowData(it)
-            }.onStart {
-                isRefreshing = true
-            }.onCompletion {
-                isRefreshing = false
-            }.launchIn(scope)
-            return scope
-        }
     }
+
     val externalLogic by lazy { ExternalLogic() }
     abstract class ExternalLogicTemplate {
         abstract fun getAEKeyReplaced(stack: AEKey): AEKey
     }
     inner class ExternalLogic : ExternalLogicTemplate() {
-        private val lastAccessTime = Object2LongOpenHashMap<AEKey>()
 
-        // 物品->首选物品映射表
-        val itemToPreferred: ConcurrentHashMap<AEKey, AEKey> = ConcurrentHashMap()
+        @Volatile
+        private var substitutionMap = AEKeySubstitutionMap.EMPTY
 
-        // 物品->物品排序从高到低映射表
-        val itemToSort: Object2ObjectMap<AEKey, ObjectArrayList<AEKey>> = Object2ObjectOpenHashMap()
-
-        override fun getAEKeyReplaced(stack: AEKey): AEKey {
-            itemToPreferred[stack]?.let {
-                lastAccessTime[stack] = System.currentTimeMillis()
-                return it
-            }
-            val sortStacks = itemToSort[stack]
-            if (sortStacks != null && sortStacks.isNotEmpty()) {
-                val preferred = sortStacks.first()
-                itemToPreferred[stack] = preferred
-                lastAccessTime[stack] = System.currentTimeMillis()
-                return preferred
-            }
-
-            itemToPreferred[stack] = stack
-            lastAccessTime[stack] = System.currentTimeMillis()
-            return stack
-        }
+        override fun getAEKeyReplaced(stack: AEKey): AEKey = substitutionMap.getSubstitution(stack)
 
         fun fullyRefresh() {
-            itemToPreferred.clear()
-            itemToSort.clear()
+            val priorityGroups = mutableListOf<List<AEKey>>()
+
             itemTransferList.transfers.forEach { transfer ->
                 transfer as MyItemStackTransfer
-                val sortStacks = ObjectArrayList<AEKey>()
+                val priorityGroup = ObjectArrayList<AEKey>()
                 val itemStacks = (0 until transfer.slots)
                     .mapNotNull { transfer.getStackInSlot(it) }
                     .filterNot { it.isEmpty }
 
+                var currentMode = ITEM
+                // 只要行内有一个流体容器，整行都按流体处理
                 for (stack in itemStacks) {
-                    transfer.mode = ITEM
                     stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent {
                         if (!it.drain(Int.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE).isEmpty) {
-                            transfer.mode = FLUID
+                            currentMode = FLUID
                         }
                     }
+                    if (currentMode == FLUID) break
                 }
+                transfer.mode = currentMode
+
                 when (transfer.mode) {
                     FLUID -> {
                         val fluids = itemStacks
                             .mapNotNull { stack ->
-                                val capability = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).resolve().orElse(null) ?: return@mapNotNull null
-                                return@mapNotNull capability.drain(Int.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE)
+                                val cap = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).resolve().orElse(null)
+                                cap?.drain(Int.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE)
                             }
                             .mapNotNull { AEFluidKey.of(it) }
-                        sortStacks.addAll(fluids)
-                        fluids.forEach { aek ->
-                            itemToSort[aek] = sortStacks
-                        }
+                        priorityGroup.addAll(fluids)
                     }
                     ITEM -> {
-                        val items = itemStacks
-                            .mapNotNull { AEItemKey.of(it) }
-                        sortStacks.addAll(items)
-                        items.forEach { aek ->
-                            itemToSort[aek] = sortStacks
-                        }
+                        val items = itemStacks.mapNotNull { AEItemKey.of(it) }
+                        priorityGroup.addAll(items)
                     }
                 }
+
+                if (priorityGroup.isNotEmpty()) {
+                    priorityGroups.add(priorityGroup)
+                }
             }
+            // 原子性替换
+            this.substitutionMap = AEKeySubstitutionMap(priorityGroups)
         }
     }
 
