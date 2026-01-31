@@ -1624,6 +1624,7 @@
   "config.gtocore.option.blinkRange": "Staff of Travelling Blink Range (blocks)",
   "config.gtocore.option.blockRange": "Travel Anchor Block Range (blocks)",
   "config.gtocore.option.breakBlocksBlackList": "Chain Mining Blacklist",
+  "config.gtocore.option.cacheResources": "Cache Resources on Startup",
   "config.gtocore.option.cannibalismDamage": "Carnivory Punish Damage",
   "config.gtocore.option.cannibalismRadius": "Carnivory Punish Radius",
   "config.gtocore.option.client": "Client",

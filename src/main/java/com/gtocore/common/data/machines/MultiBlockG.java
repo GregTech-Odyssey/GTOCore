@@ -183,7 +183,7 @@ public final class MultiBlockG {
                     .where('F', blocks(Blocks.GLASS))
                     .where('G', blocks(GTBlocks.PLASTCRETE.get())
                             .or(blocks(GTMachines.ITEM_IMPORT_BUS[ULV].get()).setMaxGlobalLimited(1))
-                            .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
+                            .or(abilities(IMPORT_FLUIDS_1X).setExactLimit(1))
                             .or(abilities(EXPORT_ITEMS).setExactLimit(1)))
                     .where('H', controller(definition))
                     .where('W', fluids(Fluids.WATER))

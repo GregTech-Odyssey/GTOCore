@@ -1624,6 +1624,7 @@
   "config.gtocore.option.blinkRange": "旅行手杖瞬移范圍（格）",
   "config.gtocore.option.blockRange": "旅行錨方塊范圍（格）",
   "config.gtocore.option.breakBlocksBlackList": "連鎖挖掘黑名單",
+  "config.gtocore.option.cacheResources": "啟動時緩存資源",
   "config.gtocore.option.cannibalismDamage": "食肉懲罰傷害",
   "config.gtocore.option.cannibalismRadius": "食肉懲罰半徑",
   "config.gtocore.option.client": "客戶端",
