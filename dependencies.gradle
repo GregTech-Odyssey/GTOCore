@@ -86,7 +86,7 @@ dependencies {
 
     modImplementation("curse.maven:deeperdarker-659011:5906086")
 
-    modImplementation("curse.maven:modernfix-790626:6719008")
+    modImplementation("curse.maven:modernfix-790626:7515215")
 
     modImplementation("curse.maven:moremorelang-1444917:7528662")
 
