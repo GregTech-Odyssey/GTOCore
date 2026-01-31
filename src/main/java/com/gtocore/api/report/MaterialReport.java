@@ -1,7 +1,6 @@
 package com.gtocore.api.report;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
-import com.gtocore.client.forge.GTOComponentHandler;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -17,6 +16,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ref.moremorelang.lang.ComponentTranslator;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedWriter;
@@ -170,8 +170,9 @@ public class MaterialReport {
 
         public static Entry fromMaterial(Material material) {
             Entry entry = new Entry();
-            entry.cnName = material.getLocalizedName().getString();
-            entry.enName = GTOComponentHandler.INSTANCE.getEnglishLanguage().getOrDefault(material.getUnlocalizedName(), material.getUnlocalizedName());
+
+            entry.cnName = ComponentTranslator.translateComponent(material.getLocalizedName(), "zh_cn").getString();
+            entry.enName = ComponentTranslator.translateComponent(material.getLocalizedName(), "en_us").getString();
             entry.symbol = material.getChemicalFormula();
             entry.hexColor1 = getHexColorString(material.getMaterialRGB());
             entry.hexColor2 = getHexColorString(material.getMaterialSecondaryRGB());
