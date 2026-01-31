@@ -16,10 +16,10 @@ import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +52,7 @@ public class SpaceDroneDock extends RecipeExtension {
         ObjectHolder<BigInteger> costEU = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> outputHolder = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> inputHolder = new ObjectHolder<>(null);
-        Ingredient chargeable = (Ingredient) recipe.inputs.get(ItemRecipeCapability.CAP).getFirst().inner;
+        ItemIngredient chargeable = (ItemIngredient) recipe.inputs.get(ItemRecipeCapability.CAP).getFirst().inner;
         fastForEachInputItems((stack, amount) -> {
             if (hasInput.get()) return;
             ItemStack output = stack.copyWithCount(1);
