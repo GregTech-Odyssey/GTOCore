@@ -18,6 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.items.IItemHandler;
 
 import appeng.integration.modules.jade.JadeModule;
+import com.ref.moremorelang.integration.jade.MoremorelangJadePlugin;
 import dev.shadowsoffire.apotheosis.adventure.compat.AdventureHwylaPlugin;
 import dev.shadowsoffire.apotheosis.ench.compat.EnchHwylaPlugin;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,7 +46,7 @@ public class CommonProxyMixin {
      */
     @Overwrite(remap = false)
     private void loadComplete(FMLLoadCompleteEvent event) {
-        List<IWailaPlugin> plugins = List.of(new VanillaPlugin(), new UniversalPlugin(), new CorePlugin(), new JadeModule(), new GTOJadePlugin(), new AdventureHwylaPlugin(), new EnchHwylaPlugin());
+        List<IWailaPlugin> plugins = List.of(new VanillaPlugin(), new UniversalPlugin(), new CorePlugin(), new JadeModule(), new GTOJadePlugin(), new AdventureHwylaPlugin(), new EnchHwylaPlugin(), new MoremorelangJadePlugin());
         for (IWailaPlugin plugin : plugins) {
             plugin.register(WailaCommonRegistration.INSTANCE);
             if (CommonProxy.isPhysicallyClient()) {
