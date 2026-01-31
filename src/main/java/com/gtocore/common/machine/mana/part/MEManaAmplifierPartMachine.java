@@ -47,9 +47,6 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
     @Getter
     @Setter
     private boolean isOnline;
-    @Persisted
-    @Getter
-    private boolean workingEnabled;
     private final ConditionalSubscriptionHandler updateSubs;
 
     private boolean useMana = true;
@@ -127,7 +124,7 @@ public final class MEManaAmplifierPartMachine extends ManaAmplifierPartMachine i
 
     @Override
     public void setWorkingEnabled(boolean isWorkingAllowed) {
-        this.workingEnabled = isWorkingAllowed;
+        super.setWorkingEnabled(isWorkingAllowed);
         updateSubs.updateSubscription();
     }
 
