@@ -371,6 +371,15 @@ public final class GTOConfig {
         public boolean fastMultiBlockPage = true;
 
         @Configurable
+        @Configurable.Comment({ "启用后，游戏启动时将缓存部分资源以提升性能",
+                "如果你是资源包制作者，需要频繁热重载资源包，请关闭此选项以避免缓存影响资源包预览效果",
+                "When enabled, some resources will be cached at game startup to improve performance",
+                "If you are a resource pack creator and need to frequently hot-reload resource packs, please disable this option to avoid caching affecting the preview effect of the resource pack"
+        })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Cache Resources on Startup", cn = "启动时缓存资源")
+        public boolean cacheResources = true;
+
+        @Configurable
         @Configurable.Comment({ "禁用后，不同存档的 EMI 收藏夹将相互独立", "After disabling, EMI favorites from different saves will be independent of each other" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "EMI 全局收藏夹")
         public boolean emiGlobalFavorites = true;
