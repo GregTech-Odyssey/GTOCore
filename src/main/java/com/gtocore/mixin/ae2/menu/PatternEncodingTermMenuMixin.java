@@ -2,6 +2,7 @@ package com.gtocore.mixin.ae2.menu;
 
 import com.gtocore.api.ae2.pattern.IEncodingLogic;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
 import com.gtolib.api.ae2.pattern.PatternUtils;
 import com.gtolib.api.player.IEnhancedPlayer;
@@ -229,25 +230,21 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Shadow(remap = false)
     public abstract void encode();
 
-    @Inject(method = "encode",
-            at = @At(value = "INVOKE",
-                     target = "Lappeng/menu/me/items/PatternEncodingTermMenu;isPattern(Lnet/minecraft/world/item/ItemStack;)Z",
-                     remap = false),
-            remap = false,
-            cancellable = true)
-    private void tryAutoRefillBlankPattern(CallbackInfo ci, @Local(name = "encodeOutput") ItemStack blankPattern) {
-        // 如果空白样板槽位没有有效的样板，尝试自动补充
-        if (!isPattern(blankPattern)) {
-            if (gtolib$tryRefillBlankPattern()) {
-                // 补充成功，重新执行encode逻辑
-                ci.cancel();
-                encode();
-            }
+    @Redirect(method = "encode",
+              at = @At(value = "INVOKE",
+                       target = "Lappeng/menu/slot/RestrictedInputSlot;getItem()Lnet/minecraft/world/item/ItemStack;",
+                       ordinal = 1))
+    private ItemStack fetchPattern(RestrictedInputSlot instance) {
+        var blankPattern = instance.getItem();
+        GTOCore.LOGGER.info("Fetching blank pattern from slot: {}", blankPattern);
+        if (!isPattern(blankPattern) && gtolib$tryExtractBlankPattern()) {
+            return new ItemStack(AEItems.BLANK_PATTERN, 1);
         }
+        return blankPattern;
     }
 
     @Unique
-    private boolean gtolib$tryRefillBlankPattern() {
+    private boolean gtolib$tryExtractBlankPattern() {
         var host = getHost();
         if (host == null) return false;
 
@@ -255,18 +252,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (inventory == null) return false;
 
         AEItemKey blankPattern = AEItemKey.of(AEItems.BLANK_PATTERN);
-        long supplier = inventory.getAvailableStacks().get(blankPattern);
-        if (supplier <= 0) return false;
-        var stock = blankPatternSlot.getItem().getCount();
-        var demand = Math.min(supplier, 1 - stock);
-        if (demand <= 0) return false;
 
-        var extracted = inventory.extract(blankPattern, demand, Actionable.MODULATE, getActionSource());
-        if (extracted <= 0) return false;
-
-        blankPatternSlot.set(blankPattern.toStack().copyWithCount(stock + (int) extracted));
-
-        return true;
+        var extracted = inventory.extract(blankPattern, 1, Actionable.MODULATE, getActionSource());
+        return extracted > 0;
     }
 
     @Redirect(
