@@ -1294,6 +1294,7 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> TRAVEL_STAFF = item("travel_staff", "旅行手杖", p -> ComponentItem.create(p.stacksTo(1)))
             .lang("The Staff of Travelling")
             .onRegister(attach(TravelStaffBehavior.create()))
+            .model((ctx, prov) -> prov.handheld(ctx))
             .register();
 
     public static final ItemEntry<ComponentItem> TESSERACT_TARGET_MARKER = item("tesseract_target_marker", "坐标标签枪", ComponentItem::create)
