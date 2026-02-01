@@ -9,6 +9,7 @@
   "affix.apotheosis:kinetic.suffix": "勢如破竹",
   "affix.apotheosis:stress": "應力",
   "affix.apotheosis:stress.suffix": "千鈞一髮",
+  "affix.gtocore.bedrock_mine_restore.at_most.desc": "(最高可達%s%%)",
   "affix.gtocore.bedrock_mine_restore.desc": "每次開採礦石可以在當前區塊勘探齣相當於一般儲量%s‰的額外基岩礦脈儲量",
   "affix.gtocore.bedrock_mine_restore.fluid.desc": "每次開採礦石可以在當前區塊勘探齣相當於一般儲量%s‰的額外基岩流體礦脈儲量",
   "affix.gtocore.ftb_ultimine.desc": "該工具可以提升%s%%的連鎖挖掘數量上限",
