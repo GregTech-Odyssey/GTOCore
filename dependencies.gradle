@@ -88,7 +88,8 @@ dependencies {
 
     modImplementation("curse.maven:modernfix-790626:7515215")
 
-    modImplementation("curse.maven:moremorelang-1444917:7528662")
+    modCompileOnly("curse.maven:moremorelang-1444917:7528662")
+    modRuntimeOnly("curse.maven:moremorelang-1444917:7528662")
 
     modImplementation("curse.maven:render-blender-1346485:7035162")
 
