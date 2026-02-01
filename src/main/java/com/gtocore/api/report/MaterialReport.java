@@ -6,6 +6,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterEnumLang;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -13,6 +14,8 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProperties;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
+
+import net.minecraft.network.chat.MutableComponent;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,8 +35,12 @@ import java.util.Date;
 public class MaterialReport {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final boolean langLoaded = GTCEu.isModLoaded("moremorelang");
 
     public static void generateReport() {
+        if (!langLoaded) {
+            GTOCore.LOGGER.warn("MoreMoreLang 未加载，无法使用多语言功能，跳过材料报告语言相关部分生成");
+        }
         StringBuilder report = new StringBuilder();
         StringBuilder report_json = new StringBuilder();
         StringBuilder report_table = new StringBuilder();
@@ -171,8 +178,13 @@ public class MaterialReport {
         public static Entry fromMaterial(Material material) {
             Entry entry = new Entry();
 
-            entry.cnName = ComponentTranslator.translateComponent(material.getLocalizedName(), "zh_cn").getString();
-            entry.enName = ComponentTranslator.translateComponent(material.getLocalizedName(), "en_us").getString();
+            if (langLoaded) {
+                entry.cnName = LangAdaptor.langCn(material.getLocalizedName());
+                entry.enName = LangAdaptor.langEn(material.getLocalizedName());
+            } else {
+                entry.cnName = material.getLocalizedName().getString();
+                entry.enName = material.getUnlocalizedName();
+            }
             entry.symbol = material.getChemicalFormula();
             entry.hexColor1 = getHexColorString(material.getMaterialRGB());
             entry.hexColor2 = getHexColorString(material.getMaterialSecondaryRGB());
@@ -267,6 +279,17 @@ public class MaterialReport {
                     material.getMaterialIconSet() == MaterialIconSet.METALLIC)
                 return METAL;
             return CHEMICAL;
+        }
+    }
+
+    private static class LangAdaptor {
+
+        private static String langCn(MutableComponent component) {
+            return ComponentTranslator.translateComponent(component, "zh_cn").getString();
+        }
+
+        private static String langEn(MutableComponent component) {
+            return ComponentTranslator.translateComponent(component, "en_us").getString();
         }
     }
 }
