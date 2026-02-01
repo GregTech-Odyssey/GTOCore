@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -115,9 +114,9 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                         .where('A', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
                         .where('B', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                         .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                        .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))
+                        .where('D', GTOPredicates.frame(GTMaterials.Neutronium))
                         .where('E', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get()))
-                        .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.MaragingSteel300)))
+                        .where('F', GTOPredicates.frame(GTMaterials.MaragingSteel300))
                         .where('G', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                         .where('H', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
                         .where('I', blocks(GTOBlocks.GRAVITY_STABILIZATION_CASING.get()))
@@ -130,7 +129,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('N', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
                         .where('O', blocks(GTOBlocks.MAGTECH_CASING.get()))
-                        .where('P', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Europium)))
+                        .where('P', GTOPredicates.frame(GTMaterials.Europium))
                         .where('Q', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                         .where('R', blocks(GTOBlocks.HOLLOW_CASING.get()))
                         .where('S', blocks(GTBlocks.HERMETIC_CASING_ZPM.get()))
@@ -190,7 +189,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                         .where('E', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                         .where('F', blocks(GTOBlocks.MAGTECH_CASING.get()))
                         .where('G', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
-                        .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))
+                        .where('H', GTOPredicates.frame(GTMaterials.Neutronium))
                         .where('I', blocks(GTOBlocks.MOLECULAR_COIL.get()))
                         .where('J', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
                         .where('K', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
@@ -199,7 +198,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                         .where('N', blocks(GTOBlocks.HOLLOW_CASING.get()))
                         .where('O', blocks(GTOBlocks.RADIATION_ABSORBENT_CASING.get()))
                         .where('P', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                        .where('Q', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.MaragingSteel300)))
+                        .where('Q', GTOPredicates.frame(GTMaterials.MaragingSteel300))
                         .where('R', blocks(GTOBlocks.HIGH_ENERGY_ULTRAVIOLET_EMITTER_CASING.get()))
                         .where('S', blocks(GTOBlocks.ADVANCED_ASSEMBLY_LINE_UNIT.get()))
                         .where('T', blocks(GTOBlocks.IRIDIUM_CASING.get())
@@ -207,7 +206,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                                 .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('U', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
-                        .where('V', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Europium)))
+                        .where('V', GTOPredicates.frame(GTMaterials.Europium))
                         .where('W', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                         .where('X', blocks(GTBlocks.HERMETIC_CASING_ZPM.get()))
                         .where('Y', controller(definition))
@@ -228,7 +227,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                         .aisle("    AAAAA    ", "     EEE     ", "     EEE     ", "     EKE     ", "     EEE     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
                         .aisle("     AAA     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
                         .where('A', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get()))
-                        .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.MaragingSteel300)))
+                        .where('B', GTOPredicates.frame(GTMaterials.MaragingSteel300))
                         .where('C', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                         .where('D', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                         .where('E', blocks(GTOBlocks.IRIDIUM_CASING.get())
@@ -237,7 +236,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('F', blocks(GTOBlocks.MAGTECH_CASING.get()))
                         .where('G', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
-                        .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Europium)))
+                        .where('H', GTOPredicates.frame(GTMaterials.Europium))
                         .where('I', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                         .where('J', blocks(GTBlocks.HERMETIC_CASING_ZPM.get()))
                         .where('K', controller(definition))
