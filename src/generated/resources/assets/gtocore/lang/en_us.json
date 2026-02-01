@@ -9,6 +9,7 @@
   "affix.apotheosis:kinetic.suffix": "the Momentum Master",
   "affix.apotheosis:stress": "Stress",
   "affix.apotheosis:stress.suffix": "the Brinkbreaker",
+  "affix.gtocore.bedrock_mine_restore.at_most.desc": "(At most %s%%)",
   "affix.gtocore.bedrock_mine_restore.desc": "Each time you mine ore, you can explore an additional bedrock ore vein reserve equivalent to %s‰ of the average reserve in the current chunk",
   "affix.gtocore.bedrock_mine_restore.fluid.desc": "Each time you mine ore, you can explore an additional bedrock fluid vein reserve equivalent to %s‰ of the average reserve in the current chunk",
   "affix.gtocore.ftb_ultimine.desc": "This tool increases the maximum number of blocks that can be mined in a chain by %s%%",
