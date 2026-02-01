@@ -19,7 +19,8 @@ public enum Mods {
     PIPEZ("pipez"),
     FTBQUESTS("ftbquests"),
     CONSTRUCTION_WAND("constructionwand"),
-    JECHARACTERS("jecharacters");
+    JECHARACTERS("jecharacters"),
+    LANG("moremorelang");
 
     @Getter
     private final boolean loaded;
