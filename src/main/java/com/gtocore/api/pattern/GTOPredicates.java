@@ -333,7 +333,7 @@ public final class GTOPredicates {
             @Override
             public boolean test(MultiblockState blockWorldState) {
                 if (super.test(blockWorldState)) return true;
-                if (blockWorldState.getTileEntity() instanceof PipeBlockEntity<?, ?> pipeTile) return pipeTile.getFrameMaterial() == frameMaterial;
+                if (blockWorldState.world.isLoaded(blockWorldState.getPos()) && blockWorldState.getTileEntity() instanceof PipeBlockEntity<?, ?> pipeTile) return pipeTile.getFrameMaterial() == frameMaterial;
                 return false;
             }
         };
