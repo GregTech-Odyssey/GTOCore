@@ -18,8 +18,6 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -73,7 +71,7 @@ public final class MultiBlockF {
                     .where('Q', blocks(GTBlocks.FIREBOX_TUNGSTENSTEEL.get()))
                     .where('R', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                     .where('S', heatingCoils())
-                    .where('T', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadah)))
+                    .where('T', GTOPredicates.frame(GTMaterials.Naquadah))
                     .where('U', abilities(MUFFLER))
                     .where(' ', any())
                     .build())
@@ -97,7 +95,7 @@ public final class MultiBlockF {
                     .where('d', blocks(GTOBlocks.AGGREGATIONE_CORE.get()))
                     .where('d', blocks(GTOBlocks.ACCELERATED_PIPELINE.get()))
                     .where('e', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
-                    .where('f', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)))
+                    .where('f', GTOPredicates.frame(GTMaterials.NaquadahEnriched))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/lafium_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
@@ -140,7 +138,7 @@ public final class MultiBlockF {
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', controller(definition))
-                    .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenCarbide)))
+                    .where('C', GTOPredicates.frame(GTMaterials.TungstenCarbide))
                     .where('D', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
                     .where('E', blocks(GCYMBlocks.CASING_WATERTIGHT.get()))
                     .where('F', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))
@@ -148,10 +146,10 @@ public final class MultiBlockF {
                     .where('H', blocks(GTOBlocks.STERILE_WATER_PLANT_CASING.get()))
                     .where('I', blocks(GTBlocks.CLEANROOM_GLASS.get()))
                     .where('J', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
-                    .where('K', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.HSLASteel)))
+                    .where('K', GTOPredicates.frame(GTMaterials.HSLASteel))
                     .where('L', blocks(GTOBlocks.FLOCCULATION_CASING.get()))
                     .where('M', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
-                    .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.WatertightSteel)))
+                    .where('N', GTOPredicates.frame(GTMaterials.WatertightSteel))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/strengthen_the_base_block"), GTCEu.id("block/multiblock/gcym/large_distillery"))
@@ -243,7 +241,7 @@ public final class MultiBlockF {
                     .where('K', blocks(GTOBlocks.ZIRCONIA_CERAMIC_HIGH_STRENGTH_BENDING_RESISTANCE_MECHANICAL_BLOCK.get()))
                     .where('L', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('M', blocks(GTOBlocks.HOLLOW_CASING.get()))
-                    .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Mithril)))
+                    .where('N', GTOPredicates.frame(GTOMaterials.Mithril))
                     .where('O', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                     .where('P', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
                     .where('Q', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
@@ -275,7 +273,7 @@ public final class MultiBlockF {
                     .where('I', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('J', blocks(GTBlocks.FUSION_GLASS.get()))
                     .where('K', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
-                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Tritanium)))
+                    .where('L', GTOPredicates.frame(GTMaterials.Tritanium))
                     .where('M', controller(definition))
                     .where(' ', any())
                     .build())
@@ -292,7 +290,7 @@ public final class MultiBlockF {
             .recipeModifiers(RecipeModifierFunction.overclocking(0.5, 1, 0.05))
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.RIGHT)
-                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Amprosium)))
+                    .where('A', GTOPredicates.frame(GTOMaterials.Amprosium))
                     .where('B', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
                     .where('C', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('D', blocks(GTOBlocks.MOLECULAR_CASING.get()))
@@ -303,9 +301,9 @@ public final class MultiBlockF {
                     .where('I', blocks(GTOBlocks.HOLLOW_CASING.get()))
                     .where('J', blocks(GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.get()))
                     .where('K', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))
+                    .where('L', GTOPredicates.frame(GTMaterials.Neutronium))
                     .where('M', blocks(GTOBlocks.COSMIC_NEUTRONIUM_BOROSILICATE_GLASS.get()))
-                    .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)))
+                    .where('N', GTOPredicates.frame(GTMaterials.NaquadahAlloy))
                     .where('O', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('P', blocks(GTBlocks.FUSION_GLASS.get()))
                     .where('Q', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))

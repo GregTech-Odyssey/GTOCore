@@ -10,7 +10,11 @@ import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
+import com.gregtechceu.gtceu.api.blockentity.PipeBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IRotorHolderMachine;
@@ -20,6 +24,7 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
+import com.gregtechceu.gtceu.api.pattern.predicates.PredicateBlocks;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -312,6 +317,23 @@ public final class GTOPredicates {
 
             @Override
             public boolean isAir() {
+                return false;
+            }
+        };
+    }
+
+    public static TraceabilityPredicate frame(Material frameMaterial) {
+        var block = ChemicalHelper.getBlock(TagPrefix.frameGt, frameMaterial);
+        if (block == null) {
+            throw new IllegalArgumentException("No frame block found for material: " + frameMaterial.getName());
+        }
+        return new TraceabilityPredicate(
+                new PredicateBlocks(block)) {
+
+            @Override
+            public boolean test(MultiblockState blockWorldState) {
+                if (super.test(blockWorldState)) return true;
+                if (blockWorldState.getTileEntity() instanceof PipeBlockEntity<?, ?> pipeTile) return pipeTile.getFrameMaterial() == frameMaterial;
                 return false;
             }
         };

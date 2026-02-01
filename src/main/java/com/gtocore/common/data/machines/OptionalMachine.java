@@ -1,5 +1,6 @@
 package com.gtocore.common.data.machines;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MESimplePatternBufferPartMachine;
@@ -9,8 +10,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -55,7 +54,7 @@ public final class OptionalMachine {
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
+                    .where('B', GTOPredicates.frame(GTMaterials.Steel))
                     .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
                     .where('D', blocks(GTBlocks.STEEL_HULL.get()))
                     .where('E', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))

@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.nano;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -15,7 +16,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -103,7 +103,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
                                 .or(abilities(IMPORT_FLUIDS))
                                 .or(abilities(INPUT_LASER)))
                         .where('B', blocks(GTBlocks.CASING_ASSEMBLY_LINE.get()))
-                        .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ruridit)))
+                        .where('D', GTOPredicates.frame(GTMaterials.Ruridit))
                         .build();
                 case 3 -> builder.aisle("                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "              A              ", "              A              ", "              A              ", "              A              ", "              A              ", "              A              ", "              A              ", "              A              ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
                         .aisle("            DDDDD            ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "             CAC             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ", "                             ")
@@ -125,7 +125,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
                                 .or(abilities(IMPORT_FLUIDS))
                                 .or(abilities(INPUT_LASER)))
                         .where('B', blocks(GTOBlocks.ADVANCED_ASSEMBLY_LINE_UNIT.get()))
-                        .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ruridit)))
+                        .where('C', GTOPredicates.frame(GTMaterials.Ruridit))
                         .build();
                 default -> builder
                         .aisle("         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "    B    ", "    B    ", "    B    ", "    B    ", "    B    ", "    B    ", "    B    ", "    B    ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ")
@@ -143,7 +143,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
                                 .or(abilities(EXPORT_ITEMS))
                                 .or(abilities(IMPORT_FLUIDS))
                                 .or(abilities(INPUT_LASER)))
-                        .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ruridit))).build();
+                        .where('C', GTOPredicates.frame(GTMaterials.Ruridit)).build();
             };
         });
     }

@@ -147,7 +147,7 @@ public final class GTMachineModify {
                         .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
                         .or(abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
                         .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
-                .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                .where('B', GTOPredicates.frame(GTMaterials.StainlessSteel))
                 .where('C', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get()))
                 .where('D', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
                 .where('E', controller(definition))
