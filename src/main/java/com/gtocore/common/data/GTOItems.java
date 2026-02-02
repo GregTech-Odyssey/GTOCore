@@ -410,17 +410,17 @@ public final class GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();
 
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK1 = register("data_crystal_component_mk1", "数据晶片组件 mk1");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK2 = register("data_crystal_component_mk2", "数据晶片组件 mk2");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK3 = register("data_crystal_component_mk3", "数据晶片组件 mk3");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK4 = register("data_crystal_component_mk4", "数据晶片组件 mk4");
-    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK5 = register("data_crystal_component_mk5", "数据晶片组件 mk5");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK1 = registerLang("data_crystal_component_mk1", "Data Crystal Component MK I", "数据晶片组件 MK I");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK2 = registerLang("data_crystal_component_mk2", "Data Crystal Component MK II", "数据晶片组件 MK II");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK3 = registerLang("data_crystal_component_mk3", "Data Crystal Component MK III", "数据晶片组件 MK III");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK4 = registerLang("data_crystal_component_mk4", "Data Crystal Component MK IV", "数据晶片组件 MK IV");
+    public static final ItemEntry<Item> DATA_CRYSTAL_COMPONENT_MK5 = registerLang("data_crystal_component_mk5", "Data Crystal Component MK V", "数据晶片组件 MK V");
 
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 mk1", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 mk2", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 mk3", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 mk4", DataCrystalItem::new).register();
-    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 mk5", DataCrystalItem::new).register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK1 = item("data_crystal_mk1", "数据晶片 MK I", DataCrystalItem::new).lang("Data Crystal MK I").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK2 = item("data_crystal_mk2", "数据晶片 MK II", DataCrystalItem::new).lang("Data Crystal MK II").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK3 = item("data_crystal_mk3", "数据晶片 MK III", DataCrystalItem::new).lang("Data Crystal MK III").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK4 = item("data_crystal_mk4", "数据晶片 MK IV", DataCrystalItem::new).lang("Data Crystal MK IV").register();
+    public static final ItemEntry<DataCrystalItem> DATA_CRYSTAL_MK5 = item("data_crystal_mk5", "数据晶片 MK V", DataCrystalItem::new).lang("Data Crystal MK V").register();
 
     public static final ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_kinetic_rotor", "木", 2400, 4, 10, 0);
     public static final ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_kinetic_rotor", "铁", 14000, 10, 20, 1);
@@ -519,12 +519,12 @@ public final class GTOItems {
     public static final ItemEntry<Item> OPV_VOLTAGE_COIL = registerLang("opv_voltage_coil", "OpV Voltage Coil", "过载压线圈");
     public static final ItemEntry<Item> MAX_VOLTAGE_COIL = registerLang("max_voltage_coil", "MAX Voltage Coil", "上限压线圈");
 
-    public static final ItemEntry<Item> SPACE_DRONE_MK1 = registerLang("space_drone_mk1", "Space Drone MKⅠ", "太空无人机MKⅠ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK2 = registerLang("space_drone_mk2", "Space Drone MKⅡ", "太空无人机MKⅡ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK3 = registerLang("space_drone_mk3", "Space Drone MKⅢ", "太空无人机MKⅢ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK4 = registerLang("space_drone_mk4", "Space Drone MKⅣ", "太空无人机MKⅣ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK5 = registerLang("space_drone_mk5", "Space Drone MKⅤ", "太空无人机MKⅤ");
-    public static final ItemEntry<Item> SPACE_DRONE_MK6 = registerLang("space_drone_mk6", "Space Drone MKⅥ", "太空无人机MKⅥ");
+    public static final ItemEntry<Item> SPACE_DRONE_MK1 = registerLang("space_drone_mk1", "Space Drone MK I", "太空无人机 MK I");
+    public static final ItemEntry<Item> SPACE_DRONE_MK2 = registerLang("space_drone_mk2", "Space Drone MK II", "太空无人机 MK II");
+    public static final ItemEntry<Item> SPACE_DRONE_MK3 = registerLang("space_drone_mk3", "Space Drone MK III", "太空无人机 MK III");
+    public static final ItemEntry<Item> SPACE_DRONE_MK4 = registerLang("space_drone_mk4", "Space Drone MK IV", "太空无人机 MK IV");
+    public static final ItemEntry<Item> SPACE_DRONE_MK5 = registerLang("space_drone_mk5", "Space Drone MK V", "太空无人机 MK V");
+    public static final ItemEntry<Item> SPACE_DRONE_MK6 = registerLang("space_drone_mk6", "Space Drone MK VI", "太空无人机 MK VI");
 
     public static ItemEntry<Item> NEUTRON_PILE = register("neutron_pile", "中子尘埃");
 
@@ -646,11 +646,11 @@ public final class GTOItems {
     public static final ItemEntry<Item> ESSENCE_SEED = register("essence_seed", "精华种子");
     public static final ItemEntry<Item> NUCLEAR_STAR = register("nuclear_star", "核能之星");
     public static final ItemEntry<Item> UNSTABLE_STAR = register("unstable_star", "易变之星");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1 = register("precision_circuit_assembly_robot_mk1", "精密电路装配机器人MKⅠ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2 = register("precision_circuit_assembly_robot_mk2", "精密电路装配机器人MKⅡ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3 = register("precision_circuit_assembly_robot_mk3", "精密电路装配机器人MKⅢ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4 = register("precision_circuit_assembly_robot_mk4", "精密电路装配机器人MKⅣ");
-    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5 = register("precision_circuit_assembly_robot_mk5", "精密电路装配机器人MKⅤ");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1 = registerLang("precision_circuit_assembly_robot_mk1", "Precision Circuit Assembly Robot MK I", "精密电路装配机器人 MK I");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2 = registerLang("precision_circuit_assembly_robot_mk2", "Precision Circuit Assembly Robot MK II", "精密电路装配机器人 MK II");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3 = registerLang("precision_circuit_assembly_robot_mk3", "Precision Circuit Assembly Robot MK III", "精密电路装配机器人 MK III");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4 = registerLang("precision_circuit_assembly_robot_mk4", "Precision Circuit Assembly Robot MK IV", "精密电路装配机器人 MK IV");
+    public static final ItemEntry<Item> PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5 = registerLang("precision_circuit_assembly_robot_mk5", "Precision Circuit Assembly Robot MK V", "精密电路装配机器人 MK V");
     public static final ItemEntry<Item> SCRAP = register("scrap", "废料");
     public static final ItemEntry<Item> SCRAP_BOX = register("scrap_box", "废料盒");
     public static final ItemEntry<Item> NUCLEAR_WASTE = register("nuclear_waste", "核废料");
@@ -736,9 +736,9 @@ public final class GTOItems {
     public static final ItemEntry<Item> CLOSED_TIMELIKE_CURVE_COMPUTATIONAL_UNIT_CONTAINER = register("closed_timelike_curve_computational_unit_container", "封闭类时曲线计算单元容器");
     public static final ItemEntry<Item> CLOSED_TIMELIKE_CURVE_COMPUTATIONAL_UNIT = register("closed_timelike_curve_computational_unit", "封闭类时曲线计算单元");
     public static final ItemEntry<Item> HIGHLY_DENSE_POLYMER_PLATE = register("highly_dense_polymer_plate", "高密度聚合物板");
-    public static final ItemEntry<Item> SPACE_PROBE_MK1 = register("space_probe_mk1", "宇宙探测器MKⅠ");
-    public static final ItemEntry<Item> SPACE_PROBE_MK2 = register("space_probe_mk2", "宇宙探测器MKⅡ");
-    public static final ItemEntry<Item> SPACE_PROBE_MK3 = register("space_probe_mk3", "宇宙探测器MKⅢ");
+    public static final ItemEntry<Item> SPACE_PROBE_MK1 = registerLang("space_probe_mk1", "Space Probe MK I", "宇宙探测器 MK I");
+    public static final ItemEntry<Item> SPACE_PROBE_MK2 = registerLang("space_probe_mk2", "Space Probe MK II", "宇宙探测器 MK II");
+    public static final ItemEntry<Item> SPACE_PROBE_MK3 = registerLang("space_probe_mk3", "Space Probe MK III", "宇宙探测器 MK III");
     public static final ItemEntry<Item> HYPERCUBE = register("hypercube", "超立方体");
     public static final ItemEntry<Item> ANNIHILATION_CONSTRAINER = register("annihilation_constrainer", "湮灭约束器");
     public static final ItemEntry<Item> SOLAR_LIGHT_SPLITTER = register("solar_light_splitter", "阳光分离器");
@@ -810,11 +810,11 @@ public final class GTOItems {
     public static final ItemEntry<Item> GIGA_CHAD = register("giga_chad", "Giga Chad代币");
     public static final ItemEntry<Item> REACTOR_FUEL_ROD = register("reactor_fuel_rod", "空燃料棒");
     public static final ItemEntry<Item> TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD = register("tungsten_carbide_reactor_fuel_rod", "空碳化钨燃料棒");
-    public static final ItemEntry<Item> HUI_CIRCUIT_1 = registerLang("hui_circuit_1", "High Calculation Workstation MK-I", "高算力工作站 MK-I");
-    public static final ItemEntry<Item> HUI_CIRCUIT_2 = registerLang("hui_circuit_2", "High Calculation Workstation MK-II", "高算力工作站 MK-II");
-    public static final ItemEntry<Item> HUI_CIRCUIT_3 = registerLang("hui_circuit_3", "High Calculation Workstation MK-III", "高算力工作站 MK-III");
-    public static final ItemEntry<Item> HUI_CIRCUIT_4 = registerLang("hui_circuit_4", "High Calculation Workstation MK-IV", "高算力工作站 MK-IV");
-    public static final ItemEntry<Item> HUI_CIRCUIT_5 = registerLang("hui_circuit_5", "High Calculation Workstation MK-V", "高算力工作站 MK-V");
+    public static final ItemEntry<Item> HUI_CIRCUIT_1 = registerLang("hui_circuit_1", "High Calculation Workstation MK I", "高算力工作站 MK I");
+    public static final ItemEntry<Item> HUI_CIRCUIT_2 = registerLang("hui_circuit_2", "High Calculation Workstation MK II", "高算力工作站 MK II");
+    public static final ItemEntry<Item> HUI_CIRCUIT_3 = registerLang("hui_circuit_3", "High Calculation Workstation MK III", "高算力工作站 MK III");
+    public static final ItemEntry<Item> HUI_CIRCUIT_4 = registerLang("hui_circuit_4", "High Calculation Workstation MK IV", "高算力工作站 MK IV");
+    public static final ItemEntry<Item> HUI_CIRCUIT_5 = registerLang("hui_circuit_5", "High Calculation Workstation MK V", "高算力工作站 MK V");
     public static final ItemEntry<Item> SPECIAL_CERAMICS = register("special_ceramics", "特种陶瓷");
     public static final ItemEntry<Item> PLANET_SCAN_SATELLITE = register("planet_scan_satellite", "行星扫描卫星");
 
@@ -1127,24 +1127,26 @@ public final class GTOItems {
     public static final ItemEntry<Item> PREOXIDIZED_ATOMIC_PAN_FIBER = item("preoxidized_atomic_pan_fiber", "预氧化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
     public static final ItemEntry<Item> GRAPHITIZED_ATOMIC_PAN_FIBER = item("graphitized_atomic_pan_fiber", "石墨化原子级聚丙烯腈原丝").model(NonNullBiConsumer.noop()).register();
 
-    // 能量控制模块mk123
-    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK1 = register("energy_control_module_mk1", "能量控制模块 MK-I");
-    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK2 = register("energy_control_module_mk2", "能量控制模块 MK-II");
-    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK3 = register("energy_control_module_mk3", "能量控制模块 MK-III");
-    // 运行控制模块mk123
-    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK1 = register("machining_control_module_mk1", "运行控制模块 MK-I");
-    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK2 = register("machining_control_module_mk2", "运行控制模块 MK-II");
-    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK3 = register("machining_control_module_mk3", "运行控制模块 MK-III");
-    // 小型太空梭mk12
-    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK1 = item("small_shuttle_mk1", "小型太空梭 MK-I", ComponentItem::create)
+    // 能量控制模块MK123
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK1 = registerLang("energy_control_module_mk1", "Energy Control Module MK I", "能量控制模块 MK I");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK2 = registerLang("energy_control_module_mk2", "Energy Control Module MK II", "能量控制模块 MK II");
+    public static final ItemEntry<Item> ENERGY_CONTROL_MODULE_MK3 = registerLang("energy_control_module_mk3", "Energy Control Module MK III", "能量控制模块 MK III");
+    // 运行控制模块MK123
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK1 = registerLang("machining_control_module_mk1", "Machining Control Module MK I", "运行控制模块 MK I");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK2 = registerLang("machining_control_module_mk2", "Machining Control Module MK II", "运行控制模块 MK II");
+    public static final ItemEntry<Item> MACHINING_CONTROL_MODULE_MK3 = registerLang("machining_control_module_mk3", "Machining Control Module MK III", "运行控制模块 MK III");
+    // 小型太空梭MK12
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK1 = item("small_shuttle_mk1", "小型太空梭 MK I", ComponentItem::create)
+            .lang("Small Shuttle MK I")
             .onRegister(attach(ElectricStats.createRechargeableBattery(3_600_000L, GTValues.HV)))
             .register();
-    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK2 = item("small_shuttle_mk2", "小型太空梭 MK-II", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> SMALL_SHUTTLE_MK2 = item("small_shuttle_mk2", "小型太空梭 MK II", ComponentItem::create)
+            .lang("Small Shuttle MK II")
             .onRegister(attach(ElectricStats.createRechargeableBattery(10_240_000L, GTValues.EV)))
             .register();
-    // 激光陀螺仪mk12
-    public static final ItemEntry<Item> LASER_GYROSCOPE_MK1 = register("laser_gyroscope_mk1", "激光陀螺仪 MK-I");
-    public static final ItemEntry<Item> LASER_GYROSCOPE_MK2 = register("laser_gyroscope_mk2", "激光陀螺仪 MK-II");
+    // 激光陀螺仪MK12
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK1 = registerLang("laser_gyroscope_mk1", "Laser Gyroscope MK I", "激光陀螺仪 MK I");
+    public static final ItemEntry<Item> LASER_GYROSCOPE_MK2 = registerLang("laser_gyroscope_mk2", "Laser Gyroscope MK II", "激光陀螺仪 MK II");
 
     // 无人机载终极电池
     public static final ItemEntry<ComponentItem> DRONE_ULTIMATE_BATTERY = item("drone_ultimate_battery", "无人机载终极电池", ComponentItem::create)
