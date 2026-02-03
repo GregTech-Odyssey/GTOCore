@@ -39,7 +39,6 @@
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
-    "appbot.AppliedBotanicsForgeMixin",
     "adastra.GasTankItemMixin",
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
@@ -115,6 +114,7 @@
     "ae2.wtlib.ItemWTMixin",
     "ae2.wtlib.WirelessTerminalMenuHostMixin",
     "apoth.AffixRegistry",
+    "appbot.AppliedBotanicsForgeMixin",
     "appbot.FluixPoolBlockEntityMixin",
     "arseng.ScribesTileMixin",
     "arsnouveau.RewardsMixin",
@@ -144,6 +144,7 @@
     "eae.PartSpecialExportBusMixin",
     "eae.PartThresholdLevelEmitterMixin",
     "eae.TileAssemblerMatrixBaseMixin",
+    "eae.TileAssemblerMatrixPatternMixin",
     "eae.TileExPatternProviderMixin",
     "endremastered.EREnderEyeMixin",
     "farmersdelight.CuttingBoardBlockEntityMixin",

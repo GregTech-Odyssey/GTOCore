@@ -6,6 +6,7 @@ import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
 import com.gtocore.eio_travel.api.ITravelHandlerHook
 import com.gtocore.eio_travel.api.TravelSavedData
+import com.gtocore.integration.ae.hooks.IExtendedPatternContainer
 import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
@@ -81,7 +82,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     WirelessMachine,
     IInteractedMachine,
     ISync,
-    PatternContainer,
+    IExtendedPatternContainer,
     IDropSaveMachine {
     override fun onUse(state: BlockState?, world: Level?, pos: BlockPos?, player: Player?, hand: InteractionHand?, hit: BlockHitResult?): InteractionResult? {
         if (!isRemote) {
