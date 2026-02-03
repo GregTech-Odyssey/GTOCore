@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.gui;
 
 import com.gtocore.client.Message;
+import com.gtocore.integration.ae.hooks.IMouseNoRedirection;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Tooltip;
@@ -18,7 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = HighlightButton.class, remap = false)
-public abstract class HighlightButtonMixin extends EPPButton {
+public abstract class HighlightButtonMixin extends EPPButton implements IMouseNoRedirection {
 
     @Shadow
     private ResourceKey<Level> dim;

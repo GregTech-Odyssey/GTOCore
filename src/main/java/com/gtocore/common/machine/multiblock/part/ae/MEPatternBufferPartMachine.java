@@ -110,12 +110,23 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @RegisterLanguage(cn = "总成共享配置", en = "Buffer share configuration")
     private static final String SHARE = "gtocore.pattern_buffer.share";
 
+    @Override
+    public @Nullable GTRecipeType gto$getRecipeType() {
+        return getRecipeType();
+    }
+
+    @Override
+    public @Nullable Collection<GTRecipeType> gto$getRecipeTypes() {
+        return getRecipeTypes();
+    }
+
     @Persisted
     @DescSynced
     @Getter
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
+    @Getter
     public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
     @DescSynced

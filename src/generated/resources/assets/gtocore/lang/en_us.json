@@ -2157,6 +2157,8 @@
   "gtocore.adv_terminal.setting_already_existed": "Setting Already Existed",
   "gtocore.ae.appeng.craft.add_missing_to_emi": "Bookmark Missing",
   "gtocore.ae.appeng.craft.add_missing_to_emi.desc": "Add missing items to EMI bookmark page",
+  "gtocore.ae.appeng.craft.encode_send": "§o[Right Click] Encode and send pattern§r",
+  "gtocore.ae.appeng.craft.encode_send.desc": "Click to select the destination Pattern Provider and encode the current recipe to it",
   "gtocore.ae.appeng.craft.missing_start": "Missing Crafting",
   "gtocore.ae.appeng.craft.missing_start.desc": "Start crafting even when materials are insufficient, missing ingredients will be waited for",
   "gtocore.ae.appeng.craft.pause_job": "Pause",

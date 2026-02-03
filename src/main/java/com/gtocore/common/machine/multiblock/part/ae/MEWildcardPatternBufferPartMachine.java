@@ -352,8 +352,8 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         ObjectHolder<Recipe> valid = new ObjectHolder<>(null);
         var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
-            if (!getRecipeTypes().isEmpty()) {
-                for (var rt : getRecipeTypes()) {
+            if (!gto$getRecipeTypes().isEmpty()) {
+                for (var rt : gto$getRecipeTypes()) {
                     if (rt.findRecipe(inputHolder, r -> {
                         if (checkProb(r)) {
                             valid.value = (Recipe) r;

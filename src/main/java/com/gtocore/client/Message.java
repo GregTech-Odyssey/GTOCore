@@ -1,6 +1,7 @@
 package com.gtocore.client;
 
 import com.gtocore.integration.ae.hooks.ICraftAmountMenu;
+import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 
 import com.gtolib.api.network.NetworkPack;
 
@@ -14,8 +15,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
+import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
+import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.menu.me.common.MEStorageMenu;
 
 public final class Message {
@@ -49,6 +52,24 @@ public final class Message {
         ICraftAmountMenu.open(p, menu.getLocator(), keyCounter, b.readLong());
     });
 
+    public static final NetworkPack SEND_PATTERN_DESTINATION_S2C = NetworkPack.registerS2C("sendPatternDestinationS2C", (p, b) -> {
+        var size = b.readVarInt();
+        var destinations = new PatternContainerGroup[size];
+        for (int i = 0; i < size; i++) {
+            destinations[i] = PatternContainerGroup.readFromPacket(b);
+        }
+        Client.patternDestinationReceived(destinations);
+    });
+
+    public static void sendPatternDestination(ServerPlayer player, PatternContainerGroup[] destinations) {
+        SEND_PATTERN_DESTINATION_S2C.send(buf -> {
+            buf.writeVarInt(destinations.length);
+            for (var dest : destinations) {
+                dest.writeToPacket(buf);
+            }
+        }, player);
+    }
+
     public static class Client {
 
         public static void orderItem(KeyCounter whatToCraft, long initialAmount) {
@@ -60,6 +81,28 @@ public final class Message {
                 }
                 b.writeLong(initialAmount);
             });
+        }
+
+        public static void patternDestinationReceived(PatternContainerGroup[] destinations) {
+            if (Minecraft.getInstance().screen instanceof PatternEncodingTermScreen<?> screen) {
+                var term = (IExtendedPatternEncodingTerm) screen;
+                // var font = Minecraft.getInstance().font;
+                var listBox = term.gto$getPatternDestDisplay();
+                // listBox.clearItems();
+                listBox.reset();
+                listBox.setVisible(true);
+                listBox.setX(200);// screen.getGuiLeft()+
+                listBox.setY(screen.getYSize() - 100);// screen.getGuiTop() +
+                // IntHolder maxWidth = new IntHolder(0);
+                for (int i = 0; i < destinations.length; i++) {
+                    var dest = destinations[i];
+                    // var nameComponent = dest.name();
+                    // var icon = dest.icon();
+                    // var index = i;
+                    // maxWidth.value = Math.max(maxWidth.value, font.width(nameComponent));
+                    listBox.addPatternContainerGroup(dest, i);
+                }
+            }
         }
     }
 }

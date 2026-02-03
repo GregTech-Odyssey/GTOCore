@@ -2157,6 +2157,8 @@
   "gtocore.adv_terminal.setting_already_existed": "存在已有設置",
   "gtocore.ae.appeng.craft.add_missing_to_emi": "收藏缺失",
   "gtocore.ae.appeng.craft.add_missing_to_emi.desc": "將缺失的物品添加到EMI書簽頁",
+  "gtocore.ae.appeng.craft.encode_send": "§o[右鍵點擊] 編碼併髮送樣板§r",
+  "gtocore.ae.appeng.craft.encode_send.desc": "點擊選擇目的地樣板供應器，併將樣板髮送至該供應器",
   "gtocore.ae.appeng.craft.missing_start": "缺失合成",
   "gtocore.ae.appeng.craft.missing_start.desc": "在材料不足的情況下仍然開始合成，缺失的原料將被等待",
   "gtocore.ae.appeng.craft.pause_job": "暫停",
