@@ -575,6 +575,7 @@ object GTOMachineTooltips {
             function("可以放入样板，并进行一键发配" translatedTo "Can put patterns and distribute them one click")
             function("样板间分别隔离，互不干扰" translatedTo "Patterns are isolated from each other, do not interfere with each other")
             important("对着样板按鼠标中键可单独设置电路或者提供特别输入" translatedTo "Press the middle mouse button on the pattern to set the circuit or provide special input")
+            command("可独立选择配方类型，不受机器主体限制" translatedTo "Can independently select recipe types, unrestricted by the machine's own settings")
             info(ComponentSlang.Capacity(capacity.toString()))
         }
     }
@@ -1481,7 +1482,12 @@ object GTOMachineTooltips {
         setTranslationPrefix("void_fluid_drilling_rig")
 
         section(ComponentSlang.RunningRequirements)
+        command("在主机中放入维度数据来设置钻取维度" translatedTo "Insert dimension data into the controller to set the drilling dimension")
         command("需要最低30720EU/t的功率" translatedTo "Requires minimum 30720 EU/t")
+
+        section("产出机制" translatedTo "Output Mechanism")
+        function("放入数据后，主机将显示可钻取流体列表" translatedTo "After inserting the data, the controller will display a list of drillable fluids")
+        function("根据机器设置的电路按顺序选择钻取目标" translatedTo "Select the drilling target in order according to the set circuit")
     }
 
     // 纳米集成加工中心
@@ -1514,6 +1520,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("void_miner")
 
         section(ComponentSlang.RunningRequirements)
+        command("在主机中放入维度数据来设置采矿维度" translatedTo "Insert dimension data into the controller to set the mining dimension")
         command("需要输入1B钻井液和最低1920EU/t的功率" translatedTo "Requires 1B drilling fluid and minimum 1920 EU/t")
 
         section("产出机制" translatedTo "Output Mechanism")
