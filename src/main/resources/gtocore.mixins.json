@@ -117,6 +117,7 @@
     "appbot.AppliedBotanicsForgeMixin",
     "appbot.FluixPoolBlockEntityMixin",
     "arseng.ScribesTileMixin",
+    "arseng.SourceAcceptorBlockEntityMixin",
     "arsnouveau.RewardsMixin",
     "biomeswevegone.ManOWarMixin",
     "botania.AlfheimEventListenerMixin",

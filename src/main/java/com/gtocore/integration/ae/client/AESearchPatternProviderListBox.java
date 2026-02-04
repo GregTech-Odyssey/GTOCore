@@ -20,8 +20,8 @@ import appeng.client.gui.AEBaseScreen;
 import appeng.client.gui.Tooltip;
 import appeng.client.gui.widgets.AETextField;
 import appeng.core.localization.GuiText;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 
 public class AESearchPatternProviderListBox extends AEListBox {
 
-    BiMap<Integer, String> searchMap = HashBiMap.create();
+    Int2ObjectMap<String> searchMap = new Int2ObjectOpenHashMap<>();
     final IntHolder maxWidth = new IntHolder(0);
     IExtendedPatternEncodingTerm term;
     AETextField searchField;
@@ -38,7 +38,7 @@ public class AESearchPatternProviderListBox extends AEListBox {
     public AESearchPatternProviderListBox(AEBaseScreen<?> screen) {
         super(screen);
         term = (IExtendedPatternEncodingTerm) screen;
-        searchField = new AETextField(screen.getStyle(), Minecraft.getInstance().font, 0, -10, 100, 12) {
+        searchField = new AETextField(screen.getStyle(), Minecraft.getInstance().font, 0, -20, 100, 12) {
 
             @Override
             public boolean mouseClicked(double mouseX, double mouseY, int button) {
@@ -57,8 +57,13 @@ public class AESearchPatternProviderListBox extends AEListBox {
         searchField.setX(getX() + getGuiLeft());
         searchField.setY(getY() + getGuiTop() - 14);
         searchField.setWidth(getBounds().getWidth());
-        searchField.setVisible(isVisible());
         super.updateBeforeRender();
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+        searchField.setVisible(b);
     }
 
     @Override
@@ -75,6 +80,7 @@ public class AESearchPatternProviderListBox extends AEListBox {
 
     public void reset() {
         maxWidth.value = 0;
+        getScrollbar().setCurrentScroll(0);
         this.clearItems();
         searchMap.clear();
         allItems.clear();

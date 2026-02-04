@@ -86,20 +86,13 @@ public final class Message {
         public static void patternDestinationReceived(PatternContainerGroup[] destinations) {
             if (Minecraft.getInstance().screen instanceof PatternEncodingTermScreen<?> screen) {
                 var term = (IExtendedPatternEncodingTerm) screen;
-                // var font = Minecraft.getInstance().font;
                 var listBox = term.gto$getPatternDestDisplay();
-                // listBox.clearItems();
                 listBox.reset();
                 listBox.setVisible(true);
-                listBox.setX(200);// screen.getGuiLeft()+
-                listBox.setY(screen.getYSize() - 100);// screen.getGuiTop() +
-                // IntHolder maxWidth = new IntHolder(0);
+                listBox.setX(200);
+                listBox.setY(screen.getYSize() - 100);
                 for (int i = 0; i < destinations.length; i++) {
                     var dest = destinations[i];
-                    // var nameComponent = dest.name();
-                    // var icon = dest.icon();
-                    // var index = i;
-                    // maxWidth.value = Math.max(maxWidth.value, font.width(nameComponent));
                     listBox.addPatternContainerGroup(dest, i);
                 }
             }

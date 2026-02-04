@@ -68,7 +68,6 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
     public static final Multiset<ImmutableList<Long>> HIGHLIGHTS = HashMultiset.create();
 
     private final WeakReference<BlockEntity>[] blockEntityReference = new WeakReference[20];
-    private static final BlockPos placeHolderPos = new BlockPos(0, 500, 0);
 
     @Persisted
     @DescSynced
