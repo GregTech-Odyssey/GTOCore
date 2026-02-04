@@ -867,7 +867,7 @@ public final class MultiBlockD {
                                 .or(abilities(INPUT_LASER).setMaxGlobalLimited(16, 16))
                                 .or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1)))
                         .where('E', casing)
-                        .where('F', blocks(FusionCasings.getFrameState(LuV)))
+                        .where('F', FusionCasings.getFrameState(LuV))
                         .where('G', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))
                         .where('H', blocks(FusionCasings.getCompressedCoilState(LuV)))
                         .where('I', blocks(GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.get()))
