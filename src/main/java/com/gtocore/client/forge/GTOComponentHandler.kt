@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import appeng.api.storage.StorageCells
 import appeng.api.storage.cells.IBasicCellItem
 import appeng.me.cells.BasicCellHandler
+import com.mojang.datafixers.util.Either
 
 @OnlyIn(Dist.CLIENT)
 object GTOComponentHandler {
@@ -66,6 +67,9 @@ object GTOComponentHandler {
                         ),
                 )
             }
+        }
+        components.sortedBy { -it.priority }.forEach {
+            event.tooltipElements.add(Either.right(it))
         }
     }
 }
