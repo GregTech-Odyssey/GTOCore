@@ -109,4 +109,9 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
             return machine.onContentsChanged;
         }
     }
+
+    @Override
+    public boolean gto$isCraftingContainer() {
+        return true;
+    }
 }

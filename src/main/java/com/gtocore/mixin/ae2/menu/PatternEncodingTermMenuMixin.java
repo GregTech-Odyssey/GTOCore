@@ -1,6 +1,11 @@
 package com.gtocore.mixin.ae2.menu;
 
 import com.gtocore.api.ae2.pattern.IEncodingLogic;
+import com.gtocore.client.Message;
+import com.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
+import com.gtocore.common.machine.multiblock.part.ae.MECraftPatternPartMachine;
+import com.gtocore.integration.ae.hooks.IExtendedPatternContainer;
+import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatterEncodingTermMenu;
@@ -9,26 +14,37 @@ import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.ClientUtil;
 import com.gtolib.utils.RLUtils;
 
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
+
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
 import appeng.api.crafting.PatternDetailsHelper;
+import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.storage.ITerminalHost;
 import appeng.api.storage.MEStorage;
 import appeng.core.definitions.AEItems;
+import appeng.crafting.pattern.AEPatternDecoder;
+import appeng.crafting.pattern.ProcessingPatternItem;
 import appeng.helpers.IMenuCraftingPacket;
 import appeng.helpers.IPatternTerminalMenuHost;
+import appeng.helpers.patternprovider.PatternContainer;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.me.common.MEStorageMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import appeng.menu.slot.RestrictedInputSlot;
 import appeng.parts.encoding.PatternEncodingLogic;
 import appeng.util.ConfigInventory;
+import appeng.util.inv.AppEngInternalInventory;
+import com.glodblock.github.extendedae.common.tileentities.matrix.TileAssemblerMatrixPattern;
 import com.llamalad7.mixinextras.sugar.Local;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,10 +55,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.UUID;
+import java.util.*;
 
 @Mixin(PatternEncodingTermMenu.class)
-public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, IPatterEncodingTermMenu {
+public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, IPatterEncodingTermMenu, IExtendedPatternEncodingTerm.Menu {
 
     @Unique
     @GuiSync(122)
@@ -65,6 +81,14 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Unique
     @GuiSync(120)
     public String gtocore$recipe = "";
+    @Unique
+    private GTRecipeType gto$lastRecipeType = null;
+    @Unique
+    private boolean gto$isCraft = false;
+    @Unique
+    private List<IExtendedPatternContainer> gto$currentContainers = null;
+    @Unique
+    private ItemStack gto$patternStack;
 
     @Unique
     private UUID gtocore$UUID;
@@ -82,7 +106,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     public void gtolib$addRecipe(String id) {
         if (isClientSide()) {
             sendClientAction("addRecipe", id);
-        } else gtolib$logic().gtocore$setRecipe(id);
+        } else {
+            gtolib$logic().gtocore$setRecipe(id);
+            gto$lastRecipeType = GTRegistries.RECIPE_TYPES.get(RLUtils.parse(id.split("/")[0]));
+        }
     }
 
     @Override
@@ -158,6 +185,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         registerClientAction("addRecipe", String.class, this::gtolib$addRecipe);
         registerClientAction("clickRecipeInfo", this::gtolib$clickRecipeInfo);
         registerClientAction("addUUID", UUID.class, this::gtolib$addUUID);
+        registerClientAction("sendPattern", Integer.class, this::gtolib$sendPattern);
+        registerClientAction("sendPatternRequest", this::gtolib$sendEncodeRequest);
     }
 
     @Override
@@ -184,6 +213,13 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lappeng/menu/me/items/PatternEncodingTermMenu;sendClientAction(Ljava/lang/String;)V"), remap = false)
     private void encode(CallbackInfo ci) {
         gtolib$addUUID(ClientUtil.getUUID());
+    }
+
+    @Inject(method = "encodePattern", at = @At(value = "RETURN"), remap = false)
+    private void onEncodeSucceeded(CallbackInfoReturnable<ItemStack> cir) {
+        var stack = cir.getReturnValue();
+        if (stack == null || stack.isEmpty()) return;
+        gto$isCraft = !(stack.getItem() instanceof ProcessingPatternItem);
     }
 
     @Inject(method = "encode", at = @At(value = "INVOKE", target = "Lappeng/menu/slot/RestrictedInputSlot;set(Lnet/minecraft/world/item/ItemStack;)V", ordinal = 1, remap = true), remap = false, cancellable = true)
@@ -230,6 +266,10 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     @Shadow(remap = false)
     public abstract void encode();
 
+    @Shadow(remap = false)
+    @Nullable
+    protected abstract ItemStack encodePattern();
+
     @Redirect(method = "encode",
               at = @At(value = "INVOKE",
                        target = "Lappeng/menu/slot/RestrictedInputSlot;getItem()Lnet/minecraft/world/item/ItemStack;",
@@ -264,5 +304,128 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private boolean gtolib$modifyTransferStackToMenu(RestrictedInputSlot instance, ItemStack itemStack) {
         // 空白样板槽现在是幽灵槽位，无需手动补充
         return itemStack.getItem() != AEItems.BLANK_PATTERN.asItem() && instance.mayPlace(itemStack);
+    }
+
+    @Unique
+    private List<IExtendedPatternContainer> gto$getPatternContainers() {
+        var gridNode = getActionHost().getActionableNode();
+        if (gridNode == null) {
+            return List.of();
+        }
+        var grid = gridNode.getGrid();
+        if (grid == null) {
+            return List.of();
+        }
+        var stack = gto$patternStack;
+        if (stack == null) return List.of();
+        ArrayList<IExtendedPatternContainer> machines = new ArrayList<>(grid.size() / 2 + 1);
+        for (var machineClass : grid.getMachineClasses()) {
+            if (IExtendedPatternContainer.class.isAssignableFrom(machineClass)) {
+                machines.addAll((Collection<? extends IExtendedPatternContainer>) grid.getActiveMachines(machineClass));
+            }
+        }
+        var thisPatternDetails = AEPatternDecoder.INSTANCE.decodePattern(stack, getPlayer().level(), false);
+        if (thisPatternDetails == null) return List.of();
+        var primaryOutput = thisPatternDetails.getPrimaryOutput().what();
+        Set<Object> sameCluster = new HashSet<>();
+
+        machines.removeIf(container -> {
+            var patternInv = container.getTerminalPatternInventory();
+
+            if (!container.isVisibleInTerminal() ||
+                    patternInv.simulateAdd(stack) == stack)
+                return true;
+            if (patternInv instanceof AppEngInternalInventory aeInv &&
+                    aeInv.getHost() instanceof TileAssemblerMatrixPattern matrixPattern) {
+                var matrix = matrixPattern.getCluster();
+                if (matrix == null) return false;
+                if (sameCluster.contains(matrix)) return true;
+                sameCluster.add(matrix);
+                return matrix.getPatterns()
+                        .stream()
+                        .flatMap(m -> m.getAvailablePatterns().stream())
+                        .anyMatch(p -> p.getPrimaryOutput().what() == primaryOutput);
+            }
+            if (patternInv instanceof MECraftPatternPartMachine mecppm &&
+                    mecppm.getController() instanceof SuperMolecularAssemblerMachine smaMachine) {
+                if (sameCluster.contains(smaMachine)) return true;
+                sameCluster.add(smaMachine);
+                return Arrays.stream(smaMachine.getParts())
+                        .filter(m -> m instanceof MECraftPatternPartMachine)
+                        .map(m -> (MECraftPatternPartMachine) m)
+                        .flatMap(m -> m.getAvailablePatterns().stream())
+                        .anyMatch(p -> p.getPrimaryOutput().what() == primaryOutput);
+            }
+            for (var paattern : patternInv) {
+                var details = AEPatternDecoder.INSTANCE.decodePattern(paattern, getPlayer().level(), false);
+                if (details == null) continue;
+                if (details.getPrimaryOutput().what() == primaryOutput) {
+                    return true;
+                }
+            }
+            return false;
+
+        });
+        var containerComparator = (gto$isCraft ? gto$CRAFT_FIRST : gto$recipeFirst(gto$lastRecipeType)).reversed();
+
+        machines.sort(containerComparator);
+        return machines;
+    }
+
+    @Unique
+    private static final Comparator<IExtendedPatternContainer> gto$CRAFT_FIRST = Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
+            .thenComparing(IExtendedPatternContainer::gto$isCraftingContainer);
+
+    @Unique
+    private static Comparator<IExtendedPatternContainer> gto$recipeFirst(GTRecipeType recipeType) {
+        if (recipeType == null) {
+            return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot);
+        }
+        return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
+                .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType));
+    }
+
+    @Override
+    public void gtolib$sendPattern(int index) {
+        if (isClientSide()) {
+            sendClientAction("sendPattern", index);
+            return;
+        }
+        var gridNode = getActionHost().getActionableNode();
+        if (gridNode == null) {
+            return;
+        }
+        var grid = gridNode.getGrid();
+        if (grid == null) {
+            return;
+        }
+        if (grid.getStorageService().getInventory().extract(AEItemKey.of(AEItems.BLANK_PATTERN), 1, Actionable.MODULATE, getActionSource()) == 0) {
+            return;
+        }
+        var containers = gto$currentContainers;
+        if (index < 0 || index >= containers.size()) {
+            return;
+        }
+        var container = containers.get(index);
+
+        var patternStack = gto$patternStack;
+        if (patternStack == null) return;
+        container.getTerminalPatternInventory().addItems(patternStack);
+    }
+
+    @Override
+    public void gtolib$sendEncodeRequest() {
+        if (isClientSide()) {
+            sendClientAction("sendPatternRequest");
+            return;
+        }
+        var patternStack = encodePattern();
+        if (patternStack == null) return;
+        gto$patternStack = patternStack;
+        gto$currentContainers = gto$getPatternContainers();
+        if (gto$currentContainers.isEmpty()) return;
+        Message.sendPatternDestination((ServerPlayer) getPlayer(), gto$currentContainers.stream()
+                .map(PatternContainer::getTerminalGroup)
+                .toArray(PatternContainerGroup[]::new));
     }
 }

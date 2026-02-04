@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.screen;
 
 import com.gtocore.client.renderer.RenderUtil;
+import com.gtocore.integration.ae.hooks.IMouseNoRedirection;
 
 import com.gtolib.api.ae2.gui.hooks.IAEBaseScreenLifecycle;
 import com.gtolib.api.ae2.gui.hooks.IconSlot;
@@ -14,8 +15,6 @@ import net.minecraft.world.inventory.Slot;
 
 import appeng.client.gui.AEBaseScreen;
 import appeng.menu.AEBaseMenu;
-import com.glodblock.github.extendedae.client.button.HighlightButton;
-import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
 import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -78,9 +77,9 @@ public abstract class AEBaseScreenMixin<T extends AEBaseMenu> extends AbstractCo
 
     @Redirect(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;mouseClicked(DDI)Z", ordinal = 0))
     private boolean gtolib$redirectMouseClicked(AbstractContainerScreen<?> instance, double xCoord, double yCoord, int fakeBtn, @Local(argsOnly = true) int btn) {
-        if (isHandlingRightClick() && instance instanceof GuiExPatternTerminal<?>) {
+        if (isHandlingRightClick() && instance instanceof AEBaseScreen<?>) {
             for (var widget : this.children()) {
-                if (widget.isMouseOver(xCoord, yCoord) && widget instanceof HighlightButton) {
+                if (widget.isMouseOver(xCoord, yCoord) && widget instanceof IMouseNoRedirection i && !i.gtocore$shouldRedirectMouse()) {
                     return super.mouseClicked(xCoord, yCoord, btn);
                 }
             }

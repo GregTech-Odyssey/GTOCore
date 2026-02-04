@@ -700,7 +700,7 @@ public final class MagicRecipesA {
                     .inputItems("botania:hopperhock", 16)
                     .inputItems("botania:rune_spring", 4)
                     .inputItems(TagPrefix.gear, Elementium, 8)
-                    .inputItems(TagPrefix.gemExquisite, Alfsteel, 16)
+                    .inputItems(gemFlawless, StarBloodCrystal, 16)
                     .inputItems("botania:fertilizer", 64)
                     .outputItems(ManaMultiBlock.MANA_GREENHOUSE.asItem())
                     .inputFluids(GTOMaterials.Mana, 4608)
