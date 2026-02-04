@@ -238,33 +238,33 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
         group.addWidget(filterSlot);
 
         // Radius
-        group.addWidget(new LabelWidget(99, 26, "水平范围:"));
-        group.addWidget(new SimpleNumberInputWidget(140, 24, 24, 12, this::getMinerRadius, this::setMinerRadius)
+        group.addWidget(new LabelWidget(99, 26, "gtocore.digital_miner.x_radial_length"));
+        group.addWidget(new SimpleNumberInputWidget(150, 24, 24, 12, this::getMinerRadius, this::setMinerRadius)
                 .setMin(1).setMax((int) (8 * Math.pow(2, getTier()))));
 
         // Min height
-        group.addWidget(new LabelWidget(99, 44, "最小高度:"));
-        group.addWidget(new SimpleNumberInputWidget(140, 42, 24, 12, this::getMinHeight, this::setMinHeight)
+        group.addWidget(new LabelWidget(99, 44, "gtocore.digital_miner.min_height"));
+        group.addWidget(new SimpleNumberInputWidget(150, 42, 24, 12, this::getMinHeight, this::setMinHeight)
                 .setMin(getLevel().getMinBuildHeight()).setMax(getLevel().getMaxBuildHeight()));
 
         // Max height
-        group.addWidget(new LabelWidget(99, 62, "最大高度:"));
-        group.addWidget(new SimpleNumberInputWidget(140, 60, 24, 12, this::getMaxHeight, this::setMaxHeight)
+        group.addWidget(new LabelWidget(99, 62, "gtocore.digital_miner.max_height"));
+        group.addWidget(new SimpleNumberInputWidget(150, 60, 24, 12, this::getMaxHeight, this::setMaxHeight)
                 .setMin(getLevel().getMinBuildHeight()).setMax(getLevel().getMaxBuildHeight()));
 
         // reset button
         this.resetButton = new ButtonWidget(16, 46 + BORDER_WIDTH, 18, 16 - BORDER_WIDTH,
-                new TextTexture("重置").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()), this::reset);
-        this.resetButton.setHoverTooltips(Component.literal("修改配置后必须重置才能生效。"));
+                new TextTexture("gtocore.digital_miner.reset").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()), this::reset);
+        this.resetButton.setHoverTooltips(Component.translatable("gtocore.digital_miner.reset.tooltip"));
         group.addWidget(this.resetButton);
 
         // silk button
         this.silkButton = new ButtonWidget(36, 46 + BORDER_WIDTH, 18, 16 - BORDER_WIDTH,
-                new TextTexture("精准")
+                new TextTexture("gtocore.digital_miner.silk")
                         .setDropShadow(false)
                         .setColor(silkLevel == 0 ? ChatFormatting.GRAY.getColor() : ChatFormatting.GREEN.getColor()),
                 this::setSilk);
-        this.silkButton.setHoverTooltips(Component.literal("开启精准采集模式，4倍耗电。"));
+        this.silkButton.setHoverTooltips(Component.translatable("gtocore.digital_miner.silk.tooltip"));
         group.addWidget(this.silkButton);
 
         return group;
@@ -289,18 +289,18 @@ public class SingleDigitalMiner extends SimpleTieredMachine implements IDigitalM
     private void setSilk(ClickData clickData) {
         if (silkLevel == 0) {
             silkLevel = 1;
-            this.silkButton.setButtonTexture(new TextTexture("精准").setDropShadow(false).setColor(ChatFormatting.GREEN.getColor()));
+            this.silkButton.setButtonTexture(new TextTexture("gtocore.digital_miner.silk").setDropShadow(false).setColor(ChatFormatting.GREEN.getColor()));
             energyPerTick = GTValues.VEX[getTier() - 1] * 4;
         } else {
             silkLevel = 0;
-            this.silkButton.setButtonTexture(new TextTexture("精准").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()));
+            this.silkButton.setButtonTexture(new TextTexture("gtocore.digital_miner.silk").setDropShadow(false).setColor(ChatFormatting.GRAY.getColor()));
             energyPerTick = GTValues.VEX[getTier() - 1];
         }
         resetRecipe();
     }
 
     private void addDisplayText(List<Component> textList) {
-        textList.add(Component.literal("挖掘: ").append(String.valueOf(getRecipeLogic().getOreAmount())));
+        textList.add(Component.translatable("gtocore.digital_miner.to_be_mined").append(String.valueOf(getRecipeLogic().getOreAmount())));
         if (getRecipeLogic().isDone())
             textList.add(Component.translatable("gtceu.multiblock.large_miner.done")
                     .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)));
