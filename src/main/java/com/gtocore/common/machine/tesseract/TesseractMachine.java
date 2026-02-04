@@ -104,8 +104,6 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
                 if (be != null) {
                     blockEntityReference = new WeakReference<>(be);
                     result = be.getCapability(cap, side);
-                } else {
-                    pos = null;
                 }
             } else {
                 var blockEntity = blockEntityReference.get();
@@ -114,8 +112,6 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
                     if (blockEntity != null) {
                         blockEntityReference = new WeakReference<>(blockEntity);
                         result = blockEntity.getCapability(cap, side);
-                    } else {
-                        pos = null;
                     }
                 } else {
                     result = blockEntity.getCapability(cap, side);
