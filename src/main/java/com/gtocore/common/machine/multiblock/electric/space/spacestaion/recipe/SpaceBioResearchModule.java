@@ -7,6 +7,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
+import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -41,6 +42,10 @@ public class SpaceBioResearchModule extends RecipeExtension {
 
     @Override
     public Recipe getRealRecipe(@NotNull Recipe recipe) {
+        if (!isWorkspaceReady()) {
+            setIdleReason(IdleReason.CANNOT_WORK_IN_SPACE);
+            return null;
+        }
         if (recipe.data.contains("filter_casing") && recipe.data.getInt("filter_casing") > core.getTypes().size()) {
             ((IEnhancedRecipeLogic) getRecipeLogic())
                     .gtolib$setIdleReason(Component.translatable(LANGUAGE_INSUFFICIENT_CLEANROOM));
