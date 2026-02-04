@@ -383,6 +383,7 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition VOID_MINER = multiblock("void_miner", "虚空采矿机", VoidMinerMachine::new)
             .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getVoidMinerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getVoidMinerTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
