@@ -979,9 +979,8 @@ public final class GTOMachines {
                     .nonYAxisRotation()
                     .recipeType(GTORecipeTypes.DIGITAL_MINER_RECIPE)
                     .workableTieredHullRenderer(GTCEu.id("block/machines/miner"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1])
-                            .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
-                            .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1]))
+                    .tooltips(Component.translatable("gtceu.machine.miner.per_block", Math.pow(2, 1 - tier)))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_in",
                             FormattingUtil.formatNumbers(GTValues.VEX[tier]),
                             GTValues.VNF[tier]))

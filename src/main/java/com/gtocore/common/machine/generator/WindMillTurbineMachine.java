@@ -30,7 +30,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -180,7 +179,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                     }
                 }
             }
-            var eLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) + 1;
+            var eLevel = stack.getEnchantmentLevel(Enchantments.UNBREAKING) + 1;
             int newDamage = damage;
 
             if (obstructed) {
