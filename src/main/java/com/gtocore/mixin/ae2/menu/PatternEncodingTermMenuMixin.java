@@ -378,6 +378,9 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
 
     @Unique
     private static Comparator<IExtendedPatternContainer> gto$recipeFirst(GTRecipeType recipeType) {
+        if (recipeType == null) {
+            return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot);
+        }
         return Comparator.comparing(IExtendedPatternContainer::hasEmptyPatternSlot)
                 .thenComparing((IExtendedPatternContainer p) -> p.getSupportedRecipeTypes().contains(recipeType));
     }
@@ -399,7 +402,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         if (grid.getStorageService().getInventory().extract(AEItemKey.of(AEItems.BLANK_PATTERN), 1, Actionable.MODULATE, getActionSource()) == 0) {
             return;
         }
-        var containers = gto$getPatternContainers();
+        var containers = gto$currentContainers;
         if (index < 0 || index >= containers.size()) {
             return;
         }
