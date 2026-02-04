@@ -181,14 +181,23 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                 }
             }
             var eLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.UNBREAKING, stack) + 1;
+            int newDamage = damage;
+
             if (obstructed) {
-                stack.setDamageValue(damage + (int) ((40 * spinSpeed) / eLevel + 1));
+                newDamage += (int) ((40 * spinSpeed) / eLevel + 1);
                 spinSpeed = 0;
             } else if (wind > rotorItem.getMinWind()) {
-                stack.setDamageValue(damage + (int) (Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 16) / eLevel + 1));
+                newDamage += (int) (Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 16) / eLevel + 1);
                 spinSpeed = Math.min(0.05F * wind, spinSpeed + 0.04F);
                 actualPower = (int) (GTValues.V[tier] * spinSpeed * 20 * getMaxInputOutputAmperage() / getMaxWind(tier));
                 energyContainer.addEnergy(20L * actualPower);
+            }
+            if (newDamage >= maxDamage) {
+                inventory.storage.setStackInSlot(0, ItemStack.EMPTY);
+                hasRotor = false;
+                spinSpeed = 0;
+            } else {
+                stack.setDamageValue(newDamage);
             }
         } else {
             if (hasRotor) {
