@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import org.jetbrains.annotations.NotNull;
 
 public class OutlineBuffer implements MultiBufferSource {
 
@@ -13,9 +12,8 @@ public class OutlineBuffer implements MultiBufferSource {
 
     private OutlineBuffer() {}
 
-    @NotNull
     @Override
-    public VertexConsumer getBuffer(@NotNull RenderType type) {
+    public VertexConsumer getBuffer(RenderType type) {
         return Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(OutlineRenderType.get(type));
     }
 }

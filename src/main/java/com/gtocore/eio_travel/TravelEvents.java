@@ -3,7 +3,9 @@ package com.gtocore.eio_travel;
 import com.gtocore.api.travel.TravelMode;
 import com.gtocore.common.item.TravelStaffBehavior;
 import com.gtocore.eio_travel.logic.TravelHandler;
+import com.gtocore.eio_travel.logic.TravelSavedData;
 import com.gtocore.eio_travel.logic.TravelUtils;
+import com.gtocore.eio_travel.network.TravelNetworks;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 
@@ -13,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.MovementInputUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -84,6 +88,22 @@ public class TravelEvents {
     private static void gtocore$setTravelMode(ItemStack stack, TravelMode mode) {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putString(TravelUtils.MODE_TAG, mode.getSerializedName());
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+        if (player instanceof ServerPlayer serverPlayer) {
+            TravelNetworks.syncTravelData(TravelSavedData.getTravelData(serverPlayer.level()).save(new CompoundTag()), serverPlayer);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
+        Player player = event.getEntity();
+        if (player instanceof ServerPlayer serverPlayer) {
+            TravelNetworks.syncTravelData(TravelSavedData.getTravelData(serverPlayer.level()).save(new CompoundTag()), serverPlayer);
+        }
     }
 
     @Mod.EventBusSubscriber(Dist.CLIENT)
