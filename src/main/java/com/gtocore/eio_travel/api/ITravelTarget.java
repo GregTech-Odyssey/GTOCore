@@ -1,4 +1,4 @@
-package com.gtocore.eio_travel;
+package com.gtocore.eio_travel.api;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

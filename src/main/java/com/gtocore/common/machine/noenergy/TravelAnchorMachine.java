@@ -1,9 +1,9 @@
 package com.gtocore.common.machine.noenergy;
 
 import com.gtocore.api.gui.GTOGuiTextures;
-import com.gtocore.eio_travel.ITravelTarget;
-import com.gtocore.eio_travel.api.TravelSavedData;
+import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.implementations.AnchorTravelTarget;
+import com.gtocore.eio_travel.logic.TravelSavedData;
 
 import com.gtolib.utils.holder.ObjectHolder;
 

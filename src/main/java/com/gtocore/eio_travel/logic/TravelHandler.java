@@ -1,9 +1,9 @@
-package com.gtocore.eio_travel.api;
+package com.gtocore.eio_travel.logic;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.config.GTOConfig;
-import com.gtocore.eio_travel.ITravelTarget;
+import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.network.TravelNetworks;
 
 import net.minecraft.core.BlockPos;
@@ -215,14 +215,14 @@ public class TravelHandler {
     public static Optional<ITravelTarget> getTeleportAnchorTarget(Player player) {
         Vec3 positionVec = player.position().add(0, player.getEyeHeight(), 0);
 
-        return ITravelHandlerHook.filterTargets(player, TravelSavedData
+        return TravelUtils.filterTargets(player, TravelSavedData
                 .getTravelData(player.level())
                 .getTravelTargetsInItemRange(player.blockPosition()))
 
                 .filter(target -> target.canTeleportTo())
                 .filter(target -> target.getPos().distToCenterSqr(player.position()) > MIN_TELEPORTATION_DISTANCE_SQUARED)
                 .filter(target -> Math.abs(getAngleRadians(positionVec, target.getPos(), player.getYRot(), player.getXRot())) <= Math.toRadians(15))
-                .filter(target -> ITravelHandlerHook.gto$isTeleportPositionAndSurroundingClear(player.level(), target.getPos()).isPresent())
+                .filter(target -> TravelUtils.gto$isTeleportPositionAndSurroundingClear(player.level(), target.getPos()).isPresent())
                 .min(Comparator.comparingDouble(target -> Math.abs(getAngleRadians(positionVec, target.getPos(), player.getYRot(), player.getXRot()))));
     }
 
@@ -251,7 +251,7 @@ public class TravelHandler {
                 .filter(target -> target.getPos().getX() == anchorX && target.getPos().getZ() == anchorZ)
                 .filter(target -> target.getPos().getY() > lowerY && target.getPos().getY() < upperY)
                 .filter(target -> target.canJumpTo())
-                .filter(target -> ITravelHandlerHook.gto$isTeleportPositionAndSurroundingClear(player.level(), target.getPos()).isPresent())
+                .filter(target -> TravelUtils.gto$isTeleportPositionAndSurroundingClear(player.level(), target.getPos()).isPresent())
                 .min(Comparator.comparingDouble(target -> Math.abs(target.getPos().getY() - anchorY)));
     }
 

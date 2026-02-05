@@ -1,7 +1,7 @@
 package com.gtocore.mixin.ae2.blockentity;
 
-import com.gtocore.eio_travel.api.ITravelHandlerHook;
-import com.gtocore.eio_travel.api.TravelSavedData;
+import com.gtocore.eio_travel.logic.TravelSavedData;
+import com.gtocore.eio_travel.logic.TravelUtils;
 import com.gtocore.integration.ae.hooks.IExtendedPatternContainer;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -41,7 +41,7 @@ public abstract class PatternProviderBlockEntityMixin extends AENetworkBlockEnti
     private void onReady(CallbackInfo ci) {
         Level level = getLevel();
         if (level instanceof ServerLevel) {
-            ITravelHandlerHook.removeAndReadd(level, this);
+            TravelUtils.removeAndReadd(level, this);
         }
     }
 

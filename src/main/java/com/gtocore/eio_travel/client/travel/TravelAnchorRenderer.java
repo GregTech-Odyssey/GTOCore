@@ -1,6 +1,6 @@
 package com.gtocore.eio_travel.client.travel;
 
-import com.gtocore.eio_travel.ITravelTarget;
+import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.client.TravelRenderer;
 
 import net.minecraft.ChatFormatting;

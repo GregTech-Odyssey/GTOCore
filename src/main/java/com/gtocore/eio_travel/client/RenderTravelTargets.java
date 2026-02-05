@@ -1,10 +1,10 @@
 package com.gtocore.eio_travel.client;
 
-import com.gtocore.eio_travel.ITravelTarget;
-import com.gtocore.eio_travel.api.ITravelHandlerHook;
-import com.gtocore.eio_travel.api.TravelHandler;
+import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.api.TravelRegistry;
-import com.gtocore.eio_travel.api.TravelSavedData;
+import com.gtocore.eio_travel.logic.TravelHandler;
+import com.gtocore.eio_travel.logic.TravelSavedData;
+import com.gtocore.eio_travel.logic.TravelUtils;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -38,11 +38,11 @@ public class RenderTravelTargets {
         TravelSavedData data = TravelSavedData.getTravelData(Minecraft.getInstance().level);
         @Nullable
         ITravelTarget activeTarget = TravelHandler.getTeleportAnchorTarget(player).orElse(null);
-        var targets = ITravelHandlerHook.filterTargets(player, data.getTravelTargets().stream()).toList();
+        var targets = TravelUtils.filterTargets(player, data.getTravelTargets().stream()).toList();
         for (ITravelTarget target : targets) {
             double range = itemTeleport ? target.getItem2BlockRange() : target.getBlock2BlockRange();
             double distanceSquared = target.getPos().distToCenterSqr(player.position());
-            if (range * range < distanceSquared || distanceSquared < TravelHandler.MIN_TELEPORTATION_DISTANCE_SQUARED || ITravelHandlerHook.gto$isTeleportPositionAndSurroundingClear(level, target.getPos()).isEmpty()) {
+            if (range * range < distanceSquared || distanceSquared < TravelHandler.MIN_TELEPORTATION_DISTANCE_SQUARED || TravelUtils.gto$isTeleportPositionAndSurroundingClear(level, target.getPos()).isEmpty()) {
                 continue;
             }
 
