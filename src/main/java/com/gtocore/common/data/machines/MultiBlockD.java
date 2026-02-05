@@ -332,7 +332,7 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition COLD_ICE_FREEZER = multiblock("cold_ice_freezer", "寒冰冷冻机", ColdIceFreezerMachine::new)
             .allRotation()
-            .moduleTooltips(new PartAbility[] { GTOPartAbility.ACCELERATE_HATCH }, new RecipeType[] { ATOMIZATION_CONDENSATION_RECIPES })
+            .moduleTooltips(new PartAbility[] { ACCELERATE_HATCH, EXTRA_ENERGY_HATCH }, new RecipeType[] { ATOMIZATION_CONDENSATION_RECIPES })
             .disabledCombined()
             .recipeTypes(GTRecipeTypes.VACUUM_RECIPES, ATOMIZATION_CONDENSATION_RECIPES)
             .durationMultiplierTooltips(0.5)
@@ -477,7 +477,7 @@ public final class MultiBlockD {
                     h -> h.addLines("自ULV起，电压每高出1级，获得的并行数+2", "From ULV, each voltage tier increases the obtained parallelism by 2"),
                     c -> c.addCommentLines("公式 : 2 * (tier - 0), 算去吧", "Formula: 2 * (tier - 0), go calculate it yourself")))
             .tooltips(NewDataAttributes.RECIPES_TYPE.create(ProcessingPlantMachine.getComponent()))
-            .moduleTooltips(CATALYST_HATCH, MANA_AMPLIFIER_HATCH)
+            .moduleTooltips(EXTRA_ENERGY_HATCH, CATALYST_HATCH, MANA_AMPLIFIER_HATCH)
             .block(GTOBlocks.MULTI_FUNCTIONAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("bbb", "bbb", "bbb")
@@ -934,7 +934,7 @@ public final class MultiBlockD {
             .tooltips(GTOMachineStories.INSTANCE.getDissolvingTankTooltips().getSupplier())
             .tooltips(GTOMachineTooltipsA.INSTANCE.getDissolvingTankTooltips().getSupplier())
             .parallelizableTooltips()
-            .moduleTooltips(ACCELERATE_HATCH)
+            .moduleTooltips(ACCELERATE_HATCH, EXTRA_ENERGY_HATCH)
             .recipeTypes(GTORecipeTypes.DISSOLUTION_TREATMENT_RECIPES)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)

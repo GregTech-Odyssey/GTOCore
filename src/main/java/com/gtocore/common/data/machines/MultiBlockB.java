@@ -136,7 +136,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(DESULFURIZER_RECIPES)
             .coilParallelTooltips()
-            .moduleTooltips(OVERCLOCK_HATCH, THREAD_HATCH, INPUT_LASER)
+            .moduleTooltips(ACCELERATE_HATCH, OVERCLOCK_HATCH, THREAD_HATCH, INPUT_LASER)
             .multipleRecipesTooltips()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)
