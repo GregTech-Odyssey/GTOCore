@@ -1,9 +1,9 @@
-package com.gtocore.eio_travel.api;
+package com.gtocore.eio_travel.logic;
 
 import com.gtocore.api.travel.TravelMode;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt;
 import com.gtocore.config.GTOConfig;
-import com.gtocore.eio_travel.ITravelTarget;
+import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.implementations.PatternTravelTarget;
 import com.gtocore.eio_travel.network.TravelNetworks;
 
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 
-public interface ITravelHandlerHook {
+public interface TravelUtils {
 
     String MODE_TAG = "TravelMode";
     String FILTER_BLOCK_TAG = "FilterBlock";

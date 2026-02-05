@@ -1,6 +1,7 @@
-package com.gtocore.eio_travel.api;
+package com.gtocore.eio_travel.logic;
 
-import com.gtocore.eio_travel.ITravelTarget;
+import com.gtocore.eio_travel.api.ITravelTarget;
+import com.gtocore.eio_travel.api.TravelRegistry;
 import com.gtocore.eio_travel.network.TravelNetworks;
 
 import com.gtolib.GTOCore;

@@ -1,8 +1,8 @@
 package com.gtocore.eio_travel.implementations;
 
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt;
-import com.gtocore.eio_travel.AbstractTravelTarget;
 import com.gtocore.eio_travel.EioTravelNbtKeys;
+import com.gtocore.eio_travel.api.AbstractTravelTarget;
 
 import com.gtolib.GTOCore;
 

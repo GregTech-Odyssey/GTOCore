@@ -1,7 +1,7 @@
 package com.gtocore.eio_travel.implementations;
 
-import com.gtocore.eio_travel.AbstractTravelTarget;
 import com.gtocore.eio_travel.EioTravelNbtKeys;
+import com.gtocore.eio_travel.api.AbstractTravelTarget;
 
 import com.gtolib.GTOCore;
 
@@ -25,7 +25,7 @@ public class AnchorTravelTarget extends AbstractTravelTarget {
         var pos = NbtUtils.readBlockPos(tag.getCompound(EioTravelNbtKeys.BLOCK_POS));
         var name = tag.getString(EioTravelNbtKeys.ANCHOR_NAME);
         String iconName = tag.getString(EioTravelNbtKeys.ANCHOR_ICON);
-        var icon = iconName.equals("") ? Items.AIR : ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(iconName));
+        var icon = iconName.isEmpty() ? Items.AIR : ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(iconName));
         var visible = tag.getBoolean(EioTravelNbtKeys.ANCHOR_VISIBILITY);
         return new AnchorTravelTarget(pos, name, icon, visible);
     }
