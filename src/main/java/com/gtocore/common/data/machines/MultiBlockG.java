@@ -68,6 +68,8 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES;
+import static com.gtocore.common.data.machines.GTAEMachines.FLUID_IMPORT_HATCH_ME;
+import static com.gtocore.common.data.machines.GTAEMachines.STOCKING_IMPORT_HATCH_ME;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
@@ -183,7 +185,8 @@ public final class MultiBlockG {
                     .where('F', blocks(Blocks.GLASS))
                     .where('G', blocks(GTBlocks.PLASTCRETE.get())
                             .or(blocks(GTMachines.ITEM_IMPORT_BUS[ULV].get()).setMaxGlobalLimited(1))
-                            .or(abilities(IMPORT_FLUIDS_1X).setExactLimit(1))
+                            .or(abilities(IMPORT_FLUIDS_1X, IMPORT_FLUIDS_4X, IMPORT_FLUIDS_9X)
+                                    .or(blocks(FLUID_IMPORT_HATCH_ME.get(), STOCKING_IMPORT_HATCH_ME.get())).setMaxGlobalLimited(2))
                             .or(abilities(EXPORT_ITEMS).setExactLimit(1)))
                     .where('H', controller(definition))
                     .where('W', fluids(Fluids.WATER))

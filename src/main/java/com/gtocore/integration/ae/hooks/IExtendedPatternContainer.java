@@ -60,6 +60,10 @@ public interface IExtendedPatternContainer extends PatternContainer {
         return false;
     }
 
+    default boolean isOutOfService() {
+        return getGrid() == null;
+    }
+
     interface IPPPC extends IExtendedPatternContainer {
 
         Level gto$getLevel();

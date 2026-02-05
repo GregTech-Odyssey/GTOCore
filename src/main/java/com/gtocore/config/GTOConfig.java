@@ -460,6 +460,11 @@ public final class GTOConfig {
         public boolean recipeCheck = false;
 
         @Configurable
+        @Configurable.Comment({ "启用后，跳过加载研磨、电弧炉回收等配方以提升开发测试效率", "When enabled, recipes such as grinding and arc furnace recycling will not be loaded to improve development testing efficiency" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Disable Recycling Recipes", cn = "[调试] 禁用回收配方")
+        public boolean disableRecyclingRecipes = false;
+
+        @Configurable
         @Configurable.Comment({ "启用后将显示详细的启动日志输出，包含所有 DEBUG 级别的日志（增加日志文件大小但便于调试）", "When enabled, shows detailed startup log output including all DEBUG level logs (increases log file size but useful for debugging)" })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Detailed Logging", cn = "[调试] 详细日志输出")
         public boolean detailedLogging = false;
