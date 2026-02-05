@@ -407,6 +407,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
             return;
         }
         var container = containers.get(index);
+        if (container.isOutOfService()) return;
 
         var patternStack = gto$patternStack;
         if (patternStack == null) return;
