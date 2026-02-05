@@ -35,6 +35,9 @@ public final class GTOPartAbility extends PartAbility {
     public static final PartAbility STEAM_IMPORT_FLUIDS = new GTOPartAbility("steam_import_fluids", "蒸汽流体输入仓", "Steam Import Fluids");
     public static final PartAbility STEAM_EXPORT_FLUIDS = new GTOPartAbility("steam_export_fluids", "蒸汽流体输出仓", "Steam Export Fluids");
 
+    // 仅用于放入附属模块的描述中
+    public static final PartAbility EXTRA_ENERGY_HATCH = new GTOPartAbility("extra_energy_hatch", "额外能源仓", "Extra Energy Hatch");
+
     public GTOPartAbility(String name, String cn, String en) {
         super(name);
         if (LANG != null) {

@@ -66,6 +66,7 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_COKE_BRICKS;
 import static com.gregtechceu.gtceu.common.data.GTMachines.COKE_OVEN_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtocore.api.machine.part.GTOPartAbility.ACCELERATE_HATCH;
+import static com.gtocore.api.machine.part.GTOPartAbility.EXTRA_ENERGY_HATCH;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES;
 import static com.gtocore.common.data.machines.GTAEMachines.FLUID_IMPORT_HATCH_ME;
@@ -96,7 +97,7 @@ public final class MultiBlockG {
             .tooltips(GTOMachineStories.INSTANCE.getCrystallizationChamberTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.CRYSTALLIZATION_RECIPES)
             .overclock()
-            .moduleTooltips(ACCELERATE_HATCH)
+            .moduleTooltips(ACCELERATE_HATCH, EXTRA_ENERGY_HATCH)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("aaaaa", "aBBBa", "aBBBa", "aaaaa", "     ")
