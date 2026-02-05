@@ -8,6 +8,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.block.Blocks;
 
+import appeng.core.definitions.AEItems;
+
 import static com.gtocore.common.data.GTORecipeTypes.MOLECULAR_TRANSFORMER_RECIPES;
 
 final class MolecularTransformer {
@@ -130,6 +132,12 @@ final class MolecularTransformer {
                 .outputItems(TagPrefix.dust, GTOMaterials.Etrium)
                 .EUt(524288)
                 .duration(180)
+                .save();
+        MOLECULAR_TRANSFORMER_RECIPES.builder("quantum_entangled_singularity")
+                .inputItems(AEItems.MATTER_BALL.asItem(), 250)
+                .outputItems(AEItems.SINGULARITY.asItem())
+                .EUt(1920)
+                .duration(18000)
                 .save();
     }
 }
