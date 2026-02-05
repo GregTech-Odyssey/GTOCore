@@ -159,7 +159,7 @@ public class PatternTravelTarget extends AbstractTravelTarget {
         var pos = NbtUtils.readBlockPos(tag.getCompound(EioTravelNbtKeys.BLOCK_POS));
         var name = tag.getString(EioTravelNbtKeys.ANCHOR_NAME);
         String iconName = tag.getString(EioTravelNbtKeys.ANCHOR_ICON);
-        var icon = iconName.equals("") ? Items.AIR : ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(iconName));
+        var icon = iconName.isEmpty() ? Items.AIR : ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(iconName));
         var visible = tag.getBoolean(EioTravelNbtKeys.ANCHOR_VISIBILITY);
         return new PatternTravelTarget(pos, name, icon, visible);
     }
