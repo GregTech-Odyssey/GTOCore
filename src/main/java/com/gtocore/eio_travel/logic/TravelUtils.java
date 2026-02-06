@@ -3,6 +3,7 @@ package com.gtocore.eio_travel.logic;
 import com.gtocore.api.travel.TravelMode;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt;
 import com.gtocore.config.GTOConfig;
+import com.gtocore.eio_travel.TravelEvents;
 import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.implementations.PatternTravelTarget;
 import com.gtocore.eio_travel.network.TravelNetworks;
@@ -17,13 +18,10 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import appeng.helpers.patternprovider.PatternProviderLogicHost;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -143,25 +141,11 @@ public interface TravelUtils {
     }
 
     static void requireResync(@NotNull Level level) {
-        EventHandler.syncTask = () -> {
+        TravelEvents.syncTask = () -> {
             if (level instanceof ServerLevel serverLevel) {
                 TravelNetworks.syncTravelData(TravelSavedData.getTravelData(level).save(new CompoundTag()), serverLevel);
             }
-            EventHandler.syncTask = null;
+            TravelEvents.syncTask = null;
         };
-    }
-
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-    class EventHandler {
-
-        @Nullable
-        public static Runnable syncTask = null;
-
-        @SubscribeEvent
-        public static void onServerTick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
-            if (event.phase == net.minecraftforge.event.TickEvent.Phase.END && syncTask != null) {
-                syncTask.run();
-            }
-        }
     }
 }
