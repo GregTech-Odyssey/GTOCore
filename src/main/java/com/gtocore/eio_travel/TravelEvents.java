@@ -30,10 +30,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 @Mod.EventBusSubscriber
 public class TravelEvents {
+
+    @Nullable
+    public static Runnable syncTask = null;
 
     @SubscribeEvent
     public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
@@ -103,6 +108,13 @@ public class TravelEvents {
         Player player = event.getEntity();
         if (player instanceof ServerPlayer serverPlayer) {
             TravelNetworks.syncTravelData(TravelSavedData.getTravelData(serverPlayer.level()).save(new CompoundTag()), serverPlayer);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerTick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
+        if (event.phase == net.minecraftforge.event.TickEvent.Phase.END && syncTask != null) {
+            syncTask.run();
         }
     }
 

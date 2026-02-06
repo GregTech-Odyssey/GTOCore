@@ -4,6 +4,7 @@ import com.gtocore.api.gui.GTOGuiTextures;
 import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.implementations.AnchorTravelTarget;
 import com.gtocore.eio_travel.logic.TravelSavedData;
+import com.gtocore.eio_travel.logic.TravelUtils;
 
 import com.gtolib.utils.holder.ObjectHolder;
 
@@ -82,6 +83,7 @@ public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine,
 
     public void setName(String name) {
         getOrCreateTravelTarget().setName(name);
+        requestTravelResync();
     }
 
     public Item getIcon() {
@@ -90,6 +92,7 @@ public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine,
 
     public void setIcon(Item icon) {
         getOrCreateTravelTarget().setIcon(icon);
+        requestTravelResync();
     }
 
     public boolean getVisibility() {
@@ -98,6 +101,7 @@ public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine,
 
     public void setVisibility(boolean visible) {
         getOrCreateTravelTarget().setVisibility(visible);
+        requestTravelResync();
     }
 
     private AnchorTravelTarget getOrCreateTravelTarget() {
@@ -136,5 +140,12 @@ public class TravelAnchorMachine extends MetaMachine implements IFancyUIMachine,
 
     private Component getConfigureLevelsOrPointsTooltip(boolean pressed) {
         return Component.translatable("emi.header." + (pressed ? "visible" : "invisible"));
+    }
+
+    private void requestTravelResync() {
+        if (getLevel() == null || getLevel().isClientSide) {
+            return;
+        }
+        TravelUtils.requireResync(getLevel());
     }
 }
