@@ -95,7 +95,7 @@ dependencies {
 
     modImplementation("curse.maven:endremastered-404183:5598990")
 
-//    modImplementation("curse.maven:spark-361579:4738952")
+    modImplementation("curse.maven:spark-361579:4738952")
 
     modImplementation("curse.maven:libx-412525:5207625")
 
