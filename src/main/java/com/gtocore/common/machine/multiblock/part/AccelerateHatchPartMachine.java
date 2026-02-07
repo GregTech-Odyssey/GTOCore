@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.utils.GTUtil;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.part.WorkableAmountConfigurationPartMachine;
@@ -31,9 +33,10 @@ public final class AccelerateHatchPartMachine extends WorkableAmountConfiguratio
 
     @Override
     public GTRecipe modifyRecipe(IWorkableMultiController controller, @NotNull GTRecipe recipe) {
-        if (controller instanceof WorkableElectricMultiblockMachine machine) {
+        if (controller instanceof WorkableElectricMultiblockMachine) {
             int reduction = (int) getCurrent();
-            int t = machine.getTier() - getTier();
+            int recipeTier = RecipeHelper.getRecipeEUtTier(recipe);
+            int t = recipeTier - getTier();
             if (t > 0) {
                 reduction = Math.min(100, reduction + 20 * t);
             }

@@ -6,6 +6,7 @@ import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.chemical.material.GTOMaterialBuilder;
 import com.gtolib.utils.RLUtils;
@@ -39,6 +40,7 @@ import java.util.regex.Pattern;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Boron;
+import static com.gtocore.common.machine.multiblock.generator.FullCellGenerator.Wrapper.MEMBRANE_MATS;
 
 @DataGeneratorScanned
 @SuppressWarnings("unused")
@@ -146,7 +148,7 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix FIBER_MESH = new GTOTagPrefix("carbon_fiber_mesh").idPattern("%s_carbon_fiber_mesh").defaultTagPath("carbon_fiber_meshes/%s").unformattedTagPath("carbon_fiber_meshes").materialAmount(GTValues.M * 2).materialIconType(new MaterialIconType("carbon_fiber_mesh")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_FIBER));
     public static final TagPrefix NANO = new GTOTagPrefix("nano").idPattern("nano_%s").defaultTagPath("nanos/%s").unformattedTagPath("nanos").materialAmount(GTValues.M / 16).materialIconType(MaterialIconType.dust).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.HAS_NANOSCALE_FORM));
 
-    public static final TagPrefix MEMBRANE_ELECTRODE = new GTOTagPrefix("membrane_electrode").idPattern("%s_membrane_electrode").defaultTagPath("membrane_electrodes/%s").unformattedTagPath("membrane_electrodes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("membrane_electrode")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE));
+    public static final TagPrefix MEMBRANE_ELECTRODE = new GTOTagPrefix("membrane_electrode").idPattern("%s_membrane_electrode").defaultTagPath("membrane_electrodes/%s").unformattedTagPath("membrane_electrodes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("membrane_electrode")).unificationEnabled(true).generateItem(true).tooltip((mat,tooltips) -> tooltips.addAll(NewDataAttributes.LEVEL.create(MEMBRANE_MATS.indexOf(mat) + 1).get())).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE));
 
     private GTOTagPrefix useRenderer(final ICustomRenderer renderer) {
         this.customRenderer = renderer;
