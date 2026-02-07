@@ -95,10 +95,6 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
 
     @Unique
     private ServerSettingToggleButton<ShowMolecularAssembler> gtolib$showMolecularAssembler;
-    @Unique
-    private static Runnable gto$updateListTask;
-    @Unique
-    private static int gto$taskTimer = 0;
 
     protected GuiExPatternTerminalMixin(T menu, Inventory playerInventory, Component title, ScreenStyle style) {
         super(menu, playerInventory, title, style);
@@ -116,24 +112,31 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         }
     }
 
+    /**
+     * will be removed when dependency on EAE is updated to 1.4.11 which has the fix for this issue. See
+     * <a href="https://github.com/GlodBlock/ExtendedAE/commit/513e463e70dbb5194625c7584ebbfcc35fee8dfc">this
+     * commit</a>.
+     */
+    @Unique
+    private static boolean gto$updateListTask;
+
     @Redirect(method = { "postFullUpdate", "postTileInfo" }, at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/client/gui/GuiExPatternTerminal;refreshList()V", remap = false), remap = false)
     private void gto$eae$refreshList(GuiExPatternTerminal<?> instance) {
-        gto$updateListTask = ((IExtendedGuiEx) instance)::gto$refreshSearch;
-        gto$taskTimer = 2;
+        gto$updateListTask = true;
     }
 
     @Override
     public void containerTick() {
         super.containerTick();
-        if (gto$updateListTask != null) {
-            if (gto$taskTimer > 0) {
-                gto$taskTimer--;
-                return;
-            }
-            gto$updateListTask.run();
-            gto$updateListTask = null;
+        if (gto$updateListTask) {
+            gto$eae$refreshList();
+            gto$updateListTask = false;
         }
     }
+
+    /*
+     * End
+     */
 
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/client/gui/GuiExPatternTerminal;setInitialFocus(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V"))
     private void onSetFocus(GuiExPatternTerminal<?> instance, GuiEventListener guiEventListener) {
@@ -242,6 +245,9 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
                 // noinspection SizeReplaceableByIsEmpty
                 if (inventory.size() > 0) {
                     var info = this.infoMap.get(container.getServerId());
+                    if (info == null) {
+                        continue;
+                    }
                     var btn = new HighlightButton();
                     btn.setMultiplier(this.playerToBlockDis(info.pos()));
                     btn.setTarget(info.pos(), info.face(), info.world());

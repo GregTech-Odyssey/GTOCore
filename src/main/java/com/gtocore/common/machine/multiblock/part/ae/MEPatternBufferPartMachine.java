@@ -437,6 +437,13 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             shareTank.getStorages()[i].deserializeNBT(tanks.getCompound(i));
         }
         circuitInventorySimulated.storage.deserializeNBT(tag.getCompound("ci"));
+        clearRecipeCacheForAllSlots();
+    }
+
+    private void clearRecipeCacheForAllSlots() {
+        for (InternalSlot slot : getInternalInventory()) {
+            slot.setRecipe(null);
+        }
     }
 
     @Override
