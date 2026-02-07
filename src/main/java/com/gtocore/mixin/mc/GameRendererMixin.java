@@ -1,4 +1,4 @@
-package com.gtocore.mixin;
+package com.gtocore.mixin.mc;
 
 import net.minecraft.world.entity.LivingEntity;
 

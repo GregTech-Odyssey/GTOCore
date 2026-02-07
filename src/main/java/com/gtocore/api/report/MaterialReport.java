@@ -1,7 +1,8 @@
 package com.gtocore.api.report;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
-import com.gtocore.client.forge.GTOComponentHandler;
+import com.gtocore.integration.Mods;
+import com.gtocore.integration.lang.LangAdaptor;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -34,6 +35,9 @@ public class MaterialReport {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static void generateReport() {
+        if (!Mods.LANG.isLoaded()) {
+            GTOCore.LOGGER.warn("MoreMoreLang 未加载，无法使用多语言功能，跳过材料报告语言相关部分生成");
+        }
         StringBuilder report = new StringBuilder();
         StringBuilder report_json = new StringBuilder();
         StringBuilder report_table = new StringBuilder();
@@ -170,8 +174,14 @@ public class MaterialReport {
 
         public static Entry fromMaterial(Material material) {
             Entry entry = new Entry();
-            entry.cnName = material.getLocalizedName().getString();
-            entry.enName = GTOComponentHandler.INSTANCE.getEnglishLanguage().getOrDefault(material.getUnlocalizedName(), material.getUnlocalizedName());
+
+            if (Mods.LANG.isLoaded()) {
+                entry.cnName = LangAdaptor.langCn(material.getLocalizedName());
+                entry.enName = LangAdaptor.langEn(material.getLocalizedName());
+            } else {
+                entry.cnName = material.getLocalizedName().getString();
+                entry.enName = material.getUnlocalizedName();
+            }
             entry.symbol = material.getChemicalFormula();
             entry.hexColor1 = getHexColorString(material.getMaterialRGB());
             entry.hexColor2 = getHexColorString(material.getMaterialSecondaryRGB());

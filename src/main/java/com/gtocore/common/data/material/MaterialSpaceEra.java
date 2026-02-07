@@ -1,6 +1,7 @@
 package com.gtocore.common.data.material;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
@@ -138,6 +139,8 @@ public class MaterialSpaceEra {
                         GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)
+                .toolStats(ToolProperty.Builder.of(60.0F, 24.0F, 2500, 4)
+                        .enchantability(21).build())
                 .fluidPipeProperties(3500, 3500, true, true, true)
                 .buildAndRegister();
 
@@ -314,6 +317,8 @@ public class MaterialSpaceEra {
                 .components(Steel, 80, Chromium, 12, Nickel, 1)
                 .blastTemp(2410, LOW, GTValues.VA[GTValues.HV], 1100)
                 .iconSet(METALLIC)
+                .toolStats(ToolProperty.Builder.of(40.0F, 12.0F, 1400, 4)
+                        .enchantability(31).build())
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
@@ -328,6 +333,8 @@ public class MaterialSpaceEra {
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, CAN_BE_COOLED_DOWN_BY_BATHING, DECOMPOSITION_BY_CENTRIFUGING)
+                .toolStats(ToolProperty.Builder.of(14.0F, 14.0F, 4500, 4)
+                        .enchantability(36).build())
                 .buildAndRegister();
         TitaniumTi64 = material("titanium_ti64", "钛合金-Ti64")
                 .ingot().fluid()
@@ -336,6 +343,8 @@ public class MaterialSpaceEra {
                 .components(Titanium, 45, Aluminium, 3, Vanadium, 2)
                 .blastTemp(2630, LOW, GTValues.VA[GTValues.HV], 1060)
                 .iconSet(METALLIC)
+                .toolStats(ToolProperty.Builder.of(12.0F, 12.0F, 2500, 4)
+                        .enchantability(31).build())
                 .flags(GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_LONG_ROD,
                         GENERATE_FRAME, GENERATE_FOIL,
                         GENERATE_BOLT_SCREW, GENERATE_RING, DECOMPOSITION_BY_CENTRIFUGING)

@@ -1,6 +1,6 @@
 package com.gtocore.eio_travel.client.travel;
 
-import com.gtocore.eio_travel.AbstractTravelTarget;
+import com.gtocore.eio_travel.api.AbstractTravelTarget;
 
 public class TravelAnchorRenderers {
 

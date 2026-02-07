@@ -27,8 +27,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.*;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -334,7 +332,7 @@ public final class MachineRegisterUtils {
                         .aisle("A   A", "A   A", "A   A", " AAA ")
                         .aisle("A   A", "  H  ", "     ", "     ")
                         .where('A', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
-                        .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                        .where('B', GTOPredicates.frame(GTMaterials.StainlessSteel))
                         .where('C', blocks(GTBlocks.CASING_TITANIUM_STABLE.get()))
                         .where('D', blocks(GTBlocks.FIREBOX_TITANIUM.get()))
                         .where('E', abilities(MUFFLER))
@@ -355,7 +353,7 @@ public final class MachineRegisterUtils {
                         .aisle("A   A", "A   A", "A   A", " AAA ")
                         .aisle("A   A", "  H  ", "     ", "     ")
                         .where('A', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
-                        .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
+                        .where('B', GTOPredicates.frame(GTMaterials.BlueSteel))
                         .where('C', blocks(GTBlocks.CASING_TITANIUM_STABLE.get()))
                         .where('D', blocks(GTBlocks.FIREBOX_TITANIUM.get()))
                         .where('E', abilities(MUFFLER))
@@ -377,7 +375,7 @@ public final class MachineRegisterUtils {
                     .aisle("A   A", "A   A", "A   A", " AAA ")
                     .aisle("A   A", "  H  ", "     ", "     ")
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
-                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
+                    .where('B', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where('C', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('D', blocks(GTBlocks.FIREBOX_TUNGSTENSTEEL.get()))
                     .where('E', abilities(MUFFLER))
@@ -431,7 +429,7 @@ public final class MachineRegisterUtils {
                     .where('D', blocks(GTBlocks.CASING_STEEL_TURBINE.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                     .where('E', controller(definition))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.StainlessSteel))
                     .where(' ', any())
                     .build());
         } else if (recipeType == GTORecipeTypes.GAS_TURBINE_FUELS) {
@@ -447,7 +445,7 @@ public final class MachineRegisterUtils {
                     .where('D', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                     .where('E', controller(definition))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.BlackSteel))
                     .where(' ', any())
                     .build());
         } else if (recipeType == GTORecipeTypes.ROCKET_ENGINE_FUELS) {
@@ -463,7 +461,7 @@ public final class MachineRegisterUtils {
                     .where('D', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                     .where('E', controller(definition))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.BlueSteel))
                     .where(' ', any())
                     .build());
         } else if (recipeType == GTORecipeTypes.SUPERCRITICAL_STEAM_TURBINE_FUELS) {
@@ -479,7 +477,7 @@ public final class MachineRegisterUtils {
                     .where('D', blocks(GTOBlocks.SUPERCRITICAL_TURBINE_CASING.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                     .where('E', controller(definition))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
+                    .where('F', GTOPredicates.frame(GTMaterials.TungstenSteel))
                     .where(' ', any())
                     .build());
         }

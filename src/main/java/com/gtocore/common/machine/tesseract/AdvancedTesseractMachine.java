@@ -177,8 +177,6 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
             if (be != null) {
                 blockEntityReference[i] = new WeakReference<>(be);
                 return be;
-            } else {
-                poss.set(i, null);
             }
         } else {
             var blockEntity = reference.get();
@@ -187,8 +185,6 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
                 if (blockEntity != null) {
                     blockEntityReference[i] = new WeakReference<>(blockEntity);
                     return blockEntity;
-                } else {
-                    poss.set(i, null);
                 }
             } else {
                 return blockEntity;

@@ -4,7 +4,6 @@ import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.misc.AutoInitialize
-import com.gtocore.common.block.BlockMap
 import com.gtocore.common.data.GTOBlocks
 import com.gtocore.common.data.GTOItems
 import com.gtocore.config.GTOConfig
@@ -76,12 +75,6 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         function("它可以自动翻倍样板，不用任何操作" translatedTo "It can automatically double the pattern, no operation is required")
         content(ComponentSlang.RecommendedToUse("样板总成" translatedTo "Pattern Buffer"))
         increase("PRO版本可以批量应用" translatedTo "PRO version can apply in batch")
-    }
-
-    val ConversionSimulationCard = ComponentListSupplier {
-        setTranslationPrefix("conversion_simulation_card")
-
-        function("为大型方块转换室提供模拟转换环境" translatedTo "Provides a simulated conversion environment for large block conversion chambers")
     }
 
     // AE2 订单
@@ -206,7 +199,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     setTranslationPrefix("charge_bomb")
 
-                    if (GTCEu.isDataGen() || !GTOConfig.INSTANCE.disableChargeBomb) {
+                    if (GTCEu.isDataGen() || !GTOConfig.INSTANCE.gamePlay.disableChargeBomb) {
                         info(
                             ComponentSupplier(
                                 Component.translatable(
@@ -256,7 +249,8 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
         listOf(AEItems.CERTUS_QUARTZ_KNIFE.asItem(), AEItems.NETHER_QUARTZ_KNIFE.asItem()).forEach {
             it.setTooltips(
                 ComponentListSupplier {
-                    highlight("Shift+右键方块可以复制其名称，便于命名" translatedTo "Shift+Right click a block to copy its name, which is convenient for naming")
+                    highlight("Shift+右键方块可以复制其名称" translatedTo "Shift+Right click a block to copy its name")
+                    highlight("右键物品可以复制其名称" translatedTo "Right click an item to copy its name")
                 }.editionByGTONormal(),
             )
         }
@@ -292,7 +286,7 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 ComponentListSupplier {
                     setTranslationPrefix("muffler_hatch")
 
-                    if (GTOConfig.INSTANCE.disableMufflerPart) {
+                    if (GTOConfig.INSTANCE.gamePlay.disableMufflerPart) {
                         info(
                             ComponentSupplier(
                                 Component.translatable(

@@ -4,8 +4,9 @@ import com.gtocore.api.gui.ktflexible.multiPageAdvanced
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
-import com.gtocore.eio_travel.api.ITravelHandlerHook
-import com.gtocore.eio_travel.api.TravelSavedData
+import com.gtocore.eio_travel.logic.TravelSavedData
+import com.gtocore.eio_travel.logic.TravelUtils
+import com.gtocore.integration.ae.hooks.IExtendedPatternContainer
 import com.gtocore.integration.ae.wireless.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
@@ -33,7 +34,6 @@ import appeng.api.networking.crafting.ICraftingProvider
 import appeng.api.stacks.AEItemKey
 import appeng.api.stacks.KeyCounter
 import appeng.crafting.pattern.EncodedPatternItem
-import appeng.helpers.patternprovider.PatternContainer
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
@@ -81,7 +81,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     WirelessMachine,
     IInteractedMachine,
     ISync,
-    PatternContainer,
+    IExtendedPatternContainer,
     IDropSaveMachine {
     override fun onUse(state: BlockState?, world: Level?, pos: BlockPos?, player: Player?, hand: InteractionHand?, hit: BlockHitResult?): InteractionResult? {
         if (!isRemote) {
@@ -200,7 +200,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun onLoad() {
         super.onLoad()
         detailsInit = false
-        level?.let { ITravelHandlerHook.removeAndReadd(it, this) }
+        level?.let { TravelUtils.removeAndReadd(it, this) }
     }
 
     override fun onUnload() {
@@ -211,7 +211,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun addedToController(controller: IMultiController) {
         super.addedToController(controller)
-        ITravelHandlerHook.requireResync(level!!)
+        TravelUtils.requireResync(level!!)
     }
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
@@ -334,7 +334,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             { _: ClickData, b: Boolean ->
                 run {
                     showInTravelNetwork = b
-                    ITravelHandlerHook.requireResync(level!!)
+                    TravelUtils.requireResync(level!!)
                 }
             },
         ).setTooltipsSupplier { b ->
@@ -363,7 +363,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                     })
                     field(height = 12, getter = { customName }, setter = {
                         customName = it
-                        ITravelHandlerHook.requireResync(level!!)
+                        TravelUtils.requireResync(level!!)
                     })
                 }
                 val height1 = this@rootFresh.availableHeight - 24 - 16

@@ -307,7 +307,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
             });
             cachedPatterns = newPatterns;
             scannedPatterns = cachedPatterns.size();
-            if (GTOConfig.INSTANCE.aeLog) {
+            if (GTOConfig.INSTANCE.devMode.aeLog) {
                 GTOCore.LOGGER.info("MEWildcardPatternBufferPartMachine recalculated patterns: {} patterns in {} ms",
                         scannedPatterns, (System.nanoTime() - nanos) / 1_000_000.0);
                 GTOCore.LOGGER.info("  substituting ingredients took {} ms ({})%",
@@ -352,8 +352,8 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         ObjectHolder<Recipe> valid = new ObjectHolder<>(null);
         var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
-            if (!getRecipeTypes().isEmpty()) {
-                for (var rt : getRecipeTypes()) {
+            if (!gto$getRecipeTypes().isEmpty()) {
+                for (var rt : gto$getRecipeTypes()) {
                     if (rt.findRecipe(inputHolder, r -> {
                         if (checkProb(r)) {
                             valid.value = (Recipe) r;

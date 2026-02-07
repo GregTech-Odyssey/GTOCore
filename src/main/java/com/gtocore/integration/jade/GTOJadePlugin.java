@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.integration.jade.provider.*;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -104,9 +103,6 @@ public final class GTOJadePlugin implements IWailaPlugin {
 
         registration.registerBlockComponent(AEItemAmountProvider.INSTANCE, Block.class);
         registration.registerEntityComponent(AEItemAmountProvider.INSTANCE, ItemEntity.class);
-
-        registration.registerBlockComponent(EnLangProvider.INSTANCE, Block.class);
-        registration.registerEntityComponent(EnLangProvider.INSTANCE, Entity.class);
     }
 
     static {

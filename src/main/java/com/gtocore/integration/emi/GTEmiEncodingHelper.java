@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class GTEmiEncodingHelper { // also accessed by gtolib
+public class GTEmiEncodingHelper {
 
     @Nullable
     private static GenericStack ofVirtual(EmiStack stack, long amount) {

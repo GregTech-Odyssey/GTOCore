@@ -2,7 +2,9 @@ package com.gtocore.mixin.jade;
 
 import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt;
+import com.gtocore.integration.Mods;
 import com.gtocore.integration.jade.GTOJadePlugin;
+import com.gtocore.integration.lang.LangAdaptor;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -18,6 +20,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.items.IItemHandler;
 
 import appeng.integration.modules.jade.JadeModule;
+import com.google.common.collect.ImmutableList;
 import dev.shadowsoffire.apotheosis.adventure.compat.AdventureHwylaPlugin;
 import dev.shadowsoffire.apotheosis.ench.compat.EnchHwylaPlugin;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,8 +48,9 @@ public class CommonProxyMixin {
      */
     @Overwrite(remap = false)
     private void loadComplete(FMLLoadCompleteEvent event) {
-        List<IWailaPlugin> plugins = List.of(new VanillaPlugin(), new UniversalPlugin(), new CorePlugin(), new JadeModule(), new GTOJadePlugin(), new AdventureHwylaPlugin(), new EnchHwylaPlugin());
-        for (IWailaPlugin plugin : plugins) {
+        var plugins = ImmutableList.<IWailaPlugin>builder().add(new VanillaPlugin(), new UniversalPlugin(), new CorePlugin(), new JadeModule(), new GTOJadePlugin(), new AdventureHwylaPlugin(), new EnchHwylaPlugin());
+        if (Mods.LANG.isLoaded()) LangAdaptor.addPlugin(plugins);
+        for (IWailaPlugin plugin : plugins.build()) {
             plugin.register(WailaCommonRegistration.INSTANCE);
             if (CommonProxy.isPhysicallyClient()) {
                 plugin.registerClient(WailaClientRegistration.INSTANCE);

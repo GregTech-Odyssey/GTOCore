@@ -1,13 +1,29 @@
-package com.gtocore.api.ae2.gui
+package com.gtocore.utils
+
+import com.google.common.cache.Cache
+import com.google.common.cache.CacheBuilder
 
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.ParsePosition
-import java.util.*
+import java.util.ArrayDeque
+import java.util.ArrayList
+import java.util.concurrent.TimeUnit
+import kotlin.collections.iterator
 
 object AdvMathExpParser {
+
+    private val CACHE: Cache<String, BigDecimal> = CacheBuilder.newBuilder()
+        .maximumWeight(100_000) // ~ 100KB - 1MB
+        .weigher { key: String, value: BigDecimal ->
+            key.length + value.precision()
+        }
+        .expireAfterAccess(5, TimeUnit.MINUTES)
+        .concurrencyLevel(4)
+        .build()
+
     private const val MAX_SHIFT = 64
     private val MAX_EXPONENT = 30.toBigDecimal()
     private val MAX_BASE = 1E9.toBigDecimal()
@@ -67,9 +83,22 @@ object AdvMathExpParser {
     fun parse(expression: String, format: DecimalFormat? = null): BigDecimal {
         if (expression.isBlank()) return BigDecimal.ZERO
 
+        val useCache = (format == null)
+        if (useCache) {
+            val cachedResult = CACHE.getIfPresent(expression)
+            if (cachedResult != null) {
+                return cachedResult
+            }
+        }
+
         val tokens = tokenize(expression, format)
         val rpn = shuntingYard(tokens)
-        return evaluate(rpn)
+        val result = evaluate(rpn)
+
+        if (useCache) {
+            CACHE.put(expression, result)
+        }
+        return result
     }
 
     // List<Any> to prevent boxing

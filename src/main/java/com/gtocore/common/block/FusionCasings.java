@@ -1,12 +1,12 @@
 package com.gtocore.common.block;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.block.IFusionCasingType;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -38,13 +38,13 @@ public final class FusionCasings extends FusionCasingBlock {
         return tier == UHV ? GTOBlocks.ADVANCED_FUSION_COIL.get() : GTOBlocks.FUSION_COIL_MK2.get();
     }
 
-    public static Block getFrameState(int tier) {
+    public static TraceabilityPredicate getFrameState(int tier) {
         return switch (tier) {
-            case LuV -> ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.NaquadahAlloy);
-            case ZPM -> ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Duranium);
-            case UV -> ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria);
-            case UHV -> ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Trinium);
-            default -> ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium);
+            case LuV -> GTOPredicates.frame(GTMaterials.NaquadahAlloy);
+            case ZPM -> GTOPredicates.frame(GTMaterials.Duranium);
+            case UV -> GTOPredicates.frame(GTMaterials.Naquadria);
+            case UHV -> GTOPredicates.frame(GTMaterials.Trinium);
+            default -> GTOPredicates.frame(GTMaterials.Neutronium);
         };
     }
 

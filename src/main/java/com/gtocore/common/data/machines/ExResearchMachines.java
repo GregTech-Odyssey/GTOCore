@@ -28,8 +28,6 @@ import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -100,16 +98,16 @@ public final class ExResearchMachines {
                     .aisle(" BBB             BBB     BBB", " BBB             BBB     BBB", " BBB             BBB     BBB", " BBB             BBB     BBB", " BBBEEEEEEEEEEEEEBBBEEEEEBBB", " BBBEEEEEEEEEEEEEBBBEEEEEBBB", " BBBEEEEEEEEEEEEEBBBEEEEEBBB", " BBB             BBB     BBB", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ", "                            ")
                     .where('A', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
                     .where('B', blocks(GTOBlocks.IRIDIUM_CASING.get()))
-                    .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.BabbittAlloy)))
+                    .where('C', GTOPredicates.frame(GTOMaterials.BabbittAlloy))
                     .where('D', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
                     .where('E', blocks(GTBlocks.MACHINE_CASING_UHV.get()))
                     .where('F', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                     .where('G', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
-                    .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.HastelloyN)))
+                    .where('H', GTOPredicates.frame(GTOMaterials.HastelloyN))
                     .where('I', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                     .where('J', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('K', GTOPredicates.absBlocks())
-                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ruridit)))
+                    .where('L', GTOPredicates.frame(GTMaterials.Ruridit))
                     .where('M', blocks(GTOBlocks.LITHIUM_OXIDE_CERAMIC_HEAT_RESISTANT_SHOCK_RESISTANT_MECHANICAL_CUBE.get()))
                     .where('N', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
                     .where('O', blocks(GTBlocks.HIGH_POWER_CASING.get()))
@@ -299,7 +297,7 @@ public final class ExResearchMachines {
                     .where('J', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('K', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('L', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
+                    .where('M', GTOPredicates.frame(GTMaterials.Naquadria))
                     .where('N', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
                     .where(' ', any())
                     .build())

@@ -3,6 +3,8 @@ package com.gtocore.common.machine.noenergy.PlatformDeployment;
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 
+import com.gregtechceu.gtceu.utils.GTUtil;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -36,9 +38,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 class PlatformCreators {
 
@@ -46,9 +45,6 @@ class PlatformCreators {
     private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss-SSS");
     private static final long PROGRESS_THRESHOLD = 10_000_000L;
     private static volatile boolean isExporting = false;
-
-    private static final ThreadFactory VIRTUAL_THREAD_FACTORY = Thread.ofVirtual().name("structure-export-", 0).factory();
-    private static final java.util.concurrent.ExecutorService EXPORT_EXECUTOR = Executors.newThreadPerTaskExecutor(VIRTUAL_THREAD_FACTORY);
 
     static {
         for (char c : new char[] { '.', '(', ')', ',', '/', '\\', '"', '\'', '`' }) {
@@ -74,7 +70,7 @@ class PlatformCreators {
                                       boolean xMirror, boolean zMirror, int rotation) {
         if (isExporting) return;
         isExporting = true;
-        CompletableFuture.runAsync(() -> {
+        GTUtil.ASYNC_EXECUTOR.execute(() -> {
             try {
                 exportStructure(level, startPos, endPos, xMirror, zMirror, rotation);
             } catch (Exception e) {
@@ -82,7 +78,7 @@ class PlatformCreators {
             } finally {
                 isExporting = false;
             }
-        }, EXPORT_EXECUTOR);
+        });
     }
 
     /**

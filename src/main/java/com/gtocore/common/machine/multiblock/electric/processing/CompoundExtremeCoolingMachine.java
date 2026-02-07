@@ -9,8 +9,6 @@ import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -60,14 +58,14 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
                         .aisle("                 KKKKKKKKKKKKKKKKKKKKKKKKKKKKK                 ", "                 K LL     LL       LL     LL K                 ", "  E    E    E    K LL     LL       LL     LL K    E    E    E  ", "  E    E    E    K LL     LL       LL     LL K    E    E    E  ", "  E    E    E    K LL     LL       LL     LL K    E    E    E  ", "  E    E    E    K LL     LL       LL     LL K    E    E    E  ", "  E    E    E    K LL     LL       LL     LL K    E    E    E  ", "                 K LL     LL       LL     LL K                 ", "                 KKKKKKKKKKKKKKKKKKKKKKKKKKKKK                 ")
                         .aisle("                 KKMMKKKKKMMQQQQQQQMMKKKKKMMKK                 ", "                 KKKKKKKKKKKKRRRRRKKKKKKKKKKKK                 ", "                 KKKKKKKKKKKKKKKKKKKKKKKKKKKKK                 ", "                 KKKKKKKKKKKKKKKKKKKKKKKKKKKKK                 ", "                 KKKKKKKKKKKKKKKKKKKKKKKKKKKKK                 ", "                 KKKKKKKKKKKKKKKKKKKKKKKKKKKKK                 ", "                 KKKKKKKKKKKKKKKKKKKKKKKKKKKKK                 ", "                 KKKKKKKKKKKKRRRRRKKKKKKKKKKKK                 ", "                 KKMMKKKKKMMQQQQQQQMMKKKKKMMKK                 ")
                         .aisle("                   MM     MM       MM     MM                   ", "                   MMHHHHHMM       MMHHHHHMM                   ", "                   MMOOOOOMM       MMOOOOOMM                   ", "                   MMHHHHHMM       MMHHHHHMM                   ", "                   MMPPPPPMM       MMPPPPPMM                   ", "                   MMHHHHHMM       MMHHHHHMM                   ", "                   MMOOOOOMM       MMOOOOOMM                   ", "                   MMHHHHHMM       MMHHHHHMM                   ", "                   MM     MM       MM     MM                   ")
-                        .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.WatertightSteel)))
+                        .where('A', GTOPredicates.frame(GTMaterials.WatertightSteel))
                         .where('B', blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get()))
                         .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                         .where('D', blocks(GTOBlocks.LASER_CASING.get()))
                         .where('E', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
                         .where('F', blocks(GTOBlocks.OPTICAL_RESONANCE_CHAMBER.get()))
                         .where('G', blocks(GTOBlocks.LASER_COOLING_CASING.get()))
-                        .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))
+                        .where('H', GTOPredicates.frame(GTMaterials.Neutronium))
                         .where('I', blocks(GTBlocks.BATTERY_ULTIMATE_UHV.get()))
                         .where('J', blocks(GTBlocks.FUSION_GLASS.get()))
                         .where('K', blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get()))
@@ -97,14 +95,14 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
                         .aisle(" AAGGAAAAAGGLLLLLLLGGAAAAAGGAA ", " AAAAAAAAAAAAMMMMMAAAAAAAAAAAA ", " AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ", " AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ", " AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ", " AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ", " AAAAAAAAAAAAAAAAAAAAAAAAAAAAA ", " AAAAAAAAAAAAMMMMMAAAAAAAAAAAA ", " AAGGAAAAAGGLLLLLLLGGAAAAAGGAA ")
                         .aisle("   GG     GG       GG     GG   ", "   GGIIIIIGG       GGIIIIIGG   ", "   GGJJJJJGG       GGJJJJJGG   ", "   GGIIIIIGG       GGIIIIIGG   ", "   GGKKKKKGG       GGKKKKKGG   ", "   GGIIIIIGG       GGIIIIIGG   ", "   GGJJJJJGG       GGJJJJJGG   ", "   GGIIIIIGG       GGIIIIIGG   ", "   GG     GG       GG     GG   ")
                         .where('A', blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get()))
-                        .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.WatertightSteel)))
+                        .where('B', GTOPredicates.frame(GTMaterials.WatertightSteel))
                         .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                         .where('D', blocks(GTOBlocks.LASER_COOLING_CASING.get()))
                         .where('E', blocks(GTOBlocks.LASER_CASING.get()))
                         .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                         .where('G', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
                         .where('H', blocks(GTOBlocks.HOLLOW_CASING.get()))
-                        .where('I', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))
+                        .where('I', GTOPredicates.frame(GTMaterials.Neutronium))
                         .where('J', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
                         .where('K', blocks(GTBlocks.FILTER_CASING.get()))
                         .where('L', blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())

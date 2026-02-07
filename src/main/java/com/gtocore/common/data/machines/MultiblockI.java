@@ -1,5 +1,6 @@
 package com.gtocore.common.data.machines;
 
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.MultiFluidRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOFluids;
@@ -15,8 +16,6 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -55,7 +54,7 @@ public class MultiblockI {
                     .where('I', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('J', blocks(GTOBlocks.STAINLESS_STEEL_CORROSION_RESISTANT_CASING.get()))
                     .where('K', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
-                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StructuralSteel45)))
+                    .where('L', GTOPredicates.frame(GTOMaterials.StructuralSteel45))
                     .where('M', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, true))
@@ -100,14 +99,14 @@ public class MultiblockI {
                     .where('F', blocks(GTBlocks.FILTER_CASING_STERILE.get()))
                     .where('G', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('g', glass())
-                    .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Inconel242)))
+                    .where('H', GTOPredicates.frame(GTOMaterials.Inconel242))
                     .where('I', blocks(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.get()))
-                    .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.StainlessSteel316)))
+                    .where('J', GTOPredicates.frame(GTOMaterials.StainlessSteel316))
                     .where('K', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
                     .where('L', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
                     .where('l', fluids(GTOFluids.NUTRIENT_DISTILLATION.getSource()))
                     .where('M', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
-                    .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
+                    .where('N', GTOPredicates.frame(GTMaterials.BlueSteel))
                     .where('w', fluids(Fluids.WATER.getSource()))
                     .where(' ', any())
                     .build())

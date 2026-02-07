@@ -72,7 +72,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
-        if (GTOConfig.INSTANCE.mobConfig.naturalRegeneration && !level().isClientSide() && tickCount % 80 == 8 && getRandom().nextBoolean()) {
+        if (GTOConfig.INSTANCE.gamePlay.mobConfig.naturalRegeneration && !level().isClientSide() && tickCount % 80 == 8 && getRandom().nextBoolean()) {
             int value = Math.max(1, (int) (Math.log(getMaxHealth() * Math.max(1, level().getDifficulty().getId())) + 0.5));
             heal(value);
         }

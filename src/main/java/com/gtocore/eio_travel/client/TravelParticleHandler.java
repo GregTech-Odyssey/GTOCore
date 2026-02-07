@@ -1,6 +1,6 @@
 package com.gtocore.eio_travel.client;
 
-import com.gtocore.eio_travel.api.TravelHandler;
+import com.gtocore.eio_travel.logic.TravelHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;

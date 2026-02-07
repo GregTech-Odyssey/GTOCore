@@ -27,6 +27,7 @@ import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
 import com.glodblock.github.extendedae.container.ContainerExPatternTerminal;
+import com.glodblock.github.extendedae.util.FCUtil;
 import com.glodblock.github.extendedae.util.MessageUtil;
 import com.google.common.collect.HashMultimap;
 import org.spongepowered.asm.mixin.*;
@@ -70,7 +71,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
     private HashMap<Long, PatternContainerRecord> byId;
 
     @Shadow(remap = false)
-    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, String searchTerm, boolean checkOut);
+    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, List<String> searchTerm, boolean checkOut);
 
     @Shadow(remap = false)
     @Final
@@ -110,6 +111,32 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
             this.searchOutField.setTooltipMessage(Collections.singletonList(Component.translatable("gtocore.ae.appeng.me2in1.search_out")));
         }
     }
+
+    /**
+     * will be removed when dependency on EAE is updated to 1.4.11 which has the fix for this issue. See
+     * <a href="https://github.com/GlodBlock/ExtendedAE/commit/513e463e70dbb5194625c7584ebbfcc35fee8dfc">this
+     * commit</a>.
+     */
+    @Unique
+    private static boolean gto$updateListTask;
+
+    @Redirect(method = { "postFullUpdate", "postTileInfo" }, at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/client/gui/GuiExPatternTerminal;refreshList()V", remap = false), remap = false)
+    private void gto$eae$refreshList(GuiExPatternTerminal<?> instance) {
+        gto$updateListTask = true;
+    }
+
+    @Override
+    public void containerTick() {
+        super.containerTick();
+        if (gto$updateListTask) {
+            gto$eae$refreshList();
+            gto$updateListTask = false;
+        }
+    }
+
+    /*
+     * End
+     */
 
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/client/gui/GuiExPatternTerminal;setInitialFocus(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V"))
     private void onSetFocus(GuiExPatternTerminal<?> instance, GuiEventListener guiEventListener) {
@@ -151,8 +178,10 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         this.matchedStack.clear();
         this.matchedProvider.clear();
 
-        final String outputFilter = this.searchOutField.getValue().toLowerCase();
-        final String inputFilter = this.searchInField.getValue().toLowerCase();
+        final String outputFilter = this.searchOutField.getValue().toLowerCase().trim();
+        final String inputFilter = this.searchInField.getValue().toLowerCase().trim();
+        final List<String> outputFilters = FCUtil.tokenize(outputFilter);
+        final List<String> inputFilters = FCUtil.tokenize(inputFilter);
         final String patternFilter = this.gto$getSearchProviderField().getValue().toLowerCase();
 
         final Set<Object> cachedSearch = this.getCacheForSearchTerm("out:" + outputFilter + "in:" + inputFilter + "pat:" + patternFilter);
@@ -175,12 +204,12 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
                 boolean midRes;
                 for (ItemStack itemStack : entry.getInventory()) {
                     if (!outputFilter.isEmpty()) {
-                        midRes = this.itemStackMatchesSearchTerm(itemStack, outputFilter, true);
+                        midRes = this.itemStackMatchesSearchTerm(itemStack, outputFilters, true);
                     } else {
                         midRes = true;
                     }
                     if (!inputFilter.isEmpty() && midRes) {
-                        midRes = this.itemStackMatchesSearchTerm(itemStack, inputFilter, false);
+                        midRes = this.itemStackMatchesSearchTerm(itemStack, inputFilters, false);
                     }
                     if (midRes) {
                         found = true;
@@ -216,6 +245,9 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
                 // noinspection SizeReplaceableByIsEmpty
                 if (inventory.size() > 0) {
                     var info = this.infoMap.get(container.getServerId());
+                    if (info == null) {
+                        continue;
+                    }
                     var btn = new HighlightButton();
                     btn.setMultiplier(this.playerToBlockDis(info.pos()));
                     btn.setTarget(info.pos(), info.face(), info.world());

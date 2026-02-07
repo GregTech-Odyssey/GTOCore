@@ -1,9 +1,9 @@
 package com.gtocore.eio_travel.network;
 
-import com.gtocore.eio_travel.ITravelTarget;
-import com.gtocore.eio_travel.api.TravelHandler;
+import com.gtocore.eio_travel.api.ITravelTarget;
 import com.gtocore.eio_travel.api.TravelRegistry;
-import com.gtocore.eio_travel.api.TravelSavedData;
+import com.gtocore.eio_travel.logic.TravelHandler;
+import com.gtocore.eio_travel.logic.TravelSavedData;
 
 import com.gtolib.api.network.NetworkPack;
 import com.gtolib.utils.ServerUtils;

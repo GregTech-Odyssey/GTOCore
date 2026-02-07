@@ -2,7 +2,7 @@ package com.gtocore.common.item;
 
 import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.config.GTOConfig;
-import com.gtocore.eio_travel.api.TravelHandler;
+import com.gtocore.eio_travel.logic.TravelHandler;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.IElectricItem;

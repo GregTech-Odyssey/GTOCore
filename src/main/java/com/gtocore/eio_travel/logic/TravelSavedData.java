@@ -1,6 +1,7 @@
-package com.gtocore.eio_travel.api;
+package com.gtocore.eio_travel.logic;
 
-import com.gtocore.eio_travel.ITravelTarget;
+import com.gtocore.eio_travel.api.ITravelTarget;
+import com.gtocore.eio_travel.api.TravelRegistry;
 import com.gtocore.eio_travel.network.TravelNetworks;
 
 import com.gtolib.GTOCore;
@@ -10,13 +11,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,7 +22,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TravelSavedData extends SavedData {
 
     private static final TravelSavedData CLIENT_INSTANCE = new TravelSavedData();
@@ -86,7 +83,7 @@ public class TravelSavedData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt) {
+    public @NotNull CompoundTag save(CompoundTag nbt) {
         ListTag tag = new ListTag();
         tag.addAll(travelTargets.values().stream().map(TravelRegistry::serialize).toList());
         nbt.put(TARGETS, tag);
@@ -96,21 +93,5 @@ public class TravelSavedData extends SavedData {
     @Override
     public boolean isDirty() {
         return true;
-    }
-
-    @SubscribeEvent
-    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
-        if (player instanceof ServerPlayer serverPlayer) {
-            TravelNetworks.syncTravelData(TravelSavedData.getTravelData(serverPlayer.level()).save(new CompoundTag()), serverPlayer);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event) {
-        Player player = event.getEntity();
-        if (player instanceof ServerPlayer serverPlayer) {
-            TravelNetworks.syncTravelData(TravelSavedData.getTravelData(serverPlayer.level()).save(new CompoundTag()), serverPlayer);
-        }
     }
 }

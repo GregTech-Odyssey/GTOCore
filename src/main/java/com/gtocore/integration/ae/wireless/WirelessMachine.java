@@ -37,6 +37,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     @RegisterLanguage(cn = "当前连接到 : %s", en = "Currently connected: %s")
     String currentlyConnectedTo = "gtocore.integration.ae.WirelessMachine.currentlyConnectedTo";
 
+    @RegisterLanguage(cn = "无", en = "None")
+    String none = "gtocore.integration.ae.WirelessMachine.notConnected";
+
     @RegisterLanguage(cn = "创建网络", en = "Create Grid")
     String createGrid = "gtocore.integration.ae.WirelessMachine.createGrid";
 

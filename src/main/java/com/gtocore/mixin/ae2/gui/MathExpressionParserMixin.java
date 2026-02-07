@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.gui;
 
-import com.gtocore.api.ae2.gui.AdvMathExpParser;
+import com.gtocore.utils.AdvMathExpParser;
 
 import appeng.client.gui.MathExpressionParser;
 import org.spongepowered.asm.mixin.Mixin;

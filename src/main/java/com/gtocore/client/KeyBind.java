@@ -5,6 +5,7 @@ import com.gtocore.config.GTOConfig;
 import com.gtolib.utils.ClientUtil;
 
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
@@ -21,10 +22,11 @@ public final class KeyBind {
         @Override
         public void setDown(boolean isDown) {
             if (isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
-                GTOConfig.set("nightVision", !GTOConfig.INSTANCE.nightVision);
-                ClientUtil.getPlayer().displayClientMessage(GTOConfig.INSTANCE.nightVision ?
+                GTOConfig.set("nightVision", !GTOConfig.INSTANCE.client.nightVision, "client");
+                ClientUtil.getPlayer().displayClientMessage(GTOConfig.INSTANCE.client.nightVision ?
                         Component.translatable("metaarmor.message.nightvision.enabled") :
                         Component.translatable("metaarmor.message.nightvision.disabled"), true);
+                Minecraft.getInstance().gameRenderer.lightTexture().updateLightTexture(Minecraft.getInstance().getPartialTick());
             }
             super.setDown(isDown);
         }

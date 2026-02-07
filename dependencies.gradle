@@ -77,7 +77,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:7125271")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:7248944")
+    modImplementation("curse.maven:ex-pattern-provider-892005:7472662")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 
@@ -86,7 +86,10 @@ dependencies {
 
     modImplementation("curse.maven:deeperdarker-659011:5906086")
 
-    modImplementation("curse.maven:modernfix-790626:6719008")
+    modImplementation("curse.maven:modernfix-790626:7515215")
+
+    modCompileOnly("curse.maven:moremorelang-1444917:7565351")
+    modRuntimeOnly("curse.maven:moremorelang-1444917:7565351")
 
     modImplementation("curse.maven:render-blender-1346485:7035162")
 
