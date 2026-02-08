@@ -1,6 +1,7 @@
 package com.gtocore.common.data
 
 import com.gtocore.integration.ae.ExchangeStorageMonitorPart
+import com.gtocore.integration.ae.PatternContentAccessTerminalPart
 import com.gtocore.integration.ae.SimpleCraftingTerminal
 
 import net.minecraft.network.chat.Component
@@ -62,6 +63,20 @@ object GTOAEParts {
             ComponentBuilder.create("整合了ME样板编码终端与样板管理终端的功能，", "Integrates the functions of ME Pattern Encoding Terminal and Pattern Access Terminal, ") { p -> p }
                 .buildSingle(),
             ComponentBuilder.create("支持编码、管理样板，并支持批量编码、自动填充配方等功能。", "supports encoding and managing patterns, batch encoding, auto-filling recipes, and more.") { p -> p }
+                .buildSingle(),
+        ),
+    )
+
+    val Pattern_Content_Access_Terminal: Supplier<ItemDefinition<PartItem<PatternContentAccessTerminalPart>>> = createPart(
+        id = "pattern_content_access_terminal",
+        en = "Pattern Content Access Terminal",
+        cn = "样板内容管理终端",
+        partClass = PatternContentAccessTerminalPart::class.java,
+        factory = ::PatternContentAccessTerminalPart,
+        tooltips = listOf(
+            ComponentBuilder.create("管理样板内容", "Content Pattern Access") { p -> p }
+                .buildSingle(),
+            ComponentBuilder.create("从右向左替换", "Replace from right to left") { p -> p }
                 .buildSingle(),
         ),
     )

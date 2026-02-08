@@ -14,7 +14,6 @@ import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gtocore.common.machine.monitor.*;
 import com.gtocore.common.machine.multiblock.electric.miner.SingleDigitalMiner;
 import com.gtocore.common.machine.multiblock.part.*;
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
@@ -453,22 +452,6 @@ public final class GTOMachines {
             PartAbility.INPUT_LASER);
     public static final MachineDefinition[] LASER_OUTPUT_HATCH_16777216 = registerLaserHatch(IO.OUT, 16777216,
             PartAbility.OUTPUT_LASER);
-
-    public static final MachineDefinition ME_PATTERN_CONTENT_SORT_MACHINE = machine("me_pattern_content_sort_machine", "ME样板内容动态修改机", MEPatternContentSortMachine::new)
-            .overlayTieredHullRenderer("neutron_sensor")
-            .tier(HV)
-            .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME样板内容动态修改机", "ME Pattern Content Dynamic Modifier"), p -> p.addCommentLines(
-                    """
-                            是的，你现在可以不修改样板，就一键替换其中的内容了。
-                            只需要将此机器连入ME网络，然后样板在被调用时，
-                            其内容就会按照你配置的优先级被同一行匹配替换。
-                            支持物品和流体""",
-                    """
-                            Yes, you can now replace the content of a pattern without modifying it.
-                            Just connect this machine to the ME network, and when the pattern is called,
-                            its content will be replaced according to the priority you configured.
-                            Supports both items and fluids""")))
-            .register();
 
     public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MeWirelessConnectMachine::new)
             .renderer(MeWirelessConnectMachineRenderer::new)

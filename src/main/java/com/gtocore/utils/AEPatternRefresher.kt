@@ -4,39 +4,42 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt
 
 import appeng.api.networking.IGrid
 import appeng.blockentity.crafting.PatternProviderBlockEntity
-import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gtolib.api.ae2.IExpandedGrid
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.*
 
-data class RefreshProgress(val completed: Int, val total: Int)
+import java.lang.Runnable
 
-/**
- * 一个用于异步刷新AE2网络中所有样板的工具类。
- * 这可以防止因一次性更新大量样板而导致的服务器卡顿。
- */
 object AEPatternRefresher {
 
-    private const val TASK_CHUNK_SIZE = 10 // 每次处理的任务数量
-    private const val DELAY_BETWEEN_CHUNKS_MS = 100L // 每批任务之间的延迟（毫秒）
+    private const val TASK_CHUNK_SIZE = 10
+    private const val DELAY_BETWEEN_CHUNKS_MS = 100L
 
     /**
-     * 异步刷新指定AE2网络中的所有样板提供者。
-     *
-     * @param grid 目标AE2网络。
-     * @return 一个Kotlin Flow，它会随刷新进度发出[RefreshProgress]状态。
-     *         调用者可以收集(collect)这个Flow来更新UI，例如进度条。
+     * 触发异步刷新。此方法会自动处理协程的启动和线程调度。
+     * 无需返回值，调用即运行。
      */
-    fun refreshAllPatternsAsync(grid: IGrid): Flow<RefreshProgress> = flow {
+    @JvmStatic
+    fun refresh(grid: IGrid) {
+        // 1. 安全检查：确保我们在服务端且 Grid 有效
+        val level = grid.pivot?.level ?: return
+        val server = level.server
+
+        // 2. [主线程] 收集所有任务
+        // 必须在主线程收集，因为 getActiveMachines 不是线程安全的
         val refreshTasks = mutableListOf<Runnable>()
 
-        grid.getActiveMachines(PatternProviderBlockEntity::class.java).forEach {
-            refreshTasks.add(Runnable { it.logic.updatePatterns() })
+        // 收集标准样板提供者
+        grid.getActiveMachines(PatternProviderBlockEntity::class.java).forEach { machine ->
+            refreshTasks.add(
+                Runnable {
+                    if (!machine.isRemoved) { // 执行前检查机器是否还存在
+                        machine.logic.updatePatterns()
+                    }
+                },
+            )
         }
 
+        // 收集 GTOCore/GTCEu 扩展机器
         if (grid is IExpandedGrid) {
             grid.machines.values()
                 .filter { it.isActive }
@@ -54,19 +57,29 @@ object AEPatternRefresher {
                 }
         }
 
-        val totalTasks = refreshTasks.size
-        if (totalTasks == 0) {
-            emit(RefreshProgress(0, 0))
-            return@flow
-        }
+        if (refreshTasks.isEmpty()) return
 
-        emit(RefreshProgress(0, totalTasks))
+        // 3. [协程] 启动异步处理流程
+        // 使用 GlobalScope 启动一个即使当前方法返回也会继续执行的任务
+        // Dispatchers.Default 用于处理 delay 等待，不占用主线程
+        @OptIn(DelicateCoroutinesApi::class)
+        GlobalScope.launch(Dispatchers.Default) {
+            refreshTasks.chunked(TASK_CHUNK_SIZE).forEach { chunk ->
 
-        refreshTasks.chunked(TASK_CHUNK_SIZE).forEachIndexed { index, chunk ->
-            chunk.forEach { it.run() }
-            val completed = ((index + 1) * TASK_CHUNK_SIZE).coerceAtMost(totalTasks)
-            emit(RefreshProgress(completed, totalTasks))
-            delay(DELAY_BETWEEN_CHUNKS_MS)
+                // 4. [主线程] 调度执行实际的更新逻辑
+                server.execute {
+                    chunk.forEach { task ->
+                        try {
+                            task.run()
+                        } catch (e: Exception) {
+                            e.printStackTrace() // 防止单个报错中断整个流程
+                        }
+                    }
+                }
+
+                // 5. [后台线程] 等待，避免卡顿
+                delay(DELAY_BETWEEN_CHUNKS_MS)
+            }
         }
-    }.flowOn(Dispatchers.Default)
+    }
 }

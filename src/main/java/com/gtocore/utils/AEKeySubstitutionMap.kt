@@ -43,6 +43,7 @@ class AEKeySubstitutionMap(priorityGroups: List<List<AEKey>>) {
     }
 
     companion object {
+        @JvmField
         val EMPTY = AEKeySubstitutionMap(emptyList())
     }
 }
