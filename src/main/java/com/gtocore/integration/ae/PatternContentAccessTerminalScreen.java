@@ -69,7 +69,7 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
 
     @Override
     public void init() {
-        this.visibleRows = Math.min(2, config.getTerminalStyle().getRows(
+        this.visibleRows = Math.max(2, config.getTerminalStyle().getRows(
                 (this.height - GUI_HEADER_HEIGHT - GUI_FOOTER_HEIGHT - GUI_TOP_AND_BOTTOM_PADDING) / ROW_HEIGHT) / 2 * 2);
 
         this.imageHeight = GUI_HEADER_HEIGHT + GUI_FOOTER_HEIGHT + this.visibleRows * ROW_HEIGHT;
