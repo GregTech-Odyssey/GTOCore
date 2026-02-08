@@ -1,5 +1,10 @@
 package com.gtocore.integration.ae;
 
+import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
@@ -14,7 +19,13 @@ import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.AEConfig;
 import appeng.core.AppEng;
 
+@DataGeneratorScanned
 public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternContentAccessTerminalMenu> {
+
+    @RegisterLanguage(cn = "替换列表#%s", en = "Replacement List #%s")
+    private static final String REPLACEMENT_LIST_NAME = "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_name";
+    @RegisterLanguage(cn = "在此处设置过滤，以决定哪些样板中的原料会被替换。", en = "Configure the filter here to decide which ingredients in the patterns will be replaced.")
+    public static final String REPLACEMENT_LIST_TOOLTIP = "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_tooltip";
 
     private final Scrollbar scrollbar;
 
@@ -39,9 +50,9 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
     private static final int SLOT_SIZE = ROW_HEIGHT;
     private static final Rect2i HEADER_BBOX = new Rect2i(0, 0, GUI_WIDTH, GUI_HEADER_HEIGHT);
 
-    private static final Rect2i ROW_INVENTORY_TOP_BBOX = new Rect2i(0, 35, GUI_WIDTH, ROW_HEIGHT);
-    private static final Rect2i ROW_INVENTORY_MIDDLE_BBOX = new Rect2i(0, 71, GUI_WIDTH, ROW_HEIGHT);
-    private static final Rect2i ROW_INVENTORY_BOTTOM_BBOX = new Rect2i(0, 107, GUI_WIDTH, ROW_HEIGHT);
+    private static final Rect2i ROW_INVENTORY_TOP_BBOX = new Rect2i(0, 35 - ROW_HEIGHT, GUI_WIDTH, ROW_HEIGHT + ROW_HEIGHT);
+    private static final Rect2i ROW_INVENTORY_MIDDLE_BBOX = new Rect2i(0, 71 - ROW_HEIGHT, GUI_WIDTH, ROW_HEIGHT + ROW_HEIGHT);
+    private static final Rect2i ROW_INVENTORY_BOTTOM_BBOX = new Rect2i(0, 107 - ROW_HEIGHT, GUI_WIDTH, ROW_HEIGHT + ROW_HEIGHT);
     private static final Rect2i FOOTER_BBOX = new Rect2i(0, 125, GUI_WIDTH, GUI_FOOTER_HEIGHT);
 
     private int visibleRows = 0;
@@ -58,8 +69,8 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
 
     @Override
     public void init() {
-        this.visibleRows = config.getTerminalStyle().getRows(
-                (this.height - GUI_HEADER_HEIGHT - GUI_FOOTER_HEIGHT - GUI_TOP_AND_BOTTOM_PADDING) / ROW_HEIGHT);
+        this.visibleRows = Math.min(2, config.getTerminalStyle().getRows(
+                (this.height - GUI_HEADER_HEIGHT - GUI_FOOTER_HEIGHT - GUI_TOP_AND_BOTTOM_PADDING) / ROW_HEIGHT) / 2 * 2);
 
         this.imageHeight = GUI_HEADER_HEIGHT + GUI_FOOTER_HEIGHT + this.visibleRows * ROW_HEIGHT;
 
@@ -89,11 +100,11 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
             int row = slotIndex / COLUMNS;
             int col = slotIndex % COLUMNS;
 
-            int displayRow = row - scroll;
+            int displayRow = (row - scroll) * 2;
 
             slot.setActive(displayRow >= 0 && displayRow < this.visibleRows);
             slot.x = GUI_PADDING_X + col * SLOT_SIZE;
-            slot.y = GUI_HEADER_HEIGHT + 1 + displayRow * ROW_HEIGHT;
+            slot.y = GUI_HEADER_HEIGHT + 1 + (displayRow + 1) * ROW_HEIGHT;
             slotIndex++;
         }
     }
@@ -126,14 +137,25 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
 
         blit(guiGraphics, offsetX, currentY + this.visibleRows * ROW_HEIGHT, FOOTER_BBOX);
 
-        for (int i = 0; i < this.visibleRows; ++i) {
+        int scrollbarRow = scrollbar.getCurrentScroll();
+        Font font = this.getMinecraft().font;
+        for (int i = 0; i < this.visibleRows / 2; ++i) {
             boolean firstLine = i == 0;
-            boolean lastLine = i == this.visibleRows - 1;
+            boolean lastLine = i == this.visibleRows / 2 - 1;
 
             Rect2i bbox = selectRowBackgroundBox(firstLine, lastLine);
             blit(guiGraphics, offsetX, currentY, bbox);
+            guiGraphics.drawString(font, Component.translatable(REPLACEMENT_LIST_NAME, scrollbarRow + i + 1), offsetX + 12, currentY + 9 - font.lineHeight / 2, ChatFormatting.BLACK.getColor(), false);
 
-            currentY += ROW_HEIGHT;
+            var firstValidItem = this.menu.getFirstItemAtRow(scrollbarRow + i);
+            if (firstValidItem != -1) {
+                int highlightX = offsetX + 8 + firstValidItem * SLOT_SIZE;
+                int highlightY = currentY + ROW_HEIGHT + 1;
+                var rect = new Rect2i(highlightX, highlightY, 16, 16);
+                fillRect(guiGraphics, rect, 0x80aaaaFF);
+            }
+
+            currentY += ROW_HEIGHT * 2;
         }
     }
 

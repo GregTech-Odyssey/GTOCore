@@ -2227,6 +2227,8 @@
   "gtocore.ae.appeng.pattern.priority": "样板优先级：",
   "gtocore.ae.appeng.pattern.priority.desc": "此样板总成提供的样板优先级。合成计算将优先考虑优先级最高的样板。",
   "gtocore.ae.appeng.pattern_content_access_terminal": "样板内容管理终端",
+  "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_name": "替换列表#%s",
+  "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_tooltip": "在此处设置过滤，以决定哪些样板中的原料会被替换。",
   "gtocore.ae.appeng.pick_craft.all_right": "已启动合成！",
   "gtocore.ae.appeng.pick_craft.error.1": "计算合成路径时发生错误。",
   "gtocore.ae.appeng.pick_craft.error.2": "没有足够的材料/CPU来合成所需物品。",

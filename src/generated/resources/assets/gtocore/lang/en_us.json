@@ -2227,6 +2227,8 @@
   "gtocore.ae.appeng.pattern.priority": "Pattern Priority: ",
   "gtocore.ae.appeng.pattern.priority.desc": "The priority for the patterns offered by this provider. The crafting calculation will prioritize patterns with the highest priority.",
   "gtocore.ae.appeng.pattern_content_access_terminal": "Pattern Content Access Terminal",
+  "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_name": "Replacement List #%s",
+  "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_tooltip": "Configure the filter here to decide which ingredients in the patterns will be replaced.",
   "gtocore.ae.appeng.pick_craft.all_right": "Crafting started!",
   "gtocore.ae.appeng.pick_craft.error.1": "An error occurred while calculating the crafting path.",
   "gtocore.ae.appeng.pick_craft.error.2": "Insufficient materials/No available CPU to craft the desired item.",

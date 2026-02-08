@@ -1,5 +1,7 @@
 package com.gtocore.integration.ae;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
@@ -8,6 +10,9 @@ import appeng.menu.SlotSemantic;
 import appeng.menu.SlotSemantics;
 import appeng.menu.implementations.MenuTypeBuilder;
 import appeng.menu.slot.FakeSlot;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Collections;
 
 public class PatternContentAccessTerminalMenu extends AEBaseMenu {
 
@@ -24,6 +29,7 @@ public class PatternContentAccessTerminalMenu extends AEBaseMenu {
             TargetAEKeys[i] = new FakeSlot(part.getConfig().createMenuWrapper(), i);
             TargetAEKeys[i].x = 8 + (i % 9) * 18;
             TargetAEKeys[i].y = 18 + (i / 9) * 18;
+            TargetAEKeys[i].setEmptyTooltip(() -> Collections.singletonList(Component.translatable(PatternContentAccessTerminalScreen.REPLACEMENT_LIST_TOOLTIP).withStyle(ChatFormatting.GRAY)));
             SlotSemantic semantics;
             if (i % 9 == 0) {
                 semantics = SlotSemantics.PROCESSING_OUTPUTS;
@@ -34,5 +40,15 @@ public class PatternContentAccessTerminalMenu extends AEBaseMenu {
 
         }
         createPlayerInventorySlots(ip);
+    }
+
+    public int getFirstItemAtRow(int row) {
+        var targetSlots = ArrayUtils.subarray(TargetAEKeys, row * 9, (row + 1) * 9);
+        for (int i = 0; i < targetSlots.length; i++) {
+            if (!targetSlots[i].getDisplayStack().isEmpty()) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

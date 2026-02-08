@@ -2227,6 +2227,8 @@
   "gtocore.ae.appeng.pattern.priority": "樣板優先級：",
   "gtocore.ae.appeng.pattern.priority.desc": "此樣板總成提供的樣板優先級。合成計算將優先考慮優先級最高的樣板。",
   "gtocore.ae.appeng.pattern_content_access_terminal": "樣板內容管理終端",
+  "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_name": "替換列錶#%s",
+  "gtocore.ae.appeng.pattern_content_access_terminal.replacement_list_tooltip": "在此處設置過濾，以決定哪些樣板中的原料會被替換。",
   "gtocore.ae.appeng.pick_craft.all_right": "已啟動合成！",
   "gtocore.ae.appeng.pick_craft.error.1": "計算合成路徑時髮生錯誤。",
   "gtocore.ae.appeng.pick_craft.error.2": "沒有足夠的材料/CPU來合成所需物品。",
