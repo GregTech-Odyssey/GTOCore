@@ -140,6 +140,7 @@
     "deeperdarker.DDItemsMixin",
     "eae.BlockExIOPortMixin",
     "eae.BlockExPatternProviderMixin",
+    "eae.FCUtilMixin",
     "eae.MessageUtilMixin",
     "eae.OutputResultSlotMixin",
     "eae.PartExPatternProviderMixin",
