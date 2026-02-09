@@ -112,32 +112,6 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         }
     }
 
-    /**
-     * will be removed when dependency on EAE is updated to 1.4.11 which has the fix for this issue. See
-     * <a href="https://github.com/GlodBlock/ExtendedAE/commit/513e463e70dbb5194625c7584ebbfcc35fee8dfc">this
-     * commit</a>.
-     */
-    @Unique
-    private static boolean gto$updateListTask;
-
-    @Redirect(method = { "postFullUpdate", "postTileInfo" }, at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/client/gui/GuiExPatternTerminal;refreshList()V", remap = false), remap = false)
-    private void gto$eae$refreshList(GuiExPatternTerminal<?> instance) {
-        gto$updateListTask = true;
-    }
-
-    @Override
-    public void containerTick() {
-        super.containerTick();
-        if (gto$updateListTask) {
-            gto$eae$refreshList();
-            gto$updateListTask = false;
-        }
-    }
-
-    /*
-     * End
-     */
-
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lcom/glodblock/github/extendedae/client/gui/GuiExPatternTerminal;setInitialFocus(Lnet/minecraft/client/gui/components/events/GuiEventListener;)V"))
     private void onSetFocus(GuiExPatternTerminal<?> instance, GuiEventListener guiEventListener) {
         if (!(this.getMenu() instanceof Me2in1Menu)) {
