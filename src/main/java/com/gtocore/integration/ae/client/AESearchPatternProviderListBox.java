@@ -75,7 +75,7 @@ public class AESearchPatternProviderListBox extends AEListBox {
     @Override
     public void addExclusionZones(List<Rect2i> exclusionZones, Rect2i screenBounds) {
         super.addExclusionZones(exclusionZones, screenBounds);
-        exclusionZones.add(new Rect2i(getX(), getY() - 14, width(), 12));
+        exclusionZones.add(new Rect2i(getX() + getGuiLeft(), getY() - 14 + getGuiTop(), width(), 12));
     }
 
     public void reset() {

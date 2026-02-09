@@ -6,6 +6,7 @@ import com.gtocore.common.data.machines.*;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
@@ -115,8 +116,8 @@ final class Vanilla {
                 "   ",
                 "ABA",
                 "DDD",
-                'A', CustomTags.LuV_CIRCUITS, 'B', EPPItemAndBlock.EX_PATTERN_TERMINAL,
-                'D', new MaterialEntry(TagPrefix.plate, GTMaterials.HastelloyX));
+                'A', AEItems.ENGINEERING_PROCESSOR, 'B', EPPItemAndBlock.EX_PATTERN_TERMINAL,
+                'D', TagUtils.createItemTag(RLUtils.ae("illuminated_panel")));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_2in1_terminal_wireless"), GTOItems.WIRELESS_ME2IN1.asItem(),
                 "A",
