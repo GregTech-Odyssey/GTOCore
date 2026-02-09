@@ -437,13 +437,6 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             shareTank.getStorages()[i].deserializeNBT(tanks.getCompound(i));
         }
         circuitInventorySimulated.storage.deserializeNBT(tag.getCompound("ci"));
-        clearRecipeCacheForAllSlots();
-    }
-
-    private void clearRecipeCacheForAllSlots() {
-        for (InternalSlot slot : getInternalInventory()) {
-            slot.setRecipe(null);
-        }
     }
 
     @Override
@@ -721,9 +714,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
-            if (recipe != null) {
-                tag.put("recipe", recipe.serializeNBT());
-            }
+            // if (recipe != null) {
+            // tag.put("recipe", recipe.serializeNBT());
+            // }
             ListTag itemsTag = new ListTag();
             for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
@@ -761,7 +754,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
+            // setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag ct)) continue;
