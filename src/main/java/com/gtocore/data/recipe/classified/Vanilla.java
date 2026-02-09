@@ -93,7 +93,7 @@ final class Vanilla {
                 "B B",
                 "ABA",
                 'A', CustomTags.EV_CIRCUITS, 'B', RegistriesUtils.getItemStack("expatternprovider:wireless_connect"));
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_pattern_content_sort_machine"), GTOMachines.ME_PATTERN_CONTENT_SORT_MACHINE.asItem(),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_pattern_content_sort_machine"), GTOAEParts.INSTANCE.getPattern_Content_Access_Terminal().get().asItem(),
                 "ABA",
                 "BCB",
                 "DBD",

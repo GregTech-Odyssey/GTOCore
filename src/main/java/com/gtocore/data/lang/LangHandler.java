@@ -364,6 +364,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.off", "不自动在样板终端中搜索", "does not automatically search in the pattern terminal");
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.config", "中键点击以配置自定义目录名称搜索映射", "Middle-click to configure custom directory name search mapping");
         addCNEN("gtocore.ae.appeng.me2in1.vanilla_craft_station", "分子装配", "Molecular Assembl");
+        addCNEN("gtocore.ae.appeng.pattern_content_access_terminal", "样板内容管理终端", "Pattern Content Access Terminal");
         addCNEN("gtocore.ae.appeng.me2in1.wireless", "无线2合1终端", "Wireless 2-in-1 Terminal");
         addCNEN("gtocore.ae.appeng.me2in1", "ME2合1终端", "ME 2-in-1 Terminal");
         addCNEN("gtocore.ae.appeng.me2in1.search_in", "按样板输入搜索。", "Search by pattern input.");

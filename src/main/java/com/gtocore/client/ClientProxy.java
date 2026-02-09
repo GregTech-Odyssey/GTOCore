@@ -12,6 +12,9 @@ import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.forge.ClientForge;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
 import com.gtocore.eio_travel.client.travel.TravelAnchorHud;
+import com.gtocore.integration.ae.PatternContentAccessTerminalMenu;
+import com.gtocore.integration.ae.PatternContentAccessTerminalPart;
+import com.gtocore.integration.ae.PatternContentAccessTerminalScreen;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
@@ -143,6 +146,10 @@ public final class ClientProxy extends CommonProxy {
                     CategoryMappingSubMenu.TYPE,
                     CategoryMappingSubScreen::new,
                     "/screens/categoru_mapping_config.json");
+            InitScreens.register(
+                    PatternContentAccessTerminalMenu.TYPE,
+                    PatternContentAccessTerminalScreen::new,
+                    "/screens/terminals/pattern_content_access_terminal.json");
         });
     }
 
@@ -154,5 +161,6 @@ public final class ClientProxy extends CommonProxy {
 
     private static void registerAEModels() {
         PartModels.registerModels(Me2in1TerminalPart.MODELS);
+        PartModels.registerModels(PatternContentAccessTerminalPart.MODEL_OFF, PatternContentAccessTerminalPart.MODEL_ON);
     }
 }
