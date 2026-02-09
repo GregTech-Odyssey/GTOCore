@@ -15,7 +15,10 @@ import com.glodblock.github.extendedae.container.ContainerExCraftingTerminal;
 import com.glodblock.github.extendedae.network.EPPNetworkHandler;
 import com.glodblock.github.extendedae.xmod.jei.transfer.ExCraftingHelper;
 import com.glodblock.github.glodium.network.packet.CGenericPacket;
+import com.google.common.collect.ImmutableSet;
 import dev.emi.emi.api.recipe.EmiRecipe;
+import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,8 +28,20 @@ public class XModTransferHandlers {
 
     public static class ExCraftingTransferHandler<T extends ContainerExCraftingTerminal> extends AbstractRecipeHandler<T> {
 
+        ImmutableSet<EmiRecipeCategory> supportedCategories = ImmutableSet.of(
+                VanillaEmiRecipeCategories.CRAFTING,
+                VanillaEmiRecipeCategories.STONECUTTING,
+                VanillaEmiRecipeCategories.SMITHING,
+                VanillaEmiRecipeCategories.ANVIL_REPAIRING);
+
         public ExCraftingTransferHandler(Class<T> containerClass) {
             super(containerClass);
+        }
+
+        @Override
+        public boolean supportsRecipe(EmiRecipe recipe) {
+            // For actual crafting, we only support normal crafting recipes
+            return supportedCategories.contains(recipe.getCategory());
         }
 
         @Override
