@@ -141,6 +141,7 @@
     "eae.BlockExIOPortMixin",
     "eae.BlockExPatternProviderMixin",
     "eae.MessageUtilMixin",
+    "eae.OutputResultSlotMixin",
     "eae.PartExPatternProviderMixin",
     "eae.PartSpecialExportBusMixin",
     "eae.PartThresholdLevelEmitterMixin",
