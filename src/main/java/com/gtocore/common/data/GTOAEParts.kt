@@ -73,12 +73,11 @@ object GTOAEParts {
         cn = "样板内容管理终端",
         partClass = PatternContentAccessTerminalPart::class.java,
         factory = ::PatternContentAccessTerminalPart,
-        tooltips = listOf(
-            ComponentBuilder.create("管理样板内容", "Content Pattern Access") { p -> p }
-                .buildSingle(),
-            ComponentBuilder.create("从右向左替换", "Replace from right to left") { p -> p }
-                .buildSingle(),
-        ),
+        tooltips = ComponentBuilder.create("动态替换样板内容", "Dynamic Pattern Content Replacement") { p -> p.setAqua() }
+            .addCommentLines("只需要将此机器连入ME网络，然后样板在被调用时，其内容就会按照你配置的优先级被同一行匹配替换。", "Simply connect this machine to the ME network, and when a pattern is called, its content will be replaced according to your configured priorities on the same line.") { p -> p.setGray() }
+            .addCommentLines("每组配置中，替换的顺序为从右到左。", "In each configuration group, the replacement order is from right to left.") { p -> p.setGray() }
+            .addCommentLines("例如，按顺序填入“橡木木板，白桦木板，云杉木板”的配置，那么当有样板原料中用到白桦或云杉木板时，就会动态修改样板，使用橡木木板作为原料。", "For example, if you fill in the configuration with 'Oak Planks, Birch Planks, Spruce Planks' in order, then when a pattern's ingredient uses Birch or Spruce Planks, the pattern will be dynamically modified to use Oak Planks as the ingredient.") { p -> p.setGray().setItalic() }
+            .buildComponents(),
     )
 
     private fun <T : IPart> createPart(id: String, en: String, cn: String, partClass: Class<T>, factory: Function<IPartItem<T>, T>, tooltips: List<Component> = listOf()): Supplier<ItemDefinition<PartItem<T>>> {
