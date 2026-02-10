@@ -372,9 +372,11 @@ public final class GTOConfig {
 
         @Configurable
         @Configurable.Comment({ "启用后，游戏启动时将缓存部分资源以提升性能",
-                "如果你是资源包制作者，需要频繁热重载资源包，请关闭此选项以避免缓存影响资源包预览效果",
+                "如果你遇到了与数据包/资源包有关的问题（配方错乱/方块丢失其适用破坏工具等），",
+                "抑或你是资源包制作者，需要频繁热重载资源包，请关闭此选项以避免缓存影响资源包预览效果",
                 "When enabled, some resources will be cached at game startup to improve performance",
-                "If you are a resource pack creator and need to frequently hot-reload resource packs, please disable this option to avoid caching affecting the preview effect of the resource pack"
+                "If you encounter issues related to datapacks/resourcepacks (recipe disorder/tools required for breaking blocks missing, etc.),",
+                "or if you are a resource pack creator who needs to frequently hot reload resource packs, please disable this option to avoid caching affecting the preview of resource packs"
         })
         @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Cache Resources on Startup", cn = "启动时缓存资源")
         public boolean cacheResources = true;
@@ -443,11 +445,11 @@ public final class GTOConfig {
         @Configurable
         @Configurable.UpdateRestriction(UpdateRestrictions.GAME_RESTART)
         @Configurable.Comment({ "启用自定义配方",
-                "自定义配方详情与教程参见https://gtodyssey.com/zh-hans/%E6%95%B4%E5%90%88%E5%8C%85%E6%95%99%E5%AD%A6/%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9gto%E9%85%8D%E6%96%B9/",
+                "自定义配方详情与教程参见https://gtodyssey.com/zh-hans/整合包教学/官方文档/如何修改gto配方/",
                 "注意：启用此选项后，若加载错误的配方脚本，可能会导致进入游戏后配方丢失，请务必在非常规游玩存档中测试配方脚本的正确性。",
                 "注意：在服务器上游玩时，服务器和客户端均需启用此选项且使用相同的配方脚本文件。",
                 "Enable custom recipes",
-                "For details and tutorials on custom recipes, please refer to https://gtodyssey.com/zh-hans/%E6%95%B4%E5%90%88%E5%8C%85%E6%95%99%E5%AD%A6/%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9gto%E9%85%8D%E6%96%B9/",
+                "For details and tutorials on custom recipes, please refer to https://gtodyssey.com/zh-hans/整合包教学/官方文档/如何修改gto配方/",
                 "Note: After enabling this option, if an incorrect recipe script is loaded, it may cause recipes to be lost after entering the game. Please be sure to test the correctness of the recipe script in a non-conventional play save.",
                 "Note: When playing on a server, both the server and client need to enable this option and use the same recipe script file." })
 

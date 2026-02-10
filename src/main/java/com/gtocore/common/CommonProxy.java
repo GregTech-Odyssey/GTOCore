@@ -169,8 +169,8 @@ public class CommonProxy {
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
         } else {
             KeyMessage.init();
-            Message.init();
         }
+        Message.init();
         GTOItemTooltips.INSTANCE.initLanguage();
     }
 

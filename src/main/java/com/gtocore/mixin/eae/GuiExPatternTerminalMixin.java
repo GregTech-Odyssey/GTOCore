@@ -22,7 +22,6 @@ import appeng.client.gui.me.patternaccess.PatternContainerRecord;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.AETextField;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
-import appeng.util.inv.AppEngInternalInventory;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
@@ -39,8 +38,6 @@ import java.util.*;
 @Mixin(GuiExPatternTerminal.class)
 public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerminal> extends AEBaseScreen<T> implements IExtendedGuiEx {
 
-    @Unique
-    private static final AppEngInternalInventory gto$emptyInv = new AppEngInternalInventory(0);
     @Unique
     private static final int gto$COLUMNS = 9;
 
