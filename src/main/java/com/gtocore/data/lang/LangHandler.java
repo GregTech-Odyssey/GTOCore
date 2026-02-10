@@ -140,7 +140,7 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
         addCNEN("gtocore.pattern.tooltip.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
 
-        addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energetics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energetics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
+        addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组，以及Applied Energistics 2模组均为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern and Applied Energistics 2 mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
         addCNEN("gtodyssey.com", "GTOdyssey 官方维基网站", "GTOdyssey Official Wiki Website");
         addCNEN("gtocore.fly_speed_reset", "飞行速度已重置", "fly Speed Reset");
@@ -226,7 +226,6 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
-        addCNEN("config.jade.plugin_gtocore.en_lang", "[GTOCore] 英语显示", "[GTOCore] English Display");
 
         addCNEN("gtocore.applicable_modules", "安装附属模块后可解锁的仓室类型 : %s",
                 "Hatch types unlocked by installing auxiliary modules : %s");
@@ -270,6 +269,7 @@ public final class LangHandler {
         addCNEN("gtocore.player_exp_status.mysterious_boost_potion.success", "你似乎被赋予了某种神秘能力...", "You seem to be granted with some mysterious ability ......");
 
         addCNEN("gtocore.gui.encoding_desc", "§o[Shift + 左击] 将样板存入背包/清空所有已编码样板", "§o[Shift + Click] insert encoding pattern into player inventory / clear all encoded patterns");
+        addCNEN("gtocore.gui.widget.amount_set.hover_tooltip", "输入 1-Long.MAX 的整数。支持 k/m/g 简写和公式", "Enter an integer from 1 to Long.MAX. Accepts k/m/g notation and expressions");
 
         addCNEN("gtocore.xaero_waypoint_set", "矿脉", "Ore Vein");
 
@@ -364,6 +364,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.off", "不自动在样板终端中搜索", "does not automatically search in the pattern terminal");
         addCNEN("gtocore.ae.appeng.me2in1.auto_search.config", "中键点击以配置自定义目录名称搜索映射", "Middle-click to configure custom directory name search mapping");
         addCNEN("gtocore.ae.appeng.me2in1.vanilla_craft_station", "分子装配", "Molecular Assembl");
+        addCNEN("gtocore.ae.appeng.pattern_content_access_terminal", "样板内容管理终端", "Pattern Content Access Terminal");
         addCNEN("gtocore.ae.appeng.me2in1.wireless", "无线2合1终端", "Wireless 2-in-1 Terminal");
         addCNEN("gtocore.ae.appeng.me2in1", "ME2合1终端", "ME 2-in-1 Terminal");
         addCNEN("gtocore.ae.appeng.me2in1.search_in", "按样板输入搜索。", "Search by pattern input.");
@@ -387,8 +388,6 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.used_percent", "已使用 %s%%", "Used %s%%");
         addCNEN("gtocore.ae.appeng.fetching_items", "取得信息中...", "Fetching items...");
         addCNEN("gtocore.ae.appeng.me_storage_amount", "ME网络存储数量", "ME Network Stored Amount");
-        addCNEN("gtocore.ae.appeng.pick_craft.error.title", "Pick-Craft 错误", "Pick-Craft Error");
-        addCNEN("gtocore.ae.appeng.pick_craft.all_right.title", "Pick-Craft 成功", "Pick-Craft Success");
         addCNEN("gtocore.ae.appeng.pick_craft.all_right", "已启动合成！", "Crafting started!");
         addCNEN("gtocore.ae.appeng.pick_craft.error.1", "计算合成路径时发生错误。", "An error occurred while calculating the crafting path.");
         addCNEN("gtocore.ae.appeng.pick_craft.error.2", "没有足够的材料/CPU来合成所需物品。", "Insufficient materials/No available CPU to craft the desired item.");
@@ -398,6 +397,9 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.craft.resume_job", "继续", "Resume");
         addCNEN("gtocore.ae.appeng.craft.pause_job.desc", "暂停正在进行中的发配；已推送的样板不会被撤回", "Pause the ongoing crafting; pushed patterns will not be withdrawn");
         addCNEN("gtocore.ae.appeng.craft.resume_job.desc", "继续已暂停的发配", "Resume the paused crafting");
+        addCNEN("gtocore.ae.appeng.craft.temp_order", "中键点击以创建临时合成订单，下单一份该配方的原材料", "Middle-click to create a temporary crafting order, ordering one set of raw materials for this recipe");
+        addCNEN("gtocore.ae.appeng.craft.encode_send", "§o[右键点击] 编码并发送样板§r", "§o[Right Click] Encode and send pattern§r");
+        addCNEN("gtocore.ae.appeng.craft.encode_send.desc", "点击选择目的地样板供应器，并将样板发送至该供应器", "Click to select the destination Pattern Provider and encode the current recipe to it");
 
         addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
         addCNEN("gtocore.adv_terminal.block.cancel", "取消", "Cancel");

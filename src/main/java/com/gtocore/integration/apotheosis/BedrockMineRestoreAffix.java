@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.util.FakePlayer;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -26,6 +27,7 @@ import lombok.Getter;
 
 import java.util.Map;
 
+import static com.gregtechceu.gtceu.api.data.worldgen.bedrockore.BedrockOreVeinSavedData.MAXIMUM_VEIN_OPERATIONS;
 import static net.minecraftforge.common.Tags.Blocks.ORES;
 
 @DataGeneratorScanned
@@ -35,6 +37,8 @@ public class BedrockMineRestoreAffix extends NumeralStatsAffix {
     private static final String DESC = "affix.gtocore.bedrock_mine_restore.desc";
     @RegisterLanguage(cn = "每次开采矿石可以在当前区块勘探出相当于一般储量%s‰的额外基岩流体矿脉储量", en = "Each time you mine ore, you can explore an additional bedrock fluid vein reserve equivalent to %s‰ of the average reserve in the current chunk")
     private static final String FLUID_DESC = "affix.gtocore.bedrock_mine_restore.fluid.desc";
+    @RegisterLanguage(cn = "(最高可达%s%%)", en = "(At most %s%%)")
+    private static final String AT_MOST = "affix.gtocore.bedrock_mine_restore.at_most.desc";
     public static final Codec<BedrockMineRestoreAffix> CODEC = RecordCodecBuilder.create(inst -> inst
             .group(
                     GemBonus.VALUES_CODEC.fieldOf("values").forGetter(BedrockMineRestoreAffix::getValues),
@@ -52,7 +56,10 @@ public class BedrockMineRestoreAffix extends NumeralStatsAffix {
     @Override
     public MutableComponent getDescription(ItemStack stack, LootRarity rarity, float level) {
         var desc = this.isFluidMode ? FLUID_DESC : DESC;
-        return Component.translatable(desc, FormattingUtil.formatNumber2Places(this.getBuff(rarity, level) * 0.01));
+        float maxBuff = this.getBuff(rarity, level);
+        var maxRestore = Math.max(1.0f, maxBuff * 0.035f);
+        return Component.translatable(desc, FormattingUtil.formatNumber2Places(this.getBuff(rarity, level) * 0.01))
+                .append(Component.translatable(AT_MOST, FormattingUtil.formatNumber2Places(maxRestore * 100)));
     }
 
     @Override
@@ -63,16 +70,22 @@ public class BedrockMineRestoreAffix extends NumeralStatsAffix {
     @Override
     public void onBlockBreak(ItemStack stack, LootRarity rarity, float level, Player player, LevelAccessor world, BlockPos pos, BlockState state) {
         if (world instanceof ServerLevel serverLevel && state.is(ORES)) {
+            float efficiency = (player instanceof FakePlayer) ? 0.05f : 1.0f;
             ChunkPos chunkPos = new ChunkPos(pos);
+            float maxBuff = this.getBuff(rarity, level);
+            var maxRestore = MAXIMUM_VEIN_OPERATIONS * Math.max(1.0f, maxBuff * 0.035f);
+
             if (this.isFluidMode) {
                 var data = BedrockFluidVeinSavedData.getOrCreate(serverLevel);
-                if (data.getFluidVeinWorldEntry(chunkPos.x, chunkPos.z).getDefinition() != null) {
-                    data.depleteVein(chunkPos.x, chunkPos.z, -Math.round(this.getBuff(rarity, level)), true);
+                if (data.getFluidVeinWorldEntry(chunkPos.x, chunkPos.z).getDefinition() != null &&
+                        data.getFluidVeinWorldEntry(chunkPos.x, chunkPos.z).getOperationsRemaining() < maxRestore) {
+                    data.depleteVein(chunkPos.x, chunkPos.z, -Math.round(this.getBuff(rarity, level) * efficiency), true);
                 }
             } else {
                 var data = BedrockOreVeinSavedData.getOrCreate(serverLevel);
-                if (data.getOreVeinWorldEntry(chunkPos.x, chunkPos.z).getDefinition() != null) {
-                    data.depleteVein(chunkPos.x, chunkPos.z, -Math.round(this.getBuff(rarity, level)), true);
+                if (data.getOreVeinWorldEntry(chunkPos.x, chunkPos.z).getDefinition() != null &&
+                        data.getOreVeinWorldEntry(chunkPos.x, chunkPos.z).getOperationsRemaining() < maxRestore) {
+                    data.depleteVein(chunkPos.x, chunkPos.z, -Math.round(this.getBuff(rarity, level) * efficiency), true);
                 }
             }
         }

@@ -1,6 +1,5 @@
 package com.gtocore.eio_travel.api;
 
-import com.gtocore.eio_travel.ITravelTarget;
 import com.gtocore.eio_travel.client.TravelRenderer;
 
 import net.minecraft.nbt.CompoundTag;

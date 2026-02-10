@@ -43,7 +43,7 @@ public class GlowingBlock extends Block {
         return level;
     }
 
-    static String[] num = { "Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ", "Ⅺ", "Ⅻ" };
+    static String[] num = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII" };
 
     public static BlockEntry<GlowingBlock>[] createStarStone() {
         BlockEntry<GlowingBlock>[] StarStone = new BlockEntry[num.length];

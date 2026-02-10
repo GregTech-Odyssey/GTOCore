@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.generator;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.data.IdleReason;
 
@@ -308,7 +309,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
                 .aisle("ABBBA")
                 .aisle("ABBBA")
                 .aisle("AAAAA")
-                .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Aluminium)))
+                .where('A', GTOPredicates.frame(GTMaterials.Aluminium))
                 .where('B', blocks(photovoltaicBlock.get()))
                 .where('C', blocks(casing.get())
                         .or(Predicates.blocks(CONTROL_HATCH.get()).setMaxGlobalLimited(1).setPreviewCount(0))

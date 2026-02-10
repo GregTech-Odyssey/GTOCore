@@ -14,7 +14,6 @@ import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gtocore.common.machine.monitor.*;
 import com.gtocore.common.machine.multiblock.electric.miner.SingleDigitalMiner;
 import com.gtocore.common.machine.multiblock.part.*;
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
 import com.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gtocore.common.machine.noenergy.*;
 import com.gtocore.common.machine.noenergy.PlatformDeployment.PlatformDeploymentMachine;
@@ -95,13 +94,13 @@ public final class GTOMachines {
         if (GTCEu.isDev() || GTCEu.isDataGen()) {
             final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)
                     .allRotation()
-                    .tooltipsText("用于测试机器同步的工具。", "A tool for testing machine synchronization.")
-                    .tooltipsText("请勿在生产环境中使用。", "Do not use in production environment.")
+                    .tooltipsText("A tool for testing machine synchronization.", "用于测试机器同步的工具。")
+                    .tooltipsText("Do not use in production environment.", "请勿在生产环境中使用。")
                     .register();
 
             final MachineDefinition TEST_REPORT_OUTPUT = machine("test_report_output", "测试报告输出器", TestReportOutput::new)
                     .allRotation()
-                    .tooltipsText("打印一些测试用信息", "Print some test information")
+                    .tooltipsText("Print some test information", "打印一些测试用信息")
                     .register();
         }
     }
@@ -292,12 +291,12 @@ public final class GTOMachines {
                             p -> p.addCommentLines(
                                     """
                                             运行时长调整范围：%s%%~100%%
-                                            加速仓的等级低于机器最大电压等级时加速效力减弱20%%每级
+                                            加速仓的等级低于配方电压等级时加速效力减弱20%%每级
                                             来自 GTO 的神秘力量
                                             尽情享受吧！""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)),
                                     """
                                             Operation duration adjustment range: %s%%~100%%
-                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the machine's maximum voltage level
+                                            The acceleration effect is weakened by 20%% per level when the level of the accelerate hatch is lower than the recipe's voltage level
                                             Mysterious power from GTO
                                             Enjoy it to the fullest!""".formatted(FormattingUtil.formatNumber2Places(52.0 - tier * 2.0)))))
                     .notAllowSharedTooltips()
@@ -453,22 +452,6 @@ public final class GTOMachines {
             PartAbility.INPUT_LASER);
     public static final MachineDefinition[] LASER_OUTPUT_HATCH_16777216 = registerLaserHatch(IO.OUT, 16777216,
             PartAbility.OUTPUT_LASER);
-
-    public static final MachineDefinition ME_PATTERN_CONTENT_SORT_MACHINE = machine("me_pattern_content_sort_machine", "ME样板内容动态修改机", MEPatternContentSortMachine::new)
-            .overlayTieredHullRenderer("neutron_sensor")
-            .tier(HV)
-            .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME样板内容动态修改机", "ME Pattern Content Dynamic Modifier"), p -> p.addCommentLines(
-                    """
-                            是的，你现在可以不修改样板，就一键替换其中的内容了。
-                            只需要将此机器连入ME网络，然后样板在被调用时，
-                            其内容就会按照你配置的优先级被同一行匹配替换。
-                            支持物品和流体""",
-                    """
-                            Yes, you can now replace the content of a pattern without modifying it.
-                            Just connect this machine to the ME network, and when the pattern is called,
-                            its content will be replaced according to the priority you configured.
-                            Supports both items and fluids""")))
-            .register();
 
     public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MeWirelessConnectMachine::new)
             .renderer(MeWirelessConnectMachineRenderer::new)
@@ -979,9 +962,8 @@ public final class GTOMachines {
                     .nonYAxisRotation()
                     .recipeType(GTORecipeTypes.DIGITAL_MINER_RECIPE)
                     .workableTieredHullRenderer(GTCEu.id("block/machines/miner"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1])
-                            .append(Component.literal(", ").withStyle(ChatFormatting.GRAY))
-                            .append(Component.literal("§7每个方块需要§f" + (int) (40 / Math.pow(2, tier)) + "§7刻。")))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.uses_per_tick", GTValues.VEX[tier - 1]))
+                    .tooltips(Component.translatable("gtceu.machine.miner.per_block", Math.pow(2, 1 - tier)))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_in",
                             FormattingUtil.formatNumbers(GTValues.VEX[tier]),
                             GTValues.VNF[tier]))

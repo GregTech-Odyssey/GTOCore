@@ -138,6 +138,9 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         } else {
             if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.RECIPE_MAP.containsKey(gtemiRecipe.getId())) {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe(gtemiRecipe.getId().toString());
+            } else if (recipe instanceof EmiCookingRecipe) {
+                ((IPatterEncodingTermMenu) menu).gtolib$addRecipe("gtceu:electric_furnace/");
+
             } else {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe("");
             }

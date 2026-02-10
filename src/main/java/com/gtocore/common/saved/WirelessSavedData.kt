@@ -157,7 +157,7 @@ class WirelessSavedData : SavedData() {
         p0.put(
             "WirelessSavedData",
             ListTag().apply {
-                if (GTOConfig.INSTANCE.aeLog) println("${GTCEu.isClientSide()} Saving WirelessSavedData with ${gridPool.size} grids")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("${GTCEu.isClientSide()} Saving WirelessSavedData with ${gridPool.size} grids")
                 for (grid in gridPool) {
                     add(grid.encodeToNbt())
                 }
@@ -166,7 +166,7 @@ class WirelessSavedData : SavedData() {
         p0.put(
             "defaultMap",
             ListTag().apply {
-                if (GTOConfig.INSTANCE.aeLog) println("${GTCEu.isClientSide()} Saving defaultMap with ${defaultMap.size} entries")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("${GTCEu.isClientSide()} Saving defaultMap with ${defaultMap.size} entries")
                 for ((key, value) in defaultMap) {
                     add(
                         CompoundTag().apply {
@@ -188,7 +188,7 @@ class WirelessSavedData : SavedData() {
         for (tag in list) {
             res.add(WirelessGrid.decodeFromNbt(tag as CompoundTag).takeIf { n -> res.none { it.name == n.name } } ?: continue)
         }
-        if (GTOConfig.INSTANCE.aeLog) println("${GTCEu.isClientSide()} Loading WirelessSavedData with ${res.size} grids")
+        if (GTOConfig.INSTANCE.devMode.aeLog) println("${GTCEu.isClientSide()} Loading WirelessSavedData with ${res.size} grids")
         gridPool.addAll(res)
         val defaultList = p0.getList("defaultMap", 10)
         for (tag in defaultList) {

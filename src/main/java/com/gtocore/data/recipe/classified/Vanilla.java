@@ -6,6 +6,7 @@ import com.gtocore.common.data.machines.*;
 import com.gtocore.integration.Mods;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
@@ -93,7 +94,7 @@ final class Vanilla {
                 "B B",
                 "ABA",
                 'A', CustomTags.EV_CIRCUITS, 'B', RegistriesUtils.getItemStack("expatternprovider:wireless_connect"));
-        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_pattern_content_sort_machine"), GTOMachines.ME_PATTERN_CONTENT_SORT_MACHINE.asItem(),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_pattern_content_sort_machine"), GTOAEParts.INSTANCE.getPattern_Content_Access_Terminal().get().asItem(),
                 "ABA",
                 "BCB",
                 "DBD",
@@ -115,8 +116,8 @@ final class Vanilla {
                 "   ",
                 "ABA",
                 "DDD",
-                'A', CustomTags.LuV_CIRCUITS, 'B', EPPItemAndBlock.EX_PATTERN_TERMINAL,
-                'D', new MaterialEntry(TagPrefix.plate, GTMaterials.HastelloyX));
+                'A', AEItems.ENGINEERING_PROCESSOR, 'B', EPPItemAndBlock.EX_PATTERN_TERMINAL,
+                'D', TagUtils.createItemTag(RLUtils.ae("illuminated_panel")));
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_2in1_terminal_wireless"), GTOItems.WIRELESS_ME2IN1.asItem(),
                 "A",

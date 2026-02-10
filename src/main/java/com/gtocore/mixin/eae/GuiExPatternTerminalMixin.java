@@ -22,11 +22,11 @@ import appeng.client.gui.me.patternaccess.PatternContainerRecord;
 import appeng.client.gui.style.ScreenStyle;
 import appeng.client.gui.widgets.AETextField;
 import appeng.client.gui.widgets.ServerSettingToggleButton;
-import appeng.util.inv.AppEngInternalInventory;
 import com.fast.fastcollection.OpenCacheHashSet;
 import com.glodblock.github.extendedae.client.button.HighlightButton;
 import com.glodblock.github.extendedae.client.gui.GuiExPatternTerminal;
 import com.glodblock.github.extendedae.container.ContainerExPatternTerminal;
+import com.glodblock.github.extendedae.util.FCUtil;
 import com.glodblock.github.extendedae.util.MessageUtil;
 import com.google.common.collect.HashMultimap;
 import org.spongepowered.asm.mixin.*;
@@ -38,8 +38,6 @@ import java.util.*;
 @Mixin(GuiExPatternTerminal.class)
 public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerminal> extends AEBaseScreen<T> implements IExtendedGuiEx {
 
-    @Unique
-    private static final AppEngInternalInventory gto$emptyInv = new AppEngInternalInventory(0);
     @Unique
     private static final int gto$COLUMNS = 9;
 
@@ -70,7 +68,7 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
     private HashMap<Long, PatternContainerRecord> byId;
 
     @Shadow(remap = false)
-    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, String searchTerm, boolean checkOut);
+    protected abstract boolean itemStackMatchesSearchTerm(ItemStack itemStack, List<String> searchTerm, boolean checkOut);
 
     @Shadow(remap = false)
     @Final
@@ -151,8 +149,10 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
         this.matchedStack.clear();
         this.matchedProvider.clear();
 
-        final String outputFilter = this.searchOutField.getValue().toLowerCase();
-        final String inputFilter = this.searchInField.getValue().toLowerCase();
+        final String outputFilter = this.searchOutField.getValue().toLowerCase().trim();
+        final String inputFilter = this.searchInField.getValue().toLowerCase().trim();
+        final List<String> outputFilters = FCUtil.tokenize(outputFilter);
+        final List<String> inputFilters = FCUtil.tokenize(inputFilter);
         final String patternFilter = this.gto$getSearchProviderField().getValue().toLowerCase();
 
         final Set<Object> cachedSearch = this.getCacheForSearchTerm("out:" + outputFilter + "in:" + inputFilter + "pat:" + patternFilter);
@@ -175,12 +175,12 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
                 boolean midRes;
                 for (ItemStack itemStack : entry.getInventory()) {
                     if (!outputFilter.isEmpty()) {
-                        midRes = this.itemStackMatchesSearchTerm(itemStack, outputFilter, true);
+                        midRes = this.itemStackMatchesSearchTerm(itemStack, outputFilters, true);
                     } else {
                         midRes = true;
                     }
                     if (!inputFilter.isEmpty() && midRes) {
-                        midRes = this.itemStackMatchesSearchTerm(itemStack, inputFilter, false);
+                        midRes = this.itemStackMatchesSearchTerm(itemStack, inputFilters, false);
                     }
                     if (midRes) {
                         found = true;
@@ -216,6 +216,9 @@ public abstract class GuiExPatternTerminalMixin<T extends ContainerExPatternTerm
                 // noinspection SizeReplaceableByIsEmpty
                 if (inventory.size() > 0) {
                     var info = this.infoMap.get(container.getServerId());
+                    if (info == null) {
+                        continue;
+                    }
                     var btn = new HighlightButton();
                     btn.setMultiplier(this.playerToBlockDis(info.pos()));
                     btn.setTarget(info.pos(), info.face(), info.world());

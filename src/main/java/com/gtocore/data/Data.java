@@ -28,7 +28,6 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -45,6 +44,7 @@ import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.world.level.block.Block;
 
@@ -68,7 +68,7 @@ public final class Data {
 
     public static void init() {
         if (GTCEu.isClientSide()) {
-            GTOUtils.startThread(Data::clientInit);
+            GTUtil.ASYNC_EXECUTOR.execute(Data::clientInit);
         } else {
             commonInit();
         }

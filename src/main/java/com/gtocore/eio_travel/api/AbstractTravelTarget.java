@@ -1,6 +1,7 @@
-package com.gtocore.eio_travel;
+package com.gtocore.eio_travel.api;
 
 import com.gtocore.config.GTOConfig;
+import com.gtocore.eio_travel.EioTravelNbtKeys;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -73,11 +74,6 @@ public abstract class AbstractTravelTarget implements ITravelTarget {
     @Override
     public boolean canTeleportTo() {
         return getVisibility();
-    }
-
-    @Override
-    public boolean canJumpTo() {
-        return true;
     }
 
     @Override

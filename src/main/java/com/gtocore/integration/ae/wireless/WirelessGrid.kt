@@ -82,7 +82,7 @@ class WirelessGrid(
             connectionHolderPool.addAll(newConnections)
 
             val stats = topologyManager.getNetworkStats()
-            if (GTOConfig.INSTANCE.aeLog) {
+            if (GTOConfig.INSTANCE.devMode.aeLog) {
                 println(
                     "Grid '$name' topology rebuilt: ${stats.totalNodes} nodes, " +
                         "${stats.totalClusters} clusters, ${stats.totalConnections} connections, " +
@@ -103,9 +103,9 @@ class WirelessGrid(
             val newConnections = topologyManager.addNode(machine)
             connectionHolderPool.addAll(newConnections)
 
-            if (GTOConfig.INSTANCE.aeLog) println("Added node ${machine.self().pos} to grid '$name', ${newConnections.size} new connections")
+            if (GTOConfig.INSTANCE.devMode.aeLog) println("Added node ${machine.self().pos} to grid '$name', ${newConnections.size} new connections")
         } catch (e: Exception) {
-            if (GTOConfig.INSTANCE.aeLog) println("Failed to add node to topology: ${e.message}")
+            if (GTOConfig.INSTANCE.devMode.aeLog) println("Failed to add node to topology: ${e.message}")
             refreshConnectionPool()
         }
     }
@@ -117,9 +117,9 @@ class WirelessGrid(
                     affectedConnections.contains(connection)
                 }
 
-                if (GTOConfig.INSTANCE.aeLog) println("Removed node ${machine.self().pos} from grid '$name'")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("Removed node ${machine.self().pos} from grid '$name'")
             } catch (e: Exception) {
-                if (GTOConfig.INSTANCE.aeLog) println("Failed to remove node from topology: ${e.message}")
+                if (GTOConfig.INSTANCE.devMode.aeLog) println("Failed to remove node from topology: ${e.message}")
                 refreshConnectionPool()
             }
         }
@@ -127,7 +127,7 @@ class WirelessGrid(
 
     // 网络降级
     private fun fallbackToSimpleConnections() {
-        if (GTOConfig.INSTANCE.aeLog) println("Grid '$name' topology rebuild failed, falling back to simple connections")
+        if (GTOConfig.INSTANCE.devMode.aeLog) println("Grid '$name' topology rebuild failed, falling back to simple connections")
         connectionPool.windowed(2).forEach { windowedNodes ->
             try {
                 val first = windowedNodes[0]

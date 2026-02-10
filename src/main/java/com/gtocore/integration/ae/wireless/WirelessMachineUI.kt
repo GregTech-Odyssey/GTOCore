@@ -5,6 +5,7 @@ import com.gtocore.common.saved.WirelessSavedData
 import com.gtocore.config.GTOConfig
 import com.gtocore.integration.ae.wireless.WirelessMachine.*
 
+import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 
@@ -31,7 +32,6 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
 
     override fun createMainPage(p0: FancyMachineUIWidget?): Widget {
         return rootFresh(176, 166) {
-            if (GTOConfig.INSTANCE.aeLog) println(1)
             // 移除页面打开即同步，避免触发刷新循环；改为由机器加载与按钮操作驱动同步
             hBox(height = availableHeight, { spacing = 4 }) {
                 blank()
@@ -46,7 +46,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                     }
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.translatable(player, self.self().playerOwner?.name ?: "无") },
+                        textSupplier = { Component.translatable(player, self.self().playerOwner?.name ?: Component.translatable(none)) },
                     )
                     textBlock(
                         maxWidth = availableWidth - 4,
@@ -54,7 +54,14 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                             val id = self.wirelessMachinePersisted0.gridConnectedName
                             val nick =
                                 self.wirelessMachineRunTime0.gridCache.get().firstOrNull { it.name == id }?.nickname
-                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
+
+                            Component.translatable(
+                                currentlyConnectedTo,
+                                (nick ?: id)
+                                    .takeIf(String::isNotEmpty)
+                                    ?. let(Component::literal)
+                                    ?: Component.translatable(none).withStyle(ChatFormatting.RED),
+                            )
                         },
                     )
                     // 重新加入“创建网络”输入与按钮

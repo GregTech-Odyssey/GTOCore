@@ -1,7 +1,5 @@
 package com.gtocore.client.gui;
 
-import com.gtocore.client.forge.GTOComponentHandlerKt;
-import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.api.gui.PatternSlotWidget;
@@ -270,17 +268,7 @@ public final class PatternPreview extends WidgetGroup {
         }
         slotWidgets = new PatternSlotWidget[itemList.size()];
         for (int i = 0; i < slotWidgets.length; i++) {
-            slotWidgets[i] = new PatternSlotWidget(new ItemHandlerModifiable(itemList.get(i)), i, 4 + i * 18, 0) {
-
-                @Override
-                public List<Component> getFullTooltipTexts() {
-                    if (this.slotReference == null || !GTOConfig.INSTANCE.showEnglishName) return super.getFullTooltipTexts();
-                    var stack = this.slotReference.getItem();
-                    var tooltips = new ArrayList<>(super.getFullTooltipTexts());
-                    GTOComponentHandlerKt.getEnglish(stack).ifPresent(tooltips::add);
-                    return tooltips;
-                }
-            };
+            slotWidgets[i] = new PatternSlotWidget(new ItemHandlerModifiable(itemList.get(i)), i, 4 + i * 18, 0);
             scrollableWidgetGroup.addWidget(slotWidgets[i]);
         }
     }

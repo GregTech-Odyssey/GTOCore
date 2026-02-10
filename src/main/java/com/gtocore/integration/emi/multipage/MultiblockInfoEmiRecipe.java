@@ -58,7 +58,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         super(() -> MULTIBLOCK);
         this.definition = definition;
         widget = () -> PatternPreview.getPatternWidget(this, definition);
-        Consumer<Collection<Item>> action = p -> inputs.add(new ListEmiIngredient(p.stream().map(EmiStack::of).toList(), 1));
+        Consumer<Collection<Item>> action = p -> inputs.add(new ListEmiIngredient(p.stream().filter(Objects::nonNull).map(EmiStack::of).toList(), 1));
         var file = new File(GTOCore.getFile(), "cache/multiblock/" + definition.getName() + "_parts");
         if (file.exists() && file.canRead()) {
             FileUtils.loadFromFile(file, FileUtils.Deserialize.list(FileUtils.Deserialize.list(dis -> RegistriesUtils.getItem(RLUtils.SERIALIZER.deserialize(dis))))).forEach(action);

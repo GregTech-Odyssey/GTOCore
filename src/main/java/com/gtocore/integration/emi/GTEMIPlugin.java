@@ -45,6 +45,9 @@ import appeng.integration.modules.emi.IStackInteractionScreen;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
+import com.glodblock.github.extendedae.container.ContainerExCraftingTerminal;
+import com.glodblock.github.extendedae.xmod.jei.JEIPlugin;
+import com.glodblock.github.extendedae.xmod.jei.transfer.ExCraftingTransferHandler;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
@@ -143,6 +146,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(WCTMenu.TYPE, new EmiUseCraftingRecipeHandler<>(WCTMenu.class));
         registry.addRecipeHandler(WETMenu.TYPE, new EmiEncodePatternHandler<>(WETMenu.class));
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new EmiEncodePatternHandler<>(PatternEncodingTermMenu.class));
+        registry.addRecipeHandler(ContainerExCraftingTerminal.TYPE, new XModTransferHandlers.ExCraftingTransferHandler<>(ContainerExCraftingTerminal.class));
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);

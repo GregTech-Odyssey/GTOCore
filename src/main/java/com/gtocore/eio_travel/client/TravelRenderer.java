@@ -1,6 +1,6 @@
 package com.gtocore.eio_travel.client;
 
-import com.gtocore.eio_travel.ITravelTarget;
+import com.gtocore.eio_travel.api.ITravelTarget;
 
 import net.minecraft.client.renderer.LevelRenderer;
 

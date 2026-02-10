@@ -110,12 +110,23 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @RegisterLanguage(cn = "总成共享配置", en = "Buffer share configuration")
     private static final String SHARE = "gtocore.pattern_buffer.share";
 
+    @Override
+    public @Nullable GTRecipeType gto$getRecipeType() {
+        return getRecipeType();
+    }
+
+    @Override
+    public @Nullable Collection<GTRecipeType> gto$getRecipeTypes() {
+        return getRecipeTypes();
+    }
+
     @Persisted
     @DescSynced
     @Getter
     private final ArrayList<GTRecipeType> recipeTypes = new ArrayList<>();
     @Persisted
     @DescSynced
+    @Getter
     public GTRecipeType recipeType = GTORecipeTypes.HATCH_COMBINED;
 
     @DescSynced
@@ -703,9 +714,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
-            if (recipe != null) {
-                tag.put("recipe", recipe.serializeNBT());
-            }
+            // if (recipe != null) {
+            // tag.put("recipe", recipe.serializeNBT());
+            // }
             ListTag itemsTag = new ListTag();
             for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
@@ -743,7 +754,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
+            // setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag ct)) continue;

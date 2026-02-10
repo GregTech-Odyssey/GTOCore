@@ -1,9 +1,9 @@
 package com.gtocore.eio_travel.client.travel;
 
 import com.gtocore.common.data.GTOMachines;
-import com.gtocore.eio_travel.AbstractTravelTarget;
-import com.gtocore.eio_travel.ITravelTarget;
-import com.gtocore.eio_travel.api.TravelHandler;
+import com.gtocore.eio_travel.api.AbstractTravelTarget;
+import com.gtocore.eio_travel.api.ITravelTarget;
+import com.gtocore.eio_travel.logic.TravelHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

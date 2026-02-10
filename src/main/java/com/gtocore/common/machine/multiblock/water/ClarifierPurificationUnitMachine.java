@@ -36,7 +36,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class ClarifierPurificationUnitMachine extends WaterPurificationUnitMachine implements IFluidRendererMachine {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(ClarifierPurificationUnitMachine.class);
     private static final Fluid AIR = GTMaterials.Air.getFluid();
 
     @Persisted

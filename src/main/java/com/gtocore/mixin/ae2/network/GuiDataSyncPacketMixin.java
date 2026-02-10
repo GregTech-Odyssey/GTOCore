@@ -47,7 +47,7 @@ public class GuiDataSyncPacketMixin implements IGuiDataSyncPacketExt {
             gtolib$isInnerMenuPacket = buf.getBoolean(lastBooleanIndex);
         } catch (Exception e) {
             // If the packet is not from Me2in1Menu, we don't care about this field
-            if (GTOConfig.INSTANCE.aeLog) {
+            if (GTOConfig.INSTANCE.devMode.aeLog) {
                 GTOCore.LOGGER.warn("Failed to read gtolib$isInnerMenuPacket from GuiDataSyncPacket, assuming false", e);
             }
             gtolib$isInnerMenuPacket = false;

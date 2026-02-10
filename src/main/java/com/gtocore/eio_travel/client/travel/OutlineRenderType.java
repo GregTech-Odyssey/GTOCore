@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.RenderType;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +38,6 @@ public class OutlineRenderType extends RenderType {
         }
     }
 
-    @NotNull
     @Override
     public String toString() {
         return "Outline" + this.parent;

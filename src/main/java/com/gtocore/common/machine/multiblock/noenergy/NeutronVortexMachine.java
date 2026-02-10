@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
@@ -13,8 +14,6 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
@@ -141,8 +140,8 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                         .where('H', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                         .where('I', blocks(GTOBlocks.TITANIUM_BOROSILICATE_GLASS.get()))
                         .where('J', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
-                        .where('K', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Quantanium)))
-                        .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Vibranium)))
+                        .where('K', GTOPredicates.frame(GTOMaterials.Quantanium))
+                        .where('L', GTOPredicates.frame(GTOMaterials.Vibranium))
                         .where('M', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
                         .where('N', blocks(GTBlocks.FUSION_GLASS.get()))
                         .where('O', blocks(GTOBlocks.SPEEDING_PIPE.get()))
@@ -181,8 +180,8 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                         .aisle("    AHHHHHA    ", "    AHHHHHA    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    A     A    ", "    AAAAAAA    ", "    AAAAAAA    ")
                         .where('A', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
                         .where('B', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
-                        .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Quantanium)))
-                        .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Vibranium)))
+                        .where('C', GTOPredicates.frame(GTOMaterials.Quantanium))
+                        .where('D', GTOPredicates.frame(GTOMaterials.Vibranium))
                         .where('E', blocks(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.get()))
                         .where('F', blocks(GTBlocks.FUSION_GLASS.get()))
                         .where('G', blocks(GTOBlocks.SPEEDING_PIPE.get()))

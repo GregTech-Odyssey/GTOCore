@@ -32,16 +32,36 @@ public final class GTOConfig {
     private static final String SCREEN = "config.screen.gtocore";
     public final static GTOConfig INSTANCE;
 
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Play", cn = "游戏玩法")
+    public GamePlay gamePlay = new GamePlay();
+
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Client", cn = "客户端")
+    public Client client = new Client();
+
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Misc", cn = "杂项")
+    public Misc misc = new Misc();
+
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Travel Settings", cn = "旅行手杖/旅行锚设置")
+    public TravelConfig travelConfig = new TravelConfig();
+
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Dev Mode", cn = "开发模式")
+    public DevMode devMode = new DevMode();
+
     static {
         CommonProxy.earlyStartup();
         ConfigHolder.init();
         INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.YAML).getConfigInstance();
-        if (INSTANCE.startSpark == SparkRange.ALL || INSTANCE.startSpark == SparkRange.MAIN_MENU) {
+        if (INSTANCE.devMode.startSpark == SparkRange.ALL || INSTANCE.devMode.startSpark == SparkRange.MAIN_MENU) {
             SparkLaunchProfiler.start("all");
         }
-        if (INSTANCE.dev) Configurator.setRootLevel(Level.INFO);
-        if (INSTANCE.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
-        int difficulty = INSTANCE.difficulty.ordinal() + 1;
+        if (INSTANCE.devMode.dev) Configurator.setRootLevel(Level.INFO);
+        if (INSTANCE.devMode.detailedLogging) Configurator.setRootLevel(Level.DEBUG);
+        int difficulty = INSTANCE.gamePlay.difficulty.ordinal() + 1;
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.harderRods = difficulty == 3;
@@ -141,189 +161,241 @@ public final class GTOConfig {
         if (GTOCore.isEasy()) {
             ConfigHolder.INSTANCE.gameplay.hazardsEnabled = false;
         }
-        ConfigHolder.INSTANCE.dev.debug = INSTANCE.dev;
+        ConfigHolder.INSTANCE.dev.debug = INSTANCE.devMode.dev;
 
-        MultiblockControllerMachine.sendMessage = INSTANCE.sendMultiblockErrorMessages;
+        MultiblockControllerMachine.sendMessage = INSTANCE.misc.sendMultiblockErrorMessages;
     }
 
-    // 游戏核心设置
-    @Configurable
-    @Configurable.Comment({ "游戏难度等级", "Game difficulty level" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度")
-    public Difficulty difficulty = Difficulty.Normal;
+    public static <T> void set(String fieldName, T value) {
+        getConfig(GTOCore.MOD_ID).ifPresent(config -> {
+            ((ConfigValue<T>) (config.getValueMap().get(fieldName))).setValue(value);
+            ConfigIO.saveClientValues(config);
+            ConfigIO.reloadClientValues(config);
+        });
+    }
 
-    @Configurable
-    @Configurable.Comment({ "启用自我约束模式以限制任何形式的作弊指令使用（警告：一旦开启，游玩的存档将永久锁定自我约束模式！）", "Enable Self Restraint Mode to restrict the use of any form of cheat commands (Warning: Once enabled, the played save will be permanently locked in Self Restraint Mode!)" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Self Restraint Mode", cn = "自我约束模式")
-    public boolean selfRestraint = false;
+    public static <T> void set(String fieldName, T value, String... objectPath) {
+        if (objectPath.length == 0) {
+            set(fieldName, value);
+            return;
+        }
+        getConfig(GTOCore.MOD_ID).ifPresent(config -> {
+            ObjectValue valueMap0 = (ObjectValue) config.getValueMap().get(objectPath[0]);
+            if (objectPath.length == 1) {
+                ((ConfigValue<T>) (valueMap0.getChildById(fieldName))).setValue(value);
+            } else {
+                for (int i = 1; i < objectPath.length; i++) {
+                    valueMap0 = (ObjectValue) valueMap0.getChildById(objectPath[i]);
+                }
+                ((ConfigValue<T>) (valueMap0.getChildById(fieldName))).setValue(value);
+            }
+            ConfigIO.saveClientValues(config);
+            ConfigIO.reloadClientValues(config);
+        });
+    }
 
-    @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "disable Muffler Part", cn = "禁用消声仓")
-    @Configurable.Comment({ "禁用后失去掏灰玩法(在非专家模式生效)", "Removing this disables Ash-Scooping gameplay (only applies in non-Expert mode)" })
-    public boolean disableMufflerPart = false;
+    @DataGeneratorScanned
+    public static class GamePlay {
 
-    @Configurable
-    @Configurable.Range(min = 36, max = 216)
-    @Configurable.Comment({ "扩展样板供应器容量", "专家模式下，此选项无效",
-            "Extended Pattern Provider Size", "In Expert mode, this option is invalid" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
-    @Configurable.Gui.Slider
-    public int exPatternSize = 36;
+        @Configurable
+        @Configurable.Comment({ "游戏难度等级", "Game difficulty level" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度")
+        public Difficulty difficulty = Difficulty.Normal;
 
-    @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
-    @Configurable.Comment({ "在装配线模式编码带有重命名物品的样板时使用的默认名字", "The default name used when encoding patterns with renamed items in assembly line mode" })
-    public String renamePatternDefaultString = "";
+        @Configurable
+        @Configurable.Comment({ "启用自我约束模式以限制任何形式的作弊指令使用（警告：一旦开启，游玩的存档将永久锁定自我约束模式！）", "Enable Self Restraint Mode to restrict the use of any form of cheat commands (Warning: Once enabled, the played save will be permanently locked in Self Restraint Mode!)" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Self Restraint Mode", cn = "自我约束模式")
+        public boolean selfRestraint = false;
 
-    @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Allow Missing Crafting Jobs", cn = "允许下单缺少材料的合成任务")
-    @Configurable.Comment({ "允许在 AE2 中下单缺少原料的任务", "缺少的原料将以“正在合成”的状态被等待接收", "Allow placing orders for tasks that are missing ingredients in AE2", "Missing ingredients will be in a 'crafting' state waiting to be received" })
-    public boolean allowMissingCraftingJobs = true;
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "disable Muffler Part", cn = "禁用消声仓")
+        @Configurable.Comment({ "禁用后失去掏灰玩法(在非专家模式生效)", "Removing this disables Ash-Scooping gameplay (only applies in non-Expert mode)" })
+        public boolean disableMufflerPart = false;
 
-    @Configurable
-    @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，EMI 的作弊交互功能将转为试图从现有的ME终端/无线终端中提取物品", "When enabled, and EMI cheats are not enabled, EMI's cheat interaction feature will attempt to extract items from existing ME Terminals/Wireless Terminals" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Non-Cheat EMI Interaction", cn = "非作弊时EMI交互")
-    public boolean nonCheatEmiInteraction = true;
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
+        @Configurable.Comment({ "在装配线模式编码带有重命名物品的样板时使用的默认名字", "The default name used when encoding patterns with renamed items in assembly line mode" })
+        public String renamePatternDefaultString = "";
 
-    @Configurable
-    @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，在 EMI 界面中悬停物品时，将显示 AE 系统中该物品的数量信息", "When enabled, and EMI cheats are not enabled, hovering over an item in the EMI interface will show the quantity information of that item in the AE system" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show AE Amount Tooltip Everywhere in EMI", cn = "在EMI显示 AE 数量提示")
-    public boolean showAEAmountTooltipEverywhereEmi = true;
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Allow Missing Crafting Jobs", cn = "允许下单缺少材料的合成任务")
+        @Configurable.Comment({ "允许在 AE2 中下单缺少原料的任务", "缺少的原料将以“正在合成”的状态被等待接收", "Allow placing orders for tasks that are missing ingredients in AE2", "Missing ingredients will be in a 'crafting' state waiting to be received" })
+        public boolean allowMissingCraftingJobs = true;
 
-    // 性能优化设置
-    @Configurable
-    @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
-    public boolean fastMultiBlockPage = true;
+        @Configurable
+        @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，EMI 的作弊交互功能将转为试图从现有的ME终端/无线终端中提取物品", "When enabled, and EMI cheats are not enabled, EMI's cheat interaction feature will attempt to extract items from existing ME Terminals/Wireless Terminals" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Non-Cheat EMI Interaction", cn = "非作弊时EMI交互")
+        public boolean nonCheatEmiInteraction = true;
 
-    @Configurable
-    @Configurable.Comment({ "批处理模式的最大持续时间（tick）", "Maximum duration of batch processing mode (ticks)" })
-    @Configurable.Range(min = 600, max = 144000)
-    @Configurable.Gui.Slider
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Batch Processing Max Duration", cn = "批处理模式最大持续时间")
-    public int batchProcessingMaxDuration = 1200;
+        @Configurable
+        @Configurable.Comment({ "启用后，且未开启 EMI 作弊时，在 EMI 界面中悬停物品时，将显示 AE 系统中该物品的数量信息", "When enabled, and EMI cheats are not enabled, hovering over an item in the EMI interface will show the quantity information of that item in the AE system" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show AE Amount Tooltip Everywhere in EMI", cn = "在EMI显示 AE 数量提示")
+        public boolean showAEAmountTooltipEverywhereEmi = true;
 
-    // 挖掘系统设置
-    @Configurable
-    @Configurable.Comment({ "连锁挖掘（不连续模式）时，检查相邻方块的范围", "The range to check adjacent blocks during chain mining (non-continuous mode)" })
-    @Configurable.Range(min = 1, max = 20)
-    @Configurable.Gui.Slider
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Range", cn = "连锁挖掘检查范围")
-    public int ftbUltimineRange = 3;
+        @Configurable
+        @Configurable.Comment({ "批处理模式的最大持续时间（tick）", "Maximum duration of batch processing mode (ticks)" })
+        @Configurable.Range(min = 600, max = 144000)
+        @Configurable.Gui.Slider
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Batch Processing Max Duration", cn = "批处理模式最大持续时间")
+        public int batchProcessingMaxDuration = 1200;
 
-    @Configurable
-    @Configurable.Comment({ "连锁挖掘功能的方块黑名单", "Block blacklist for chain mining feature" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Blacklist", cn = "连锁挖掘黑名单")
-    public String[] breakBlocksBlackList = { "ae2:cable_bus" };
+        @Configurable
+        @Configurable.Comment({ "连锁挖掘（不连续模式）时，检查相邻方块的范围", "The range to check adjacent blocks during chain mining (non-continuous mode)" })
+        @Configurable.Range(min = 1, max = 20)
+        @Configurable.Gui.Slider
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Range", cn = "连锁挖掘检查范围")
+        public int ftbUltimineRange = 3;
 
-    // 界面和显示设置
-    @Configurable
-    @Configurable.Comment({ "禁用后，不同存档的 EMI 收藏夹将相互独立", "After disabling, EMI favorites from different saves will be independent of each other" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "EMI 全局收藏夹")
-    public boolean emiGlobalFavorites = true;
+        @Configurable
+        @Configurable.Range(min = 36, max = 216)
+        @Configurable.Comment({ "扩展样板供应器容量", "仅用于性能测试",
+                "Extended Pattern Provider Size", "Only for performance testing" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size", cn = "扩展样板供应器容量")
+        @Configurable.Gui.Slider
+        public int exPatternSize = 36;
 
-    @Configurable
-    @Configurable.Comment({ "禁用爆弹物品的使用",
-            "警告：爆弹会造成极大范围的破坏！如果你不想爆弹破坏重要的东西，请确保提前备份存档。",
-            "Disable the use of Charge Bomb items",
-            "Warning: Charge Bombs can cause massive destruction! If you don't want Charge Bombs to destroy important things, make sure to back up your save in advance." })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
-    public boolean disableChargeBomb = false;
+        @Configurable
+        @Configurable.Comment({ "连锁挖掘功能的方块黑名单", "Block blacklist for chain mining feature" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Blacklist", cn = "连锁挖掘黑名单")
+        public String[] breakBlocksBlackList = { "ae2:cable_bus" };
 
-    @Configurable
-    @Configurable.Comment({ "在物品下方显示英文名称",
-            "同时允许在ME终端中使用英文名称搜索物品",
-            "Show the English name below the item",
-            "Also allows searching for items by English name in ME Terminals"
-    })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show Item English Name", cn = "显示物品英文名称")
-    public boolean showEnglishName = false;
+        @Configurable
+        @Configurable.Comment({ "禁用爆弹物品的使用",
+                "警告：爆弹会造成极大范围的破坏！如果你不想爆弹破坏重要的东西，请确保提前备份存档。",
+                "Disable the use of Charge Bomb items",
+                "Warning: Charge Bombs can cause massive destruction! If you don't want Charge Bombs to destroy important things, make sure to back up your save in advance." })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
+        public boolean disableChargeBomb = false;
 
-    @Configurable
-    @Configurable.Comment({ "调整监控器的最大成型尺寸", "Adjust the maximum formed size of the monitor" })
-    @Configurable.Range(min = 4, max = 64)
-    @Configurable.Gui.Slider
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Maximum Monitor Size", cn = "监控器最大尺寸")
-    public int maxMonitorSize = 16;
+        @Configurable
+        @Configurable.Comment({ "调整监控器的最大成型尺寸", "Adjust the maximum formed size of the monitor" })
+        @Configurable.Range(min = 4, max = 64)
+        @Configurable.Gui.Slider
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Maximum Monitor Size", cn = "监控器最大尺寸")
+        public int maxMonitorSize = 16;
 
-    @Configurable
-    @Configurable.Comment({ "引雷针在工作时是否生成闪电特效", "Whether the lightning rod generates lightning effects when working" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Lightning Rod Effect", cn = "引雷针特效")
-    public boolean lightningRodEffect = true;
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Settings", cn = "生物设置")
+        public GamePlay.MobConfig mobConfig = new GamePlay.MobConfig();
 
-    @Configurable
-    @Configurable.Comment({ "启用内置夜视。该效果也可在游戏内按绑定热键切换", "Enable built-in night vision. This effect can also be toggled in-game by pressing the bound hotkey"
-    })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Built-in Night Vision", cn = "内置夜视")
-    public boolean nightVision = false;
+        @DataGeneratorScanned
+        public static class MobConfig {
 
-    @Configurable
-    @Configurable.Comment({ "禁用后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要开启此选项才能正常渲染", "When turned disable, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn on this option to render properly" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Embeddium Global BE Culling", cn = "禁用Embbedium Global方块实体剔除")
-    public boolean disableEmbeddiumBECulling = true;
+            @Configurable
+            @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，影响的半径（格）", "The radius (blocks) affected when a player consumes food derived from an animal near that animal" })
+            @Configurable.Range(min = 1, max = 64)
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Radius", cn = "食肉惩罚半径")
+            @Configurable.Gui.Slider
+            public int cannibalismRadius = 32;
 
-    @Configurable
-    @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
-    public boolean sendMultiblockErrorMessages = true;
+            @Configurable
+            @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，对该动物造成的伤害值（半颗心=1.0）", "The amount of damage dealt to the animal when a player consumes food derived from that animal nearby (Half Heart = 1.0)" })
+            @Configurable.Range(min = 0, max = 100)
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Damage", cn = "食肉惩罚伤害")
+            public float cannibalismDamage = 1.0F;
 
-    @Configurable
-    @Configurable.Comment({ "一些机器内容会以服务器语言的翻译呈现", "Some machine contents will be presented in the server language translation" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Server language", cn = "服务器语言")
-    public String serverLang = "en_us";
+            @Configurable
+            @Configurable.Comment({ "启用后，所有生物将能够自然回血", "When enabled, all mobs will naturally regenerate health" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Natural Regeneration", cn = "生物自然回血")
+            public boolean naturalRegeneration = true;
+        }
+    }
 
-    // 开发和调试设置
-    @Configurable
-    @Configurable.UpdateRestriction(UpdateRestrictions.GAME_RESTART)
-    @Configurable.Comment({ "启用自定义配方",
-            "自定义配方详情与教程参见https://gtodyssey.com/zh-hans/%E6%95%B4%E5%90%88%E5%8C%85%E6%95%99%E5%AD%A6/%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9gto%E9%85%8D%E6%96%B9/",
-            "注意：启用此选项后，若加载错误的配方脚本，可能会导致进入游戏后配方丢失，请务必在非常规游玩存档中测试配方脚本的正确性。",
-            "注意：在服务器上游玩时，服务器和客户端均需启用此选项且使用相同的配方脚本文件。",
-            "Enable custom recipes",
-            "For details and tutorials on custom recipes, please refer to https://gtodyssey.com/zh-hans/%E6%95%B4%E5%90%88%E5%8C%85%E6%95%99%E5%AD%A6/%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3/%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9gto%E9%85%8D%E6%96%B9/",
-            "Note: After enabling this option, if an incorrect recipe script is loaded, it may cause recipes to be lost after entering the game. Please be sure to test the correctness of the recipe script in a non-conventional play save.",
-            "Note: When playing on a server, both the server and client need to enable this option and use the same recipe script file." })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Enable Custom Recipes", cn = "启用自定义配方")
-    public boolean enableCustomRecipes = false;
+    @DataGeneratorScanned
+    public static class Client {
 
-    @Configurable
-    @Configurable.Comment({ "开启开发者模式", "Enable Developer Mode" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Developer Mode", cn = "开发者模式")
-    public boolean dev = false;
+        @Configurable
+        @Configurable.Comment({ "引雷针在工作时是否生成闪电特效", "Whether the lightning rod generates lightning effects when working" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Lightning Rod Effect", cn = "引雷针特效")
+        public boolean lightningRodEffect = true;
 
-    @Configurable
-    @Configurable.Comment({ "启用后将显示详细的启动日志输出，包含所有 DEBUG 级别的日志（增加日志文件大小但便于调试）", "When enabled, shows detailed startup log output including all DEBUG level logs (increases log file size but useful for debugging)" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Detailed Logging", cn = "[调试] 详细日志输出")
-    public boolean detailedLogging = false;
+        @Configurable
+        @Configurable.Comment({ "启用内置夜视。该效果也可在游戏内按绑定热键切换", "Enable built-in night vision. This effect can also be toggled in-game by pressing the bound hotkey"
+        })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Built-in Night Vision", cn = "内置夜视")
+        public boolean nightVision = false;
 
-    @Configurable
-    @Configurable.Comment({ "检查配方之间的冲突问题", "Check for conflicts between recipes" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Recipe Conflict Check", cn = "[调试] 配方冲突检查")
-    public boolean recipeCheck = false;
+        @Configurable
+        @Configurable.Comment({ "禁用后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要开启此选项才能正常渲染", "When turned disable, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn on this option to render properly" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Embeddium Global BE Culling", cn = "禁用Embbedium Global方块实体剔除")
+        public boolean disableEmbeddiumBECulling = true;
 
-    @Configurable
-    @Configurable.Comment({ "启用 AE2 和同步组件的详细日志", "Enable detailed logging for AE2 and sync components" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 和同步日志")
-    public boolean aeLog = false;
+        @Configurable
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
+        public HUDConfig hud = new HUDConfig();
 
-    @Configurable
-    @Configurable.Comment({ "启用 AE2 无线网络调试日志", "Enable AE2 wireless network debug logging" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 无线网络调试日志")
-    public boolean aeWirelessLog = false;
+        @DataGeneratorScanned
+        public static class HUDConfig {
 
-    @Configurable
-    @Configurable.Comment({ "AE2 无线网络使用的存储键，切换后将使用新的存储键重新生成网络（警告：切换后所有AE无线设备的设置将重置！）", "The storage key used by the AE2 wireless network. After switching, a new storage key will be used to regenerate the network (Warning: After switching, all AE wireless device settings will be reset!)" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", cn = "AE2 网格存储键", en = "AE2 Grid Storage Key")
-    public String aeGridKey = "four";
+            @Configurable
+            @Configurable.Comment({ "启用无线能量 HUD 显示", "Enable Wireless Energy HUD display" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Enabled", cn = "无线能量 HUD 启用")
+            public boolean wirelessEnergyHUDEnabled = false;
 
-    @Configurable
-    @Configurable.Comment({ "Spark 性能分析器的启动阶段", "The startup phase of the Spark profiler" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Profiler Start Phase", cn = "Spark 分析器启动阶段")
-    public SparkRange startSpark = SparkRange.NONE;
+            @Configurable
+            @Configurable.Comment({ "无线能量 HUD 的默认 X 相对位置", "0意味着屏幕左侧，100意味着屏幕右侧", "The default X relative position of the Wireless Energy HUD", "0.0 means the left side of the screen, 1.0 means the right side of the screen" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Default X", cn = "无线能量 HUD 默认 X 位置")
+            @Configurable.Range(min = 0, max = 100)
+            @Configurable.Gui.Slider
+            public int wirelessEnergyHUDDefaultX = 5;
 
-    @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Travel Settings", cn = "旅行手杖/旅行锚设置")
-    public TravelConfig travelConfig = new TravelConfig();
+            @Configurable
+            @Configurable.Comment({ "无线能量 HUD 的默认 Y 相对位置", "0意味着屏幕顶部，100意味着屏幕底部", "The default Y relative position of the Wireless Energy HUD", "0.0 means the top of the screen, 1.0 means the bottom of the screen" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Default Y", cn = "无线能量 HUD 默认 Y 位置")
+            @Configurable.Range(min = 0, max = 100)
+            @Configurable.Gui.Slider
+            public int wirelessEnergyHUDDefaultY = 75;
+
+            @Configurable
+            @Configurable.Comment({ "无线能量 HUD 显示的历史秒数", "例如：设为30则显示过去30秒的能量变化情况", "The number of historical seconds displayed by the Wireless Energy HUD", "For example: setting it to 30 will show the energy changes over the past 30 seconds" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD History Seconds", cn = "无线能量 HUD 历史秒数")
+            @Configurable.Range(min = 5, max = 300)
+            @Configurable.Gui.Slider
+            public int wirelessEnergyHUDHistorySeconds = 30;
+
+            @Configurable
+            @Configurable.Comment({ "无线能量 HUD 折线颜色", "Wireless Energy HUD line color" })
+            @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Line Color", cn = "无线能量 HUD 折线颜色")
+            @Configurable.StringPattern("#[0-9a-fA-F]{1,6}")
+            @Configurable.Gui.ColorValue
+            public String wirelessEnergyHUDLineColor = "#ECEC71";
+        }
+    }
+
+    @DataGeneratorScanned
+    public static class Misc {
+
+        @Configurable
+        @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
+        public boolean fastMultiBlockPage = true;
+
+        @Configurable
+        @Configurable.Comment({ "启用后，游戏启动时将缓存部分资源以提升性能",
+                "如果你遇到了与数据包/资源包有关的问题（配方错乱/方块丢失其适用破坏工具等），",
+                "抑或你是资源包制作者，需要频繁热重载资源包，请关闭此选项以避免缓存影响资源包预览效果",
+                "When enabled, some resources will be cached at game startup to improve performance",
+                "If you encounter issues related to datapacks/resourcepacks (recipe disorder/tools required for breaking blocks missing, etc.),",
+                "or if you are a resource pack creator who needs to frequently hot reload resource packs, please disable this option to avoid caching affecting the preview of resource packs"
+        })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Cache Resources on Startup", cn = "启动时缓存资源")
+        public boolean cacheResources = true;
+
+        @Configurable
+        @Configurable.Comment({ "禁用后，不同存档的 EMI 收藏夹将相互独立", "After disabling, EMI favorites from different saves will be independent of each other" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "EMI 全局收藏夹")
+        public boolean emiGlobalFavorites = true;
+
+        @Configurable
+        @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
+        public boolean sendMultiblockErrorMessages = true;
+
+        @Configurable
+        @Configurable.Comment({ "一些机器内容会以服务器语言的翻译呈现", "Some machine contents will be presented in the server language translation" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Server language", cn = "服务器语言")
+        public String serverLang = "en_us";
+    }
 
     @DataGeneratorScanned
     public static class TravelConfig {
@@ -362,98 +434,61 @@ public final class GTOConfig {
         public boolean staffOfTravellingPatternNodes = true;
     }
 
-    @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Settings", cn = "生物设置")
-    public MobConfig mobConfig = new MobConfig();
-
     @DataGeneratorScanned
-    public static class MobConfig {
+    public static class DevMode {
 
         @Configurable
-        @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，影响的半径（格）", "The radius (blocks) affected when a player consumes food derived from an animal near that animal" })
-        @Configurable.Range(min = 1, max = 64)
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Radius", cn = "食肉惩罚半径")
-        @Configurable.Gui.Slider
-        public int cannibalismRadius = 32;
+        @Configurable.Comment({ "开启开发者模式", "Enable Developer Mode" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Developer Mode", cn = "开发者模式")
+        public boolean dev = false;
 
         @Configurable
-        @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，对该动物造成的伤害值（半颗心=1.0）", "The amount of damage dealt to the animal when a player consumes food derived from that animal nearby (Half Heart = 1.0)" })
-        @Configurable.Range(min = 0, max = 100)
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Damage", cn = "食肉惩罚伤害")
-        public float cannibalismDamage = 1.0F;
+        @Configurable.UpdateRestriction(UpdateRestrictions.GAME_RESTART)
+        @Configurable.Comment({ "启用自定义配方",
+                "自定义配方详情与教程参见https://gtodyssey.com/zh-hans/整合包教学/官方文档/如何修改gto配方/",
+                "注意：启用此选项后，若加载错误的配方脚本，可能会导致进入游戏后配方丢失，请务必在非常规游玩存档中测试配方脚本的正确性。",
+                "注意：在服务器上游玩时，服务器和客户端均需启用此选项且使用相同的配方脚本文件。",
+                "Enable custom recipes",
+                "For details and tutorials on custom recipes, please refer to https://gtodyssey.com/zh-hans/整合包教学/官方文档/如何修改gto配方/",
+                "Note: After enabling this option, if an incorrect recipe script is loaded, it may cause recipes to be lost after entering the game. Please be sure to test the correctness of the recipe script in a non-conventional play save.",
+                "Note: When playing on a server, both the server and client need to enable this option and use the same recipe script file." })
+
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Enable Custom Recipes", cn = "启用自定义配方")
+        public boolean enableCustomRecipes = false;
 
         @Configurable
-        @Configurable.Comment({ "启用后，所有生物将能够自然回血", "When enabled, all mobs will naturally regenerate health" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Mob Natural Regeneration", cn = "生物自然回血")
-        public boolean naturalRegeneration = true;
-    }
-
-    @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "HUD Settings", cn = "HUD 设置")
-    public HUDConfig hud = new HUDConfig();
-
-    @DataGeneratorScanned
-    public static class HUDConfig {
+        @Configurable.Comment({ "检查配方之间的冲突问题", "Check for conflicts between recipes" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Recipe Conflict Check", cn = "[调试] 配方冲突检查")
+        public boolean recipeCheck = false;
 
         @Configurable
-        @Configurable.Comment({ "启用无线能量 HUD 显示", "Enable Wireless Energy HUD display" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Enabled", cn = "无线能量 HUD 启用")
-        public boolean wirelessEnergyHUDEnabled = false;
+        @Configurable.Comment({ "启用后，跳过加载研磨、电弧炉回收等配方以提升开发测试效率", "When enabled, recipes such as grinding and arc furnace recycling will not be loaded to improve development testing efficiency" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Disable Recycling Recipes", cn = "[调试] 禁用回收配方")
+        public boolean disableRecyclingRecipes = false;
 
         @Configurable
-        @Configurable.Comment({ "无线能量 HUD 的默认 X 相对位置", "0意味着屏幕左侧，100意味着屏幕右侧", "The default X relative position of the Wireless Energy HUD", "0.0 means the left side of the screen, 1.0 means the right side of the screen" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Default X", cn = "无线能量 HUD 默认 X 位置")
-        @Configurable.Range(min = 0, max = 100)
-        @Configurable.Gui.Slider
-        public int wirelessEnergyHUDDefaultX = 5;
+        @Configurable.Comment({ "启用后将显示详细的启动日志输出，包含所有 DEBUG 级别的日志（增加日志文件大小但便于调试）", "When enabled, shows detailed startup log output including all DEBUG level logs (increases log file size but useful for debugging)" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Detailed Logging", cn = "[调试] 详细日志输出")
+        public boolean detailedLogging = false;
 
         @Configurable
-        @Configurable.Comment({ "无线能量 HUD 的默认 Y 相对位置", "0意味着屏幕顶部，100意味着屏幕底部", "The default Y relative position of the Wireless Energy HUD", "0.0 means the top of the screen, 1.0 means the bottom of the screen" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Default Y", cn = "无线能量 HUD 默认 Y 位置")
-        @Configurable.Range(min = 0, max = 100)
-        @Configurable.Gui.Slider
-        public int wirelessEnergyHUDDefaultY = 75;
+        @Configurable.Comment({ "启用 AE2 和同步组件的详细日志", "Enable detailed logging for AE2 and sync components" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 和同步日志")
+        public boolean aeLog = false;
 
         @Configurable
-        @Configurable.Comment({ "无线能量 HUD 显示的历史秒数", "例如：设为30则显示过去30秒的能量变化情况", "The number of historical seconds displayed by the Wireless Energy HUD", "For example: setting it to 30 will show the energy changes over the past 30 seconds" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD History Seconds", cn = "无线能量 HUD 历史秒数")
-        @Configurable.Range(min = 5, max = 300)
-        @Configurable.Gui.Slider
-        public int wirelessEnergyHUDHistorySeconds = 30;
+        @Configurable.Comment({ "启用 AE2 无线网络调试日志", "Enable AE2 wireless network debug logging" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 无线网络调试日志")
+        public boolean aeWirelessLog = false;
 
         @Configurable
-        @Configurable.Comment({ "无线能量 HUD 折线颜色", "Wireless Energy HUD line color" })
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Wireless Energy HUD Line Color", cn = "无线能量 HUD 折线颜色")
-        @Configurable.StringPattern("#[0-9a-fA-F]{1,6}")
-        @Configurable.Gui.ColorValue
-        public String wirelessEnergyHUDLineColor = "#ECEC71";
-    }
+        @Configurable.Comment({ "AE2 无线网络使用的存储键，切换后将使用新的存储键重新生成网络（警告：切换后所有AE无线设备的设置将重置！）", "The storage key used by the AE2 wireless network. After switching, a new storage key will be used to regenerate the network (Warning: After switching, all AE wireless device settings will be reset!)" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", cn = "AE2 网格存储键", en = "AE2 Grid Storage Key")
+        public String aeGridKey = "four";
 
-    public static <T> void set(String fieldName, T value) {
-        getConfig(GTOCore.MOD_ID).ifPresent(config -> {
-            ((ConfigValue<T>) (config.getValueMap().get(fieldName))).setValue(value);
-            ConfigIO.saveClientValues(config);
-            ConfigIO.reloadClientValues(config);
-        });
-    }
-
-    public static <T> void set(String fieldName, T value, String... objectPath) {
-        if (objectPath.length == 0) {
-            set(fieldName, value);
-            return;
-        }
-        getConfig(GTOCore.MOD_ID).ifPresent(config -> {
-            ObjectValue valueMap0 = (ObjectValue) config.getValueMap().get(objectPath[0]);
-            if (objectPath.length == 1) {
-                ((ConfigValue<T>) (valueMap0.getChildById(fieldName))).setValue(value);
-            } else {
-                for (int i = 1; i < objectPath.length; i++) {
-                    valueMap0 = (ObjectValue) valueMap0.getChildById(objectPath[i]);
-                }
-                ((ConfigValue<T>) (valueMap0.getChildById(fieldName))).setValue(value);
-            }
-            ConfigIO.saveClientValues(config);
-            ConfigIO.reloadClientValues(config);
-        });
+        @Configurable
+        @Configurable.Comment({ "Spark 性能分析器的启动阶段", "The startup phase of the Spark profiler" })
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Profiler Start Phase", cn = "Spark 分析器启动阶段")
+        public SparkRange startSpark = SparkRange.NONE;
     }
 }

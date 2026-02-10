@@ -17,6 +17,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.data.GTODimensions;
+import com.gtolib.api.item.tool.VajraItem;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.RLUtils;
@@ -31,6 +32,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
+import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -179,7 +181,7 @@ public final class ForgeCommonEvent {
             return;
         }
 
-        if (!GTOConfig.INSTANCE.disableChargeBomb) {
+        if (!GTOConfig.INSTANCE.gamePlay.disableChargeBomb) {
             if (item == GTItems.QUANTUM_STAR.get() &&
                     level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get() &&
                     !IEntropinnyum.absorbBomb(level, pos, (int) 1e6)) {
@@ -318,7 +320,7 @@ public final class ForgeCommonEvent {
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
-            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.aeGridKey));
+            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.devMode.aeGridKey));
             if (Mods.FTBQUESTS.isLoaded()) {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
             }
@@ -357,9 +359,19 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void serverStarting(ServerStartingEvent event) {
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-            if (Objects.equals(GTOConfig.INSTANCE.serverLang, "en_us")) return;
-            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.serverLang, event.getServer());
+            if (Objects.equals(GTOConfig.INSTANCE.misc.serverLang, "en_us")) return;
+            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.misc.serverLang, event.getServer());
         });
+    }
+
+    @SubscribeEvent
+    public static void harvestCheck(PlayerEvent.HarvestCheck harvestCheck) {
+        ItemStack stack = harvestCheck.getEntity().getMainHandItem();
+        if (stack.getItem() instanceof VajraItem tool) {
+            int tier = tool.getTier().getLevel();
+            if (tier >= 6) harvestCheck.setCanHarvest(true);
+            else harvestCheck.setCanHarvest(ToolHelper.isCorrectTierForDrops(harvestCheck.getTargetBlock(), tier));
+        }
     }
 
     @SubscribeEvent
@@ -372,7 +384,7 @@ public final class ForgeCommonEvent {
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.get());
             } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
-                mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.get());
+                mapping.remap(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get());
             }
         });
         event.getMappings(Registries.ITEM, GTOCore.MOD_ID).forEach(mapping -> {
@@ -383,7 +395,7 @@ public final class ForgeCommonEvent {
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.asItem());
             } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
-                mapping.remap(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.asItem());
+                mapping.remap(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.asItem());
             }
         });
         event.getMappings(Registries.BLOCK, "avaritia").forEach(mapping -> {

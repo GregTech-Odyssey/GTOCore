@@ -1,11 +1,17 @@
 package com.gtocore.data.tag;
 
+import com.gtocore.api.data.material.GTOMaterialFlags;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gtolib.utils.TagUtils;
+
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -103,6 +109,16 @@ public final class TagsHandler {
                 GTOItems.WIRELESS_ME2IN1.asItem());
         create(provider, ItemTags.create(ResourceLocation.parse("forge:ingots/redstone_alloy")),
                 ChemicalHelper.getItem(TagPrefix.ingot, GTMaterials.RedAlloy));
+        for (TagPrefix tagPrefix : TagPrefix.ORES.keySet()) {
+            for (MaterialRegistry registry : GTCEuAPI.materialManager.getRegistries()) {
+                for (Material material : registry.getAllMaterials()) {
+                    if (!material.hasFlag(GTOMaterialFlags.GENERATE_MILLED)) continue;
+                    var item = ChemicalHelper.getItem(tagPrefix, material);
+                    if (item == Items.AIR) continue;
+                    create(provider, TagUtils.createTGItemTag("isa_processable"), item);
+                }
+            }
+        }
     }
 
     public static void initFluid(RegistrateTagsProvider<Fluid> provider) {

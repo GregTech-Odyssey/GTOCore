@@ -464,7 +464,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
     public static final String DESC3 = "gtocore.machine.mega_turbine.expert.desc.3";
     @RegisterLanguage(cn = "公式：输出倍率 = 基础倍率 x 调节倍率", en = "Formula: Output Multiplier = Base Multiplier x Adjustment Multiplier")
     public static final String DESC4 = "gtocore.machine.mega_turbine.expert.desc.4";
-    @RegisterLanguage(cn = "转子损坏倍率 = 基础倍率 x max(2.2 - 0.08 * 玻璃等级, 1.2) ^ (调节倍率 - 1)", en = "Rotor Damage Multiplier = Base Multiplier x max(2.2 - 0.08 * Coil Tier, 1.2) ^ (Adjustment Multiplier - 1)")
+    @RegisterLanguage(cn = "转子损坏倍率 = 基础倍率 x max(2.2 - 0.08 * 玻璃等级, 1.2) ^ (调节倍率 - 1)", en = "Rotor Damage Multiplier = Base Multiplier x max(2.2 - 0.08 * Glass Tier, 1.2) ^ (Adjustment Multiplier - 1)")
     public static final String DESC5 = "gtocore.machine.mega_turbine.expert.desc.5";
     @RegisterLanguage(cn = "调节：", en = "Adjustment: ")
     public static final String ADJUST = "gtocore.machine.mega_turbine.expert.adjust";

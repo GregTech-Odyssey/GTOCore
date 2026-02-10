@@ -22,6 +22,7 @@ import com.gtocore.eio_travel.client.travel.TravelAnchorRenderers;
 import com.gtocore.eio_travel.implementations.AnchorTravelTarget;
 import com.gtocore.eio_travel.implementations.PatternTravelTarget;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.ae.PatternContentAccessTerminalMenu;
 import com.gtocore.integration.construction_wand.ConstructionWandRegistrar;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbquests.GTOQuestTypes;
@@ -168,15 +169,15 @@ public class CommonProxy {
             GTMaterialBlocks.FLUID_PIPE_BLOCKS.values().forEach(e -> ((IItem) e.get().asItem()).gtolib$setToolTips(tooltips));
         } else {
             KeyMessage.init();
-            Message.init();
         }
+        Message.init();
         GTOItemTooltips.INSTANCE.initLanguage();
     }
 
     public static void afterStartup() {
         ScanningClass.VALUES = null;
         ModList.get().getAllScanData().clear();
-        if (GTOConfig.INSTANCE.startSpark == SparkRange.MAIN_MENU) {
+        if (GTOConfig.INSTANCE.devMode.startSpark == SparkRange.MAIN_MENU) {
             SparkLaunchProfiler.stop("all");
         }
     }
@@ -197,6 +198,7 @@ public class CommonProxy {
         // Initialize the menu registry
         if (event.getRegistryKey() == Registries.MENU) {
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1").toString(), Me2in1Menu.TYPE);
+            Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("pattern_content_access_terminal").toString(), PatternContentAccessTerminalMenu.TYPE);
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1wireless").toString(), Wireless.TYPE);
             Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("category_mapping_sub_menu").toString(), CategoryMappingSubMenu.TYPE);
         }

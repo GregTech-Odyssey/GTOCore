@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -20,6 +21,7 @@ import appeng.api.util.IConfigurableObject;
 import appeng.core.definitions.AEBlocks;
 import appeng.crafting.pattern.CraftingPatternItem;
 import appeng.helpers.patternprovider.PatternContainer;
+import appeng.menu.AEBaseMenu;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.implementations.PatternAccessTermMenu;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
@@ -33,8 +35,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Set;
 
-@Mixin(PatternAccessTermMenu.class)
-public abstract class PatternAccessTermMenuMixin implements IPatternAccessTermMenu {
+@Mixin(value = PatternAccessTermMenu.class, priority = 1900)
+public abstract class PatternAccessTermMenuMixin extends AEBaseMenu implements IPatternAccessTermMenu {
 
     @Unique
     @GuiSync(2)
@@ -42,6 +44,10 @@ public abstract class PatternAccessTermMenuMixin implements IPatternAccessTermMe
 
     @Unique
     private ShowMolecularAssembler gtolib$lastShownMolecularAssembler;
+
+    public PatternAccessTermMenuMixin(MenuType<?> menuType, int id, Inventory playerInventory, Object host) {
+        super(menuType, id, playerInventory, host);
+    }
 
     @Shadow(remap = false)
     protected abstract boolean isFull(PatternContainer logic);

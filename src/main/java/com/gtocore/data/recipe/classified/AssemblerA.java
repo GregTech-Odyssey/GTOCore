@@ -536,7 +536,7 @@ final class AssemblerA {
                 .inputItems(TagPrefix.frameGt, GTMaterials.NiobiumTitanium)
                 .inputItems(TagPrefix.plate, GTOMaterials.TitaniumTi64, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.NiobiumTitanium, 2)
-                .outputItems(GTOBlocks.TITANIUM_ALLOY_INTERNAL_FRAME.asStack())
+                .outputItems(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.asStack())
                 .circuitMeta(6)
                 .EUt(16)
                 .duration(50)

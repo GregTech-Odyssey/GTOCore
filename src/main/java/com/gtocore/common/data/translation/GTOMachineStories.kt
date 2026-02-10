@@ -176,7 +176,13 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("void_fluid_drill")
         story("虚空流体钻机§r§b是格雷科技在虚空领域的又一力作" translatedTo "Void Fluid Drill§r is another masterpiece of GregTech in the void field")
         story("它可以在虚空中钻取流体" translatedTo "It can drill fluids in the void")
-        highlight("放入维度数据，设置电路后即可获取钻出对应世界流体矿床的流体" translatedTo "Insert dimension data and set the circuit to obtain fluids from corresponding world fluid deposits")
+    }
+
+    // 虚空采矿机
+    val VoidMinerTooltips = ComponentListSupplier {
+        setTranslationPrefix("void_miner")
+        story("虚空采矿机§r§b是格雷科技在虚空领域的又一力作" translatedTo "Void Miner§r is another masterpiece of GregTech in the void field")
+        story("它可以在虚空中开采矿石" translatedTo "It can mine ores in the void")
     }
 
     // 能量注入仪

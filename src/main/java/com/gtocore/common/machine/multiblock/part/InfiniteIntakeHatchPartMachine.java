@@ -65,7 +65,7 @@ public final class InfiniteIntakeHatchPartMachine extends WorkableTieredIOPartMa
         for (var condition : recipeBuilder.conditions) {
             if (condition instanceof DimensionCondition dimensionCondition) {
                 var dim = dimensionCondition.dimension;
-                var fluids = RecipeHelper.getInputContents(recipeBuilder, FluidRecipeCapability.CAP);
+                var fluids = RecipeHelper.getOutputContents(recipeBuilder, FluidRecipeCapability.CAP);
                 if (!fluids.isEmpty()) {
                     AIR_MAP.put(dim, fluids.getFirst().getFluid());
                     break;

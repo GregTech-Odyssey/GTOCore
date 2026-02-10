@@ -111,6 +111,12 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
     }
 
     @Override
+    public boolean swapIO() {
+        // Programmable hatches should not be able to swap IO
+        return false;
+    }
+
+    @Override
     public boolean isProgrammable() {
         return true;
     }
@@ -136,7 +142,7 @@ public class ProgrammableHatchPartMachine extends DualHatchPartMachine implement
             @NotNull
             @Override
             public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                if (machine.isProgrammable() && stack.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())) {
+                if (machine.isProgrammable() && stack.hasTag() && stack.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())) {
                     setStackInSlot(slot, VirtualItemProviderBehavior.getVirtualItem(stack));
                     return ItemStack.EMPTY;
                 }
