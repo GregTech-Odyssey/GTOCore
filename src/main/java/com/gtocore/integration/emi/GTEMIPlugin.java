@@ -46,8 +46,6 @@ import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
 import com.glodblock.github.extendedae.container.ContainerExCraftingTerminal;
-import com.glodblock.github.extendedae.xmod.jei.JEIPlugin;
-import com.glodblock.github.extendedae.xmod.jei.transfer.ExCraftingTransferHandler;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
@@ -80,11 +78,11 @@ import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
 
-import java.util.List;
+import java.util.Collection;
 
 public final class GTEMIPlugin implements EmiPlugin {
 
-    public static void addJEIPlugin(List<IModPlugin> list) {
+    public static void addJEIPlugin(Collection<IModPlugin> list) {
         list.add(new mezz.jei.library.plugins.vanilla.VanillaPlugin());
         list.add(new JeiInternalPlugin());
         list.add(new JemiPlugin());
@@ -103,7 +101,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         }
     }
 
-    public static void addEMIPlugin(List<EmiPluginContainer> list) {
+    public static void addEMIPlugin(Collection<EmiPluginContainer> list) {
         list.add(new EmiPluginContainer(new VanillaPlugin(), "emi"));
         if (GTCEu.isProd()) {
             list.add(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
@@ -244,6 +242,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addCategory(AlfheimEntryRequirements.CATEGORY);
         registry.addRecipe(new AlfheimEntryRequirements());
 
+        CraftAction.startReloadRegistration();
         CraftAction.registerCanCraftOverride(
                 (recipe, context, simulate) -> {
                     if (context.getScreenHandler().getModularUI().holder instanceof MEPatternBufferPartMachine patternBuffer) {
