@@ -53,7 +53,6 @@ public final class GTOConfig {
     public DevMode devMode = new DevMode();
 
     static {
-        CommonProxy.earlyStartup();
         ConfigHolder.init();
         INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.YAML).getConfigInstance();
         if (INSTANCE.devMode.startSpark == SparkRange.ALL || INSTANCE.devMode.startSpark == SparkRange.MAIN_MENU) {
@@ -164,6 +163,8 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.dev.debug = INSTANCE.devMode.dev;
 
         MultiblockControllerMachine.sendMessage = INSTANCE.misc.sendMultiblockErrorMessages;
+
+        CommonProxy.earlyStartup();
     }
 
     public static <T> void set(String fieldName, T value) {
@@ -392,7 +393,7 @@ public final class GTOConfig {
                 "如果你安装了其他模组，且该模组提供了 EMI/JEI 外部插件（查看配方等功能），请启用此选项以加载这些外部插件",
                 "Some EMI/JEI external plugins are disabled by default in this modpack to skip the plugin scanning phase for improved performance.",
                 "If you have other mods installed and those mods provide EMI/JEI external plugins (like recipe viewing), please enable this option to load those external plugins" })
-        public boolean enableEmiJeiExternalPlugins = false;
+        public String[] enableEmiJeiExternalPlugins = new String[0];
 
         @Configurable
         @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })

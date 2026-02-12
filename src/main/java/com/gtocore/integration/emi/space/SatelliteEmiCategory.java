@@ -1,5 +1,7 @@
 package com.gtocore.integration.emi.space;
 
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.machines.MultiBlockG;
 import com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
@@ -18,6 +20,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeCapabilities.FLUID;
@@ -47,11 +50,11 @@ public class SatelliteEmiCategory extends EmiRecipeCategory {
             }
             var dimMarker = GTRegistries.DIMENSION_MARKERS.getOrDefault(entry.getLocation(), GTDimensionMarkers.OVERWORLD);
             inputs.put(ITEM, List.of(
-                    consume(ITEM.ofInner(GTOItems.PLANET_DATA_CHIP)),
-                    consume(ITEM.ofInner(GTOItems.PLANET_SCAN_SATELLITE)),
-                    consume(ITEM.ofInner(SatelliteControlCenterMachine.getRocket(entry.getTier())))));
-            inputs.put(FLUID, List.of(consume(FLUID.ofInner(SatelliteControlCenterMachine.getFuel(entry.getTier())))));
-            outputs.put(ITEM, List.of(consume(ITEM.ofInner(dimMarker.getIcon()))));
+                    consume(ItemIngredient.of(GTOItems.PLANET_DATA_CHIP)),
+                    consume(ItemIngredient.of(GTOItems.PLANET_SCAN_SATELLITE)),
+                    consume(ItemIngredient.of(SatelliteControlCenterMachine.getRocket(entry.getTier())))));
+            inputs.put(FLUID, Collections.singletonList(consume(FluidIngredient.of(SatelliteControlCenterMachine.getFuel(entry.getTier())))));
+            outputs.put(ITEM, Collections.singletonList(consume(ItemIngredient.of(dimMarker.getIcon()))));
             registry.addRecipe(SatelliteEmiRecipe.fromInputOutput(GTOCore.id("gtocoresatellite").withSuffix("/launch_satellite/" + entry.getKey()), inputs.build(), outputs.build()));
         }
     }
