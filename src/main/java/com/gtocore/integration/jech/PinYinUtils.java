@@ -1,13 +1,13 @@
 package com.gtocore.integration.jech;
 
-import com.gregtechceu.gtceu.GTCEu;
+import com.gtocore.integration.Mods;
 
 import me.towdium.jecharacters.utils.Match;
 
 public class PinYinUtils {
 
     public static boolean match(String candidate, CharSequence search) {
-        if (GTCEu.isModLoaded("jecharacters")) {
+        if (Mods.JECHARACTERS.isLoaded()) {
             return JechAdapter.gto$jech$match(candidate, search);
         } else {
             return candidate.contains(search);

@@ -1,7 +1,7 @@
 package com.gtocore.common.recipe.condition;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
@@ -42,7 +42,7 @@ public final class RestrictedMachineCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean test(@NotNull RecipeDefinition recipe, @NotNull RecipeLogic recipeLogic) {
         MachineDefinition machineDefinition = recipeLogic.getMachine().getDefinition();
         if (this.equals(MULTIBLOCK)) {
             return recipeLogic.getMachine() instanceof MultiblockControllerMachine;

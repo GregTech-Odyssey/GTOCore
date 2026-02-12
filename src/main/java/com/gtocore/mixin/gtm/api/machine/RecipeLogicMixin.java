@@ -7,11 +7,13 @@ import com.gtolib.api.recipe.modifier.ParallelCache;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapabilityMap;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.network.chat.Component;
@@ -59,13 +61,13 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     @Nullable
-    protected GTRecipe lastOriginRecipe;
+    protected GTRecipeDefinition lastOriginRecipe;
 
     @Shadow
     protected int status;
 
     @Shadow
-    public abstract boolean checkMatchedRecipeAvailable(GTRecipe match);
+    public abstract boolean checkMatchedRecipeAvailable(GTRecipeDefinition match);
 
     @Override
     public void gtolib$setIdleReason(Component reason) {
@@ -91,7 +93,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         lastRecipe = null;
         lastOriginRecipe = null;
         machine.getRecipeType().findRecipe(machine, match -> {
-            var r = (Recipe) match;
+            var r = (RecipeDefinition) match;
             return RecipeRunner.checkTier(machine, r) && RecipeRunner.checkConditions(machine, r) && checkMatchedRecipeAvailable(r);
         });
     }
@@ -111,8 +113,8 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      * @reason .
      */
     @Overwrite
-    protected boolean checkConditions(GTRecipe recipe) {
-        return RecipeRunner.checkConditions(machine, (Recipe) recipe);
+    protected boolean checkConditions(GTRecipeDefinition recipe) {
+        return RecipeRunner.checkConditions(machine, (RecipeDefinition) recipe);
     }
 
     /**

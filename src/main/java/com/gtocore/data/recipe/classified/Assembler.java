@@ -231,7 +231,7 @@ final class Assembler {
                 .inputFluids(GTMaterials.Glue, 200)
                 .EUt(7)
                 .duration(300)
-                .displayPriority(1)
+                .priority(1)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("electricaly_wired_petri_dish")

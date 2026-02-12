@@ -659,9 +659,9 @@ public final class MultiBlockA {
             .perfectOCTooltips()
             .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
-                    if (recipe.getType() == GTRecipeTypes.LASER_ENGRAVER_RECIPES)
+                    if (recipe.recipeType == GTRecipeTypes.LASER_ENGRAVER_RECIPES)
                         return RecipeModifierFunction.hatchParallel(workableElectricMultiblockMachine, recipe);
-                    if (recipe.getType() == GTORecipeTypes.LASER_WELDER_RECIPES) {
+                    if (recipe.recipeType == GTORecipeTypes.LASER_WELDER_RECIPES) {
                         recipe.duration = recipe.duration / 5;
                         return RecipeModifierFunction.hatchParallel(workableElectricMultiblockMachine, recipe);
                     }

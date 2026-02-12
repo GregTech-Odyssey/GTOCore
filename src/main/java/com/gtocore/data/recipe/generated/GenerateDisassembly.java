@@ -65,10 +65,10 @@ public final class GenerateDisassembly {
         if (DISASSEMBLY_BLACKLIST.contains(id)) return;
         boolean cal = recipeBuilder.recipeType == CIRCUIT_ASSEMBLY_LINE_RECIPES;
         ResourceLocation typeid = RecipeBuilder.getTypeID(id, DISASSEMBLY_RECIPES);
-        if (cal && RecipeBuilder.RECIPE_MAP.containsKey(typeid)) return;
+        if (cal && RecipeBuilder.get(typeid) != null) return;
         if ((!cal && DISASSEMBLY_RECORD.remove(id)) || isExcludeItems(id.toString())) {
             DISASSEMBLY_BLACKLIST.add(id);
-            RecipeBuilder.RECIPE_MAP.remove(typeid);
+            RecipeBuilder.remove(typeid);
             return;
         }
         RecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)

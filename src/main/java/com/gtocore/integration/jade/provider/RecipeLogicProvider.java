@@ -7,7 +7,8 @@ import com.gtolib.api.machine.feature.ICustomElectricMachine;
 import com.gtolib.api.machine.feature.multiblock.ICrossRecipeMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.RecipeHelper;
+import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -209,11 +210,8 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
         if (recipe != null) {
             var inputEUt = recipe.getInputEUt();
             var outputEUt = recipe.getOutputEUt();
-            var inputManat = RecipeHelper.getInputMANAt(recipe);
-            var outputManat = RecipeHelper.getOutputMANAt(recipe);
-
             recipeInfo.putLong("EUt", inputEUt - outputEUt);
-            recipeInfo.putLong("Manat", inputManat - outputManat);
+            recipeInfo.putLong("Manat", Recipe.of(recipe).manat);
 
             if (capability.machine instanceof ICustomElectricMachine machine && machine.isActivated()) {
                 recipeInfo.putDouble("totalEu", machine.getTotalEu());
@@ -228,12 +226,10 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             if (originRecipe != null) {
                 var originInputEUt = originRecipe.getInputEUt();
                 var originOutputEUt = originRecipe.getOutputEUt();
-                var originInputManat = RecipeHelper.getInputMANAt(originRecipe);
-                var originOutputManat = RecipeHelper.getOutputMANAt(originRecipe);
                 var origin = new CompoundTag();
-                if (originInputEUt != inputEUt || originOutputEUt != outputEUt || originInputManat != inputManat || originOutputManat != outputManat) {
+                if (originInputEUt != inputEUt || originOutputEUt != outputEUt || Recipe.of(recipe).manat != RecipeDefinition.of(originRecipe).manat) {
                     origin.putLong("EUt", originInputEUt - originOutputEUt);
-                    origin.putLong("Manat", originInputManat - originOutputManat);
+                    origin.putLong("Manat", RecipeDefinition.of(originRecipe).manat);
                 }
                 var maxProgress = originRecipe.duration;
                 if (maxProgress > 0) {

@@ -11,7 +11,7 @@ import com.gtolib.api.ae2.stacks.TagPrefixKey;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.gui.ktflexible.VBoxBuilder;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -25,7 +25,7 @@ import com.gregtechceu.gtceu.api.gui.widget.PhantomFluidWidget;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -349,14 +349,14 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     // ========== Pattern Validation ==========
 
     private AEProcessingPattern validatePattern(GenericStack[] sparseInput, GenericStack[] sparseOutput) {
-        ObjectHolder<Recipe> valid = new ObjectHolder<>(null);
+        ObjectHolder<RecipeDefinition> valid = new ObjectHolder<>(null);
         var inputHolder = virtual(sparseInput);
         if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
             if (!gto$getRecipeTypes().isEmpty()) {
                 for (var rt : gto$getRecipeTypes()) {
                     if (rt.findRecipe(inputHolder, r -> {
                         if (checkProb(r)) {
-                            valid.value = (Recipe) r;
+                            valid.value = (RecipeDefinition) r;
                             return true;
                         }
                         return false;
@@ -366,7 +366,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         } else {
             recipeType.findRecipe(inputHolder, r -> {
                 if (checkProb(r)) {
-                    valid.value = (Recipe) r;
+                    valid.value = (RecipeDefinition) r;
                     return true;
                 }
                 return false;
@@ -393,7 +393,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return null;
     }
 
-    private boolean checkProb(GTRecipe recipe) {
+    private boolean checkProb(GTRecipeDefinition recipe) {
         for (var ingredient : recipe.getInputContents(ItemRecipeCapability.CAP)) {
             if (ingredient.chance != 10000 && ingredient.chance != 0) return false;
         }

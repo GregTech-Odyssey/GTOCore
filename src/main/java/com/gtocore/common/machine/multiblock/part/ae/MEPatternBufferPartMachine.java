@@ -12,8 +12,8 @@ import com.gtolib.api.capability.ISync;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.network.SyncManagedFieldHolder;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.utils.ExpandedR2LMap;
 import com.gtolib.utils.GTOUtils;
@@ -186,7 +186,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
     @Override
     public boolean patternFilter(ItemStack stack) {
         if (stack.getOrCreateTag().tags.get("recipe") instanceof StringTag stringTag) {
-            var recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
+            var recipe = RecipeBuilder.get(RLUtils.parse(stringTag.getAsString()));
             if (recipe != null) {
                 if (recipeType == GTORecipeTypes.HATCH_COMBINED) {
                     if (!recipeTypes.isEmpty() && !RecipeType.available(recipe.recipeType, recipeTypes.toArray(new GTRecipeType[0]))) return false;
@@ -290,7 +290,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         var pattern = super.decodePattern(stack, index);
         if (pattern == null) return null;
         if (!caches[index] && stack.getOrCreateTag().tags.get("recipe") instanceof StringTag stringTag) {
-            var recipe = RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(stringTag.getAsString()));
+            var recipe = RecipeBuilder.get(RLUtils.parse(stringTag.getAsString()));
             getInternalInventory()[index].setRecipe(recipe);
         }
         return pattern;
@@ -528,7 +528,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     public static final class InternalSlot extends AbstractInternalSlot {
 
-        public Recipe recipe;
+        public RecipeDefinition recipe;
         public final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
@@ -570,10 +570,15 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             lockableInventory.setLock(lock);
         }
 
-        public void setRecipe(@Nullable Recipe recipe) {
+        public void setRecipe(@Nullable RecipeDefinition recipe) {
             if (!shouldLockRecipe) return;
-            this.recipe = recipe;
-            machine.caches[index] = recipe != null;
+            if (recipe != null && recipe.registered) {
+                this.recipe = recipe;
+                machine.caches[index] = true;
+            } else {
+                this.recipe = null;
+                machine.caches[index] = false;
+            }
         }
 
         public boolean isEmpty() {

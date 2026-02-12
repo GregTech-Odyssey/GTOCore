@@ -1,7 +1,6 @@
 package com.gtocore.common.recipe.custom;
 
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.holder.ObjectHolder;
 
@@ -9,7 +8,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -40,7 +39,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
             return !mold.isEmpty() && !item.isEmpty();
         }
 
-        private Recipe buildRecipe() {
+        private GTRecipeDefinition buildRecipe() {
             ItemStack output = item.copyWithCount(1);
             CompoundTag compoundtag = mold.getTagElement("display");
             if (compoundtag != null && compoundtag.contains("Name", 8)) {
@@ -55,12 +54,12 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
                     .inputItems(item.copyWithCount(1))
                     .outputItems(output)
                     .duration(40).EUt(4)
-                    .buildRawRecipe();
+                    .build();
         }
     }
 
     @Override
-    public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder h) {
+    public @Nullable GTRecipeDefinition createCustomRecipe(IRecipeCapabilityHolder h) {
         if (h instanceof IRecipeLogicMachine recipeLogicMachine) {
             RecipeData data = new RecipeData(IEnhancedRecipeLogic.of(recipeLogicMachine.getRecipeLogic()).gtolib$getRecipeBuilder());
             return collect(data, h.getInputList(), h);
@@ -68,8 +67,8 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
         return null;
     }
 
-    private static Recipe collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeCapabilityHolder h) {
-        ObjectHolder<Recipe> recipeObjectHolder = new ObjectHolder<>(null);
+    private static GTRecipeDefinition collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeCapabilityHolder h) {
+        ObjectHolder<GTRecipeDefinition> recipeObjectHolder = new ObjectHolder<>(null);
         l:
         for (var rhl : rhls) {
             data.mold = ItemStack.EMPTY;
@@ -110,14 +109,13 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
         toName.setHoverName(Component.translatable("gtceu.forming_press.naming.to_name"));
         ItemStack named = new ItemStack(Items.NAME_TAG);
         named.setHoverName(Component.translatable("gtceu.forming_press.naming.named"));
-        GTRecipe recipe = GTRecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder("name_item")
+        GTRecipeDefinition recipe = GTRecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder("name_item")
                 .notConsumable(press)
                 .inputItems(toName)
                 .outputItems(named)
                 .duration(40)
                 .EUt(4)
-                .buildRawRecipe();
-        recipe.setId(recipe.getId().withPrefix("/"));
+                .build();
         GTRecipeTypes.FORMING_PRESS_RECIPES.addToMainCategory(recipe);
     }
 }

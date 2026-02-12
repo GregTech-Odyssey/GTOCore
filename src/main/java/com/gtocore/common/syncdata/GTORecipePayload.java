@@ -1,7 +1,6 @@
 package com.gtocore.common.syncdata;
 
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeBuilder;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -26,30 +25,19 @@ public final class GTORecipePayload extends ObjectTypedPayload<GTRecipe> {
     public void writePayload(FriendlyByteBuf buf) {
         var recipe = (Recipe) payload;
         buf.writeResourceLocation(recipe.id);
-        if (recipe.root) {
-            buf.writeBoolean(true);
-        } else {
-            buf.writeBoolean(false);
-            Recipe.SERIALIZER.toNetwork(buf, recipe);
-            buf.writeInt(recipe.ocLevel);
-            buf.writeLong(recipe.parallels);
-            if (recipe.rootRecipe != null) buf.writeResourceLocation(recipe.rootRecipe.id);
-        }
+        Recipe.SERIALIZER.toNetwork(buf, recipe);
+        buf.writeInt(recipe.ocLevel);
+        buf.writeLong(recipe.parallels);
     }
 
     @Override
     public void readPayload(FriendlyByteBuf buf) {
         var id = buf.readResourceLocation();
-        if (buf.readBoolean()) {
-            payload = RecipeBuilder.RECIPE_MAP.get(id);
-        } else if (buf.isReadable()) {
+        if (buf.isReadable()) {
             var recipe = Recipe.SERIALIZER.fromNetwork(id, buf);
             if (buf.isReadable()) {
                 recipe.ocLevel = buf.readInt();
                 recipe.setParallels(buf.readLong());
-                if (buf.isReadable()) {
-                    recipe.rootRecipe = RecipeBuilder.RECIPE_MAP.get(buf.readResourceLocation());
-                }
             }
             payload = recipe;
         }

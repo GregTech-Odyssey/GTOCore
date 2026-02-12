@@ -26,8 +26,8 @@ import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.RecipeDefinition;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -176,7 +176,7 @@ public final class Data {
         } catch (Throwable t) {
             throwable = t;
         }
-        RecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
+        GTRegistries.RECIPE_TYPES.values().forEach(t -> t.recipes.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe)));
         if (GTCEu.Mods.isEMILoaded()) {
             MultiblockDefinition.init();
             long time = System.currentTimeMillis();
@@ -189,7 +189,7 @@ public final class Data {
                 var type = category.getRecipeType();
                 if (category == type.getCategory()) type.buildRepresentativeRecipes();
                 EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
-                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe((Recipe) recipe, emiCategory)).forEach(recipes::add);
+                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe((RecipeDefinition) recipe, emiCategory)).forEach(recipes::add);
             }
             for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
                 if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {

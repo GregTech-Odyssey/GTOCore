@@ -7,7 +7,7 @@ import com.gtolib.api.data.Galaxy;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.recipe.condition.DimensionCondition;
@@ -80,7 +80,7 @@ public class GalaxyCondition extends DimensionCondition {
     }
 
     @Override
-    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipeDefinition recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.machine.self().getLevel();
         return level != null && GTODimensions.getGalaxy(level.dimension()) == galaxy;
     }
