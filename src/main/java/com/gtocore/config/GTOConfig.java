@@ -395,6 +395,7 @@ public final class GTOConfig {
                 "Some EMI/JEI external plugins are disabled by default in this pack to skip the plugin scanning phase to avoid conflicts with GTM's original plugins and improve performance.",
                 "If you have other mods installed and they provide EMI/JEI external plugins (such as recipe viewing), please add the plugin class names provided by the mod to this option to load those external plugins.",
                 "Example format: - com.simibubi.create.compat.jei.CreateJEI" })
+        @Configurable.Gui.CharacterLimit(256)
         public String[] enableEmiJeiExternalPlugins = new String[0];
 
         @Configurable
