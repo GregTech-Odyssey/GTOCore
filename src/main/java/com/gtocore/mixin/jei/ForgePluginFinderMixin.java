@@ -1,7 +1,5 @@
 package com.gtocore.mixin.jei;
 
-import com.gtocore.integration.emi.GTEMIPlugin;
-
 import com.gtolib.api.GTOApi;
 
 import mezz.jei.api.IModPlugin;
@@ -24,7 +22,6 @@ public abstract class ForgePluginFinderMixin {
     @Overwrite(remap = false)
     public static List<IModPlugin> getModPlugins() {
         Map<Object, IModPlugin> plugins = new HashMap<>();
-        GTEMIPlugin.scanPlugins();
         GTOApi.JEI_PLUGIN_EVENT.call(plugin -> plugins.put(plugin.getClass(), plugin));
         return new ArrayList<>(plugins.values());
     }
