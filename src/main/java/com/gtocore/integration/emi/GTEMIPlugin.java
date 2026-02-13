@@ -39,6 +39,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.forgespi.language.ModFileScanData;
 
 import appeng.core.AppEng;
 import appeng.integration.modules.emi.AppEngEmiPlugin;
@@ -75,13 +77,16 @@ import io.github.prismwork.emitrades.EMITradesPlugin;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import jeresources.jei.JEIConfig;
 import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
 import mezz.jei.library.plugins.jei.JeiInternalPlugin;
 import mythicbotany.jei.MythicJei;
+import org.objectweb.asm.Type;
 import snownee.jade.compat.JEICompat;
 import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
 
+import java.util.*;
 import java.util.function.Consumer;
 
 public final class GTEMIPlugin implements EmiPlugin {
@@ -89,34 +94,39 @@ public final class GTEMIPlugin implements EmiPlugin {
     public static void init() {
         GTOApi.EMI_PLUGIN_EVENT.addListener(CommonProxy.class, GTEMIPlugin::addEMIPlugin);
         GTOApi.JEI_PLUGIN_EVENT.addListener(CommonProxy.class, GTEMIPlugin::addJEIPlugin);
-        if (GTOConfig.INSTANCE.misc.enableEmiJeiExternalPlugins.length > 0) {
-            var emi = new ReferenceOpenHashSet<Class<? extends EmiPlugin>>();
-            var jei = new ReferenceOpenHashSet<Class<? extends IModPlugin>>();
-            for (var name : GTOConfig.INSTANCE.misc.enableEmiJeiExternalPlugins) {
-                try {
-                    var clazz = Class.forName(name);
-                    if (EmiPlugin.class.isAssignableFrom(clazz)) {
-                        emi.add(clazz.asSubclass(EmiPlugin.class));
-                    } else if (IModPlugin.class.isAssignableFrom(clazz)) {
-                        jei.add(clazz.asSubclass(IModPlugin.class));
-                    }
-                } catch (Throwable ignored) {}
+    }
+
+    public static void scanPlugins() {
+        try {
+            if (GTOConfig.INSTANCE.misc.enableJeiExternalPlugins) {
+                var jei = new ReferenceOpenHashSet<>(scanAnnotations(JeiPlugin.class));
+                if (!jei.isEmpty()) {
+                    GTOApi.JEI_PLUGIN_EVENT.addListener(GTOConfig.class, c -> jei.forEach(name -> {
+                        try {
+                            var clazz = Class.forName(name).asSubclass(IModPlugin.class);
+                            c.accept(clazz.getDeclaredConstructor().newInstance());
+                        } catch (Throwable ignored) {}
+                    }));
+                }
             }
-            if (!emi.isEmpty()) {
-                GTOApi.EMI_PLUGIN_EVENT.addListener(GTOConfig.class, c -> emi.forEach(clazz -> {
-                    try {
-                        c.accept(new EmiPluginContainer(clazz.getDeclaredConstructor().newInstance(), clazz.getName()));
-                    } catch (Throwable ignored) {}
-                }));
-            }
-            if (!jei.isEmpty()) {
-                GTOApi.JEI_PLUGIN_EVENT.addListener(GTOConfig.class, c -> jei.forEach(clazz -> {
-                    try {
-                        c.accept(clazz.getDeclaredConstructor().newInstance());
-                    } catch (Throwable ignored) {}
-                }));
+        } catch (Throwable ignored) {}
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    private static Set<String> scanAnnotations(Class<?> annotationClass) {
+        Type annotationType = Type.getType(annotationClass);
+        List<ModFileScanData> allScanData = ModList.get().getAllScanData();
+        Set<String> pluginClassNames = new LinkedHashSet<>();
+        for (ModFileScanData scanData : allScanData) {
+            Iterable<ModFileScanData.AnnotationData> annotations = scanData.getAnnotations();
+            for (ModFileScanData.AnnotationData a : annotations) {
+                if (Objects.equals(a.annotationType(), annotationType)) {
+                    String memberName = a.memberName();
+                    pluginClassNames.add(memberName);
+                }
             }
         }
+        return pluginClassNames;
     }
 
     private static void addJEIPlugin(Consumer<IModPlugin> list) {

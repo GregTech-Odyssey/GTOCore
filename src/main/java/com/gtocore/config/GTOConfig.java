@@ -388,12 +388,12 @@ public final class GTOConfig {
         public boolean emiGlobalFavorites = true;
 
         @Configurable
-        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI/JEI External Plugins", cn = "EMI/JEI 外部插件")
-        @Configurable.Comment({ "本整合包默认禁用了一些 EMI/JEI 外部插件以跳过插件扫描阶段来提升性能",
-                "如果你安装了其他模组，且该模组提供了 EMI/JEI 外部插件（查看配方等功能），请启用此选项以加载这些外部插件",
-                "Some EMI/JEI external plugins are disabled by default in this modpack to skip the plugin scanning phase for improved performance.",
-                "If you have other mods installed and those mods provide EMI/JEI external plugins (like recipe viewing), please enable this option to load those external plugins" })
-        public String[] enableEmiJeiExternalPlugins = new String[0];
+        @RegisterLanguage(namePrefix = "config.gtocore.option", en = "JEI External Plugins", cn = "JEI 外部插件")
+        @Configurable.Comment({ "本整合包默认禁用了一些 JEI 外部插件以跳过插件扫描阶段来提升性能",
+                "如果你安装了其他模组，且该模组提供了 JEI 外部插件（查看配方等功能），请启用此选项以加载这些外部插件",
+                "Some JEI external plugins are disabled by default in this modpack to skip the plugin scanning phase for improved performance.",
+                "If you have other mods installed and those mods provide JEI external plugins (like recipe viewing), please enable this option to load those external plugins" })
+        public boolean enableJeiExternalPlugins = false;
 
         @Configurable
         @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
