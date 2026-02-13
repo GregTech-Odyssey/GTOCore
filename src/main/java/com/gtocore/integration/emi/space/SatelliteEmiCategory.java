@@ -1,7 +1,5 @@
 package com.gtocore.integration.emi.space;
 
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.machines.MultiBlockG;
 import com.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
@@ -10,6 +8,8 @@ import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTDimensionMarkers;
 
