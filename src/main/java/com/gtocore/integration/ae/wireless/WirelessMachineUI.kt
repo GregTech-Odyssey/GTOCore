@@ -53,7 +53,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                         textSupplier = {
                             val id = self.wirelessMachinePersisted0.gridConnectedName
                             val nick =
-                                self.wirelessMachineRunTime0.gridCache.get().firstOrNull { it.name == id }?.nickname
+                                WirelessMachineRunTime.getGridCache().get().firstOrNull { it.name == id }?.nickname
 
                             Component.translatable(
                                 currentlyConnectedTo,
@@ -75,7 +75,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                             if (!ck.isRemote) {
                                 val input = self.wirelessMachineRunTime0.gridWillAdded.trim()
                                 if (input.isNotEmpty() &&
-                                    self.wirelessMachineRunTime0.gridCache.get().none { it.nickname == input }
+                                    WirelessMachineRunTime.getGridCache().get().none { it.nickname == input }
                                 ) {
                                     WirelessSavedData.createNewGrid(
                                         input,
@@ -97,8 +97,8 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                         textSupplier = {
                             Component.translatable(
                                 globalWirelessGrid,
-                                self.wirelessMachineRunTime0.gridAccessibleCache.get().count(),
-                                self.wirelessMachineRunTime0.gridCache.get().count(),
+                                WirelessMachineRunTime.getGridAccessibleCache().get().count(),
+                                WirelessMachineRunTime.getGridCache().get().count(),
                             )
                         },
                     )
@@ -109,7 +109,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                     val availableHeight = 166 - ((4 * 10) + (1 * 16) + 16 + (4 * 7))
                     val finalListHeight = maxOf(0, (((availableHeight / 16) + 1) * 16) - 2)
                     vScroll(width = availableWidth, height = finalListHeight, { spacing = 2 }) a@{
-                        self.wirelessMachineRunTime0.gridAccessibleCache.get()
+                        WirelessMachineRunTime.getGridAccessibleCache().get()
                             .forEach { grid ->
                                 hBox(height = 14, { spacing = 4 }) {
                                     button(
