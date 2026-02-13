@@ -208,21 +208,3 @@ enum class STATUS {
     NOT_FOUND_GRID,
     NOT_PERMISSION,
 }
-
-fun createWirelessSyncedField(sync: ISync): ISync.ObjectSyncedField<MutableList<WirelessGrid>> = ISync.createObjectField(
-    sync,
-    {
-        val size = it.readInt()
-        val list = mutableListOf<WirelessGrid>()
-        for (i in 0 until size) {
-            list.add(WirelessGrid.decodeFromNbt(it.readNbt() as CompoundTag))
-        }
-        list
-    },
-    { buffer, value ->
-        buffer.writeInt(value.size)
-        for (grid in value) {
-            buffer.writeNbt(grid.encodeToNbt())
-        }
-    },
-)

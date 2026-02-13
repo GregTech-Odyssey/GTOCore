@@ -196,9 +196,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
          */
         if (self().isRemote()) return;
         // 全量
-        WirelessMachineRunTime.getGridCache().setAndSyncToClient(WirelessSavedData.Companion.getINSTANCE().getGridPool());
+        WirelessMachineRunTime.SyncField.GRID_CACHE.setAndSync(WirelessSavedData.Companion.getINSTANCE().getGridPool());
         // 可访问（服务端统一裁剪）
-        WirelessMachineRunTime.getGridAccessibleCache().setAndSyncToClient(
+        WirelessMachineRunTime.SyncField.GRID_ACCESSIBLE_CACHE.setAndSync(
                 WirelessSavedData.Companion.accessibleGridsFor(getRequesterUUID()));
     }
 

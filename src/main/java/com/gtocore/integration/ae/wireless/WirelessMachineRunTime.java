@@ -1,13 +1,14 @@
 package com.gtocore.integration.ae.wireless;
 
 import com.gtolib.api.capability.ISync;
-import com.gtolib.api.network.SyncManagedFieldHolder;
+import com.gtolib.api.network.NetworkPack;
 import com.gtolib.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.LogicalSide;
 
 import lombok.Getter;
@@ -16,58 +17,16 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gtocore.common.saved.WirelessSavedDataKt.createWirelessSyncedField;
-
-// ...existing imports...
-
 @Getter
 @Setter
 public class WirelessMachineRunTime {
 
-    static class Sync implements ISync {
-
-        ISync.ObjectSyncedField<List<WirelessGrid>> gridCache;
-        ISync.ObjectSyncedField<List<WirelessGrid>> gridAccessibleCache;
-
-        @Override
-        public Level getLevel() {
-            return ServerUtils.getServer().overworld();
-        }
-
-        @Override
-        public BlockPos getPos() {
-            return BlockPos.ZERO.offset(0, -947, 0);
-        }
-
-        @Override
-        public SyncManagedFieldHolder getSyncHolder() {
-            return holder;
-        }
-    }
-
-    static final Sync syncObj = new Sync();
-    static {
-
-        syncObj.gridCache = createWirelessSyncedField(syncObj).set(new ArrayList<>());
-        syncObj.gridAccessibleCache = createWirelessSyncedField(syncObj).set(new ArrayList<>());
-    }
-    static SyncManagedFieldHolder holder = new SyncManagedFieldHolder(Sync.class);
-
-    static ISync.ObjectSyncedField<List<WirelessGrid>> getGridCache() {
-        return syncObj.gridCache;
-    }
-
-    static ISync.ObjectSyncedField<List<WirelessGrid>> getGridAccessibleCache() {
-        return syncObj.gridAccessibleCache;
-    }
-
-    // ...existing code...
     final WirelessMachine machine;
 
     String gridWillAdded = "";
     WirelessGrid gridConnected = null; // ONLY SERVER
-    Runnable connectPageFreshRun = () -> {};
-    Runnable detailsPageFreshRun = () -> {};
+    static Runnable connectPageFreshRun = () -> {};
+    static Runnable detailsPageFreshRun = () -> {};
     TickableSubscription initTickableSubscription = null;
     boolean shouldAutoConnect = false;
 
@@ -83,25 +42,61 @@ public class WirelessMachineRunTime {
         // 初始化枚举同步字段
         this.FilterInMachineTypeSyncField = ISync.createEnumField(machine);
 
-        getGridCache().setReceiverListener(this::clientRefresh);
-        getGridCache().setSenderListener(this::serverNoop);
-        getGridAccessibleCache().setReceiverListener(this::clientRefresh);
-        getGridAccessibleCache().setSenderListener(this::serverNoop);
-        FilterInMachineTypeSyncField.setReceiverListener(this::clientRefresh);
-        FilterInMachineTypeSyncField.setSenderListener(this::serverNoop);
+        FilterInMachineTypeSyncField.setReceiverListener(WirelessMachineRunTime::clientRefresh);
+        FilterInMachineTypeSyncField.setSenderListener(WirelessMachineRunTime::serverNoop);
         FilterInMachineTypeSyncField.set(FilterInMachineType.BOTH);
 
         this.FilterInMachineTypeSyncField.set(FilterInMachineType.BOTH);
     }
 
-    private <T> void clientRefresh(LogicalSide side, T oldValue, T newValue) {
+    private static <T> void clientRefresh(LogicalSide side, T oldValue, T newValue) {
         if (!side.isServer()) {
             connectPageFreshRun.run();
             detailsPageFreshRun.run();
         }
     }
 
-    private <T> void serverNoop(LogicalSide side, T oldValue, T newValue) {
+    private static <T> void serverNoop(LogicalSide side, T oldValue, T newValue) {
         // No operation on server side
+    }
+
+    private static final NetworkPack gridCacheSYNCER = NetworkPack.registerS2C("wirelessMachineGridCacheSyncS2C", WirelessMachineRunTime::read);
+
+    public enum SyncField {
+
+        GRID_CACHE,
+        GRID_ACCESSIBLE_CACHE;
+
+        List<WirelessGrid> values;
+
+        public void setAndSync(List<WirelessGrid> newValues) {
+            this.values = newValues;
+            gridCacheSYNCER.send(this::write, ServerUtils.getServer());
+        }
+
+        public List<WirelessGrid> get() {
+            return values;
+        }
+
+        void write(FriendlyByteBuf buf) {
+            buf.writeVarInt(ordinal());
+            buf.writeVarInt(values.size());
+            for (var grid : values) {
+                buf.writeNbt(grid.encodeToNbt());
+            }
+        }
+    }
+
+    private static void read(Player p, FriendlyByteBuf buf) {
+        var field = SyncField.values()[buf.readVarInt()];
+        var size = buf.readVarInt();
+        List<WirelessGrid> grids = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            if (buf.readNbt() instanceof CompoundTag tag) {
+                grids.add(WirelessGrid.Companion.decodeFromNbt(tag));
+            }
+        }
+        field.values = grids;
+        clientRefresh(LogicalSide.CLIENT, null, null);
     }
 }
