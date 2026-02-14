@@ -3,7 +3,6 @@ package com.gtocore.integration.ae.wireless
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.saved.WirelessSavedData
 import com.gtocore.integration.ae.wireless.WirelessMachine.*
-import com.gtocore.integration.ae.wireless.WirelessMachineRunTime
 
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.GuiGraphics
@@ -53,7 +52,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                         textSupplier = {
                             val id = self.wirelessMachinePersisted0.gridConnectedName
                             val nick =
-                                WirelessMachineRunTime.SyncField.GRID_CACHE.get().firstOrNull { it.name == id }?.nickname
+                                WirelessMachineRunTime.GRID_CACHE.grids.firstOrNull { it.name == id }?.nickname
 
                             Component.translatable(
                                 currentlyConnectedTo,
@@ -75,11 +74,11 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                             if (!ck.isRemote) {
                                 val input = self.wirelessMachineRunTime0.gridWillAdded.trim()
                                 if (input.isNotEmpty() &&
-                                    WirelessMachineRunTime.SyncField.GRID_CACHE.get().none { it.nickname == input }
+                                    WirelessMachineRunTime.GRID_CACHE.grids.none { it.nickname == input }
                                 ) {
                                     WirelessSavedData.createNewGrid(
                                         input,
-                                        self.requesterUUID,
+                                        self.uuid,
                                     )
                                     self.wirelessMachineRunTime0.gridWillAdded = ""
                                     self.refreshCachesOnServer()
@@ -97,8 +96,8 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                         textSupplier = {
                             Component.translatable(
                                 globalWirelessGrid,
-                                WirelessMachineRunTime.SyncField.GRID_ACCESSIBLE_CACHE.get().count(),
-                                WirelessMachineRunTime.SyncField.GRID_CACHE.get().count(),
+                                WirelessMachineRunTime.getAccessibleCacheForPlayer(self.uuid).grids.count(),
+                                WirelessMachineRunTime.GRID_CACHE.grids.count(),
                             )
                         },
                     )
@@ -109,7 +108,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                     val availableHeight = 166 - ((4 * 10) + (1 * 16) + 16 + (4 * 7))
                     val finalListHeight = maxOf(0, (((availableHeight / 16) + 1) * 16) - 2)
                     vScroll(width = availableWidth, height = finalListHeight, { spacing = 2 }) a@{
-                        WirelessMachineRunTime.SyncField.GRID_ACCESSIBLE_CACHE.get()
+                        WirelessMachineRunTime.getAccessibleCacheForPlayer(self.uuid).grids
                             .forEach { grid ->
                                 hBox(height = 14, { spacing = 4 }) {
                                     button(
@@ -136,7 +135,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                                     if (!grid.isDefault) {
                                         button(height = 14, text = { "⭐" }, width = 18, onClick = {
                                             if (!it.isRemote) {
-                                                WirelessSavedData.setAsDefault(grid.name, self.requesterUUID)
+                                                WirelessSavedData.setAsDefault(grid.name, self.uuid)
                                                 self.refreshCachesOnServer()
                                             }
                                         })
@@ -145,7 +144,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                                             if (!it.isRemote) {
                                                 WirelessSavedData.cancelAsDefault(
                                                     grid.name,
-                                                    self.requesterUUID,
+                                                    self.uuid,
                                                 )
                                                 self.refreshCachesOnServer()
                                             }
@@ -153,7 +152,7 @@ fun getSetupFancyUIProvider(self: WirelessMachine): IFancyUIProvider = object : 
                                     }
                                     deleteButton(height = 14, transKey = removeGrid, width = 36, onConfirm = {
                                         if (!it.isRemote) {
-                                            WirelessSavedData.removeGrid(grid.name, self.requesterUUID)
+                                            WirelessSavedData.removeGrid(grid.name, self.uuid)
                                             self.refreshCachesOnServer()
                                         }
                                     })
@@ -246,7 +245,7 @@ private fun LayoutBuilder<*>.deleteButton(width: Int = 40, height: Int = 16, tex
                 graphics.fill(px, py, px + pw, py + 2, color)
             }
         }
-    }
+    }.setHoverTooltips(removeGridDesc)
 
     widget(button)
 }

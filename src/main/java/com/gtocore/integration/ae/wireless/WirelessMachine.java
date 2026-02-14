@@ -9,6 +9,7 @@ import com.gtolib.api.capability.ISync;
 import com.gtolib.api.player.IEnhancedPlayer;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
@@ -18,6 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceSet;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -49,6 +53,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     @RegisterLanguage(cn = "删除", en = "Remove")
     String removeGrid = "gtocore.integration.ae.WirelessMachine.removeGrid";
 
+    @RegisterLanguage(cn = "长按按钮并松开以确认删除网络", en = "Hold the button and release to confirm removing the grid")
+    String removeGridDesc = "gtocore.integration.ae.WirelessMachine.removeGrid.desc";
+
     @RegisterLanguage(cn = "你的无线网络 : ", en = "Your wireless grids: ")
     String yourWirelessGrid = "gtocore.integration.ae.WirelessMachine.yourWirelessGrid";
 
@@ -64,7 +71,8 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     @RegisterLanguage(cn = "修改网络昵称", en = "Rename Grid")
     String renameGrid = "gtocore.integration.ae.WirelessMachine.renameGrid";
 
-    // Properties (Kotlin 'var' fields) -> abstract getter/setter signatures
+    ReferenceSet<MachineDefinition> WIRELESS_MACHINE_DEFINITIONS = new ReferenceOpenHashSet<>();
+
     WirelessMachinePersisted getWirelessMachinePersisted0();
 
     void setWirelessMachinePersisted0(WirelessMachinePersisted v);
@@ -72,17 +80,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     WirelessMachineRunTime getWirelessMachineRunTime0();
 
     void setWirelessMachineRunTime0(WirelessMachineRunTime v);
-
-    // requesterUUID val with getter - keep as default method but preserve original logic in comment
-    default UUID getRequesterUUID() {
-        // Original Kotlin:
-        // val requesterUUID: UUID
-        // get() = self().ownerUUID ?: uuid
-        // Try to preserve behavior but delegate to self()/getUUID(); if underlying names differ, adjust.
-
-        UUID owner = self().getOwnerUUID();
-        return owner != null ? owner : this.getUUID();
-    }
 
     // Callback stubs - can be overridden by implementing classes
     default void addedToGrid(String gridName) {
@@ -99,34 +96,13 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     // Lifecycle hooks - large Kotlin-specific implementations are preserved in comments
     default void onWirelessMachineLoad() {
-        // Original Kotlin implementation preserved below for manual conversion.
-        /*
-         * if (self().isRemote) return
-         * wirelessMachineRunTime.initTickableSubscription = TaskHandler.enqueueServerTick(level as ServerLevel, {
-         * if (mainNode.node != null && self().holder.offsetTimer % 20 == 0) {
-         * if (!wirelessMachinePersisted.beSet && wirelessMachineRunTime.shouldAutoConnect) {
-         * // 使用按请求者计算的可访问列表，寻找“当前玩家”的默认网格
-         * WirelessSavedData.Companion.accessibleGridsFor(self().ownerUUID ?: uuid)
-         * .firstOrNull { it.isDefault }
-         * ?.let { joinGrid(it.name) }
-         * wirelessMachinePersisted.beSet = true
-         * } else {
-         * if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
-         * linkGrid(wirelessMachinePersisted.gridConnectedName)
-         * }
-         * }
-         * // 机器加载完成后进行一次数据同步，避免 UI 打开时需要主动拉取
-         * wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
-         * }
-         * }, GTUtil.NOOP, 40)
-         */
         if (self().isRemote()) return;
         this.getWirelessMachineRunTime0().setInitTickableSubscription(
                 TaskHandler.enqueueTick(getLevel(), () -> {
                     if (this.getMainNode().getNode() != null) {
                         if (!this.getWirelessMachinePersisted0().isBeSet() && this.getWirelessMachineRunTime0().isShouldAutoConnect()) {
                             // 使用按请求者计算的可访问列表，寻找“当前玩家”的默认网格
-                            for (var grid : WirelessSavedData.Companion.accessibleGridsFor(self().getOwnerUUID() != null ? self().getOwnerUUID() : this.getUUID())) {
+                            for (var grid : WirelessSavedData.Companion.accessibleGridsFor(getUUID())) {
                                 if (grid.isDefault()) {
                                     joinGrid(grid.getName());
                                     break;
@@ -145,26 +121,13 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     }
 
     default void onWirelessMachineUnLoad() {
-        /*
-         * if (self().isRemote) return
-         * wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
-         * unLinkGrid()
-         */
         if (self().isRemote()) return;
         this.getWirelessMachineRunTime0().getInitTickableSubscription().unsubscribe();
         unLinkGrid();
+        WirelessMachineRunTime.refreshCachesOnServer(getUUID());
     }
 
     default void onWirelessMachinePlaced(LivingEntity player, ItemStack stack) {
-        /*
-         * player?.let {
-         * self().ownerUUID = it.uuid
-         * if (player is Player) {
-         * if (IEnhancedPlayer.of(player).playerData.shiftState) wirelessMachineRunTime.shouldAutoConnect = true
-         * }
-         * }
-         * self().requestSync()
-         */
         if (player != null) {
             self().setOwnerUUID(player.getUUID());
             if (player instanceof Player) {
@@ -176,39 +139,22 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
         self().requestSync();
     }
 
-    // getUUID comes from other interfaces; keep default to match Kotlin's override
+    @NotNull
     default UUID getUUID() {
-        // Kotlin override: override fun getUUID(): UUID = self().ownerUUID ?: UUID.randomUUID()\
         UUID owner = this.self().getOwnerUUID();
         return owner != null ? owner : UUID.randomUUID();
     }
 
     // Utility methods
     default void refreshCachesOnServer() {
-        /*
-         * if (self().isRemote) return
-         * // 全量
-         * wirelessMachineRunTime.gridCache.setAndSyncToClient(WirelessSavedData.Companion.INSTANCE.gridPool)
-         * // 可访问（服务端统一裁剪）
-         * wirelessMachineRunTime.gridAccessibleCache.setAndSyncToClient(
-         * WirelessSavedData.Companion.accessibleGridsFor(requesterUUID),
-         * )
-         */
-        if (self().isRemote()) return;
-        // 全量
-        WirelessMachineRunTime.SyncField.GRID_CACHE.setAndSync(WirelessSavedData.Companion.getINSTANCE().getGridPool());
-        // 可访问（服务端统一裁剪）
-        WirelessMachineRunTime.SyncField.GRID_ACCESSIBLE_CACHE.setAndSync(
-                WirelessSavedData.Companion.accessibleGridsFor(getRequesterUUID()));
+        WirelessMachineRunTime.refreshCachesOnServer(getUUID());
     }
 
     default WirelessMachineRunTime createWirelessMachineRunTime() {
-        // Kotlin: fun createWirelessMachineRunTime() = WirelessMachineRunTime(this)
         return new WirelessMachineRunTime(this);
     }
 
     default WirelessMachinePersisted createWirelessMachinePersisted() {
-        // Kotlin: fun createWirelessMachinePersisted() = WirelessMachinePersisted(this)
         return new WirelessMachinePersisted(this);
     }
 
@@ -218,25 +164,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
      * @param gridName 网格名称
      */
     default void linkGrid(String gridName) {
-        /*
-         * if (!allowThisMachineConnectToWirelessGrid()) return
-         * if (self().isRemote) return
-         * when (WirelessSavedData.Companion.joinToGrid(gridName, this, requesterUUID)) {
-         * STATUS.SUCCESS, STATUS.ALREADY_JOINT -> {
-         * wirelessMachineRunTime.gridConnected = WirelessSavedData.Companion.findGridByName(gridName)
-         * }
-         * STATUS.NOT_FOUND_GRID -> {
-         * wirelessMachineRunTime.gridConnected = null
-         * wirelessMachinePersisted.gridConnectedName = ""
-         * }
-         * STATUS.NOT_PERMISSION -> {
-         * wirelessMachineRunTime.gridConnected = null
-         * }
-         * }
-         */
         if (!allowThisMachineConnectToWirelessGrid()) return;
         if (self().isRemote()) return;
-        STATUS status = WirelessSavedData.Companion.joinToGrid(gridName, this, getRequesterUUID());
+        STATUS status = WirelessSavedData.Companion.joinToGrid(gridName, this, getUUID());
         switch (status) {
             case SUCCESS, ALREADY_JOINT -> {
                 this.getWirelessMachineRunTime0().setGridConnected(WirelessSavedData.Companion.findGridByName(gridName));
@@ -252,14 +182,6 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     }
 
     default void joinGrid(String gridName) {
-        /*
-         * if (!allowThisMachineConnectToWirelessGrid()) return
-         * if (self().isRemote) return
-         * wirelessMachinePersisted.gridConnectedName = gridName
-         * linkGrid(gridName)
-         * // 连接后立刻同步到客户端
-         * refreshCachesOnServer()
-         */
         if (!allowThisMachineConnectToWirelessGrid()) return;
         if (self().isRemote()) return;
         this.getWirelessMachinePersisted0().setGridConnectedName(gridName);
@@ -269,22 +191,11 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     }
 
     default void unLinkGrid() {
-        /*
-         * if (self().isRemote) return
-         * WirelessSavedData.Companion.leaveGrid(this)
-         */
         if (self().isRemote()) return;
         WirelessSavedData.Companion.leaveGrid(this);
     }
 
     default void leaveGrid() {
-        /*
-         * if (self().isRemote) return
-         * unLinkGrid()
-         * wirelessMachinePersisted.gridConnectedName = ""
-         * // 退出后立刻同步
-         * refreshCachesOnServer()
-         */
         if (self().isRemote()) return;
         unLinkGrid();
         this.getWirelessMachinePersisted0().setGridConnectedName("");

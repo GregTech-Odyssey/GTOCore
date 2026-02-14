@@ -1,32 +1,44 @@
 package com.gtocore.integration.ae.wireless;
 
+import com.gtocore.common.saved.WirelessSavedData;
+
 import com.gtolib.api.capability.ISync;
 import com.gtolib.api.network.NetworkPack;
-import com.gtolib.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.common.Mod;
 
+import com.fast.fastcollection.O2OOpenCacheHashMap;
+import com.lowdragmc.lowdraglib.LDLib;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
+@Mod.EventBusSubscriber
 public class WirelessMachineRunTime {
+
+    public static final SyncField GRID_CACHE = new SyncField();
+    public static final O2OOpenCacheHashMap<UUID, SyncField> GRID_ACCESSIBLE_CACHEs = new O2OOpenCacheHashMap<>();
+
+    static Runnable connectPageFreshRun = () -> {};
+    static Runnable detailsPageFreshRun = () -> {};
 
     final WirelessMachine machine;
 
     String gridWillAdded = "";
     WirelessGrid gridConnected = null; // ONLY SERVER
-    static Runnable connectPageFreshRun = () -> {};
-    static Runnable detailsPageFreshRun = () -> {};
     TickableSubscription initTickableSubscription = null;
     boolean shouldAutoConnect = false;
 
@@ -62,33 +74,44 @@ public class WirelessMachineRunTime {
 
     private static final NetworkPack gridCacheSYNCER = NetworkPack.registerS2C("wirelessMachineGridCacheSyncS2C", WirelessMachineRunTime::read);
 
-    public enum SyncField {
+    @Getter
+    public static class SyncField {
 
-        GRID_CACHE,
-        GRID_ACCESSIBLE_CACHE;
+        List<WirelessGrid> grids;
+        boolean needSyncGridCache = false;
 
-        List<WirelessGrid> values;
-
-        public void setAndSync(List<WirelessGrid> newValues) {
-            this.values = newValues;
-            gridCacheSYNCER.send(this::write, ServerUtils.getServer());
-        }
-
-        public List<WirelessGrid> get() {
-            return values;
+        void setGridsAndMark(List<WirelessGrid> newValues) {
+            this.grids = newValues;
+            needSyncGridCache = true;
         }
 
         void write(FriendlyByteBuf buf) {
-            buf.writeVarInt(ordinal());
-            buf.writeVarInt(values.size());
-            for (var grid : values) {
+            writeHeader(buf);
+            buf.writeVarInt(grids.size());
+            for (var grid : grids) {
                 buf.writeNbt(grid.encodeToNbt());
             }
         }
+
+        void writeHeader(FriendlyByteBuf buf) {
+            buf.writeOptional(Optional.empty(), FriendlyByteBuf::writeUUID);
+        }
+    }
+
+    static SyncField getAccessibleCacheForPlayer(UUID playerUUID) {
+        return GRID_ACCESSIBLE_CACHEs.computeIfAbsent(playerUUID, uuid -> new SyncField() {
+
+            @Override
+            void writeHeader(FriendlyByteBuf buf) {
+                buf.writeOptional(Optional.of(playerUUID), FriendlyByteBuf::writeUUID);
+            }
+        });
     }
 
     private static void read(Player p, FriendlyByteBuf buf) {
-        var field = SyncField.values()[buf.readVarInt()];
+        SyncField field = buf.readOptional(FriendlyByteBuf::readUUID)
+                .map(WirelessMachineRunTime::getAccessibleCacheForPlayer)
+                .orElse(GRID_CACHE);
         var size = buf.readVarInt();
         List<WirelessGrid> grids = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
@@ -96,7 +119,33 @@ public class WirelessMachineRunTime {
                 grids.add(WirelessGrid.Companion.decodeFromNbt(tag));
             }
         }
-        field.values = grids;
+        field.grids = grids;
         clientRefresh(LogicalSide.CLIENT, null, null);
+    }
+
+    static void refreshCachesOnServer(UUID requesterUUID) {
+        if (LDLib.isRemote()) return;
+        // 全量
+        GRID_CACHE.setGridsAndMark(WirelessSavedData.Companion.getINSTANCE().getGridPool());
+        // 可访问（服务端统一裁剪）
+        WirelessMachineRunTime.getAccessibleCacheForPlayer(requesterUUID).setGridsAndMark(
+                WirelessSavedData.Companion.accessibleGridsFor(requesterUUID));
+    }
+
+    @SubscribeEvent
+    public static void onTickEnd(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && event.getServer() != null) {
+            Stream.concat(GRID_ACCESSIBLE_CACHEs.values().stream(), Stream.of(GRID_CACHE))
+                    .filter(s -> s.needSyncGridCache)
+                    .forEach(s -> {
+                        gridCacheSYNCER.send(s::write, event.getServer());
+                        s.needSyncGridCache = false;
+                    });
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        refreshCachesOnServer(event.getEntity().getUUID());
     }
 }

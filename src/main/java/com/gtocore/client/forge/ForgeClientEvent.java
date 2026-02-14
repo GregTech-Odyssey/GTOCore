@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt;
+import com.gtocore.integration.ae.wireless.WirelessClientHandler;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.item.IItem;
@@ -154,11 +155,14 @@ public final class ForgeClientEvent {
             }
             ItemStack itemStack = player.getMainHandItem();
             Item item = itemStack.getItem();
+            if (WirelessClientHandler.shouldHighlight()) {
+                WirelessClientHandler.highlightMachines(camera, poseStack, event.getLevelRenderer().renderBuffers.bufferSource());
+            }
             if (item != Items.AIR && itemStack.hasTag()) {
                 if (GTCEu.isDev() && StructureWriteBehavior.isItem(itemStack)) {
                     poses = StructureWriteBehavior.getPos(itemStack);
                     if (poses != null) {
-                        RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses);
+                        RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses[0], poses[1]);
                     }
                 } else if (StructureDetectBehavior.isItem(itemStack)) {
                     poses = StructureDetectBehavior.getPos(itemStack);

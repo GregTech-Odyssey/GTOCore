@@ -2,8 +2,10 @@ package com.gtocore.client.renderer;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -19,6 +21,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+
+import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public final class RenderHelper {
@@ -161,7 +165,11 @@ public final class RenderHelper {
         }
     }
 
-    public static void highlightBlock(Camera camera, PoseStack poseStack, float r, float g, float b, BlockPos... poses) {
+    public static void highlightBlock(Camera camera, PoseStack poseStack, float r, float g, float b, BlockPos start, BlockPos end) {
+        highlightBlock(camera, poseStack, r, g, b, 3, start, end);
+    }
+
+    public static void highlightBlock(Camera camera, PoseStack poseStack, float r, float g, float b, float lineWidth, BlockPos start, BlockPos end) {
         Vec3 pos = camera.getPosition();
         float lightR = (1.0f + r * 4f) / 5.0f;
         float lightG = (1.0f + g * 4f) / 5.0f;
@@ -176,12 +184,12 @@ public final class RenderHelper {
         BufferBuilder buffer = tesselator.getBuilder();
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderBufferUtils.renderCubeFace(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, lightR, lightG, lightB, 0.25f, true);
+        RenderBufferUtils.renderCubeFace(poseStack, buffer, start.getX(), start.getY(), start.getZ(), end.getX() + 1, end.getY() + 1, end.getZ() + 1, lightR, lightG, lightB, 0.25f, true);
         tesselator.end();
         buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
         RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
-        RenderSystem.lineWidth(3);
-        RenderBufferUtils.drawCubeFrame(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, r, g, b, 0.5f);
+        RenderSystem.lineWidth(lineWidth);
+        RenderBufferUtils.drawCubeFrame(poseStack, buffer, start.getX(), start.getY(), start.getZ(), end.getX() + 1, end.getY() + 1, end.getZ() + 1, r, g, b, 0.5f);
         tesselator.end();
         RenderSystem.enableCull();
         RenderSystem.disableBlend();
@@ -207,6 +215,48 @@ public final class RenderHelper {
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
         poseStack.popPose();
+    }
+
+    public static void renderSeeThroughText(Camera camera, PoseStack poseStack, BlockPos pos, int color, String text, MultiBufferSource bufferSource) {
+        RenderSystem.disableDepthTest();
+        RenderSystem.enableBlend();
+        RenderSystem.disableCull();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        poseStack.pushPose();
+        {
+            poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
+            poseStack.translate((pos.getX() + 0.5), (pos.getY() + 0.5), (pos.getZ() + 0.5));
+            poseStack.scale(-0.03f, -0.03f, -0.03f);
+            poseStack.mulPose(camera.rotation());
+            Matrix4f matrix4f = poseStack.last().pose();
+            Font font = Minecraft.getInstance().font;
+            font.drawInBatch(
+                    text,
+                    -font.width(text) / 2f,
+                    -font.lineHeight / 2f,
+                    color,
+                    false,
+                    matrix4f,
+                    bufferSource,
+                    Font.DisplayMode.SEE_THROUGH,
+                    0,
+                    15728880);
+            font.drawInBatch(
+                    text,
+                    -font.width(text) / 2f,
+                    -font.lineHeight / 2f,
+                    color,
+                    false,
+                    matrix4f,
+                    bufferSource,
+                    Font.DisplayMode.NORMAL,
+                    0,
+                    15728880);
+        }
+        poseStack.popPose();
+        RenderSystem.enableCull();
+        RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
     }
 
     public static BufferBuilder openGUIBuffer() {

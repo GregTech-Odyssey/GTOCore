@@ -607,9 +607,9 @@ object GTOMachineTooltips {
     val AutoConnectMETooltips = ComponentListSupplier {
         setTranslationPrefix("auto_connect_me")
 
-        section("允许自动连接ME无线网络" translatedTo "Allow automatically connecting to the ME Wireless network")
-        guide("按下Shift放置以自动连接收藏的网络" translatedTo "Press Shift to place to automatically connect to the collected network")
-        danger("小心塞爆矿处！" translatedTo "Be careful not to overflow your AE storage! ")
+        section("无线ME网络连接" translatedTo "Built-in wireless ME network connection feature")
+        command("在机器内GUI界面中可以自由创建和连接无线网络" translatedTo "You can freely create and connect wireless networks in the machine's GUI interface")
+        guide("在机器内GUI界面收藏某个网络后，按下Shift放置以自动连接收藏的网络" translatedTo "After favoriting a network in the machine's GUI interface, place it while holding Shift to automatically connect to the favorited network")
     }
 
     // 多方块板条箱
