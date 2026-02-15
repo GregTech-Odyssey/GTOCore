@@ -18,6 +18,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import java.awt.*;
 import java.util.Set;
 
+import static com.gtocore.common.data.GTOMachines.ME_WIRELESS_CONNECTION_MACHINE;
 import static com.hepdd.gtmthings.data.CustomMachines.ME_EXPORT_BUFFER;
 
 @OnlyIn(Dist.CLIENT)
@@ -70,5 +71,6 @@ public class WirelessClientHandler {
 
     static {
         WirelessMachine.WIRELESS_MACHINE_DEFINITIONS.add(ME_EXPORT_BUFFER);
+        WirelessMachine.WIRELESS_MACHINE_DEFINITIONS.add(ME_WIRELESS_CONNECTION_MACHINE);
     }
 }
