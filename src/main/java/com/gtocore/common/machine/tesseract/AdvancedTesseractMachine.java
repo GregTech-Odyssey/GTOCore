@@ -249,7 +249,6 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
             if (i >= 20) break;
             var pos = target.pos().pos();
             if (pos.equals(getPos())) {
-                iterator.remove();
                 continue;
             }
             ItemStack card = ItemStack.EMPTY;

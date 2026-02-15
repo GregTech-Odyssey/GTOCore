@@ -88,11 +88,11 @@ public final class GTAEMachines {
             .abilities(PartAbility.IMPORT_ITEMS)
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
-            .meAutoConnectable()
             .tooltips(Component.translatable("gtceu.machine.item_bus.import.tooltip"),
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.part_sharing.enabled"))
+            .meAutoConnectable()
             .register();
 
     public static final MachineDefinition ME_TAG_FILTER_STOCK_HATCH = machine("me_tag_filter_stock_hatch", "ME标签过滤库存输入仓", METagFilterStockHatchPartMachine::new)
