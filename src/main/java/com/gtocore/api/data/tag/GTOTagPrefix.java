@@ -25,6 +25,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
@@ -35,6 +37,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.BotaniaBlocks;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
@@ -92,7 +95,17 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix GLOOMSLATE = ore("gloomslate").registerOre(() -> DDBlocks.GLOOMSLATE.get().defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BROWN).requiresCorrectToolForDrops().strength(4.0F, 5.0F), DeeperDarker.rl("block/gloomslate"));
     public static final TagPrefix LIVING_STONE = ore("living_rock").registerOre(BotaniaBlocks.livingrock::defaultBlockState, null, BlockBehaviour.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), RLUtils.bot("block/livingrock"));
     private static final MaterialIconType NANITES_ICON = new MaterialIconType("nanites");
-    public static final TagPrefix CATALYST = new GTOTagPrefix("catalyst").idPattern("%s_catalyst").defaultTagPath("catalyst/%s").unformattedTagPath("catalyst").materialAmount(GTValues.M).materialIconType(new MaterialIconType("catalyst")).unificationEnabled(true).generateItem(true).maxDamage(m -> 10000).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CATALYST));
+    public static final TagPrefix CATALYST = new GTOTagPrefix("catalyst").idPattern("%s_catalyst").defaultTagPath("catalyst/%s").unformattedTagPath("catalyst").materialAmount(GTValues.M).materialIconType(new MaterialIconType("catalyst")).unificationEnabled(true).generateItem(true).maxDamage(m -> 10000).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CATALYST))
+            .itemConstructor((p, t, m) -> new TagPrefixItem(p, t, m) {
+
+                @Override
+                public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+                    super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
+                    tooltipComponents.add(Component.translatable("gtocore.tooltip.item.catalyst.1"));
+                    tooltipComponents.add(Component.translatable("gtocore.tooltip.item.catalyst.2"));
+                    tooltipComponents.add(Component.translatable("gtocore.tooltip.item.catalyst.3"));
+                }
+            });
     public static final TagPrefix NANITES = new GTOTagPrefix("nanites").idPattern("%s_nanites").defaultTagPath("nanites/%s").unformattedTagPath("nanites").materialAmount(GTValues.M).materialIconType(NANITES_ICON).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_NANITES));
     public static final TagPrefix CONTAMINABLE_NANITES = new GTOTagPrefix("contaminable_nanites").idPattern("contaminable_%s_nanites").defaultTagPath("contaminable_nanites/%s").unformattedTagPath("contaminable_nanites").materialAmount(GTValues.M).materialIconType(NANITES_ICON).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_NANITES));
     public static final TagPrefix MILLED = new GTOTagPrefix("milled").idPattern("milled_%s").defaultTagPath("milleds/%s").unformattedTagPath("milleds").materialAmount(GTValues.M).materialIconType(new MaterialIconType("milled")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MILLED));

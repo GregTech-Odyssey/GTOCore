@@ -56,7 +56,7 @@ public class AESearchPatternProviderListBox extends AEListBox {
     public void updateBeforeRender() {
         searchField.setX(getX() + getGuiLeft());
         searchField.setY(getY() + getGuiTop() - 14);
-        searchField.setWidth(getBounds().getWidth());
+        searchField.setWidth(Math.max(getBounds().getWidth(), 30));
         super.updateBeforeRender();
     }
 

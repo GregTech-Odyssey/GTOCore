@@ -741,9 +741,9 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = super.serializeNBT();
-            // if (recipe != null) {
-            // tag.put("recipe", recipe.serializeNBT());
-            // }
+            if (recipe != null) {
+                tag.putString("recipe", recipe.id.toString());
+            }
             ListTag itemsTag = new ListTag();
             for (var it = itemInventory.reference2LongEntrySet().fastIterator(); it.hasNext();) {
                 var entry = it.next();
@@ -781,7 +781,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            // setRecipe(Recipe.deserializeNBT(tag.get("recipe")));
+            setRecipe(RecipeBuilder.get(RLUtils.parse(tag.getString("recipe"))));
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag ct)) continue;

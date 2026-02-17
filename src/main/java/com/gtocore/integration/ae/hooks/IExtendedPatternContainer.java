@@ -21,6 +21,8 @@ import com.glodblock.github.extendedae.common.tileentities.TileExMolecularAssemb
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public interface IExtendedPatternContainer extends PatternContainer {
 
@@ -35,15 +37,18 @@ public interface IExtendedPatternContainer extends PatternContainer {
     }
 
     default Set<GTRecipeType> getSupportedRecipeTypes() {
-        if (gto$getRecipeType() == null ||
-                gto$getRecipeType() == GTORecipeTypes.DUMMY_RECIPES ||
-                gto$getRecipeType() == GTORecipeTypes.HATCH_COMBINED) {
+        var recipeType = gto$getRecipeType();
+        if (recipeType == null ||
+                recipeType == GTORecipeTypes.DUMMY_RECIPES ||
+                recipeType == GTORecipeTypes.HATCH_COMBINED) {
             var recipeTypes = gto$getRecipeTypes();
-            return recipeTypes != null ? Set.copyOf(recipeTypes) : Collections.emptySet();
-        } else if (gto$getRecipeType() != null) {
-            return Collections.singleton(gto$getRecipeType());
+            return recipeTypes != null ? recipeTypes.stream()
+                    .flatMap(rt -> rt.getSmallRecipeMap() != null ? Stream.of(rt, rt.getSmallRecipeMap()) : Stream.of(rt))
+                    .collect(Collectors.toSet()) : Collections.emptySet();
+        } else if (recipeType.getSmallRecipeMap() != null) {
+            return Set.of(recipeType, recipeType.getSmallRecipeMap());
         }
-        return Collections.emptySet();
+        return Collections.singleton(recipeType);
     }
 
     default boolean gto$isCraftingContainer() {

@@ -32,9 +32,10 @@ public abstract class ActionButtonMixin extends IconButton implements IMouseNoRe
             gtocore$useOtherButton = true;
             MutableComponent component = (MutableComponent) cir.getReturnValue();
             component.append("\n")
-                    .append(Component.translatable("gtocore.gui.encoding_desc"))
-                    .append("\n")
-                    .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
+                    .append(Component.translatable("gtocore.gui.encoding_desc"));
+            if (Minecraft.getInstance().screen instanceof IExtendedPatternEncodingTerm)
+                component.append("\n")
+                        .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
             cir.setReturnValue(component);
         }
     }
