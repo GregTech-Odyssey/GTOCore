@@ -850,7 +850,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("extreme_compressor", "极限压缩装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .recipeTypes(COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES)
+            .recipeTypes(COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES, THERMO_PRESSING_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getHorizontalCompressorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()

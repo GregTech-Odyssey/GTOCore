@@ -171,6 +171,12 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         }
     }
 
+    @Override
+    public void clearMachineRecipeCache() {}
+
+    @Override
+    public void clearPatternRecipeCache() {}
+
     private void setMaxFluidsOutput(int integer) {
         final int last = this.maxFluidsOutput;
         maxFluidsOutput = Math.max(0, integer);

@@ -9,31 +9,51 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.GenericStack;
 import appeng.api.stacks.KeyCounter;
+import appeng.block.AEBaseEntityBlock;
+import appeng.blockentity.AEBaseBlockEntity;
+import appeng.blockentity.networking.CableBusBlockEntity;
 import appeng.client.gui.me.items.PatternEncodingTermScreen;
 import appeng.menu.me.common.MEStorageMenu;
+import org.jetbrains.annotations.Nullable;
 
 public final class Message {
 
     public static void init() {}
 
-    public static final NetworkPack OPEN_CONTAINER_C2S = NetworkPack.registerC2S("openContainerC2S", (p, b) -> tryOpenMetaMachineUI(p, b.readGlobalPos()));
+    public static final NetworkPack OPEN_CONTAINER_C2S = NetworkPack.registerC2S("openContainerC2S", (p, b) -> tryOpenMetaMachineUI(
+            p,
+            b.readGlobalPos(),
+            b.readOptional(buf -> Direction.from3DDataValue(buf.readByte())).orElse(null)));
 
-    private static void tryOpenMetaMachineUI(ServerPlayer p, GlobalPos globalPos) {
+    private static void tryOpenMetaMachineUI(ServerPlayer p, GlobalPos globalPos, @Nullable Direction side) {
         Level level = p.getServer().getLevel(globalPos.dimension());
         if (level != null && level.isLoaded(globalPos.pos())) {
             var be = level.getBlockEntity(globalPos.pos());
             if (be instanceof MetaMachineBlockEntity mbe && mbe.getMetaMachine() instanceof IUIMachine uiMachine) {
                 uiMachine.tryToOpenUI(p, InteractionHand.MAIN_HAND,
                         new BlockHitResult(globalPos.pos().getCenter(), p.getDirection(), globalPos.pos(), false));
+                return;
+            }
+            if (be instanceof CableBusBlockEntity cbbe && side != null) {
+                var part = cbbe.getPart(side);
+                if (part != null) {
+                    part.onActivate(p, InteractionHand.MAIN_HAND, globalPos.pos().getCenter());
+                }
+                return;
+            }
+            if (be instanceof AEBaseBlockEntity aeBase && aeBase.getBlockEntity().getBlockState().getBlock() instanceof AEBaseEntityBlock<?> aeBlock) {
+                aeBlock.onActivated(level, globalPos.pos(), p, InteractionHand.MAIN_HAND, ItemStack.EMPTY, new BlockHitResult(globalPos.pos().getCenter(), p.getDirection(), globalPos.pos(), false));
             }
         }
     }

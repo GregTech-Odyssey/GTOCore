@@ -61,11 +61,6 @@ public class WirelessClientHandler {
         int hash = grid.getName().hashCode();
         float hue = (hash % 360) / 360f;
         float brightness = 0.8f;
-        // if (grid.isDefault()) {
-        // hue += (float) (Math.sin(System.currentTimeMillis() / 1000.0) * 0.1f); // Default grid will have a shifting
-        // hue
-        // brightness = 0.75f + (float) (Math.sin(System.currentTimeMillis() / 500.0) * 0.25f); // Pulsating brightness
-        // }
         return Color.getHSBColor(hue, 0.8f, brightness);
     }
 

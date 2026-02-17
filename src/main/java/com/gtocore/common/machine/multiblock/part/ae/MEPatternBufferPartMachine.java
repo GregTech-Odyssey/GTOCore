@@ -65,6 +65,7 @@ import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.implementations.blockentities.PatternContainerGroup;
+import appeng.api.networking.crafting.ICraftingProvider;
 import appeng.api.stacks.*;
 import appeng.api.storage.MEStorage;
 import appeng.api.storage.StorageHelper;
@@ -463,6 +464,27 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
         var proxies = getProxies().size();
         if (proxies > 0) data.putInt("proxies", proxies);
         writeBufferTag(data, this);
+    }
+
+    @Override
+    public void clearMachineRecipeCache() {
+        for (InternalSlot slot : getInternalInventory()) {
+            slot.setRecipe(null);
+        }
+        getControllers().forEach(controller -> {
+            if (controller instanceof IRecipeLogicMachine rlm) {
+                rlm.getRecipeLogic().updateTickSubscription();
+            }
+        });
+    }
+
+    @Override
+    public void clearPatternRecipeCache() {
+        for (var pattern : getInternalPatternInventory()) {
+            pattern.getOrCreateTag().remove("recipe");
+        }
+        ICraftingProvider.requestUpdate(getMainNode());
+        clearMachineRecipeCache();
     }
 
     static void writeBufferTag(CompoundTag data, MEPatternBufferPartMachine buffer) {

@@ -4,6 +4,7 @@ import com.gtocore.api.ae2.pattern.IEncodingLogic;
 import com.gtocore.client.Message;
 import com.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MECraftPatternPartMachine;
+import com.gtocore.common.machine.multiblock.part.ae.MEPartInv;
 import com.gtocore.integration.ae.hooks.IExtendedPatternContainer;
 import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 
@@ -346,7 +347,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                         .flatMap(m -> m.getAvailablePatterns().stream())
                         .anyMatch(p -> p.getPrimaryOutput().what() == primaryOutput);
             }
-            if (patternInv instanceof MECraftPatternPartMachine mecppm &&
+            if (patternInv instanceof MEPartInv inv &&
+                    inv.getMachine() instanceof MECraftPatternPartMachine mecppm &&
                     mecppm.getController() instanceof SuperMolecularAssemblerMachine smaMachine) {
                 if (sameCluster.contains(smaMachine)) return true;
                 sameCluster.add(smaMachine);
