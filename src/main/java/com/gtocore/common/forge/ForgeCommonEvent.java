@@ -397,7 +397,7 @@ public final class ForgeCommonEvent {
                 mapping.remap(GTOBlocks.SPACETIME_CONTINUUM_RIPPER.get());
             } else if (mapping.getKey().equals(GTOCore.id("spacetimebendingcore"))) {
                 mapping.remap(GTOBlocks.SPACETIME_BENDING_CORE.get());
-            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_internal_frame"))) {
+            } else if (mapping.getKey().equals(GTOCore.id("titanium_alloy_frame_internal"))) {
                 mapping.remap(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get());
             }
         });

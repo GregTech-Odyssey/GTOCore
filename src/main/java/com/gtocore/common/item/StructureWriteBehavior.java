@@ -138,7 +138,7 @@ public final class StructureWriteBehavior implements IItemUIFactory {
                 boolean isGT = Objects.equals(parts[0], "gtceu");
                 boolean isGTO = Objects.equals(parts[0], GTOCore.MOD_ID);
                 if ((isGT || isGTO) && parts[1].contains("_frame")) {
-                    builder.append(".where('").append(c).append("GTOPredicates.frame(").append(isGT ? "GTMaterials." : "GTOMaterials.")
+                    builder.append(".where('").append(c).append("', GTOPredicates.frame(").append(isGT ? "GTMaterials." : "GTOMaterials.")
                             .append(FormattingUtil.lowerUnderscoreToUpperCamel(StringUtils.lastDecompose('_', parts[1])[0])).append("))\n");
                     return;
                 }

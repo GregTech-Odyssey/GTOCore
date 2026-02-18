@@ -29,6 +29,7 @@ public final class $ClassifiedRecipe {
         DimensionalFocusEngravingArray.init();
         SuperParticleCollider.init();
         LargeGasCollector.init();
+        PlanetaryGasCollector.init();
         PCBFactory.init();
         FishingGround.init();
         DrillingModule.init();
