@@ -158,7 +158,7 @@ public final class Data {
         RecyclingRecipes.init();
 
         ItemMaterialData.ITEM_MATERIAL_INFO.clear();
-        RecipeBuilder.clean();
+        RecipeBuilder.finish();
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
         GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
         GTOLoots.BLOCKS = null;

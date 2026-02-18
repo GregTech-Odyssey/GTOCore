@@ -2,7 +2,6 @@ package com.gtocore.integration.ae.wireless;
 
 import com.gtocore.common.saved.WirelessSavedData;
 
-import com.gtolib.api.capability.ISync;
 import com.gtolib.api.network.NetworkPack;
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -12,6 +11,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
@@ -33,7 +33,6 @@ public class WirelessMachineRunTime {
     public static final O2OOpenCacheHashMap<UUID, SyncField> GRID_ACCESSIBLE_CACHEs = new O2OOpenCacheHashMap<>();
 
     static Runnable connectPageFreshRun = () -> {};
-    static Runnable detailsPageFreshRun = () -> {};
 
     final WirelessMachine machine;
 
@@ -45,26 +44,13 @@ public class WirelessMachineRunTime {
     // 编辑网络昵称的输入缓存
     private String gridNicknameEdit = "";
 
-    // 防止 UI 侧刷新循环：仅在客户端接收端刷新 UI，服务端不触发 fresh()
-    private ISync.EnumSyncedField<FilterInMachineType> FilterInMachineTypeSyncField;
-
     public WirelessMachineRunTime(WirelessMachine machine) {
         this.machine = machine;
-
-        // 初始化枚举同步字段
-        this.FilterInMachineTypeSyncField = ISync.createEnumField(machine);
-
-        FilterInMachineTypeSyncField.setReceiverListener(WirelessMachineRunTime::clientRefresh);
-        FilterInMachineTypeSyncField.setSenderListener(WirelessMachineRunTime::serverNoop);
-        FilterInMachineTypeSyncField.set(FilterInMachineType.BOTH);
-
-        this.FilterInMachineTypeSyncField.set(FilterInMachineType.BOTH);
     }
 
     private static <T> void clientRefresh(LogicalSide side, T oldValue, T newValue) {
         if (!side.isServer()) {
             connectPageFreshRun.run();
-            detailsPageFreshRun.run();
         }
     }
 
@@ -95,6 +81,11 @@ public class WirelessMachineRunTime {
 
         void writeHeader(FriendlyByteBuf buf) {
             buf.writeOptional(Optional.empty(), FriendlyByteBuf::writeUUID);
+        }
+
+        void clear() {
+            grids = null;
+            needSyncGridCache = false;
         }
     }
 
@@ -147,5 +138,11 @@ public class WirelessMachineRunTime {
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         refreshCachesOnServer(event.getEntity().getUUID());
+    }
+
+    @SubscribeEvent
+    public static void onServerStopping(ServerStoppingEvent event) {
+        GRID_CACHE.clear();
+        GRID_ACCESSIBLE_CACHEs.clear();
     }
 }

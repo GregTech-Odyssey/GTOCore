@@ -125,7 +125,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
         if (io == IO.OUT && machine instanceof IExtendedRecipeCapabilityHolder outputMachine && outputMachine.isDualMEOutput(recipe)) {
             var contents = new RecipeCapabilityMap<>(recipe.outputs);
-            TaskHandler.enqueueAsyncTask(getMachine().getLevel(), () -> RecipeRunner.handleRecipe(machine, (Recipe) recipe, IO.OUT, contents, getChanceCaches(), false), 0);
+            TaskHandler.enqueueAsyncTask(getMachine().getLevel(), () -> RecipeHelper.handleRecipe(machine, recipe, IO.OUT, contents, getChanceCaches(), false), 0);
             return true;
         }
         return RecipeRunner.handleRecipeIO(machine, (Recipe) recipe, io, chanceCaches);

@@ -10,7 +10,6 @@ import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 import com.gtolib.utils.TagUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -41,7 +40,7 @@ import static com.gtocore.common.data.GTOItems.SPOOLS_LARGE;
 final class Vanilla {
 
     public static void init() {
-        if (Mods.CHISEL.isLoaded() || GTCEu.isDev()) {
+        if (Mods.CHISEL.isLoaded()) {
             VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("automatic_chisel"), OptionalMachine.CARVING_CENTER.asItem(),
                     "ABA",
                     "CDC",

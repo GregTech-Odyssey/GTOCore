@@ -24,7 +24,6 @@ public final class GTORecipePayload extends ObjectTypedPayload<GTRecipe> {
     @Override
     public void writePayload(FriendlyByteBuf buf) {
         var recipe = (Recipe) payload;
-        buf.writeResourceLocation(recipe.id);
         Recipe.SERIALIZER.toNetwork(buf, recipe);
         buf.writeInt(recipe.ocLevel);
         buf.writeLong(recipe.parallels);
@@ -34,7 +33,7 @@ public final class GTORecipePayload extends ObjectTypedPayload<GTRecipe> {
     public void readPayload(FriendlyByteBuf buf) {
         var id = buf.readResourceLocation();
         if (buf.isReadable()) {
-            var recipe = Recipe.SERIALIZER.fromNetwork(id, buf);
+            var recipe = Recipe.SERIALIZER.fromNetwork(buf);
             if (buf.isReadable()) {
                 recipe.ocLevel = buf.readInt();
                 recipe.setParallels(buf.readLong());

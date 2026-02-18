@@ -37,6 +37,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.CircuitHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
@@ -550,7 +551,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
     public static final class InternalSlot extends AbstractInternalSlot {
 
-        public RecipeDefinition recipe;
+        public GTRecipeDefinition recipe;
         public final MEPatternBufferPartMachine machine;
         public final int index;
         private final InputSink inputSink;
@@ -592,7 +593,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
             lockableInventory.setLock(lock);
         }
 
-        public void setRecipe(@Nullable RecipeDefinition recipe) {
+        public void setRecipe(@Nullable GTRecipeDefinition recipe) {
             if (!shouldLockRecipe) return;
             if (recipe != null && recipe.registered) {
                 this.recipe = recipe;
@@ -781,7 +782,7 @@ public abstract class MEPatternBufferPartMachine extends MEPatternPartMachineKt<
 
         @Override
         public void deserializeNBT(CompoundTag tag) {
-            setRecipe(RecipeBuilder.get(RLUtils.parse(tag.getString("recipe"))));
+            setRecipe(RecipeDefinition.of(tag.getString("recipe")));
             ListTag items = tag.getList("inventory", Tag.TAG_COMPOUND);
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag ct)) continue;

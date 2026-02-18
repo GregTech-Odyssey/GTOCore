@@ -8,7 +8,6 @@ import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NonStandardHandler;
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
@@ -227,7 +226,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public boolean handleRecipeContent(IO io, Recipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
+        public boolean handleRecipeContent(IO io, GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate, boolean distinct) {
             if (slot.isEmpty() || (slot.recipe != null && recipe.definition.registered && slot.recipe != recipe.definition)) return false;
             boolean item = contents.item == null;
             if (!item) {

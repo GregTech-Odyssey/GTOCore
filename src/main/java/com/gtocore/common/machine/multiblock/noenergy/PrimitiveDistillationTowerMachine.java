@@ -440,7 +440,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
         @Override
         protected boolean matchRecipe(GTRecipe recipe) {
-            if (recipe.id.equals(ID)) return false;
+            if (recipe.definition.id.equals(ID)) return false;
             if (RecipeHelper.getRecipeEUtTier(recipe) > 2) {
                 getMachine().setIdleReason(IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
                 return false;
@@ -457,7 +457,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
         private boolean matchDTRecipe(Recipe recipe) {
             if (!RecipeRunner.matchRecipeInput(machine, recipe)) return false;
             var items = recipe.getOutputContents(ItemRecipeCapability.CAP);
-            if ((!items.isEmpty() && !RecipeRunner.handleRecipe(machine, recipe, IO.OUT, Map.of(ItemRecipeCapability.CAP, items), Collections.emptyMap(), true)) || !applyFluidOutputs(recipe, IFluidHandler.FluidAction.SIMULATE)) {
+            if ((!items.isEmpty() && !RecipeHelper.handleRecipe(machine, recipe, IO.OUT, Map.of(ItemRecipeCapability.CAP, items), Collections.emptyMap(), true)) || !applyFluidOutputs(recipe, IFluidHandler.FluidAction.SIMULATE)) {
                 getMachine().setIdleReason(IdleReason.OUTPUT_FULL);
                 return false;
             }
@@ -489,7 +489,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
             var items = recipe.getOutputContents(ItemRecipeCapability.CAP);
             if (!items.isEmpty()) {
                 Map<RecipeCapability<?>, List<Content>> out = Map.of(ItemRecipeCapability.CAP, items);
-                RecipeRunner.handleRecipe(this.machine, (Recipe) recipe, io, out, chanceCaches, false);
+                RecipeHelper.handleRecipe(this.machine, recipe, io, out, chanceCaches, false);
             }
             if (applyFluidOutputs(recipe, IFluidHandler.FluidAction.EXECUTE)) {
                 workingRecipe = null;

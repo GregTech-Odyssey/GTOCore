@@ -177,7 +177,6 @@
     "gtm.api.machine.WorkableMultiblockMachineMixin",
     "gtm.api.machine.WorkableTieredMachineMixin",
     "gtm.api.recipe.FunctionBuilderMixin",
-    "gtm.api.recipe.GTRecipeBuilderMixin",
     "gtm.api.recipe.RecipeHelperMixin",
     "gtm.capability.ItemRecipeCapabilityMixin",
     "gtm.chemical.MaterialBuilderMixin",
