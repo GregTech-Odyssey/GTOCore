@@ -8,6 +8,7 @@ import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 import com.gtocore.common.saved.WirelessSavedData;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
+import com.gtocore.integration.ae.wireless.WirelessMachineRunTime;
 import com.gtocore.integration.botania.IEntropinnyum;
 import com.gtocore.integration.ftbquests.AdditionalTeamData;
 import com.gtocore.utils.OrganUtilsKt;
@@ -78,6 +79,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -325,6 +327,18 @@ public final class ForgeCommonEvent {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onServerStoppedEvent(ServerStoppedEvent event) {
+        DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
+        RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
+        WirelessSavedData.Companion.setINSTANCE(new WirelessSavedData());
+        if (Mods.FTBQUESTS.isLoaded()) {
+            AdditionalTeamData.instance = new AdditionalTeamData();
+        }
+        WirelessMachineRunTime.GRID_CACHE.clear();
+        WirelessMachineRunTime.GRID_ACCESSIBLE_CACHEs.clear();
     }
 
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")

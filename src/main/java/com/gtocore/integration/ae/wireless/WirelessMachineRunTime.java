@@ -11,7 +11,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
@@ -86,9 +85,9 @@ public class WirelessMachineRunTime {
             buf.writeOptional(Optional.empty(), FriendlyByteBuf::writeUUID);
         }
 
-        void clear() {
-            grids = null;
-            needSyncGridCache = false;
+        public void clear() {
+            grids.clear();
+            needSyncGridCache = true;
         }
     }
 
@@ -141,11 +140,5 @@ public class WirelessMachineRunTime {
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         refreshCachesOnServer(event.getEntity().getUUID());
-    }
-
-    @SubscribeEvent
-    public static void onServerStopping(ServerStoppingEvent event) {
-        GRID_CACHE.clear();
-        GRID_ACCESSIBLE_CACHEs.clear();
     }
 }
