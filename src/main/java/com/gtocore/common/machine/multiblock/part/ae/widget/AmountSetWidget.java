@@ -68,10 +68,15 @@ class AmountSetWidget extends Widget {
     // Otherwise, we cannot support complex expressions as it updates char by char.
     private void setNewAmount(String amount) {
         try {
-            long newAmount = AdvMathExpParser.parse(amount).longValue();
             if (this.index < 0) {
                 return;
             }
+
+            long newAmount = 0;
+            if (!amount.isEmpty()) {
+                newAmount = AdvMathExpParser.parse(amount).longValue();
+            }
+
             IConfigurableSlot slot = this.parentWidget.getConfig(this.index);
             if (newAmount > 0 && slot.getConfig() != null) {
                 slot.setConfig(new GenericStack(slot.getConfig().what(), newAmount));
@@ -96,6 +101,7 @@ class AmountSetWidget extends Widget {
     public void handleClientAction(int id, FriendlyByteBuf buffer) {
         super.handleClientAction(id, buffer);
         if (id == 0) {
+            this.amountText.setCurrentString("");
             this.index = buffer.readVarInt();
         }
     }
