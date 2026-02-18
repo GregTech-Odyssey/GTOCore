@@ -86,8 +86,8 @@ public class WirelessMachineRunTime {
         }
 
         public void clear() {
-            grids.clear();
-            needSyncGridCache = true;
+            grids = new ArrayList<>();
+            needSyncGridCache = false;
         }
     }
 
