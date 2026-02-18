@@ -41,6 +41,7 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [export_all_loot_tables]"), "export_all_loot_tables"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [export_loot_tables]"), "export_loot_tables"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [material_reporter]"), "material_reporter"));
+        textList.add(ComponentPanelWidget.withButton(Component.literal(" [ItemIconReport]"), "ItemIconReport"));
     }
 
     private void handleDisplayClick(String componentData, ClickData clickData) {
@@ -62,6 +63,7 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
                     LootTableExporter.exportLootTables(LOOT_TABLES);
                 }
                 case "material_reporter" -> MaterialReport.generateReport();
+                case "ItemIconReport" -> ItemIconReport.generateReport();
             }
         }
     }
