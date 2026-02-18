@@ -5,7 +5,7 @@ import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gtocore.common.saved.DysonSphereSavaedData;
 import com.gtocore.common.saved.RecipeRunLimitSavaedData;
-import com.gtocore.common.saved.WirelessSavedData;
+import com.gtocore.common.saved.WirelessNetworkSavedData;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.botania.IEntropinnyum;
@@ -320,7 +320,7 @@ public final class ForgeCommonEvent {
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
-            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.devMode.aeGridKey));
+            WirelessNetworkSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessNetworkSavedData::initialize, WirelessNetworkSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.devMode.aeGridKey));
             if (Mods.FTBQUESTS.isLoaded()) {
                 AdditionalTeamData.instance = serverLevel.getDataStorage().computeIfAbsent(AdditionalTeamData::new, AdditionalTeamData::new, "ftb_quests_additional_team_data");
             }

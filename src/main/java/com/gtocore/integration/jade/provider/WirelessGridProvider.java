@@ -1,6 +1,6 @@
 package com.gtocore.integration.jade.provider;
 
-import com.gtocore.common.saved.WirelessSavedData;
+import com.gtocore.common.saved.WirelessNetworkSavedData;
 import com.gtocore.integration.ae.wireless.WirelessMachine;
 
 import com.gtolib.GTOCore;
@@ -39,28 +39,30 @@ public final class WirelessGridProvider extends CapabilityBlockProvider<Wireless
     @Override
     protected void write(CompoundTag data, WirelessMachine capability) {
         if (capability != null) {
-            String id = capability.getWirelessMachinePersisted0().getGridConnectedName();
-            data.putString("grid", id);
+            String id = capability.getConnectedNetworkId();
+            data.putString("network", id);
             String nick = id;
             try {
-                var grid = WirelessSavedData.Companion.findGridByName(id);
-                if (grid != null) {
-                    grid.getNickname();
-                    if (!grid.getNickname().isBlank()) {
-                        nick = grid.getNickname();
-                    }
+                var net = WirelessNetworkSavedData.Companion.findNetworkById(id);
+                if (net != null && !net.getNickname().isBlank()) {
+                    nick = net.getNickname();
                 }
             } catch (Throwable ignored) {}
-            data.putString("grid_nick", nick);
+            data.putString("network_nick", nick);
+            data.putString("node_type", capability.getNodeType().name());
         }
     }
 
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
-        String nick = capData.getString("grid_nick");
-        if (nick.isBlank()) nick = capData.getString("grid");
+        String nick = capData.getString("network_nick");
+        if (nick.isBlank()) nick = capData.getString("network");
         if (nick.isBlank()) return;
 
-        tooltip.add(Component.translatable("gtocore.integration.ae.WirelessMachine.currentlyConnectedTo", nick));
+        String nodeType = capData.getString("node_type");
+        tooltip.add(Component.translatable(WirelessMachine.KEY_CONNECTED, nick));
+        if (!nodeType.isBlank()) {
+            tooltip.add(Component.translatable(WirelessMachine.KEY_NODE_TYPE, nodeType));
+        }
     }
 }
