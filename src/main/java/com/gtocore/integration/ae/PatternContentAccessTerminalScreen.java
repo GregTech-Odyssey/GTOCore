@@ -3,7 +3,6 @@ package com.gtocore.integration.ae;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
@@ -50,9 +49,13 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
     private static final int SLOT_SIZE = ROW_HEIGHT;
     private static final Rect2i HEADER_BBOX = new Rect2i(0, 0, GUI_WIDTH, GUI_HEADER_HEIGHT);
 
-    private static final Rect2i ROW_INVENTORY_TOP_BBOX = new Rect2i(0, 35 - ROW_HEIGHT, GUI_WIDTH, ROW_HEIGHT + ROW_HEIGHT);
-    private static final Rect2i ROW_INVENTORY_MIDDLE_BBOX = new Rect2i(0, 71 - ROW_HEIGHT, GUI_WIDTH, ROW_HEIGHT + ROW_HEIGHT);
-    private static final Rect2i ROW_INVENTORY_BOTTOM_BBOX = new Rect2i(0, 107 - ROW_HEIGHT, GUI_WIDTH, ROW_HEIGHT + ROW_HEIGHT);
+    private static final Rect2i ROW_TEXT_TOP_BBOX = new Rect2i(0, 17, GUI_WIDTH, ROW_HEIGHT);
+    private static final Rect2i ROW_TEXT_MIDDLE_BBOX = new Rect2i(0, 53, GUI_WIDTH, ROW_HEIGHT);
+    private static final Rect2i ROW_TEXT_BOTTOM_BBOX = new Rect2i(0, 89, GUI_WIDTH, ROW_HEIGHT);
+
+    private static final Rect2i ROW_INVENTORY_TOP_BBOX = new Rect2i(0, 35, GUI_WIDTH, ROW_HEIGHT);
+    private static final Rect2i ROW_INVENTORY_MIDDLE_BBOX = new Rect2i(0, 71, GUI_WIDTH, ROW_HEIGHT);
+    private static final Rect2i ROW_INVENTORY_BOTTOM_BBOX = new Rect2i(0, 107, GUI_WIDTH, ROW_HEIGHT);
     private static final Rect2i FOOTER_BBOX = new Rect2i(0, 125, GUI_WIDTH, GUI_FOOTER_HEIGHT);
 
     private int visibleRows = 0;
@@ -95,17 +98,19 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
 
     private void positionSlots() {
         int scroll = scrollbar.getCurrentScroll();
-        int slotIndex = 0;
-        for (var slot : this.menu.TargetAEKeys) {
-            int row = slotIndex / COLUMNS;
-            int col = slotIndex % COLUMNS;
 
-            int displayRow = (row - scroll) * 2;
+        for (int i = 0; i < this.menu.TargetAEKeys.length; i++) {
+            var slot = this.menu.TargetAEKeys[i];
+
+            int slotRowIndex = i / COLUMNS;
+            int col = i % COLUMNS;
+
+            int absoluteRow = slotRowIndex * 2 + 1;
+            int displayRow = absoluteRow - scroll;
 
             slot.setActive(displayRow >= 0 && displayRow < this.visibleRows);
             slot.x = GUI_PADDING_X + col * SLOT_SIZE;
-            slot.y = GUI_HEADER_HEIGHT + 1 + (displayRow + 1) * ROW_HEIGHT;
-            slotIndex++;
+            slot.y = GUI_HEADER_HEIGHT + displayRow * ROW_HEIGHT + 1;
         }
     }
 
@@ -125,37 +130,53 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
     private void resetScrollbar() {
         scrollbar.setHeight(this.visibleRows * ROW_HEIGHT - 2);
 
-        int totalRows = (this.menu.TargetAEKeys.length + COLUMNS - 1) / COLUMNS;
-        scrollbar.setRange(0, totalRows - this.visibleRows, 2);
+        int slotRowsCount = (this.menu.TargetAEKeys.length + COLUMNS - 1) / COLUMNS;
+        int totalRows = slotRowsCount * 2;
+
+        scrollbar.setRange(0, Math.max(0, totalRows - this.visibleRows), 2);
     }
 
     @Override
-    public void drawBG(GuiGraphics guiGraphics, int offsetX, int offsetY, int mouseX,
-                       int mouseY, float partialTicks) {
+    public void drawBG(GuiGraphics guiGraphics, int offsetX, int offsetY, int mouseX, int mouseY, float partialTicks) {
         blit(guiGraphics, offsetX, offsetY, HEADER_BBOX);
+
         int currentY = offsetY + GUI_HEADER_HEIGHT;
+        final int scrollLevel = scrollbar.getCurrentScroll();
 
         blit(guiGraphics, offsetX, currentY + this.visibleRows * ROW_HEIGHT, FOOTER_BBOX);
 
-        int scrollbarRow = scrollbar.getCurrentScroll();
         Font font = this.getMinecraft().font;
-        for (int i = 0; i < this.visibleRows / 2; ++i) {
+
+        for (int i = 0; i < this.visibleRows; ++i) {
+            int absoluteRowIndex = scrollLevel + i;
             boolean firstLine = i == 0;
-            boolean lastLine = i == this.visibleRows / 2 - 1;
+            boolean lastLine = i == this.visibleRows - 1;
 
-            Rect2i bbox = selectRowBackgroundBox(firstLine, lastLine);
+            boolean isInvRow = (absoluteRowIndex % 2 == 1);
+
+            Rect2i bbox = selectRowBackgroundBox(isInvRow, firstLine, lastLine);
             blit(guiGraphics, offsetX, currentY, bbox);
-            guiGraphics.drawString(font, Component.translatable(REPLACEMENT_LIST_NAME, scrollbarRow + i + 1), offsetX + 12, currentY + 9 - font.lineHeight / 2, ChatFormatting.BLACK.getColor(), false);
 
-            var firstValidItem = this.menu.getFirstItemAtRow(scrollbarRow + i);
-            if (firstValidItem != -1) {
-                int highlightX = offsetX + 8 + firstValidItem * SLOT_SIZE;
-                int highlightY = currentY + ROW_HEIGHT + 1;
-                var rect = new Rect2i(highlightX, highlightY, 16, 16);
-                fillRect(guiGraphics, rect, 0x80aaaaFF);
+            if (!isInvRow) {
+                int listIndex = absoluteRowIndex / 2 + 1;
+                int maxGroup = (this.menu.TargetAEKeys.length + COLUMNS - 1) / COLUMNS;
+                if (listIndex <= maxGroup) {
+                    guiGraphics.drawString(font,
+                            Component.translatable(REPLACEMENT_LIST_NAME, listIndex),
+                            offsetX + 12, currentY + 9 - font.lineHeight / 2,
+                            0x000000, false);
+                }
+            } else {
+                int listIndex = absoluteRowIndex / 2;
+                var firstValidItem = this.menu.getFirstItemAtRow(listIndex);
+                if (firstValidItem != -1) {
+                    int highlightX = offsetX + 8 + firstValidItem * SLOT_SIZE;
+                    int highlightY = currentY + 1;
+                    fillRect(guiGraphics, new Rect2i(highlightX, highlightY, 16, 16), 0x80aaaaFF);
+                }
             }
 
-            currentY += ROW_HEIGHT * 2;
+            currentY += ROW_HEIGHT;
         }
     }
 
@@ -165,13 +186,15 @@ public class PatternContentAccessTerminalScreen extends AEBaseScreen<PatternCont
                 srcRect.getHeight());
     }
 
-    private Rect2i selectRowBackgroundBox(boolean firstLine, boolean lastLine) {
-        if (firstLine) {
-            return ROW_INVENTORY_TOP_BBOX;
-        } else if (lastLine) {
-            return ROW_INVENTORY_BOTTOM_BBOX;
-        } else {
+    private Rect2i selectRowBackgroundBox(boolean isInvLine, boolean firstLine, boolean lastLine) {
+        if (isInvLine) {
+            if (firstLine) return ROW_INVENTORY_TOP_BBOX;
+            if (lastLine) return ROW_INVENTORY_BOTTOM_BBOX;
             return ROW_INVENTORY_MIDDLE_BBOX;
+        } else {
+            if (firstLine) return ROW_TEXT_TOP_BBOX;
+            if (lastLine) return ROW_TEXT_BOTTOM_BBOX;
+            return ROW_TEXT_MIDDLE_BBOX;
         }
     }
 }
