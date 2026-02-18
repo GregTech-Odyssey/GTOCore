@@ -806,7 +806,7 @@ public class SpaceMultiblock {
             .register();
 
     // 行星气体采集装置
-    public static final MachineDefinition PLANETARY_GAS_COLLECTOR = multiblock("planetary_gas_collector", "行星气体采集装置", d  -> new RecipeExtension(d, m ->{
+    public static final MachineDefinition PLANETARY_GAS_COLLECTOR = multiblock("planetary_gas_collector", "行星气体采集装置", d -> new RecipeExtension(d, m -> {
 
         var pos = m.getPos();
         var fFacing = m.getFrontFacing();
@@ -815,7 +815,7 @@ public class SpaceMultiblock {
         var hallwayCenter = pos.relative(fFacing, 2).relative(RelativeDirection.RIGHT.getRelative(fFacing, uFacing, isFlipped), 27);
         ImmutableSet.Builder<BlockPos> builder = ImmutableSet.builder();
         for (RelativeDirection dir : RelativeDirection.values()) {
-            if (dir == RelativeDirection.LEFT || dir == RelativeDirection.UP || dir == RelativeDirection.DOWN ) continue;
+            if (dir == RelativeDirection.LEFT || dir == RelativeDirection.UP || dir == RelativeDirection.DOWN) continue;
             var newFFacing = dir.getRelative(fFacing, uFacing, isFlipped);
             var newUFacing = RelativeDirection.UP.getRelative(newFFacing, uFacing, isFlipped);
             var shiftedPos = hallwayCenter.relative(newFFacing, 27);
@@ -833,36 +833,36 @@ public class SpaceMultiblock {
             .recipeTypes(GTORecipeTypes.SPACE_GAS_COLLECTOR_RECIPES)
             .block(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
-            .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
-            .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
-            .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
-            .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
-            .where('E', ISpacePredicateMachine.innerBlockPredicate.get())
-            .where('F', controller(definition))
-            .where('G', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
-            .where('H', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
-            .where('I', GTOPredicates.light())
-            .where('J', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK1.get()))
-            .where('K', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
-            .where('L', blocks(GTBlocks.CLEANROOM_GLASS.get()))
-            .where('M', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
-            .where('N', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
-            .where('O', GTOPredicates.frame(GTOMaterials.HighEntropyShapeMemoryAlloy))
-            .where('P', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get())
-                    .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
-                    .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
-            .where('Q', blocks(GTOBlocks.MOLECULAR_CASING.get()))
-            .where('R', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
-            .where('S', blocks(GTOBlocks.HOLLOW_CASING.get()))
-            .where('T', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-            .where('U', blocks(GTOBlocks.CHEMICAL_GRADE_GLASS.get()))
-            .where('V', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK2.get()))
-            .where('W', MODULE.traceabilityPredicate.get())
-            .where('X', blocks(GTBlocks.CASING_GRATE.get()))
-            .where('Y', blocks(GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS.get()))
-            .where('Z', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
-            .where(' ', any())
-            .build())
+                    .where('A', blocks(GTOBlocks.ALUMINUM_ALLOY_2090_SKIN_MECHANICAL_BLOCK.get()))
+                    .where('B', blocks(GTOBlocks.ALUMINUM_ALLOY_7050_SUPPORT_MECHANICAL_BLOCK.get()))
+                    .where('C', blocks(GTOBlocks.TITANIUM_ALLOY_FRAME_INTERNAL.get()))
+                    .where('D', blocks(GTOBlocks.SPACECRAFT_DOCKING_CASING.get()))
+                    .where('E', ISpacePredicateMachine.innerBlockPredicate.get())
+                    .where('F', controller(definition))
+                    .where('G', blocks(GTOBlocks.SPACECRAFT_SEALING_MECHANICAL_BLOCK.get()))
+                    .where('H', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get()))
+                    .where('I', GTOPredicates.light())
+                    .where('J', blocks(GTOBlocks.ENERGY_CONTROL_CASING_MK1.get()))
+                    .where('K', blocks(GTOBlocks.LOAD_BEARING_STRUCTURAL_STEEL_MECHANICAL_BLOCK.get()))
+                    .where('L', blocks(GTBlocks.CLEANROOM_GLASS.get()))
+                    .where('M', blocks(GTOBlocks.SPACE_STATION_CONTROL_CASING.get()))
+                    .where('N', blocks(GTOBlocks.TITANIUM_ALLOY_PROTECTIVE_MECHANICAL_BLOCK.get()))
+                    .where('O', GTOPredicates.frame(GTOMaterials.HighEntropyShapeMemoryAlloy))
+                    .where('P', blocks(GTOBlocks.PRESSURE_RESISTANT_HOUSING_MECHANICAL_BLOCK.get())
+                            .or(autoSpaceMachineAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
+                    .where('Q', blocks(GTOBlocks.MOLECULAR_CASING.get()))
+                    .where('R', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
+                    .where('S', blocks(GTOBlocks.HOLLOW_CASING.get()))
+                    .where('T', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('U', blocks(GTOBlocks.CHEMICAL_GRADE_GLASS.get()))
+                    .where('V', blocks(GTOBlocks.MACHINING_CONTROL_CASING_MK2.get()))
+                    .where('W', MODULE.traceabilityPredicate.get())
+                    .where('X', blocks(GTBlocks.CASING_GRATE.get()))
+                    .where('Y', blocks(GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS.get()))
+                    .where('Z', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
+                    .where(' ', any())
+                    .build())
             .workableCasingRenderer(GTOCore.id("block/casings/pressure_resistant_housing_mechanical_block"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }

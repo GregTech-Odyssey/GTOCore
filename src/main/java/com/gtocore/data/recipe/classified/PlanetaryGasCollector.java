@@ -1,13 +1,12 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOMaterials;
+
+import com.gtolib.api.data.Dimension;
+
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtolib.api.data.Dimension;
-import com.gtolib.api.data.GTODimensions;
 
-import static com.gtocore.common.data.GTORecipeTypes.LARGE_GAS_COLLECTOR_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.SPACE_GAS_COLLECTOR_RECIPES;
 
 final class PlanetaryGasCollector {
