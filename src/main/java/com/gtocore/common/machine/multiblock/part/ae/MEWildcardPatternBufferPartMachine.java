@@ -39,6 +39,8 @@ import com.gregtechceu.gtceu.utils.collection.FastObjectArrayList;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.world.inventory.ClickType;
@@ -363,13 +365,43 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
         return cachedPatterns;
     }
 
-    private List<@NotNull IPatternDetails> readInv() {
+    @Override
+    public void loadFromItem(@NotNull CompoundTag tag) {
+        super.loadFromItem(tag);
+        patternPriority = tag.getInt("patternPriority");
+        maxFluidsOutput = tag.getInt("maxFluidsOutput");
+        maxItemsOutput = tag.getInt("maxItemsOutput");
+        blacklistedItemsStorageTransfer.deserializeNBT(tag.getCompound("blacklistedItems"));
+        var fluidsTag = tag.getList("blacklistedFluids", 10);
+        for (int i = 0; i < fluidsTag.size(); i++) {
+            blacklistedFluids[i].deserializeNBT(fluidsTag.getCompound(i));
+        }
+        blacklistedAltProcessableMachinesStorageTransfer.deserializeNBT(tag.getCompound("blacklistedAltProcessableMachines"));
+        loadBlacklistData();
+    }
+
+    @Override
+    public void saveToItem(@NotNull CompoundTag tag) {
+        super.saveToItem(tag);
+        tag.putInt("patternPriority", patternPriority);
+        tag.putInt("maxFluidsOutput", maxFluidsOutput);
+        tag.putInt("maxItemsOutput", maxItemsOutput);
+        tag.put("blacklistedItems", blacklistedItemsStorageTransfer.serializeNBT());
+        var fluidsTag = new ListTag();
+        for (var tank : blacklistedFluids) {
+            fluidsTag.add(tank.serializeNBT());
+        }
+        tag.put("blacklistedFluids", fluidsTag);
+        tag.put("blacklistedAltProcessableMachines", blacklistedAltProcessableMachinesStorageTransfer.serializeNBT());
+    }
+
+    private @NotNull List<@NotNull IPatternDetails> readInv() {
         var pattern = getPatternInventory().getStackInSlot(0);
         var details = decodePattern(pattern, 0);
         return details == null ? List.of() : List.of(details);
     }
 
-    public static void onMultiblockRecipeTypeChange(MultiblockControllerMachine machine) {
+    public static void onMultiblockRecipeTypeChange(@NotNull MultiblockControllerMachine machine) {
         Arrays.stream(machine.getParts())
                 .filter(MEWildcardPatternBufferPartMachine.class::isInstance)
                 .map(MEWildcardPatternBufferPartMachine.class::cast)

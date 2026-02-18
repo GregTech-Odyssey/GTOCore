@@ -31,7 +31,6 @@ public final class GTORecipePayload extends ObjectTypedPayload<GTRecipe> {
 
     @Override
     public void readPayload(FriendlyByteBuf buf) {
-        var id = buf.readResourceLocation();
         if (buf.isReadable()) {
             var recipe = Recipe.SERIALIZER.fromNetwork(buf);
             if (buf.isReadable()) {
