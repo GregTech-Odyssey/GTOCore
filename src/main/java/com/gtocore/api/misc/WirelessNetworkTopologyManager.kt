@@ -68,7 +68,7 @@ class WirelessNetworkTopologyManager {
 
     fun getTotalUsedChannels(): Int {
         if (clusters.isEmpty()) return 0
-        return clusters.first().hubNode.gridNode?.grid?.pathingService?.usedChannels ?: 0
+        return clusters.first().hubNode.gridNode?.usedChannels ?: 0
     }
 
     private fun cleanupNodeConnections(node: WirelessMachine, cluster: NodeCluster) {
