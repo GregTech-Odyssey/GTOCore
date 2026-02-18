@@ -169,10 +169,12 @@ object GTOMachineTooltips {
         )
 
         section("蓝图导出功能" translatedTo "Blueprint Export Function")
-        content("将两张坐标卡插入工具底部插槽可激活导出模式" translatedTo "Insert two coordinate cards into the tool's bottom slots to activate export mode")
+        content("将两张带有坐标位置的坐标卡插入工具底部插槽后，打开选择预设界面可激活导出模式" translatedTo "After inserting two coordinate cards with coordinate positions into the slot at the bottom of the tool, open the selection preset interface to activate the export mode")
+        content("导出蓝图在游戏根目录下logs/platform文件夹中" translatedTo "The exported blueprint is located in the logs/platform folder under the game's root directory")
         highlight("欢迎提交优质蓝图至社区仓库" translatedTo "Welcome to submit high-quality blueprints to the community repository") { rainbowSlow() }
         content("不支持框架方块和小方块" translatedTo "Does not support FramedBlocks or LittleTiles")
         highlight("https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets" translatedTo "https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets") { rainbowSlow() }
+        content("详细导入教程请看 example/READIR_cn.md" translatedTo "For detailed import tutorial, please refer to example/README_en.md")
     }
 
     // 贸易站机器 - 物品描述
