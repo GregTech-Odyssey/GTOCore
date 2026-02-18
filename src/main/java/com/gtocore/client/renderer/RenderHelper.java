@@ -22,8 +22,6 @@ import com.mojang.blaze3d.vertex.*;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
-import java.awt.*;
-
 @OnlyIn(Dist.CLIENT)
 public final class RenderHelper {
 

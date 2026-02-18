@@ -61,8 +61,6 @@ import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
-import static com.gtocore.common.machine.tesseract.DirectedTesseractMachine.HIGHLIGHT_TEXT;
-
 public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife, ICustomCraftingMachine, IMultiTesseract {
 
     public static final Multiset<ImmutableList<Long>> HIGHLIGHTS = HashMultiset.create();

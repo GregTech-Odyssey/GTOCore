@@ -15,7 +15,10 @@ import com.gtocore.common.machine.multiblock.water.*;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.machine.multiblock.*;
+import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
+import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.TierCasingCrossRecipeMultiblockMachine;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 

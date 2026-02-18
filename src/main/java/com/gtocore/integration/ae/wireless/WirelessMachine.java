@@ -5,12 +5,10 @@ import com.gtocore.common.saved.WirelessSavedData;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.capability.ISync;
 import com.gtolib.api.player.IEnhancedPlayer;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -26,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 @DataGeneratorScanned
-public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable {
+public interface WirelessMachine extends IGridConnectedMachine, IBindable {
 
     // Companion object constants -> public static final fields
     @RegisterLanguage(cn = "网络节点选择", en = "Grid Node Selector")
@@ -98,7 +96,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default void onWirelessMachineLoad() {
         if (self().isRemote()) return;
         this.getWirelessMachineRunTime0().setInitTickableSubscription(
-                TaskHandler.enqueueTick(getLevel(), () -> {
+                TaskHandler.enqueueTick(self().getLevel(), () -> {
                     if (this.getMainNode().getNode() != null) {
                         if (!this.getWirelessMachinePersisted0().isBeSet() && this.getWirelessMachineRunTime0().isShouldAutoConnect()) {
                             // 使用按请求者计算的可访问列表，寻找“当前玩家”的默认网格
@@ -209,7 +207,4 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
         // Preserve the original Kotlin body here for manual conversion and return a provider that throws at runtime.
         return WirelessMachineUIKt.getSetupFancyUIProvider(this);
     }
-
-    @Override
-    MetaMachine self();
 }

@@ -8,7 +8,10 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gtocore.common.machine.mana.*;
-import com.gtocore.common.machine.mana.part.*;
+import com.gtocore.common.machine.mana.part.MEManaAmplifierPartMachine;
+import com.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
+import com.gtocore.common.machine.mana.part.ManaHatchPartMachine;
+import com.gtocore.common.machine.mana.part.WirelessManaHatchPartMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;

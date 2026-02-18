@@ -34,7 +34,10 @@ import dev.emi.emi.recipe.EmiStonecuttingRecipe;
 import dev.emi.emi.screen.RecipeScreen;
 import vazkii.botania.client.integration.emi.BotaniaEmiRecipe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static appeng.integration.modules.emi.AbstractRecipeHandler.getInnerBounds;

@@ -96,7 +96,7 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
     companion object {
 
         @JvmStatic
-        val SYNC_MANAGED_FIELD_HOLDER = SyncManagedFieldHolder(MEPatternPartMachineKt::class.java, syncFieldHolder)
+        val SYNC_MANAGED_FIELD_HOLDER = SyncManagedFieldHolder(MEPatternPartMachineKt::class.java)
 
         @RegisterLanguage(cn = "AE显示名称:", en = "AE Name:")
         const val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
@@ -202,12 +202,14 @@ abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInterna
 
     override fun onLoad() {
         super.onLoad()
+        registerSync()
         detailsInit = false
         level?.let { TravelUtils.removeAndReadd(it, this) }
     }
 
     override fun onUnload() {
         super.onUnload()
+        unregisterSync()
         detailsInit = false
         level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }

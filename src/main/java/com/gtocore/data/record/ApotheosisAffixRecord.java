@@ -11,7 +11,9 @@ import com.google.common.collect.ImmutableMap;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static com.gtolib.utils.register.ItemRegisterUtils.item;
 

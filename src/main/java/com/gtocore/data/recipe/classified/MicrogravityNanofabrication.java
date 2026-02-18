@@ -11,7 +11,8 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.UHV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.MICROGRAVITY_NANOFABRICATION_RECIPES;
 
 public class MicrogravityNanofabrication {

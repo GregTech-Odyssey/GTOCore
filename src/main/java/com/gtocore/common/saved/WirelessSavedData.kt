@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.saveddata.SavedData
 
 import com.gregtechceu.gtceu.GTCEu
-import com.gtolib.api.capability.ISync
 import com.hepdd.gtmthings.utils.TeamUtil
 
 import java.util.*

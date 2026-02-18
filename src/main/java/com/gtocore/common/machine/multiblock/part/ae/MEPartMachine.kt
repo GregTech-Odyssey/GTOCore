@@ -31,9 +31,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredIOPartMac
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.gtolib.api.annotation.SyncedManager
-import com.gtolib.api.capability.ISync
 import com.gtolib.api.machine.feature.IMEPartMachine
-import com.gtolib.api.network.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
@@ -48,7 +46,6 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
     WorkableTieredIOPartMachine(holder, GTValues.LuV, io),
     WirelessMachine,
     IMEPartMachine,
-    ISync,
     IDistinctPart,
     IMachineLife {
     @Persisted
@@ -100,7 +97,6 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun onLoad() {
         super.onLoad()
-        registerSync()
         if (isAllFacing) {
             mainNode.setExposedOnSides(EnumSet.allOf(Direction::class.java))
         }
@@ -138,17 +134,13 @@ abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun onUnload() {
         onWirelessMachineUnLoad()
-        unregisterSync()
         super.onUnload()
     }
 
     companion object {
-        val syncFieldHolder = SyncManagedFieldHolder(MEPartMachine::class.java)
 
         const val CONFIG_SIZE: Int = 16
     }
-
-    override fun getSyncHolder(): SyncManagedFieldHolder = syncFieldHolder
 
     // ////////////////////////////////
     // ****** 无线连接设置 ******//
