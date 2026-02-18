@@ -24,7 +24,7 @@ public class MESimplePatternBufferPartMachine extends MEPatternBufferPartMachine
     }
 
     @Override
-    public boolean allowThisMachineConnectToWirelessGrid() {
+    public boolean allowWirelessConnection() {
         return false;
     }
 }

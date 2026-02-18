@@ -1,14 +1,16 @@
 package com.gtocore.integration.ae.wireless;
 
+import com.gtocore.common.saved.NetworkSummary;
 import com.gtocore.common.saved.STATUS;
-import com.gtocore.common.saved.WirelessSavedData;
+import com.gtocore.common.saved.TopologySummary;
+import com.gtocore.common.saved.WirelessNetworkSavedData;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.api.capability.ISync;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -17,194 +19,279 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ReferenceSet;
-import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.UUID;
 
+/**
+ * 重写后的无线网络节点接口。
+ * <p>
+ * 每个网络有源节点（Source，提供AE网络）和子节点（Child，消费AE网络）。
+ * 子节点连接到一个源节点，源节点最多供应 maxOutputsPerInput 个子节点。
+ * 源节点掉线时自动重分配子节点到其余源节点。
+ */
 @DataGeneratorScanned
-public interface WirelessMachine extends IGridConnectedMachine, IBindable {
+public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable {
 
-    // Companion object constants -> public static final fields
-    @RegisterLanguage(cn = "网络节点选择", en = "Grid Node Selector")
-    String gridNodeSelector = "gtocore.integration.ae.WirelessMachine.gridNodeSelector";
+    enum NodeType {
+        SOURCE,
+        CHILD
+    }
 
-    @RegisterLanguage(cn = "网络节点列表", en = "Grid Node List")
-    String gridNodeList = "gtocore.integration.ae.WirelessMachine.gridNodeList";
+    // ==================== Language Keys ====================
 
-    @RegisterLanguage(cn = "绑定到玩家 : %s", en = "Bind to player: %s")
-    String player = "gtocore.integration.ae.WirelessMachine.player";
+    @RegisterLanguage(cn = "网络节点选择", en = "Network Node Selector")
+    String KEY_NODE_SELECTOR = "gtocore.wireless.node_selector";
 
-    @RegisterLanguage(cn = "当前连接到 : %s", en = "Currently connected: %s")
-    String currentlyConnectedTo = "gtocore.integration.ae.WirelessMachine.currentlyConnectedTo";
+    @RegisterLanguage(cn = "绑定玩家: %s", en = "Player: %s")
+    String KEY_PLAYER = "gtocore.wireless.player";
+
+    @RegisterLanguage(cn = "已连接: %s", en = "Connected: %s")
+    String KEY_CONNECTED = "gtocore.wireless.connected";
 
     @RegisterLanguage(cn = "无", en = "None")
-    String none = "gtocore.integration.ae.WirelessMachine.notConnected";
+    String KEY_NONE = "gtocore.wireless.none";
 
-    @RegisterLanguage(cn = "创建网络", en = "Create Grid")
-    String createGrid = "gtocore.integration.ae.WirelessMachine.createGrid";
+    @RegisterLanguage(cn = "新建", en = "New")
+    String KEY_CREATE = "gtocore.wireless.create";
 
-    @RegisterLanguage(cn = "全球可用无线网络 : %s / %s", en = "Global available wireless grids: %s / %s")
-    String globalWirelessGrid = "gtocore.integration.ae.WirelessMachine.globalWirelessGrid";
+    @RegisterLanguage(cn = "断开连接", en = "Disconnect")
+    String KEY_LEAVE = "gtocore.wireless.leave";
 
-    @RegisterLanguage(cn = "删除", en = "Remove")
-    String removeGrid = "gtocore.integration.ae.WirelessMachine.removeGrid";
+    @RegisterLanguage(cn = "删除", en = "Del")
+    String KEY_REMOVE = "gtocore.wireless.remove";
 
-    @RegisterLanguage(cn = "长按按钮并松开以确认删除网络", en = "Hold the button and release to confirm removing the grid")
-    String removeGridDesc = "gtocore.integration.ae.WirelessMachine.removeGrid.desc";
+    @RegisterLanguage(cn = "确认删除?", en = "Confirm?")
+    String KEY_CONFIRM_DELETE = "gtocore.wireless.confirm_delete";
 
-    @RegisterLanguage(cn = "你的无线网络 : ", en = "Your wireless grids: ")
-    String yourWirelessGrid = "gtocore.integration.ae.WirelessMachine.yourWirelessGrid";
+    @RegisterLanguage(cn = "节点: %s", en = "Node: %s")
+    String KEY_NODE_TYPE = "gtocore.wireless.node_type";
 
-    @RegisterLanguage(cn = "查找机器，机器将会高亮", en = "Find Machine, machine will be highlighted")
-    String findMachine = "gtocore.integration.ae.WirelessMachine.findMachine";
+    @RegisterLanguage(cn = "源节点", en = "Source")
+    String KEY_SOURCE_NODE = "gtocore.wireless.source_node";
 
-    @RegisterLanguage(cn = "此机器被禁止连接ME无线网络", en = "This machine is banned from connecting to ME wireless network")
-    String banned = "gtocore.integration.ae.WirelessMachine.banned";
+    @RegisterLanguage(cn = "子节点", en = "Child")
+    String KEY_CHILD_NODE = "gtocore.wireless.child_node";
 
-    @RegisterLanguage(cn = "断开无线网络", en = "Leave Wireless Grid")
-    String leave = "gtocore.integration.ae.WirelessMachine.leave";
+    @RegisterLanguage(cn = "源节点 (%d/%d 已连接)", en = "Source (%d/%d connected)")
+    String KEY_INPUT_STATUS = "gtocore.wireless.input_status";
 
-    @RegisterLanguage(cn = "修改网络昵称", en = "Rename Grid")
-    String renameGrid = "gtocore.integration.ae.WirelessMachine.renameGrid";
+    @RegisterLanguage(cn = "子节点 (已连接)", en = "Child (connected)")
+    String KEY_OUTPUT_CONNECTED = "gtocore.wireless.output_connected";
 
-    ReferenceSet<MachineDefinition> WIRELESS_MACHINE_DEFINITIONS = new ReferenceOpenHashSet<>();
+    @RegisterLanguage(cn = "子节点 (未分配！)", en = "Child (unassigned!)")
+    String KEY_OUTPUT_UNASSIGNED = "gtocore.wireless.output_unassigned";
 
-    WirelessMachinePersisted getWirelessMachinePersisted0();
+    @RegisterLanguage(cn = "⚠ %d 个子节点未分配", en = "⚠ %d child nodes unassigned")
+    String KEY_UNASSIGNED_WARNING = "gtocore.wireless.unassigned_warning";
 
-    void setWirelessMachinePersisted0(WirelessMachinePersisted v);
+    @RegisterLanguage(cn = "此机器禁止连接无线网络", en = "This machine cannot connect to wireless networks")
+    String KEY_BANNED = "gtocore.wireless.banned";
 
-    WirelessMachineRunTime getWirelessMachineRunTime0();
+    @RegisterLanguage(cn = "可用网络: %d", en = "Networks: %d")
+    String KEY_AVAILABLE = "gtocore.wireless.available";
 
-    void setWirelessMachineRunTime0(WirelessMachineRunTime v);
+    @RegisterLanguage(cn = "切换节点类型", en = "Toggle Node Type")
+    String KEY_TOGGLE_TYPE = "gtocore.wireless.toggle_type";
 
-    // Callback stubs - can be overridden by implementing classes
-    default void addedToGrid(String gridName) {
-        // original empty body in Kotlin
+    @RegisterLanguage(cn = "网络拓扑", en = "Network Topology")
+    String KEY_TOPOLOGY = "gtocore.wireless.topology";
+
+    @RegisterLanguage(cn = "选择网络查看拓扑", en = "Select a network to view topology")
+    String KEY_TOPOLOGY_HINT = "gtocore.wireless.topology_hint";
+
+    @RegisterLanguage(cn = "未分配", en = "Unassigned")
+    String KEY_UNASSIGNED = "gtocore.wireless.unassigned";
+
+    @RegisterLanguage(cn = "重命名", en = "Rename")
+    String KEY_RENAME = "gtocore.wireless.rename";
+
+    @RegisterLanguage(cn = "每个源节点最大载荷: %d", en = "Max Load Per Source: %d")
+    String KEY_MAX_CONNECTIONS = "gtocore.wireless.max_connections";
+
+    @RegisterLanguage(cn = "设置", en = "Set")
+    String KEY_SET = "gtocore.wireless.set";
+
+    // ==================== Node Type ====================
+
+    /** SOURCE (源节点) 提供 AE 网络，CHILD (子节点) 使用 AE 网络。 */
+    NodeType getNodeType();
+
+    /** 是否支持在 GUI 中切换节点类型。 */
+    default boolean supportsNodeTypeSwitching() {
+        return false;
     }
 
-    default void removedFromGrid(String gridName) {
-        // original empty body in Kotlin
+    /** 切换节点类型。如果当前已连接网络，先离开再重新以新类型加入。 */
+    default void setNodeType(NodeType type) {}
+
+    // ==================== Persisted State ====================
+
+    String getConnectedNetworkId();
+
+    void setConnectedNetworkId(String id);
+
+    // ==================== Sync Fields ====================
+
+    ISync.ObjectSyncedField<List<NetworkSummary>> getNetworkListCache();
+
+    ISync.IntSyncedField getUnassignedOutputCount();
+
+    ISync.ObjectSyncedField<List<TopologySummary>> getTopologyCache();
+
+    ISync.IntSyncedField getNodeTypeSync();
+
+    // ==================== UUID ====================
+
+    default UUID getRequesterUUID() {
+        UUID owner = self().getOwnerUUID();
+        return owner != null ? owner : getUUID();
     }
 
-    default boolean allowThisMachineConnectToWirelessGrid() {
-        return true; // Kotlin default
+    @Override
+    default UUID getUUID() {
+        UUID owner = self().getOwnerUUID();
+        return owner != null ? owner : UUID.randomUUID();
     }
 
-    // Lifecycle hooks - large Kotlin-specific implementations are preserved in comments
-    default void onWirelessMachineLoad() {
+    // ==================== Callbacks ====================
+
+    default void addedToNetwork(String networkId) {}
+
+    default void removedFromNetwork(String networkId) {}
+
+    default boolean allowWirelessConnection() {
+        return true;
+    }
+
+    // ==================== Lifecycle ====================
+
+    default void onWirelessLoad() {
         if (self().isRemote()) return;
-        this.getWirelessMachineRunTime0().setInitTickableSubscription(
-                TaskHandler.enqueueTick(self().getLevel(), () -> {
-                    if (this.getMainNode().getNode() != null) {
-                        if (!this.getWirelessMachinePersisted0().isBeSet() && this.getWirelessMachineRunTime0().isShouldAutoConnect()) {
-                            // 使用按请求者计算的可访问列表，寻找“当前玩家”的默认网格
-                            for (var grid : WirelessSavedData.Companion.accessibleGridsFor(getUUID())) {
-                                if (grid.isDefault()) {
-                                    joinGrid(grid.getName());
-                                    break;
-                                }
-                            }
-                            this.getWirelessMachinePersisted0().setBeSet(true);
-                        } else {
-                            if (!this.getWirelessMachinePersisted0().getGridConnectedName().isEmpty()) {
-                                linkGrid(this.getWirelessMachinePersisted0().getGridConnectedName());
-                            }
-                        }
-                        // 机器加载完成后进行一次数据同步，避免 UI 打开时需要主动拉取
-                        this.getWirelessMachineRunTime0().getInitTickableSubscription().unsubscribe();
-                    }
-                }, 20, 40));
+        TaskHandler.enqueueTick(getLevel(), () -> {
+            if (getMainNode().getNode() != null) {
+                String id = getConnectedNetworkId();
+                if (!id.isEmpty()) {
+                    linkNetwork(id);
+                }
+            }
+        }, 20, 40);
     }
 
-    default void onWirelessMachineUnLoad() {
+    default void onWirelessUnload() {
         if (self().isRemote()) return;
-        this.getWirelessMachineRunTime0().getInitTickableSubscription().unsubscribe();
-        unLinkGrid();
-        WirelessMachineRunTime.refreshCachesOnServer(getUUID());
+        unlinkNetwork();
     }
 
-    default void onWirelessMachinePlaced(LivingEntity player, ItemStack stack) {
+    default void onWirelessPlaced(LivingEntity player, ItemStack stack) {
         if (player != null) {
             self().setOwnerUUID(player.getUUID());
-            if (player instanceof Player) {
-                if (IEnhancedPlayer.of((Player) player).getPlayerData().shiftState) {
-                    this.getWirelessMachineRunTime0().setShouldAutoConnect(true);
+            // Shift-place: auto-connect to the player's starred (default) network
+            if (player instanceof Player p && p.isShiftKeyDown()) {
+                UUID requester = getRequesterUUID();
+                String defaultId = WirelessNetworkSavedData.Companion.getDefaultNetworkId(requester);
+                if (defaultId != null && !defaultId.isEmpty()) {
+                    WirelessNetwork net = WirelessNetworkSavedData.Companion.findNetworkById(defaultId);
+                    if (net != null && WirelessNetworkSavedData.Companion.checkPermission(net.getOwner(), requester)) {
+                        setConnectedNetworkId(defaultId);
+                    }
                 }
             }
         }
         self().requestSync();
     }
 
-    @NotNull
-    default UUID getUUID() {
-        UUID owner = this.self().getOwnerUUID();
-        return owner != null ? owner : UUID.randomUUID();
-    }
+    // ==================== Network Operations ====================
 
-    // Utility methods
-    default void refreshCachesOnServer() {
-        WirelessMachineRunTime.refreshCachesOnServer(getUUID());
-    }
-
-    default WirelessMachineRunTime createWirelessMachineRunTime() {
-        return new WirelessMachineRunTime(this);
-    }
-
-    default WirelessMachinePersisted createWirelessMachinePersisted() {
-        return new WirelessMachinePersisted(this);
-    }
-
-    /**
-     * 连接网格，例如机器加载
-     * 
-     * @param gridName 网格名称
-     */
-    default void linkGrid(String gridName) {
-        if (!allowThisMachineConnectToWirelessGrid()) return;
+    /** 加入网络并持久化。 */
+    default void joinNetwork(String networkId) {
+        if (!allowWirelessConnection()) return;
         if (self().isRemote()) return;
-        STATUS status = WirelessSavedData.Companion.joinToGrid(gridName, this, getUUID());
+        setConnectedNetworkId(networkId);
+        linkNetwork(networkId);
+        refreshNetworkListOnServer();
+    }
+
+    /** 内部连接（加载/恢复时调用，不变更持久化状态）。 */
+    default void linkNetwork(String networkId) {
+        if (!allowWirelessConnection()) return;
+        if (self().isRemote()) return;
+        STATUS status = WirelessNetworkSavedData.Companion.joinNetwork(networkId, this, getRequesterUUID());
         switch (status) {
-            case SUCCESS, ALREADY_JOINT -> {
-                this.getWirelessMachineRunTime0().setGridConnected(WirelessSavedData.Companion.findGridByName(gridName));
-            }
-            case NOT_FOUND_GRID -> {
-                this.getWirelessMachineRunTime0().setGridConnected(null);
-                this.getWirelessMachinePersisted0().setGridConnectedName("");
-            }
-            case NOT_PERMISSION -> {
-                this.getWirelessMachineRunTime0().setGridConnected(null);
-            }
+            case SUCCESS, ALREADY_JOINT -> {}
+            case NOT_FOUND_GRID -> setConnectedNetworkId("");
+            case NOT_PERMISSION -> {}
         }
     }
 
-    default void joinGrid(String gridName) {
-        if (!allowThisMachineConnectToWirelessGrid()) return;
+    /** 断开连接（不清除持久化状态）。 */
+    default void unlinkNetwork() {
         if (self().isRemote()) return;
-        this.getWirelessMachinePersisted0().setGridConnectedName(gridName);
-        linkGrid(gridName);
-        // 连接后立刻同步到客户端
-        refreshCachesOnServer();
+        WirelessNetworkSavedData.Companion.leaveNetwork(this);
     }
 
-    default void unLinkGrid() {
+    /** 断开连接并清除持久化。 */
+    default void leaveNetwork() {
         if (self().isRemote()) return;
-        WirelessSavedData.Companion.leaveGrid(this);
+        unlinkNetwork();
+        setConnectedNetworkId("");
+        refreshNetworkListOnServer();
     }
 
-    default void leaveGrid() {
+    /**
+     * 切换节点类型并保持连接。
+     * 如果当前已连接网络，先离开旧角色再以新角色重新加入同一网络。
+     */
+    default void switchNodeType(NodeType newType) {
         if (self().isRemote()) return;
-        unLinkGrid();
-        this.getWirelessMachinePersisted0().setGridConnectedName("");
-        // 退出后立刻同步
-        refreshCachesOnServer();
+        if (getNodeType() == newType) return;
+        String currentNetwork = getConnectedNetworkId();
+        if (!currentNetwork.isEmpty()) {
+            unlinkNetwork();
+        }
+        setNodeType(newType);
+        if (!currentNetwork.isEmpty()) {
+            setConnectedNetworkId(currentNetwork);
+            linkNetwork(currentNetwork);
+        }
+        refreshNetworkListOnServer();
     }
 
-    default IFancyUIProvider getSetupFancyUIProvider() {
-        // The original Kotlin implementation uses a Kotlin GUI DSL (rootFresh/hBox/vBox/...) with lambda receivers.
-        // Automatic and correct translation to Java requires precise Kotlin-generated types for those DSL receivers.
-        // Preserve the original Kotlin body here for manual conversion and return a provider that throws at runtime.
-        return WirelessMachineUIKt.getSetupFancyUIProvider(this);
+    /** 同步网络列表、拓扑和未分配数到客户端。仅服务端调用。 */
+    default void refreshNetworkListOnServer() {
+        if (self().isRemote()) return;
+        String connId = getConnectedNetworkId();
+        // Auto-clear stale connection (network deleted by others)
+        WirelessNetwork net = WirelessNetworkSavedData.Companion.findNetworkById(connId);
+        if (net == null && !connId.isEmpty()) {
+            setConnectedNetworkId("");
+            connId = "";
+        }
+        String syncConnId = connId;
+        getNetworkListCache().setAndSyncToClient(
+                WirelessNetworkSavedData.Companion.getNetworkSummaries(getRequesterUUID(), syncConnId));
+        getUnassignedOutputCount().setAndSyncToClient(net != null ? net.getUnassignedOutputCount() : 0);
+        // Only sync topology for connected network
+        if (syncConnId.isEmpty()) {
+            getTopologyCache().setAndSyncToClient(java.util.List.of());
+        } else {
+            getTopologyCache().setAndSyncToClient(
+                    WirelessNetworkSavedData.Companion.getTopologySummaries(getRequesterUUID())
+                            .stream().filter(t -> t.getNetworkId().equals(syncConnId)).toList());
+        }
+        getNodeTypeSync().setAndSyncToClient(getNodeType().ordinal());
     }
+
+    // ==================== GUI ====================
+
+    default IFancyUIProvider getWirelessUIProvider() {
+        return WirelessNodeUIKt.createWirelessUIProvider(this);
+    }
+
+    default IFancyUIProvider getWirelessTopologyProvider() {
+        return WirelessNodeUIKt.createTopologyUIProvider(this);
+    }
+
+    @Override
+    MetaMachine self();
 }
