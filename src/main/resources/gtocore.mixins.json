@@ -116,6 +116,7 @@
     "apoth.AffixRegistry",
     "appbot.AppliedBotanicsForgeMixin",
     "appbot.FluixPoolBlockEntityMixin",
+    "arseng.ModdedTileMixin",
     "arseng.ScribesTileMixin",
     "arseng.SourceAcceptorBlockEntityMixin",
     "arsnouveau.RewardsMixin",
