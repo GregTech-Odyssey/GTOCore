@@ -8,7 +8,6 @@ import com.gtocore.common.saved.RecipeRunLimitSavaedData;
 import com.gtocore.common.saved.WirelessNetworkSavedData;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.integration.Mods;
-import com.gtocore.integration.ae.wireless.WirelessMachineRunTime;
 import com.gtocore.integration.botania.IEntropinnyum;
 import com.gtocore.integration.ftbquests.AdditionalTeamData;
 import com.gtocore.utils.OrganUtilsKt;
@@ -311,6 +310,15 @@ public final class ForgeCommonEvent {
                 player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
                 Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
             }
+            WirelessNetworkSavedData.write(player);
+            // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerChangedDimensionEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            WirelessNetworkSavedData.write(player);
             // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
         }
     }
@@ -333,12 +341,9 @@ public final class ForgeCommonEvent {
     public static void onServerStoppedEvent(ServerStoppedEvent event) {
         DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
         RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
-        WirelessSavedData.Companion.setINSTANCE(new WirelessSavedData());
         if (Mods.FTBQUESTS.isLoaded()) {
             AdditionalTeamData.instance = new AdditionalTeamData();
         }
-        WirelessMachineRunTime.GRID_CACHE.clear();
-        WirelessMachineRunTime.GRID_ACCESSIBLE_CACHEs.clear();
     }
 
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")

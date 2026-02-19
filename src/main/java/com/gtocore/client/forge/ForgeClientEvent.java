@@ -9,7 +9,6 @@ import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt;
 import com.gtocore.integration.ae.wireless.WirelessClientHandler;
-import com.gtocore.integration.ae.wireless.WirelessMachineRunTime;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.item.IItem;
@@ -223,10 +222,7 @@ public final class ForgeClientEvent {
     }
 
     @SubscribeEvent
-    public static void onClientDisconnect(ClientPlayerNetworkEvent.LoggingOut event) {
-        WirelessMachineRunTime.GRID_CACHE.clear();
-        WirelessMachineRunTime.GRID_ACCESSIBLE_CACHEs.clear();
-    }
+    public static void onClientDisconnect(ClientPlayerNetworkEvent.LoggingOut event) {}
 
     /**
      * 高亮指定维度内两个坐标点之间的立方体区域

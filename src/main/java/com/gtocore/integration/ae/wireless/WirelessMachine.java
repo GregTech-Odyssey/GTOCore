@@ -10,6 +10,7 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
@@ -19,6 +20,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceSet;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +35,8 @@ import java.util.UUID;
  */
 @DataGeneratorScanned
 public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable {
+
+    ReferenceSet<MachineDefinition> WIRELESS_MACHINE_DEFINITIONS = new ReferenceOpenHashSet<>();
 
     enum NodeType {
         SOURCE,
@@ -196,6 +201,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                         setConnectedNetworkId(defaultId);
                     }
                 }
+                WirelessNetworkSavedData.write(player.level());
             }
         }
         self().requestSync();
@@ -280,6 +286,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                             .stream().filter(t -> t.getNetworkId().equals(syncConnId)).toList());
         }
         getNodeTypeSync().setAndSyncToClient(getNodeType().ordinal());
+        WirelessNetworkSavedData.write(self().getLevel());
     }
 
     // ==================== GUI ====================

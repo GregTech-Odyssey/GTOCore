@@ -1,6 +1,7 @@
 package com.gtocore.integration.ae.wireless;
 
 import com.gtocore.client.renderer.RenderHelper;
+import com.gtocore.common.saved.WirelessNetworkSavedData;
 
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -12,11 +13,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import appeng.core.definitions.AEItems;
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import java.awt.*;
-import java.util.Set;
+import java.util.List;
+import java.util.Objects;
 
 import static com.gtocore.common.data.GTOMachines.ME_WIRELESS_CONNECTION_MACHINE;
 import static com.hepdd.gtmthings.data.CustomMachines.ME_EXPORT_BUFFER;
@@ -27,13 +28,16 @@ public class WirelessClientHandler {
     public static void highlightMachines(Camera camera, PoseStack poseStack, MultiBufferSource bufferSource) {
         var player = Minecraft.getInstance().player;
         if (player == null) return;
-        Set<WirelessGrid> grids = Sets.union(Set.copyOf(WirelessMachineRunTime.getAccessibleCacheForPlayer(player.getUUID()).getGrids()),
-                Set.copyOf(WirelessMachineRunTime.GRID_CACHE.getGrids()));
-        for (WirelessGrid grid : grids) {
+        // Set<WirelessNetwork> grids =
+        // Sets.union(Set.copyOf(WirelessMachineRunTime.getAccessibleCacheForPlayer(player.getUUID()).getGrids()),
+        // Set.copyOf(WirelessMachineRunTime.GRID_CACHE.getGrids()));
+        List<WirelessNetwork> grids = WirelessNetworkSavedData.getINSTANCE().getNetworkPool();
+        for (WirelessNetwork grid : grids) {
             Color color = getGridColor(grid);
             var gridName = grid.getNickname();
-            float lineWidth = grid.isDefault() ? (float) (12 + Math.sin(System.currentTimeMillis() / 200.0) * 8) : 4;
-            for (var machine : grid.getConnectionPoolTable()) {
+            boolean isDefault = Objects.equals(WirelessNetworkSavedData.getINSTANCE().getDefaultMap().get(player.getUUID()), grid.getId());
+            float lineWidth = isDefault ? (float) (12 + Math.sin(System.currentTimeMillis() / 200.0) * 8) : 4;
+            for (var machine : grid.getNodeInfoTable()) {
                 if (machine.getLevel() != GTUtil.getClientLevel().dimension()) {
                     continue;
                 }
@@ -57,8 +61,8 @@ public class WirelessClientHandler {
         return heldItem.getItem() == AEItems.NETWORK_TOOL.asItem();
     }
 
-    private static Color getGridColor(WirelessGrid grid) {
-        int hash = grid.getName().hashCode();
+    private static Color getGridColor(WirelessNetwork grid) {
+        int hash = grid.getId().hashCode();
         float hue = (hash % 360) / 360f;
         float brightness = 0.8f;
         return Color.getHSBColor(hue, 0.8f, brightness);
