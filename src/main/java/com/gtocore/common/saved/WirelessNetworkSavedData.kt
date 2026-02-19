@@ -466,7 +466,7 @@ class WirelessNetworkSavedData : SavedData() {
             defaultMap[nbt.getUUID("key")] = nbt.getString("value")
         }
         // Clear runtime connection tables on load (will rebuild when nodes load)
-        networkPool.forEach { it.nodeInfoTable.clear() }
+        if (this === INSTANCE) networkPool.forEach { it.nodeInfoTable.clear() }
         if (GTOConfig.INSTANCE.devMode.aeLog) {
             println("${GTCEu.isClientSide()} Loaded WirelessNetworkSavedData with ${networkPool.size} networks")
         }
