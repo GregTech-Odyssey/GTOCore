@@ -35,10 +35,13 @@ class WirelessNetworkSavedData : SavedData() {
     companion object {
         @JvmStatic
         var INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
+
+        @JvmStatic
+        val CLIENT_INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
         val gridCacheSYNCER: NetworkPack = NetworkPack.registerS2C(
             "wirelessClientInstanceSyncS2C",
         ) { _: Player?, buf: FriendlyByteBuf ->
-            INSTANCE.load(buf.readNbt() ?: CompoundTag())
+            CLIENT_INSTANCE.load(buf.readNbt() ?: CompoundTag())
         }
 
         @JvmStatic
@@ -46,6 +49,7 @@ class WirelessNetworkSavedData : SavedData() {
             assert(to is ServerPlayer || to is ServerLevel || to is MinecraftServer)
             if (to is ServerLevel) {
                 gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag())) }, to.players())
+                return
             }
             gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag())) }, to)
         }

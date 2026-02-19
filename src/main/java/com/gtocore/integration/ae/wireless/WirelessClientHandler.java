@@ -31,11 +31,11 @@ public class WirelessClientHandler {
         // Set<WirelessNetwork> grids =
         // Sets.union(Set.copyOf(WirelessMachineRunTime.getAccessibleCacheForPlayer(player.getUUID()).getGrids()),
         // Set.copyOf(WirelessMachineRunTime.GRID_CACHE.getGrids()));
-        List<WirelessNetwork> grids = WirelessNetworkSavedData.getINSTANCE().getNetworkPool();
+        List<WirelessNetwork> grids = WirelessNetworkSavedData.getCLIENT_INSTANCE().getNetworkPool();
         for (WirelessNetwork grid : grids) {
             Color color = getGridColor(grid);
             var gridName = grid.getNickname();
-            boolean isDefault = Objects.equals(WirelessNetworkSavedData.getINSTANCE().getDefaultMap().get(player.getUUID()), grid.getId());
+            boolean isDefault = Objects.equals(WirelessNetworkSavedData.getCLIENT_INSTANCE().getDefaultMap().get(player.getUUID()), grid.getId());
             float lineWidth = isDefault ? (float) (12 + Math.sin(System.currentTimeMillis() / 200.0) * 8) : 4;
             for (var machine : grid.getNodeInfoTable()) {
                 if (machine.getLevel() != GTUtil.getClientLevel().dimension()) {
