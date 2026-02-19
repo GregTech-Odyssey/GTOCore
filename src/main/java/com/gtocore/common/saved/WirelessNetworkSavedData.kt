@@ -1,12 +1,9 @@
 package com.gtocore.common.saved
 
-import com.gregtechceu.gtceu.GTCEu
 import com.gtocore.config.GTOConfig
 import com.gtocore.integration.ae.wireless.WirelessMachine
 import com.gtocore.integration.ae.wireless.WirelessNetwork
-import com.gtolib.api.capability.ISync
-import com.gtolib.api.network.NetworkPack
-import com.hepdd.gtmthings.utils.TeamUtil
+
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.network.FriendlyByteBuf
@@ -16,6 +13,12 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.saveddata.SavedData
+
+import com.gregtechceu.gtceu.GTCEu
+import com.gtolib.api.capability.ISync
+import com.gtolib.api.network.NetworkPack
+import com.hepdd.gtmthings.utils.TeamUtil
+
 import java.util.*
 
 /**
@@ -33,18 +36,18 @@ class WirelessNetworkSavedData : SavedData() {
         @JvmStatic
         var INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
         val gridCacheSYNCER: NetworkPack = NetworkPack.registerS2C(
-            "wirelessClientInstanceSyncS2C"
+            "wirelessClientInstanceSyncS2C",
         ) { _: Player?, buf: FriendlyByteBuf ->
             INSTANCE.load(buf.readNbt() ?: CompoundTag())
         }
 
         @JvmStatic
-        fun write(to: Any){
+        fun write(to: Any) {
             assert(to is ServerPlayer || to is ServerLevel || to is MinecraftServer)
             if (to is ServerLevel) {
-                gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag()))}, to.players())
+                gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag())) }, to.players())
             }
-            gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag()))}, to)
+            gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag())) }, to)
         }
 
         @JvmStatic
