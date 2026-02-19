@@ -11,13 +11,13 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.Level
 import net.minecraft.world.level.saveddata.SavedData
 
 import com.gregtechceu.gtceu.GTCEu
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.network.NetworkPack
 import com.hepdd.gtmthings.utils.TeamUtil
+import com.lowdragmc.lowdraglib.LDLib
 
 import java.util.*
 
@@ -38,14 +38,24 @@ class WirelessNetworkSavedData : SavedData() {
 
         @JvmStatic
         val CLIENT_INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
+
+        var updateTimestamp: Long = 0L
         val gridCacheSYNCER: NetworkPack = NetworkPack.registerS2C(
             "wirelessClientInstanceSyncS2C",
         ) { _: Player?, buf: FriendlyByteBuf ->
             CLIENT_INSTANCE.load(buf.readNbt() ?: CompoundTag())
+            updateTimestamp = System.currentTimeMillis()
         }
 
         @JvmStatic
+        fun get() = if (LDLib.isRemote()) CLIENT_INSTANCE else INSTANCE
+
+        @JvmStatic
         fun write(to: Any) {
+            if (LDLib.isRemote()) {
+                // Client should never call this method
+                return
+            }
             assert(to is ServerPlayer || to is ServerLevel || to is MinecraftServer)
             if (to is ServerLevel) {
                 gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag())) }, to.players())
@@ -70,7 +80,7 @@ class WirelessNetworkSavedData : SavedData() {
 
         // ==================== Server API ====================
 
-        fun accessibleNetworks(requester: UUID): List<WirelessNetwork> = INSTANCE.networkPool
+        fun accessibleNetworks(requester: UUID): List<WirelessNetwork> = get().networkPool
             .filter { checkPermission(it.owner, requester) }
             .map { net ->
                 WirelessNetwork(
@@ -84,9 +94,9 @@ class WirelessNetworkSavedData : SavedData() {
                 }
             }
 
-        fun findNetworkById(id: String): WirelessNetwork? = INSTANCE.networkPool.firstOrNull { it.id == id }
+        fun findNetworkById(id: String): WirelessNetwork? = get().networkPool.firstOrNull { it.id == id }
 
-        fun findNetworkOf(node: WirelessMachine): WirelessNetwork? = INSTANCE.networkPool.firstOrNull { net ->
+        fun findNetworkOf(node: WirelessMachine): WirelessNetwork? = get().networkPool.firstOrNull { net ->
             net.inputNodes.any { it == node } || net.outputNodes.any { it == node }
         }
 
@@ -103,7 +113,7 @@ class WirelessNetworkSavedData : SavedData() {
             }
         }
 
-        private fun isNicknameTaken(nickname: String, excludeId: String? = null): Boolean = INSTANCE.networkPool.any { it.nickname == nickname && (excludeId == null || it.id != excludeId) }
+        private fun isNicknameTaken(nickname: String, excludeId: String? = null): Boolean = get().networkPool.any { it.nickname == nickname && (excludeId == null || it.id != excludeId) }
 
         fun createNetwork(name: String, requester: UUID): WirelessNetwork? {
             val nick = name.trim()
@@ -174,12 +184,12 @@ class WirelessNetworkSavedData : SavedData() {
             INSTANCE.setDirty()
         }
 
-        fun isDefault(networkId: String, requester: UUID): Boolean = INSTANCE.defaultMap[requester] == networkId
+        fun isDefault(networkId: String, requester: UUID): Boolean = get().defaultMap[requester] == networkId
 
         /**
          * 获取指定玩家的收藏（默认）网络ID，如果没有收藏则返回null。
          */
-        fun getDefaultNetworkId(requester: UUID): String? = INSTANCE.defaultMap[requester]
+        fun getDefaultNetworkId(requester: UUID): String? = get().defaultMap[requester]
 
         fun renameNetwork(networkId: String, requester: UUID, nickname: String): STATUS {
             val net = INSTANCE.networkPool.firstOrNull { it.id == networkId }
@@ -214,13 +224,13 @@ class WirelessNetworkSavedData : SavedData() {
          * 获取指定网络的摘要信息列表供GUI同步显示。
          */
         @JvmOverloads
-        fun getNetworkSummaries(requester: UUID, connectedId: String = ""): List<NetworkSummary> = INSTANCE.networkPool
+        fun getNetworkSummaries(requester: UUID, connectedId: String = ""): List<NetworkSummary> = get().networkPool
             .filter { checkPermission(it.owner, requester) }
             .map { net ->
                 NetworkSummary(
                     id = net.id,
                     nickname = net.nickname,
-                    isDefault = INSTANCE.defaultMap[requester] == net.id,
+                    isDefault = get().defaultMap[requester] == net.id,
                     inputCount = net.getInputCount(),
                     outputCount = net.getOutputCount(),
                     capacity = net.getTotalCapacity(),
@@ -232,7 +242,7 @@ class WirelessNetworkSavedData : SavedData() {
         /**
          * 获取所有可访问网络的拓扑信息，供拓扑TAB同步显示。
          */
-        fun getTopologySummaries(requester: UUID): List<TopologySummary> = INSTANCE.networkPool
+        fun getTopologySummaries(requester: UUID): List<TopologySummary> = get().networkPool
             .filter { checkPermission(it.owner, requester) }
             .map { net ->
                 // Build inverse map: source → list of children

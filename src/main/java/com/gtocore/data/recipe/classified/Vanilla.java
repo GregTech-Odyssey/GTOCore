@@ -961,6 +961,12 @@ final class Vanilla {
                 "B  ",
                 'A', GTOItems.VIBRANT_CRYSTAL.asItem(), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Silver));
 
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_wireless_machine_configurator"), GTOItems.ME_WIRELESS_MACHINE_CONFIGURATOR.asItem(),
+                " A ",
+                "BCB",
+                " D ",
+                'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', new MaterialEntry(TagPrefix.ingot, GTMaterials.Iron), 'C', CustomTags.EV_CIRCUITS, 'D', AEItems.ENGINEERING_PROCESSOR.asItem());
+
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("travel_anchor"), GTOMachines.TRAVEL_ANCHOR.asItem(),
                 "ABA",
                 "BCB",

@@ -1,10 +1,12 @@
 package com.gtocore.integration.ae.wireless
 
+import com.gtocore.common.item.MEWirelessMachineConfigurator
 import com.gtocore.common.saved.TopologyNodeEntry
-import com.gtocore.common.saved.TopologySummary
 import com.gtocore.common.saved.WirelessNetworkSavedData
+import com.gtocore.common.saved.WirelessNetworkSavedData.Companion.write
 
 import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
 
 import appeng.core.definitions.AEItems
@@ -12,17 +14,8 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern
-import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
-import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture
-import com.lowdragmc.lowdraglib.gui.texture.TextTexture
-import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget
-import com.lowdragmc.lowdraglib.gui.widget.Widget
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
+import com.lowdragmc.lowdraglib.gui.texture.*
+import com.lowdragmc.lowdraglib.gui.widget.*
 import com.lowdragmc.lowdraglib.utils.Position
 import com.lowdragmc.lowdraglib.utils.Size
 
@@ -126,7 +119,7 @@ fun createWirelessUIProvider(machine: WirelessMachine): IFancyUIProvider = objec
             // Connection status — derived from ISync list (isConnected field)
             val connSummary = machine.networkListCache.get()?.firstOrNull { it.isConnected }
             val connDisplay = connSummary?.nickname?.takeIf { it.isNotEmpty() }
-                ?: "§c" + Component.translatable(WirelessMachine.KEY_NONE).string
+                ?: ("§c" + Component.translatable(WirelessMachine.KEY_NONE).string)
             content.addWidget(
                 LabelWidget(5, y, Component.translatable(WirelessMachine.KEY_CONNECTED, connDisplay).string),
             )
@@ -349,6 +342,231 @@ fun createWirelessUIProvider(machine: WirelessMachine): IFancyUIProvider = objec
         if (!machine.self().isRemote) {
             machine.refreshNetworkListOnServer()
         }
+
+        return root
+    }
+}
+
+fun createWirelessUIProvider(player: Player): IFancyUIProvider = object : IFancyUIProvider {
+
+    override fun getTabIcon(): IGuiTexture = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
+
+    override fun getTitle(): Component = Component.translatable(WirelessMachine.KEY_NODE_SELECTOR)
+
+    override fun createMainPage(parent: FancyMachineUIWidget?): Widget {
+        val W = 170
+        val H = 160
+        val root = WidgetGroup(0, 0, W, H)
+        root.setBackground(GuiTextures.BACKGROUND)
+
+        // Dynamic content group — cleared & rebuilt on any state change
+        val content = WidgetGroup(0, 0, W, H)
+        root.addWidget(content)
+
+        // Mutable state that survives rebuilds (captured by reference)
+        var createInput = ""
+        val pendingDelete = mutableSetOf<String>()
+        var localRebuildNeeded = false
+
+        // ── Build function — populates content from scratch ──────────────
+        fun buildContent() {
+            content.clearAllWidgets()
+            var y = 3
+
+            // Connection status — derived from ISync list (isConnected field)
+            val currentSelectedNetwork = MEWirelessMachineConfigurator.getConfiguringNetworkId(player)
+            val connSummaries = WirelessNetworkSavedData.getNetworkSummaries(player.uuid, currentSelectedNetwork)
+            val connSummary = connSummaries.firstOrNull { it.isConnected }
+            val connDisplay = connSummary?.nickname?.takeIf { it.isNotEmpty() }
+                ?: ("§c" + Component.translatable(WirelessMachine.KEY_NONE).string)
+            content.addWidget(
+                LabelWidget(5, y, Component.translatable(WirelessMachine.KEY_CONNECTED, connDisplay).string),
+            )
+            y += 11
+
+            // Create input + Create button + Disconnect button (same row)
+            content.addWidget(TextFieldWidget(5, y, 78, 12, { createInput }, { createInput = it }))
+            content.addWidget(
+                ButtonWidget(
+                    85,
+                    y,
+                    36,
+                    12,
+                    GuiTextureGroup(
+                        GuiTextures.BUTTON,
+                        TextTexture(Component.translatable(WirelessMachine.KEY_CREATE).string),
+                    ),
+                ) { clickData ->
+                    if (!clickData.isRemote) {
+                        val input = createInput.trim()
+                        if (input.isNotEmpty()) {
+                            WirelessNetworkSavedData.createNetwork(input, player.uuid)
+                            createInput = ""
+                            write(player)
+                        }
+                    }
+                },
+            )
+            y += 14
+
+            // Available networks header
+            val netCount = connSummaries.size
+            content.addWidget(
+                LabelWidget(5, y, Component.translatable(WirelessMachine.KEY_AVAILABLE, netCount).string),
+            )
+            y += 11
+
+            // Scrollable network list
+            val listHeight = H - y - 3
+            val scrollGroup = DraggableScrollableWidgetGroup(3, y, W - 6, maxOf(listHeight, 30))
+                .setBackground(GuiTextures.DISPLAY)
+                .setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1f))
+                .setYScrollBarWidth(3)
+            content.addWidget(scrollGroup)
+
+            // Build list entries
+            val list = connSummaries
+            val entryW = W - 12
+            var ly = 1
+            for (summary in list) {
+                val entryGroup = WidgetGroup(0, ly, entryW, 15)
+                // Use isConnected from ISync data (not @DescSynced connectedNetworkId)
+                val isConnected = MEWirelessMachineConfigurator.getConfiguringNetworkId(player) == summary.id
+                val isPending = pendingDelete.contains(summary.id)
+
+                // Join button (green highlight if connected)
+                val joinText = buildString {
+                    if (summary.isDefault) append("§6⭐ §r")
+                    append(summary.nickname)
+                    append(" §7(S:${summary.inputCount}/C:${summary.outputCount}")
+                    if (summary.unassignedCount > 0) append(" §c⚠${summary.unassignedCount}§7")
+                    append(")")
+                    if (isConnected) append(" §a✔")
+                }
+                entryGroup.addWidget(
+                    ButtonWidget(
+                        0,
+                        0,
+                        entryW - 38,
+                        14,
+                        GuiTextureGroup(
+                            ResourceBorderTexture.BUTTON_COMMON.copy().setColor(
+                                if (isConnected) ColorPattern.GREEN.color else -1,
+                            ),
+                            TextTexture(joinText).setWidth(entryW - 42),
+                        ),
+                    ) { clickData ->
+                        if (!clickData.isRemote && !isConnected) {
+                            MEWirelessMachineConfigurator.setConfiguringNetworkId(player, summary.id)
+                        }
+                    },
+                )
+
+                // Star button
+                val starText = if (summary.isDefault) "§6⚝" else "⭐"
+                entryGroup.addWidget(
+                    ButtonWidget(
+                        entryW - 37,
+                        0,
+                        16,
+                        14,
+                        GuiTextureGroup(GuiTextures.BUTTON, TextTexture(starText)),
+                    ) { clickData ->
+                        if (!clickData.isRemote) {
+                            if (summary.isDefault) {
+                                WirelessNetworkSavedData.cancelDefault(summary.id, player.uuid)
+                            } else {
+                                WirelessNetworkSavedData.setDefault(summary.id, player.uuid)
+                            }
+                            write(player)
+                        }
+                    },
+                )
+
+                // Delete button (two-phase confirmation)
+                val delText = if (isPending) {
+                    "§c" + Component.translatable(WirelessMachine.KEY_CONFIRM_DELETE).string
+                } else {
+                    Component.translatable(WirelessMachine.KEY_REMOVE).string
+                }
+                entryGroup.addWidget(
+                    ButtonWidget(
+                        entryW - 20,
+                        0,
+                        20,
+                        14,
+                        GuiTextureGroup(
+                            ResourceBorderTexture.BUTTON_COMMON.copy().setColor(
+                                if (isPending) ColorPattern.RED.color else -1,
+                            ),
+                            TextTexture(delText),
+                        ),
+                    ) { clickData ->
+                        if (pendingDelete.contains(summary.id)) {
+                            // Confirmed — server deletes, both sides clear pending
+                            pendingDelete.remove(summary.id)
+                            if (!clickData.isRemote) {
+                                WirelessNetworkSavedData.removeNetwork(summary.id, player.uuid)
+                                write(player)
+                            }
+                        } else {
+                            // First click — both sides mark pending, trigger local rebuild
+                            pendingDelete.add(summary.id)
+                            localRebuildNeeded = true
+                        }
+                    },
+                )
+
+                scrollGroup.addWidget(entryGroup)
+                ly += 16
+            }
+        }
+
+        // Initial build
+        buildContent()
+
+        // Sentinel — watches composite state hash, triggers full content rebuild.
+        // Sits on root (not content), so it survives content rebuilds.
+        // Rebuilds on BOTH sides so widget tree stays in sync for click handling.
+        root.addWidget(object : Widget(Position(0, 0), Size(0, 0)) {
+            private var lastHash = 0
+
+            override fun detectAndSendChanges() {
+                super.detectAndSendChanges()
+                check()
+            }
+
+            override fun updateScreen() {
+                super.updateScreen()
+                check()
+            }
+
+            private fun check() {
+                val h = computeHash()
+                if (h != lastHash) {
+                    // Server data changed — rebuild, reset local pending state
+                    lastHash = h
+                    pendingDelete.clear()
+                    localRebuildNeeded = false
+                    buildContent()
+                } else if (localRebuildNeeded) {
+                    // Local interaction (e.g. pendingDelete click) — rebuild, keep pendingDelete
+                    localRebuildNeeded = false
+                    buildContent()
+                }
+            }
+
+            // Hash uses ONLY ISync-synced fields — never @DescSynced fields.
+            // This ensures client and server compute the same hash from the same data path,
+            // preventing stale-data rebuilds (#2, #6).
+            private fun computeHash(): Int {
+                var h = WirelessNetworkSavedData.getNetworkSummaries(player.uuid).hashCode()
+                h = 31 * h + (MEWirelessMachineConfigurator.getConfiguringNetworkId(player).hashCode() ?: 0)
+                return h
+            }
+        })
+
+        write(player)
 
         return root
     }
