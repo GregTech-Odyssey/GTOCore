@@ -18,6 +18,7 @@ import com.hepdd.gtmthings.api.capability.IBindable
 import com.lowdragmc.lowdraglib.LDLib
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet
 import it.unimi.dsi.fastutil.objects.ReferenceSet
@@ -30,7 +31,7 @@ import java.util.*
  */
 class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id, var maxOutputsPerInput: Int = defaultMaxOutputs()) : CodecAbleTyped<WirelessNetwork, WirelessNetwork.Companion> {
 
-    val nodeInfoTable = Reference2ReferenceOpenHashMap<IBindable, NodeInfo>()
+    val nodeInfoTable = Object2ObjectOpenHashMap<IBindable, NodeInfo>()
 
     val inputNodes = ReferenceOpenHashSet<WirelessMachine>()
     val outputNodes = ReferenceOpenHashSet<WirelessMachine>()

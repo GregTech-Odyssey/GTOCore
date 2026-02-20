@@ -27,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 重写后的无线网络节点接口。
@@ -41,9 +42,21 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     // client key
     IBindable EMPTY_BINDABLE = new IBindable() {
 
+        private static final AtomicInteger CODE = new AtomicInteger(0);
+
         @Override
         public @Nullable UUID getUUID() {
             return null;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return CODE.getAndIncrement();
         }
     };
 
