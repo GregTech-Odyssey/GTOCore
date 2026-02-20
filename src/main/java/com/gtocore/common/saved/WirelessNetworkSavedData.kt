@@ -108,7 +108,6 @@ class WirelessNetworkSavedData : SavedData() {
                 }
                 INSTANCE.networkPool.values.filter { it.needsRefresh }.forEach {
                     it.refreshConnections()
-                    it.needsRefresh = false
                 }
             }
         }

@@ -141,7 +141,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         for (output in outputNodes) {
             if (!isNodeValid(output)) continue
             val bestInput = validInputs
-                .minByOrNull { input -> assignments.count { it.value == input } }
+                .minByOrNull { input -> assignments.count { it.value === input } }
                 ?: continue
             if (assignments.count { it.value == bestInput } >= maxOutputsPerInput) continue
             assignments[output] = bestInput
@@ -171,6 +171,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         }
         val endTime = System.currentTimeMillis()
         profiledLoadTime += (endTime - startTime)
+        needsRefresh = false
     }
 
     /**
