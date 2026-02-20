@@ -17,6 +17,7 @@ import net.minecraftforge.event.TickEvent.ServerTickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 
+import com.fast.fastcollection.O2OOpenCacheHashMap
 import com.gregtechceu.gtceu.GTCEu
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.network.NetworkPack
@@ -43,7 +44,7 @@ class WirelessNetworkSavedData : SavedData() {
         var INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
 
         @JvmStatic
-        val CLIENT_INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
+        var CLIENT_INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
 
         val gridCacheSYNCER: NetworkPack = NetworkPack.registerS2C(
             "wirelessClientInstanceSyncS2C",
@@ -105,7 +106,7 @@ class WirelessNetworkSavedData : SavedData() {
                     write(event.server)
                     requiredWrite = false
                 }
-                INSTANCE.networkPool.filter { it.needsRefresh }.forEach {
+                INSTANCE.networkPool.values.filter { it.needsRefresh }.forEach {
                     it.refreshConnections()
                     it.needsRefresh = false
                 }
@@ -121,25 +122,7 @@ class WirelessNetworkSavedData : SavedData() {
 
         // ==================== Server API ====================
 
-        fun accessibleNetworks(requester: UUID): List<WirelessNetwork> = get().networkPool
-            .filter { checkPermission(it.owner, requester) }
-            .map { net ->
-                WirelessNetwork(
-                    net.id,
-                    net.owner,
-                    net.nickname,
-                    net.nodeInfoTable.toMutableList(),
-                    net.maxOutputsPerInput,
-                ).also { copy ->
-                    // Copy runtime info for display
-                }
-            }
-
-        fun findNetworkById(id: String): WirelessNetwork? = get().networkPool.firstOrNull { it.id == id }
-
-        fun findNetworkOf(node: WirelessMachine): WirelessNetwork? = get().networkPool.firstOrNull { net ->
-            net.inputNodes.any { it == node } || net.outputNodes.any { it == node }
-        }
+        fun findNetworkById(id: String): WirelessNetwork? = get().networkPool.get(id)
 
         /**
          * 生成不重复的昵称。如果 base 已被占用，尝试 "base (1)", "base (2)" ...
@@ -154,7 +137,7 @@ class WirelessNetworkSavedData : SavedData() {
             }
         }
 
-        private fun isNicknameTaken(nickname: String, excludeId: String? = null): Boolean = get().networkPool.any { it.nickname == nickname && (excludeId == null || it.id != excludeId) }
+        private fun isNicknameTaken(nickname: String, excludeId: String? = null): Boolean = get().networkPool.values.any { it.nickname == nickname && (excludeId == null || it.id != excludeId) }
 
         fun createNetwork(name: String, requester: UUID): WirelessNetwork? {
             val nick = name.trim()
@@ -162,18 +145,18 @@ class WirelessNetworkSavedData : SavedData() {
             if (isNicknameTaken(nick)) return null
             val id = UUID.randomUUID().toString()
             val net = WirelessNetwork(id, requester, nick)
-            INSTANCE.networkPool.add(net)
+            INSTANCE.networkPool[id] = net
             INSTANCE.setDirty()
             return net
         }
 
         fun removeNetwork(networkId: String, requester: UUID): STATUS {
-            val net = INSTANCE.networkPool.firstOrNull { it.id == networkId }
+            val net = INSTANCE.networkPool[networkId]
                 ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(net.owner, requester)) return STATUS.NOT_PERMISSION
             // Notify all loaded nodes and clear their persisted connection ID.
             // Nodes in unloaded chunks will self-correct via linkNetwork() → NOT_FOUND_GRID on reload.
-            val allNodes = net.inputNodes.toList() + net.outputNodes.toList()
+            val allNodes = net.inputNodes + net.outputNodes
             for (node in allNodes) {
                 node.removedFromNetwork(net.id)
                 node.setConnectedNetworkId("")
@@ -182,13 +165,13 @@ class WirelessNetworkSavedData : SavedData() {
             net.outputNodes.clear()
             net.refreshConnections()
             INSTANCE.defaultMap.entries.removeIf { it.value == net.id }
-            INSTANCE.networkPool.remove(net)
+            INSTANCE.networkPool.remove(net.id)
             INSTANCE.setDirty()
             return STATUS.SUCCESS
         }
 
         fun joinNetwork(networkId: String, node: WirelessMachine, requester: UUID): STATUS {
-            val net = INSTANCE.networkPool.firstOrNull { it.id == networkId }
+            val net = INSTANCE.networkPool.get(networkId)
                 ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(net.owner, requester)) return STATUS.NOT_PERMISSION
             // Check if already joined
@@ -208,10 +191,9 @@ class WirelessNetworkSavedData : SavedData() {
         }
 
         fun leaveNetwork(node: WirelessMachine) {
-            findNetworkOf(node)?.let { net ->
+            findNetworkById(node.connectedNetworkId)?.let { net ->
                 node.removedFromNetwork(net.id)
                 net.removeNode(node)
-                INSTANCE.setDirty()
             }
         }
 
@@ -233,7 +215,7 @@ class WirelessNetworkSavedData : SavedData() {
         fun getDefaultNetworkId(requester: UUID): String? = get().defaultMap[requester]
 
         fun renameNetwork(networkId: String, requester: UUID, nickname: String): STATUS {
-            val net = INSTANCE.networkPool.firstOrNull { it.id == networkId }
+            val net = INSTANCE.networkPool.get(networkId)
                 ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(net.owner, requester)) return STATUS.NOT_PERMISSION
             val nick = nickname.trim()
@@ -249,7 +231,7 @@ class WirelessNetworkSavedData : SavedData() {
          * 设置网络的源节点最大子节点连接数。
          */
         fun setMaxOutputsPerInput(networkId: String, requester: UUID, maxOutputs: Int): STATUS {
-            val net = INSTANCE.networkPool.firstOrNull { it.id == networkId }
+            val net = INSTANCE.networkPool.get(networkId)
                 ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(net.owner, requester)) return STATUS.NOT_PERMISSION
             val clamped = maxOutputs.coerceIn(1, 990000)
@@ -265,7 +247,7 @@ class WirelessNetworkSavedData : SavedData() {
          * 获取指定网络的摘要信息列表供GUI同步显示。
          */
         @JvmOverloads
-        fun getNetworkSummaries(requester: UUID, connectedId: String = ""): List<NetworkSummary> = get().networkPool
+        fun getNetworkSummaries(requester: UUID, connectedId: String = ""): List<NetworkSummary> = get().networkPool.values
             .filter { checkPermission(it.owner, requester) }
             .map { net ->
                 NetworkSummary(
@@ -283,7 +265,7 @@ class WirelessNetworkSavedData : SavedData() {
         /**
          * 获取所有可访问网络的拓扑信息，供拓扑TAB同步显示。
          */
-        fun getTopologySummaries(requester: UUID): List<TopologySummary> = get().networkPool
+        fun getTopologySummaries(requester: UUID): List<TopologySummary> = get().networkPool.values
             .filter { checkPermission(it.owner, requester) }
             .map { net ->
                 // Build inverse map: source → list of children
@@ -333,8 +315,8 @@ class WirelessNetworkSavedData : SavedData() {
         }
     }
 
-    val networkPool: MutableList<WirelessNetwork> = mutableListOf()
-    val defaultMap = mutableMapOf<UUID, String>()
+    val networkPool = O2OOpenCacheHashMap<String, WirelessNetwork>()
+    val defaultMap = O2OOpenCacheHashMap<UUID, String>()
 
     override fun save(tag: CompoundTag): CompoundTag {
         tag.put(
@@ -343,7 +325,7 @@ class WirelessNetworkSavedData : SavedData() {
                 if (GTOConfig.INSTANCE.devMode.aeLog) {
                     println("${GTCEu.isClientSide()} Saving WirelessNetworkSavedData with ${networkPool.size} networks")
                 }
-                for (net in networkPool) {
+                for (net in networkPool.values) {
                     add(net.encodeToNbt())
                 }
             },
@@ -430,64 +412,8 @@ class WirelessNetworkSavedData : SavedData() {
                 // Deduplicate nickname against already-migrated networks
                 val finalNickname = deduplicateNickname(rawNickname.ifBlank { name })
 
-                // Manually parse old connectionPoolTable → convert each MachineInfo to NodeInfo (CHILD)
-                val migratedNodes = mutableListOf<WirelessNetwork.NodeInfo>()
-                if (oldGrid.contains("connectionPoolTable")) {
-                    val oldNodes = oldGrid.getList("connectionPoolTable", 10)
-                    for (nodeTag in oldNodes) {
-                        try {
-                            val nodeNbt = nodeTag as CompoundTag
-                            // Parse old MachineInfo fields
-                            val pos = if (nodeNbt.contains("pos")) {
-                                net.minecraft.core.BlockPos.CODEC
-                                    .decode(net.minecraft.nbt.NbtOps.INSTANCE, nodeNbt.get("pos"))
-                                    .map { it.first }
-                                    .result()
-                                    .orElse(net.minecraft.core.BlockPos.ZERO)
-                            } else {
-                                net.minecraft.core.BlockPos.ZERO
-                            }
-                            val nodeOwner = if (nodeNbt.contains("owner")) nodeNbt.getString("owner") else ""
-                            val descId = if (nodeNbt.contains("descriptionId")) nodeNbt.getString("descriptionId") else ""
-                            val level = if (nodeNbt.contains("level")) {
-                                try {
-                                    net.minecraft.resources.ResourceKey.codec(net.minecraft.core.registries.Registries.DIMENSION)
-                                        .decode(net.minecraft.nbt.NbtOps.INSTANCE, nodeNbt.get("level"))
-                                        .map { it.first }
-                                        .result()
-                                        .orElse(WirelessNetwork.UNKNOWN)
-                                } catch (_: Exception) {
-                                    WirelessNetwork.UNKNOWN
-                                }
-                            } else {
-                                WirelessNetwork.UNKNOWN
-                            }
-                            migratedNodes.add(
-                                WirelessNetwork.NodeInfo(
-                                    pos = pos,
-                                    level = level,
-                                    owner = nodeOwner,
-                                    descriptionId = descId,
-                                    nodeType = "CHILD", // All old nodes become CHILD
-                                ),
-                            )
-                        } catch (e: Exception) {
-                            if (GTOConfig.INSTANCE.devMode.aeLog) {
-                                println("Failed to parse old MachineInfo: ${e.message}")
-                            }
-                        }
-                    }
-                }
-
-                val net = WirelessNetwork(
-                    id = name,
-                    owner = owner,
-                    nickname = finalNickname,
-                    nodeInfoTable = migratedNodes,
-                )
-                if (networkPool.none { it.id == net.id }) {
-                    networkPool.add(net)
-                }
+                val net = WirelessNetwork(id = name, owner = owner, nickname = finalNickname)
+                networkPool.putIfAbsent(net.id, net)
 
                 // Migrate isDefault — old format stored per-grid, we map owner → gridId
                 if (oldGrid.getBoolean("isDefault")) {
@@ -505,9 +431,7 @@ class WirelessNetworkSavedData : SavedData() {
             val list = tag.getList("networks", 10)
             for (nbt in list) {
                 val net = WirelessNetwork.decodeFromNbt(nbt as CompoundTag)
-                if (networkPool.none { it.id == net.id }) {
-                    networkPool.add(net)
-                }
+                networkPool.putIfAbsent(net.id, net)
             }
         }
 
@@ -517,7 +441,7 @@ class WirelessNetworkSavedData : SavedData() {
             defaultMap[nbt.getUUID("key")] = nbt.getString("value")
         }
         // Clear runtime connection tables on load (will rebuild when nodes load)
-        if (this === INSTANCE) networkPool.forEach { it.nodeInfoTable.clear() }
+        if (this === INSTANCE) networkPool.values.forEach { it.nodeInfoTable.clear() }
         if (GTOConfig.INSTANCE.devMode.aeLog) {
             println("${GTCEu.isClientSide()} Loaded WirelessNetworkSavedData with ${networkPool.size} networks")
         }
@@ -631,9 +555,9 @@ fun createTopologySyncField(sync: ISync): ISync.ObjectSyncedField<List<TopologyS
     },
 )
 
-private fun readNodeEntry(buf: net.minecraft.network.FriendlyByteBuf): TopologyNodeEntry = TopologyNodeEntry(buf.readInt(), buf.readInt(), buf.readInt(), buf.readUtf(), buf.readUtf())
+private fun readNodeEntry(buf: FriendlyByteBuf): TopologyNodeEntry = TopologyNodeEntry(buf.readInt(), buf.readInt(), buf.readInt(), buf.readUtf(), buf.readUtf())
 
-private fun writeNodeEntry(buf: net.minecraft.network.FriendlyByteBuf, entry: TopologyNodeEntry) {
+private fun writeNodeEntry(buf: FriendlyByteBuf, entry: TopologyNodeEntry) {
     buf.writeInt(entry.x)
     buf.writeInt(entry.y)
     buf.writeInt(entry.z)

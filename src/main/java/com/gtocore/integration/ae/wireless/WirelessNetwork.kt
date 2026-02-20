@@ -14,9 +14,13 @@ import net.minecraft.world.level.Level
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
 import com.gregtechceu.gtceu.GTCEu
+import com.hepdd.gtmthings.api.capability.IBindable
 import com.lowdragmc.lowdraglib.LDLib
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet
+import it.unimi.dsi.fastutil.objects.ReferenceSet
 
 import java.util.*
 
@@ -24,7 +28,15 @@ import java.util.*
  * 无线网络。每个网络有源节点（提供AE网络）和子节点（使用AE网络）。
  * 子节点连接到一个源节点，源节点最多供应 [maxOutputsPerInput] 个子节点。
  */
-class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id, val nodeInfoTable: MutableList<NodeInfo> = mutableListOf(), var maxOutputsPerInput: Int = defaultMaxOutputs()) : CodecAbleTyped<WirelessNetwork, WirelessNetwork.Companion> {
+class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id, var maxOutputsPerInput: Int = defaultMaxOutputs()) : CodecAbleTyped<WirelessNetwork, WirelessNetwork.Companion> {
+
+    // todo 同步到客户端
+    val nodeInfoTable = Reference2ReferenceOpenHashMap<IBindable, NodeInfo>()
+
+    val inputNodes = ReferenceOpenHashSet<WirelessMachine>()
+    val outputNodes = ReferenceOpenHashSet<WirelessMachine>()
+    val assignments = Reference2ReferenceOpenHashMap<WirelessMachine, WirelessMachine>() // output -> input
+    val connections = ReferenceOpenHashSet<IGridConnection>()
 
     companion object : CodecAbleTypedCompanion<WirelessNetwork> {
         /** 根据游戏难度计算默认最大子节点连接数。 */
@@ -37,10 +49,9 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 Codec.STRING.fieldOf("id").forGetter { it.id },
                 UUIDUtil.CODEC.fieldOf("owner").forGetter { it.owner },
                 Codec.STRING.optionalFieldOf("nickname").forGetter { Optional.ofNullable(it.nickname) },
-                NodeInfo.getCodec().listOf().fieldOf("nodes").forGetter { it.nodeInfoTable.toList() },
                 Codec.INT.optionalFieldOf("maxOutputsPerInput").forGetter { Optional.of(it.maxOutputsPerInput) },
-            ).apply(b) { id, owner, nicknameOpt, nodes, maxOpt ->
-                WirelessNetwork(id, owner, nicknameOpt.orElse(id), nodes.toMutableList(), maxOpt.orElse(defaultMaxOutputs()))
+            ).apply(b) { id, owner, nicknameOpt, maxOpt ->
+                WirelessNetwork(id, owner, nicknameOpt.orElse(id), maxOpt.orElse(defaultMaxOutputs()))
             }
         }
 
@@ -50,12 +61,6 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
 
         fun getProfileSummary(): String = "WirelessNetwork Profile: totalLoadedConns=$totalLoadedConns, refreshTimesCalled=$refreshTimesCalled, averageLoadTime=${if (refreshTimesCalled > 0) profiledLoadTime / refreshTimesCalled else 0}ms"
     }
-
-    // ==================== Runtime state (not persisted) ====================
-    val inputNodes = mutableListOf<WirelessMachine>()
-    val outputNodes = mutableListOf<WirelessMachine>()
-    val assignments = mutableMapOf<WirelessMachine, WirelessMachine>() // output -> input
-    val connections = mutableListOf<IGridConnection>()
 
     var needsRefresh: Boolean = false
 
@@ -86,10 +91,11 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
 
     fun addNode(node: WirelessMachine) {
         when (node.nodeType) {
-            WirelessMachine.NodeType.SOURCE -> if (!inputNodes.contains(node)) inputNodes.add(node)
-            WirelessMachine.NodeType.CHILD -> if (!outputNodes.contains(node)) outputNodes.add(node)
+            WirelessMachine.NodeType.SOURCE -> inputNodes.add(node)
+            WirelessMachine.NodeType.CHILD -> outputNodes.add(node)
         }
-        nodeInfoTable.add(
+        nodeInfoTable.put(
+            node,
             NodeInfo(
                 pos = node.self().pos,
                 level = node.self().level?.dimension() ?: UNKNOWN,
@@ -106,7 +112,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         outputNodes.remove(node)
         // Remove persisted info
         val levelKey = node.self().level?.dimension() ?: UNKNOWN
-        nodeInfoTable.removeAll { it.pos == node.self().pos && it.level == levelKey }
+        nodeInfoTable.remove(node)
         needsRefresh = true
     }
 
@@ -180,8 +186,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         return validOutputs - assignments.size
     }
 
-    val clientInputCount: Int by lazy { nodeInfoTable.count { it.nodeType == WirelessMachine.NodeType.SOURCE } }
-    val clientOutputCount: Int by lazy { nodeInfoTable.count { it.nodeType == WirelessMachine.NodeType.CHILD } }
+    val clientInputCount: Int by lazy { nodeInfoTable.values.count { it.nodeType == WirelessMachine.NodeType.SOURCE } }
+    val clientOutputCount: Int by lazy { nodeInfoTable.values.count { it.nodeType == WirelessMachine.NodeType.CHILD } }
 
     fun getInputCount(): Int = if (LDLib.isRemote()) clientInputCount else (inputNodes.size)
     fun getOutputCount(): Int = if (LDLib.isRemote()) clientOutputCount else (outputNodes.size)

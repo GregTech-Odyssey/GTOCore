@@ -17,7 +17,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Objects;
 
 import static com.gtocore.common.data.GTOMachines.ME_WIRELESS_CONNECTION_MACHINE;
@@ -29,7 +28,7 @@ public class WirelessClientHandler {
     public static void highlightMachines(Camera camera, PoseStack poseStack, MultiBufferSource bufferSource) {
         var player = Minecraft.getInstance().player;
         if (player == null) return;
-        List<WirelessNetwork> grids = WirelessNetworkSavedData.getCLIENT_INSTANCE().getNetworkPool();
+        var grids = WirelessNetworkSavedData.getCLIENT_INSTANCE().getNetworkPool().values();
         for (WirelessNetwork grid : grids) {
             var gridName = grid.getNickname();
             var heldItemId = MEWirelessMachineConfigurator.getConfiguringNetworkId(player);
@@ -38,7 +37,7 @@ public class WirelessClientHandler {
                     Objects.equals(WirelessNetworkSavedData.getCLIENT_INSTANCE().getDefaultMap().get(player.getUUID()), grid.getId());
             float lineWidth = 4;
             Color color = getGridColor(grid, isDefault);
-            for (var machine : grid.getNodeInfoTable()) {
+            for (var machine : grid.getNodeInfoTable().values()) {
                 if (machine.getLevel() != GTUtil.getClientLevel().dimension()) {
                     continue;
                 }

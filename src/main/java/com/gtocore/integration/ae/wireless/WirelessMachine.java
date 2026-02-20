@@ -11,7 +11,6 @@ import com.gtolib.api.capability.ISync;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -22,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ReferenceSet;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,6 +35,15 @@ import java.util.UUID;
  */
 @DataGeneratorScanned
 public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable {
+
+    // client key
+    IBindable EMPTY_BINDABLE = new IBindable() {
+
+        @Override
+        public @Nullable UUID getUUID() {
+            return null;
+        }
+    };
 
     ReferenceSet<MachineDefinition> WIRELESS_MACHINE_DEFINITIONS = new ReferenceOpenHashSet<>();
 
@@ -304,7 +313,4 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default IFancyUIProvider getWirelessTopologyProvider() {
         return WirelessNodeUIKt.createTopologyUIProvider(this);
     }
-
-    @Override
-    MetaMachine self();
 }

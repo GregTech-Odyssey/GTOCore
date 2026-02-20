@@ -341,6 +341,7 @@ public final class ForgeCommonEvent {
     public static void onServerStoppedEvent(ServerStoppedEvent event) {
         DysonSphereSavaedData.INSTANCE = new DysonSphereSavaedData();
         RecipeRunLimitSavaedData.INSTANCE = new RecipeRunLimitSavaedData();
+        WirelessNetworkSavedData.Companion.setINSTANCE(new WirelessNetworkSavedData());
         if (Mods.FTBQUESTS.isLoaded()) {
             AdditionalTeamData.instance = new AdditionalTeamData();
         }
