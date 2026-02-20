@@ -8,9 +8,11 @@ import com.gtocore.common.saved.WirelessNetworkSavedData;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
+import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -182,15 +184,15 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     default void onWirelessLoad() {
         if (self().isRemote()) return;
-        TaskHandler.enqueueTick(getLevel(), () -> {
-            if (getMainNode().getNode() != null) {
+        ObjectHolder<TickableSubscription> subscription = new ObjectHolder<>(null);
+        subscription.value = TaskHandler.enqueueTick(getLevel(), self().holder.isRemove, () -> {
+            if (self().getLevel() != null && getMainNode().getNode() != null) {
                 String id = getConnectedNetworkId();
                 if (!id.isEmpty()) {
                     linkNetwork(id);
-                    if (self().getLevel() != null) {
-                        WirelessNetworkSavedData.requireWriteToAll();
-                    }
+                    WirelessNetworkSavedData.requireWriteToAll();
                 }
+                subscription.value.unsubscribe();
             }
         }, 20, 40);
     }
