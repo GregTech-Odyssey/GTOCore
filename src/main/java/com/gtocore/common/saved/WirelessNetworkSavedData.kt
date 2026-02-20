@@ -12,6 +12,10 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.saveddata.SavedData
+import net.minecraftforge.event.TickEvent
+import net.minecraftforge.event.TickEvent.ServerTickEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.common.Mod
 
 import com.gregtechceu.gtceu.GTCEu
 import com.gtolib.api.capability.ISync
@@ -20,6 +24,7 @@ import com.hepdd.gtmthings.utils.TeamUtil
 import com.lowdragmc.lowdraglib.LDLib
 
 import java.util.*
+import java.util.function.Consumer
 
 /**
  * 无线网络持久化数据。管理所有无线网络的创建、加入、退出和持久化。
@@ -30,6 +35,7 @@ import java.util.*
  * - 源节点最多供应 [WirelessNetwork.maxOutputsPerInput] 个子节点
  * - 源节点掉线时自动重新分配
  */
+@Mod.EventBusSubscriber
 class WirelessNetworkSavedData : SavedData() {
 
     companion object {
@@ -39,12 +45,10 @@ class WirelessNetworkSavedData : SavedData() {
         @JvmStatic
         val CLIENT_INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
 
-        var updateTimestamp: Long = 0L
         val gridCacheSYNCER: NetworkPack = NetworkPack.registerS2C(
             "wirelessClientInstanceSyncS2C",
         ) { _: Player?, buf: FriendlyByteBuf ->
             CLIENT_INSTANCE.load(buf.readNbt() ?: CompoundTag())
-            updateTimestamp = System.currentTimeMillis()
         }
 
         @JvmStatic
@@ -56,12 +60,24 @@ class WirelessNetworkSavedData : SavedData() {
                 // Client should never call this method
                 return
             }
-            assert(to is ServerPlayer || to is ServerLevel || to is MinecraftServer)
-            if (to is ServerLevel) {
-                gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag())) }, to.players())
-                return
+            val writer: Consumer<FriendlyByteBuf> = Consumer<FriendlyByteBuf> { buf -> buf.writeNbt(get().save(CompoundTag())) }
+            when (to) {
+                is ServerLevel -> {
+                    if (to.players().isEmpty()) return
+                    gridCacheSYNCER.send(
+                        writer,
+                        to.players(),
+                    )
+                }
+                is MinecraftServer -> {
+                    if (to.playerList.playerCount == 0) return
+                    gridCacheSYNCER.send(
+                        writer,
+                        to,
+                    )
+                }
+                is ServerPlayer -> gridCacheSYNCER.send(writer, to)
             }
-            gridCacheSYNCER.send({ buf: FriendlyByteBuf -> buf.writeNbt(INSTANCE.save(CompoundTag())) }, to)
         }
 
         @JvmStatic
@@ -69,6 +85,31 @@ class WirelessNetworkSavedData : SavedData() {
             val data = WirelessNetworkSavedData()
             data.load(tag)
             return data
+        }
+        var requiredWrite: Boolean = false
+
+        @JvmStatic
+        fun requireWriteToAll() {
+            if (LDLib.isRemote()) {
+                // Client should never call this method
+                return
+            }
+            requiredWrite = true
+        }
+
+        @JvmStatic
+        @SubscribeEvent
+        fun onTickEnd(event: ServerTickEvent) {
+            if (event.phase == TickEvent.Phase.END && event.server != null) {
+                if (requiredWrite) {
+                    write(event.server)
+                    requiredWrite = false
+                }
+                INSTANCE.networkPool.filter { it.needsRefresh }.forEach {
+                    it.refreshConnections()
+                    it.needsRefresh = false
+                }
+            }
         }
 
         fun checkPermission(owner: UUID, requester: UUID): Boolean {

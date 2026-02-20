@@ -29,9 +29,6 @@ public class WirelessClientHandler {
     public static void highlightMachines(Camera camera, PoseStack poseStack, MultiBufferSource bufferSource) {
         var player = Minecraft.getInstance().player;
         if (player == null) return;
-        // Set<WirelessNetwork> grids =
-        // Sets.union(Set.copyOf(WirelessMachineRunTime.getAccessibleCacheForPlayer(player.getUUID()).getGrids()),
-        // Set.copyOf(WirelessMachineRunTime.GRID_CACHE.getGrids()));
         List<WirelessNetwork> grids = WirelessNetworkSavedData.getCLIENT_INSTANCE().getNetworkPool();
         for (WirelessNetwork grid : grids) {
             var gridName = grid.getNickname();
@@ -69,7 +66,7 @@ public class WirelessClientHandler {
         int hash = grid.getId().hashCode();
         float hue = (hash % 360) / 360f;
         float brightness = 0.8f + (specialFx ? (float) Math.sin(System.currentTimeMillis() / 200.0) * 0.2f : 0);
-        float saturation = 0.4f + (specialFx ? (float) Math.cos(System.currentTimeMillis() / 200.0) * 0.4f : 0.4f);
+        float saturation = 0.4f + (specialFx ? (float) -Math.sin(System.currentTimeMillis() / 200.0) * 0.4f : 0.4f);
         return Color.getHSBColor(hue, saturation, brightness);
     }
 

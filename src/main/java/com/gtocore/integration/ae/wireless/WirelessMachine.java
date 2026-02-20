@@ -178,6 +178,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                 String id = getConnectedNetworkId();
                 if (!id.isEmpty()) {
                     linkNetwork(id);
+                    if (self().getLevel() != null) {
+                        WirelessNetworkSavedData.requireWriteToAll();
+                    }
                 }
             }
         }, 20, 40);
@@ -186,6 +189,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default void onWirelessUnload() {
         if (self().isRemote()) return;
         unlinkNetwork();
+        if (self().getLevel() != null) {
+            WirelessNetworkSavedData.requireWriteToAll();
+        }
     }
 
     default void onWirelessPlaced(LivingEntity player, ItemStack stack) {

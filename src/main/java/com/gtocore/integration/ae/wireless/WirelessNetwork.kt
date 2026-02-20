@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
 import com.gregtechceu.gtceu.GTCEu
+import com.lowdragmc.lowdraglib.LDLib
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
@@ -42,6 +43,12 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 WirelessNetwork(id, owner, nicknameOpt.orElse(id), nodes.toMutableList(), maxOpt.orElse(defaultMaxOutputs()))
             }
         }
+
+        var profiledLoadTime: Long = 0L
+        var totalLoadedConns: Int = 0
+        var refreshTimesCalled: Int = 0
+
+        fun getProfileSummary(): String = "WirelessNetwork Profile: totalLoadedConns=$totalLoadedConns, refreshTimesCalled=$refreshTimesCalled, averageLoadTime=${if (refreshTimesCalled > 0) profiledLoadTime / refreshTimesCalled else 0}ms"
     }
 
     // ==================== Runtime state (not persisted) ====================
@@ -50,8 +57,11 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     val assignments = mutableMapOf<WirelessMachine, WirelessMachine>() // output -> input
     val connections = mutableListOf<IGridConnection>()
 
+    var needsRefresh: Boolean = false
+
     // ==================== Persisted node info ====================
-    class NodeInfo(var pos: BlockPos = BlockPos.ZERO, var level: ResourceKey<Level> = UNKNOWN, var owner: String = "", var descriptionId: String = "", var nodeType: String = "CHILD") : CodecAbleTyped<NodeInfo, NodeInfo.Companion> {
+    class NodeInfo(var pos: BlockPos = BlockPos.ZERO, var level: ResourceKey<Level> = UNKNOWN, var owner: String = "", var descriptionId: String = "", var nodeType: WirelessMachine.NodeType = WirelessMachine.NodeType.CHILD) : CodecAbleTyped<NodeInfo, NodeInfo.Companion> {
+        constructor(pos: BlockPos = BlockPos.ZERO, level: ResourceKey<Level> = UNKNOWN, owner: String = "", descriptionId: String = "", nodeType: String = "CHILD") : this(pos, level, owner, descriptionId, normalizeNodeType(nodeType))
         companion object : CodecAbleTypedCompanion<NodeInfo> {
             override fun getCodec(): Codec<NodeInfo> = RecordCodecBuilder.create { b ->
                 b.group(
@@ -59,15 +69,15 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                     ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("level", UNKNOWN).forGetter { it.level },
                     Codec.STRING.optionalFieldOf("owner", "").forGetter { it.owner },
                     Codec.STRING.optionalFieldOf("descriptionId", "").forGetter { it.descriptionId },
-                    Codec.STRING.optionalFieldOf("nodeType", "CHILD").forGetter { normalizeNodeType(it.nodeType) },
+                    Codec.STRING.optionalFieldOf("nodeType", "CHILD").forGetter { it.nodeType.name },
                 ).apply(b, ::NodeInfo)
             }
 
             /** Normalize old OUTPUT/INPUT names to new SOURCE/CHILD names */
-            private fun normalizeNodeType(raw: String): String = when (raw) {
-                "INPUT" -> "SOURCE"
-                "OUTPUT" -> "CHILD"
-                else -> raw
+            private fun normalizeNodeType(raw: String): WirelessMachine.NodeType = when (raw) {
+                "INPUT" -> WirelessMachine.NodeType.SOURCE
+                "OUTPUT" -> WirelessMachine.NodeType.CHILD
+                else -> WirelessMachine.NodeType.valueOf(raw.uppercase())
             }
         }
     }
@@ -88,7 +98,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 nodeType = node.nodeType.name,
             ),
         )
-        refreshConnections()
+        needsRefresh = true
     }
 
     fun removeNode(node: WirelessMachine) {
@@ -97,13 +107,15 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         // Remove persisted info
         val levelKey = node.self().level?.dimension() ?: UNKNOWN
         nodeInfoTable.removeAll { it.pos == node.self().pos && it.level == levelKey }
-        refreshConnections()
+        needsRefresh = true
     }
 
     /**
      * 重建所有连接。将每个子节点分配给负载最低的源节点。
      */
     fun refreshConnections() {
+        refreshTimesCalled++
+        val startTime = System.currentTimeMillis()
         // Destroy existing
         connections.forEach {
             try {
@@ -134,6 +146,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
             try {
                 val conn = GridHelper.createConnection(output.mainNode.node, input.mainNode.node)
                 connections.add(conn)
+                totalLoadedConns++
                 if (GTOConfig.INSTANCE.devMode.aeLog) {
                     println("WirelessNetwork '$nickname': connected child ${output.self().pos} -> source ${input.self().pos}")
                 }
@@ -150,6 +163,8 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                     "${assignments.size} assigned, ${getUnassignedOutputCount()} unassigned",
             )
         }
+        val endTime = System.currentTimeMillis()
+        profiledLoadTime += (endTime - startTime)
     }
 
     /**
@@ -165,8 +180,11 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         return validOutputs - assignments.size
     }
 
-    fun getInputCount(): Int = inputNodes.size
-    fun getOutputCount(): Int = outputNodes.size
+    val clientInputCount: Int by lazy { nodeInfoTable.count { it.nodeType == WirelessMachine.NodeType.SOURCE } }
+    val clientOutputCount: Int by lazy { nodeInfoTable.count { it.nodeType == WirelessMachine.NodeType.CHILD } }
+
+    fun getInputCount(): Int = if (LDLib.isRemote()) clientInputCount else (inputNodes.size)
+    fun getOutputCount(): Int = if (LDLib.isRemote()) clientOutputCount else (outputNodes.size)
     fun getTotalCapacity(): Int = inputNodes.count { isNodeValid(it) } * maxOutputsPerInput
 
     private fun isNodeValid(node: WirelessMachine): Boolean = try {

@@ -419,6 +419,7 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
                     if (rt.findRecipe(inputHolder, r -> {
                         if (checkProb(r)) {
                             valid.value = (RecipeDefinition) r;
+                            recipeType = r.recipeType;
                             return true;
                         }
                         return false;
@@ -915,6 +916,6 @@ public class MEWildcardPatternBufferPartMachine extends MEPatternBufferPartMachi
     private static final String LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS = "gtocore.ae.appeng.wildcard_pattern_buffer.machine_filter_slots";
     @RegisterLanguage(cn = "在此处放入机器的物品形态以添加机器黑名单过滤槽。", en = "Place the item form of a machine here to add a machine blacklist filter slot.")
     private static final String LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_1 = "gtocore.ae.appeng.wildcard_pattern_buffer.machine_filter_slots.desc.1";
-    @RegisterLanguage(cn = "当生成的样板的产物可以被某些其他机器加工时，若机器过滤槽中存在这些机器，则这些样板将不会被生成。", en = "When the outputs of generated patterns can be processed by certain other machines, if those machines are present in the machine filter slots, those patterns will not be generated.")
+    @RegisterLanguage(cn = "当生成的样板的产物可以被某些其他机器加工而得到时，若机器过滤槽中存在这些机器，则这些样板将不会被生成。", en = "When the outputs of generated patterns can be produced by certain other machines, if those machines are present in the machine filter slots, those patterns will not be generated.")
     private static final String LANG_WILDCARD_PATTERN_BUFFER_MACHINE_FILTER_SLOTS_DESC_2 = "gtocore.ae.appeng.wildcard_pattern_buffer.machine_filter_slots.desc.2";
 }
