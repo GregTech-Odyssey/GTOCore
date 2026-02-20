@@ -194,9 +194,5 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     fun getOutputCount(): Int = if (LDLib.isRemote()) clientOutputCount else (outputNodes.size)
     fun getTotalCapacity(): Int = inputNodes.count { isNodeValid(it) } * maxOutputsPerInput
 
-    private fun isNodeValid(node: WirelessMachine): Boolean = try {
-        node.mainNode.node?.level?.hasChunkAt(node.self().pos) ?: false
-    } catch (_: Exception) {
-        false
-    }
+    private fun isNodeValid(node: WirelessMachine): Boolean = node.self().holder.isRemoved
 }
