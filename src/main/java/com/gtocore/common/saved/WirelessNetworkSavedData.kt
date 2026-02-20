@@ -3,6 +3,7 @@ package com.gtocore.common.saved
 import com.gtocore.config.GTOConfig
 import com.gtocore.integration.ae.wireless.WirelessMachine
 import com.gtocore.integration.ae.wireless.WirelessNetwork
+import com.gtocore.integration.ae.wireless.WirelessNetwork.NodeInfo
 
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
@@ -46,10 +47,33 @@ class WirelessNetworkSavedData : SavedData() {
         @JvmStatic
         var CLIENT_INSTANCE: WirelessNetworkSavedData = WirelessNetworkSavedData()
 
+        val writer: Consumer<FriendlyByteBuf> = Consumer<FriendlyByteBuf> { buf ->
+            val nbt = CompoundTag()
+            INSTANCE.save(nbt)
+            buf.writeNbt(nbt)
+            buf.writeInt(INSTANCE.networkPool.size)
+            INSTANCE.networkPool.object2ObjectEntrySet().forEach { entry ->
+                buf.writeUtf(entry.key)
+                buf.writeInt(entry.value.nodeInfoTable.size)
+                for (node in entry.value.nodeInfoTable.values) {
+                    buf.writeNbt(node.encodeToNbt())
+                }
+            }
+        }
+
         val gridCacheSYNCER: NetworkPack = NetworkPack.registerS2C(
             "wirelessClientInstanceSyncS2C",
         ) { _: Player?, buf: FriendlyByteBuf ->
             CLIENT_INSTANCE.load(buf.readNbt() ?: CompoundTag())
+            val mapSize = buf.readInt()
+            for (i in 0 until mapSize) {
+                val networkName = buf.readUtf()
+                val nodeInfoSize = buf.readInt()
+                val network = CLIENT_INSTANCE.networkPool[networkName]
+                for (j in 0 until nodeInfoSize) {
+                    network?.nodeInfoTable?.put(WirelessMachine.EMPTY_BINDABLE, NodeInfo.decodeFromNbt(buf.readNbt() ?: CompoundTag()))
+                }
+            }
         }
 
         @JvmStatic
@@ -61,7 +85,6 @@ class WirelessNetworkSavedData : SavedData() {
                 // Client should never call this method
                 return
             }
-            val writer: Consumer<FriendlyByteBuf> = Consumer<FriendlyByteBuf> { buf -> buf.writeNbt(get().save(CompoundTag())) }
             when (to) {
                 is ServerLevel -> {
                     if (to.players().isEmpty()) return

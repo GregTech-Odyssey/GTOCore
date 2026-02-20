@@ -30,7 +30,6 @@ import java.util.*
  */
 class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id, var maxOutputsPerInput: Int = defaultMaxOutputs()) : CodecAbleTyped<WirelessNetwork, WirelessNetwork.Companion> {
 
-    // todo 同步到客户端
     val nodeInfoTable = Reference2ReferenceOpenHashMap<IBindable, NodeInfo>()
 
     val inputNodes = ReferenceOpenHashSet<WirelessMachine>()
