@@ -94,15 +94,12 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
             WirelessMachine.NodeType.SOURCE -> inputNodes.add(node)
             WirelessMachine.NodeType.CHILD -> outputNodes.add(node)
         }
-        nodeInfoTable.put(
-            node,
-            NodeInfo(
-                pos = node.self().pos,
-                level = node.self().level?.dimension() ?: UNKNOWN,
-                owner = node.self().playerOwner?.name ?: "unknown",
-                descriptionId = node.self().blockState.block.descriptionId,
-                nodeType = node.nodeType.name,
-            ),
+        nodeInfoTable[node] = NodeInfo(
+            pos = node.self().pos,
+            level = node.self().level?.dimension() ?: UNKNOWN,
+            owner = node.self().playerOwner?.name ?: "unknown",
+            descriptionId = node.self().blockState.block.descriptionId,
+            nodeType = node.nodeType.name,
         )
         needsRefresh = true
     }
@@ -194,5 +191,5 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     fun getOutputCount(): Int = if (LDLib.isRemote()) clientOutputCount else (outputNodes.size)
     fun getTotalCapacity(): Int = inputNodes.count { isNodeValid(it) } * maxOutputsPerInput
 
-    private fun isNodeValid(node: WirelessMachine): Boolean = node.self().holder.isRemoved
+    private fun isNodeValid(node: WirelessMachine): Boolean = !node.self().holder.isRemoved
 }
