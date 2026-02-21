@@ -271,6 +271,14 @@ class WirelessNetworkSavedData : SavedData() {
         @JvmOverloads
         fun getNetworkSummaries(requester: UUID, connectedId: String = ""): List<NetworkSummary> = get().networkPool.values
             .filter { checkPermission(it.owner, requester) }
+            .sortedBy {
+                // Default network first
+                if (get().defaultMap[requester] == it.id) {
+                    ""
+                } else {
+                    it.nickname.lowercase(Locale.getDefault())
+                }
+            }
             .map { net ->
                 NetworkSummary(
                     id = net.id,

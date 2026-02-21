@@ -561,7 +561,7 @@ fun createWirelessUIProvider(player: Player): IFancyUIProvider = object : IFancy
             // preventing stale-data rebuilds (#2, #6).
             private fun computeHash(): Int {
                 var h = WirelessNetworkSavedData.getNetworkSummaries(player.uuid).hashCode()
-                h = 31 * h + (MEWirelessMachineConfigurator.getConfiguringNetworkId(player).hashCode() ?: 0)
+                h = 31 * h + MEWirelessMachineConfigurator.getConfiguringNetworkId(player).hashCode()
                 return h
             }
         })

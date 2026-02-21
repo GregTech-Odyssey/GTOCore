@@ -60,7 +60,7 @@ object GTOMachineTooltipsA : AutoInitialize<GTOMachineTooltipsA>() {
         section(MainFunction)
         command("用于在空间站内进行生物研究" translatedTo "Used for biological research in the space station")
         command("超净间环境等级由环境维护舱决定" translatedTo "The cleanroom environment level is determined by the Environmental Maintenance Module")
-        info("当运行培养缸或生化反应室配方时，提供可调节的0~40Sv背景辐射环境" translatedTo "Provides an adjustable 0~40Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
+        info("当运行培养缸或生化反应室配方时，提供可调节的0~80Sv背景辐射环境" translatedTo "Provides an adjustable 0~80Sv background radiation environment when running bioreactor or biochemical reaction chamber recipes")
     }
     val spaceElevatorConnectorModuleTooltips: ComponentListSupplier = ComponentListSupplier {
         setTranslationPrefix("space_elevator_connector_module")
