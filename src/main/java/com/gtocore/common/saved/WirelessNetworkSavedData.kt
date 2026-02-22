@@ -183,6 +183,7 @@ class WirelessNetworkSavedData : SavedData() {
                 node.removedFromNetwork(net.id)
                 node.setConnectedNetworkId("")
             }
+            net.nodeInfoTable.clear()
             net.inputNodes.clear()
             net.outputNodes.clear()
             net.refreshConnections()
@@ -259,7 +260,7 @@ class WirelessNetworkSavedData : SavedData() {
             val clamped = maxOutputs.coerceIn(1, 990000)
             if (net.maxOutputsPerInput != clamped) {
                 net.maxOutputsPerInput = clamped
-                net.refreshConnections()
+                if (net.connections.values.max() > clamped) net.refreshConnections()
                 INSTANCE.setDirty()
             }
             return STATUS.SUCCESS
@@ -304,7 +305,7 @@ class WirelessNetworkSavedData : SavedData() {
                     inputToOutputs.getOrPut(input) { mutableListOf() }
                 }
                 for ((output, input) in net.assignments) {
-                    inputToOutputs.getOrPut(input) { mutableListOf() }.add(output)
+                    inputToOutputs.getOrPut(input.first) { mutableListOf() }.add(output)
                 }
 
                 val sources = inputToOutputs.map { (input, outputs) ->
