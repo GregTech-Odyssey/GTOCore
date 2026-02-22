@@ -8,9 +8,11 @@ import com.gtocore.common.saved.WirelessNetworkSavedData;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
+import com.gtolib.utils.holder.ObjectHolder;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.utils.TaskHandler;
 
@@ -19,9 +21,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceSet;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 重写后的无线网络节点接口。
@@ -32,6 +38,29 @@ import java.util.UUID;
  */
 @DataGeneratorScanned
 public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable {
+
+    // client key
+    IBindable EMPTY_BINDABLE = new IBindable() {
+
+        private static final AtomicInteger CODE = new AtomicInteger(0);
+
+        @Override
+        public @Nullable UUID getUUID() {
+            return null;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return CODE.getAndIncrement();
+        }
+    };
+
+    ReferenceSet<MachineDefinition> WIRELESS_MACHINE_DEFINITIONS = new ReferenceOpenHashSet<>();
 
     enum NodeType {
         SOURCE,
@@ -168,12 +197,15 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
 
     default void onWirelessLoad() {
         if (self().isRemote()) return;
-        TaskHandler.enqueueTick(getLevel(), () -> {
-            if (getMainNode().getNode() != null) {
+        ObjectHolder<TickableSubscription> subscription = new ObjectHolder<>(null);
+        subscription.value = TaskHandler.enqueueTick(getLevel(), self().holder.isRemove, () -> {
+            if (self().getLevel() != null && getMainNode().getNode() != null) {
                 String id = getConnectedNetworkId();
                 if (!id.isEmpty()) {
                     linkNetwork(id);
+                    WirelessNetworkSavedData.requireWriteToAll();
                 }
+                subscription.value.unsubscribe();
             }
         }, 20, 40);
     }
@@ -181,6 +213,9 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default void onWirelessUnload() {
         if (self().isRemote()) return;
         unlinkNetwork();
+        if (self().getLevel() != null) {
+            WirelessNetworkSavedData.requireWriteToAll();
+        }
     }
 
     default void onWirelessPlaced(LivingEntity player, ItemStack stack) {
@@ -196,6 +231,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                         setConnectedNetworkId(defaultId);
                     }
                 }
+                WirelessNetworkSavedData.write(player.level());
             }
         }
         self().requestSync();
@@ -280,6 +316,7 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
                             .stream().filter(t -> t.getNetworkId().equals(syncConnId)).toList());
         }
         getNodeTypeSync().setAndSyncToClient(getNodeType().ordinal());
+        WirelessNetworkSavedData.write(self().getLevel());
     }
 
     // ==================== GUI ====================
@@ -291,7 +328,4 @@ public interface WirelessMachine extends IGridConnectedMachine, ISync, IBindable
     default IFancyUIProvider getWirelessTopologyProvider() {
         return WirelessNodeUIKt.createTopologyUIProvider(this);
     }
-
-    @Override
-    MetaMachine self();
 }

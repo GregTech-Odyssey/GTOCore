@@ -40,7 +40,6 @@ import static com.gtocore.api.data.tag.GTOTagPrefix.CRYSTAL_SEED;
 import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
-import static com.gtocore.common.machine.mana.CelestialCondenser.*;
 import static com.gtocore.common.machine.mana.CelestialHandler.*;
 import static com.gtocore.common.machine.mana.multiblock.ResonanceFlowerMachine.toResonanceTag;
 import static com.gtocore.utils.PlayerHeadUtils.itemStackAddNbtString;

@@ -50,6 +50,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gregtechceu.gtceu.utils.TaskHandler
+import com.gregtechceu.gtceu.utils.asm.EmptyMethodChecker
 import com.gtolib.api.ae2.MyPatternDetailsHelper
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.DataGeneratorScanned
@@ -75,7 +76,7 @@ import javax.annotation.ParametersAreNonnullByDefault
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @DataGeneratorScanned
-internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: MetaMachineBlockEntity, val maxPatternCount: Int) :
+abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: MetaMachineBlockEntity, val maxPatternCount: Int) :
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
     WirelessMachine,
@@ -108,6 +109,18 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         @RegisterLanguage(cn = "在旅行网络中显示", en = "Show in Travel Network")
         const val SHOW_IN_TRAVEL: String = "gtceu.ae.pattern_part_machine.show_in_travel"
+
+        @RegisterLanguage(cn = "重置缓存", en = "Clear Machine Recipe Cache")
+        const val CLEAR_MACHINE_RECIPE_CACHE: String = "gtceu.ae.pattern_part_machine.clear_machine_recipe_cache"
+
+        @RegisterLanguage(cn = "重置机器的所有配方缓存，不会改变样板的任何数据内容", en = "Clear all recipe cache of the machine, will not change any data content in pattern")
+        const val CLEAR_MACHINE_RECIPE_CACHE_TOOLTIP: String = "gtceu.ae.pattern_part_machine.clear_machine_recipe_cache_tooltip"
+
+        @RegisterLanguage(cn = "清除配方", en = "Clear Recipe in Pattern")
+        const val CLEAR_PATTERN_RECIPE_CACHE: String = "gtceu.ae.pattern_part_machine.clear_pattern_recipe_cache"
+
+        @RegisterLanguage(cn = "重置样板内的配方缓存，会清除样板内的编写的配方（不会改变原料与产物内容）", en = "Clear recipe cache in pattern, will clear the recipe written in pattern (will not change input and output)")
+        const val CLEAR_PATTERN_RECIPE_CACHE_TOOLTIP: String = "gtceu.ae.pattern_part_machine.clear_pattern_recipe_cache_tooltip"
     }
 
     // ==================== 持久化属性 ====================
@@ -135,17 +148,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     // ==================== 委托属性 ====================
     val internalPatternInventory by lazy {
-        object : InternalInventory {
-            override fun size(): Int = maxPatternCount
-            override fun getStackInSlot(slotIndex: Int): ItemStack = patternInventory.getStackInSlot(slotIndex)
-            override fun setItemDirect(slotIndex: Int, stack: ItemStack) {
-                patternInventory.run {
-                    setStackInSlot(slotIndex, stack)
-                    onContentsChanged(slotIndex)
-                }
-                onPatternChange(slotIndex)
-            }
-        }
+        MEPartInv(this)
     }
 
     // ==================== 初始化 ====================
@@ -199,12 +202,14 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun onLoad() {
         super.onLoad()
+        registerSync()
         detailsInit = false
         level?.let { TravelUtils.removeAndReadd(it, this) }
     }
 
     override fun onUnload() {
         super.onUnload()
+        unregisterSync()
         detailsInit = false
         level?.let { TravelSavedData.getTravelData(it).removeTravelTargetAt(it, holder.blockPos) }
     }
@@ -393,13 +398,13 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                             }
                         }
                     }
+                val wid = this@vBox.availableWidth - 2 * 2
                 if (pageWidget.getMaxPageSize() > 1) {
                     hBox(height = 13, style = { spacing = 2 }) {
-                        val wid = this@vBox.availableWidth - 2 * 2
                         button(
                             width = 30,
                             height = 13,
-                            onClick = { ck ->
+                            onClick = { _ ->
                                 onPagePrev()
                                 if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
                             },
@@ -409,12 +414,33 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         button(
                             height = 13,
                             width = 30,
-                            onClick = { ck ->
+                            onClick = { _ ->
                                 onPageNext()
                                 if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                             },
                             text = { ">>" },
                         )
+                    }
+                }
+                if (needAClearButton) {
+                    hBox(height = 13, style = { spacing = 2 }) {
+                        button(
+                            height = 13,
+                            width = 60,
+                            onClick = { _ ->
+                                clearMachineRecipeCache()
+                            },
+                            transKey = CLEAR_MACHINE_RECIPE_CACHE,
+                        ).setHoverTooltips(CLEAR_MACHINE_RECIPE_CACHE_TOOLTIP)
+                        blank(width = wid - 120)
+                        button(
+                            width = 60,
+                            height = 13,
+                            onClick = { _ ->
+                                clearPatternRecipeCache()
+                            },
+                            transKey = CLEAR_PATTERN_RECIPE_CACHE,
+                        ).setHoverTooltips(CLEAR_PATTERN_RECIPE_CACHE_TOOLTIP)
                     }
                 }
                 pageWidget.refresh()
@@ -490,6 +516,15 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun savePickClone(): Boolean = false
 
+    val needAClearButton: Boolean by lazy {
+        EmptyMethodChecker.hasMethodBody(javaClass.getMethod("clearMachineRecipeCache")) &&
+            EmptyMethodChecker.hasMethodBody(javaClass.getMethod("clearPatternRecipeCache"))
+    }
+
+    open fun clearPatternRecipeCache() {}
+
+    open fun clearMachineRecipeCache() {}
+
     override fun saveToItem(tag: CompoundTag) {
         tag.put("p", patternInventory.serializeNBT())
         tag.putString("n", customName)
@@ -516,5 +551,17 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         abstract fun pushPattern(patternDetails: IPatternDetails, inputHolder: Array<KeyCounter>): Boolean
         abstract fun onPatternChange()
         override fun serializeNBT(): CompoundTag = CompoundTag()
+    }
+}
+
+class MEPartInv(val machine: MEPatternPartMachineKt<*>) : InternalInventory {
+    override fun size(): Int = machine.maxPatternCount
+    override fun getStackInSlot(slotIndex: Int): ItemStack = machine.patternInventory.getStackInSlot(slotIndex)
+    override fun setItemDirect(slotIndex: Int, stack: ItemStack) {
+        machine.patternInventory.run {
+            setStackInSlot(slotIndex, stack)
+            onContentsChanged(slotIndex)
+        }
+        machine.onPatternChange(slotIndex)
     }
 }

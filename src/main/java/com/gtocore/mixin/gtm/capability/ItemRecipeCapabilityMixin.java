@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.item.TagPrefixItem;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
@@ -43,7 +43,7 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
      * @reason .
      */
     @Overwrite(remap = false)
-    public void applyWidgetInfo(@NotNull Widget widget, int index, boolean isXEI, IO io, GTRecipeTypeUI.@UnknownNullability("null when storage == null") RecipeHolder recipeHolder, @NotNull GTRecipeType recipeType, @UnknownNullability("null when content == null") GTRecipe recipe, @Nullable Content content, @Nullable Object storage, int recipeTier, int chanceTier) {
+    public void applyWidgetInfo(@NotNull Widget widget, int index, boolean isXEI, IO io, GTRecipeTypeUI.@UnknownNullability("null when storage == null") RecipeHolder recipeHolder, @NotNull GTRecipeType recipeType, @UnknownNullability("null when content == null") GTRecipeDefinition recipe, @Nullable Content content, @Nullable Object storage, int recipeTier, int chanceTier) {
         if (widget instanceof SlotWidget slot) {
             if (storage instanceof IItemHandlerModifiable items) {
                 if (index >= 0 && index < items.getSlots()) {
@@ -71,10 +71,7 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
                     slot.setXEIChance(chance);
                 }
                 slot.setOnAddedTooltips((w, tooltips) -> {
-                    GTRecipeWidget.setConsumedChance(content, recipe.getChanceLogicForCapability(this, io, isTickSlot(index, io, recipe)), tooltips, recipeTier, chanceTier, recipeType.getChanceFunction());
-                    if (isTickSlot(index, io, recipe)) {
-                        tooltips.add(Component.translatable("gtceu.gui.content.per_tick"));
-                    }
+                    GTRecipeWidget.setConsumedChance(content, recipe.getChanceLogicForCapability(this, io), tooltips, recipeTier, chanceTier, recipeType.getChanceFunction());
                     tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", ItemRecipeCapability.CAP.of(content).amount).withStyle(ChatFormatting.GRAY));
                 });
                 if (io == IO.IN && content.chance == 0) {
@@ -82,10 +79,5 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
                 }
             }
         }
-    }
-
-    @Override
-    public boolean isTickSlot(int index, IO io, GTRecipe recipe) {
-        return false;
     }
 }

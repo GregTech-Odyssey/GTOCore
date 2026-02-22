@@ -9,9 +9,6 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.ItemIngredient;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -1107,14 +1104,14 @@ public class ItemIconReport {
         // GT and vanilla recipes in parallel
         ExecutorService pool = Executors.newFixedThreadPool(2);
         try {
-            CompletableFuture<Integer> gtF = CompletableFuture.supplyAsync(() -> {
-                try {
-                    return exportGTRecipes(gtRecipeDir, recipeTypeCount);
-                } catch (Exception e) {
-                    GTOCore.LOGGER.error("[Recipes] GT recipe export failed", e);
-                    return 0;
-                }
-            }, pool);
+            // CompletableFuture<Integer> gtF = CompletableFuture.supplyAsync(() -> {
+            // try {
+            // return exportGTRecipes(gtRecipeDir, recipeTypeCount);
+            // } catch (Exception e) {
+            // GTOCore.LOGGER.error("[Recipes] GT recipe export failed", e);
+            // return 0;
+            // }
+            // }, pool);
 
             CompletableFuture<Integer> vanillaF = CompletableFuture.supplyAsync(() -> {
                 try {
@@ -1125,15 +1122,16 @@ public class ItemIconReport {
                 }
             }, pool);
 
-            int gtRecipes = gtF.join();
+            // int gtRecipes = gtF.join();
             int vanillaRecipes = vanillaF.join();
-            int totalRecipes = gtRecipes + vanillaRecipes;
+            // int totalRecipes = gtRecipes + vanillaRecipes;
 
-            GTOCore.LOGGER.info("[Recipes] Completed: {} total ({} GT, {} vanilla)", totalRecipes, gtRecipes, vanillaRecipes);
+            // GTOCore.LOGGER.info("[Recipes] Completed: {} total ({} GT, {} vanilla)", totalRecipes, gtRecipes,
+            // vanillaRecipes);
 
             JsonObject recipeStats = new JsonObject();
-            recipeStats.addProperty("total_recipes", totalRecipes);
-            recipeStats.addProperty("gt_recipes", gtRecipes);
+            // recipeStats.addProperty("total_recipes", totalRecipes);
+            // recipeStats.addProperty("gt_recipes", gtRecipes);
             recipeStats.addProperty("vanilla_recipes", vanillaRecipes);
             recipeStats.add("by_type", GSON.toJsonTree(new TreeMap<>(recipeTypeCount)));
             Files.writeString(recipeDir.resolve("_stats.json"), GSON.toJson(recipeStats));
@@ -1141,281 +1139,281 @@ public class ItemIconReport {
             pool.shutdown();
         }
     }
-
-    private static int exportGTRecipes(Path gtRecipeDir, Map<String, Integer> recipeTypeCount) {
-        int totalCount = 0;
-
-        try {
-            Files.createDirectories(gtRecipeDir);
-        } catch (IOException e) {
-            GTOCore.LOGGER.error("[Recipes] Cannot create GT recipe directory", e);
-            return 0;
-        }
-
-        var allRecipes = com.gtolib.api.recipe.RecipeBuilder.RECIPE_MAP;
-        if (allRecipes == null || allRecipes.isEmpty()) {
-            GTOCore.LOGGER.warn("[Recipes] Cannot export GT recipes: RECIPE_MAP is empty");
-            return 0;
-        }
-
-        GTOCore.LOGGER.info("[Recipes] Found {} GT recipes", allRecipes.size());
-
-        // Group recipes by GT recipe type
-        Map<GTRecipeType, List<com.gtolib.api.recipe.Recipe>> recipesByType = new HashMap<>();
-        for (var recipe : allRecipes.values()) {
-            if (recipe != null && recipe.recipeType != null) {
-                recipesByType.computeIfAbsent(recipe.recipeType, k -> new ArrayList<>()).add(recipe);
-            }
-        }
-
-        for (Map.Entry<GTRecipeType, List<com.gtolib.api.recipe.Recipe>> entry : recipesByType.entrySet()) {
-            GTRecipeType recipeType = entry.getKey();
-            List<com.gtolib.api.recipe.Recipe> recipes = entry.getValue();
-            String typeName = recipeType.registryName.getPath();
-
-            try {
-                JsonObject typeJson = new JsonObject();
-                typeJson.addProperty("recipe_type", recipeType.registryName.toString());
-                typeJson.addProperty("recipe_type_name", typeName);
-                typeJson.addProperty("count", recipes.size());
-
-                JsonArray recipesArray = new JsonArray();
-                for (com.gtolib.api.recipe.Recipe recipe : recipes) {
-                    try {
-                        recipesArray.add(serializeGTRecipe(recipe, recipeType));
-                    } catch (Exception e) {
-                        GTOCore.LOGGER.debug("[Recipes] Cannot serialize recipe: {}", recipe.getId(), e);
-                    }
-                }
-                typeJson.add("recipes", recipesArray);
-
-                Files.writeString(gtRecipeDir.resolve(typeName + ".json"), GSON.toJson(typeJson));
-                recipeTypeCount.put("gt_" + typeName, recipes.size());
-                totalCount += recipes.size();
-
-            } catch (Exception e) {
-                GTOCore.LOGGER.error("[Recipes] Error exporting GT recipe type: {}", typeName, e);
-            }
-        }
-
-        return totalCount;
-    }
-
-    private static JsonObject serializeGTRecipe(com.gtolib.api.recipe.Recipe recipe, GTRecipeType recipeType) {
-        JsonObject json = new JsonObject();
-
-        json.addProperty("id", recipe.getId().toString());
-        json.addProperty("type", recipeType.registryName.toString());
-        json.addProperty("duration", recipe.duration);
-
-        long inputEUt = recipe.getInputEUt();
-        long outputEUt = recipe.getOutputEUt();
-        if (inputEUt > 0) {
-            json.addProperty("eu_per_tick", inputEUt);
-            json.addProperty("eu_type", "input");
-        } else if (outputEUt > 0) {
-            json.addProperty("eu_per_tick", outputEUt);
-            json.addProperty("eu_type", "output");
-        }
-        json.addProperty("total_eu", (inputEUt > 0 ? inputEUt : outputEUt) * recipe.duration);
-
-        // Mana per tick (魔力/t)
-        long inputManat = recipe.getInputMANAt();
-        long outputManat = recipe.getOutputMANAt();
-        if (inputManat > 0) {
-            json.addProperty("mana_per_tick", inputManat);
-            json.addProperty("mana_type", "input");
-            json.addProperty("total_mana", inputManat * recipe.duration);
-        } else if (outputManat > 0) {
-            json.addProperty("mana_per_tick", outputManat);
-            json.addProperty("mana_type", "output");
-            json.addProperty("total_mana", outputManat * recipe.duration);
-        }
-
-        // CWU per tick (算力/t — Computation Work Units)
-        long cwut = recipe.cwut;
-        if (cwut > 0) {
-            json.addProperty("cwu_per_tick", cwut);
-            boolean isTotalCwu = recipe.data.getBoolean("duration_is_total_cwu");
-            json.addProperty("duration_is_total_cwu", isTotalCwu);
-            if (isTotalCwu) {
-                // duration field represents total CWU, not ticks
-                json.addProperty("total_cwu", (long) recipe.duration);
-            } else {
-                json.addProperty("total_cwu", cwut * recipe.duration);
-            }
-        }
-
-        // Input items — also detect programmed circuit
-        JsonArray inputItems = new JsonArray();
-        boolean hasCircuit = false;
-        int circuitConfig = -1;
-        for (Content content : recipe.inputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
-            JsonObject itemObj = serializeItemContent(content, true);
-            inputItems.add(itemObj);
-            // Check if this input is a programmed circuit
-            if (!hasCircuit && itemObj.has("is_circuit") && itemObj.get("is_circuit").getAsBoolean()) {
-                hasCircuit = true;
-                circuitConfig = itemObj.get("circuit_config").getAsInt();
-            }
-        }
-        json.add("input_items", inputItems);
-
-        // Top-level circuit info for easy querying
-        if (hasCircuit) {
-            json.addProperty("requires_circuit", true);
-            json.addProperty("circuit_config", circuitConfig);
-        }
-
-        // Output items
-        JsonArray outputItems = new JsonArray();
-        for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
-            outputItems.add(serializeItemContent(content, false));
-        }
-        json.add("output_items", outputItems);
-
-        // Input fluids
-        JsonArray inputFluids = new JsonArray();
-        for (Content content : recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
-            inputFluids.add(serializeFluidContent(content));
-        }
-        json.add("input_fluids", inputFluids);
-
-        // Output fluids
-        JsonArray outputFluids = new JsonArray();
-        for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
-            outputFluids.add(serializeFluidContent(content));
-        }
-        json.add("output_fluids", outputFluids);
-
-        // Tick inputs (per-tick resource consumption)
-        JsonObject tickInputs = new JsonObject();
-        for (var e : recipe.tickInputs.entrySet()) {
-            String capName = e.getKey().name;
-            JsonArray contents = new JsonArray();
-            for (Content c : e.getValue()) {
-                JsonObject cJson = new JsonObject();
-                cJson.addProperty("content", c.inner.toString());
-                cJson.addProperty("chance", c.chance);
-                contents.add(cJson);
-            }
-            tickInputs.add(capName, contents);
-        }
-        if (tickInputs.size() > 0) json.add("tick_inputs", tickInputs);
-
-        // Tick outputs (per-tick resource production)
-        JsonObject tickOutputs = new JsonObject();
-        for (var e : recipe.tickOutputs.entrySet()) {
-            String capName = e.getKey().name;
-            JsonArray contents = new JsonArray();
-            for (Content c : e.getValue()) {
-                JsonObject cJson = new JsonObject();
-                cJson.addProperty("content", c.inner.toString());
-                cJson.addProperty("chance", c.chance);
-                contents.add(cJson);
-            }
-            tickOutputs.add(capName, contents);
-        }
-        if (tickOutputs.size() > 0) json.add("tick_outputs", tickOutputs);
-
-        // Recipe data (temperature, heat, radiation, etc.)
-        if (!recipe.data.isEmpty()) {
-            JsonObject dataJson = new JsonObject();
-            for (String key : recipe.data.getAllKeys()) {
-                var tag = recipe.data.get(key);
-                if (tag != null) dataJson.addProperty(key, tag.getAsString());
-            }
-            json.add("data", dataJson);
-        }
-
-        // Conditions (cleanroom, vacuum, gravity, etc.)
-        if (!recipe.conditions.isEmpty()) {
-            JsonArray conditions = new JsonArray();
-            for (var condition : recipe.conditions) {
-                JsonObject condJson = new JsonObject();
-                condJson.addProperty("class", condition.getClass().getSimpleName());
-                if (condition.getTooltips() != null) {
-                    condJson.addProperty("tooltip", condition.getTooltips().getString());
-                }
-                condJson.addProperty("description", condition.toString());
-                conditions.add(condJson);
-            }
-            json.add("conditions", conditions);
-        }
-
-        return json;
-    }
-
-    private static JsonObject serializeItemContent(Content content, boolean isInput) {
-        JsonObject itemJson = new JsonObject();
-
-        if (content.inner instanceof ItemIngredient ingredient) {
-            JsonArray itemsArray = new JsonArray();
-            try {
-                for (ItemStack stack : ingredient.inner.getItems()) {
-                    if (!stack.isEmpty()) {
-                        JsonObject stackJson = new JsonObject();
-                        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-                        stackJson.addProperty("item", itemId.toString());
-                        stackJson.addProperty("count", stack.getCount());
-                        if (stack.hasTag()) stackJson.addProperty("nbt", stack.getTag().toString());
-
-                        // Detect programmed circuit and extract configuration number
-                        try {
-                            if (stack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
-                                int config = IntCircuitBehaviour.getCircuitConfiguration(stack);
-                                stackJson.addProperty("is_circuit", true);
-                                stackJson.addProperty("circuit_config", config);
-                                // Also set on parent itemJson for easy access
-                                itemJson.addProperty("is_circuit", true);
-                                itemJson.addProperty("circuit_config", config);
-                            }
-                        } catch (Exception ignored) {}
-
-                        itemsArray.add(stackJson);
-                    }
-                }
-            } catch (Exception e) {
-                JsonObject fallback = new JsonObject();
-                fallback.addProperty("item", ingredient.toString());
-                itemsArray.add(fallback);
-            }
-            itemJson.add("items", itemsArray);
-            itemJson.addProperty("amount", ingredient.amount);
-        } else {
-            itemJson.addProperty("content", content.inner.toString());
-        }
-
-        itemJson.addProperty("chance", content.chance);
-        itemJson.addProperty("tier_chance_boost", content.tierChanceBoost);
-        // chance 10000 = 100%
-        itemJson.addProperty("chance_percent", content.chance / 100.0);
-
-        return itemJson;
-    }
-
-    private static JsonObject serializeFluidContent(Content content) {
-        JsonObject fluidJson = new JsonObject();
-
-        if (content.inner instanceof FluidIngredient ingredient) {
-            var fluid = ingredient.getFluid();
-            if (fluid != null) {
-                fluidJson.addProperty("fluid", BuiltInRegistries.FLUID.getKey(fluid).toString());
-            } else {
-                fluidJson.addProperty("fluid", ingredient.toString());
-            }
-            fluidJson.addProperty("amount", ingredient.amount);
-            if (ingredient.nbt != null) fluidJson.addProperty("nbt", ingredient.nbt.toString());
-        } else {
-            fluidJson.addProperty("content", content.inner.toString());
-        }
-
-        fluidJson.addProperty("chance", content.chance);
-        fluidJson.addProperty("tier_chance_boost", content.tierChanceBoost);
-        fluidJson.addProperty("chance_percent", content.chance / 100.0);
-
-        return fluidJson;
-    }
+    //
+    // private static int exportGTRecipes(Path gtRecipeDir, Map<String, Integer> recipeTypeCount) {
+    // int totalCount = 0;
+    //
+    // try {
+    // Files.createDirectories(gtRecipeDir);
+    // } catch (IOException e) {
+    // GTOCore.LOGGER.error("[Recipes] Cannot create GT recipe directory", e);
+    // return 0;
+    // }
+    //
+    // var allRecipes = com.gtolib.api.recipe.RecipeBuilder.RECIPE_MAP;
+    // if (allRecipes == null || allRecipes.isEmpty()) {
+    // GTOCore.LOGGER.warn("[Recipes] Cannot export GT recipes: RECIPE_MAP is empty");
+    // return 0;
+    // }
+    //
+    // GTOCore.LOGGER.info("[Recipes] Found {} GT recipes", allRecipes.size());
+    //
+    // // Group recipes by GT recipe type
+    // Map<GTRecipeType, List<com.gtolib.api.recipe.Recipe>> recipesByType = new HashMap<>();
+    // for (var recipe : allRecipes.values()) {
+    // if (recipe != null && recipe.recipeType != null) {
+    // recipesByType.computeIfAbsent(recipe.recipeType, k -> new ArrayList<>()).add(recipe);
+    // }
+    // }
+    //
+    // for (Map.Entry<GTRecipeType, List<com.gtolib.api.recipe.Recipe>> entry : recipesByType.entrySet()) {
+    // GTRecipeType recipeType = entry.getKey();
+    // List<com.gtolib.api.recipe.Recipe> recipes = entry.getValue();
+    // String typeName = recipeType.registryName.getPath();
+    //
+    // try {
+    // JsonObject typeJson = new JsonObject();
+    // typeJson.addProperty("recipe_type", recipeType.registryName.toString());
+    // typeJson.addProperty("recipe_type_name", typeName);
+    // typeJson.addProperty("count", recipes.size());
+    //
+    // JsonArray recipesArray = new JsonArray();
+    // for (com.gtolib.api.recipe.Recipe recipe : recipes) {
+    // try {
+    // recipesArray.add(serializeGTRecipe(recipe, recipeType));
+    // } catch (Exception e) {
+    // GTOCore.LOGGER.debug("[Recipes] Cannot serialize recipe: {}", recipe.getId(), e);
+    // }
+    // }
+    // typeJson.add("recipes", recipesArray);
+    //
+    // Files.writeString(gtRecipeDir.resolve(typeName + ".json"), GSON.toJson(typeJson));
+    // recipeTypeCount.put("gt_" + typeName, recipes.size());
+    // totalCount += recipes.size();
+    //
+    // } catch (Exception e) {
+    // GTOCore.LOGGER.error("[Recipes] Error exporting GT recipe type: {}", typeName, e);
+    // }
+    // }
+    //
+    // return totalCount;
+    // }
+    //
+    // private static JsonObject serializeGTRecipe(com.gtolib.api.recipe.Recipe recipe, GTRecipeType recipeType) {
+    // JsonObject json = new JsonObject();
+    //
+    // json.addProperty("id", recipe.getId().toString());
+    // json.addProperty("type", recipeType.registryName.toString());
+    // json.addProperty("duration", recipe.duration);
+    //
+    // long inputEUt = recipe.getInputEUt();
+    // long outputEUt = recipe.getOutputEUt();
+    // if (inputEUt > 0) {
+    // json.addProperty("eu_per_tick", inputEUt);
+    // json.addProperty("eu_type", "input");
+    // } else if (outputEUt > 0) {
+    // json.addProperty("eu_per_tick", outputEUt);
+    // json.addProperty("eu_type", "output");
+    // }
+    // json.addProperty("total_eu", (inputEUt > 0 ? inputEUt : outputEUt) * recipe.duration);
+    //
+    // // Mana per tick (魔力/t)
+    // long inputManat = recipe.getInputMANAt();
+    // long outputManat = recipe.getOutputMANAt();
+    // if (inputManat > 0) {
+    // json.addProperty("mana_per_tick", inputManat);
+    // json.addProperty("mana_type", "input");
+    // json.addProperty("total_mana", inputManat * recipe.duration);
+    // } else if (outputManat > 0) {
+    // json.addProperty("mana_per_tick", outputManat);
+    // json.addProperty("mana_type", "output");
+    // json.addProperty("total_mana", outputManat * recipe.duration);
+    // }
+    //
+    // // CWU per tick (算力/t — Computation Work Units)
+    // long cwut = recipe.cwut;
+    // if (cwut > 0) {
+    // json.addProperty("cwu_per_tick", cwut);
+    // boolean isTotalCwu = recipe.data.getBoolean("duration_is_total_cwu");
+    // json.addProperty("duration_is_total_cwu", isTotalCwu);
+    // if (isTotalCwu) {
+    // // duration field represents total CWU, not ticks
+    // json.addProperty("total_cwu", (long) recipe.duration);
+    // } else {
+    // json.addProperty("total_cwu", cwut * recipe.duration);
+    // }
+    // }
+    //
+    // // Input items — also detect programmed circuit
+    // JsonArray inputItems = new JsonArray();
+    // boolean hasCircuit = false;
+    // int circuitConfig = -1;
+    // for (Content content : recipe.inputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
+    // JsonObject itemObj = serializeItemContent(content, true);
+    // inputItems.add(itemObj);
+    // // Check if this input is a programmed circuit
+    // if (!hasCircuit && itemObj.has("is_circuit") && itemObj.get("is_circuit").getAsBoolean()) {
+    // hasCircuit = true;
+    // circuitConfig = itemObj.get("circuit_config").getAsInt();
+    // }
+    // }
+    // json.add("input_items", inputItems);
+    //
+    // // Top-level circuit info for easy querying
+    // if (hasCircuit) {
+    // json.addProperty("requires_circuit", true);
+    // json.addProperty("circuit_config", circuitConfig);
+    // }
+    //
+    // // Output items
+    // JsonArray outputItems = new JsonArray();
+    // for (Content content : recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList())) {
+    // outputItems.add(serializeItemContent(content, false));
+    // }
+    // json.add("output_items", outputItems);
+    //
+    // // Input fluids
+    // JsonArray inputFluids = new JsonArray();
+    // for (Content content : recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
+    // inputFluids.add(serializeFluidContent(content));
+    // }
+    // json.add("input_fluids", inputFluids);
+    //
+    // // Output fluids
+    // JsonArray outputFluids = new JsonArray();
+    // for (Content content : recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())) {
+    // outputFluids.add(serializeFluidContent(content));
+    // }
+    // json.add("output_fluids", outputFluids);
+    //
+    // // Tick inputs (per-tick resource consumption)
+    // JsonObject tickInputs = new JsonObject();
+    // for (var e : recipe.tickInputs.entrySet()) {
+    // String capName = e.getKey().name;
+    // JsonArray contents = new JsonArray();
+    // for (Content c : e.getValue()) {
+    // JsonObject cJson = new JsonObject();
+    // cJson.addProperty("content", c.inner.toString());
+    // cJson.addProperty("chance", c.chance);
+    // contents.add(cJson);
+    // }
+    // tickInputs.add(capName, contents);
+    // }
+    // if (tickInputs.size() > 0) json.add("tick_inputs", tickInputs);
+    //
+    // // Tick outputs (per-tick resource production)
+    // JsonObject tickOutputs = new JsonObject();
+    // for (var e : recipe.tickOutputs.entrySet()) {
+    // String capName = e.getKey().name;
+    // JsonArray contents = new JsonArray();
+    // for (Content c : e.getValue()) {
+    // JsonObject cJson = new JsonObject();
+    // cJson.addProperty("content", c.inner.toString());
+    // cJson.addProperty("chance", c.chance);
+    // contents.add(cJson);
+    // }
+    // tickOutputs.add(capName, contents);
+    // }
+    // if (tickOutputs.size() > 0) json.add("tick_outputs", tickOutputs);
+    //
+    // // Recipe data (temperature, heat, radiation, etc.)
+    // if (!recipe.data.isEmpty()) {
+    // JsonObject dataJson = new JsonObject();
+    // for (String key : recipe.data.getAllKeys()) {
+    // var tag = recipe.data.get(key);
+    // if (tag != null) dataJson.addProperty(key, tag.getAsString());
+    // }
+    // json.add("data", dataJson);
+    // }
+    //
+    // // Conditions (cleanroom, vacuum, gravity, etc.)
+    // if (!recipe.conditions.isEmpty()) {
+    // JsonArray conditions = new JsonArray();
+    // for (var condition : recipe.conditions) {
+    // JsonObject condJson = new JsonObject();
+    // condJson.addProperty("class", condition.getClass().getSimpleName());
+    // if (condition.getTooltips() != null) {
+    // condJson.addProperty("tooltip", condition.getTooltips().getString());
+    // }
+    // condJson.addProperty("description", condition.toString());
+    // conditions.add(condJson);
+    // }
+    // json.add("conditions", conditions);
+    // }
+    //
+    // return json;
+    // }
+    //
+    // private static JsonObject serializeItemContent(Content content, boolean isInput) {
+    // JsonObject itemJson = new JsonObject();
+    //
+    // if (content.inner instanceof ItemIngredient ingredient) {
+    // JsonArray itemsArray = new JsonArray();
+    // try {
+    // for (ItemStack stack : ingredient.inner.getItems()) {
+    // if (!stack.isEmpty()) {
+    // JsonObject stackJson = new JsonObject();
+    // ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+    // stackJson.addProperty("item", itemId.toString());
+    // stackJson.addProperty("count", stack.getCount());
+    // if (stack.hasTag()) stackJson.addProperty("nbt", stack.getTag().toString());
+    //
+    // // Detect programmed circuit and extract configuration number
+    // try {
+    // if (stack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+    // int config = IntCircuitBehaviour.getCircuitConfiguration(stack);
+    // stackJson.addProperty("is_circuit", true);
+    // stackJson.addProperty("circuit_config", config);
+    // // Also set on parent itemJson for easy access
+    // itemJson.addProperty("is_circuit", true);
+    // itemJson.addProperty("circuit_config", config);
+    // }
+    // } catch (Exception ignored) {}
+    //
+    // itemsArray.add(stackJson);
+    // }
+    // }
+    // } catch (Exception e) {
+    // JsonObject fallback = new JsonObject();
+    // fallback.addProperty("item", ingredient.toString());
+    // itemsArray.add(fallback);
+    // }
+    // itemJson.add("items", itemsArray);
+    // itemJson.addProperty("amount", ingredient.amount);
+    // } else {
+    // itemJson.addProperty("content", content.inner.toString());
+    // }
+    //
+    // itemJson.addProperty("chance", content.chance);
+    // itemJson.addProperty("tier_chance_boost", content.tierChanceBoost);
+    // // chance 10000 = 100%
+    // itemJson.addProperty("chance_percent", content.chance / 100.0);
+    //
+    // return itemJson;
+    // }
+    //
+    // private static JsonObject serializeFluidContent(Content content) {
+    // JsonObject fluidJson = new JsonObject();
+    //
+    // if (content.inner instanceof FluidIngredient ingredient) {
+    // var fluid = ingredient.getFluid();
+    // if (fluid != null) {
+    // fluidJson.addProperty("fluid", BuiltInRegistries.FLUID.getKey(fluid).toString());
+    // } else {
+    // fluidJson.addProperty("fluid", ingredient.toString());
+    // }
+    // fluidJson.addProperty("amount", ingredient.amount);
+    // if (ingredient.nbt != null) fluidJson.addProperty("nbt", ingredient.nbt.toString());
+    // } else {
+    // fluidJson.addProperty("content", content.inner.toString());
+    // }
+    //
+    // fluidJson.addProperty("chance", content.chance);
+    // fluidJson.addProperty("tier_chance_boost", content.tierChanceBoost);
+    // fluidJson.addProperty("chance_percent", content.chance / 100.0);
+    //
+    // return fluidJson;
+    // }
 
     private static int exportVanillaRecipes(Minecraft minecraft, Path vanillaRecipeDir,
                                             Map<String, Integer> recipeTypeCount) {

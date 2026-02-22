@@ -3,7 +3,7 @@ package com.gtocore.mixin.gtm;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.common.recipe.condition.AdjacentFluidCondition;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -34,7 +34,7 @@ public abstract class AdjacentFluidConditionMixin extends RecipeCondition {
      */
     @Override
     @Overwrite(remap = false)
-    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipeDefinition recipe, @NotNull RecipeLogic recipeLogic) {
         boolean hasFluidA = false, hasFluidB = false;
         if (recipeLogic.machine instanceof ElectricMultiblockMachine MMachine) {
             var as = MMachine.getFluidAmount(A, B);

@@ -303,7 +303,7 @@ final class Centrifuge {
                 .outputFluids(GTMaterials.CoalGas, 10)
                 .EUt(7)
                 .duration(380)
-                .displayPriority(1)
+                .priority(1)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("blood")

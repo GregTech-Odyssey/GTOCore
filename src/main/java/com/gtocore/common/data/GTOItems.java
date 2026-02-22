@@ -1299,6 +1299,11 @@ public final class GTOItems {
             .model((ctx, prov) -> prov.handheld(ctx))
             .register();
 
+    public static final ItemEntry<ComponentItem> ME_WIRELESS_MACHINE_CONFIGURATOR = item("me_wireless_machine_configurator", "ME无线机器配置器",
+            p -> ComponentItem.create(p.stacksTo(1)))
+            .onRegister(attach(MEWirelessMachineConfigurator.INSTANCE))
+            .register();
+
     public static final ItemEntry<ComponentItem> TESSERACT_TARGET_MARKER = item("tesseract_target_marker", "坐标标签枪", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
                     .addLines("§7可以按顺序标记超立方体传输目标位置。§r",

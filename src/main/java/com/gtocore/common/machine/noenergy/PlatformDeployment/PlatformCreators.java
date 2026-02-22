@@ -3,7 +3,7 @@ package com.gtocore.common.machine.noenergy.PlatformDeployment;
 import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.TaskHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -70,7 +70,7 @@ class PlatformCreators {
                                       boolean xMirror, boolean zMirror, int rotation) {
         if (isExporting) return;
         isExporting = true;
-        GTUtil.ASYNC_EXECUTOR.execute(() -> {
+        TaskHandler.enqueueAsyncTask(level, () -> {
             try {
                 exportStructure(level, startPos, endPos, xMirror, zMirror, rotation);
             } catch (Exception e) {
@@ -78,7 +78,7 @@ class PlatformCreators {
             } finally {
                 isExporting = false;
             }
-        });
+        }, 0);
     }
 
     /**

@@ -2,8 +2,8 @@ package com.gtocore.integration.emi.space;
 
 import com.gtocore.common.data.GTORecipeTypes;
 
-import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
+import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 class SatelliteEmiRecipe extends GTEmiRecipe {
 
-    private SatelliteEmiRecipe(Recipe recipe) {
+    private SatelliteEmiRecipe(RecipeDefinition recipe) {
         super(recipe, SatelliteEmiCategory.CATEGORY);
     }
 
@@ -29,6 +29,6 @@ class SatelliteEmiRecipe extends GTEmiRecipe {
         recipe.id = id;
         recipe.duration = 20 * 300;
         recipe.EUt(GTValues.V[GTValues.HV]);
-        return new SatelliteEmiRecipe(recipe.buildRawRecipe());
+        return new SatelliteEmiRecipe(recipe.build());
     }
 }

@@ -108,7 +108,12 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
                 container.setStorage(storage.subtract(eu.value));
                 recipe = builder.duration(1).buildRawRecipe();
             } else {
-                recipe = builder.EUt(getOverclockVoltage()).duration(Math.max(1, eu.value.divide(BigInteger.valueOf(getOverclockVoltage())).intValue())).buildRawRecipe();
+                var voltage = getOverclockVoltage();
+                if (voltage <= 0) {
+                    setIdleReason(IdleReason.NO_EU);
+                    return null;
+                }
+                recipe = builder.EUt(voltage).duration(Math.max(1, eu.value.divide(BigInteger.valueOf(voltage)).intValue())).buildRawRecipe();
                 if (!RecipeRunner.matchTickRecipe(this, recipe)) return null;
             }
             return recipe;

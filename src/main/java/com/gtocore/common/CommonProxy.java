@@ -24,6 +24,7 @@ import com.gtocore.eio_travel.implementations.PatternTravelTarget;
 import com.gtocore.integration.Mods;
 import com.gtocore.integration.ae.PatternContentAccessTerminalMenu;
 import com.gtocore.integration.construction_wand.ConstructionWandRegistrar;
+import com.gtocore.integration.emi.GTEMIPlugin;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbquests.GTOQuestTypes;
 import com.gtocore.integration.ftbu.AreaShape;
@@ -117,6 +118,7 @@ public class CommonProxy {
             registerSimple(TesseractDirectedTarget.Payload.class, TesseractDirectedTarget.Payload::new, TesseractDirectedTarget.class, 10);
             registerSimple(GenericStackPayload.class, GenericStackPayload::new, GenericStack.class, 10);
         });
+        GTEMIPlugin.init();
     }
 
     private static void init() {

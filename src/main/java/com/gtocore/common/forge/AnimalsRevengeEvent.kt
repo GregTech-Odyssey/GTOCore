@@ -29,6 +29,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.DataGeneratorScanned
+import com.gtolib.utils.holder.ObjectHolder
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 import kotlinx.coroutines.*
@@ -125,15 +126,15 @@ object AnimalsRevengeEvent {
             if (!isFoodFromEntity(type, eaten.item, serverLevel)) continue
 
             val tick = intArrayOf(0)
-            val holder = arrayOfNulls<TickableSubscription>(1)
-            holder[0] = TaskHandler.enqueueTick(serverLevel, {
+            val holder = ObjectHolder<TickableSubscription>(null)
+            holder.value = TaskHandler.enqueueTick(serverLevel, {
                 tick[0]++
                 if (tick[0] >= preTicks) {
                     if (mob.isAlive) {
                         val hurt = mob.hurt(serverLevel.damageSources().generic(), damage)
                         if (hurt) makeAnimalAggressive(mob, player)
                     }
-                    holder[0]?.unsubscribe()
+                    holder.value?.unsubscribe()
                 }
             }, 0, 1)
         }
@@ -171,8 +172,8 @@ object AnimalsRevengeEvent {
         val types = BuiltInRegistries.ENTITY_TYPE.toList().iterator()
 
         return suspendCancellableCoroutine { cont ->
-            val subHolder = arrayOfNulls<TickableSubscription>(1)
-            subHolder[0] = TaskHandler.enqueueTick(level, {
+            val subHolder = ObjectHolder<TickableSubscription>(null)
+            subHolder.value = TaskHandler.enqueueTick(level, {
                 var processed = 0
                 try {
                     while (processed < 12 && types.hasNext()) {
@@ -190,18 +191,18 @@ object AnimalsRevengeEvent {
                     }
 
                     if (!types.hasNext()) {
-                        subHolder[0]?.unsubscribe()
+                        subHolder.value?.unsubscribe()
                         lootCacheBuilt = true
                         if (cont.isActive) cont.resume(Unit) {}
                     }
                 } catch (_: Throwable) {
-                    subHolder[0]?.unsubscribe()
+                    subHolder.value?.unsubscribe()
                     lootCacheBuilt = true
                     if (cont.isActive) cont.resume(Unit) {}
                 }
             }, 0, 1)
 
-            cont.invokeOnCancellation { subHolder[0]?.unsubscribe() }
+            cont.invokeOnCancellation { subHolder.value?.unsubscribe() }
         }
     }
 

@@ -77,7 +77,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
                 builder.outputFluids(e.getKey(), e.getIntValue());
             });
             var recipe = builder.buildRawRecipe();
-            recipe.modifier(new ContentModifier(getParallel() * efficiency(getMachine().getRate() * 500), 0), true);
+            recipe.modifier(new ContentModifier(getParallel() * efficiency(getMachine().getRate() * 500)), true);
             RecipeModifierFunction.overclocking(getMachine(), recipe);
             if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
                 return recipe;

@@ -41,14 +41,6 @@ public class SpaceDroneDock extends RecipeExtension {
     public Recipe fullModifyRecipe(@NotNull Recipe recipe) {
         long maxParallel;
         AtomicBoolean hasInput = new AtomicBoolean(false);
-        for (var c : recipe.conditions) {
-            if (!c.check(recipe, getRecipeLogic())) {
-                if (getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                    enhancedRecipeLogic.gtolib$setIdleReason(c.getTooltips());
-                }
-                return null;
-            }
-        }
         ObjectHolder<BigInteger> costEU = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> outputHolder = new ObjectHolder<>(null);
         ObjectHolder<ItemStack> inputHolder = new ObjectHolder<>(null);

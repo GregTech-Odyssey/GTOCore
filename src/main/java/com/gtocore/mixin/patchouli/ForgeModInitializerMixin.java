@@ -1,6 +1,6 @@
 package com.gtocore.mixin.patchouli;
 
-import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gtolib.utils.GTOUtils;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -34,6 +34,6 @@ public final class ForgeModInitializerMixin {
 
         ForgeNetworkHandler.registerMessages();
 
-        GTUtil.ASYNC_EXECUTOR.execute(BookRegistry.INSTANCE::init);
+        GTOUtils.asyncExecute(BookRegistry.INSTANCE::init);
     }
 }

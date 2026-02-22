@@ -92,7 +92,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
             }
         } else {
             getRecipeType().findRecipe(this, r -> {
-                var modify = (Recipe) fullModifyRecipe(r.copy());
+                var modify = (Recipe) fullModifyRecipe(r.toRuntime());
                 if (modify != null && RecipeRunner.matchRecipe(this, modify) && RecipeRunner.matchTickRecipe(this, recipe.value)) {
                     fishingHook = null;
                     recipe.value = modify;

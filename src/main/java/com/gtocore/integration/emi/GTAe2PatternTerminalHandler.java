@@ -34,7 +34,10 @@ import dev.emi.emi.recipe.EmiStonecuttingRecipe;
 import dev.emi.emi.screen.RecipeScreen;
 import vazkii.botania.client.integration.emi.BotaniaEmiRecipe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static appeng.integration.modules.emi.AbstractRecipeHandler.getInnerBounds;
@@ -136,7 +139,7 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         if (isCrafting(recipe)) {
             EncodingHelper.encodeCraftingRecipe(menu, recipe.getBackingRecipe(), GTEmiEncodingHelper.ofInputs(recipe), i -> true);
         } else {
-            if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.RECIPE_MAP.containsKey(gtemiRecipe.getId())) {
+            if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.get(gtemiRecipe.getId()) != null) {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe(gtemiRecipe.getId().toString());
             } else if (recipe instanceof EmiCookingRecipe) {
                 ((IPatterEncodingTermMenu) menu).gtolib$addRecipe("gtceu:electric_furnace/");

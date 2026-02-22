@@ -4,6 +4,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -127,7 +128,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
             if (!RecipeRunner.matchRecipeInput(machine, recipe)) return false;
             var items = recipe.getOutputContents(ItemRecipeCapability.CAP);
             if (!items.isEmpty()) {
-                if (!RecipeRunner.handleRecipe(machine, recipe, IO.OUT, Map.of(ItemRecipeCapability.CAP, items), Collections.emptyMap(), true)) return false;
+                if (!RecipeHelper.handleRecipe(machine, recipe, IO.OUT, Map.of(ItemRecipeCapability.CAP, items), Collections.emptyMap(), true)) return false;
             }
             return applyFluidOutputs(recipe, FluidAction.SIMULATE);
         }
@@ -167,7 +168,7 @@ public class DistillationTowerMachine extends ElectricMultiblockMachine {
         private void output(Recipe recipe) {
             var items = recipe.getOutputContents(ItemRecipeCapability.CAP);
             if (!items.isEmpty()) {
-                RecipeRunner.handleRecipe(machine, recipe, IO.OUT, Map.of(ItemRecipeCapability.CAP, items), Collections.emptyMap(), false);
+                RecipeHelper.handleRecipe(machine, recipe, IO.OUT, Map.of(ItemRecipeCapability.CAP, items), Collections.emptyMap(), false);
             }
             applyFluidOutputs(recipe, FluidAction.EXECUTE);
         }

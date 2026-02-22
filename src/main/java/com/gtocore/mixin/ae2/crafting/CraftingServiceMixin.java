@@ -4,8 +4,7 @@ import com.gtocore.integration.ae.hooks.ITemporaryCraftableService;
 
 import com.gtolib.api.ae2.crafting.OptimizedCalculation;
 import com.gtolib.api.machine.impl.part.CraftingInterfacePartMachine;
-
-import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gtolib.utils.GTOUtils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -129,7 +128,7 @@ public abstract class CraftingServiceMixin implements ITemporaryCraftableService
         if (level == null || simRequester == null) {
             throw new IllegalArgumentException("Invalid Crafting Job Request");
         }
-        return GTUtil.ASYNC_EXECUTOR.submit(() -> OptimizedCalculation.executeV2(grid, simRequester, what, amount, strategy));
+        return GTOUtils.ASYNC_SINGLE_THREAD_EXECUTOR.submit(() -> OptimizedCalculation.executeV2(grid, simRequester, what, amount, strategy));
     }
 
     @Redirect(method = "submitJob", at = @At(value = "INVOKE", target = "Lappeng/api/networking/crafting/ICraftingPlan;simulation()Z"), remap = false)

@@ -12,7 +12,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
 
 import com.fast.fastcollection.OpenCacheHashSet;
-import com.google.common.collect.*;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;

@@ -111,6 +111,9 @@ final class ItemLang {
         addCNEN("gtocore.tooltip.item.kinetic_rotor.max", "最大风力: %s", "Max Wind Speed: %s");
         addCNEN("gtocore.tooltip.item.kinetic_rotor.min", "最小风力: %s", "Min Wind Speed: %s");
         addCNEN("gtocore.tooltip.item.virtual_item_provider", "为机器的虚拟电路槽提供物品", "Provide items for the machine's virtual circuit slot.");
+        addCNEN("gtocore.tooltip.item.catalyst.1", "§7位于非催化剂舱或总成时，配方过程将§c完全消耗催化剂§r", "§7When not in the catalyst hatch or pattern buffer, §cthe recipe process will completely consume the catalyst§r");
+        addCNEN("gtocore.tooltip.item.catalyst.2", "§7位于催化剂舱时，配方过程将消耗催化剂§b1点耐久/次§r", "§7When in the catalyst hatch, §bthe recipe process will consume 1 durability point per use§r");
+        addCNEN("gtocore.tooltip.item.catalyst.3", "§7位于催化剂总成时，配方过程§a不会消耗催化剂§r", "§7When in the catalyst pattern buffer, §athe recipe process will not consume the catalyst§r");
 
         addCNEN("gtocore.tooltip.item.really_max_battery", "填满它就能通关GregTechCEu Modern", "Filling it up can allow you to complete GregTechCEu Modern");
         addCNEN("gtocore.tooltip.item.transcendent_max_battery", "填满它就能通关GregTech Odyssey", "Filling it up can allow you to complete GregTech Odyssey");

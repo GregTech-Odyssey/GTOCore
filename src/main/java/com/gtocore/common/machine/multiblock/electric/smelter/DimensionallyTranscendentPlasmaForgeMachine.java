@@ -31,7 +31,7 @@ public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilCross
 
     @Override
     public Recipe getRealRecipe(@NotNull Recipe recipe) {
-        if (recipe.getType() == GTORecipeTypes.STELLAR_FORGE_RECIPES) {
+        if (recipe.recipeType == GTORecipeTypes.STELLAR_FORGE_RECIPES) {
             if (getCoilType() != CoilType.URUIUM) {
                 getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtocore.machine.dimensionally_transcendent_plasma_forge.coil"));
                 return null;

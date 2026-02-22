@@ -36,7 +36,7 @@ final class TitaniumRecipes {
                 .inputFluids(Chlorine, 4000)
                 .outputFluids(CarbonMonoxide.getFluid(2000))
                 .outputFluids(TitaniumTetrachloride.getFluid(1000))
-                .displayPriority(1)
+                .priority(1)
                 .duration(400).EUt(VA[HV]).save();
 
         // Kroll Process
@@ -47,7 +47,7 @@ final class TitaniumRecipes {
                 .outputItems(ingotHot, Titanium)
                 .outputItems(dust, MagnesiumChloride, 6)
                 .blastFurnaceTemp(Titanium.getBlastTemperature() + 200)
-                .displayPriority(1)
+                .priority(1)
                 .duration(800).EUt(VA[HV]).save();
 
         CHEMICAL_RECIPES.recipeBuilder("salt_from_magnesium_chloride")

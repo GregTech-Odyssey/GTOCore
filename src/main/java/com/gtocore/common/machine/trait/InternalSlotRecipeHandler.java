@@ -8,8 +8,6 @@ import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.api.machine.trait.ExtendedRecipeHandlerList;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NonStandardHandler;
-import com.gtolib.api.recipe.Recipe;
-import com.gtolib.api.recipe.RecipeCapabilityMap;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.modifier.ParallelCache;
 
@@ -20,6 +18,7 @@ import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
@@ -125,7 +124,7 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
+        public boolean findRecipe(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipeDefinition> canHandle) {
             if (slot.isEmpty() || !(holder instanceof IRecipeLogicMachine machine)) return false;
             if (slot.recipe != null) {
                 if (RecipeType.available(slot.recipe.recipeType, machine.disabledCombined() ? new GTRecipeType[] { machine.getRecipeType() } : machine.getRecipeTypes())) {
@@ -146,7 +145,7 @@ public final class InternalSlotRecipeHandler {
             var map = this.getIngredientMap(recipeType);
             if (map.isEmpty()) return false;
             holder.setCurrentHandlerList(this);
-            return recipeType.db.find(map, canHandle);
+            return recipeType.search(map, canHandle);
         }
 
         @Override
@@ -227,8 +226,8 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
-        public boolean handleRecipeContent(IO io, Recipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate) {
-            if (slot.isEmpty() || (slot.recipe != null && slot.recipe != recipe.rootRecipe)) return false;
+        public boolean handleRecipeContent(IO io, GTRecipe recipe, RecipeCapabilityMap<List<Object>> contents, boolean simulate, boolean distinct) {
+            if (slot.isEmpty() || (slot.recipe != null && recipe.definition.registered && slot.recipe != recipe.definition)) return false;
             boolean item = contents.item == null;
             if (!item) {
                 List left = contents.item;
@@ -242,14 +241,14 @@ public final class InternalSlotRecipeHandler {
             }
             if (item) {
                 if (contents.fluid == null) {
-                    slot.setRecipe(recipe.rootRecipe);
+                    slot.setRecipe(recipe.definition);
                     return true;
                 } else {
                     List left = contents.fluid;
                     for (var handler : getCapability(FluidRecipeCapability.CAP)) {
                         left = handler.handleRecipe(IO.IN, recipe, left, simulate);
                         if (left == null) {
-                            slot.setRecipe(recipe.rootRecipe);
+                            slot.setRecipe(recipe.definition);
                             return true;
                         }
                     }

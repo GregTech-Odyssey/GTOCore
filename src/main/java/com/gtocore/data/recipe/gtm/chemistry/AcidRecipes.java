@@ -40,7 +40,7 @@ final class AcidRecipes {
                 .inputFluids(SulfurTrioxide, 1000)
                 .inputFluids(Water, 1000)
                 .outputFluids(SulfuricAcid.getFluid(1000))
-                .displayPriority(2)
+                .priority(2)
                 .duration(160).EUt(VA[ULV]).save();
 
         CHEMICAL_RECIPES.recipeBuilder("sulfuric_acid_from_sulfide")
@@ -48,7 +48,7 @@ final class AcidRecipes {
                 .inputFluids(HydrogenSulfide, 1000)
                 .inputFluids(Oxygen, 4000)
                 .outputFluids(SulfuricAcid.getFluid(1000))
-                .displayPriority(1)
+                .priority(1)
                 .duration(320).EUt(VA[LV]).save();
     }
 
@@ -88,7 +88,7 @@ final class AcidRecipes {
                 .inputFluids(Water, 1000)
                 .outputFluids(NitricAcid.getFluid(2000))
                 .outputFluids(NitricOxide.getFluid(1000))
-                .displayPriority(1)
+                .priority(1)
                 .duration(240).EUt(VA[LV]).save();
 
         CHEMICAL_RECIPES.recipeBuilder("nitric_acid_from_dioxide_2")
@@ -97,7 +97,7 @@ final class AcidRecipes {
                 .inputFluids(Oxygen, 1000)
                 .inputFluids(NitrogenDioxide, 2000)
                 .outputFluids(NitricAcid.getFluid(2000))
-                .displayPriority(2)
+                .priority(2)
                 .duration(240).EUt(VA[LV]).save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder("nitric_acid_from_ammonia")

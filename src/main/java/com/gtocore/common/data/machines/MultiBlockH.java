@@ -832,7 +832,7 @@ public final class MultiBlockH {
             .register();
 
     // 热压成型机
-    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition THERMO_PRESS = multiblock("thermo_press", "热压成型机", TierCasingMultiblockMachine.createMachine(BlockMap.hermetic_casing))
             .nonYAxisRotation()
             .parallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getThermoPressTooltips().getSupplier())
@@ -840,7 +840,7 @@ public final class MultiBlockH {
             .recipeTypes(GTORecipeTypes.THERMO_PRESSING_RECIPES)
             .recipeModifier((m, r) -> {
                 if (m instanceof ITierCasingMachine tm) {
-                    r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(BlockMap.hermetic_casing)), 1);
+                    r.duration = (int) Math.max(Math.pow(0.9, tm.getCasingTier(BlockMap.hermetic_casing)) * r.duration, 1);
                 }
                 return RecipeModifierFunction.overclocking(m, RecipeModifierFunction.hatchParallel(m, r));
             })

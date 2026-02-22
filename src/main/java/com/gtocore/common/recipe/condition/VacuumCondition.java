@@ -1,7 +1,7 @@
 package com.gtocore.common.recipe.condition;
 
 import com.gtolib.api.machine.feature.IVacuumMachine;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -31,7 +31,7 @@ public final class VacuumCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean test(@NotNull RecipeDefinition recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
 
         if (machine instanceof MultiblockControllerMachine controllerMachine) {

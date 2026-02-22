@@ -2,7 +2,7 @@ package com.gtocore.common.recipe.condition;
 
 import com.gtolib.api.machine.feature.IHeaterMachine;
 import com.gtolib.api.machine.feature.ITemperatureMachine;
-import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeDefinition;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
@@ -29,7 +29,7 @@ public final class HeatCondition extends AbstractRecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean test(@NotNull RecipeDefinition recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
         if (machine instanceof MultiblockControllerMachine controllerMachine) {
             if (machine instanceof ICoilMachine coilMachine && coilMachine.getTemperature() >= temperature) {

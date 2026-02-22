@@ -47,6 +47,7 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     @Persisted
     private int stableTime = 0;
 
+    // TODO 使用Map<GTRecipeDefinition, CompoundTag>重写
     // 存储信息
     @Persisted
     private final List<CompoundTag> recipeIncremental = new ArrayList<>();
@@ -83,8 +84,8 @@ public class ResonanceFlowerMachine extends ManaMultiblockMachine implements ISt
     protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
         resetResonance();
 
-        String id = recipe.id.getPath();
-        Object[] tierEffect = getTierEffect(id);
+        String id = recipe.definition.id.getPath();
+        Object[] tierEffect = getTierEffect("");
 
         if (recipe.data.contains("resonance")) {
             Object[] resonance = fromResonanceTag(recipe.data.getCompound("resonance"));

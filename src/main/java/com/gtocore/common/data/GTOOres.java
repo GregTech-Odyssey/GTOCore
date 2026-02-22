@@ -113,24 +113,24 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(48, 80)).density(0.25f).weight(30)
             .layer(ALL_LAYER)
             .dimensionFilter(dimensions(IO, PLUTO, BARNARDA_C, OTHERSIDE))
-            .heightRangeUniform(10, 90)
+            .heightRangeUniform(-20, 35)
             .dikeVeinGenerator(generator -> generator
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Plutonium239, 1, 10, 20))
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Naquadah, 3, 5, 35))
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Naquadah, 2, 15, 30)))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Plutonium239, 1, -20, 20))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Naquadah, 3, -15, 35))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Naquadah, 2, -15, 30)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Naquadah)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
     private static final GTOreDefinition PITCHBLENDE_VEIN = create("pitchblende_vein", vein -> vein
-            .clusterSize(UniformInt.of(32, 64)).density(0.25f).weight(30)
+            .clusterSize(UniformInt.of(32, 64)).density(0.75f).weight(30)
             .layer(ALL_LAYER)
             .dimensionFilter(dimensions(MOON, TITAN, PLUTO, OTHERSIDE))
-            .heightRangeUniform(30, 60)
+            .heightRangeUniform(-20, 35)
             .dikeVeinGenerator(generator -> generator
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Uraninite, 2, 5, 30))
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Pitchblende, 3, 5, 35))
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Pitchblende, 2, 10, 30)))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Uraninite, 2, -15, 30))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Pitchblende, 3, -15, 35))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Pitchblende, 2, -20, 30)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Pitchblende)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
@@ -139,7 +139,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(32, 64)).density(0.25f).weight(30)
             .layer(ALL_LAYER)
             .dimensionFilter(dimensions(VENUS, MARS, CERES, OTHERSIDE))
-            .heightRangeUniform(30, 60)
+            .heightRangeUniform(5, 40)
             .dikeVeinGenerator(generator -> generator
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(RockSalt, 1, 5, 30))
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Borax, 3, 5, 40))
@@ -203,10 +203,10 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(50, 64)).density(0.75f).weight(30)
             .layer(ALL_LAYER)
             .dimensionFilter(dimensions(ANCIENT_WORLD, THE_NETHER, GANYMEDE, OTHERSIDE))
-            .heightRangeUniform(5, 30)
+            .heightRangeUniform(-15, 30)
             .dikeVeinGenerator(generator -> generator
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Beryllium, 3, 5, 30))
-                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Emerald, 2, 5, 19))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Beryllium, 3, -15, 30))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Emerald, 2, -15, 19))
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Emerald, 2, 16, 30)))
             .surfaceIndicatorGenerator(indicator -> indicator
                     .surfaceRock(Beryllium)
@@ -231,7 +231,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(50, 64)).density(0.75f).weight(20)
             .layer(ALL_LAYER)
             .dimensionFilter(dimensions(OVERWORLD, ANCIENT_WORLD, MERCURY, THE_NETHER, CERES, OTHERSIDE))
-            .heightRangeUniform(-30, 0)
+            .heightRangeUniform(-50, -5)
             .dikeVeinGenerator(generator -> generator
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Grossular, 3, -50, -5))
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Spessartine, 2, -40, -15))
@@ -785,7 +785,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(20)
             .layer(ALL_LAYER)
             .dimensionFilter(dimensions(OVERWORLD, ALFHEIM, OTHERSIDE))
-            .heightRangeUniform(-50, 0)
+            .heightRangeUniform(-60, 20)
             .dikeVeinGenerator(generator -> generator
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(PerditioCrystal, 1, -60, 20))
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(SalamanderCrystal, 1, -60, 20))
@@ -799,7 +799,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(20, 40)).density(0.95f).weight(20)
             .layer(ALL_LAYER)
             .dimensionFilter(dimensions(OVERWORLD, ALFHEIM, OTHERSIDE))
-            .heightRangeUniform(-50, 0)
+            .heightRangeUniform(-60, 20)
             .dikeVeinGenerator(generator -> generator
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(PerditioCrystal, 1, -60, 20))
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(GnomeCrystal, 1, -60, 20))

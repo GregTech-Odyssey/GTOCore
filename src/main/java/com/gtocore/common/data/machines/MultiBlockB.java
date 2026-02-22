@@ -15,7 +15,10 @@ import com.gtocore.common.machine.multiblock.water.*;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.machine.multiblock.*;
+import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
+import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.TierCasingCrossRecipeMultiblockMachine;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 
@@ -850,7 +853,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("extreme_compressor", "极限压缩装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .recipeTypes(COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES)
+            .recipeTypes(COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES, THERMO_PRESSING_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getHorizontalCompressorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()

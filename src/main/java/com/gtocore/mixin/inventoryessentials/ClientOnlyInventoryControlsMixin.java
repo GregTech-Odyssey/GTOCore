@@ -6,6 +6,8 @@ import net.blay09.mods.inventoryessentials.client.ClientOnlyInventoryControls;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 
+import appeng.client.gui.Icon;
+import appeng.menu.slot.RestrictedInputSlot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,5 +22,6 @@ public class ClientOnlyInventoryControlsMixin {
             remap = false)
     private void onSlotClick(AbstractContainerMenu menu, int slotIndex, int mouseButton, ClickType clickType, CallbackInfo ci) {
         if (menu instanceof Me2in1Menu) ci.cancel();
+        if (menu.getSlot(slotIndex) instanceof RestrictedInputSlot slot && slot.getIcon() == Icon.BACKGROUND_VIEW_CELL) ci.cancel();
     }
 }

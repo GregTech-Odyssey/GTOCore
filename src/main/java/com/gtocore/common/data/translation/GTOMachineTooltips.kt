@@ -169,10 +169,12 @@ object GTOMachineTooltips {
         )
 
         section("蓝图导出功能" translatedTo "Blueprint Export Function")
-        content("将两张坐标卡插入工具底部插槽可激活导出模式" translatedTo "Insert two coordinate cards into the tool's bottom slots to activate export mode")
+        content("将两张带有坐标位置的坐标卡插入工具底部插槽后，打开选择预设界面可激活导出模式" translatedTo "After inserting two coordinate cards with coordinate positions into the slot at the bottom of the tool, open the selection preset interface to activate the export mode")
+        content("导出蓝图在游戏根目录下logs/platform文件夹中" translatedTo "The exported blueprint is located in the logs/platform folder under the game's root directory")
         highlight("欢迎提交优质蓝图至社区仓库" translatedTo "Welcome to submit high-quality blueprints to the community repository") { rainbowSlow() }
         content("不支持框架方块和小方块" translatedTo "Does not support FramedBlocks or LittleTiles")
         highlight("https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets" translatedTo "https://github.com/GregTech-Odyssey/Gto-Extended-Platform-Presets") { rainbowSlow() }
+        content("详细导入教程请看 example/READIR_cn.md" translatedTo "For detailed import tutorial, please refer to example/README_en.md")
     }
 
     // 贸易站机器 - 物品描述
@@ -607,9 +609,9 @@ object GTOMachineTooltips {
     val AutoConnectMETooltips = ComponentListSupplier {
         setTranslationPrefix("auto_connect_me")
 
-        section("允许自动连接ME无线网络" translatedTo "Allow automatically connecting to the ME Wireless network")
-        guide("按下Shift放置以自动连接收藏的网络" translatedTo "Press Shift to place to automatically connect to the collected network")
-        danger("小心塞爆矿处！" translatedTo "Be careful not to overflow your AE storage! ")
+        section("无线ME网络连接" translatedTo "Built-in wireless ME network connection feature")
+        command("在机器内GUI界面中可以自由创建和连接无线网络" translatedTo "You can freely create and connect wireless networks in the machine's GUI interface")
+        guide("在机器内GUI界面收藏某个网络后，按下Shift放置以自动连接收藏的网络" translatedTo "After favoriting a network in the machine's GUI interface, place it while holding Shift to automatically connect to the favorited network")
     }
 
     // 多方块板条箱
@@ -1115,9 +1117,8 @@ object GTOMachineTooltips {
         increase("电压等级每高出LV1级，每次处理次数x3" translatedTo "Voltage tier above LV1 increases the number of processes x3")
         info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
-        content("如果在机器GUI内放置了刷怪蛋则只会刷出刷怪蛋对应生物的内容" translatedTo "If a spawn egg is placed in the machine GUI, only the creature corresponding to the spawn egg will be spawned")
-        content("如果在机器GUI内放置了收容罐则只会刷出收容罐对应生物的内容" translatedTo "If a mob jar is placed in the machine GUI, only the creature corresponding to the containment unit will be spawned")
-        content("如果在机器GUI内放置了神化Boss召唤器（物品），则只会刷出对应的神化Boss" translatedTo "If a Apotheosis Boss Summoner (item) is placed in the machine GUI, only the corresponding Deific Boss will be spawned")
+        content("如果在机器GUI内放置了§b刷怪蛋/收容罐§r则只会刷出§b刷怪蛋/收容罐对应生物§r的内容" translatedTo "If a §bspawn egg/mob jar§r is placed in the machine GUI, only §bthe corresponding mob§r will be spawned")
+        content("如果在机器GUI内放置了§b神化Boss召唤器（物品）§r，则只会刷出§b所在维度对应的神化Boss§r" translatedTo "If a §bApotheosis Boss Summoner (item)§r is placed in the machine GUI, only §bthe corresponding Apotheosis Boss in that dimension§r will be spawned")
         content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
         info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")
     }
