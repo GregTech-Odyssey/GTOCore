@@ -21,7 +21,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet
-import it.unimi.dsi.fastutil.objects.ReferenceSet
 
 import java.util.*
 
@@ -107,8 +106,6 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
     fun removeNode(node: WirelessMachine) {
         inputNodes.remove(node)
         outputNodes.remove(node)
-        // Remove persisted info
-        val levelKey = node.self().level?.dimension() ?: UNKNOWN
         nodeInfoTable.remove(node)
         needsRefresh = true
     }
@@ -117,6 +114,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
      * 重建所有连接。将每个子节点分配给负载最低的源节点。
      */
     fun refreshConnections() {
+        needsRefresh = false
         refreshTimesCalled++
         val startTime = System.currentTimeMillis()
         // Destroy existing
@@ -129,46 +127,57 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         connections.clear()
         assignments.clear()
 
-        if (inputNodes.isEmpty() || outputNodes.isEmpty()) return
-
-        val validInputs = inputNodes.filter { isNodeValid(it) }
-        if (validInputs.isEmpty()) return
-
-        // Assign each child to the least-loaded valid source
-        for (output in outputNodes) {
-            if (!isNodeValid(output)) continue
-            val bestInput = validInputs
-                .minByOrNull { input -> assignments.count { it.value === input } }
-                ?: continue
-            if (assignments.count { it.value == bestInput } >= maxOutputsPerInput) continue
-            assignments[output] = bestInput
-        }
-
-        // Create AE grid connections
-        for ((output, input) in assignments) {
-            try {
-                val conn = GridHelper.createConnection(output.mainNode.node, input.mainNode.node)
-                connections.add(conn)
-                totalLoadedConns++
-                if (GTOConfig.INSTANCE.devMode.aeLog) {
-                    println("WirelessNetwork '$nickname': connected child ${output.self().pos} -> source ${input.self().pos}")
+        if (!inputNodes.isEmpty() && !outputNodes.isEmpty()) {
+            val inputs = ReferenceOpenHashSet<WirelessMachine>()
+            inputNodes.forEach {
+                if (isNodeValid(it)) inputs.add(it)
+            }
+            val inputIterator = inputs.iterator()
+            if (inputIterator.hasNext()) {
+                var input = inputIterator.next()
+                var count = 0
+                for (output in outputNodes) {
+                    if (!isNodeValid(output)) continue
+                    while (input != null || inputIterator.hasNext()) {
+                        if (count > maxOutputsPerInput) {
+                            input = null
+                            continue
+                        }
+                        if (input == null) {
+                            input = inputIterator.next()
+                            count = 0
+                        }
+                        assignments[output] = input
+                        count++
+                    }
                 }
-            } catch (e: Exception) {
+
+                // Create AE grid connections
+                for ((output, input) in assignments) {
+                    try {
+                        val conn = GridHelper.createConnection(output.mainNode.node, input.mainNode.node)
+                        connections.add(conn)
+                        totalLoadedConns++
+                        if (GTOConfig.INSTANCE.devMode.aeLog) {
+                            println("WirelessNetwork '$nickname': connected child ${output.self().pos} -> source ${input.self().pos}")
+                        }
+                    } catch (e: Exception) {
+                        if (GTOConfig.INSTANCE.devMode.aeLog) {
+                            println("WirelessNetwork '$nickname': failed to connect ${output.self().pos} -> ${input.self().pos}: ${e.message}")
+                        }
+                    }
+                }
+
                 if (GTOConfig.INSTANCE.devMode.aeLog) {
-                    println("WirelessNetwork '$nickname': failed to connect ${output.self().pos} -> ${input.self().pos}: ${e.message}")
+                    println(
+                        "WirelessNetwork '$nickname': ${inputNodes.size} sources, ${outputNodes.size} children, " +
+                            "${assignments.size} assigned, ${getUnassignedOutputCount()} unassigned",
+                    )
                 }
             }
         }
-
-        if (GTOConfig.INSTANCE.devMode.aeLog) {
-            println(
-                "WirelessNetwork '$nickname': ${inputNodes.size} sources, ${outputNodes.size} children, " +
-                    "${assignments.size} assigned, ${getUnassignedOutputCount()} unassigned",
-            )
-        }
         val endTime = System.currentTimeMillis()
         profiledLoadTime += (endTime - startTime)
-        needsRefresh = false
     }
 
     /**
