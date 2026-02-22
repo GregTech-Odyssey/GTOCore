@@ -149,6 +149,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                         }
                         assignments[output] = input
                         count++
+                        break
                     }
                 }
 
