@@ -20,13 +20,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import appeng.util.InteractionUtil;
 import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,11 +62,20 @@ public class TesseractTargetMarker implements IInteractionItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
-        if (player.isShiftKeyDown() && InteractionUtil.rayTrace(player, true, false).getType() == HitResult.Type.MISS) {
-            ItemStack itemStack = player.getItemInHand(usedHand);
-            if (isTesseractTargetMarker(itemStack)) {
-                clearAllPatternFaces(itemStack);
-                return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemStack);
+        if (player.isShiftKeyDown()) {
+            Vec3 playerPos = player.getEyePosition();
+            Vec3 lookVec = player.getLookAngle().normalize();
+            double range = player.getAttributeValue(ForgeMod.BLOCK_REACH.get());
+            Vec3 toPos = playerPos.add(lookVec.scale(range));
+
+            ClipContext clipCtx = new ClipContext(playerPos, toPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, null);
+            BlockHitResult bhr = level.clip(clipCtx);
+            if (bhr.getType() == HitResult.Type.MISS) {
+                ItemStack itemStack = player.getItemInHand(usedHand);
+                if (isTesseractTargetMarker(itemStack)) {
+                    clearAllPatternFaces(itemStack);
+                    return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemStack);
+                }
             }
         }
         return IInteractionItem.super.use(item, level, player, usedHand);

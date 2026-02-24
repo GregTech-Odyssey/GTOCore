@@ -8,9 +8,11 @@ import com.gtocore.common.data.machines.*;
 
 import com.gtolib.utils.RegistriesUtils;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
@@ -359,6 +361,23 @@ final class RocketAssembler {
                 .inputFluids(GTMaterials.Tritanium, 1152)
                 .EUt(520000)
                 .duration(2500)
+                .save();
+        ROCKET_ASSEMBLER_RECIPES.builder("planetary_gas_collector")
+                .inputItems("ad_astra_rocketed:tier_7_rocket")
+                .inputItems(CustomTags.UEV_CIRCUITS, 8)
+                .inputItems(TagPrefix.frameGt, GTOMaterials.NanoStrengthenedShapeMemoryAlloy, 8)
+                .inputItems(TagPrefix.frameGt, GTOMaterials.RadiationShieldingHighDensityTungstenSteel, 8)
+                .inputItems(TagPrefix.gear, GTOMaterials.OxideDispersionStrengthenedNickelBaseSuperalloy, 8)
+                .inputItems(TagPrefix.gear, GTOMaterials.TitaniumTC21, 8)
+                .inputItems(GTOItems.INTEGRATED_CONTROL_CORE_UEV, 4)
+                .inputItems(GTMachines.GAS_COLLECTOR[GTValues.UHV].asItem(), 4)
+                .inputItems(MultiBlockA.LARGE_GAS_COLLECTOR.asItem(), 4)
+                .outputItems("gtocore:planetary_gas_collector")
+                .inputFluids(GTOMaterials.StellarEnergyRocketFuel, 16000)
+                .inputFluids(RegistriesUtils.getFluid("gtocore:gelid_cryotheum"), 1296)
+                .inputFluids(GTMaterials.Naquadria, 576)
+                .EUt(4190000)
+                .duration(1800)
                 .save();
     }
 }

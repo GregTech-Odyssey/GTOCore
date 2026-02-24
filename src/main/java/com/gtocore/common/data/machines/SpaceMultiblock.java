@@ -608,7 +608,7 @@ public class SpaceMultiblock {
             .specialParallelizableTooltips()
             .tooltips(GTOMachineTooltips.INSTANCE.getSpaceDroneDockTooltips().getSupplier())
             .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(h -> h.addLines("0.1 + 6.384 / (1.632 + (消耗的电量(单位：GEU))) ^ 4", "0.1 + 6.384 / (1.632 + (Energy consumption in GEU)) ^ 4")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getRecipeExtensionTooltips().getSupplier())
+            .specialParallelizableTooltips()
             .tooltips(GTOMachineTooltips.INSTANCE.getFunctionSpaceStationModuleTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.SPACE_DEBRIS_COLLECTION_RECIPES)
             .block(GTOBlocks.SPACE_STATION_CONTROL_CASING)

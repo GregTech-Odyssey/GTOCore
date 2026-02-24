@@ -139,8 +139,8 @@ public abstract class PatternAccessTermMenuMixin extends AEBaseMenu implements I
     }
 
     /**
-     * @author
-     * @reason
+     * @author 。
+     * @reason 1。
      */
     @Overwrite(remap = false)
     private boolean isVisible(PatternContainer container) {
@@ -168,8 +168,8 @@ public abstract class PatternAccessTermMenuMixin extends AEBaseMenu implements I
     public static class ContainerTrackerMixin {
 
         /**
-         * @author
-         * @reason
+         * @author 。
+         * @reason 1。
          */
         @Overwrite(remap = false)
         private static boolean isDifferent(ItemStack a, ItemStack b) {
@@ -180,7 +180,11 @@ public abstract class PatternAccessTermMenuMixin extends AEBaseMenu implements I
                 if (at == null || bt == null) return true;
                 var oa = at.tags.get("out");
                 var ob = bt.tags.get("out");
-                if (oa instanceof ListTag la && la.get(0) instanceof CompoundTag ca && ca.tags.get("id") instanceof StringTag sa && ob instanceof ListTag lb && lb.get(0) instanceof CompoundTag cb && cb.tags.get("id") instanceof StringTag sb) {
+                if (oa instanceof ListTag la && la.getFirst() instanceof CompoundTag ca &&
+                        ca.tags.get("id") instanceof StringTag sa &&
+                        ob instanceof ListTag lb &&
+                        lb.getFirst() instanceof CompoundTag cb &&
+                        cb.tags.get("id") instanceof StringTag sb) {
                     return !sa.equals(sb);
                 }
                 return false;
