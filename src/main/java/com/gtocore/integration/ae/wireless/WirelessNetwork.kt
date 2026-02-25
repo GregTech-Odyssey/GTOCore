@@ -125,6 +125,7 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
                 }
             }
         }
+        nodeInfoTable.remove(node)
     }
 
     fun getAvailableInput(): WirelessMachine? {
