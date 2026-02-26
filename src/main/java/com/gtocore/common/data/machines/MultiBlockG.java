@@ -469,6 +469,7 @@ public final class MultiBlockG {
                     .tooltipsKey("gtocore.machine.processing_array.tooltip.1")
                     .specialParallelizableTooltips()
                     .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(ProcessingArrayMachine.getMachineLimit(tier)))
+                    .lossyOCTooltips()
                     .laserTooltips()
                     .block(() -> ProcessingArrayMachine.getCasingState(tier))
                     .blockProp(p -> p.noOcclusion().isViewBlocking((state, level, pos) -> false))

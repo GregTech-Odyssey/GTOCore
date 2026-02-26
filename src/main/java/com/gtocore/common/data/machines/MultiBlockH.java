@@ -610,9 +610,9 @@ public final class MultiBlockH {
     public static final MultiblockMachineDefinition GIANT_SINTERING_ARRAY = multiblock("giant_sintering_array", "巨型烧结阵列",
             CoilTieredCasingMultiblockMachine.createGlassTieredParallel(true, true))
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getGiantSinteringArrayTooltips().getSupplier())
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .coilParallelTooltips()
+            .tooltips(GTOMachineStories.INSTANCE.getGiantSinteringArrayTooltips().getSupplier())
+            .glassParallelTooltips()
             .laserTooltips()
             .recipeTypes(GTORecipeTypes.SINTERING_FURNACE_RECIPES)
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)

@@ -159,7 +159,7 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_grinder"))
             .register();
 
-    public static final MultiblockMachineDefinition MOLECULAR_TRANSFORMER = multiblock("molecular_transformer", "分子重组仪", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition MOLECULAR_TRANSFORMER = multiblock("molecular_transformer", "分子重组仪", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getMolecularTransformerTooltips().getSupplier())
             .parallelizableTooltips()

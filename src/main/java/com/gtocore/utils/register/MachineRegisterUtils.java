@@ -90,8 +90,8 @@ public final class MachineRegisterUtils {
 
     public static final BiConsumer<IMultiController, List<Component>> CHEMICAL_PLANT_DISPLAY = (controller, components) -> {
         double value = 1 - ((ICoilMachine) controller).getCoilTier() * 0.05;
-        components.add(Component.translatable("gtocore.machine.eut_multiplier.tooltip", FormattingUtil.formatNumbers(value * 0.8)));
-        components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(value * 0.6)));
+        components.add(Component.translatable("gtocore.machine.eut_multiplier.tooltip", FormattingUtil.formatNumbers(value)));
+        components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(value)));
     };
 
     public static GTOMachineBuilder machine(String name, String cn, Function<MetaMachineBlockEntity, MetaMachine> metaMachine) {
