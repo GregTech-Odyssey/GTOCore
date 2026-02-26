@@ -429,7 +429,10 @@ public final class GCYMMachines {
                     "当且仅当运行%s配方时：",
                     "Only when running %s recipes:",
                     styleBuilder -> styleBuilder.setPrefix(ComponentBuilder.create().addLines("- ", StyleBuilder::setGold).buildSingle()).setColor(0x915dcd)).create(Component.translatable("gtceu.alloy_blast_smelter")))
-            .coilParallelTooltips()
+            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_smelter"))
+            .tooltipsText("线圈温度每高出900K，并行数x2", "For every 900K increase in coil temperature, the parallel number doubles")
+            .tooltipsText("§7公式 : 2^(向下取整(温度 / 900))", "§7Formula: 2^(Round down(temperature / 900))")
+            .specialParallelizableTooltips()
             .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getAlloySmelterTooltips().getSupplier())
             .moduleTooltips(new PartAbility[0])
             .allRotation()

@@ -412,6 +412,19 @@ object GTOMachineTooltips {
         highlight("准备好，让你的贸易帝国腾飞吧！" translatedTo "Get ready to let your trade empire soar!") { rainbowSlow() }
     }
 
+    // 样板内容管理终端
+    val PatternContentAccessTerminalTooltips = ComponentListSupplier {
+        setTranslationPrefix("pattern_content_access_terminal")
+
+        miraculousTools("样板内容管理终端" translatedTo "Pattern Content Access Terminal")
+        command("动态替换样板内容" translatedTo "Dynamic Pattern Content Replacement")
+
+        section(ComponentSlang.MainFunction)
+        content("将此机器连接至 ME 网络后，样板在被调用时将遵循优先级配置，逐行进行内容匹配与替换。" translatedTo "When connected to an ME Network, patterns will follow a priority configuration for line-by-line content matching and replacement when accessed.")
+        content("每组配置中，替换的顺序为从右到左。" translatedTo "In each configuration group, the replacement order is from right to left.")
+        info("例如，按顺序填入“橡木木板，白桦木板，云杉木板”的配置，那么当有样板原料中用到白桦或云杉木板时，就会动态修改样板，使用橡木木板作为原料。" translatedTo "For example, if you fill in the configuration with 'Oak Planks, Birch Planks, Spruce Planks' in order, then when a pattern's ingredient uses Birch or Spruce Planks, the pattern will be dynamically modified to use Oak Planks as the ingredient.")
+    }
+
     // 魔力增幅仓
     val ManaAmplifierHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("mana_amplifier_hatch")
@@ -1072,8 +1085,9 @@ object GTOMachineTooltips {
         setTranslationPrefix("nano_forge")
 
         section(ComponentSlang.RunningRequirements)
-        command("需要放入对应的纳米蜂群" translatedTo "Requires corresponding nano swarm")
-        info("三种等级: 碳, 安普洛, 龙" translatedTo "Three tiers: Carbon, Amprosium, Draconium")
+        command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
+        info("碳：1，安普洛：2，龙：3" translatedTo "Carbon: 1, Amprosium: 2, Draconium: 3")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
     // 中子活化器
@@ -1154,8 +1168,9 @@ object GTOMachineTooltips {
         setTranslationPrefix("pcb_factory")
 
         section(ComponentSlang.RunningRequirements)
-        command("使用纳米蜂群引导结构等级" translatedTo "Use nanites to guide structure level")
+        command("往主机内放入纳米蜂群引导结构等级" translatedTo "Place nanites in the controller to guide structure tier")
         info("金：1，山铜：2，末影素：3" translatedTo "Gold: 1, Orichalcum: 2, Enderium: 3")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
     // 进阶装配线
@@ -1584,7 +1599,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("large_steam_circuit_assembler")
 
         section(ComponentSlang.RunningRequirements)
-        command("只能执行电路配方" translatedTo "Can only execute circuit recipes")
+        command("只能执行GT电路配方" translatedTo "Can only execute GT circuit recipes")
         important("蚀刻电路后机器才能工作，并且只能加工此电路" translatedTo "The machine requires engraving a circuit to operate and only processes that specific circuit")
 
         section("配方等级" translatedTo "Recipe Tier")
@@ -1695,6 +1710,16 @@ object GTOMachineTooltips {
         setTranslationPrefix("industrial_flotation_cell")
 
         highlight("工业级浮游选矿池" translatedTo "Industrial Flotation Mining Pool")
+    }
+
+    // 复合式极端冷却装置
+    val CompoundExtremeCoolingUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("compound_extreme_cooling_unit")
+
+        section(ComponentSlang.RunningRequirements)
+        command("在主机内更改机器模式以引导不同的结构" translatedTo "Change recipe type in the controller to guide different structures")
+        info("真空冷冻机/物化冷凝：P:0，等离子冷凝：P:1" translatedTo "Vacuum Freezer/Atomization Condensation: P:0, Plasma Condenser: P:1")
+        info("引导后可使用终端搭建指定结构" translatedTo "After guiding, you can use the terminal to build the specified structure")
     }
 
     // 恒星炎炀锻炉
