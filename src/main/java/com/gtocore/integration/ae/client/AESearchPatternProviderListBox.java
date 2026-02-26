@@ -146,8 +146,8 @@ public class AESearchPatternProviderListBox extends AEListBox {
         public void drawForegroundLayer(GuiGraphics guiGraphics, Rect2i bounds, Point mouse) {
             if (visible) {
                 var font = Minecraft.getInstance().font;
-                var alpha = getBounds().contains(mouse.getX(), mouse.getY()) ? 0xff : 0xcc;
-                guiGraphics.fill(bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), 0x7777aa | (alpha << 24));
+                var color = getBounds().contains(mouse.getX(), mouse.getY()) ? 0xd7ddddff : 0xcc7777aa;
+                guiGraphics.fill(bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight(), color);
                 if (icon != null) {
                     AEKeyRendering.drawInGui(Minecraft.getInstance(), guiGraphics, bounds.getX() + 1, bounds.getY() + 1, icon);
                 }
