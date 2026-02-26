@@ -57,8 +57,10 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void clientTick(TickEvent.ClientTickEvent event) {
-        DirectedTesseractMachine.HIGHLIGHTS.elementSet().forEach(DirectedTesseractMachine.HIGHLIGHTS::remove);
-        AdvancedTesseractMachine.HIGHLIGHTS.elementSet().forEach(AdvancedTesseractMachine.HIGHLIGHTS::remove);
+        if (event.phase == TickEvent.Phase.START) {
+            List.copyOf(DirectedTesseractMachine.HIGHLIGHTS.elementSet()).forEach(DirectedTesseractMachine.HIGHLIGHTS::remove);
+            List.copyOf(AdvancedTesseractMachine.HIGHLIGHTS.elementSet()).forEach(AdvancedTesseractMachine.HIGHLIGHTS::remove);
+        }
     }
 
     public static void onRenderDirected(RenderLevelStageEvent event, List<TesseractDirectedTarget> faces) {

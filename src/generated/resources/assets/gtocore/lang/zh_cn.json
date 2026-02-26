@@ -4468,6 +4468,8 @@
   "gtocore.lang.primitive_distillation_tower.10.1776641285": "更高的温度和更长的连续运行时间能显著加快配方速度",
   "gtocore.lang.primitive_distillation_tower.11.1973148280": "每个流体产物都需要一个对应高度的流体输出仓",
   "gtocore.lang.primitive_distillation_tower.12.737969604": "只能处理MV及以下的配方",
+  "gtocore.lang.primitive_distillation_tower.14.302508216": "安装模块后，机器所使用的冷却用水将只会由模块提供",
+  "gtocore.lang.primitive_distillation_tower.15.-316103001": "机器本体所提供的水将不再参与冷却过程，而是被用于配方的输入",
   "gtocore.lang.primitive_distillation_tower.2.-1700430398": "运行配方会消耗热量，有助于稳定温度",
   "gtocore.lang.primitive_distillation_tower.3.-211227791": "无燃料时，热量会缓慢散失至298K",
   "gtocore.lang.primitive_distillation_tower.4.-264963460": "使用燃料来升温：煤块产热慢但持久；煤/煤粉产热快但消耗快",
