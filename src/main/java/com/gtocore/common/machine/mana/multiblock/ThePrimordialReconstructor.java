@@ -67,7 +67,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      * 13 强行增加镶孔
      * 14 强行镶嵌宝石
      */
-    private static int circuit = 0;
+    private int circuit = 0;
 
     @Override
     public void customText(@NotNull List<Component> textList) {
@@ -149,7 +149,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
      * @param inputsItems  输入列表
      * @param outputsItems 输出列表
      */
-    private static boolean disassembleEquipment(CompoundTag nbt, List<ItemStack> inputsItems, List<ItemStack> outputsItems) {
+    private boolean disassembleEquipment(CompoundTag nbt, List<ItemStack> inputsItems, List<ItemStack> outputsItems) {
         boolean find = false;
 
         // 提取附魔
