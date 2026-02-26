@@ -225,8 +225,22 @@ class WirelessNetwork(val id: String, val owner: UUID, var nickname: String = id
         return validOutputs - assignments.size
     }
 
-    val clientInputCount: Int by lazy { nodeInfoTable.values.count { it.nodeType == WirelessMachine.NodeType.SOURCE } }
-    val clientOutputCount: Int by lazy { nodeInfoTable.values.count { it.nodeType == WirelessMachine.NodeType.CHILD } }
+    var clientInputCount = 0
+    var clientOutputCount = 0
+
+    fun clientPutNode(nodeInfo: NodeInfo) {
+        when (nodeInfo.nodeType) {
+            WirelessMachine.NodeType.SOURCE -> clientInputCount++
+            WirelessMachine.NodeType.CHILD -> clientOutputCount++
+        }
+        nodeInfoTable[WirelessMachine.EMPTY_BINDABLE] = nodeInfo
+    }
+
+    fun clearNodeInfo() {
+        clientInputCount = 0
+        clientOutputCount = 0
+        nodeInfoTable.clear()
+    }
 
     fun getInputCount(): Int = if (LDLib.isRemote()) clientInputCount else (inputNodes.size)
     fun getOutputCount(): Int = if (LDLib.isRemote()) clientOutputCount else (outputNodes.size)

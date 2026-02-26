@@ -1,9 +1,12 @@
 package com.gtocore.client;
 
+import com.gtocore.common.forge.ServerLangHook;
 import com.gtocore.integration.ae.hooks.ICraftAmountMenu;
 import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 
 import com.gtolib.api.network.NetworkPack;
+import com.gtolib.data.CommonSavaedData;
+import com.gtolib.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
@@ -89,6 +92,12 @@ public final class Message {
             }
         }, player);
     }
+
+    public static final NetworkPack serverLangSync = NetworkPack.registerC2S("serverLangSyncC2S", (p, b) -> {
+        if (!CommonSavaedData.INSTANCE.isServerLangInitialized()) {
+            ServerLangHook.set(ServerUtils.getServer(), b.readUtf());
+        }
+    });
 
     public static class Client {
 

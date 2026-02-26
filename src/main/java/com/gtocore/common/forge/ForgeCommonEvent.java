@@ -311,7 +311,6 @@ public final class ForgeCommonEvent {
                 Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
             }
             WirelessNetworkSavedData.write(player);
-            // Removed server-side language-gated announcement; it will now be handled client-side in ClientHooks
         }
     }
 
@@ -378,10 +377,7 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void serverStarting(ServerStartingEvent event) {
-        DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-            if (Objects.equals(GTOConfig.INSTANCE.misc.serverLang, "en_us")) return;
-            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.misc.serverLang, event.getServer());
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> ServerLangHook.reload(event.getServer()));
     }
 
     @SubscribeEvent

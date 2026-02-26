@@ -71,7 +71,7 @@ class WirelessNetworkSavedData : SavedData() {
                 val nodeInfoSize = buf.readInt()
                 val network = CLIENT_INSTANCE.networkPool[networkName]
                 for (j in 0 until nodeInfoSize) {
-                    network?.nodeInfoTable?.put(WirelessMachine.EMPTY_BINDABLE, NodeInfo.decodeFromNbt(buf.readNbt() ?: CompoundTag()))
+                    network?.clientPutNode(NodeInfo.decodeFromNbt(buf.readNbt() ?: CompoundTag()))
                 }
             }
         }
@@ -472,7 +472,7 @@ class WirelessNetworkSavedData : SavedData() {
             defaultMap[nbt.getUUID("key")] = nbt.getString("value")
         }
         // Clear runtime connection tables on load (will rebuild when nodes load)
-        networkPool.values.forEach { it.nodeInfoTable.clear() }
+        networkPool.values.forEach { it.clearNodeInfo() }
         if (GTOConfig.INSTANCE.devMode.aeLog) {
             println("${GTCEu.isClientSide()} Loaded WirelessNetworkSavedData with ${networkPool.size} networks")
         }

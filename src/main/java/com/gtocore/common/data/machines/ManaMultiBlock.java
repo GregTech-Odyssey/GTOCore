@@ -493,7 +493,7 @@ public final class ManaMultiBlock {
 
     public static final MultiblockMachineDefinition RESONANCE_FLOWER = multiblock("resonance_flower", "共鸣之花", ResonanceFlowerMachine::new)
             .tooltips(GTOMachineTooltips.INSTANCE.getResonanceFlowerTooltips().getSupplier())
-            .parallelizableTooltips()
+            .specialParallelizableTooltips()
             .parallelizableManaOverclock()
             .recipeTypes(GTORecipeTypes.ELEMENTAL_RESONANCE)
             .block(GTOBlocks.THE_ORIGIN_CASING)

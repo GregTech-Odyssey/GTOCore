@@ -1,9 +1,11 @@
 package com.gtocore.common.forge
 
+import com.gtocore.client.Message
 import com.gtocore.client.screen.MessageScreen
 
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
+import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraftforge.api.distmarker.Dist
@@ -318,5 +320,8 @@ object ClientForge {
                 // 延迟显示 GUI，确保客户端完全加载
                 TaskHandler.enqueueTask(event.player.clientLevel, { showMessageScreen(msg, 1, total) }, 40)
             }
+        Message.serverLangSync.send({ buf: FriendlyByteBuf ->
+            buf.writeUtf(langCode)
+        })
     }
 }

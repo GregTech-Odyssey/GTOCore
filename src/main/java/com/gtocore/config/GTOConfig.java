@@ -168,6 +168,13 @@ public final class GTOConfig {
     }
 
     public static <T> void set(String fieldName, T value) {
+        if (fieldName.contains(".")) {
+            String[] split = fieldName.split("\\.");
+            String[] objectPath = new String[split.length - 1];
+            System.arraycopy(split, 0, objectPath, 0, split.length - 1);
+            set(split[split.length - 1], value, objectPath);
+            return;
+        }
         getConfig(GTOCore.MOD_ID).ifPresent(config -> {
             ((ConfigValue<T>) (config.getValueMap().get(fieldName))).setValue(value);
             ConfigIO.saveClientValues(config);

@@ -29,7 +29,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -613,9 +612,8 @@ public final class MultiBlockH {
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getGiantSinteringArrayTooltips().getSupplier())
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .parallelizableTooltips()
+            .coilParallelTooltips()
             .laserTooltips()
-            .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.log(900) / Math.log(((ICoilMachine) machine).getTemperature())), RecipeModifierFunction.OVERCLOCKING)
             .recipeTypes(GTORecipeTypes.SINTERING_FURNACE_RECIPES)
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)

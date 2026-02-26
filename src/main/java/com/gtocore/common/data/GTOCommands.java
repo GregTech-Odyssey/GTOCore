@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.common.forge.ServerLangHook;
 import com.gtocore.common.saved.DysonSphereSavaedData;
 
 import com.gtolib.GTOCore;
@@ -92,7 +93,14 @@ public final class GTOCommands {
                                 giveCell(player);
                             }
                             return 1;
-                        })));
+                        }))
+                .then(Commands.literal("serverLang").requires(ctx -> ctx.hasPermission(2))
+                        .then(Commands.argument("lang_code", StringArgumentType.word()).executes(ctx -> {
+                            String lang = StringArgumentType.getString(ctx, "lang_code");
+                            ctx.getSource().sendSuccess(() -> Component.literal("Reloaded server language: " + lang), false);
+                            ServerLangHook.set(ctx.getSource().getServer(), lang);
+                            return 1;
+                        }))));
     }
 
     private static void giveCell(ServerPlayer player) {
