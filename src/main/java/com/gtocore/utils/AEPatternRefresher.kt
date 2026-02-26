@@ -4,6 +4,7 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachineKt
 
 import appeng.api.networking.IGrid
 import appeng.blockentity.crafting.PatternProviderBlockEntity
+import com.glodblock.github.extendedae.common.tileentities.TileExPatternProvider
 import com.gtolib.api.ae2.IExpandedGrid
 import kotlinx.coroutines.*
 
@@ -11,8 +12,8 @@ import java.lang.Runnable
 
 object AEPatternRefresher {
 
-    private const val TASK_CHUNK_SIZE = 10
-    private const val DELAY_BETWEEN_CHUNKS_MS = 100L
+    private const val TASK_CHUNK_SIZE = 15
+    private const val DELAY_BETWEEN_CHUNKS_MS = 50L
 
     /**
      * 触发异步刷新。此方法会自动处理协程的启动和线程调度。
@@ -30,6 +31,16 @@ object AEPatternRefresher {
 
         // 收集标准样板提供者
         grid.getActiveMachines(PatternProviderBlockEntity::class.java).forEach { machine ->
+            refreshTasks.add(
+                Runnable {
+                    if (!machine.isRemoved) { // 执行前检查机器是否还存在
+                        machine.logic.updatePatterns()
+                    }
+                },
+            )
+        }
+
+        grid.getActiveMachines(TileExPatternProvider::class.java).forEach { machine ->
             refreshTasks.add(
                 Runnable {
                     if (!machine.isRemoved) { // 执行前检查机器是否还存在
