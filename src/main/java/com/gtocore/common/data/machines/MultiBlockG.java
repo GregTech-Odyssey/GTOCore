@@ -631,7 +631,6 @@ public final class MultiBlockG {
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getSuperMolecularAssemblerTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("合成物品的数量", "Amount of items to be crafted")))
-            .multipleRecipesTooltips()
             .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .where('A', GTOPredicates.frame(GTOMaterials.HastelloyN))

@@ -10,6 +10,9 @@ import com.gtocore.common.machine.multiblock.electric.gcym.*;
 import com.gtocore.utils.register.MachineRegisterUtils;
 
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.annotation.component_builder.ComponentBuilder;
+import com.gtolib.api.annotation.component_builder.ComponentTemplate;
+import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.machine.impl.part.ParallelHatchPartMachine;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
@@ -421,6 +424,11 @@ public final class GCYMMachines {
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
+            .tooltipsSupplier(new ComponentTemplate(
+                    "alloy_blast_smelter",
+                    "当且仅当运行%s配方时：",
+                    "Only when running %s recipes:",
+                    styleBuilder -> styleBuilder.setPrefix(ComponentBuilder.create().addLines("- ", StyleBuilder::setGold).buildSingle()).setColor(0x915dcd)).create(Component.translatable("gtceu.alloy_blast_smelter")))
             .coilParallelTooltips()
             .tooltipsSupplier(GTOMachineTooltipsA.INSTANCE.getAlloySmelterTooltips().getSupplier())
             .moduleTooltips(new PartAbility[0])

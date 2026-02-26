@@ -5,7 +5,6 @@ import com.gtocore.integration.ae.hooks.ICraftAmountMenu;
 import com.gtocore.integration.ae.hooks.IExtendedPatternEncodingTerm;
 
 import com.gtolib.api.network.NetworkPack;
-import com.gtolib.data.CommonSavaedData;
 import com.gtolib.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -94,7 +93,7 @@ public final class Message {
     }
 
     public static final NetworkPack serverLangSync = NetworkPack.registerC2S("serverLangSyncC2S", (p, b) -> {
-        if (!CommonSavaedData.INSTANCE.isServerLangInitialized()) {
+        if (!ServerUtils.isServerLangInitialized()) {
             ServerLangHook.set(ServerUtils.getServer(), b.readUtf());
         }
     });

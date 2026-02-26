@@ -887,6 +887,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("通过合成样板仓放入合成样板" translatedTo "Insert crafting patterns via craft pattern hatches")
+        command("每次运行同时处理所有的配方以及所有的输入物品" translatedTo "Processes all recipes and all input items at once each operation")
         info("每个物品合成消耗1EU" translatedTo "Each item crafted consumes 1 EU")
     }
 

@@ -3,8 +3,8 @@ package com.gtocore.common.forge;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
-import com.gtolib.data.CommonSavaedData;
 import com.gtolib.utils.GTOUtils;
+import com.gtolib.utils.ServerUtils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -82,7 +82,7 @@ public class ServerLangHook {
             server.execute(() -> {
                 langs = loadingLangs;
                 loadingLangs = null;
-                CommonSavaedData.INSTANCE.markServerLangInitialized();
+                ServerUtils.markServerLangInitialized();
             });
         });
     }
