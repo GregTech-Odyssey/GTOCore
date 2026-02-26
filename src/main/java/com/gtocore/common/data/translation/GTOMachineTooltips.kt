@@ -1393,6 +1393,10 @@ object GTOMachineTooltips {
         info("更高的温度和更长的连续运行时间能显著加快配方速度" translatedTo "Higher temperatures and longer continuous operation significantly speed up recipes")
         important("每个流体产物都需要一个对应高度的流体输出仓" translatedTo "Each fluid product requires a Fluid Hatch at a corresponding Y-level")
         important("只能处理MV及以下的配方" translatedTo "Can only process recipes of MV tier or lower")
+
+        section(ComponentSlang.AfterModuleInstallation)
+        info("安装模块后，机器所使用的冷却用水将只会由模块提供" translatedTo "After installing modules, the machine will only use water provided by the modules for cooling")
+        info("机器本体所提供的水将不再参与冷却过程，而是被用于配方的输入" translatedTo "Water provided by the machine itself will no longer be used for cooling, but will instead be used as input for recipes")
     }
 
     // 化学气相沉积系统

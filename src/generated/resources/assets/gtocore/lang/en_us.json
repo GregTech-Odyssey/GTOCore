@@ -4468,6 +4468,8 @@
   "gtocore.lang.primitive_distillation_tower.10.1776641285": "Higher temperatures and longer continuous operation significantly speed up recipes",
   "gtocore.lang.primitive_distillation_tower.11.1973148280": "Each fluid product requires a Fluid Hatch at a corresponding Y-level",
   "gtocore.lang.primitive_distillation_tower.12.737969604": "Can only process recipes of MV tier or lower",
+  "gtocore.lang.primitive_distillation_tower.14.302508216": "After installing modules, the machine will only use water provided by the modules for cooling",
+  "gtocore.lang.primitive_distillation_tower.15.-316103001": "Water provided by the machine itself will no longer be used for cooling, but will instead be used as input for recipes",
   "gtocore.lang.primitive_distillation_tower.2.-1700430398": "Processing recipes consumes heat, helping to stabilize temperature",
   "gtocore.lang.primitive_distillation_tower.3.-211227791": "Without fuel, it will slowly cool down to 298K (room temperature)",
   "gtocore.lang.primitive_distillation_tower.4.-264963460": "Use fuel to increase heat: Coal Blocks provide slow, long-lasting heat; Coal/Dust provides fast, short-lived heat",
