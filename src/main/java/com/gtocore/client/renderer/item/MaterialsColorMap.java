@@ -43,6 +43,14 @@ public final class MaterialsColorMap {
             float spot = (System.currentTimeMillis() % 4000) / 4000.0F;
             return ColorUtils.getInterpolatedColor(0xEC7916, 0x00FF15, (spot > 0.1 && spot < 0.15 || spot > 0.18 && spot < 0.22) ? 1 : 0);
         });
+        MaterialBuilder.put(GTOMaterials.PhotonicKristallite, () -> {
+            var alpha = (float) (Math.sin(System.currentTimeMillis() / 10f) * 128 + 128);
+            return ColorUtils.createARGBColor(0xfcfcfd, (int) alpha);
+        });
+        MaterialBuilder.put(GTOMaterials.Astrium, () -> com.lowdragmc.lowdraglib.utils.ColorUtils.blendColor(
+                0xe1ee595a,
+                0xe131bad5,
+                (float) (Math.sin(System.currentTimeMillis() * 0.005) * 0.3F + 0.5F)));
         MaterialBuilder.put(GTOMaterials.HeavyQuarkDegenerateMatter, quantumColor);
         MaterialBuilder.put(GTOMaterials.QuantumChromoDynamicallyConfinedMatter, quantumColor);
         MaterialColors = MaterialBuilder.build();

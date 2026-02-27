@@ -378,5 +378,26 @@ final class BiochemicaReaction {
                 .EUt(1920)
                 .duration(200)
                 .save();
+
+        BIOCHEMICAL_REACTION_RECIPES.builder("hyperthermophilic_archaeon_dish")
+                .inputItems(GTOItems.PREPARATION_PETRI_DISH)
+                .inputItems("ad_astra:mercury_stone")
+                .outputItems(GTOItems.HYPERTHERMOPHILIC_ARCHAEON_DISH)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium, 1000)
+                .inputFluids(GTOMaterials.CosmicDustDispersant, 1000)
+                .inputFluids(GTOMaterials.Sanguinite, 1000)
+                .EUt(510000)
+                .duration(1280)
+                .save();
+        BIOCHEMICAL_REACTION_RECIPES.builder("hyperthermophilic_archaeon_dust")
+                .inputItems(GTOItems.HYPERTHERMOPHILIC_ARCHAEON_DISH)
+                .outputItems(TagPrefix.dust, GTOMaterials.HyperthermophilicArchaeon)
+                .outputItems(GTOItems.CONTAMINATED_PETRI_DISH)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium, 4000)
+                .inputFluids(GTOMaterials.CosmicDustDispersant, 1000)
+                .inputFluids(GTOMaterials.Sanguinite, 1000)
+                .EUt(510000)
+                .duration(1280)
+                .save();
     }
 }

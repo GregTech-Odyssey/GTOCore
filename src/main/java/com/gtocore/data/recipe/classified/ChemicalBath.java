@@ -246,5 +246,14 @@ final class ChemicalBath {
                 .EUt(2040)
                 .duration(150)
                 .save();
+        CHEMICAL_BATH_RECIPES.builder("xenotime_copper_i_kpba_nanotubes_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.PrussianBlueCopperINanotubes, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.XenotimeCopperIKPBANanotubes, 2)
+                .inputFluids(GTOMaterials.CosmicDustDispersant, 3000)
+                .inputFluids(GTMaterials.Neutronium, 288)
+                .EUt(152000)
+                .duration(2400)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
     }
 }

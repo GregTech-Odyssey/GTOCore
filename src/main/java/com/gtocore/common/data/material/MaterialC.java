@@ -322,6 +322,13 @@ public final class MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        HyperthermophilicArchaeon = material("hyperthermophilic_archaeon", "超嗜热古菌")
+                .dust()
+                .color(0xef281f)
+                .secondaryColor(0x2d3c2e)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         Yeast = material("yeast", "酵母")
                 .dust()
                 .color(0xAE9C00)

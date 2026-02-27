@@ -779,5 +779,15 @@ final class Mixer {
                 .EUt(480)
                 .duration(6500)
                 .save();
+
+        MIXER_RECIPES.builder("phototuning_agent")
+                .inputItems(TagPrefix.dust, GTOMaterials.PhotonicKristallite, 8)
+                .inputFluids(Sunnarium, 576)
+                .inputFluids(GTOMaterials.TranscendingMatter, 2000)
+                .outputFluids(GTOMaterials.PhototuningAgent, 1000)
+                .circuitMeta(3)
+                .EUt(16777214)
+                .duration(1180)
+                .save();
     }
 }

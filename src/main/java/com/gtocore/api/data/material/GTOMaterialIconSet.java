@@ -3,6 +3,7 @@ package com.gtocore.api.data.material;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.client.renderer.item.SpinTransformRenderer;
 import com.gtocore.client.renderer.item.StereoscopicItemRenderer;
+import com.gtocore.client.renderer.item.TranslucentRenderer;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
@@ -39,6 +40,8 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
     public static final GTOMaterialIconSet PARTICLE_EMITTER = new GTOMaterialIconSet("particle_emitter", null, true, HaloItemRenderer.RADIOACTIVE);
     public static final MaterialIconSet LIMPID = new MaterialIconSet("limpid", DULL);
     public static final GTOMaterialIconSet INFINITY_CHAOS = new GTOMaterialIconSet("supracausal", METALLIC, false, SpinTransformRenderer.INSTANCE);
+    public static final GTOMaterialIconSet TRANSLUCENT = new GTOMaterialIconSet("translucent", SHINY, false, TranslucentRenderer.INSTANCE);
+    public static final GTOMaterialIconSet ASTRAL = new GTOMaterialIconSet("cosmic_translucent", BRIGHT, false, HaloItemRenderer.ASTRIUM);
 
     // public static final GTOMaterialIconSet TEST_RENDERER = new GTOMaterialIconSet("test_renderer", METALLIC, false,
     // VibrationItemRenderer.INSTANCE);

@@ -967,6 +967,23 @@ public final class GTOMaterials {
     public static Material StellarMatterRemnantDust;
     public static Material MetalCompoundParticles;
 
+    public static Material Cruptix;
+    public static Material Uelibrium;
+    public static Material Astrium;
+    public static Material IceCrystalVolatiles;
+    public static Material IrradiatedIceCrystalVolatiles;
+    public static Material CosmicDustDispersant;
+    public static Material PhotonicKristallite;
+    public static Material PrussianBlueCopperINanotubes;
+    public static Material BisCyclopentadienylHafniumOxide;
+    public static Material PolyVinylBpyRheniumCarbonylHexafluorophosphate;
+    public static Material Vinyl2Bipyridine;
+    public static Material RheniumPentacarbonylChloride;
+    public static Material Bipyridine;
+    public static Material XenotimeCopperIKPBANanotubes;
+    public static Material PhototuningAgent;
+    public static Material HyperthermophilicArchaeon;
+
     public static Material SamariumRefinedPowder;
     public static Material SamariumRrareEearthTurbidLiquid;
     public static Material MonaziteRareEarthTurbidLiquid;

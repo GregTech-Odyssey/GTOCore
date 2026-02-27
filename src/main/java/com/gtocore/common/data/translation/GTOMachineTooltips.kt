@@ -2028,7 +2028,7 @@ object GTOMachineTooltips {
         section("运行机制" translatedTo "Operating Mechanism")
         command("最高支持2048并行，无法通过其他方式加速" translatedTo "Supports up to 2048 parallel, cannot be accelerated by other means")
         command("配方需满足最低中子通量" translatedTo "Recipe requires minimum neutron flux")
-        content("中子通量可通过输入中子源或配方运行时增加" translatedTo "Neutron flux can be increased by inputting neutron sources or during recipe operation")
+        content("中子通量可通过输入粒子源或配方运行时增加" translatedTo "Neutron flux can be increased by inputting neutron sources or during recipe operation")
         command("中子通量越高，堆升温速率越大" translatedTo "The higher the neutron flux, the faster the pile heats up")
         info("输入石墨粉可吸收中子通量" translatedTo "Inputting Graphite Dust can absorb neutron flux")
         info("输入冷却剂可降低温度" translatedTo "Inputting coolant can lower the temperature")
@@ -2040,7 +2040,7 @@ object GTOMachineTooltips {
         info("实际并行越大，运行时间越短，公式：T = t * (0.9 - (当前中子通量 - 需要的中子通量) / 10MeV)^0.5" translatedTo "The larger the actual parallelism, the shorter the running time, formula: T = t * (0.9 - (current neutron flux - required neutron flux) / 10MeV)^0.5")
 
         section("数值机制" translatedTo "Numerical Mechanism")
-        function("消耗中子源提供初始通量：锑-铍10keV，钚-铍100keV，锎-252 1MeV" translatedTo "Consume neutron sources to provide initial flux: Sb-Be 10keV, Pu-Be 100keV, Cf-252 1MeV")
+        function("消耗粒子源提供初始通量：锑-铍10keV，钚-铍100keV，锎-252 1MeV" translatedTo "Consume neutron sources to provide initial flux: Sb-Be 10keV, Pu-Be 100keV, Cf-252 1MeV")
         function("中子通量每秒减少10keV" translatedTo "Neutron flux decreases by 10keV per second")
         function("小撮/小堆/石墨粉分别降低0.1/0.25/1MeV" translatedTo "Small Pile/Big Pile/Graphite Dust reduce by 0.1/0.25/1MeV respectively")
         function("中子通量为E(keV)时，在主机内放入N个铱中子反射板后，中子通量每秒增加 (EN)^0.5 keV" translatedTo "When neutron flux is E (keV), after placing N Iridium Neutron Reflectors in the mainframe, neutron flux increases by (EN)^0.5 keV per second")
