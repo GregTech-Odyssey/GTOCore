@@ -1130,11 +1130,16 @@ object GTOMachineTooltips {
 
         section("电动刷怪塔，自动杀怪" translatedTo "Electric Spawner, automatically kills mobs")
         increase("电压等级每高出LV1级，每次处理次数x3" translatedTo "Voltage tier above LV1 increases the number of processes x3")
-        info("玻璃等级限制了电压等级" translatedTo "Glass tier limits voltage tier")
+        increase("高等级的电压同时可以提供更高的幸运加成" translatedTo "Higher voltage tiers can also provide higher luck bonus")
+        info("幸运加成值：电压等级*0.5" translatedTo "Luck bonus value: Voltage tier * 0.5")
+        important("机器使用的玻璃等级将会限制电压等级" translatedTo "Glass tier used by the machine will limit the voltage tier")
         command("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物" translatedTo "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
         content("如果在机器GUI内放置了§b刷怪蛋/收容罐§r则只会刷出§b刷怪蛋/收容罐对应生物§r的内容" translatedTo "If a §bspawn egg/mob jar§r is placed in the machine GUI, only §bthe corresponding mob§r will be spawned")
         content("如果在机器GUI内放置了§b神化Boss召唤器（物品）§r，则只会刷出§b所在维度对应的神化Boss§r" translatedTo "If a §bApotheosis Boss Summoner (item)§r is placed in the machine GUI, only §bthe corresponding Apotheosis Boss in that dimension§r will be spawned")
-        content("只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside")
+        important("无法刷出boss级生物，如末影龙和凋零" translatedTo "Boss-level mobs, such as the Ender Dragon and Wither, cannot be spawned")
+        content("当输入多把剑时，只会使用检测到的第一把武器去尝试击杀其中的生物" translatedTo "Will only use the first weapon detected to try to kill the creature inside when multiple swords are input")
+        content("其余的剑可以用来提供额外的伤害加成" translatedTo "The rest of the swords can be used to provide additional damage bonus")
+        info("每把剑提供其基础伤害点数作为伤害加成" translatedTo "Each sword provides its base damage points as damage bonus")
         info("安装输出仓后输出经验" translatedTo "Outputs XP after installing output hatch")
     }
 

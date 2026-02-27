@@ -268,6 +268,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine implem
                     .withParameter(LootContextParams.BLOCK_STATE, getBlockState())
                     .withParameter(LootContextParams.BLOCK_ENTITY, holder)
                     .withParameter(LootContextParams.TOOL, activeWeapon)
+                    .withLuck(player.getLuck() + tier * 0.5F)
                     .withParameter(LootContextParams.EXPLOSION_RADIUS, 0F);
 
             for (int i = 0; i <= tierMultiplier; i++) {
