@@ -651,6 +651,7 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
+            .lossyOCTooltips()
             .parallelizableTooltips()
             .laserTooltips()
             .block(GTBlocks.CASING_STEEL_SOLID)
