@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.multiblock.noenergy;
 
-import com.gtocore.common.data.GTOMaterials;
-
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
@@ -32,12 +30,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class HarmonyMachine extends NoEnergyMultiblockMachine implements IExtendWirelessEnergyContainerHolder {
 
     private static final BigInteger BASE = BigInteger.valueOf(5277655810867200L);
-    private static final long FLUID_BASE = 1024000000L;
 
     private static final Fluid HYDROGEN = GTMaterials.Hydrogen.getFluid();
     private static final Fluid HELIUM = GTMaterials.Helium.getFluid();
-    private static final Fluid COSMIC_ELEMENT = GTOMaterials.CosmicElement.getFluid();
-    private final ConditionalSubscriptionHandler tickSubs;
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     @Persisted
     private int tier = 1;
@@ -49,8 +44,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     private long hydrogen;
     @Persisted
     private long helium;
-    @Persisted
-    private long cosmicElement;
+    private final ConditionalSubscriptionHandler tickSubs;
 
     public HarmonyMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -59,17 +53,12 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     private void update() {
         oc = 0;
-        long[] a = getFluidAmount(HYDROGEN, HELIUM, COSMIC_ELEMENT);
+        long[] a = getFluidAmount(HYDROGEN, HELIUM);
         if (inputFluid(HYDROGEN, a[0])) {
             hydrogen += a[0];
         }
         if (inputFluid(HELIUM, a[1])) {
             helium += a[1];
-        }
-        var requiredCosmic = FLUID_BASE / 1000 - cosmicElement;
-        var providedCosmic = Math.min(requiredCosmic, a[2]);
-        if (requiredCosmic > 0 && inputFluid(COSMIC_ELEMENT, providedCosmic)) {
-            cosmicElement += providedCosmic;
         }
         if (notConsumableCircuit(4)) {
             oc = 4;
@@ -97,17 +86,15 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     @Nullable
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
-        if (getUUID() != null && tier >= recipe.data.getInt("tier") &&
-                hydrogen >= FLUID_BASE && helium >= FLUID_BASE && cosmicElement >= FLUID_BASE / 1000 && oc > 0) {
-            hydrogen -= FLUID_BASE;
-            helium -= FLUID_BASE;
-            cosmicElement -= FLUID_BASE / 1000;
+        if (getUUID() != null && tier <= recipe.data.getInt("tier") && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
+            hydrogen -= 1024000000;
+            helium -= 1024000000;
             var container = getWirelessEnergyContainer();
             if (container == null) return null;
             BigInteger storage = container.getStorage();
             BigInteger energy = getStartupEnergy().multiply(BigInteger.valueOf(Math.max(1, (recipe.data.getInt("tier") - 1) << 2)));
             if (storage.compareTo(energy) > 0) {
-                container.unrestrictedRemoveEnergy(energy);
+                container.setStorage(storage.subtract(energy));
                 if (tier == recipe.data.getInt("tier")) {
                     count++;
                     if (count > 16 + (tier << 2)) {
@@ -131,13 +118,11 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
         if (getUUID() != null) {
             var container = getWirelessEnergyContainer();
             textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.0", TeamUtil.GetName(getLevel(), getUUID())));
-            if (container != null)
-                textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1", FormattingUtil.formatNumbers(container.getStorage())));
+            if (container != null) textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1", FormattingUtil.formatNumbers(container.getStorage())));
         }
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.eu", FormattingUtil.formatNumbers(getStartupEnergy())));
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.hydrogen", FormattingUtil.formatNumbers(hydrogen)));
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.helium", FormattingUtil.formatNumbers(helium)));
-        textList.add(Component.translatable("gtocore.machine.eye_of_harmony.cosmicElement", FormattingUtil.formatNumbers(cosmicElement)));
     }
 
     @Override
@@ -147,12 +132,12 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     }
 
     @Override
-    public WirelessEnergyContainer getWirelessEnergyContainerCache() {
-        return this.WirelessEnergyContainerCache;
+    public void setWirelessEnergyContainerCache(final WirelessEnergyContainer WirelessEnergyContainerCache) {
+        this.WirelessEnergyContainerCache = WirelessEnergyContainerCache;
     }
 
     @Override
-    public void setWirelessEnergyContainerCache(final WirelessEnergyContainer WirelessEnergyContainerCache) {
-        this.WirelessEnergyContainerCache = WirelessEnergyContainerCache;
+    public WirelessEnergyContainer getWirelessEnergyContainerCache() {
+        return this.WirelessEnergyContainerCache;
     }
 }

@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Blocks
 import appeng.core.definitions.AEBlocks
 import appeng.core.definitions.AEItems
 import appeng.core.definitions.AEParts
+import com.direwolf20.buildinggadgets2.setup.Registration.TemplateManager
 import com.glodblock.github.extendedae.common.EPPItemAndBlock
 import com.gregtechceu.gtceu.GTCEu
 import com.gregtechceu.gtceu.common.data.GTItems
@@ -289,6 +290,15 @@ object GTOItemTooltips : AutoInitialize<GTOItemTooltips>() {
                 },
             )
         }
+
+        listOf(TemplateManager.get().asItem()).forEach {
+            it.setTooltips(
+                ComponentListSupplier {
+                    highlight("要不试试放入AE2样板？" translatedTo "How about slotting in an AE2 pattern?")
+                }.editionByGTONormal(),
+            )
+        }
+
         GTMachines.MUFFLER_HATCH.forEach {
             it?.asItem()?.setTooltips(
                 ComponentListSupplier {
