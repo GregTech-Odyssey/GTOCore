@@ -749,5 +749,17 @@ final class ReactionFurnace {
                 .blastFurnaceTemp(7900)
                 .duration(1200)
                 .save();
+        REACTION_FURNACE_RECIPES.builder("astrium_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.CosmicDust, 64)
+                .inputItems(TagPrefix.dust, GTOMaterials.HyperthermophilicArchaeon, 8)
+                .outputItems(TagPrefix.dust, GTOMaterials.Astrium)
+                .outputItems(TagPrefix.dustSmall, GTOMaterials.Calorite, 16)
+                .inputFluids(GTOMaterials.PhototuningAgent, 1000)
+                .inputFluids(GTOMaterials.CosmicDustDispersant, 3000)
+                .outputFluids(GTOMaterials.CosmicDustDispersant, 1000)
+                .EUt(700000)
+                .blastFurnaceTemp(7500)
+                .duration(1250)
+                .save();
     }
 }

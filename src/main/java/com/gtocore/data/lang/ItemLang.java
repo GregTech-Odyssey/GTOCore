@@ -81,6 +81,7 @@ final class ItemLang {
         addCNEN("gtocore.any.gem", "任何宝石", "Any Gem");
         addCNEN("gtocore.any.turbine_rotor_coated", "任何镀膜涡轮转子", "Any Coated Turbine Rotor");
         addCNEN("gtocore.any.artificial_gem", "任何人造宝石", "Any Artificial Gem");
+        addCNEN("item.gtocore.astrium_dust", "星尘", "Astrium Dust");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");

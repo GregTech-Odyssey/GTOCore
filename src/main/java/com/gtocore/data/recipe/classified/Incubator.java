@@ -10,6 +10,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -748,6 +749,17 @@ final class Incubator {
                 .outputFluids(GTOMaterials.Dopamine, 1000)
                 .EUt(7200)
                 .duration(1440)
+                .addData("filter_casing", 2)
+                .save();
+        INCUBATOR_RECIPES.builder("hyperthermophilic_archaeon_dust")
+                .notConsumable(GTOItems.HYPERTHERMOPHILIC_ARCHAEON_DISH)
+                .inputItems(TagPrefix.dust, GTOMaterials.HyperthermophilicArchaeon, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.HyperthermophilicArchaeon, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium, 1000)
+                .inputFluids(GTOMaterials.Sanguinite, 1000)
+                .outputFluids(GTOMaterials.Salamander, FluidStorageKeys.LIQUID, 1000)
+                .EUt(495000)
+                .duration(1280)
                 .addData("filter_casing", 2)
                 .save();
     }

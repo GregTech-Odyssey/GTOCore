@@ -605,7 +605,6 @@ public class SpaceMultiblock {
     public static final MachineDefinition SPACE_DRONE_DOCK = multiblock("space_drone_dock", "太空无人机船坞", SpaceDroneDock::new)
             .allRotation()
             .workableInSpace()
-            .specialParallelizableTooltips()
             .tooltips(GTOMachineTooltips.INSTANCE.getSpaceDroneDockTooltips().getSupplier())
             .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(h -> h.addLines("0.1 + 6.384 / (1.632 + (消耗的电量(单位：GEU))) ^ 4", "0.1 + 6.384 / (1.632 + (Energy consumption in GEU)) ^ 4")))
             .specialParallelizableTooltips()

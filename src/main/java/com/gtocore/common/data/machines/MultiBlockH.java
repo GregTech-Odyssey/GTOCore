@@ -333,7 +333,7 @@ public final class MultiBlockH {
     // 快中子增殖堆
     public static final MultiblockMachineDefinition FAST_NEUTRON_BREEDER_REACTOR = multiblock("fast_neutron_breeder_reactor", "快中子增殖堆", FastNeutronBreederReactor::new)
             .nonYAxisRotation()
-            .parallelizableTooltips()
+            .specialParallelizableTooltips()
             .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getFastNeutronBreederTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.FAST_NEUTRON_BREEDER_REACTOR_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)

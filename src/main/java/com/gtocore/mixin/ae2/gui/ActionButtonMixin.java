@@ -26,17 +26,19 @@ public abstract class ActionButtonMixin extends IconButton implements IMouseNoRe
         super(onPress);
     }
 
-    @Inject(method = "buildMessage", at = @At("RETURN"), remap = false, cancellable = true)
+    @Inject(method = "buildMessage", at = @At("RETURN"), remap = false)
     private void initHook(ButtonToolTips displayName, ButtonToolTips displayValue, CallbackInfoReturnable<Component> cir) {
         if (displayValue == ButtonToolTips.EncodeDescription) {
             gtocore$useOtherButton = true;
             MutableComponent component = (MutableComponent) cir.getReturnValue();
-            component.append("\n")
-                    .append(Component.translatable("gtocore.gui.encoding_desc"));
-            if (Minecraft.getInstance().screen instanceof IExtendedPatternEncodingTerm)
+            Minecraft.getInstance().tell(() -> {
                 component.append("\n")
-                        .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
-            cir.setReturnValue(component);
+                        .append(Component.translatable("gtocore.gui.encoding_desc"));
+                if (Minecraft.getInstance().screen instanceof IExtendedPatternEncodingTerm)
+                    component.append("\n")
+                            .append(Component.translatable("gtocore.ae.appeng.craft.encode_send"));
+                setMessage(component);
+            });
         }
     }
 

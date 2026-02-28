@@ -210,6 +210,7 @@ final class StellarForge {
         STELLAR_FORGE_RECIPES.recipeBuilder("starmetal_plasma")
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asItem())
                 .inputItems(GTOItems.RESONATING_GEM, 10)
+                .inputItems(TagPrefix.plate, GTOMaterials.Astrium, 10)
                 .inputFluids(GTOMaterials.FreeProtonGas, 1000)
                 .inputFluids(GTOMaterials.FreeElectronGas, 1000)
                 .outputFluids(GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA, 1000))

@@ -44,5 +44,21 @@ public class ElectroPlating {
                 .EUt(12960)
                 .duration(1296)
                 .save();
+        ELECTROPLATING_RECIPES.builder("bipyridine")
+                .notConsumable(TagPrefix.foil, GTMaterials.Graphene, 16)
+                .inputFluids(GTOMaterials.Pyridine, 2000)
+                .outputFluids(GTOMaterials.Bipyridine, 2000)
+                .outputFluids(GTMaterials.Hydrogen, 1000)
+                .EUt(400)
+                .duration(150)
+                .save();
+        ELECTROPLATING_RECIPES.builder("prussian_blue_copper_i_nanotubes_dust")
+                .inputItems(TagPrefix.dust, GTMaterials.PrussianBlue)
+                .inputItems(TagPrefix.dust, GTMaterials.CupricOxide)
+                .outputItems(TagPrefix.dust, GTOMaterials.PrussianBlueCopperINanotubes, 2)
+                .inputFluids(GTMaterials.DistilledWater, 1000)
+                .EUt(400)
+                .duration(150)
+                .save();
     }
 }

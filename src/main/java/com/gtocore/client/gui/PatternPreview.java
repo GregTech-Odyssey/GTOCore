@@ -118,8 +118,9 @@ public final class PatternPreview extends WidgetGroup {
             if (!isPartHighlighting) return;
             patterns[index].partsSet.forEach(
                     pos -> {
-                        var poseStack = new PoseStack();
                         var pos0 = BlockPos.of(pos);
+                        if (layer != -1 && layer + patterns[index].minY != pos0.getY()) return;
+                        var poseStack = new PoseStack();
                         RenderSystem.disableDepthTest();
                         // RenderSystem.disableCull();
                         RenderSystem.enableBlend();
