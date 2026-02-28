@@ -12,12 +12,14 @@ import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.ITickSubscription;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.WorkableTieredPartMachine;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -37,6 +39,7 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -57,6 +60,13 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
     @Shadow(remap = false)
     @Final
     private CustomItemStackHandler inventory;
+    @Shadow(remap = false)
+    @Nullable
+    protected TickableSubscription particleSubs;
+
+    @Shadow(remap = false)
+    protected abstract void particlesTick();
+
     @Unique
     private IDroneControlCenterMachine gtolib$cache;
     @Unique
@@ -134,6 +144,9 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
     public void onLoad() {
         super.onLoad();
         gto$chanceOfNotProduceAsh = Math.min(Math.max(gto$chanceOfNotProduceAsh, 0), getTier() * 10);
+        if (isRemote()) {
+            particleSubs = subscribeClientTick(particleSubs, this::particlesTick);
+        }
     }
 
     @Override
@@ -141,6 +154,7 @@ public abstract class MufflerPartMachineMixin extends WorkableTieredPartMachine 
         super.onUnload();
         gtolib$airScrubberCache = null;
         removeNetMachineCache();
+        particleSubs = ITickSubscription.unsubscribe(particleSubs);
     }
 
     @Override
